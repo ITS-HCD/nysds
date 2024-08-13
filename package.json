@@ -1,0 +1,19 @@
+{
+  "name": "excelsior",
+  "version": "0.0.1",
+  "description": "New York State's design system and shared code component library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITS-HCD/excelsior.git"
+  },
+  "author": "NYS Design System Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ITS-HCD/excelsior/issues"
+  },
+  "homepage": "https://github.com/ITS-HCD/excelsior#readme"
+}
