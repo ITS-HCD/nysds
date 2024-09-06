@@ -1,27 +1,41 @@
-# Logs
-logs
-*.log
-*storybook.log
-npm-debug.log*
+# Ignore generated files
+dist/
 
-# Dependency directories
+# Ignore Node-specific files
 node_modules/
-
-# Optional npm cache directory
 .npm
+npm-debug.log*
+*.gz
+*.tgz
 
-# TypeScript cache
+# Ignore typeScript cache
 *.tsbuildinfo
 
-# Optional eslint cache
+# Ignore eslint cache
 .eslintcache
 
-# dotenv environment variable files
+# Ignore Storybook build output
+storybook-static/
+_site/
+
+# Ignore environment variable files
 .env
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
 
-# Stores VSCode versions used for testing VSCode extensions
+# Ignore VSCode directories
+*.code-workspace
+./vscode
 .vscode-test
+
+# Ignore logs
+logs
+*.log
+*storybook.log
+npm-debug.log*
+
+# Ignore temporary and system files
+.DS_Store
+Thumbs.db

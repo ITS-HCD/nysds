@@ -1,0 +1,25 @@
+# Publish both src and dist folders
+!dist/
+!src/
+
+# Don't publish development and environment files
+.github/
+.vscode/
+.eslintrc
+.prettierrc
+.editorconfig
+
+# Don't publish tests
+coverage/
+config/
+
+# Don't include dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Don't publish temporary and system files
+.DS_Store
+Thumbs.db
