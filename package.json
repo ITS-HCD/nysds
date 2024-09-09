@@ -2,7 +2,15 @@
   "name": "excelsior",
   "version": "0.0.1",
   "description": "New York State's design system and shared code component library.",
-  "main": "index.js",
+  "main": "dist/bundle.cjs.js",
+  "module": "dist/bundle.esm.js",
+  "browser": "dist/bundle.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/bundle.esm.js", 
+      "require": "./dist/bundle.cjs.js"
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,8 +27,12 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.7",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.21.2",
-    "typescript": "^5.5.4"
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-summary": "^2.0.1",
+    "typescript": "^5.6.2"
   }
 }
