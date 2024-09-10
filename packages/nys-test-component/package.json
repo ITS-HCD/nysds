@@ -1,0 +1,26 @@
+{
+  "name": "@excelsior/nys-test-component",
+  "version": "1.0.0",
+  "description": "A test component from the NYS Design System.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.js",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "lit": "^2.0.0"
+  },
+  "devDependencies": {
+    "rollup": "^4.21.2",
+    "typescript": "^5.6.2",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.7",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",    
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-summary": "^2.0.1"
+  }
+}

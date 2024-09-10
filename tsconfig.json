@@ -1,18 +1,25 @@
 {
   "compilerOptions": {
-    "target": "ES2020",         // Transpile to ES2020
-    "module": "ESNext",         // Use ES modules
-    "lib": ["ES2020", "DOM"],   // Support for ES2020 and DOM types
-    "strict": true,             // Enable strict type-checking
-    "sourceMap": true,          // Enable source maps for easier debugging
-    "declaration": true,        // Generate .d.ts files for TypeScript consumers
-    "declarationMap": true,     // Source maps for declaration files
-    "moduleResolution": "Node", // Resolve modules as Node.js does
-    "esModuleInterop": true,    // Interoperability between CommonJS and ES modules
-    "outDir": "./dist",         // Output directory for transpiled files
-    "rootDir": "./src",         // Source directory containing TypeScript files
-    "isolatedModules": true     // Ensure each file can be transpiled independently
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM"],
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "outDir": "./dist",              // Output directory for compiled files
+    "rootDir": ".",                  // Project root as the rootDir to include both src/ and packages/
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": ["packages/**/*"],  // Include all TypeScript files in the packages directory
-  "exclude": ["node_modules", "dist"]  // Exclude node_modules and dist directories
+  "include": [
+    "src/**/*",                      // Include files from the global src directory
+    "packages/**/*"                  // Include files from all package subdirectories
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"                           // Exclude the output directory
+  ]
 }
