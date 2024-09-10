@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM"],
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "rootDir": ".",   // Root directory for component library
+    "outDir": "./dist",  // Set for root, but component packages will override
+  },
+  "include": [
+    "src/**/*",        // Root-level source files
+    "packages/**/*"    // Package-specific source files
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

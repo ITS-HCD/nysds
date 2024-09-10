@@ -2,8 +2,24 @@
   "name": "excelsior",
   "version": "0.0.1",
   "description": "New York State's design system and shared code component library.",
-  "main": "index.js",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "main": "dist/bundle.cjs.js",
+  "module": "dist/bundle.esm.js",
+  "browser": "dist/bundle.js",
+  "exports": {
+    ".": {
+      "import": "./dist/bundle.esm.js",
+      "require": "./dist/bundle.cjs.js"
+    }
+  },
   "scripts": {
+    "build": "rollup -c",
+    "build:packages": "npm run build --workspaces",
+    "build:all": "npm run build && npm run build:packages",
+    "build:watch": "rollup -c --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,12 +31,20 @@
   "bugs": {
     "url": "https://github.com/ITS-HCD/excelsior/issues"
   },
-  "homepage": "https://github.com/ITS-HCD/excelsior#readme",
+  "homepage": "https://github.com/ITS-HCD/excelsior/blob/main/README.md",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.7",
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.21.2",
-    "typescript": "^5.5.4"
+    "rollup-plugin-delete": "^2.1.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-summary": "^2.0.1",
+    "tslib": "^2.7.0",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "lit": "^2.0.0"
   }
 }
