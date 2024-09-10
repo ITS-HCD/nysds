@@ -36,6 +36,7 @@
     "@rollup/plugin-replace": "^5.0.7",
     "@rollup/plugin-typescript": "^11.1.6",
     "rollup": "^4.21.2",
+    "rollup-plugin-delete": "^2.1.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-summary": "^2.0.1",
     "tslib": "^2.7.0",
