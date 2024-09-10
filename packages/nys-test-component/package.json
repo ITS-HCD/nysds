@@ -2,9 +2,10 @@
   "name": "@excelsior/nys-test-component",
   "version": "1.0.0",
   "description": "A test component from the NYS Design System.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "browser": "dist/index.js",
+  "main": "dist/nys-test-component.cjs.js",
+  "module": "dist/nys-test-component.esm.js",
+  "browser": "dist/nys-test-component.js",
+  "type": "module",
   "scripts": {
     "build": "rollup -c"
   },
