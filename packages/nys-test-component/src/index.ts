@@ -1,1 +1,1 @@
-export * from './nys-test-component';
+export * from "./nys-test-component";
