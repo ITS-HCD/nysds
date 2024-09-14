@@ -1,9 +1,9 @@
-import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';  // Correct imports for decorators
+import { LitElement, html, css } from "lit";
+import { customElement, property } from "lit/decorators.js"; // Correct imports for decorators
 
-@customElement('nys-test-component')
+@customElement("nys-test-component")
 export class NysTestComponent extends LitElement {
-  @property({ type: String }) name = 'World';
+  @property({ type: String }) name = "World";
 
   static styles = css`
     :host {
