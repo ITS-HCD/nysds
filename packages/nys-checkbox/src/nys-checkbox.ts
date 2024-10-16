@@ -54,11 +54,17 @@ export class NysCheckbox extends LitElement {
   `;
 
   private _handleChange(e: Event) {
-    const input = e.target as HTMLInputElement;
-    this.checked = input.checked;
-    this.dispatchEvent(
-      new CustomEvent("change", { detail: { checked: this.checked } }),
-    );
+    const { checked } = e.target as HTMLInputElement;
+    this.checked = checked;
+    this.dispatchEvent(new Event("change"));
+  }
+
+  private _handleFocus() {
+    this.dispatchEvent(new Event("focus"));
+  }
+
+  private _handleBlur() {
+    this.dispatchEvent(new Event("blur"));
   }
 
   render() {
@@ -75,6 +81,8 @@ export class NysCheckbox extends LitElement {
           aria-checked="${this.checked}"
           aria-disabled="${this.disabled}"
           @change="${this._handleChange}"
+          @focus="${this._handleFocus}"
+          @blur="${this._handleBlur}"
         />
         <label for="${this.id}" class="nys-checkbox__label">
           ${this.label}
