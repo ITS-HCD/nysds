@@ -3,7 +3,6 @@ import path from "path";
 import del from "rollup-plugin-delete";
 import replace from "@rollup/plugin-replace";
 import postcss from "rollup-plugin-postcss";
-import summary from "rollup-plugin-summary";
 import { promises as fs } from "fs";
 
 // This banner will go at the top of our generated files
@@ -57,7 +56,6 @@ export default defineConfig(async () => {
             extract: true, // Extract CSS into separate files
             minimize: true, // Minify CSS for production
           }),
-          summary(), // Output bundle summary after the build
         ],
       },
     },

@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import path from "path";
 import del from "rollup-plugin-delete";
 import postcss from "rollup-plugin-postcss";
-import summary from "rollup-plugin-summary";
 
 // Banner to put at the top of the generated files
 const banner = `
@@ -45,7 +44,6 @@ export default defineConfig({
           extract: true, // Extract CSS from the component
           minimize: true, // Minify the CSS
         }),
-        summary(), // Output a summary of the bundle size
       ],
     },
   },
