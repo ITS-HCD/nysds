@@ -23,10 +23,10 @@ export default [
       "lit/no-invalid-html": "error",
     },
     ignores: [
-      "./node_modules/",
-      "./dist/",
-      "./packages/*/dist/",
-      "./packages/*/node_modules/",
+      "node_modules",
+      "dist",
+      "packages/*/dist",
+      "packages/*/node_modules",
     ],
   },
 ];

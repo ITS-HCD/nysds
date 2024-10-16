@@ -8,7 +8,7 @@
   ],
   "main": "dist/bundle.cjs.js",
   "module": "dist/bundle.esm.js",
-  "browser": "dist/bundle.js",
+  "browser": "dist/bundle.umd.js",
   "exports": {
     ".": {
       "import": "./dist/bundle.esm.js",
@@ -16,10 +16,11 @@
     }
   },
   "scripts": {
-    "build": "npm run lint && rollup -c",
+    "dev": "vite",
+    "build": "npm run lint && vite build",
     "build:packages": "npm run lint:packages && npm run build --workspaces",
     "build:all": "npm run lint && npm run build && npm run build:packages",
-    "build:watch": "rollup -c --watch",
+    "build:watch": "vite",
     "lint": "eslint .",
     "lint:packages": "eslint packages/**/*.{ts,js}",
     "lint:fix": "eslint . --fix",
@@ -51,7 +52,8 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-summary": "^2.0.1",
     "tslib": "^2.7.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vite": "^5.4.9"
   },
   "dependencies": {
     "lit": "^2.0.0"

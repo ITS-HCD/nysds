@@ -11,12 +11,9 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "rootDir": ".", // Root directory for component library
-    "outDir": "./dist" // Set for root, but component packages will override
+    "rootDir": ".",
+    "outDir": "./dist"
   },
-  "include": [
-    "src/**/*", // Root-level source files
-    "packages/**/*" // Package-specific source files
-  ],
+  "include": ["src/**/*", "packages/**/*"],
   "exclude": ["node_modules", "dist"]
 }
