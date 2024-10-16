@@ -5,21 +5,23 @@ import { customElement, property } from "lit/decorators.js";
 export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) indeterminate = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  @property({ type: String }) id = ""; // ID to link label and input
+  @property({ type: String }) name = ""; // Name for form submission
+  @property({ type: String }) value = ""; // Value for form submission
 
   static styles = css`
     :host {
       display: block;
     }
 
-    .checkbox-container {
+    .nys-checkbox {
       display: flex;
       align-items: center;
     }
 
-    input[type="checkbox"] {
+    .nys-checkbox__input {
       appearance: none;
       width: 16px;
       height: 16px;
@@ -29,28 +31,23 @@ export class NysCheckbox extends LitElement {
       margin-right: 8px;
     }
 
-    input[type="checkbox"]:checked {
+    .nys-checkbox__input:checked {
       background-color: var(--checkbox-checked-bg-color, #154973);
       border: none;
     }
 
-    input[type="checkbox"]:indeterminate {
-      background-color: var(--checkbox-checked-bg-color, #154973);
-      border: none;
-    }
-
-    input[type="checkbox"]:disabled {
+    .nys-checkbox__input:disabled {
       background-color: var(--checkbox-disabled-bg-color, lightgray);
       border-color: var(--checkbox-disabled-border-color, gray);
       cursor: not-allowed;
     }
 
-    label {
+    .nys-checkbox__label {
       font-family: Arial, sans-serif;
       margin-left: 8px;
     }
 
-    .description {
+    .nys-checkbox__description {
       font-size: 12px;
       color: gray;
     }
@@ -66,19 +63,25 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <div class="checkbox-container">
+      <div class="nys-checkbox">
         <input
+          id="${this.id}"
+          class="nys-checkbox__input"
           type="checkbox"
+          name="${this.name}"
           .checked="${this.checked}"
           ?disabled="${this.disabled}"
-          aria-checked="${this.indeterminate ? "mixed" : this.checked}"
+          .value="${this.value}"
+          aria-checked="${this.checked}"
           aria-disabled="${this.disabled}"
           @change="${this._handleChange}"
         />
-        <label>
+        <label for="${this.id}" class="nys-checkbox__label">
           ${this.label}
           ${this.description
-            ? html`<div class="description">${this.description}</div>`
+            ? html`<div class="nys-checkbox__description">
+                ${this.description}
+              </div>`
             : ""}
         </label>
       </div>
