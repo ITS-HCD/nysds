@@ -1,11 +1,10 @@
 import { defineConfig } from "vite";
 import path from "path";
 import del from "rollup-plugin-delete";
-import postcss from "rollup-plugin-postcss";
 
 // Banner to put at the top of the generated files
 const banner = `
-  /**
+/*!
    * 
    * ░█▀▀▀ ▀▄░▄▀ ░█▀▀█ ░█▀▀▀ ░█─── ░█▀▀▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█ 
    * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
@@ -17,33 +16,41 @@ const banner = `
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/excelsior
    * License: MIT
-   */
+ */
 `;
 
 export default defineConfig({
   build: {
-    minify: "terser",
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"), // Entry point for the component
       name: "NysTestComponent", // Name for UMD build
-      formats: ["es", "cjs", "umd"], // Generate ESM, CJS, and UMD builds
-      fileName: (format) => `nys-test-component.${format}.js`, // Output filenames
     },
-    sourcemap: true, // Generate sourcemaps for all builds
+    sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: ["lit"], // Externalize 'lit' for ESM and CJS builds
-      output: {
-        globals: {
-          lit: "Lit", // Map 'lit' to global 'Lit' in UMD builds
+      external: (id) => id === "lit" || id.startsWith("lit/"), // Externalize Lit for ESM
+      output: [
+        // ESM Build for use in bundlers and modern tools
+        {
+          format: "es",
+          banner,
+          dir: "dist",
+          entryFileNames: "nys-test-component.es.js",
         },
-        banner, // Add banner to all output files
-      },
+        // UMD Build for browser usage (with global 'Lit' bundled)
+        {
+          format: "umd",
+          banner,
+          name: "NysTestComponent",
+          dir: "dist",
+          entryFileNames: "nys-test-component.js",
+          globals: {
+            lit: "Lit",
+            "lit/decorators.js": "LitDecorators",
+          },
+        },
+      ],
       plugins: [
-        del({ targets: "dist/*" }), // Clean the dist folder before building
-        postcss({
-          extract: true, // Extract CSS from the component
-          minimize: true, // Minify the CSS
-        }),
+        del({ targets: "dist/*", runOnce: true }), // Clean up the dist folder before building
       ],
     },
   },
