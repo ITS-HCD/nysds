@@ -26,7 +26,7 @@ export default defineConfig({
     },
     sourcemap: true, // Generate sourcemaps globally for all builds
     rollupOptions: {
-      external: (id) => id === "lit" || id.startsWith("lit/"), // Externalize lit and its submodules
+      external: (id) => id === "lit" || id.startsWith("lit/"), // Externalize Lit
       output: [
         // ESM Build for bundlers and modern tools
         {
