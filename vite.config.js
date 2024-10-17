@@ -21,21 +21,21 @@ const banner = `
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"), // Entry point for your library
-      name: "Excelsior", // Global name for UMD build
+      entry: path.resolve(__dirname, "src/index.ts"), // Entry point for the Excelsior design system library
+      name: "Excelsior", 
     },
-    sourcemap: true, // Generate sourcemaps globally for all builds
+    sourcemap: true, // Generate sourcemaps for all builds
     rollupOptions: {
       external: (id) => id === "lit" || id.startsWith("lit/"), // Externalize Lit
       output: [
-        // ESM Build for bundlers and modern tools
+        // ESM build for bundling
         {
           format: "es",
           banner,
           dir: "dist",
           entryFileNames: "excelsior.es.js",
         },
-        // UMD Build for browser usage (with global 'Lit' bundled)
+        // UMD build for browser usage (with global 'Lit' bundled)
         {
           format: "umd",
           banner,
