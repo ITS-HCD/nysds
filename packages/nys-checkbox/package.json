@@ -16,7 +16,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "lit": "^2.0.0"
+    "lit": "^3.0.0"
   },
   "devDependencies": {
     "vite": "^5.4.9",

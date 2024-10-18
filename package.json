@@ -49,10 +49,11 @@
     "vite": "^5.4.9"
   },
   "peerDependencies": {
-    "lit": "^2.0.0"
+    "lit": "^3.2.1"
   },
   "eslintConfig": {
     "extends": [
+      "plugin:storybook/recommended",
       "plugin:storybook/recommended"
     ]
   }
