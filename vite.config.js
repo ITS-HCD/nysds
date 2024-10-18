@@ -22,7 +22,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"), // Entry point for the Excelsior design system library
-      name: "Excelsior", 
+      name: "Excelsior",
     },
     sourcemap: true, // Generate sourcemaps for all builds
     rollupOptions: {
