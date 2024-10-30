@@ -1,0 +1,74 @@
+import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysCheckboxStories from './nys-checkbox.stories';
+
+<Meta of={NysCheckboxStories} title="Components/Checkbox/Documentation" />
+
+# Checkbox
+
+The **`nys-checkbox`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
+
+If an id is not passed, a unique id will be generated.
+
+## Examples
+
+### Unchecked
+
+<Canvas of={NysCheckboxStories.Unchecked} />
+
+### Checked
+
+<Canvas of={NysCheckboxStories.Checked} />
+
+### Disabled (Unchecked)
+
+<Canvas of={NysCheckboxStories.DisabledUnchecked} />
+
+### Disabled (Checked)
+
+<Canvas of={NysCheckboxStories.DisabledChecked} />
+
+## Events
+
+The `NysCheckbox` component emits three custom events:
+
+1. **`change`** – Fired when the checkbox state changes (checked/unchecked).
+2. **`focus`** – Fired when the checkbox gains focus.
+3. **`blur`** – Fired when the checkbox loses focus.
+4. **`keydown`** – Fired when a key is pressed while the checkbox is focused.
+
+You can listen to these events using JavaScript:
+
+```js
+
+  // Select the checkbox component
+  const checkbox = document.querySelector('nys-checkbox');
+
+  // Listen for the 'change' event
+  checkbox.addEventListener('change', (event) => {
+    console.log('Checkbox changed:', event.target.checked);
+  });
+
+  // Listen for the 'focus' event
+  checkbox.addEventListener('focus', () => {
+    console.log('Checkbox is focused');
+  });
+
+  // Listen for the 'blur' event
+  checkbox.addEventListener('blur', () => {
+    console.log('Checkbox lost focus');
+  });
+
+  // Listen for the 'keydown' event
+  checkbox.addEventListener('keydown', (event) => {
+    console.log('Key pressed:', event.key);
+  });
+```
+
+## Acceessibility
+
+The `nys-checkbox` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
+- Keyboard navigation support, allowing users to toggle the checkbox using the keyboard.
+- Visual focus indicators to help users navigate the component.
