@@ -41,7 +41,7 @@ type Story = StoryObj<NysRadiobuttonArgs>;
 // Define stories without using args
 
 // Story: Unchecked
-export const Unchecked: Story = {
+export const Editable: Story = {
   args: {
     checked: false,
     disabled: false,
@@ -91,81 +91,8 @@ export const Unchecked: Story = {
   },
 };
 
-// Story: Checked
-export const Checked: Story = {
-  args: {
-    checked: true,
-    disabled: false,
-    label: "I attest that the information provided is accurate and complete.",
-    description: "",
-    name: "confirm",
-    value: "confirm-accuracy",
-  },
-  render: (args) => html`
-    <nys-radiobutton
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-    ></nys-radiobutton>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-radiobutton
-  checked
-  label="I attest that the information provided is accurate and complete."
-  name="confirm"
-  value="confirm-accuracy"
-></nys-radiobutton>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Disabled and Unchecked
-export const DisabledUnchecked: Story = {
-  args: {
-    checked: false,
-    disabled: true,
-    label: "Register for Early Voting",
-    description: "This option is currently unavailable.",
-    name: "earlyVoting",
-    value: "early-voting",
-  },
-  render: (args) => html`
-    <nys-radiobutton
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-    ></nys-radiobutton>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-radiobutton
-  disabled
-  label="Register for Early Voting"
-  description="This option is currently unavailable."
-  name="earlyVoting"
-  value="early-voting"
-></nys-radiobutton>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Disabled and Checked
-export const DisabledChecked: Story = {
+// Story: Disabled
+export const Disabled: Story = {
   args: {
     checked: true,
     disabled: true,
