@@ -72,7 +72,8 @@ export const Unchecked: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-radiobutton
+        code: `<p>What is your primary work location?</p>
+  <nys-radiobutton
   label="Albany"
   description="Upstate New York"
   name="office"
@@ -168,13 +169,16 @@ export const DisabledChecked: Story = {
   args: {
     checked: true,
     disabled: true,
-    label: "Subscribe to NYS Government Updates",
-    description: "Get notified via email about important updates and services.",
-    id: "subscribe-radiobutton-disabled-checked",
-    name: "subscribe",
-    value: "email-updates",
+    label: "Software Engineer 1",
+    description: "<1 year experience",
+    name: "title",
+    value: "eng-1",
   },
   render: (args) => html`
+    <p>
+      Current title. Note: You cannot change your title, if you believe you are
+      ready to be promoted talk to your supervisor.
+    </p>
     <nys-radiobutton
       .checked=${args.checked}
       .disabled=${args.disabled}
@@ -183,6 +187,24 @@ export const DisabledChecked: Story = {
       .id=${args.id}
       .name=${args.name}
       .value=${args.value}
+    ></nys-radiobutton>
+    <nys-radiobutton
+      .checked=${false}
+      .disabled=${args.disabled}
+      .label=${"Software Engineer 2"}
+      .description=${"1-3 years experience"}
+      .id=${args.id}
+      .name=${args.name}
+      .value=${"eng-2"}
+    ></nys-radiobutton>
+    <nys-radiobutton
+      .checked=${false}
+      .disabled=${args.disabled}
+      .label=${"Software Engineer 3"}
+      .description=${"3-5 years experience"}
+      .id=${args.id}
+      .name=${args.name}
+      .value=${"eng-3"}
     ></nys-radiobutton>
   `,
   parameters: {
