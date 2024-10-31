@@ -1,6 +1,6 @@
 // web-test-runner.config.js
-import { playwrightLauncher } from "@web/test-runner-playwright";
 import { esbuildPlugin } from "@web/dev-server-esbuild";
+import { playwrightLauncher } from "@web/test-runner-playwright";
 
 export default {
   files: ["packages/**/*.test.ts", "src/**/*.test.ts"],
