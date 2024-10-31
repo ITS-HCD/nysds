@@ -19,7 +19,12 @@ export default [
     },
     rules: {
       "@typescript-eslint/no-unused-vars": "warn",
-      "prettier/prettier": "warn",
+      "prettier/prettier": [
+        "warn",
+        {
+          endOfLine: "auto",
+        },
+      ],
       "lit/no-invalid-html": "error",
     },
     ignores: [
