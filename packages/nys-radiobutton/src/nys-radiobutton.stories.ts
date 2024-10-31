@@ -45,12 +45,13 @@ export const Unchecked: Story = {
   args: {
     checked: false,
     disabled: false,
-    label: "Join our Monthly Newsletter",
-    description: "Receive the latest news and updates in your inbox.",
-    name: "subscribe",
-    value: "monthly-news",
+    label: "Albany",
+    description: "Upstate New York",
+    value: "albany",
+    name: "office",
   },
   render: (args) => html`
+    <p>What is your primary work location?</p>
     <nys-radiobutton
       .checked=${args.checked}
       .disabled=${args.disabled}
@@ -59,18 +60,30 @@ export const Unchecked: Story = {
       .name=${args.name}
       .value=${args.value}
     ></nys-radiobutton>
+    <nys-radiobutton
+      .checked=${false}
+      .disabled=${args.disabled}
+      .label=${"Manhatten"}
+      .description=${"New York City"}
+      .name=${args.name}
+      .value=${"manhatten"}
+    ></nys-radiobutton>
   `,
   parameters: {
     docs: {
       source: {
-        code: `
-  <nys-radiobutton
-  label="Join our Monthly Newsletter"
-  description="Receive the latest news and updates in your inbox."
-  name="subscribe"
-  value="monthly-news"
-  ></nys-radiobutton>
-        `,
+        code: `<nys-radiobutton
+  label="Albany"
+  description="Upstate New York"
+  name="office"
+  value="albany"
+></nys-radiobutton>
+<nys-radiobutton
+  label="Manhatten"
+  description="New York City"
+  name="office"
+  value="manhatten"
+></nys-radiobutton> `,
         type: "auto",
       },
     },

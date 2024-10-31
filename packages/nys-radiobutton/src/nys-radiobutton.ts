@@ -16,6 +16,8 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
 
+  static buttonGroup: Record<string, NysRadiobutton> = {};
+
   static styles = styles;
 
   // Generate a unique ID if one is not provided
@@ -53,8 +55,14 @@ export class NysRadiobutton extends LitElement {
   private _handleKeydown(e: KeyboardEvent) {
     if (e.code === "Space") {
       e.preventDefault();
-      if (!this.disabled) {
-        this.checked = !this.checked;
+      if (!this.disabled && !this.checked) {
+        if (NysRadiobutton.buttonGroup[this.name]) {
+          NysRadiobutton.buttonGroup[this.name].checked = false;
+          NysRadiobutton.buttonGroup[this.name].requestUpdate();
+        }
+
+        NysRadiobutton.buttonGroup[this.name] = this;
+        this.checked = true;
         this.dispatchEvent(
           new CustomEvent("change", {
             detail: { checked: this.checked },
@@ -63,6 +71,19 @@ export class NysRadiobutton extends LitElement {
           }),
         );
       }
+    }
+  }
+
+  // Handle unselection of other options in group
+  private _handleClick() {
+    if (!this.checked) {
+      if (NysRadiobutton.buttonGroup[this.name]) {
+        NysRadiobutton.buttonGroup[this.name].checked = false;
+        NysRadiobutton.buttonGroup[this.name].requestUpdate();
+      }
+
+      NysRadiobutton.buttonGroup[this.name] = this;
+      this.checked = true;
     }
   }
 
@@ -85,6 +106,7 @@ export class NysRadiobutton extends LitElement {
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
           @keydown="${this._handleKeydown}"
+          @click="${this._handleClick}"
         />
         <div class="nys-radiobutton__text">
           <div class="nys-radiobutton__label">${this.label}</div>
