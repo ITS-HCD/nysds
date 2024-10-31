@@ -137,15 +137,32 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       source: {
-        code: `
+        code: `<p>
+Current title. Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor.
+</p>
 <nys-radiobutton
   checked
   disabled
-  label="Subscribe to NYS Government Updates"
-  description="Get notified via email about important updates and services."
-  id="subscribe-radiobutton-disabled-checked"
-  name="subscribe"
-  value="email-updates"
+  label="Software Engineer 1"
+  description="<1 year experience"
+  name="title"
+  value="eng-1"
+></nys-radiobutton>
+<nys-radiobutton
+  checked
+  disabled
+  label="Software Engineer 2"
+  description="1-3 years experience"
+  name="title"
+  value="eng-2"
+></nys-radiobutton>
+<nys-radiobutton
+  checked
+  disabled
+  label="Software Engineer 3"
+  description="3-5 years experience"
+  name="title"
+  value="eng-3"
 ></nys-radiobutton>
         `.trim(),
       },
