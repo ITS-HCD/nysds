@@ -72,8 +72,9 @@ export const Editable: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<p>What is your primary work location?</p>
-  <nys-radiobutton
+        code: `
+<p>What is your primary work location?</p>
+<nys-radiobutton
   label="Albany"
   description="Upstate New York"
   name="office"
@@ -94,7 +95,7 @@ export const Editable: Story = {
 // Story: Some Disabled
 export const Partial: Story = {
   args: {
-    checked: true,
+    checked: false,
     disabled: false,
     label: "Windows 11",
     description: "HP elitebook",
@@ -130,7 +131,8 @@ export const Partial: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<p>Choose your preferred work operating system.</p>
+        code: `
+<p>Choose your preferred work operating system.</p>
 <nys-radiobutton
   checked 
   label="Windows 11"
@@ -202,9 +204,8 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<p>
-Current title. Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor.
-</p>
+        code: `
+<p>Current title. Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor.</p>
 <nys-radiobutton
   checked
   disabled
