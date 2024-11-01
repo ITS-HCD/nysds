@@ -40,7 +40,7 @@ type Story = StoryObj<NysRadiobuttonArgs>;
 
 // Define stories without using args
 
-// Story: Unchecked
+// Story: Editable
 export const Editable: Story = {
   args: {
     checked: false,
@@ -85,6 +85,71 @@ export const Editable: Story = {
   name="office"
   value="manhatten"
 ></nys-radiobutton> `,
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Some Disabled
+export const Partial: Story = {
+  args: {
+    checked: true,
+    disabled: false,
+    label: "Windows 11",
+    description: "HP elitebook",
+    value: "windows",
+    name: "op-system",
+  },
+  render: (args) => html`
+    <p>Choose your preferred work operating system.</p>
+    <nys-radiobutton
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .label=${args.label}
+      .description=${args.description}
+      .name=${args.name}
+      .value=${args.value}
+    ></nys-radiobutton>
+    <nys-radiobutton
+      .checked=${false}
+      .disabled=${false}
+      .label=${"Sequoia"}
+      .description=${"Macbook Air"}
+      .name=${args.name}
+      .value=${"mac"}
+    ></nys-radiobutton>
+    <nys-radiobutton
+      .checked=${false}
+      .disabled=${true}
+      .label=${"Linux"}
+      .name=${args.name}
+      .value=${"linux"}
+    ></nys-radiobutton>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `<p>Choose your preferred work operating system.</p>
+<nys-radiobutton
+  checked 
+  label="Windows 11"
+  description="HP Elitebook"
+  name="op-system"
+  value="windows"
+></nys-radiobutton>
+<nys-radiobutton
+  label="Sequoia"
+  description="Macbook Air"
+  name="op-system"
+  value="mac"
+></nys-radiobutton>
+<nys-radiobutton
+  disabled
+  label="Linux"
+  name="op-system"
+  value="windows"
+></nys-radiobutton>`,
         type: "auto",
       },
     },
