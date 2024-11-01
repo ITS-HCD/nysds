@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.libary";
+import { unsafeSVG } from "lit/directives/unsafe-svg.js";
 
 @customElement("nys-icon")
 export class NysIcon extends LitElement {
@@ -10,7 +11,7 @@ export class NysIcon extends LitElement {
 
 	getIcon() {
 		const iconSVG = iconLibrary[this.name];
-		return html`${iconSVG ? iconSVG : html`<span>Icon not found</span>`}`;
+      return iconSVG ? html`<div class="icon-container" .innerHTML="${iconSVG}"></div>` : html`<span>Icon not found</span>`;
 	}
 
 	// Update accessibility attributes based on the label
@@ -28,15 +29,14 @@ export class NysIcon extends LitElement {
 		}
 	}
 
-
-  // Watch for changes specifically to the `label` property
-  updated(changedProperties: Map<string, any>) {
+	// Watch for changes specifically to the `label` property
+	updated(changedProperties: Map<string, any>) {
 		if (changedProperties.has("label")) {
-         this.handleLabelChange();
-      }
+			this.handleLabelChange();
+		}
 	}
 
 	render() {
-		return this.getIcon;
+		return this.getIcon();
 	}
 }
