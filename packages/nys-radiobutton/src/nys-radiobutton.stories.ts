@@ -85,7 +85,7 @@ export const Editable: Story = {
   description="New York City"
   name="office"
   value="manhatten"
-></nys-radiobutton> `,
+></nys-radiobutton>`.trim(),
         type: "auto",
       },
     },
@@ -133,8 +133,7 @@ export const Partial: Story = {
       source: {
         code: `
 <p>Choose your preferred work operating system.</p>
-<nys-radiobutton
-  checked 
+<nys-radiobutton 
   label="Windows 11"
   description="HP Elitebook"
   name="op-system"
@@ -151,7 +150,7 @@ export const Partial: Story = {
   label="Linux"
   name="op-system"
   value="windows"
-></nys-radiobutton>`,
+></nys-radiobutton>`.trim(),
         type: "auto",
       },
     },
