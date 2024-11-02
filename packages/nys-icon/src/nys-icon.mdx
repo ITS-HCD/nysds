@@ -1,1 +1,28 @@
-// To-do: Document to be added.
+import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { html } from "lit";
+import * as NysIconStories from "./nys-icon.stories";
+
+<Meta of={NysIconStories} title="Components/Icon/Documentation" />
+
+# Icon
+
+The **`nys-icon`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
+
+If an id is not passed, a unique id will be generated.
+
+## Examples
+
+### Alert
+
+<Canvas of={NysIconStories.Alert} />
+
+### Globe
+
+<Canvas of={NysIconStories.Globe} />
+
+## Accessibility
+
+The `nys-icon` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
+- Visual focus indicators to help users navigate the component.

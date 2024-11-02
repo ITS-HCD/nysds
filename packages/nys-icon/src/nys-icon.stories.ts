@@ -38,7 +38,7 @@ type Story = StoryObj<NysIconArgs>;
 export const Alert: Story = {
 	args: {
 		label: "alert icon",
-		name: "log-in",
+		name: "alert",
 		focusable: false,
 	},
 	render: (args) => html` <nys-icon .label=${args.label} .name=${args.name} .focusable=${false}></nys-icon> `,
