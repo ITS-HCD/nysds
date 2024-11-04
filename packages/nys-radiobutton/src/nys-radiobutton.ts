@@ -59,7 +59,7 @@ export class NysRadiobutton extends LitElement {
         detail: { checked: this.checked },
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 
@@ -90,7 +90,7 @@ export class NysRadiobutton extends LitElement {
             detail: { checked: this.checked },
             bubbles: true,
             composed: true,
-          })
+          }),
         );
       }
     }
