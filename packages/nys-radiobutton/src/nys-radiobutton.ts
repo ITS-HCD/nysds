@@ -26,6 +26,28 @@ export class NysRadiobutton extends LitElement {
     if (!this.id) {
       this.id = `nys-radiobutton-${Date.now()}-${radiobuttonIdCounter++}`;
     }
+
+    // If this button is initially checked, set it as the current button in its group
+    if (this.checked) {
+      if (NysRadiobutton.buttonGroup[this.name]) {
+        NysRadiobutton.buttonGroup[this.name].checked = false;
+        NysRadiobutton.buttonGroup[this.name].requestUpdate();
+      }
+      NysRadiobutton.buttonGroup[this.name] = this;
+    }
+  }
+
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    // Watch for changes to `checked` and ensure only one is selected per group
+    if (changedProperties.has("checked") && this.checked) {
+      if (NysRadiobutton.buttonGroup[this.name] !== this) {
+        if (NysRadiobutton.buttonGroup[this.name]) {
+          NysRadiobutton.buttonGroup[this.name].checked = false;
+          NysRadiobutton.buttonGroup[this.name].requestUpdate();
+        }
+        NysRadiobutton.buttonGroup[this.name] = this;
+      }
+    }
   }
 
   // Handle radiobutton change event
@@ -37,7 +59,7 @@ export class NysRadiobutton extends LitElement {
         detail: { checked: this.checked },
         bubbles: true,
         composed: true,
-      }),
+      })
     );
   }
 
@@ -68,7 +90,7 @@ export class NysRadiobutton extends LitElement {
             detail: { checked: this.checked },
             bubbles: true,
             composed: true,
-          }),
+          })
         );
       }
     }
