@@ -48,27 +48,23 @@ export const EmilyPlayground: Story = {
         label="Option"
         checked="true"
         value="option"
-        role="radio"
       ></nys-radiobutton>
       <nys-radiobutton
         name="example-group"
         label="Choice"
         checked="true"
         value="choice"
-        role="radio"
       ></nys-radiobutton>
       <nys-radiobutton
         name="example-group"
         label="Decision"
         value="decision"
-        role="radio"
       ></nys-radiobutton
       ><nys-radiobutton
         name="example-group"
         disabled="true"
         label="Not me though"
         value="nope"
-        role="radio"
       ></nys-radiobutton>
     </div>`,
 };
