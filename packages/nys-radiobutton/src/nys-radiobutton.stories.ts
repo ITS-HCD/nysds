@@ -52,7 +52,7 @@ export const AllEditableOptions: Story = {
     name: "office",
   },
   render: (args) => html`
-    <div role="radiogroup">
+    <nys-radiogroup>
       <p>What is your primary work location?</p>
       <nys-radiobutton
         .checked=${args.checked}
@@ -70,13 +70,13 @@ export const AllEditableOptions: Story = {
         .name=${args.name}
         .value=${"manhatten"}
       ></nys-radiobutton>
-    </div>
+    </nys-radiogroup>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<div role="radiogroup">
+<nys-radiogroup>
   <p>What is your primary work location?</p>
   <nys-radiobutton
     label="Albany"
@@ -90,7 +90,7 @@ export const AllEditableOptions: Story = {
     name="office"
     value="manhatten"
   ></nys-radiobutton>
-</div>`.trim(),
+</nys-radiogroup>`.trim(),
         type: "auto",
       },
     },
@@ -108,7 +108,7 @@ export const PartialEdditableOptions: Story = {
     name: "op-system",
   },
   render: (args) => html`
-    <div role="radiogroup">
+    <nys-radiogroup>
       <p>Choose your preferred work operating system.</p>
       <nys-radiobutton
         .checked=${args.checked}
@@ -133,13 +133,13 @@ export const PartialEdditableOptions: Story = {
         .name=${args.name}
         .value=${"linux"}
       ></nys-radiobutton>
-    </div>
+    </nys-radiogroup>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<div role="radiogroup">
+<nys-radiogroup>
   <p>Choose your preferred work operating system.</p>
   <nys-radiobutton 
     label="Windows 11"
@@ -159,7 +159,7 @@ export const PartialEdditableOptions: Story = {
     name="op-system"
     value="windows"
   ></nys-radiobutton>
-</div>`.trim(),
+</nys-radiogroup>`.trim(),
         type: "auto",
       },
     },
@@ -177,7 +177,7 @@ export const DisabledOptions: Story = {
     value: "eng-1",
   },
   render: (args) => html`
-    <div role="radiogroup">
+    <nys-radiogroup>
       <p>
         Current title. Note: You cannot change your title, if you believe you
         are ready to be promoted talk to your supervisor.
@@ -209,13 +209,13 @@ export const DisabledOptions: Story = {
         .name=${args.name}
         .value=${"eng-3"}
       ></nys-radiobutton>
-    </div>
+    </nys-radiogroup>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<div role="radiogroup">
+<nys-radiogroup>
   <p>Current title. Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor.</p>
   <nys-radiobutton
     checked
@@ -241,7 +241,7 @@ export const DisabledOptions: Story = {
     name="title"
     value="eng-3"
   ></nys-radiobutton>
-</div>`.trim(),
+</nys-radiogroup>`.trim(),
       },
     },
   },
