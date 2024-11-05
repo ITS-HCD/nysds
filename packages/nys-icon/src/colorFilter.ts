@@ -265,7 +265,7 @@ class Solver {
   }
 
   private css(filters: number[]): string {
-   function fmt(idx: number, multiplier = 1) {
+    function fmt(idx: number, multiplier = 1) {
       return Math.round(filters[idx] * multiplier);
     }
     return `brightness(0) saturate(100%) brightness(0) saturate(100%) invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%);`;
@@ -303,7 +303,6 @@ export function getCssFilterFromHex(hex: string) {
   }
 }
 
-
 // -----------------------------
 // Usage Example
 const targetColor = new Color(255, 100, 100);
@@ -312,4 +311,3 @@ const result = solver.solve();
 
 console.log(result.filter); // CSS filter string
 console.log(result.loss); // Loss value indicating the approximation accuracy
-

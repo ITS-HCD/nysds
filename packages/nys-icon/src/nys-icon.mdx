@@ -9,7 +9,8 @@ import * as NysIconStories from "./nys-icon.stories";
 The **`nys-icon`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
 
 ### SVG props implementations:
-        * Width and Height
+        * Width and Height (default: relative to font size)
+            * Custom `nys-icon--size` variants
         * Color (Hex value - default: #000000)
         * Rotation (Degree)
         * Scale
@@ -60,8 +61,18 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
 
 ## Icon Property Examples
 
+### Width and Height
+> By default, icons will scale with font size. If you want to specify an icon size, it is recommended to use the component’s size variants `nys-icon--size-[size number]`.
+> Size variant range from 3 (i.e. 1.5 rem) to 9 (i.e. 4.5 rem).
+>
+> **Note:** these variant will override any already set width and height within this component. 
+
+> Example: `nys-icon--size-5`
+
+<Canvas of={NysIconStories.CustomSize} />
+
 ### Scale (2.5)
-> This is the recommended case than changing just width and height.
+> Besides using size-variant, further size customization can be made with scale transformation.
 <Canvas of={NysIconStories.ScaleUp} />
 
 ### Color (#1ea0ba)
@@ -77,4 +88,5 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
 
 The `nys-icon` component includes the following accessibility-focused features:
 
-- ARIA hidden role to ensure screen readers will not read the icon.
+- **ARIA Hidden by Default:** If no label is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
+- **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the icon accessible to screen readers.

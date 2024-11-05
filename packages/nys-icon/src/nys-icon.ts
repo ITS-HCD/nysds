@@ -8,11 +8,12 @@ import { getCssFilterFromHex } from "./colorFilter";
 export class NysIcon extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
-  @property({ type: String }) width = "24px";
-  @property({ type: String }) height = "24px";
+  @property({ type: String }) width = "1rem";
+  @property({ type: String }) height = "1rem";
   @property({ type: String }) scale = "1";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) color = "#000000";
+  @property({ type: String }) className = "";
 
   static styles = styles;
 
@@ -25,7 +26,7 @@ export class NysIcon extends LitElement {
     return iconSVG
       ? html`
           <div
-            class="icon-container"
+            class="icon-container ${this.className}"
             .innerHTML="${iconSVG}"
             style="
             width: ${this.width}; 
@@ -60,6 +61,12 @@ export class NysIcon extends LitElement {
     if (changedProperties.has("label")) {
       this.handleLabelChange();
     }
+  }
+
+  // Ensure label handling is set up when component first connects
+  connectedCallback() {
+    super.connectedCallback();
+    this.handleLabelChange();
   }
 
   render() {
