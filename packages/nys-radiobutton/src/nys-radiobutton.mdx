@@ -28,7 +28,7 @@ If `checked=true` is assigned to multiple options in a `radiogroup` only the las
 
 ## Events
 
-The `NysRadiobutton` component emits three custom events:
+The `NysRadiobutton` component emits four custom events:
 
 1. **`change`** – Fired when the radiobutton state changes (checked/unchecked).
 2. **`focus`** – Fired when the radiobutton gains focus.
@@ -69,5 +69,8 @@ The `nys-radiobutton` component includes the following accessibility-focused fea
 
 - Note: all `nys-radiobutton` elements of the same group need to be wrapped in a `<div role=radiogroup>` in order to work properly with screenreaders
 - Proper ARIA roles and attributes to ensure screen readers can interpret the radiobutton correctly.
+    - `aria-checked`
+    - `aria-disabled`
+    - `aria-required`
 - Keyboard navigation support, allowing users to toggle the radiobutton using the keyboard.
 - Visual focus indicators to help users navigate the component.
