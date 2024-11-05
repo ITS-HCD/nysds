@@ -7,6 +7,6 @@ export class NysInput extends LitElement {
   static styles = styles;
 
   render() {
-    return html`<input />`;
+    return html` <input class="nys-input" /> `;
   }
 }
