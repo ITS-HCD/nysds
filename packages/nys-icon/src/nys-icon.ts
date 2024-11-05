@@ -34,6 +34,7 @@ export class NysIcon extends LitElement {
             rotate: ${this.rotate}deg; 
             filter: ${this.getColorFilter()}"
             aria-hidden="true"
+            role="img"
           ></div>
         `
       : html`<span>Icon not found</span>`;
