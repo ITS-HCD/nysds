@@ -265,7 +265,10 @@ class Solver {
   }
 
   private css(filters: number[]): string {
-    return `invert(${Math.round(filters[0])}%) sepia(${Math.round(filters[1])}%) saturate(${Math.round(filters[2])}%) hue-rotate(${Math.round(filters[3] * 3.6)}deg) brightness(${Math.round(filters[4])}%) contrast(${Math.round(filters[5])}%)`;
+   function fmt(idx: number, multiplier = 1) {
+      return Math.round(filters[idx] * multiplier);
+    }
+    return `brightness(0) saturate(100%) brightness(0) saturate(100%) invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%);`;
   }
 }
 
@@ -286,14 +289,6 @@ function hexToRgb(hex: string) {
     : null;
 }
 
-// Usage Example
-const targetColor = new Color(255, 100, 100);
-const solver = new Solver(targetColor);
-const result = solver.solve();
-
-console.log(result.filter); // CSS filter string
-console.log(result.loss); // Loss value indicating the approximation accuracy
-
 // Entry point function
 export function getCssFilterFromHex(hex: string) {
   const rgb = hexToRgb(hex);
@@ -308,6 +303,13 @@ export function getCssFilterFromHex(hex: string) {
   }
 }
 
-// Example usage
-const cssFilter = getCssFilterFromHex("#ff5733");
-console.log(cssFilter); // Output the CSS filter string
+
+// -----------------------------
+// Usage Example
+const targetColor = new Color(255, 100, 100);
+const solver = new Solver(targetColor);
+const result = solver.solve();
+
+console.log(result.filter); // CSS filter string
+console.log(result.loss); // Loss value indicating the approximation accuracy
+
