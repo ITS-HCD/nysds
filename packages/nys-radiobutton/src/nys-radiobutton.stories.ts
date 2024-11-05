@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-radiobutton";
+import "./nys-radiogroup";
 
 // Define the structure of the args used in the stories
 interface NysRadiobuttonArgs {
@@ -39,6 +40,35 @@ export default meta;
 type Story = StoryObj<NysRadiobuttonArgs>;
 
 // Define stories without using args
+
+export const EmilyPlayground: Story = {
+  render: () =>
+    html`<nys-radiogroup>
+      <nys-radiobutton
+        name="example-group"
+        label="Option"
+        checked="true"
+        value="option"
+      ></nys-radiobutton>
+      <nys-radiobutton
+        name="example-group"
+        label="Choice"
+        checked="true"
+        value="choice"
+      ></nys-radiobutton>
+      <nys-radiobutton
+        name="example-group"
+        label="Decision"
+        value="decision"
+      ></nys-radiobutton
+      ><nys-radiobutton
+        name="example-group"
+        disabled="true"
+        label="Not me though"
+        value="nope"
+      ></nys-radiobutton>
+    </nys-radiogroup>`,
+};
 
 // Story: Editable
 export const AllEditableOptions: Story = {
