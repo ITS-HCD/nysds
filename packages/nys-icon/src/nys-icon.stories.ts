@@ -9,9 +9,9 @@ interface NysIconArgs {
   id: string;
   name: string;
   label: string;
-  focusable: boolean;
   width: string;
   height: string;
+  scale: string;
   color: string;
   rotate: string;
 }
@@ -23,9 +23,9 @@ const meta: Meta<NysIconArgs> = {
     id: { control: "text" },
     label: { control: "text" },
     name: { control: "text" },
-    focusable: { control: "boolean" },
     width: { control: "text" },
     height: { control: "text" },
+    scale: { control: "text" },
     color: { control: "text" },
     rotate: { control: "text" },
   },
@@ -48,19 +48,19 @@ export const EditSquare: Story = {
   args: {
     label: "edit-square icon",
     name: "edit-square",
-    focusable: false,
     width: "24px",
     height: "24px",
-    color: "#f0c033",
+    scale: "1",
+    color: "#000000",
     rotate: "0",
   },
   render: (args) => html`
     <nys-icon
       .label=${args.label}
       .name=${args.name}
-      .focusable=${false}
       width=${args.width}
       height=${args.height}
+      scale=${args.scale}
       color=${args.color}
       rotate=${args.rotate}
     ></nys-icon>
@@ -72,9 +72,9 @@ export const EditSquare: Story = {
   <nys-icon
   label="edit-square icon"
   name="edit-square"
-  focusable=false
   width="24px"
   height="24px"
+  scale="1"
   color="#f0c033"
   rotate="0"
   ></nys-icon>
@@ -90,9 +90,9 @@ export const Publish: Story = {
   args: {
     label: "publish icon",
     name: "publish",
-    focusable: false,
     width: "24px",
     height: "24px",
+    scale: "1",
     color: "#000000",
     rotate: "0",
   },
@@ -100,9 +100,9 @@ export const Publish: Story = {
     <nys-icon
       .label=${args.label}
       .name=${args.name}
-      .focusable=${false}
       width=${args.width}
       height=${args.height}
+      scale=${args.scale}
       color=${args.color}
       rotate=${args.rotate}
     ></nys-icon>
@@ -114,11 +114,134 @@ export const Publish: Story = {
   <nys-icon
   label="publish icon"
   name="publish"
-  focusable=false
   width="24px"
   height="24px"
+  scale="1"
   color="#000000"
   rotate="0"
+  ></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Scale (2.5)
+export const ScaleUp: Story = {
+  args: {
+    label: "download-done icon",
+    name: "download-done",
+    width: "24px",
+    height: "24px",
+    scale: "2.5",
+    color: "#000000",
+    rotate: "0",
+  },
+  render: (args) => html`
+    <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      width=${args.width}
+      height=${args.height}
+      scale=${args.scale}
+      color=${args.color}
+      rotate=${args.rotate}
+    ></nys-icon>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-icon
+  label="download-done icon"
+  name="download-done"
+  width="24px"
+  height="24px"
+  scale="2.5"
+  color="#000000"
+  rotate="0"
+  ></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Color filter
+export const ColorChange: Story = {
+  args: {
+    label: "upload-file icon",
+    name: "upload-file",
+    width: "24px",
+    height: "24px",
+    scale: "1",
+    color: "#1ea0ba",
+    rotate: "0",
+  },
+  render: (args) => html`
+    <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      width=${args.width}
+      height=${args.height}
+      scale=${args.scale}
+      color=${args.color}
+      rotate=${args.rotate}
+    ></nys-icon>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-icon
+  label="upload-file icon"
+  name="upload-file"
+  width="24px"
+  height="24px"
+  scale="1"
+  color="#1ea0ba"
+  rotate="0"
+  ></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Rotate filter
+export const Rotate: Story = {
+  args: {
+    label: "warning icon",
+    name: "warning",
+    width: "24px",
+    height: "24px",
+    scale: "1",
+    color: "#e84267",
+    rotate: "20",
+  },
+  render: (args) => html`
+    <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      width=${args.width}
+      height=${args.height}
+      scale=${args.scale}
+      color=${args.color}
+      rotate=${args.rotate}
+    ></nys-icon>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-icon
+  label="warning icon"
+  name="warning"
+  width="24px"
+  height="24px"
+  scale="1"
+  color="#e84267"
+  rotate="20"
   ></nys-icon>
         `.trim(),
       },

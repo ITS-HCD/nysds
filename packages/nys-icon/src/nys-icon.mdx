@@ -8,26 +8,73 @@ import * as NysIconStories from "./nys-icon.stories";
 
 The **`nys-icon`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
 
-SVG props implementations:
+### SVG props implementations:
         * Width and Height
         * Color (Hex value - default: #000000)
         * Rotation (Degree)
+        * Scale
 
-If an id is not passed, a unique id will be generated.
+### All available SVG names
+<div style={{ display: 'flex' }}>
+  <div style={{ flex: '1 1 50%', paddingRight: '1rem' }}>
+    - edit-square  
+    - publish  
+    - download  
+    - download-done  
+    - upload-file  
+    - drive-folder-upload  
+    - more-vert  
+    - arrow-back  
+    - arrow-left  
+    - arrow-right  
+    - arrow-down  
+    - arrow-up  
+    - check  
+  </div>
+  <div style={{ flex: '1 1 50%' }}>
+    - calendar-month  
+    - warning  
+    - check-circle  
+    - cancel  
+    - close  
+    - language  
+    - search  
+    - menu  
+    - visibility  
+    - visibility-off  
+    - account-circle  
+    - help  
+    - share  
+  </div>
+</div>
 
-## Examples
+## SVG Name Examples
 
-### Alert
+### Edit Square 
 
 <Canvas of={NysIconStories.EditSquare} />
 
-### Globe
+### Publish
 
 <Canvas of={NysIconStories.Publish} />
+
+## Icon Property Examples
+
+### Scale (2.5)
+> This is the recommended case than changing just width and height.
+<Canvas of={NysIconStories.ScaleUp} />
+
+### Color (#1ea0ba)
+> Only hex values are allowed. Default hex value is #000000.
+<Canvas of={NysIconStories.ColorChange} />
+
+### Rotate (20 degrees)
+> Please note the prop is "rotate= 20" instead of "rotate= 20deg"
+<Canvas of={NysIconStories.Rotate} />
+
 
 ## Accessibility
 
 The `nys-icon` component includes the following accessibility-focused features:
 
-- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
-- Visual focus indicators to help users navigate the component.
+- ARIA hidden role to ensure screen readers will not read the icon.

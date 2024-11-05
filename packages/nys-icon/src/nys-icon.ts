@@ -8,11 +8,11 @@ import { getCssFilterFromHex } from "./colorFilter";
 export class NysIcon extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
-  @property({ type: Boolean }) focusable = false;
   @property({ type: String }) width = "24px";
   @property({ type: String }) height = "24px";
+  @property({ type: String }) scale = "1";
   @property({ type: String }) rotate = "0";
-  @property({ type: String }) color = "#00a4d6";
+  @property({ type: String }) color = "#000000";
 
   static styles = styles;
 
@@ -27,8 +27,13 @@ export class NysIcon extends LitElement {
           <div
             class="icon-container"
             .innerHTML="${iconSVG}"
-            style="width: ${this.width}; height: ${this.height}; rotate: ${this
-              .rotate}deg; filter: ${this.getColorFilter()}"
+            style="
+            width: ${this.width}; 
+            height: ${this.height}; 
+            transform: scale(${this.scale}); 
+            rotate: ${this.rotate}deg; 
+            filter: ${this.getColorFilter()}"
+            aria-hidden="true"
           ></div>
         `
       : html`<span>Icon not found</span>`;
