@@ -6,77 +6,122 @@ import "./nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysIconArgs {
-	label: string;
-	id: string;
-	name: string;
-	focusable: boolean;
+  id: string;
+  name: string;
+  label: string;
+  focusable: boolean;
+  width: string;
+  height: string;
+  color: string;
+  rotate: string;
 }
 
 const meta: Meta<NysIconArgs> = {
-	title: "Components/Icon",
-	component: "nys-icon",
-	argTypes: {
-		id: { control: "text" },
-		label: { control: "text" },
-		name: { control: "text" },
-		focusable: { control: "boolean" },
-	},
-	parameters: {
-		docs: {
-			source: { type: "dynamic" }, // Enables live Source code tab
-			inlineStories: true, // Ensures stories are rendered within the docs tab
-		},
-	},
+  title: "Components/Icon",
+  component: "nys-icon",
+  argTypes: {
+    id: { control: "text" },
+    label: { control: "text" },
+    name: { control: "text" },
+    focusable: { control: "boolean" },
+    width: { control: "text" },
+    height: { control: "text" },
+    color: { control: "text" },
+    rotate: { control: "text" },
+  },
+  parameters: {
+    docs: {
+      source: { type: "dynamic" }, // Enables live Source code tab
+      inlineStories: true, // Ensures stories are rendered within the docs tab
+    },
+  },
 };
 
 export default meta;
 type Story = StoryObj<NysIconArgs>;
 
+/******************************** STORIES ********************************/
 // Define stories without using args
 
-// Story: Alert
-export const Alert: Story = {
-	args: {
-		label: "alert icon",
-		name: "alert",
-		focusable: false,
-	},
-	render: (args) => html` <nys-icon .label=${args.label} .name=${args.name} .focusable=${false}></nys-icon> `,
-	parameters: {
-		docs: {
-			source: {
-				code: `
+// Story: EditSquare
+export const EditSquare: Story = {
+  args: {
+    label: "edit-square icon",
+    name: "edit-square",
+    focusable: false,
+    width: "24px",
+    height: "24px",
+    color: "#f0c033",
+    rotate: "0",
+  },
+  render: (args) => html`
+    <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      .focusable=${false}
+      width=${args.width}
+      height=${args.height}
+      color=${args.color}
+      rotate=${args.rotate}
+    ></nys-icon>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
   <nys-icon
-  label="alert icon"
-  name="alert"
+  label="edit-square icon"
+  name="edit-square"
   focusable=false
+  width="24px"
+  height="24px"
+  color="#f0c033"
+  rotate="0"
   ></nys-icon>
         `,
-				type: "auto",
-			},
-		},
-	},
+        type: "auto",
+      },
+    },
+  },
 };
 
-// Story: Globe
-export const Globe: Story = {
-	args: {
-		label: "globe icon",
-		name: "globe",
-		focusable: false,
-	},
-	render: (args) => html` <nys-icon .label=${args.label} .name=${args.name} .focusable=${false}></nys-icon> `,
-	parameters: {
-		docs: {
-			source: {
-				code: `
+// Story: Publish
+export const Publish: Story = {
+  args: {
+    label: "publish icon",
+    name: "publish",
+    focusable: false,
+    width: "24px",
+    height: "24px",
+    color: "#000000",
+    rotate: "0",
+  },
+  render: (args) => html`
+    <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      .focusable=${false}
+      width=${args.width}
+      height=${args.height}
+      color=${args.color}
+      rotate=${args.rotate}
+    ></nys-icon>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
   <nys-icon
-  label="globe icon"
-  name="globe"
+  label="publish icon"
+  name="publish"
   focusable=false
+  width="24px"
+  height="24px"
+  color="#000000"
+  rotate="0"
   ></nys-icon>
         `.trim(),
-			},
-		},
-	},
+      },
+    },
+  },
 };
