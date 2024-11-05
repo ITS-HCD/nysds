@@ -98,7 +98,7 @@ export const AllEditableOptions: Story = {
 };
 
 // Story: Some Disabled
-export const PartialEdditableOptions: Story = {
+export const PartialEditableOptions: Story = {
   args: {
     checked: false,
     disabled: false,
