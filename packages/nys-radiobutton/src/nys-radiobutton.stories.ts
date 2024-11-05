@@ -41,35 +41,6 @@ type Story = StoryObj<NysRadiobuttonArgs>;
 
 // Define stories without using args
 
-export const EmilyPlayground: Story = {
-  render: () =>
-    html`<nys-radiogroup>
-      <nys-radiobutton
-        name="example-group"
-        label="Option"
-        checked="true"
-        value="option"
-      ></nys-radiobutton>
-      <nys-radiobutton
-        name="example-group"
-        label="Choice"
-        checked="true"
-        value="choice"
-      ></nys-radiobutton>
-      <nys-radiobutton
-        name="example-group"
-        label="Decision"
-        value="decision"
-      ></nys-radiobutton
-      ><nys-radiobutton
-        name="example-group"
-        disabled="true"
-        label="Not me though"
-        value="nope"
-      ></nys-radiobutton>
-    </nys-radiogroup>`,
-};
-
 // Story: Editable
 export const AllEditableOptions: Story = {
   args: {
