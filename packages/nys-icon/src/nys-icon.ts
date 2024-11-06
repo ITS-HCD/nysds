@@ -8,8 +8,6 @@ import { getCssFilterFromHex } from "./colorFilter";
 export class NysIcon extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
-  @property({ type: String }) width = "1rem";
-  @property({ type: String }) height = "1rem";
   @property({ type: String }) scale = "1";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) color = "#000000";
@@ -29,8 +27,6 @@ export class NysIcon extends LitElement {
             class="icon-container ${this.className}"
             .innerHTML="${iconSVG}"
             style="
-            width: ${this.width}; 
-            height: ${this.height}; 
             transform: scale(${this.scale}); 
             rotate: ${this.rotate}deg; 
             filter: ${this.getColorFilter()}"

@@ -62,12 +62,12 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
 ## Icon Property Examples
 
 ### Width and Height
-> By default, icons will scale with font size. If you want to specify an icon size, it is recommended to use the component’s size variants `nys-icon--size-[size number]`.
-> Size variant range from 3 (i.e. 1.5 rem) to 9 (i.e. 4.5 rem).
+> Both width and height they are set **relative** to the font size. 
+> To customize the icon size, use the component’s size variants, nys-icon--size-[size number], which range from 3 (1.5rem) to 9 (4.5rem).
 >
-> **Note:** these variant will override any already set width and height within this component. 
+> **IMPORTANT ⓘ** these variant will <ins>override</ins> the already set width and height within this component. 
 
-> Example: `nys-icon--size-5`
+> Example: change the empty string in *className* to `nys-icon--size-5`
 
 <Canvas of={NysIconStories.CustomSize} />
 
