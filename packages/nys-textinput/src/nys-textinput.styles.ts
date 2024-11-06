@@ -1,33 +1,33 @@
 import { css } from "lit";
 
 export default css`
-  .nys-input {
-    border-radius: 0.125rem;
+  .nys-textinput {
+    border-radius: 0.25rem;
     border: solid 1px;
     font-family: arial;
     font-size: 16px;
-    padding: 0.25rem;
+    padding: 0.5rem;
   }
 
   /* Focused */
-  .nys-input:focus {
+  .nys-textinput:focus {
     outline-offset: 3px;
     outline: 3px solid var(--form-focus-color, #007bff);
   }
 
   /* Disabled */
-  .nys-input:disabled {
+  .nys-textinput:disabled {
     background-color: #f0f0f0;
     border-color: #757575;
     cursor: not-allowed;
   }
 
   /* Required */
-  .nys-input:required {
+  .nys-textinput:required {
     border-color: red;
   }
 
-  .nys-input__required {
+  .nys-textinput__required {
     color: red;
   }
 `;

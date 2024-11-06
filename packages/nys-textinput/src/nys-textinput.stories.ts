@@ -1,9 +1,9 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
-import "./nys-input";
+import "./nys-textinput";
 
 // Define the structure of the args used in the stories
-interface NysInputArgs {
+interface NysTextinputArgs {
   checked: boolean;
   disabled: boolean;
   label: string;
@@ -14,9 +14,9 @@ interface NysInputArgs {
   required: boolean;
 }
 
-const meta: Meta<NysInputArgs> = {
-  title: "Components/Input",
-  component: "nys-input",
+const meta: Meta<NysTextinputArgs> = {
+  title: "Components/Textinput",
+  component: "nys-textinput",
   argTypes: {},
   parameters: {
     docs: {
@@ -27,18 +27,19 @@ const meta: Meta<NysInputArgs> = {
 };
 
 export default meta;
-type Story = StoryObj<NysInputArgs>;
+type Story = StoryObj<NysTextinputArgs>;
 
 // Define stories without using args
 
-// Story: Input
-export const Input: Story = {
+// Story: TextInput
+export const TextInput: Story = {
   args: {},
-  render: () => html`<nys-input placeholder="type here" required></nys-input>`,
+  render: () =>
+    html`<nys-textinput placeholder="placeholder text"></nys-textinput>`,
   parameters: {
     docs: {
       source: {
-        code: `<nys-input></nys-input>`,
+        code: `<nys-textinput></nys-textinput>`,
         type: "auto",
       },
     },
