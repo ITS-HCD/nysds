@@ -25,14 +25,12 @@ export class NysTextinput extends LitElement {
           ? html`<label class="nys-textinput__required">*</label>`
           : ""} -->
         <div class="nys-textinput__text">
-          ${this.label != ""
-            ? html` <div class="nys-textinput__label">${this.label}</div>`
-            : ""}
-          ${this.description != ""
-            ? html` <div class="nys-textinput__description">
-                ${this.description}
-              </div>`
-            : ""}
+          ${this.label &&
+          html` <div class="nys-textinput__label">${this.label}</div>`}
+          ${this.description &&
+          html` <div class="nys-textinput__description">
+            ${this.description}
+          </div>`}
         </div>
 
         <input

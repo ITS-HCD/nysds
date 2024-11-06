@@ -49,3 +49,16 @@ export const TextInput: Story = {
     },
   },
 };
+
+export const NoLabelDescription: Story = {
+  args: {},
+  render: () => html`<nys-textinput placeholder="bleh"></nys-textinput>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textinput></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
