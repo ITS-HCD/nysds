@@ -51,6 +51,7 @@ export const EditSquare: Story = {
     rotate: "0",
   },
   render: (args) => html`
+    <p>Try changing the 'name' to try out different icons. For example, the current name is 'edit-square'.</p>
     <nys-icon
       .label=${args.label}
       .name=${args.name}
@@ -88,6 +89,7 @@ export const Publish: Story = {
     rotate: "0",
   },
   render: (args) => html`
+      <p>Try changing the 'name' to try out different icons. For example, the current name is 'publish'.</p>
     <nys-icon
       .label=${args.label}
       .name=${args.name}
@@ -122,7 +124,7 @@ export const CustomSize: Story = {
     scale: "1",
     color: "#000000",
     rotate: "0",
-    className: "nys-icon--size-4",
+    className: "nys-icon--size-5",
   },
   render: (args) => html`
     <nys-icon
