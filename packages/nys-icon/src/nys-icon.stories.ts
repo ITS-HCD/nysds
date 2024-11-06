@@ -6,12 +6,11 @@ import "./nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysIconArgs {
-  id: string;
   name: string;
-  label: string;
-  scale: string;
-  color: string;
-  rotate: string;
+  label?: string;
+  scale?: string;
+  color?: string;
+  rotate?: string;
   className?: string;
 }
 
@@ -19,7 +18,6 @@ const meta: Meta<NysIconArgs> = {
   title: "Components/Icon",
   component: "nys-icon",
   argTypes: {
-    id: { control: "text" },
     label: { control: "text" },
     name: { control: "text" },
     scale: { control: "text" },
@@ -49,9 +47,13 @@ export const EditSquare: Story = {
     scale: "1",
     color: "#000000",
     rotate: "0",
+    className: "nys-icon--size-3",
   },
   render: (args) => html`
-    <p>Try changing the 'name' to try out different icons. For example, the current name is 'edit-square'.</p>
+    <p>
+      Try changing the 'name' to try out different icons. For example, the
+      current name is "edit-square".
+    </p>
     <nys-icon
       .label=${args.label}
       .name=${args.name}
@@ -69,8 +71,9 @@ export const EditSquare: Story = {
   label="edit-square icon"
   name="edit-square"
   scale="1"
-  color="#f0c033"
+  color="#000000"
   rotate="0"
+  className="nys-icon--size-3"
   ></nys-icon>
         `,
         type: "auto",
@@ -82,33 +85,25 @@ export const EditSquare: Story = {
 // Story: Publish
 export const Publish: Story = {
   args: {
-    label: "publish icon",
     name: "publish",
-    scale: "1",
-    color: "#000000",
-    rotate: "0",
   },
   render: (args) => html`
-      <p>Try changing the 'name' to try out different icons. For example, the current name is 'publish'.</p>
-    <nys-icon
-      .label=${args.label}
-      .name=${args.name}
-      scale=${args.scale}
-      color=${args.color}
-      rotate=${args.rotate}
-      className=${args.className}
-    ></nys-icon>
+    <p>
+      The name property is the only required attribute for this component. The
+      current icon name is "publish".
+    </p>
+    <p>
+      Note: Leaving the 'label' blank will set aria-hidden for screen readers.
+    </p>
+
+    <nys-icon .name=${args.name}></nys-icon>
   `,
   parameters: {
     docs: {
       source: {
         code: `
   <nys-icon
-  label="publish icon"
   name="publish"
-  scale="1"
-  color="#000000"
-  rotate="0"
   ></nys-icon>
         `.trim(),
       },
@@ -198,6 +193,7 @@ export const ColorChange: Story = {
     scale: "1",
     color: "#1ea0ba",
     rotate: "0",
+    className: "nys-icon--size-3",
   },
   render: (args) => html`
     <nys-icon
@@ -219,6 +215,7 @@ export const ColorChange: Story = {
   scale="1"
   color="#1ea0ba"
   rotate="0"
+  className="nys-icon--size-3"
   ></nys-icon>
         `.trim(),
       },
@@ -234,6 +231,7 @@ export const Rotate: Story = {
     scale: "1",
     color: "#e84267",
     rotate: "20",
+    className: "nys-icon--size-3",
   },
   render: (args) => html`
     <nys-icon
@@ -255,6 +253,7 @@ export const Rotate: Story = {
   scale="1"
   color="#e84267"
   rotate="20"
+  className="nys-icon--size-3"
   ></nys-icon>
         `.trim(),
       },

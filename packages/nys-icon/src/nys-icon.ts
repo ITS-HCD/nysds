@@ -30,7 +30,6 @@ export class NysIcon extends LitElement {
             transform: scale(${this.scale}); 
             rotate: ${this.rotate}deg; 
             filter: ${this.getColorFilter()}"
-            aria-hidden="true"
             role="img"
           ></div>
         `
