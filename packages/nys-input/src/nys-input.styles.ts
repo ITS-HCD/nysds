@@ -17,8 +17,17 @@ export default css`
 
   /* Disabled */
   .nys-input:disabled {
-    background-color: var(--form-unchecked-color-bg-disabled, #f0f0f0);
-    border-color: var(--form-unchecked-color-border-disabled, #757575);
+    background-color: #f0f0f0;
+    border-color: #757575;
     cursor: not-allowed;
+  }
+
+  /* Required */
+  .nys-input:required {
+    border-color: red;
+  }
+
+  .nys-input__required {
+    color: red;
   }
 `;

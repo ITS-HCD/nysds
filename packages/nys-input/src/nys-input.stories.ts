@@ -34,7 +34,7 @@ type Story = StoryObj<NysInputArgs>;
 // Story: Input
 export const Input: Story = {
   args: {},
-  render: () => html`<nys-input placeholder="type here"></nys-input>`,
+  render: () => html`<nys-input placeholder="type here" required></nys-input>`,
   parameters: {
     docs: {
       source: {
