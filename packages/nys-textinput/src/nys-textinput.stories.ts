@@ -34,12 +34,15 @@ type Story = StoryObj<NysTextinputArgs>;
 // Story: TextInput
 export const TextInput: Story = {
   args: {},
-  render: () =>
-    html`<nys-textinput
+  render: () => html`
+    <nys-textinput
       placeholder="N00000000"
       label="Please enter your Employee number"
       description="include the N prefix"
-    ></nys-textinput>`,
+      maxlength="9"
+      pattern="N[0-9]{8}"
+    ></nys-textinput>
+  `,
   parameters: {
     docs: {
       source: {

@@ -7,9 +7,9 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) disabled = false;
-  // maxlength
-  //pattern
-  //readonly
+  @property({ type: Number }) maxlength = null;
+  @property({ type: String }) pattern = null;
+  @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
   //size
   //step
@@ -38,9 +38,12 @@ export class NysTextinput extends LitElement {
           type="text"
           ?disabled=${this.disabled}
           ?required=${this.required}
+          ?readonly=${this.readonly}
           aria-disabled="${this.disabled}"
           .value=${this.value}
           .placeholder=${this.placeholder}
+          maxlength=${this.maxlength}
+          pattern=${this.pattern}
         />
       </div>
     `;

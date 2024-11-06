@@ -3,6 +3,7 @@ import { css } from "lit";
 export default css`
   .nys-textinput {
     font-family: Arial, sans-serif;
+    margin-bottom: 0.5rem;
   }
 
   .nys-textinput__input {
@@ -10,6 +11,11 @@ export default css`
     border: solid 1px gray;
     font-size: 16px;
     padding: 0.5rem;
+  }
+
+  /* TODO: instead show a warning stating invalid input */
+  .nys-textinput__input:invalid {
+    border-color: red;
   }
 
   /* Focused */
