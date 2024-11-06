@@ -31,14 +31,14 @@ type Story = StoryObj<NysInputArgs>;
 
 // Define stories without using args
 
-// Story: Unchecked
-export const example: Story = {
+// Story: Input
+export const Input: Story = {
   args: {},
-  render: () => html`<nys-input></nys-input>`,
+  render: () => html`<nys-input placeholder="type here"></nys-input>`,
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `<nys-input></nys-input>`,
         type: "auto",
       },
     },
