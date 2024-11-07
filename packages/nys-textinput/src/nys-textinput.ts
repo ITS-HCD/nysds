@@ -32,7 +32,6 @@ export class NysTextinput extends LitElement {
             ${this.description}
           </div>`}
         </div>
-
         <input
           class="nys-textinput__input"
           type="text"
@@ -45,6 +44,8 @@ export class NysTextinput extends LitElement {
           maxlength=${this.maxlength}
           pattern=${this.pattern}
         />
+        ${this.pattern &&
+        html`<div class="nys-textinput__validation">The input is:</div>`}
       </div>
     `;
   }

@@ -13,11 +13,6 @@ export default css`
     padding: 0.5rem;
   }
 
-  /* TODO: instead show a warning stating invalid input */
-  .nys-textinput__input:invalid {
-    border-color: red;
-  }
-
   /* Focused */
   .nys-textinput__input:focus {
     outline-offset: 3px;
@@ -58,5 +53,28 @@ export default css`
     color: var(--form-help-text-color, gray);
     font-style: italic;
     padding-bottom: 0.25rem;
+  }
+
+  /* Pattern validation styling */
+  .nys-textinput__validation {
+    padding-top: 0.5rem;
+  }
+
+  .nys-textinput__input:invalid + .nys-textinput__validation:after {
+    color: red;
+    content: " invalid";
+    font-weight: bold;
+  }
+
+  .nys-textinput__input:valid + .nys-textinput__validation:after {
+    color: green;
+    content: " valid";
+    font-weight: bold;
+  }
+
+  .nys-textinput__input:placeholder-shown + .nys-textinput__validation:after {
+    color: black;
+    content: " empty";
+    font-weight: bold;
   }
 `;
