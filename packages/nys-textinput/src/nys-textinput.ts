@@ -4,6 +4,7 @@ import styles from "./nys-textinput.styles"; // Assuming styles are in a separat
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
+  @property({ type: String }) type = "text";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) disabled = false;
@@ -11,8 +12,10 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) pattern = null;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
-  //size
-  //step
+  @property({ type: Number }) size = null;
+  @property({ type: Number }) step = null;
+  @property({ type: Number }) min = null;
+  @property({ type: Number }) max = null;
   @property({ type: String }) value = "";
   @property({ type: String }) placeholder = "";
 
@@ -34,7 +37,7 @@ export class NysTextinput extends LitElement {
         </div>
         <input
           class="nys-textinput__input"
-          type="text"
+          type=${this.type}
           ?disabled=${this.disabled}
           ?required=${this.required}
           ?readonly=${this.readonly}
@@ -43,6 +46,10 @@ export class NysTextinput extends LitElement {
           .placeholder=${this.placeholder}
           maxlength=${this.maxlength}
           pattern=${this.pattern}
+          size=${this.size}
+          step=${this.step}
+          min=${this.min}
+          max=${this.max}
         />
         ${this.pattern &&
         html`<div class="nys-textinput__validation">The input is:</div>`}
