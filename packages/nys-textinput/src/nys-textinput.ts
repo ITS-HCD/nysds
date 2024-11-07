@@ -4,11 +4,17 @@ import styles from "./nys-textinput.styles"; // Assuming styles are in a separat
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
-  @property({ type: String }) type = "text";
+  @property({ reflect: true, type: String }) type:
+    | "text"
+    | "number"
+    | "email"
+    | "tel" = "text";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) disabled = false;
   @property({ type: Number }) maxlength = null;
+  @property({ type: String }) name = null;
+  @property({ type: String }) id = null;
   @property({ type: String }) pattern = null;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
@@ -19,8 +25,17 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: String }) placeholder = "";
 
-  static styles = styles;
+  constructor() {
+    super();
+    if (!NysTextinput.ALLOWED_TYPES.includes(this.type)) {
+      console.warn(
+        `Invalid initial type "${this.type}" for <nys-textinput>. Defaulting to "text".`,
+      );
+      this.type = "text";
+    }
+  }
 
+  static styles = styles;
   render() {
     return html`
       <div class="nys-textinput">
@@ -38,6 +53,8 @@ export class NysTextinput extends LitElement {
         <input
           class="nys-textinput__input"
           type=${this.type}
+          name=${this.name}
+          id=${this.id}
           ?disabled=${this.disabled}
           ?required=${this.required}
           ?readonly=${this.readonly}

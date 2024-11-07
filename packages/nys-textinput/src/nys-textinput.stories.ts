@@ -41,6 +41,7 @@ export const TextInput: Story = {
       description="include the N prefix"
       maxlength="9"
       pattern="N[0-9]{8}"
+      id="nID"
     ></nys-textinput>
   `,
   parameters: {
@@ -55,11 +56,13 @@ export const TextInput: Story = {
 
 export const NoLabelDescription: Story = {
   args: {},
-  render: () => html`<nys-textinput placeholder="bleh"></nys-textinput>`,
+  render: () =>
+    html`<nys-textinput placeholder="bleh" id="bleh"></nys-textinput
+      ><nys-textinput placeholder="blah" id="blah"></nys-textinput> `,
   parameters: {
     docs: {
       source: {
-        code: `<nys-textinput></nys-textinput>`,
+        code: ``,
         type: "auto",
       },
     },
