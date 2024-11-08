@@ -233,8 +233,7 @@ export const Maxlength: Story = {
   },
 };
 
-// ---------------------------------------------------------------
-export const Regex: Story = {
+export const Pattern: Story = {
   args: {},
   render: () => html`
     <nys-textinput
@@ -245,30 +244,20 @@ export const Regex: Story = {
       pattern="N[0-9]{8}"
       id="nID"
     ></nys-textinput>
-    <!-- <div>
-      The pattern is: ${document.getElementById("nID")?.getAttribute("pattern")}
-    </div> -->
   `,
   parameters: {
     docs: {
       source: {
-        code: `<nys-textinput></nys-textinput>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const NoLabelDescription: Story = {
-  args: {},
-  render: () => html`
-    <nys-textinput placeholder="bleh" id="bleh" type="radio"></nys-textinput
-    ><nys-textinput placeholder="blah" id="blah"></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: ``,
+        code: `
+<nys-textinput
+  placeholder="N00000000"
+  label="Please enter your Employee number"
+  description="include the N prefix"
+  maxlength="9"
+  pattern="N[0-9]{8}"
+  id="nID"
+></nys-textinput>        
+`,
         type: "auto",
       },
     },
