@@ -33,6 +33,7 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) disabled = false;
+  @property({ type: Number }) minlength = null;
   @property({ type: Number }) maxlength = null;
   @property({ type: String }) name = null;
   @property({ type: String }) id = "";
@@ -45,6 +46,7 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) max = null;
   @property({ type: String }) value = "";
   @property({ type: String }) placeholder = "";
+  @property({ type: String }) form = "";
 
   constructor() {
     super();
@@ -76,12 +78,14 @@ export class NysTextinput extends LitElement {
           aria-disabled="${this.disabled}"
           .value=${this.value}
           placeholder=${this.placeholder}
+          minlength=${this.minlength}
           maxlength=${this.maxlength}
           pattern=${this.pattern}
           size=${this.size}
           step=${this.step}
           min=${this.min}
           max=${this.max}
+          form=${this.form}
         />
         ${this.pattern &&
         html`<div class="nys-textinput__validation">The input is:</div>`}
