@@ -94,6 +94,40 @@ export const Blank: Story = {
   },
 };
 
+export const DifferentTypes: Story = {
+  args: {},
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput type="text" placeholder="text"></nys-textinput>
+      <nys-textinput type="email" placeholder="email"></nys-textinput>
+      <nys-textinput type="number" placeholder="number"></nys-textinput>
+      <nys-textinput type="password" placeholder="password"></nys-textinput>
+      <nys-textinput type="search" placeholder="search"></nys-textinput>
+      <nys-textinput type="tel" placeholder="tel"></nys-textinput>
+      <nys-textinput type="url" placeholder="url"></nys-textinput>
+      <nys-textinput
+        type="invalid"
+        placeholder="invalid defaults to text"
+      ></nys-textinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textinput type="text" placeholder="text"></nys-textinput>
+<nys-textinput type="email" placeholder="email"></nys-textinput>
+<nys-textinput type="number" placeholder="number"></nys-textinput>
+<nys-textinput type="password" placeholder="password"></nys-textinput>
+<nys-textinput type="search" placeholder="search"></nys-textinput>
+<nys-textinput type="tel" placeholder="tel"></nys-textinput>
+<nys-textinput type="url" placeholder="url"></nys-textinput>
+<nys-textinput type="invalid" placeholder="invalid defaults to text"></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Labels: Story = {
   args: {},
   render: () => html`
@@ -143,34 +177,21 @@ export const ValueAndPlaceholder: Story = {
   },
 };
 
-export const DifferentTypes: Story = {
+export const DisabledAndReadonly: Story = {
   args: {},
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput type="text" placeholder="text"></nys-textinput>
-      <nys-textinput type="email" placeholder="email"></nys-textinput>
-      <nys-textinput type="number" placeholder="number"></nys-textinput>
-      <nys-textinput type="password" placeholder="password"></nys-textinput>
-      <nys-textinput type="search" placeholder="search"></nys-textinput>
-      <nys-textinput type="tel" placeholder="tel"></nys-textinput>
-      <nys-textinput type="url" placeholder="url"></nys-textinput>
-      <nys-textinput
-        type="invalid"
-        placeholder="invalid defaults to text"
-      ></nys-textinput>
+      <nys-textinput disabled value="disabled"></nys-textinput>
+      <nys-textinput readonly value="readonly"></nys-textinput>
     </div>
   `,
   parameters: {
     docs: {
       source: {
-        code: `<nys-textinput type="text" placeholder="text"></nys-textinput>
-<nys-textinput type="email" placeholder="email"></nys-textinput>
-<nys-textinput type="number" placeholder="number"></nys-textinput>
-<nys-textinput type="password" placeholder="password"></nys-textinput>
-<nys-textinput type="search" placeholder="search"></nys-textinput>
-<nys-textinput type="tel" placeholder="tel"></nys-textinput>
-<nys-textinput type="url" placeholder="url"></nys-textinput>
-<nys-textinput type="invalid" placeholder="invalid defaults to text"></nys-textinput>`,
+        code: `
+<nys-textinput disabled value="disabled"></nys-textinput>
+<nys-textinput readonly value="readonly"></nys-textinput>
+        `,
         type: "auto",
       },
     },
