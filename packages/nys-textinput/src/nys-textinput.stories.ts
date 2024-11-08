@@ -4,14 +4,24 @@ import "./nys-textinput";
 
 // Define the structure of the args used in the stories
 interface NysTextinputArgs {
-  checked: boolean;
-  disabled: boolean;
-  label: string;
-  description: string;
   id: string;
   name: string;
+  type: string;
+  label: string;
+  description: string;
+  placeholder: string;
   value: string;
+  disabled: boolean;
+  readonly: boolean;
   required: boolean;
+  form: string;
+  pattern: string;
+  minlength: string;
+  maxlength: string;
+  size: string;
+  step: string;
+  min: string;
+  max: string;
 }
 
 const meta: Meta<NysTextinputArgs> = {
@@ -31,8 +41,60 @@ type Story = StoryObj<NysTextinputArgs>;
 
 // Define stories without using args
 
-// Story: TextInput
-export const TextInput: Story = {
+export const Blank: Story = {
+  args: {
+    id: "",
+    name: "",
+    type: "",
+    label: "",
+    description: "",
+    placeholder: "",
+    value: "",
+    disabled: false,
+    readonly: false,
+    required: false,
+    form: "",
+    pattern: "",
+    minlength: "",
+    maxlength: "",
+    size: "",
+    step: "",
+    min: "",
+    max: "",
+  },
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .minlength=${args.minlength}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+    ></nys-textinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textinput></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Regex: Story = {
   args: {},
   render: () => html`
     <nys-textinput

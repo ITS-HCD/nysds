@@ -4,6 +4,8 @@ import styles from "./nys-textinput.styles"; // Assuming styles are in a separat
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
+  @property({ type: String }) id = "";
+  @property({ type: String }) name = null;
   private static readonly VALID_TYPES = [
     "email",
     "number",
@@ -32,21 +34,19 @@ export class NysTextinput extends LitElement {
   }
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  @property({ type: String }) placeholder = "";
+  @property({ type: String }) value = "";
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Number }) minlength = null;
-  @property({ type: Number }) maxlength = null;
-  @property({ type: String }) name = null;
-  @property({ type: String }) id = "";
-  @property({ type: String }) pattern = null;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
+  @property({ type: String }) form = "";
+  @property({ type: String }) pattern = null;
+  @property({ type: Number }) minlength = null;
+  @property({ type: Number }) maxlength = null;
   @property({ type: Number }) size = "";
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
-  @property({ type: String }) value = "";
-  @property({ type: String }) placeholder = "";
-  @property({ type: String }) form = "";
 
   constructor() {
     super();
