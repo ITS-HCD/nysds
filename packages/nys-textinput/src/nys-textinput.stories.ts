@@ -265,16 +265,29 @@ export const Maxlength: Story = {
 
 export const Pattern: Story = {
   args: {},
-  render: () => html`
-    <nys-textinput
-      placeholder="N00000000"
-      label="Please enter your Employee number"
-      description="include the N prefix"
-      maxlength="9"
-      pattern="N[0-9]{8}"
-      id="nID"
-    ></nys-textinput>
-  `,
+  render: () => {
+    let patternStatus = "Pattern match: false"; // Initial status
+    return html`
+      <nys-textinput
+        placeholder="N00000000"
+        label="Please enter your Employee number"
+        description="include the N prefix"
+        maxlength="9"
+        pattern="N[0-9]{8}"
+        id="nID"
+        @pattern-status=${(event: CustomEvent) => {
+          // Update the pattern status text based on the validity
+          patternStatus = `Pattern match: ${event.detail.isValid}`;
+          // Re-render with the updated pattern status
+          document.getElementById("pattern-status")!.textContent =
+            patternStatus;
+        }}
+      ></nys-textinput>
+      <div id="pattern-status" style="font-family: Arial; padding-top: 1rem;">
+        ${patternStatus}
+      </div>
+    `;
+  },
   parameters: {
     docs: {
       source: {

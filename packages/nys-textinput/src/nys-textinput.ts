@@ -52,22 +52,33 @@ export class NysTextinput extends LitElement {
   }
 
   static styles = styles;
+
+  // Handle input event to check pattern validity
+  private handleInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const isValid = input.checkValidity();
+    this.dispatchEvent(
+      new CustomEvent("pattern-status", {
+        detail: { isValid },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   render() {
     return html`
       <div class="nys-textinput">
-        <div class="nys-textinput__text">
+        ${(this.label || this.description) &&
+        html` <div class="nys-textinput__text">
           <div>
-            ${this.label &&
-            html` <div class="nys-textinput__label">${this.label}</div> `}
-            ${this.description &&
-            html` <div class="nys-textinput__description">
-              ${this.description}
-            </div>`}
+            <div class="nys-textinput__label">${this.label}</div>
+            <div class="nys-textinput__description">${this.description}</div>
           </div>
           ${this.required && (this.label || this.description)
             ? html`<label class="nys-textinput__required">*</label>`
             : ""}
-        </div>
+        </div>`}
         <div class="nys-textinput__requiredwrapper">
           <input
             class="nys-textinput__input"
@@ -87,14 +98,12 @@ export class NysTextinput extends LitElement {
             min=${this.min}
             max=${this.max}
             form=${this.form}
+            @input=${this.handleInput}
           />
           ${this.required && !this.label && !this.description
             ? html`<label class="nys-textinput__required">*</label>`
             : ""}
         </div>
-
-        ${this.pattern &&
-        html`<div class="nys-textinput__validation">The input is:</div>`}
       </div>
     `;
   }

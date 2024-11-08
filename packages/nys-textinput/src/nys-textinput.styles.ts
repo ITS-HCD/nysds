@@ -44,6 +44,7 @@ export default css`
 
   .nys-textinput__text {
     display: flex;
+    margin-bottom: 0.25rem;
   }
 
   /* Label styling */
@@ -51,7 +52,6 @@ export default css`
     font-size: 16px;
     font-weight: 500;
     color: var(--form-label-color, #1b1b1b);
-    padding-bottom: 0.25rem;
   }
 
   /* Help text styling */
@@ -59,7 +59,6 @@ export default css`
     font-size: 12px;
     color: var(--form-help-text-color, gray);
     font-style: italic;
-    padding-bottom: 0.25rem;
   }
 
   /* Pattern validation styling */
