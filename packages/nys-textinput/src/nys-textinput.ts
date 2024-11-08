@@ -55,36 +55,44 @@ export class NysTextinput extends LitElement {
   render() {
     return html`
       <div class="nys-textinput">
-        <!-- ${this.required
-          ? html`<label class="nys-textinput__required">*</label>`
-          : ""} -->
         <div class="nys-textinput__text">
-          ${this.label &&
-          html` <div class="nys-textinput__label">${this.label}</div>`}
-          ${this.description &&
-          html` <div class="nys-textinput__description">
-            ${this.description}
-          </div>`}
+          <div>
+            ${this.label &&
+            html` <div class="nys-textinput__label">${this.label}</div> `}
+            ${this.description &&
+            html` <div class="nys-textinput__description">
+              ${this.description}
+            </div>`}
+          </div>
+          ${this.required && (this.label || this.description)
+            ? html`<label class="nys-textinput__required">*</label>`
+            : ""}
         </div>
-        <input
-          class="nys-textinput__input"
-          type=${this.type}
-          name=${this.name}
-          id=${this.id}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          ?readonly=${this.readonly}
-          aria-disabled="${this.disabled}"
-          .value=${this.value}
-          placeholder=${this.placeholder}
-          maxlength=${this.maxlength}
-          pattern=${this.pattern}
-          size=${this.size}
-          step=${this.step}
-          min=${this.min}
-          max=${this.max}
-          form=${this.form}
-        />
+        <div class="nys-textinput__requiredwrapper">
+          <input
+            class="nys-textinput__input"
+            type=${this.type}
+            name=${this.name}
+            id=${this.id}
+            ?disabled=${this.disabled}
+            ?required=${this.required}
+            ?readonly=${this.readonly}
+            aria-disabled="${this.disabled}"
+            .value=${this.value}
+            placeholder=${this.placeholder}
+            maxlength=${this.maxlength}
+            pattern=${this.pattern}
+            size=${this.size}
+            step=${this.step}
+            min=${this.min}
+            max=${this.max}
+            form=${this.form}
+          />
+          ${this.required && !this.label && !this.description
+            ? html`<label class="nys-textinput__required">*</label>`
+            : ""}
+        </div>
+
         ${this.pattern &&
         html`<div class="nys-textinput__validation">The input is:</div>`}
       </div>

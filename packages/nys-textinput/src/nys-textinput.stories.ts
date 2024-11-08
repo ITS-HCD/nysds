@@ -293,3 +293,29 @@ export const Pattern: Story = {
     },
   },
 };
+
+export const Required: Story = {
+  args: {},
+  render: () =>
+    html`<div style="display: flex; gap: 1rem; flex-wrap: wrap">
+      <nys-textinput required label="label" style="flex:1"></nys-textinput>
+      <nys-textinput required description="desc" style="flex:1"></nys-textinput>
+      <nys-textinput
+        required
+        label="label"
+        description="desc"
+        style="flex:1"
+      ></nys-textinput>
+      <nys-textinput required style="flex:1"></nys-textinput>
+    </div> `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput required></nys-textinput>        
+`,
+        type: "auto",
+      },
+    },
+  },
+};

@@ -35,6 +35,15 @@ export default css`
 
   .nys-textinput__required {
     color: red;
+    margin-left: 0.25rem;
+  }
+
+  .nys-textinput__requiredwrapper {
+    display: flex;
+  }
+
+  .nys-textinput__text {
+    display: flex;
   }
 
   /* Label styling */
