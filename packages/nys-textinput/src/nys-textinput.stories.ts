@@ -94,6 +94,29 @@ export const Blank: Story = {
   },
 };
 
+export const Labels: Story = {
+  args: {},
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput label="Only Label"></nys-textinput>
+      <nys-textinput description="Only Description"></nys-textinput>
+      <nys-textinput label="Label" description="Description"></nys-textinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput label="Only Label"></nys-textinput>
+<nys-textinput description="Only Description"></nys-textinput>
+<nys-textinput label="Label" description="Description"></nys-textinput>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const DifferentTypes: Story = {
   args: {},
   render: () => html`
