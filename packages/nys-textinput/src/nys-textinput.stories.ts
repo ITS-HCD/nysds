@@ -298,6 +298,7 @@ export const Required: Story = {
   args: {},
   render: () =>
     html`<div style="display: flex; gap: 1rem; flex-wrap: wrap">
+      <nys-textinput required style="flex:1"></nys-textinput>
       <nys-textinput required label="label" style="flex:1"></nys-textinput>
       <nys-textinput required description="desc" style="flex:1"></nys-textinput>
       <nys-textinput
@@ -306,13 +307,15 @@ export const Required: Story = {
         description="desc"
         style="flex:1"
       ></nys-textinput>
-      <nys-textinput required style="flex:1"></nys-textinput>
     </div> `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput required></nys-textinput>        
+<nys-textinput required ></nys-textinput> 
+<nys-textinput required label="label"></nys-textinput>
+<nys-textinput required description="desc"></nys-textinput>
+<nys-textinput required label="label" description="desc"></nys-textinput>      
 `,
         type: "auto",
       },
