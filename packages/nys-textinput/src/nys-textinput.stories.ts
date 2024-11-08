@@ -117,6 +117,32 @@ export const Labels: Story = {
   },
 };
 
+export const ValueAndPlaceholder: Story = {
+  args: {},
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput value="beginning value"></nys-textinput>
+      <nys-textinput placeholder="placeholder"></nys-textinput>
+      <nys-textinput
+        value="default value"
+        placeholder="and a placeholder"
+      ></nys-textinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput value="beginning value"></nys-textinput>
+<nys-textinput placeholder="placeholder"></nys-textinput>
+<nys-textinput value="default value" placeholder="and a placeholder"></nys-textinput>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const DifferentTypes: Story = {
   args: {},
   render: () => html`
