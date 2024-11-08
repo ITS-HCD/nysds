@@ -41,7 +41,6 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: String }) pattern = null;
-  @property({ type: Number }) minlength = null;
   @property({ type: Number }) maxlength = null;
   @property({ type: Number }) size = "";
   @property({ type: Number }) step = null;
@@ -78,7 +77,6 @@ export class NysTextinput extends LitElement {
           aria-disabled="${this.disabled}"
           .value=${this.value}
           placeholder=${this.placeholder}
-          minlength=${this.minlength}
           maxlength=${this.maxlength}
           pattern=${this.pattern}
           size=${this.size}

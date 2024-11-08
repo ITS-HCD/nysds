@@ -11,7 +11,7 @@ import * as NysTextinputStories from './nys-textinput.stories';
 
 ### Different Input Types
 Note: Accepted types are: `text` `email` `number` `password` `search` `tel` `url`\
-Any other input in the `type` property will default to `text`
+Any other input defaults to `type="text"`
 <Canvas of={NysTextinputStories.DifferentTypes} />
 
 ### Labels and Descriptions
@@ -25,3 +25,11 @@ Any other input in the `type` property will default to `text`
 ### Disabled and Readonly
 
 <Canvas of={NysTextinputStories.DisabledAndReadonly} />
+
+### Max Min and Step
+Note: `max` `min` `step` only apply when `type="number"`
+<Canvas of={NysTextinputStories.MaxMinAndStep} />
+
+### Maxlength
+
+<Canvas of={NysTextinputStories.Maxlength} />

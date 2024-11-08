@@ -16,7 +16,6 @@ interface NysTextinputArgs {
   required: boolean;
   form: string;
   pattern: string;
-  minlength: string;
   maxlength: string;
   size: string;
   step: string;
@@ -55,7 +54,6 @@ export const Blank: Story = {
     required: false,
     form: "",
     pattern: "",
-    minlength: "",
     maxlength: "",
     size: "",
     step: "",
@@ -76,7 +74,6 @@ export const Blank: Story = {
       .required=${args.required}
       .form=${args.form}
       .pattern=${args.pattern}
-      .minlength=${args.minlength}
       .maxlength=${args.maxlength}
       .size=${args.size}
       .step=${args.step}
@@ -191,6 +188,44 @@ export const DisabledAndReadonly: Story = {
         code: `
 <nys-textinput disabled value="disabled"></nys-textinput>
 <nys-textinput readonly value="readonly"></nys-textinput>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const MaxMinAndStep: Story = {
+  args: {},
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput type="number" min="0" max="100" step="10"></nys-textinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput type="number" min="0" max="100" step="10"></nys-textinput>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Maxlength: Story = {
+  args: {},
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput maxlength="10"></nys-textinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput maxlength="10"></nys-textinput>
         `,
         type: "auto",
       },
