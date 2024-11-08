@@ -95,16 +95,45 @@ export const DifferentTypes: Story = {
   args: {},
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput type="text" placeholder="text"></nys-textinput>
-      <nys-textinput type="email" placeholder="email"></nys-textinput>
-      <nys-textinput type="number" placeholder="number"></nys-textinput>
-      <nys-textinput type="password" placeholder="password"></nys-textinput>
-      <nys-textinput type="search" placeholder="search"></nys-textinput>
-      <nys-textinput type="tel" placeholder="tel"></nys-textinput>
-      <nys-textinput type="url" placeholder="url"></nys-textinput>
+      <nys-textinput
+        type="text"
+        placeholder="text"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="email"
+        placeholder="email"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="number"
+        placeholder="number"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="password"
+        placeholder="password"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="search"
+        placeholder="search"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="tel"
+        placeholder="tel"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="url"
+        placeholder="url"
+        style="flex: 1;"
+      ></nys-textinput>
       <nys-textinput
         type="invalid"
         placeholder="invalid defaults to text"
+        style="flex: 1;"
       ></nys-textinput>
     </div>
   `,
@@ -129,9 +158,16 @@ export const Labels: Story = {
   args: {},
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput label="Only Label"></nys-textinput>
-      <nys-textinput description="Only Description"></nys-textinput>
-      <nys-textinput label="Label" description="Description"></nys-textinput>
+      <nys-textinput label="Only Label" style="flex: 1;"></nys-textinput>
+      <nys-textinput
+        description="Only Description"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        label="Label"
+        description="Description"
+        style="flex: 1;"
+      ></nys-textinput>
     </div>
   `,
   parameters: {
@@ -152,11 +188,12 @@ export const ValueAndPlaceholder: Story = {
   args: {},
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput value="beginning value"></nys-textinput>
-      <nys-textinput placeholder="placeholder"></nys-textinput>
+      <nys-textinput value="beginning value" style="flex: 1;"></nys-textinput>
+      <nys-textinput placeholder="placeholder" style="flex: 1;"></nys-textinput>
       <nys-textinput
         value="default value"
         placeholder="and a placeholder"
+        style="flex: 1;"
       ></nys-textinput>
     </div>
   `,
@@ -177,10 +214,9 @@ export const ValueAndPlaceholder: Story = {
 export const DisabledAndReadonly: Story = {
   args: {},
   render: () => html`
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput disabled value="disabled"></nys-textinput>
-      <nys-textinput readonly value="readonly"></nys-textinput>
-    </div>
+    <nys-textinput disabled value="disabled"></nys-textinput>
+    <br />
+    <nys-textinput readonly value="readonly"></nys-textinput>
   `,
   parameters: {
     docs: {
@@ -198,9 +234,7 @@ export const DisabledAndReadonly: Story = {
 export const MaxMinAndStep: Story = {
   args: {},
   render: () => html`
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput type="number" min="0" max="100" step="10"></nys-textinput>
-    </div>
+    <nys-textinput type="number" min="0" max="100" step="10"></nys-textinput>
   `,
   parameters: {
     docs: {
@@ -216,11 +250,7 @@ export const MaxMinAndStep: Story = {
 
 export const Maxlength: Story = {
   args: {},
-  render: () => html`
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput maxlength="10"></nys-textinput>
-    </div>
-  `,
+  render: () => html` <nys-textinput maxlength="10"></nys-textinput> `,
   parameters: {
     docs: {
       source: {

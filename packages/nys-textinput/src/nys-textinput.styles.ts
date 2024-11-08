@@ -3,7 +3,6 @@ import { css } from "lit";
 export default css`
   .nys-textinput {
     font-family: Arial, sans-serif;
-    margin-bottom: 0.5rem;
   }
 
   .nys-textinput__input {
@@ -11,6 +10,9 @@ export default css`
     border: solid 1px gray;
     font-size: 16px;
     padding: 0.5rem;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
   }
 
   /* Focused */
@@ -33,10 +35,6 @@ export default css`
 
   .nys-textinput__required {
     color: red;
-  }
-
-  .nys-textinput__text {
-    padding: 0.25rem 0;
   }
 
   /* Label styling */
