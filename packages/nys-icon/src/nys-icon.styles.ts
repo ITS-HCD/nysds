@@ -1,11 +1,16 @@
 import { css } from "lit";
 
 export default css`
+  :host {
+    --icon-color: currentcolor;
+    --icon-size: 1cap;
+  }
   .icon-container {
     padding: 0;
     margin: 0;
     width: 1rem;
     height: 1rem;
+    display: inline-block;
   }
   svg {
     width: 100%;

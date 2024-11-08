@@ -2,7 +2,6 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
-import { getCssFilterFromHex } from "./colorFilter";
 
 @customElement("nys-icon")
 export class NysIcon extends LitElement {
@@ -10,14 +9,10 @@ export class NysIcon extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) scale = "1";
   @property({ type: String }) rotate = "0";
-  @property({ type: String }) color = "#000000";
+  @property({ type: String }) color = "";
   @property({ type: String }) className = "";
 
   static styles = styles;
-
-  getColorFilter() {
-    return getCssFilterFromHex(this.color);
-  }
 
   getIcon() {
     const iconSVG = iconLibrary[this.name];
@@ -28,12 +23,12 @@ export class NysIcon extends LitElement {
             .innerHTML="${iconSVG}"
             style="
             transform: scale(${this.scale}); 
-            rotate: ${this.rotate}deg; 
-            filter: ${this.getColorFilter()}"
+            rotate: ${this.rotate}deg;
+            color: ${this.color};"
             role="img"
           ></div>
         `
-      : html`<span>Icon not found</span>`;
+      : console.log(`${this.name} icon not found.`);
   }
 
   // Update accessibility attributes based on the label

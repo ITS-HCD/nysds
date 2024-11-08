@@ -8,7 +8,6 @@ import "./nys-icon";
 interface NysIconArgs {
   name: string;
   label?: string;
-  scale?: string;
   color?: string;
   rotate?: string;
   className?: string;
@@ -20,7 +19,6 @@ const meta: Meta<NysIconArgs> = {
   argTypes: {
     label: { control: "text" },
     name: { control: "text" },
-    scale: { control: "text" },
     color: { control: "text" },
     rotate: { control: "text" },
     className: { control: "text" },
@@ -39,63 +37,12 @@ type Story = StoryObj<NysIconArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
-// Story: EditSquare
-export const EditSquare: Story = {
-  args: {
-    label: "edit-square icon",
-    name: "edit-square",
-    scale: "1",
-    color: "#000000",
-    rotate: "0",
-    className: "nys-icon--size-3",
-  },
-  render: (args) => html`
-    <p>
-      Try changing the 'name' to try out different icons. For example, the
-      current name is "edit-square".
-    </p>
-    <nys-icon
-      .label=${args.label}
-      .name=${args.name}
-      scale=${args.scale}
-      color=${args.color}
-      rotate=${args.rotate}
-      className=${args.className}
-    ></nys-icon>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-  <nys-icon
-  label="edit-square icon"
-  name="edit-square"
-  scale="1"
-  color="#000000"
-  rotate="0"
-  className="nys-icon--size-3"
-  ></nys-icon>
-        `,
-        type: "auto",
-      },
-    },
-  },
-};
-
-// Story: Publish
-export const Publish: Story = {
+// Story: OnlyNameProp
+export const OnlyNameProp: Story = {
   args: {
     name: "publish",
   },
   render: (args) => html`
-    <p>
-      The name property is the only required attribute for this component. The
-      current icon name is "publish".
-    </p>
-    <p>
-      Note: Leaving the 'label' blank will set aria-hidden for screen readers.
-    </p>
-
     <nys-icon .name=${args.name}></nys-icon>
   `,
   parameters: {
@@ -111,21 +58,53 @@ export const Publish: Story = {
   },
 };
 
+// Story: AdditionalProperties
+export const AdditionalProperties: Story = {
+  args: {
+    label: "edit-square icon",
+    name: "edit-square",
+    color: "#000000",
+    rotate: "0",
+    className: "nys-icon--size-3",
+  },
+  render: (args) => html`
+    <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      color=${args.color}
+      rotate=${args.rotate}
+      className=${args.className}
+    ></nys-icon>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-icon
+  label="edit-square icon"
+  name="edit-square"
+  color="#000000"
+  rotate="0"
+  className="nys-icon--size-3"
+  ></nys-icon>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 // Story: CustomSize (ex: nys-icon--size-5)
 export const CustomSize: Story = {
   args: {
     label: "search icon",
     name: "search",
-    scale: "1",
-    color: "#000000",
-    rotate: "0",
     className: "nys-icon--size-5",
   },
   render: (args) => html`
     <nys-icon
       .label=${args.label}
       .name=${args.name}
-      scale=${args.scale}
       color=${args.color}
       rotate=${args.rotate}
       className=${args.className}
@@ -138,9 +117,6 @@ export const CustomSize: Story = {
   <nys-icon
   label="search icon"
   name="search"
-  scale="1"
-  color="#000000"
-  rotate="0"
   className="nys-icon--size-5"
   ></nys-icon>
         `.trim(),
@@ -149,61 +125,22 @@ export const CustomSize: Story = {
   },
 };
 
-// Story: Scale (2.5)
-export const ScaleUp: Story = {
-  args: {
-    label: "download-done icon",
-    name: "download-done",
-    scale: "2.5",
-    color: "#000000",
-    rotate: "0",
-  },
-  render: (args) => html`
-    <nys-icon
-      .label=${args.label}
-      .name=${args.name}
-      scale=${args.scale}
-      color=${args.color}
-      rotate=${args.rotate}
-      className=${args.className}
-    ></nys-icon>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-  <nys-icon
-  label="download-done icon"
-  name="download-done"
-  scale="2.5"
-  color="#000000"
-  rotate="0"
-  ></nys-icon>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Color filter
-export const ColorChange: Story = {
+// Story: Color with inheritance 
+export const ColorInheritance: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
-    scale: "1",
-    color: "#1ea0ba",
-    rotate: "0",
     className: "nys-icon--size-3",
   },
   render: (args) => html`
-    <nys-icon
-      .label=${args.label}
-      .name=${args.name}
-      scale=${args.scale}
-      color=${args.color}
-      rotate=${args.rotate}
-      className=${args.className}
-    ></nys-icon>
+    <div class="parent" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
+      <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue. <nys-icon
+        .label=${args.label}
+        .name=${args.name}
+        className=${args.className}
+      ></nys-icon></p>
+
+    </div>
   `,
   parameters: {
     docs: {
@@ -212,9 +149,6 @@ export const ColorChange: Story = {
   <nys-icon
   label="upload-file icon"
   name="upload-file"
-  scale="1"
-  color="#1ea0ba"
-  rotate="0"
   className="nys-icon--size-3"
   ></nys-icon>
         `.trim(),
@@ -223,13 +157,46 @@ export const ColorChange: Story = {
   },
 };
 
+// Story: Color change using custom css variable 
+export const ColorChange: Story = {
+  args: {
+    label: "upload-file icon",
+    name: "upload-file",
+    color: "#db117d",
+    className: "nys-icon--size-3",
+  },
+  render: (args) => html`
+    <div class="parent" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
+      <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue. <nys-icon
+        .label=${args.label}
+        .name=${args.name}
+        color=${args.color}
+        className=${args.className}
+      ></nys-icon></p>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-icon
+  label="upload-file icon"
+  name="upload-file"
+  color="#db117d"
+  className="nys-icon--size-3"
+  ></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+
 // Story: Rotate filter
 export const Rotate: Story = {
   args: {
     label: "warning icon",
     name: "warning",
-    scale: "1",
-    color: "#e84267",
     rotate: "20",
     className: "nys-icon--size-3",
   },
@@ -237,7 +204,6 @@ export const Rotate: Story = {
     <nys-icon
       .label=${args.label}
       .name=${args.name}
-      scale=${args.scale}
       color=${args.color}
       rotate=${args.rotate}
       className=${args.className}
@@ -250,8 +216,6 @@ export const Rotate: Story = {
   <nys-icon
   label="warning icon"
   name="warning"
-  scale="1"
-  color="#e84267"
   rotate="20"
   className="nys-icon--size-3"
   ></nys-icon>
