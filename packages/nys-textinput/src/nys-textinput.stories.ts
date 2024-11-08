@@ -60,7 +60,7 @@ export const TextInput: Story = {
 export const NoLabelDescription: Story = {
   args: {},
   render: () => html`
-    <nys-textinput placeholder="bleh" id="bleh"></nys-textinput
+    <nys-textinput placeholder="bleh" id="bleh" type="radio"></nys-textinput
     ><nys-textinput placeholder="blah" id="blah"></nys-textinput>
   `,
   parameters: {

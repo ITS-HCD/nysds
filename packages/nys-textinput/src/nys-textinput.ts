@@ -4,14 +4,32 @@ import styles from "./nys-textinput.styles"; // Assuming styles are in a separat
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
-  @property({ reflect: true }) type:
-    | "email"
-    | "number"
-    | "password"
-    | "search"
-    | "tel"
-    | "text"
-    | "url" = "text";
+  private static readonly VALID_TYPES = [
+    "email",
+    "number",
+    "password",
+    "search",
+    "tel",
+    "text",
+    "url",
+  ] as const;
+
+  // Use `typeof` to dynamically infer the allowed types
+  private _type: (typeof NysTextinput.VALID_TYPES)[number] = "text";
+
+  // Getter and setter for the `type` property
+  @property({ reflect: true })
+  get type(): (typeof NysTextinput.VALID_TYPES)[number] {
+    return this._type;
+  }
+
+  set type(value: string) {
+    this._type = NysTextinput.VALID_TYPES.includes(
+      value as (typeof NysTextinput.VALID_TYPES)[number],
+    )
+      ? (value as (typeof NysTextinput.VALID_TYPES)[number])
+      : "text";
+  }
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) disabled = false;
