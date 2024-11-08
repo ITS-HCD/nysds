@@ -63,14 +63,13 @@ Here are some of the features that come with the icon component. Keep scrolling 
 
 ## Icon Property Examples
 
-### Width and Height
-> Both width and height they are set **relative** to the font size of its parents. 
-> To customize the icon size, use the component’s size variants, nys-icon--size-[size number], which range from 3 (1.5rem or 24px) to 9 (4.5rem or 72px).
->
-> **IMPORTANT ⓘ** these variant will <ins>override</ins> the already set width and height within this component. 
+### Size Inheritance
+The icon size will inherit the relative font size from its nearest parents. 
 
-> Example: change the empty string in *className* to `nys-icon--size-5`
+<Canvas of={NysIconStories.InheritSize} />
 
+### Size Naming Variant
+To set a icon size instead of using size inheritance You can pass in a size name variant `nys-icon--size-5` as a prop.
 <Canvas of={NysIconStories.CustomSize} />
 
 ### Color Inheritance

@@ -7,10 +7,9 @@ import styles from "./nys-icon.styles";
 export class NysIcon extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
-  @property({ type: String }) scale = "1";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) color = "";
-  @property({ type: String }) className = "";
+  @property({ type: String }) size = "";
 
   static styles = styles;
 
@@ -19,10 +18,9 @@ export class NysIcon extends LitElement {
     return iconSVG
       ? html`
           <div
-            class="icon-container ${this.className}"
+            class="icon-container ${this.size}"
             .innerHTML="${iconSVG}"
             style="
-            transform: scale(${this.scale}); 
             rotate: ${this.rotate}deg;
             color: ${this.color};"
             role="img"

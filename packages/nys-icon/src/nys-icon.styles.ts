@@ -3,15 +3,18 @@ import { css } from "lit";
 export default css`
   :host {
     --icon-color: currentcolor;
-    --icon-size: 1cap;
+    --icon-size: 1em;
   }
   .icon-container {
     padding: 0;
-    margin: 0;
-    width: 1rem;
-    height: 1rem;
+    margin: 0 auto;
+    width: var(--icon-size, 1cap);
+    height: auto;
     display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
   }
+  /* SVG size is determined by the icon-container size */
   svg {
     width: 100%;
     height: 100%;

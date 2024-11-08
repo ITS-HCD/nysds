@@ -10,7 +10,7 @@ interface NysIconArgs {
   label?: string;
   color?: string;
   rotate?: string;
-  className?: string;
+  size?: string;
 }
 
 const meta: Meta<NysIconArgs> = {
@@ -21,7 +21,7 @@ const meta: Meta<NysIconArgs> = {
     name: { control: "text" },
     color: { control: "text" },
     rotate: { control: "text" },
-    className: { control: "text" },
+    size: { control: "text" },
   },
   parameters: {
     docs: {
@@ -42,9 +42,7 @@ export const OnlyNameProp: Story = {
   args: {
     name: "publish",
   },
-  render: (args) => html`
-    <nys-icon .name=${args.name}></nys-icon>
-  `,
+  render: (args) => html` <nys-icon .name=${args.name}></nys-icon> `,
   parameters: {
     docs: {
       source: {
@@ -65,7 +63,7 @@ export const AdditionalProperties: Story = {
     name: "edit-square",
     color: "#000000",
     rotate: "0",
-    className: "nys-icon--size-3",
+    size: "nys-icon--size-3",
   },
   render: (args) => html`
     <nys-icon
@@ -73,7 +71,7 @@ export const AdditionalProperties: Story = {
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
-      className=${args.className}
+      size=${args.size}
     ></nys-icon>
   `,
   parameters: {
@@ -85,10 +83,76 @@ export const AdditionalProperties: Story = {
   name="edit-square"
   color="#000000"
   rotate="0"
-  className="nys-icon--size-3"
+  size="nys-icon--size-3"
   ></nys-icon>
         `,
         type: "auto",
+      },
+    },
+  },
+};
+
+// Story: InheritSize
+export const InheritSize: Story = {
+  args: {
+    label: "search icon",
+    name: "search",
+  },
+  render: (args) => html`
+    <div
+      class="parent-container"
+      style="display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;"
+    >
+      <p>
+        Font size not found on the parent element. Defaulting to the root font size of 16px
+        <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
+      </p>
+    </div>
+    <div
+      class="parent-container"
+      style="font-size: 1.5rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;"
+    >
+      <p>
+        The nearest parent container's font-size is set to 1.5rem
+        <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
+      </p>
+    </div>
+    <div
+      class="parent-container"
+      style="font-size: 2rem; display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;"
+    >
+      <p>
+        The nearest parent container's font-size is set to 2rem
+        <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
+      </p>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="parent-container" style="display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
+        <p> The nearest parent container's font-size is not set <nys-icon
+<nys-icon
+  label="search icon"
+  name="search"
+  ></nys-icon> </p>
+</div>
+<div class="parent-container" style="font-size: 1.5rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
+        <p> The nearest parent container's font-size is set to 1.5rem <nys-icon
+<nys-icon
+  label="search icon"
+  name="search"
+  ></nys-icon> </p>
+</div>
+<div class="parent-container" style="font-size: 2rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
+        <p> The nearest parent container's font-size is set to 2rem <nys-icon
+<nys-icon
+  label="search icon"
+  name="search"
+  ></nys-icon> </p>
+</div>
+        `.trim(),
       },
     },
   },
@@ -99,15 +163,13 @@ export const CustomSize: Story = {
   args: {
     label: "search icon",
     name: "search",
-    className: "nys-icon--size-5",
+    size: "nys-icon--size-5",
   },
   render: (args) => html`
     <nys-icon
       .label=${args.label}
       .name=${args.name}
-      color=${args.color}
-      rotate=${args.rotate}
-      className=${args.className}
+      size=${args.size}
     ></nys-icon>
   `,
   parameters: {
@@ -117,7 +179,7 @@ export const CustomSize: Story = {
   <nys-icon
   label="search icon"
   name="search"
-  className="nys-icon--size-5"
+  size="nys-icon--size-5"
   ></nys-icon>
         `.trim(),
       },
@@ -125,72 +187,90 @@ export const CustomSize: Story = {
   },
 };
 
-// Story: Color with inheritance 
+// Story: Color with inheritance
 export const ColorInheritance: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
-    className: "nys-icon--size-3",
+    size: "nys-icon--size-3",
   },
   render: (args) => html`
-    <div class="parent" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
-      <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue. <nys-icon
-        .label=${args.label}
-        .name=${args.name}
-        className=${args.className}
-      ></nys-icon></p>
-
+    <div
+      class="parent"
+      style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;"
+    >
+      <p style="display:flex; align-items: center;">
+        The color of the nearest parent container is set to DarkBlue.
+        <nys-icon
+          .label=${args.label}
+          .name=${args.name}
+          size=${args.size}
+        ></nys-icon>
+      </p>
     </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-  <nys-icon
+<div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
+  <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue.
+<nys-icon
   label="upload-file icon"
   name="upload-file"
-  className="nys-icon--size-3"
+  size="nys-icon--size-3"
   ></nys-icon>
+  </p>
+   </div>
         `.trim(),
       },
     },
   },
 };
 
-// Story: Color change using custom css variable 
+// Story: Color change using custom css variable
 export const ColorChange: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
     color: "#db117d",
-    className: "nys-icon--size-3",
+    size: "nys-icon--size-3",
   },
   render: (args) => html`
-    <div class="parent" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
-      <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue. <nys-icon
-        .label=${args.label}
-        .name=${args.name}
-        color=${args.color}
-        className=${args.className}
-      ></nys-icon></p>
+    <div
+      class="parent-container"
+      style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;"
+    >
+      <p style="display:flex; align-items: center;">
+        The color of the nearest parent container is set to DarkBlue.
+        <nys-icon
+          .label=${args.label}
+          .name=${args.name}
+          color=${args.color}
+          size=${args.size}
+        ></nys-icon>
+      </p>
     </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
+  <div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
+    <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue.
   <nys-icon
   label="upload-file icon"
   name="upload-file"
   color="#db117d"
-  className="nys-icon--size-3"
+  size="nys-icon--size-3"
   ></nys-icon>
+  </p>
+  </div>
         `.trim(),
       },
     },
   },
 };
-
 
 // Story: Rotate filter
 export const Rotate: Story = {
@@ -198,7 +278,7 @@ export const Rotate: Story = {
     label: "warning icon",
     name: "warning",
     rotate: "20",
-    className: "nys-icon--size-3",
+    size: "nys-icon--size-3",
   },
   render: (args) => html`
     <nys-icon
@@ -206,7 +286,7 @@ export const Rotate: Story = {
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
-      className=${args.className}
+      size=${args.size}
     ></nys-icon>
   `,
   parameters: {
@@ -217,7 +297,7 @@ export const Rotate: Story = {
   label="warning icon"
   name="warning"
   rotate="20"
-  className="nys-icon--size-3"
+  size="nys-icon--size-3"
   ></nys-icon>
         `.trim(),
       },
