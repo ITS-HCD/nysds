@@ -21,7 +21,16 @@ const meta: Meta<NysIconArgs> = {
     name: { control: "text" },
     color: { control: "text" },
     rotate: { control: "text" },
-    size: { control: "text" },
+    size: {
+      control: "select",
+      options: [
+        "nys-icon--size-xs",
+        "nys-icon--size-s",
+        "nys-icon--size-m",
+        "nys-icon--size-l",
+        "nys-icon--size-xl",
+      ],
+    },
   },
   parameters: {
     docs: {
@@ -63,7 +72,7 @@ export const AdditionalProperties: Story = {
     name: "edit-square",
     color: "#000000",
     rotate: "0",
-    size: "nys-icon--size-3",
+    size: "nys-icon--size-m",
   },
   render: (args) => html`
     <nys-icon
@@ -83,7 +92,7 @@ export const AdditionalProperties: Story = {
   name="edit-square"
   color="#000000"
   rotate="0"
-  size="nys-icon--size-3"
+  size="nys-icon--size-m"
   ></nys-icon>
         `,
         type: "auto",
@@ -104,7 +113,8 @@ export const InheritSize: Story = {
       style="display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;"
     >
       <p>
-        Font size not found on the parent element. Defaulting to the root font size of 16px
+        Font size not found on the parent element. Defaulting to the root font
+        size of 16px
         <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
       </p>
     </div>
@@ -132,25 +142,25 @@ export const InheritSize: Story = {
       source: {
         code: `
 <div class="parent-container" style="display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
-        <p> The nearest parent container's font-size is not set <nys-icon
-<nys-icon
-  label="search icon"
-  name="search"
-  ></nys-icon> </p>
+  <p> The nearest parent container's font-size is not set <nys-icon
+    <nys-icon label="search icon" name="search"></nys-icon> 
+  </p>
 </div>
 <div class="parent-container" style="font-size: 1.5rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
-        <p> The nearest parent container's font-size is set to 1.5rem <nys-icon
-<nys-icon
-  label="search icon"
-  name="search"
-  ></nys-icon> </p>
+  <p> The nearest parent container's font-size is set to 1.5rem 
+    <nys-icon
+      label="search icon"
+      name="search"
+    ></nys-icon> 
+  </p>
 </div>
 <div class="parent-container" style="font-size: 2rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
-        <p> The nearest parent container's font-size is set to 2rem <nys-icon
-<nys-icon
-  label="search icon"
-  name="search"
-  ></nys-icon> </p>
+  <p> The nearest parent container's font-size is set to 2rem <nys-icon
+    <nys-icon
+      label="search icon"
+      name="search"
+    ></nys-icon> 
+  </p>
 </div>
         `.trim(),
       },
@@ -158,29 +168,63 @@ export const InheritSize: Story = {
   },
 };
 
-// Story: CustomSize (ex: nys-icon--size-5)
+// Story: CustomSize (ex: nys-icon--size-xl)
 export const CustomSize: Story = {
   args: {
     label: "search icon",
     name: "search",
-    size: "nys-icon--size-5",
+    size: "nys-icon--size-xl",
   },
+
   render: (args) => html`
-    <nys-icon
-      .label=${args.label}
-      .name=${args.name}
-      size=${args.size}
-    ></nys-icon>
+    <div style="display: flex; gap: 30px; align-items: center;">
+      <div>
+        <label for="parent-font-size-input">Parent Font Size (px): </label>
+        <input
+          type="number"
+          id="parent-font-size-input"
+          value="16"
+          @input="${(e: Event) => {
+            const input = e.target as HTMLInputElement;
+            document.documentElement.style.setProperty(
+              "--parent-font-size",
+              `${input.value}px`,
+            );
+          }}"
+        />
+      </div>
+      <p>
+        Font variant:
+        <span style="font-weight: 600; color:#c9651b">${args.size}</span>
+      </p>
+    </div>
+    <div
+      class="parent-container"
+      style="font-size: var(--parent-font-size, 16px);  display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;"
+    >
+      <p>
+        The font-size of the parent container is dynamically controlled.
+        <nys-icon
+          .label=${args.label}
+          .name=${args.name}
+          size=${args.size}
+        ></nys-icon>
+      </p>
+    </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-  <nys-icon
-  label="search icon"
-  name="search"
-  size="nys-icon--size-5"
-  ></nys-icon>
+  <div class="parent-container" style="font-size: var(--parent-font-size, 16px);  display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;">
+    <p> The font-size of the parent container is dynamically controlled.
+      <nys-icon
+      label="search icon"
+      name="search"
+      size="nys-icon--size-xl"
+      ></nys-icon>
+    </p>
+  </div>
         `.trim(),
       },
     },
@@ -192,7 +236,7 @@ export const ColorInheritance: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
-    size: "nys-icon--size-3",
+    size: "nys-icon--size-m",
   },
   render: (args) => html`
     <div
@@ -213,15 +257,15 @@ export const ColorInheritance: Story = {
     docs: {
       source: {
         code: `
-<div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
-  <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue.
-<nys-icon
-  label="upload-file icon"
-  name="upload-file"
-  size="nys-icon--size-3"
-  ></nys-icon>
-  </p>
-   </div>
+  <div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
+    <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue.
+      <nys-icon
+        label="upload-file icon"
+        name="upload-file"
+        size="nys-icon--size-m"
+      ></nys-icon>
+    </p>
+  </div>
         `.trim(),
       },
     },
@@ -234,7 +278,7 @@ export const ColorChange: Story = {
     label: "upload-file icon",
     name: "upload-file",
     color: "#db117d",
-    size: "nys-icon--size-3",
+    size: "nys-icon--size-m",
   },
   render: (args) => html`
     <div
@@ -258,13 +302,13 @@ export const ColorChange: Story = {
         code: `
   <div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
     <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue.
-  <nys-icon
-  label="upload-file icon"
-  name="upload-file"
-  color="#db117d"
-  size="nys-icon--size-3"
-  ></nys-icon>
-  </p>
+      <nys-icon
+        label="upload-file icon"
+        name="upload-file"
+        color="#db117d"
+        size="nys-icon--size-m"
+      ></nys-icon>
+    </p>
   </div>
         `.trim(),
       },
@@ -278,7 +322,7 @@ export const Rotate: Story = {
     label: "warning icon",
     name: "warning",
     rotate: "20",
-    size: "nys-icon--size-3",
+    size: "nys-icon--size-m",
   },
   render: (args) => html`
     <nys-icon
@@ -297,7 +341,7 @@ export const Rotate: Story = {
   label="warning icon"
   name="warning"
   rotate="20"
-  size="nys-icon--size-3"
+  size="nys-icon--size-m"
   ></nys-icon>
         `.trim(),
       },

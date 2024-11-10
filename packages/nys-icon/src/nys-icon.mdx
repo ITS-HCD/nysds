@@ -69,7 +69,14 @@ The icon size will inherit the relative font size from its nearest parents.
 <Canvas of={NysIconStories.InheritSize} />
 
 ### Size Naming Variant
-To set a icon size instead of using size inheritance You can pass in a size name variant `nys-icon--size-5` as a prop.
+To scale an icon based on the inherited font size, pass a size variant prop like nys-icon--size-[variant name].
+ - nys-icon--size-xs
+ - nys-icon--size-s
+ - nys-icon--size-m
+ - nys-icon--size-l
+ - nys-icon--size-xl
+
+Each size variant (xs, s, m, l, xl) scales the icon’s height relative to the parent font size, from smallest (xs) to largest (xl).
 <Canvas of={NysIconStories.CustomSize} />
 
 ### Color Inheritance
