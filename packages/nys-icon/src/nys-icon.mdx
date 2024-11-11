@@ -49,38 +49,38 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
 
 ## SVG Name Properties
 ### Required Property
-The name property is the **only required** attribute for this component. The
+The name property is the **ONLY** required attribute for the icon component. The
 current icon name is "publish" but you can change it to any of the listed icons like "edit-square".
 
 Note: Leaving the 'label' blank will set aria-hidden for screen readers.
 
-<Canvas of={NysIconStories.OnlyNameProp} />
+<Canvas of={NysIconStories.NameProp} />
 
-### Additional Properties
+### Labels
 Here are some of the features that come with the icon component. Keep scrolling down for further details.
-<Canvas of={NysIconStories.AdditionalProperties} />
+<Canvas of={NysIconStories.Labels} />
 
 
 ## Icon Property Examples
 
 ### Size Inheritance
-The icon size will inherit the relative font size from its nearest parents. 
+The icon size will inherit the relative font size from its nearest parent. 
 
 <Canvas of={NysIconStories.InheritSize} />
 
 ### Size Naming Variant
-To scale an icon based on the inherited font size, pass a size variant prop like nys-icon--size-[variant name].
- - nys-icon--size-xs
- - nys-icon--size-s
- - nys-icon--size-m
- - nys-icon--size-l
- - nys-icon--size-xl
+To scale an icon relative to the inherited font size, pass a size variant like `nys-icon--size-[variant name]` as a prop:
+ - `nys-icon--size-xs`
+ - `nys-icon--size-s`
+ - `nys-icon--size-m`
+ - `nys-icon--size-l`
+ - `nys-icon--size-xl`
 
 Each size variant (xs, s, m, l, xl) scales the icon’s height relative to the parent font size, from smallest (xs) to largest (xl).
 <Canvas of={NysIconStories.CustomSize} />
 
 ### Color Inheritance
-By default, a SVG's color will inherit the color of its parents. 
+An icon will inherit the current text color from its closest parent element.
 <Canvas of={NysIconStories.ColorInheritance} />
 
 ### Color Change Using CSS Custom Variable
@@ -88,7 +88,7 @@ You can override any parents inheritance by setting a color prop.
 <Canvas of={NysIconStories.ColorChange} />
 
 ### Rotate
-This example rotates the icon 20 degrees. Note the prop is "rotate= 20" instead of "rotate= 20deg"
+Set the icon's rotation by passing the angle as a number, like rotate="20" (without "deg").
 <Canvas of={NysIconStories.Rotate} />
 
 

@@ -46,8 +46,8 @@ type Story = StoryObj<NysIconArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
-// Story: OnlyNameProp
-export const OnlyNameProp: Story = {
+// Story: NameProp
+export const NameProp: Story = {
   args: {
     name: "publish",
   },
@@ -65,23 +65,14 @@ export const OnlyNameProp: Story = {
   },
 };
 
-// Story: AdditionalProperties
-export const AdditionalProperties: Story = {
+// Story: Labels
+export const Labels: Story = {
   args: {
     label: "edit-square icon",
     name: "edit-square",
-    color: "#000000",
-    rotate: "0",
-    size: "nys-icon--size-m",
   },
   render: (args) => html`
-    <nys-icon
-      .label=${args.label}
-      .name=${args.name}
-      color=${args.color}
-      rotate=${args.rotate}
-      size=${args.size}
-    ></nys-icon>
+    <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
   `,
   parameters: {
     docs: {
@@ -90,9 +81,6 @@ export const AdditionalProperties: Story = {
   <nys-icon
   label="edit-square icon"
   name="edit-square"
-  color="#000000"
-  rotate="0"
-  size="nys-icon--size-m"
   ></nys-icon>
         `,
         type: "auto",
