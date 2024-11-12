@@ -56,10 +56,10 @@ export class NysTextinput extends LitElement {
   // Handle input event to check pattern validity
   private handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    const isValid = input.checkValidity();
+    const checkValidity = input.checkValidity();
     this.dispatchEvent(
-      new CustomEvent("pattern-status", {
-        detail: { isValid },
+      new CustomEvent("checkValidity", {
+        detail: { checkValidity },
         bubbles: true,
         composed: true,
       }),

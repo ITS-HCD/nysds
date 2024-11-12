@@ -275,15 +275,14 @@ export const Pattern: Story = {
         maxlength="9"
         pattern="N[0-9]{8}"
         id="nID"
-        @pattern-status=${(event: CustomEvent) => {
+        @checkValidity=${(event: CustomEvent) => {
           // Update the pattern status text based on the validity
-          patternStatus = `Pattern match: ${event.detail.isValid}`;
+          patternStatus = `Pattern match: ${event.detail.checkValidity}`;
           // Re-render with the updated pattern status
-          document.getElementById("pattern-status")!.textContent =
-            patternStatus;
+          document.getElementById("pattern-check")!.textContent = patternStatus;
         }}
       ></nys-textinput>
-      <div id="pattern-status" style="font-family: Arial; padding-top: 1rem;">
+      <div id="pattern-check" style="font-family: Arial; padding-top: 1rem;">
         ${patternStatus}
       </div>
     `;
