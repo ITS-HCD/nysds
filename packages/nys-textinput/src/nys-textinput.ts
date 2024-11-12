@@ -42,7 +42,7 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) form = "";
   @property({ type: String }) pattern = null;
   @property({ type: Number }) maxlength = null;
-  @property({ type: Number }) size = "";
+  @property({ type: String }) size = "";
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
@@ -91,7 +91,7 @@ export class NysTextinput extends LitElement {
         </div>`}
         <div class="nys-textinput__requiredwrapper">
           <input
-            class="nys-textinput__input"
+            class="nys-textinput__input ${this.size}"
             type=${this.type}
             name=${this.name}
             id=${this.id}
@@ -103,7 +103,6 @@ export class NysTextinput extends LitElement {
             placeholder=${this.placeholder}
             maxlength=${this.maxlength}
             pattern=${this.pattern}
-            size=${this.size}
             step=${this.step}
             min=${this.min}
             max=${this.max}

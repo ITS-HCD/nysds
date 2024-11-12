@@ -91,6 +91,34 @@ export const Blank: Story = {
   },
 };
 
+export const Size: Story = {
+  args: {},
+  render: () => html`
+    <div>
+      <nys-textinput size="xs" label="XS"></nys-textinput>
+      <br />
+      <nys-textinput size="sm" label="SM"></nys-textinput>
+      <br />
+      <nys-textinput size="md" label="MD"></nys-textinput>
+      <br />
+      <nys-textinput size="lg" label="LG"></nys-textinput>
+      <br />
+      <nys-textinput size="xl" label="XL"></nys-textinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput disabled value="disabled"></nys-textinput>
+<nys-textinput readonly value="readonly"></nys-textinput>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const DifferentTypes: Story = {
   args: {},
   render: () => html`

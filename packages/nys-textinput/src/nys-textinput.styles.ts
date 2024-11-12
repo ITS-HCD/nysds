@@ -15,6 +15,26 @@ export default css`
     width: fill-available;
   }
 
+  .xs {
+    width: 4rem;
+  }
+
+  .sm {
+    width: 8rem;
+  }
+
+  .md {
+    width: 16rem;
+  }
+
+  .lg {
+    width: 24rem;
+  }
+
+  .xl {
+    width: 32rem;
+  }
+
   /* Focused */
   .nys-textinput__input:focus {
     outline-offset: 3px;
