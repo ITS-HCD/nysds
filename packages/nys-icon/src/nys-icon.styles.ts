@@ -19,23 +19,23 @@ export default css`
     width: 100%;
     height: 100%;
   }
-  .nys-icon--size-xs {
+  .xs {
     height: calc(var(--icon-size) * 0.5);
     width: auto;
   }
-  .nys-icon--size-s {
+  .sm {
     height: calc(var(--icon-size) * 1);
     width: auto;
   }
-  .nys-icon--size-m {
+  .md {
     height: calc(var(--icon-size) * 1.5);
     width: auto;
   }
-  .nys-icon--size-l {
+  .lg {
     height: calc(var(--icon-size) * 2);
     width: auto;
   }
-  .nys-icon--size-xl {
+  .xl {
     height: calc(var(--icon-size) * 2.5);
     width: auto;
   }

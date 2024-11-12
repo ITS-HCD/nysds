@@ -23,13 +23,7 @@ const meta: Meta<NysIconArgs> = {
     rotate: { control: "text" },
     size: {
       control: "select",
-      options: [
-        "nys-icon--size-xs",
-        "nys-icon--size-s",
-        "nys-icon--size-m",
-        "nys-icon--size-l",
-        "nys-icon--size-xl",
-      ],
+      options: ["xs", "sm", "md", "lg", "xl"],
     },
   },
   parameters: {
@@ -156,12 +150,12 @@ export const InheritSize: Story = {
   },
 };
 
-// Story: CustomSize (ex: nys-icon--size-xl)
+// Story: CustomSize (ex: xl)
 export const CustomSize: Story = {
   args: {
     label: "search icon",
     name: "search",
-    size: "nys-icon--size-xl",
+    size: "xl",
   },
 
   render: (args) => html`
@@ -209,7 +203,7 @@ export const CustomSize: Story = {
       <nys-icon
       label="search icon"
       name="search"
-      size="nys-icon--size-xl"
+      size="xl"
       ></nys-icon>
     </p>
   </div>
@@ -224,7 +218,7 @@ export const ColorInheritance: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
-    size: "nys-icon--size-m",
+    size: "md",
   },
   render: (args) => html`
     <div
@@ -250,7 +244,7 @@ export const ColorInheritance: Story = {
       <nys-icon
         label="upload-file icon"
         name="upload-file"
-        size="nys-icon--size-m"
+        size="md"
       ></nys-icon>
     </p>
   </div>
@@ -266,7 +260,7 @@ export const ColorChange: Story = {
     label: "upload-file icon",
     name: "upload-file",
     color: "#db117d",
-    size: "nys-icon--size-m",
+    size: "md",
   },
   render: (args) => html`
     <div
@@ -294,7 +288,7 @@ export const ColorChange: Story = {
         label="upload-file icon"
         name="upload-file"
         color="#db117d"
-        size="nys-icon--size-m"
+        size="md"
       ></nys-icon>
     </p>
   </div>
@@ -310,7 +304,7 @@ export const Rotate: Story = {
     label: "warning icon",
     name: "warning",
     rotate: "20",
-    size: "nys-icon--size-m",
+    size: "md",
   },
   render: (args) => html`
     <nys-icon
@@ -329,7 +323,7 @@ export const Rotate: Story = {
   label="warning icon"
   name="warning"
   rotate="20"
-  size="nys-icon--size-m"
+  size="md"
   ></nys-icon>
         `.trim(),
       },
