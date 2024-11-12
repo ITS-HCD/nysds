@@ -110,8 +110,11 @@ export const Size: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput disabled value="disabled"></nys-textinput>
-<nys-textinput readonly value="readonly"></nys-textinput>
+<nys-textinput size="xs" label="XS"></nys-textinput>
+<nys-textinput size="sm" label="SM"></nys-textinput>
+<nys-textinput size="md" label="MD"></nys-textinput>
+<nys-textinput size="lg" label="LG"></nys-textinput>
+<nys-textinput size="xl" label="XL"></nys-textinput>
         `,
         type: "auto",
       },
