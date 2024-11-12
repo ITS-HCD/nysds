@@ -12,7 +12,6 @@ export default css`
     height: auto;
     display: inline-block;
     white-space: nowrap;
-    vertical-align: middle;
   }
   /* SVG size is determined by the icon-container size */
   svg {
