@@ -54,7 +54,7 @@ export class NysTextinput extends LitElement {
   static styles = styles;
 
   // Handle input event to check pattern validity
-  private handleInput(event: Event) {
+  private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
     const checkValidity = input.checkValidity();
     this.dispatchEvent(
@@ -64,6 +64,16 @@ export class NysTextinput extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  // Handle focus event
+  private _handleFocus() {
+    this.dispatchEvent(new Event("focus"));
+  }
+
+  // Handle blur event
+  private _handleBlur() {
+    this.dispatchEvent(new Event("blur"));
   }
 
   render() {
@@ -98,7 +108,9 @@ export class NysTextinput extends LitElement {
             min=${this.min}
             max=${this.max}
             form=${this.form}
-            @input=${this.handleInput}
+            @input=${this._handleInput}
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
           />
           ${this.required && !this.label && !this.description
             ? html`<label class="nys-textinput__required">*</label>`
