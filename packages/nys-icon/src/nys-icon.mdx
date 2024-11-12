@@ -70,11 +70,11 @@ The icon size will inherit the relative font size from its nearest parent.
 
 ### Size Naming Variant
 To scale an icon relative to the inherited font size, pass a size variant like `size=[variant name]` as a prop:
- - `xs (extra small)`
- - `sm (small)`
- - `md (medium)`
- - `lg (large)`
- - `xl (extra large)`
+- xs (extra small): 50% of parent font size
+- sm (small): 100% of parent font size
+- md (medium): 150% of parent font size
+- lg (large): 200% of parent font size
+- xl (extra large): 250% of parent font size
 
 Each size variant (xs, sm, md, lg, xl) scales the icon’s height relative to the parent font size, from smallest (xs) to largest (xl).
 <Canvas of={NysIconStories.CustomSize} />

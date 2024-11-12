@@ -13,12 +13,17 @@ export class NysIcon extends LitElement {
 
   static styles = styles;
 
+  validateSize() {
+    const validSize = ["xs", "sm", "md", "lg", "xl"];
+    return validSize.includes(this.size) ? this.size : "md";
+  }
+
   getIcon() {
     const iconSVG = iconLibrary[this.name];
     return iconSVG
       ? html`
           <div
-            class="icon-container ${this.size}"
+            class="icon-container ${this.validateSize()}"
             .innerHTML="${iconSVG}"
             style="
             rotate: ${this.rotate}deg;
