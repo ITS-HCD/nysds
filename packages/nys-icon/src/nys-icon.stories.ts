@@ -1,5 +1,3 @@
-// To-do: Stories to be added.
-
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-icon";

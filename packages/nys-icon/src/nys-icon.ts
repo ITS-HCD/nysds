@@ -31,7 +31,7 @@ export class NysIcon extends LitElement {
             role="img"
           ></div>
         `
-      : console.log(`${this.name} icon not found.`);
+      : "";
   }
 
   // Update accessibility attributes based on the label
