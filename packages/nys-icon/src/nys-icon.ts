@@ -9,13 +9,27 @@ export class NysIcon extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) color = "";
-  @property({ type: String }) size = "";
 
   static styles = styles;
 
-  validateSize() {
-    const validSize = ["xs", "sm", "md", "lg", "xl"];
-    return validSize.includes(this.size) ? this.size : "md";
+  private static readonly VALID_TYPES = ["xs", "sm", "md", "lg", "xl"] as const;
+  
+  // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
+  private _size: (typeof NysIcon.VALID_TYPES)[number] = "md";
+
+  // Getter and setter for the `size` property.
+  @property({ reflect: true })
+  get size(): (typeof NysIcon.VALID_TYPES)[number] {
+    return this._size;
+  }
+
+  set size(value: string) {
+    // Check if the provided value is in VALID_TYPES. If not, default to "md".
+    this._size = NysIcon.VALID_TYPES.includes(
+      value as (typeof NysIcon.VALID_TYPES)[number],
+    )
+      ? (value as (typeof NysIcon.VALID_TYPES)[number])
+      : "md";
   }
 
   getIcon() {
@@ -23,7 +37,7 @@ export class NysIcon extends LitElement {
     return iconSVG
       ? html`
           <div
-            class="icon-container ${this.validateSize()}"
+            class="icon-container ${this.size}"
             .innerHTML="${iconSVG}"
             style="
             rotate: ${this.rotate}deg;
