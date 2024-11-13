@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import styles from "./nys-textinput.styles"; // Assuming styles are in a separate file
+import styles from "./nys-textinput.styles";
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
@@ -58,7 +58,7 @@ export class NysTextinput extends LitElement {
     const input = event.target as HTMLInputElement;
     const checkValidity = input.checkValidity();
     this.dispatchEvent(
-      new CustomEvent("checkValidity", {
+      new CustomEvent("nys-checkValidity", {
         detail: { checkValidity },
         bubbles: true,
         composed: true,

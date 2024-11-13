@@ -306,7 +306,7 @@ export const Pattern: Story = {
         maxlength="9"
         pattern="N[0-9]{8}"
         id="nID"
-        @checkValidity=${(event: CustomEvent) => {
+        @nys-checkValidity=${(event: CustomEvent) => {
           // Update the pattern status text based on the validity
           patternStatus = `Pattern match: ${event.detail.checkValidity}`;
           // Re-render with the updated pattern status

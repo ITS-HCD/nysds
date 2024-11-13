@@ -10,7 +10,7 @@ const banner = `
    * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
    * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
    * 
-   * Input Component v0.0.1
+   * TextInput Component v0.0.1
    * Part of New York State's Excelsior Design System (v0.0.1)
    * (c) ${new Date().getFullYear()} New York State Design System Team
    * A design system for New York State's digital products.
@@ -23,7 +23,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"), // Entry point for the component
-      name: "Input", // Name for UMD build
+      name: "Textinput", // Name for UMD build
     },
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
@@ -40,7 +40,7 @@ export default defineConfig({
         {
           format: "umd",
           banner,
-          name: "Input",
+          name: "Textinput",
           dir: "dist",
           entryFileNames: "nys-textinput.js",
           globals: {
