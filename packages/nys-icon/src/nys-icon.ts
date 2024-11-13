@@ -34,6 +34,8 @@ export class NysIcon extends LitElement {
 
   getIcon() {
     const iconSVG = iconLibrary[this.name];
+    const hasLabel = Boolean(this.label);
+
     return iconSVG
       ? html`
           <div
@@ -43,38 +45,21 @@ export class NysIcon extends LitElement {
             rotate: ${this.rotate}deg;
             color: ${this.color};"
             role="img"
+            aria-label="${hasLabel ? this.label : ''}"
+            aria-hidden="${hasLabel ? 'false' : 'true'}"
           ></div>
         `
       : "";
   }
 
-  // Update accessibility attributes based on the label
-  handleLabelChange() {
-    const hasLabel = typeof this.label === "string" && this.label.length > 0;
-
-    if (hasLabel) {
-      this.setAttribute("role", "img");
-      this.setAttribute("aria-label", this.label);
-      this.removeAttribute("aria-hidden");
-    } else {
-      this.removeAttribute("role");
-      this.removeAttribute("aria-label");
-      this.setAttribute("aria-hidden", "true");
-    }
-  }
-
   // Watch for changes specifically to the `label` property
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("label")) {
-      this.handleLabelChange();
+      // Ensure attributes are updated when label changes
+      this.requestUpdate();
     }
   }
 
-  // Ensure label handling is set up when component first connects
-  connectedCallback() {
-    super.connectedCallback();
-    this.handleLabelChange();
-  }
 
   render() {
     return this.getIcon();
