@@ -67,6 +67,11 @@ export default css`
     margin-bottom: 0.25rem;
   }
 
+  .nys-textInput__label_labelwrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
   /* Label styling */
   .nys-textinput__label {
     font-size: 16px;
