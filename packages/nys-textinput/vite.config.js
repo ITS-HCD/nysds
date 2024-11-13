@@ -34,7 +34,7 @@ export default defineConfig({
           format: "es",
           banner,
           dir: "dist",
-          entryFileNames: "nys-input.es.js",
+          entryFileNames: "nys-textinput.es.js",
         },
         // UMD Build for browser usage (with global 'Lit' bundled)
         {
@@ -42,7 +42,7 @@ export default defineConfig({
           banner,
           name: "Input",
           dir: "dist",
-          entryFileNames: "nys-input.js",
+          entryFileNames: "nys-textinput.js",
           globals: {
             lit: "Lit",
             "lit/decorators.js": "LitDecorators",
