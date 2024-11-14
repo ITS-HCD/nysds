@@ -1,5 +1,6 @@
 # Ignore generated files
 dist/
+coverage/
 
 # Ignore Node-specific files
 node_modules/

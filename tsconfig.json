@@ -8,8 +8,10 @@
     "declaration": true,
     "declarationMap": true,
     "moduleResolution": "Node",
+    "isolatedModules": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "useDefineForClassFields": false,
     "emitDecoratorMetadata": true,
     "rootDir": ".",
     "outDir": "./dist"

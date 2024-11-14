@@ -1,13 +1,18 @@
-// web-test-runner.config.js
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { playwrightLauncher } from "@web/test-runner-playwright";
 
 export default {
   files: ["packages/**/*.test.ts", "src/**/*.test.ts"],
   nodeResolve: true,
-  concurrency: 1, // Run tests sequentially for more consistent results
+  concurrency: 1,
   browsers: [
-    playwrightLauncher({ product: "chromium" }), // Run tests in Chromium by default
+    playwrightLauncher({
+      product: "chromium",
+      launchOptions: {
+        headless: false, // Forces the browser to open in non-headless mode
+        slowMo: 250, // Optional: slows down operations to make debugging easier
+      },
+    }),
   ],
   coverage: true, // Enable coverage reporting
   testFramework: {
@@ -20,10 +25,10 @@ export default {
     esbuildPlugin({
       ts: true,
       target: "es2020",
+      decorators: true, // Enable decorator support
     }),
   ],
-  browsers: [
-    playwrightLauncher({ product: "chromium" }),
-    playwrightLauncher({ product: "webkit" }),
-  ],
+  coverageConfig: {
+    exclude: ["**/node_modules/**', '**/test/**"],
+  },
 };
