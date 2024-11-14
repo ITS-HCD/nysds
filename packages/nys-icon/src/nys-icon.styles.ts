@@ -18,24 +18,26 @@ export default css`
     width: 100%;
     height: 100%;
   }
+
+  /* Size variants */
   .xs {
+    width: calc(var(--nys-icon-size) * 0.5);
     height: calc(var(--nys-icon-size) * 0.5);
-    width: auto;
   }
   .sm {
-    height: calc(var(--nys-icon-size) * 1);
-    width: auto;
+    width: calc(var(--nys-icon-size) * 0.75);
+    height: calc(var(--nys-icon-size) * 0.75);
   }
   .md {
-    height: calc(var(--nys-icon-size) * 1.5);
-    width: auto;
+    width: var(--nys-icon-size);
+    height: var(--nys-icon-size);
   }
   .lg {
-    height: calc(var(--nys-icon-size) * 2);
-    width: auto;
+    width: calc(var(--nys-icon-size) * 1.5);
+    height: calc(var(--nys-icon-size) * 1.5);
   }
   .xl {
-    height: calc(var(--nys-icon-size) * 2.5);
-    width: auto;
+    width: calc(var(--nys-icon-size) * 2);
+    height: calc(var(--nys-icon-size) * 2);
   }
 `;
