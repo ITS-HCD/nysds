@@ -21,7 +21,23 @@ const meta: Meta<NysIconArgs> = {
     rotate: { control: "text" },
     size: {
       control: "select",
-      options: ["xs", "sm", "md", "lg", "xl"],
+      options: [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+      ],
     },
   },
   parameters: {
@@ -216,7 +232,7 @@ export const ColorInheritance: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
-    size: "md",
+    size: "lg",
   },
   render: (args) => html`
     <div
@@ -224,7 +240,7 @@ export const ColorInheritance: Story = {
       style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;"
     >
       <p style="display:flex; align-items: center;">
-        The color of the nearest parent container is set to DarkBlue.
+        The color of the nearest parent container is set to DarkBlue.&nbsp;
         <nys-icon
           .label=${args.label}
           .name=${args.name}
@@ -238,11 +254,12 @@ export const ColorInheritance: Story = {
       source: {
         code: `
   <div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
-    <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue.
+    <p style="display:flex; align-items: center;">
+      The color of the nearest parent container is set to DarkBlue.
       <nys-icon
         label="upload-file icon"
         name="upload-file"
-        size="md"
+        size="lg"
       ></nys-icon>
     </p>
   </div>
@@ -258,7 +275,7 @@ export const ColorChange: Story = {
     label: "upload-file icon",
     name: "upload-file",
     color: "#db117d",
-    size: "md",
+    size: "lg",
   },
   render: (args) => html`
     <div
@@ -266,7 +283,7 @@ export const ColorChange: Story = {
       style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;"
     >
       <p style="display:flex; align-items: center;">
-        The color of the nearest parent container is set to DarkBlue.
+        The color of the nearest parent container is set to DarkBlue.&nbsp;
         <nys-icon
           .label=${args.label}
           .name=${args.name}
@@ -281,12 +298,13 @@ export const ColorChange: Story = {
       source: {
         code: `
   <div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
-    <p style="display:flex; align-items: center;">The color of the nearest parent container is set to DarkBlue.
+    <p style="display:flex; align-items: center;">
+      The color of the nearest parent container is set to DarkBlue.
       <nys-icon
         label="upload-file icon"
         name="upload-file"
         color="#db117d"
-        size="md"
+        size="lg"
       ></nys-icon>
     </p>
   </div>
@@ -302,7 +320,7 @@ export const Rotate: Story = {
     label: "warning icon",
     name: "warning",
     rotate: "20",
-    size: "md",
+    size: "lg",
   },
   render: (args) => html`
     <nys-icon
@@ -321,7 +339,7 @@ export const Rotate: Story = {
   label="warning icon"
   name="warning"
   rotate="20"
-  size="md"
+  size="lg"
   ></nys-icon>
         `.trim(),
       },

@@ -69,14 +69,30 @@ The icon size will inherit the relative font size from its nearest parent.
 <Canvas of={NysIconStories.InheritSize} />
 
 ### Size Naming Variant
-To scale an icon relative to the inherited font size, pass a size variant like `size=[variant name]` as a prop:
-- xs (extra small): 50% of parent font size
-- sm (small): 75% of parent font size
-- md (medium): 100% of parent font size
-- lg (large): 150% of parent font size
-- xl (extra large): 200% of parent font size
+You can scale icons either relatively (based on the parent element’s font size) or literally (with predefined size values). The icons support two sizing systems: relative sizes and literal sizes.
 
-Each size variant (xs, sm, md, lg, xl) scales the icon’s height relative to the parent font size, from smallest (xs) to largest (xl).
+#### Relative Sizing
+To scale an icon relative to the inherited font size, pass a size variant like size=[variant name] as a prop. The values will scale based on the current font size of the parent element.
+- `xs` (extra small): 50% of parent font size
+- `sm` (small): 75% of parent font size
+- `md` (medium): 100% of parent font size
+- `lg` (large): 150% of parent font size
+- `xl` (extra large): 200% of parent font size
+
+#### Literal Sizing
+For fixed, predefined sizes, you can use literal sizes. These sizes are defined in rem units, which provide fixed scaling options.
+
+- `s1`: 1rem (same as the base size)
+- `s2`: 2rem (double the size of the base size)
+- `s3`: 3rem
+- `s4`: 4rem
+- `s5`: 5rem
+- `s6`: 6rem
+- `s7`: 7rem
+- `s8`: 8rem
+- `s9`: 9rem
+- `s10`: 10rem
+
 <Canvas of={NysIconStories.CustomSize} />
 
 ### Color Inheritance

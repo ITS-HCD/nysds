@@ -12,8 +12,24 @@ export class NysIcon extends LitElement {
 
   static styles = styles;
 
-  private static readonly VALID_TYPES = ["xs", "sm", "md", "lg", "xl"] as const;
-  
+  private static readonly VALID_TYPES = [
+    "xs",
+    "sm",
+    "md",
+    "lg",
+    "xl",
+    "s1",
+    "s2",
+    "s3",
+    "s4",
+    "s5",
+    "s6",
+    "s7",
+    "s8",
+    "s9",
+    "s10",
+  ] as const;
+
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
   private _size: (typeof NysIcon.VALID_TYPES)[number] = "md";
 
@@ -43,10 +59,10 @@ export class NysIcon extends LitElement {
             .innerHTML="${iconSVG}"
             style="
             rotate: ${this.rotate}deg;
-            color: ${this.color};"
+            color: ${this.color || "currentcolor"};"
             role="img"
-            aria-label="${hasLabel ? this.label : ''}"
-            aria-hidden="${hasLabel ? 'false' : 'true'}"
+            aria-label="${hasLabel ? this.label : ""}"
+            aria-hidden="${hasLabel ? "false" : "true"}"
           ></div>
         `
       : "";
@@ -59,7 +75,6 @@ export class NysIcon extends LitElement {
       this.requestUpdate();
     }
   }
-
 
   render() {
     return this.getIcon();
