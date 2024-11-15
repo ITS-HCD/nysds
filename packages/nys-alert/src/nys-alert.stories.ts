@@ -39,11 +39,11 @@ export const AllAlerts: Story = {
     description: "World",
   },
   render: (args) => html`
-  <nys-alert
-    .type=${args.type}
-    .title=${args.title}
-    .description=${args.description}
-  ></nys-alert>
+    <nys-alert
+      .type=${args.type}
+      .title=${args.title}
+      .description=${args.description}
+    ></nys-alert>
   `,
   parameters: {
     docs: {
