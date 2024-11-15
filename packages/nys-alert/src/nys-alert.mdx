@@ -1,0 +1,19 @@
+import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysAlertStories from './nys-alert.stories';
+
+<Meta of={NysAlertStories} title="Components/Alert/Documentation" />
+
+# Alert
+
+The **`nys-alert`** component is a reusable web component for use in New York State digital products. It provides users with the ability to keep users informed of important and sometimes time-sensitive changes.
+
+## Examples
+<Canvas of={NysAlertStories.AllAlerts} />
+
+## Accessibility
+
+The `nys-alert` component includes the following accessibility-focused features:
+
+- Keyboard navigation support, allowing users to use voiceover to read the alert using the keyboard.
+- Visual focus indicators to help users navigate the component.
