@@ -5,20 +5,14 @@ export default css`
     --nys-icon-color: currentcolor;
     --nys-icon-size: 1em;
   }
-  .icon-container {
+
+  /* SVG size and color is initially determined by the parent's font-size and text-color */
+  svg {
     color: var(--nys-icon-color);
-    padding: 0;
-    margin: 0 auto;
     width: var(--icon-size, 1cap);
     height: auto;
     display: inline-block;
     white-space: nowrap;
-  }
-
-  /* SVG size is determined by the icon-container size */
-  svg {
-    width: 100%;
-    height: 100%;
   }
 
   /* Relative Sizes */

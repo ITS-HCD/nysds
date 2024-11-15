@@ -59,7 +59,15 @@ export const NameProp: Story = {
   args: {
     name: "publish",
   },
-  render: (args) => html` <nys-icon .name=${args.name}></nys-icon> `,
+  render: (args) =>
+    html` <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      color=${args.color}
+      rotate=${args.rotate}
+      size=${args.size}
+    >
+    </nys-icon>`,
   parameters: {
     docs: {
       source: {
@@ -80,7 +88,14 @@ export const Labels: Story = {
     name: "edit-square",
   },
   render: (args) => html`
-    <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
+    <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      color=${args.color}
+      rotate=${args.rotate}
+      size=${args.size}
+    >
+    </nys-icon>
   `,
   parameters: {
     docs: {
@@ -111,7 +126,13 @@ export const InheritSize: Story = {
       <p>
         Font size not found on the parent element. Defaulting to the root font
         size of 16px
-        <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
+        <nys-icon
+          .label=${args.label}
+          .name=${args.name}
+          color=${args.color}
+          rotate=${args.rotate}
+          size=${args.size}
+        ></nys-icon>
       </p>
     </div>
     <div
@@ -120,7 +141,13 @@ export const InheritSize: Story = {
     >
       <p>
         The nearest parent container's font-size is set to 1.5rem
-        <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
+        <nys-icon
+          .label=${args.label}
+          .name=${args.name}
+          color=${args.color}
+          rotate=${args.rotate}
+          size=${args.size}
+        ></nys-icon>
       </p>
     </div>
     <div
@@ -129,7 +156,13 @@ export const InheritSize: Story = {
     >
       <p>
         The nearest parent container's font-size is set to 2rem
-        <nys-icon .label=${args.label} .name=${args.name}></nys-icon>
+        <nys-icon
+          .label=${args.label}
+          .name=${args.name}
+          color=${args.color}
+          rotate=${args.rotate}
+          size=${args.size}
+        ></nys-icon>
       </p>
     </div>
   `,
@@ -203,8 +236,11 @@ export const CustomSize: Story = {
         <nys-icon
           .label=${args.label}
           .name=${args.name}
+          color=${args.color}
+          rotate=${args.rotate}
           size=${args.size}
-        ></nys-icon>
+        >
+        </nys-icon>
       </p>
     </div>
   `,
@@ -244,8 +280,11 @@ export const ColorInheritance: Story = {
         <nys-icon
           .label=${args.label}
           .name=${args.name}
+          color=${args.color}
+          rotate=${args.rotate}
           size=${args.size}
-        ></nys-icon>
+        >
+        </nys-icon>
       </p>
     </div>
   `,
@@ -288,8 +327,10 @@ export const ColorChange: Story = {
           .label=${args.label}
           .name=${args.name}
           color=${args.color}
+          rotate=${args.rotate}
           size=${args.size}
-        ></nys-icon>
+        >
+        </nys-icon>
       </p>
     </div>
   `,

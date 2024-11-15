@@ -48,31 +48,39 @@ export class NysIcon extends LitElement {
       : "md";
   }
 
-  getIcon() {
+  private getIcon(): SVGElement | null {
     const iconSVG = iconLibrary[this.name];
     const hasLabel = Boolean(this.label);
 
-    return iconSVG
-      ? html`
-          <div
-            class="icon-container ${this.size}"
-            .innerHTML="${iconSVG}"
-            style="
-            rotate: ${this.rotate}deg;
-            color: ${this.color || "currentcolor"};"
-            role="img"
-            aria-label="${hasLabel ? this.label : ""}"
-            aria-hidden="${hasLabel ? "false" : "true"}"
-          ></div>
-        `
-      : "";
+    if (!iconSVG) return null;
+
+    // Parse the SVG string into an actual SVG DOM element
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(iconSVG, "image/svg+xml");
+    const svgElement = svgDoc.documentElement;
+
+    // Ensure the parsed element is an SVGElement
+    if (!(svgElement instanceof SVGElement)) {
+      console.error(`Invalid SVG for icon: ${this.name}`);
+      return null;
+    }
+
+    // Add accessibility attributes directly to the <svg>
+    svgElement.setAttribute("role", "img");
+    svgElement.setAttribute("aria-label", hasLabel ? this.label : "");
+    svgElement.setAttribute("aria-hidden", hasLabel ? "false" : "true");
+
+    // Add styles
+    svgElement.style.rotate = `${this.rotate}deg`;
+    svgElement.style.color = this.color || "currentcolor";
+    svgElement.classList.add(this.size);
+
+    return svgElement;
   }
 
-  // Watch for changes specifically to the `label` property
   updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has("label")) {
-      // Ensure attributes are updated when label changes
-      this.requestUpdate();
+    if (changedProperties.has("label") || changedProperties.has("name")) {
+      this.requestUpdate(); // Ensure re-render if properties change
     }
   }
 
