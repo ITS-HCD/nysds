@@ -13,7 +13,10 @@ const meta: Meta<NysAlertArgs> = {
   title: "Components/Alert",
   component: "nys-alert",
   argTypes: {
-    type: { control: "text" },
+    type: {
+      control: "select",
+      options: ["info", "warning", "success", "error", "emergency"],
+    },
     title: { control: "text" },
     description: { control: "text" },
   },

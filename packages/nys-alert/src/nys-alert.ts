@@ -37,10 +37,17 @@ export class NysAlert extends LitElement {
   getIcon() {
     const iconSVG = iconLibrary[this.type];
 
+    if (!iconSVG) return null;
+
     // Parse the SVG string into an actual SVG DOM element
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(iconSVG, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
+
+    // Ensure the parsed element is an SVGElement
+    if (!(svgElement instanceof SVGElement)) {
+      return null;
+    }
 
     return svgElement;
   }
@@ -49,7 +56,7 @@ export class NysAlert extends LitElement {
     return html`
       <div class="nys-alert-container">
         ${this.getIcon()}
-        <h4>${this.title}</h1>
+        <h4>${this.title}</h4>
         <p>${this.description}</p>
       </div>
     `;
