@@ -38,8 +38,8 @@ type Story = StoryObj<NysAlertArgs>;
 export const AllAlerts: Story = {
   args: {
     type: "info",
-    title: "Hello",
-    description: "World",
+    title: "Information status",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
   },
   render: (args) => html`
     <nys-alert
