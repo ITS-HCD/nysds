@@ -54,7 +54,7 @@ export class NysAlert extends LitElement {
 
   render() {
     return html`
-      <div class="nys-alert__container">
+      <div class="nys-alert__container nys-alert--${this.type}">
         <div class="nys-alert__heading">
           ${this.getIcon()}
           <h4 class="nys-alert__title">${this.title}</h4>
