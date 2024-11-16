@@ -8,9 +8,8 @@ export default css`
 
   /* SVG size and color is initially determined by the parent's font-size and text-color */
   svg {
-    color: var(--nys-icon-color);
-    width: var(--icon-size, 1cap);
-    height: auto;
+    width: var(--nys-icon-size, 1cap);
+    height: var(--nys-icon-size, 1cap);
     display: inline-block;
     white-space: nowrap;
   }
