@@ -61,7 +61,6 @@ export class NysIcon extends LitElement {
 
     // Ensure the parsed element is an SVGElement
     if (!(svgElement instanceof SVGElement)) {
-      console.error(`Invalid SVG for icon: ${this.name}`);
       return null;
     }
 
