@@ -22,11 +22,15 @@ const meta: Meta<NysIconArgs> = {
     size: {
       control: "select",
       options: [
+        "2xs",
         "xs",
         "sm",
         "md",
         "lg",
         "xl",
+        "2xl",
+        "3xl",
+        "4xl",
         "s1",
         "s2",
         "s3",
@@ -202,7 +206,7 @@ export const CustomSize: Story = {
   args: {
     label: "search icon",
     name: "search",
-    size: "xl",
+    size: "3xl",
   },
 
   render: (args) => html`
@@ -253,7 +257,7 @@ export const CustomSize: Story = {
       <nys-icon
       label="search icon"
       name="search"
-      size="xl"
+      size="3xl"
       ></nys-icon>
     </p>
   </div>
@@ -268,7 +272,7 @@ export const ColorInheritance: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
-    size: "lg",
+    size: "xl",
   },
   render: (args) => html`
     <div
@@ -298,7 +302,7 @@ export const ColorInheritance: Story = {
       <nys-icon
         label="upload-file icon"
         name="upload-file"
-        size="lg"
+        size="xl"
       ></nys-icon>
     </p>
   </div>
@@ -314,7 +318,7 @@ export const ColorChange: Story = {
     label: "upload-file icon",
     name: "upload-file",
     color: "#db117d",
-    size: "lg",
+    size: "xl",
   },
   render: (args) => html`
     <div
@@ -345,7 +349,7 @@ export const ColorChange: Story = {
         label="upload-file icon"
         name="upload-file"
         color="#db117d"
-        size="lg"
+        size="xl"
       ></nys-icon>
     </p>
   </div>
@@ -361,7 +365,7 @@ export const Rotate: Story = {
     label: "warning icon",
     name: "warning",
     rotate: "20",
-    size: "lg",
+    size: "xl",
   },
   render: (args) => html`
     <nys-icon
@@ -380,7 +384,7 @@ export const Rotate: Story = {
   label="warning icon"
   name="warning"
   rotate="20"
-  size="lg"
+  size="xl"
   ></nys-icon>
         `.trim(),
       },

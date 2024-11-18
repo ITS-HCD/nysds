@@ -24,8 +24,8 @@ export default css`
     height: calc(var(--nys-icon-size) * 0.875);
   }
   .nys-icon--sm {
-    width: calc(var(--nys-icon-size);
-    height: calc(var(--nys-icon-size);
+    width: var(--nys-icon-size);
+    height: var(--nys-icon-size);
   }
   .nys-icon--md {
     width: calc(var(--nys-icon-size) * 1.125);
