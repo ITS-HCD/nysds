@@ -45,6 +45,17 @@ export default css`
     margin: 0;
   }
 
+  .close-container {
+    margin-left: auto;
+  }
+  .close-button {
+    background: none;
+    border: none;
+    display: flex;
+    cursor: pointer;
+    color: currentColor;
+  }
+
   /* Slim variant: Disables the heading via JS logic. In styling, centers the icon for a compact layout. */
   .nys-alert--slim {
     display: flex;

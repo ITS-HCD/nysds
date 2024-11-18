@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import iconLibrary from "./nys-alert-icon.library";
 import styles from "./nys-alert.styles";
 
@@ -10,6 +10,8 @@ export class NysAlert extends LitElement {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.";
   @property({ type: Boolean }) noIcon = false;
   @property({ type: Boolean }) isSlim = false;
+  @property({ type: Boolean }) isCloseable = false;
+  @state() private _alertClosed = false;
 
   static styles = styles;
 
@@ -36,8 +38,8 @@ export class NysAlert extends LitElement {
       : "info";
   }
 
-  getIcon() {
-    const iconSVG = iconLibrary[this.type];
+  getIcon(type: string) {
+    const iconSVG = iconLibrary[type];
 
     if (!iconSVG) return null;
 
@@ -81,19 +83,32 @@ export class NysAlert extends LitElement {
     return parts;
   }
 
+  closeAlert() {
+    this._alertClosed = true;
+  }
+
   render() {
     return html`
-      <div class="nys-alert__container nys-alert--${this.type}">
-        <div class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}">
-          ${this.noIcon ? "" : this.getIcon()}
-        </div>
-        <div class="nys-alert__heading">
-          ${this.isSlim
-            ? ""
-            : html`<h4 class="nys-alert__title">${this.title}</h4>`}
-          <p class="nys-alert__text">${this.convertUrlStrToAnchor()}</p>
-        </div>
-      </div>
+      ${!this._alertClosed
+        ? html` <div class="nys-alert__container nys-alert--${this.type}">
+            <div
+              class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
+            >
+              ${this.noIcon ? "" : this.getIcon(this.type)}
+            </div>
+            <div class="nys-alert__heading">
+              ${this.isSlim
+                ? ""
+                : html`<h4 class="nys-alert__title">${this.title}</h4>`}
+              <p class="nys-alert__text">${this.convertUrlStrToAnchor()}</p>
+            </div>
+            <div class="close-container">
+              <button class="close-button" @click=${this.closeAlert}>
+                ${this.getIcon("close")}
+              </button>
+            </div>
+          </div>`
+        : ""}
     `;
   }
 }
