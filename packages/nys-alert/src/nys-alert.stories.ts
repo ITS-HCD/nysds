@@ -73,7 +73,7 @@ export const AlertType: Story = {
     type: "info",
     title: "Information status",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.",
   },
   render: (args) => html`
     <nys-alert
@@ -91,7 +91,7 @@ export const AlertType: Story = {
 <nys-alert 
   type="info" 
   title="Information status" 
-  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.">
+  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.">
 </nys-alert>
 `.trim(),
         type: "auto",
