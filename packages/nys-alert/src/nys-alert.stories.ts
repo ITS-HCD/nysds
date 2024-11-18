@@ -7,6 +7,8 @@ interface NysAlertArgs {
   type: string;
   title: string;
   description: string;
+  noIcon?: boolean;
+  isSlim?: boolean;
 }
 
 const meta: Meta<NysAlertArgs> = {
@@ -19,6 +21,8 @@ const meta: Meta<NysAlertArgs> = {
     },
     title: { control: "text" },
     description: { control: "text" },
+    noIcon: { control: "boolean", default: false },
+    isSlim: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
@@ -76,6 +80,8 @@ export const AlertType: Story = {
       .type=${args.type}
       .title=${args.title}
       .description=${args.description}
+      ?noIcon=${args.noIcon}
+      ?isSlim=${args.isSlim}
     ></nys-alert>
   `,
   parameters: {
@@ -86,6 +92,77 @@ export const AlertType: Story = {
   type="info" 
   title="Information status" 
   description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.">
+</nys-alert>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: NoIcon
+export const NoIcon: Story = {
+  args: {
+    type: "info",
+    title: "Information status",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
+    noIcon: true,
+  },
+  render: (args) => html`
+    <nys-alert
+      .type=${args.type}
+      .title=${args.title}
+      .description=${args.description}
+      ?noIcon=${args.noIcon}
+      ?isSlim=${args.isSlim}
+    ></nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert 
+  type="info" 
+  title="Information status" 
+  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod."
+  noIcon
+  >
+</nys-alert>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Slim
+export const Slim: Story = {
+  args: {
+    type: "info",
+    title: "Information status",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
+    isSlim: true,
+  },
+  render: (args) => html`
+    <nys-alert
+      .type=${args.type}
+      .title=${args.title}
+      .description=${args.description}
+      ?noIcon=${args.noIcon}
+      ?isSlim=${args.isSlim}
+    ></nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert 
+  type="info" 
+  title="Information status" 
+  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod." 
+  isSlim>
 </nys-alert>
 `.trim(),
         type: "auto",

@@ -8,6 +8,8 @@ export class NysAlert extends LitElement {
   @property({ type: String }) title = "Title";
   @property({ type: String }) description =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.";
+  @property({ type: Boolean }) noIcon = false;
+  @property({ type: Boolean }) isSlim = false;
 
   static styles = styles;
 
@@ -55,11 +57,11 @@ export class NysAlert extends LitElement {
   render() {
     return html`
       <div class="nys-alert__container nys-alert--${this.type}">
+        <div class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}">${this.noIcon ? "" : this.getIcon()}</div>
         <div class="nys-alert__heading">
-          ${this.getIcon()}
-          <h4 class="nys-alert__title">${this.title}</h4>
+          ${this.isSlim ? "" : html`<h4 class="nys-alert__title">${this.title}</h4>`}
+          <p class="nys-alert__text">${this.description}</p>
         </div>
-        <p class="nys-alert__text">${this.description}</p>
       </div>
     `;
   }

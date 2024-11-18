@@ -1,11 +1,12 @@
 import { css } from "lit";
 
 export default css`
-  svg {
-    position: absolute;
-    left: -35px;
+  .nys-alert__icon {
+    margin-right: 0.8rem;
   }
+
   .nys-alert__container {
+    display: flex;
     background-color: #f0f0f0;
     border-left: 0.5rem solid #adadad;
     color: #1b1b1b;
@@ -24,8 +25,11 @@ export default css`
   .nys-alert__heading {
     position: relative;
     display: flex;
-    align-items: center;
-    margin: 0 0 0.5rem 2.5rem;
+    flex-direction: column;
+  }
+
+  .nys-alert__title {
+    margin: 0 0 0.5rem 0;
     font-family:
       Source Sans Pro Web,
       Helvetica Neue,
@@ -37,12 +41,14 @@ export default css`
     line-height: 0.9;
   }
 
-  .nys-alert__title {
+  .nys-alert__text {
     margin: 0;
   }
 
-  .nys-alert__text {
-    margin: 0 0 0 2.5rem;
+  /* Slim variant: Disables the heading via JS logic. In styling, centers the icon for a compact layout. */
+  .nys-alert--slim {
+    display: flex;
+    align-items: center;
   }
 
   /* Alert Types */
