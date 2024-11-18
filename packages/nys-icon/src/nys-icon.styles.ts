@@ -15,65 +15,81 @@ export default css`
   }
 
   /* Relative Sizes */
-  .xs {
-    width: calc(var(--nys-icon-size) * 0.5);
-    height: calc(var(--nys-icon-size) * 0.5);
-  }
-  .sm {
+  .nys-icon--2xs {
     width: calc(var(--nys-icon-size) * 0.75);
     height: calc(var(--nys-icon-size) * 0.75);
   }
-  .md {
-    width: var(--nys-icon-size);
-    height: var(--nys-icon-size);
+  .nys-icon--xs {
+    width: calc(var(--nys-icon-size) * 0.875);
+    height: calc(var(--nys-icon-size) * 0.875);
   }
-  .lg {
+  .nys-icon--sm {
+    width: calc(var(--nys-icon-size);
+    height: calc(var(--nys-icon-size);
+  }
+  .nys-icon--md {
+    width: calc(var(--nys-icon-size) * 1.125);
+    height: calc(var(--nys-icon-size) * 1.125);
+  }
+  .nys-icon--lg {
+    width: calc(var(--nys-icon-size) * 1.25);
+    height: calc(var(--nys-icon-size) * 1.25);
+  }
+  .nys-icon--xl {
     width: calc(var(--nys-icon-size) * 1.5);
     height: calc(var(--nys-icon-size) * 1.5);
   }
-  .xl {
-    width: calc(var(--nys-icon-size) * 2);
-    height: calc(var(--nys-icon-size) * 2);
+  .nys-icon--2xl {
+    width: calc(var(--nys-icon-size) * 1.875);
+    height: calc(var(--nys-icon-size) * 1.875);
+  }
+  .nys-icon--3xl {
+    width: calc(var(--nys-icon-size) * 2.25);
+    height: calc(var(--nys-icon-size) * 2.25);
+  }
+  .nys-icon--4xl {
+    width: calc(var(--nys-icon-size) * 3);
+    height: calc(var(--nys-icon-size) * 3);
   }
 
   /* Literal Sizing */
-  .s1 {
+  .nys-icon--s1 {
     width: 1rem;
     height: 1rem;
   }
-  .s2 {
+  .nys-icon--s2 {
     width: 2rem;
     height: 2rem;
   }
-  .s3 {
+  .nys-icon--s3 {
     width: 3rem;
     height: 3rem;
   }
-  .s4 {
+  .nys-icon--s4 {
     width: 4rem;
     height: 4rem;
   }
-  .s5 {
+  .nys-icon--s5 {
     width: 5rem;
     height: 5rem;
   }
-  .s6 {
+  .nys-icon--s6 {
     width: 6rem;
     height: 6rem;
   }
-  .s7 {
+  .nys-icon--s7 {
     width: 7rem;
     height: 7rem;
   }
-  .s8 {
+  .nys-icon--s8 {
     width: 8rem;
     height: 8rem;
   }
-  .s9 {
+  .nys-icon--s9 {
     width: 9rem;
     height: 9rem;
   }
-  .s10 {
+  .nys-icon--s10 {
     width: 10rem;
     height: 10rem;
   }
