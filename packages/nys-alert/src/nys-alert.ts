@@ -84,9 +84,13 @@ export class NysAlert extends LitElement {
   render() {
     return html`
       <div class="nys-alert__container nys-alert--${this.type}">
-        <div class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}">${this.noIcon ? "" : this.getIcon()}</div>
+        <div class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}">
+          ${this.noIcon ? "" : this.getIcon()}
+        </div>
         <div class="nys-alert__heading">
-          ${this.isSlim ? "" : html`<h4 class="nys-alert__title">${this.title}</h4>`}
+          ${this.isSlim
+            ? ""
+            : html`<h4 class="nys-alert__title">${this.title}</h4>`}
           <p class="nys-alert__text">${this.convertUrlStrToAnchor()}</p>
         </div>
       </div>
