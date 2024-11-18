@@ -1,6 +1,6 @@
 import { fixture, expect } from "@open-wc/testing";
 import sinon from "sinon";
-import { NysCheckbox } from "./nys-checkbox";
+import { NysCheckbox } from "../dist/nys-checkbox.js";
 
 describe("nys-checkbox", () => {
   it("should instantiate with default properties", async () => {
