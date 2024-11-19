@@ -1,0 +1,21 @@
+import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { html } from "lit";
+import * as NysToggleStories from "./nys-toggle.stories";
+
+<Meta of={NysToggleStories} title="Components/Toggle/Documentation" />
+
+# Toggle
+The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
+
+## Toggle Property Examples
+### Toggle
+This is a toggle.
+<Canvas of={NysToggleStories.Toggle} />
+
+
+## Accessibility
+
+The `nys-icon` component includes the following accessibility-focused features:
+
+- **ARIA Hidden by Default:** If no label is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
+- **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the icon accessible to screen readers.
