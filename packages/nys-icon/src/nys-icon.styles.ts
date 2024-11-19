@@ -77,4 +77,15 @@ export default css`
     width: 4rem;
     height: 4rem;
   }
+
+  /* Flipping Icons */
+  .nys-icon--flip-horizontal {
+    transform: scaleX(-1);
+  }
+  .nys-icon--flip-vertical {
+    transform: scaleY(-1);
+  }
+  .nys-icon--flip-both {
+    transform: scale(-1, -1);
+  }
 `;
