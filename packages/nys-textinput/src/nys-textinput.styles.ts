@@ -16,23 +16,19 @@ export default css`
   }
 
   .xs {
-    width: 4rem;
+    padding: 0.125rem;
   }
 
   .sm {
-    width: 8rem;
-  }
-
-  .md {
-    width: 16rem;
+    padding: 0.25rem;
   }
 
   .lg {
-    width: 24rem;
+    font-size: 20px;
   }
 
   .xl {
-    width: 32rem;
+    font-size: 24px;
   }
 
   /* Focused */

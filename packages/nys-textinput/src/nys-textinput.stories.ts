@@ -99,7 +99,7 @@ export const Size: Story = {
       <br />
       <nys-textinput size="sm" label="SM"></nys-textinput>
       <br />
-      <nys-textinput size="md" label="MD"></nys-textinput>
+      <nys-textinput label="default"></nys-textinput>
       <br />
       <nys-textinput size="lg" label="LG"></nys-textinput>
       <br />
@@ -112,7 +112,7 @@ export const Size: Story = {
         code: `
 <nys-textinput size="xs" label="XS"></nys-textinput>
 <nys-textinput size="sm" label="SM"></nys-textinput>
-<nys-textinput size="md" label="MD"></nys-textinput>
+<nys-textinput label="default"></nys-textinput>
 <nys-textinput size="lg" label="LG"></nys-textinput>
 <nys-textinput size="xl" label="XL"></nys-textinput>
         `,
