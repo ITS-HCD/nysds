@@ -1,0 +1,119 @@
+import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { html } from "lit";
+import * as NysIconStories from "./nys-icon.stories";
+
+<Meta of={NysIconStories} title="Components/Icon/Documentation" />
+
+# Icon
+
+The **`nys-icon`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
+
+### SVG props implementations:
+        * Custom size naming variants
+        * Color 
+        * Rotation (Degree)
+
+### All available SVG names (Count: {29})
+<div style={{ display: 'flex'}}>
+  <div style={{ flex: '1 1 50%', paddingRight: '1rem' }}>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> edit-square <nys-icon name="edit-square"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> publish  <nys-icon name="publish"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> download  <nys-icon name="download"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> download-done  <nys-icon name="download-done"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> upload-file  <nys-icon name="upload-file"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> drive-folder-upload  <nys-icon name="drive-folder-upload"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> more-vert  <nys-icon name="more-vert"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> arrow-back  <nys-icon name="arrow-back"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> arrow-left  <nys-icon name="arrow-left"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> arrow-right  <nys-icon name="arrow-right"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> arrow-down  <nys-icon name="arrow-down"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> arrow-up  <nys-icon name="arrow-up"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> check  <nys-icon name="check"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> calendar-month  <nys-icon name="calendar-month"></nys-icon> </div>
+  </div>
+  <div style={{ flex: '1 1 50%' }}>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> warning  <nys-icon name="warning"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> check-circle  <nys-icon name="check-circle"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> cancel  <nys-icon name="cancel"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> close  <nys-icon name="close"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> language  <nys-icon name="language"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> search  <nys-icon name="search"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> menu  <nys-icon name="menu"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> visibility  <nys-icon name="visibility"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> visibility-off  <nys-icon name="visibility-off"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> account-circle  <nys-icon name="account-circle"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> help  <nys-icon name="help"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> share  <nys-icon name="share"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> info  <nys-icon name="info"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> error  <nys-icon name="error"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> emergency  <nys-icon name="emergency"></nys-icon> </div>
+  </div>
+</div>
+
+## SVG Name Properties
+### Required Property
+The name property is the **ONLY** required attribute for the icon component. The
+current icon name is "publish" but you can change it to any of the listed icons like "edit-square".
+
+Note: Leaving the 'label' blank will set aria-hidden for screen readers.
+
+<Canvas of={NysIconStories.NameProp} />
+
+### Labels
+Here are some of the features that come with the icon component. Keep scrolling down for further details.
+<Canvas of={NysIconStories.Labels} />
+
+
+## Icon Property Examples
+
+### Size Inheritance
+The icon size will inherit the relative font size from its nearest parent. 
+
+<Canvas of={NysIconStories.InheritSize} />
+
+### Size Naming Variant
+You can scale icons either relatively (based on the parent element’s font size) or literally (with predefined size values). The icons support two sizing systems: relative sizes and literal sizes.
+
+#### Relative Sizing
+To scale an icon relative to the inherited font size, pass a size variant like size=[variant name] as a prop. The values will scale based on the current font size of the parent element.
+- `2xs` (extra-extra small): 75% of parent font size
+- `xs` (extra small): 87.5% of parent font size
+- `sm` (small): 100% of parent font size
+- `md` (medium): 112.5% of parent font size
+- `lg` (large): 125% of parent font size
+- `xl` (extra large): 150% of parent font size
+- `2xl` (double extra large): 187.5% of parent font size
+- `3xl` (triple extra large): 225% of parent font size
+- `4xl` (quadruple extra large): 300% of parent font size
+
+#### Literal Sizing
+For fixed, predefined sizes, you can use literal sizes. These sizes are defined in rem units, which provide fixed scaling options.
+
+- `12`: 0.75rem = 12px
+- `16`: 1rem = 16px
+- `24`: 1.5rem = 24px
+- `32`: 2rem = 32px
+- `48`: 3rem = 48px
+- `64`: 4rem = 64px
+
+<Canvas of={NysIconStories.CustomSize} />
+
+### Color Inheritance
+An icon will inherit the current text color from its closest parent element.
+<Canvas of={NysIconStories.ColorInheritance} />
+
+### Color Change Using CSS Custom Variable
+You can override the parent inheritance by setting a color prop.
+<Canvas of={NysIconStories.ColorChange} />
+
+### Rotate
+Set the icon's rotation by passing the angle as a number, like rotate="20" (without "deg").
+<Canvas of={NysIconStories.Rotate} />
+
+
+## Accessibility
+
+The `nys-icon` component includes the following accessibility-focused features:
+
+- **ARIA Hidden by Default:** If no label is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
+- **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the icon accessible to screen readers.
