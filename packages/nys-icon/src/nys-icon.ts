@@ -22,16 +22,12 @@ export class NysIcon extends LitElement {
     "2xl",
     "3xl",
     "4xl",
-    "s1",
-    "s2",
-    "s3",
-    "s4",
-    "s5",
-    "s6",
-    "s7",
-    "s8",
-    "s9",
-    "s10",
+    "12",
+    "16",
+    "24",
+    "32",
+    "48",
+    "64",
   ] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".

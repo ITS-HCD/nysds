@@ -53,44 +53,28 @@ export default css`
   }
 
   /* Literal Sizing */
-  .nys-icon--s1 {
+  .nys-icon--12 {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  .nys-icon--16 {
     width: 1rem;
     height: 1rem;
   }
-  .nys-icon--s2 {
+  .nys-icon--24 {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .nys-icon--32 {
     width: 2rem;
     height: 2rem;
   }
-  .nys-icon--s3 {
+  .nys-icon--48 {
     width: 3rem;
     height: 3rem;
   }
-  .nys-icon--s4 {
+  .nys-icon--64 {
     width: 4rem;
     height: 4rem;
-  }
-  .nys-icon--s5 {
-    width: 5rem;
-    height: 5rem;
-  }
-  .nys-icon--s6 {
-    width: 6rem;
-    height: 6rem;
-  }
-  .nys-icon--s7 {
-    width: 7rem;
-    height: 7rem;
-  }
-  .nys-icon--s8 {
-    width: 8rem;
-    height: 8rem;
-  }
-  .nys-icon--s9 {
-    width: 9rem;
-    height: 9rem;
-  }
-  .nys-icon--s10 {
-    width: 10rem;
-    height: 10rem;
   }
 `;
