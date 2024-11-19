@@ -9,6 +9,7 @@ interface NysAlertArgs {
   description: string;
   noIcon?: boolean;
   isSlim?: boolean;
+  dismissable?: boolean;
 }
 
 const meta: Meta<NysAlertArgs> = {
@@ -23,6 +24,7 @@ const meta: Meta<NysAlertArgs> = {
     description: { control: "text" },
     noIcon: { control: "boolean", default: false },
     isSlim: { control: "boolean", default: false },
+    dismissable: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
@@ -47,6 +49,7 @@ export const AllAlerts: Story = {
             .type=${type}
             .title=${type.charAt(0).toUpperCase() + type.slice(1) + " Status"}
             .description="This is an example of a ${type} alert."
+            dismissable
           ></nys-alert>
           <br /> `,
     )}
@@ -55,11 +58,11 @@ export const AllAlerts: Story = {
     docs: {
       source: {
         code: `
-<nys-alert type="info" title="Info status" description="This is an example of an info alert."></nys-alert>
-<nys-alert type="warning" title="Warning status" description="This is an example of a warning alert."></nys-alert>
-<nys-alert type="success" title="Success status" description="This is an example of a success alert."></nys-alert>
-<nys-alert type="error" title="Error status" description="This is an example of an error alert."></nys-alert>
-<nys-alert type="emergency" title="Emergency status" description="This is an example of an emergency alert."></nys-alert>
+<nys-alert type="info" title="Info status" description="This is an example of an info alert." dismissable></nys-alert>
+<nys-alert type="warning" title="Warning status" description="This is an example of a warning alert." dismissable></nys-alert>
+<nys-alert type="success" title="Success status" description="This is an example of a success alert." dismissable></nys-alert>
+<nys-alert type="error" title="Error status" description="This is an example of an error alert." dismissable></nys-alert>
+<nys-alert type="emergency" title="Emergency status" description="This is an example of an emergency alert." dismissable></nys-alert>
 `.trim(),
         type: "auto",
       },
@@ -82,6 +85,41 @@ export const AlertType: Story = {
       .description=${args.description}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
+    ></nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert 
+  type="info" 
+  title="Information status" 
+  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.">
+</nys-alert>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Dismissable Alerts
+export const Dismissable: Story = {
+  args: {
+    type: "info",
+    title: "Information status",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.",
+    dismissable: true,
+  },
+  render: (args) => html`
+    <nys-alert
+      .type=${args.type}
+      .title=${args.title}
+      .description=${args.description}
+      ?noIcon=${args.noIcon}
+      ?isSlim=${args.isSlim}
+      ?dismissable=${args.dismissable}
     ></nys-alert>
   `,
   parameters: {

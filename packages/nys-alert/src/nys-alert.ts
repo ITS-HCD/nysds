@@ -10,7 +10,7 @@ export class NysAlert extends LitElement {
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.";
   @property({ type: Boolean }) noIcon = false;
   @property({ type: Boolean }) isSlim = false;
-  @property({ type: Boolean }) isCloseable = false;
+  @property({ type: Boolean }) dismissable = false;
   @state() private _alertClosed = false;
 
   static styles = styles;
@@ -102,11 +102,13 @@ export class NysAlert extends LitElement {
                 : html`<h4 class="nys-alert__title">${this.title}</h4>`}
               <p class="nys-alert__text">${this.convertUrlStrToAnchor()}</p>
             </div>
-            <div class="close-container">
-              <button class="close-button" @click=${this.closeAlert}>
-                ${this.getIcon("close")}
-              </button>
-            </div>
+            ${this.dismissable
+              ? html`<div class="close-container">
+                  <button class="close-button" @click=${this.closeAlert}>
+                    ${this.getIcon("close")}
+                  </button>
+                </div>`
+              : ""}
           </div>`
         : ""}
     `;

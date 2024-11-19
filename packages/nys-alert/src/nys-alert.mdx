@@ -18,6 +18,10 @@ Below are the available alert types, each showcasing its unique style and purpos
 To change the type of alert, use the `type` prop. The example below shows `type="info"`
 <Canvas of={NysAlertStories.AlertType} />
 
+### Dismissable
+All alerts include an optional `dismissable` boolean property. When enabled, it adds a close button in the top-right corner, allowing users to dismiss the alert.
+<Canvas of={NysAlertStories.Dismissable} />
+
 ### No Icon Option
 To displays an alert without an accompanying icon, you can turn the `noIcon` prop to true.
 <Canvas of={NysAlertStories.NoIcon} />
