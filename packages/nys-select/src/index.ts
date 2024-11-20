@@ -1,1 +1,1 @@
-export * from "./nys-textinput";
+export * from "./nys-select";
