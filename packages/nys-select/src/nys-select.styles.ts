@@ -3,6 +3,11 @@ import { css } from "lit";
 export default css`
   .nys-select {
     font-family: Arial, sans-serif;
+    position: relative;
+    display: inline-block;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
   }
 
   .nys-select__select {
@@ -13,8 +18,12 @@ export default css`
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;
+    /*   
+    ----------removes default arrow----------    
     -webkit-appearance: none;
     -moz-appearance: none;
+    appearance: none; 
+    */
     text-indent: 1px;
     text-overflow: "";
   }
