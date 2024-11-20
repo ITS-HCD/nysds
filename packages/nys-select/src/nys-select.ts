@@ -6,46 +6,17 @@ import styles from "./nys-select.styles";
 export class NysSelect extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = null;
-  private static readonly VALID_TYPES = [
-    "email",
-    "number",
-    "password",
-    "search",
-    "tel",
-    "text",
-    "url",
-  ] as const;
-
-  // Use `typeof` to dynamically infer the allowed types
-  private _type: (typeof NysSelect.VALID_TYPES)[number] = "text";
-
-  // Getter and setter for the `type` property
-  @property({ reflect: true })
-  get type(): (typeof NysSelect.VALID_TYPES)[number] {
-    return this._type;
-  }
-
-  set type(value: string) {
-    this._type = NysSelect.VALID_TYPES.includes(
-      value as (typeof NysSelect.VALID_TYPES)[number],
-    )
-      ? (value as (typeof NysSelect.VALID_TYPES)[number])
-      : "text";
-  }
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
-  @property({ type: String }) value = "";
+
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) readonly = false;
+  @property({ type: Boolean }) optional = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
-  @property({ type: String }) pattern = null;
-  @property({ type: Number }) maxlength = null;
+  @property({ type: Boolean }) clearable = false;
   @property({ type: String }) size = "";
-  @property({ type: Number }) step = null;
-  @property({ type: Number }) min = null;
-  @property({ type: Number }) max = null;
+  // TODO: add multiple select option
 
   constructor() {
     super();
@@ -79,46 +50,38 @@ export class NysSelect extends LitElement {
   render() {
     return html`
       <div class="nys-select">
-        ${(this.label || this.description) &&
-        html` <div class="nys-select__text">
-          <div class="nys-select__label_labelwrapper">
+        ${
+          (this.label || this.description) &&
+          html`<div class="nys-select__text">
             <label for=${this.id} class="nys-select__label"
               >${this.label}</label
             >
             <label for=${this.id} class="nys-select__description"
               >${this.description}</label
             >
-          </div>
-          ${this.required && (this.label || this.description)
-            ? html`<label class="nys-select__required">*</label>`
-            : ""}
-        </div>`}
-        <div class="nys-select__requiredwrapper">
-          <input
-            class="nys-select__input ${this.size}"
-            type=${this.type}
+          </div>`
+        }
+          <select
+            class="nys-select__select ${this.size}"
             name=${this.name}
             id=${this.id}
             ?disabled=${this.disabled}
             ?required=${this.required}
-            ?readonly=${this.readonly}
             aria-disabled="${this.disabled}"
             aria-label="${this.label} ${this.description}"
-            .value=${this.value}
             placeholder=${this.placeholder}
-            maxlength=${this.maxlength}
-            pattern=${this.pattern}
-            step=${this.step}
-            min=${this.min}
-            max=${this.max}
-            form=${this.form}
             @input=${this._handleInput}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
-          />
-          ${this.required && !this.label && !this.description
-            ? html`<label class="nys-select__required">*</label>`
-            : ""}
+          >
+            <option hidden disabled selected value>${this.placeholder}</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option> 
+          </select>
+         
         </div>
       </div>
     `;
