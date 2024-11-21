@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     --nys-icon-color: currentcolor;
-    --nys-icon-size: 1em;
+    --nys-icon-size: 1cap;
   }
 
   /* SVG size and color is initially determined by the parent's font-size and text-color */

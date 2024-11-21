@@ -13,10 +13,10 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
         * Color 
         * Rotation (Degree)
 
-### All available SVG names (Count: {29})
-<div style={{ display: 'flex'}}>
-  <div style={{ flex: '1 1 50%', paddingRight: '1rem' }}>
-    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> edit-square <nys-icon name="edit-square"></nys-icon> </div>
+### All available SVG names (Count: {36})
+<div style={{ display: 'flex', fontSize: '300px'}}>
+  <div style={{ flex: '1 1 50%', paddingRight: '1rem'}}>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle'}}> edit-square <nys-icon name="edit-square"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> publish  <nys-icon name="publish"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> download  <nys-icon name="download"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> download-done  <nys-icon name="download-done"></nys-icon> </div>
@@ -30,12 +30,12 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> arrow-up  <nys-icon name="arrow-up"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> check  <nys-icon name="check"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> calendar-month  <nys-icon name="calendar-month"></nys-icon> </div>
-  </div>
-  <div style={{ flex: '1 1 50%' }}>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> warning  <nys-icon name="warning"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> check-circle  <nys-icon name="check-circle"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> cancel  <nys-icon name="cancel"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> close  <nys-icon name="close"></nys-icon> </div>
+  </div>
+  <div style={{ flex: '1 1 50%' }}>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> language  <nys-icon name="language"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> search  <nys-icon name="search"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> menu  <nys-icon name="menu"></nys-icon> </div>
@@ -47,6 +47,13 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> info  <nys-icon name="info"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> error  <nys-icon name="error"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> emergency  <nys-icon name="emergency"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> social-facebook  <nys-icon name="social-facebook"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> social-instagram  <nys-icon name="social-instagram"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> social-x  <nys-icon name="social-x"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> social-youtube  <nys-icon name="social-youtube"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> social-linkedin  <nys-icon name="social-linkedin"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> social-flickr  <nys-icon name="social-flickr"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle' }}> social-pinterest  <nys-icon name="social-pinterest"></nys-icon> </div>
   </div>
 </div>
 
@@ -67,7 +74,7 @@ Here are some of the features that come with the icon component. Keep scrolling 
 ## Icon Property Examples
 
 ### Size Inheritance
-The icon size will inherit the relative font size from its nearest parent. 
+The icon size will inherit the relative font size from its nearest parent. By default, the icon will have a `font-size` set to `1cap`, which is based on the capital letters' height of the current font.
 
 <Canvas of={NysIconStories.InheritSize} />
 

@@ -277,7 +277,7 @@ export const ColorInheritance: Story = {
   args: {
     label: "upload-file icon",
     name: "upload-file",
-    size: "xl",
+    size: "2xl",
   },
   render: (args) => html`
     <div
@@ -308,7 +308,7 @@ export const ColorInheritance: Story = {
       <nys-icon
         label="upload-file icon"
         name="upload-file"
-        size="xl"
+        size="2xl"
       ></nys-icon>
     </p>
   </div>
@@ -324,7 +324,7 @@ export const ColorChange: Story = {
     label: "upload-file icon",
     name: "upload-file",
     color: "#db117d",
-    size: "xl",
+    size: "2xl",
   },
   render: (args) => html`
     <div
@@ -356,7 +356,7 @@ export const ColorChange: Story = {
         label="upload-file icon"
         name="upload-file"
         color="#db117d"
-        size="xl"
+        size="2xl"
       ></nys-icon>
     </p>
   </div>
@@ -372,7 +372,7 @@ export const Rotate: Story = {
     label: "warning icon",
     name: "warning",
     rotate: "20",
-    size: "xl",
+    size: "2xl",
   },
   render: (args) => html`
     <nys-icon
@@ -392,7 +392,7 @@ export const Rotate: Story = {
   label="warning icon"
   name="warning"
   rotate="20"
-  size="xl"
+  size="2xl"
   ></nys-icon>
         `.trim(),
       },
@@ -405,7 +405,7 @@ export const Flip: Story = {
   args: {
     label: "download-done icon",
     name: "arrow-back",
-    size: "xl",
+    size: "2xl",
     flip: "horizontal",
   },
   render: (args) => html`
@@ -426,7 +426,7 @@ export const Flip: Story = {
   label="download-done icon"
   name="download-done"
   flip="horizontal"
-  size="xl"
+  size="2xl"
   ></nys-icon>
         `.trim(),
       },
