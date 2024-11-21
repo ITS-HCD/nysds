@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit";
+import { LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
@@ -78,7 +78,7 @@ export class NysIcon extends LitElement {
     if (this.flip) {
       svgElement.classList.add(`nys-icon--flip-${this.flip}`);
     }
-    
+
     return svgElement;
   }
 
