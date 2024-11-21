@@ -9,14 +9,14 @@ export class NysSelect extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
-
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) optional = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: Boolean }) clearable = false;
   @property({ type: String }) size = "";
-  // TODO: add multiple select option
+  @property({ type: Boolean }) multiple = false;
+  @property({ type: Array }) options = [];
 
   constructor() {
     super();
