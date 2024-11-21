@@ -10,7 +10,6 @@ export class NysSelect extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) optional = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: Boolean }) clearable = false;
@@ -75,11 +74,9 @@ export class NysSelect extends LitElement {
             @blur="${this._handleBlur}"
           >
             <option hidden disabled selected value>${this.placeholder}</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option> 
+            <option disabled value>${this.label}</option>
+            ${this.options.map((opt) => html` <option value=${opt}>${opt}</option> `)}
+          
           </select>
          
         </div>

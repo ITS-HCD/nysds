@@ -10,9 +10,12 @@ interface NysSelectArgs {
   description: string;
   placeholder: string;
   disabled: boolean;
-  readonly: boolean;
   required: boolean;
+  form: string;
+  clearable: boolean;
   size: string;
+  multiple: false;
+  options: string[];
 }
 
 const meta: Meta<NysSelectArgs> = {
@@ -36,12 +39,16 @@ export const Blank: Story = {
   args: {
     id: "",
     name: "",
-    label: "",
+    label: "Select your favorite borough",
     description: "",
     placeholder: "",
     disabled: false,
     required: false,
+    form: "",
+    clearable: false,
     size: "",
+    multiple: false,
+    options: ["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"],
   },
   render: (args) => html`
     <nys-select
@@ -52,7 +59,11 @@ export const Blank: Story = {
       .placeholder=${args.placeholder}
       .disabled=${args.disabled}
       .required=${args.required}
+      .form=${args.form}
+      .clearable=${args.clearable}
       .size=${args.size}
+      .multiple=${args.multiple}
+      .options=${args.options}
     ></nys-select>
   `,
   parameters: {
