@@ -1,6 +1,5 @@
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-// import iconLibrary from "./nys-alert-icon.library";
 import styles from "./nys-alert.styles";
 import "@excelsior/nys-icon";
 
@@ -38,24 +37,6 @@ export class NysAlert extends LitElement {
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
       : "info";
   }
-
-  // getIcon(type: string) {
-  //   const iconSVG = iconLibrary[type];
-
-  //   if (!iconSVG) return null;
-
-  //   // Parse the SVG string into an actual SVG DOM element
-  //   const parser = new DOMParser();
-  //   const svgDoc = parser.parseFromString(iconSVG, "image/svg+xml");
-  //   const svgElement = svgDoc.documentElement;
-
-  //   // Ensure the parsed element is an SVGElement
-  //   if (!(svgElement instanceof SVGElement)) {
-  //     return null;
-  //   }
-
-  //   return svgElement;
-  // }
 
   // Helper function to map 'success' to 'check-circle' (for svg naming)
   private getIconName(type: string) {
@@ -111,7 +92,7 @@ export class NysAlert extends LitElement {
             ${this.dismissable
               ? html`<div class="close-container">
                   <button class="close-button" @click=${this.closeAlert}>
-                    <nys-icon name="close" size="md" label="close icon"></nys-icon>
+                    <nys-icon name="close" size="lg" label="close icon"></nys-icon>
                   </button>
                 </div>`
               : ""}
