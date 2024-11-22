@@ -34,7 +34,7 @@ export class NysSelect extends LitElement {
         detail: { checkValidity },
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 
