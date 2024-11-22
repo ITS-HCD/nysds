@@ -76,4 +76,10 @@ export default css`
     color: var(--form-help-text-color, gray);
     font-style: italic;
   }
+
+  /* Warning Message Styling */
+  .nys-select__error {
+    color: var(--nys-warning, #b52c2c);
+    padding-top: 0.25rem;
+  }
 `;

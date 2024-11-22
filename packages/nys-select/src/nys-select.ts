@@ -16,6 +16,8 @@ export class NysSelect extends LitElement {
   @property({ type: String }) size = "";
   @property({ type: Boolean }) multiple = false;
   @property({ type: Array }) options = [];
+  @property({ type: String }) warningIcon = "warning";
+  @property({ type: String }) warningMessage = "";
 
   constructor() {
     super();
@@ -32,7 +34,7 @@ export class NysSelect extends LitElement {
         detail: { checkValidity },
         bubbles: true,
         composed: true,
-      }),
+      })
     );
   }
 
@@ -76,9 +78,14 @@ export class NysSelect extends LitElement {
             <option hidden disabled selected value>${this.placeholder}</option>
             <option disabled value>${this.label}</option>
             ${this.options.map((opt) => html` <option value=${opt}>${opt}</option> `)}
-          
           </select>
-         
+          ${
+            this.warningMessage &&
+            html`<div class="nys-select__error">
+              <nys-icon name=${this.warningIcon}></nys-icon>
+              ${this.warningMessage}
+            </div>`
+          }
         </div>
       </div>
     `;
