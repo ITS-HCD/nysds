@@ -1,7 +1,8 @@
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import iconLibrary from "./nys-alert-icon.library";
+// import iconLibrary from "./nys-alert-icon.library";
 import styles from "./nys-alert.styles";
+import "@excelsior/nys-icon";
 
 @customElement("nys-alert")
 export class NysAlert extends LitElement {
@@ -38,22 +39,27 @@ export class NysAlert extends LitElement {
       : "info";
   }
 
-  getIcon(type: string) {
-    const iconSVG = iconLibrary[type];
+  // getIcon(type: string) {
+  //   const iconSVG = iconLibrary[type];
 
-    if (!iconSVG) return null;
+  //   if (!iconSVG) return null;
 
-    // Parse the SVG string into an actual SVG DOM element
-    const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(iconSVG, "image/svg+xml");
-    const svgElement = svgDoc.documentElement;
+  //   // Parse the SVG string into an actual SVG DOM element
+  //   const parser = new DOMParser();
+  //   const svgDoc = parser.parseFromString(iconSVG, "image/svg+xml");
+  //   const svgElement = svgDoc.documentElement;
 
-    // Ensure the parsed element is an SVGElement
-    if (!(svgElement instanceof SVGElement)) {
-      return null;
-    }
+  //   // Ensure the parsed element is an SVGElement
+  //   if (!(svgElement instanceof SVGElement)) {
+  //     return null;
+  //   }
 
-    return svgElement;
+  //   return svgElement;
+  // }
+
+  // Helper function to map 'success' to 'check-circle' (for svg naming)
+  private getIconName(type: string) {
+    return type === "success" ? "check-circle" : type;
   }
 
   // Check if description contains url anywhere in string using javascript and convert it to anchor tag
@@ -86,7 +92,7 @@ export class NysAlert extends LitElement {
   closeAlert() {
     this._alertClosed = true;
   }
-
+  
   render() {
     return html`
       ${!this._alertClosed
@@ -94,7 +100,7 @@ export class NysAlert extends LitElement {
             <div
               class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
             >
-              ${this.noIcon ? "" : this.getIcon(this.type)}
+              ${this.noIcon ? "" : html`<nys-icon name="${this.getIconName(this.type)}" size="2xl" label="${this.type} icon"></nys-icon>`}
             </div>
             <div class="nys-alert__heading">
               ${this.isSlim
@@ -105,7 +111,7 @@ export class NysAlert extends LitElement {
             ${this.dismissable
               ? html`<div class="close-container">
                   <button class="close-button" @click=${this.closeAlert}>
-                    ${this.getIcon("close")}
+                    <nys-icon name="close" size="md" label="close icon"></nys-icon>
                   </button>
                 </div>`
               : ""}

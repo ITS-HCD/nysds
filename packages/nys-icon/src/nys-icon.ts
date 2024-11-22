@@ -1,9 +1,8 @@
 import { LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
 
-@customElement("nys-icon")
 export class NysIcon extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
@@ -91,4 +90,12 @@ export class NysIcon extends LitElement {
   render() {
     return this.getIcon();
   }
+}
+
+/*
+ Conditionally register the custom element. 
+ This ensure the custom element is registered only once to avoid duplication, especially in environments like Storybook where this component may be used as a dependency.
+ */
+if (!customElements.get("nys-icon")) {
+  customElements.define("nys-icon", NysIcon);
 }

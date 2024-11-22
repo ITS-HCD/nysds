@@ -14,7 +14,9 @@
   "scripts": {
     "build": "vite build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@excelsior/nys-icon": "^0.0.1"
+  },
   "peerDependencies": {
     "lit": "^3.0.0"
   },
