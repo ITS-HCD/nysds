@@ -7,6 +7,7 @@ interface NysToggleArgs {
   id: string;
   name: string;
   checked: boolean;
+  disabled?: boolean;
   label?: string;
   size?: string;
 }
@@ -18,6 +19,7 @@ const meta: Meta<NysToggleArgs> = {
     label: { control: "text" },
     name: { control: "text" },
     checked: { control: "boolean" },
+    disabled: { control: "boolean" },
     size: { control: "select", options: ["sm", "md", "lg"] },
   },
   parameters: {
@@ -37,13 +39,14 @@ type Story = StoryObj<NysToggleArgs>;
 // Story: Toggle
 export const Toggle: Story = {
   args: {
-    name: "publish",
+    name: "exampleName",
   },
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
       .checked=${args.checked}
+      .disabled=${args.disabled}
       .size=${args.size}
     ></nys-toggle>`,
   parameters: {
@@ -51,7 +54,7 @@ export const Toggle: Story = {
       source: {
         code: `
   <nys-toggle
-  name="publish"
+  name="exampleName"
   ></nys-toggle>
         `.trim(),
       },
@@ -62,12 +65,15 @@ export const Toggle: Story = {
 // Story: Checked
 export const Checked: Story = {
   args: {
+    name: "exampleName",
     checked: true,
   },
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
+      .name=${args.name}
       .checked=${args.checked}
+      .disabled=${args.disabled}
       .size=${args.size}
     >
     </nys-toggle>`,
@@ -76,7 +82,68 @@ export const Checked: Story = {
       source: {
         code: `
   <nys-toggle
+  name="exampleName"
   checked
+  ></nys-toggle>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: UncheckedDisabled
+export const UncheckedDisabled: Story = {
+  args: {
+    name: "exampleName",
+    disabled: true,
+  },
+  render: (args) =>
+    html` <nys-toggle
+      .label=${args.label}
+      .name=${args.name}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .size=${args.size}
+    >
+    </nys-toggle>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-toggle
+  name="exampleName"
+  disabled
+  ></nys-toggle>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: CheckedDisabled
+export const CheckedDisabled: Story = {
+  args: {
+    name: "exampleName",
+    disabled: true,
+    checked: true,
+  },
+  render: (args) =>
+    html` <nys-toggle
+      .label=${args.label}
+      .name=${args.name}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .size=${args.size}
+    >
+    </nys-toggle>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-toggle
+  name="exampleName"
+  checked
+  disabled
   ></nys-toggle>
         `.trim(),
       },
@@ -87,6 +154,7 @@ export const Checked: Story = {
 // Story: Sizes
 export const Sizes: Story = {
   args: {
+    name: "exampleName",
     size: "lg",
   },
   render: (args) =>
@@ -94,6 +162,7 @@ export const Sizes: Story = {
       .label=${args.label}
       .name=${args.name}
       .checked=${args.checked}
+      .disabled=${args.disabled}
       .size=${args.size}
     >
     </nys-toggle>`,
@@ -102,6 +171,7 @@ export const Sizes: Story = {
       source: {
         code: `
   <nys-toggle
+  name="exampleName"
   size="lg"
   ></nys-toggle>
         `.trim(),

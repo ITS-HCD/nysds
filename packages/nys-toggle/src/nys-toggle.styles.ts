@@ -60,6 +60,20 @@ export default css`
     transform: translateX(var(--slider-checked-translate));
   }
 
+  /* Disabled State */
+  input:disabled + .slider {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+  }
+
+  input:disabled + .slider:before {
+    background-color: #bdbdbd;
+  }
+
+  input:checked:disabled + .slider {
+    background-color: #a5a5a5;
+  }
+
   /* Sizes */
   :host([size="sm"]) {
     --switch-width: 36px;

@@ -1,5 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-toggle.styles";
 
 @customElement("nys-toggle")
@@ -39,7 +40,7 @@ export class NysToggle extends LitElement {
   render() {
     return html`
       <label class="switch" .size=${this.size}>
-        <input type="checkbox" ?checked=${this.checked} ?disabled=${this.disabled} />
+        <input type="checkbox" name="${ifDefined(this.name ? this.name : undefined)}" ?checked=${this.checked} ?disabled=${this.disabled} />
         <span class="slider"></span>
       </label>
     `;
