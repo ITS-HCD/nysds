@@ -5,16 +5,17 @@ import "@excelsior/nys-icon";
 
 @customElement("nys-alert")
 export class NysAlert extends LitElement {
+  static styles = styles;
+
   @property({ type: String }) title = "Title";
   @property({ type: String }) description =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.";
   @property({ type: Boolean }) noIcon = false;
+  @property({ type: String }) icon = "";
   @property({ type: Boolean }) isSlim = false;
-  @property({ type: Boolean }) dismissable = false;
+  @property({ type: Boolean }) dismissible = false;
+  @property({ type: Number }) duration = 0;
   @state() private _alertClosed = false;
-
-  static styles = styles;
-
   private static readonly VALID_TYPES = [
     "info",
     "warning",
@@ -22,7 +23,6 @@ export class NysAlert extends LitElement {
     "error",
     "emergency",
   ] as const;
-
   private _type: (typeof NysAlert.VALID_TYPES)[number] = "info";
 
   @property({ reflect: true })
@@ -38,9 +38,37 @@ export class NysAlert extends LitElement {
       : "info";
   }
 
-  // Helper function to map 'success' to 'check-circle' (for svg naming)
-  private getIconName(type: string) {
-    return type === "success" ? "check-circle" : type;
+  private _timeoutId: any = null;
+
+  // For alerts that have durations, we set a timer to close them.
+  connectedCallback() {
+    super.connectedCallback();
+    if (this.duration > 0) {
+      this._timeoutId = setTimeout(() => {
+        this.closeAlert();
+      }, this.duration);
+    }
+  }
+  disconnectedCallback() {
+    if (this._timeoutId) {
+      clearTimeout(this._timeoutId);
+    }
+    super.disconnectedCallback();
+  }
+
+  /******************** Functions ********************/
+  // Helper function for overriding default icons
+  private getIconName() {
+    if (this.icon) {
+      return this.icon;
+    } else {
+      return this.checkAltNaming(); // checking alternative svg naming
+    }
+  }
+
+  private checkAltNaming() {
+    // map 'success' to 'check-circle'
+    return this.type === "success" ? "check-circle" : this.type;
   }
 
   // Check if description contains url anywhere in string using javascript and convert it to anchor tag
@@ -73,7 +101,7 @@ export class NysAlert extends LitElement {
   closeAlert() {
     this._alertClosed = true;
   }
-  
+
   render() {
     return html`
       ${!this._alertClosed
@@ -81,7 +109,13 @@ export class NysAlert extends LitElement {
             <div
               class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
             >
-              ${this.noIcon ? "" : html`<nys-icon name="${this.getIconName(this.type)}" size="2xl" label="${this.type} icon"></nys-icon>`}
+              ${this.noIcon
+                ? ""
+                : html`<nys-icon
+                    name="${this.getIconName()}"
+                    size="2xl"
+                    label="${this.type} icon"
+                  ></nys-icon>`}
             </div>
             <div class="nys-alert__heading">
               ${this.isSlim
@@ -89,10 +123,14 @@ export class NysAlert extends LitElement {
                 : html`<h4 class="nys-alert__title">${this.title}</h4>`}
               <p class="nys-alert__text">${this.convertUrlStrToAnchor()}</p>
             </div>
-            ${this.dismissable
+            ${this.dismissible
               ? html`<div class="close-container">
                   <button class="close-button" @click=${this.closeAlert}>
-                    <nys-icon name="close" size="lg" label="close icon"></nys-icon>
+                    <nys-icon
+                      name="close"
+                      size="lg"
+                      label="close icon"
+                    ></nys-icon>
                   </button>
                 </div>`
               : ""}
