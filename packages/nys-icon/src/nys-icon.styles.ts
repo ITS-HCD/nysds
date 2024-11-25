@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     --nys-icon-color: currentcolor;
-    --nys-icon-size: 1em;
+    --nys-icon-size: 1cap;
   }
 
   /* SVG size and color is initially determined by the parent's font-size and text-color */
@@ -76,5 +76,16 @@ export default css`
   .nys-icon--64 {
     width: 4rem;
     height: 4rem;
+  }
+
+  /* Flipping Icons */
+  .nys-icon--flip-horizontal {
+    transform: scaleX(-1);
+  }
+  .nys-icon--flip-vertical {
+    transform: scaleY(-1);
+  }
+  .nys-icon--flip-both {
+    transform: scale(-1, -1);
   }
 `;

@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit";
+import { LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
@@ -8,6 +8,7 @@ export class NysIcon extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) rotate = "0";
+  @property({ type: String }) flip = "";
   @property({ type: String }) color = "";
 
   static styles = styles;
@@ -73,6 +74,10 @@ export class NysIcon extends LitElement {
     svgElement.style.rotate = `${this.rotate}deg`;
     svgElement.style.color = this.color || "currentcolor";
     svgElement.classList.add(`nys-icon--${this.size}`);
+
+    if (this.flip) {
+      svgElement.classList.add(`nys-icon--flip-${this.flip}`);
+    }
 
     return svgElement;
   }
