@@ -5,17 +5,25 @@ import * as NysToggleStories from "./nys-toggle.stories";
 <Meta of={NysToggleStories} title="Components/Toggle/Documentation" />
 
 # Toggle
-The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
+The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle an option on or off.
 
-## Toggle Property Examples
-### Toggle
-This is a toggle.
+If an id is not passed, a unique id will be generated.
+
 <Canvas of={NysToggleStories.Toggle} />
+
+## Property Examples
+### Checked
+<Canvas of={NysToggleStories.Checked} />
+
+### Sizes
+The current size is set to `size="lg"`. Adjust the `size` property to see how it changes the toggle's appearance.
+<Canvas of={NysToggleStories.Sizes} />
+
 
 
 ## Accessibility
 
-The `nys-icon` component includes the following accessibility-focused features:
+The `nys-toggle` component includes the following accessibility-focused features:
 
 - **ARIA Hidden by Default:** If no label is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
 - **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the icon accessible to screen readers.

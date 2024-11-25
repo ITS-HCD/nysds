@@ -40,7 +40,7 @@ export default defineConfig({
         {
           format: "umd",
           banner,
-          name: "NysIcon",
+          name: "NysToggle",
           dir: "dist",
           entryFileNames: "nys-toggle.js",
           globals: {

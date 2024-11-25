@@ -2,79 +2,80 @@ import { css } from "lit";
 
 export default css`
   :host {
-    --nys-icon-color: currentcolor;
-    --nys-icon-size: 1em;
+    --switch-width: 46px;
+    --switch-height: 24px;
+    --slider-diameter: 18px;
+    --slider-offset: calc((var(--switch-height) - var(--slider-diameter)) / 2);
+    --slider-checked-translate: calc(
+      var(--switch-width) - var(--slider-diameter) - var(--slider-offset) - 4px
+    );
   }
 
-  /* SVG size and color is initially determined by the parent's font-size and text-color */
-  svg {
-    width: var(--nys-icon-size, 1cap);
-    height: var(--nys-icon-size, 1cap);
+  .switch {
+    position: relative;
     display: inline-block;
-    white-space: nowrap;
+    width: var(--switch-width);
+    height: var(--switch-height);
   }
 
-  /* Relative Sizes */
-  .nys-icon--2xs {
-    width: calc(var(--nys-icon-size) * 0.75);
-    height: calc(var(--nys-icon-size) * 0.75);
-  }
-  .nys-icon--xs {
-    width: calc(var(--nys-icon-size) * 0.875);
-    height: calc(var(--nys-icon-size) * 0.875);
-  }
-  .nys-icon--sm {
-    width: var(--nys-icon-size);
-    height: var(--nys-icon-size);
-  }
-  .nys-icon--md {
-    width: calc(var(--nys-icon-size) * 1.125);
-    height: calc(var(--nys-icon-size) * 1.125);
-  }
-  .nys-icon--lg {
-    width: calc(var(--nys-icon-size) * 1.25);
-    height: calc(var(--nys-icon-size) * 1.25);
-  }
-  .nys-icon--xl {
-    width: calc(var(--nys-icon-size) * 1.5);
-    height: calc(var(--nys-icon-size) * 1.5);
-  }
-  .nys-icon--2xl {
-    width: calc(var(--nys-icon-size) * 1.875);
-    height: calc(var(--nys-icon-size) * 1.875);
-  }
-  .nys-icon--3xl {
-    width: calc(var(--nys-icon-size) * 2.25);
-    height: calc(var(--nys-icon-size) * 2.25);
-  }
-  .nys-icon--4xl {
-    width: calc(var(--nys-icon-size) * 3);
-    height: calc(var(--nys-icon-size) * 3);
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
   }
 
-  /* Literal Sizing */
-  .nys-icon--12 {
-    width: 0.75rem;
-    height: 0.75rem;
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    border-radius: 34px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: all 0.3s cubic-bezier(0.27, 0.2, 0.25, 1.51);
   }
-  .nys-icon--16 {
-    width: 1rem;
-    height: 1rem;
+
+  .slider:before {
+    content: "";
+    position: absolute;
+    height: var(--slider-diameter);
+    width: var(--slider-diameter);
+    left: var(--slider-offset);
+    bottom: var(--slider-offset);
+    border-radius: 50%;
+    background-color: white;
+    transition: 0.3s;
   }
-  .nys-icon--24 {
-    width: 1.5rem;
-    height: 1.5rem;
+
+  input:checked + .slider {
+    background-color: #1c73a8;
   }
-  .nys-icon--32 {
-    width: 2rem;
-    height: 2rem;
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #1c73a8;
   }
-  .nys-icon--48 {
-    width: 3rem;
-    height: 3rem;
+
+  input:checked + .slider:before {
+    transform: translateX(var(--slider-checked-translate));
   }
-  .nys-icon--64 {
-    width: 4rem;
-    height: 4rem;
+
+  /* Sizes */
+  :host([size="sm"]) {
+    --switch-width: 36px;
+    --switch-height: 18px;
+    --slider-diameter: 12px;
+  }
+
+  :host([size="md"]) {
+    --switch-width: 46px;
+    --switch-height: 24px;
+    --slider-diameter: 18px;
+  }
+
+  :host([size="lg"]) {
+    --switch-width: 60px;
+    --switch-height: 30px;
+    --slider-diameter: 24px;
   }
 `;
