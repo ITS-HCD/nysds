@@ -16,7 +16,6 @@ interface NysSelectArgs {
   size: string;
   multiple: false;
   options: string[];
-  warningIcon: String;
   warningMessage: String;
 }
 
@@ -51,7 +50,6 @@ export const Blank: Story = {
     size: "",
     multiple: false,
     options: ["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"],
-    warningIcon: "",
     warningMessage: "This is a warning message",
   },
   render: (args) => html`
@@ -68,7 +66,6 @@ export const Blank: Story = {
       .size=${args.size}
       .multiple=${args.multiple}
       .options=${args.options}
-      .warningIcon=${args.warningIcon}
       .warningMessage=${args.warningMessage}
     ></nys-select>
   `,
