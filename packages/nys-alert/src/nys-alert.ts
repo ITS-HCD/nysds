@@ -8,8 +8,6 @@ export class NysAlert extends LitElement {
   static styles = styles;
 
   @property({ type: String }) title = "Title";
-  @property({ type: String }) description =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.";
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) icon = "";
   @property({ type: Boolean }) isSlim = false;
@@ -71,33 +69,6 @@ export class NysAlert extends LitElement {
     return this.type === "success" ? "check-circle" : this.type;
   }
 
-  // Check if description contains url anywhere in string using javascript and convert it to anchor tag
-  convertUrlStrToAnchor() {
-    let urlCheck = /https?:\/\/[^\s]+/g; // valid link tags start with /https
-    const parts = [];
-    let lastIndex = 0;
-
-    // Find all url and wrap them in <a> tags
-    this.description.replace(urlCheck, (match, index) => {
-      // Push any non-URL part before the current URL
-      if (index > lastIndex) {
-        parts.push(this.description.slice(lastIndex, index));
-      }
-
-      // Push the anchor tag for the matched URL
-      parts.push(html`<a href=${match} target="_blank">${match}</a>`);
-      lastIndex = index + match.length;
-      return match;
-    });
-
-    // push any remaining text after last URL match
-    if (lastIndex < this.description.length) {
-      parts.push(this.description.slice(lastIndex));
-    }
-
-    return parts;
-  }
-
   closeAlert() {
     this._alertClosed = true;
   }
@@ -121,7 +92,7 @@ export class NysAlert extends LitElement {
               ${this.isSlim
                 ? ""
                 : html`<h4 class="nys-alert__title">${this.title}</h4>`}
-              <p class="nys-alert__text">${this.convertUrlStrToAnchor()}</p>
+              <slot class="nys-alert__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</slot>
             </div>
             ${this.dismissible
               ? html`<div class="close-container">

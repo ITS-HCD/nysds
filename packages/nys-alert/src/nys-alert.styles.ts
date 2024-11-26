@@ -44,6 +44,9 @@ export default css`
   .nys-alert__text {
     margin: 0;
   }
+  ::slotted(p) {
+    margin: 0;
+  }
 
   .close-container {
     margin-left: auto;

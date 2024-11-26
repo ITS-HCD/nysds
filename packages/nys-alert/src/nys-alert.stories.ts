@@ -6,7 +6,6 @@ import "./nys-alert";
 interface NysAlertArgs {
   type: string;
   title: string;
-  description: string;
   duration?: number;
   icon?: string;
   noIcon?: boolean;
@@ -23,7 +22,6 @@ const meta: Meta<NysAlertArgs> = {
       options: ["info", "warning", "success", "error", "emergency"],
     },
     title: { control: "text" },
-    description: { control: "text" },
     duration: { control: "number" },
     icon: { control: "text" },
     noIcon: { control: "boolean", default: false },
@@ -52,9 +50,8 @@ export const AllAlerts: Story = {
         html`<nys-alert
             .type=${type}
             .title=${type.charAt(0).toUpperCase() + type.slice(1) + " Status"}
-            .description="This is an example of a ${type} alert."
             dismissible
-          ></nys-alert>
+          ><p>This is an example of ${type == "info" || type == "emergency" ? `an ${type}` : `a ${type}`} alert.</p></nys-alert>
           <br /> `,
     )}
   `,
@@ -62,11 +59,11 @@ export const AllAlerts: Story = {
     docs: {
       source: {
         code: `
-<nys-alert type="info" title="Info status" description="This is an example of an info alert." dismissible></nys-alert>
-<nys-alert type="warning" title="Warning status" description="This is an example of a warning alert." dismissible></nys-alert>
-<nys-alert type="success" title="Success status" description="This is an example of a success alert." dismissible></nys-alert>
-<nys-alert type="error" title="Error status" description="This is an example of an error alert." dismissible></nys-alert>
-<nys-alert type="emergency" title="Emergency status" description="This is an example of an emergency alert." dismissible></nys-alert>
+<nys-alert type="info" title="Info status" dismissible><p>This is an example of an info alert.</p></nys-alert>
+<nys-alert type="warning" title="Warning status" dismissible><p>This is an example of a warning alert.</p></nys-alert>
+<nys-alert type="success" title="Success status" dismissible><p>This is an example of a success alert.</p></nys-alert>
+<nys-alert type="error" title="Error status" dismissible><p>This is an example of an error alert.</p></nys-alert>
+<nys-alert type="emergency" title="Emergency status" dismissible><p>This is an example of an emergency alert.</p></nys-alert>
 `.trim(),
         type: "auto",
       },
@@ -79,28 +76,61 @@ export const AlertType: Story = {
   args: {
     type: "info",
     title: "Information status",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.",
   },
   render: (args) => html`
     <nys-alert
       .type=${args.type}
       .title=${args.title}
-      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
-    ></nys-alert>
+      ?dismissible=${args.dismissible}
+    >
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
+    </nys-alert>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-alert 
-  type="info" 
-  title="Information status" 
-  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.">
+<nys-alert type="info" title="Information status">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
+</nys-alert>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: DescriptionSlot
+export const DescriptionSlot: Story = {
+  args: {
+    type: "success",
+    title: "Custom Descriptions",
+  },
+  render: (args) => html`
+    <nys-alert
+      .type=${args.type}
+      .title=${args.title}
+      .duration=${args.duration}
+      .icon=${args.icon}
+      ?noIcon=${args.noIcon}
+      ?isSlim=${args.isSlim}
+      ?dismissible=${args.dismissible}
+    >
+    <p>This is a custom alert with <strong>HTML content</strong>.</p>
+    <a href="https://example.com" target="_blank">Learn more</a>
+  </nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert type="success" title="Custom Descriptions">
+  <p>This is a custom alert with <strong>HTML content</strong>.</p>
+  <a href="https://example.com" target="_blank">Learn more</a>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -114,21 +144,20 @@ export const Dismissible: Story = {
   args: {
     type: "info",
     title: "Information status",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.",
     dismissible: true,
   },
   render: (args) => html`
     <nys-alert
       .type=${args.type}
       .title=${args.title}
-      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
-    ></nys-alert>
+    >
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
+    </nys-alert>
   `,
   parameters: {
     docs: {
@@ -137,7 +166,8 @@ export const Dismissible: Story = {
 <nys-alert 
   type="info" 
   title="Information status" 
-  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info.">
+  dismissible>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -151,7 +181,6 @@ export const Duration: Story = {
   args: {
     type: "info",
     title: "Information status",
-    description: "This alert will disappear after 3 seconds.",
     duration: 3000,
   },
   render: (args) => {
@@ -163,11 +192,11 @@ export const Duration: Story = {
         const newAlert = document.createElement("nys-alert");
         newAlert.setAttribute("type", args.type);
         newAlert.setAttribute("title", args.title);
-        newAlert.setAttribute("description", args.description);
         newAlert.setAttribute("duration", String(args.duration));
         if (args.dismissible) newAlert.setAttribute("dismissible", "");
         if (args.noIcon) newAlert.setAttribute("noIcon", "");
         if (args.isSlim) newAlert.setAttribute("isSlim", "");
+        newAlert.innerText = "This alert will disappear after 3 seconds."
         container.appendChild(newAlert);
       }
     };
@@ -202,8 +231,8 @@ export const Duration: Story = {
 <nys-alert 
   type="info" 
   title="Information status" 
-  description="This alert will disappear after 3 seconds.">
-  duration="3000"
+  duration="3000">
+  <p>This alert will disappear after 3 seconds.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -217,30 +246,30 @@ export const CustomIcon: Story = {
   args: {
     type: "warning",
     title: "Help status",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod?",
     icon: "help",
   },
   render: (args) => html`
     <nys-alert
       .type=${args.type}
       .title=${args.title}
-      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
-    ></nys-alert>
+      ?dismissible=${args.dismissible}
+    >  
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod?</p>
+    </nys-alert>
   `,
   parameters: {
     docs: {
       source: {
         code: `
 <nys-alert 
-  type="info" 
-  title="Information status" 
-  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: https://www.w3schools.com for more info."
+  type="warning" 
+  title="Help status" 
   icon="help">
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod?</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -254,19 +283,17 @@ export const NoIcon: Story = {
   args: {
     type: "info",
     title: "Information status",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
     noIcon: true,
   },
   render: (args) => html`
     <nys-alert
       .type=${args.type}
       .title=${args.title}
-      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
+      ?dismissible=${args.dismissible}
     ></nys-alert>
   `,
   parameters: {
@@ -276,9 +303,9 @@ export const NoIcon: Story = {
 <nys-alert 
   type="info" 
   title="Information status" 
-  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod."
   noIcon
   >
+ <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -292,20 +319,20 @@ export const Slim: Story = {
   args: {
     type: "info",
     title: "Information status",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.",
     isSlim: true,
   },
   render: (args) => html`
     <nys-alert
       .type=${args.type}
       .title=${args.title}
-      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
-    ></nys-alert>
+      ?dismissible=${args.dismissible}
+    >
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+    </nys-alert>
   `,
   parameters: {
     docs: {
@@ -314,8 +341,8 @@ export const Slim: Story = {
 <nys-alert 
   type="info" 
   title="Information status" 
-  description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod." 
   isSlim>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
 </nys-alert>
 `.trim(),
         type: "auto",

@@ -18,6 +18,10 @@ Below are the available alert types, each showcasing its unique style and purpos
 To change the type of alert, use the `type` prop. The example below shows `type="info"`
 <Canvas of={NysAlertStories.AlertType} />
 
+### Custom Content for Description
+The `nys-alert` component supports using the `slot` feature for the alert's content. This allows you to pass in custom HTML, providing full flexibility for your alert's description.
+<Canvas of={NysAlertStories.DescriptionSlot} />
+
 ### Dismissible
 Set a `dismissible` boolean property to add a close button in the top-right corner, allowing users to dismiss the alert.
 <Canvas of={NysAlertStories.Dismissible} />
