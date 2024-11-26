@@ -21,15 +21,15 @@ export class NysAlert extends LitElement {
     "error",
     "emergency",
   ] as const;
-  private _type: (typeof NysAlert.VALID_TYPES)[number] = "info";
+  private _theme: (typeof NysAlert.VALID_TYPES)[number] = "info";
 
   @property({ reflect: true })
-  get type() {
-    return this._type;
+  get theme() {
+    return this._theme;
   }
 
-  set type(value: string) {
-    this._type = NysAlert.VALID_TYPES.includes(
+  set theme(value: string) {
+    this._theme = NysAlert.VALID_TYPES.includes(
       value as (typeof NysAlert.VALID_TYPES)[number],
     )
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
@@ -66,7 +66,7 @@ export class NysAlert extends LitElement {
 
   private checkAltNaming() {
     // map 'success' to 'check-circle'
-    return this.type === "success" ? "check-circle" : this.type;
+    return this.theme === "success" ? "check-circle" : this.theme;
   }
 
   closeAlert() {
@@ -76,7 +76,7 @@ export class NysAlert extends LitElement {
   render() {
     return html`
       ${!this._alertClosed
-        ? html` <div class="nys-alert__container nys-alert--${this.type}">
+        ? html` <div class="nys-alert__container nys-alert--${this.theme}">
             <div
               class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
             >
@@ -85,7 +85,7 @@ export class NysAlert extends LitElement {
                 : html`<nys-icon
                     name="${this.getIconName()}"
                     size="2xl"
-                    label="${this.type} icon"
+                    label="${this.theme} icon"
                   ></nys-icon>`}
             </div>
             <div class="nys-alert__heading">
