@@ -81,12 +81,6 @@ export class NysIcon extends LitElement {
     return svgElement;
   }
 
-  updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has("label") || changedProperties.has("name")) {
-      this.requestUpdate(); // Ensure re-render if properties change
-    }
-  }
-
   render() {
     return this.getIcon();
   }
