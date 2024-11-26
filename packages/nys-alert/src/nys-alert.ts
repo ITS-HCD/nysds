@@ -71,6 +71,17 @@ export class NysAlert extends LitElement {
 
   closeAlert() {
     this._alertClosed = true;
+
+    /* Dispatch a custom event for the close action:
+     * allows bubbling up so if developers wish to implement a local save to remember closed alerts.
+     */
+    this.dispatchEvent(
+      new CustomEvent("alert-closed", {
+        detail: { theme: this.theme, title: this.title },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
