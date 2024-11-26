@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
-import "@excelsior/nys-icon";
+import "@excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 @customElement("nys-alert")
 export class NysAlert extends LitElement {
