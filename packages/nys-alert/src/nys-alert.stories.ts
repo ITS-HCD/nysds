@@ -51,7 +51,14 @@ export const AllAlerts: Story = {
             .type=${type}
             .title=${type.charAt(0).toUpperCase() + type.slice(1) + " Status"}
             dismissible
-          ><p>This is an example of ${type == "info" || type == "emergency" ? `an ${type}` : `a ${type}`} alert.</p></nys-alert>
+            ><p>
+              This is an example of
+              ${type == "info" || type == "emergency"
+                ? `an ${type}`
+                : `a ${type}`}
+              alert.
+            </p></nys-alert
+          >
           <br /> `,
     )}
   `,
@@ -87,7 +94,12 @@ export const AlertType: Story = {
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+        Click here:
+        <a href="https://example.com" target="_blank">https://example.com</a>
+        for more info.
+      </p>
     </nys-alert>
   `,
   parameters: {
@@ -95,7 +107,7 @@ export const AlertType: Story = {
       source: {
         code: `
 <nys-alert type="info" title="Information status">
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://example.com" target="_blank">https://example.com</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -120,9 +132,9 @@ export const DescriptionSlot: Story = {
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-    <p>This is a custom alert with <strong>HTML content</strong>.</p>
-    <a href="https://example.com" target="_blank">Learn more</a>
-  </nys-alert>
+      <p>This is a custom alert with <strong>HTML content</strong>.</p>
+      <a href="https://example.com" target="_blank">Learn more</a>
+    </nys-alert>
   `,
   parameters: {
     docs: {
@@ -156,7 +168,12 @@ export const Dismissible: Story = {
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+        Click here:
+        <a href="https://example.com" target="_blank">https://example.com</a>
+        for more info.
+      </p>
     </nys-alert>
   `,
   parameters: {
@@ -167,7 +184,7 @@ export const Dismissible: Story = {
   type="info" 
   title="Information status" 
   dismissible>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://www.ny.gov/">https://www.ny.gov/</a> for more info.</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://example.com" target="_blank"">https://example.com</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -196,7 +213,7 @@ export const Duration: Story = {
         if (args.dismissible) newAlert.setAttribute("dismissible", "");
         if (args.noIcon) newAlert.setAttribute("noIcon", "");
         if (args.isSlim) newAlert.setAttribute("isSlim", "");
-        newAlert.innerText = "This alert will disappear after 3 seconds."
+        newAlert.innerText = "This alert will disappear after 3 seconds.";
         container.appendChild(newAlert);
       }
     };
@@ -257,8 +274,10 @@ export const CustomIcon: Story = {
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
-    >  
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod?</p>
+    >
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod?
+      </p>
     </nys-alert>
   `,
   parameters: {
@@ -331,7 +350,9 @@ export const Slim: Story = {
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+      </p>
     </nys-alert>
   `,
   parameters: {

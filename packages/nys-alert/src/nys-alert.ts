@@ -92,7 +92,10 @@ export class NysAlert extends LitElement {
               ${this.isSlim
                 ? ""
                 : html`<h4 class="nys-alert__title">${this.title}</h4>`}
-              <slot class="nys-alert__text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</slot>
+              <slot class="nys-alert__text"
+                >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod.</slot
+              >
             </div>
             ${this.dismissible
               ? html`<div class="close-container">
