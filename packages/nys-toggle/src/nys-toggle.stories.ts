@@ -151,6 +151,40 @@ export const CheckedDisabled: Story = {
   },
 };
 
+// Story: Help texts
+export const HelpTexts: Story = {
+  args: {
+    name: "exampleName",
+    checked: true,
+  },
+  render: (args) =>
+    html` <nys-toggle
+      .label=${args.label}
+      .name=${args.name}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .size=${args.size}
+    >
+      <p slot="label">Toggle Switch</p>
+      <p slot="description-right">Use the toggle switch to check/uncheck</p>
+    </nys-toggle>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-toggle
+  name="exampleName"
+  checked
+  >
+    <p slot="label">Toggle Switch</p>
+    <p slot="description-right">Use the toggle switch to check/uncheck</p>
+  </nys-toggle>
+        `.trim(),
+      },
+    },
+  },
+};
+
 // Story: Sizes
 export const Sizes: Story = {
   args: {

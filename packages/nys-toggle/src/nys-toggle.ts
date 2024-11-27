@@ -39,10 +39,17 @@ export class NysToggle extends LitElement {
 
   render() {
     return html`
-      <label class="switch" .size=${this.size}>
-        <input type="checkbox" name="${ifDefined(this.name ? this.name : undefined)}" ?checked=${this.checked} ?disabled=${this.disabled} />
-        <span class="slider"></span>
-      </label>
+      <div class="nys-toggle--main-container">
+        <label class="switch" .size=${this.size}>
+          <input type="checkbox" name="${ifDefined(this.name ? this.name : undefined)}" ?checked=${this.checked} ?disabled=${this.disabled} />
+          <span class="slider"></span>
+        </label>
+        <div class="texts-right-container">
+          <slot name="label"></slot>
+          <slot name="description-right"></slot>
+        </div>
+      </div>
+      <slot name="description-bottom"></slot>
     `;
   }
 }

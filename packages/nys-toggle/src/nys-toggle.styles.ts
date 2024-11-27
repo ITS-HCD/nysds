@@ -11,6 +11,31 @@ export default css`
     );
   }
 
+  ::slotted(p) {
+    margin: 0;
+  }
+
+  ::slotted([slot^="description"]) {
+  font-size: 14px;
+    color: gray;
+}
+
+::slotted([slot="description-bottom"]) {
+  margin-top: 10px;
+}
+
+  .nys-toggle--main-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .texts-right-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Toggle Switch component */
   .switch {
     position: relative;
     display: inline-block;
@@ -53,7 +78,7 @@ export default css`
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #1c73a8;
+    box-shadow: 0 0 0 1px white, 0 0 0 3px #1c73a8;
   }
 
   input:checked + .slider:before {
