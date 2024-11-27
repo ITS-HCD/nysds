@@ -10,13 +10,12 @@ The **`nys-alert`** component is a reusable web component for use in New York St
 
 If an id is not passed, a unique id will be generated.
 
-## Examples
-
-### All Alerts
-Below are the available alert types, each showcasing its unique style and purpose.
+## All Alerts
+Below are the available alert theme, each showcasing its unique style and purpose.
 <Canvas of={NysAlertStories.AllAlerts} />
 
-### Alert Type
+## Alert Property Examples
+### Theme
 Set the `theme` property to customize the alert style. Example: `theme="info"`.
 <Canvas of={NysAlertStories.AlertType} />
 
@@ -34,11 +33,11 @@ Set the `duration` property to automatically hide the alert after a specified ti
 <Canvas of={NysAlertStories.Duration} />
 
 ### Icon Customization
-Override the default `type` icon by setting the `icon` property to any name from the icon library.
+Override the default `theme` icon by setting the `icon` property to any name from the icon library.
 <Canvas of={NysAlertStories.CustomIcon} />
 
 ### No Icon Option
-To displays an alert without an accompanying icon, you can turn the `noIcon` prop to true.
+To displays an alert without an accompanying icon, you can apply the `noIcon` prop.
 <Canvas of={NysAlertStories.NoIcon} />
 
 ### Slim Variant

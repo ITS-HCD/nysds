@@ -221,13 +221,13 @@ export const Duration: Story = {
     };
 
     return html`
-      <div class="alert-duration">
+      <div class="alert-duration-container">
         <button
           id="show-alert"
           type="button"
           @click=${showAlert}
           style="
-          background-color: #1ca1ba; 
+          background-color: #154973; 
           color: white; 
           border: none; 
           padding: 10px 20px; 
@@ -279,8 +279,7 @@ export const CustomIcon: Story = {
     >
       <p>
         Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn
-        Bridge tristique at. Seneca Lake pharetra Taconic Parkway mollis Long
-        Island vineyards tempor non?
+        Bridge tristique at?
       </p>
     </nys-alert>
   `,
@@ -341,7 +340,6 @@ export const NoIcon: Story = {
 export const Slim: Story = {
   args: {
     theme: "info",
-    title: "Information status",
     isSlim: true,
   },
   render: (args) => html`
@@ -365,7 +363,6 @@ export const Slim: Story = {
         code: `
 <nys-alert 
   theme="info" 
-  title="Information status" 
   isSlim>
   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
 </nys-alert>

@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
 import "@excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 
@@ -38,6 +39,20 @@ export class NysAlert extends LitElement {
     )
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
       : "info";
+  }
+
+  get ariaAttributes() {
+    const ariaRole =
+      this.theme === "error" || this.theme === "emergency"
+        ? "alert"
+        : this.theme === "success"
+          ? "status"
+          : "region"; // Default role
+
+    // Set aria-label only for role="region"
+    const ariaLabel = ariaRole === "region" ? `${this.theme} alert` : "";
+
+    return { role: ariaRole, ariaLabel };
   }
 
   /**************** Lifecycle Methods ****************/
@@ -101,11 +116,17 @@ export class NysAlert extends LitElement {
   }
 
   render() {
+    const { role, ariaLabel } = this.ariaAttributes;
+
     return html`
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
             class="nys-alert__container nys-alert--${this.theme}"
+            role=${role}
+            aria-label=${ifDefined(
+              ariaLabel.trim() !== "" ? ariaLabel : undefined,
+            )}
           >
             <div
               class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
