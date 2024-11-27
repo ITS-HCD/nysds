@@ -45,7 +45,7 @@ export const Blank: Story = {
     id: "",
     name: "",
     type: "",
-    label: "",
+    label: "Label",
     description: "",
     placeholder: "",
     value: "",
@@ -84,7 +84,7 @@ export const Blank: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-textinput></nys-textinput>`,
+        code: `<nys-textinput label="Label"></nys-textinput>`,
         type: "auto",
       },
     },
@@ -99,7 +99,7 @@ export const Size: Story = {
       <br />
       <nys-textinput size="sm" label="SM"></nys-textinput>
       <br />
-      <nys-textinput label="default"></nys-textinput>
+      <nys-textinput size="md" label="MD (default)"></nys-textinput>
       <br />
       <nys-textinput size="lg" label="LG"></nys-textinput>
       <br />
@@ -112,7 +112,7 @@ export const Size: Story = {
         code: `
 <nys-textinput size="xs" label="XS"></nys-textinput>
 <nys-textinput size="sm" label="SM"></nys-textinput>
-<nys-textinput label="default"></nys-textinput>
+<nys-textinput size="md" label="MD (default)"></nys-textinput>
 <nys-textinput size="lg" label="LG"></nys-textinput>
 <nys-textinput size="xl" label="XL"></nys-textinput>
         `,
@@ -126,44 +126,32 @@ export const DifferentTypes: Story = {
   args: {},
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput
-        type="text"
-        placeholder="text"
-        style="flex: 1;"
-      ></nys-textinput>
+      <nys-textinput type="text" label="text" style="flex: 1;"></nys-textinput>
       <nys-textinput
         type="email"
-        placeholder="email"
+        label="email"
         style="flex: 1;"
       ></nys-textinput>
       <nys-textinput
         type="number"
-        placeholder="number"
+        label="number"
         style="flex: 1;"
       ></nys-textinput>
       <nys-textinput
         type="password"
-        placeholder="password"
+        label="password"
         style="flex: 1;"
       ></nys-textinput>
       <nys-textinput
         type="search"
-        placeholder="search"
+        label="search"
         style="flex: 1;"
       ></nys-textinput>
-      <nys-textinput
-        type="tel"
-        placeholder="tel"
-        style="flex: 1;"
-      ></nys-textinput>
-      <nys-textinput
-        type="url"
-        placeholder="url"
-        style="flex: 1;"
-      ></nys-textinput>
+      <nys-textinput type="tel" label="tel" style="flex: 1;"></nys-textinput>
+      <nys-textinput type="url" label="url" style="flex: 1;"></nys-textinput>
       <nys-textinput
         type="invalid"
-        placeholder="invalid defaults to text"
+        label="invalid defaults to text"
         style="flex: 1;"
       ></nys-textinput>
     </div>
@@ -171,14 +159,14 @@ export const DifferentTypes: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-textinput type="text" placeholder="text"></nys-textinput>
-<nys-textinput type="email" placeholder="email"></nys-textinput>
-<nys-textinput type="number" placeholder="number"></nys-textinput>
-<nys-textinput type="password" placeholder="password"></nys-textinput>
-<nys-textinput type="search" placeholder="search"></nys-textinput>
-<nys-textinput type="tel" placeholder="tel"></nys-textinput>
-<nys-textinput type="url" placeholder="url"></nys-textinput>
-<nys-textinput type="invalid" placeholder="invalid defaults to text"></nys-textinput>`,
+        code: `<nys-textinput type="text" label="text"></nys-textinput>
+<nys-textinput type="email" label="email"></nys-textinput>
+<nys-textinput type="number" label="number"></nys-textinput>
+<nys-textinput type="password" label="password"></nys-textinput>
+<nys-textinput type="search" label="search"></nys-textinput>
+<nys-textinput type="tel" label="tel"></nys-textinput>
+<nys-textinput type="url" label="url"></nys-textinput>
+<nys-textinput type="invalid" label="invalid defaults to text"></nys-textinput>`,
         type: "auto",
       },
     },
@@ -191,10 +179,6 @@ export const Labels: Story = {
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       <nys-textinput label="Only Label" style="flex: 1;"></nys-textinput>
       <nys-textinput
-        description="Only Description"
-        style="flex: 1;"
-      ></nys-textinput>
-      <nys-textinput
         label="Label"
         description="Description"
         style="flex: 1;"
@@ -206,7 +190,6 @@ export const Labels: Story = {
       source: {
         code: `
 <nys-textinput label="Only Label"></nys-textinput>
-<nys-textinput description="Only Description"></nys-textinput>
 <nys-textinput label="Label" description="Description"></nys-textinput>
         `,
         type: "auto",
@@ -219,9 +202,18 @@ export const ValueAndPlaceholder: Story = {
   args: {},
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput value="beginning value" style="flex: 1;"></nys-textinput>
-      <nys-textinput placeholder="placeholder" style="flex: 1;"></nys-textinput>
       <nys-textinput
+        label="Beginning Value Example"
+        value="beginning value"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        label="Placeholder Example"
+        placeholder="placeholder"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        label="Placeholder and Default Value Example"
         value="default value"
         placeholder="and a placeholder"
         style="flex: 1;"
@@ -232,9 +224,19 @@ export const ValueAndPlaceholder: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput value="beginning value"></nys-textinput>
-<nys-textinput placeholder="placeholder"></nys-textinput>
-<nys-textinput value="default value" placeholder="and a placeholder"></nys-textinput>
+<nys-textinput 
+  label="Beginning Value Example"
+  value="beginning value">
+</nys-textinput>
+<nys-textinput
+  label="Placeholder Example"
+  placeholder="placeholder">
+</nys-textinput>
+<nys-textinput 
+  label="Placeholder and Default Value Example" 
+  value="default value" 
+  placeholder="and a placeholder">
+</nys-textinput>
         `,
         type: "auto",
       },
@@ -245,16 +247,16 @@ export const ValueAndPlaceholder: Story = {
 export const DisabledAndReadonly: Story = {
   args: {},
   render: () => html`
-    <nys-textinput disabled value="disabled"></nys-textinput>
+    <nys-textinput label="Disabled" disabled></nys-textinput>
     <br />
-    <nys-textinput readonly value="readonly"></nys-textinput>
+    <nys-textinput label="Read Only" readonly></nys-textinput>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput disabled value="disabled"></nys-textinput>
-<nys-textinput readonly value="readonly"></nys-textinput>
+<nys-textinput label="Disabled" disabled></nys-textinput>
+<nys-textinput label="Read Only" readonly></nys-textinput>
         `,
         type: "auto",
       },
@@ -265,13 +267,27 @@ export const DisabledAndReadonly: Story = {
 export const MaxMinAndStep: Story = {
   args: {},
   render: () => html`
-    <nys-textinput type="number" min="0" max="100" step="10"></nys-textinput>
+    <nys-textinput
+      label="Max/Min Example"
+      description="Must be between 0 and 100"
+      type="number"
+      min="0"
+      max="100"
+      step="10"
+    ></nys-textinput>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput type="number" min="0" max="100" step="10"></nys-textinput>
+<nys-textinput 
+  label="Max/Min Example" 
+  description="Must be between 0 and 100"
+  type="number" 
+  min="0" 
+  max="100" 
+  step="10">
+</nys-textinput>
         `,
         type: "auto",
       },
@@ -281,12 +297,22 @@ export const MaxMinAndStep: Story = {
 
 export const Maxlength: Story = {
   args: {},
-  render: () => html` <nys-textinput maxlength="10"></nys-textinput> `,
+  render: () => html`
+    <nys-textinput
+      label="Max Length"
+      description="You cannot type more than 10 characters in the below field"
+      maxlength="10"
+    ></nys-textinput>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput maxlength="10"></nys-textinput>
+<nys-textinput
+  label="Max Length"
+  description="You cannot type more than 10 characters in the below field" 
+  maxlength="10">
+</nys-textinput>
         `,
         type: "auto",
       },
@@ -341,9 +367,7 @@ export const Required: Story = {
   args: {},
   render: () =>
     html`<div style="display: flex; gap: 1rem; flex-wrap: wrap">
-      <nys-textinput required style="flex:1"></nys-textinput>
       <nys-textinput required label="label" style="flex:1"></nys-textinput>
-      <nys-textinput required description="desc" style="flex:1"></nys-textinput>
       <nys-textinput
         required
         label="label"
@@ -355,9 +379,7 @@ export const Required: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput required ></nys-textinput> 
 <nys-textinput required label="label"></nys-textinput>
-<nys-textinput required description="desc"></nys-textinput>
 <nys-textinput required label="label" description="desc"></nys-textinput>      
 `,
         type: "auto",
