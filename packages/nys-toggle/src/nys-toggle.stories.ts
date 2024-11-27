@@ -36,8 +36,8 @@ type Story = StoryObj<NysToggleArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
-// Story: Toggle
-export const Toggle: Story = {
+// Story: Toggle switch
+export const ToggleSwitch: Story = {
   args: {
     name: "exampleName",
   },
@@ -155,10 +155,9 @@ export const CheckedDisabled: Story = {
 export const HelpTexts: Story = {
   args: {
     name: "exampleName",
-    checked: true,
   },
-  render: (args) =>
-    html` <nys-toggle
+  render: (args) => html`
+    <nys-toggle
       .label=${args.label}
       .name=${args.name}
       .checked=${args.checked}
@@ -166,18 +165,34 @@ export const HelpTexts: Story = {
       .size=${args.size}
     >
       <p slot="label">Toggle Switch</p>
-      <p slot="description-right">Use the toggle switch to check/uncheck</p>
-    </nys-toggle>`,
+      <p slot="description-right">This slot is called 'description-right'</p>
+    </nys-toggle>
+    <br />
+    <br />
+    <nys-toggle
+      .label=${args.label}
+      .name=${args.name}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .size=${args.size}
+    >
+      <p slot="label">Toggle Switch</p>
+      <p slot="description-bottom">This slot is called 'description-bottom'</p>
+    </nys-toggle>
+  `,
   parameters: {
     docs: {
       source: {
         code: `
-  <nys-toggle
-  name="exampleName"
-  checked
-  >
+  <nys-toggle name="exampleName">
     <p slot="label">Toggle Switch</p>
-    <p slot="description-right">Use the toggle switch to check/uncheck</p>
+    <p slot="description-right">This slot is called 'description-right'</p>
+  </nys-toggle>
+  <br/>
+  <br/>
+  <nys-toggle name="exampleName">
+    <p slot="label">Toggle Switch</p>
+    <p slot="description-bottom">This slot is called 'description-bottom'</p>
   </nys-toggle>
         `.trim(),
       },
@@ -199,6 +214,12 @@ export const Sizes: Story = {
       .disabled=${args.disabled}
       .size=${args.size}
     >
+      <p slot="label">
+        ${args.size == "sm" ? "Small" : args.size == "md" ? "Medium" : "Large"}
+      </p>
+      <p slot="description-bottom">
+        Label and description's font-size will resize with toggle switch's size.
+      </p>
     </nys-toggle>`,
   parameters: {
     docs: {
@@ -207,7 +228,9 @@ export const Sizes: Story = {
   <nys-toggle
   name="exampleName"
   size="lg"
-  ></nys-toggle>
+  >
+   <p slot="label">Large</p>
+  </nys-toggle>
         `.trim(),
       },
     },

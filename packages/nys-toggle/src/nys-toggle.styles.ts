@@ -9,6 +9,11 @@ export default css`
     --slider-checked-translate: calc(
       var(--switch-width) - var(--slider-diameter) - var(--slider-offset) - 4px
     );
+
+    /* Font sizes and spacing for labels/descriptions */
+    --label-font-size: 14px;
+    --description-font-size: 12px;
+    --description-spacing: 7px;
   }
 
   ::slotted(p) {
@@ -16,13 +21,13 @@ export default css`
   }
 
   ::slotted([slot^="description"]) {
-  font-size: 14px;
+    font-size: var(--description-font-size);
     color: gray;
-}
+  }
 
-::slotted([slot="description-bottom"]) {
-  margin-top: 10px;
-}
+  ::slotted([slot="description-bottom"]) {
+    margin-top: var(--description-spacing);
+  }
 
   .nys-toggle--main-container {
     display: flex;
@@ -33,6 +38,7 @@ export default css`
   .texts-right-container {
     display: flex;
     flex-direction: column;
+    font-size: var(--label-font-size);
   }
 
   /* Toggle Switch component */
@@ -78,7 +84,9 @@ export default css`
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 0 1px white, 0 0 0 3px #1c73a8;
+    box-shadow:
+      0 0 0 1px white,
+      0 0 0 3px #1c73a8;
   }
 
   input:checked + .slider:before {
@@ -104,17 +112,26 @@ export default css`
     --switch-width: 36px;
     --switch-height: 18px;
     --slider-diameter: 12px;
+    --label-font-size: 12px;
+    --description-font-size: 10px;
+    --description-spacing: 5px;
   }
 
   :host([size="md"]) {
     --switch-width: 46px;
     --switch-height: 24px;
     --slider-diameter: 18px;
+    --label-font-size: 14px;
+    --description-font-size: 12px;
+    --description-spacing: 7px;
   }
 
   :host([size="lg"]) {
     --switch-width: 60px;
     --switch-height: 30px;
     --slider-diameter: 24px;
+    --label-font-size: 16px;
+    --description-font-size: 14px;
+    --description-spacing: 10px;
   }
 `;
