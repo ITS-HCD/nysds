@@ -3,10 +3,14 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
 import "@excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
+let alertIdCounter = 0; // Counter for generating unique IDs
+
 @customElement("nys-alert")
 export class NysAlert extends LitElement {
   static styles = styles;
 
+  /********************** Properties **********************/
+  @property({ type: String }) id = "";
   @property({ type: String }) title = "Title";
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) icon = "";
@@ -36,11 +40,19 @@ export class NysAlert extends LitElement {
       : "info";
   }
 
+  /**************** Lifecycle Methods ****************/
+
   private _timeoutId: any = null;
 
   // For alerts that have durations, we set a timer to close them.
   connectedCallback() {
     super.connectedCallback();
+
+    // Generate a unique ID if not provided
+    if (!this.id) {
+      this.id = this.generateUniqueId();
+    }
+
     if (this.duration > 0) {
       this._timeoutId = setTimeout(() => {
         this.closeAlert();
@@ -55,7 +67,11 @@ export class NysAlert extends LitElement {
   }
 
   /******************** Functions ********************/
-  // Helper function for overriding default icons
+  private generateUniqueId() {
+    return `nys-alert-${Date.now()}-${alertIdCounter++}`;
+  }
+
+  // Helper function for overriding default icons or checking special naming cases (e.g. theme=success)
   private getIconName() {
     if (this.icon) {
       return this.icon;
@@ -87,7 +103,10 @@ export class NysAlert extends LitElement {
   render() {
     return html`
       ${!this._alertClosed
-        ? html` <div class="nys-alert__container nys-alert--${this.theme}">
+        ? html` <div
+            id=${this.id}
+            class="nys-alert__container nys-alert--${this.theme}"
+          >
             <div
               class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
             >
