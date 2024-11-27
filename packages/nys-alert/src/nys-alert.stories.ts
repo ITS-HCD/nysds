@@ -95,9 +95,10 @@ export const AlertType: Story = {
       ?dismissible=${args.dismissible}
     >
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+        Adirondack peaks auctor Hudson River flows semper Statue of Liberty
+        est.<br />
         Click here:
-        <a href="https://example.com" target="_blank">https://example.com</a>
+        <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
         for more info.
       </p>
     </nys-alert>
@@ -107,7 +108,7 @@ export const AlertType: Story = {
       source: {
         code: `
 <nys-alert theme="info" title="Information status">
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://example.com" target="_blank">https://example.com</a> for more info.</p>
+  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.<br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -133,7 +134,7 @@ export const DescriptionSlot: Story = {
       ?dismissible=${args.dismissible}
     >
       <p>This is a custom alert with <strong>HTML content</strong>.</p>
-      <a href="https://example.com" target="_blank">Learn more</a>
+      <a href="https://www.ny.gov/" target="_blank">Learn more</a>
     </nys-alert>
   `,
   parameters: {
@@ -142,7 +143,7 @@ export const DescriptionSlot: Story = {
         code: `
 <nys-alert theme="success" title="Custom Descriptions">
   <p>This is a custom alert with <strong>HTML content</strong>.</p>
-  <a href="https://example.com" target="_blank">Learn more</a>
+  <a href="https://www.ny.gov/" target="_blank">Learn more</a>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -169,9 +170,10 @@ export const Dismissible: Story = {
       ?dismissible=${args.dismissible}
     >
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+        Adirondack peaks auctor Hudson River flows semper Statue of Liberty
+        est.<br />
         Click here:
-        <a href="https://example.com" target="_blank">https://example.com</a>
+        <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
         for more info.
       </p>
     </nys-alert>
@@ -184,7 +186,7 @@ export const Dismissible: Story = {
   theme="info" 
   title="Information status" 
   dismissible>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod. Click here: <a href="https://example.com" target="_blank"">https://example.com</a> for more info.</p>
+  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank"">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -276,7 +278,9 @@ export const CustomIcon: Story = {
       ?dismissible=${args.dismissible}
     >
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod?
+        Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn
+        Bridge tristique at. Seneca Lake pharetra Taconic Parkway mollis Long
+        Island vineyards tempor non?
       </p>
     </nys-alert>
   `,
@@ -288,7 +292,7 @@ export const CustomIcon: Story = {
   theme="warning" 
   title="Help status" 
   icon="help">
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod?</p>
+  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est?</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -324,7 +328,7 @@ export const NoIcon: Story = {
   title="Information status" 
   noIcon
   >
- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+ <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -351,7 +355,7 @@ export const Slim: Story = {
       ?dismissible=${args.dismissible}
     >
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
+        Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.
       </p>
     </nys-alert>
   `,
@@ -363,7 +367,7 @@ export const Slim: Story = {
   theme="info" 
   title="Information status" 
   isSlim>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.</p>
+  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
