@@ -5,7 +5,7 @@ import styles from "./nys-select.styles";
 @customElement("nys-select")
 export class NysSelect extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String }) name = null;
+  @property({ type: String }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
@@ -14,8 +14,8 @@ export class NysSelect extends LitElement {
   @property({ type: String }) form = "";
   @property({ type: Boolean }) clearable = false;
   @property({ type: String }) size = "";
-  @property({ type: Boolean }) multiple = false;
-  @property({ type: Array }) options = [];
+  @property({ type: Array }) options: Array<{ value: string; label: string }> =
+    [];
   @property({ type: String }) warningMessage = "";
 
   constructor() {
@@ -67,7 +67,6 @@ export class NysSelect extends LitElement {
             id=${this.id}
             ?disabled=${this.disabled}
             ?required=${this.required}
-            ?multiple=${this.multiple}
             aria-disabled="${this.disabled}"
             aria-label="${this.label} ${this.description}"
             placeholder=${this.placeholder}
