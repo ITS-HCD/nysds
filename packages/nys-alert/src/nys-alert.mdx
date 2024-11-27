@@ -50,3 +50,31 @@ The `nys-alert` component includes the following accessibility-focused features:
 
 - Keyboard navigation support, allowing users to use voiceover to read the alert using the keyboard.
 - Visual focus indicators to help users navigate the component.
+
+#### Each alert theme contains an ARIA role attribute that can notify assistive technologies of time-sensitive and important messages. 
+<table border="1">
+  <thead>
+    <tr>
+      <th><strong>ARIA Role</strong></th>
+      <th><strong>Attribute</strong></th>
+      <th><strong>Use Case</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`role="alert"`</td>
+      <td>Important messages that demand the user's immediate attention.</td>
+      <td>Example: Error and Emergency alert</td>
+    </tr>
+    <tr>
+      <td>`role="status"`</td>
+      <td>Messages that provide advisory information but do not have the same urgency as alerts.</td>
+      <td>Example: Success alert</td>
+    </tr>
+    <tr>
+      <td>`role="region"`</td>
+      <td>Messages that provide information the user would want to be able to easily find, but are not important enough to interrupt user workflow.</td>
+      <td>Information and Warning alert (An `aria-label`will be added for this role.)</td>
+    </tr>
+  </tbody>
+</table>
