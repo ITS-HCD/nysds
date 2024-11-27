@@ -67,6 +67,7 @@ export class NysSelect extends LitElement {
             id=${this.id}
             ?disabled=${this.disabled}
             ?required=${this.required}
+            ?multiple=${this.multiple}
             aria-disabled="${this.disabled}"
             aria-label="${this.label} ${this.description}"
             placeholder=${this.placeholder}
