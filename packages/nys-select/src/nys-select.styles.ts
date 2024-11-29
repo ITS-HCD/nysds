@@ -18,12 +18,6 @@ export default css`
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;
-    /*   
-    ----------removes default arrow----------    
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none; 
-    */
     text-indent: 1px;
     text-overflow: "";
   }
@@ -57,13 +51,21 @@ export default css`
     cursor: not-allowed;
   }
 
-  .nys-select__text {
+  /* Required */
+  .nys-select__required {
+    color: red;
+    margin-left: 0.25rem;
+  }
+
+  .nys-select__requiredwrapper {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 0.25rem;
   }
 
   /* Label styling */
+  .nys-select__text {
+    padding-bottom: 0.25rem;
+  }
+
   .nys-select__label {
     font-size: 16px;
     font-weight: 500;
@@ -77,7 +79,7 @@ export default css`
     font-style: italic;
   }
 
-  /* Warning Message Styling */
+  /* Error Message Styling */
   .nys-select__error {
     color: var(--nys-warning, #b52c2c);
     padding-top: 0.25rem;
