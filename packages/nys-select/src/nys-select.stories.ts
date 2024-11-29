@@ -14,7 +14,6 @@ interface NysSelectArgs {
   form: string;
   clearable: boolean;
   size: string;
-  multiple: false;
   options: string[];
   errorMessage: String;
 }
@@ -48,7 +47,6 @@ export const Blank: Story = {
     form: "",
     clearable: false,
     size: "",
-    multiple: false,
     options: ["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"],
     errorMessage: "",
   },
@@ -64,7 +62,47 @@ export const Blank: Story = {
       .form=${args.form}
       .clearable=${args.clearable}
       .size=${args.size}
-      .multiple=${args.multiple}
+      .options=${args.options}
+      .errorMessage=${args.errorMessage}
+    ></nys-select>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-select></nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const disabled: Story = {
+  args: {
+    id: "",
+    name: "",
+    label: "Select your favorite borough",
+    description: "",
+    placeholder: "",
+    disabled: false,
+    required: false,
+    form: "",
+    clearable: false,
+    size: "",
+    options: ["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"],
+    errorMessage: "",
+  },
+  render: (args) => html`
+    <nys-select
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .form=${args.form}
+      .clearable=${args.clearable}
+      .size=${args.size}
       .options=${args.options}
       .errorMessage=${args.errorMessage}
     ></nys-select>

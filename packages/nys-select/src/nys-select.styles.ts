@@ -3,8 +3,6 @@ import { css } from "lit";
 export default css`
   .nys-select {
     font-family: Arial, sans-serif;
-    position: relative;
-    display: inline-block;
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;
