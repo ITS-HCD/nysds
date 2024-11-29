@@ -9,6 +9,7 @@ export class NysSelect extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
+  @property({ type: String }) value = "";
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
@@ -71,6 +72,7 @@ export class NysSelect extends LitElement {
           ?required=${this.required}
           aria-disabled="${this.disabled}"
           aria-label="${this.label} ${this.description}"
+          .value=${this.value}
           placeholder=${this.placeholder}
           @input=${this._handleInput}
           @focus="${this._handleFocus}"

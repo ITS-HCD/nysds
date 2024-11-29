@@ -9,6 +9,7 @@ interface NysSelectArgs {
   label: string;
   description: string;
   placeholder: string;
+  value: string;
   disabled: boolean;
   required: boolean;
   form: string;
@@ -42,6 +43,7 @@ export const Blank: Story = {
     label: "Select your favorite borough",
     description: "",
     placeholder: "",
+    value: "",
     disabled: false,
     required: false,
     form: "",
@@ -57,6 +59,7 @@ export const Blank: Story = {
       .label=${args.label}
       .description=${args.description}
       .placeholder=${args.placeholder}
+      .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
@@ -69,7 +72,11 @@ export const Blank: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-select></nys-select>`,
+        code: `
+<nys-select 
+  label="Select your favorite borough"
+  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+</nys-select>`,
         type: "auto",
       },
     },
@@ -83,7 +90,8 @@ export const disabled: Story = {
     label: "Select your favorite borough",
     description: "",
     placeholder: "",
-    disabled: false,
+    value: "Brooklyn",
+    disabled: true,
     required: false,
     form: "",
     clearable: false,
@@ -98,6 +106,7 @@ export const disabled: Story = {
       .label=${args.label}
       .description=${args.description}
       .placeholder=${args.placeholder}
+      .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
@@ -110,7 +119,13 @@ export const disabled: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-select></nys-select>`,
+        code: `
+<nys-select 
+  label="Select your favorite borough"
+  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
+  value="Brooklyn"
+  disabled
+></nys-select>`,
         type: "auto",
       },
     },
