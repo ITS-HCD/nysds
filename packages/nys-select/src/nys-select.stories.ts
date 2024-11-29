@@ -41,7 +41,7 @@ export const Blank: Story = {
     id: "",
     name: "",
     label: "Select your favorite borough",
-    description: "Unfortunately Albany does not count",
+    description: "",
     placeholder: "",
     disabled: false,
     required: false,
