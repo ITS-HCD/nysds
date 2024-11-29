@@ -79,21 +79,31 @@ export default css`
     transition: 0.3s;
   }
 
+  /* Switch BG: Checked */
   input:checked + .slider {
     background-color: #1c73a8;
   }
 
+  /* Switch Outline: Focus */
   input:focus + .slider {
     box-shadow:
       0 0 0 1px white,
       0 0 0 3px #1c73a8;
   }
 
+  /* Switch Outline: Focus and checked */
+  input:checked:focus + .slider {
+    box-shadow:
+      0 0 0 1px white,
+      0 0 0 4px #146598; 
+  }
+
+  /* Switch Knob: Checked */
   input:checked + .slider:before {
     transform: translateX(var(--slider-checked-translate));
   }
 
-  /* Disabled State */
+  /*** Disabled State ***/
   input:disabled + .slider {
     background-color: #e0e0e0;
     cursor: not-allowed;
