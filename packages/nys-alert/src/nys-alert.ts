@@ -65,12 +65,12 @@ export class NysAlert extends LitElement {
 
     // Generate a unique ID if not provided
     if (!this.id) {
-      this.id = this.generateUniqueId();
+      this.id = this._generateUniqueId();
     }
 
     if (this.duration > 0) {
       this._timeoutId = setTimeout(() => {
-        this.closeAlert();
+        this._closeAlert();
       }, this.duration);
     }
   }
@@ -82,32 +82,32 @@ export class NysAlert extends LitElement {
   }
 
   /******************** Functions ********************/
-  private generateUniqueId() {
+  private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }
 
   // Helper function for overriding default icons or checking special naming cases (e.g. theme=success)
-  private getIconName() {
+  private _getIconName() {
     if (this.icon) {
       return this.icon;
     } else {
-      return this.checkAltNaming(); // checking alternative svg naming
+      return this._checkAltNaming(); // checking alternative svg naming
     }
   }
 
-  private checkAltNaming() {
+  private _checkAltNaming() {
     // map 'success' to 'check-circle'
     return this.theme === "success" ? "check-circle" : this.theme;
   }
 
-  closeAlert() {
+  private _closeAlert() {
     this._alertClosed = true;
 
     /* Dispatch a custom event for the close action:
      * allows bubbling up so if developers wish to implement a local save to remember closed alerts.
      */
     this.dispatchEvent(
-      new CustomEvent("nys-alert-closed", {
+      new CustomEvent("nys-alertClosed", {
         detail: { theme: this.theme, title: this.title },
         bubbles: true,
         composed: true,
@@ -134,7 +134,7 @@ export class NysAlert extends LitElement {
               ${this.noIcon
                 ? ""
                 : html`<nys-icon
-                    name="${this.getIconName()}"
+                    name="${this._getIconName()}"
                     size="2xl"
                     label="${this.theme} icon"
                   ></nys-icon>`}
@@ -150,7 +150,7 @@ export class NysAlert extends LitElement {
             </div>
             ${this.dismissible
               ? html`<div class="close-container">
-                  <button class="close-button" @click=${this.closeAlert}>
+                  <button class="close-button" @click=${this._closeAlert}>
                     <nys-icon
                       name="close"
                       size="lg"
