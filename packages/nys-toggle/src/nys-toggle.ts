@@ -39,7 +39,7 @@ export class NysToggle extends LitElement {
 
   render() {
     return html`
-      <div class="nys-toggle--main-container">
+      <div class="nys-toggle--main-container" role="switch" aria-label=${ifDefined(this.label ? this.label : undefined)}>
         <label class="switch" .size=${this.size}>
           <input
             type="checkbox"

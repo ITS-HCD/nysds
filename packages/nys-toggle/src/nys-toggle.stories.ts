@@ -236,3 +236,35 @@ export const Sizes: Story = {
     },
   },
 };
+
+// Story: Labels
+export const Labels: Story = {
+  args: {
+    name: "exampleName",
+    label: "toggle switch access",
+  },
+  render: (args) =>
+    html` <nys-toggle
+      .label=${args.label}
+      .name=${args.name}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .size=${args.size}
+    >
+      <p slot="label">Toggle Switch</p>
+    </nys-toggle>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-toggle
+  name="exampleName"
+  label="toggle switch access"
+  >
+    <p slot="label">Toggle Switch</p>
+  </nys-toggle>
+        `.trim(),
+      },
+    },
+  },
+};

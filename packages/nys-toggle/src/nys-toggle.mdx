@@ -37,5 +37,10 @@ The current size is set to `size="lg"`. Adjust the `size` property to see how it
 
 The `nys-toggle` component includes the following accessibility-focused features:
 
-- **ARIA Hidden by Default:** If no label is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
-- **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the icon accessible to screen readers.
+- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
+- Keyboard navigation support, allowing users to toggle the toggle switch using the keyboard.
+- **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the toggle switch accessible to screen readers.
+
+### Labels
+Include a label property to provide accessible text for screen readers.
+<Canvas of={NysToggleStories.Labels} />
