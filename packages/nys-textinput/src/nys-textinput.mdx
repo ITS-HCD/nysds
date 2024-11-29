@@ -1,0 +1,53 @@
+import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysTextinputStories from './nys-textinput.stories';
+
+<Meta of={NysTextinputStories} title="Components/Textinput/Documentation" />
+
+
+# Text Input
+The `nys-textinput` is a reusable web component for use in New York State digital products. It allows users to input data to be collected.
+
+### Basic Text Input
+
+<Canvas of={NysTextinputStories.Blank} />
+
+### Size
+
+If no size is provided, the `nys-textinput` will fill the width of its parent. Supported sizes are `xs`, `sm`, `md`, `lg`, and `xl`\
+If any other input is assigned to `size`, it will be ignored and fit to the parent width.
+
+<Canvas of={NysTextinputStories.Size} />
+
+### Different Input Types
+Note: Accepted types are: `text` `email` `number` `password` `search` `tel` `url`\
+Any other input defaults to `type="text"`
+<Canvas of={NysTextinputStories.DifferentTypes} />
+
+### Labels and Descriptions
+
+<Canvas of={NysTextinputStories.Labels} />
+
+### Values and Placeholders
+
+<Canvas of={NysTextinputStories.ValueAndPlaceholder} />
+
+### Disabled and Readonly
+
+<Canvas of={NysTextinputStories.DisabledAndReadonly} />
+
+### Max Min and Step
+Note: `max` `min` `step` only apply when `type="number"`
+<Canvas of={NysTextinputStories.MaxMinAndStep} />
+
+### Maxlength
+
+<Canvas of={NysTextinputStories.Maxlength} />
+
+### Pattern
+Note: Takes in valid regex 
+<Canvas of={NysTextinputStories.Pattern} />
+
+### Required
+
+<Canvas of={NysTextinputStories.Required} />
