@@ -291,7 +291,7 @@ export const CustomIcon: Story = {
   theme="warning" 
   title="Help status" 
   icon="help">
-  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est?</p>
+  <p>Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?</p>
 </nys-alert>
 `.trim(),
         type: "auto",
