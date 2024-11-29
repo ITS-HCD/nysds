@@ -20,7 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     # Job steps
     steps:
-      continue-on-error: true
       # Manual Checkout
       - uses: actions/checkout@v4
  
@@ -31,6 +30,7 @@ jobs:
  
       #👇 Add Storybook build and deploy to GitHub Pages as a step in the workflow
       - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+        continue-on-error: true
         with:
           install_command: npm install # default: npm ci
           build_command: npm run build-storybook # default: npm run build-storybook
