@@ -16,7 +16,7 @@ interface NysSelectArgs {
   size: string;
   multiple: false;
   options: string[];
-  warningMessage: String;
+  errorMessage: String;
 }
 
 const meta: Meta<NysSelectArgs> = {
@@ -42,7 +42,7 @@ export const Blank: Story = {
     name: "",
     label: "Select your favorite borough",
     description: "Unfortunately Albany does not count",
-    placeholder: "placeholder text (optional)",
+    placeholder: "",
     disabled: false,
     required: false,
     form: "",
@@ -50,7 +50,7 @@ export const Blank: Story = {
     size: "",
     multiple: false,
     options: ["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"],
-    warningMessage: "This is a warning message",
+    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -66,7 +66,7 @@ export const Blank: Story = {
       .size=${args.size}
       .multiple=${args.multiple}
       .options=${args.options}
-      .warningMessage=${args.warningMessage}
+      .errorMessage=${args.errorMessage}
     ></nys-select>
   `,
   parameters: {
