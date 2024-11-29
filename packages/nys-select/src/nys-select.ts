@@ -15,8 +15,7 @@ export class NysSelect extends LitElement {
   @property({ type: String }) form = "";
   @property({ type: Boolean }) clearable = false; //TODO: implement on refactor once figma is completed and icons can be pulled in
   @property({ type: String }) size = "";
-  @property({ type: Array }) options: Array<{ value: string; label: string }> =
-    [];
+  @property({ type: String }) options: Array<string> = [];
   @property({ type: String }) errorMessage = "";
 
   static styles = styles;
@@ -42,6 +41,19 @@ export class NysSelect extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
+  }
+
+  // Check if the current value matches any option, and if so, set it as selected
+  updated(changedProperties: Map<string, unknown>): void {
+    super.updated(changedProperties);
+
+    // This ensures the value is set correctly after the component renders
+    if (changedProperties.has("value")) {
+      const selectElement = this.shadowRoot?.querySelector("select");
+      if (selectElement) {
+        selectElement.value = this.value;
+      }
+    }
   }
 
   render() {
