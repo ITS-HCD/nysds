@@ -44,11 +44,6 @@ export default css`
     cursor: not-allowed;
   }
 
-  /* Required */
-  .nys-textinput__input:required {
-    border-color: red;
-  }
-
   .nys-textinput__required {
     color: red;
     margin-left: 0.25rem;

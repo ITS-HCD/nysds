@@ -1,13 +1,13 @@
-import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { LitElement } from "lit";
+import { property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
 
-@customElement("nys-icon")
 export class NysIcon extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) rotate = "0";
+  @property({ type: String }) flip = "";
   @property({ type: String }) color = "";
 
   static styles = styles;
@@ -74,16 +74,22 @@ export class NysIcon extends LitElement {
     svgElement.style.color = this.color || "currentcolor";
     svgElement.classList.add(`nys-icon--${this.size}`);
 
-    return svgElement;
-  }
-
-  updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has("label") || changedProperties.has("name")) {
-      this.requestUpdate(); // Ensure re-render if properties change
+    if (this.flip) {
+      svgElement.classList.add(`nys-icon--flip-${this.flip}`);
     }
+
+    return svgElement;
   }
 
   render() {
     return this.getIcon();
   }
+}
+
+/*
+ Conditionally register the custom element. 
+ This ensure the custom element is registered only once to avoid duplication, especially in environments like Storybook where this component may be used as a dependency.
+ */
+if (!customElements.get("nys-icon")) {
+  customElements.define("nys-icon", NysIcon);
 }

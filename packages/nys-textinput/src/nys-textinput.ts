@@ -5,7 +5,7 @@ import styles from "./nys-textinput.styles";
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String }) name = null;
+  @property({ type: String }) name = "";
   private static readonly VALID_TYPES = [
     "email",
     "number",
@@ -40,7 +40,7 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
-  @property({ type: String }) pattern = null;
+  @property({ type: String }) pattern = "";
   @property({ type: Number }) maxlength = null;
   @property({ type: String }) size = "";
   @property({ type: Number }) step = null;
