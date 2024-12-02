@@ -95,7 +95,7 @@ export class NysSelect extends LitElement {
             ${this.options.map((opt) => html` <option value=${opt}>${opt}</option> `)}
           </select>
           <slot name="icon">
-            <nys-icon name="arrow-down" size="xl" class="nys-select__icon"></nys-icon>
+            <nys-icon name="arrow-down" size="lg" class="nys-select__icon"></nys-icon>
           </slot>
         </div>
         ${
