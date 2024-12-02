@@ -76,23 +76,28 @@ export class NysSelect extends LitElement {
           </div>`
         }    
       <div class="nys-select__requiredwrapper">
-        <select
-          class="nys-select__select ${this.size}"
-          name=${this.name}
-          id=${this.id}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          aria-disabled="${this.disabled}"
-          aria-label="${this.label} ${this.description}"
-          .value=${this.value}
-          placeholder=${this.placeholder}
-          @input=${this._handleInput}
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-        >
-          <option hidden disabled selected value>${this.placeholder}</option>
-          ${this.options.map((opt) => html` <option value=${opt}>${opt}</option> `)}
-        </select>
+        <div class="nys-select__selectwrapper">
+          <select
+            class="nys-select__select ${this.size}"
+            name=${this.name}
+            id=${this.id}
+            ?disabled=${this.disabled}
+            ?required=${this.required}
+            aria-disabled="${this.disabled}"
+            aria-label="${this.label} ${this.description}"
+            .value=${this.value}
+            placeholder=${this.placeholder}
+            @input=${this._handleInput}
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+          >
+            <option hidden disabled selected value>${this.placeholder}</option>
+            ${this.options.map((opt) => html` <option value=${opt}>${opt}</option> `)}
+          </select>
+          <slot name="icon">
+            <nys-icon name="arrow-down" size="xl" class="nys-select__icon"></nys-icon>
+          </slot>
+        </div>
         ${
           this.required && !this.label
             ? html`<label class="nys-select__required">*</label>`

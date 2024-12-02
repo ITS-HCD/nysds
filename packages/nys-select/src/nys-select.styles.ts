@@ -22,6 +22,22 @@ export default css`
     -webkit-appearance: none;
   }
 
+  .nys-select__selectwrapper {
+    position: relative;
+    display: inline-block;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    width: fill-available;
+  }
+
+  .nys-select__icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
   .xs {
     padding: 0.125rem;
   }
