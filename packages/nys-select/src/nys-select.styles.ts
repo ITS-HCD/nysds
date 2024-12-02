@@ -18,6 +18,8 @@ export default css`
     width: fill-available;
     text-indent: 1px;
     text-overflow: "";
+    background: white;
+    -webkit-appearance: none;
   }
 
   .xs {
