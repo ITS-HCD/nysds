@@ -3,6 +3,8 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-toggle.styles";
 
+let toggleIdCounter = 0; // Counter for generating unique IDs
+
 @customElement("nys-toggle")
 export class NysToggle extends LitElement {
   static styles = styles;
@@ -12,7 +14,7 @@ export class NysToggle extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = true;
+  @property({ type: Boolean }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
@@ -38,29 +40,37 @@ export class NysToggle extends LitElement {
   @property({ type: String }) error = "";
   @property({ type: String }) form = "";
 
-  
   /******************** Functions ********************/
-    // Handle focus event
-    private _handleFocus() {
-      this.dispatchEvent(new Event("focus"));
-    }
-  
-    // Handle blur event
-    private _handleBlur() {
-      this.dispatchEvent(new Event("blur"));
-    }
 
-    private _handleChange(e: Event) {
-      const { checked } = e.target as HTMLInputElement;
-      this.checked = checked;
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: { checked: this.checked },
-          bubbles: true,
-          composed: true,
-        }),
-      );
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-checkbox-${Date.now()}-${toggleIdCounter++}`;
     }
+  }
+
+  // Handle focus event
+  private _handleFocus() {
+    this.dispatchEvent(new Event("focus"));
+  }
+
+  // Handle blur event
+  private _handleBlur() {
+    this.dispatchEvent(new Event("blur"));
+  }
+
+  private _handleChange(e: Event) {
+    const { checked } = e.target as HTMLInputElement;
+    this.checked = checked;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { checked: this.checked },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
 
   private _handleKeyDown(event: KeyboardEvent) {
     if (!this.disabled && (event.key === " " || event.key === "Enter")) {
@@ -84,30 +94,34 @@ export class NysToggle extends LitElement {
 
   render() {
     return html`
-      <div 
-      class="nys-toggle--main-container" 
-      role="switch" 
-      aria-label=${ifDefined(this.label ? this.label : undefined)}
-      >
-        <label class="switch" .size=${this.size}>
-          <input
-            type="checkbox"
-            name="${ifDefined(this.name ? this.name : undefined)}"
-            .checked=${this.checked}
-            ?disabled=${this.disabled}
-            @change=${this._handleChange}
-            @focus=${this._handleFocus}
-            @blur=${this._handleBlur}
-            @keydown=${this._handleKeyDown}
-          />
-          <span class="slider"></span>
-        </label>
-        <div class="texts-right-container">
-          <slot name="label"></slot>
-          <slot name="description-right"></slot>
+      <label class="nys-toggle">
+        <div class="nys-toggle--main-container">
+          <div class="switch" .size=${this.size}>
+            <input
+              id="${this.id}"
+              type="checkbox"
+              name="${ifDefined(this.name ? this.name : undefined)}"
+              .checked=${this.checked}
+              ?disabled=${this.disabled}
+              ?required="${this.required}"
+              role="switch"
+              aria-checked="${this.checked}"
+              aria-disabled="${this.disabled}"
+              aria-required="${this.required}"
+              @change=${this._handleChange}
+              @focus=${this._handleFocus}
+              @blur=${this._handleBlur}
+              @keydown=${this._handleKeyDown}
+            />
+            <span class="slider"></span>
+          </div>
+          <div class="texts-right-container">
+            <div class="nys-toggle__label">${this.label}</div>
+            <slot name="description-right"></slot>
+          </div>
         </div>
-      </div>
-      <slot name="description-bottom"></slot>
+        <slot name="description-bottom"></slot>
+      </label>
     `;
   }
 }

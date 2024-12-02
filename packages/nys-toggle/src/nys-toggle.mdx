@@ -16,9 +16,8 @@ If an id is not passed, a unique id will be generated.
 <Canvas of={NysToggleStories.Checked} />
 
 ### Help Texts
-Add descriptive help text to a switch with the help-text attribute. For help texts that contain HTML, use the help-text slot instead.
+Add some descriptive help texts like the `label` prop or by adding HTML elements within the toggle component. HTML descriptions within the component uses embedded slots.
 Slot names: 
-- `label`
 - `description-right`
 - `description-bottom`
 <Canvas of={NysToggleStories.HelpTexts} />
@@ -37,9 +36,8 @@ The current size is set to `size="lg"`. Adjust the `size` property to see how it
 
 The `nys-toggle` component includes the following accessibility-focused features:
 
-- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
-- Keyboard navigation support, allowing users to toggle the toggle switch using the keyboard.
-- **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the toggle switch accessible to screen readers.
+- **Keyboard Navigation Support**: allowing users to toggle the toggle switch using the keyboard.
+- **Customizable ARIA Label**: If a label is provided, the component automatically adds an `aria-label` attribute, making the toggle switch accessible to screen readers.
 
 ### Labels
 Include a label property to provide accessible text for screen readers.

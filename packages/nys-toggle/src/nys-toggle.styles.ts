@@ -95,7 +95,7 @@ export default css`
   input:checked:focus + .slider {
     box-shadow:
       0 0 0 1px white,
-      0 0 0 4px #146598; 
+      0 0 0 4px #146598;
   }
 
   /* Switch Knob: Checked */
