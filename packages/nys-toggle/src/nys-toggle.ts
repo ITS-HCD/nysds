@@ -83,7 +83,7 @@ export class NysToggle extends LitElement {
        * allows bubbling up so if developers wish to use the toggle state info.
        */
       this.dispatchEvent(
-        new CustomEvent("nys-toggleChange", {
+        new CustomEvent("change", {
           detail: { checked: this.checked },
           bubbles: true,
           composed: true,
