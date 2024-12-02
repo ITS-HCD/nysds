@@ -15,22 +15,18 @@ export class NysSelect extends LitElement {
   @property({ type: String }) form = "";
   @property({ type: Boolean }) clearable = false; //TODO: implement on refactor once figma is completed and icons can be pulled in
   @property({ type: String }) size = "";
-  @property({ type: String }) options: Array<string> = [];
+  @property({ type: String }) options = "[]";
   @property({ type: String }) errorMessage = "";
 
   static styles = styles;
 
-  // Handle input event to check pattern validity
-  private _handleInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const checkValidity = input.checkValidity();
-    this.dispatchEvent(
-      new CustomEvent("nys-checkValidity", {
-        detail: { checkValidity },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+  get optionsList(): string[] {
+    try {
+      return JSON.parse(this.options);
+    } catch {
+      console.warn("Invalid JSON provided for options");
+      return [];
+    }
   }
 
   // Handle focus event
@@ -59,60 +55,60 @@ export class NysSelect extends LitElement {
   render() {
     return html`
       <div class="nys-select">
-        ${
-          this.label &&
-          html` <div class="nys-select__text">
-            <div class="nys-select__requiredwrapper">
-              <label for=${this.id} class="nys-select__label"
-                >${this.label}</label
-              >
-              ${this.required
-                ? html`<label class="nys-select__required">*</label>`
-                : ""}
-            </div>
-            <label for=${this.id} class="nys-select__description">
-              ${this.description}
-            </label>
-          </div>`
-        }    
-      <div class="nys-select__requiredwrapper">
-        <div class="nys-select__selectwrapper">
-          <select
-            class="nys-select__select ${this.size}"
-            name=${this.name}
-            id=${this.id}
-            ?disabled=${this.disabled}
-            ?required=${this.required}
-            aria-disabled="${this.disabled}"
-            aria-label="${this.label} ${this.description}"
-            .value=${this.value}
-            placeholder=${this.placeholder}
-            @input=${this._handleInput}
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-          >
-            <option hidden disabled selected value>${this.placeholder}</option>
-            ${this.options.map((opt) => html` <option value=${opt}>${opt}</option> `)}
-          </select>
-          <slot name="icon">
-            <nys-icon name="arrow-down" size="lg" class="nys-select__icon"></nys-icon>
-          </slot>
-        </div>
-        ${
-          this.required && !this.label
+        ${this.label &&
+        html` <div class="nys-select__text">
+          <div class="nys-select__requiredwrapper">
+            <label for=${this.id} class="nys-select__label"
+              >${this.label}</label
+            >
+            ${this.required
+              ? html`<label class="nys-select__required">*</label>`
+              : ""}
+          </div>
+          <label for=${this.id} class="nys-select__description">
+            ${this.description}
+          </label>
+        </div>`}
+        <div class="nys-select__requiredwrapper">
+          <div class="nys-select__selectwrapper">
+            <select
+              class="nys-select__select ${this.size}"
+              name=${this.name}
+              id=${this.id}
+              ?disabled=${this.disabled}
+              ?required=${this.required}
+              aria-disabled="${this.disabled}"
+              aria-label="${this.label} ${this.description}"
+              .value=${this.value}
+              placeholder=${this.placeholder}
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+            >
+              <option hidden disabled selected value>
+                ${this.placeholder}
+              </option>
+              ${this.optionsList.map(
+                (opt) => html`<option value=${opt}>${opt}</option>`,
+              )}
+            </select>
+            <slot name="icon">
+              <nys-icon
+                name="arrow-down"
+                size="lg"
+                class="nys-select__icon"
+              ></nys-icon>
+            </slot>
+          </div>
+          ${this.required && !this.label
             ? html`<label class="nys-select__required">*</label>`
-            : ""
-        }
-      </div>
-      ${
-        this.errorMessage &&
+            : ""}
+        </div>
+        ${this.errorMessage &&
         html`<div class="nys-select__error">
           <nys-icon name="error"></nys-icon>
           ${this.errorMessage}
-        </div>`
-      }
+        </div>`}
       </div>
-</div>
-  `;
+    `;
   }
 }

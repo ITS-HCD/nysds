@@ -15,7 +15,7 @@ interface NysSelectArgs {
   form: string;
   clearable: boolean;
   size: string;
-  options: string[];
+  options: string;
   errorMessage: String;
 }
 
@@ -49,7 +49,8 @@ export const Blank: Story = {
     form: "",
     clearable: false,
     size: "",
-    options: ["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"],
+    options:
+      '["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]',
     errorMessage: "",
   },
   render: (args) => html`
@@ -75,7 +76,7 @@ export const Blank: Story = {
         code: `
 <nys-select 
   label="Select your favorite borough"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
 </nys-select>`,
         type: "auto",
       },
@@ -105,7 +106,7 @@ export const Disabled: Story = {
         code: `
 <nys-select 
   label="Select your favorite borough"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'
   value="Brooklyn"
   disabled
 ></nys-select>`,
@@ -136,7 +137,7 @@ export const Required: Story = {
         code: `
 <nys-select 
   label="Select your favorite borough"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'
   required>
 </nys-select>`,
         type: "auto",
@@ -215,27 +216,27 @@ export const Size: Story = {
 <nys-select 
   label="Select your favorite borough"
   size="xs"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
 </nys-select>
 <nys-select 
   label="Select your favorite borough"
   size="sm"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
 </nys-select>
 <nys-select 
   label="Select your favorite borough"
   size="md"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
 </nys-select>
 <nys-select 
   label="Select your favorite borough"
   size="lg"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
 </nys-select>
 <nys-select 
   label="Select your favorite borough"
   size="xl"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
 </nys-select>`,
         type: "auto",
       },
@@ -265,7 +266,7 @@ export const ErrorMessage: Story = {
 <nys-select 
   label="Select your favorite borough"
   errorMessage="This is an error message"
-  options=["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]>
+  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
 </nys-select>`,
         type: "auto",
       },
