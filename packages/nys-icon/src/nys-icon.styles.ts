@@ -3,13 +3,20 @@ import { css } from "lit";
 export default css`
   :host {
     --nys-icon-color: currentcolor;
-    --nys-icon-size: 1cap;
+    --nys-icon-size: 1em;
+  }
+
+  /* Use 'cap' if supported */
+  @supports (font-size: 1cap) {
+    :host {
+      --nys-icon-size: 1cap;
+    }
   }
 
   /* SVG size and color is initially determined by the parent's font-size and text-color */
   svg {
-    width: var(--nys-icon-size, 1cap);
-    height: var(--nys-icon-size, 1cap);
+    width: var(--nys-icon-size, 1em);
+    height: var(--nys-icon-size, 1em);
     display: inline-block;
     white-space: nowrap;
   }
