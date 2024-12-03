@@ -12,6 +12,7 @@ interface NysCheckboxArgs {
   name: string;
   value: string;
   required: boolean;
+  errorMessage: string;
 }
 
 const meta: Meta<NysCheckboxArgs> = {
@@ -26,6 +27,7 @@ const meta: Meta<NysCheckboxArgs> = {
     name: { control: "text" },
     value: { control: "text" },
     required: { control: "boolean" },
+    errorMessage: { control: "text" },
   },
   parameters: {
     docs: {
@@ -49,6 +51,7 @@ export const Unchecked: Story = {
     description: "Receive the latest news and updates in your inbox.",
     name: "subscribe",
     value: "monthly-news",
+    errorMessage: "You must select this box to continue.",
   },
   render: (args) => html`
     <nys-checkbox
@@ -58,6 +61,7 @@ export const Unchecked: Story = {
       .description=${args.description}
       .name=${args.name}
       .value=${args.value}
+      .errorMessage=${args.errorMessage}
     ></nys-checkbox>
   `,
   parameters: {

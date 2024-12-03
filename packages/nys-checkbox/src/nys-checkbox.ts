@@ -15,6 +15,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: String }) errorMessage = "";
 
   static styles = styles;
 
@@ -68,33 +69,46 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <label class="nys-checkbox">
-        <input
-          id="${this.id}"
-          class="nys-checkbox__input"
-          type="checkbox"
-          name="${ifDefined(this.name ? this.name : undefined)}"
-          .checked=${this.checked}
-          ?disabled=${this.disabled}
-          .value=${this.value}
-          ?required="${this.required}"
-          aria-checked="${this.checked}"
-          aria-disabled="${this.disabled}"
-          aria-required="${this.required}"
-          @change="${this._handleChange}"
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-          @keydown="${this._handleKeydown}"
-        />
-        <div class="nys-checkbox__text">
-          <div class="nys-checkbox__label">${this.label}</div>
-          ${this.description
-            ? html`<div class="nys-checkbox__description">
-                ${this.description}
-              </div>`
-            : ""}
+      <div class="nys-checkbox">
+        <div class="nys-checkbox__checkboxwrapper">
+          <input
+            id="${this.id}"
+            class="nys-checkbox__checkbox"
+            type="checkbox"
+            name="${ifDefined(this.name ? this.name : undefined)}"
+            .checked=${this.checked}
+            ?disabled=${this.disabled}
+            .value=${this.value}
+            ?required="${this.required}"
+            aria-checked="${this.checked}"
+            aria-disabled="${this.disabled}"
+            aria-required="${this.required}"
+            @change="${this._handleChange}"
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+            @keydown="${this._handleKeydown}"
+          />
+          ${this.label &&
+          html` <div class="nys-checkbox__text">
+            <div class="nys-checkbox__requiredwrapper">
+              <label for=${this.id} class="nys-checkbox__label"
+                >${this.label}</label
+              >
+              ${this.required
+                ? html`<label class="nys-checkbox__required">*</label>`
+                : ""}
+            </div>
+            <label for=${this.id} class="nys-checkbox__description">
+              ${this.description}
+            </label>
+          </div>`}
         </div>
-      </label>
+        ${this.errorMessage &&
+        html`<div class="nys-select__error">
+          <nys-icon name="error"></nys-icon>
+          ${this.errorMessage}
+        </div>`}
+      </div>
     `;
   }
 }
