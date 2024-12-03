@@ -7,6 +7,7 @@ interface NysToggleArgs {
   id: string;
   name: string;
   checked: boolean;
+  value: string;
   disabled?: boolean;
   noIcon?: boolean;
   label?: string;
@@ -41,13 +42,15 @@ type Story = StoryObj<NysToggleArgs>;
 // Story: Toggle switch
 export const ToggleSwitch: Story = {
   args: {
-    name: "exampleName",
-    label: "This is a toggle switch.",
+    label: "Dark Mode",
+    name: "theme",
+    value: "dark",
   },
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -58,8 +61,9 @@ export const ToggleSwitch: Story = {
       source: {
         code: `
   <nys-toggle
-  name="exampleName"
-  label="This is a toggle switch."
+  label="Dark Mode"
+  name="theme"
+  value="dark"
   ></nys-toggle>
         `.trim(),
       },
@@ -70,13 +74,15 @@ export const ToggleSwitch: Story = {
 // Story: Checked
 export const Checked: Story = {
   args: {
-    name: "exampleName",
+    name: "toggle-switch",
     checked: true,
+    value: "access",
   },
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -88,7 +94,8 @@ export const Checked: Story = {
       source: {
         code: `
   <nys-toggle
-  name="exampleName"
+  name="toggle-switch"
+  value="access"
   checked
   ></nys-toggle>
         `.trim(),
@@ -100,13 +107,15 @@ export const Checked: Story = {
 // Story: UncheckedDisabled
 export const UncheckedDisabled: Story = {
   args: {
-    name: "exampleName",
+    name: "toggle-switch",
     disabled: true,
+    value: "access",
   },
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -118,7 +127,8 @@ export const UncheckedDisabled: Story = {
       source: {
         code: `
   <nys-toggle
-  name="exampleName"
+  name="toggle-switch"
+  value="access"
   disabled
   ></nys-toggle>
         `.trim(),
@@ -130,7 +140,8 @@ export const UncheckedDisabled: Story = {
 // Story: CheckedDisabled
 export const CheckedDisabled: Story = {
   args: {
-    name: "exampleName",
+    name: "toggle-switch",
+    value: "access",
     disabled: true,
     checked: true,
   },
@@ -138,6 +149,7 @@ export const CheckedDisabled: Story = {
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -149,7 +161,8 @@ export const CheckedDisabled: Story = {
       source: {
         code: `
   <nys-toggle
-  name="exampleName"
+  name="toggle-switch"
+  value="access"
   checked
   disabled
   ></nys-toggle>
@@ -162,13 +175,15 @@ export const CheckedDisabled: Story = {
 // Story: Help texts
 export const HelpTexts: Story = {
   args: {
-    name: "exampleName",
+    name: "toggle-switch",
+    value: "access",
     label: "Toggle Switch",
   },
   render: (args) => html`
     <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -181,6 +196,7 @@ export const HelpTexts: Story = {
     <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -194,15 +210,17 @@ export const HelpTexts: Story = {
       source: {
         code: `
   <nys-toggle 
-    name="exampleName"
-    label="Toggle Switch">
+  label="Toggle Switch">
+  name="toggle-switch"
+  value="access"
     <p slot="description-right">This slot is called 'description-right'</p>
   </nys-toggle>
   <br/>
   <br/>
   <nys-toggle 
-  name="exampleName"
-  label="Toggle Switch">
+  label="Toggle Switch"
+  name="toggle-switch"
+  value="access">
     <p slot="description-bottom">This slot is called 'description-bottom'</p>
   </nys-toggle>
         `.trim(),
@@ -214,7 +232,8 @@ export const HelpTexts: Story = {
 // Story: Sizes
 export const Sizes: Story = {
   args: {
-    name: "exampleName",
+    name: "toggle-switch",
+    value: "access",
     size: "lg",
     label: "Toggle Switch",
   },
@@ -222,6 +241,7 @@ export const Sizes: Story = {
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -236,8 +256,9 @@ export const Sizes: Story = {
       source: {
         code: `
   <nys-toggle
-  name="exampleName"
   label="Toggle Switch"
+  name="toggle-switch"
+  value="access"
   size="lg"
   >
     <p slot="description-bottom">
@@ -253,7 +274,8 @@ export const Sizes: Story = {
 // Story: No Icons
 export const NoIcons: Story = {
   args: {
-    name: "exampleName",
+    name: "toggle-switch",
+    value: "access",
     label: "Icons are disabled.",
     noIcon: true,
   },
@@ -261,6 +283,7 @@ export const NoIcons: Story = {
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -272,8 +295,9 @@ export const NoIcons: Story = {
       source: {
         code: `
   <nys-toggle
-  name="exampleName"
   label="Toggle Switch"
+  name="toggle-switch"
+  value="access"
   noIcon
   >
   </nys-toggle>
@@ -286,13 +310,15 @@ export const NoIcons: Story = {
 // Story: Labels
 export const Labels: Story = {
   args: {
-    name: "exampleName",
+    name: "toggle-switch",
+    value: "access",
     label: "Labels are essential for voiceover too!",
   },
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
       .name=${args.name}
+      .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
@@ -304,8 +330,9 @@ export const Labels: Story = {
       source: {
         code: `
   <nys-toggle
-  name="exampleName"
   label="Labels are essential for voiceover too!"
+  name="toggle-switch"
+  value="access"
   >
   </nys-toggle>
         `.trim(),

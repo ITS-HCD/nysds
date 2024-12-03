@@ -13,6 +13,7 @@ export class NysToggle extends LitElement {
   /********************** Properties **********************/
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
+  @property({ type: String }) value = "";
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
@@ -38,7 +39,6 @@ export class NysToggle extends LitElement {
       ? (value as (typeof NysToggle.VALID_SIZES)[number])
       : "md";
   }
-  @property({ type: String }) value = "";
   @property({ type: String }) error = "";
   @property({ type: String }) form = "";
 
@@ -103,6 +103,7 @@ export class NysToggle extends LitElement {
               id="${this.id}"
               type="checkbox"
               name="${ifDefined(this.name ? this.name : undefined)}"
+              .value=${this.value}
               .checked=${this.checked}
               ?disabled=${this.disabled}
               ?required="${this.required}"
