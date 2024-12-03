@@ -52,8 +52,7 @@ export default css`
 
   /* Checkbox Label Holder */
   .nys-checkbox__text {
-    margin-left: 0.5rem;
-    margin: auto 0;
+    margin: auto 0 auto 0.5rem;
   }
 
   /* Label styling */
