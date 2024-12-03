@@ -98,7 +98,7 @@ export class NysToggle extends LitElement {
     return html`
       <label class="nys-toggle">
         <div class="nys-toggle--main-container">
-          <div class="switch" .size=${this.size}>
+          <div class="switch">
             <input
               id="${this.id}"
               type="checkbox"
