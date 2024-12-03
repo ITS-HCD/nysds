@@ -117,7 +117,13 @@ export class NysToggle extends LitElement {
             />
             <span class="slider">
               <div class="knob">
-                ${this.noIcon ? "" : html`<nys-icon class="toggle-icon" name="${this.checked ? 'check' : 'close'}" size="xs"></nys-icon>`}
+                ${this.noIcon
+                  ? ""
+                  : html`<nys-icon
+                      class="toggle-icon"
+                      name="${this.checked ? "check" : "close"}"
+                      size="xs"
+                    ></nys-icon>`}
               </div>
             </span>
           </div>

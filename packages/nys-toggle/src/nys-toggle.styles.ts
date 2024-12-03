@@ -118,7 +118,6 @@ export default css`
     color: var(--slider-checked-background);
   }
 
-
   /*** Disabled State ***/
   input:disabled + .slider {
     background-color: #e0e0e0;

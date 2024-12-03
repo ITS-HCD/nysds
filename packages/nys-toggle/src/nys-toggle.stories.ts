@@ -228,7 +228,7 @@ export const Sizes: Story = {
       .size=${args.size}
     >
       <p slot="description-bottom">
-        Label and description's font-size will resize with toggle switch's size.
+        The label and description font sizes automatically adjust to match the toggle switch's size.
       </p>
     </nys-toggle>`,
   parameters: {
@@ -241,7 +241,7 @@ export const Sizes: Story = {
   size="lg"
   >
     <p slot="description-bottom">
-      Label and description's font-size will resize with toggle switch's size.
+      The label and description font sizes automatically adjust to match the toggle switch's size.
     </p>
   </nys-toggle>
         `.trim(),
