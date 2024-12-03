@@ -9,6 +9,8 @@ export default css`
     --slider-checked-translate: calc(
       var(--switch-width) - var(--slider-diameter) - var(--slider-offset) - 4px
     );
+
+    /* Slider colors */
     --slider-checked-background: #1c73a8;
     --slider-unchecked-background: #ccc;
     --slider-checked-focus-border: #146598;
@@ -80,6 +82,7 @@ export default css`
     border-radius: 50%;
     background-color: white;
     transition: 0.3s;
+    overflow: hidden;
     display: flex; /* Center icon inside the knob */
     align-items: center;
     justify-content: center;
