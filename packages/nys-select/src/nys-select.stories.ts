@@ -36,7 +36,7 @@ type Story = StoryObj<NysSelectArgs>;
 
 // Define stories without using args
 
-export const Blank: Story = {
+export const Basic: Story = {
   args: {
     id: "",
     name: "",
@@ -89,14 +89,8 @@ export const Disabled: Story = {
   render: () => html`
     <nys-select
       .label=${"Select your favorite borough"}
-      .value=${"Brooklyn"}
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
+      ,
       disabled
     ></nys-select>
   `,
@@ -121,13 +115,7 @@ export const Required: Story = {
   render: () => html`
     <nys-select
       .label=${"Select your favorite borough"}
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
       required
     ></nys-select>
   `,
@@ -152,61 +140,31 @@ export const Size: Story = {
     <nys-select
       .label=${"Select your favorite borough"}
       size="xs"
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
     ></nys-select
     ><br />
     <nys-select
       .label=${"Select your favorite borough"}
       size="sm"
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
     ></nys-select
     ><br />
     <nys-select
       .label=${"Select your favorite borough"}
       size="md"
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
     ></nys-select
     ><br />
     <nys-select
       .label=${"Select your favorite borough"}
       size="lg"
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
     ></nys-select
     ><br />
     <nys-select
       .label=${"Select your favorite borough"}
       size="xl"
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
     ></nys-select>
   `,
   parameters: {
@@ -249,13 +207,7 @@ export const ErrorMessage: Story = {
   render: () => html`
     <nys-select
       .label=${"Select your favorite borough"}
-      .options=${[
-        "The Bronx",
-        "Brooklyn",
-        "Manhattan",
-        "Queens",
-        "Staten Island",
-      ]}
+      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
       .errorMessage=${"This is an error message"}
     ></nys-select>
   `,
