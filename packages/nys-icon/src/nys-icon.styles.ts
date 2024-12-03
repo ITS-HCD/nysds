@@ -14,7 +14,7 @@ export default css`
   }
 
   /* SVG size and color is initially determined by the parent's font-size and text-color */
-  svg {
+  .nys-icon--svg {
     width: var(--nys-icon-size, 1em);
     height: var(--nys-icon-size, 1em);
     display: inline-block;

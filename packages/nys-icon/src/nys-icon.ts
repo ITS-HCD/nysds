@@ -73,6 +73,7 @@ export class NysIcon extends LitElement {
     svgElement.style.rotate = `${this.rotate}deg`;
     svgElement.style.color = this.color || "currentcolor";
     svgElement.classList.add(`nys-icon--${this.size}`);
+    svgElement.classList.add(`nys-icon--svg`);
 
     if (this.flip) {
       svgElement.classList.add(`nys-icon--flip-${this.flip}`);
