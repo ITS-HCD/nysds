@@ -13,7 +13,6 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
-  @property({ type: Boolean }) clearable = false; //TODO: implement on refactor once figma is completed and icons can be pulled in
   @property({ type: String }) size = "";
   @property({ type: String }) options = "[]";
   @property({ type: String }) errorMessage = "";
@@ -93,7 +92,7 @@ export class NysSelect extends LitElement {
             </select>
             <slot name="icon">
               <nys-icon
-                name="arrow-down"
+                name="arrow_down"
                 size="lg"
                 class="nys-select__icon"
               ></nys-icon>

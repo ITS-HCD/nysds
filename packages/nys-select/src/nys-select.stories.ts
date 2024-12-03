@@ -13,7 +13,6 @@ interface NysSelectArgs {
   disabled: boolean;
   required: boolean;
   form: string;
-  clearable: boolean;
   size: string;
   options: string;
   errorMessage: String;
@@ -47,7 +46,6 @@ export const Basic: Story = {
     disabled: false,
     required: false,
     form: "",
-    clearable: false,
     size: "",
     options:
       '["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]',
@@ -64,7 +62,6 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .clearable=${args.clearable}
       .size=${args.size}
       .options=${args.options}
       .errorMessage=${args.errorMessage}
