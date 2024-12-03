@@ -9,6 +9,9 @@ export default css`
     --slider-checked-translate: calc(
       var(--switch-width) - var(--slider-diameter) - var(--slider-offset) - 4px
     );
+    --slider-checked-background: #1c73a8;
+    --slider-unchecked-background: #ccc;
+    --slider-checked-focus-border: #146598;
 
     /* Font sizes and spacing for labels/descriptions */
     --label-font-size: 14px;
@@ -63,11 +66,11 @@ export default css`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--slider-unchecked-background);
     transition: all 0.3s cubic-bezier(0.27, 0.2, 0.25, 1.51);
   }
 
-  .slider:before {
+  .knob {
     content: "";
     position: absolute;
     height: var(--slider-diameter);
@@ -77,31 +80,44 @@ export default css`
     border-radius: 50%;
     background-color: white;
     transition: 0.3s;
+    display: flex; /* Center icon inside the knob */
+    align-items: center;
+    justify-content: center;
   }
 
   /* Switch BG: Checked */
   input:checked + .slider {
-    background-color: #1c73a8;
+    background-color: var(--slider-checked-background);
   }
 
   /* Switch Outline: Focus */
   input:focus + .slider {
     box-shadow:
       0 0 0 1px white,
-      0 0 0 3px #1c73a8;
+      0 0 0 3px var(--slider-checked-background);
   }
 
   /* Switch Outline: Focus and checked */
   input:checked:focus + .slider {
     box-shadow:
       0 0 0 1px white,
-      0 0 0 4px #146598;
+      0 0 0 4px var(--slider-checked-focus-border);
   }
 
   /* Switch Knob: Checked */
-  input:checked + .slider:before {
+  input:checked + .slider .knob {
     transform: translateX(var(--slider-checked-translate));
   }
+
+  /* Icon Styling */
+  .toggle-icon {
+    position: absolute;
+    color: var(--slider-unchecked-background);
+  }
+  input:checked + .slider .knob .toggle-icon {
+    color: var(--slider-checked-background);
+  }
+
 
   /*** Disabled State ***/
   input:disabled + .slider {
@@ -109,12 +125,20 @@ export default css`
     cursor: not-allowed;
   }
 
-  input:disabled + .slider:before {
+  input:disabled + .slider .knob {
     background-color: #bdbdbd;
   }
 
   input:checked:disabled + .slider {
     background-color: #a5a5a5;
+  }
+
+  input:disabled + .slider .knob .toggle-icon {
+    color: #f6f8fa;
+  }
+
+  input:checked:disabled + .slider .knob .toggle-icon {
+    color: #f6f8fa;
   }
 
   /* Sizes */

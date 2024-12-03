@@ -8,6 +8,7 @@ interface NysToggleArgs {
   name: string;
   checked: boolean;
   disabled?: boolean;
+  noIcon?: boolean;
   label?: string;
   size?: string;
 }
@@ -20,6 +21,7 @@ const meta: Meta<NysToggleArgs> = {
     name: { control: "text" },
     checked: { control: "boolean" },
     disabled: { control: "boolean" },
+    noIcon: { control: "boolean" },
     size: { control: "select", options: ["sm", "md", "lg"] },
   },
   parameters: {
@@ -48,6 +50,7 @@ export const ToggleSwitch: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     ></nys-toggle>`,
   parameters: {
@@ -76,6 +79,7 @@ export const Checked: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     >
     </nys-toggle>`,
@@ -105,6 +109,7 @@ export const UncheckedDisabled: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     >
     </nys-toggle>`,
@@ -135,6 +140,7 @@ export const CheckedDisabled: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     >
     </nys-toggle>`,
@@ -165,6 +171,7 @@ export const HelpTexts: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     >
       <p slot="description-right">This slot is called 'description-right'</p>
@@ -176,6 +183,7 @@ export const HelpTexts: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     >
       <p slot="description-bottom">This slot is called 'description-bottom'</p>
@@ -216,6 +224,7 @@ export const Sizes: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     >
       <p slot="description-bottom">
@@ -241,6 +250,39 @@ export const Sizes: Story = {
   },
 };
 
+// Story: No Icons
+export const NoIcons: Story = {
+  args: {
+    name: "exampleName",
+    label: "Icons are disabled.",
+    noIcon: true,
+  },
+  render: (args) =>
+    html` <nys-toggle
+      .label=${args.label}
+      .name=${args.name}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
+      .size=${args.size}
+    >
+    </nys-toggle>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-toggle
+  name="exampleName"
+  label="Toggle Switch"
+  noIcon
+  >
+  </nys-toggle>
+        `.trim(),
+      },
+    },
+  },
+};
+
 // Story: Labels
 export const Labels: Story = {
   args: {
@@ -253,6 +295,7 @@ export const Labels: Story = {
       .name=${args.name}
       .checked=${args.checked}
       .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
       .size=${args.size}
     >
     </nys-toggle>`,
