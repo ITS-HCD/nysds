@@ -89,8 +89,8 @@ export const NameProp: Story = {
 // Story: Labels
 export const Labels: Story = {
   args: {
-    label: "edit-square icon",
-    name: "edit-square",
+    label: "edit_square icon",
+    name: "edit_square",
   },
   render: (args) => html`
     <nys-icon
@@ -107,8 +107,8 @@ export const Labels: Story = {
       source: {
         code: `
   <nys-icon
-  label="edit-square icon"
-  name="edit-square"
+  label="edit_square icon"
+  name="edit_square"
   ></nys-icon>
         `,
         type: "auto",
@@ -275,8 +275,8 @@ export const CustomSize: Story = {
 // Story: Color with inheritance
 export const ColorInheritance: Story = {
   args: {
-    label: "upload-file icon",
-    name: "upload-file",
+    label: "upload_file icon",
+    name: "upload_file",
     size: "2xl",
   },
   render: (args) => html`
@@ -306,8 +306,8 @@ export const ColorInheritance: Story = {
     <p style="display:flex; align-items: center;">
       The color of the nearest parent container is set to DarkBlue.
       <nys-icon
-        label="upload-file icon"
-        name="upload-file"
+        label="upload_file icon"
+        name="upload_file"
         size="2xl"
       ></nys-icon>
     </p>
@@ -321,8 +321,8 @@ export const ColorInheritance: Story = {
 // Story: Color change using custom css variable
 export const ColorChange: Story = {
   args: {
-    label: "upload-file icon",
-    name: "upload-file",
+    label: "upload_file icon",
+    name: "upload_file",
     color: "#db117d",
     size: "2xl",
   },
@@ -353,8 +353,8 @@ export const ColorChange: Story = {
     <p style="display:flex; align-items: center;">
       The color of the nearest parent container is set to DarkBlue.
       <nys-icon
-        label="upload-file icon"
-        name="upload-file"
+        label="upload_file icon"
+        name="upload_file"
         color="#db117d"
         size="2xl"
       ></nys-icon>
@@ -403,8 +403,8 @@ export const Rotate: Story = {
 // Story: Flip prop
 export const Flip: Story = {
   args: {
-    label: "download-done icon",
-    name: "arrow-back",
+    label: "arrow_back icon",
+    name: "arrow_back",
     size: "2xl",
     flip: "horizontal",
   },
@@ -423,8 +423,8 @@ export const Flip: Story = {
       source: {
         code: `
   <nys-icon
-  label="download-done icon"
-  name="download-done"
+  label="arrow_back icon"
+  name="arrow_back"
   flip="horizontal"
   size="2xl"
   ></nys-icon>
