@@ -73,6 +73,22 @@ You can listen to these events using JavaScript:
   });
 ```
 
+## Form Prop
+The `form` attribute can be used on the **`nys-toggle`** component to associate it with a specific `<form>` element, allowing the toggle state to be included in the form submission.
+
+### How It Works
+By default, inputs within a `<form>` are automatically associated with that form, but if a toggle is outside the form, you can manually associate it using the `form` property.
+```html
+<!-- For example -->
+<form id="myForm">
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-checkbox label="Label"></nys-checkbox>
+</form>
+<nys-toggle form="myForm" label="Label" name="example-name"></nys-toggle>
+<nys-button form="myForm">Submit that form over there</nys-button>
+```
+
 ## Accessibility
 
 The `nys-toggle` component includes the following accessibility-focused features:
