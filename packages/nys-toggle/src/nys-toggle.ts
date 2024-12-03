@@ -104,6 +104,7 @@ export class NysToggle extends LitElement {
               type="checkbox"
               name="${ifDefined(this.name ? this.name : undefined)}"
               .value=${this.value}
+              form=${this.form}
               .checked=${this.checked}
               ?disabled=${this.disabled}
               ?required="${this.required}"
