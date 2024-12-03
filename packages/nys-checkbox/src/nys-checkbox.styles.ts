@@ -80,7 +80,6 @@ export default css`
     margin-top: var(--nys-spacing, 0.75rem);
     padding-top: var(--nys-spacing, 0.75rem);
     color: var(--nys-error, #b52c2c);
-    padding-top: 0.25rem;
     margin-left: 0.25rem;
   }
 `;
