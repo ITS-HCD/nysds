@@ -283,14 +283,30 @@ export const Sizes: Story = {
       source: {
         code: `
   <nys-toggle
-  label="Toggle Switch"
+  label='Small (size="sm")'
   name="toggle-switch"
   value="access"
-  size="lg"
+  size="sm"
   >
-    <p slot="description-bottom">
-      The label and description font sizes automatically adjust to match the toggle switch's size.
-    </p>
+    <p slot="description-bottom">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+  </nys-toggle>
+  </br>
+  <nys-toggle
+    label='Medium (size="md")'
+    name="toggle-switch"
+    value="access"
+    size="md"
+  >
+    <p slot="description-bottom">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+  </nys-toggle>
+  </br>
+  <nys-toggle
+    label='Large (size="lg")'
+    name="toggle-switch"
+    value="access"
+    size="lg"
+  >
+    <p slot="description-bottom">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
   </nys-toggle>
         `.trim(),
       },
