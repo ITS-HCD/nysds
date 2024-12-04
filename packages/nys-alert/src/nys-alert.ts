@@ -96,8 +96,8 @@ export class NysAlert extends LitElement {
   }
 
   private _checkAltNaming() {
-    // map 'success' to 'check-circle'
-    return this.theme === "success" ? "check-circle" : this.theme;
+    // map 'success' to 'check_circle'
+    return this.theme === "success" ? "check_circle" : this.theme;
   }
 
   private _closeAlert() {
