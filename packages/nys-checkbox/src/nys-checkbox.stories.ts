@@ -61,7 +61,6 @@ export const Unchecked: Story = {
       .description=${args.description}
       .name=${args.name}
       .value=${args.value}
-      .errorMessage=${args.errorMessage}
     ></nys-checkbox>
   `,
   parameters: {
@@ -189,6 +188,84 @@ export const DisabledChecked: Story = {
   name="subscribe"
   value="email-updates"
 ></nys-checkbox>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Error Message
+export const ErrorMessage: Story = {
+  args: {
+    checked: false,
+    disabled: false,
+    label: "Subscribe to NYS Government Updates",
+    description: "Get notified via email about important updates and services.",
+    id: "subscribe-checkbox-disabled-checked",
+    name: "subscribe",
+    value: "email-updates",
+    errorMessage: "A concise error message.",
+  },
+  render: (args) => html`
+    <nys-checkbox
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .label=${args.label}
+      .description=${args.description}
+      .id=${args.id}
+      .name=${args.name}
+      .value=${args.value}
+      .errorMessage=${args.errorMessage}
+    ></nys-checkbox>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox
+  label="Subscribe to NYS Government Updates"
+  description="Get notified via email about important updates and services."
+  id="subscribe-checkbox-disabled-checked"
+  name="subscribe"
+  value="email-updates"
+  errorMessage="A concise error message."
+></nys-checkbox>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Slot Description
+export const Slot: Story = {
+  args: {},
+  render: () => html`
+    <nys-checkbox
+      label="Subscribe to NYS Government Updates"
+      id="subscribe-updates"
+      name="subscribe"
+      value="email-updates"
+    >
+      <label slot="description"
+        >Read about previous updates
+        <a href="https://www.ny.gov/" target="__blank">here</a></label
+      >
+    </nys-checkbox>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox
+  label="Subscribe to NYS Government Updates"
+  id="subscribe-updates"
+  name="subscribe"
+  value="email-updates"
+>
+  <label slot="description">
+  Read about previous updates <a href="https://www.ny.gov/" target="__blank">here</a>
+  </label>
+</nys-checkbox>
         `.trim(),
       },
     },
