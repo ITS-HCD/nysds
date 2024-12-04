@@ -129,6 +129,9 @@ export default css`
       font-size: 13px;
     }
   }
+  :host([size="sm"]) .toggle-icon {
+      font-size: 12px;
+  }
 
   /*** Disabled State ***/
   input:disabled + .slider {

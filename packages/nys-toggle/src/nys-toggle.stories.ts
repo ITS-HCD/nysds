@@ -210,9 +210,9 @@ export const HelpTexts: Story = {
       source: {
         code: `
   <nys-toggle 
-  label="Toggle Switch">
+  label="Toggle Switch"
   name="toggle-switch"
-  value="access"
+  value="access">
     <p slot="description-right">This slot is called 'description-right'</p>
   </nys-toggle>
   <br/>
@@ -234,23 +234,50 @@ export const Sizes: Story = {
   args: {
     name: "toggle-switch",
     value: "access",
-    size: "lg",
-    label: "Toggle Switch",
   },
   render: (args) =>
     html` <nys-toggle
-      .label=${args.label}
+      label='Small (size="sm")'
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
-      .size=${args.size}
+      size="sm"
     >
       <p slot="description-bottom">
         The label and description font sizes automatically adjust to match the toggle switch's size.
       </p>
-    </nys-toggle>`,
+    </nys-toggle>
+    </br>
+    <nys-toggle
+      label='Medium (size="md")'
+      .name=${args.name}
+      .value=${args.value}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
+      size="md"
+    >
+      <p slot="description-bottom">
+        The label and description font sizes automatically adjust to match the toggle switch's size.
+      </p>
+    </nys-toggle>
+    </br>
+    <nys-toggle
+      label='Large (size="lg")'
+      .name=${args.name}
+      .value=${args.value}
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      ?noIcon=${args.noIcon}
+      size="lg"
+    >
+      <p slot="description-bottom">
+        The label and description font sizes automatically adjust to match the toggle switch's size.
+      </p>
+    </nys-toggle>
+    `,
   parameters: {
     docs: {
       source: {
