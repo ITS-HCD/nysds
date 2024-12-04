@@ -16,9 +16,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && vite build",
+    "build": "vite build",
+    "build:umd": "vite build --config vite.config.umd.js",
     "build:packages": "npm run lint:packages && npm run build --workspaces",
-    "build:all": "npm run lint && npm run build && npm run build:packages",
+    "build:all": "npm run lint && npm run build && npm run build:packages && npm run build:umd",
     "build:watch": "vite",
     "lint": "eslint .",
     "lint:packages": "eslint packages/**/*.{ts,js}",
@@ -33,7 +34,7 @@
     "url": "git+https://github.com/ITS-HCD/excelsior.git"
   },
   "author": "NYS Design System Team",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ITS-HCD/excelsior/issues"
   },
@@ -41,6 +42,7 @@
   "devDependencies": {
     "@chromatic-com/storybook": "^1.9.0",
     "@open-wc/testing": "^3.2.2",
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "@storybook/addon-essentials": "^8.3.6",
     "@storybook/addon-links": "^8.3.6",
     "@storybook/blocks": "^8.3.6",
@@ -61,14 +63,11 @@
     "i": "^0.3.7",
     "lit": "^3.2.1",
     "npm": "^10.9.0",
-    "rollup-plugin-delete": "^2.1.0",
-    "rollup-plugin-visualizer": "^5.12.0",
     "sinon": "^19.0.2",
     "storybook": "^8.3.6",
     "tslib": "^2.7.0",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.9",
-    "vite-tsconfig-paths": "^5.0.1"
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
