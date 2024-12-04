@@ -131,10 +131,9 @@ export class NysToggle extends LitElement {
           </div>
           <div class="texts-right-container">
             <div class="nys-toggle__label">${this.label}</div>
-            <slot name="description-right"></slot>
+            <slot name="description">${this.description}</slot>
           </div>
         </div>
-        <slot name="description-bottom"></slot>
       </label>
     `;
   }

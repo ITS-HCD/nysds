@@ -21,17 +21,18 @@ export default css`
     --description-spacing: 7px;
   }
 
+  /* Slotted Styling */
   ::slotted(p) {
     margin: 0;
   }
-
   ::slotted([slot^="description"]) {
     font-size: var(--description-font-size);
     color: gray;
   }
-
-  ::slotted([slot="description-bottom"]) {
-    margin-top: var(--description-spacing);
+  slot[name="description"] {
+    font-size: var(--description-font-size);
+    color: gray;
+    margin: 0;
   }
 
   .nys-toggle--main-container {

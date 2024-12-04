@@ -10,7 +10,8 @@ interface NysToggleArgs {
   value: string;
   disabled?: boolean;
   noIcon?: boolean;
-  label?: string;
+  label: string;
+  description?: string;
   size?: string;
 }
 
@@ -19,6 +20,7 @@ const meta: Meta<NysToggleArgs> = {
   component: "nys-toggle",
   argTypes: {
     label: { control: "text" },
+    description: { control: "text" },
     name: { control: "text" },
     checked: { control: "boolean" },
     disabled: { control: "boolean" },
@@ -49,6 +51,7 @@ export const ToggleSwitch: Story = {
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -74,13 +77,15 @@ export const ToggleSwitch: Story = {
 // Story: Checked
 export const Checked: Story = {
   args: {
-    name: "toggle-switch",
+    label: "Dark Mode",
+    name: "theme",
+    value: "dark",
     checked: true,
-    value: "access",
   },
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -94,8 +99,9 @@ export const Checked: Story = {
       source: {
         code: `
   <nys-toggle
-  name="toggle-switch"
-  value="access"
+  label="Dark Mode"
+  name="theme"
+  value="dark"
   checked
   ></nys-toggle>
         `.trim(),
@@ -107,6 +113,7 @@ export const Checked: Story = {
 // Story: UncheckedDisabled
 export const UncheckedDisabled: Story = {
   args: {
+    label: "Disabled Unchecked",
     name: "toggle-switch",
     disabled: true,
     value: "access",
@@ -114,6 +121,7 @@ export const UncheckedDisabled: Story = {
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -140,6 +148,7 @@ export const UncheckedDisabled: Story = {
 // Story: CheckedDisabled
 export const CheckedDisabled: Story = {
   args: {
+    label: "Disabled Checked",
     name: "toggle-switch",
     value: "access",
     disabled: true,
@@ -148,6 +157,7 @@ export const CheckedDisabled: Story = {
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -175,13 +185,14 @@ export const CheckedDisabled: Story = {
 // Story: Help texts
 export const HelpTexts: Story = {
   args: {
+    label: "Toggle Switch",
     name: "toggle-switch",
     value: "access",
-    label: "Toggle Switch",
   },
   render: (args) => html`
     <nys-toggle
       .label=${args.label}
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -189,12 +200,13 @@ export const HelpTexts: Story = {
       ?noIcon=${args.noIcon}
       .size=${args.size}
     >
-      <p slot="description-right">This slot is called 'description-right'</p>
+      <p slot="description">This slot is called 'description' (<a href="https://www.ny.gov/" target="_blank">learn more</a>)</p>
     </nys-toggle>
     <br />
     <br />
     <nys-toggle
       .label=${args.label}
+      description="This description was pass in as a property"
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -202,7 +214,6 @@ export const HelpTexts: Story = {
       ?noIcon=${args.noIcon}
       .size=${args.size}
     >
-      <p slot="description-bottom">This slot is called 'description-bottom'</p>
     </nys-toggle>
   `,
   parameters: {
@@ -213,15 +224,15 @@ export const HelpTexts: Story = {
   label="Toggle Switch"
   name="toggle-switch"
   value="access">
-    <p slot="description-right">This slot is called 'description-right'</p>
+    <p slot="description">This slot is called 'description' (<a href="https://www.ny.gov/" target="_blank">learn more</a>)</p>
   </nys-toggle>
   <br/>
   <br/>
   <nys-toggle 
   label="Toggle Switch"
+  description="This description was pass in as a property"
   name="toggle-switch"
   value="access">
-    <p slot="description-bottom">This slot is called 'description-bottom'</p>
   </nys-toggle>
         `.trim(),
       },
@@ -238,6 +249,7 @@ export const Sizes: Story = {
   render: (args) =>
     html` <nys-toggle
       label='Small (size="sm")'
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -245,7 +257,7 @@ export const Sizes: Story = {
       ?noIcon=${args.noIcon}
       size="sm"
     >
-      <p slot="description-bottom">
+      <p slot="description">
         The label and description font sizes automatically adjust to match the toggle switch's size.
       </p>
     </nys-toggle>
@@ -253,19 +265,21 @@ export const Sizes: Story = {
     <nys-toggle
       label='Medium (size="md")'
       .name=${args.name}
+      .description=${args.description}
       .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       size="md"
     >
-      <p slot="description-bottom">
+      <p slot="description">
         The label and description font sizes automatically adjust to match the toggle switch's size.
       </p>
     </nys-toggle>
     </br>
     <nys-toggle
       label='Large (size="lg")'
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -273,7 +287,7 @@ export const Sizes: Story = {
       ?noIcon=${args.noIcon}
       size="lg"
     >
-      <p slot="description-bottom">
+      <p slot="description">
         The label and description font sizes automatically adjust to match the toggle switch's size.
       </p>
     </nys-toggle>
@@ -288,7 +302,7 @@ export const Sizes: Story = {
   value="access"
   size="sm"
   >
-    <p slot="description-bottom">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+    <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
   </nys-toggle>
   </br>
   <nys-toggle
@@ -297,7 +311,7 @@ export const Sizes: Story = {
     value="access"
     size="md"
   >
-    <p slot="description-bottom">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+    <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
   </nys-toggle>
   </br>
   <nys-toggle
@@ -306,7 +320,7 @@ export const Sizes: Story = {
     value="access"
     size="lg"
   >
-    <p slot="description-bottom">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+    <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
   </nys-toggle>
         `.trim(),
       },
@@ -325,6 +339,7 @@ export const NoIcons: Story = {
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -360,6 +375,7 @@ export const Labels: Story = {
   render: (args) =>
     html` <nys-toggle
       .label=${args.label}
+      .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
