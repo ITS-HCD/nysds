@@ -120,6 +120,15 @@ export default css`
   input:checked + .slider .knob .toggle-icon {
     color: var(--slider-checked-background);
   }
+  /* If 'cap' is not supported, account for the extra padding from svg due to nys-icon's 'display:inline' */
+  @supports not (font-size: 1cap) {
+   :host([size="sm"]) .toggle-icon {
+      font-size: 7px;
+   }
+    .toggle-icon {
+      font-size: 13px;
+    }
+  }
 
   /*** Disabled State ***/
   input:disabled + .slider {
