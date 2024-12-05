@@ -116,6 +116,22 @@ export const Size: Story = {
   },
 };
 
+export const Resize: Story = {
+  args: {},
+  render: () => html`
+    <nys-textarea label="This textarea is not resizable" rows="6" resize="none">
+    </nys-textarea>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textarea label="This textarea is not resizable" rows="6" resize="none"></nys-textarea>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Labels: Story = {
   args: {},
   render: () => html`
