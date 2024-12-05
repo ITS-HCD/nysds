@@ -14,9 +14,10 @@ interface NysTextareaArgs {
   readonly: boolean;
   required: boolean;
   form: string;
-  pattern: string;
   maxlength: string;
   size: string;
+  rows: string;
+  resize: string;
   errorMessage: string;
 }
 
@@ -49,9 +50,10 @@ export const Blank: Story = {
     readonly: false,
     required: false,
     form: "",
-    pattern: "",
     maxlength: "",
     size: "",
+    rows: "",
+    resize: "",
     errorMessage: "",
   },
   render: (args) => html`
@@ -66,9 +68,10 @@ export const Blank: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .form=${args.form}
-      .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
       .errorMessage=${args.errorMessage}
     ></nys-textarea>
   `,
@@ -116,13 +119,20 @@ export const Size: Story = {
 export const Labels: Story = {
   args: {},
   render: () => html`
-    <nys-textarea label="Only Label" style="flex: 1;"></nys-textarea>
+    <nys-textarea label="Label"></nys-textarea>
     <br />
     <nys-textarea
       label="Label"
-      description="Description"
-      style="flex: 1;"
+      description="Description as prop"
     ></nys-textarea>
+    <br />
+    <nys-textarea label="Label">
+      <p slot="description">
+        Description as slot (<a href="https://www.ny.gov/" target="_blank"
+          >learn more</a
+        >)
+      </p>
+    </nys-textarea>
   `,
   parameters: {
     docs: {
@@ -143,20 +153,17 @@ export const ValueAndPlaceholder: Story = {
     <nys-textarea
       label="Beginning Value Example"
       value="beginning value"
-      style="flex: 1;"
     ></nys-textarea>
     <br />
     <nys-textarea
       label="Placeholder Example"
       placeholder="placeholder"
-      style="flex: 1;"
     ></nys-textarea
     ><br />
     <nys-textarea
       label="Placeholder and Default Value Example"
       value="default value"
       placeholder="and a placeholder"
-      style="flex: 1;"
     ></nys-textarea>
   `,
   parameters: {

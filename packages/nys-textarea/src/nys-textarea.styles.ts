@@ -5,7 +5,7 @@ export default css`
     font-family: Arial, sans-serif;
   }
 
-  .nys-textarea__input {
+  .nys-textarea__textarea {
     border-radius: 0.25rem;
     border: solid 1px gray;
     font-size: 16px;
@@ -13,8 +13,10 @@ export default css`
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;
+    resize: vertical;
   }
 
+  /* Sizes */
   .xs {
     padding: 0.125rem;
   }
@@ -31,14 +33,19 @@ export default css`
     font-size: 24px;
   }
 
+  /* Resize */
+  .none {
+    resize: none;
+  }
+
   /* Focused */
-  .nys-textarea__input:focus {
+  .nys-textarea__textarea:focus {
     outline-offset: 3px;
     outline: 3px solid var(--form-focus-color, #007bff);
   }
 
   /* Disabled */
-  .nys-textarea__input:disabled {
+  .nys-textarea__textarea:disabled {
     background-color: #f0f0f0;
     border-color: #757575;
     cursor: not-allowed;
@@ -55,12 +62,8 @@ export default css`
 
   .nys-textarea__text {
     display: flex;
-    margin-bottom: 0.25rem;
-  }
-
-  .nys-textarea__label_labelwrapper {
-    display: flex;
     flex-direction: column;
+    margin-bottom: 0.25rem;
   }
 
   /* Label styling */
@@ -77,26 +80,9 @@ export default css`
     font-style: italic;
   }
 
-  /* Pattern validation styling */
-  .nys-textarea__validation {
-    padding-top: 0.5rem;
-  }
-
-  .nys-textarea__input:invalid + .nys-textarea__validation:after {
-    color: red;
-    content: " invalid";
-    font-weight: bold;
-  }
-
-  .nys-textarea__input:valid + .nys-textarea__validation:after {
-    color: green;
-    content: " valid";
-    font-weight: bold;
-  }
-
-  .nys-textarea__input:placeholder-shown + .nys-textarea__validation:after {
-    color: black;
-    content: " empty";
-    font-weight: bold;
+  /* Error Message Styling */
+  .nys-select__error {
+    color: var(--nys-warning, #b52c2c);
+    padding-top: 0.25rem;
   }
 `;

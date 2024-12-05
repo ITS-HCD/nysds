@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
+import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 @customElement("nys-textarea")
 export class NysTextarea extends LitElement {
@@ -16,6 +17,25 @@ export class NysTextarea extends LitElement {
   @property({ type: String }) form = "";
   @property({ type: Number }) maxlength = null;
   @property({ type: String }) size = "";
+  @property({ type: Number }) rows = null;
+  private static readonly VALID_RESIZE = ["vertical", "none"] as const;
+
+  // Use `typeof` to dynamically infer the allowed types
+  private _resize: (typeof NysTextarea.VALID_RESIZE)[number] = "vertical";
+
+  // Getter and setter for the `resize` property
+  @property({ reflect: true })
+  get resize(): (typeof NysTextarea.VALID_RESIZE)[number] {
+    return this._resize;
+  }
+
+  set resize(value: string) {
+    this._resize = NysTextarea.VALID_RESIZE.includes(
+      value as (typeof NysTextarea.VALID_RESIZE)[number],
+    )
+      ? (value as (typeof NysTextarea.VALID_RESIZE)[number])
+      : "vertical";
+  }
   @property({ type: String }) errorMessage = "";
 
   constructor() {
@@ -58,11 +78,13 @@ export class NysTextarea extends LitElement {
               ? html`<div class="nys-textarea__required">*</div>`
               : ""}
           </div>
-          <slot class="nys-textarea__description"> ${this.description} </slot>
+          <slot class="nys-textarea__description" name="description">
+            ${this.description}
+          </slot>
         </div>`}
         <div class="nys-textarea__requiredwrapper">
           <textarea
-            class="nys-textarea__input ${this.size}"
+            class="nys-textarea__textarea ${this.size} ${this.resize}"
             name=${this.name}
             id=${this.id}
             ?disabled=${this.disabled}
@@ -73,6 +95,7 @@ export class NysTextarea extends LitElement {
             .value=${this.value}
             placeholder=${this.placeholder}
             maxlength=${this.maxlength}
+            rows=${this.rows}
             form=${this.form}
             @input=${this._handleInput}
             @focus="${this._handleFocus}"
