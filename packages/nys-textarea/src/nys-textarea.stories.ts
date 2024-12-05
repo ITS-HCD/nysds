@@ -160,9 +160,8 @@ export const Labels: Story = {
     <br />
     <nys-textarea label="Label">
       <p slot="description">
-        Description as slot (<a href="https://www.ny.gov/" target="_blank"
-          >learn more</a
-        >)
+        Description as slot
+        <a href="https://www.ny.gov/" target="_blank">learn more</a>
       </p>
     </nys-textarea>
   `,
@@ -170,8 +169,14 @@ export const Labels: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea label="Only Label"></nys-textarea>
-<nys-textarea label="Label" description="Description"></nys-textarea>
+<nys-textarea label="Label"></nys-textarea>
+<nys-textarea label="Label" description="Description as prop"></nys-textarea>
+<nys-textarea label="Label">
+  <p slot="description">
+    Description as slot 
+    <a href="https://www.ny.gov/" target="_blank">learn more</a>
+  </p>
+</nys-textarea>
         `,
         type: "auto",
       },
