@@ -91,7 +91,6 @@ export class NysTextarea extends LitElement {
             ?required=${this.required}
             ?readonly=${this.readonly}
             aria-disabled="${this.disabled}"
-            aria-label="${this.label} ${this.description}"
             .value=${this.value}
             placeholder=${this.placeholder}
             maxlength=${this.maxlength}
