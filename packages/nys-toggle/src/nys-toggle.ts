@@ -39,7 +39,6 @@ export class NysToggle extends LitElement {
       ? (value as (typeof NysToggle.VALID_SIZES)[number])
       : "md";
   }
-  @property({ type: String }) error = "";
   @property({ type: String }) form = "";
 
   /******************** Functions ********************/

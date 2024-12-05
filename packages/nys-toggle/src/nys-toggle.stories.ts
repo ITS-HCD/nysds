@@ -212,7 +212,7 @@ export const HelpTexts: Story = {
     <br />
     <nys-toggle
       .label=${args.label}
-      description="This description was pass in as a property"
+      description="This description was passed in as a property"
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -237,7 +237,7 @@ export const HelpTexts: Story = {
 <br/>
 <nys-toggle 
   label="Toggle Switch"
-  description="This description was pass in as a property"
+  description="This description was passed in as a property"
   name="toggle-switch"
   value="access">
 </nys-toggle>

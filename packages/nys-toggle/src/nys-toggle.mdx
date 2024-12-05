@@ -15,8 +15,8 @@ If an id is not passed, a unique id will be generated.
 ### Checked
 <Canvas of={NysToggleStories.Checked} />
 
-### Help Texts
-Add descriptive help texts using the `label` prop or HTML elements within the toggle component. \
+### Help Text
+Add descriptive help text using the `label` and/or `description` prop for the toggle component. \
 Descriptions can be provided **BOTH** as a property or a slot. Use the `description` property for simplicity, and reserve `slot="description"` for advanced HTML customizations like links.
 <Canvas of={NysToggleStories.HelpTexts} />
 
@@ -28,15 +28,29 @@ Descriptions can be provided **BOTH** as a property or a slot. Use the `descript
 
 ### Sizes
 Adjust the `size` property to see how it changes the toggle's appearance. \
-Supported sizes are `sm`, `md`, and `lg`. Default size for toggle component is `md`.
+Supported sizes are `sm`, `md`, and `lg`. **Default size for toggle component is `md`.**
 <Canvas of={NysToggleStories.Sizes} />
 
 ### Disabling Icons
 To remove icons from the toggle switch, use the `NoIcons` boolean property.
 <Canvas of={NysToggleStories.NoIcons} />
 
-## Events
+## Form Prop
+The form attribute associates the `nys-toggle` component with a specific `<form>` element, regardless of its location on the page. This ensures that the toggle's state is included in the form submission, whether it is inside the `<form>` element or outside it.
 
+### How It Works
+Use the `form` property to explicitly associate the toggle (or other components) with a specific `<form>` element by referencing the form's `id`.
+```html
+<!-- For example -->
+<form id="myForm">
+  <nys-textinput form="myForm" label="Label"></nys-textinput>
+  <nys-textinput form="myForm" label="Label"></nys-textinput>
+  <nys-checkbox form="myForm" label="Label"></nys-checkbox>
+</form>
+<nys-toggle form="myForm" label="Label" name="example-name"></nys-toggle>
+```
+
+## Events
 The `NysToggle` component emits three custom events:
 
 1. **`change`** – Fired when the toggle state changes (checked/unchecked).
@@ -70,22 +84,6 @@ You can listen to these events using JavaScript:
   toggle.addEventListener('keydown', (event) => {
     console.log('Key pressed:', event.key);
   });
-```
-
-## Form Prop
-The `form` attribute can be used on the **`nys-toggle`** component to associate it with a specific `<form>` element, allowing the toggle state to be included in the form submission.
-
-### How It Works
-By default, inputs within a `<form>` are automatically associated with that form, but if a toggle is outside the form, you can manually associate it using the `form` property.
-```html
-<!-- For example -->
-<form id="myForm">
-  <nys-textinput label="Label"></nys-textinput>
-  <nys-textinput label="Label"></nys-textinput>
-  <nys-checkbox label="Label"></nys-checkbox>
-</form>
-<nys-toggle form="myForm" label="Label" name="example-name"></nys-toggle>
-<nys-button form="myForm">Submit that form over there</nys-button>
 ```
 
 ## Accessibility
