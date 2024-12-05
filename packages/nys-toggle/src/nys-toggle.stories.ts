@@ -256,36 +256,30 @@ export const Sizes: Story = {
   render: (args) => html`
     <nys-toggle
       label='Small (size="sm")'
-      .description=${args.description}
+      description="The label and description font sizes automatically adjust to match the toggle switch's size."
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       size="sm">
-      <p slot="description">
-        The label and description font sizes automatically adjust to match the toggle switch's size.
-      </p>
     </nys-toggle>
     </br>
     <nys-toggle
       label='Medium (size="md")'
       .name=${args.name}
-      .description=${args.description}
+      description="The label and description font sizes automatically adjust to match the toggle switch's size."
       .value=${args.value}
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       size="md"
     >
-      <p slot="description">
-        The label and description font sizes automatically adjust to match the toggle switch's size.
-      </p>
     </nys-toggle>
     </br>
     <nys-toggle
       label='Large (size="lg")'
-      .description=${args.description}
+      description="The label and description font sizes automatically adjust to match the toggle switch's size."
       .name=${args.name}
       .value=${args.value}
       .checked=${args.checked}
@@ -293,9 +287,6 @@ export const Sizes: Story = {
       ?noIcon=${args.noIcon}
       size="lg"
     >
-      <p slot="description">
-        The label and description font sizes automatically adjust to match the toggle switch's size.
-      </p>
     </nys-toggle>
     `,
   parameters: {
