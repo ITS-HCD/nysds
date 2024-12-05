@@ -1,0 +1,39 @@
+import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysTextareaStories from './nys-textarea.stories';
+
+<Meta of={NysTextareaStories} title="Components/Textarea/Documentation" />
+
+
+# Text Area
+The `nys-textarea` is a reusable web component for use in New York State digital products. It allows users to input multiple lines of text to be collected.
+
+### Basic Text Area
+
+<Canvas of={NysTextareaStories.Blank} />
+
+### Size 
+Size control's the font size and padding of the text area. If no size is provided, the `nys-textarea` will default to `md`.\
+Supported sizes are `xs`, `sm`, `md`, `lg`, and `xl`. If any other input is assigned to `size`, it will be ignored.
+
+<Canvas of={NysTextareaStories.Size} />
+
+### Labels and Descriptions
+
+<Canvas of={NysTextareaStories.Labels} />
+
+### Values and Placeholders
+
+<Canvas of={NysTextareaStories.ValueAndPlaceholder} />
+
+### Disabled and Readonly
+
+<Canvas of={NysTextareaStories.DisabledAndReadonly} />
+
+### Maxlength
+
+<Canvas of={NysTextareaStories.Maxlength} />
+
+### Required
+
+<Canvas of={NysTextareaStories.Required} />
