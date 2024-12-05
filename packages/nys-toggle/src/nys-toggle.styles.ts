@@ -40,7 +40,7 @@ export default css`
     gap: 10px;
   }
 
-  .texts-right-container {
+  .nys-toggle__text {
     display: flex;
     flex-direction: column;
     font-size: var(--label-font-size);
