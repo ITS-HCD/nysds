@@ -116,16 +116,32 @@ export const Size: Story = {
   },
 };
 
-export const Resize: Story = {
+export const Rows: Story = {
   args: {},
   render: () => html`
-    <nys-textarea label="This textarea is not resizable" rows="6" resize="none">
+    <nys-textarea label="This textarea renders with 4 rows" rows="4">
     </nys-textarea>
   `,
   parameters: {
     docs: {
       source: {
-        code: `<nys-textarea label="This textarea is not resizable" rows="6" resize="none"></nys-textarea>`,
+        code: `<nys-textarea label="This textarea renders with 4 rows" rows="4"></nys-textarea>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Resize: Story = {
+  args: {},
+  render: () => html`
+    <nys-textarea label="This textarea is not resizable" rows="4" resize="none">
+    </nys-textarea>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textarea label="This textarea is not resizable" rows="4" resize="none"></nys-textarea>`,
         type: "auto",
       },
     },

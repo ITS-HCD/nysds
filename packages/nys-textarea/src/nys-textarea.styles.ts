@@ -79,6 +79,9 @@ export default css`
     color: var(--form-help-text-color, gray);
     font-style: italic;
   }
+  ::slotted([slot^="description"]) {
+    margin: 0;
+  }
 
   /* Error Message Styling */
   .nys-select__error {
