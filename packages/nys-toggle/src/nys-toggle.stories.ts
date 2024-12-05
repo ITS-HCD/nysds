@@ -63,12 +63,12 @@ export const ToggleSwitch: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle
+<nys-toggle
   label="Dark Mode"
   name="theme"
   value="dark"
-  ></nys-toggle>
-        `.trim(),
+></nys-toggle>
+    `.trim(),
       },
     },
   },
@@ -98,12 +98,12 @@ export const Checked: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle
+<nys-toggle
   label="Dark Mode"
   name="theme"
   value="dark"
   checked
-  ></nys-toggle>
+></nys-toggle>
         `.trim(),
       },
     },
@@ -134,11 +134,11 @@ export const UncheckedDisabled: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle
+<nys-toggle
   name="toggle-switch"
   value="access"
   disabled
-  ></nys-toggle>
+></nys-toggle>
         `.trim(),
       },
     },
@@ -170,12 +170,12 @@ export const CheckedDisabled: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle
+<nys-toggle
   name="toggle-switch"
   value="access"
   checked
   disabled
-  ></nys-toggle>
+></nys-toggle>
         `.trim(),
       },
     },
@@ -200,7 +200,13 @@ export const HelpTexts: Story = {
       ?noIcon=${args.noIcon}
       .size=${args.size}
     >
-      <p slot="description">This slot is called 'description' (<a href="https://www.ny.gov/" target="_blank">learn more</a>)</p>
+      <p slot="description">
+        This slot is called 'description' (<a
+          href="https://www.ny.gov/"
+          target="_blank"
+          >learn more</a
+        >)
+      </p>
     </nys-toggle>
     <br />
     <br />
@@ -220,20 +226,21 @@ export const HelpTexts: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle 
+<nys-toggle 
   label="Toggle Switch"
   name="toggle-switch"
-  value="access">
-    <p slot="description">This slot is called 'description' (<a href="https://www.ny.gov/" target="_blank">learn more</a>)</p>
-  </nys-toggle>
-  <br/>
-  <br/>
-  <nys-toggle 
+  value="access"
+>
+  <p slot="description">This slot is called 'description' (<a href="https://www.ny.gov/" target="_blank">learn more</a>)</p>
+</nys-toggle>
+<br/>
+<br/>
+<nys-toggle 
   label="Toggle Switch"
   description="This description was pass in as a property"
   name="toggle-switch"
   value="access">
-  </nys-toggle>
+</nys-toggle>
         `.trim(),
       },
     },
@@ -246,8 +253,8 @@ export const Sizes: Story = {
     name: "toggle-switch",
     value: "access",
   },
-  render: (args) =>
-    html` <nys-toggle
+  render: (args) => html`
+    <nys-toggle
       label='Small (size="sm")'
       .description=${args.description}
       .name=${args.name}
@@ -255,8 +262,7 @@ export const Sizes: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
-      size="sm"
-    >
+      size="sm">
       <p slot="description">
         The label and description font sizes automatically adjust to match the toggle switch's size.
       </p>
@@ -296,32 +302,32 @@ export const Sizes: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle
+<nys-toggle
   label='Small (size="sm")'
   name="toggle-switch"
   value="access"
   size="sm"
-  >
-    <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
-  </nys-toggle>
-  </br>
-  <nys-toggle
-    label='Medium (size="md")'
-    name="toggle-switch"
-    value="access"
-    size="md"
-  >
-    <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
-  </nys-toggle>
-  </br>
-  <nys-toggle
-    label='Large (size="lg")'
-    name="toggle-switch"
-    value="access"
-    size="lg"
-  >
-    <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
-  </nys-toggle>
+>
+  <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+</nys-toggle>
+</br>
+<nys-toggle
+  label='Medium (size="md")'
+  name="toggle-switch"
+  value="access"
+  size="md"
+>
+  <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+</nys-toggle>
+</br>
+<nys-toggle
+  label='Large (size="lg")'
+  name="toggle-switch"
+  value="access"
+  size="lg"
+>
+  <p slot="description">The label and description font sizes automatically adjust to match the toggle switch's size.</p>
+</nys-toggle>
         `.trim(),
       },
     },
@@ -352,13 +358,13 @@ export const NoIcons: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle
+<nys-toggle
   label="Toggle Switch"
   name="toggle-switch"
   value="access"
   noIcon
-  >
-  </nys-toggle>
+>
+</nys-toggle>
         `.trim(),
       },
     },
@@ -388,12 +394,12 @@ export const Labels: Story = {
     docs: {
       source: {
         code: `
-  <nys-toggle
+<nys-toggle
   label="Labels are essential for voiceover too!"
   name="toggle-switch"
   value="access"
-  >
-  </nys-toggle>
+>
+</nys-toggle>
         `.trim(),
       },
     },

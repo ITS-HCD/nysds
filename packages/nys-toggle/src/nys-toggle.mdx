@@ -16,8 +16,8 @@ If an id is not passed, a unique id will be generated.
 <Canvas of={NysToggleStories.Checked} />
 
 ### Help Texts
-Add some descriptive help texts like the `label` prop or by adding HTML elements within the toggle component.\
-For descriptions, it exist **BOTH** as a property or a slot. Using a slot `slot="description"` is ideal for higher HTML customizations like including links.
+Add descriptive help texts using the `label` prop or HTML elements within the toggle component. \
+Descriptions can be provided **BOTH** as a property or a slot. Use the `description` property for simplicity, and reserve `slot="description"` for advanced HTML customizations like links.
 <Canvas of={NysToggleStories.HelpTexts} />
 
 ### Unchecked Disabled
@@ -28,7 +28,7 @@ For descriptions, it exist **BOTH** as a property or a slot. Using a slot `slot=
 
 ### Sizes
 Adjust the `size` property to see how it changes the toggle's appearance. \
-Supported sizes are `sm`, `md`, and `lg`
+Supported sizes are `sm`, `md`, and `lg`. Default size for toggle component is `md`.
 <Canvas of={NysToggleStories.Sizes} />
 
 ### Disabling Icons
@@ -92,8 +92,8 @@ By default, inputs within a `<form>` are automatically associated with that form
 
 The `nys-toggle` component includes the following accessibility-focused features:
 
-- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
-- Keyboard navigation support, allowing users to toggle the checkbox using the keyboard.
+- Proper ARIA roles and attributes to ensure screen readers can interpret the toggle correctly.
+- Keyboard navigation support, allowing users to toggle the toggle switch using the keyboard.
 - Visual focus indicators to help users navigate the component.
 
 ### Labels

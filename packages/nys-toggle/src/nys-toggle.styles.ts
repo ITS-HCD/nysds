@@ -2,12 +2,12 @@ import { css } from "lit";
 
 export default css`
   :host {
-    --switch-width: 46px;
-    --switch-height: 24px;
+    --toggle-width: 46px;
+    --toggle-height: 24px;
     --slider-diameter: 18px;
-    --slider-offset: calc((var(--switch-height) - var(--slider-diameter)) / 2);
+    --slider-offset: calc((var(--toggle-height) - var(--slider-diameter)) / 2);
     --slider-checked-translate: calc(
-      var(--switch-width) - var(--slider-diameter) - var(--slider-offset) - 4px
+      var(--toggle-width) - var(--slider-diameter) - var(--slider-offset) - 4px
     );
 
     /* Slider colors */
@@ -15,19 +15,18 @@ export default css`
     --slider-unchecked-background: #ccc;
     --slider-checked-focus-border: #146598;
 
-    /* Font sizes and spacing for labels/descriptions */
+    /* Font sizes and spacing for labels/descriptions and icons */
     --label-font-size: 14px;
     --description-font-size: 12px;
     --description-spacing: 7px;
+    --icon-font-size: 12px;
   }
 
   /* Slotted Styling */
-  ::slotted(p) {
-    margin: 0;
-  }
   ::slotted([slot^="description"]) {
     font-size: var(--description-font-size);
     color: gray;
+    margin: 0;
   }
   slot[name="description"] {
     font-size: var(--description-font-size);
@@ -35,7 +34,7 @@ export default css`
     margin: 0;
   }
 
-  .nys-toggle--main-container {
+  .nys-toggle__content {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -48,14 +47,14 @@ export default css`
   }
 
   /* Toggle Switch component */
-  .switch {
+  .nys-toggle__toggle {
     position: relative;
     display: inline-block;
-    width: var(--switch-width);
-    height: var(--switch-height);
+    width: var(--toggle-width);
+    height: var(--toggle-height);
   }
 
-  .switch input {
+  .nys-toggle__toggle input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -122,18 +121,21 @@ export default css`
     color: var(--slider-checked-background);
   }
   :host([size="sm"]) .toggle-icon {
-    font-size: 12px;
+    font-size: calc(var(--icon-font-size) + 3px);
+  }
+  :host([size="md"]) .toggle-icon {
+    font-size: var(--icon-font-size);
   }
   /* If 'cap' is not supported, account for the extra padding from svg due to nys-icon's 'display:inline' */
   @supports not (font-size: 1cap) {
     :host([size="sm"]) .toggle-icon {
-      font-size: 7px;
+      font-size: var(--icon-font-size);
     }
     :host([size="md"]) .toggle-icon {
-      font-size: 11px;
+      font-size: calc(var(--icon-font-size) - 1px);
     }
-    .toggle-icon {
-      font-size: 13px;
+    :host([size="lg"]) .toggle-icon {
+      font-size: var(--icon-font-size);
     }
   }
 
@@ -161,29 +163,32 @@ export default css`
 
   /* Sizes */
   :host([size="sm"]) {
-    --switch-width: 36px;
-    --switch-height: 18px;
+    --toggle-width: 36px;
+    --toggle-height: 18px;
     --slider-diameter: 12px;
     --label-font-size: 12px;
     --description-font-size: 10px;
     --description-spacing: 5px;
+    --icon-font-size: 7px;
   }
 
   :host([size="md"]) {
-    --switch-width: 46px;
-    --switch-height: 24px;
+    --toggle-width: 46px;
+    --toggle-height: 24px;
     --slider-diameter: 18px;
     --label-font-size: 14px;
     --description-font-size: 12px;
     --description-spacing: 7px;
+    --icon-font-size: 12px;
   }
 
   :host([size="lg"]) {
-    --switch-width: 60px;
-    --switch-height: 30px;
+    --toggle-width: 60px;
+    --toggle-height: 30px;
     --slider-diameter: 24px;
     --label-font-size: 16px;
     --description-font-size: 14px;
     --description-spacing: 10px;
+    --icon-font-size: 13px;
   }
 `;
