@@ -5,7 +5,7 @@ import "./nys-alert";
 // Define the structure of the args used in the stories
 interface NysAlertArgs {
   theme: string;
-  title: string;
+  label: string;
   duration?: number;
   icon?: string;
   noIcon?: boolean;
@@ -21,7 +21,7 @@ const meta: Meta<NysAlertArgs> = {
       control: "select",
       options: ["info", "warning", "success", "error", "emergency"],
     },
-    title: { control: "text" },
+    label: { control: "text" },
     duration: { control: "number" },
     icon: { control: "text" },
     noIcon: { control: "boolean", default: false },
@@ -49,7 +49,7 @@ export const AllAlerts: Story = {
       (theme) =>
         html`<nys-alert
             .theme=${theme}
-            .title=${theme.charAt(0).toUpperCase() + theme.slice(1) + " Status"}
+            .label=${theme.charAt(0).toUpperCase() + theme.slice(1) + " Status"}
             dismissible
             ><p>
               This is an example of
@@ -66,11 +66,11 @@ export const AllAlerts: Story = {
     docs: {
       source: {
         code: `
-<nys-alert theme="info" title="Info status" dismissible><p>This is an example of an info alert.</p></nys-alert>
-<nys-alert theme="warning" title="Warning status" dismissible><p>This is an example of a warning alert.</p></nys-alert>
-<nys-alert theme="success" title="Success status" dismissible><p>This is an example of a success alert.</p></nys-alert>
-<nys-alert theme="error" title="Error status" dismissible><p>This is an example of an error alert.</p></nys-alert>
-<nys-alert theme="emergency" title="Emergency status" dismissible><p>This is an example of an emergency alert.</p></nys-alert>
+<nys-alert theme="info" label="Info status" dismissible><p>This is an example of an info alert.</p></nys-alert>
+<nys-alert theme="warning" label="Warning status" dismissible><p>This is an example of a warning alert.</p></nys-alert>
+<nys-alert theme="success" label="Success status" dismissible><p>This is an example of a success alert.</p></nys-alert>
+<nys-alert theme="error" label="Error status" dismissible><p>This is an example of an error alert.</p></nys-alert>
+<nys-alert theme="emergency" label="Emergency status" dismissible><p>This is an example of an emergency alert.</p></nys-alert>
 `.trim(),
         type: "auto",
       },
@@ -82,12 +82,12 @@ export const AllAlerts: Story = {
 export const AlertType: Story = {
   args: {
     theme: "info",
-    title: "Information status",
+    label: "Information status",
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
-      .title=${args.title}
+      .label=${args.label}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
@@ -107,7 +107,7 @@ export const AlertType: Story = {
     docs: {
       source: {
         code: `
-<nys-alert theme="info" title="Information status">
+<nys-alert theme="info" label="Information status">
   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.<br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
@@ -121,12 +121,12 @@ export const AlertType: Story = {
 export const DescriptionSlot: Story = {
   args: {
     theme: "success",
-    title: "Custom Descriptions",
+    label: "Custom Descriptions",
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
-      .title=${args.title}
+      .label=${args.label}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
@@ -141,7 +141,7 @@ export const DescriptionSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-alert theme="success" title="Custom Descriptions">
+<nys-alert theme="success" label="Custom Descriptions">
   <p>This is a custom alert with <strong>HTML content</strong>.</p>
   <a href="https://www.ny.gov/" target="_blank">Learn more</a>
 </nys-alert>
@@ -156,13 +156,13 @@ export const DescriptionSlot: Story = {
 export const Dismissible: Story = {
   args: {
     theme: "info",
-    title: "Information status",
+    label: "Information status",
     dismissible: true,
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
-      .title=${args.title}
+      .label=${args.label}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
@@ -184,7 +184,7 @@ export const Dismissible: Story = {
         code: `
 <nys-alert 
   theme="info" 
-  title="Information status" 
+  label="Information status" 
   dismissible>
   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank"">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
@@ -199,7 +199,7 @@ export const Dismissible: Story = {
 export const Duration: Story = {
   args: {
     theme: "info",
-    title: "Information status",
+    label: "Information status",
     duration: 3000,
   },
   render: (args) => {
@@ -210,7 +210,7 @@ export const Duration: Story = {
         container.innerHTML = "";
         const newAlert = document.createElement("nys-alert");
         newAlert.setAttribute("theme", args.theme);
-        newAlert.setAttribute("title", args.title);
+        newAlert.setAttribute("label", args.label);
         newAlert.setAttribute("duration", String(args.duration));
         if (args.dismissible) newAlert.setAttribute("dismissible", "");
         if (args.noIcon) newAlert.setAttribute("noIcon", "");
@@ -249,7 +249,7 @@ export const Duration: Story = {
         code: `
 <nys-alert 
   theme="info" 
-  title="Information status" 
+  label="Information status" 
   duration="3000">
   <p>This alert will disappear after 3 seconds.</p>
 </nys-alert>
@@ -264,13 +264,13 @@ export const Duration: Story = {
 export const CustomIcon: Story = {
   args: {
     theme: "warning",
-    title: "Help status",
+    label: "Help status",
     icon: "help",
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
-      .title=${args.title}
+      .label=${args.label}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
@@ -289,7 +289,7 @@ export const CustomIcon: Story = {
         code: `
 <nys-alert 
   theme="warning" 
-  title="Help status" 
+  label="Help status" 
   icon="help">
   <p>Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?</p>
 </nys-alert>
@@ -304,13 +304,13 @@ export const CustomIcon: Story = {
 export const NoIcon: Story = {
   args: {
     theme: "info",
-    title: "Information status",
+    label: "Information status",
     noIcon: true,
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
-      .title=${args.title}
+      .label=${args.label}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
@@ -324,7 +324,7 @@ export const NoIcon: Story = {
         code: `
 <nys-alert 
   theme="info" 
-  title="Information status" 
+  label="Information status" 
   noIcon
   >
  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
@@ -345,7 +345,7 @@ export const Slim: Story = {
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
-      .title=${args.title}
+      .label=${args.label}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}

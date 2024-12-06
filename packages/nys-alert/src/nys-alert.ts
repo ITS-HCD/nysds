@@ -12,7 +12,7 @@ export class NysAlert extends LitElement {
 
   /********************** Properties **********************/
   @property({ type: String }) id = "";
-  @property({ type: String }) title = "Title";
+  @property({ type: String }) label = "Title";
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) icon = "";
   @property({ type: Boolean }) isSlim = false;
@@ -108,7 +108,7 @@ export class NysAlert extends LitElement {
      */
     this.dispatchEvent(
       new CustomEvent("nys-alertClosed", {
-        detail: { theme: this.theme, title: this.title },
+        detail: { theme: this.theme, label: this.label },
         bubbles: true,
         composed: true,
       }),
@@ -142,7 +142,7 @@ export class NysAlert extends LitElement {
             <div class="nys-alert__heading">
               ${this.isSlim
                 ? ""
-                : html`<h4 class="nys-alert__title">${this.title}</h4>`}
+                : html`<h4 class="nys-alert__label">${this.label}</h4>`}
               <slot class="nys-alert__text"
                 >Adirondack peaks auctor Hudson River flows semper Statue of
                 Liberty est.</slot
