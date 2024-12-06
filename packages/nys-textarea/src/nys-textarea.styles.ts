@@ -17,24 +17,24 @@ export default css`
   }
 
   /* Sizes */
-  .xs {
+  .nys-textarea__textarea.xs {
     padding: 0.125rem;
   }
 
-  .sm {
+  .nys-textarea__textarea.sm {
     padding: 0.25rem;
   }
 
-  .lg {
+  .nys-textarea__textarea.lg {
     font-size: 20px;
   }
 
-  .xl {
+  .nys-textarea__textarea.xl {
     font-size: 24px;
   }
 
   /* Resize */
-  .none {
+  .nys-textarea__textarea.none {
     resize: none;
   }
 
@@ -84,7 +84,7 @@ export default css`
   }
 
   /* Error Message Styling */
-  .nys-select__error {
+  .nys-textarea__error {
     color: var(--nys-warning, #b52c2c);
     padding-top: 0.25rem;
   }

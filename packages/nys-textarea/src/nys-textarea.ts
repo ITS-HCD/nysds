@@ -105,7 +105,7 @@ export class NysTextarea extends LitElement {
             : ""}
         </div>
         ${this.errorMessage &&
-        html`<div class="nys-select__error">
+        html`<div class="nys-textarea__error">
           <nys-icon name="error"></nys-icon>
           ${this.errorMessage}
         </div>`}

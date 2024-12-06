@@ -25,7 +25,8 @@ The default value is `rows="2"`
 <Canvas of={NysTextareaStories.Rows} />
 
 ### Resize
-By default the user can resize the `nys-textarea` vertically. If you want to disallow resizing altogether add `resize="none"`
+By default the user can resize the `nys-textarea` vertically. If you want to disallow resizing altogether add `resize="none"`\
+Note: resize is not affected by setting `nys-textarea` to `disabled` or `readonly` and they are independent.
 
 <Canvas of={NysTextareaStories.Resize} />
 
@@ -38,7 +39,6 @@ By default the user can resize the `nys-textarea` vertically. If you want to dis
 <Canvas of={NysTextareaStories.ValueAndPlaceholder} />
 
 ### Disabled and Readonly
-Note: resize is not affected by setting `nys-textarea` to `disabled` or `readonly`. If you want this functionality you'll need to include it separately.
 
 <Canvas of={NysTextareaStories.DisabledAndReadonly} />
 
@@ -49,3 +49,7 @@ Note: resize is not affected by setting `nys-textarea` to `disabled` or `readonl
 ### Required
 
 <Canvas of={NysTextareaStories.Required} />
+
+### Error Message
+
+<Canvas of={NysTextareaStories.Error} />
