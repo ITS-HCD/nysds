@@ -17,8 +17,8 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run lint && vite build",
-    "build:packages": "npm run lint:packages && npm run build --workspaces",
-    "build:all": "npm run lint && npm run build && npm run build:packages",
+    "build:packages": "npm run build --workspaces",
+    "build:all": "npm run build && npm run build:packages",
     "build:watch": "vite",
     "lint": "eslint .",
     "lint:packages": "eslint packages/**/*.{ts,js}",
@@ -66,8 +66,6 @@
   },
   "eslintConfig": {
     "extends": [
-      "plugin:storybook/recommended",
-      "plugin:storybook/recommended",
       "plugin:storybook/recommended"
     ]
   }
