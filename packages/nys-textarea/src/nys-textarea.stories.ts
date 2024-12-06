@@ -295,7 +295,11 @@ export const ErrorMessage: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-textarea required label="label"></nys-textarea>`,
+        code: `
+<nys-textarea 
+  label="label"
+  errorMessage="A clear and concise error message.">
+</nys-textarea>`,
         type: "auto",
       },
     },
