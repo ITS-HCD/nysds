@@ -1,0 +1,99 @@
+import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { html } from "lit";
+import * as NysToggleStories from "./nys-toggle.stories";
+
+<Meta of={NysToggleStories} title="Components/Toggle/Documentation" />
+
+# Toggle
+The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle an option on or off.
+
+If an id is not passed, a unique id will be generated.
+
+<Canvas of={NysToggleStories.ToggleSwitch} />
+
+## Property Examples
+### Checked
+<Canvas of={NysToggleStories.Checked} />
+
+### Help Text
+Add descriptive help text using the `label` and/or `description` prop for the toggle component. \
+Descriptions can be provided **BOTH** as a property or a slot. Use the `description` property for simplicity, and reserve `slot="description"` for advanced HTML customizations like links.
+<Canvas of={NysToggleStories.HelpTexts} />
+
+### Unchecked Disabled
+<Canvas of={NysToggleStories.UncheckedDisabled} />
+
+### Checked Disabled
+<Canvas of={NysToggleStories.CheckedDisabled} />
+
+### Sizes
+Adjust the `size` property to see how it changes the toggle's appearance. \
+Supported sizes are `sm`, `md`, and `lg`. **Default size for toggle component is `md`.**
+<Canvas of={NysToggleStories.Sizes} />
+
+### Disabling Icons
+To remove icons from the toggle switch, use the `NoIcons` boolean property.
+<Canvas of={NysToggleStories.NoIcons} />
+
+## Form Prop
+The form attribute associates the `nys-toggle` component with a specific `<form>` element, regardless of its location on the page. This ensures that the toggle's state is included in the form submission, whether it is inside the `<form>` element or outside it.
+
+### How It Works
+Use the `form` property to explicitly associate the toggle (or other components) with a specific `<form>` element by referencing the form's `id`.
+```html
+<!-- For example -->
+<form id="myForm">
+  <nys-textinput form="myForm" label="Label"></nys-textinput>
+  <nys-textinput form="myForm" label="Label"></nys-textinput>
+  <nys-checkbox form="myForm" label="Label"></nys-checkbox>
+</form>
+<nys-toggle form="myForm" label="Label" name="example-name"></nys-toggle>
+```
+
+## Events
+The `NysToggle` component emits three custom events:
+
+1. **`change`** – Fired when the toggle state changes (checked/unchecked).
+2. **`focus`** – Fired when the toggle gains focus.
+3. **`blur`** – Fired when the toggle loses focus.
+4. **`keydown`** – Fired when a key is pressed while the toggle is focused.
+
+You can listen to these events using JavaScript:
+
+```js
+
+  // Select the toggle component
+  const toggle = document.querySelector('nys-toggle');
+
+  // Listen for the 'change' event
+  toggle.addEventListener('change', (event) => {
+    console.log('Checkbox changed:', event.target.checked);
+  });
+
+  // Listen for the 'focus' event
+  toggle.addEventListener('focus', () => {
+    console.log('Checkbox is focused');
+  });
+
+  // Listen for the 'blur' event
+  toggle.addEventListener('blur', () => {
+    console.log('Checkbox lost focus');
+  });
+
+  // Listen for the 'keydown' event
+  toggle.addEventListener('keydown', (event) => {
+    console.log('Key pressed:', event.key);
+  });
+```
+
+## Accessibility
+
+The `nys-toggle` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the toggle correctly.
+- Keyboard navigation support, allowing users to toggle the toggle switch using the keyboard.
+- Visual focus indicators to help users navigate the component.
+
+### Labels
+Include a label property to provide accessible text for screen readers.
+<Canvas of={NysToggleStories.Labels} />
