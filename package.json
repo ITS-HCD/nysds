@@ -1,10 +1,13 @@
 {
-  "name": "excelsior",
+  "name": "@nys-excelsior/components",
   "version": "0.0.1",
-  "description": "New York State's design system and shared code component library.",
+  "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
     "packages/*"
+  ],
+  "files": [
+    "dist/"
   ],
   "main": "dist/excelsior.js",
   "module": "dist/excelsior.es.js",
@@ -74,8 +77,6 @@
   },
   "eslintConfig": {
     "extends": [
-      "plugin:storybook/recommended",
-      "plugin:storybook/recommended",
       "plugin:storybook/recommended"
     ]
   }
