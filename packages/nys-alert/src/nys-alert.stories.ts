@@ -6,6 +6,7 @@ import "./nys-alert";
 interface NysAlertArgs {
   theme: string;
   label: string;
+  description: string;
   duration?: number;
   icon?: string;
   noIcon?: boolean;
@@ -22,6 +23,7 @@ const meta: Meta<NysAlertArgs> = {
       options: ["info", "warning", "success", "error", "emergency"],
     },
     label: { control: "text" },
+    description: { control: "text" },
     duration: { control: "number" },
     icon: { control: "text" },
     noIcon: { control: "boolean", default: false },
@@ -50,27 +52,21 @@ export const AllAlerts: Story = {
         html`<nys-alert
             .theme=${theme}
             .label=${theme.charAt(0).toUpperCase() + theme.slice(1) + " Status"}
+            .description="This is an example of ${theme == "info" || theme == "emergency" ? `an ${theme}` : `a ${theme}`} alert."
             dismissible
-            ><p>
-              This is an example of
-              ${theme == "info" || theme == "emergency"
-                ? `an ${theme}`
-                : `a ${theme}`}
-              alert.
-            </p></nys-alert
-          >
-          <br /> `,
+            ></nys-alert>
+          <br />`,
     )}
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-alert theme="info" label="Info status" dismissible><p>This is an example of an info alert.</p></nys-alert>
-<nys-alert theme="warning" label="Warning status" dismissible><p>This is an example of a warning alert.</p></nys-alert>
-<nys-alert theme="success" label="Success status" dismissible><p>This is an example of a success alert.</p></nys-alert>
-<nys-alert theme="error" label="Error status" dismissible><p>This is an example of an error alert.</p></nys-alert>
-<nys-alert theme="emergency" label="Emergency status" dismissible><p>This is an example of an emergency alert.</p></nys-alert>
+<nys-alert theme="info" label="Info status" description="This is an example of an info alert." dismissible></nys-alert>
+<nys-alert theme="warning" label="Warning status" description="This is an example of a warning alert." dismissible></nys-alert>
+<nys-alert theme="success" label="Success status" description="This is an example of a success alert." dismissible></nys-alert>
+<nys-alert theme="error" label="Error status" description="This is an example of an error alert." dismissible></nys-alert>
+<nys-alert theme="emergency" label="Emergency status" description="This is an example of an emergency alert." dismissible></nys-alert>
 `.trim(),
         type: "auto",
       },
@@ -83,32 +79,29 @@ export const AlertType: Story = {
   args: {
     theme: "info",
     label: "Information status",
+    description: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
       .label=${args.label}
+      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>
-        Adirondack peaks auctor Hudson River flows semper Statue of Liberty
-        est.<br />
-        Click here:
-        <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
-        for more info.
-      </p>
     </nys-alert>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-alert theme="info" label="Information status">
-  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.<br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
+<nys-alert 
+ theme="info" 
+ label="Information status" 
+ description="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.">
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -117,8 +110,8 @@ export const AlertType: Story = {
   },
 };
 
-// Story: DescriptionSlot
-export const DescriptionSlot: Story = {
+// Story: Description
+export const Description: Story = {
   args: {
     theme: "success",
     label: "Custom Descriptions",
@@ -127,14 +120,15 @@ export const DescriptionSlot: Story = {
     <nys-alert
       .theme=${args.theme}
       .label=${args.label}
+      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>This is a custom alert with <strong>HTML content</strong>.</p>
-      <a href="https://www.ny.gov/" target="_blank">Learn more</a>
+      <p slot="description">This is a custom alert with <strong>HTML content</strong>.</p>
+      <a slot="description" href="https://www.ny.gov/" target="_blank">Learn more</a>
     </nys-alert>
   `,
   parameters: {
@@ -142,8 +136,8 @@ export const DescriptionSlot: Story = {
       source: {
         code: `
 <nys-alert theme="success" label="Custom Descriptions">
-  <p>This is a custom alert with <strong>HTML content</strong>.</p>
-  <a href="https://www.ny.gov/" target="_blank">Learn more</a>
+  <p slot="description">This is a custom alert with <strong>HTML content</strong>.</p>
+  <a slot="description" href="https://www.ny.gov/" target="_blank">Learn more</a>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -163,13 +157,14 @@ export const Dismissible: Story = {
     <nys-alert
       .theme=${args.theme}
       .label=${args.label}
+      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>
+      <p slot="description">
         Adirondack peaks auctor Hudson River flows semper Statue of Liberty
         est.<br />
         Click here:
@@ -186,7 +181,7 @@ export const Dismissible: Story = {
   theme="info" 
   label="Information status" 
   dismissible>
-  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank"">https://www.ny.gov/</a> for more info.</p>
+  <p slot="description">Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank"">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -200,6 +195,7 @@ export const Duration: Story = {
   args: {
     theme: "info",
     label: "Information status",
+    description: "This alert will disappear after 3 seconds.",
     duration: 3000,
   },
   render: (args) => {
@@ -211,11 +207,11 @@ export const Duration: Story = {
         const newAlert = document.createElement("nys-alert");
         newAlert.setAttribute("theme", args.theme);
         newAlert.setAttribute("label", args.label);
+        newAlert.setAttribute("description", args.description);
         newAlert.setAttribute("duration", String(args.duration));
         if (args.dismissible) newAlert.setAttribute("dismissible", "");
         if (args.noIcon) newAlert.setAttribute("noIcon", "");
         if (args.isSlim) newAlert.setAttribute("isSlim", "");
-        newAlert.innerText = "This alert will disappear after 3 seconds.";
         container.appendChild(newAlert);
       }
     };
@@ -250,8 +246,8 @@ export const Duration: Story = {
 <nys-alert 
   theme="info" 
   label="Information status" 
+  description="This alert will disappear after 3 seconds."
   duration="3000">
-  <p>This alert will disappear after 3 seconds.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -265,22 +261,20 @@ export const CustomIcon: Story = {
   args: {
     theme: "warning",
     label: "Help status",
+    description: "Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?",
     icon: "help",
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
       .label=${args.label}
+      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>
-        Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn
-        Bridge tristique at?
-      </p>
     </nys-alert>
   `,
   parameters: {
@@ -289,9 +283,9 @@ export const CustomIcon: Story = {
         code: `
 <nys-alert 
   theme="warning" 
-  label="Help status" 
+  label="Help status"
+  description=""Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?" 
   icon="help">
-  <p>Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -305,12 +299,14 @@ export const NoIcon: Story = {
   args: {
     theme: "info",
     label: "Information status",
+    description: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
     noIcon: true,
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
       .label=${args.label}
+      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
@@ -325,9 +321,9 @@ export const NoIcon: Story = {
 <nys-alert 
   theme="info" 
   label="Information status" 
+  description="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
   noIcon
   >
- <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -340,12 +336,14 @@ export const NoIcon: Story = {
 export const Slim: Story = {
   args: {
     theme: "info",
+    description: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
     isSlim: true,
   },
   render: (args) => html`
     <nys-alert
       .theme=${args.theme}
       .label=${args.label}
+      .description=${args.description}
       .duration=${args.duration}
       .icon=${args.icon}
       ?noIcon=${args.noIcon}
@@ -362,9 +360,9 @@ export const Slim: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="info" 
+  theme="info"
+  description="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
   isSlim>
-  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
 </nys-alert>
 `.trim(),
         type: "auto",

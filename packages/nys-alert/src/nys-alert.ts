@@ -12,12 +12,14 @@ export class NysAlert extends LitElement {
 
   /********************** Properties **********************/
   @property({ type: String }) id = "";
-  @property({ type: String }) label = "Title";
+  @property({ type: String }) label = "";
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) icon = "";
   @property({ type: Boolean }) isSlim = false;
   @property({ type: Boolean }) dismissible = false;
   @property({ type: Number }) duration = 0;
+  @property({ type: String }) description = "";
+
   @state() private _alertClosed = false;
   private static readonly VALID_TYPES = [
     "info",
@@ -128,9 +130,7 @@ export class NysAlert extends LitElement {
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
             )}
           >
-            <div
-              class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
-            >
+            <div class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}">
               ${this.noIcon
                 ? ""
                 : html`<nys-icon
@@ -139,14 +139,9 @@ export class NysAlert extends LitElement {
                     label="${this.theme} icon"
                   ></nys-icon>`}
             </div>
-            <div class="nys-alert__heading">
-              ${this.isSlim
-                ? ""
-                : html`<h4 class="nys-alert__label">${this.label}</h4>`}
-              <slot class="nys-alert__text"
-                >Adirondack peaks auctor Hudson River flows semper Statue of
-                Liberty est.</slot
-              >
+            <div class="nys-alert__text">
+              ${this.isSlim ? "" : html`<h4 class="nys-alert__label">${this.label}</h4>`}
+              <slot name="description">${this.description}</slot>
             </div>
             ${this.dismissible
               ? html`<div class="close-container">

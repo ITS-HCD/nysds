@@ -22,7 +22,7 @@ export default css`
     line-height: 1.5;
   }
 
-  .nys-alert__heading {
+  .nys-alert__text {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -41,7 +41,7 @@ export default css`
     line-height: 0.9;
   }
 
-  .nys-alert__text {
+  slot[name="description"] {
     margin: 0;
   }
   ::slotted(p) {
