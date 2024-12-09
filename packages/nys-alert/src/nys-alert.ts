@@ -12,13 +12,12 @@ export class NysAlert extends LitElement {
 
   /********************** Properties **********************/
   @property({ type: String }) id = "";
-  @property({ type: String }) label = "";
-  @property({ type: Boolean }) noIcon = false;
+  @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
   @property({ type: Boolean }) isSlim = false;
   @property({ type: Boolean }) dismissible = false;
   @property({ type: Number }) duration = 0;
-  @property({ type: String }) description = "";
+  @property({ type: String }) text = "";
 
   @state() private _alertClosed = false;
   private static readonly VALID_TYPES = [
@@ -110,7 +109,7 @@ export class NysAlert extends LitElement {
      */
     this.dispatchEvent(
       new CustomEvent("nys-alertClosed", {
-        detail: { theme: this.theme, label: this.label },
+        detail: { theme: this.theme, label: this.heading },
         bubbles: true,
         composed: true,
       }),
@@ -131,17 +130,15 @@ export class NysAlert extends LitElement {
             )}
           >
             <div class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}">
-              ${this.noIcon
-                ? ""
-                : html`<nys-icon
-                    name="${this._getIconName()}"
-                    size="2xl"
-                    label="${this.theme} icon"
-                  ></nys-icon>`}
+              <nys-icon
+                  name="${this._getIconName()}"
+                  size="2xl"
+                  label="${this.theme} icon"
+                ></nys-icon>
             </div>
             <div class="nys-alert__text">
-              ${this.isSlim ? "" : html`<h4 class="nys-alert__label">${this.label}</h4>`}
-              <slot name="description">${this.description}</slot>
+              ${this.isSlim ? "" : html`<h4 class="nys-alert__label">${this.heading}</h4>`}
+              <slot name="text">${this.text}</slot>
             </div>
             ${this.dismissible
               ? html`<div class="close-container">

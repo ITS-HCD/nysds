@@ -41,7 +41,7 @@ export default css`
     line-height: 0.9;
   }
 
-  slot[name="description"] {
+  slot[name="text"] {
     margin: 0;
   }
   ::slotted(p) {
