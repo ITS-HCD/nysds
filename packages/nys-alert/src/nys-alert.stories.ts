@@ -49,10 +49,15 @@ export const AllAlerts: Story = {
       (theme) =>
         html`<nys-alert
             .theme=${theme}
-            .heading=${theme.charAt(0).toUpperCase() + theme.slice(1) + " Status"}
-            .text="This is an example of ${theme == "info" || theme == "emergency" ? `an ${theme}` : `a ${theme}`} alert."
+            .heading=${theme.charAt(0).toUpperCase() +
+            theme.slice(1) +
+            " Status"}
+            .text="This is an example of ${theme == "info" ||
+            theme == "emergency"
+              ? `an ${theme}`
+              : `a ${theme}`} alert."
             dismissible
-            ></nys-alert>
+          ></nys-alert>
           <br />`,
     )}
   `,
@@ -123,7 +128,9 @@ export const Description: Story = {
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p slot="text">This is a custom alert with <strong>HTML content</strong>.</p>
+      <p slot="text">
+        This is a custom alert with <strong>HTML content</strong>.
+      </p>
       <a slot="text" href="https://www.ny.gov/" target="_blank">Learn more</a>
     </nys-alert>
   `,

@@ -129,15 +129,19 @@ export class NysAlert extends LitElement {
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
             )}
           >
-            <div class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}">
+            <div
+              class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
+            >
               <nys-icon
-                  name="${this._getIconName()}"
-                  size="2xl"
-                  label="${this.theme} icon"
-                ></nys-icon>
+                name="${this._getIconName()}"
+                size="2xl"
+                label="${this.theme} icon"
+              ></nys-icon>
             </div>
             <div class="nys-alert__text">
-              ${this.isSlim ? "" : html`<h4 class="nys-alert__label">${this.heading}</h4>`}
+              ${this.isSlim
+                ? ""
+                : html`<h4 class="nys-alert__label">${this.heading}</h4>`}
               <slot name="text">${this.text}</slot>
             </div>
             ${this.dismissible
