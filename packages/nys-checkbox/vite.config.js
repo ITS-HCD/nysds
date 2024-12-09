@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => ({
       fileName: "nys-checkbox", // Output file name
       formats: ["es"], // ES build only
     },
+    emptyOutDir: false,
     sourcemap: true,
     rollupOptions: {
       external: ["lit"], // Externalize Lit for ES build

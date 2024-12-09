@@ -4,6 +4,7 @@
   "description": "A test component from the NYS Design System.",
   "main": "dist/nys-test-component.js",
   "module": "dist/nys-test-component.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": "./dist/nys-test-component.js"
   },
@@ -12,9 +13,8 @@
     "dist/"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "clean": "rm -rf dist"
+    "dev": "tsc && vite",
+    "build": "tsc && vite build"
   },
   "dependencies": {},
   "peerDependencies": {

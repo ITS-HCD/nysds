@@ -3,6 +3,7 @@
     "target": "ES2021",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "emitDeclarationOnly": true,
     "useDefineForClassFields": false,
     "module": "ESNext",
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
@@ -10,12 +11,12 @@
 
     /* Bundler mode */
     "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "noEmit": false,
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
 
     "rootDir": ".",
     "outDir": "./dist",
@@ -27,6 +28,15 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src/**/*", "packages/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*", 
+  ],
+  "exclude": [
+    "**/*.stories.ts",
+    "**/*.styles.ts",
+    "**/*.tests.ts",
+    "packages",
+    "node_modules", 
+    "dist"
+  ]
 }

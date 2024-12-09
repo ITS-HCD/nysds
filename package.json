@@ -11,6 +11,7 @@
   ],
   "main": "dist/excelsior.js",
   "module": "dist/excelsior.es.js",
+  "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/excelsior.es.js",
@@ -19,11 +20,11 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:umd": "vite build --config vite.config.umd.js",
+    "build": "tsc && vite build",
+    "build:umd": "tsc && vite build --config vite.config.umd.js",
     "build:packages": "npm run lint:packages && npm run build --workspaces",
     "build:all": "npm run lint && npm run build && npm run build:packages && npm run build:umd",
-    "build:watch": "vite",
+    "build:watch": "tsc && vite",
     "lint": "eslint .",
     "lint:packages": "eslint packages/**/*.{ts,js}",
     "lint:fix": "eslint . --fix",
