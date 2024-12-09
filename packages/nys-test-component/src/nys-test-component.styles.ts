@@ -7,7 +7,6 @@ export default css`
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 8px;
-    font-family: monospace;
   }
   span {
     /* light blue */
