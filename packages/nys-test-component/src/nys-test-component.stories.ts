@@ -28,7 +28,9 @@ type Story = StoryObj<NysTestComponentArgs>;
 
 // Story: Default
 export const Default: Story = {
-  args: {},
+  args: {
+    name: "",
+  },
   render: () => html`<nys-test-component></nys-test-component>`,
   parameters: {
     docs: {
@@ -48,7 +50,7 @@ export const CustomName: Story = {
     name: "Robert Moses",
   },
   render: (args) =>
-    html`<nys-test-component .name=${args.name}></nys-test-component>`,
+    html`<nys-test-component name=${args.name}></nys-test-component>`,
   parameters: {
     docs: {
       source: {
