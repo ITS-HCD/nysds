@@ -19,9 +19,10 @@ Below are the available alert theme, each showcasing its unique style and purpos
 Set the `theme` property to customize the alert style. Example: `theme="info"`.
 <Canvas of={NysAlertStories.AlertType} />
 
-### Custom Content for Description
-The `nys-alert` component supports using the `slot` feature for the alert's content. This allows you to pass in custom HTML, providing full flexibility for your alert's description.
-<Canvas of={NysAlertStories.DescriptionSlot} />
+### Custom Text
+Add descriptive content to your alert using the `text` prop or the `slot="text"` feature.
+Use the `text` prop for simple texts, or leverage `slot="text"` for advanced HTML customizations, such as links or styled texts.
+<Canvas of={NysAlertStories.Description} />
 
 ### Dismissible
 Set a `dismissible` boolean property to add a close button in the top-right corner, allowing users to dismiss the alert.
@@ -36,12 +37,8 @@ Set the `duration` property to automatically hide the alert after a specified ti
 Override the default `theme` icon by setting the `icon` property to any name from the icon library.
 <Canvas of={NysAlertStories.CustomIcon} />
 
-### No Icon Option
-To displays an alert without an accompanying icon, you can apply the `noIcon` prop.
-<Canvas of={NysAlertStories.NoIcon} />
-
 ### Slim Variant
-The slim variant is a compact version of the alert, ideal for short descriptions. It removes the header and centers the icon for a cleaner layout.
+The slim variant `isSlim` is a compact version of the alert, ideal for short descriptions. It removes the header and centers the icon for a cleaner layout.
 <Canvas of={NysAlertStories.Slim} />
 
 ## Accessibility
