@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/nys-test-component",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A test component from the NYS Design System.",
   "main": "dist/nys-test-component.js",
   "module": "dist/nys-test-component.js",
