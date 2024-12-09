@@ -246,7 +246,7 @@ export const Duration: Story = {
         code: `
 <nys-alert 
   theme="info" 
-  v="Information status" 
+  heading="Information status" 
   text="This alert will disappear after 3 seconds."
   duration="3000">
 </nys-alert>
