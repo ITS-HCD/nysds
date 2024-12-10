@@ -38,19 +38,23 @@ export default css`
     pointer-events: none;
   }
 
-  .xs {
+  .nys-select__select.xs {
     padding: 0.125rem;
   }
 
-  .sm {
+  .nys-select__select.sm {
     padding: 0.25rem;
   }
 
-  .lg {
+  .nys-select__select.md {
+    padding: 0.5rem;
+  }
+
+  .nys-select__select.lg {
     font-size: 20px;
   }
 
-  .xl {
+  .nys-select__select.xl {
     font-size: 24px;
   }
 
