@@ -14,7 +14,7 @@ const config: StorybookConfig = {
     "../src/stories/**/*.@(js|jsx|mjs|ts|tsx|mdx)",
     "../src/**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))",
     "../packages/**/src/*.mdx",
-    "../packages/**/src/*.stories.@(js|jsx|ts|tsx)"
+    "../packages/**/src/*.stories.@(js|jsx|ts|tsx)",
   ],
 
   addons: [
@@ -28,6 +28,6 @@ const config: StorybookConfig = {
     options: {},
   },
 
-  docs: {}
+  docs: {},
 };
 export default config;
