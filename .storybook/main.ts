@@ -11,19 +11,23 @@ function getAbsolutePath(value: string): any {
 }
 const config: StorybookConfig = {
   stories: [
-    "../src/stories/**/*.@(js|jsx|mjs|ts|tsx|mdx)", // Central Excelsior pages (like the welcome page)
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx|mdx)", // Any other component stories in /src
-    "../packages/**/src/*.mdx", // Component stories in packages
-    "../packages/**/src/*.stories.@(js|jsx|ts|tsx)", // Component stories in packages
+    "../src/stories/**/*.@(js|jsx|mjs|ts|tsx|mdx)",
+    "../src/**/*.@(mdx|stories.@(js|jsx|mjs|ts|tsx))",
+    "../packages/**/src/*.mdx",
+    "../packages/**/src/*.stories.@(js|jsx|ts|tsx)"
   ],
+
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-a11y"),
   ],
+
   framework: {
     name: getAbsolutePath("@storybook/web-components-vite"),
     options: {},
   },
+
+  docs: {}
 };
 export default config;
