@@ -97,7 +97,11 @@ export default css`
 
   /* Error Message Styling */
   .nys-select__error {
-    color: var(--nys-warning, #b52c2c);
-    padding-top: 0.25rem;
+    padding-top: var(--nys-spacing, 0.75rem);
+    color: var(--nys-error, #b52c2c);
+  }
+
+  .nys-select__selecterror {
+    border-color: var(--nys-error, #b52c2c); /* border of <select> */
   }
 `;

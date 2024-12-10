@@ -15,6 +15,7 @@ interface NysSelectArgs {
   form: string;
   size: string;
   options: string;
+  hasError: boolean;
   errorMessage: String;
 }
 
@@ -46,6 +47,7 @@ export const Basic: Story = {
     required: false,
     form: "",
     size: "",
+    hasError: false,
     errorMessage: "",
   },
   render: (args) => html`
@@ -59,6 +61,7 @@ export const Basic: Story = {
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
+      .hasError=${args.hasError}
       .errorMessage=${args.errorMessage}
     >
       <option value="bronx">The Bronx</option>
@@ -231,6 +234,7 @@ export const ErrorMessage: Story = {
     <nys-select
       label=${"Select your favorite borough"}
       errorMessage=${"This is an error message"}
+      hasError
     >
       <option value="bronx">The Bronx</option>
       <option value="brooklyn">Brooklyn</option>
@@ -246,6 +250,7 @@ export const ErrorMessage: Story = {
 <nys-select 
   label="Select your favorite borough"
   errorMessage="This is an error message"
+  hasError
 >
   <option value="bronx">The Bronx</option>
   <option value="brooklyn">Brooklyn</option>

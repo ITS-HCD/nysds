@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-select.styles";
+import { classMap } from "lit/directives/class-map.js";
 
 @customElement("nys-select")
 export class NysSelect extends LitElement {
@@ -13,6 +14,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: String }) size = "";
+  @property({ type: Boolean }) hasError = false;
   @property({ type: String }) errorMessage = "";
 
   @state() private _options: { value: string; text: string }[] = [];
@@ -57,6 +59,12 @@ export class NysSelect extends LitElement {
   }
 
   render() {
+    const selectClasses = {
+      "nys-select__select": true,
+      "nys-select__selecterror": this.hasError,
+      [this.size]: !!this.size,
+    };
+
     return html`
       <div class="nys-select">
         ${this.label &&
@@ -76,7 +84,7 @@ export class NysSelect extends LitElement {
         <div class="nys-select__requiredwrapper">
           <div class="nys-select__selectwrapper">
             <select
-              class="nys-select__select ${this.size}"
+              class="${classMap(selectClasses)}"
               name=${this.name}
               id=${this.id}
               ?disabled=${this.disabled}
@@ -108,11 +116,12 @@ export class NysSelect extends LitElement {
             ? html`<label class="nys-select__required">*</label>`
             : ""}
         </div>
-        ${this.errorMessage &&
-        html`<div class="nys-select__error">
-          <nys-icon name="error"></nys-icon>
-          ${this.errorMessage}
-        </div>`}
+        ${this.hasError && this.errorMessage
+          ? html`<div class="nys-select__error">
+              <nys-icon name="error"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
       </div>
     `;
   }
