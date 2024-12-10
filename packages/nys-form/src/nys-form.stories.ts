@@ -5,7 +5,8 @@ import "./nys-form";
 // Define the structure of the args used in the stories
 interface NysFormArgs {
   id: string;
-  name: string;
+  fieldset?: boolean;
+  legend?: string;
 }
 
 const meta: Meta<NysFormArgs> = {
@@ -13,7 +14,8 @@ const meta: Meta<NysFormArgs> = {
   component: "nys-form",
   argTypes: {
     id: { control: "text" },
-    name: { control: "text" },
+    fieldset: { control: "boolean" },
+    legend: { control: "text" },
   },
   parameters: {
     docs: {
@@ -31,12 +33,72 @@ type Story = StoryObj<NysFormArgs>;
 
 // Story: Form
 export const Form: Story = {
-  render: () => html` <nys-form></nys-form> `,
+  args: {
+    id: "my-form",
+  },
+  render: (args) => html`
+    <nys-form 
+      .id=${args.id} 
+      ?fieldset=${args.fieldset} 
+      legend=${args.legend}>
+      <label for="fname">Enter first name: </label>
+      <input form=${args.id} id="fname" type="text" />
+    </nys-form> 
+  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-form></nys-form>
+<nys-form id="my-form">
+  <label for="fname">Enter first name: </label>
+  <input form="my-form" id="fname" type="text" />
+</nys-form>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Fieldset and Legend
+export const Fieldset: Story = {
+  args: {
+    id: "my-form",
+    fieldset: true,
+    legend: "Location",
+  },
+  render: (args) => html`
+    <nys-form 
+    .id=${args.id} 
+    ?fieldset=${args.fieldset} 
+    legend=${args.legend}>
+        <input form="my-form" type="radio" id="kraken" name="monster" value="K" />
+        <label for="kraken">Kraken</label><br />
+
+        <input form="my-form" type="radio" id="sasquatch" name="monster" value="S" />
+        <label for="sasquatch">Sasquatch</label><br />
+
+        <input form="my-form" type="radio" id="mothman" name="monster" value="M" />
+        <label for="mothman">Mothman</label>
+    </nys-form> 
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-form 
+  id="my-form"
+  fieldset
+  legend="Location">
+    <input type="radio" id="kraken" name="monster" value="K" />
+    <label for="kraken">Kraken</label><br />
+
+    <input type="radio" id="sasquatch" name="monster" value="S" />
+    <label for="sasquatch">Sasquatch</label><br />
+
+    <input type="radio" id="mothman" name="monster" value="M" />
+    <label for="mothman">Mothman</label>
+</nys-form>
 `.trim(),
         type: "auto",
       },
