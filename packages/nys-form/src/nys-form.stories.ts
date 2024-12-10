@@ -42,7 +42,8 @@ export const Form: Story = {
       ?fieldset=${args.fieldset} 
       legend=${args.legend}>
       <label for="fname">Enter first name: </label>
-      <input form=${args.id} id="fname" type="text" />
+      <input form=${args.id} id="fname" type="text" name="fname"/>
+      <button form=${args.id} type="submit"> Send </button>
     </nys-form> 
   `,
   parameters: {
@@ -51,7 +52,8 @@ export const Form: Story = {
         code: `
 <nys-form id="my-form">
   <label for="fname">Enter first name: </label>
-  <input form="my-form" id="fname" type="text" />
+  <input form="my-form" id="fname" type="text" value="fname" />
+  <button form="my-form" type="submit"> Send </button>
 </nys-form>
 `.trim(),
         type: "auto",
@@ -80,6 +82,7 @@ export const Fieldset: Story = {
 
         <input form="my-form" type="radio" id="mothman" name="monster" value="M" />
         <label for="mothman">Mothman</label>
+        <button form=${args.id} type="submit"> Send </button>
     </nys-form> 
   `,
   parameters: {
@@ -98,6 +101,7 @@ export const Fieldset: Story = {
 
     <input type="radio" id="mothman" name="monster" value="M" />
     <label for="mothman">Mothman</label>
+    <button form="my-form" type="submit"> Send </button>
 </nys-form>
 `.trim(),
         type: "auto",

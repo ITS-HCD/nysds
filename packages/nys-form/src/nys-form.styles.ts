@@ -1,7 +1,9 @@
 import { css } from "lit";
 
 export default css`
-  h1 {
-    font-size: 2rem;
+  form {
+    background-color: #f2efee;
+    padding: 25px;
+    border-radius: 5px;
   }
 `;

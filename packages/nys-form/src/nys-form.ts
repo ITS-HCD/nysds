@@ -10,10 +10,29 @@ export class NysForm extends LitElement {
   @property({type: String}) id = "";
   @property({type: Boolean}) fieldset = false;
   @property({type: String}) legend = "";
+  @state() private _formElements: HTMLElement[] = [];
 
   /**************** Lifecycle Methods ****************/
 
   /******************** Functions ********************/
+  private _handleSlotChange() {
+    const slot = this.shadowRoot?.querySelector("slot");
+    if (slot) {
+      // Retrieve slotted elements
+      const nodes = slot.assignedElements({ flatten: true });
+
+      // Clear current form elements
+      this._formElements = [];
+
+      // Add node to form
+      nodes.forEach((node) => {
+        if (node instanceof HTMLElement) {
+          this._formElements.push(node);
+        }
+      })
+    }
+    this.requestUpdate(); // Request an update after processing options
+  }
 
   // Current implementation shows the values of the submission.
   private _handleSubmit(e: Event) {
@@ -24,12 +43,17 @@ export class NysForm extends LitElement {
     if (!form) {
       console.error("Form element not found.");
       return;
-  }
-  
+    }
+
     const formData = new FormData(form);
-    const formValues = Object.fromEntries(formData.entries());
+    const formValues: Record<string, string> = {};
+
+    formData.forEach((value, key) => {
+      formValues[key] = value.toString();
+    });
 
     console.log(formValues);
+    console.log(formData);
     alert(JSON.stringify(formValues, null, 2));
   }
 
@@ -39,13 +63,20 @@ export class NysForm extends LitElement {
         ${this.fieldset
           ? html`
               <fieldset>
-                ${this.legend
+                ${this.legend.length > 0
                   ? html`<legend>${this.legend}</legend>`
                   : ""}
-                <slot></slot>
-              </fieldset>
+                ${this._formElements.map((element) =>
+                  html`${element.cloneNode(true)}`
+                )}
+              </fieldset> 
             `
-          : html`<slot></slot>`}
+          : html`
+              ${this._formElements.map((element) =>
+                html`${element.cloneNode(true)}`
+              )}
+            `}
+        <slot @slotchange="${this._handleSlotChange}" style="display:none;"></slot>
       </form>
     `;
   }
