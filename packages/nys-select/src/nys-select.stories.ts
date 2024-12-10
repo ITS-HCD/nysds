@@ -41,14 +41,11 @@ export const Basic: Story = {
     name: "",
     label: "Select your favorite borough",
     description: "",
-    placeholder: "",
     value: "",
     disabled: false,
     required: false,
     form: "",
     size: "",
-    options:
-      '["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]',
     errorMessage: "",
   },
   render: (args) => html`
@@ -57,23 +54,30 @@ export const Basic: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
-      .options=${args.options}
       .errorMessage=${args.errorMessage}
-    ></nys-select>
+    >
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
+    </nys-select>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select 
-  label="Select your favorite borough"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
+<nys-select label="Select your favorite borough">
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>        
 </nys-select>`,
         type: "auto",
       },
@@ -84,23 +88,25 @@ export const Basic: Story = {
 export const Disabled: Story = {
   args: {},
   render: () => html`
-    <nys-select
-      .label=${"Select your favorite borough"}
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-      ,
-      disabled
-    ></nys-select>
+    <nys-select label=${"Select your favorite borough"} disabled>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
+    </nys-select>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select 
-  label="Select your favorite borough"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'
-  value="Brooklyn"
-  disabled
-></nys-select>`,
+<nys-select label="Select your favorite borough" disabled>
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
+</nys-select>`,
         type: "auto",
       },
     },
@@ -110,20 +116,24 @@ export const Disabled: Story = {
 export const Required: Story = {
   args: {},
   render: () => html`
-    <nys-select
-      .label=${"Select your favorite borough"}
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-      required
-    ></nys-select>
+    <nys-select label=${"Select your favorite borough"} required>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
+    </nys-select>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select 
-  label="Select your favorite borough"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'
-  required>
+<nys-select label="Select your favorite borough" required>
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>`,
         type: "auto",
       },
@@ -134,64 +144,80 @@ export const Required: Story = {
 export const Size: Story = {
   args: {},
   render: () => html`
-    <nys-select
-      .label=${"Select your favorite borough"}
-      size="xs"
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-    ></nys-select
+    <nys-select .label=${"Select your favorite borough"} size="xs">
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option></nys-select
     ><br />
-    <nys-select
-      .label=${"Select your favorite borough"}
-      size="sm"
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-    ></nys-select
+    <nys-select .label=${"Select your favorite borough"} size="sm">
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option></nys-select
     ><br />
-    <nys-select
-      .label=${"Select your favorite borough"}
-      size="md"
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-    ></nys-select
+    <nys-select .label=${"Select your favorite borough"} size="md">
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option></nys-select
     ><br />
-    <nys-select
-      .label=${"Select your favorite borough"}
-      size="lg"
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-    ></nys-select
+    <nys-select .label=${"Select your favorite borough"} size="lg">
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option> </nys-select
     ><br />
-    <nys-select
-      .label=${"Select your favorite borough"}
-      size="xl"
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-    ></nys-select>
+    <nys-select .label=${"Select your favorite borough"} size="xl">
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
+    </nys-select>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-select 
-  label="Select your favorite borough"
-  size="xs"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
+<nys-select label="Select your favorite borough" size="xs">
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>
-<nys-select 
-  label="Select your favorite borough"
-  size="sm"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
+<nys-select label="Select your favorite borough"size="sm">
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>
-<nys-select 
-  label="Select your favorite borough"
-  size="md"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
+<nys-select label="Select your favorite borough"size="md">
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>
-<nys-select 
-  label="Select your favorite borough"
-  size="lg"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
+<nys-select label="Select your favorite borough"size="lg"
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>
-<nys-select 
-  label="Select your favorite borough"
-  size="xl"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
+<nys-select label="Select your favorite borough"size="xl">
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>`,
         type: "auto",
       },
@@ -203,10 +229,15 @@ export const ErrorMessage: Story = {
   args: {},
   render: () => html`
     <nys-select
-      .label=${"Select your favorite borough"}
-      .options=${'["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'}
-      .errorMessage=${"This is an error message"}
-    ></nys-select>
+      label=${"Select your favorite borough"}
+      errorMessage=${"This is an error message"}
+    >
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option></nys-select
+    >
   `,
   parameters: {
     docs: {
@@ -215,7 +246,12 @@ export const ErrorMessage: Story = {
 <nys-select 
   label="Select your favorite borough"
   errorMessage="This is an error message"
-  options='["The Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]'>
+>
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>`,
         type: "auto",
       },

@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 
 @customElement("nys-select")
@@ -8,24 +8,29 @@ export class NysSelect extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) placeholder = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: String }) size = "";
-  @property({ type: String }) options = "[]";
   @property({ type: String }) errorMessage = "";
+
+  @state() private _options: { value: string; text: string }[] = [];
 
   static styles = styles;
 
-  get optionsList(): string[] {
-    try {
-      return JSON.parse(this.options);
-    } catch {
-      console.warn("Invalid JSON provided for options");
-      return [];
+  private _handleSlotChange() {
+    const slot = this.shadowRoot?.querySelector("slot");
+    if (slot) {
+      const nodes = slot.assignedElements({ flatten: true });
+      this._options = nodes
+        .filter((node) => node instanceof HTMLOptionElement)
+        .map((node) => ({
+          value: (node as HTMLOptionElement).value,
+          text: node.textContent || "",
+        }));
     }
+    this.requestUpdate(); // Request an update after processing options
   }
 
   // Handle focus event
@@ -78,18 +83,19 @@ export class NysSelect extends LitElement {
               ?required=${this.required}
               aria-disabled="${this.disabled}"
               aria-label="${this.label} ${this.description}"
-              .value=${this.value}
-              placeholder=${this.placeholder}
+              value=${this.value}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
             >
-              <option hidden disabled selected value>
-                ${this.placeholder}
-              </option>
-              ${this.optionsList.map(
-                (opt) => html`<option value=${opt}>${opt}</option>`,
+              <option hidden disabled selected value></option>
+              ${this._options.map(
+                (opt) => html`<option value=${opt.value}>${opt.text}</option>`,
               )}
             </select>
+            <slot
+              @slotchange="${this._handleSlotChange}"
+              style="display: none;"
+            ></slot>
             <slot name="icon">
               <nys-icon
                 name="arrow_down"
