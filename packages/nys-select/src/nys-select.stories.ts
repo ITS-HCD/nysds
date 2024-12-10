@@ -8,7 +8,6 @@ interface NysSelectArgs {
   name: string;
   label: string;
   description: string;
-  placeholder: string;
   value: string;
   disabled: boolean;
   required: boolean;
@@ -22,7 +21,19 @@ interface NysSelectArgs {
 const meta: Meta<NysSelectArgs> = {
   title: "Components/Select",
   component: "nys-select",
-  argTypes: {},
+  argTypes: {
+    id: { control: "text" },
+    name: { control: "text" },
+    label: { control: "text" },
+    description: { control: "text" },
+    value: { control: "text" },
+    disabled: { control: "boolean" },
+    required: { control: "boolean" },
+    form: { control: "text" },
+    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
+    hasError: { control: "boolean" },
+    errorMessage: { control: "text" },
+  },
   parameters: {
     docs: {
       source: { type: "dynamic" }, // Enables live Source code tab
