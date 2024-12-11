@@ -23,6 +23,7 @@ export default [
         "warn",
         {
           endOfLine: "auto",
+          trailingComma: "all",
         },
       ],
       "lit/no-invalid-html": "error",

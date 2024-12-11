@@ -1,13 +1,13 @@
 {
-    "name": "@excelsior/nys-textinput",
+    "name": "@excelsior/nys-textarea",
     "version": "0.0.1",
-    "description": "An input component from the NYS Design System.",
-    "main": "dist/nys-textinput.js",
-    "module": "dist/nys-textinput.es.js",
+    "description": "An textarea component from the NYS Design System.",
+    "main": "dist/nys-textarea.js",
+    "module": "dist/nys-textarea.es.js",
     "exports": {
         ".": {
-            "import": "./dist/nys-textinput.es.js",
-            "require": "./dist/nys-textinput.js"
+            "import": "./dist/nys-textarea.es.js",
+            "require": "./dist/nys-textarea.js"
         }
     },
     "type": "module",

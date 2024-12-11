@@ -1,13 +1,13 @@
 {
-   "name": "@excelsior/nys-icon",
+   "name": "@excelsior/nys-toggle",
    "version": "0.0.1",
-   "description": "An icon component from the NYS Design System.",
-   "main": "dist/nys-icon.js",
-   "module": "dist/nys-icon.es.js",
+   "description": "A toggle component from the NYS Design System.",
+   "main": "dist/nys-toggle.js",
+   "module": "dist/nys-toggle.es.js",
    "exports": {
       ".": {
-         "import": "./dist/nys-icon.es.js",
-         "require": "./dist/nys-icon.js"
+         "import": "./dist/nys-toggle.es.js",
+         "require": "./dist/nys-toggle.js"
       }
    },
    "type": "module",

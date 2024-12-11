@@ -2,7 +2,7 @@
   "name": "@excelsior/nys-radiobutton",
   "version": "0.0.1",
   "description": "A radiobutton component from the NYS Design System.",
-  "main": "dist/nys-radiobutton.js", 
+  "main": "dist/nys-radiobutton.js",
   "module": "dist/nys-radiobutton.es.js",
   "exports": {
     ".": {
@@ -14,13 +14,12 @@
   "scripts": {
     "build": "vite build"
   },
-  "dependencies": {},
   "peerDependencies": {
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "vite": "^5.4.9",
-    "typescript": "^5.6.2",
-    "rollup-plugin-delete": "^2.1.0"
+    "rollup-plugin-delete": "^2.1.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
   }
 }

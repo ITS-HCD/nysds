@@ -1,13 +1,13 @@
 {
-    "name": "@excelsior/nys-textinput",
+    "name": "@excelsior/nys-select",
     "version": "0.0.1",
-    "description": "An input component from the NYS Design System.",
-    "main": "dist/nys-textinput.js",
-    "module": "dist/nys-textinput.es.js",
+    "description": "A select component from the NYS Design System.",
+    "main": "dist/nys-select.js",
+    "module": "dist/nys-select.es.js",
     "exports": {
         ".": {
-            "import": "./dist/nys-textinput.es.js",
-            "require": "./dist/nys-textinput.js"
+            "import": "./dist/nys-select.es.js",
+            "require": "./dist/nys-select.js"
         }
     },
     "type": "module",
