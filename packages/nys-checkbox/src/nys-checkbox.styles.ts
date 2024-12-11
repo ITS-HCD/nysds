@@ -44,6 +44,16 @@ export default css`
     cursor: not-allowed;
   }
 
+  /* Required */
+  .nys-checkbox__required {
+    color: red;
+    margin-left: 0.25rem;
+  }
+
+  .nys-checkbox__requiredwrapper {
+    display: flex;
+  }
+
   /* Focused */
   .nys-checkbox__checkbox:focus {
     outline-offset: 2px;
@@ -74,11 +84,21 @@ export default css`
   }
 
   /* Error Message Styling */
-  .nys-select__error {
+  .nys-checkbox__error {
     border-top: 1px solid var(--nys-error, #b52c2c);
     margin-top: var(--nys-spacing, 0.75rem);
     padding-top: var(--nys-spacing, 0.75rem);
     color: var(--nys-error, #b52c2c);
     margin-left: 0.25rem;
+  }
+
+  /* Checkbox Group Styling */
+  .nys-checkboxgroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nys-checkboxgroup__content {
+    padding-top: var(--nys-spacing, 0.5rem);
   }
 `;

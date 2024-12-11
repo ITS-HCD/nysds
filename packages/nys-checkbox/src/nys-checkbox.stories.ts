@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-checkbox";
+import "./nys-checkboxgroup";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {
@@ -12,6 +13,7 @@ interface NysCheckboxArgs {
   name: string;
   value: string;
   required: boolean;
+  hasError: boolean;
   errorMessage: string;
 }
 
@@ -21,12 +23,13 @@ const meta: Meta<NysCheckboxArgs> = {
   argTypes: {
     checked: { control: "boolean" },
     disabled: { control: "boolean" },
+    required: { control: "boolean" },
     label: { control: "text" },
     description: { control: "text" },
     id: { control: "text" },
     name: { control: "text" },
     value: { control: "text" },
-    required: { control: "boolean" },
+    hasError: { control: "boolean" },
     errorMessage: { control: "text" },
   },
   parameters: {
@@ -47,20 +50,25 @@ export const Unchecked: Story = {
   args: {
     checked: false,
     disabled: false,
+    required: false,
     label: "Join our Monthly Newsletter",
     description: "Receive the latest news and updates in your inbox.",
     name: "subscribe",
     value: "monthly-news",
+    hasError: false,
     errorMessage: "You must select this box to continue.",
   },
   render: (args) => html`
     <nys-checkbox
       .checked=${args.checked}
       .disabled=${args.disabled}
+      .required=${args.required}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
       .value=${args.value}
+      .hasError=${args.hasError}
+      .errorMessage=${args.errorMessage}
     ></nys-checkbox>
   `,
   parameters: {
@@ -85,19 +93,25 @@ export const Checked: Story = {
   args: {
     checked: true,
     disabled: false,
+    required: false,
     label: "I attest that the information provided is accurate and complete.",
     description: "",
     name: "confirm",
     value: "confirm-accuracy",
+    hasError: false,
+    errorMessage: "You must select this box to continue.",
   },
   render: (args) => html`
     <nys-checkbox
       .checked=${args.checked}
       .disabled=${args.disabled}
+      .required=${args.required}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
       .value=${args.value}
+      .hasError=${args.hasError}
+      .errorMessage=${args.errorMessage}
     ></nys-checkbox>
   `,
   parameters: {
@@ -121,19 +135,25 @@ export const DisabledUnchecked: Story = {
   args: {
     checked: false,
     disabled: true,
+    required: false,
     label: "Register for Early Voting",
     description: "This option is currently unavailable.",
     name: "earlyVoting",
     value: "early-voting",
+    hasError: false,
+    errorMessage: "You must select this box to continue.",
   },
   render: (args) => html`
     <nys-checkbox
       .checked=${args.checked}
       .disabled=${args.disabled}
+      .required=${args.required}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
       .value=${args.value}
+      .hasError=${args.hasError}
+      .errorMessage=${args.errorMessage}
     ></nys-checkbox>
   `,
   parameters: {
@@ -158,21 +178,27 @@ export const DisabledChecked: Story = {
   args: {
     checked: true,
     disabled: true,
+    required: false,
     label: "Subscribe to NYS Government Updates",
     description: "Get notified via email about important updates and services.",
     id: "subscribe-checkbox-disabled-checked",
     name: "subscribe",
     value: "email-updates",
+    hasError: false,
+    errorMessage: "You must select this box to continue.",
   },
   render: (args) => html`
     <nys-checkbox
       .checked=${args.checked}
       .disabled=${args.disabled}
+      .required=${args.required}
       .label=${args.label}
       .description=${args.description}
       .id=${args.id}
       .name=${args.name}
       .value=${args.value}
+      .hasError=${args.hasError}
+      .errorMessage=${args.errorMessage}
     ></nys-checkbox>
   `,
   parameters: {
@@ -195,26 +221,30 @@ export const DisabledChecked: Story = {
 };
 
 // Story: Error Message
-export const ErrorMessage: Story = {
+export const Required: Story = {
   args: {
     checked: false,
     disabled: false,
+    required: true,
     label: "Subscribe to NYS Government Updates",
     description: "Get notified via email about important updates and services.",
     id: "subscribe-checkbox-disabled-checked",
     name: "subscribe",
     value: "email-updates",
-    errorMessage: "A concise error message.",
+    hasError: false,
+    errorMessage: "You must select this box to continue.",
   },
   render: (args) => html`
     <nys-checkbox
       .checked=${args.checked}
       .disabled=${args.disabled}
+      .required=${args.required}
       .label=${args.label}
       .description=${args.description}
       .id=${args.id}
       .name=${args.name}
       .value=${args.value}
+      .hasError=${args.hasError}
       .errorMessage=${args.errorMessage}
     ></nys-checkbox>
   `,
@@ -228,6 +258,53 @@ export const ErrorMessage: Story = {
   id="subscribe-checkbox-disabled-checked"
   name="subscribe"
   value="email-updates"
+  required
+></nys-checkbox>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Error Message
+export const ErrorMessage: Story = {
+  args: {
+    checked: false,
+    disabled: false,
+    required: false,
+    label: "Subscribe to NYS Government Updates",
+    description: "Get notified via email about important updates and services.",
+    id: "subscribe-checkbox-disabled-checked",
+    name: "subscribe",
+    value: "email-updates",
+    hasError: true,
+    errorMessage: "You must select this box to continue.",
+  },
+  render: (args) => html`
+    <nys-checkbox
+      .checked=${args.checked}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .label=${args.label}
+      .description=${args.description}
+      .id=${args.id}
+      .name=${args.name}
+      .value=${args.value}
+      .hasError=${args.hasError}
+      .errorMessage=${args.errorMessage}
+    ></nys-checkbox>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox
+  label="Subscribe to NYS Government Updates"
+  description="Get notified via email about important updates and services."
+  id="subscribe-checkbox-disabled-checked"
+  name="subscribe"
+  value="email-updates"
+  hasError
   errorMessage="A concise error message."
 ></nys-checkbox>
         `.trim(),
@@ -266,6 +343,57 @@ export const Slot: Story = {
   Read about previous updates <a href="https://www.ny.gov/" target="__blank">here</a>
   </label>
 </nys-checkbox>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Checkbox Group
+export const CheckboxGroup: Story = {
+  args: {},
+  render: () => html`
+    <nys-checkboxgroup
+      label="Do you attest to the following:"
+      hasError
+      errorMessage="You must select both options to continue."
+    >
+      <nys-checkbox
+        label="I have read the terms and conditions."
+        id="terms-conditions"
+        name="terms"
+        value="terms-conditions"
+      ></nys-checkbox>
+      <nys-checkbox
+        label="I will not sue you."
+        id="legal"
+        name="legal"
+        value="legal"
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Do you attest to the following:"
+  hasError
+  errorMessage="You must select both options to continue."
+>
+  <nys-checkbox
+    label="I have read the terms and conditions."
+    id="terms-conditions"
+    name="terms"
+    value="terms-conditions"
+  ></nys-checkbox>
+  <nys-checkbox
+    label="I will not sue you."
+    id="legal"
+    name="legal"
+    value="legal"
+  ></nys-checkbox>
+</nys-checkboxgroup>
         `.trim(),
       },
     },

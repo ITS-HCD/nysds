@@ -15,6 +15,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: Boolean }) hasError = false;
   @property({ type: String }) errorMessage = "";
 
   static styles = styles;
@@ -104,11 +105,12 @@ export class NysCheckbox extends LitElement {
             </label>
           </div>`}
         </div>
-        ${this.errorMessage &&
-        html`<div class="nys-select__error">
-          <nys-icon name="error"></nys-icon>
-          ${this.errorMessage}
-        </div>`}
+        ${this.hasError && this.errorMessage
+          ? html`<div class="nys-checkbox__error">
+              <nys-icon name="error"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
       </div>
     `;
   }
