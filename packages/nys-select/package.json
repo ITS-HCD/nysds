@@ -2,26 +2,24 @@
     "name": "@excelsior/nys-select",
     "version": "0.0.1",
     "description": "A select component from the NYS Design System.",
-    "main": "dist/nys-select.js", 
+    "main": "dist/nys-select.js",
     "module": "dist/nys-select.es.js",
     "exports": {
-      ".": {
-        "import": "./dist/nys-select.es.js",
-        "require": "./dist/nys-select.js"
-      }
+        ".": {
+            "import": "./dist/nys-select.es.js",
+            "require": "./dist/nys-select.js"
+        }
     },
     "type": "module",
     "scripts": {
-      "build": "vite build"
+        "build": "vite build"
     },
-    "dependencies": {},
     "peerDependencies": {
-      "lit": "^3.0.0"
+        "lit": "^3.0.0"
     },
     "devDependencies": {
-      "vite": "^5.4.9",
-      "typescript": "^5.6.2",
-      "rollup-plugin-delete": "^2.1.0"
+        "rollup-plugin-delete": "^2.1.0",
+        "typescript": "^5.7.2",
+        "vite": "^6.0.3"
     }
-  }
-  
+}
