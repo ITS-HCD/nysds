@@ -5,5 +5,8 @@ export default css`
     background-color: #f2efee;
     padding: 25px;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 `;

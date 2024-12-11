@@ -33,15 +33,15 @@ useEffect(() => {
    const formElement = document.querySelector('#my-form');
    formElement.addEventListener('nys-formSubmitted', handleFormSubmit);
    return () => {
-   formElement.removeEventListener('nys-formSubmitted', handleFormSubmit);
+      formElement.removeEventListener('nys-formSubmitted', handleFormSubmit);
    };
 }, []);
 
 return (
-   <nys-form id="my-form" onNysFormSubmitted={handleFormSubmit}>
-   <label htmlFor="fname">Enter first name: </label>
-   <input id="fname" type="text" name="fname" />
-   <button type="submit">Send</button>
+   <nys-form id="my-form">
+      <label htmlFor="fname">Enter first name: </label>
+      <input id="fname" type="text" name="fname" />
+      <button type="submit">Send</button>
    </nys-form>
 );
 ```
@@ -50,9 +50,9 @@ In Vanilla JavaScript, you can listen for the nys-formSubmitted event using addE
 ```javascript
 // ...code snippet...
 <nys-form id="my-form">
-<label for="fname">Enter first name: </label>
-<input id="fname" type="text" name="fname" />
-<button type="submit">Send</button>
+   <label for="fname">Enter first name: </label>
+   <input id="fname" type="text" name="fname" />
+   <button type="submit">Send</button>
 </nys-form>
 
 <script>

@@ -52,7 +52,7 @@ const useData = (formData: FormData) => {
 // Story: Form
 export const Form: Story = {
   args: {
-    id: "my-form",
+    id: "my-form-id",
   },
   render: (args) => html`
     <nys-form
@@ -64,21 +64,17 @@ export const Form: Story = {
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
     >
-      <label for="fname">Enter first name: </label>
-      <input form=${args.id} id="fname" type="text" name="fname" />
-      <button form=${args.id} type="submit">Send</button>
+      <label for="my-form-id">Enter first name: </label>
+      <input id="fname" type="text" name="fname" />
     </nys-form>
-    <label for="lname">Enter last name: </label>
-    <input form=${args.id} id="lname" type="text" name="lname" />
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-form id="my-form">
+<nys-form id="my-form-id">
   <label for="fname">Enter first name: </label>
-  <input form="my-form" id="fname" type="text" value="fname" />
-  <button form="my-form" type="submit"> Send </button>
+  <input id="fname" type="text" value="fname" />
 </nys-form>
 `.trim(),
         type: "auto",
@@ -103,11 +99,9 @@ export const HandlingSubmission: Story = {
       }}
     >
       <label for="fname">Enter first name: </label>
-      <input form=${args.id} id="fname" type="text" name="fname" />
-      <button form=${args.id} type="submit">Send</button>
+      <input id="fname" type="text" name="fname" />
+      <button type="submit">Send</button>
     </nys-form>
-    <label for="lname">Enter last name: </label>
-    <input form=${args.id} id="lname" type="text" name="lname" />
   `,
   parameters: {
     docs: {
@@ -115,9 +109,53 @@ export const HandlingSubmission: Story = {
         code: `
 <nys-form id="my-form">
   <label for="fname">Enter first name: </label>
-  <input form="my-form" id="fname" type="text" value="fname" />
-  <button form="my-form" type="submit"> Send </button>
+  <input id="fname" type="text" value="fname" />
+  <button type="submit"> Send </button>
 </nys-form>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Outside Form Elements
+export const OutsideFormElements: Story = {
+  args: {
+    id: "user-info-form",
+  },
+  render: (args) => html`
+    <nys-form
+      .id=${args.id}
+      ?fieldset=${args.fieldset}
+      legend=${args.legend}
+      @nys-formSubmitted=${(e: CustomEvent) => {
+        const formData = e.detail; // access FormData from the event detail
+        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
+      }}
+    >
+      <label for="fname">Enter first name: </label>
+      <input id="fname" type="text" name="fname" />
+      <button type="submit">Send</button>
+    </nys-form>
+    <div>
+      <label for="lname">Enter last name: </label>
+      <input form=${args.id} id="lname" type="text" name="lname" />
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-form id="user-info-form">
+  <label for="fname">Enter first name: </label>
+  <input id="fname" type="text" value="fname" />
+  <button type="submit"> Send </button>
+</nys-form>
+<div>
+  <label for="lname">Enter last name: </label>
+  <input form="user-info-form" id="lname" type="text" name="lname" />
+</div>
 `.trim(),
         type: "auto",
       },
@@ -128,14 +166,13 @@ export const HandlingSubmission: Story = {
 // Story: Fieldset and Legend
 export const Fieldset: Story = {
   args: {
-    id: "my-form",
+    id: "work-location",
     fieldset: true,
     legend: "Primary work location",
   },
   render: (args) => html`
     <nys-form .id=${args.id} ?fieldset=${args.fieldset} legend=${args.legend}>
       <input
-        form="my-form"
         type="radio"
         id="albany"
         name="office"
@@ -144,7 +181,6 @@ export const Fieldset: Story = {
       <label for="albany">Albany</label><br />
 
       <input
-        form="my-form"
         type="radio"
         id="manhattan"
         name="office"
@@ -153,14 +189,14 @@ export const Fieldset: Story = {
       <label for="manhattan">Manhattan</label><br />
 
       <input
-        form="my-form"
         type="radio"
         id="remote"
         name="office"
         value="remote"
       />
       <label for="remote">Remote</label>
-      <button form=${args.id} type="submit">Send</button>
+
+      <button type="submit">Send</button>
     </nys-form>
   `,
   parameters: {
@@ -168,18 +204,18 @@ export const Fieldset: Story = {
       source: {
         code: `
 <nys-form 
-  id="my-form"
+  id="work-location"
   fieldset
   legend="Location">
-    <input type="radio" id="kraken" name="monster" value="K" />
-    <label for="kraken">Kraken</label><br />
+    <input type="radio" id="albany" name="office" value="albany" />
+    <label for="albany">Albany</label><br />
 
-    <input type="radio" id="sasquatch" name="monster" value="S" />
-    <label for="sasquatch">Sasquatch</label><br />
+    <input type="radio" id="manhattan" name="office" value="manhattan" />
+    <label for="manhattan">Manhattan</label><br />
 
-    <input type="radio" id="mothman" name="monster" value="M" />
-    <label for="mothman">Mothman</label>
-    <button form="my-form" type="submit"> Send </button>
+    <input type="radio" id="remote" name="office" value="M" />
+    <label for="remote">Remote</label>
+    <button type="submit"> Send </button>
 </nys-form>
 `.trim(),
         type: "auto",

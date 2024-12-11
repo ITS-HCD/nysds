@@ -12,8 +12,6 @@ export class NysForm extends LitElement {
   @property({ type: String }) legend = "";
   @state() private _formElements: HTMLElement[] = [];
 
-  /**************** Lifecycle Methods ****************/
-
   /******************** Functions ********************/
 
   // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form.
@@ -47,6 +45,14 @@ export class NysForm extends LitElement {
     }
 
     const formData = new FormData(form);
+
+    // Include external elements with the `form` attribute in the FormData
+    const externalNodes = document.querySelectorAll(`[form=${this.id}]`);
+    externalNodes.forEach((node) => {
+      if (node instanceof HTMLFormElement || node instanceof HTMLInputElement) {
+        formData.append(node.name, node.value);
+      }
+    });
 
     // Bubble up the formData using a custom event for product developers to use
     this.dispatchEvent(
