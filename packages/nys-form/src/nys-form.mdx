@@ -8,9 +8,82 @@ import * as NysFormStories from './nys-form.stories';
 
 The **`nys-form`** component is a reusable web component for use in New York State digital products. It allows users users to enter information into a page.
 
-An id is required generated.
+An id is required.
 
+## Wrapping with `nys-form`
+To get started, wrap your desired HTML elements or NYS design system components with the `nys-form` component.
 <Canvas of={NysFormStories.Form} />
+
+## Handling `nys-formSubmitted` event
+`nys-form` emits a custom event called `nys-formSubmitted`. To use this event, add an event listener on `nys-formSubmitted` from the `nys-form` component.
+
+The examples below demonstrate how to handle the `nys-formSubmitted` event, which passes the `FormData`, and process it using the `useData` function.
+<Canvas of={NysFormStories.HandlingSubmission} />
+
+### React Example
+In React, you can listen to the `nys-formSubmitted` event by using an event handler in JSX. Here's an example:
+```jsx
+// ...code snippet...
+const handleFormSubmit = (e) => {
+   const formData = e.detail; // Access FormData from the event detail
+   useData(formData); // Process FormData with the useData function
+};
+
+useEffect(() => {
+   const formElement = document.querySelector('#my-form');
+   formElement.addEventListener('nys-formSubmitted', handleFormSubmit);
+   return () => {
+   formElement.removeEventListener('nys-formSubmitted', handleFormSubmit);
+   };
+}, []);
+
+return (
+   <nys-form id="my-form" onNysFormSubmitted={handleFormSubmit}>
+   <label htmlFor="fname">Enter first name: </label>
+   <input id="fname" type="text" name="fname" />
+   <button type="submit">Send</button>
+   </nys-form>
+);
+```
+### Vanilla JS Example
+In Vanilla JavaScript, you can listen for the nys-formSubmitted event using addEventListener. Here's an example:
+```javascript
+// ...code snippet...
+<nys-form id="my-form">
+<label for="fname">Enter first name: </label>
+<input id="fname" type="text" name="fname" />
+<button type="submit">Send</button>
+</nys-form>
+
+<script>
+   const formElement = document.querySelector('nys-form');
+
+   formElement.addEventListener('nys-formSubmitted', (e) => {
+      const formData = e.detail; // Access FormData from the event detail
+      useData(formData); // Process FormData with the useData function
+   });
+</script>
+```
+
+### Custom Function for Handling FormData
+```javascript
+/**
+* Example custom function to process FormData.
+* Demonstrates how developers might handle the `nys-formSubmitted` event bubbled up from <nys-form>.
+* Converts FormData into a key-value object for easier manipulation,
+* logs the processed and raw data, and displays it in an alert.
+*/
+const useData = (formData: FormData) => {
+   const formValues: Record<string, string> = {};
+   formData.forEach((value, key) => {
+      formValues[key] = value.toString();
+   });
+
+   console.log("Processed Form Values:", formValues);
+   console.log("Raw FormData:", formData);
+   alert(JSON.stringify(formValues, null, 2));
+};
+ ```
 
 ### Fieldset and Legends
 You can enable `fieldset` boolean attribute and declare a legend.

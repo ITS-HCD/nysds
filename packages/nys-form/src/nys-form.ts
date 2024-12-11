@@ -7,14 +7,16 @@ export class NysForm extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({type: String}) id = "";
-  @property({type: Boolean}) fieldset = false;
-  @property({type: String}) legend = "";
+  @property({ type: String }) id = "";
+  @property({ type: Boolean }) fieldset = false;
+  @property({ type: String }) legend = "";
   @state() private _formElements: HTMLElement[] = [];
 
   /**************** Lifecycle Methods ****************/
 
   /******************** Functions ********************/
+
+  // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form.
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector("slot");
     if (slot) {
@@ -24,19 +26,18 @@ export class NysForm extends LitElement {
       // Clear current form elements
       this._formElements = [];
 
-      // Add node to form
+      // Add node to formElements to be use to populate node into shadow DOM
       nodes.forEach((node) => {
         if (node instanceof HTMLElement) {
           this._formElements.push(node);
         }
-      })
+      });
     }
     this.requestUpdate(); // Request an update after processing options
   }
 
   // Current implementation shows the values of the submission.
   private _handleSubmit(e: Event) {
-    // prevents sending the form
     e.preventDefault();
     const form = e.target as HTMLFormElement;
 
@@ -46,15 +47,15 @@ export class NysForm extends LitElement {
     }
 
     const formData = new FormData(form);
-    const formValues: Record<string, string> = {};
 
-    formData.forEach((value, key) => {
-      formValues[key] = value.toString();
-    });
-
-    console.log(formValues);
-    console.log(formData);
-    alert(JSON.stringify(formValues, null, 2));
+    // Bubble up the formData using a custom event for product developers to use
+    this.dispatchEvent(
+      new CustomEvent("nys-formSubmitted", {
+        detail: formData,
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
@@ -66,17 +67,20 @@ export class NysForm extends LitElement {
                 ${this.legend.length > 0
                   ? html`<legend>${this.legend}</legend>`
                   : ""}
-                ${this._formElements.map((element) =>
-                  html`${element.cloneNode(true)}`
+                ${this._formElements.map(
+                  (element) => html`${element.cloneNode(true)}`,
                 )}
-              </fieldset> 
+              </fieldset>
             `
           : html`
-              ${this._formElements.map((element) =>
-                html`${element.cloneNode(true)}`
+              ${this._formElements.map(
+                (element) => html`${element.cloneNode(true)}`,
               )}
             `}
-        <slot @slotchange="${this._handleSlotChange}" style="display:none;"></slot>
+        <slot
+          @slotchange="${this._handleSlotChange}"
+          style="display:none;"
+        ></slot>
       </form>
     `;
   }
