@@ -12,6 +12,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: Boolean }) hasError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
+  @property({ type: String }) description = "";
 
   static styles = styles;
 
@@ -25,19 +26,21 @@ export class NysCheckboxgroup extends LitElement {
 
   render() {
     return html` <div class="nys-checkboxgroup">
-      <div class="nys-checkboxgroup__text">
-        ${this.label &&
-        html`
-          <div class="nys-checkbox__requiredwrapper">
-            <label for=${this.id} class="nys-checkbox__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-checkbox__required">*</label>`
-              : ""}
-          </div>
-        `}
-      </div>
+      ${this.label &&
+      html` <div class="nys-checkbox__text">
+        <div class="nys-checkbox__requiredwrapper">
+          <label for=${this.id} class="nys-checkbox__label"
+            >${this.label}</label
+          >
+          ${this.required
+            ? html`<label class="nys-checkbox__required">*</label>`
+            : ""}
+        </div>
+        <label for=${this.id} class="nys-checkbox__description">
+          ${this.description}
+          <slot name="description"></slot>
+        </label>
+      </div>`}
       <div class="nys-checkboxgroup__content">
         <slot></slot>
       </div>

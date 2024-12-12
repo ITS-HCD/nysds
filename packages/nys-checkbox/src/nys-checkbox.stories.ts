@@ -353,24 +353,49 @@ export const Slot: Story = {
 export const CheckboxGroup: Story = {
   args: {},
   render: () => html`
-    <nys-checkboxgroup
-      label="Do you attest to the following:"
-      hasError
-      errorMessage="You must select both options to continue."
-    >
-      <nys-checkbox
-        label="I have read the terms and conditions."
-        id="terms-conditions"
-        name="terms"
-        value="terms-conditions"
-      ></nys-checkbox>
-      <nys-checkbox
-        label="I will not sue you."
-        id="legal"
-        name="legal"
-        value="legal"
-      ></nys-checkbox>
-    </nys-checkboxgroup>
+    <div style="display: flex;">
+      <nys-checkboxgroup
+        style="flex: 1;"
+        label="Do you attest to the following:"
+        description="Description as a prop"
+        hasError
+        errorMessage="You must select both options to continue."
+      >
+        <nys-checkbox
+          label="I have read the terms and conditions."
+          id="terms-conditions"
+          name="terms"
+          value="terms-conditions"
+        ></nys-checkbox>
+        <nys-checkbox
+          label="I will not sue you."
+          id="legal"
+          name="legal"
+          value="legal"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+      <nys-checkboxgroup
+        style="flex: 1;"
+        label="Do you attest to the following:"
+      >
+        <label slot="description"
+          >Description as a
+          <a href="https://www.ny.gov/" target="__blank">slot</a></label
+        >
+        <nys-checkbox
+          label="I have read the terms and conditions."
+          id="terms-conditions"
+          name="terms"
+          value="terms-conditions"
+        ></nys-checkbox>
+        <nys-checkbox
+          label="I will not sue you."
+          id="legal"
+          name="legal"
+          value="legal"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    </div>
   `,
   parameters: {
     docs: {
@@ -378,9 +403,30 @@ export const CheckboxGroup: Story = {
         code: `
 <nys-checkboxgroup
   label="Do you attest to the following:"
+  description="Description as a prop"
+>
+  <nys-checkbox
+    label="I have read the terms and conditions."
+    id="terms-conditions"
+    name="terms"
+    value="terms-conditions"
+  ></nys-checkbox>
+  <nys-checkbox
+    label="I will not sue you."
+    id="legal"
+    name="legal"
+    value="legal"
+  ></nys-checkbox>
+</nys-checkboxgroup>
+<nys-checkboxgroup
+  label="Do you attest to the following:"
   hasError
   errorMessage="You must select both options to continue."
 >
+  <label slot="description"
+    >Description as a 
+    <a href="https://www.ny.gov/" target="__blank">slot</a></label
+  >
   <nys-checkbox
     label="I have read the terms and conditions."
     id="terms-conditions"
