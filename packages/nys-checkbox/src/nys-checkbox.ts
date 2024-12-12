@@ -71,24 +71,34 @@ export class NysCheckbox extends LitElement {
   render() {
     return html`
       <div class="nys-checkbox">
-        <div class="nys-checkbox__checkboxwrapper">
-          <input
-            id="${this.id}"
-            class="nys-checkbox__checkbox"
-            type="checkbox"
-            name="${ifDefined(this.name ? this.name : undefined)}"
-            .checked=${this.checked}
-            ?disabled=${this.disabled}
-            .value=${this.value}
-            ?required="${this.required}"
-            aria-checked="${this.checked}"
-            aria-disabled="${this.disabled}"
-            aria-required="${this.required}"
-            @change="${this._handleChange}"
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-            @keydown="${this._handleKeydown}"
-          />
+        <div class="nys-checkbox__content">
+          <div class="nys-checkbox__checkboxwrapper">
+            <input
+              id="${this.id}"
+              class="nys-checkbox__checkbox"
+              type="checkbox"
+              name="${ifDefined(this.name ? this.name : undefined)}"
+              .checked=${this.checked}
+              ?disabled=${this.disabled}
+              .value=${this.value}
+              ?required="${this.required}"
+              aria-checked="${this.checked}"
+              aria-disabled="${this.disabled}"
+              aria-required="${this.required}"
+              @change="${this._handleChange}"
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+              @keydown="${this._handleKeydown}"
+            />
+            ${this.checked
+              ? html`<nys-icon
+                  for="${this.id}"
+                  name="check"
+                  size="2xl"
+                  class="nys-checkbox__icon"
+                ></nys-icon>`
+              : ""}
+          </div>
           ${this.label &&
           html` <div class="nys-checkbox__text">
             <div class="nys-checkbox__requiredwrapper">

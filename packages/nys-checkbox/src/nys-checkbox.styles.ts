@@ -6,7 +6,7 @@ export default css`
     font-family: Arial, sans-serif;
   }
 
-  .nys-checkbox__checkboxwrapper {
+  .nys-checkbox__content {
     display: flex;
   }
 
@@ -25,14 +25,26 @@ export default css`
 
   /* Checked */
   .nys-checkbox__checkbox:not(:disabled):checked {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path style="fill: %23ffffff" d="M11.941,28.877l-11.941-11.942l5.695-5.696l6.246,6.246l14.364-14.364L32,8.818"/></svg>');
     border-color: var(--color-border-primary, #154973);
     background-color: var(--color-bg-primary, #154973);
   }
 
+  .nys-checkbox__checkboxwrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .nys-checkbox__icon {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translate3d(-50%, 50%, 0);
+    pointer-events: none;
+    color: var(--color-background, #f0f0f0);
+  }
+
   /* Checked + Disabled */
   .nys-checkbox__checkbox:disabled:checked {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path style="fill: %23ededed" d="M11.941,28.877l-11.941-11.942l5.695-5.696l6.246,6.246l14.364-14.364L32,8.818"/></svg>');
     border-color: var(--color-border-disabled, #757575);
     background-color: var(--color-bg-disabled, #757575);
   }
