@@ -12,8 +12,51 @@ export class NysForm extends LitElement {
   @property({ type: String }) legend = "";
   @state() private _formElements: HTMLElement[] = [];
 
-  /******************** Functions ********************/
+  /********************** Lifecycle Hooks **********************/
+  connectedCallback() {
+    super.connectedCallback();
+    this._attachExternalSubmitListener();
+  }
 
+  disconnectedCallback() {
+    this._detachExternalSubmitListener();
+    super.disconnectedCallback();
+  }
+
+  /******************** External Submit Handling ********************/
+  private _attachExternalSubmitListener() {
+    if (this.id) {
+      const externalButtons = document.querySelectorAll(
+        `button[form="${this.id}"]`,
+      );
+
+      externalButtons.forEach((button) => {
+        button.addEventListener("click", this._handleExternalSubmit);
+      });
+    }
+  }
+
+  private _detachExternalSubmitListener() {
+    if (this.id) {
+      const externalButtons = document.querySelectorAll(
+        `button[form="${this.id}"]`,
+      );
+
+      externalButtons.forEach((button) => {
+        button.removeEventListener("click", this._handleExternalSubmit);
+      });
+    }
+  }
+
+  private _handleExternalSubmit = (e: Event) => {
+    e.preventDefault();
+    const formElement = this.shadowRoot?.querySelector("form");
+    if (formElement) {
+      formElement.requestSubmit(); // Trigger internal form submission
+    }
+  };
+
+  /******************** Functions ********************/
   // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form.
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector("slot");
@@ -38,7 +81,6 @@ export class NysForm extends LitElement {
   private _handleSubmit(e: Event) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-
     if (!form) {
       console.error("Form element not found.");
       return;

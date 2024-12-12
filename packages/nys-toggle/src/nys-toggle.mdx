@@ -36,18 +36,18 @@ To remove icons from the toggle switch, use the `NoIcons` boolean property.
 <Canvas of={NysToggleStories.NoIcons} />
 
 ## Form Prop
-The form attribute associates the `nys-toggle` component with a specific `<form>` element, regardless of its location on the page. This ensures that the toggle's state is included in the form submission, whether it is inside the `<form>` element or outside it.
-
+The `form` attribute links a component, located outside the form, to a specific `<form>` element by its id. This ensures its state is included during form submission.
 ### How It Works
-Use the `form` property to explicitly associate the toggle (or other components) with a specific `<form>` element by referencing the form's `id`.
+Use the `form` property to explicitly associate the components (outside a form) with a specific `<form>` element by referencing the form's `id`.
 ```html
 <!-- For example -->
-<form id="myForm">
-  <nys-textinput form="myForm" label="Label"></nys-textinput>
-  <nys-textinput form="myForm" label="Label"></nys-textinput>
-  <nys-checkbox form="myForm" label="Label"></nys-checkbox>
-</form>
-<nys-toggle form="myForm" label="Label" name="example-name"></nys-toggle>
+<nys-form id="my-form">
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-checkbox label="Label"></nys-checkbox>
+</nys-form>
+<nys-toggle form="my-form" label="Label" name="example-name"></nys-toggle>
+<button form="my-form" type="submit">Submit</button>
 ```
 
 ## Events

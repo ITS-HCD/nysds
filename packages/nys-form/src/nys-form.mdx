@@ -17,21 +17,23 @@ To get started, wrap your desired HTML elements or NYS design system components 
 ## Handling `nys-formSubmitted` event
 `nys-form` emits a custom event called `nys-formSubmitted`. To use this event, add an event listener on `nys-formSubmitted` from the `nys-form` component.
 
-The examples below demonstrate how to handle the `nys-formSubmitted` event, which passes the `FormData`, and process it using the `useData` function.
+The examples below demonstrate how to handle the `nys-formSubmitted` event in React & Vanilla JS and process its detail.\
+Then, passes the retrieved `FormData` into `useData()` function.
 <Canvas of={NysFormStories.HandlingSubmission} />
 
 ### React Example
 In React, you can listen to the `nys-formSubmitted` event by using an event handler in JSX. Here's an example:
 ```jsx
 // ...code snippet...
-const handleFormSubmit = (e) => {
-   const formData = e.detail; // Access FormData from the event detail
-   useData(formData); // Process FormData with the useData function
-};
-
 useEffect(() => {
    const formElement = document.querySelector('#my-form');
+   const handleFormSubmit = (e) => {
+      const formData = e.detail; // Access FormData from the event detail
+      useData(formData); // Process FormData with the useData() function
+   };
+
    formElement.addEventListener('nys-formSubmitted', handleFormSubmit);
+
    return () => {
       formElement.removeEventListener('nys-formSubmitted', handleFormSubmit);
    };
@@ -60,7 +62,7 @@ In Vanilla JavaScript, you can listen for the nys-formSubmitted event using addE
 
    formElement.addEventListener('nys-formSubmitted', (e) => {
       const formData = e.detail; // Access FormData from the event detail
-      useData(formData); // Process FormData with the useData function
+      useData(formData); // Process FormData with the useData() function
    });
 </script>
 ```
@@ -70,8 +72,10 @@ In Vanilla JavaScript, you can listen for the nys-formSubmitted event using addE
 /**
 * Example custom function to process FormData.
 * Demonstrates how developers might handle the `nys-formSubmitted` event bubbled up from <nys-form>.
-* Converts FormData into a key-value object for easier manipulation,
-* logs the processed and raw data, and displays it in an alert.
+* 
+* A typical example of using FormData is passing it through API to the backend.
+* This example converts FormData into a key-value object for easier manipulation
+* and logs the processed and raw data, and displays it in an alert.
 */
 const useData = (formData: FormData) => {
    const formValues: Record<string, string> = {};
@@ -85,23 +89,26 @@ const useData = (formData: FormData) => {
 };
  ```
 
-### Fieldset and Legends
+## Fieldset and Legends
 You can enable `fieldset` boolean attribute and declare a legend.
 The fieldset element should only be used when there are a number of related form controls that need to be grouped together. And, when the fieldset element is used, the first element inside the fieldset must be a legend.
 <Canvas of={NysFormStories.Fieldset} />
 
-## Form Property on Form Web Components
-All form-related web components should include a `form` property. \
-This attribute allows components to be explicitly associated with a specific `<form>` element or the `<nys-form>` component, regardless of their physical location on the page.
+
+## Form Property on Outer Web Components
+The `form` property allows HTML elements or NYS web components (outside the form) to associate explicitly with a specific `<form>` or `<nys-form>` element by its id, regardless of the component's location on the page.
 
 ### How It Works
 Use the `form` property to explicitly associate the toggle (or other components) with a specific `<form>` element or `<nys-form>` component by referencing the form's `id`.
 ```html
 <!-- For example -->
 <nys-form id="my-form">
-  <nys-textinput form="my-form" label="Label"></nys-textinput>
-  <nys-textinput form="my-form" label="Label"></nys-textinput>
-  <nys-checkbox form="my-form" label="Label"></nys-checkbox>
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-checkbox label="Label"></nys-checkbox>
 </nys-form>
 <nys-toggle form="my-form" label="Label" name="example-name"></nys-toggle>
+<button form="my-form" type="submit">Submit</button>
 ```
+<Canvas of={NysFormStories.OutsideFormElements} />
+
