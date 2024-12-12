@@ -22,13 +22,13 @@ export default css`
     line-height: 1.5;
   }
 
-  .nys-alert__heading {
+  .nys-alert__text {
     position: relative;
     display: flex;
     flex-direction: column;
   }
 
-  .nys-alert__title {
+  .nys-alert__label {
     margin: 0 0 0.5rem 0;
     font-family:
       Source Sans Pro Web,
@@ -41,7 +41,7 @@ export default css`
     line-height: 0.9;
   }
 
-  .nys-alert__text {
+  slot[name="text"] {
     margin: 0;
   }
   ::slotted(p) {
