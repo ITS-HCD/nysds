@@ -71,6 +71,15 @@ export class NysToggle extends LitElement {
         composed: true,
       }),
     );
+
+    // Dispatch formSubmission event for integration with nys-form
+    this.dispatchEvent(
+      new CustomEvent("nys-formSubmission", {
+        detail: { name: [this.name], value: this.checked },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
@@ -93,7 +102,22 @@ export class NysToggle extends LitElement {
     }
   }
 
+  // This function is executed when loaded so we have at least pass info (even if empty) to the user
+  // When called, reveal detail: {name: value} passed the shadowDom into the outer <nys-form> component.
+  private _handleSubmitForm() {
+    // Dispatch formSubmission event for integration with nys-form
+    this.dispatchEvent(
+      new CustomEvent("nys-submitForm", {
+        detail: { name: [this.name], value: this.checked },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
   render() {
+    this._handleSubmitForm();
+
     return html`
       <label class="nys-toggle">
         <div class="nys-toggle__content">

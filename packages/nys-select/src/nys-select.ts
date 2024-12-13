@@ -35,6 +35,20 @@ export class NysSelect extends LitElement {
     this.requestUpdate(); // Request an update after processing options
   }
 
+  // Handle select change event
+  private _handleChange(e: Event) {
+    const option = e.target as HTMLSelectElement;
+    this.value = option.value;
+
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
   // Handle focus event
   private _handleFocus() {
     this.dispatchEvent(new Event("focus"));
@@ -58,7 +72,22 @@ export class NysSelect extends LitElement {
     }
   }
 
+  // This function is executed when loaded so we have at least pass info (even if empty) to the user
+  // When called, reveal detail: {name: value} passed the shadowDom into the outer <nys-form> component.
+  private _handleSubmitForm() {
+    // Dispatch formSubmission event for integration with nys-form
+    this.dispatchEvent(
+      new CustomEvent("nys-submitForm", {
+        detail: { name: [this.name], value: this.value },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
   render() {
+    this._handleSubmitForm();
+
     const selectClasses = {
       "nys-select__select": true,
       "nys-select__selecterror": this.hasError,
@@ -94,6 +123,7 @@ export class NysSelect extends LitElement {
               value=${this.value}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
+              @change="${this._handleChange}"
             >
               <option hidden disabled selected value></option>
               ${this._options.map(

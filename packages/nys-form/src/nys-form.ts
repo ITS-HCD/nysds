@@ -11,15 +11,19 @@ export class NysForm extends LitElement {
   @property({ type: Boolean }) fieldset = false;
   @property({ type: String }) legend = "";
   @state() private _formElements: HTMLElement[] = [];
+  @state() private _formData: Record<string, any> = {}; // Store custom-component's data changes
+
 
   /********************** Lifecycle Hooks **********************/
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener("nys-submitForm", this._handleChange) // nys-submitForm is listen on each custom component, their details are used during submission
     this._attachExternalSubmitListener();
   }
 
   disconnectedCallback() {
     this._detachExternalSubmitListener();
+    this.removeEventListener("nys-submitForm", this._handleChange)
     super.disconnectedCallback();
   }
 
@@ -57,6 +61,7 @@ export class NysForm extends LitElement {
   };
 
   /******************** Functions ********************/
+
   // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form.
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector("slot");
@@ -81,29 +86,41 @@ export class NysForm extends LitElement {
   private _handleSubmit(e: Event) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    if (!form) {
-      console.error("Form element not found.");
-      return;
-    }
+    if (!form) return;
 
     const formData = new FormData(form);
+
+    // Append custom form data (from nys-checkbox, nys-select, etc.)
+    for (const key in this._formData) {
+      formData.append(key, this._formData[key]);
+    }
 
     // Include external elements with the `form` attribute in the FormData
     const externalNodes = document.querySelectorAll(`[form=${this.id}]`);
     externalNodes.forEach((node) => {
-      if (node instanceof HTMLFormElement || node instanceof HTMLInputElement) {
+      if (node instanceof HTMLFormElement || node instanceof HTMLInputElement || node instanceof HTMLSelectElement) {
         formData.append(node.name, node.value);
       }
     });
 
     // Bubble up the formData using a custom event for product developers to use
     this.dispatchEvent(
-      new CustomEvent("nys-formSubmitted", {
+      new CustomEvent("nys-submitForm", {
         detail: formData,
         bubbles: true,
         composed: true,
       }),
     );
+  }
+
+  // Listen for "change" events from custom form elements (like checkbox, select, etc.)
+  private _handleChange(e: Event) {
+    const customEvent = e as CustomEvent;
+    const { name, value } = customEvent.detail;
+
+    if (name) {
+      this._formData[name] = value; // Update internal form data
+    }
   }
 
   render() {

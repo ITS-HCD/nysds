@@ -14,15 +14,15 @@ An id is required.
 To get started, wrap your desired HTML elements or NYS design system components with the `nys-form` component.
 <Canvas of={NysFormStories.Form} />
 
-## Handling `nys-formSubmitted` event
-`nys-form` emits a custom event called `nys-formSubmitted`. To use this event, add an event listener on `nys-formSubmitted` from the `nys-form` component.
+## Handling `nys-submitForm` event
+`nys-form` emits a custom event called `nys-submitForm`. To use this event, add an event listener on `nys-submitForm` from the `nys-form` component.
 
-The examples below demonstrate how to handle the `nys-formSubmitted` event in React & Vanilla JS and process its detail.\
+The examples below demonstrate how to handle the `nys-submitForm` event in React & Vanilla JS and process its detail.\
 Then, passes the retrieved `FormData` into `useData()` function.
 <Canvas of={NysFormStories.HandlingSubmission} />
 
 ### React Example
-In React, you can listen to the `nys-formSubmitted` event by using an event handler in JSX. Here's an example:
+In React, you can listen to the `nys-submitForm` event by using an event handler in JSX. Here's an example:
 ```jsx
 // ...code snippet...
 useEffect(() => {
@@ -32,10 +32,10 @@ useEffect(() => {
       useData(formData); // Process FormData with the useData() function
    };
 
-   formElement.addEventListener('nys-formSubmitted', handleFormSubmit);
+   formElement.addEventListener('nys-submitForm', handleFormSubmit);
 
    return () => {
-      formElement.removeEventListener('nys-formSubmitted', handleFormSubmit);
+      formElement.removeEventListener('nys-submitForm', handleFormSubmit);
    };
 }, []);
 
@@ -48,7 +48,7 @@ return (
 );
 ```
 ### Vanilla JS Example
-In Vanilla JavaScript, you can listen for the nys-formSubmitted event using addEventListener. Here's an example:
+In Vanilla JavaScript, you can listen for the nys-submitForm event using addEventListener. Here's an example:
 ```javascript
 // ...code snippet...
 <nys-form id="my-form">
@@ -60,7 +60,7 @@ In Vanilla JavaScript, you can listen for the nys-formSubmitted event using addE
 <script>
    const formElement = document.querySelector('nys-form');
 
-   formElement.addEventListener('nys-formSubmitted', (e) => {
+   formElement.addEventListener('nys-submitForm', (e) => {
       const formData = e.detail; // Access FormData from the event detail
       useData(formData); // Process FormData with the useData() function
    });
@@ -71,7 +71,7 @@ In Vanilla JavaScript, you can listen for the nys-formSubmitted event using addE
 ```javascript
 /**
 * Example custom function to process FormData.
-* Demonstrates how developers might handle the `nys-formSubmitted` event bubbled up from <nys-form>.
+* Demonstrates how developers might handle the `nys-submitForm` event bubbled up from <nys-form>.
 * 
 * A typical example of using FormData is passing it through API to the backend.
 * This example converts FormData into a key-value object for easier manipulation
@@ -111,4 +111,13 @@ Use the `form` property to explicitly associate the toggle (or other components)
 <button form="my-form" type="submit">Submit</button>
 ```
 <Canvas of={NysFormStories.OutsideFormElements} />
+
+## NYS Form Components
+The `<nys-form>` currently supports the following NYS components:
+ - Input elements (text, email, number, password, search, tel, url)
+ - TextArea
+ - Select
+ - Checkbox
+ - Radio
+<Canvas of={NysFormStories.nysComponents} />
 
