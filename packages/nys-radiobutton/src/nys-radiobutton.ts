@@ -111,7 +111,7 @@ export class NysRadiobutton extends LitElement {
 
   render() {
     return html`
-      <label class="nys-radiobutton">
+      <div class="nys-radiobutton">
         <input
           id="${this.id}"
           class="nys-radiobutton__input"
@@ -130,15 +130,22 @@ export class NysRadiobutton extends LitElement {
           @keydown="${this._handleKeydown}"
           @click="${this._handleClick}"
         />
-        <div class="nys-radiobutton__text">
-          <div class="nys-radiobutton__label">${this.label}</div>
-          ${this.description
-            ? html`<div class="nys-radiobutton__description">
-                ${this.description}
-              </div>`
-            : ""}
-        </div>
-      </label>
+        ${this.label &&
+        html` <div class="nys-radiobutton__text">
+          <div class="nys-radiobutton__requiredwrapper">
+            <label for=${this.id} class="nys-radiobutton__label"
+              >${this.label}</label
+            >
+            ${this.required
+              ? html`<label class="nys-radiobutton__required">*</label>`
+              : ""}
+          </div>
+          <label for=${this.id} class="nys-radiobutton__description">
+            ${this.description}
+            <slot name="description"></slot>
+          </label>
+        </div>`}
+      </div>
     `;
   }
 }

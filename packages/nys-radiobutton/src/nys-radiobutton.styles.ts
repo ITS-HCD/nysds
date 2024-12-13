@@ -13,7 +13,7 @@ export default css`
     appearance: none;
     width: var(--radiobutton-size, 32px);
     height: var(--radiobutton-size, 32px);
-    border: 3px solid var(--form-color-border, #1b1b1b);
+    border: 2px solid var(--form-color-border, #1b1b1b);
     background-color: var(--form-color-bg, white);
     cursor: pointer;
     margin-bottom: 4px;
@@ -46,8 +46,8 @@ export default css`
 
   /* Focused */
   .nys-radiobutton__input:focus {
-    outline-offset: 3px;
-    outline: 3px solid var(--form-focus-color, #007bff);
+    outline-offset: 2px;
+    outline: 2px solid var(--form-focus-color, #007bff);
   }
 
   /* Radiobutton Label Holder */
@@ -73,5 +73,24 @@ export default css`
     + .nys-radiobutton__text
     .nys-radiobutton__label {
     color: var(--form-label-color-disabled, #757575);
+  }
+
+  /* Error Message Styling */
+  .nys-radiobutton__error {
+    border-top: 1px solid var(--nys-error, #b52c2c);
+    margin-top: var(--nys-spacing, 0.75rem);
+    padding-top: var(--nys-spacing, 0.75rem);
+    color: var(--nys-error, #b52c2c);
+    margin-left: 0.25rem;
+  }
+
+  /* Radio Group Styling */
+  .nys-radiogroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nys-radiogroup__content {
+    padding-top: var(--nys-spacing, 0.5rem);
   }
 `;
