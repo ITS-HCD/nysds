@@ -37,7 +37,7 @@ type Story = StoryObj<NysFormArgs>;
 /******************************** CUSTOM FUNCTION ********************************/
 /**
  * Example custom function to process FormData.
- * Demonstrates how developers might handle the `nys-submitForm` event bubbled up from <nys-form>.
+ * Demonstrates how developers might handle the `nys-submit` event bubbled up from <nys-form>.
  * Converts FormData into a key-value object for easier manipulation,
  * logs the processed and raw data, and displays it in an alert.
  */
@@ -65,7 +65,7 @@ export const Form: Story = {
       .id=${args.id}
       ?fieldset=${args.fieldset}
       legend=${args.legend}
-      @nys-submitForm=${(e: CustomEvent) => {
+      @nys-submit=${(e: CustomEvent) => {
         const formData = e.detail; // access FormData from the event detail
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
@@ -99,13 +99,13 @@ export const HandlingSubmission: Story = {
       .id=${args.id}
       ?fieldset=${args.fieldset}
       legend=${args.legend}
-      @nys-submitForm=${(e: CustomEvent) => {
+      @nys-submit=${(e: CustomEvent) => {
         const formData = e.detail; // access FormData from the event detail
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
     >
-      <label for="fname">Enter username: </label>
-      <input id="fname" type="text" name="fname" />
+      <label for="username">Enter username: </label>
+      <input id="username" type="text" name="fname" />
       <div style="display:flex; gap:5px;">
         <label for="mailing-list">Subscribe to our mailing list? </label>
         <input id="mailing-list" type="checkbox" name="mailing-list" />
@@ -118,8 +118,8 @@ export const HandlingSubmission: Story = {
       source: {
         code: `
 <nys-form id="username-form">
-  <label for="fname">Enter username: </label>
-  <input id="fname" type="text" value="fname" />
+  <label for="username">Enter username: </label>
+  <input id="username" type="text" value="fname" />
   <div style="display:flex; gap:5px;">
     <label for="mailing-list">Subscribe to our mailing list? </label>
     <input id="mailing-list" type="checkbox" name="mailing-list" />
@@ -145,7 +145,7 @@ export const Fieldset: Story = {
       .id=${args.id}
       ?fieldset=${args.fieldset}
       legend=${args.legend}
-      @nys-submitForm=${(e: CustomEvent) => {
+      @nys-submit=${(e: CustomEvent) => {
         const formData = e.detail; // access FormData from the event detail
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
@@ -220,7 +220,7 @@ export const OutsideFormElements: Story = {
       .id=${args.id}
       ?fieldset=${args.fieldset}
       legend=${args.legend}
-      @nys-submitForm=${(e: CustomEvent) => {
+      @nys-submit=${(e: CustomEvent) => {
         const formData = e.detail; // access FormData from the event detail
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
@@ -265,13 +265,26 @@ export const nysComponents: Story = {
       .id=${args.id}
       ?fieldset=${args.fieldset}
       legend=${args.legend}
-      @nys-submitForm=${(e: CustomEvent) => {
+      @nys-submit=${(e: CustomEvent) => {
         const formData = e.detail; // access FormData from the event detail
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
     >
-      <label for="fname">Enter first name: </label>
-      <input id="fname" type="text" name="fname" placeholder="Did you know I'm a native HTML element?"/>
+      <label for="fullname">Enter full name: </label>
+      <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+
+      <label for="password-native">Password (Native): </label>
+      <input id="password-native" type="password" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+
+      <nys-textinput
+        name="password-nys"
+        placeholder="Can you break into my password? (nys-component)"
+        label="Password (nys-component):"
+        description="Hack me"
+        id="password-nys"
+        type="password"
+      ></nys-textinput>
+
       <nys-textinput
         name="empid"
         placeholder="N00000000"
@@ -327,6 +340,17 @@ export const nysComponents: Story = {
         name="dark-mode"
         value="dark"
       ></nys-toggle>
+      <button
+        type="button"
+        @click=${() => {
+          const passwordInput = document.getElementById('password-nys') as HTMLInputElement;
+          if (passwordInput) {
+            console.log('Password Value:', passwordInput.value); // Log the value
+          } else {
+            console.error('nys-textinput not found!');
+          }
+        }}
+      >Yikes</button>
       <button type="submit">Send</button>
     </nys-form>
   `,
@@ -335,8 +359,9 @@ export const nysComponents: Story = {
       source: {
         code: `
 <nys-form id="nys-work-form">
-  <label for="fname">Enter first name: </label>
-  <input id="fname" type="text" name="fname" placeholder="Did you know I'm a native HTML element?"/>
+  <label for="fullname">Enter first name: </label>
+  <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+
   <nys-textinput
     name="empid"
     placeholder="N00000000"

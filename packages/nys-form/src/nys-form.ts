@@ -62,24 +62,25 @@ export class NysForm extends LitElement {
 
   /******************** Functions ********************/
 
-  // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form.
+  // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form directly.
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector("slot");
     if (slot) {
-      // Retrieve slotted elements
-      const nodes = slot.assignedElements({ flatten: true });
+      const assignedElements = slot.assignedElements({ flatten: true });
+      const formElement = this.shadowRoot?.querySelector("form");
 
-      // Clear current form elements
-      this._formElements = [];
-
-      // Add node to formElements to be use to populate node into shadow DOM
-      nodes.forEach((node) => {
-        if (node instanceof HTMLElement) {
-          this._formElements.push(node);
+      if (formElement) {
+        // Clear existing children (if re-appending is needed)
+        while (formElement.firstChild) {
+          formElement.removeChild(formElement.firstChild);
         }
-      });
+        // Append slotted elements directly
+        assignedElements.forEach((node) => {
+          formElement.appendChild(node.cloneNode(true));
+          node.remove(); // remove from light DOM (this solves duplicate ID)
+        });
+      }
     }
-    this.requestUpdate(); // Request an update after processing options
   }
 
   // Current implementation shows the values of the submission.
@@ -105,7 +106,7 @@ export class NysForm extends LitElement {
 
     // Bubble up the formData using a custom event for product developers to use
     this.dispatchEvent(
-      new CustomEvent("nys-submitForm", {
+      new CustomEvent("nys-submit", {
         detail: formData,
         bubbles: true,
         composed: true,
@@ -142,10 +143,7 @@ export class NysForm extends LitElement {
                 (element) => html`${element.cloneNode(true)}`,
               )}
             `}
-        <slot
-          @slotchange="${this._handleSlotChange}"
-          style="display:none;"
-        ></slot>
+        <slot @slotchange="${this._handleSlotChange}"></slot>
       </form>
     `;
   }
