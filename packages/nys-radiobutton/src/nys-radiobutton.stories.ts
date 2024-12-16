@@ -380,9 +380,83 @@ export const ErrorMessage: Story = {
   <nys-radiobutton
     name="office"
     label="Manhattan"
-    description="New York City"
     value="manhattan"
   ></nys-radiobutton>
+</nys-radiogroup>
+`.trim(),
+
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Slot: Story = {
+  args: {
+    name: "office",
+    label: "Albany",
+    description: "Upstate New York (prop)",
+    value: "albany",
+  },
+
+  render: (args) => html`
+    <nys-radiogroup
+      label="What is your primary work location?"
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <label slot="description">
+        This is the location you use for your in office days.
+        <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
+      >
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${args.checked}
+        .label=${args.label}
+        .description=${args.description}
+        .disabled=${args.disabled}
+        .value=${args.value}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${false}
+        .label=${"Manhattan"}
+        .disabled=${args.disabled}
+        .value=${"manhattan"}
+      >
+        <label slot="description">
+          New York City
+          <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
+        >
+      </nys-radiobutton>
+    </nys-radiogroup>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="What is your primary work location?">
+  <label slot="description">
+    This is the location you use for your in office days.
+    <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
+  >
+  <nys-radiobutton
+    name="office"
+    label="Albany"
+    description="Upstate New York (prop)"
+    value="albany"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="office"
+    label="Manhattan"
+    value="manhattan"
+  >
+    <label slot="description"> 
+      New York City
+      <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
+    >      
+  </nys-radiobutton>
 </nys-radiogroup>
 `.trim(),
 

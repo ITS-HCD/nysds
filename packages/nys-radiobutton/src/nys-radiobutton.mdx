@@ -34,6 +34,13 @@ If `checked=true` is assigned to multiple options in a `radiogroup` only the las
 
 <Canvas of={NysRadiobuttonStories.ErrorMessage} />
 
+### Slots
+When the description requires more complexity than a simple `string` value, use the slot `description` to hold the text. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`\
+Note: Both `nys-radiobutton` and `nys-radiogroup` support the description slot.
+
+<Canvas of={NysRadiobuttonStories.Slot} />
+
+
 ## Events
 
 The `NysRadiobutton` component emits four custom events:
