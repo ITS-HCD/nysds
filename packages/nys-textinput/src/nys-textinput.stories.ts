@@ -26,7 +26,28 @@ interface NysTextinputArgs {
 const meta: Meta<NysTextinputArgs> = {
   title: "Components/Textinput",
   component: "nys-textinput",
-  argTypes: {},
+  argTypes: {
+    id: { control: "text" },
+    name: { control: "text" },
+    type: {
+      control: "select",
+      options: ["email", "number", "password", "search", "tel", "text", "url"],
+    },
+    label: { control: "text" },
+    description: { control: "text" },
+    placeholder: { control: "text" },
+    value: { control: "text" },
+    disabled: { control: "boolean" },
+    readonly: { control: "boolean" },
+    required: { control: "boolean" },
+    form: { control: "text" },
+    pattern: { control: "text" },
+    maxlength: { control: "text" },
+    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
+    step: { control: "text" },
+    min: { control: "text" },
+    max: { control: "text" },
+  },
   parameters: {
     docs: {
       source: { type: "dynamic" }, // Enables live Source code tab
@@ -42,23 +63,8 @@ type Story = StoryObj<NysTextinputArgs>;
 
 export const Blank: Story = {
   args: {
-    id: "",
-    name: "",
-    type: "",
     label: "Label",
-    description: "",
-    placeholder: "",
     value: "",
-    disabled: false,
-    readonly: false,
-    required: false,
-    form: "",
-    pattern: "",
-    maxlength: "",
-    size: "",
-    step: "",
-    min: "",
-    max: "",
   },
   render: (args) => html`
     <nys-textinput
@@ -92,29 +98,21 @@ export const Blank: Story = {
 };
 
 export const Size: Story = {
-  args: {},
-  render: () => html`
-    <div>
-      <nys-textinput size="xs" label="XS"></nys-textinput>
-      <br />
-      <nys-textinput size="sm" label="SM"></nys-textinput>
-      <br />
-      <nys-textinput size="md" label="MD (default)"></nys-textinput>
-      <br />
-      <nys-textinput size="lg" label="LG"></nys-textinput>
-      <br />
-      <nys-textinput size="xl" label="XL"></nys-textinput>
-    </div>
+  args: { size: "xs" },
+  render: (args) => html`
+    <nys-textinput
+      size=${args.size}
+      label="This label is extra small"
+    ></nys-textinput>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput size="xs" label="XS"></nys-textinput>
-<nys-textinput size="sm" label="SM"></nys-textinput>
-<nys-textinput size="md" label="MD (default)"></nys-textinput>
-<nys-textinput size="lg" label="LG"></nys-textinput>
-<nys-textinput size="xl" label="XL"></nys-textinput>
+<nys-textinput 
+  size="xs" 
+  label="This label is extra small"
+></nys-textinput>
         `,
         type: "auto",
       },
@@ -123,74 +121,51 @@ export const Size: Story = {
 };
 
 export const DifferentTypes: Story = {
-  args: {},
-  render: () => html`
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput type="text" label="text" style="flex: 1;"></nys-textinput>
-      <nys-textinput
-        type="email"
-        label="email"
-        style="flex: 1;"
-      ></nys-textinput>
-      <nys-textinput
-        type="number"
-        label="number"
-        style="flex: 1;"
-      ></nys-textinput>
-      <nys-textinput
-        type="password"
-        label="password"
-        style="flex: 1;"
-      ></nys-textinput>
-      <nys-textinput
-        type="search"
-        label="search"
-        style="flex: 1;"
-      ></nys-textinput>
-      <nys-textinput type="tel" label="tel" style="flex: 1;"></nys-textinput>
-      <nys-textinput type="url" label="url" style="flex: 1;"></nys-textinput>
-      <nys-textinput
-        type="invalid"
-        label="invalid defaults to text"
-        style="flex: 1;"
-      ></nys-textinput>
-    </div>
+  args: { label: "Password:", type: "password" },
+  render: (args) => html`
+    <nys-textinput type=${args.type} label="Password:"></nys-textinput>
   `,
   parameters: {
     docs: {
       source: {
-        code: `<nys-textinput type="text" label="text"></nys-textinput>
-<nys-textinput type="email" label="email"></nys-textinput>
-<nys-textinput type="number" label="number"></nys-textinput>
-<nys-textinput type="password" label="password"></nys-textinput>
-<nys-textinput type="search" label="search"></nys-textinput>
-<nys-textinput type="tel" label="tel"></nys-textinput>
-<nys-textinput type="url" label="url"></nys-textinput>
-<nys-textinput type="invalid" label="invalid defaults to text"></nys-textinput>`,
+        code: `
+<nys-textinput 
+  type="password" 
+  label="Password:"
+`,
         type: "auto",
       },
     },
   },
 };
 
-export const Labels: Story = {
-  args: {},
-  render: () => html`
+export const DescriptionSlot: Story = {
+  args: { label: "Label", description: "description" },
+  render: (args) => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <nys-textinput label="Only Label" style="flex: 1;"></nys-textinput>
       <nys-textinput
-        label="Label"
-        description="Description"
+        label=${args.label}
+        description="Prop: ${args.description}"
         style="flex: 1;"
       ></nys-textinput>
+      <nys-textinput label=${args.label} style="flex: 1;">
+        <label slot="description">Slot: ${args.description}</label>
+      </nys-textinput>
     </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput label="Only Label"></nys-textinput>
-<nys-textinput label="Label" description="Description"></nys-textinput>
+<nys-textinput 
+  label="Label" 
+  description="Prop: description"
+></nys-textinput>
+<nys-textinput 
+  label="Label"
+>
+        <label slot="description">Slot: description</label>
+</nys-textinput>
         `,
         type: "auto",
       },
