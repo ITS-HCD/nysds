@@ -25,14 +25,14 @@ export default css`
 
   /* Checked */
   .nys-radiobutton__input:not(:disabled):checked {
-    background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="10.5" stroke="white" stroke-width="4"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="10.5" stroke="white" stroke-width="6"/></svg>');
     border-color: var(--color-border-primary, #154973);
     background-color: var(--color-bg-primary, #154973);
   }
 
   /* Checked + Disabled */
   .nys-radiobutton__input:disabled:checked {
-    background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="10.5" stroke="white" stroke-width="4"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="10.5" stroke="white" stroke-width="6"/></svg>');
     border-color: var(--color-border-disabled, #757575);
     background-color: var(--color-bg-disabled, #757575);
   }
