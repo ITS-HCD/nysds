@@ -61,23 +61,21 @@ export class NysForm extends LitElement {
   };
 
   /******************** Functions ********************/
-
   // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form directly.
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector("slot");
     if (slot) {
       const assignedElements = slot.assignedElements({ flatten: true });
       const formElement = this.shadowRoot?.querySelector("form");
+      const fieldsetElement = formElement?.querySelector("fieldset");
 
-      if (formElement) {
-        // Clear existing children (if re-appending is needed)
-        while (formElement.firstChild) {
-          formElement.removeChild(formElement.firstChild);
-        }
+      const parent = this.fieldset ? fieldsetElement : formElement;
+
+      if (parent) {
         // Append slotted elements directly
         assignedElements.forEach((node) => {
-          formElement.appendChild(node.cloneNode(true));
-          node.remove(); // remove from light DOM (this solves duplicate ID)
+          parent.appendChild(node.cloneNode(true));
+          node.remove(); // remove from light DOM (this solves duplicated ID issue with slots)
         });
       }
     }
