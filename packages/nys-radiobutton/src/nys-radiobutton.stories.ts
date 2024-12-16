@@ -5,28 +5,38 @@ import "./nys-radiogroup";
 
 // Define the structure of the args used in the stories
 interface NysRadiobuttonArgs {
-  checked: boolean;
-  disabled: boolean;
-  label: string;
-  description: string;
+  //radiobutton
   id: string;
   name: string;
+  checked: boolean;
+  label: string;
+  description: string;
+  size: string;
+  disabled: boolean;
   value: string;
+  form: string;
+  //radiogroup - not including id, name, label, description
   required: boolean;
+  showError: boolean;
+  errorMessage: string;
 }
 
 const meta: Meta<NysRadiobuttonArgs> = {
   title: "Components/Radiobutton",
   component: "nys-radiobutton",
   argTypes: {
-    checked: { control: "boolean" },
-    disabled: { control: "boolean" },
-    label: { control: "text" },
-    description: { control: "text" },
     id: { control: "text" },
     name: { control: "text" },
+    checked: { control: "boolean" },
+    label: { control: "text" },
+    description: { control: "text" },
+    size: { control: "select", options: ["md"] }, //don't have other sizes yet
+    disabled: { control: "boolean" },
     value: { control: "text" },
+    form: { control: "text" },
     required: { control: "boolean" },
+    showError: { control: "boolean" },
+    errorMessage: { control: "text" },
   },
   parameters: {
     docs: {
@@ -44,30 +54,32 @@ type Story = StoryObj<NysRadiobuttonArgs>;
 // Story: Editable
 export const AllEditableOptions: Story = {
   args: {
-    checked: false,
-    disabled: false,
+    name: "office",
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
-    name: "office",
   },
   render: (args) => html`
-    <nys-radiogroup>
-      <p>What is your primary work location?</p>
+    <nys-radiogroup
+      label="What is your primary work location?"
+      description="This is the location you use for your in office days."
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
       <nys-radiobutton
+        .name=${args.name}
         .checked=${args.checked}
-        .disabled=${args.disabled}
         .label=${args.label}
         .description=${args.description}
-        .name=${args.name}
+        .disabled=${args.disabled}
         .value=${args.value}
       ></nys-radiobutton>
       <nys-radiobutton
+        .name=${args.name}
         .checked=${false}
-        .disabled=${args.disabled}
         .label=${"Manhattan"}
         .description=${"New York City"}
-        .name=${args.name}
+        .disabled=${args.disabled}
         .value=${"manhattan"}
       ></nys-radiobutton>
     </nys-radiogroup>
@@ -76,21 +88,24 @@ export const AllEditableOptions: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup>
-  <p>What is your primary work location?</p>
+<nys-radiogroup 
+  label="What is your primary work location?"
+  description="This is the location you use for your in office days."
+>
   <nys-radiobutton
+    name="office"
     label="Albany"
     description="Upstate New York"
-    name="office"
     value="albany"
   ></nys-radiobutton>
   <nys-radiobutton
+    name="office"
     label="Manhattan"
     description="New York City"
-    name="office"
     value="manhattan"
   ></nys-radiobutton>
-</nys-radiogroup>`.trim(),
+</nys-radiogroup>
+`.trim(),
         type: "auto",
       },
     },
@@ -100,37 +115,31 @@ export const AllEditableOptions: Story = {
 // Story: Some Disabled
 export const PartialEditableOptions: Story = {
   args: {
-    checked: false,
-    disabled: false,
+    name: "op-system",
     label: "Windows 11",
     description: "HP elitebook",
     value: "windows",
-    name: "op-system",
   },
   render: (args) => html`
-    <nys-radiogroup>
-      <p>Choose your preferred work operating system.</p>
+    <nys-radiogroup label="Choose your preferred work operating system.">
       <nys-radiobutton
+        .name=${args.name}
         .checked=${args.checked}
         .disabled=${args.disabled}
         .label=${args.label}
         .description=${args.description}
-        .name=${args.name}
         .value=${args.value}
       ></nys-radiobutton>
       <nys-radiobutton
-        .checked=${false}
-        .disabled=${false}
+        .name=${args.name}
         .label=${"Sequoia"}
         .description=${"Macbook Air"}
-        .name=${args.name}
         .value=${"mac"}
       ></nys-radiobutton>
       <nys-radiobutton
-        .checked=${false}
+        .name=${args.name}
         .disabled=${true}
         .label=${"Linux"}
-        .name=${args.name}
         .value=${"linux"}
       ></nys-radiobutton>
     </nys-radiogroup>
@@ -139,27 +148,27 @@ export const PartialEditableOptions: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup>
-  <p>Choose your preferred work operating system.</p>
+<nys-radiogroup label="Choose your preferred work operating system.">
   <nys-radiobutton 
+    name="op-system"
     label="Windows 11"
     description="HP Elitebook"
-    name="op-system"
     value="windows"
   ></nys-radiobutton>
   <nys-radiobutton
+    name="op-system"
     label="Sequoia"
     description="Macbook Air"
-    name="op-system"
     value="mac"
   ></nys-radiobutton>
   <nys-radiobutton
-    disabled
-    label="Linux"
     name="op-system"
+    label="Linux"
     value="windows"
+    disabled
   ></nys-radiobutton>
-</nys-radiogroup>`.trim(),
+</nys-radiogroup>
+`.trim(),
         type: "auto",
       },
     },
@@ -177,11 +186,10 @@ export const DisabledOptions: Story = {
     value: "eng-1",
   },
   render: (args) => html`
-    <nys-radiogroup>
-      <p>
-        Current title. Note: You cannot change your title, if you believe you
-        are ready to be promoted talk to your supervisor.
-      </p>
+    <nys-radiogroup
+      label="Current Title:"
+      description="Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor."
+    >
       <nys-radiobutton
         .checked=${args.checked}
         .disabled=${args.disabled}
@@ -215,33 +223,34 @@ export const DisabledOptions: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup>
-  <p>Current title. Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor.</p>
+<nys-radiogroup
+  label="Current Title:"
+  description="Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor."
+>
   <nys-radiobutton
-    checked
-    disabled
+    name="title"
     label="Software Engineer 1"
     description="<1 year experience"
-    name="title"
     value="eng-1"
-  ></nys-radiobutton>
-  <nys-radiobutton
     checked
     disabled
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="title"
     label="Software Engineer 2"
     description="1-3 years experience"
-    name="title"
     value="eng-2"
+    disabled
   ></nys-radiobutton>
   <nys-radiobutton
-    checked
-    disabled
+    name="title"
     label="Software Engineer 3"
     description="3-5 years experience"
-    name="title"
     value="eng-3"
+    disabled
   ></nys-radiobutton>
-</nys-radiogroup>`.trim(),
+</nys-radiogroup>
+`.trim(),
       },
     },
   },
