@@ -75,6 +75,16 @@ export default css`
     color: var(--form-label-color-disabled, #757575);
   }
 
+  /* Required */
+  .nys-radiobutton__required {
+    color: var(--nys-error, #b52c2c);
+    margin-left: 0.25rem;
+  }
+
+  .nys-radiobutton__requiredwrapper {
+    display: flex;
+  }
+
   /* Error Message Styling */
   .nys-radiobutton__error {
     border-top: 1px solid var(--nys-error, #b52c2c);
