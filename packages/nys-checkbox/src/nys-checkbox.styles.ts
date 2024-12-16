@@ -58,7 +58,7 @@ export default css`
 
   /* Required */
   .nys-checkbox__required {
-    color: red;
+    color: var(--nys-error, #b52c2c);
     margin-left: 0.25rem;
   }
 
