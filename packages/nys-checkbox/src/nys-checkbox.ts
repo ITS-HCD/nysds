@@ -2,11 +2,18 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles"; // Assuming styles are in a separate file
+import { FormControlController } from '../../nys-form/src/form-controller';
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-checkbox")
 export class NysCheckbox extends LitElement {
+  // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
+  private readonly formControlController = new FormControlController(this, {
+    value: input => this.checked ? "on" : undefined,
+    defaultValue: input => this.checked ? "on" : undefined,
+  });
+
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;

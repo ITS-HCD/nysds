@@ -426,7 +426,7 @@ export const nysComponents: Story = {
   },
 };
 
-// Story: NYS Custom Web Components
+// Story: Native Form with Custom Web Components
 export const nativeFormWithComponents: Story = {
   args: {
     id: "nys-work-form2",
@@ -438,13 +438,18 @@ export const nativeFormWithComponents: Story = {
       @submit=${(e: SubmitEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
-        useData(formData); // process FormData with the useData function
+        // Convert FormData to a simple object for easier logging
+        const formDataObj: Record<string, any> = {};
+        formData.forEach((value, key) => {
+          formDataObj[key] = value;
+        });
+        alert('Form Data:\n' + JSON.stringify(formDataObj, null, 2));
       }}
     >
-      <label for="fullname">Enter full name: </label>
+      <label for="fullname2">Enter full name: </label>
       <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
 
-      <label for="password-native">Password (Native): </label>
+      <label for="password-native2">Password (Native): </label>
       <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
 
       <nys-textinput
@@ -530,8 +535,20 @@ export const nativeFormWithComponents: Story = {
       source: {
         code: `
 <form id="nys-work-form">
-  <label for="fullname">Enter first name: </label>
-  <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+  <label for="fullname2">Enter full name: </label>
+  <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+
+  <label for="password-native2">Password (Native): </label>
+  <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+
+  <nys-textinput
+    name="password-nys"
+    placeholder="Can you break into my password? (nys-component)"
+    label="Password (nys-component):"
+    description="Hack me"
+    id="password-nys2"
+    type="password"
+  ></nys-textinput>
 
   <nys-textinput
     name="empid"
@@ -540,7 +557,7 @@ export const nativeFormWithComponents: Story = {
     description="include the N prefix"
     maxlength="9"
     pattern="N[0-9]{8}"
-    id="nID"
+    id="nID2"
   ></nys-textinput>
   <nys-checkbox
     label="NYS Resident?"

@@ -1,9 +1,22 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
+import { FormControlController } from '../../nys-form/src/form-controller';
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
+  // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
+  private readonly formControlController = new FormControlController(this, {
+    name: input => this.name,
+    value: input => this.value,
+    defaultValue: input => "",
+    disabled: input => this.disabled,
+    setValue: (_, newValue) => {
+      this.value = String(newValue);
+      this.requestUpdate();
+    },
+  });
+
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   private static readonly VALID_TYPES = [

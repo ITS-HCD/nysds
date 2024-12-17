@@ -6,6 +6,26 @@ import * as NysFormStories from './nys-form.stories';
 
 # Form
 
+### Native form and Excelsior's nys-components
+Excelsior form controls live inside shadow DOMs, which prevents native `<form>` elements from recognizing them. \
+To solve this, Excelsior uses the **`formdata` event**. 
+
+When a form is submitted, Excelsior automatically appends the custom component's values to the FormData object, ensuring compatibility with modern browsers.
+```js
+const form = document.querySelector('form');
+form.addEventListener('submit', (e) => {
+   e.preventDefault();
+   // All form control data is available in a FormData object
+   const data = new FormData(form); 
+   // ...
+})
+```
+<Canvas of={NysFormStories.nativeFormWithComponents} />
+
+
+## *****------------- NYS-FORM -------------*****
+### Currently on trial: it stands accused of being unnecessary. Verdict: TBD...
+
 The **`nys-form`** component is a reusable web component for use in New York State digital products. It allows users users to enter information into a page.
 
 An id is required.
@@ -121,6 +141,4 @@ The `<nys-form>` currently supports the following NYS components:
  - Radio
 <Canvas of={NysFormStories.nysComponents} />
 
-### Native form and custom components
-<Canvas of={NysFormStories.nativeFormWithComponents} />
 
