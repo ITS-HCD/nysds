@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import { classMap } from "lit/directives/class-map.js";
+import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 @customElement("nys-select")
 export class NysSelect extends LitElement {
