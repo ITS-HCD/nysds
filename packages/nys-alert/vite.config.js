@@ -1,6 +1,4 @@
 import { defineConfig } from "vite";
-import path from "path";
-import del from "rollup-plugin-delete";
 
 // Banner to put at the top of the generated files
 const banner = `
@@ -22,36 +20,20 @@ const banner = `
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"), // Entry point for the component
-      name: "NysAlert", // Name for UMD build
+      entry: ["src/index.ts"], // Simplified entry point
+      fileName: "nys-alert", // Output file name
+      formats: ["es"], // ES build only
     },
+    emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: (id) => id === "lit" || id.startsWith("lit/"), // Externalize Lit for ESM
-      output: [
-        // ESM Build for bundlers and modern tools
-        {
-          format: "es",
-          banner,
-          dir: "dist",
-          entryFileNames: "nys-alert.es.js",
+      external: ["lit"], // Externalize Lit for ES build
+      output: {
+        banner: mode === "production" ? banner : undefined, // Add banner only in production
+        globals: {
+          lit: "Lit",
         },
-        // UMD Build for browser usage (with global 'Lit' bundled)
-        {
-          format: "umd",
-          banner,
-          name: "NysAlert",
-          dir: "dist",
-          entryFileNames: "nys-alert.js",
-          globals: {
-            lit: "Lit",
-            "lit/decorators.js": "LitDecorators",
-          },
-        },
-      ],
-      plugins: [
-        del({ targets: "dist/*", runOnce: true }), // Clean the dist folder before building
-      ],
+      },
     },
   },
 });

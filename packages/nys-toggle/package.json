@@ -1,24 +1,25 @@
 {
-   "name": "@excelsior/nys-toggle",
+   "name": "@nys-excelsior/nys-toggle",
    "version": "0.0.1",
    "description": "A toggle component from the NYS Design System.",
    "main": "dist/nys-toggle.js",
-   "module": "dist/nys-toggle.es.js",
+   "module": "dist/nys-toggle.js",
    "exports": {
-      ".": {
-         "import": "./dist/nys-toggle.es.js",
-         "require": "./dist/nys-toggle.js"
-      }
+      ".": "./dist/nys-toggle.js"
    },
    "type": "module",
+   "files": [
+      "dist/"
+    ],
    "scripts": {
-      "build": "vite build"
+      "dev": "tsc && vite",
+      "build": "tsc && vite build"
    },
+   "dependencies": {},
    "peerDependencies": {
-      "lit": "^3.0.0"
+      "lit": "^3.2.1"
    },
    "devDependencies": {
-      "rollup-plugin-delete": "^2.1.0",
       "typescript": "^5.7.2",
       "vite": "^6.0.3"
    }

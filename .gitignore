@@ -30,6 +30,7 @@ _site/
 *.code-workspace
 ./vscode
 .vscode-test
+.vscode/
 
 # Ignore logs
 logs
