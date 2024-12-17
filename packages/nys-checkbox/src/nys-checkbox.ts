@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles"; // Assuming styles are in a separate file
+import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
