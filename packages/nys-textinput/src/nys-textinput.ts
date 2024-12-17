@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
+import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
@@ -46,6 +47,8 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
+  @property({ type: Boolean }) showError = false;
+  @property({ type: String }) errorMessage = "";
 
   constructor() {
     super();
@@ -122,6 +125,12 @@ export class NysTextinput extends LitElement {
             ? html`<label class="nys-textinput__required">*</label>`
             : ""}
         </div>
+        ${this.showError && this.errorMessage
+          ? html`<div class="nys-textinput__error">
+              <nys-icon name="error"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
       </div>
     `;
   }

@@ -93,4 +93,10 @@ export default css`
     content: " empty";
     font-weight: bold;
   }
+
+  /* Error Message Styling */
+  .nys-textinput__error {
+    color: var(--nys-warning, #b52c2c);
+    padding-top: 0.25rem;
+  }
 `;

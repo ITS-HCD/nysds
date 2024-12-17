@@ -21,6 +21,8 @@ interface NysTextinputArgs {
   step: string;
   min: string;
   max: string;
+  showError: boolean;
+  errorMessage: string;
 }
 
 const meta: Meta<NysTextinputArgs> = {
@@ -47,6 +49,8 @@ const meta: Meta<NysTextinputArgs> = {
     step: { control: "text" },
     min: { control: "text" },
     max: { control: "text" },
+    showError: { control: "boolean" },
+    errorMessage: { control: "text" },
   },
   parameters: {
     docs: {
@@ -85,6 +89,8 @@ export const Blank: Story = {
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
@@ -118,6 +124,8 @@ export const Size: Story = {
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
@@ -156,6 +164,8 @@ export const DifferentTypes: Story = {
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
@@ -194,6 +204,8 @@ export const DescriptionSlot: Story = {
         .step=${args.step}
         .min=${args.min}
         .max=${args.max}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
         style="flex: 1;"
       ></nys-textinput>
       <nys-textinput
@@ -213,6 +225,8 @@ export const DescriptionSlot: Story = {
         .step=${args.step}
         .min=${args.min}
         .max=${args.max}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
         style="flex: 1;"
       >
         <label slot="description">Slot: ${args.description}</label>
@@ -316,6 +330,8 @@ export const MaxMinAndStep: Story = {
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
@@ -363,6 +379,8 @@ export const Maxlength: Story = {
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
@@ -412,6 +430,8 @@ export const Pattern: Story = {
         .step=${args.step}
         .min=${args.min}
         .max=${args.max}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
         @nys-checkValidity=${(event: CustomEvent) => {
           // Update the pattern status text based on the validity
           patternStatus = `Pattern match: ${event.detail.checkValidity}`;
@@ -464,6 +484,8 @@ export const Required: Story = {
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
