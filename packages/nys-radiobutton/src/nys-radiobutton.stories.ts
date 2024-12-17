@@ -65,10 +65,10 @@ export const AllEditableOptions: Story = {
       <nys-radiobutton
         .checked=${false}
         .disabled=${args.disabled}
-        .label=${"Manhattan"}
+        .label=${"Manhatten"}
         .description=${"New York City"}
         .name=${args.name}
-        .value=${"manhattan"}
+        .value=${"manhatten"}
       ></nys-radiobutton>
     </nys-radiogroup>
   `,
@@ -85,10 +85,10 @@ export const AllEditableOptions: Story = {
     value="albany"
   ></nys-radiobutton>
   <nys-radiobutton
-    label="Manhattan"
+    label="Manhatten"
     description="New York City"
     name="office"
-    value="manhattan"
+    value="manhatten"
   ></nys-radiobutton>
 </nys-radiogroup>`.trim(),
         type: "auto",
