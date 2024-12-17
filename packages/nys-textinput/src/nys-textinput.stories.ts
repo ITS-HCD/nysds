@@ -382,17 +382,36 @@ export const Maxlength: Story = {
 };
 
 export const Pattern: Story = {
-  args: {},
-  render: () => {
+  args: {
+    placeholder: "N00000000",
+    label: "Please enter your Employee number",
+    description: "include the N prefix",
+    maxlength: "9",
+    pattern: "N[0-9]{8}",
+    id: "nID",
+    value: "",
+  },
+  render: (args) => {
     let patternStatus = "Pattern match: false"; // Initial status
     return html`
       <nys-textinput
-        placeholder="N00000000"
-        label="Please enter your Employee number"
-        description="include the N prefix"
-        maxlength="9"
-        pattern="N[0-9]{8}"
-        id="nID"
+        .id=${args.id}
+        .name=${args.name}
+        .type=${args.type}
+        .label=${args.label}
+        .description=${args.description}
+        .placeholder=${args.placeholder}
+        .value=${args.value}
+        .disabled=${args.disabled}
+        .readonly=${args.readonly}
+        .required=${args.required}
+        .form=${args.form}
+        .pattern=${args.pattern}
+        .maxlength=${args.maxlength}
+        .size=${args.size}
+        .step=${args.step}
+        .min=${args.min}
+        .max=${args.max}
         @nys-checkValidity=${(event: CustomEvent) => {
           // Update the pattern status text based on the validity
           patternStatus = `Pattern match: ${event.detail.checkValidity}`;
@@ -425,17 +444,28 @@ export const Pattern: Story = {
 };
 
 export const Required: Story = {
-  args: {},
-  render: () =>
-    html`<div style="display: flex; gap: 1rem; flex-wrap: wrap">
-      <nys-textinput required label="label" style="flex:1"></nys-textinput>
-      <nys-textinput
-        required
-        label="label"
-        description="desc"
-        style="flex:1"
-      ></nys-textinput>
-    </div> `,
+  args: { required: true, label: "label", description: "desc", value: "" },
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+    ></nys-textinput>
+  `,
   parameters: {
     docs: {
       source: {
