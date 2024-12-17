@@ -289,15 +289,33 @@ export const DisabledAndReadonly: Story = {
 };
 
 export const MaxMinAndStep: Story = {
-  args: {},
-  render: () => html`
+  args: {
+    label: "Max/Min Example",
+    description: "Must be between 0 and 100",
+    type: "number",
+    min: "0",
+    max: "100",
+    step: "10",
+  },
+  render: (args) => html`
     <nys-textinput
-      label="Max/Min Example"
-      description="Must be between 0 and 100"
-      type="number"
-      min="0"
-      max="100"
-      step="10"
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
     ></nys-textinput>
   `,
   parameters: {
@@ -320,12 +338,31 @@ export const MaxMinAndStep: Story = {
 };
 
 export const Maxlength: Story = {
-  args: {},
-  render: () => html`
+  args: {
+    label: "Max Length",
+    description: "You cannot type more than 10 characters in the below field",
+    maxlength: "10",
+    value: "",
+  },
+  render: (args) => html`
     <nys-textinput
-      label="Max Length"
-      description="You cannot type more than 10 characters in the below field"
-      maxlength="10"
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
     ></nys-textinput>
   `,
   parameters: {
