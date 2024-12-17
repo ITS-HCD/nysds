@@ -500,3 +500,48 @@ export const Required: Story = {
     },
   },
 };
+
+export const ErrorMessage: Story = {
+  args: {
+    label: "Label",
+    value: "",
+    showError: true,
+    errorMessage: "Cannot be left blank",
+  },
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput 
+  label="Label"
+  showError
+  errorMessage="Cannot be left blank"
+></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
