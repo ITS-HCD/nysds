@@ -2,9 +2,16 @@ import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import { classMap } from "lit/directives/class-map.js";
+import { FormControlController } from '../../nys-form/src/form-controller';
 
 @customElement("nys-select")
 export class NysSelect extends LitElement {
+  // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
+  private readonly formControlController = new FormControlController(this, {
+    value: input => this.value,
+    defaultValue: input => "",
+  });
+
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
