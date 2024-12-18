@@ -52,6 +52,7 @@
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@storybook/addon-essentials": "^8.3.6",
     "@storybook/addon-links": "^8.3.6",
+    "@storybook/addon-a11y": "^8.4.7",
     "@storybook/blocks": "^8.3.6",
     "@storybook/test": "^8.3.6",
     "@storybook/web-components": "^8.3.6",
