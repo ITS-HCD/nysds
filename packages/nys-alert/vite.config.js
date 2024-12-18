@@ -17,7 +17,7 @@ const banner = `
 */
 `;
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   build: {
     lib: {
       entry: ["src/index.ts"], // Simplified entry point
@@ -36,4 +36,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

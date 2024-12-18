@@ -16,7 +16,9 @@
     "dev": "tsc && vite",
     "build": "tsc && vite build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@nys-excelsior/nys-checkbox": "^0.0.1"
+  },
   "peerDependencies": {
     "lit": "^3.2.1"
   },
