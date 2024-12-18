@@ -15,7 +15,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: String }) size = "";
-  @property({ type: Boolean }) hasError = false;
+  @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
 
   @state() private _options: { value: string; text: string }[] = [];
@@ -62,7 +62,7 @@ export class NysSelect extends LitElement {
   render() {
     const selectClasses = {
       "nys-select__select": true,
-      "nys-select__selecterror": this.hasError,
+      "nys-select__selecterror": this.showError,
       [this.size]: !!this.size,
     };
 
@@ -117,7 +117,7 @@ export class NysSelect extends LitElement {
             ? html`<label class="nys-select__required">*</label>`
             : ""}
         </div>
-        ${this.hasError && this.errorMessage
+        ${this.showError && this.errorMessage
           ? html`<div class="nys-select__error">
               <nys-icon name="error"></nys-icon>
               ${this.errorMessage}
