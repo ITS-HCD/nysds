@@ -90,6 +90,51 @@ export const Basic: Story = {
   },
 };
 
+export const DescriptionSlot: Story = {
+  args: {
+    label: "Select your favorite borough",
+    description: "This is a slot",
+    value: "",
+  },
+  render: (args) => html`
+    <nys-select
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .form=${args.form}
+      .size=${args.size}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <label slot="description">${args.description}</label>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
+    </nys-select>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough">
+  <label slot="description">This is a slot</label>
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>        
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Disabled: Story = {
   args: {
     label: "Select your favorite borough",

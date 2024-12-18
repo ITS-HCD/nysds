@@ -23,7 +23,9 @@ export class NysSelect extends LitElement {
   static styles = styles;
 
   private _handleSlotChange() {
-    const slot = this.shadowRoot?.querySelector("slot");
+    const slot = this.shadowRoot?.querySelector(
+      'slot:not([name="description"])',
+    ) as HTMLSlotElement | null;
     if (slot) {
       const nodes = slot.assignedElements({ flatten: true });
       this._options = nodes
@@ -80,6 +82,7 @@ export class NysSelect extends LitElement {
           </div>
           <label for=${this.id} class="nys-select__description">
             ${this.description}
+            <slot name="description"></slot>
           </label>
         </div>`}
         <div class="nys-select__requiredwrapper">
