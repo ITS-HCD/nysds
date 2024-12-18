@@ -49,17 +49,8 @@ type Story = StoryObj<NysSelectArgs>;
 
 export const Basic: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
-    disabled: false,
-    required: false,
-    form: "",
-    size: "",
-    showError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -101,17 +92,9 @@ export const Basic: Story = {
 
 export const Disabled: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
     disabled: true,
-    required: false,
-    form: "",
-    size: "",
-    showError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -153,17 +136,9 @@ export const Disabled: Story = {
 
 export const Required: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
-    disabled: false,
     required: true,
-    form: "",
-    size: "",
-    showError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -205,17 +180,10 @@ export const Required: Story = {
 
 export const Size: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
     description: "Valid sizes are xs, sm, md, lg, and xl",
     value: "",
-    disabled: false,
-    required: true,
-    form: "",
     size: "xs",
-    showError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -261,15 +229,8 @@ export const Size: Story = {
 
 export const ErrorMessage: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
-    disabled: false,
-    required: false,
-    form: "",
-    size: "",
     showError: true,
     errorMessage: "This is an error message",
   },
