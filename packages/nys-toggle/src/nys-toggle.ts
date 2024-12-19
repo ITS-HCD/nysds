@@ -1,7 +1,8 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "@nys-excelsior/nys-icon";
+// import "@nys-excelsior/nys-icon";
+import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 import styles from "./nys-toggle.styles";
 
 let toggleIdCounter = 0; // Counter for generating unique IDs
@@ -128,7 +129,7 @@ export class NysToggle extends LitElement {
               </div>
             </span>
           </div>
-          <div class="nys-toggle__text">
+          <div class="nys-toggle__text ${this.disabled ? "disabled" : ""}">
             <div class="nys-toggle__label">${this.label}</div>
             <slot name="description">${this.description}</slot>
           </div>
