@@ -23,4 +23,4 @@ packages.forEach((pkg) => {
     console.error(`Failed to build ${pkg.name}. Exiting.`);
     process.exit(1); // Exit the script if a build fails
   }
-}); 
+});
