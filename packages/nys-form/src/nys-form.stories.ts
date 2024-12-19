@@ -437,6 +437,7 @@ export const nativeFormWithComponents: Story = {
       .id=${args.id}
       @submit=${(e: SubmitEvent) => {
         e.preventDefault();
+        console.log("We're hacking in")
         const formData = new FormData(e.target as HTMLFormElement);
         // Convert FormData to a simple object for easier logging
         const formDataObj: Record<string, any> = {};
@@ -447,10 +448,10 @@ export const nativeFormWithComponents: Story = {
       }}
     >
       <label for="fullname2">Enter full name: </label>
-      <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+      <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?" required/>
 
       <label for="password-native2">Password (Native): </label>
-      <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+      <input required id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
 
       <nys-textinput
         name="password-nys"
@@ -459,6 +460,7 @@ export const nativeFormWithComponents: Story = {
         description="Hack me"
         id="password-nys2"
         type="password"
+        required
       ></nys-textinput>
 
       <nys-textinput

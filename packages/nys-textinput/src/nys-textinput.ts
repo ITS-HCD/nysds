@@ -9,6 +9,8 @@ export class NysTextinput extends LitElement {
   private readonly formControlController = new FormControlController(this, {
     value: input => this.value,
     defaultValue: input => "",
+    reportValidity: input => this.reportValidity(),
+    checkValidity: input => this.checkValidity(),
   });
 
   @property({ type: String }) id = "";
@@ -60,11 +62,33 @@ export class NysTextinput extends LitElement {
 
   static styles = styles;
 
+  // Set the form control custom validity message
+  setCustomValidity(message: string) {
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.setCustomValidity(message);
+      this.formControlController.updateValidity();
+    }
+  }
+
+  // Check the form control validity
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : false;
+  }
+
+  // Report the form control validity
+  reportValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.reportValidity() : false;
+  }
+
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     const checkValidity = input.checkValidity();
+    this.formControlController.updateValidity();
     this.dispatchEvent(
       new CustomEvent("nys-checkValidity", {
         detail: { checkValidity },
@@ -72,6 +96,11 @@ export class NysTextinput extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  // Handle invalid event
+  private handleInvalid() {
+    this.formControlController.setValidity(false);
   }
 
   // Handle focus event
@@ -138,6 +167,7 @@ export class NysTextinput extends LitElement {
             @input=${this._handleInput}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
+            @invalid=${this.handleInvalid}
           />
           ${this.required && !this.label && !this.description
             ? html`<label class="nys-textinput__required">*</label>`

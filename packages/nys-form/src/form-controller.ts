@@ -1,5 +1,10 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit';
 
+// We store a Set of controls that users have interacted with. This allows us to determine the interaction state
+// without littering the DOM with additional data attributes.
+//
+const userInteractedControls: WeakSet<ShoelaceFormControl> = new WeakSet();
+
 export interface FormControlControllerOptions {
   /** A function that returns the form containing the form control. */
   form?: (input: HTMLElement) => HTMLFormElement | null;
@@ -68,21 +73,50 @@ export class FormControlController implements ReactiveController {
     this.form = this.options.form(this.host);
 
     if (this.form) {
+      this.attachForm(this.form);
+      // Listen for interactions
       this.form.addEventListener('formdata', this.handleFormData);
-      this.form.addEventListener('reset', this.handleReset);
     }
   }
 
   hostDisconnected() {
+    this.detachForm();
     if (this.form) {
+      // Remove interactions
       this.form.removeEventListener('formdata', this.handleFormData);
-      this.form.removeEventListener('reset', this.handleReset);
     }
   }
 
-  /**
-   * Handles the 'formdata' event to append the control's value to the form data.
-   */
+  private attachForm(form?: HTMLFormElement) {
+    if (form) {
+      this.form = form;
+
+      this.form.addEventListener('formdata', this.handleFormData);
+      this.form.addEventListener('submit', this.handleFormSubmit);
+      console.log("WE HAVE ATTACHED")
+      this.form.addEventListener('reset', this.handleFormReset);
+    
+      // Overload the form's reportFormValidity() method to include custom validation
+      if (!this.form.reportFormValidity) {
+        this.form.reportFormValidity = () => this.reportFormValidity();
+      }
+      
+      // Overload the form's checkValidity() method to include custom validation
+      if (!this.form.checkValidity) {
+        this.form.checkValidity = () => this.checkFormValidity();
+      }
+    }
+  }
+
+  private detachForm() {
+    if (!this.form) return;
+
+    this.form.removeEventListener('formdata', this.handleFormData);
+    this.form.removeEventListener('submit', this.handleFormSubmit);
+    this.form.removeEventListener('reset', this.handleFormReset);
+  }
+
+  /** Handles the 'formdata' event to append the control's value to the form data. **/
   private handleFormData = (event: FormDataEvent) => {
     if (this.options.disabled(this.host)) return;
 
@@ -94,10 +128,20 @@ export class FormControlController implements ReactiveController {
     }
   };
 
+  private handleFormSubmit = (event: Event) => {
+    const disabled = this.options.disabled(this.host);
+    const reportValidity = this.options.reportValidity;
+
+    if (this.form && !this.form.noValidate && !disabled && !reportValidity(this.host)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  };
+  
   /**
    * Handles the 'reset' event to reset the control's value.
    */
-  private handleReset = () => {
+  private handleFormReset = () => {
     const defaultValue = this.options.defaultValue(this.host);
     if (defaultValue !== undefined) {
       this.options.setValue(this.host, defaultValue);
@@ -105,13 +149,47 @@ export class FormControlController implements ReactiveController {
     }
   };
 
-  /**
-   * Sets the form control's validity state programmatically.
-   */
-  setValidity(valid: boolean) {
-    this.host.toggleAttribute('data-invalid', !valid);
-    this.host.toggleAttribute('data-valid', valid);
+  // private handleInteraction(event: Event) {
+  //   // Handle interaction logic here
+  //   this.setUserInteracted(true);
+  // }
+
+  private checkFormValidity() {
+    if (this.form && !this.form.noValidate) {
+      const elements = Array.from(this.form.querySelectorAll<HTMLInputElement>('*'));
+      for (const element of elements) {
+        if (typeof element.checkValidity === 'function' && !element.checkValidity()) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
+
+  // Report form validity by checking all form controls, including custom ones.
+  private reportFormValidity = () => {
+    /* Excelsior form controls mimic native behavior, supporting the Constraint Validation API and methods like setCustomValidity() and reportValidity().
+     * The HTMLFormElement's reportValidity() triggers validation for all child controls. To handle this, we overload reportValidity() to check for elements with this method.
+     * The original method is stored in a WeakMap to prevent calling it directly, which could trigger validation in an unintended order. On disconnection, the original behavior is restored. 
+     * */
+
+    // This workaround will be unnecessary once ElementInternals is supported. We also respect the form's novalidate attribute.
+    if (this.form && !this.form.noValidate) {
+      // This seems sloppy, but checking all elements will cover native inputs, Shoelace inputs, and other custom
+      // elements that support the constraint validation API.
+      const elements = Array.from(this.form.querySelectorAll<HTMLInputElement>('*'));
+
+      for (const element of elements) {
+        if (typeof element.reportValidity === 'function') {
+          if (!element.reportValidity()) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
+  };
 
   /**
    * Triggers form submission.
@@ -125,5 +203,31 @@ export class FormControlController implements ReactiveController {
    */
   reset() {
     this.form?.reset();
+  }
+
+  /**
+   * Synchronously sets the form control's validity. Call this when you know the future validity but need to update
+   * the host element immediately, i.e. before Lit updates the component in the next update.
+   */
+  setValidity(isValid: boolean) {
+    console.log('signing validity', isValid);
+    const host = this.host as unknown as HTMLInputElement;
+    const required = Boolean(host.required);
+
+    host.toggleAttribute('data-required', required);
+    host.toggleAttribute('data-optional', !required);
+    host.toggleAttribute('data-invalid', !isValid);
+    host.toggleAttribute('data-valid', isValid);
+    host.toggleAttribute('data-user-invalid', !isValid);
+    host.toggleAttribute('data-user-valid', isValid);
+  }
+
+  /**
+   * Updates the form control's validity based on the current value of `host.validity.valid`. Call this when anything
+   * that affects constraint validation changes so the component receives the correct validity states.
+   */
+  updateValidity() {
+    const host = this.host as unknown as HTMLInputElement;
+    this.setValidity(host.validity.valid);
   }
 }
