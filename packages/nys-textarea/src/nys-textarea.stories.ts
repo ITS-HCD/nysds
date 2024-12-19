@@ -18,13 +18,31 @@ interface NysTextareaArgs {
   size: string;
   rows: string;
   resize: string;
+  showError: boolean;
   errorMessage: string;
 }
 
 const meta: Meta<NysTextareaArgs> = {
   title: "Components/Textarea",
   component: "nys-textarea",
-  argTypes: {},
+  argTypes: {
+    id: { control: "text" },
+    name: { control: "text" },
+    label: { control: "text" },
+    description: { control: "text" },
+    placeholder: { control: "text" },
+    value: { control: "text" },
+    disabled: { control: "boolean" },
+    readonly: { control: "boolean" },
+    required: { control: "boolean" },
+    form: { control: "text" },
+    maxlength: { control: "text" },
+    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
+    rows: { control: "text" },
+    resize: { control: "select", options: [undefined, "none"] },
+    showError: { control: "boolean" },
+    errorMessage: { control: "text" },
+  },
   parameters: {
     docs: {
       source: { type: "dynamic" }, // Enables live Source code tab
@@ -40,20 +58,9 @@ type Story = StoryObj<NysTextareaArgs>;
 
 export const Blank: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Label",
-    description: "",
-    placeholder: "",
     value: "",
-    disabled: false,
-    readonly: false,
-    required: false,
-    form: "",
-    maxlength: "",
-    size: "",
-    rows: "",
-    resize: "",
+
     errorMessage: "",
   },
   render: (args) => html`
@@ -72,6 +79,7 @@ export const Blank: Story = {
       .size=${args.size}
       .rows=${args.rows}
       .resize=${args.resize}
+      .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     ></nys-textarea>
   `,
@@ -86,29 +94,32 @@ export const Blank: Story = {
 };
 
 export const Size: Story = {
-  args: {},
-  render: () => html`
-    <div>
-      <nys-textarea size="xs" label="XS"></nys-textarea>
-      <br />
-      <nys-textarea size="sm" label="SM"></nys-textarea>
-      <br />
-      <nys-textarea size="md" label="MD (default)"></nys-textarea>
-      <br />
-      <nys-textarea size="lg" label="LG"></nys-textarea>
-      <br />
-      <nys-textarea size="xl" label="XL"></nys-textarea>
-    </div>
+  args: { label: "This textarea is XS", value: "", size: "xs" },
+  render: (args) => html`
+    <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textarea>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textarea size="xs" label="XS"></nys-textarea>
-<nys-textarea size="sm" label="SM"></nys-textarea>
-<nys-textarea size="md" label="MD (default)"></nys-textarea>
-<nys-textarea size="lg" label="LG"></nys-textarea>
-<nys-textarea size="xl" label="XL"></nys-textarea>
+<nys-textarea size="xs" label="This textarea is XS"></nys-textarea>
         `,
         type: "auto",
       },
@@ -117,10 +128,26 @@ export const Size: Story = {
 };
 
 export const Rows: Story = {
-  args: {},
-  render: () => html`
-    <nys-textarea label="This textarea renders with 4 rows" rows="4">
-    </nys-textarea>
+  args: { label: "", value: "", rows: "4" },
+  render: (args) => html`
+    <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textarea>
   `,
   parameters: {
     docs: {
@@ -133,10 +160,31 @@ export const Rows: Story = {
 };
 
 export const Resize: Story = {
-  args: {},
-  render: () => html`
-    <nys-textarea label="This textarea is not resizable" rows="4" resize="none">
-    </nys-textarea>
+  args: {
+    label: "This textarea is not resizable",
+    value: "",
+    rows: "4",
+    resize: "none",
+  },
+  render: (args) => html`
+    <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textarea>
   `,
   parameters: {
     docs: {
@@ -148,34 +196,55 @@ export const Resize: Story = {
   },
 };
 
-export const Labels: Story = {
-  args: {},
-  render: () => html`
-    <nys-textarea label="Label"></nys-textarea>
-    <br />
+export const DescriptionSlot: Story = {
+  args: { label: "Label", description: "description", value: "" },
+  render: (args) => html`
     <nys-textarea
-      label="Label"
-      description="Description as prop"
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${"Prop: " + args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textarea>
     <br />
-    <nys-textarea label="Label">
-      <p slot="description">
-        Description as slot
-        <a href="https://www.ny.gov/" target="_blank">learn more</a>
-      </p>
+    <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <p slot="description">Slot: ${args.description}</p>
     </nys-textarea>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textarea label="Label"></nys-textarea>
-<nys-textarea label="Label" description="Description as prop"></nys-textarea>
+=<nys-textarea label="Label" description="Prop: description"></nys-textarea>
 <nys-textarea label="Label">
-  <p slot="description">
-    Description as slot 
-    <a href="https://www.ny.gov/" target="_blank">learn more</a>
-  </p>
+  <p slot="description"> Slot: description</p>
 </nys-textarea>
         `,
         type: "auto",
@@ -185,22 +254,29 @@ export const Labels: Story = {
 };
 
 export const ValueAndPlaceholder: Story = {
-  args: {},
-  render: () => html`
+  args: {
+    label: "Beginning Value Example",
+    value: "beginning value",
+    placeholder: "placeholder",
+  },
+  render: (args) => html`
     <nys-textarea
-      label="Beginning Value Example"
-      value="beginning value"
-    ></nys-textarea>
-    <br />
-    <nys-textarea
-      label="Placeholder Example"
-      placeholder="placeholder"
-    ></nys-textarea
-    ><br />
-    <nys-textarea
-      label="Placeholder and Default Value Example"
-      value="default value"
-      placeholder="and a placeholder"
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textarea>
   `,
   parameters: {
@@ -209,17 +285,42 @@ export const ValueAndPlaceholder: Story = {
         code: `
 <nys-textarea 
   label="Beginning Value Example"
-  value="beginning value">
-</nys-textarea>
-<nys-textarea
-  label="Placeholder Example"
+  value="beginning value"
   placeholder="placeholder">
-</nys-textarea>
-<nys-textarea 
-  label="Placeholder and Default Value Example" 
-  value="default value" 
-  placeholder="and a placeholder">
-</nys-textarea>
+</nys-textarea>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  args: { label: "Label", value: "", disabled: true },
+  render: (args) => html`
+    <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textarea>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textarea label="Label" disabled></nys-textarea>
         `,
         type: "auto",
       },
@@ -227,19 +328,33 @@ export const ValueAndPlaceholder: Story = {
   },
 };
 
-export const DisabledAndReadonly: Story = {
-  args: {},
-  render: () => html`
-    <nys-textarea label="Disabled" disabled></nys-textarea>
-    <br />
-    <nys-textarea label="Read Only" readonly></nys-textarea>
+export const Readonly: Story = {
+  args: { label: "Label", value: "", readonly: true },
+  render: (args) => html`
+    <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textarea>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textarea label="Disabled" disabled></nys-textarea>
-<nys-textarea label="Read Only" readonly></nys-textarea>
+<nys-textarea label="Label" readonly></nys-textarea>
         `,
         type: "auto",
       },
@@ -248,12 +363,30 @@ export const DisabledAndReadonly: Story = {
 };
 
 export const Maxlength: Story = {
-  args: {},
-  render: () => html`
+  args: {
+    label: "Max Length",
+    description: "You cannot type more than 10 characters in the below field",
+    value: "",
+    maxlength: "10",
+  },
+  render: (args) => html`
     <nys-textarea
-      label="Max Length"
-      description="You cannot type more than 10 characters in the below field"
-      maxlength="10"
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textarea>
   `,
   parameters: {
@@ -273,8 +406,26 @@ export const Maxlength: Story = {
 };
 
 export const Required: Story = {
-  args: {},
-  render: () => html` <nys-textarea required label="label"></nys-textarea>`,
+  args: { label: "Label", value: "", required: true },
+  render: (args) =>
+    html` <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textarea>`,
   parameters: {
     docs: {
       source: {
@@ -286,11 +437,30 @@ export const Required: Story = {
 };
 
 export const ErrorMessage: Story = {
-  args: {},
-  render: () =>
+  args: {
+    label: "Label",
+    value: "",
+    showError: true,
+    errorMessage: "A clear and concise error message.",
+  },
+  render: (args) =>
     html` <nys-textarea
-      label="label"
-      errorMessage="A clear and concise error message."
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .size=${args.size}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textarea>`,
   parameters: {
     docs: {
@@ -298,6 +468,7 @@ export const ErrorMessage: Story = {
         code: `
 <nys-textarea 
   label="label"
+  showError
   errorMessage="A clear and concise error message.">
 </nys-textarea>`,
         type: "auto",

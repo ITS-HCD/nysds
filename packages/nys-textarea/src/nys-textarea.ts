@@ -36,6 +36,7 @@ export class NysTextarea extends LitElement {
       ? (value as (typeof NysTextarea.VALID_RESIZE)[number])
       : "vertical";
   }
+  @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
 
   constructor() {
@@ -104,11 +105,12 @@ export class NysTextarea extends LitElement {
             ? html`<div class="nys-textarea__required">*</div>`
             : ""}
         </div>
-        ${this.errorMessage &&
-        html`<div class="nys-textarea__error">
-          <nys-icon name="error"></nys-icon>
-          ${this.errorMessage}
-        </div>`}
+        ${this.showError && this.errorMessage
+          ? html`<div class="nys-textarea__error">
+              <nys-icon name="error"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
       </label>
     `;
   }
