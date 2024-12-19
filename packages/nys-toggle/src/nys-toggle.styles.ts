@@ -11,12 +11,12 @@ export default css`
     );
 
     /* Slider colors */
-    --nys-color-base: #797C7F;
+    --nys-color-base: #797c7f;
     --nys-color-theme: #154973;
-    --nys-color-theme-strong: #0E324F;
-    --nys-color-theme-stronger: #081B2B;
-    --nys-color-theme-weaker: #D0D0CE;
-    --nys-color-ink-reverse: #FFF;
+    --nys-color-theme-strong: #0e324f;
+    --nys-color-theme-stronger: #081b2b;
+    --nys-color-theme-weaker: #d0d0ce;
+    --nys-color-ink-reverse: #fff;
     --slider-checked-focus-border: #146598;
 
     /* Font sizes and spacing for labels/descriptions and icons */
@@ -52,9 +52,8 @@ export default css`
     font-size: var(--label-font-size);
   }
 
-  
-  .nys-toggle__text.disabled{
-    color: var(--nys-color-base, #797C7F);
+  .nys-toggle__text.disabled {
+    color: var(--nys-color-base, #797c7f);
   }
 
   /* Toggle Switch component */
@@ -80,7 +79,7 @@ export default css`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--nys-color-base, #797C7F);
+    background-color: var(--nys-color-base, #797c7f);
     transition: all 0.3s cubic-bezier(0.27, 0.2, 0.25, 1.51);
   }
 
@@ -92,7 +91,7 @@ export default css`
     left: var(--slider-offset);
     bottom: var(--slider-offset);
     border-radius: 50%;
-    background-color: var(--nys-color-ink-reverse, #FFF);
+    background-color: var(--nys-color-ink-reverse, #fff);
     transition: 0.3s;
     overflow: hidden;
     display: flex; /* Center icon inside the knob */
@@ -107,12 +106,12 @@ export default css`
 
   /* Switch BG: Hover */
   input:hover + .slider {
-    background-color: var(--nys-color-theme-strong, #0E324F);
+    background-color: var(--nys-color-theme-strong, #0e324f);
   }
 
   /* Switch BG: Active */
   input:active + .slider {
-    background-color: var(--nys-color-theme-stronger, #081B2B);
+    background-color: var(--nys-color-theme-stronger, #081b2b);
   }
 
   /* Switch Outline: Focus */
@@ -137,7 +136,7 @@ export default css`
   /* Icon Styling */
   .toggle-icon {
     position: absolute;
-    color: var(--nys-color-base, #797C7F);
+    color: var(--nys-color-base, #797c7f);
   }
   input:checked + .slider .knob .toggle-icon {
     color: var(--nys-color-theme, #154973);
@@ -161,11 +160,11 @@ export default css`
   /*** Disabled State ***/
   /* Switch BG: Disabled */
   input:disabled + .slider {
-    background-color: var(--nys-color-base-weaker, #D0D0CE);
+    background-color: var(--nys-color-base-weaker, #d0d0ce);
     cursor: not-allowed;
   }
   input:disabled + .slider .knob .toggle-icon {
-    color: var(--nys-color-base-weaker, #D0D0CE);
+    color: var(--nys-color-base-weaker, #d0d0ce);
   }
 
   /* Sizes */
