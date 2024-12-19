@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nys-excelsior/nys-icon";
 import styles from "./nys-toggle.styles";
 
 let toggleIdCounter = 0; // Counter for generating unique IDs

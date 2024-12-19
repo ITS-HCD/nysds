@@ -1,5 +1,6 @@
 # Ignore generated files
 dist/
+coverage/
 
 # Ignore Node-specific files
 node_modules/
@@ -29,6 +30,7 @@ _site/
 *.code-workspace
 ./vscode
 .vscode-test
+.vscode/
 
 # Ignore logs
 logs
