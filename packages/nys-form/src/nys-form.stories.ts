@@ -437,7 +437,15 @@ export const nativeFormWithComponents: Story = {
       .id=${args.id}
       @submit=${(e: SubmitEvent) => {
         e.preventDefault();
-        console.log("We're hacking in")
+        const form = e.target as HTMLFormElement;
+        const isFormValid = form.checkValidity();
+
+        if (!isFormValid) {
+          console.log("Form validation failed.");
+          return;
+        }
+        
+        console.log("You should not be seeing this message if validation is suppose to fail. Otherwise success!")
         const formData = new FormData(e.target as HTMLFormElement);
         // Convert FormData to a simple object for easier logging
         const formDataObj: Record<string, any> = {};

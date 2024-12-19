@@ -41,6 +41,12 @@ export class NysTextinput extends LitElement {
       ? (value as (typeof NysTextinput.VALID_TYPES)[number])
       : "text";
   }
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector('input');
+    return input ? input.validity : { valid: true };
+  }
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";

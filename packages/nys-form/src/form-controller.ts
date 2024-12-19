@@ -2,8 +2,8 @@ import { ReactiveController, ReactiveControllerHost } from 'lit';
 
 // We store a Set of controls that users have interacted with. This allows us to determine the interaction state
 // without littering the DOM with additional data attributes.
-//
-const userInteractedControls: WeakSet<ShoelaceFormControl> = new WeakSet();
+const formCollections: WeakMap<HTMLFormElement, Set<FormControlController>> = new WeakMap();
+
 
 export interface FormControlControllerOptions {
   /** A function that returns the form containing the form control. */
@@ -74,17 +74,11 @@ export class FormControlController implements ReactiveController {
 
     if (this.form) {
       this.attachForm(this.form);
-      // Listen for interactions
-      this.form.addEventListener('formdata', this.handleFormData);
     }
   }
 
   hostDisconnected() {
     this.detachForm();
-    if (this.form) {
-      // Remove interactions
-      this.form.removeEventListener('formdata', this.handleFormData);
-    }
   }
 
   private attachForm(form?: HTMLFormElement) {
@@ -93,7 +87,7 @@ export class FormControlController implements ReactiveController {
 
       this.form.addEventListener('formdata', this.handleFormData);
       this.form.addEventListener('submit', this.handleFormSubmit);
-      console.log("WE HAVE ATTACHED")
+      console.log("We have attached form in form-controller.ts");
       this.form.addEventListener('reset', this.handleFormReset);
     
       // Overload the form's reportFormValidity() method to include custom validation
@@ -210,7 +204,7 @@ export class FormControlController implements ReactiveController {
    * the host element immediately, i.e. before Lit updates the component in the next update.
    */
   setValidity(isValid: boolean) {
-    console.log('signing validity', isValid);
+    console.log('Testing validity in form-controller: ', isValid);
     const host = this.host as unknown as HTMLInputElement;
     const required = Boolean(host.required);
 
