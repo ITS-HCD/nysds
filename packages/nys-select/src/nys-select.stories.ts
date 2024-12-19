@@ -14,7 +14,7 @@ interface NysSelectArgs {
   form: string;
   size: string;
   options: string;
-  hasError: boolean;
+  showError: boolean;
   errorMessage: String;
 }
 
@@ -31,7 +31,7 @@ const meta: Meta<NysSelectArgs> = {
     required: { control: "boolean" },
     form: { control: "text" },
     size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
-    hasError: { control: "boolean" },
+    showError: { control: "boolean" },
     errorMessage: { control: "text" },
   },
   parameters: {
@@ -49,17 +49,8 @@ type Story = StoryObj<NysSelectArgs>;
 
 export const Basic: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
-    disabled: false,
-    required: false,
-    form: "",
-    size: "",
-    hasError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -72,7 +63,7 @@ export const Basic: Story = {
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
-      .hasError=${args.hasError}
+      .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <option value="bronx">The Bronx</option>
@@ -99,19 +90,56 @@ export const Basic: Story = {
   },
 };
 
+export const DescriptionSlot: Story = {
+  args: {
+    label: "Select your favorite borough",
+    description: "This is a slot",
+    value: "",
+  },
+  render: (args) => html`
+    <nys-select
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .form=${args.form}
+      .size=${args.size}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <label slot="description">${args.description}</label>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
+    </nys-select>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough">
+  <label slot="description">This is a slot</label>
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>        
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Disabled: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
     disabled: true,
-    required: false,
-    form: "",
-    size: "",
-    hasError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -124,7 +152,7 @@ export const Disabled: Story = {
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
-      .hasError=${args.hasError}
+      .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <option value="bronx">The Bronx</option>
@@ -153,17 +181,9 @@ export const Disabled: Story = {
 
 export const Required: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
-    disabled: false,
     required: true,
-    form: "",
-    size: "",
-    hasError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -176,7 +196,7 @@ export const Required: Story = {
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
-      .hasError=${args.hasError}
+      .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <option value="bronx">The Bronx</option>
@@ -205,17 +225,10 @@ export const Required: Story = {
 
 export const Size: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
     description: "Valid sizes are xs, sm, md, lg, and xl",
     value: "",
-    disabled: false,
-    required: true,
-    form: "",
     size: "xs",
-    hasError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -228,7 +241,7 @@ export const Size: Story = {
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
-      .hasError=${args.hasError}
+      .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <option value="bronx">The Bronx</option>
@@ -261,16 +274,9 @@ export const Size: Story = {
 
 export const ErrorMessage: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
     value: "",
-    disabled: false,
-    required: false,
-    form: "",
-    size: "",
-    hasError: true,
+    showError: true,
     errorMessage: "This is an error message",
   },
   render: (args) => html`
@@ -284,7 +290,7 @@ export const ErrorMessage: Story = {
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
-      .hasError=${args.hasError}
+      .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <option value="bronx">The Bronx</option>
@@ -301,7 +307,7 @@ export const ErrorMessage: Story = {
 <nys-select 
   label="Select your favorite borough"
   errorMessage="This is an error message"
-  hasError
+  showError
 >
   <option value="bronx">The Bronx</option>
   <option value="brooklyn">Brooklyn</option>

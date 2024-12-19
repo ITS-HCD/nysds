@@ -45,7 +45,7 @@ export default css`
   }
 
   .nys-textinput__required {
-    color: red;
+    color: var(--nys-error, #d54309);
     margin-left: 0.25rem;
   }
 
@@ -54,13 +54,7 @@ export default css`
   }
 
   .nys-textinput__text {
-    display: flex;
     margin-bottom: 0.25rem;
-  }
-
-  .nys-textinput__label_labelwrapper {
-    display: flex;
-    flex-direction: column;
   }
 
   /* Label styling */
@@ -83,7 +77,7 @@ export default css`
   }
 
   .nys-textinput__input:invalid + .nys-textinput__validation:after {
-    color: red;
+    color: var(--nys-error, #d54309);
     content: " invalid";
     font-weight: bold;
   }
@@ -98,5 +92,11 @@ export default css`
     color: black;
     content: " empty";
     font-weight: bold;
+  }
+
+  /* Error Message Styling */
+  .nys-textinput__error {
+    color: var(--nys-warning, #b52c2c);
+    padding-top: 0.25rem;
   }
 `;
