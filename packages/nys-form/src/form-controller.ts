@@ -1,9 +1,10 @@
 import { ReactiveController, ReactiveControllerHost } from 'lit';
 
-// We store a Set of controls that users have interacted with. This allows us to determine the interaction state
-// without littering the DOM with additional data attributes.
-const formCollections: WeakMap<HTMLFormElement, Set<FormControlController>> = new WeakMap();
-
+const formCollections: WeakMap<HTMLFormElement, Set<ReactiveControllerHost & HTMLElement>> = new WeakMap();
+const reportValidityOverloads: WeakMap<HTMLFormElement, () => boolean> = new WeakMap();
+const checkValidityOverloads: WeakMap<HTMLFormElement, () => boolean> = new WeakMap();
+// const userInteractedControls: WeakSet<FormControlController> = new WeakSet();
+// const interactions = new WeakMap<FormControlController, string[]>();
 
 export interface FormControlControllerOptions {
   /** A function that returns the form containing the form control. */
@@ -85,18 +86,23 @@ export class FormControlController implements ReactiveController {
     if (form) {
       this.form = form;
 
-      this.form.addEventListener('formdata', this.handleFormData);
-      this.form.addEventListener('submit', this.handleFormSubmit);
-      console.log("We have attached form in form-controller.ts");
-      this.form.addEventListener('reset', this.handleFormReset);
-    
-      // Overload the form's reportFormValidity() method to include custom validation
-      if (!this.form.reportFormValidity) {
-        this.form.reportFormValidity = () => this.reportFormValidity();
+      if (formCollections.has(this.form)) {
+        formCollections.get(this.form)?.add(this.host);
+      } else {
+        formCollections.set(this.form, new Set<ReactiveControllerHost & HTMLElement>([this.host]));
       }
       
-      // Overload the form's checkValidity() method to include custom validation
-      if (!this.form.checkValidity) {
+      this.form.addEventListener('formdata', this.handleFormData);
+      this.form.addEventListener('submit', this.handleFormSubmit);
+      this.form.addEventListener('reset', this.handleFormReset);
+    
+      if (!reportValidityOverloads.has(this.form)) {
+        reportValidityOverloads.set(this.form, this.form.reportValidity);
+        this.form.reportValidity = () => this.reportFormValidity();
+      }
+
+      if (!checkValidityOverloads.has(this.form)) {
+        checkValidityOverloads.set(this.form, this.form.checkValidity);
         this.form.checkValidity = () => this.checkFormValidity();
       }
     }
@@ -143,10 +149,20 @@ export class FormControlController implements ReactiveController {
     }
   };
 
-  // private handleInteraction(event: Event) {
-  //   // Handle interaction logic here
-  //   this.setUserInteracted(true);
-  // }
+  /**
+   * interactions map to track whether a user has interacted with a form control (using events like input, change, etc.).
+   * This helps in marking a control as "user-interacted," which can be important for validation states.
+   */
+  // private handleInteraction = (event: Event) => {
+  //   const emittedEvents = interactions.get(this.host)!;
+  //   if (!emittedEvents.includes(event.type)) {
+  //     emittedEvents.push(event.type);
+  //   }
+  //   if (emittedEvents.length === this.options.assumeInteractionOn.length) {
+  //     this.setUserInteracted(this.host, true);
+  //   }
+  // };
+  
 
   private checkFormValidity() {
     if (this.form && !this.form.noValidate) {
@@ -166,11 +182,7 @@ export class FormControlController implements ReactiveController {
      * The HTMLFormElement's reportValidity() triggers validation for all child controls. To handle this, we overload reportValidity() to check for elements with this method.
      * The original method is stored in a WeakMap to prevent calling it directly, which could trigger validation in an unintended order. On disconnection, the original behavior is restored. 
      * */
-
-    // This workaround will be unnecessary once ElementInternals is supported. We also respect the form's novalidate attribute.
     if (this.form && !this.form.noValidate) {
-      // This seems sloppy, but checking all elements will cover native inputs, Shoelace inputs, and other custom
-      // elements that support the constraint validation API.
       const elements = Array.from(this.form.querySelectorAll<HTMLInputElement>('*'));
 
       for (const element of elements) {
@@ -204,7 +216,6 @@ export class FormControlController implements ReactiveController {
    * the host element immediately, i.e. before Lit updates the component in the next update.
    */
   setValidity(isValid: boolean) {
-    console.log('Testing validity in form-controller: ', isValid);
     const host = this.host as unknown as HTMLInputElement;
     const required = Boolean(host.required);
 

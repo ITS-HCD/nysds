@@ -13,6 +13,8 @@ export class NysToggle extends LitElement {
   private readonly formControlController = new FormControlController(this, {
     value: input => this.checked ? "on" : undefined,
     defaultValue: input => this.checked ? "on" : undefined,
+    reportValidity: () => this.reportValidity(),
+    checkValidity: () => this.checkValidity(),
   });
 
   static styles = styles;
@@ -54,8 +56,29 @@ export class NysToggle extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${toggleIdCounter++}`;
+      this.id = `nys-toggle-${Date.now()}-${toggleIdCounter++}`;
     }
+  }
+
+  // Set the form control custom validity message
+  setCustomValidity(message: string) {
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.setCustomValidity(message);
+      this.formControlController.updateValidity();
+    }
+  }
+
+  // Check the form control validity
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : false;
+  }
+
+  // Report the form control validity
+  reportValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.reportValidity() : false;
   }
 
   // Handle focus event

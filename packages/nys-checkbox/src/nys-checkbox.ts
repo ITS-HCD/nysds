@@ -10,8 +10,10 @@ let checkboxIdCounter = 0; // Counter for generating unique IDs
 export class NysCheckbox extends LitElement {
   // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
   private readonly formControlController = new FormControlController(this, {
-    value: input => this.checked ? "on" : undefined,
-    defaultValue: input => this.checked ? "on" : undefined,
+    value: () => this.checked ? "on" : undefined,
+    defaultValue: () => this.checked ? "on" : undefined,
+    reportValidity: () => this.reportValidity(),
+    checkValidity: () => this.checkValidity(),
   });
 
   @property({ type: Boolean }) checked = false;
@@ -32,6 +34,28 @@ export class NysCheckbox extends LitElement {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
   }
+  
+  // Set the form control custom validity message
+  setCustomValidity(message: string) {
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.setCustomValidity(message);
+      this.formControlController.updateValidity();
+    }
+  }
+
+  // Check the form control validity
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : false;
+  }
+
+  // Report the form control validity
+  reportValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.reportValidity() : false;
+  }
+
 
   // Handle checkbox change event
   private _handleChange(e: Event) {

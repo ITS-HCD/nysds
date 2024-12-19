@@ -47,8 +47,6 @@ const useData = (formData: FormData) => {
     formValues[key] = value.toString();
   });
 
-  console.log("Processed Form Values:", formValues);
-  console.log("Raw FormData:", formData);
   alert(JSON.stringify(formValues, null, 2));
 };
 
@@ -444,8 +442,8 @@ export const nativeFormWithComponents: Story = {
           console.log("Form validation failed.");
           return;
         }
-        
-        console.log("You should not be seeing this message if validation is suppose to fail. Otherwise success!")
+
+        console.log("You should not be seeing this message if validation is suppose to fail. Otherwise, success!")
         const formData = new FormData(e.target as HTMLFormElement);
         // Convert FormData to a simple object for easier logging
         const formDataObj: Record<string, any> = {};
@@ -456,10 +454,10 @@ export const nativeFormWithComponents: Story = {
       }}
     >
       <label for="fullname2">Enter full name: </label>
-      <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?" required/>
+      <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
 
       <label for="password-native2">Password (Native): </label>
-      <input required id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+      <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
 
       <nys-textinput
         name="password-nys"
@@ -506,6 +504,7 @@ export const nativeFormWithComponents: Story = {
         label="Select your favorite borough"
         description="Valid sizes are xs, sm, md, lg, and xl"
         size="xs"
+        required
       >
         <option value="bronx">The Bronx</option>
         <option value="brooklyn">Brooklyn</option>
@@ -518,7 +517,6 @@ export const nativeFormWithComponents: Story = {
         label="Additional Feedback"
         description="You cannot type more than 10 characters in the below field"
         maxlength="10"
-        required
       >
       </nys-textarea>
       <nys-toggle
@@ -529,7 +527,7 @@ export const nativeFormWithComponents: Story = {
       <button
         type="button"
         @click=${() => {
-          const passwordInput = document.getElementById('password-nys') as HTMLInputElement;
+          const passwordInput = document.getElementById('password-nys2') as HTMLInputElement;
           if (passwordInput) {
             console.log('Password Value:', passwordInput.value); // Log the value
           } else {
@@ -607,7 +605,6 @@ export const nativeFormWithComponents: Story = {
     label="Additional Feedback"
     description="You cannot type more than 10 characters in the below field"
     maxlength="10"
-    required
   >
   </nys-textarea>
   <nys-toggle
