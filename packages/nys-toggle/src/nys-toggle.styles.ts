@@ -2,12 +2,12 @@ import { css } from "lit";
 
 export default css`
   :host {
-    --toggle-width: 46px;
+    --toggle-width: 44px;
     --toggle-height: 24px;
     --slider-diameter: 18px;
     --slider-offset: calc((var(--toggle-height) - var(--slider-diameter)) / 2);
     --slider-checked-translate: calc(
-      var(--toggle-width) - var(--slider-diameter) - var(--slider-offset) - 4px
+      var(--toggle-width) - var(--slider-diameter) - var(--slider-offset) - 2px
     );
 
     /* Slider colors */
@@ -75,6 +75,7 @@ export default css`
     position: absolute;
     cursor: pointer;
     border-radius: 34px;
+    width: var(--toggle-width);
     top: 0;
     left: 0;
     right: 0;
@@ -155,9 +156,6 @@ export default css`
     :host([size="md"]) .toggle-icon {
       font-size: calc(var(--icon-font-size) - 1px);
     }
-    :host([size="lg"]) .toggle-icon {
-      font-size: var(--icon-font-size);
-    }
   }
 
   /*** Disabled State ***/
@@ -173,8 +171,8 @@ export default css`
   /* Sizes */
   :host([size="sm"]) {
     --toggle-width: 36px;
-    --toggle-height: 18px;
-    --slider-diameter: 12px;
+    --toggle-height: 20px;
+    --slider-diameter: 16px;
     --label-font-size: 12px;
     --description-font-size: 10px;
     --description-spacing: 5px;
@@ -182,22 +180,12 @@ export default css`
   }
 
   :host([size="md"]) {
-    --toggle-width: 46px;
+    --toggle-width: 44px;
     --toggle-height: 24px;
-    --slider-diameter: 18px;
+    --slider-diameter: 20px;
     --label-font-size: 14px;
     --description-font-size: 12px;
     --description-spacing: 7px;
-    --icon-font-size: 12px;
-  }
-
-  :host([size="lg"]) {
-    --toggle-width: 60px;
-    --toggle-height: 30px;
-    --slider-diameter: 24px;
-    --label-font-size: 16px;
-    --description-font-size: 14px;
-    --description-spacing: 10px;
-    --icon-font-size: 13px;
+    --icon-font-size: 14px;
   }
 `;
