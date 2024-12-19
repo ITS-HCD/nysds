@@ -64,6 +64,7 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
+  @property({ type: String }) autocomplete = false;
 
   constructor() {
     super();
@@ -172,6 +173,7 @@ export class NysTextinput extends LitElement {
             ?disabled=${this.disabled}
             ?required=${this.required}
             ?readonly=${this.readonly}
+            autocomplete=${this.autocomplete}
             aria-disabled="${this.disabled}"
             aria-label="${this.label} ${this.description}"
             .value=${this.value}
