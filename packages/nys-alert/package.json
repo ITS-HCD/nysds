@@ -1,28 +1,31 @@
 {
   "name": "@excelsior/nys-alert",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An alert component from the NYS Design System.",
-  "main": "dist/nys-alert.js",
   "module": "dist/nys-alert.js",
   "types": "dist/index.d.ts",
   "exports": {
-    ".": "./dist/nys-alert.js"
+    ".": {
+      "import": "./dist/nys-alert.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "type": "module",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "dev": "tsc && vite",
-    "build": "tsc && vite build"
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@nys-excelsior/nys-icon": "^0.0.1"
+    "@nys-excelsior/nys-icon": "^0.0.2"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
   },
   "devDependencies": {
+    "lit": "^3.2.1",
     "typescript": "^5.7.2",
     "vite": "^6.0.3"
   },
