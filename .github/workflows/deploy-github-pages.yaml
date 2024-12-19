@@ -7,7 +7,7 @@ on:
   # Event for the workflow to run on
   push:
     branches:
-      - 'develop' # Replace with the branch you want to deploy from
+      - '**' # Replace with the branch you want to deploy from
  
 permissions:
   contents: read
@@ -33,6 +33,6 @@ jobs:
         # continue-on-error: true
         with:
           install_command: npm install # default: npm ci
-          build_command: npm run build-storybook # default: npm run build-storybook
+          build_command: npm run build:all && npm run build-storybook # default: npm run build-storybook
           path: storybook-static # default: dist/storybook
           checkout: false # default: true
