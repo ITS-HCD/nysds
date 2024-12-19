@@ -1,13 +1,17 @@
 {
-  "name": "excelsior",
+  "name": "@nys-excelsior/components",
   "version": "0.0.1",
-  "description": "New York State's design system and shared code component library.",
+  "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
     "packages/*"
   ],
+  "files": [
+    "dist/"
+  ],
   "main": "dist/excelsior.js",
   "module": "dist/excelsior.es.js",
+  "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/excelsior.es.js",
@@ -16,30 +20,37 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && vite build",
-    "build:packages": "npm run build --workspaces",
-    "build:all": "npm run build && npm run build:packages",
-    "build:watch": "vite",
+    "build": "npm run lint && tsc && vite build",
+    "build:umd": "tsc && vite build --config vite.config.umd.js",
+    "build:packages": "npm run lint:packages && npm run build:order",
+    "build:all": "npm run build:packages && npm run build && npm run build:umd",
+    "build:order": "node src/scripts/build-order.js",
+    "build:watch": "tsc && vite",
     "lint": "eslint .",
     "lint:packages": "eslint packages/**/*.{ts,js}",
     "lint:fix": "eslint . --fix",
     "lint:fix:packages": "eslint packages/**/*.{ts,js} --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "npm run build:packages && storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "release:dry-run": "npm run build:all && node src/scripts/publish-dry-run.js",
+    "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public",
+    "test": "wtr --node-resolve",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "clean:dist": "rm -rf dist && rm -rf packages/*/dist"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ITS-HCD/excelsior.git"
   },
   "author": "NYS Design System Team",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ITS-HCD/excelsior/issues"
   },
   "homepage": "https://github.com/ITS-HCD/excelsior/blob/main/README.md",
   "devDependencies": {
-    "@chromatic-com/storybook": "^3.2.2",
+    "@chromatic-com/storybook": "^1.9.0",
+    "@open-wc/testing": "^3.2.2",
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "@storybook/addon-a11y": "^8.4.7",
     "@storybook/addon-essentials": "^8.4.7",
     "@storybook/addon-links": "^8.4.7",
@@ -47,15 +58,21 @@
     "@storybook/test": "^8.4.7",
     "@storybook/web-components": "^8.4.7",
     "@storybook/web-components-vite": "^8.4.7",
+    "@types/mocha": "^10.0.9",
     "@typescript-eslint/eslint-plugin": "^8.5.0",
     "@typescript-eslint/parser": "^8.5.0",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/test-runner": "^0.19.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "@web/test-runner-playwright": "^0.11.0",
     "eslint": "^9.10.0",
     "eslint-plugin-lit": "^1.15.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-storybook": "^0.11.1",
+    "eslint-plugin-storybook": "^0.9.0",
+    "i": "^0.3.7",
     "lit": "^3.2.1",
-    "rollup-plugin-delete": "^2.1.0",
-    "rollup-plugin-visualizer": "^5.12.0",
+    "npm": "^10.9.0",
+    "sinon": "^19.0.2",
     "storybook": "^8.4.7",
     "tslib": "^2.7.0",
     "typescript": "^5.7.2",

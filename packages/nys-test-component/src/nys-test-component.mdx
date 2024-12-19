@@ -1,0 +1,19 @@
+import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysTestComponentStories from './nys-test-component.stories';
+
+<Meta of={NysTestComponentStories} title="Components/TestComponent/Documentation" />
+
+# Test Component
+
+The **`nys-test-component`** component is a simple test component that can be used to test the rendering of a component in Storybook.
+
+## Examples
+
+### Default
+
+<Canvas of={NysTestComponentStories.Default} />
+
+### Custom Name
+
+<Canvas of={NysTestComponentStories.CustomName} />

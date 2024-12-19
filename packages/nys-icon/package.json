@@ -1,25 +1,37 @@
 {
-   "name": "@excelsior/nys-icon",
+   "name": "@nys-excelsior/nys-icon",
    "version": "0.0.1",
    "description": "An icon component from the NYS Design System.",
    "main": "dist/nys-icon.js",
-   "module": "dist/nys-icon.es.js",
+   "module": "dist/nys-icon.js",
+   "types": "dist/index.d.ts",
    "exports": {
-      ".": {
-         "import": "./dist/nys-icon.es.js",
-         "require": "./dist/nys-icon.js"
-      }
+      ".": "./dist/nys-icon.js"
    },
    "type": "module",
    "scripts": {
-      "build": "vite build"
+      "dev": "tsc && vite",
+      "build": "tsc && vite build"
    },
+   "files": [
+      "dist/"
+    ],
    "peerDependencies": {
-      "lit": "^3.0.0"
+      "lit": "^3.2.1"
    },
    "devDependencies": {
-      "rollup-plugin-delete": "^2.1.0",
       "typescript": "^5.7.2",
       "vite": "^6.0.3"
-   }
+   },
+   "keywords": [
+      "excelsior",
+      "new-york-state",
+      "design-system",
+      "web-components",
+      "lit",
+      "nys",
+      "icon"
+    ],
+    "author": "New York State Design System Team",
+    "license": "MIT"
 }
