@@ -5,6 +5,12 @@ const packages = [
   { name: "nys-icon", path: "packages/nys-icon" },
   { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
+  { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
+  { name: "nys-select", path: "packages/nys-select" },
+  { name: "nys-test-component", path: "packages/nys-test-component" },
+  { name: "nys-textarea", path: "packages/nys-textarea" },
+  { name: "nys-textinput", path: "packages/nys-textinput" },
+  { name: "nys-toggle", path: "packages/nys-toggle" },
 ];
 
 packages.forEach((pkg) => {
