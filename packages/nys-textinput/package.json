@@ -1,24 +1,27 @@
 {
     "name": "@nys-excelsior/nys-textinput",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "An input component from the NYS Design System.",
-    "main": "dist/nys-textinput.js",
     "module": "dist/nys-textinput.js",
     "exports": {
-        ".": "./dist/nys-textinput.js"
+        ".": {
+            "import": "./dist/nys-textinput.js",
+            "types": "./dist/index.d.ts"
+        }
     },
     "type": "module",
     "files": [
         "dist/"
     ],
     "scripts": {
-        "dev": "tsc && vite",
-        "build": "tsc && vite build"
+        "dev": "tsc --emitDeclarationOnly && vite",
+        "build": "tsc --emitDeclarationOnly && vite build"
     },
     "peerDependencies": {
         "lit": "^3.2.1"
     },
     "devDependencies": {
+        "lit": "^3.2.1",
         "typescript": "^5.7.2",
         "vite": "^6.0.3"
     },
