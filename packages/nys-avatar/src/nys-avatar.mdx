@@ -1,0 +1,23 @@
+import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { html } from "lit";
+import * as NysAvatarStories from "./nys-avatar.stories";
+
+<Meta of={NysAvatarStories} title="Components/Avatar/Documentation" />
+
+# Avatar
+The **`nys-avatar`** component is a reusable web component for use in New York State digital products. It allows users to avatar an option on or off.
+
+If an id is not passed, a unique id will be generated.
+
+<Canvas of={NysAvatarStories.Avatar} />
+
+## Accessibility
+
+The `nys-avatar` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly.
+- Keyboard navigation support, allowing users to avatar the avatar switch using the keyboard.
+- Visual focus indicators to help users navigate the component.
+
+### Labels
+Include a label property to provide accessible text for screen readers.
