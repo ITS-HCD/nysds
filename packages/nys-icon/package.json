@@ -1,17 +1,19 @@
 {
    "name": "@nys-excelsior/nys-icon",
-   "version": "0.0.1",
+   "version": "0.0.2",
    "description": "An icon component from the NYS Design System.",
-   "main": "dist/nys-icon.js",
-   "module": "dist/nys-icon.js",
+    "module": "dist/nys-icon.js",
    "types": "dist/index.d.ts",
    "exports": {
-      ".": "./dist/nys-icon.js"
-   },
+      ".": {
+        "import": "./dist/nys-icon.js",
+        "types": "./dist/index.d.ts"
+      }
+    },
    "type": "module",
    "scripts": {
-      "dev": "tsc && vite",
-      "build": "tsc && vite build"
+      "dev": "tsc --emitDeclarationOnly && vite",
+      "build": "tsc --emitDeclarationOnly && vite build"
    },
    "files": [
       "dist/"
@@ -20,6 +22,7 @@
       "lit": "^3.2.1"
    },
    "devDependencies": {
+      "lit": "^3.2.1",
       "typescript": "^5.7.2",
       "vite": "^6.0.3"
    },

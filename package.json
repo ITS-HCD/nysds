@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -20,12 +20,11 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run lint && tsc && vite build",
-    "build:umd": "tsc && vite build --config vite.config.umd.js",
-    "build:packages": "npm run lint:packages && npm run build:order",
+    "build": "npm run lint && tsc --emitDeclarationOnly && vite build",
+    "build:umd": "tsc --emitDeclarationOnly && vite build --config vite.config.umd.js",
+    "build:packages": "npm run lint:packages && node src/scripts/build-order.js",
     "build:all": "npm run build:packages && npm run build && npm run build:umd",
-    "build:order": "node src/scripts/build-order.js",
-    "build:watch": "tsc && vite",
+    "build:watch": "tsc --emitDeclarationOnly && vite",
     "lint": "eslint .",
     "lint:packages": "eslint packages/**/*.{ts,js}",
     "lint:fix": "eslint . --fix",
@@ -34,8 +33,10 @@
     "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public",
     "test": "wtr --node-resolve",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "clean:dist": "rm -rf dist && rm -rf packages/*/dist"
+    "build-storybook": "npm run build:packages && storybook build",
+    "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules",
+    "clean:dist": "rm -rf dist && rm -rf packages/*/dist",
+    "clean:all": "npm run clean:dist && npm run clean:node"
   },
   "repository": {
     "type": "git",
