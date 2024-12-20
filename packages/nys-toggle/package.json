@@ -15,7 +15,9 @@
       "dev": "tsc && vite",
       "build": "tsc && vite build"
    },
-   "dependencies": {},
+   "dependencies": {
+      "@nys-excelsior/nys-icon": "^0.0.2"
+   },
    "peerDependencies": {
       "lit": "^3.2.1"
    },

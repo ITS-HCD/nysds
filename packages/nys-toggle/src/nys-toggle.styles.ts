@@ -12,12 +12,11 @@ export default css`
 
     /* Slider colors */
     --nys-color-base: #797c7f;
+    --nys-color-base-weaker: #d0d0ce;
     --nys-color-theme: #154973;
     --nys-color-theme-strong: #0e324f;
     --nys-color-theme-stronger: #081b2b;
-    --nys-color-theme-weaker: #d0d0ce;
     --nys-color-ink-reverse: #fff;
-    --slider-checked-focus-border: #146598;
 
     /* Font sizes and spacing for labels/descriptions and icons */
     --label-font-size: 14px;
@@ -106,6 +105,11 @@ export default css`
 
   /* Switch BG: Hover */
   input:hover + .slider {
+    background-color: var(--nys-color-base, #797c7f);
+  }
+
+  /* Switch BG: Hover + Checked*/
+  input:checked:hover + .slider {
     background-color: var(--nys-color-theme-strong, #0e324f);
   }
 
@@ -117,15 +121,15 @@ export default css`
   /* Switch Outline: Focus */
   input:focus + .slider {
     box-shadow:
-      0 0 0 1px white,
-      0 0 0 3px var(--nys-color-theme, #154973);
+      0 0 0 1.5px white,
+      0 0 0 3px var(--nys-color-base, #797c7f);
   }
 
   /* Switch Outline: Focus and checked */
   input:checked:focus + .slider {
     box-shadow:
-      0 0 0 1px white,
-      0 0 0 4px var(--slider-checked-focus-border);
+      0 0 0 1.5px white,
+      0 0 0 3px var(--nys-color-theme-strong, #0e324f);
   }
 
   /* Switch Knob: Checked */
@@ -142,7 +146,7 @@ export default css`
     color: var(--nys-color-theme, #154973);
   }
   :host([size="sm"]) .toggle-icon {
-    font-size: calc(var(--icon-font-size) + 3px);
+    font-size: var(--icon-font-size);
   }
   :host([size="md"]) .toggle-icon {
     font-size: var(--icon-font-size);
@@ -175,7 +179,7 @@ export default css`
     --label-font-size: 12px;
     --description-font-size: 10px;
     --description-spacing: 5px;
-    --icon-font-size: 7px;
+    --icon-font-size: 13px;
   }
 
   :host([size="md"]) {
@@ -185,6 +189,6 @@ export default css`
     --label-font-size: 14px;
     --description-font-size: 12px;
     --description-spacing: 7px;
-    --icon-font-size: 14px;
+    --icon-font-size: 16px;
   }
 `;
