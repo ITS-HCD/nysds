@@ -1,0 +1,19 @@
+/*!
+  * Theme: Recreation and Environment (v0.0.1)
+  * Designed for agencies in the Recreation and Environment grouping 
+  * Part of New York State's Excelsior Design System
+  * A design system for New York State's digital products.
+  * Repository: https://github.com/its-hcd/excelsior
+  * License: MIT
+*/
+
+:root {
+  /* --- Theme Colors --- */
+  --nys-color-theme-faint: var(--nys-color-environment-green-10);
+  --nys-color-theme-weaker: var(--nys-color-environment-green-100);
+  --nys-color-theme-weak: var(--nys-color-environment-green-200);
+  --nys-color-theme-mid: var(--nys-color-environment-green-400);
+  --nys-color-theme: var(--nys-color-environment-green-700);
+  --nys-color-theme-strong: var(--nys-color-environment-green-800);
+  --nys-color-theme-stronger: var(--nys-color-environment-green-900);
+}

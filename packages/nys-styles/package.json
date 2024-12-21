@@ -1,0 +1,31 @@
+{
+  "name": "@nys-excelsior/nys-styles",
+  "version": "0.0.1",
+  "description": "CSS variables, styles, and themes for the New York State Design System",
+  "main": "dist/excelsior.css",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {},
+  "peerDependencies": {},
+  "devDependencies": {
+    "vite": "^5.4.9"
+  },
+  "keywords": [
+    "excelsior",
+    "new-york-state",
+    "design-system",
+    "styles",
+    "css",
+    "variables",
+    "themes",
+    "tokens",
+    "nys"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}

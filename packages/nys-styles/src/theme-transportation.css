@@ -1,0 +1,19 @@
+/*!
+  * Theme: Transportation and Utilities (v0.0.1)
+  * Designed for agencies in the Transportation and Utilities grouping 
+  * Part of New York State's Excelsior Design System
+  * A design system for New York State's digital products.
+  * Repository: https://github.com/its-hcd/excelsior
+  * License: MIT
+*/
+
+:root {
+  /* --- Theme Colors --- */
+  --nys-color-theme-faint: var(--nys-color-transportation-blue-10);
+  --nys-color-theme-weaker: var(--nys-color-transportation-blue-100);
+  --nys-color-theme-weak: var(--nys-color-transportation-blue-200);
+  --nys-color-theme-mid: var(--nys-color-transportation-blue-400);
+  --nys-color-theme: var(--nys-color-transportation-blue-700);
+  --nys-color-theme-strong: var(--nys-color-transportation-blue-800);
+  --nys-color-theme-stronger: var(--nys-color-transportation-blue-900);
+}
