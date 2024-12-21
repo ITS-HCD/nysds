@@ -1,10 +1,11 @@
 /*!
-  * Theme: Administration (v0.0.1)
+  * Theme: Administration
   * Designed for agencies in the Administration grouping 
   * Part of New York State's Excelsior Design System
   * A design system for New York State's digital products.
   * Repository: https://github.com/its-hcd/excelsior
   * License: MIT
+  * Version: 0.0.1
 */
 :root {
   --nys-color-theme-faint: var(--nys-color-admin-orange-10);
