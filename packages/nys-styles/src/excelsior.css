@@ -51,7 +51,7 @@
 --nys-color-emergency-weak: var(--nys-color-red-300);
 
 /* === Text Colors === */
---nys-color-ink: var(--nys-color-gray-900);
+--nys-color-ink: var(--nys-color-neutral-900);
 --nys-color-ink-reverse: var(--nys-color-white);
 
 /* === Link Colors === */

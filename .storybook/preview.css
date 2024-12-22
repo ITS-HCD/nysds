@@ -1,4 +1,3 @@
-body {
-    font-family: 'Arial', sans-serif;
+*,body {
+    font-family: var(--nys-font-family-body, sans-serif) !important;
 }
-  

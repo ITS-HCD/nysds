@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/web-components";
 import "@nys-excelsior/nys-styles/dist/excelsior.min.css"; // Excelsior Design Tokens
-import "./preview.css?inline"; // Custom Storybook styles
+import "./preview.css"; // Custom Storybook styles
 
 // Add this function to dynamically load themes based on Storybook globals
 const loadTheme = (theme: string) => {
