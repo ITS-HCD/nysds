@@ -21,12 +21,5 @@ const config: StorybookConfig = {
     options: {},
   },
   docs: {},
-  viteFinal: async (config) => {
-    config.css = {
-      modules: false, // Ensure CSS modules are not mistakenly used
-    };
-    // Leave CSS handling to Vite or customize as needed
-    return config;
-  },
 };
 export default config;
