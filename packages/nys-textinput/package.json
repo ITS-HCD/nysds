@@ -3,7 +3,6 @@
     "version": "0.0.2",
     "description": "An input component from the NYS Design System.",
     "module": "dist/nys-textinput.js",
-    "module": "dist/nys-textinput.es.js",
     "exports": {
         ".": {
             "import": "./dist/nys-textinput.js",
@@ -18,7 +17,6 @@
         "dev": "tsc --emitDeclarationOnly && vite",
         "build": "tsc --emitDeclarationOnly && vite build"
     },
-    "dependencies": {},
     "peerDependencies": {
         "lit": "^3.2.1"
     },
@@ -41,4 +39,3 @@
     "author": "New York State Design System Team",
     "license": "MIT"
 }
-  

@@ -25,8 +25,8 @@
     "lit": "^3.2.1"
   },
   "devDependencies": {
-    "vite": "^5.4.9",
-    "typescript": "^5.6.2",
+    "lit": "^3.2.1",
+    "typescript": "^5.7.2",
     "vite": "^6.0.3"
   },
   "keywords": [
