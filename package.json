@@ -49,7 +49,7 @@
   },
   "homepage": "https://github.com/ITS-HCD/excelsior/blob/main/README.md",
   "devDependencies": {
-    "@chromatic-com/storybook": "^1.9.0",
+    "@chromatic-com/storybook": "^3.2.2",
     "@open-wc/testing": "^3.2.2",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@storybook/addon-a11y": "^8.4.7",
@@ -69,7 +69,7 @@
     "eslint": "^9.10.0",
     "eslint-plugin-lit": "^1.15.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-storybook": "^0.9.0",
+    "eslint-plugin-storybook": "^0.11.1",
     "i": "^0.3.7",
     "lit": "^3.2.1",
     "npm": "^10.9.0",
