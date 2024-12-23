@@ -29,10 +29,14 @@ const preview: Preview = {
       toolbar: {
         icon: "paintbrush",
         items: [
-          { value: "default", title: "Default" },
-          { value: "health", title: "Health" },
-          { value: "environment", title: "Environment" },
-          { value: "transportation", title: "Transportation" },
+          { value: "default", title: "Default (NYS Blue)" },
+          { value: "admin", title: "Administration" },
+          { value: "business", title: "Business" },
+          { value: "health", title: "Health and Human Services" },
+          { value: "local", title: "Local and Regional Authorities" },
+          { value: "safety", title: "Public Safety" },
+          { value: "environment", title: "Recreation and Environment" },
+          { value: "transportation", title: "Transportation and Utilities" },
         ],
       },
     },
