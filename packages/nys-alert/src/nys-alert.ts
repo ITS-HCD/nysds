@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
-import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "@nys-excelsior/nys-icon";
 
@@ -14,7 +13,6 @@ export class NysAlert extends LitElement {
   /********************** Properties **********************/
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
-  @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) icon = "";
   @property({ type: Boolean }) isSlim = false;
   @property({ type: Boolean }) dismissible = false;
@@ -135,8 +133,6 @@ export class NysAlert extends LitElement {
               class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
             >
               <nys-icon
-                ? ""
-                : html`<nys-icon
                 name="${this._getIconName()}"
                 size="2xl"
                 label="${this.theme} icon"
@@ -147,9 +143,6 @@ export class NysAlert extends LitElement {
                 ? ""
                 : html`<h4 class="nys-alert__label">${this.heading}</h4>`}
               <slot name="text">${this.text}</slot>
-                >Adirondack peaks auctor Hudson River flows semper Statue of
-                Liberty est.</slot
-              >
             </div>
             ${this.dismissible
               ? html`<div class="close-container">

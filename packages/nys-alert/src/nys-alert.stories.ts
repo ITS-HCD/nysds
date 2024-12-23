@@ -9,7 +9,6 @@ interface NysAlertArgs {
   text: string;
   duration?: number;
   icon?: string;
-  noIcon?: boolean;
   isSlim?: boolean;
   dismissible?: boolean;
 }
@@ -26,7 +25,6 @@ const meta: Meta<NysAlertArgs> = {
     text: { control: "text" },
     duration: { control: "number" },
     icon: { control: "text" },
-    noIcon: { control: "boolean", default: false },
     isSlim: { control: "boolean", default: false },
     dismissible: { control: "boolean", default: false },
   },
@@ -59,14 +57,7 @@ export const AllAlerts: Story = {
               ? `an ${theme}`
               : `a ${theme}`} alert."
             dismissible
-            ><p>
-              This is an example of
-              ${theme == "info" || theme == "emergency"
-                ? `an ${theme}`
-                : `a ${theme}`}
-              alert.
-          </p></nys-alert>
-          >
+          ></nys-alert>
           <br />`,
     )}
   `,
@@ -100,17 +91,9 @@ export const AlertType: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>
-        Adirondack peaks auctor Hudson River flows semper Statue of Liberty
-        est.<br />
-        Click here:
-        <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
-        for more info.
-      </p>
     </nys-alert>
   `,
   parameters: {
@@ -142,7 +125,6 @@ export const Description: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
@@ -181,7 +163,6 @@ export const Dismissible: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
@@ -231,9 +212,7 @@ export const Duration: Story = {
         newAlert.setAttribute("text", args.text);
         newAlert.setAttribute("duration", String(args.duration));
         if (args.dismissible) newAlert.setAttribute("dismissible", "");
-        if (args.noIcon) newAlert.setAttribute("noIcon", "");
         if (args.isSlim) newAlert.setAttribute("isSlim", "");
-        newAlert.innerText = "This alert will disappear after 3 seconds.";
         container.appendChild(newAlert);
       }
     };
@@ -270,7 +249,6 @@ export const Duration: Story = {
   heading="Information status" 
   text="This alert will disappear after 3 seconds."
   duration="3000">
-  <p>This alert will disappear after 3 seconds.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -294,14 +272,9 @@ export const CustomIcon: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>
-        Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn
-        Bridge tristique at?
-      </p>
     </nys-alert>
   `,
   parameters: {
@@ -313,43 +286,6 @@ export const CustomIcon: Story = {
   heading="Help status"
   text=""Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?" 
   icon="help">
-  <p>Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?</p>
-</nys-alert>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-
-// Story: NoIcon
-export const NoIcon: Story = {
-  args: {
-    theme: "info",
-    title: "Information status",
-    noIcon: true,
-  },
-  render: (args) => html`
-    <nys-alert
-      .theme=${args.theme}
-      .title=${args.title}
-      .duration=${args.duration}
-      .icon=${args.icon}
-      ?noIcon=${args.noIcon}
-      ?isSlim=${args.isSlim}
-      ?dismissible=${args.dismissible}
-    ></nys-alert>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-alert 
-  theme="info" 
-  title="Information status" 
-  noIcon
-  >
- <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -372,7 +308,6 @@ export const Slim: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?noIcon=${args.noIcon}
       ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
@@ -389,7 +324,6 @@ export const Slim: Story = {
   theme="info"
   text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
   isSlim>
-  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
