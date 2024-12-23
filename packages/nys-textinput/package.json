@@ -1,27 +1,44 @@
 {
-    "name": "@excelsior/nys-textinput",
-    "version": "0.0.1",
+    "name": "@nys-excelsior/nys-textinput",
+    "version": "0.0.2",
     "description": "An input component from the NYS Design System.",
-    "main": "dist/nys-textinput.js", 
+    "module": "dist/nys-textinput.js",
     "module": "dist/nys-textinput.es.js",
     "exports": {
-      ".": {
-        "import": "./dist/nys-textinput.es.js",
-        "require": "./dist/nys-textinput.js"
-      }
+        ".": {
+            "import": "./dist/nys-textinput.js",
+            "types": "./dist/index.d.ts"
+        }
     },
     "type": "module",
+    "files": [
+        "dist/"
+    ],
     "scripts": {
-      "build": "vite build"
+        "dev": "tsc --emitDeclarationOnly && vite",
+        "build": "tsc --emitDeclarationOnly && vite build"
     },
     "dependencies": {},
     "peerDependencies": {
-      "lit": "^3.0.0"
+        "lit": "^3.2.1"
     },
     "devDependencies": {
-      "vite": "^5.4.9",
-      "typescript": "^5.6.2",
-      "rollup-plugin-delete": "^2.1.0"
-    }
-  }
+        "lit": "^3.2.1",
+        "typescript": "^5.7.2",
+        "vite": "^6.0.3"
+    },
+    "keywords": [
+      "excelsior",
+      "new-york-state",
+      "design-system",
+      "web-components",
+      "lit",
+      "nys",
+      "input",
+      "textinput",
+      "forms"
+    ],
+    "author": "New York State Design System Team",
+    "license": "MIT"
+}
   

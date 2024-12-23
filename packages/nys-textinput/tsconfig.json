@@ -5,6 +5,13 @@
       "rootDir": "./src"
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist"]
+    "exclude": [
+      "**/*.stories.ts",
+      "**/*.styles.ts",
+      "**/*.tests.ts",
+      "packages",
+      "node_modules", 
+      "dist"
+    ]
   }
   

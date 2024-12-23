@@ -1,28 +1,43 @@
 {
   "name": "@excelsior/nys-alert",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An alert component from the NYS Design System.",
-  "main": "dist/nys-alert.js", 
-  "module": "dist/nys-alert.es.js",
+  "module": "dist/nys-alert.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-alert.es.js",
-      "require": "./dist/nys-alert.js"
+      "import": "./dist/nys-alert.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "type": "module",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "build": "vite build"
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@excelsior/nys-icon": "^0.0.1"
+    "@nys-excelsior/nys-icon": "^0.0.2"
   },
   "peerDependencies": {
-    "lit": "^3.0.0"
+    "lit": "^3.2.1"
   },
   "devDependencies": {
     "vite": "^5.4.9",
     "typescript": "^5.6.2",
-    "rollup-plugin-delete": "^2.1.0"
-  }
+    "vite": "^6.0.3"
+  },
+  "keywords": [
+    "excelsior",
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "alert"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
 }

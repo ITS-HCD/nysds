@@ -1,26 +1,42 @@
 {
-  "name": "@excelsior/nys-radiobutton",
-  "version": "0.0.1",
-  "description": "A radiobutton component from the NYS Design System.",
-  "main": "dist/nys-radiobutton.js", 
-  "module": "dist/nys-radiobutton.es.js",
+  "name": "@nys-excelsior/nys-radiobutton",
+  "version": "0.0.2",
+  "description": "A radio button component from the NYS Design System.",
+  "module": "dist/nys-radiobutton.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-radiobutton.es.js",
-      "require": "./dist/nys-radiobutton.js"
+      "import": "./dist/nys-radiobutton.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "type": "module",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "build": "vite build"
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {},
   "peerDependencies": {
-    "lit": "^3.0.0"
+    "lit": "^3.2.1"
   },
   "devDependencies": {
-    "vite": "^5.4.9",
+    "lit": "^3.2.1",
     "typescript": "^5.6.2",
-    "rollup-plugin-delete": "^2.1.0"
-  }
+    "vite": "^5.4.9"
+  },
+  "keywords": [
+    "excelsior",
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "radiobutton",
+    "forms"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
 }

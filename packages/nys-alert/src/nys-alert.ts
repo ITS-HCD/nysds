@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
 import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import "@nys-excelsior/nys-icon";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 
@@ -12,12 +13,14 @@ export class NysAlert extends LitElement {
 
   /********************** Properties **********************/
   @property({ type: String }) id = "";
-  @property({ type: String }) title = "Title";
+  @property({ type: String }) heading = "";
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) icon = "";
   @property({ type: Boolean }) isSlim = false;
   @property({ type: Boolean }) dismissible = false;
   @property({ type: Number }) duration = 0;
+  @property({ type: String }) text = "";
+
   @state() private _alertClosed = false;
   private static readonly VALID_TYPES = [
     "info",
@@ -65,12 +68,12 @@ export class NysAlert extends LitElement {
 
     // Generate a unique ID if not provided
     if (!this.id) {
-      this.id = this.generateUniqueId();
+      this.id = this._generateUniqueId();
     }
 
     if (this.duration > 0) {
       this._timeoutId = setTimeout(() => {
-        this.closeAlert();
+        this._closeAlert();
       }, this.duration);
     }
   }
@@ -82,33 +85,33 @@ export class NysAlert extends LitElement {
   }
 
   /******************** Functions ********************/
-  private generateUniqueId() {
+  private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }
 
   // Helper function for overriding default icons or checking special naming cases (e.g. theme=success)
-  private getIconName() {
+  private _getIconName() {
     if (this.icon) {
       return this.icon;
     } else {
-      return this.checkAltNaming(); // checking alternative svg naming
+      return this._checkAltNaming(); // checking alternative svg naming
     }
   }
 
-  private checkAltNaming() {
-    // map 'success' to 'check-circle'
-    return this.theme === "success" ? "check-circle" : this.theme;
+  private _checkAltNaming() {
+    // map 'success' to 'check_circle'
+    return this.theme === "success" ? "check_circle" : this.theme;
   }
 
-  closeAlert() {
+  private _closeAlert() {
     this._alertClosed = true;
 
     /* Dispatch a custom event for the close action:
      * allows bubbling up so if developers wish to implement a local save to remember closed alerts.
      */
     this.dispatchEvent(
-      new CustomEvent("nys-alert-closed", {
-        detail: { theme: this.theme, title: this.title },
+      new CustomEvent("nys-alertClosed", {
+        detail: { theme: this.theme, label: this.heading },
         bubbles: true,
         composed: true,
       }),
@@ -131,26 +134,26 @@ export class NysAlert extends LitElement {
             <div
               class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
             >
-              ${this.noIcon
+              <nys-icon
                 ? ""
                 : html`<nys-icon
-                    name="${this.getIconName()}"
-                    size="2xl"
-                    label="${this.theme} icon"
-                  ></nys-icon>`}
+                name="${this._getIconName()}"
+                size="2xl"
+                label="${this.theme} icon"
+              ></nys-icon>
             </div>
-            <div class="nys-alert__heading">
+            <div class="nys-alert__text">
               ${this.isSlim
                 ? ""
-                : html`<h4 class="nys-alert__title">${this.title}</h4>`}
-              <slot class="nys-alert__text"
+                : html`<h4 class="nys-alert__label">${this.heading}</h4>`}
+              <slot name="text">${this.text}</slot>
                 >Adirondack peaks auctor Hudson River flows semper Statue of
                 Liberty est.</slot
               >
             </div>
             ${this.dismissible
               ? html`<div class="close-container">
-                  <button class="close-button" @click=${this.closeAlert}>
+                  <button class="close-button" @click=${this._closeAlert}>
                     <nys-icon
                       name="close"
                       size="lg"

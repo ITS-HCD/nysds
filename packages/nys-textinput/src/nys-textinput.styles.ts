@@ -58,7 +58,7 @@ export default css`
     margin-bottom: 0.25rem;
   }
 
-  .nys-textInput__label_labelwrapper {
+  .nys-textinput__label_labelwrapper {
     display: flex;
     flex-direction: column;
   }

@@ -1,0 +1,44 @@
+{
+    "name": "@nys-excelsior/nys-select",
+    "version": "0.0.2",
+    "description": "A select component from the NYS Design System.",
+      "module": "dist/nys-select.js",
+      "exports": {
+        ".": {
+          "import": "./dist/nys-select.js",
+          "types": "./dist/index.d.ts"
+        }
+      },
+    "type": "module",
+    "files": [
+        "dist/"
+      ],
+    "scripts": {
+        "dev": "tsc --emitDeclarationOnly && vite",
+        "build": "tsc --emitDeclarationOnly && vite build"
+    },
+    "dependencies": {
+        "@nys-excelsior/nys-icon": "^0.0.2"
+      },
+    "peerDependencies": {
+        "lit": "^3.2.1"
+    },
+    "devDependencies": {
+        "lit": "^3.2.1",
+        "typescript": "^5.7.2",
+        "vite": "^6.0.3"
+    },
+    "keywords": [
+        "excelsior",
+        "new-york-state",
+        "design-system",
+        "web-components",
+        "lit",
+        "nys",
+        "select",
+        "dropdown",
+        "forms"
+    ],
+    "author": "New York State Design System Team",
+    "license": "MIT"
+}

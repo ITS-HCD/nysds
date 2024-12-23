@@ -19,22 +19,24 @@ const banner = `
 */
 `;
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"), // Entry point for the component
-      name: "Textinput", // Name for UMD build
+      entry: ["src/index.ts"], // Simplified entry point
+      fileName: "nys-textinput", // Output file name
+      formats: ["es"], // ES build only
     },
+    emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: (id) => id === "lit" || id.startsWith("lit/"), // Externalize Lit for ESM
-      output: [
-        // ESM Build for bundlers and modern tools
+      external: ["lit"], // Externalize Lit for ES build
+      output: {
+        banner: mode === "production" ? banner : undefined, // Add banner only in production
         {
           format: "es",
           banner,
-          dir: "dist",
-          entryFileNames: "nys-textinput.es.js",
+        globals: {
+          lit: "Lit",
         },
         // UMD Build for browser usage (with global 'Lit' bundled)
         {
@@ -48,10 +50,10 @@ export default defineConfig({
             "lit/decorators.js": "LitDecorators",
           },
         },
-      ],
+      },
       plugins: [
         del({ targets: "dist/*", runOnce: true }), // Clean the dist folder before building
       ],
     },
   },
-});
+}));
