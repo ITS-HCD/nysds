@@ -33,6 +33,7 @@ export default defineConfig(({ mode }) => ({
           lit: "Lit",
         },
       },
+
     },
   },
 }));
