@@ -131,13 +131,14 @@ export default css`
   /* Label styling */
   .nys-checkbox__label {
     font-size: var(--nys-font-size-ui-md, 16px);
-    font-weight: var(--nys-font-weight-normal, 400);
+    font-weight: var(--nys-font-weight-regular, 400);
     color: var(--nys-color-ink, #1b1b1b);
   }
 
   /* Description styling */
   .nys-checkbox__description {
     font-size: var(--nys-font-size-sm, 14px);
+    font-weight: var(--nys-font-weight-light, 300);
     color: var(--nys-color-neutral-700, #4a4d4f);
   }
 
