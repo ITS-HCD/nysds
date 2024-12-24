@@ -10,16 +10,20 @@ The **`nys-avatar`** component is a reusable web component for use in New York S
 If an id is not passed, a unique id will be generated.
 
 ## Examples
+### Images
+To display an image in the avatar, set the `image` and `label` attributes. These will take priority and override initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
+<Canvas of={NysAvatarStories.AvatarImage} />
+
 ### Initials
+If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon.
 <Canvas of={NysAvatarStories.AvatarInitials} />
 
 ### Custom Icons
+When no image or initials are set, an icon will be shown. The default avatar shows an `icon` called "account_circle", but you can customize this with any other name found in `nys-icon`.
 <Canvas of={NysAvatarStories.AvatarIcon} />
 
-### Images
-<Canvas of={NysAvatarStories.AvatarImage} />
-
 ### Shapes
+Avatars can be shaped using the shape attribute.
 <Canvas of={NysAvatarStories.AvatarShapes} />
 
 ## Accessibility

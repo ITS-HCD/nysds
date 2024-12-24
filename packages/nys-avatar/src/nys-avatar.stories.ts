@@ -11,6 +11,7 @@ interface NysAvatarArgs {
 	image?: string;
 	size?: string;
 	shape?: string;
+	lazy?: boolean;
 }
 
 const meta: Meta<NysAvatarArgs> = {
@@ -22,8 +23,9 @@ const meta: Meta<NysAvatarArgs> = {
 		initials: { control: "text" },
 		icon: { control: "text" },
 		image: { control: "text" },
-		size: { control: "select", options: ["sm", "md"] },
+		size: { control: "select", options: ["sm", "md", "lg"] },
 		shape: { control: "select", options: ["square", "rounded", "circle"] },
+		lazy: { control: "boolean" },
 	},
 	parameters: {
 		docs: {
@@ -38,6 +40,51 @@ type Story = StoryObj<NysAvatarArgs>;
 
 /******************************** STORIES ********************************/
 // Define stories without using args
+// Story: Image
+export const AvatarImage: Story = {
+	args: {
+		label: "User avatar",
+	},
+	render: (args) => html`
+	<div style="display:flex; gap:5px;">
+		<nys-avatar 
+			.label=${args.label} 
+			.initials=${args.initials} 
+			.icon=${args.icon} 
+			image="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+			.size=${args.size}
+			.shape=${args.shape}>
+		</nys-avatar>
+		<nys-avatar 
+			.label=${args.label} 
+			.initials=${args.initials} 
+			.icon=${args.icon} 
+			image="https://images.unsplash.com/photo-1523318840068-3e8c0f998509?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+			.size=${args.size}
+			.shape=${args.shape}
+			?lazy>
+		</nys-avatar>
+	<div>`,
+	parameters: {
+		docs: {
+			source: {
+		code: `
+<div style="display:flex; gap:5px;">
+<nys-avatar
+  label="User avatar"
+  image="c"
+></nys-avatar>
+<nys-avatar
+  label="User avatar"
+  image="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  lazy
+></nys-avatar>
+</div>
+    `.trim(),
+			},
+		},
+	},
+};
 
 // Story: Initials
 export const AvatarInitials: Story = {
@@ -52,8 +99,10 @@ export const AvatarInitials: Story = {
 			.icon=${args.icon} 
 			.image=${args.image} 
 			.size=${args.size}
-			.shape=${args.shape}>
-		</nys-avatar>`,
+			.shape=${args.shape}
+			.lazy=${args.lazy}>
+		</nys-avatar>
+		`,
 	parameters: {
 		docs: {
 			source: {
@@ -81,7 +130,8 @@ export const AvatarIcon: Story = {
 			.icon=${args.icon} 
 			.image=${args.image} 
 			.size=${args.size}
-			.shape=${args.shape}>
+			.shape=${args.shape}
+			.lazy=${args.lazy}>
 		</nys-avatar>`,
 	parameters: {
 		docs: {
@@ -97,35 +147,6 @@ export const AvatarIcon: Story = {
 	},
 };
 
-// Story: Avatar
-export const AvatarImage: Story = {
-	args: {
-		label: "User avatar",
-		image: "https://images.unsplash.com/photo-1523318840068-3e8c0f998509?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-	},
-	render: (args) => html`
-		<nys-avatar 
-			.label=${args.label} 
-			.initials=${args.initials} 
-			.icon=${args.icon} 
-			.image=${args.image} 
-			.size=${args.size}
-			.shape=${args.shape}>
-		</nys-avatar>`,
-	parameters: {
-		docs: {
-			source: {
-		code: `
-<nys-avatar
-  label="User avatar"
-  image="https://images.unsplash.com/photo-1523318840068-3e8c0f998509?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-></nys-avatar>
-    `.trim(),
-			},
-		},
-	},
-};
-
 // Story: Shapes
 export const AvatarShapes: Story = {
 	args: {
@@ -133,34 +154,37 @@ export const AvatarShapes: Story = {
 		icon: "account_circle",
 	},
 	render: (args) => html`
-		<nys-avatar 
-			.label=${args.label} 
-			.initials=${args.initials} 
-			.icon=${args.icon} 
-			.image=${args.image} 
-			.size=${args.size}
-			.shape="square">
-		</nys-avatar>
-		<nys-avatar 
-			.label=${args.label} 
-			.initials=${args.initials} 
-			.icon=${args.icon} 
-			.image=${args.image} 
-			.size=${args.size}
-			.shape="rounded">
-		</nys-avatar>
-		<nys-avatar 
-			.label=${args.label} 
-			.initials=${args.initials} 
-			.icon=${args.icon} 
-			.image=${args.image} 
-			.size=${args.size}
-			.shape="circle">
-		</nys-avatar>`,
+		<div style="display:flex; gap:5px;">
+			<nys-avatar 
+				.label=${args.label} 
+				.initials=${args.initials} 
+				.icon=${args.icon} 
+				.image=${args.image} 
+				.size=${args.size}
+				shape="square">
+			</nys-avatar>
+			<nys-avatar 
+				.label=${args.label} 
+				.initials=${args.initials} 
+				.icon=${args.icon} 
+				.image=${args.image} 
+				.size=${args.size}
+				shape="rounded">
+			</nys-avatar>
+			<nys-avatar 
+				.label=${args.label} 
+				.initials=${args.initials} 
+				.icon=${args.icon} 
+				.image=${args.image} 
+				.size=${args.size}
+				shape="circle">
+			</nys-avatar>
+		</div>`,
 	parameters: {
 		docs: {
 			source: {
 		code: `
+<div style="display:flex; gap:5px;">
 <nys-avatar
   label="User avatar"
   icon="account_circle"
@@ -176,6 +200,7 @@ export const AvatarShapes: Story = {
   icon="account_circle"
   shape="circle"
 ></nys-avatar>
+</div>
     `.trim(),
 			},
 		},

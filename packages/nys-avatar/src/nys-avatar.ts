@@ -15,6 +15,7 @@ export class NysAvatar extends LitElement {
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";
   @property({ type: String }) icon = "";
+  @property({ type: Boolean }) lazy = false;
   private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
   private static readonly VALID_SHAPES = ["square", "rounded", "circle"] as const;
 
@@ -64,9 +65,9 @@ export class NysAvatar extends LitElement {
       <label class="nys-avatar">
         <div class="nys-avatar__content">
           <div class="nys-component__component">
-            ${this.initials?.length > 0 ? html`<span class="nys-avatar__initials">${this.initials}</span>` 
-              : this.icon?.length > 0 ? html`<nys-icon label="nys-avatar__icon" name=${this.icon} size="md"></nys-icon>`
-              : this.image?.length > 0 ? html`<img class="nys-avatar__image" src=${this.image} alt=${this.label} />` : ""
+            ${this.image?.length > 0 ? html`<img class="nys-avatar__image" src=${this.image} alt=${this.label} loading=${this.lazy ? 'lazy' : 'eager'}/>` 
+              : this.initials?.length > 0 ? html`<span class="nys-avatar__initials">${this.initials}</span>`
+              : this.icon?.length > 0 ? html`<nys-icon label="nys-avatar__icon" name=${this.icon} size="md"></nys-icon>` : `<nys-icon label="nys-avatar__icon" name="account_circle" size="md"></nys-icon>`
             }
           </div>
         </div>
