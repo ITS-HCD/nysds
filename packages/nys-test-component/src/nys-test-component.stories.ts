@@ -11,7 +11,15 @@ const meta: Meta<NysTestComponentArgs> = {
   title: "Components/TestComponent",
   component: "nys-test-component",
   argTypes: {
-    name: { control: "text" },
+    name: {
+      control: "text",
+      table: {
+        category: "Category 1",
+        defaultValue: { summary: "none" },
+      },
+    },
+    description: "Hello World",
+    type: "string",
   },
   parameters: {
     docs: {
