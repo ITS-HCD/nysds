@@ -2,33 +2,79 @@ import { css } from "lit";
 
 export default css`
   :host {
-    --toggle-width: 44px;
-    --toggle-height: 24px;
-    --slider-diameter: 18px;
-    --slider-offset: calc((var(--toggle-height) - var(--slider-diameter)) / 2);
-    --slider-checked-translate: calc(
-      var(--toggle-width) - var(--slider-diameter) - var(--slider-offset) - 2px
-    );
+    --radius-rounded: 1776px;
+    --radius-md: 4px;
+    --radius-1: 1px;
+    --size-200: 16px;
+    --size-300: 24px;
+    --size-400: 32px;
+
+    /* Default values */
+    --avatar-shape: var(--radius-md);
+    --avatar-border: var(--size-300);
+  }
+
+  .nys-component__component {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--avatar-shape);
+    width: var(--avatar-size, var(--size-300));
+    height: var(--avatar-size, var(--size-300));
+    font-size: var(--avatar-size, var(--size-300));
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: var(--background-color, #555);
+    color: white;
   }
 
   /* Sizes */
   :host([size="sm"]) {
-    --toggle-width: 36px;
-    --toggle-height: 20px;
-    --slider-diameter: 16px;
-    --label-font-size: 12px;
-    --description-font-size: 10px;
-    --description-spacing: 5px;
-    --icon-font-size: 13px;
+    --avatar-size: var(--size-200);
   }
 
   :host([size="md"]) {
-    --toggle-width: 44px;
-    --toggle-height: 24px;
-    --slider-diameter: 20px;
-    --label-font-size: 14px;
-    --description-font-size: 12px;
-    --description-spacing: 7px;
-    --icon-font-size: 16px;
+    --avatar-size: var(--size-300);
+  }
+
+  :host([size="lg"]) {
+    --avatar-size: var(--size-400);
+  }
+
+  /* Shape */
+  :host([shape="square"]) {
+    --avatar-shape: var(--radius-1);
+  }
+
+  :host([shape="rounded"]) {
+    --avatar-shape: var(--radius-md);
+  }
+
+  :host([shape="circle"]) {
+    --avatar-shape: var(--radius-rounded);
+  }
+
+  /* Content styles */
+  .nys-avatar__initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: calc(var(--avatar-size, var(--size-300)) * 0.5);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .nys-avatar__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nys-avatar__icon {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
   }
 `;
