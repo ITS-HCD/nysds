@@ -17,7 +17,11 @@ export class NysAvatar extends LitElement {
   @property({ type: String }) icon = "";
   @property({ type: Boolean }) lazy = false;
   private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
-  private static readonly VALID_SHAPES = ["square", "rounded", "circle"] as const;
+  private static readonly VALID_SHAPES = [
+    "square",
+    "rounded",
+    "circle",
+  ] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
   private _size: (typeof NysAvatar.VALID_SIZES)[number] = "lg";
@@ -37,17 +41,21 @@ export class NysAvatar extends LitElement {
   }
   // Setter for the `size` property.
   set size(value: string) {
-    this._size = NysAvatar.VALID_SIZES.includes(value as (typeof NysAvatar.VALID_SIZES)[number])
+    this._size = NysAvatar.VALID_SIZES.includes(
+      value as (typeof NysAvatar.VALID_SIZES)[number],
+    )
       ? (value as (typeof NysAvatar.VALID_SIZES)[number])
       : "lg";
-    this.requestUpdate('size');
+    this.requestUpdate("size");
   }
   // Setter for the `shape` property.
   set shape(value: string) {
-    this._shape = NysAvatar.VALID_SHAPES.includes(value as (typeof NysAvatar.VALID_SHAPES)[number])
+    this._shape = NysAvatar.VALID_SHAPES.includes(
+      value as (typeof NysAvatar.VALID_SHAPES)[number],
+    )
       ? (value as (typeof NysAvatar.VALID_SHAPES)[number])
       : "circle";
-    this.requestUpdate('shape');
+    this.requestUpdate("shape");
   }
 
   /******************** Functions ********************/
@@ -62,13 +70,27 @@ export class NysAvatar extends LitElement {
 
   render() {
     return html`
-      <label class="nys-avatar">
+      <label class="nys-avatar" id=${this.id}>
         <div class="nys-avatar__content">
           <div class="nys-component__component">
-            ${this.image?.length > 0 ? html`<img class="nys-avatar__image" src=${this.image} alt=${this.label} loading=${this.lazy ? 'lazy' : 'eager'}/>` 
-              : this.initials?.length > 0 ? html`<span class="nys-avatar__initials">${this.initials}</span>`
-              : this.icon?.length > 0 ? html`<nys-icon label="nys-avatar__icon" name=${this.icon} size="md"></nys-icon>` : `<nys-icon label="nys-avatar__icon" name="account_circle" size="md"></nys-icon>`
-            }
+            ${this.image?.length > 0
+              ? html`<img
+                  class="nys-avatar__image"
+                  src=${this.image}
+                  alt=${this.label}
+                  loading=${this.lazy ? "lazy" : "eager"}
+                />`
+              : this.initials?.length > 0
+                ? html`<span class="nys-avatar__initials"
+                    >${this.initials}</span
+                  >`
+                : this.icon?.length > 0
+                  ? html`<nys-icon
+                      label="nys-avatar__icon"
+                      name=${this.icon}
+                      size="md"
+                    ></nys-icon>`
+                  : html`<nys-icon label="nys-avatar__icon" name="account_circle" size="md"></nys-icon>`}
           </div>
         </div>
       </label>

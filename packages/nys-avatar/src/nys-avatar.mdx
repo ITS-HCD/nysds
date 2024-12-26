@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/blocks";
 import { html } from "lit";
 import * as NysAvatarStories from "./nys-avatar.stories";
 
@@ -9,7 +9,17 @@ The **`nys-avatar`** component is a reusable web component for use in New York S
 
 If an id is not passed, a unique id will be generated.
 
-## Examples
+<p class="pill stable">Stable</p>
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysAvatarStories.Default} />
+
+<Controls />
+
+
+## Variants
 ### Images
 To display an image in the avatar, set the `image` and `label` attributes. These will take priority and override initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
 <Canvas of={NysAvatarStories.AvatarImage} />
@@ -26,8 +36,36 @@ When no image or initials are set, an icon will be shown. The default avatar sho
 Avatars can be shaped using the shape attribute.
 <Canvas of={NysAvatarStories.AvatarShapes} />
 
-## Accessibility
+## Parts
 
+## Parts
+<table>
+    <thead>
+    <tr>
+        <th>Part name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`boxShadow`</td>
+        <td>box-shadow</td>
+        <td>box-shadow</td>
+    </tr>
+    <tr>
+        <td>`textShadow`</td>
+        <td>text-shadow</td>
+        <td>text-shadow</td>
+    </tr>
+    </tbody>
+</table>
+
+## Dependencies
+This component automatically imports the following dependencies.
+- `<nys-icon>`
+
+## Accessibility
 The `nys-avatar` component includes the following accessibility-focused features:
 
 - Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly.
