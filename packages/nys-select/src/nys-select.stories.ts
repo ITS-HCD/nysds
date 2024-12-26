@@ -99,6 +99,58 @@ export const Basic: Story = {
   },
 };
 
+export const OptionsLabelSlot: Story = {
+  args: {
+    id: "",
+    name: "",
+    label: "Select your favorite borough",
+    description: "",
+    value: "",
+    disabled: false,
+    required: false,
+    form: "",
+    size: "",
+    hasError: false,
+    errorMessage: "",
+  },
+  render: (args) => html`
+    <nys-select
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .form=${args.form}
+      .size=${args.size}
+      .hasError=${args.hasError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-option value="bronx">The Bronx</nys-option>
+      <nys-option value="brooklyn">Brooklyn</nys-option>
+      <nys-option value="manhattan">Manhattan</nys-option>
+      <nys-option value="staten_island">Staten Island</nys-option>
+      <nys-option value="queens">Queens</nys-option>
+    </nys-select>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough">
+  <nys-option value="bronx">The Bronx</nys-option>
+  <nys-option value="brooklyn">Brooklyn</nys-option>
+  <nys-option value="manhattan">Manhattan</nys-option>
+  <nys-option value="staten_island">Staten Island</nys-option>
+  <nys-option value="queens">Queens</nys-option>   
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Disabled: Story = {
   args: {
     id: "",

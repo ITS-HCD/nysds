@@ -6,11 +6,14 @@ import * as NysSelectStories from './nys-select.stories';
 
 
 # Select
-The `nys-select` is a reusable web component for use in New York State digital products. It allows users to select data from a dropdown to be collected.
+The `nys-select` is a reusable web component for use in New York State digital products. It allows users to select data from a dropdown to be collected. It accepts the child element `nys-option` to define the options in the dropdown.
 
 ### Basic Select
 
 <Canvas of={NysSelectStories.Basic} />
+
+The `nys-option` can have the label set as either the label property or the inner text of the component. The rendered code will show the label as a property if set as inner text.
+<Canvas of={NysSelectStories.OptionsLabelSlot} />
 
 ### Disabled
 

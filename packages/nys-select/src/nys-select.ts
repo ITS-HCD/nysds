@@ -34,12 +34,16 @@ export class NysSelect extends LitElement {
       const nodes = slot.assignedElements({ flatten: true });
       this._options = nodes
         .filter((node) => node instanceof NysOption)
-        .map((node) => ({
-          value: (node as NysOption).value,
-          label: (node as NysOption).label,
-          disabled: (node as NysOption).disabled,
-          selected: (node as NysOption).selected,
-        }));
+        .map((node) => {
+          const nysOption = node as NysOption;
+          const label = nysOption.label || nysOption.textContent?.trim() || "";
+          return {
+            value: nysOption.value,
+            label: label,
+            disabled: nysOption.disabled,
+            selected: nysOption.selected,
+          };
+        });
     }
     this.requestUpdate(); // Request an update after processing options
   }
