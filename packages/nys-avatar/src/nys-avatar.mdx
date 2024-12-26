@@ -44,6 +44,37 @@ Avatars can come in three different sizes: `sm`, `md`, and `lg`.
 You can change the background color of an Avatar. Note that images will naturally cover over the background color.
 <Canvas of={NysAvatarStories.AvatarBgColor} />
 
+## Use cases
+
+### When to use this component
+  - To visually represent users, objects, or entities in a UI.
+  - Ideal for profiles, account settings, or comment threads.
+
+### When to consider something else
+  - If the avatar doesn’t add value to the context.
+  - When a simple label or text works better.
+
+## Usage 
+<div class="usagedos do">
+### Do
+- Use for clear, simple user or entity representation.
+- Use appropriate shapes, sizes, and images to fit the overall page design.
+- Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
+</div>
+
+<div class="usagedos dont">
+### Don't
+  - Don’t overload the avatar with unnecessary customizations.
+  - Don’t skip the `label` attribute for screen reader users.
+  - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
+</div>
+
+## Accessibility
+The `nys-avatar` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly.
+- A label property to provide accessible text for screen readers.
+
 ## Parts
 <table>
    <thead>
@@ -72,17 +103,6 @@ You can change the background color of an Avatar. Note that images will naturall
    </tbody>
 </table>
 
-
 ## Dependencies
 This component automatically imports the following dependencies.
 - `<nys-icon>`
-
-## Accessibility
-The `nys-avatar` component includes the following accessibility-focused features:
-
-- Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly.
-- Keyboard navigation support, allowing users to avatar the avatar switch using the keyboard.
-- Visual focus indicators to help users navigate the component.
-
-### Labels
-Include a label property to provide accessible text for screen readers.
