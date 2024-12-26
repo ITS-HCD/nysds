@@ -72,25 +72,37 @@ export class NysAvatar extends LitElement {
     return html`
       <label class="nys-avatar" id=${this.id}>
         <div class="nys-avatar__content">
-          <div class="nys-component__component">
+          <div part="base" class="nys-component__component">
             ${this.image?.length > 0
               ? html`<img
+                  part="image"
                   class="nys-avatar__image"
                   src=${this.image}
                   alt=${this.label}
                   loading=${this.lazy ? "lazy" : "eager"}
                 />`
               : this.initials?.length > 0
-                ? html`<span class="nys-avatar__initials"
+                ? html`<span part="initials" class="nys-avatar__initials"
                     >${this.initials}</span
                   >`
                 : this.icon?.length > 0
-                  ? html`<nys-icon
-                      label="nys-avatar__icon"
-                      name=${this.icon}
-                      size="md"
-                    ></nys-icon>`
-                  : html`<nys-icon label="nys-avatar__icon" name="account_circle" size="md"></nys-icon>`}
+                  ? html`<div part="icon">
+                    <slot name="icon">
+                      <nys-icon
+                        label="nys-avatar__icon"
+                        name=${this.icon}
+                        size="md"
+                      ></nys-icon>
+                    </slot>
+                    </div>`
+                  : html`<div part="icon">
+                      <nys-icon
+                        part="icon"
+                        label="nys-avatar__icon"
+                        name="account_circle"
+                        size="md"
+                      ></nys-icon>
+                    </div>`}
           </div>
         </div>
       </label>
