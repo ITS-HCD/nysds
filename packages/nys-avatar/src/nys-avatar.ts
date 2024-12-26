@@ -15,6 +15,7 @@ export class NysAvatar extends LitElement {
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";
   @property({ type: String }) icon = "";
+  @property({ type: String }) color = "";
   @property({ type: Boolean }) lazy = false;
   private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
   private static readonly VALID_SHAPES = [
@@ -87,21 +88,21 @@ export class NysAvatar extends LitElement {
                   >`
                 : this.icon?.length > 0
                   ? html`<div part="icon">
-                    <slot name="icon">
                       <nys-icon
                         label="nys-avatar__icon"
                         name=${this.icon}
                         size="md"
                       ></nys-icon>
-                    </slot>
                     </div>`
                   : html`<div part="icon">
-                      <nys-icon
-                        part="icon"
-                        label="nys-avatar__icon"
-                        name="account_circle"
-                        size="md"
-                      ></nys-icon>
+                      <slot name="icon">
+                        <nys-icon
+                          part="icon"
+                          label="nys-avatar__icon"
+                          name="account_circle"
+                          size="md"
+                        ></nys-icon>
+                      </slot>
                     </div>`}
           </div>
         </div>

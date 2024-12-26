@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-avatar";
+import "@nys-excelsior/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysAvatarArgs {
@@ -18,14 +19,14 @@ const meta: Meta<NysAvatarArgs> = {
   title: "Components/Avatar",
   component: "nys-avatar",
   argTypes: {
-    id: { control: "text" },
-    label: { control: "text" },
-    initials: { control: "text" },
-    icon: { control: "text" },
-    image: { control: "text" },
-    size: { control: "select", options: ["sm", "md", "lg"] },
-    shape: { control: "select", options: ["square", "rounded", "circle"] },
-    lazy: { control: "boolean" },
+    id: { control: "text", type: "string" },
+    label: { control: "text", type: "string" },
+    initials: { control: "text", type: "string" },
+    icon: { control: "text", type: "string", defaultValue: { summary: "account_circle" } },
+    image: { control: "text", type: "string" },
+    size: { control: "select", options: ["sm", "md", "lg"], type: "string", defaultValue: { summary: "md" } },
+    shape: { control: "select", options: ["square", "rounded", "circle"], type: "string" },
+    lazy: { control: "boolean", type: "boolean" },
   },
   parameters: {
     docs: {
@@ -160,16 +161,34 @@ export const AvatarIcon: Story = {
     icon: "account_circle",
   },
   render: (args) =>
-    html` <nys-avatar
-      .label=${args.label}
-      .initials=${args.initials}
-      .icon=${args.icon}
-      .image=${args.image}
-      .size=${args.size}
-      .shape=${args.shape}
-      .lazy=${args.lazy}
-    >
-    </nys-avatar>`,
+    html` <div style="display:flex; gap:5px;">
+      <nys-avatar
+        .label=${args.label}
+        .initials=${args.initials}
+        .icon=${args.icon}
+        .image=${args.image}
+        .size=${args.size}
+        .shape=${args.shape}
+        .lazy=${args.lazy}
+      >
+      </nys-avatar>
+      <nys-avatar
+        .label=${args.label}
+        .initials=${args.initials}
+        .image=${args.image}
+        .size=${args.size}
+        .shape=${args.shape}
+        .lazy=${args.lazy}
+      >
+        <nys-icon
+          slot="icon"
+          label="youtube icon"
+          name="social_youtube"
+          color="#b2071d"
+          size="sm"
+        ></nys-icon>
+      </nys-avatar>
+    </div>`,
   parameters: {
     docs: {
       source: {
@@ -178,6 +197,13 @@ export const AvatarIcon: Story = {
   label="User avatar"
   icon="account_circle"
 ></nys-avatar>
+<nys-icon
+	slot="icon"
+	label="youtube icon"
+	name="social_youtube"
+	color="#b2071d"
+	size="sm"
+></nys-icon>
     `.trim(),
       },
     },
@@ -246,3 +272,67 @@ export const AvatarShapes: Story = {
     },
   },
 };
+
+// Story: Sizes
+export const AvatarSizes: Story = {
+	args: {
+	  label: "User avatar",
+	  icon: "account_circle",
+	},
+	render: (args) =>
+	  html` <div style="display:flex; gap:5px; align-items: center">
+		 <nys-avatar
+			.label=${args.label}
+			.initials=${args.initials}
+			.icon=${args.icon}
+			.image=${args.image}
+			size="sm"
+			.shape=${args.shape}
+		 >
+		 </nys-avatar>
+		 <nys-avatar
+			.label=${args.label}
+			.initials=${args.initials}
+			.icon=${args.icon}
+			.image=${args.image}
+			size="md"
+			.shape=${args.shape}
+		 >
+		 </nys-avatar>
+		 <nys-avatar
+			.label=${args.label}
+			.initials=${args.initials}
+			.icon=${args.icon}
+			.image=${args.image}
+			size="lg"
+			.shape=${args.shape}
+		 >
+		 </nys-avatar>
+	  </div>`,
+	parameters: {
+	  docs: {
+		 source: {
+			code: `
+ <div style="display:flex; gap:5px; align-items:center">
+ <nys-avatar
+	label="User avatar"
+	icon="account_circle"
+	size="sm"
+ ></nys-avatar>
+ <nys-avatar
+	label="User avatar"
+	icon="account_circle"
+	size="md"
+ ></nys-avatar>
+ <nys-avatar
+	label="User avatar"
+	icon="account_circle"
+	size="lg"
+ ></nys-avatar>
+ </div>
+	  `.trim(),
+		 },
+	  },
+	},
+ };
+ 
