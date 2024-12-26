@@ -12,6 +12,7 @@ interface NysAvatarArgs {
   image?: string;
   size?: string;
   shape?: string;
+  color?: string;
   lazy?: boolean;
 }
 
@@ -26,6 +27,7 @@ const meta: Meta<NysAvatarArgs> = {
     image: { control: "text", type: "string" },
     size: { control: "select", options: ["sm", "md", "lg"], type: "string", defaultValue: { summary: "md" } },
     shape: { control: "select", options: ["square", "rounded", "circle"], type: "string" },
+    color: { control: "text", type: "string", defaultValue: { summary: "#555" } },
     lazy: { control: "boolean", type: "boolean" },
   },
   parameters: {
@@ -54,10 +56,11 @@ export const Default: Story = {
       .label=${args.label}
       .initials=${args.initials}
       .icon=${args.icon}
-      image=${args.image}
+      .image=${args.image}
       .size=${args.size}
       .shape=${args.shape}
-      ?lazy
+      .lazy=${args.lazy}
+		.color=${args.color}
     >
     </nys-avatar>`,
   parameters: {
@@ -137,6 +140,7 @@ export const AvatarInitials: Story = {
       .size=${args.size}
       .shape=${args.shape}
       .lazy=${args.lazy}
+		.color=${args.color}
     >
     </nys-avatar>
   `,
@@ -170,6 +174,7 @@ export const AvatarIcon: Story = {
         .size=${args.size}
         .shape=${args.shape}
         .lazy=${args.lazy}
+		  .color=${args.color}
       >
       </nys-avatar>
       <nys-avatar
@@ -179,6 +184,8 @@ export const AvatarIcon: Story = {
         .size=${args.size}
         .shape=${args.shape}
         .lazy=${args.lazy}
+		  .color=${args.color}
+		  color="#f2efee"
       >
         <nys-icon
           slot="icon"
@@ -197,13 +204,18 @@ export const AvatarIcon: Story = {
   label="User avatar"
   icon="account_circle"
 ></nys-avatar>
-<nys-icon
-	slot="icon"
-	label="youtube icon"
-	name="social_youtube"
-	color="#b2071d"
-	size="sm"
-></nys-icon>
+<nys-avatar
+  label="User avatar"
+  color="#f2efee"
+>
+  <nys-icon
+	  slot="icon"
+	  label="youtube icon"
+	  name="social_youtube"
+	  color="#b2071d"
+	  size="sm"
+  ></nys-icon>
+</nys-avatar>
     `.trim(),
       },
     },
@@ -225,6 +237,8 @@ export const AvatarShapes: Story = {
         .image=${args.image}
         .size=${args.size}
         shape="square"
+		  .lazy=${args.lazy}
+		  .color=${args.color}
       >
       </nys-avatar>
       <nys-avatar
@@ -234,6 +248,8 @@ export const AvatarShapes: Story = {
         .image=${args.image}
         .size=${args.size}
         shape="rounded"
+		  .lazy=${args.lazy}
+		  .color=${args.color}
       >
       </nys-avatar>
       <nys-avatar
@@ -243,6 +259,8 @@ export const AvatarShapes: Story = {
         .image=${args.image}
         .size=${args.size}
         shape="circle"
+		  .lazy=${args.lazy}
+		  .color=${args.color}
       >
       </nys-avatar>
     </div>`,
@@ -288,6 +306,8 @@ export const AvatarSizes: Story = {
 			.image=${args.image}
 			size="sm"
 			.shape=${args.shape}
+			.lazy=${args.lazy}
+			.color=${args.color}
 		 >
 		 </nys-avatar>
 		 <nys-avatar
@@ -297,6 +317,8 @@ export const AvatarSizes: Story = {
 			.image=${args.image}
 			size="md"
 			.shape=${args.shape}
+			.lazy=${args.lazy}
+			.color=${args.color}
 		 >
 		 </nys-avatar>
 		 <nys-avatar
@@ -306,6 +328,8 @@ export const AvatarSizes: Story = {
 			.image=${args.image}
 			size="lg"
 			.shape=${args.shape}
+			.lazy=${args.lazy}
+			.color=${args.color}
 		 >
 		 </nys-avatar>
 	  </div>`,
@@ -335,4 +359,36 @@ export const AvatarSizes: Story = {
 	  },
 	},
  };
- 
+
+// Story: AvatarBgColor
+export const AvatarBgColor: Story = {
+	args: {
+	  label: "User avatar",
+	  color: "#105580",
+	},
+	render: (args) => html`
+	  <nys-avatar
+		 .label=${args.label}
+		 .initials=${args.initials}
+		 .icon=${args.icon}
+		 .image=${args.image}
+		 .size=${args.size}
+		 .shape=${args.shape}
+		 .lazy=${args.lazy}
+		 .color=${args.color}
+	  >
+	  </nys-avatar>
+	`,
+	parameters: {
+	  docs: {
+		 source: {
+			code: `
+ <nys-avatar
+	label="User avatar"
+	initials="RC"
+ ></nys-avatar>
+	  `.trim(),
+		 },
+	  },
+	},
+ };

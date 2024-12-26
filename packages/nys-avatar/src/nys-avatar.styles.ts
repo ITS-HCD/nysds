@@ -24,7 +24,6 @@ export default css`
     font-size: var(--avatar-size, var(--size-300));
     overflow: hidden;
     box-sizing: border-box;
-    background-color: var(--background-color, #555);
     color: white;
   }
 
