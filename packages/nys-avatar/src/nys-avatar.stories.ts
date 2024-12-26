@@ -174,7 +174,7 @@ export const AvatarIcon: Story = {
         .size=${args.size}
         .shape=${args.shape}
         .lazy=${args.lazy}
-		  .color=${args.color}
+		    .color=${args.color}
       >
       </nys-avatar>
       <nys-avatar
@@ -184,8 +184,7 @@ export const AvatarIcon: Story = {
         .size=${args.size}
         .shape=${args.shape}
         .lazy=${args.lazy}
-		  .color=${args.color}
-		  color="#f2efee"
+		    color="#f2efee"
       >
         <nys-icon
           slot="icon"
