@@ -54,9 +54,9 @@ export default css`
   }
 
   div[part="icon"] {
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Content styles */
