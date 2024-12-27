@@ -4,23 +4,51 @@ import * as NysFormStories from './nys-form.stories';
 
 <Meta of={NysFormStories} title="Components/Form/Documentation" />
 
-# Form
+# Form Controls
 
-### Native form and Excelsior's nys-components
-Excelsior form controls live inside shadow DOMs, which prevents native `<form>` elements from recognizing them. \
-To solve this, Excelsior uses the **`formdata` event**. 
+## Variants
+### Native Form and Excelsior's nys-components
+Excelsior components are built using Lit.dev and utilize the `shadowDOM.` While this approach is effective for encapsulating a component's internal structure, it prevents native `<form>` elements from recognizing form controls within a shadow root. \
+To address this, Excelsior leverages the **`formdata` event**. 
 
 When a form is submitted, Excelsior automatically appends the custom component's values to the FormData object, ensuring compatibility with modern browsers.
+
+In the example below, we demonstrate how to process the `FormData` object by listening to a native form submission event. The form includes both standard HTML form elements and custom `nys-components`.
 ```js
 const form = document.querySelector('form');
 form.addEventListener('submit', (e) => {
    e.preventDefault();
-   // All form control data is available in a FormData object
+   // Collects all form control data into a FormData object
    const data = new FormData(form); 
+   // Use the FormData object as needed
    // ...
-})
+});
+
 ```
 <Canvas of={NysFormStories.nativeFormWithComponents} />
+
+### Required Fields
+Form will handle all required attributes for you.
+<Canvas of={NysFormStories.RequiredFields} />
+
+### Form Property on Outer Web Components
+Use the `form` property to explicitly associate the toggle (or other components) with a specific `<form>` element or `<nys-form>` component by referencing the form's `id`.
+```html
+<!-- For example -->
+<nys-form id="my-form">
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-textinput label="Label"></nys-textinput>
+  <nys-checkbox label="Label"></nys-checkbox>
+</nys-form>
+<nys-toggle form="my-form" label="Label" name="example-name"></nys-toggle>
+<button form="my-form" type="submit">Submit</button>
+```
+<Canvas of={NysFormStories.OutsideFormElements} />
+
+
+
+
+
 
 
 ## *****------------- NYS-FORM -------------*****
@@ -139,6 +167,6 @@ The `<nys-form>` currently supports the following NYS components:
  - Select
  - Checkbox
  - Radio
-<Canvas of={NysFormStories.nysComponents} />
+
 
 

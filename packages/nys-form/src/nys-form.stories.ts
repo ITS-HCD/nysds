@@ -53,6 +53,296 @@ const useData = (formData: FormData) => {
 /******************************** STORIES ********************************/
 // Define stories without using args
 
+// Story: Native Form with Custom Web Components
+export const nativeFormWithComponents: Story = {
+  args: {
+    id: "nys-work-form2",
+  },
+
+  render: (args) => html`
+    <form
+      .id=${args.id}
+      @submit=${(e: SubmitEvent) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const isFormValid = form.checkValidity();
+
+        if (!isFormValid) {
+          console.log("Form validation failed.");
+          return;
+        }
+
+        console.log("You should not be seeing this message if validation is suppose to fail. Otherwise, success!")
+        const formData = new FormData(e.target as HTMLFormElement);
+        // Convert FormData to a simple object for easier logging
+        const formDataObj: Record<string, any> = {};
+        formData.forEach((value, key) => {
+          formDataObj[key] = value;
+        });
+        alert('Form Data:\n' + JSON.stringify(formDataObj, null, 2));
+      }}
+    >
+      <label for="fullname2">Enter full name: </label>
+      <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+
+      <label for="password-native2">Password (Native): </label>
+      <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+
+      <nys-textinput
+        name="password-nys"
+        placeholder="Can you break into my password? (nys-component)"
+        label="Password (nys-component):"
+        description="Hack me"
+        id="password-nys2"
+        type="password"
+        required
+      ></nys-textinput>
+
+      <nys-textinput
+        name="empid"
+        placeholder="N00000000"
+        label="Please enter your Employee number"
+        description="include the N prefix"
+        maxlength="9"
+        pattern="N[0-9]{8}"
+        id="nID2"
+      ></nys-textinput>
+      <nys-checkbox
+        label="NYS Resident?"
+        description="Please check the box if you are a resident of New York State."
+        name="nys-resident"
+        value="nys-resident"
+      ></nys-checkbox>
+      <nys-radiogroup>
+        <p>What is your primary work location?</p>
+        <nys-radiobutton
+          label="Albany"
+          description="Upstate New York"
+          name="office"
+          value="albany"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          label="Manhattan"
+          description="New York City"
+          name="office"
+          value="manhattan"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+      <nys-select
+        name="favorite-borough"
+        label="Select your favorite borough"
+        description="Valid sizes are xs, sm, md, lg, and xl"
+        size="xs"
+        required
+      >
+        <option value="bronx">The Bronx</option>
+        <option value="brooklyn">Brooklyn</option>
+        <option value="manhattan">Manhattan</option>
+        <option value="staten_island">Staten Island</option>
+        <option value="queens">Queens</option>
+      </nys-select>
+      <nys-textarea
+        name="additional-feedback"
+        label="Additional Feedback"
+        description="You cannot type more than 10 characters in the below field"
+        maxlength="10"
+      >
+      </nys-textarea>
+      <nys-toggle
+        label="Dark Mode"
+        name="dark-mode"
+        value="dark"
+      ></nys-toggle>
+      <button type="submit">Send</button>
+    </form>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<form id="nys-work-form">
+  <label for="fullname2">Enter full name: </label>
+  <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+
+  <label for="password-native2">Password (Native): </label>
+  <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+
+  <nys-textinput
+    name="password-nys"
+    placeholder="Can you break into my password? (nys-component)"
+    label="Password (nys-component):"
+    description="Hack me"
+    id="password-nys2"
+    type="password"
+  ></nys-textinput>
+
+  <nys-textinput
+    name="empid"
+    placeholder="N00000000"
+    label="Please enter your Employee number"
+    description="include the N prefix"
+    maxlength="9"
+    pattern="N[0-9]{8}"
+    id="nID2"
+  ></nys-textinput>
+  <nys-checkbox
+    label="NYS Resident?"
+    description="Please check the box if you are a resident of New York State."
+    name="nys-resident"
+    value="nys-resident"
+  ></nys-checkbox>
+  <nys-radiogroup>
+    <p>What is your primary work location?</p>
+    <nys-radiobutton
+      label="Albany"
+      description="Upstate New York"
+      name="office"
+      value="albany"
+    ></nys-radiobutton>
+    <nys-radiobutton
+      label="Manhattan"
+      description="New York City"
+      name="office"
+      value="manhattan"
+    ></nys-radiobutton>
+  </nys-radiogroup>
+  <nys-select
+    name="favorite-borough"
+    label="Select your favorite borough"
+    description="Valid sizes are xs, sm, md, lg, and xl"
+    size="xs"
+  >
+    <option value="bronx">The Bronx</option>
+    <option value="brooklyn">Brooklyn</option>
+    <option value="manhattan">Manhattan</option>
+    <option value="staten_island">Staten Island</option>
+    <option value="queens">Queens</option>
+  </nys-select>
+  <nys-textarea
+    name="additional-feedback"
+    label="Additional Feedback"
+    description="You cannot type more than 10 characters in the below field"
+    maxlength="10"
+  >
+  </nys-textarea>
+  <nys-toggle
+    label="Dark Mode"
+    name="dark-mode"
+    value="dark"
+  ></nys-toggle>
+  <button type="submit">Send</button>
+</form>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Handling Required Fields
+export const RequiredFields: Story = {
+  args: {
+    id: "username-form",
+  },
+  render: (args) => html`
+    <form
+      .id=${args.id}
+      ?fieldset=${args.fieldset}
+      legend=${args.legend}
+      @submit=${(e: SubmitEvent) => {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
+      }}
+    >
+      <nys-textinput
+        name="username"
+        placeholder="John Doe"
+        label="Enter username:"
+        description="Doesn't have to be your real name"
+        id="username"
+        type="text"
+        required
+      ></nys-textinput>
+      <nys-checkbox
+        label="Subscribe to our mailing list?"
+        description="Please check the box if you are want to subscribe."
+        name="mailing-list"
+        value="mailing-list"
+      ></nys-checkbox>
+      <button type="submit">Send</button>
+    </form>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-form id="username-form">
+  <label for="username">Enter username: </label>
+  <input id="username" type="text" value="username" />
+  <div style="display:flex; gap:5px;">
+    <label for="mailing-list">Subscribe to our mailing list? </label>
+    <input id="mailing-list" type="checkbox" name="mailing-list" />
+  </div>
+  <button type="submit"> Send </button>
+</nys-form>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Outside Form Elements
+export const OutsideFormElements: Story = {
+  args: {
+    id: "user-info-form",
+  },
+  render: (args) => html`
+    <nys-form
+      .id=${args.id}
+      ?fieldset=${args.fieldset}
+      legend=${args.legend}
+      @nys-submit=${(e: CustomEvent) => {
+        const formData = e.detail; // access FormData from the event detail
+        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
+      }}
+    >
+      <label for="fname">Enter first name: </label>
+      <input id="fname" type="text" name="fname" placeholder="I'm inside the form!" />
+    </nys-form>
+    <div style="display:flex; gap:10px; margin:20px 0;">
+      <label for="lname">Enter last name: </label>
+      <input form=${args.id} id="lname" type="text" name="lname" placeholder="I'm outside the form!" />
+      <button form=${args.id} type="submit">Send</button>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-form id="user-info-form">
+  <label for="fname">Enter first name: </label>
+  <input id="fname" type="text" name="fname" placeholder="I'm inside the form!" />
+</nys-form>
+<div style="display:flex; gap:10px; margin:20px 0;">
+  <label for="lname">Enter last name: </label>
+  <input form="user-info-form" id="lname" type="text" name="lname" placeholder="I'm outside the form!" />
+  <button form="user-info-form" type="submit">Send</button>
+</div>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+
+
+
+
+
+
 // Story: Form
 export const Form: Story = {
   args: {
@@ -201,419 +491,6 @@ export const Fieldset: Story = {
     </div>
     <button type="submit"> Send </button>
 </nys-form>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-
-// Story: Outside Form Elements
-export const OutsideFormElements: Story = {
-  args: {
-    id: "user-info-form",
-  },
-  render: (args) => html`
-    <nys-form
-      .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
-      @nys-submit=${(e: CustomEvent) => {
-        const formData = e.detail; // access FormData from the event detail
-        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
-      }}
-    >
-      <label for="fname">Enter first name: </label>
-      <input id="fname" type="text" name="fname" placeholder="I'm inside the form!" />
-    </nys-form>
-    <div style="display:flex; gap:10px; margin:20px 0;">
-      <label for="lname">Enter last name: </label>
-      <input form=${args.id} id="lname" type="text" name="lname" placeholder="I'm outside the form!" />
-      <button form=${args.id} type="submit">Send</button>
-    </div>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-form id="user-info-form">
-  <label for="fname">Enter first name: </label>
-  <input id="fname" type="text" name="fname" placeholder="I'm inside the form!" />
-</nys-form>
-<div style="display:flex; gap:10px; margin:20px 0;">
-  <label for="lname">Enter last name: </label>
-  <input form="user-info-form" id="lname" type="text" name="lname" placeholder="I'm outside the form!" />
-  <button form="user-info-form" type="submit">Send</button>
-</div>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-
-// Story: NYS Custom Web Components
-export const nysComponents: Story = {
-  args: {
-    id: "nys-work-form",
-  },
-
-  render: (args) => html`
-    <nys-form
-      .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
-      @nys-submit=${(e: CustomEvent) => {
-        const formData = e.detail; // access FormData from the event detail
-        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
-      }}
-    >
-      <label for="fullname">Enter full name: </label>
-      <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
-
-      <label for="password-native">Password (Native): </label>
-      <input id="password-native" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
-
-      <nys-textinput
-        name="password-nys"
-        placeholder="Can you break into my password? (nys-component)"
-        label="Password (nys-component):"
-        description="Hack me"
-        id="password-nys"
-        type="password"
-      ></nys-textinput>
-
-      <nys-textinput
-        name="empid"
-        placeholder="N00000000"
-        label="Please enter your Employee number"
-        description="include the N prefix"
-        maxlength="9"
-        pattern="N[0-9]{8}"
-        id="nID"
-      ></nys-textinput>
-      <nys-checkbox
-        label="NYS Resident?"
-        description="Please check the box if you are a resident of New York State."
-        name="nys-resident"
-        value="nys-resident"
-      ></nys-checkbox>
-      <nys-radiogroup>
-        <p>What is your primary work location?</p>
-        <nys-radiobutton
-          label="Albany"
-          description="Upstate New York"
-          name="office"
-          value="albany"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          label="Manhattan"
-          description="New York City"
-          name="office"
-          value="manhattan"
-        ></nys-radiobutton>
-      </nys-radiogroup>
-      <nys-select
-        name="favorite-borough"
-        label="Select your favorite borough"
-        description="Valid sizes are xs, sm, md, lg, and xl"
-        size="xs"
-      >
-        <option value="bronx">The Bronx</option>
-        <option value="brooklyn">Brooklyn</option>
-        <option value="manhattan">Manhattan</option>
-        <option value="staten_island">Staten Island</option>
-        <option value="queens">Queens</option>
-      </nys-select>
-      <nys-textarea
-        name="additional-feedback"
-        label="Additional Feedback"
-        description="You cannot type more than 10 characters in the below field"
-        maxlength="10"
-        required
-      >
-      </nys-textarea>
-      <nys-toggle
-        label="Dark Mode"
-        name="dark-mode"
-        value="dark"
-      ></nys-toggle>
-      <button
-        type="button"
-        @click=${() => {
-          const passwordInput = document.getElementById('password-nys') as HTMLInputElement;
-          if (passwordInput) {
-            console.log('Password Value:', passwordInput.value); // Log the value
-          } else {
-            console.error('nys-textinput not found!');
-          }
-        }}
-      >Yikes</button>
-      <button type="submit">Send</button>
-    </nys-form>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-form id="nys-work-form">
-  <label for="fullname">Enter first name: </label>
-  <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
-
-  <nys-textinput
-    name="empid"
-    placeholder="N00000000"
-    label="Please enter your Employee number"
-    description="include the N prefix"
-    maxlength="9"
-    pattern="N[0-9]{8}"
-    id="nID"
-  ></nys-textinput>
-  <nys-checkbox
-    label="NYS Resident?"
-    description="Please check the box if you are a resident of New York State."
-    name="nys-resident"
-    value="nys-resident"
-  ></nys-checkbox>
-  <nys-radiogroup>
-    <p>What is your primary work location?</p>
-    <nys-radiobutton
-      label="Albany"
-      description="Upstate New York"
-      name="office"
-      value="albany"
-    ></nys-radiobutton>
-    <nys-radiobutton
-      label="Manhattan"
-      description="New York City"
-      name="office"
-      value="manhattan"
-    ></nys-radiobutton>
-  </nys-radiogroup>
-  <nys-select
-    name="favorite-borough"
-    label="Select your favorite borough"
-    description="Valid sizes are xs, sm, md, lg, and xl"
-    size="xs"
-  >
-    <option value="bronx">The Bronx</option>
-    <option value="brooklyn">Brooklyn</option>
-    <option value="manhattan">Manhattan</option>
-    <option value="staten_island">Staten Island</option>
-    <option value="queens">Queens</option>
-  </nys-select>
-  <nys-textarea
-    name="additional-feedback"
-    label="Additional Feedback"
-    description="You cannot type more than 10 characters in the below field"
-    maxlength="10"
-    required
-  >
-  </nys-textarea>
-  <nys-toggle
-    label="Dark Mode"
-    name="dark-mode"
-    value="dark"
-  ></nys-toggle>
-  <button type="submit">Send</button>
-</nys-form>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-
-// Story: Native Form with Custom Web Components
-export const nativeFormWithComponents: Story = {
-  args: {
-    id: "nys-work-form2",
-  },
-
-  render: (args) => html`
-    <form
-      .id=${args.id}
-      @submit=${(e: SubmitEvent) => {
-        e.preventDefault();
-        const form = e.target as HTMLFormElement;
-        const isFormValid = form.checkValidity();
-
-        if (!isFormValid) {
-          console.log("Form validation failed.");
-          return;
-        }
-
-        console.log("You should not be seeing this message if validation is suppose to fail. Otherwise, success!")
-        const formData = new FormData(e.target as HTMLFormElement);
-        // Convert FormData to a simple object for easier logging
-        const formDataObj: Record<string, any> = {};
-        formData.forEach((value, key) => {
-          formDataObj[key] = value;
-        });
-        alert('Form Data:\n' + JSON.stringify(formDataObj, null, 2));
-      }}
-    >
-      <label for="fullname2">Enter full name: </label>
-      <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
-
-      <label for="password-native2">Password (Native): </label>
-      <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
-
-      <nys-textinput
-        name="password-nys"
-        placeholder="Can you break into my password? (nys-component)"
-        label="Password (nys-component):"
-        description="Hack me"
-        id="password-nys2"
-        type="password"
-        required
-      ></nys-textinput>
-
-      <nys-textinput
-        name="empid"
-        placeholder="N00000000"
-        label="Please enter your Employee number"
-        description="include the N prefix"
-        maxlength="9"
-        pattern="N[0-9]{8}"
-        id="nID2"
-      ></nys-textinput>
-      <nys-checkbox
-        label="NYS Resident?"
-        description="Please check the box if you are a resident of New York State."
-        name="nys-resident"
-        value="nys-resident"
-      ></nys-checkbox>
-      <nys-radiogroup>
-        <p>What is your primary work location?</p>
-        <nys-radiobutton
-          label="Albany"
-          description="Upstate New York"
-          name="office"
-          value="albany"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          label="Manhattan"
-          description="New York City"
-          name="office"
-          value="manhattan"
-        ></nys-radiobutton>
-      </nys-radiogroup>
-      <nys-select
-        name="favorite-borough"
-        label="Select your favorite borough"
-        description="Valid sizes are xs, sm, md, lg, and xl"
-        size="xs"
-        required
-      >
-        <option value="bronx">The Bronx</option>
-        <option value="brooklyn">Brooklyn</option>
-        <option value="manhattan">Manhattan</option>
-        <option value="staten_island">Staten Island</option>
-        <option value="queens">Queens</option>
-      </nys-select>
-      <nys-textarea
-        name="additional-feedback"
-        label="Additional Feedback"
-        description="You cannot type more than 10 characters in the below field"
-        maxlength="10"
-      >
-      </nys-textarea>
-      <nys-toggle
-        label="Dark Mode"
-        name="dark-mode"
-        value="dark"
-      ></nys-toggle>
-      <button
-        type="button"
-        @click=${() => {
-          const passwordInput = document.getElementById('password-nys2') as HTMLInputElement;
-          if (passwordInput) {
-            console.log('Password Value:', passwordInput.value); // Log the value
-          } else {
-            console.error('nys-textinput not found!');
-          }
-        }}
-      >Yikes</button>
-      <button type="submit">Send</button>
-    </form>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<form id="nys-work-form">
-  <label for="fullname2">Enter full name: </label>
-  <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
-
-  <label for="password-native2">Password (Native): </label>
-  <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
-
-  <nys-textinput
-    name="password-nys"
-    placeholder="Can you break into my password? (nys-component)"
-    label="Password (nys-component):"
-    description="Hack me"
-    id="password-nys2"
-    type="password"
-  ></nys-textinput>
-
-  <nys-textinput
-    name="empid"
-    placeholder="N00000000"
-    label="Please enter your Employee number"
-    description="include the N prefix"
-    maxlength="9"
-    pattern="N[0-9]{8}"
-    id="nID2"
-  ></nys-textinput>
-  <nys-checkbox
-    label="NYS Resident?"
-    description="Please check the box if you are a resident of New York State."
-    name="nys-resident"
-    value="nys-resident"
-  ></nys-checkbox>
-  <nys-radiogroup>
-    <p>What is your primary work location?</p>
-    <nys-radiobutton
-      label="Albany"
-      description="Upstate New York"
-      name="office"
-      value="albany"
-    ></nys-radiobutton>
-    <nys-radiobutton
-      label="Manhattan"
-      description="New York City"
-      name="office"
-      value="manhattan"
-    ></nys-radiobutton>
-  </nys-radiogroup>
-  <nys-select
-    name="favorite-borough"
-    label="Select your favorite borough"
-    description="Valid sizes are xs, sm, md, lg, and xl"
-    size="xs"
-  >
-    <option value="bronx">The Bronx</option>
-    <option value="brooklyn">Brooklyn</option>
-    <option value="manhattan">Manhattan</option>
-    <option value="staten_island">Staten Island</option>
-    <option value="queens">Queens</option>
-  </nys-select>
-  <nys-textarea
-    name="additional-feedback"
-    label="Additional Feedback"
-    description="You cannot type more than 10 characters in the below field"
-    maxlength="10"
-  >
-  </nys-textarea>
-  <nys-toggle
-    label="Dark Mode"
-    name="dark-mode"
-    value="dark"
-  ></nys-toggle>
-  <button type="submit">Send</button>
-</form>
 `.trim(),
         type: "auto",
       },
