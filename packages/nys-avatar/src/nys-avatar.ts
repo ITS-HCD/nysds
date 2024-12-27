@@ -74,7 +74,7 @@ export class NysAvatar extends LitElement {
       <label class="nys-avatar" id=${this.id}>
         <div class="nys-avatar__content">
           <div
-            part="base"
+            part="nys-avatar"
             class="nys-component__component"
             style="background-color: ${this.color?.length > 0
               ? this.color
@@ -84,7 +84,7 @@ export class NysAvatar extends LitElement {
           >
             ${this.image?.length > 0
               ? html`<img
-                  part="image"
+                  part="nys-avatar__image"
                   class="nys-avatar__image"
                   src=${this.image}
                   alt=${this.label}
@@ -92,13 +92,13 @@ export class NysAvatar extends LitElement {
                 />`
               : this.initials?.length > 0
                 ? html`<span
-                    part="initials"
+                    part="nys-avatar__initials"
                     class="nys-avatar__initials"
                     aria-hidden="true"
                     >${this.initials}</span
                   >`
                 : this.icon?.length > 0
-                  ? html`<div part="icon">
+                  ? html`<div part="nys-avatar__icon">
                       <nys-icon
                         label="nys-avatar__icon"
                         name=${this.icon}

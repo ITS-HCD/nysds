@@ -56,20 +56,21 @@ You can change the background color of an Avatar. Note that images will naturall
   - When a simple label or text works better.
 
 ## Usage 
-<div class="usagedos do">
-### Do
-- Use for clear, simple user or entity representation.
-- Use appropriate shapes, sizes, and images to fit the overall page design.
-- Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
-</div>
+<div class="usage-wrapper">
+   <div class="usagedos do">
+   ### Do
+   - Use for clear, simple user or entity representation.
+   - Use appropriate shapes, sizes, and images to fit the overall page design.
+   - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
+   </div>
 
-<div class="usagedos dont">
-### Don't
-  - Don’t overload the avatar with unnecessary customizations.
-  - Don’t skip the `label` attribute for screen reader users.
-  - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
+   <div class="usagedos dont">
+   ### Don't
+   - Don’t overload the avatar with unnecessary customizations.
+   - Don’t skip the `label` attribute for screen reader users.
+   - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
+   </div>
 </div>
-
 ## Accessibility
 The `nys-avatar` component includes the following accessibility-focused features:
 
@@ -86,19 +87,19 @@ The `nys-avatar` component includes the following accessibility-focused features
    </thead>
    <tbody>
       <tr>
-         <td>`base`</td>
+         <td>`nys-avatar`</td>
          <td>The component’s base wrapper.</td>
       </tr>
       <tr>
-         <td>`icon`</td>
+         <td>`nys-avatar__icon`</td>
          <td>The container that wraps the avatar’s icon.</td>
       </tr>
       <tr>
-         <td>`initials`</td>
+         <td>`nys-avatar__initials`</td>
          <td>The container that wraps the avatar’s initials.</td>
       </tr>
       <tr>
-         <td>`image`</td>
+         <td>`nys-avatar__image`</td>
          <td>The avatar image. Only shown when the image attribute is set.</td>
       </tr>
    </tbody>
