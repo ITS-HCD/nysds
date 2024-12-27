@@ -11,6 +11,12 @@ body {
     background-color: rgb(171, 251, 171);
 }
 
+.usage-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
 .usagedos {
     display: inline-block;
     width: 45%;
