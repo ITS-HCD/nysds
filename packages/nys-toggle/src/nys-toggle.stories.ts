@@ -25,7 +25,7 @@ const meta: Meta<NysToggleArgs> = {
     checked: { control: "boolean" },
     disabled: { control: "boolean" },
     noIcon: { control: "boolean" },
-    size: { control: "select", options: ["sm", "md", "lg"] },
+    size: { control: "select", options: ["sm", "md"] },
   },
   parameters: {
     docs: {
@@ -276,18 +276,6 @@ export const Sizes: Story = {
       size="md"
     >
     </nys-toggle>
-    </br>
-    <nys-toggle
-      label='Large (size="lg")'
-      description="The label and description font sizes automatically adjust to match the toggle switch's size."
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      size="lg"
-    >
-    </nys-toggle>
     `,
   parameters: {
     docs: {
@@ -308,15 +296,6 @@ export const Sizes: Story = {
   name="toggle-switch"
   value="access"
   size="md"
->
-</nys-toggle>
-</br>
-<nys-toggle
-  label='Large (size="lg")'
-  description="The label and description font sizes automatically adjust to match the toggle switch's size."
-  name="toggle-switch"
-  value="access"
-  size="lg"
 >
 </nys-toggle>
         `.trim(),

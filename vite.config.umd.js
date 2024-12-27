@@ -1,7 +1,10 @@
 import { defineConfig } from "vite";
+import { nodeResolve } from "@rollup/plugin-node-resolve"; // Ensure bundled dependencies
+import path from "path";
 
 // This banner will go at the top of our generated files
 const banner = `
+
 /*!
    * 
    * ░█▀▀▀ ▀▄░▄▀ ░█▀▀█ ░█▀▀▀ ░█─── ░█▀▀▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█ 
@@ -13,30 +16,30 @@ const banner = `
    * Repository: https://github.com/its-hcd/excelsior
    * License: MIT
  */
+
 `;
 
 export default defineConfig({
   build: {
     lib: {
-      // Entry file for our library that exports all components
-      entry: ["./src/index.ts"],
+      entry: path.resolve(__dirname, "src/index.ts"),
+      name: "Excelsior", // Global variable for UMD
+      fileName: () => "excelsior.js", // Output as "excelsior.js" for UMD
+      formats: ["umd"], // UMD format
     },
     sourcemap: true,
     emptyOutDir: false, // Since we're building both ESM and UMD
     rollupOptions: {
-      external: (id) => id === "lit" || id.startsWith("lit/"),
-      output: [
-        // ESM Build for bundlers and modern tools
-        {
-          format: "es",
-          banner,
-          dir: "dist",
-          entryFileNames: "excelsior.es.js",
-          globals: {
-            lit: "Lit",
-          },
-        },
+      external: [], // Bundle all dependencies including Lit
+      plugins: [
+        nodeResolve(), // Resolves and bundles Lit and other dependencies
       ],
+      output: {
+        banner,
+        globals: {
+          lit: "Lit", // Ensure compatibility with global Lit
+        },
+      },
     },
   },
 });
