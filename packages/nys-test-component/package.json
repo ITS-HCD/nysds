@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/nys-test-component",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A test component from the NYS Design System.",
   "module": "dist/nys-test-component.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@nys-excelsior/nys-checkbox": "^0.0.2"
+    "@nys-excelsior/nys-checkbox": "^0.0.4"
   },
   "peerDependencies": {
     "lit": "^3.2.1"

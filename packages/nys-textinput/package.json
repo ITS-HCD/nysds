@@ -1,6 +1,6 @@
 {
     "name": "@nys-excelsior/nys-textinput",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "description": "An input component from the NYS Design System.",
     "module": "dist/nys-textinput.js",
     "exports": {
