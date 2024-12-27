@@ -401,7 +401,7 @@ export const AvatarBgColor: Story = {
         code: `
  <nys-avatar
 	label="User avatar"
-	initials="RC"
+	color="#105580"
  ></nys-avatar>
 	  `.trim(),
       },

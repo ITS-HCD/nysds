@@ -53,7 +53,7 @@ export default css`
     --avatar-shape: var(--radius-rounded);
   }
 
-  div[part="icon"] {
+  div[part="nys-avatar__icon"] {
     display: flex;
     align-items: center;
     justify-content: center;
