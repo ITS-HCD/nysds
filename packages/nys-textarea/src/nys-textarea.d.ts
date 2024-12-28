@@ -1,0 +1,34 @@
+import { LitElement } from "lit";
+import "@nys-excelsior/nys-icon";
+export declare class NysTextarea extends LitElement {
+    private readonly formControlController;
+    id: string;
+    name: string;
+    label: string;
+    description: string;
+    placeholder: string;
+    value: string;
+    disabled: boolean;
+    readonly: boolean;
+    required: boolean;
+    form: null;
+    maxlength: null;
+    size: string;
+    rows: null;
+    private static readonly VALID_RESIZE;
+    private _resize;
+    get resize(): (typeof NysTextarea.VALID_RESIZE)[number];
+    set resize(value: string);
+    errorMessage: string;
+    constructor();
+    static styles: import("lit").CSSResult;
+    connectedCallback(): void;
+    setCustomValidity(message: string): void;
+    checkValidity(): boolean;
+    reportValidity(): boolean;
+    private _handleInput;
+    private _handleFocus;
+    private _handleBlur;
+    private _handleSubmitForm;
+    render(): import("lit-html").TemplateResult<1>;
+}

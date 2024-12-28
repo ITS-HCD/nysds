@@ -1,0 +1,40 @@
+import { LitElement } from "lit";
+export declare class NysTextinput extends LitElement {
+    private readonly formControlController;
+    id: string;
+    name: string;
+    private static readonly VALID_TYPES;
+    private _type;
+    get type(): (typeof NysTextinput.VALID_TYPES)[number];
+    set type(value: string);
+    get validity(): ValidityState | {
+        valid: boolean;
+    };
+    label: string;
+    description: string;
+    placeholder: string;
+    value: string;
+    disabled: boolean;
+    readonly: boolean;
+    required: boolean;
+    form: null;
+    pattern: null;
+    maxlength: null;
+    size: string;
+    step: null;
+    min: null;
+    max: null;
+    autocomplete: boolean;
+    constructor();
+    static styles: import("lit").CSSResult;
+    connectedCallback(): void;
+    setCustomValidity(message: string): void;
+    checkValidity(): boolean;
+    reportValidity(): boolean;
+    private _handleInput;
+    private handleInvalid;
+    private _handleFocus;
+    private _handleBlur;
+    private _handleSubmitForm;
+    render(): import("lit-html").TemplateResult<1>;
+}
