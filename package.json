@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/components",
-  "version": "0.0.2",
+  "version": "0.0.5-alpha",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -30,7 +30,7 @@
     "lint:fix": "eslint src/ --fix",
     "lint:fix:packages": "eslint packages/**/*.{ts,js} --fix",
     "release:dry-run": "npm run build:all && node src/scripts/publish-dry-run.js",
-    "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public",
+    "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public --tag alpha",
     "test": "wtr --node-resolve",
     "storybook": "npm run build:all && storybook dev -p 6006",
     "build-storybook": "npm run build:packages && storybook build",
