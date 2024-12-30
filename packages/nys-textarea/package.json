@@ -18,6 +18,9 @@
         "dev": "tsc --emitDeclarationOnly && vite",
         "build": "tsc --emitDeclarationOnly && vite build"
     },
+    "dependencies": {
+      "@nys-excelsior/form-controller": "^0.0.5-alpha"
+    },
     "peerDependencies": {
         "lit": "^3.2.1"
     },

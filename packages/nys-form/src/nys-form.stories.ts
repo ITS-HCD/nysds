@@ -1,12 +1,18 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-form";
-import "../../nys-checkbox/src/index.ts"; // references: "/packages/nys-checkbox/dist/nys-checkbox.es.js";
-import "../../nys-radiobutton/src/index.ts"; // references: "/packages/nys-radiobutton/dist/nys-radiobutton.es.js";
-import "../../nys-select/src/index.ts"; // references: "/packages/nys-select/dist/nys-select.es.js";
-import "../../nys-textarea/src/index.ts"; // references: "/packages/nys-textarea/dist/nys-textarea.es.js";
-import "../../nys-textinput/src/index.ts"; // references: "/packages/nys-textinput/dist/nys-textinput.es.js";
-import "../../nys-toggle/src/index.ts"; // references: "/packages/nys-toggle/dist/nys-toggle.es.js";
+// import "../../nys-checkbox/src/index.ts"; // references: "/packages/nys-checkbox/dist/nys-checkbox.es.js";
+// import "../../nys-radiobutton/src/index.ts"; // references: "/packages/nys-radiobutton/dist/nys-radiobutton.es.js";
+// import "../../nys-select/src/index.ts"; // references: "/packages/nys-select/dist/nys-select.es.js";
+// import "../../nys-textarea/src/index.ts"; // references: "/packages/nys-textarea/dist/nys-textarea.es.js";
+// import "../../nys-textinput/src/index.ts"; // references: "/packages/nys-textinput/dist/nys-textinput.es.js";
+// import "../../nys-toggle/src/index.ts"; // references: "/packages/nys-toggle/dist/nys-toggle.es.js";
+// import "@nys-excelsior/nys-checkbox";
+// import "@nys-excelsior/nys-radiobutton";
+// import "@nys-excelsior/nys-select";
+// import "@nys-excelsior/nys-textarea";
+// import "@nys-excelsior/nys-textinput";
+// import "@nys-excelsior/nys-toggle";
 
 // Define the structure of the args used in the stories
 interface NysFormArgs {
