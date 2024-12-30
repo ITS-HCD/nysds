@@ -324,7 +324,7 @@ export const Slot: Story = {
     id: "subscribe-updates",
     name: "subscribe",
     value: "email-updates",
-    showError: true,
+    showError: false,
     errorMessage: "You must select this box to continue.",
   },
   render: (args) => html`
@@ -452,8 +452,6 @@ export const CheckboxGroup: Story = {
 </nys-checkboxgroup>
 <nys-checkboxgroup
   label="Do you attest to the following:"
-  showError
-  errorMessage="You must select both options to continue."
 >
   <label slot="description"
     >Description as a 
