@@ -25,6 +25,7 @@ The **`nys-checkbox`** component is a reusable web component for use in New York
 #### Required
 <Canvas of={NysCheckboxStories.Required} />
 #### Error Message
+The error message will appear **ONLY** when the `showError` attribute is set to `true`. Setting `errorMessage` will not display the error message by default.
 <Canvas of={NysCheckboxStories.ErrorMessage} />
 #### Slots
 When the description requires more complexity than a simple `string` value, use the slot `description` to hold the text. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`
