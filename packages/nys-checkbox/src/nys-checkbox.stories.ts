@@ -305,7 +305,7 @@ export const ErrorMessage: Story = {
   name="subscribe"
   value="email-updates"
   showError
-  errorMessage="A concise error message."
+  errorMessage="You must select this box to continue."
 ></nys-checkbox>
         `.trim(),
       },
