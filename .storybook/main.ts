@@ -29,5 +29,9 @@ const config: StorybookConfig = {
   },
 
   docs: {},
+
+  managerHead: (head) => `
+    ${head}
+    <meta name="robots" content="noindex">`,
 };
 export default config;
