@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 
 // Define the build order for your packages
 const packages = [
-  { name: "form-controller", path: "packages/nys-form" },
+  { name: "form-controller", path: "packages/form" },
   { name: "nys-icon", path: "packages/nys-icon" },
   { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
