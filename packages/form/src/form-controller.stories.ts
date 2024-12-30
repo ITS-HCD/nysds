@@ -283,15 +283,24 @@ export const RequiredFields: Story = {
     docs: {
       source: {
         code: `
-<nys-form id="username-form">
-  <label for="username">Enter username: </label>
-  <input id="username" type="text" value="username" />
-  <div style="display:flex; gap:5px;">
-    <label for="mailing-list">Subscribe to our mailing list? </label>
-    <input id="mailing-list" type="checkbox" name="mailing-list" />
-  </div>
-  <button type="submit"> Send </button>
-</nys-form>
+<form id="username-form">
+  <nys-textinput
+    name="username"
+    placeholder="John Doe"
+    label="Enter username:"
+    description="Doesn't have to be your real name"
+    id="username"
+    type="text"
+    required
+  ></nys-textinput>
+  <nys-checkbox
+    label="Subscribe to our mailing list?"
+    description="Please check the box if you are want to subscribe."
+    name="mailing-list"
+    value="mailing-list"
+  ></nys-checkbox>
+  <button type="submit">Send</button>
+</form>
 `.trim(),
         type: "auto",
       },
@@ -305,21 +314,37 @@ export const OutsideFormElements: Story = {
     id: "user-info-form",
   },
   render: (args) => html`
-    <nys-form
+    <form
       .id=${args.id}
       ?fieldset=${args.fieldset}
       legend=${args.legend}
-      @nys-submit=${(e: CustomEvent) => {
-        const formData = e.detail; // access FormData from the event detail
+      @submit=${(e: SubmitEvent) => {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
     >
-      <label for="fname">Enter first name: </label>
-      <input id="fname" type="text" name="fname" placeholder="I'm inside the form!" />
-    </nys-form>
+      <nys-textinput
+        name="fname"
+        placeholder="I'm inside the form!"
+        label="First name:"
+        description="Enter your legal first name"
+        id="fname"
+        type="text"
+        required
+      ></nys-textinput>
+    </form>
     <div style="display:flex; gap:10px; margin:20px 0;">
-      <label for="lname">Enter last name: </label>
-      <input form=${args.id} id="lname" type="text" name="lname" placeholder="I'm outside the form!" />
+      <nys-textinput
+        form=${args.id}
+        name="lname"
+        placeholder="I'm outside the form!"
+        label="Last name:"
+        description="Enter your legal last name"
+        id="lname"
+        type="text"
+        required
+      ></nys-textinput>
       <button form=${args.id} type="submit">Send</button>
     </div>
   `,
@@ -328,12 +353,27 @@ export const OutsideFormElements: Story = {
       source: {
         code: `
 <nys-form id="user-info-form">
-  <label for="fname">Enter first name: </label>
-  <input id="fname" type="text" name="fname" placeholder="I'm inside the form!" />
+  <nys-textinput
+    name="fname"
+    placeholder="I'm inside the form!"
+    label="First name:"
+    description="Enter your legal first name"
+    id="fname"
+    type="text"
+    required
+  ></nys-textinput>
 </nys-form>
 <div style="display:flex; gap:10px; margin:20px 0;">
-  <label for="lname">Enter last name: </label>
-  <input form="user-info-form" id="lname" type="text" name="lname" placeholder="I'm outside the form!" />
+  <nys-textinput
+    form="user-info-form"
+    name="lname"
+    placeholder="I'm outside the form!"
+    label="Last name:"
+    description="Enter your legal last name"
+    id="lname"
+    type="text"
+    required
+  ></nys-textinput>
   <button form="user-info-form" type="submit">Send</button>
 </div>
 `.trim(),
@@ -343,10 +383,116 @@ export const OutsideFormElements: Story = {
   },
 };
 
+// Story: Fieldset and Legend
+export const Fieldset: Story = {
+  args: {
+    id: "work-location",
+    fieldset: true,
+    legend: "Primary work location",
+  },
+  render: (args) => html`
+    <form
+      .id=${args.id}
+      ?fieldset=${args.fieldset}
+      legend=${args.legend}
+      @submit=${(e: SubmitEvent) => {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
+      }}
+    >
+      <fieldset>
+        <legend>Select a Location:</legend>
+        <input type="radio" id="albany" name="office" value="albany" />
+        <label for="albany">Albany</label><br />
 
+        <input type="radio" id="manhattan" name="office" value="manhattan" />
+        <label for="manhattan">Manhattan</label><br />
 
+        <input type="radio" id="remote" name="office" value="remote" />
+        <label for="remote">Remote</label>
 
+        <div style="display:flex; margin:20px 0;">
+          <select name="state" id="state-select">
+            <option value="">--Please choose an option--</option>
+            <option value="nj">New Jersey</option>
+            <option value="ny">New York</option>
+            <option value="pa">Pennsylvania</option>
+            <option value="ma">Massachusetts</option>
+            <option value="vt">Vermont</option>
+            <option value="ct">Connecticut</option>
+          </select>
+        </div>
+        <nys-select
+          name="state"
+          id="state-select"
+          label="Select state"
+          description="This is your primary work location state"
+          size="sm"
+        >
+          <option value="">--Please choose an option--</option>
+          <option value="nj">New Jersey</option>
+          <option value="ny">New York</option>
+          <option value="pa">Pennsylvania</option>
+          <option value="ma">Massachusetts</option>
+          <option value="vt">Vermont</option>
+          <option value="ct">Connecticut</option>
+        </nys-select>
+        <button type="submit">Send</button>
+      </fieldset>
+    </form>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<form id="work-location">
+  <fieldset>
+    <legend>Select a Location:</legend>
+    <input type="radio" id="albany" name="office" value="albany" />
+    <label for="albany">Albany</label><br />
 
+    <input type="radio" id="manhattan" name="office" value="manhattan" />
+    <label for="manhattan">Manhattan</label><br />
+
+    <input type="radio" id="remote" name="office" value="remote" />
+    <label for="remote">Remote</label>
+
+    <div style="display:flex; margin:20px 0;">
+      <select name="state" id="state-select">
+        <option value="">--Please choose an option--</option>
+        <option value="nj">New Jersey</option>
+        <option value="ny">New York</option>
+        <option value="pa">Pennsylvania</option>
+        <option value="ma">Massachusetts</option>
+        <option value="vt">Vermont</option>
+        <option value="ct">Connecticut</option>
+      </select>
+    </div>
+    <nys-select
+      name="state"
+      id="state-select"
+      label="Select state"
+      description="This is your primary work location state"
+      size="sm"
+    >
+      <option value="">--Please choose an option--</option>
+      <option value="nj">New Jersey</option>
+      <option value="ny">New York</option>
+      <option value="pa">Pennsylvania</option>
+      <option value="ma">Massachusetts</option>
+      <option value="vt">Vermont</option>
+      <option value="ct">Connecticut</option>
+    </nys-select>
+    <button type="submit">Send</button>
+  </fieldset>
+</form>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
 
 
 // Story: Form
@@ -427,79 +573,3 @@ export const HandlingSubmission: Story = {
   },
 };
 
-// Story: Fieldset and Legend
-export const Fieldset: Story = {
-  args: {
-    id: "work-location",
-    fieldset: true,
-    legend: "Primary work location",
-  },
-  render: (args) => html`
-    <nys-form
-      .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
-      @nys-submit=${(e: CustomEvent) => {
-        const formData = e.detail; // access FormData from the event detail
-        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
-      }}
-    >
-      <input type="radio" id="albany" name="office" value="albany" />
-      <label for="albany">Albany</label><br />
-
-      <input type="radio" id="manhattan" name="office" value="manhattan" />
-      <label for="manhattan">Manhattan</label><br />
-
-      <input type="radio" id="remote" name="office" value="remote" />
-      <label for="remote">Remote</label>
-
-      <div style="display:flex; margin:20px 0;">
-        <select name="state" id="state-select">
-          <option value="">--Please choose an option--</option>
-          <option value="nj">New Jersey</option>
-          <option value="ny">New York</option>
-          <option value="pa">Pennsylvania</option>
-          <option value="ma">Massachusetts</option>
-          <option value="vt">Vermont</option>
-          <option value="ct">Connecticut</option>
-        </select>
-      </div>
-      <button type="submit">Send</button>
-    </nys-form>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-form 
-  id="work-location"
-  fieldset
-  legend="Location">
-    <input type="radio" id="albany" name="office" value="albany" />
-    <label for="albany">Albany</label><br />
-
-    <input type="radio" id="manhattan" name="office" value="manhattan" />
-    <label for="manhattan">Manhattan</label><br />
-
-    <input type="radio" id="remote" name="office" value="remote" />
-    <label for="remote">Remote</label>
-
-    <div style="display:flex; margin:20px;">
-      <select name="state" id="state-select">
-        <option value="">--Please choose an option--</option>
-        <option value="nj">New Jersey</option>
-        <option value="ny">New York</option>
-        <option value="pa">Pennsylvania</option>
-        <option value="ma">Massachusetts</option>
-        <option value="vt">Vermont</option>
-        <option value="ct">Connecticut</option>
-      </select>
-    </div>
-    <button type="submit"> Send </button>
-</nys-form>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};

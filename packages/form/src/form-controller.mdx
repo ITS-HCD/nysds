@@ -1,19 +1,21 @@
 import { Meta, Story, Source, Canvas } from '@storybook/blocks';
 import { html } from 'lit';
-import * as NysFormStories from './nys-form.stories';
+import * as FormStories from './form-controller.stories';
 
-<Meta of={NysFormStories} title="Components/Form/Documentation" />
+<Meta of={FormStories} title="Components/Form/Documentation" />
 
 # Form Controls
 
-## Variants
-### Native Form and Excelsior's nys-components
+Our form controller integrates custom form controls with native HTML form behaviors, handling association, data submission, validation, resetting, and interaction states.
+
 Excelsior components are built using Lit.dev and utilize the `shadowDOM.` While this approach is effective for encapsulating a component's internal structure, it prevents native `<form>` elements from recognizing form controls within a shadow root. \
-To address this, Excelsior leverages the **`formdata` event**. 
+To address this, Excelsior leverages the **`[formdata](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/formdata_event)` event**, which is available in [all modern browsers](https://caniuse.com/mdn-api_htmlformelement_formdata_event).
 
-When a form is submitted, Excelsior automatically appends the custom component's values to the FormData object, ensuring compatibility with modern browsers.
+<p class="pill stable">Stable</p>
 
-In the example below, we demonstrate how to process the `FormData` object by listening to a native form submission event. The form includes both standard HTML form elements and custom `nys-components`.
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+In the examples below, we demonstrate how to process the `FormData` object by listening to a native form submission event. Your form can include both standard HTML form elements and custom `nys-components`.
 ```js
 const form = document.querySelector('form');
 form.addEventListener('submit', (e) => {
@@ -21,34 +23,59 @@ form.addEventListener('submit', (e) => {
    // Collects all form control data into a FormData object
    const data = new FormData(form); 
    // Use the FormData object as needed
-   // ...
+   useData(formData);
 });
+```
 
+### Custom Function for Handling FormData
+```javascript
+/**
+* Example custom function to process FormData.
+* Demonstrates how developers might handle the `nys-submitForm` event bubbled up from <nys-form>.
+* 
+* A typical example of using FormData is passing it through API to the backend.
+* This example converts FormData into a key-value object for easier manipulation
+* and logs the processed and raw data, and displays it in an alert.
+*/
+const useData = (formData: FormData) => {
+   const formValues: Record<string, string> = {};
+   formData.forEach((value, key) => {
+      formValues[key] = value.toString();
+   });
+
+   console.log("Processed Form Values:", formValues);
+   console.log("Raw FormData:", formData);
+   alert(JSON.stringify(formValues, null, 2));
+};
 ```
 <Canvas of={NysFormStories.nativeFormWithComponents} />
 
+## Variants
 ### Required Fields
 Form will handle all required attributes for you.
 <Canvas of={NysFormStories.RequiredFields} />
 
 ### Form Property on Outer Web Components
-Use the `form` property to explicitly associate the toggle (or other components) with a specific `<form>` element or `<nys-form>` component by referencing the form's `id`.
+Use the `form` property to explicitly associate components and elements with a specific `<form>` by [referencing that form's `id`](https://www.w3.org/TR/2009/WD-html5-20090212/forms.html). 
 ```html
 <!-- For example -->
 <nys-form id="my-form">
-  <nys-textinput label="Label"></nys-textinput>
-  <nys-textinput label="Label"></nys-textinput>
-  <nys-checkbox label="Label"></nys-checkbox>
+  <nys-textinput label="Label1"></nys-textinput>
+  <nys-textinput label="Label2"></nys-textinput>
 </nys-form>
-<nys-toggle form="my-form" label="Label" name="example-name"></nys-toggle>
+<nys-checkbox form="my-form" label="Label3"></nys-checkbox>
 <button form="my-form" type="submit">Submit</button>
 ```
 <Canvas of={NysFormStories.OutsideFormElements} />
 
+## Fieldset and Legends
+The fieldset element should only be used when there are a number of related form controls that need to be grouped together. And, when the fieldset element is used, the first element inside the fieldset must be a legend.
+<Canvas of={NysFormStories.Fieldset} />
 
 
-## *****------------- NYS-FORM -------------*****
-### Currently on trial: it stands accused of being unnecessary. Verdict: TBD...
+## *****------------- ! TO BE DELETED ! -------------*****
+## *****------------------ NYS-FORM ------------------*****
+## *****------------- ! TO BE DELETED ! -------------*****
 
 The **`nys-form`** component is a reusable web component for use in New York State digital products. It allows users users to enter information into a page.
 
@@ -132,12 +159,6 @@ const useData = (formData: FormData) => {
    alert(JSON.stringify(formValues, null, 2));
 };
  ```
-
-## Fieldset and Legends
-You can enable `fieldset` boolean attribute and declare a legend.
-The fieldset element should only be used when there are a number of related form controls that need to be grouped together. And, when the fieldset element is used, the first element inside the fieldset must be a legend.
-<Canvas of={NysFormStories.Fieldset} />
-
 
 ## Form Property on Outer Web Components
 The `form` property allows HTML elements or NYS web components (outside the form) to associate explicitly with a specific `<form>` or `<nys-form>` element by its id, regardless of the component's location on the page.
