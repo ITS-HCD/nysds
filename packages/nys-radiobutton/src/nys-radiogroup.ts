@@ -1,10 +1,10 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { FormControlController } from "@nys-excelsior/form-controller";
+// import { FormControlController } from "@nys-excelsior/form-controller";
 
 @customElement("nys-radiogroup")
 export class NysRadiogroup extends LitElement {
-	private formControlController = new FormControlController(this);
+	// private formControlController = new FormControlController(this);
 
 	@property() label = "lol";
 

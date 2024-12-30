@@ -11,8 +11,8 @@ let toggleIdCounter = 0; // Counter for generating unique IDs
 export class NysToggle extends LitElement {
 	// The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
 	private readonly formControlController = new FormControlController(this, {
-		value: (input) => (this.checked ? "on" : undefined),
-		defaultValue: (input) => (this.checked ? "on" : undefined),
+		value: () => (this.checked ? "on" : undefined),
+		defaultValue: () => (this.checked ? "on" : undefined),
 		reportValidity: () => this.reportValidity(),
 		checkValidity: () => this.checkValidity(),
 	});

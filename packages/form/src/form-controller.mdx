@@ -48,12 +48,12 @@ const useData = (formData: FormData) => {
    alert(JSON.stringify(formValues, null, 2));
 };
 ```
-<Canvas of={NysFormStories.nativeFormWithComponents} />
+<Canvas of={FormStories.nativeFormWithComponents} />
 
 ## Variants
 ### Required Fields
 Form will handle all required attributes for you.
-<Canvas of={NysFormStories.RequiredFields} />
+<Canvas of={FormStories.RequiredFields} />
 
 ### Form Property on Outer Web Components
 Use the `form` property to explicitly associate components and elements with a specific `<form>` by [referencing that form's `id`](https://www.w3.org/TR/2009/WD-html5-20090212/forms.html). 
@@ -66,11 +66,11 @@ Use the `form` property to explicitly associate components and elements with a s
 <nys-checkbox form="my-form" label="Label3"></nys-checkbox>
 <button form="my-form" type="submit">Submit</button>
 ```
-<Canvas of={NysFormStories.OutsideFormElements} />
+<Canvas of={FormStories.OutsideFormElements} />
 
 ## Fieldset and Legends
 The fieldset element should only be used when there are a number of related form controls that need to be grouped together. And, when the fieldset element is used, the first element inside the fieldset must be a legend.
-<Canvas of={NysFormStories.Fieldset} />
+<Canvas of={FormStories.Fieldset} />
 
 
 ## *****------------- ! TO BE DELETED ! -------------*****
@@ -83,14 +83,14 @@ An id is required.
 
 ## Wrapping with `nys-form`
 To get started, wrap your desired HTML elements or NYS design system components with the `nys-form` component.
-<Canvas of={NysFormStories.Form} />
+<Canvas of={FormStories.Form} />
 
 ## Handling `nys-submitForm` event
 `nys-form` emits a custom event called `nys-submitForm`. To use this event, add an event listener on `nys-submitForm` from the `nys-form` component.
 
 The examples below demonstrate how to handle the `nys-submitForm` event in React & Vanilla JS and process its detail.\
 Then, passes the retrieved `FormData` into `useData()` function.
-<Canvas of={NysFormStories.HandlingSubmission} />
+<Canvas of={FormStories.HandlingSubmission} />
 
 ### React Example
 In React, you can listen to the `nys-submitForm` event by using an event handler in JSX. Here's an example:
@@ -175,7 +175,7 @@ Use the `form` property to explicitly associate the toggle (or other components)
 <nys-toggle form="my-form" label="Label" name="example-name"></nys-toggle>
 <button form="my-form" type="submit">Submit</button>
 ```
-<Canvas of={NysFormStories.OutsideFormElements} />
+<Canvas of={FormStories.OutsideFormElements} />
 
 ## NYS Form Components
 The `<nys-form>` currently supports the following NYS components:
