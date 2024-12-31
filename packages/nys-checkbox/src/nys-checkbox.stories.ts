@@ -46,7 +46,7 @@ type Story = StoryObj<NysCheckboxArgs>;
 // Define stories without using args
 
 // Story: Unchecked
-export const Unchecked: Story = {
+export const Basic: Story = {
   args: {
     checked: false,
     disabled: false,
@@ -88,50 +88,8 @@ export const Unchecked: Story = {
   },
 };
 
-// Story: Checked
-export const Checked: Story = {
-  args: {
-    checked: true,
-    disabled: false,
-    required: false,
-    label: "I attest that the information provided is accurate and complete.",
-    description: "",
-    name: "confirm",
-    value: "confirm-accuracy",
-    showError: false,
-    errorMessage: "You must select this box to continue.",
-  },
-  render: (args) => html`
-    <nys-checkbox
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-checkbox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox
-  checked
-  label="I attest that the information provided is accurate and complete."
-  name="confirm"
-  value="confirm-accuracy"
-></nys-checkbox>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Disabled and Unchecked
-export const DisabledUnchecked: Story = {
+// Story: Disabled
+export const Disabled: Story = {
   args: {
     checked: false,
     disabled: true,
@@ -155,6 +113,17 @@ export const DisabledUnchecked: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     ></nys-checkbox>
+    <nys-checkbox
+      checked
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .label=${args.label}
+      .description=${args.description}
+      .name=${args.name}
+      .value=${args.value}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-checkbox>
   `,
   parameters: {
     docs: {
@@ -167,52 +136,13 @@ export const DisabledUnchecked: Story = {
   name="earlyVoting"
   value="early-voting"
 ></nys-checkbox>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Disabled and Checked
-export const DisabledChecked: Story = {
-  args: {
-    checked: true,
-    disabled: true,
-    required: false,
-    label: "Subscribe to NYS Government Updates",
-    description: "Get notified via email about important updates and services.",
-    id: "subscribe-checkbox-disabled-checked",
-    name: "subscribe",
-    value: "email-updates",
-    showError: false,
-    errorMessage: "You must select this box to continue.",
-  },
-  render: (args) => html`
-    <nys-checkbox
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .label=${args.label}
-      .description=${args.description}
-      .id=${args.id}
-      .name=${args.name}
-      .value=${args.value}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-checkbox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
 <nys-checkbox
-  checked
   disabled
-  label="Subscribe to NYS Government Updates"
-  description="Get notified via email about important updates and services."
-  id="subscribe-checkbox-disabled-checked"
-  name="subscribe"
-  value="email-updates"
+  checked
+  label="Register for Early Voting"
+  description="This option is currently unavailable."
+  name="earlyVoting"
+  value="early-voting"
 ></nys-checkbox>
         `.trim(),
       },
