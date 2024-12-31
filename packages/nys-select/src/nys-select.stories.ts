@@ -75,11 +75,11 @@ export const Basic: Story = {
       .hasError=${args.hasError}
       .errorMessage=${args.errorMessage}
     >
-      <nys-option value="bronx" label="The Bronx"></nys-option>
-      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-      <nys-option value="manhattan" label="Manhattan"></nys-option>
-      <nys-option value="staten_island" label="Staten Island"></nys-option>
-      <nys-option value="queens" label="Queens"></nys-option>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
     </nys-select>
   `,
   parameters: {
@@ -87,63 +87,11 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-select label="Select your favorite borough">
-  <nys-option value="bronx" label="The Bronx"></nys-option>
-  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-  <nys-option value="manhattan" label="Manhattan"></nys-option>
-  <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>      
-</nys-select>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const OptionsLabelSlot: Story = {
-  args: {
-    id: "",
-    name: "",
-    label: "Select your favorite borough",
-    description: "",
-    value: "",
-    disabled: false,
-    required: false,
-    form: "",
-    size: "",
-    hasError: false,
-    errorMessage: "",
-  },
-  render: (args) => html`
-    <nys-select
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .form=${args.form}
-      .size=${args.size}
-      .hasError=${args.hasError}
-      .errorMessage=${args.errorMessage}
-    >
-      <nys-option value="bronx">The Bronx</nys-option>
-      <nys-option value="brooklyn">Brooklyn</nys-option>
-      <nys-option value="manhattan">Manhattan</nys-option>
-      <nys-option value="staten_island">Staten Island</nys-option>
-      <nys-option value="queens">Queens</nys-option>
-    </nys-select>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-select label="Select your favorite borough">
-  <nys-option value="bronx">The Bronx</nys-option>
-  <nys-option value="brooklyn">Brooklyn</nys-option>
-  <nys-option value="manhattan">Manhattan</nys-option>
-  <nys-option value="staten_island">Staten Island</nys-option>
-  <nys-option value="queens">Queens</nys-option>   
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>        
 </nys-select>`,
         type: "auto",
       },
@@ -179,11 +127,11 @@ export const Disabled: Story = {
       .hasError=${args.hasError}
       .errorMessage=${args.errorMessage}
     >
-      <nys-option value="bronx" label="The Bronx"></nys-option>
-      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-      <nys-option value="manhattan" label="Manhattan"></nys-option>
-      <nys-option value="staten_island" label="Staten Island"></nys-option>
-      <nys-option value="queens" label="Queens"></nys-option>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
     </nys-select>
   `,
   parameters: {
@@ -191,11 +139,11 @@ export const Disabled: Story = {
       source: {
         code: `
 <nys-select label="Select your favorite borough" disabled>
-  <nys-option value="bronx" label="The Bronx"></nys-option>
-  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-  <nys-option value="manhattan" label="Manhattan"></nys-option>
-  <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>`,
         type: "auto",
       },
@@ -231,11 +179,11 @@ export const Required: Story = {
       .hasError=${args.hasError}
       .errorMessage=${args.errorMessage}
     >
-      <nys-option value="bronx" label="The Bronx"></nys-option>
-      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-      <nys-option value="manhattan" label="Manhattan"></nys-option>
-      <nys-option value="staten_island" label="Staten Island"></nys-option>
-      <nys-option value="queens" label="Queens"></nys-option>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
     </nys-select>
   `,
   parameters: {
@@ -243,11 +191,11 @@ export const Required: Story = {
       source: {
         code: `
 <nys-select label="Select your favorite borough" required>
-  <nys-option value="bronx" label="The Bronx"></nys-option>
-  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-  <nys-option value="manhattan" label="Manhattan"></nys-option>
-  <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>`,
         type: "auto",
       },
@@ -283,11 +231,11 @@ export const Size: Story = {
       .hasError=${args.hasError}
       .errorMessage=${args.errorMessage}
     >
-      <nys-option value="bronx" label="The Bronx"></nys-option>
-      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-      <nys-option value="manhattan" label="Manhattan"></nys-option>
-      <nys-option value="staten_island" label="Staten Island"></nys-option>
-      <nys-option value="queens" label="Queens"></nys-option>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
     </nys-select>
   `,
   parameters: {
@@ -299,11 +247,11 @@ export const Size: Story = {
   description="Valid sizes are xs, sm, md, lg, and xl"
   size="xs"
 >
-  <nys-option value="bronx" label="The Bronx"></nys-option>
-  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-  <nys-option value="manhattan" label="Manhattan"></nys-option>
-  <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>`,
         type: "auto",
       },
@@ -339,11 +287,11 @@ export const ErrorMessage: Story = {
       .hasError=${args.hasError}
       .errorMessage=${args.errorMessage}
     >
-      <nys-option value="bronx" label="The Bronx"></nys-option>
-      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-      <nys-option value="manhattan" label="Manhattan"></nys-option>
-      <nys-option value="staten_island" label="Staten Island"></nys-option>
-      <nys-option value="queens" label="Queens"></nys-option>
+      <option value="bronx">The Bronx</option>
+      <option value="brooklyn">Brooklyn</option>
+      <option value="manhattan">Manhattan</option>
+      <option value="staten_island">Staten Island</option>
+      <option value="queens">Queens</option>
     </nys-select>
   `,
   parameters: {
@@ -355,11 +303,11 @@ export const ErrorMessage: Story = {
   errorMessage="This is an error message"
   hasError
 >
-  <nys-option value="bronx" label="The Bronx"></nys-option>
-  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-  <nys-option value="manhattan" label="Manhattan"></nys-option>
-  <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+  <option value="manhattan">Manhattan</option>
+  <option value="staten_island">Staten Island</option>
+  <option value="queens">Queens</option>
 </nys-select>`,
         type: "auto",
       },

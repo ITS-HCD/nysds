@@ -3,7 +3,6 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import { classMap } from "lit/directives/class-map.js";
 import "@nys-excelsior/nys-icon";
-import { NysOption } from "./nys-option";
 
 @customElement("nys-select")
 export class NysSelect extends LitElement {
@@ -19,12 +18,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean }) hasError = false;
   @property({ type: String }) errorMessage = "";
 
-  @state() private _options: {
-    value: string;
-    label: string;
-    disabled: boolean;
-    selected: boolean;
-  }[] = [];
+  @state() private _options: { value: string; text: string }[] = [];
 
   static styles = styles;
 
@@ -33,17 +27,11 @@ export class NysSelect extends LitElement {
     if (slot) {
       const nodes = slot.assignedElements({ flatten: true });
       this._options = nodes
-        .filter((node) => node instanceof NysOption)
-        .map((node) => {
-          const nysOption = node as NysOption;
-          const label = nysOption.label || nysOption.textContent?.trim() || "";
-          return {
-            value: nysOption.value,
-            label: label,
-            disabled: nysOption.disabled,
-            selected: nysOption.selected,
-          };
-        });
+        .filter((node) => node instanceof HTMLOptionElement)
+        .map((node) => ({
+          value: (node as HTMLOptionElement).value,
+          text: node.textContent || "",
+        }));
     }
     this.requestUpdate(); // Request an update after processing options
   }
@@ -110,16 +98,7 @@ export class NysSelect extends LitElement {
             >
               <option hidden disabled selected value></option>
               ${this._options.map(
-                (opt) =>
-                  html`<option
-                    value=${opt.value}
-                    label=${opt.label}
-                    ?disabled=${opt.disabled}
-                    ?hidden=${opt.selected}
-                    ?selected=${opt.selected}
-                  >
-                    ${opt.label}
-                  </option>`,
+                (opt) => html`<option value=${opt.value}>${opt.text}</option>`,
               )}
             </select>
             <slot
