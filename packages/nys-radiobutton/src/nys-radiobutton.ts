@@ -118,7 +118,7 @@ export class NysRadiobutton extends LitElement {
         detail: { name: [this.name], value: this.checked },
         bubbles: true,
         composed: true,
-      })
+      }),
     );
   }
 

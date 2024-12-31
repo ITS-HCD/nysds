@@ -71,21 +71,35 @@ export const nativeFormWithComponents: Story = {
           return;
         }
 
-        console.log("You should not be seeing this message if validation is suppose to fail. Otherwise, success!")
+        console.log(
+          "You should not be seeing this message if validation is suppose to fail. Otherwise, success!",
+        );
         const formData = new FormData(e.target as HTMLFormElement);
         // Convert FormData to a simple object for easier logging
         const formDataObj: Record<string, any> = {};
         formData.forEach((value, key) => {
           formDataObj[key] = value;
         });
-        alert('Form Data:\n' + JSON.stringify(formDataObj, null, 2));
+        alert("Form Data:\n" + JSON.stringify(formDataObj, null, 2));
       }}
+      style="display: flex; flex-direction: column; gap: 10px;"
     >
       <label for="fullname">Enter full name: </label>
-      <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+      <input
+        id="fullname"
+        type="text"
+        name="fullname"
+        placeholder="Did you know I'm a native HTML element?"
+      />
 
       <label for="password-native">Password (Native): </label>
-      <input id="password-native" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+      <input
+        id="password-native"
+        type="password"
+        autocomplete="on"
+        name="password-native"
+        placeholder="Testing: Can you break into my password? (native)"
+      />
 
       <nys-textinput
         name="password-nys"
@@ -147,11 +161,7 @@ export const nativeFormWithComponents: Story = {
         maxlength="10"
       >
       </nys-textarea>
-      <nys-toggle
-        label="Dark Mode"
-        name="dark-mode"
-        value="dark"
-      ></nys-toggle>
+      <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
       <button type="submit">Send</button>
     </form>
   `,
@@ -249,13 +259,17 @@ export const RequiredFields: Story = {
       ?fieldset=${args.fieldset}
       legend=${args.legend}
       @submit=${(e: SubmitEvent) => {
-        console.log("Form submitted...you should not see this message if validation fails.");
+        console.log(
+          "Form submitted...you should not see this message if validation fails.",
+        );
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
+      style="display: flex; flex-direction: column; gap: 10px;"
     >
-      <input placeholder="yo" name="test" required></input>
+      <label for="fav-color">Enter color:</label>
+      <input id="fav-color" placeholder="what's your favorite color?" name="favorite-color" required></input>
       <nys-textinput
         name="username"
         placeholder="John Doe"
@@ -319,6 +333,7 @@ export const OutsideFormElements: Story = {
         const formData = new FormData(e.target as HTMLFormElement);
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
+      style="display: flex; flex-direction: column; gap: 10px; background-color: #f0f0f0; padding: 20px;"
     >
       <nys-textinput
         name="fname"
@@ -330,7 +345,7 @@ export const OutsideFormElements: Story = {
         required
       ></nys-textinput>
     </form>
-    <div style="display:flex; gap:10px; margin:20px 0;">
+    <div style="display:flex; flex-direction: column; gap:10px; margin:20px 0;">
       <nys-textinput
         form=${args.id}
         name="lname"

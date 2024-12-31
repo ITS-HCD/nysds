@@ -13,17 +13,16 @@ export class NysForm extends LitElement {
   @state() private _formElements: HTMLElement[] = [];
   @state() private _formData: Record<string, any> = {}; // Store custom-component's data changes
 
-
   /********************** Lifecycle Hooks **********************/
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener("nys-submitForm", this._handleChange) // nys-submitForm is listen on each custom component, their details are used during submission
+    this.addEventListener("nys-submitForm", this._handleChange); // nys-submitForm is listen on each custom component, their details are used during submission
     this._attachExternalSubmitListener();
   }
 
   disconnectedCallback() {
     this._detachExternalSubmitListener();
-    this.removeEventListener("nys-submitForm", this._handleChange)
+    this.removeEventListener("nys-submitForm", this._handleChange);
     super.disconnectedCallback();
   }
 
@@ -97,7 +96,11 @@ export class NysForm extends LitElement {
     // Include external elements with the `form` attribute in the FormData
     const externalNodes = document.querySelectorAll(`[form=${this.id}]`);
     externalNodes.forEach((node) => {
-      if (node instanceof HTMLFormElement || node instanceof HTMLInputElement || node instanceof HTMLSelectElement) {
+      if (
+        node instanceof HTMLFormElement ||
+        node instanceof HTMLInputElement ||
+        node instanceof HTMLSelectElement
+      ) {
         formData.append(node.name, node.value);
       }
     });

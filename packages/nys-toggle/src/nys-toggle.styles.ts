@@ -17,7 +17,7 @@ export default css`
     --nys-color-theme-strong: #0e324f;
     --nys-color-theme-stronger: #081b2b;
     --nys-color-ink-reverse: #fff;
-    --nys-color-focus: #004DD1;
+    --nys-color-focus: #004dd1;
 
     /* Font sizes and spacing for labels/descriptions and icons */
     --label-font-size: 14px;
@@ -123,7 +123,7 @@ export default css`
   input:focus + .slider {
     box-shadow:
       0 0 0 1.5px white,
-      0 0 0 3px var(--nys-color-focus, #004DD1);
+      0 0 0 3px var(--nys-color-focus, #004dd1);
   }
 
   /* Switch Knob: Checked */
