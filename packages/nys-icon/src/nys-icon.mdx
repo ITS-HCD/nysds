@@ -8,10 +8,15 @@ import * as NysIconStories from "./nys-icon.stories";
 
 The **`nys-icon`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
 
-### Icon props implementations:
-        * Custom size naming variants
-        * Color 
-        * Rotation (Degree)
+<p class="pill stable">Stable</p>
+
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysIconStories.Default} />
+
+<Controls />
 
 ### All available SVG names (Count: {51})
 
@@ -89,7 +94,7 @@ Include a label property to provide accessible text for screen readers.
 <Canvas of={NysIconStories.Labels} />
 
 
-## Icon Property Examples
+## Variants
 
 ### Size Inheritance
 The icon size will inherit the relative font size from its nearest parent. By default, the icon will have a `font-size` set to `1cap` (if supported by browser, otherwise 1em), which is based on the capital letters' height of the current font.
@@ -139,6 +144,34 @@ Set the icon's rotation by passing the angle as a number, like rotate="20" (with
 Set an icon to flip horizontally, vertically, or in both directions by using the `flip` property. 
 Available values are `horizontal`, `vertical`, and `both`. 
 <Canvas of={NysIconStories.Flip} />
+
+## Use cases
+
+### When to use this component
+  - To provide recognizable visual representations for common actions or objects (e.g., search, download, social media links).
+  - Ideal for enhancing navigation menus, buttons, or other interactive elements with visual cues.
+
+### When to consider something else
+  - If an icon does not add meaningful value to the context or might confuse users.
+  - When a descriptive label or plain text provides clearer communication.
+
+## Usage 
+<div class="usage-wrapper">
+   <div class="usagedos do">
+   ### Do
+   - Use icons to enhance user interfaces with clear, recognizable icons.
+   - Use appropriate icons align with the purpose and context of the UI elements they accompany.
+   - Provide an accessible label using the label attribute to ensure screen readers can interpret the icon's purpose (if warranted).
+   - Customize icon sizes and colors to match the design system.
+   </div>
+
+   <div class="usagedos dont">
+   ### Don't
+   - Use icons that lack clarity or context for their intended purpose.
+   - Use excessive customization that distracts from UI and established design patterns.
+   - Replace meaningful text with an icon unless its meaning is universally recognized or accompanied by a text label.
+   </div>
+</div>
 
 ## Accessibility
 
