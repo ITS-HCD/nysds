@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysAlertStories from './nys-alert.stories';
 
@@ -10,6 +10,17 @@ The **`nys-alert`** component is a reusable web component for use in New York St
 
 If an id is not passed, a unique id will be generated.
 
+<p class="pill stable">Stable</p>
+
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysAlertStories.Default} />
+
+<Controls />
+
+## Variants
 ## All Alerts
 Below are the available alert theme, each showcasing its unique style and purpose.
 <Canvas of={NysAlertStories.AllAlerts} />
@@ -40,6 +51,34 @@ Override the default `theme` icon by setting the `icon` property to any name fro
 ### Slim Variant
 The slim variant `isSlim` is a compact version of the alert, ideal for short descriptions. It removes the header and centers the icon for a cleaner layout.
 <Canvas of={NysAlertStories.Slim} />
+
+## Use cases
+
+### When to use this component
+  - Use nys-alert to communicate important, time-sensitive information to users in a visually prominent way.
+  - Ideal for messages such as success notifications, error alerts, warnings, or informational updates.
+  - Use for dismissible or auto-hiding alerts when the message is not critical to user workflow.
+
+### When to consider something else
+  - If the information is not time-sensitive or critical, consider using a less intrusive component, such as a tooltip or inline message.
+  - Avoid using alerts for repetitive or non-actionable content that could frustrate users.
+  - For notifications outside the page context, consider using a toast or modal component instead.
+
+## Usage 
+<div class="usage-wrapper">
+   <div class="usagedos do">
+   ### Do
+   - Keep the alert content concise and focused on the message.
+   - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `error`) to match the intent of the alert.
+   - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
+   </div>
+
+   <div class="usagedos dont">
+   ### Don't
+   - Overuse alerts for non-critical information, as this can desensitize users to important messages.
+   - Use icons or themes that don’t clearly communicate the purpose of the alert.
+   </div>
+</div>
 
 ## Accessibility
 

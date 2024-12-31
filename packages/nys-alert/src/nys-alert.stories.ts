@@ -42,6 +42,41 @@ type Story = StoryObj<NysAlertArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
+// Story: Default
+export const Default: Story = {
+  args: {
+    theme: "success",
+    heading: "Custom Heading",
+    text: "This is a custom text describing your alert.",
+  },
+  render: (args) => html`
+    <nys-alert
+      .theme=${args.theme}
+      .heading=${args.heading}
+      .text=${args.text}
+      .duration=${args.duration}
+      .icon=${args.icon}
+      ?isSlim=${args.isSlim}
+      ?dismissible=${args.dismissible}
+    >
+    </nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert 
+  theme="info" 
+  heading="Information status" 
+  text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.">
+</nys-alert>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 // Story: AllAlerts
 export const AllAlerts: Story = {
   render: () => html`
