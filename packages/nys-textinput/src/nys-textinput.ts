@@ -10,6 +10,7 @@ let textinputIdCounter = 0; // Counter for generating unique IDs
 export class NysTextinput extends LitElement {
 	// The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
 	private readonly formControlController = new FormControlController(this, {
+		form: () => (this.form ? document.getElementById(this.form) as HTMLFormElement : this.closest("form")),
 		value: () => this.value,
 		defaultValue: () => "",
 		reportValidity: () => this.reportValidity(),
@@ -106,8 +107,9 @@ export class NysTextinput extends LitElement {
 	}
 
 	// Handle invalid event
-	private handleInvalid() {
+	private handleInvalid(event: Event) {
 		this.formControlController.setValidity(false);
+		this.formControlController.emitInvalidEvent(event);
 	}
 
 	// Handle focus event

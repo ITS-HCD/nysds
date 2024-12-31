@@ -10,6 +10,7 @@ let checkboxIdCounter = 0; // Counter for generating unique IDs
 export class NysCheckbox extends LitElement {
 	// The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
 	private readonly formControlController = new FormControlController(this, {
+		form: () => (this.form ? document.getElementById(this.form) as HTMLFormElement : this.closest("form")),
 		value: () => (this.checked ? "on" : undefined),
 		defaultValue: () => (this.checked ? "on" : undefined),
 		reportValidity: () => this.reportValidity(),

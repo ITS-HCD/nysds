@@ -11,7 +11,8 @@ let textareaIdCounter = 0; // Counter for generating unique IDs
 export class NysTextarea extends LitElement {
 	// The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
 	private readonly formControlController = new FormControlController(this, {
-		value: () => this.value,
+		form: () => (this.form ? document.getElementById(this.form) as HTMLFormElement : this.closest("form")),
+    value: () => this.value,
 		defaultValue: () => "",
 		reportValidity: () => this.reportValidity(),
 		checkValidity: () => this.checkValidity(),

@@ -1,18 +1,11 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
-import "./nys-form";
-// import "../../nys-checkbox/src/index.ts"; // references: "/packages/nys-checkbox/dist/nys-checkbox.es.js";
-// import "../../nys-radiobutton/src/index.ts"; // references: "/packages/nys-radiobutton/dist/nys-radiobutton.es.js";
-// import "../../nys-select/src/index.ts"; // references: "/packages/nys-select/dist/nys-select.es.js";
-// import "../../nys-textarea/src/index.ts"; // references: "/packages/nys-textarea/dist/nys-textarea.es.js";
-// import "../../nys-textinput/src/index.ts"; // references: "/packages/nys-textinput/dist/nys-textinput.es.js";
-// import "../../nys-toggle/src/index.ts"; // references: "/packages/nys-toggle/dist/nys-toggle.es.js";
-// import "@nys-excelsior/nys-checkbox";
-// import "@nys-excelsior/nys-radiobutton";
-// import "@nys-excelsior/nys-select";
-// import "@nys-excelsior/nys-textarea";
-// import "@nys-excelsior/nys-textinput";
-// import "@nys-excelsior/nys-toggle";
+import "@nys-excelsior/nys-checkbox";
+import "@nys-excelsior/nys-radiobutton";
+import "@nys-excelsior/nys-select";
+import "@nys-excelsior/nys-textarea";
+import "@nys-excelsior/nys-textinput";
+import "@nys-excelsior/nys-toggle";
 
 // Define the structure of the args used in the stories
 interface NysFormArgs {
@@ -62,7 +55,7 @@ const useData = (formData: FormData) => {
 // Story: Native Form with Custom Web Components
 export const nativeFormWithComponents: Story = {
   args: {
-    id: "nys-work-form2",
+    id: "nys-work-form",
   },
 
   render: (args) => html`
@@ -88,18 +81,18 @@ export const nativeFormWithComponents: Story = {
         alert('Form Data:\n' + JSON.stringify(formDataObj, null, 2));
       }}
     >
-      <label for="fullname2">Enter full name: </label>
-      <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+      <label for="fullname">Enter full name: </label>
+      <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
 
-      <label for="password-native2">Password (Native): </label>
-      <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+      <label for="password-native">Password (Native): </label>
+      <input id="password-native" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
 
       <nys-textinput
         name="password-nys"
         placeholder="Can you break into my password? (nys-component)"
         label="Password (nys-component):"
         description="Hack me"
-        id="password-nys2"
+        id="password-nys"
         type="password"
         required
       ></nys-textinput>
@@ -111,7 +104,7 @@ export const nativeFormWithComponents: Story = {
         description="include the N prefix"
         maxlength="9"
         pattern="N[0-9]{8}"
-        id="nID2"
+        id="nID"
       ></nys-textinput>
       <nys-checkbox
         label="NYS Resident?"
@@ -167,18 +160,18 @@ export const nativeFormWithComponents: Story = {
       source: {
         code: `
 <form id="nys-work-form">
-  <label for="fullname2">Enter full name: </label>
-  <input id="fullname2" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
+  <label for="fullname">Enter full name: </label>
+  <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
 
-  <label for="password-native2">Password (Native): </label>
-  <input id="password-native2" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
+  <label for="password-native">Password (Native): </label>
+  <input id="password-native" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
 
   <nys-textinput
     name="password-nys"
     placeholder="Can you break into my password? (nys-component)"
     label="Password (nys-component):"
     description="Hack me"
-    id="password-nys2"
+    id="password-nys"
     type="password"
   ></nys-textinput>
 
@@ -189,7 +182,7 @@ export const nativeFormWithComponents: Story = {
     description="include the N prefix"
     maxlength="9"
     pattern="N[0-9]{8}"
-    id="nID2"
+    id="nID"
   ></nys-textinput>
   <nys-checkbox
     label="NYS Resident?"
@@ -256,11 +249,13 @@ export const RequiredFields: Story = {
       ?fieldset=${args.fieldset}
       legend=${args.legend}
       @submit=${(e: SubmitEvent) => {
+        console.log("Form submitted...you should not see this message if validation fails.");
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
     >
+      <input placeholder="yo" name="test" required></input>
       <nys-textinput
         name="username"
         placeholder="John Doe"
@@ -275,6 +270,7 @@ export const RequiredFields: Story = {
         description="Please check the box if you are want to subscribe."
         name="mailing-list"
         value="mailing-list"
+        required
       ></nys-checkbox>
       <button type="submit">Send</button>
     </form>
@@ -352,7 +348,7 @@ export const OutsideFormElements: Story = {
     docs: {
       source: {
         code: `
-<nys-form id="user-info-form">
+<form id="user-info-form">
   <nys-textinput
     name="fname"
     placeholder="I'm inside the form!"
@@ -362,7 +358,7 @@ export const OutsideFormElements: Story = {
     type="text"
     required
   ></nys-textinput>
-</nys-form>
+</form>
 <div style="display:flex; gap:10px; margin:20px 0;">
   <nys-textinput
     form="user-info-form"
@@ -493,83 +489,3 @@ export const Fieldset: Story = {
     },
   },
 };
-
-
-// Story: Form
-export const Form: Story = {
-  args: {
-    id: "my-form-id",
-  },
-  render: (args) => html`
-    <nys-form
-      .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
-      @nys-submit=${(e: CustomEvent) => {
-        const formData = e.detail; // access FormData from the event detail
-        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
-      }}
-    >
-      <label for="name">What should people call you? </label>
-      <input id="name" type="text" name="name" />
-    </nys-form>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-form id="my-form-id">
-  <label for="name">What should people call you? </label>
-  <input id="name" type="text" value="name" />
-</nys-form>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-
-// Story: Handling FormData
-export const HandlingSubmission: Story = {
-  args: {
-    id: "username-form",
-  },
-  render: (args) => html`
-    <nys-form
-      .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
-      @nys-submit=${(e: CustomEvent) => {
-        const formData = e.detail; // access FormData from the event detail
-        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
-      }}
-    >
-      <label for="username">Enter username: </label>
-      <input id="username" type="text" name="username" />
-      <div style="display:flex; gap:5px;">
-        <label for="mailing-list">Subscribe to our mailing list? </label>
-        <input id="mailing-list" type="checkbox" name="mailing-list" />
-      </div>
-      <button type="submit">Send</button>
-    </nys-form>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-form id="username-form">
-  <label for="username">Enter username: </label>
-  <input id="username" type="text" value="username" />
-  <div style="display:flex; gap:5px;">
-    <label for="mailing-list">Subscribe to our mailing list? </label>
-    <input id="mailing-list" type="checkbox" name="mailing-list" />
-  </div>
-  <button type="submit"> Send </button>
-</nys-form>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-

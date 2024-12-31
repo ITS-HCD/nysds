@@ -3,31 +3,19 @@ import { ReactiveController, ReactiveControllerHost } from 'lit';
 const formCollections: WeakMap<HTMLFormElement, Set<ReactiveControllerHost & HTMLElement>> = new WeakMap();
 const reportValidityOverloads: WeakMap<HTMLFormElement, () => boolean> = new WeakMap();
 const checkValidityOverloads: WeakMap<HTMLFormElement, () => boolean> = new WeakMap();
-// const userInteractedControls: WeakSet<FormControlController> = new WeakSet();
-// const interactions = new WeakMap<FormControlController, string[]>();
+const userInteractedControls: WeakSet<HTMLElement> = new WeakSet();
+const interactions = new WeakMap<HTMLElement, string[]>();
 
 export interface FormControlControllerOptions {
-  /** A function that returns the form containing the form control. */
-  form?: (input: HTMLElement) => HTMLFormElement | null;
-  /** A function that returns the form control's name, which will be submitted with the form data. */
+  form: (input: HTMLElement) => HTMLFormElement | null;
   name?: (input: HTMLElement) => string | null;
-  /** A function that returns the form control's current value. */
   value?: (input: HTMLElement) => unknown;
-  /** A function that returns the form control's default value. */
   defaultValue?: (input: HTMLElement) => unknown;
-  /** A function that returns the form control's current disabled state. */
   disabled?: (input: HTMLElement) => boolean;
-  /** A function that maps to the form control's `reportValidity()` function. */
   reportValidity?: (input: HTMLElement) => boolean;
-  /**
-   * A function that maps to the form control's `checkValidity()` function. When the control is invalid, this will return false.
-   * this is helpful is you want to check validation without triggering the native browser constraint violation warning.
-   */
   checkValidity?: (input: HTMLElement) => boolean;
-  /** A function that sets the form control's value */
   setValue?: (input: HTMLElement, value: unknown) => void;
-  /** List of events that imply user interaction for validation purposes. */
-  assumeInteractionOn?: string[];
+  assumeInteractionOn?: string[]; // List of events that imply user interaction for validation purposes.
 }
 
 /**
@@ -43,15 +31,29 @@ export interface FormControlControllerOptions {
  */
 export class FormControlController implements ReactiveController {
   private host: ReactiveControllerHost & HTMLElement;
-  private form: HTMLFormElement | null = null;
+  private form?: HTMLFormElement | null;
   private options: Required<FormControlControllerOptions>;
 
-  constructor(host: ReactiveControllerHost & HTMLElement, options: FormControlControllerOptions = {}) {
+  constructor(host: ReactiveControllerHost & HTMLElement, options?: Partial<FormControlControllerOptions>) {
     (this.host = host).addController(this);
 
     // Default behaviors if not provided in options
     this.options = {
-      form: input => input.closest('form'),
+      form: input => {
+        // If there's a form attribute, use it to find the target form by id
+        const formId = (input as HTMLInputElement).form;
+
+        if (formId) {
+          const root = input.getRootNode() as Document | ShadowRoot | HTMLElement;
+          const form = root.querySelector(`#${formId}`);
+
+          if (form) {
+            return form as HTMLFormElement;
+          }
+        }
+
+        return input.closest('form');
+      },
       name: (input: HTMLElement) => input.getAttribute('name'),
       value: (input: HTMLElement) => input.getAttribute('value'),
       defaultValue: (input: HTMLElement) => (input as HTMLInputElement).defaultValue,
@@ -71,15 +73,24 @@ export class FormControlController implements ReactiveController {
   }
 
   hostConnected() {
-    this.form = this.options.form(this.host);
+    const form = this.options.form(this.host);
 
-    if (this.form) {
-      this.attachForm(this.form);
+    if (form) {
+      this.attachForm(form);
     }
+
+    interactions.set(this.host, []);
+    this.options.assumeInteractionOn.forEach(event => {
+      this.host.addEventListener(event, this.handleInteraction);
+    });
   }
 
   hostDisconnected() {
     this.detachForm();
+    interactions.delete(this.host);
+    this.options.assumeInteractionOn.forEach(event => {
+      this.host.removeEventListener(event, this.handleInteraction);
+    });
   }
 
   private attachForm(form?: HTMLFormElement) {
@@ -105,15 +116,39 @@ export class FormControlController implements ReactiveController {
         checkValidityOverloads.set(this.form, this.form.checkValidity);
         this.form.checkValidity = () => this.checkFormValidity();
       }
+    } else {
+      this.form = undefined;
     }
   }
 
   private detachForm() {
     if (!this.form) return;
 
-    this.form.removeEventListener('formdata', this.handleFormData);
-    this.form.removeEventListener('submit', this.handleFormSubmit);
-    this.form.removeEventListener('reset', this.handleFormReset);
+    const formCollection = formCollections.get(this.form);
+
+    if (!formCollection) {
+      return;
+    }
+
+    formCollection.delete(this.host);
+
+    if (formCollection.size <= 0) {
+      this.form.removeEventListener('formdata', this.handleFormData);
+      this.form.removeEventListener('submit', this.handleFormSubmit);
+      this.form.removeEventListener('reset', this.handleFormReset);
+
+      if (reportValidityOverloads.has(this.form)) {
+        this.form.reportValidity = reportValidityOverloads.get(this.form)!;
+        reportValidityOverloads.delete(this.form);
+      }
+
+      if (checkValidityOverloads.has(this.form)) {
+        this.form.checkValidity = checkValidityOverloads.get(this.form)!;
+        checkValidityOverloads.delete(this.form);
+      }
+
+      this.form = undefined;
+    }
   }
 
   /** Handles the 'formdata' event to append the control's value to the form data. **/
@@ -129,14 +164,23 @@ export class FormControlController implements ReactiveController {
   };
 
   private handleFormSubmit = (event: Event) => {
-    const disabled = this.options.disabled(this.host);
-    const reportValidity = this.options.reportValidity;
+    console.log("form is being submitted -- handleFormSubmit");
+      const disabled = this.options.disabled(this.host);
+      const reportValidity = this.options.reportValidity;
 
-    if (this.form && !this.form.noValidate && !disabled && !reportValidity(this.host)) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
-  };
+      // Update the interacted state for all controls when the form is submitted
+      if (this.form && !this.form.noValidate) {
+        formCollections.get(this.form)?.forEach(control => {
+          this.setUserInteracted(control, true);
+      })
+
+      if (this.form && !this.form.noValidate && !disabled && !reportValidity(this.host)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        console.log("Preventing submission -- invalid requirements");
+      }
+    };
+  }
   
   /**
    * Handles the 'reset' event to reset the control's value.
@@ -153,17 +197,20 @@ export class FormControlController implements ReactiveController {
    * interactions map to track whether a user has interacted with a form control (using events like input, change, etc.).
    * This helps in marking a control as "user-interacted," which can be important for validation states.
    */
-  // private handleInteraction = (event: Event) => {
-  //   const emittedEvents = interactions.get(this.host)!;
-  //   if (!emittedEvents.includes(event.type)) {
-  //     emittedEvents.push(event.type);
-  //   }
-  //   if (emittedEvents.length === this.options.assumeInteractionOn.length) {
-  //     this.setUserInteracted(this.host, true);
-  //   }
-  // };
+  private handleInteraction = (event: Event) => {
+    const emittedEvents = interactions.get(this.host)!;
+
+    if (!emittedEvents.includes(event.type)) {
+      emittedEvents.push(event.type);
+    }
+
+    if (emittedEvents.length === this.options.assumeInteractionOn.length) {
+      this.setUserInteracted(this.host, true);
+    }
+  };
   
 
+  // Check form validity by checking all form controls, including custom ones. Note that this does not trigger the native validation UI.
   private checkFormValidity() {
     if (this.form && !this.form.noValidate) {
       const elements = Array.from(this.form.querySelectorAll<HTMLInputElement>('*'));
@@ -178,10 +225,6 @@ export class FormControlController implements ReactiveController {
 
   // Report form validity by checking all form controls, including custom ones.
   private reportFormValidity = () => {
-    /* Excelsior form controls mimic native behavior, supporting the Constraint Validation API and methods like setCustomValidity() and reportValidity().
-     * The HTMLFormElement's reportValidity() triggers validation for all child controls. To handle this, we overload reportValidity() to check for elements with this method.
-     * The original method is stored in a WeakMap to prevent calling it directly, which could trigger validation in an unintended order. On disconnection, the original behavior is restored. 
-     * */
     if (this.form && !this.form.noValidate) {
       const elements = Array.from(this.form.querySelectorAll<HTMLInputElement>('*'));
 
@@ -197,18 +240,56 @@ export class FormControlController implements ReactiveController {
     return true;
   };
 
-  /**
-   * Triggers form submission.
-   */
-  submit() {
-    this.form?.submit();
+  private setUserInteracted(el: HTMLElement, hasInteracted: boolean) {
+    if (hasInteracted) {
+      userInteractedControls.add(el);
+    } else {
+      userInteractedControls.delete(el);
+    }
+
+    if ('requestUpdate' in el) {
+      (el as unknown as ReactiveControllerHost).requestUpdate();
+    }
+  }
+  
+  private doAction(type: 'submit' | 'reset', submitter?: HTMLInputElement) {
+    if (this.form) {
+      const button = document.createElement('button');
+      button.type = type;
+      button.style.position = 'absolute';
+      button.style.width = '0';
+      button.style.height = '0';
+      button.style.clipPath = 'inset(50%)';
+      button.style.overflow = 'hidden';
+      button.style.whiteSpace = 'nowrap';
+
+      if (submitter) {
+        button.name = submitter.name;
+        button.value = submitter.value;
+
+        ['formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget'].forEach(attr => {
+          if (submitter.hasAttribute(attr)) {
+            button.setAttribute(attr, submitter.getAttribute(attr)!);
+          }
+        });
+      }
+
+      this.form.append(button);
+      button.click();
+      button.remove();
+    }
   }
 
-  /**
-   * Resets the form.
-   */
-  reset() {
-    this.form?.reset();
+  getForm() {
+    return this.form ?? null;
+  }
+
+  reset(submitter?: HTMLInputElement) {
+    this.doAction('reset', submitter);
+  }
+
+  submit(submitter?: HTMLInputElement) {
+    this.doAction('submit', submitter);
   }
 
   /**
@@ -234,5 +315,28 @@ export class FormControlController implements ReactiveController {
   updateValidity() {
     const host = this.host as unknown as HTMLInputElement;
     this.setValidity(host.validity.valid);
+  }
+  
+  /**
+   * Emits an invalid event on the host element.
+   * @param originalInvalidEvent The original invalid event that triggered this call.
+   * @returns Whether the event was prevented.
+   * @internal
+   * */
+  emitInvalidEvent(originalInvalidEvent?: Event) {
+    const invalidEvent = new CustomEvent<Record<PropertyKey, never>>('nys-invalid', {
+      bubbles: false,
+      composed: false,
+      cancelable: true,
+      detail: {}
+    });
+  
+    if (!originalInvalidEvent) {
+      invalidEvent.preventDefault();
+    }
+  
+    if (!this.host.dispatchEvent(invalidEvent)) {
+      originalInvalidEvent?.preventDefault();
+    }
   }
 }
