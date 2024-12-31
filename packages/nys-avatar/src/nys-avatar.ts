@@ -25,7 +25,7 @@ export class NysAvatar extends LitElement {
   ] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
-  private _size: (typeof NysAvatar.VALID_SIZES)[number] = "lg";
+  private _size: (typeof NysAvatar.VALID_SIZES)[number] = "md";
 
   // Private property to store the internal `shape` value, restricted to the valid types. Default is "rounded".
   private _shape: (typeof NysAvatar.VALID_SHAPES)[number] = "rounded";
