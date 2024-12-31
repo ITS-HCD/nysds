@@ -1,15 +1,28 @@
 import { css } from "lit";
 
 export default css`
+  :host {
+    /* Global Alert Styles */
+    --_nys-alert-border-width: var(--nys-border-width-lg, 4px);
+    --_nys-alert-border-radius: var(--nys-radius-md, 4px);
+    --_nys-alert-color: var(--nys-color-ink, #1b1b1b);
+
+    /* Border specifics */
+    --_nys-alert-color-border-left: var(--nys-color-neutral-600, #62666a);
+
+    /* Background theme specifics */
+    --_nys-alert-color-bg: var(--nys-color-neutral-10, #f6f6f6);
+  }
   .nys-alert__icon {
     margin-right: 0.8rem;
   }
 
   .nys-alert__container {
     display: flex;
-    background-color: #f0f0f0;
-    border-left: 0.5rem solid #adadad;
-    color: #1b1b1b;
+    background-color: var(--_nys-alert-color-bg);
+    border-left: var(--_nys-alert-border-width) solid var(--_nys-alert-color-border-left);
+    border-radius: var(--_nys-alert-border-radius);
+    color: var(--_nys-alert-color);
     padding: 1rem 1.5rem;
     font-family:
       Source Sans Pro Web,
@@ -66,25 +79,25 @@ export default css`
   }
 
   /* Alert Types */
-  .nys-alert--info {
-    background-color: #e7f6f8;
-    border-left-color: #00bde3;
+  :host([theme="info"]) {
+    --_nys-alert-color-border-left: var(--nys-color-info, #154973);
+    --_nys-alert-color-bg: var(--nys-color-info-weak, #154973);
   }
-  .nys-alert--warning {
-    background-color: #faf3d1;
-    border-left-color: #ffbe2e;
+  :host([theme="warning"]) {
+    --_nys-alert-color-border-left: var(--nys-color-warning, #ffbe2e);
+    --_nys-alert-color-bg: var(--nys-color-warning-weak, #ffbe2e);
   }
-  .nys-alert--success {
-    background-color: #ecf3ec;
-    border-left-color: #00a91c;
+  :host([theme="success"]) {
+    --_nys-alert-color-border-left: var(--nys-color-success, #00a91c);
+    --_nys-alert-color-bg: var(--nys-color-success-weak, #00a91c);
   }
-  .nys-alert--error {
-    background-color: #f4e3db;
-    border-left-color: #d54309;
+  :host([theme="error"]) {
+    --_nys-alert-color-border-left: var(--nys-color-danger, #b52c2c);
+    --_nys-alert-color-bg: var(--nys-color-danger-weak, #b52c2c);
   }
-  .nys-alert--emergency {
-    background-color: #9c3d10;
-    border-left-color: #9c3d10;
-    color: #fff;
+  :host([theme="emergency"]) {
+    --_nys-alert-color-border-left: var(--nys-color-emergency, #d54309);
+    --_nys-alert-color-bg: var(--nys-color-emergency, #d54309);
+    --_nys-alert-color: #fff;
   }
 `;

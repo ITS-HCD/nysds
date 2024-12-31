@@ -21,6 +21,7 @@ export class NysAlert extends LitElement {
 
   @state() private _alertClosed = false;
   private static readonly VALID_TYPES = [
+    "base",
     "info",
     "warning",
     "success",
@@ -39,9 +40,10 @@ export class NysAlert extends LitElement {
       value as (typeof NysAlert.VALID_TYPES)[number],
     )
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
-      : "info";
+      : "base";
   }
 
+  // Aria attributes based on the theme
   get ariaAttributes() {
     const ariaRole =
       this.theme === "error" || this.theme === "emergency"
@@ -98,7 +100,11 @@ export class NysAlert extends LitElement {
 
   private _checkAltNaming() {
     // map 'success' to 'check_circle'
-    return this.theme === "success" ? "check_circle" : this.theme;
+    return this.theme === "success"
+      ? "check_circle"
+      : this.theme === "base"
+      ? "info"
+      : this.theme;
   }
 
   private _closeAlert() {
@@ -123,7 +129,7 @@ export class NysAlert extends LitElement {
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container nys-alert--${this.theme}"
+            class="nys-alert__container"
             role=${role}
             aria-label=${ifDefined(
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
