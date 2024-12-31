@@ -53,7 +53,7 @@ export default css`
     /* Disabled Checked */
     --_nys-checkbox-disabled-checked-color-bg: var(
       --nys-color-neutral-200,
-      #f0f0f0
+      #757575
     );
     --_nys-checkbox-disabled-checked-color-border: var(
       --nys-color-neutral-200,
@@ -154,7 +154,7 @@ export default css`
     left: 50%;
     transform: translate3d(-50%, 50%, 0);
     pointer-events: none;
-    color: purple; /** emily change */
+    color: white;
   }
 
   /* Required */
@@ -199,7 +199,7 @@ export default css`
     border-top: 1px solid var(--nys-color-danger, #b52c2c);
     margin-top: var(--nys-spacing, 0.75rem);
     padding-top: var(--nys-spacing, 0.75rem);
-    color: var(--nys-color-danger, #b52c2c)
+    color: var(--nys-color-danger, #b52c2c);
     margin-left: 0.25rem;
   }
 
