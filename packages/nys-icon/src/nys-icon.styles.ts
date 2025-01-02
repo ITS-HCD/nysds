@@ -4,6 +4,8 @@ export default css`
   :host {
     --nys-icon-color: currentcolor;
     --nys-icon-size: 1em;
+    display: inline-block;
+    box-sizing: content-box !important;
   }
 
   /* Use 'cap' if supported */
@@ -17,7 +19,7 @@ export default css`
   .nys-icon--svg {
     width: var(--nys-icon-size, 1em);
     height: var(--nys-icon-size, 1em);
-    display: inline-block;
+    display: block;
     white-space: nowrap;
   }
 
