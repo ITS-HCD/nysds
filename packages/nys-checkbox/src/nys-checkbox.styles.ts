@@ -8,7 +8,7 @@ export default css`
     --_nys-checkbox-size: var(--nys-size-400, 32px);
     --_nys-checkbox-radius: var(--nys-border-radius-md, 4px);
     --_nys-checkbox-width-border: var(--nys-border-width-md, 2px);
-    --_nys-checkbox-color-focus: var(--nys-color-focus, #286ad8);
+    --_nys-checkbox-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-checkbox-width-focus: var(--nys-border-width-md, 2px);
     --_nys-checkbox-transition-duration: var(
       --nys-transition-duration-sm,

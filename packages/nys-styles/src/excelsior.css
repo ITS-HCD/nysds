@@ -59,6 +59,9 @@
 --nys-color-link-strong: var(--nys-color-blue-700);
 --nys-color-link-strongest: var(--nys-color-blue-800);
 
+/* === Focus Colors === */
+--nys-color-focus: var(--nys-color-blue-600);
+
 
 /* ================== SEMANTIC TYPOGRAPHY TOKENS ==================== */
 
