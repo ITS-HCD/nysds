@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysCheckboxStories from './nys-checkbox.stories';
 
@@ -8,25 +8,63 @@ import * as NysCheckboxStories from './nys-checkbox.stories';
 
 The **`nys-checkbox`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
 
-If an id is not passed, a unique id will be generated.
+<p class="pill stable">Stable</p>
 
-## Examples
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
 
-### Unchecked
+***
 
-<Canvas of={NysCheckboxStories.Unchecked} />
+<Canvas of={NysCheckboxStories.Basic} />
 
-### Checked
+<Controls />
 
-<Canvas of={NysCheckboxStories.Checked} />
+### Variants
 
-### Disabled (Unchecked)
+#### Disabled
+<Canvas of={NysCheckboxStories.Disabled} />
+#### Required
+<Canvas of={NysCheckboxStories.Required} />
+#### Error Message
+The error message will appear **ONLY** when the `showError` attribute is set to `true`. Setting `errorMessage` will not display the error message by default.
+<Canvas of={NysCheckboxStories.ErrorMessage} />
+#### Slots
+When the description requires more complexity than a simple `string` value, use the slot `description` to hold the text. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`
+<Canvas of={NysCheckboxStories.Slot} />
+#### Checkbox Group
+<Canvas of={NysCheckboxStories.CheckboxGroup} />
 
-<Canvas of={NysCheckboxStories.DisabledUnchecked} />
+## Use cases
 
-### Disabled (Checked)
+### When to use this component
+- When you need to provide a yes/no answer.
+- When you need a confirmation from the user.
+- When you need a user to select multiple options from a list.
 
-<Canvas of={NysCheckboxStories.DisabledChecked} />
+### When to consider something else
+- When you need a user to select only one option from a list.
+
+## Usage
+
+<div class="usage-wrapper">
+  <div class="usagedos do">
+    ### Do
+    - Use the checkbox component when you need to provide a yes/no answer.
+    - Use the checkbox component when you need a confirmation from the user.
+    - Use the checkbox component when you need a user to select multiple options from a list.
+  </div>
+  <div class="usagedos dont">
+    ### Don't
+    - Use the checkbox component when you need a user to select only one option from a list.
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-checkbox` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
+- Keyboard navigation support, allowing users to toggle the checkbox using the keyboard.
+- Visual focus indicators to help users navigate the component.
 
 ### Required
 
@@ -83,10 +121,62 @@ You can listen to these events using JavaScript:
   });
 ```
 
-## Accessibility
+## Slots
 
-The `nys-checkbox` component includes the following accessibility-focused features:
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for either `nys-checkbox` or `nys-checkboxgroup`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
 
-- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
-- Keyboard navigation support, allowing users to toggle the checkbox using the keyboard.
-- Visual focus indicators to help users navigate the component.
+## Parts
+
+<table>
+    <thead>
+    <tr>
+        <th>Part name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`nys-checkbox`</td>
+        <td>Wrapper of the entire component</td>
+    </tr>
+    <tr>
+        <td>`nys-checkbox__content`</td>
+        <td>Wrapper of the native input and the text</td>
+    </tr>
+    <tr>
+        <td>`nys-checkbox__checkboxwrapper`,`nys-checkbox__checkbox`</td>
+        <td>Wrapper of native input component and the native component</td>
+    </tr>
+    <tr>
+        <td>`nys-checkbox__icon`</td>
+        <td>The check icon that appears when the checkbox value is `true`</td>
+    </tr>
+    <tr>
+        <td>`nys-checkbox__text`, `nys-checkbox__label`, `nys-checkbox__description`</td>
+        <td>Text that appears next to the checkbox</td>
+    </tr>
+    <tr>
+        <td>`nys-checkbox__requiredwrapper`, `nys-checkbox__required`</td>
+        <td>Displays the asterisk if the component is required</td>
+    </tr>
+    <tr>
+        <td>`nys-checkbox__error`</td>
+        <td>Displays the error message if the component is in an error state</td>
+    </tr>
+    </tbody>
+</table>

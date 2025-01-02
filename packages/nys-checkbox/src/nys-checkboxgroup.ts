@@ -9,7 +9,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: Boolean }) required = false;
-  @property({ type: Boolean }) hasError = false;
+  @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -44,7 +44,7 @@ export class NysCheckboxgroup extends LitElement {
       <div class="nys-checkboxgroup__content">
         <slot></slot>
       </div>
-      ${this.hasError && this.errorMessage
+      ${this.showError && this.errorMessage
         ? html`<div class="nys-checkbox__error">
             <nys-icon name="error"></nys-icon>
             ${this.errorMessage}
