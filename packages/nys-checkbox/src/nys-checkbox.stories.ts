@@ -62,6 +62,8 @@ export const Basic: Story = {
     <nys-checkboxgroup
       label="Select your favorite New York landmarks"
       description="Choose from the options below"
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -71,8 +73,6 @@ export const Basic: Story = {
         .description=${args.description}
         .name=${args.name}
         .value=${args.value}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
       ></nys-checkbox>
       <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
       <nys-checkbox label="Catskills" checked></nys-checkbox>
