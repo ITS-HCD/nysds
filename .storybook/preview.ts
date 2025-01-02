@@ -14,7 +14,7 @@ const loadTheme = (theme: string) => {
   if (theme !== "default") {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = `./packages/nys-styles/dist/theme-${theme}.min.css`;
+    link.href = `./assets/theme-${theme}.min.css`;
     link.id = "storybook-theme-styles";
     document.head.appendChild(link);
   }
