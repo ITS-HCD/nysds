@@ -114,7 +114,7 @@ export class NysRadiobutton extends LitElement {
       <div class="nys-radiobutton">
         <input
           id="${this.id}"
-          class="nys-radiobutton__input"
+          class="nys-radiobutton__radio"
           type="radio"
           name="${ifDefined(this.name ? this.name : undefined)}"
           .checked=${this.checked}

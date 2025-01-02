@@ -9,7 +9,7 @@ export default css`
     font-family: Arial, sans-serif;
   }
 
-  .nys-radiobutton__input {
+  .nys-radiobutton__radio {
     appearance: none;
     width: var(--radiobutton-size, 32px);
     height: var(--radiobutton-size, 32px);
@@ -24,28 +24,28 @@ export default css`
   }
 
   /* Checked */
-  .nys-radiobutton__input:not(:disabled):checked {
+  .nys-radiobutton__radio:not(:disabled):checked {
     background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="10.5" stroke="white" stroke-width="6"/></svg>');
     border-color: var(--color-border-primary, #154973);
     background-color: var(--color-bg-primary, #154973);
   }
 
   /* Checked + Disabled */
-  .nys-radiobutton__input:disabled:checked {
+  .nys-radiobutton__radio:disabled:checked {
     background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="10.5" stroke="white" stroke-width="6"/></svg>');
     border-color: var(--color-border-disabled, #757575);
     background-color: var(--color-bg-disabled, #757575);
   }
 
   /* Disabled */
-  .nys-radiobutton__input:disabled {
+  .nys-radiobutton__radio:disabled {
     background-color: var(--form-unchecked-color-bg-disabled, #f0f0f0);
     border-color: var(--form-unchecked-color-border-disabled, #757575);
     cursor: not-allowed;
   }
 
   /* Focused */
-  .nys-radiobutton__input:focus {
+  .nys-radiobutton__radio:focus {
     outline-offset: 2px;
     outline: 2px solid var(--form-focus-color, #007bff);
   }
@@ -69,7 +69,7 @@ export default css`
   }
 
   /* Disabled label */
-  .nys-radiobutton__input:disabled
+  .nys-radiobutton__radio:disabled
     + .nys-radiobutton__text
     .nys-radiobutton__label {
     color: var(--form-label-color-disabled, #757575);
