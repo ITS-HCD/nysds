@@ -19,7 +19,7 @@ const meta: Meta<NysAlertArgs> = {
   argTypes: {
     theme: {
       control: "select",
-      options: ["base", "info", "warning", "success", "error", "emergency"],
+      options: ["base", "info", "warning", "success", "danger", "emergency"],
     },
     heading: { control: "text" },
     text: { control: "text" },
@@ -79,7 +79,7 @@ export const Default: Story = {
 // Story: AllAlerts
 export const AllAlerts: Story = {
   render: () => html`
-    ${["base", "info", "warning", "success", "error", "emergency"].map(
+    ${["base", "info", "success", "warning", "danger", "emergency"].map(
       (theme) =>
         html`<nys-alert
             .theme=${theme}
@@ -101,9 +101,9 @@ export const AllAlerts: Story = {
         code: `
 <nys-alert theme="base" heading="Default status" text="This is an example of an neutral base alert." dismissible></nys-alert>
 <nys-alert theme="info" heading="Info status" text="This is an example of an info alert." dismissible></nys-alert>
-<nys-alert theme="warning" heading="Warning status" text="This is an example of a warning alert." dismissible></nys-alert>
 <nys-alert theme="success" heading="Success status" text="This is an example of a success alert." dismissible></nys-alert>
-<nys-alert theme="error" heading="Error status" text="This is an example of an error alert." dismissible></nys-alert>
+<nys-alert theme="warning" heading="Warning status" text="This is an example of a warning alert." dismissible></nys-alert>
+<nys-alert theme="danger" heading="Danger status" text="This is an example of a danger alert." dismissible></nys-alert>
 <nys-alert theme="emergency" heading="Emergency status" text="This is an example of an emergency alert." dismissible></nys-alert>
 `.trim(),
         type: "auto",

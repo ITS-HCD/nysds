@@ -55,9 +55,9 @@ The slim variant `isSlim` is a compact version of the alert, ideal for short des
 ## Use cases
 
 ### When to use this component
-  - Use nys-alert to communicate important, time-sensitive information to users in a visually prominent way.
-  - Ideal for messages such as success notifications, error alerts, warnings, or informational updates.
-  - Use for dismissible or auto-hiding alerts when the message is not critical to user workflow.
+  - Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
+  - Ideal for messages such as success notifications, danger alerts, warnings, or informational updates.
+  - Use for dismissible or temporary alerts when the message is not critical to user workflow.
 
 ### When to consider something else
   - If the information is not time-sensitive or critical, consider using a less intrusive component, such as a tooltip or inline message.
@@ -69,7 +69,7 @@ The slim variant `isSlim` is a compact version of the alert, ideal for short des
    <div class="usagedos do">
    ### Do
    - Keep the alert content concise and focused on the message.
-   - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `error`) to match the intent of the alert.
+   - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
    - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
    </div>
 
@@ -100,7 +100,7 @@ The `nys-alert` component includes the following accessibility-focused features:
     <tr>
       <td>`role="alert"`</td>
       <td>Important messages that demand the user's immediate attention.</td>
-      <td>Example: Error and Emergency alert</td>
+      <td>Example: Danger and Emergency alert</td>
     </tr>
     <tr>
       <td>`role="status"`</td>

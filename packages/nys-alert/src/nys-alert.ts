@@ -23,9 +23,9 @@ export class NysAlert extends LitElement {
   private static readonly VALID_TYPES = [
     "base",
     "info",
-    "warning",
     "success",
-    "error",
+    "warning",
+    "danger",
     "emergency",
   ] as const;
   private _theme: (typeof NysAlert.VALID_TYPES)[number] = "info";
@@ -46,7 +46,7 @@ export class NysAlert extends LitElement {
   // Aria attributes based on the theme
   get ariaAttributes() {
     const ariaRole =
-      this.theme === "error" || this.theme === "emergency"
+      this.theme === "danger" || this.theme === "emergency"
         ? "alert"
         : this.theme === "success"
           ? "status"

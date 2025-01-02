@@ -83,15 +83,15 @@ export default css`
     --_nys-alert-color-border-left: var(--nys-color-info, #154973);
     --_nys-alert-color-bg: var(--nys-color-info-weak, #154973);
   }
-  :host([theme="warning"]) {
-    --_nys-alert-color-border-left: var(--nys-color-warning, #ffbe2e);
-    --_nys-alert-color-bg: var(--nys-color-warning-weak, #ffbe2e);
-  }
   :host([theme="success"]) {
     --_nys-alert-color-border-left: var(--nys-color-success, #00a91c);
     --_nys-alert-color-bg: var(--nys-color-success-weak, #00a91c);
   }
-  :host([theme="error"]) {
+  :host([theme="warning"]) {
+    --_nys-alert-color-border-left: var(--nys-color-warning, #ffbe2e);
+    --_nys-alert-color-bg: var(--nys-color-warning-weak, #ffbe2e);
+  }
+  :host([theme="danger"]) {
     --_nys-alert-color-border-left: var(--nys-color-danger, #b52c2c);
     --_nys-alert-color-bg: var(--nys-color-danger-weak, #b52c2c);
   }
