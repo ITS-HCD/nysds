@@ -1,6 +1,78 @@
 import { css } from "lit";
 
 export default css`
+  :host {
+    /* Anything that can be overridden should be defined here */
+
+    /* Global Radiobutton Styles */
+    --_nys-radiobutton-size: var(--nys-size-400, 32px);
+    --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
+    --_nys-radiobutton-width-border: var(--nys-border-width-md, 2px);
+    --_nys-radiobutton-color-focus: var(--nys-color-focus, #286ad8);
+    --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-radiobutton-transition-duration: var(
+      --nys-transition-duration-sm,
+      0.1s
+    );
+    /* Default (Empty) */
+    --_nys-radiobutton-color-bg: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-radiobutton-color-border: var(--nys-color-neutral-600, #62666a);
+    /* Empty + Hovered */
+    --_nys-radiobutton-hover-color-bg: var(--nys-color-neutral-100, #d0d0de);
+    --_nys-radiobutton-hover-color-border: var(
+      --nys-color-neutral-600,
+      #62666a
+    );
+    /* Empty + Pressed */
+    --_nys-radiobutton-pressed-color-bg: var(--nys-color-neutral-200, #bec0c1);
+    --_nys-radiobutton-pressed-color-border: var(
+      --nys-color-neutral-600,
+      #62666a
+    );
+    /* Checked */
+    --_nys-radiobutton-checked-color-bg: var(--nys-color-theme, #154973);
+    --_nys-radiobutton-checked-color-border: var(--nys-color-theme, #154973);
+    /* Checked + Hovered */
+    --_nys-radiobutton-checked-hover-color-bg: var(
+      --nys-color-theme-strong,
+      #0e324f
+    );
+    --_nys-radiobutton-checked-hover-color-border: var(
+      --nys-color-theme-strong,
+      #0e324f
+    );
+    /* Checked + Pressed */
+    --_nys-radiobutton-checked-pressed-color-bg: var(
+      --nys-color-theme-stronger,
+      #081b2b
+    );
+    --_nys-radiobutton-checked-pressed-color-border: var(
+      --nys-color-theme-stronger,
+      #081b2b
+    );
+    /* Disabled */
+    --_nys-radiobutton-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
+    --_nys-radiobutton-disabled-color-border: var(
+      --nys-color-neutral-400,
+      #757575
+    );
+    /* Disabled Checked */
+    --_nys-radiobutton-disabled-checked-color-bg: var(
+      --nys-color-neutral-200,
+      #757575
+    );
+    --_nys-radiobutton-disabled-checked-color-border: var(
+      --nys-color-neutral-200,
+      #757575
+    );
+  }
+
+  /* Small Variant */
+  :host([size="sm"]) {
+    --_nys-radiobutton-size: var(--nys-size-300, 24px);
+    --_nys-radiobutton-radius: var(--nys-border-radius-sm, 2px);
+  }
+
   .nys-radiobutton {
     display: flex;
     flex: 1;
