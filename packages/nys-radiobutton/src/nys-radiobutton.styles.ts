@@ -150,8 +150,8 @@ export default css`
 
   /* Required */
   .nys-radiobutton__required {
-    color: var(--nys-error, #b52c2c);
-    margin-left: 0.25rem;
+    color: var(--nys-color-danger, #b52c2c);
+    margin-left: var(--nys-spacing, 0.25rem);
   }
 
   .nys-radiobutton__requiredwrapper {
