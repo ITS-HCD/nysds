@@ -56,7 +56,7 @@ export const Basic: Story = {
     name: "landmarks",
     value: "adirondacks",
     showError: false,
-    errorMessage: "You must select this box to continue",
+    errorMessage: "",
   },
   render: (args) => html`
     <nys-checkboxgroup
