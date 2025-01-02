@@ -1,11 +1,11 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import { classMap } from "lit/directives/class-map.js";
 import "@nys-excelsior/nys-icon";
 import { FormControlController } from "@nys-excelsior/form-controller";
-
 let selectIdCounter = 0; // Counter for generating unique IDs
+import { NysOption } from "./nys-option";
 
 @customElement("nys-select")
 export class NysSelect extends LitElement {
@@ -32,6 +32,13 @@ export class NysSelect extends LitElement {
   @property({ type: String }) size = "";
   @property({ type: Boolean }) hasError = false;
   @property({ type: String }) errorMessage = "";
+
+  @state() private _options: {
+    value: string;
+    label: string;
+    disabled: boolean;
+    selected: boolean;
+  }[] = [];
 
   static styles = styles;
 
@@ -68,31 +75,21 @@ export class NysSelect extends LitElement {
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector("slot");
     if (slot) {
-      const assignedElements = slot.assignedElements({ flatten: true });
-      const select = this.shadowRoot?.querySelector("select");
-
-      if (select) {
-        // Append slotted elements directly
-        assignedElements.forEach((node) => {
-          select.appendChild(node.cloneNode(true));
-          node.remove(); // remove from light DOM (this solves duplicated ID issue with slots)
+      const nodes = slot.assignedElements({ flatten: true });
+      this._options = nodes
+        .filter((node) => node instanceof NysOption)
+        .map((node) => {
+          const nysOption = node as NysOption;
+          const label = nysOption.label || nysOption.textContent?.trim() || "";
+          return {
+            value: nysOption.value,
+            label: label,
+            disabled: nysOption.disabled,
+            selected: nysOption.selected,
+          };
         });
-      }
     }
-  }
-
-  // Handle select change event
-  private _handleChange(e: Event) {
-    const option = e.target as HTMLSelectElement;
-    this.value = option.value;
-
-    this.dispatchEvent(
-      new CustomEvent("change", {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this.requestUpdate(); // Request an update after processing options
   }
 
   // Handle focus event
@@ -169,9 +166,20 @@ export class NysSelect extends LitElement {
               value=${this.value}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
-              @change="${this._handleChange}"
             >
               <option hidden disabled selected value></option>
+              ${this._options.map(
+                (opt) =>
+                  html`<option
+                    value=${opt.value}
+                    label=${opt.label}
+                    ?disabled=${opt.disabled}
+                    ?hidden=${opt.selected}
+                    ?selected=${opt.selected}
+                  >
+                    ${opt.label}
+                  </option>`,
+              )}
             </select>
             <slot
               @slotchange="${this._handleSlotChange}"
