@@ -124,20 +124,6 @@ export default css`
     border-color: var(--_nys-checkbox-checked-hover-color-border);
   }
 
-  .nys-checkbox__checkboxwrapper {
-    position: relative;
-    display: inline-block;
-  }
-
-  .nys-checkbox__icon {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform: translate3d(-50%, 50%, 0);
-    pointer-events: none;
-    color: var(--color-background, #f0f0f0);
-  }
-
   /* Checked + Pressed */
   .nys-checkbox__checkbox:checked:active {
     background-color: var(--_nys-checkbox-checked-pressed-color-bg);
@@ -149,16 +135,6 @@ export default css`
     background-color: var(--_nys-checkbox-disabled-color-bg);
     border-color: var(--_nys-checkbox-disabled-color-border);
     cursor: not-allowed;
-  }
-
-  /* Required */
-  .nys-checkbox__required {
-    color: red;
-    margin-left: 0.25rem;
-  }
-
-  .nys-checkbox__requiredwrapper {
-    display: flex;
   }
 
   /* Checked + Disabled */
