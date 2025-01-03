@@ -1,0 +1,51 @@
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysLabelStories from './nys-label.stories';
+
+<Meta of={NysLabelStories} title="Components/Select/Documentation" />
+
+
+# Label **Component**
+The **`nys-label`** is a reusable web component for use in New York State digital products. It allows users to add a label to a form field. It can display description and optional/required flags.
+
+Note: `nys-label` is already built into form components. You do not need to add it separately.
+
+<p class="pill stable">Stable</p>
+
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysLabelStories.Basic} />
+
+<Controls />
+
+### Variants
+
+#### Description
+<Canvas of={NysLabelStories.Description} />
+#### Required
+<Canvas of={NysLabelStories.Required} />
+#### Optional
+<Canvas of={NysLabelStories.Optional} />
+
+## Use cases    
+
+
+## Usage
+
+<div class="usage-wrapper">
+    <div class="usagedos do">
+    ### Do
+    </div>
+
+    <div class="usagedos dont">
+    ### Don't
+    </div>
+</div>
+
+## Accessibility
+
+## Events
+
+## Slots
