@@ -6,6 +6,9 @@
   "files": [
     "dist/"
   ],
+  "exports": {
+    "./dist/excelsior.min.css": "./dist/excelsior.min.css"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build"
