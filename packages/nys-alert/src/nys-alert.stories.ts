@@ -9,7 +9,6 @@ interface NysAlertArgs {
   text: string;
   duration?: number;
   icon?: string;
-  isSlim?: boolean;
   dismissible?: boolean;
 }
 
@@ -25,7 +24,6 @@ const meta: Meta<NysAlertArgs> = {
     text: { control: "text" },
     duration: { control: "number" },
     icon: { control: "text" },
-    isSlim: { control: "boolean", default: false },
     dismissible: { control: "boolean", default: false },
   },
   parameters: {
@@ -55,7 +53,6 @@ export const Default: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
     </nys-alert>
@@ -126,7 +123,6 @@ export const AlertType: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
     </nys-alert>
@@ -160,7 +156,6 @@ export const Description: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
       <p slot="text">
@@ -198,7 +193,6 @@ export const Dismissible: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
       <p slot="text">
@@ -247,7 +241,6 @@ export const Duration: Story = {
         newAlert.setAttribute("text", args.text);
         newAlert.setAttribute("duration", String(args.duration));
         if (args.dismissible) newAlert.setAttribute("dismissible", "");
-        if (args.isSlim) newAlert.setAttribute("isSlim", "");
         container.appendChild(newAlert);
       }
     };
@@ -307,7 +300,6 @@ export const CustomIcon: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
     </nys-alert>
@@ -329,12 +321,11 @@ export const CustomIcon: Story = {
   },
 };
 
-// Story: Slim
-export const Slim: Story = {
+// Story: HeadingOnly
+export const HeadingOnly: Story = {
   args: {
     theme: "info",
-    text: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
-    isSlim: true,
+    heading: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
   },
   render: (args) => html`
     <nys-alert
@@ -343,12 +334,8 @@ export const Slim: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>
-        Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.
-      </p>
     </nys-alert>
   `,
   parameters: {
@@ -357,8 +344,7 @@ export const Slim: Story = {
         code: `
 <nys-alert 
   theme="info"
-  text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
-  isSlim>
+  heading="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
 </nys-alert>
 `.trim(),
         type: "auto",

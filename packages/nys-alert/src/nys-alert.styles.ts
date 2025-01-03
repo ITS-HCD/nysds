@@ -13,6 +13,7 @@ export default css`
     /* Background theme specifics */
     --_nys-alert-color-bg: var(--nys-color-neutral-10, #f6f6f6);
   }
+
   .nys-alert__icon {
     margin-right: 0.8rem;
   }
@@ -52,6 +53,8 @@ export default css`
       Arial,
       sans-serif;
     font-size: 1.33rem;
+    font-style: normal;
+    font-weight: 600;
     line-height: 0.9;
   }
 
@@ -81,7 +84,7 @@ export default css`
   .nys-alert--centered .nys-alert__label {
     margin: 0;
   }
-  div[part="nys-avatar__icon"] {
+  .nys-alert--centered div[part="nys-alert__icon"] {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -134,7 +134,10 @@ export class NysAlert extends LitElement {
     const { role, ariaLabel } = this.ariaAttributes;
 
     // Helper function to determine if the slot is empty
-    const isSlotEmpty = this.text.trim() === "" && !this.hasSlotContent();
+    const isSlotEmpty =
+      typeof this.text === "string" &&
+      this.text.trim() === "" &&
+      !this.hasSlotContent();
 
     return html`
       ${!this._alertClosed
