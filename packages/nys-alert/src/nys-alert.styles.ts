@@ -20,7 +20,8 @@ export default css`
   .nys-alert__container {
     display: flex;
     background-color: var(--_nys-alert-color-bg);
-    border-left: var(--_nys-alert-border-width) solid var(--_nys-alert-color-border-left);
+    border-left: var(--_nys-alert-border-width) solid
+      var(--_nys-alert-color-border-left);
     border-radius: var(--_nys-alert-border-radius);
     color: var(--_nys-alert-color);
     padding: 1rem 1.5rem;
@@ -72,10 +73,18 @@ export default css`
     color: currentColor;
   }
 
-  /* Slim variant: Disables the heading via JS logic. In styling, centers the icon for a compact layout. */
-  .nys-alert--slim {
+  /* Centered variant: For no descriptions, we remove the <slot name="text"> via JS logic. In styling, centers the icon for a compact layout. */
+  .nys-alert--centered {
     display: flex;
     align-items: center;
+  }
+  .nys-alert--centered .nys-alert__label {
+    margin: 0;
+  }
+  div[part="nys-avatar__icon"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Alert Types */

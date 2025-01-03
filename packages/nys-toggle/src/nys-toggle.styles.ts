@@ -7,19 +7,36 @@ export default css`
     --_nys-toggle-height: var(--nys-size-300, 24px);
     --_nys-border-radius: var(--nys-radius-round, 1776px);
     --_nys-slider-diameter: var(--nys-font-size-lg, 18px);
-    --_nys-slider-offset: calc((var(--_nys-toggle-height) - var(--_nys-slider-diameter)) / 2);
+    --_nys-slider-offset: calc(
+      (var(--_nys-toggle-height) - var(--_nys-slider-diameter)) / 2
+    );
     --_nys-border-focus-color: var(--nys-color-focus, #004dd1);
     --_nys-slider-checked-translate: calc(
-      var(--_nys-toggle-width) - var(--_nys-slider-diameter) - var(--_nys-slider-offset) - 2px
+      var(--_nys-toggle-width) - var(--_nys-slider-diameter) - var(
+          --_nys-slider-offset
+        ) -
+        2px
     );
 
     /* Slider colors */
     --_nys-color-base: var(--nys-color-neutral-500, #797c7f);
     --_nys-color-base-weak: var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-color-theme: var(--nys-color-theme, var(nys-color-state-blue-700, #154973));
-    --_nys-color-theme-strong: var(--nys-color-theme-strong, var(--nys-color-state-blue-800, #0e324f));
-    --_nys-color-theme-stronger: var(--nys-color-theme-stronger, var(--nys-color-state-blue-900, #081b2b));
-    --_nys-color-ink-reverse: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));
+    --_nys-color-theme: var(
+      --nys-color-theme,
+      var(--nys-color-state-blue-700, #154973)
+    );
+    --_nys-color-theme-strong: var(
+      --nys-color-theme-strong,
+      var(--nys-color-state-blue-800, #0e324f)
+    );
+    --_nys-color-theme-stronger: var(
+      --nys-color-theme-stronger,
+      var(--nys-color-state-blue-900, #081b2b)
+    );
+    --_nys-color-ink-reverse: var(
+      --nys-color-ink-reverse,
+      var(--nys-color-white, #fff)
+    );
 
     /* Font sizes and spacing for labels, descriptions, and icons */
     --_nys-label-font-size: var(--nys-font-size-sm, 14px);

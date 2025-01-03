@@ -108,7 +108,6 @@ export class NysAvatar extends LitElement {
                   : html`<div part="nys-avatar__icon">
                       <slot name="icon">
                         <nys-icon
-                          part="icon"
                           label="nys-avatar__icon"
                           name="account_circle"
                           size="md"

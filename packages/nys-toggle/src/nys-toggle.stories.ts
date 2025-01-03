@@ -25,7 +25,7 @@ const meta: Meta<NysToggleArgs> = {
     checked: { control: "boolean" },
     disabled: { control: "boolean" },
     noIcon: { control: "boolean" },
-    size: { control: "select", options: ["sm", "md", "lg"] },
+    size: { control: "select", options: ["sm", "md"] },
   },
   parameters: {
     docs: {
