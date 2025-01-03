@@ -288,10 +288,10 @@ export const Duration: Story = {
 // Story: CustomIcon
 export const CustomIcon: Story = {
   args: {
-    theme: "warning",
-    heading: "Help status",
-    text: "Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?",
-    icon: "help",
+    theme: "emergency",
+    heading: "Winter storm warning: Dec 10th, 2024.",
+    text: "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.",
+    icon: "ac_unit",
   },
   render: (args) => html`
     <nys-alert
@@ -309,9 +309,9 @@ export const CustomIcon: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="warning" 
-  heading="Help status"
-  text=""Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?" 
+  theme="emergency" 
+  heading="Winter storm warning: Dec 10th, 2024."
+  text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving." 
   icon="help">
 </nys-alert>
 `.trim(),

@@ -6,15 +6,21 @@ export default css`
     --_nys-alert-border-width: var(--nys-border-width-lg, 4px);
     --_nys-alert-border-radius: var(--nys-radius-md, 4px);
     --_nys-alert-color: var(--nys-color-ink, #1b1b1b);
+    --_nys-alert-spacing: var(--nys-space-250, 20px);
+    --_nys-alert-font-family: var(--nys-font-family-ui, "Proxima Nova");
+    --_nys-alert-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-alert-lineheight: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-alert-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
     /* Border specifics */
-    --_nys-alert-color-border-left: var(--nys-color-neutral-600, #62666a);
+    --_nys-alert-color-border-left: var(--nys-color-neutral, var(--nys-color-neutral-600, #62666a));
 
     /* Background theme specifics */
-    --_nys-alert-color-bg: var(--nys-color-neutral-10, #f6f6f6);
+    --_nys-alert-color-bg: var(--nys-color-neutral-weak, var(--nys-color-neutral-10, #f6f6f6));
   }
 
   .nys-alert__icon {
+    margin-top: 1.5px;
     margin-right: 0.8rem;
   }
 
@@ -25,16 +31,12 @@ export default css`
       var(--_nys-alert-color-border-left);
     border-radius: var(--_nys-alert-border-radius);
     color: var(--_nys-alert-color);
-    padding: 1rem 1.5rem;
-    font-family:
-      Source Sans Pro Web,
-      Helvetica Neue,
-      Helvetica,
-      Roboto,
-      Arial,
-      sans-serif;
-    font-size: 1.06rem;
-    line-height: 1.5;
+    padding: var(--_nys-alert-spacing);
+    font-style: normal;
+    font-family: var(--_nys-alert-font-family);
+    font-size: var(--_nys-alert-font-size);
+    line-height: var(--_nys-alert-lineheight);
+    letter-spacing: var(--_nys-alert-letterspacing);
   }
 
   .nys-alert__text {
@@ -44,24 +46,16 @@ export default css`
   }
 
   .nys-alert__label {
-    margin: 0 0 0.5rem 0;
-    font-family:
-      Source Sans Pro Web,
-      Helvetica Neue,
-      Helvetica,
-      Roboto,
-      Arial,
-      sans-serif;
-    font-size: 1.33rem;
-    font-style: normal;
+    margin: 0;
     font-weight: 600;
-    line-height: 0.9;
   }
 
   slot[name="text"] {
+    font-weight: 400;
     margin: 0;
   }
   ::slotted(p) {
+    font-weight: 400;
     margin: 0;
   }
 
@@ -85,6 +79,7 @@ export default css`
     margin: 0;
   }
   .nys-alert--centered div[part="nys-alert__icon"] {
+    margin-top: 0;
     display: flex;
     align-items: center;
     justify-content: center;

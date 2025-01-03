@@ -160,9 +160,9 @@
 --nys-font-letterspacing-h6: var(--nys-font-letterspacing-300);
 
 /* UI */
---nys-font-letterpacing-ui-md: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-sm: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-xs: var(--nys-font-letterspacing-600);
+--nys-font-letterspacing-ui-md: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-body-sm: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-body-xs: var(--nys-font-letterspacing-600);
 
 /* --- Icon Size --- */
 
