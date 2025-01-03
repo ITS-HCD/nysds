@@ -13,10 +13,16 @@ export default css`
     --_nys-alert-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
     /* Border specifics */
-    --_nys-alert-color-border-left: var(--nys-color-neutral, var(--nys-color-neutral-600, #62666a));
+    --_nys-alert-color-border-left: var(
+      --nys-color-neutral,
+      var(--nys-color-neutral-600, #62666a)
+    );
 
     /* Background theme specifics */
-    --_nys-alert-color-bg: var(--nys-color-neutral-weak, var(--nys-color-neutral-10, #f6f6f6));
+    --_nys-alert-color-bg: var(
+      --nys-color-neutral-weak,
+      var(--nys-color-neutral-10, #f6f6f6)
+    );
   }
 
   .nys-alert__icon {

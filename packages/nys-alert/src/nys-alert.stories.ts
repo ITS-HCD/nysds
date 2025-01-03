@@ -325,7 +325,8 @@ export const CustomIcon: Story = {
 export const HeadingOnly: Story = {
   args: {
     theme: "info",
-    heading: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
+    heading:
+      "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
   },
   render: (args) => html`
     <nys-alert
