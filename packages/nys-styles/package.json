@@ -1,11 +1,14 @@
 {
   "name": "@nys-excelsior/nys-styles",
-  "version": "0.0.6-alpha",
+  "version": "0.0.7-alpha",
   "description": "CSS variables, styles, and themes for the New York State Design System",
   "main": "dist/excelsior.css",
   "files": [
     "dist/"
   ],
+  "exports": {
+    "./dist/excelsior.min.css": "./dist/excelsior.min.css"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build"
