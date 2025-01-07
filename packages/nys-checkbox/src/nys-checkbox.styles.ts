@@ -47,17 +47,17 @@ export default css`
     /* Disabled */
     --_nys-checkbox-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
     --_nys-checkbox-disabled-color-border: var(
-      --nys-color-neutral-400,
-      #757575
+      --nys-color-neutral-100,
+      #d0d0ce
     );
     /* Disabled Checked */
     --_nys-checkbox-disabled-checked-color-bg: var(
-      --nys-color-neutral-200,
-      #757575
+      --nys-color-neutral-100,
+      #d0d0ce
     );
     --_nys-checkbox-disabled-checked-color-border: var(
-      --nys-color-neutral-200,
-      #757575
+      --nys-color-neutral-100,
+      ##d0d0ce
     );
   }
 
