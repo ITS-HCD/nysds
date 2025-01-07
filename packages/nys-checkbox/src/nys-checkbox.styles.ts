@@ -47,17 +47,17 @@ export default css`
     /* Disabled */
     --_nys-checkbox-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
     --_nys-checkbox-disabled-color-border: var(
-      --nys-color-neutral-100,
-      #d0d0ce
+      --nys-color-neutral-400,
+      #757575
     );
     /* Disabled Checked */
     --_nys-checkbox-disabled-checked-color-bg: var(
-      --nys-color-neutral-100,
-      #d0d0ce
+      --nys-color-neutral-200,
+      #757575
     );
     --_nys-checkbox-disabled-checked-color-border: var(
-      --nys-color-neutral-100,
-      ##d0d0ce
+      --nys-color-neutral-200,
+      #757575
     );
   }
 
@@ -146,13 +146,14 @@ export default css`
   .nys-checkbox__checkboxwrapper {
     position: relative;
     display: inline-block;
+    max-height: var(--_nys-checkbox-size);
   }
 
   .nys-checkbox__icon {
     position: absolute;
-    bottom: 50%;
+    top: 50%;
     left: 50%;
-    transform: translate3d(-50%, 50%, 0);
+    transform: translate3d(-50%, -25%, 0);
     pointer-events: none;
     color: white;
   }
@@ -211,5 +212,8 @@ export default css`
 
   .nys-checkboxgroup__content {
     padding-top: var(--nys-spacing, 0.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-spacing, 0.5rem);
   }
 `;
