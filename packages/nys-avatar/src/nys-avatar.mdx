@@ -22,11 +22,11 @@ If an id is not passed, a unique id will be generated.
 
 ## Variants
 ### Images
-To display an image in the avatar, set the `image` and `label` attributes. These will take priority and override initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
+To display an image in the avatar, set the `image` and `label` attributes. Images will take **priority** and **override** initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
 <Canvas of={NysAvatarStories.AvatarImage} />
 
 ### Initials
-If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon.
+If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon. Initials will take **priority** and **override** icons. 
 <Canvas of={NysAvatarStories.AvatarInitials} />
 
 ### Custom Icons
@@ -36,10 +36,6 @@ When no image or initials are set, an icon will be shown. The default avatar sho
 ### Shapes
 Avatars can be shaped using the shape attribute.
 <Canvas of={NysAvatarStories.AvatarShapes} />
-
-### Sizes
-Avatars can come in three different sizes: `sm`, `md`, and `lg`.
-<Canvas of={NysAvatarStories.AvatarSizes} />
 
 ### Background Color
 You can change the background color of an Avatar. Note that images will naturally cover over the background color.
