@@ -8,6 +8,9 @@ export default css`
     --_nys-textinput-width-sm: var(--nys-form-width-sm, 88px);
     --_nys-textinput-width-md: var(--nys-form-width-md, 200px);
     --_nys-textinput-width-lg: var(--nys-form-width-lg, 384px);
+    --_nys-textinput-radius: var(--nys-radius-md, 4px);
+    --_nys-textinput-border-width: var(--nys-border-width-sm, 1px);
+    --_nys-textinput-border-color: var(--nys-color-neutral-400, #909395);
   }
 
   .nys-textinput {
@@ -15,8 +18,9 @@ export default css`
   }
 
   .nys-textinput__input {
-    border-radius: 0.25rem;
-    border: solid 1px gray;
+    border-radius: var(--_nys-textinput-radius);
+    border: solid var(--_nys-textinput-border-color)
+      var(--_nys-textinput-border-width);
     font-size: 16px;
     padding: 0.5rem;
   }
