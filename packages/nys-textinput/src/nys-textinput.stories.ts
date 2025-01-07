@@ -17,7 +17,7 @@ interface NysTextinputArgs {
   form: string;
   pattern: string;
   maxlength: string;
-  size: string;
+  width: string;
   step: string;
   min: string;
   max: string;
@@ -45,7 +45,11 @@ const meta: Meta<NysTextinputArgs> = {
     form: { control: "text" },
     pattern: { control: "text" },
     maxlength: { control: "text" },
-    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
+    width: {
+      control: "select",
+      options: ["sm", "md", "lg", "full"],
+      defaultValue: { summary: "md" },
+    },
     step: { control: "text" },
     min: { control: "text" },
     max: { control: "text" },
@@ -85,7 +89,7 @@ export const Basic: Story = {
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
@@ -103,8 +107,8 @@ export const Basic: Story = {
   },
 };
 
-export const Size: Story = {
-  args: { label: "This label is extra small", size: "xs", value: "" },
+export const Width: Story = {
+  args: { label: "This label is extra small", width: "sm", value: "" },
   render: (args) => html`
     <nys-textinput
       .id=${args.id}
@@ -120,7 +124,7 @@ export const Size: Story = {
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
@@ -133,7 +137,7 @@ export const Size: Story = {
       source: {
         code: `
 <nys-textinput 
-  size="xs" 
+  width="sm" 
   label="This label is extra small"
 ></nys-textinput>
         `,
@@ -160,7 +164,7 @@ export const DifferentTypes: Story = {
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
@@ -200,7 +204,7 @@ export const DescriptionSlot: Story = {
         .form=${args.form}
         .pattern=${args.pattern}
         .maxlength=${args.maxlength}
-        .size=${args.size}
+        .width=${args.width}
         .step=${args.step}
         .min=${args.min}
         .max=${args.max}
@@ -221,7 +225,7 @@ export const DescriptionSlot: Story = {
         .form=${args.form}
         .pattern=${args.pattern}
         .maxlength=${args.maxlength}
-        .size=${args.size}
+        .width=${args.width}
         .step=${args.step}
         .min=${args.min}
         .max=${args.max}
@@ -326,7 +330,7 @@ export const MaxMinAndStep: Story = {
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
@@ -375,7 +379,7 @@ export const Maxlength: Story = {
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
@@ -426,7 +430,7 @@ export const Pattern: Story = {
         .form=${args.form}
         .pattern=${args.pattern}
         .maxlength=${args.maxlength}
-        .size=${args.size}
+        .width=${args.width}
         .step=${args.step}
         .min=${args.min}
         .max=${args.max}
@@ -480,7 +484,7 @@ export const Required: Story = {
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
@@ -523,7 +527,7 @@ export const ErrorMessage: Story = {
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}

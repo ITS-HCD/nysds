@@ -43,7 +43,19 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) form = "";
   @property({ type: String }) pattern = "";
   @property({ type: Number }) maxlength = null;
-  @property({ type: String }) size = "";
+  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
+  @property({ reflect: true })
+  width: (typeof NysTextinput.VALID_WIDTHS)[number] = "md";
+
+  // Ensure the "width" property is valid after updates
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("width")) {
+      this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
+        ? this.width
+        : "md";
+    }
+  }
+
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
@@ -93,14 +105,14 @@ export class NysTextinput extends LitElement {
               : ""}
           </div>
 
-          <label for=${this.id} class="nys-textinput__description">
+          <div for=${this.id} class="nys-textinput__description">
             ${this.description}
             <slot name="description"> </slot>
-          </label>
+          </div>
         </div>`}
         <div class="nys-textinput__requiredwrapper">
           <input
-            class="nys-textinput__input ${this.size}"
+            class="nys-textinput__input ${this.width}"
             type=${this.type}
             name=${this.name}
             id=${this.id}

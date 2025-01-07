@@ -10,25 +10,30 @@ export default css`
     border: solid 1px gray;
     font-size: 16px;
     padding: 0.5rem;
+  }
+
+  .nys-textinput__input.sm {
+    width: var(--nys-form-width-sm, 88px);
+    min-width: var(--nys-form-width-sm, 88px);
+    max-width: var(--nys-form-width-sm, 88px);
+  }
+
+  .nys-textinput__input.md {
+    width: var(--nys-form-width-md, 200px);
+    min-width: var(--nys-form-width-md, 200px);
+    max-width: var(--nys-form-width-md, 200px);
+  }
+
+  .nys-textinput__input.lg {
+    width: var(--nys-form-width-lg, 384px);
+    min-width: var(--nys-form-width-lg, 384px);
+    max-width: var(--nys-form-width-lg, 384px);
+  }
+
+  .nys-textinput__input.full {
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;
-  }
-
-  .xs {
-    padding: 0.125rem;
-  }
-
-  .sm {
-    padding: 0.25rem;
-  }
-
-  .lg {
-    font-size: 20px;
-  }
-
-  .xl {
-    font-size: 24px;
   }
 
   /* Focused */
@@ -50,7 +55,7 @@ export default css`
   }
 
   .nys-textinput__requiredwrapper {
-    display: flex;
+    display: inline;
   }
 
   .nys-textinput__text {
