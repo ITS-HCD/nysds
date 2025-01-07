@@ -13,6 +13,8 @@ export default css`
     --_nys-alert-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-alert-lineheight: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-alert-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    --_nys-font-weight-regular: var(--nys-font-weight-regular, 400);
+    --_nys-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 
     /* Border specifics */
     --_nys-alert-color-border-left: var(
@@ -55,15 +57,15 @@ export default css`
 
   .nys-alert__label {
     margin: 0;
-    font-weight: 600;
+    font-weight: var(--_nys-font-weight-semibold);
   }
 
   slot[name="text"] {
-    font-weight: 400;
+    font-weight: var(--_nys-font-weight-regular);
     margin: 0;
   }
   ::slotted(p) {
-    font-weight: 400;
+    font-weight: var(--_nys-font-weight-regular);
     margin: 0;
   }
 

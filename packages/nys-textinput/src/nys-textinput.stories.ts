@@ -1,8 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-textinput";
-import "@nys-excelsior/nys-checkbox";
-import "@nys-excelsior/nys-select";
 
 // Define the structure of the args used in the stories
 interface NysTextinputArgs {
@@ -107,21 +105,6 @@ export const Size: Story = {
       <br />
       <nys-textinput size="xl" label="XL"></nys-textinput>
     </div>
-    <nys-checkbox
-      label="Subscribe to NYS Government Updates"
-      description="Get notified via email about important updates and services."
-      id="subscribe-checkbox-disabled-checked"
-      name="subscribe"
-      value="email-updates"
-      required
-    ></nys-checkbox>
-    <nys-select label="Select your favorite borough">
-      <nys-option value="bronx" label="The Bronx"></nys-option>
-      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-      <nys-option value="manhattan" label="Manhattan"></nys-option>
-      <nys-option value="staten_island" label="Staten Island"></nys-option>
-      <nys-option value="queens" label="Queens"></nys-option>
-    </nys-select>
   `,
   parameters: {
     docs: {
