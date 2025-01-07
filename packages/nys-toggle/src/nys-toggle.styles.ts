@@ -188,11 +188,13 @@ export default css`
 
   /*** Disabled State ***/
   /* Switch BG: Disabled */
-  input:disabled + .slider, input:disabled + .slider:hover {
+  input:disabled + .slider,
+  input:disabled + .slider:hover {
     background-color: var(--_nys-color-base-weak, #d0d0ce);
     cursor: not-allowed;
   }
-  input:disabled + .slider .knob .toggle-icon, input:disabled:active + .slider .knob .toggle-icon {
+  input:disabled + .slider .knob .toggle-icon,
+  input:disabled:active + .slider .knob .toggle-icon {
     color: var(--_nys-color-base-weak, #d0d0ce);
   }
 

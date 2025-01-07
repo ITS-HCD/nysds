@@ -108,20 +108,20 @@ export const Size: Story = {
       <nys-textinput size="xl" label="XL"></nys-textinput>
     </div>
     <nys-checkbox
-  label="Subscribe to NYS Government Updates"
-  description="Get notified via email about important updates and services."
-  id="subscribe-checkbox-disabled-checked"
-  name="subscribe"
-  value="email-updates"
-  required
-></nys-checkbox>
-<nys-select label="Select your favorite borough">
-  <nys-option value="bronx" label="The Bronx"></nys-option>
-  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-  <nys-option value="manhattan" label="Manhattan"></nys-option>
-  <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>      
-</nys-select>
+      label="Subscribe to NYS Government Updates"
+      description="Get notified via email about important updates and services."
+      id="subscribe-checkbox-disabled-checked"
+      name="subscribe"
+      value="email-updates"
+      required
+    ></nys-checkbox>
+    <nys-select label="Select your favorite borough">
+      <nys-option value="bronx" label="The Bronx"></nys-option>
+      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
+      <nys-option value="manhattan" label="Manhattan"></nys-option>
+      <nys-option value="staten_island" label="Staten Island"></nys-option>
+      <nys-option value="queens" label="Queens"></nys-option>
+    </nys-select>
   `,
   parameters: {
     docs: {
