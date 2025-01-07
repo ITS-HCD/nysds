@@ -1,32 +1,31 @@
-import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysSelectStories from './nys-select.stories';
 
 <Meta of={NysSelectStories} title="Components/Select/Documentation" />
 
 
-# Select
-The `nys-select` is a reusable web component for use in New York State digital products. It allows users to select data from a dropdown to be collected.
+# Select **Component**
+The **`nys-select`** is a reusable web component for use in New York State digital products. It allows users to select data from a dropdown to be collected. It accepts the child element `nys-option` to define the options in the dropdown.
 
-### Basic Select
+<p class="pill stable">Stable</p>
+
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
 
 <Canvas of={NysSelectStories.Basic} />
 
-### Description Slot
+<Controls />
 
-<Canvas of={NysSelectStories.DescriptionSlot} />
-
-
-### Disabled
-
+### Variants
+The `nys-option` can have the label set as either the label property or the inner text of the component. The rendered code will show the label as a property if set as inner text.
+<Canvas of={NysSelectStories.OptionsLabelSlot} />
+#### Disabled
 <Canvas of={NysSelectStories.Disabled} />
-
-### Required
-
+#### Required
 <Canvas of={NysSelectStories.Required} />
-
-### Size
-
+#### Size
 <Canvas of={NysSelectStories.Size} />
 
 ### Error Message
@@ -35,14 +34,147 @@ Note: in order to display an error message, you must pass in `showError` to the 
 
 <Canvas of={NysSelectStories.ErrorMessage} />
 
-### Multiple Select
+## Use cases    
 
-Following the guidance of USWDS, we recommend against using `<nys-select multiple/>` as an input for users to select multiple items from a dropdown. Instead use a checkbox group.
+### When to use this component
+- When you need to collect data from a dropdown
+- When you need to provide a list of options for users to select a single option from
+
+### When to consider something else
+- When you need to collect multiple items from a list
+
+## Usage
+
+<div class="usage-wrapper">
+    <div class="usagedos do">
+    ### Do
+    - Use the `nys-select` component when you need the user to select a single item from a list
+    - Use the `nys-option` component to define the options in the dropdown
+    - Following the guidance of USWDS, we recommend against using `<nys-select multiple/>` as an input for users to select multiple items from a dropdown. Instead use a checkbox group.
+    </div>
+
+    <div class="usagedos dont">
+    ### Don't
+    - Use the `nys-select` component when you need the user to select multiple items from a list
+    - Use the native `<option`> element in the `nys-select` component
+    </div>
+</div>
 
 ## Accessibility
 
 The `nys-select` component includes the following accessibility-focused features:
 
-- Proper ARIA roles and attributes to ensure screen readers can interpret the toggle correctly.
+- Proper ARIA roles and attributes to ensure screen readers can interpret the select dropdown correctly.
 - Keyboard navigation support, allowing users to tab to the `<nys-select>` using the keyboard and spacebar to select an option.
 - Visual focus indicators to help users navigate the component.
+
+## Events
+The `nys-select` component emits the following events:
+
+1. **`change`**: Emitted when the value of the select changes. The event detail includes the value of the selected option.
+2. **`focus`**: Emitted when the select gains focus.
+3. **`blur`**: Emitted when the select loses focus.
+
+You can listen for these events using the `addEventListener` method on the `nys-select` element.
+
+```js
+
+//Select the select component
+const select = document.querySelector('nys-select');
+
+//Listen for the 'change' event
+select.addEventListener('change', (event) => {
+  console.log('Select changed:', event.target.value);
+});
+
+//Listen for the 'focus' event
+select.addEventListener('focus', () => {
+  console.log('Select is focused');
+});
+
+//Listen for the 'blur' event
+select.addEventListener('blur', () => {
+  console.log('Select lost focus');
+});
+
+```
+
+## Slots
+The `nys-select` component supports the following slots:
+<table>
+    <thead>
+    <tr>
+        <th>Component</th>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`nys-select`</td>
+        <td>`description`</td>
+        <td>Description for the select component</td>
+        <td>None</td>
+    </tr>
+    <tr>
+        <td>`nys-option`</td>
+        <td>default</td>
+        <td>Displayed text of option</td>
+        <td>None</td>
+    </tr>
+    </tbody>
+</table>
+
+## Parts
+
+<table>
+    <thead>
+    <tr>
+        <th>Part name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`nys-select`</td>
+        <td>The div that wraps the entire `nys-select` component</td>
+    </tr>
+    <tr>
+        <td>`nys-select__text`</td>
+        <td>The text wrapper</td>
+    </tr>
+    <tr>
+        <td>`nys-select__label`</td>
+        <td>The label's wrapper</td>
+    </tr>
+    <tr>
+        <td>`nys-select__description`</td>
+        <td>The description's wrapper</td>
+    </tr>
+    <tr>
+        <td>`nys-select__required`</td>
+        <td>The required flag's wrapper</td>
+    </tr>
+    <tr>
+        <td>`nys-select__requiredwrapper`</td>
+        <td>Wraps the required flag with the text</td>
+    </tr>
+    <tr>
+        <td>`nys-select__selectwrapper`</td>
+        <td>Wraps the native `<select>` element</td>
+    </tr>
+    <tr>
+        <td>`nys-select__select`</td>
+        <td>The native `<select>` element</td>
+    </tr>
+    <tr>
+        <td>`nys-select__icon`</td>
+        <td>Wraps the down chevron icon</td>
+    </tr>
+    <tr>
+        <td>`nys-select__error`</td>
+        <td>The error message wrapper</td>
+    </tr>
+    </tbody>
+</table>

@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nys-excelsior/nys-icon";
 import styles from "./nys-toggle.styles";
 
 let toggleIdCounter = 0; // Counter for generating unique IDs
@@ -20,7 +20,7 @@ export class NysToggle extends LitElement {
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
+  private static readonly VALID_SIZES = ["sm", "md"] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
   private _size: (typeof NysToggle.VALID_SIZES)[number] = "md";
@@ -128,7 +128,7 @@ export class NysToggle extends LitElement {
               </div>
             </span>
           </div>
-          <div class="nys-toggle__text">
+          <div class="nys-toggle__text ${this.disabled ? "disabled" : ""}">
             <div class="nys-toggle__label">${this.label}</div>
             <slot name="description">${this.description}</slot>
           </div>
