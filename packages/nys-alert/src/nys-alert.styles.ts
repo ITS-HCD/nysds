@@ -5,7 +5,9 @@ export default css`
     /* Global Alert Styles */
     --_nys-alert-border-width: var(--nys-border-width-lg, 4px);
     --_nys-alert-border-radius: var(--nys-radius-md, 4px);
+    --_nys-alert-hover-border-radius: var(--nys-radius-sm, 2px);
     --_nys-alert-color: var(--nys-color-ink, #1b1b1b);
+    --_nys-alert-hover-button-color: #0000001a;
     --_nys-alert-spacing: var(--nys-space-250, 20px);
     --_nys-alert-font-family: var(--nys-font-family-ui, "Proxima Nova");
     --_nys-alert-font-size: var(--nys-font-size-ui-md, 16px);
@@ -69,11 +71,19 @@ export default css`
     margin-left: auto;
   }
   .close-button {
+    width: 22px;
+    height: 22px;
     background: none;
     border: none;
     display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     color: currentColor;
+  }
+  .close-button:hover {
+    border-radius: var(--_nys-alert-hover-border-radius);
+    background: var(--_nys-alert-hover-button-color);
   }
 
   /* Centered variant: For no descriptions, we remove the <slot name="text"> via JS logic. In styling, centers the icon for a compact layout. */
@@ -112,5 +122,6 @@ export default css`
     --_nys-alert-color-border-left: var(--nys-color-emergency, #d54309);
     --_nys-alert-color-bg: var(--nys-color-emergency, #d54309);
     --_nys-alert-color: #fff;
+    --_nys-alert-hover-button-color: #ffffff1a;
   }
 `;
