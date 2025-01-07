@@ -52,6 +52,12 @@ export class NysTextarea extends LitElement {
       ? (value as (typeof NysTextarea.VALID_RESIZE)[number])
       : "vertical";
   }
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.validity : { valid: true };
+  }
   @property({ type: String }) errorMessage = "";
 
   constructor() {
@@ -66,6 +72,15 @@ export class NysTextarea extends LitElement {
     if (!this.id) {
       this.id = `nys-textarea-${Date.now()}-${textareaIdCounter++}`;
     }
+  }
+
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
   }
 
   // Set the form control custom validity message
@@ -87,6 +102,12 @@ export class NysTextarea extends LitElement {
   reportValidity(): boolean {
     const textarea = this.shadowRoot?.querySelector("textarea");
     return textarea ? textarea.reportValidity() : false;
+  }
+
+  // Handle invalid event
+  private handleInvalid(event: Event) {
+    this.formControlController.setValidity(false);
+    this.formControlController.emitInvalidEvent(event);
   }
 
   // Handle input event to check pattern validity
@@ -116,22 +137,7 @@ export class NysTextarea extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
-  // This function is executed when loaded so we have at least pass info (even if empty) to the user
-  // When called, reveal detail: {name: value} passed the shadowDom into the outer <nys-form> component.
-  private _handleSubmitForm() {
-    // Dispatch formSubmission event for integration with nys-form
-    this.dispatchEvent(
-      new CustomEvent("nys-submitForm", {
-        detail: { name: [this.name], value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   render() {
-    this._handleSubmitForm();
-
     return html`
       <label class="nys-textarea">
         ${this.label &&
@@ -163,6 +169,7 @@ export class NysTextarea extends LitElement {
             @input=${this._handleInput}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
+            @invalid=${this.handleInvalid}
           ></textarea>
           ${this.required && !this.label
             ? html`<div class="nys-textarea__required">*</div>`

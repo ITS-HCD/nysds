@@ -29,7 +29,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
-  @property({ type: String }) form = "";
+  @property({ reflect: true }) form = "";
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
 
@@ -41,6 +41,20 @@ export class NysCheckbox extends LitElement {
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
+  }
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.validity : { valid: true };
+  }
+
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
   }
 
   // Set the form control custom validity message
@@ -62,6 +76,13 @@ export class NysCheckbox extends LitElement {
   reportValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
+  }
+
+  // Handle invalid event
+  private handleInvalid(event: Event) {
+    console.log("INVALID, need handling");
+    this.formControlController.setValidity(false);
+    this.formControlController.emitInvalidEvent(event);
   }
 
   // Handle checkbox change event
@@ -104,22 +125,7 @@ export class NysCheckbox extends LitElement {
     }
   }
 
-  // This function is executed when loaded so we have at least pass info (even if empty) to the user
-  // When called, reveal detail: {name: value} passed the shadowDom into the outer <nys-form> component.
-  private _handleSubmitForm() {
-    // Dispatch formSubmission event for integration with nys-form
-    this.dispatchEvent(
-      new CustomEvent("nys-submitForm", {
-        detail: { name: [this.name], value: this.checked },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   render() {
-    this._handleSubmitForm();
-
     return html`
       <div class="nys-checkbox">
         <div class="nys-checkbox__content">
@@ -140,6 +146,7 @@ export class NysCheckbox extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
+              @invalid=${this.handleInvalid}
             />
             ${this.checked
               ? html`<nys-icon

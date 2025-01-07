@@ -52,6 +52,13 @@ export class NysToggle extends LitElement {
       ? (value as (typeof NysToggle.VALID_SIZES)[number])
       : "md";
   }
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.validity : { valid: true };
+  }
+
   @property({ type: String }) form = "";
 
   /******************** Functions ********************/
@@ -62,6 +69,15 @@ export class NysToggle extends LitElement {
     if (!this.id) {
       this.id = `nys-toggle-${Date.now()}-${toggleIdCounter++}`;
     }
+  }
+
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
   }
 
   // Set the form control custom validity message
@@ -83,6 +99,12 @@ export class NysToggle extends LitElement {
   reportValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
+  }
+
+  // Handle invalid event
+  private handleInvalid(event: Event) {
+    this.formControlController.setValidity(false);
+    this.formControlController.emitInvalidEvent(event);
   }
 
   // Handle focus event
@@ -136,22 +158,7 @@ export class NysToggle extends LitElement {
     }
   }
 
-  // This function is executed when loaded so we have at least pass info (even if empty) to the user
-  // When called, reveal detail: {name: value} passed the shadowDom into the outer <nys-form> component.
-  private _handleSubmitForm() {
-    // Dispatch formSubmission event for integration with nys-form
-    this.dispatchEvent(
-      new CustomEvent("nys-submitForm", {
-        detail: { name: [this.name], value: this.checked },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   render() {
-    this._handleSubmitForm();
-
     return html`
       <label class="nys-toggle">
         <div class="nys-toggle__content">
@@ -173,6 +180,7 @@ export class NysToggle extends LitElement {
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
               @keydown=${this._handleKeyDown}
+              @invalid=${this.handleInvalid}
             />
             <span class="slider">
               <div class="knob">

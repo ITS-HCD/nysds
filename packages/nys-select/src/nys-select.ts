@@ -115,22 +115,7 @@ export class NysSelect extends LitElement {
     }
   }
 
-  // This function is executed when loaded so we have at least pass info (even if empty) to the user
-  // When called, reveal detail: {name: value} passed the shadowDom into the outer <nys-form> component.
-  private _handleSubmitForm() {
-    // Dispatch formSubmission event for integration with nys-form
-    this.dispatchEvent(
-      new CustomEvent("nys-submitForm", {
-        detail: { name: [this.name], value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   render() {
-    this._handleSubmitForm();
-
     const selectClasses = {
       "nys-select__select": true,
       "nys-select__selecterror": this.hasError,

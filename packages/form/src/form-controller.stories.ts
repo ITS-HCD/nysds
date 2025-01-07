@@ -10,8 +10,6 @@ import "@nys-excelsior/nys-toggle";
 // Define the structure of the args used in the stories
 interface NysFormArgs {
   id: string;
-  fieldset?: boolean;
-  legend?: string;
 }
 
 const meta: Meta<NysFormArgs> = {
@@ -19,8 +17,6 @@ const meta: Meta<NysFormArgs> = {
   component: "nys-form",
   argTypes: {
     id: { control: "text" },
-    fieldset: { control: "boolean" },
-    legend: { control: "text" },
   },
   parameters: {
     docs: {
@@ -256,8 +252,6 @@ export const RequiredFields: Story = {
   render: (args) => html`
     <form
       .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
       @submit=${(e: SubmitEvent) => {
         console.log(
           "Form submitted...you should not see this message if validation fails.",
@@ -326,8 +320,6 @@ export const OutsideFormElements: Story = {
   render: (args) => html`
     <form
       .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
       @submit=${(e: SubmitEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
@@ -398,14 +390,10 @@ export const OutsideFormElements: Story = {
 export const Fieldset: Story = {
   args: {
     id: "work-location",
-    fieldset: true,
-    legend: "Primary work location",
   },
   render: (args) => html`
     <form
       .id=${args.id}
-      ?fieldset=${args.fieldset}
-      legend=${args.legend}
       @submit=${(e: SubmitEvent) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
@@ -424,7 +412,7 @@ export const Fieldset: Story = {
         <label for="remote">Remote</label>
 
         <div style="display:flex; margin:20px 0;">
-          <select name="state" id="state-select">
+          <select name="state-native" id="state-select-native">
             <option value="">--Please choose an option--</option>
             <option value="nj">New Jersey</option>
             <option value="ny">New York</option>

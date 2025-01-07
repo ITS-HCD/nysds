@@ -61,7 +61,12 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = null;
+  /**
+   * Form controls are typically linked to the nearest <form> element.
+   * Use this attribute to associate the control with a form by its id, even if it's outside the form.
+   * The form must be in the same document or shadow root.
+   */
+  @property({ reflect: true }) form = null;
   @property({ type: String }) pattern = null;
   @property({ type: Number }) maxlength = null;
   @property({ type: String }) size = "";
@@ -82,6 +87,15 @@ export class NysTextinput extends LitElement {
     if (!this.id) {
       this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
     }
+  }
+
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
   }
 
   // Set the form control custom validity message
@@ -105,6 +119,12 @@ export class NysTextinput extends LitElement {
     return input ? input.reportValidity() : false;
   }
 
+  // Handle invalid event
+  private handleInvalid(event: Event) {
+    this.formControlController.setValidity(false);
+    this.formControlController.emitInvalidEvent(event);
+  }
+
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -121,12 +141,6 @@ export class NysTextinput extends LitElement {
     this.formControlController.updateValidity();
   }
 
-  // Handle invalid event
-  private handleInvalid(event: Event) {
-    this.formControlController.setValidity(false);
-    this.formControlController.emitInvalidEvent(event);
-  }
-
   // Handle focus event
   private _handleFocus() {
     this.dispatchEvent(new Event("focus"));
@@ -136,23 +150,7 @@ export class NysTextinput extends LitElement {
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
   }
-
-  // This function is executed when loaded so we have at least pass info (even if empty) to the user
-  // When called, reveal detail: {name: value} passed the shadowDom into the outer <nys-form> component.
-  private _handleSubmitForm() {
-    // Dispatch formSubmission event for integration with nys-form
-    this.dispatchEvent(
-      new CustomEvent("nys-submitForm", {
-        detail: { name: [this.name], value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   render() {
-    this._handleSubmitForm();
-
     return html`
       <div class="nys-textinput">
         ${(this.label || this.description) &&
