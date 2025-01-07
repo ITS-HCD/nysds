@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
-import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
@@ -47,8 +46,6 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
-  @property({ type: Boolean }) showError = false;
-  @property({ type: String }) errorMessage = "";
 
   constructor() {
     super();
@@ -82,21 +79,19 @@ export class NysTextinput extends LitElement {
   render() {
     return html`
       <div class="nys-textinput">
-        ${this.label &&
+        ${(this.label || this.description) &&
         html` <div class="nys-textinput__text">
-          <div class="nys-textinput__requiredwrapper">
+          <div class="nys-textinput__label_labelwrapper">
             <label for=${this.id} class="nys-textinput__label"
               >${this.label}</label
             >
-            ${this.required
-              ? html`<label class="nys-textinput__required">*</label>`
-              : ""}
+            <label for=${this.id} class="nys-textinput__description"
+              >${this.description}</label
+            >
           </div>
-
-          <label for=${this.id} class="nys-textinput__description">
-            ${this.description}
-            <slot name="description"> </slot>
-          </label>
+          ${this.required && (this.label || this.description)
+            ? html`<label class="nys-textinput__required">*</label>`
+            : ""}
         </div>`}
         <div class="nys-textinput__requiredwrapper">
           <input
@@ -125,12 +120,6 @@ export class NysTextinput extends LitElement {
             ? html`<label class="nys-textinput__required">*</label>`
             : ""}
         </div>
-        ${this.showError && this.errorMessage
-          ? html`<div class="nys-textinput__error">
-              <nys-icon name="error"></nys-icon>
-              ${this.errorMessage}
-            </div>`
-          : ""}
       </div>
     `;
   }
