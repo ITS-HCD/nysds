@@ -25,6 +25,8 @@ export default css`
       --nys-color-theme,
       var(--nys-color-state-blue-700, #154973)
     );
+    --_nys-color-neutral: var(--nys-color-neutral-600, #62666a);
+    --_nys-color-neutral-700: var(--nys-color-neutral-700, #4a4d4f);
     --_nys-color-theme-strong: var(
       --nys-color-theme-strong,
       var(--nys-color-state-blue-800, #0e324f)
@@ -123,17 +125,22 @@ export default css`
   }
 
   /* Switch BG: Hover */
-  input:hover + .slider {
-    background-color: var(--_nys-color-base, #797c7f);
+  .slider:hover {
+    background-color: var(--_nys-color-neutral, #62666a);
   }
 
-  /* Switch BG: Hover + Checked*/
-  input:checked:hover + .slider {
+  /* Switch BG: Hover + Checked */
+  input:checked + .slider:hover {
     background-color: var(--_nys-color-theme-strong, #0e324f);
   }
 
   /* Switch BG: Active */
   input:active + .slider {
+    background-color: var(--_nys-color-neutral-700, #4a4d4f);
+  }
+
+  /* Switch BG: Active + Checked */
+  input:active:checked + .slider {
     background-color: var(--_nys-color-theme-stronger, #081b2b);
   }
 
@@ -157,6 +164,12 @@ export default css`
   input:checked + .slider .knob .toggle-icon {
     color: var(--_nys-color-theme, #154973);
   }
+  input:active + .slider .knob .toggle-icon {
+    color: var(--_nys-color-neutral-700, #4a4d4f);
+  }
+  input:active:checked + .slider .knob .toggle-icon {
+    color: var(--_nys-color-theme-stronger, #081b2b);
+  }
   :host([size="sm"]) .toggle-icon {
     font-size: var(--_nys-icon-font-size);
   }
@@ -175,11 +188,11 @@ export default css`
 
   /*** Disabled State ***/
   /* Switch BG: Disabled */
-  input:disabled + .slider {
+  input:disabled + .slider, input:disabled + .slider:hover {
     background-color: var(--_nys-color-base-weak, #d0d0ce);
     cursor: not-allowed;
   }
-  input:disabled + .slider .knob .toggle-icon {
+  input:disabled + .slider .knob .toggle-icon, input:disabled:active + .slider .knob .toggle-icon {
     color: var(--_nys-color-base-weak, #d0d0ce);
   }
 
