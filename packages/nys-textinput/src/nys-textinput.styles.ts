@@ -1,6 +1,15 @@
 import { css } from "lit";
 
 export default css`
+  :host {
+    /* Anything that can be overridden should be defined here */
+
+    /* Global Text Input Styles */
+    --_nys-textinput-width-sm: var(--nys-form-width-sm, 88px);
+    --_nys-textinput-width-md: var(--nys-form-width-md, 200px);
+    --_nys-textinput-width-lg: var(--nys-form-width-lg, 384px);
+  }
+
   .nys-textinput {
     font-family: Arial, sans-serif;
   }
@@ -13,21 +22,21 @@ export default css`
   }
 
   .nys-textinput__input.sm {
-    width: var(--nys-form-width-sm, 88px);
-    min-width: var(--nys-form-width-sm, 88px);
-    max-width: var(--nys-form-width-sm, 88px);
+    width: var(--_nys-textinput-width-sm);
+    min-width: var(--_nys-textinput-width-sm);
+    max-width: var(--_nys-textinput-width-sm);
   }
 
   .nys-textinput__input.md {
-    width: var(--nys-form-width-md, 200px);
-    min-width: var(--nys-form-width-md, 200px);
-    max-width: var(--nys-form-width-md, 200px);
+    width: var(--_nys-textinput-width-md);
+    min-width: var(--_nys-textinput-width-md);
+    max-width: var(--_nys-textinput-width-md);
   }
 
   .nys-textinput__input.lg {
-    width: var(--nys-form-width-lg, 384px);
-    min-width: var(--nys-form-width-lg, 384px);
-    max-width: var(--nys-form-width-lg, 384px);
+    width: var(--_nys-textinput-width-lg);
+    min-width: var(--_nys-textinput-width-lg);
+    max-width: var(--_nys-textinput-width-lg);
   }
 
   .nys-textinput__input.full {
