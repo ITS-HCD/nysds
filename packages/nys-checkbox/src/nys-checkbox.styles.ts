@@ -165,7 +165,7 @@ export default css`
   }
 
   .nys-checkbox__requiredwrapper {
-    display: flex;
+    display: inline;
   }
 
   /* Checkbox Label Holder */
