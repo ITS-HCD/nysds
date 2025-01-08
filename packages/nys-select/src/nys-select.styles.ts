@@ -20,6 +20,8 @@ export default css`
     text-overflow: "";
     background: white;
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
   }
 
   .nys-select__selectwrapper {

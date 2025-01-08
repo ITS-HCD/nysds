@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import { classMap } from "lit/directives/class-map.js";
 import "@nys-excelsior/nys-icon";
@@ -18,14 +18,6 @@ export class NysSelect extends LitElement {
   @property({ type: String }) size = "";
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
-
-  @state() private _options: {
-    value: string;
-    label: string;
-    disabled: boolean;
-    selected: boolean;
-  }[] = [];
-
   static styles = styles;
 
   private _handleSlotChange() {
@@ -33,21 +25,24 @@ export class NysSelect extends LitElement {
       'slot:not([name="description"])',
     ) as HTMLSlotElement | null;
     if (slot) {
-      const nodes = slot.assignedElements({ flatten: true });
-      this._options = nodes
-        .filter((node) => node instanceof NysOption)
-        .map((node) => {
-          const nysOption = node as NysOption;
-          const label = nysOption.label || nysOption.textContent?.trim() || "";
-          return {
-            value: nysOption.value,
-            label: label,
-            disabled: nysOption.disabled,
-            selected: nysOption.selected,
-          };
+      const assignedElements = slot.assignedElements({ flatten: true });
+      const select = this.shadowRoot?.querySelector("select");
+
+      if (select) {
+        // Clone and append slotted elements
+        assignedElements.forEach((node) => {
+          if (node instanceof NysOption) {
+            const optionElement = document.createElement("option");
+            optionElement.value = node.value;
+            optionElement.textContent =
+              node.label || node.textContent?.trim() || "";
+            optionElement.disabled = node.disabled;
+            optionElement.selected = node.selected;
+            select.appendChild(optionElement);
+          }
         });
+      }
     }
-    this.requestUpdate(); // Request an update after processing options
   }
 
   // Handle focus event
@@ -77,7 +72,7 @@ export class NysSelect extends LitElement {
     const selectClasses = {
       "nys-select__select": true,
       "nys-select__selecterror": this.showError,
-      [this.size]: !!this.size,
+      [`nys-select--${this.size}`]: !!this.size,
     };
 
     return html`
@@ -112,18 +107,6 @@ export class NysSelect extends LitElement {
               @blur="${this._handleBlur}"
             >
               <option hidden disabled selected value></option>
-              ${this._options.map(
-                (opt) =>
-                  html`<option
-                    value=${opt.value}
-                    label=${opt.label}
-                    ?disabled=${opt.disabled}
-                    ?hidden=${opt.selected}
-                    ?selected=${opt.selected}
-                  >
-                    ${opt.label}
-                  </option>`,
-              )}
             </select>
             <slot
               @slotchange="${this._handleSlotChange}"

@@ -101,7 +101,7 @@ export const OptionsLabelSlot: Story = {
     required: false,
     form: "",
     size: "",
-    hasError: false,
+    showError: false,
     errorMessage: "",
   },
   render: (args) => html`
@@ -115,7 +115,7 @@ export const OptionsLabelSlot: Story = {
       .required=${args.required}
       .form=${args.form}
       .size=${args.size}
-      .hasError=${args.hasError}
+      .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <nys-option value="bronx">The Bronx</nys-option>
