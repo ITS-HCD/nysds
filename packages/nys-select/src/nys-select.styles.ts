@@ -1,6 +1,11 @@
 import { css } from "lit";
 
 export default css`
+  :host {
+    /* Global Select Styles */
+    --_nys-form-width: var(--nys-form-width-md, 200px);
+  }
+
   .nys-select {
     font-family: Arial, sans-serif;
     width: -webkit-fill-available;
@@ -13,9 +18,9 @@ export default css`
     border: solid 1px gray;
     font-size: 16px;
     padding: 0.5rem;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    width: fill-available;
+    width: var(--_nys-form-width);
+    min-width: var(--_nys-form-width);
+    max-width: var(--_nys-form-width);
     text-indent: 1px;
     text-overflow: "";
     background: white;
@@ -40,24 +45,20 @@ export default css`
     pointer-events: none;
   }
 
-  .nys-select__select.xs {
-    padding: 0.125rem;
+  :host([width="sm"]) .nys-select__select {
+    --_nys-form-width: var(--nys-form-width-lg, 384px);
   }
 
-  .nys-select__select.sm {
-    padding: 0.25rem;
+  :host([width="md"]) .nys-select__select {
+    --_nys-form-width: var(--nys-form-width-md, 200px);
   }
 
-  .nys-select__select.md {
-    padding: 0.5rem;
+  :host([width="lg"]) .nys-select__select {
+    --_nys-form-width: var(--nys-form-width-sm, 88px);
   }
 
-  .nys-select__select.lg {
-    font-size: 20px;
-  }
-
-  .nys-select__select.xl {
-    font-size: 24px;
+  :host([width="full"]) .nys-select__select {
+    --_nys-form-width: 100%;
   }
 
   /* Focused */

@@ -12,7 +12,7 @@ interface NysSelectArgs {
   disabled: boolean;
   required: boolean;
   form: string;
-  size: string;
+  width: string;
   options: string;
   showError: boolean;
   errorMessage: String;
@@ -30,7 +30,7 @@ const meta: Meta<NysSelectArgs> = {
     disabled: { control: "boolean" },
     required: { control: "boolean" },
     form: { control: "text" },
-    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
+    width: { control: "select", options: ["sm", "md", "lg", "full"] },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
   },
@@ -62,7 +62,7 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .size=${args.size}
+      .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -100,7 +100,7 @@ export const OptionsLabelSlot: Story = {
     disabled: false,
     required: false,
     form: "",
-    size: "",
+    width: "",
     showError: false,
     errorMessage: "",
   },
@@ -114,7 +114,7 @@ export const OptionsLabelSlot: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .size=${args.size}
+      .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -157,7 +157,7 @@ export const DescriptionSlot: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .size=${args.size}
+      .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -203,7 +203,7 @@ export const Disabled: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .size=${args.size}
+      .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -247,7 +247,7 @@ export const Required: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .size=${args.size}
+      .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -275,12 +275,12 @@ export const Required: Story = {
   },
 };
 
-export const Size: Story = {
+export const Width: Story = {
   args: {
     label: "Select your favorite borough",
-    description: "Valid sizes are xs, sm, md, lg, and xl",
+    description: "Valid widths are sm, md, lg, and full",
     value: "",
-    size: "xs",
+    width: "sm",
   },
   render: (args) => html`
     <nys-select
@@ -292,7 +292,7 @@ export const Size: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .size=${args.size}
+      .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -309,8 +309,8 @@ export const Size: Story = {
         code: `
 <nys-select 
   label="Select your favorite borough"
-  description="Valid sizes are xs, sm, md, lg, and xl"
-  size="xs"
+  description="Valid widths are sm, md, lg, and full"
+  width="xs"
 >
   <nys-option value="bronx" label="The Bronx"></nys-option>
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
@@ -341,7 +341,7 @@ export const ErrorMessage: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .form=${args.form}
-      .size=${args.size}
+      .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >

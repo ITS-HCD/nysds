@@ -15,9 +15,26 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
-  @property({ type: String }) size = "";
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
+  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
+  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "md";
+
+  // Getter and setter for the `width` property.
+  @property({ reflect: true })
+  get width(): (typeof NysSelect.VALID_WIDTHS)[number] {
+    return this._width;
+  }
+
+  set width(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._width = NysSelect.VALID_WIDTHS.includes(
+      value as (typeof NysSelect.VALID_WIDTHS)[number],
+    )
+      ? (value as (typeof NysSelect.VALID_WIDTHS)[number])
+      : "full";
+  }
+
   static styles = styles;
 
   private _handleSlotChange() {
@@ -72,7 +89,7 @@ export class NysSelect extends LitElement {
     const selectClasses = {
       "nys-select__select": true,
       "nys-select__selecterror": this.showError,
-      [`nys-select--${this.size}`]: !!this.size,
+      [`nys-select--${this.width}`]: !!this.width,
     };
 
     return html`
@@ -115,7 +132,7 @@ export class NysSelect extends LitElement {
             <slot name="icon">
               <nys-icon
                 name="chevron_down"
-                size="lg"
+                width="lg"
                 class="nys-select__icon"
               ></nys-icon>
             </slot>
