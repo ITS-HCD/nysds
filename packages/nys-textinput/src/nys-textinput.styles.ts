@@ -11,18 +11,42 @@ export default css`
     --_nys-textinput-radius: var(--nys-radius-md, 4px);
     --_nys-textinput-border-width: var(--nys-border-width-sm, 1px);
     --_nys-textinput-border-color: var(--nys-color-neutral-400, #909395);
+    --_nys-textinput-padding: var(--nys-space-100, 8px);
+
+    /* Global Font Styles */
+    --_nys-textinput-family-ui: var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    );
+    --_nys-textinput-size-ui-md: var(--nys-font-size-ui-md, 16px);
+    --_nys-textinput-weight-ui: var(--nys-font-weight-semibold, 600);
+    --_nys-textinput-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
+    --nys-textinput-letterspacing-ui: var(
+      --nys-font-letterspacing-ui-sm,
+      0.044px
+    );
   }
 
   .nys-textinput {
-    font-family: Arial, sans-serif;
+    font-family: var(--nys-font-family-sans);
+    /* UI/Medium/Semibold */
+    font-family: var(--_nys-textinput-family-ui);
+    font-size: var(--_nys-textinput-size-ui-md);
+    font-style: normal;
+    font-weight: var(--_nys-textinput-weight-ui);
+    line-height: var(--_nys-textinput-lineheight-ui);
+    letter-spacing: var(--nys-textinput-letterspacing-ui);
   }
 
   .nys-textinput__input {
     border-radius: var(--_nys-textinput-radius);
     border: solid var(--_nys-textinput-border-color)
       var(--_nys-textinput-border-width);
-    font-size: 16px;
-    padding: 0.5rem;
+    padding: var(--_nys-textinput-padding);
   }
 
   .nys-textinput__input.sm {
