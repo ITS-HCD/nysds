@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     display: inline-block;
-    --nys-icon-size: .7em;
+    --nys-icon-size: 0.7em;
     box-sizing: content-box !important;
   }
 

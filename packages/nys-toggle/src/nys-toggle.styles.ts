@@ -117,7 +117,8 @@ export default css`
     bottom: var(--_nys-toggle-slider-offset);
     border-radius: 50%;
     background-color: var(--_nys-toggle-color-ink-reverse, #fff);
-    transition: all var(--_nys-toggle-transition-duration) cubic-bezier(0.27, 0.2, 0.25, 1.51);
+    transition: all var(--_nys-toggle-transition-duration)
+      cubic-bezier(0.27, 0.2, 0.25, 1.51);
     overflow: hidden;
     display: flex; /* Center icon inside the knob */
     align-items: center;
@@ -161,11 +162,12 @@ export default css`
 
   /* Switch Outline: Focus */
   input:focus + .slider {
-    outline: solid var(--_nys-toggle-border-width-focus) var(--_nys-toggle-border-focus-color);
+    outline: solid var(--_nys-toggle-border-width-focus)
+      var(--_nys-toggle-border-focus-color);
     outline-offset: 2px;
   }
 
-  input:focus:active + .slider {
+  input:active:focus + .slider {
     outline: solid 2px var(--_nys-border-focus-color, #004dd1);
     outline-offset: 2px;
   }
