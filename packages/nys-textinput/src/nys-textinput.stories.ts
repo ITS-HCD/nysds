@@ -265,9 +265,25 @@ export const ValueAndPlaceholder: Story = {
   },
   render: (args) => html`
     <nys-textinput
-      label=${args.label}
-      value=${args.value}
-      placeholder=${args.placeholder}
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
@@ -286,20 +302,84 @@ export const ValueAndPlaceholder: Story = {
   },
 };
 
-export const DisabledAndReadonly: Story = {
-  args: {},
-  render: () => html`
-    <nys-textinput label="Disabled" disabled></nys-textinput>
-    <br />
-    <nys-textinput label="Read Only" readonly></nys-textinput>
+export const Disabled: Story = {
+  args: {
+    label: "Disabled",
+    disabled: true,
+    value: "",
+  },
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textinput>
   `,
   parameters: {
     docs: {
       source: {
         code: `
 <nys-textinput label="Disabled" disabled></nys-textinput>
-<nys-textinput label="Read Only" readonly></nys-textinput>
-        `,
+`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Readonly: Story = {
+  args: {
+    label: "Disabled",
+    readonly: true,
+    value: "You cannot edit me",
+  },
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput 
+  label="Read Only" 
+  value="You cannot edit me" 
+  readonly
+></nys-textinput>
+`,
         type: "auto",
       },
     },

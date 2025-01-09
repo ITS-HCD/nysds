@@ -24,6 +24,12 @@ export default css`
     --_nys-textinput-focus-width-outline: var(--nys-border-width-sm, 1px);
 
     /* Disabled */
+    --_nys-textinput-disabled-color: var(--nys-color-neutral-10, #f6f6f6);
+    --_nys-textinput-disabled-color-border: var(
+      --nys-color-neutral-200,
+      #bec0c1
+    );
+    --_nys-textinput-disabled-color-text: var(--nys-color-neutral-300, #a7a9ab);
 
     /* Global Font Styles */
     --_nys-textinput-family-ui: var(
@@ -88,8 +94,9 @@ export default css`
 
   /* Disabled */
   .nys-textinput__input:disabled {
-    background-color: #f0f0f0;
-    border-color: #757575;
+    background-color: var(--_nys-textinput-disabled-color);
+    border-color: var(--_nys-textinput-disabled-color-border);
+    color: var(--_nys-textinput-disabled-color-text);
     cursor: not-allowed;
   }
 
