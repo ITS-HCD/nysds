@@ -134,7 +134,7 @@ export class NysTextinput extends LitElement {
         />
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textinput__error">
-              <nys-icon name="error"></nys-icon>
+              <nys-icon name="error" size="xl"></nys-icon>
               ${this.errorMessage}
             </div>`
           : ""}

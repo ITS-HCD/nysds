@@ -31,6 +31,9 @@ export default css`
     );
     --_nys-textinput-disabled-color-text: var(--nys-color-neutral-300, #a7a9ab);
 
+    /* Error and Required */
+    --_nys-textinput-error-color: var(--nys-color-danger, #b52c2c);
+
     /* Global Font Styles */
     --_nys-textinput-family-ui: var(
       --nys-font-family-sans,
@@ -42,11 +45,16 @@ export default css`
     );
     --_nys-textinput-size-ui-md: var(--nys-font-size-ui-md, 16px);
     --_nys-textinput-weight-ui: var(--nys-font-weight-semibold, 600);
+    --_nys-textinput-weight-ui-description: var(
+      --nys-font-weight-semibold,
+      400
+    );
     --_nys-textinput-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
     --nys-textinput-letterspacing-ui: var(
       --nys-font-letterspacing-ui-md,
       0.044px
     );
+    --_nys-textinput-color-ui: var(--nys-color-ink, #1b1b1b);
   }
 
   :host([width="sm"]) {
@@ -101,35 +109,35 @@ export default css`
   }
 
   .nys-textinput__required {
-    color: var(--nys-error, #d54309);
-    margin-left: 0.25rem;
+    color: var(--_nys-textinput-error-color);
   }
 
   .nys-textinput__requiredwrapper {
     display: inline;
   }
 
+  /* Label Styling */
   .nys-textinput__text {
-    margin-bottom: 0.25rem;
+    font-size: var(--_nys-textinput-size-ui-md);
+    font-weight: var(--_nys-textinput-weight-ui);
+    font-family: var(--_nys-textinput-family-ui);
+    line-height: var(--_nys-textinput-lineheight-ui);
+    letter-spacing: var(--nys-textinput-letterspacing-ui);
+    color: var(--_nys-textinput-color-ui);
+    margin-bottom: var(--nys-space-50, 4px);
   }
 
-  /* Label styling */
-  .nys-textinput__label {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--form-label-color, #1b1b1b);
-  }
-
-  /* Help text styling */
+  /* Description styling */
   .nys-textinput__description {
-    font-size: 12px;
-    color: var(--form-help-text-color, gray);
+    font-weight: var(--_nys-textinput-weight-ui-description);
     font-style: italic;
   }
 
   /* Error Message Styling */
   .nys-textinput__error {
-    color: var(--nys-warning, #b52c2c);
-    padding-top: 0.25rem;
+    color: var(--_nys-textinput-error-color);
+    margin-top: var(--nys-space-50, 4px);
+    gap: var(--nys-space-100, 8px);
+    display: flex;
   }
 `;
