@@ -145,10 +145,13 @@
 /* UI */
 --nys-font-letterspacing-ui-xs: var(--nys-font-letterspacing-600);
 --nys-font-letterspacing-ui-sm: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-ui-md: var(--nys-font-letterspacing-400);
 --nys-font-letterspacing-ui-lg: var(--nys-font-letterspacing-300);
 --nys-font-letterspacing-ui-xl: var(--nys-font-letterspacing-200);
 
 /* Body */
+--nys-font-letterspacing-body-xs: var(--nys-font-letterspacing-600);
+--nys-font-letterspacing-body-sm: var(--nys-font-letterspacing-400);
 --nys-font-letterspacing-body-md: var(--nys-font-letterspacing-400);
 
 /* Heading */
@@ -158,11 +161,6 @@
 --nys-font-letterspacing-h4: var(--nys-font-letterspacing-200);
 --nys-font-letterspacing-h5: var(--nys-font-letterspacing-200);
 --nys-font-letterspacing-h6: var(--nys-font-letterspacing-300);
-
-/* UI */
---nys-font-letterpacing-ui-md: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-sm: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-xs: var(--nys-font-letterspacing-600);
 
 /* --- Icon Size --- */
 

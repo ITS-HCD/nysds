@@ -45,14 +45,14 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
-  width: (typeof NysTextinput.VALID_WIDTHS)[number] = "md";
+  width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
 
   // Ensure the "width" property is valid after updates
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has("width")) {
       this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
         ? this.width
-        : "md";
+        : "full";
     }
   }
 
@@ -110,33 +110,28 @@ export class NysTextinput extends LitElement {
             <slot name="description"> </slot>
           </div>
         </div>`}
-        <div class="nys-textinput__requiredwrapper">
-          <input
-            class="nys-textinput__input ${this.width}"
-            type=${this.type}
-            name=${this.name}
-            id=${this.id}
-            ?disabled=${this.disabled}
-            ?required=${this.required}
-            ?readonly=${this.readonly}
-            aria-disabled="${this.disabled}"
-            aria-label="${this.label} ${this.description}"
-            .value=${this.value}
-            placeholder=${this.placeholder}
-            maxlength=${this.maxlength}
-            pattern=${this.pattern}
-            step=${this.step}
-            min=${this.min}
-            max=${this.max}
-            form=${this.form}
-            @input=${this._handleInput}
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-          />
-          ${this.required && !this.label && !this.description
-            ? html`<label class="nys-textinput__required">*</label>`
-            : ""}
-        </div>
+        <input
+          class="nys-textinput__input"
+          type=${this.type}
+          name=${this.name}
+          id=${this.id}
+          ?disabled=${this.disabled}
+          ?required=${this.required}
+          ?readonly=${this.readonly}
+          aria-disabled="${this.disabled}"
+          aria-label="${this.label} ${this.description}"
+          .value=${this.value}
+          placeholder=${this.placeholder}
+          maxlength=${this.maxlength}
+          pattern=${this.pattern}
+          step=${this.step}
+          min=${this.min}
+          max=${this.max}
+          form=${this.form}
+          @input=${this._handleInput}
+          @focus="${this._handleFocus}"
+          @blur="${this._handleBlur}"
+        />
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textinput__error">
               <nys-icon name="error"></nys-icon>

@@ -5,9 +5,11 @@ export default css`
     /* Anything that can be overridden should be defined here */
 
     /* Global Text Input Styles */
-    --_nys-textinput-width-sm: var(--nys-form-width-sm, 88px);
-    --_nys-textinput-width-md: var(--nys-form-width-md, 200px);
-    --_nys-textinput-width-lg: var(--nys-form-width-lg, 384px);
+    --_nys-textinput-width: var(
+      fill-available,
+      -webkit-fill-available,
+      -moz-available
+    );
     --_nys-textinput-radius: var(--nys-radius-md, 4px);
     --_nys-textinput-border-width: var(--nys-border-width-sm, 1px);
     --_nys-textinput-border-color: var(--nys-color-neutral-400, #909395);
@@ -26,20 +28,25 @@ export default css`
     --_nys-textinput-weight-ui: var(--nys-font-weight-semibold, 600);
     --_nys-textinput-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
     --nys-textinput-letterspacing-ui: var(
-      --nys-font-letterspacing-ui-sm,
+      --nys-font-letterspacing-ui-md,
       0.044px
     );
   }
 
-  .nys-textinput {
-    font-family: var(--nys-font-family-sans);
-    /* UI/Medium/Semibold */
-    font-family: var(--_nys-textinput-family-ui);
-    font-size: var(--_nys-textinput-size-ui-md);
-    font-style: normal;
-    font-weight: var(--_nys-textinput-weight-ui);
-    line-height: var(--_nys-textinput-lineheight-ui);
-    letter-spacing: var(--nys-textinput-letterspacing-ui);
+  :host([width="sm"]) {
+    --_nys-textinput-width: var(--nys-form-width-sm, 88px);
+  }
+
+  :host([width="md"]) {
+    --_nys-textinput-width: var(--nys-form-width-md, 200px);
+  }
+
+  :host([width="lg"]) {
+    --_nys-textinput-width: var(--nys-form-width-lg, 384px);
+  }
+
+  :host([width="full"]) {
+    --_nys-textinput-width: 100%;
   }
 
   .nys-textinput__input {
@@ -47,30 +54,10 @@ export default css`
     border: solid var(--_nys-textinput-border-color)
       var(--_nys-textinput-border-width);
     padding: var(--_nys-textinput-padding);
-  }
-
-  .nys-textinput__input.sm {
-    width: var(--_nys-textinput-width-sm);
-    min-width: var(--_nys-textinput-width-sm);
-    max-width: var(--_nys-textinput-width-sm);
-  }
-
-  .nys-textinput__input.md {
-    width: var(--_nys-textinput-width-md);
-    min-width: var(--_nys-textinput-width-md);
-    max-width: var(--_nys-textinput-width-md);
-  }
-
-  .nys-textinput__input.lg {
-    width: var(--_nys-textinput-width-lg);
-    min-width: var(--_nys-textinput-width-lg);
-    max-width: var(--_nys-textinput-width-lg);
-  }
-
-  .nys-textinput__input.full {
-    width: -webkit-fill-available;
-    width: -moz-available;
-    width: fill-available;
+    width: var(--_nys-textinput-width);
+    min-width: var(--_nys-textinput-width);
+    max-width: var(--_nys-textinput-width);
+    box-sizing: border-box;
   }
 
   /* Focused */
