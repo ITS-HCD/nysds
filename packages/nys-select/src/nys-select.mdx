@@ -10,7 +10,7 @@ The **`nys-select`** is a reusable web component for use in New York State digit
 
 <p className="pill stable">Stable</p>
 
-<p className="pill uikit"><a href="#">Get the UI kit</a></p>
+<p className="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-996&p=f&m=dev">Get the UI kit</a></p>
 
 ***
 
@@ -26,6 +26,11 @@ The `nys-option` can have the label set as either the label property or the inne
 #### Required
 <Canvas of={NysSelectStories.Required} />
 #### Width
+The following width options are available:
+- `sm` (Small): 88px, ideal for compact layouts.
+- `md` (Medium): 200px, the default size for balanced designs.
+- `lg` (Large): 384px, suitable for displaying longer content.
+- `full` (Full Width): Expands to fill the available space, using responsive fill-available properties.
 <Canvas of={NysSelectStories.Width} />
 ### Error Message
 Note: in order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
@@ -120,59 +125,6 @@ The `nys-select` component supports the following slots:
         <td>default</td>
         <td>Displayed text of option</td>
         <td>None</td>
-    </tr>
-    </tbody>
-</table>
-
-## Parts
-
-<table>
-    <thead>
-    <tr>
-        <th>Part name</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`nys-select`</td>
-        <td>The div that wraps the entire `nys-select` component</td>
-    </tr>
-    <tr>
-        <td>`nys-select__text`</td>
-        <td>The text wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__label`</td>
-        <td>The label's wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__description`</td>
-        <td>The description's wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__required`</td>
-        <td>The required flag's wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__requiredwrapper`</td>
-        <td>Wraps the required flag with the text</td>
-    </tr>
-    <tr>
-        <td>`nys-select__selectwrapper`</td>
-        <td>Wraps the native `<select>` element</td>
-    </tr>
-    <tr>
-        <td>`nys-select__select`</td>
-        <td>The native `<select>` element</td>
-    </tr>
-    <tr>
-        <td>`nys-select__icon`</td>
-        <td>Wraps the down chevron icon</td>
-    </tr>
-    <tr>
-        <td>`nys-select__error`</td>
-        <td>The error message wrapper</td>
     </tr>
     </tbody>
 </table>

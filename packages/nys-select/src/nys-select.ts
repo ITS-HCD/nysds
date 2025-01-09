@@ -89,7 +89,6 @@ export class NysSelect extends LitElement {
     const selectClasses = {
       "nys-select__select": true,
       "nys-select__selecterror": this.showError,
-      [`nys-select--${this.width}`]: !!this.width,
     };
 
     return html`
@@ -112,7 +111,7 @@ export class NysSelect extends LitElement {
         <div class="nys-select__requiredwrapper">
           <div class="nys-select__selectwrapper">
             <select
-              class="${classMap(selectClasses)}"
+              class=${classMap(selectClasses)}
               name=${this.name}
               id=${this.id}
               ?disabled=${this.disabled}
@@ -129,13 +128,11 @@ export class NysSelect extends LitElement {
               @slotchange="${this._handleSlotChange}"
               style="display: none;"
             ></slot>
-            <slot name="icon">
-              <nys-icon
-                name="chevron_down"
-                width="lg"
-                class="nys-select__icon"
-              ></nys-icon>
-            </slot>
+            <nys-icon
+              name="chevron_down"
+              size="lg"
+              class="nys-select__icon"
+            ></nys-icon>
           </div>
           ${this.required && !this.label
             ? html`<label class="nys-select__required">*</label>`
@@ -143,7 +140,7 @@ export class NysSelect extends LitElement {
         </div>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-select__error">
-              <nys-icon name="error"></nys-icon>
+              <nys-icon name="error" size="xl"></nys-icon>
               ${this.errorMessage}
             </div>`
           : ""}
