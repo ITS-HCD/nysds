@@ -1,9 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-textinput";
-import "@nys-excelsior/nys-checkbox";
-import "@nys-excelsior/nys-select";
-import "@nys-excelsior/nys-alert";
 
 // Define the structure of the args used in the stories
 interface NysTextinputArgs {
@@ -83,27 +80,6 @@ export const Blank: Story = {
       .min=${args.min}
       .max=${args.max}
     ></nys-textinput>
-    <nys-select label="Select your favorite borough">
-      <nys-option value="bronx" label="The Bronx"></nys-option>
-      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
-      <nys-option value="manhattan" label="Manhattan"></nys-option>
-      <nys-option value="staten_island" label="Staten Island"></nys-option>
-      <nys-option value="queens" label="Queens"></nys-option>      
-    </nys-select>
-    <nys-checkbox
-      label="Subscribe to NYS Government Updates"
-      description="Get notified via email about important updates and services."
-      id="subscribe-checkbox-disabled-checked"
-      name="subscribe"
-      value="email-updates"
-      required
-    ></nys-checkbox>
-    <nys-alert
-      theme="info"
-      heading="Information status"
-      dismissible>
-      <p slot="text">Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
-    </nys-alert>
   `,
   parameters: {
     docs: {

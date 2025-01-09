@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
-import { classMap } from "lit/directives/class-map.js";
 import "@nys-excelsior/nys-icon";
 import { NysOption } from "./nys-option";
 
@@ -86,11 +85,6 @@ export class NysSelect extends LitElement {
   }
 
   render() {
-    const selectClasses = {
-      "nys-select__select": true,
-      "nys-select__selecterror": this.showError,
-    };
-
     return html`
       <div class="nys-select">
         ${this.label &&
@@ -111,7 +105,9 @@ export class NysSelect extends LitElement {
         <div class="nys-select__requiredwrapper">
           <div class="nys-select__selectwrapper">
             <select
-              class=${classMap(selectClasses)}
+              class=${this.showError
+                ? "nys-select__select nys-select__selecterror"
+                : "nys-select__select"}
               name=${this.name}
               id=${this.id}
               ?disabled=${this.disabled}
