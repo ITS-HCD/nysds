@@ -21,37 +21,12 @@ interface NysTextinputArgs {
   step: string;
   min: string;
   max: string;
-  showError: boolean;
-  errorMessage: string;
 }
 
 const meta: Meta<NysTextinputArgs> = {
   title: "Components/Textinput",
   component: "nys-textinput",
-  argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
-    type: {
-      control: "select",
-      options: ["email", "number", "password", "search", "tel", "text", "url"],
-    },
-    label: { control: "text" },
-    description: { control: "text" },
-    placeholder: { control: "text" },
-    value: { control: "text" },
-    disabled: { control: "boolean" },
-    readonly: { control: "boolean" },
-    required: { control: "boolean" },
-    form: { control: "text" },
-    pattern: { control: "text" },
-    maxlength: { control: "text" },
-    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
-    step: { control: "text" },
-    min: { control: "text" },
-    max: { control: "text" },
-    showError: { control: "boolean" },
-    errorMessage: { control: "text" },
-  },
+  argTypes: {},
   parameters: {
     docs: {
       source: { type: "dynamic" }, // Enables live Source code tab
@@ -67,8 +42,23 @@ type Story = StoryObj<NysTextinputArgs>;
 
 export const Blank: Story = {
   args: {
+    id: "",
+    name: "",
+    type: "",
     label: "Label",
+    description: "",
+    placeholder: "",
     value: "",
+    disabled: false,
+    readonly: false,
+    required: false,
+    form: "",
+    pattern: "",
+    maxlength: "",
+    size: "",
+    step: "",
+    min: "",
+    max: "",
   },
   render: (args) => html`
     <nys-textinput
@@ -89,8 +79,6 @@ export const Blank: Story = {
       .step=${args.step}
       .min=${args.min}
       .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
     ></nys-textinput>
   `,
   parameters: {
@@ -104,38 +92,29 @@ export const Blank: Story = {
 };
 
 export const Size: Story = {
-  args: { label: "This label is extra small", size: "xs", value: "" },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .size=${args.size}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
+  args: {},
+  render: () => html`
+    <div>
+      <nys-textinput size="xs" label="XS"></nys-textinput>
+      <br />
+      <nys-textinput size="sm" label="SM"></nys-textinput>
+      <br />
+      <nys-textinput size="md" label="MD (default)"></nys-textinput>
+      <br />
+      <nys-textinput size="lg" label="LG"></nys-textinput>
+      <br />
+      <nys-textinput size="xl" label="XL"></nys-textinput>
+    </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput 
-  size="xs" 
-  label="This label is extra small"
-></nys-textinput>
+<nys-textinput size="xs" label="XS"></nys-textinput>
+<nys-textinput size="sm" label="SM"></nys-textinput>
+<nys-textinput size="md" label="MD (default)"></nys-textinput>
+<nys-textinput size="lg" label="LG"></nys-textinput>
+<nys-textinput size="xl" label="XL"></nys-textinput>
         `,
         type: "auto",
       },
@@ -144,108 +123,74 @@ export const Size: Story = {
 };
 
 export const DifferentTypes: Story = {
-  args: { label: "Password:", type: "password", value: "" },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .size=${args.size}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
+  args: {},
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput type="text" label="text" style="flex: 1;"></nys-textinput>
+      <nys-textinput
+        type="email"
+        label="email"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="number"
+        label="number"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="password"
+        label="password"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        type="search"
+        label="search"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput type="tel" label="tel" style="flex: 1;"></nys-textinput>
+      <nys-textinput type="url" label="url" style="flex: 1;"></nys-textinput>
+      <nys-textinput
+        type="invalid"
+        label="invalid defaults to text"
+        style="flex: 1;"
+      ></nys-textinput>
+    </div>
   `,
   parameters: {
     docs: {
       source: {
-        code: `
-<nys-textinput 
-  type="password" 
-  label="Password:"
-`,
+        code: `<nys-textinput type="text" label="text"></nys-textinput>
+<nys-textinput type="email" label="email"></nys-textinput>
+<nys-textinput type="number" label="number"></nys-textinput>
+<nys-textinput type="password" label="password"></nys-textinput>
+<nys-textinput type="search" label="search"></nys-textinput>
+<nys-textinput type="tel" label="tel"></nys-textinput>
+<nys-textinput type="url" label="url"></nys-textinput>
+<nys-textinput type="invalid" label="invalid defaults to text"></nys-textinput>`,
         type: "auto",
       },
     },
   },
 };
 
-export const DescriptionSlot: Story = {
-  args: { label: "Label", description: "description", value: "" },
-  render: (args) => html`
+export const Labels: Story = {
+  args: {},
+  render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput label="Only Label" style="flex: 1;"></nys-textinput>
       <nys-textinput
-        .id=${args.id}
-        .name=${args.name}
-        .type=${args.type}
-        .label=${args.label}
-        .description="Prop: ${args.description}"
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .readonly=${args.readonly}
-        .required=${args.required}
-        .form=${args.form}
-        .pattern=${args.pattern}
-        .maxlength=${args.maxlength}
-        .size=${args.size}
-        .step=${args.step}
-        .min=${args.min}
-        .max=${args.max}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
+        label="Label"
+        description="Description"
         style="flex: 1;"
       ></nys-textinput>
-      <nys-textinput
-        .id=${args.id}
-        .name=${args.name}
-        .type=${args.type}
-        .label=${args.label}
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .readonly=${args.readonly}
-        .required=${args.required}
-        .form=${args.form}
-        .pattern=${args.pattern}
-        .maxlength=${args.maxlength}
-        .size=${args.size}
-        .step=${args.step}
-        .min=${args.min}
-        .max=${args.max}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
-        style="flex: 1;"
-      >
-        <label slot="description">Slot: ${args.description}</label>
-      </nys-textinput>
     </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput 
-  label="Label" 
-  description="Prop: description"
-></nys-textinput>
-<nys-textinput 
-  label="Label"
->
-  <label slot="description">Slot: description</label>
-</nys-textinput>
+<nys-textinput label="Only Label"></nys-textinput>
+<nys-textinput label="Label" description="Description"></nys-textinput>
         `,
         type: "auto",
       },
@@ -254,26 +199,43 @@ export const DescriptionSlot: Story = {
 };
 
 export const ValueAndPlaceholder: Story = {
-  args: {
-    label: "Label",
-    value: "initial value",
-    placeholder: "this is a placeholder",
-  },
-  render: (args) => html`
-    <nys-textinput
-      label=${args.label}
-      value=${args.value}
-      placeholder=${args.placeholder}
-    ></nys-textinput>
+  args: {},
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <nys-textinput
+        label="Beginning Value Example"
+        value="beginning value"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        label="Placeholder Example"
+        placeholder="placeholder"
+        style="flex: 1;"
+      ></nys-textinput>
+      <nys-textinput
+        label="Placeholder and Default Value Example"
+        value="default value"
+        placeholder="and a placeholder"
+        style="flex: 1;"
+      ></nys-textinput>
+    </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
 <nys-textinput 
-  label="Label" 
-  value="initial value" 
-  placeholder="this is a placeholder">
+  label="Beginning Value Example"
+  value="beginning value">
+</nys-textinput>
+<nys-textinput
+  label="Placeholder Example"
+  placeholder="placeholder">
+</nys-textinput>
+<nys-textinput 
+  label="Placeholder and Default Value Example" 
+  value="default value" 
+  placeholder="and a placeholder">
 </nys-textinput>
         `,
         type: "auto",
@@ -303,35 +265,15 @@ export const DisabledAndReadonly: Story = {
 };
 
 export const MaxMinAndStep: Story = {
-  args: {
-    label: "Max/Min Example",
-    description: "Must be between 0 and 100",
-    type: "number",
-    min: "0",
-    max: "100",
-    step: "10",
-  },
-  render: (args) => html`
+  args: {},
+  render: () => html`
     <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .size=${args.size}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
+      label="Max/Min Example"
+      description="Must be between 0 and 100"
+      type="number"
+      min="0"
+      max="100"
+      step="10"
     ></nys-textinput>
   `,
   parameters: {
@@ -354,33 +296,12 @@ export const MaxMinAndStep: Story = {
 };
 
 export const Maxlength: Story = {
-  args: {
-    label: "Max Length",
-    description: "You cannot type more than 10 characters in the below field",
-    maxlength: "10",
-    value: "",
-  },
-  render: (args) => html`
+  args: {},
+  render: () => html`
     <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .size=${args.size}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
+      label="Max Length"
+      description="You cannot type more than 10 characters in the below field"
+      maxlength="10"
     ></nys-textinput>
   `,
   parameters: {
@@ -400,38 +321,17 @@ export const Maxlength: Story = {
 };
 
 export const Pattern: Story = {
-  args: {
-    placeholder: "N00000000",
-    label: "Please enter your Employee number",
-    description: "include the N prefix",
-    maxlength: "9",
-    pattern: "N[0-9]{8}",
-    id: "nID",
-    value: "",
-  },
-  render: (args) => {
+  args: {},
+  render: () => {
     let patternStatus = "Pattern match: false"; // Initial status
     return html`
       <nys-textinput
-        .id=${args.id}
-        .name=${args.name}
-        .type=${args.type}
-        .label=${args.label}
-        .description=${args.description}
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .readonly=${args.readonly}
-        .required=${args.required}
-        .form=${args.form}
-        .pattern=${args.pattern}
-        .maxlength=${args.maxlength}
-        .size=${args.size}
-        .step=${args.step}
-        .min=${args.min}
-        .max=${args.max}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
+        placeholder="N00000000"
+        label="Please enter your Employee number"
+        description="include the N prefix"
+        maxlength="9"
+        pattern="N[0-9]{8}"
+        id="nID"
         @nys-checkValidity=${(event: CustomEvent) => {
           // Update the pattern status text based on the validity
           patternStatus = `Pattern match: ${event.detail.checkValidity}`;
@@ -464,30 +364,17 @@ export const Pattern: Story = {
 };
 
 export const Required: Story = {
-  args: { required: true, label: "label", description: "desc", value: "" },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .size=${args.size}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
+  args: {},
+  render: () =>
+    html`<div style="display: flex; gap: 1rem; flex-wrap: wrap">
+      <nys-textinput required label="label" style="flex:1"></nys-textinput>
+      <nys-textinput
+        required
+        label="label"
+        description="desc"
+        style="flex:1"
+      ></nys-textinput>
+    </div> `,
   parameters: {
     docs: {
       source: {
@@ -495,51 +382,6 @@ export const Required: Story = {
 <nys-textinput required label="label"></nys-textinput>
 <nys-textinput required label="label" description="desc"></nys-textinput>      
 `,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const ErrorMessage: Story = {
-  args: {
-    label: "Label",
-    value: "",
-    showError: true,
-    errorMessage: "Cannot be left blank",
-  },
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .size=${args.size}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput 
-  label="Label"
-  showError
-  errorMessage="Cannot be left blank"
-></nys-textinput>`,
         type: "auto",
       },
     },
