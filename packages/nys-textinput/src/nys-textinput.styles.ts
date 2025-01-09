@@ -70,6 +70,10 @@ export default css`
     --_nys-textinput-width: 100%;
   }
 
+  :host([showError]) {
+    --_nys-textinput-color-border: var(--nys-color-danger, #b52c2c);
+  }
+
   .nys-textinput {
     font-size: var(--_nys-textinput-size-ui-md);
     font-weight: var(--_nys-textinput-weight-ui);

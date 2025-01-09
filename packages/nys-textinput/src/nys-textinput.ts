@@ -59,7 +59,7 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
-  @property({ type: Boolean }) showError = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
   constructor() {
