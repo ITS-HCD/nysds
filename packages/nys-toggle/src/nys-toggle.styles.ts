@@ -6,6 +6,7 @@ export default css`
     --_nys-toggle-width: var(--nys-font-size-8xl, 44px);
     --_nys-toggle-height: var(--nys-size-300, 24px);
     --_nys-toggle-border-radius: var(--nys-radius-round, 1776px);
+    --_nys-toggle-width-border: var(--nys-border-width-md, 2px);
     --_nys-toggle-slider-diameter: var(--nys-font-size-lg, 18px);
     --_nys-toggle-slider-offset: calc(
       (var(--_nys-toggle-height) - var(--_nys-toggle-slider-diameter)) / 2
@@ -48,7 +49,8 @@ export default css`
     /* Font sizes and spacing for labels, descriptions, and icons */
     --_nys-toggle-label-font-size: var(--nys-font-size-sm, 14px);
     --_nys-toggle-description-font-size: var(--nys-font-size-xs, 12px);
-    --_nys-toggle-icon-font-size: var(--nys-font-size-xs, 12px);
+    --_nys-toggle-icon-font-size-xs: var(--nys-font-size-body-xs, var(--nys-font-size-xs, 12px));
+    --_nys-toggle-icon-font-size-sm: var(--nys-font-size-body-sm, var(--nys-font-size-sm, 14px));
   }
 
   /* Slotted styling (e.g. HTML <p> tags for descriptions) */
@@ -100,8 +102,7 @@ export default css`
     position: absolute;
     cursor: pointer;
     border-radius: var(--_nys-toggle-border-radius);
-    outline: solid 2px white;
-    outline-offset: 2px;
+    outline-offset: var(--_nys-toggle-width-border);
     width: var(--_nys-toggle-width);
     top: 0;
     left: 0;
@@ -155,6 +156,7 @@ export default css`
   /* Switch BG: Active */
   input:active + .slider {
     background-color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
+    outline: solid var(--_nys-toggle-border-width-focus) var(--_nys-toggle-border-focus-color);
   }
 
   /* Switch BG: Active + Checked */
@@ -164,14 +166,7 @@ export default css`
 
   /* Switch Outline: Focus */
   input:focus + .slider {
-    outline: solid var(--_nys-toggle-border-width-focus)
-      var(--_nys-toggle-border-focus-color);
-    outline-offset: 2px;
-  }
-
-  input:active:focus + .slider {
-    outline: solid 2px var(--_nys-border-focus-color, #004dd1);
-    outline-offset: 2px;
+    outline: solid var(--_nys-toggle-border-width-focus) var(--_nys-toggle-border-focus-color);
   }
 
   /* Switch Knob: Checked */
@@ -194,18 +189,18 @@ export default css`
     color: var(--_nys-toggle-color-theme-stronger, #081b2b);
   }
   :host([size="sm"]) .toggle-icon {
-    font-size: var(--_nys-toggle-icon-font-size);
+    font-size: var(--_nys-toggle-icon-font-size-xs);
   }
   :host([size="md"]) .toggle-icon {
-    font-size: var(--_nys-toggle-icon-font-size);
+    font-size: var(--_nys-toggle-icon-font-size-sm);
   }
   /* If 'cap' is not supported, account for the extra padding from svg due to nys-icon's 'display:inline' */
   @supports not (font-size: 1cap) {
     :host([size="sm"]) .toggle-icon {
-      font-size: var(--_nys-toggle-icon-font-size);
+      font-size: var(--_nys-toggle-icon-font-size-xs);
     }
     :host([size="md"]) .toggle-icon {
-      font-size: calc(var(--_nys-toggle-icon-font-size) - 1px);
+      font-size: calc(var(--_nys-toggle-icon-font-size-sm) - 1px);
     }
   }
 

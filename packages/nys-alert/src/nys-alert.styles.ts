@@ -19,6 +19,9 @@ export default css`
     --_nys-font-weight-regular: var(--nys-font-weight-regular, 400);
     --_nys-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 
+    /* Dissmiss button sizes */
+    --_nys-alert-close-button-size: var(--nys-font-size-2xl, 22px);
+
     /* Border specifics */
     --_nys-alert-color-border-left: var(
       --nys-color-neutral,
@@ -76,8 +79,8 @@ export default css`
     margin-left: auto;
   }
   .close-button {
-    width: 22px;
-    height: 22px;
+    width: var(--_nys-alert-close-button-size);
+    height: var(--_nys-alert-close-button-size);
     background: none;
     border: none;
     display: flex;

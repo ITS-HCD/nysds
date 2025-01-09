@@ -46,7 +46,7 @@ export class NysToggle extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${toggleIdCounter++}`;
+      this.id = `nys-toggle-${Date.now()}-${toggleIdCounter++}`;
     }
   }
 
@@ -120,7 +120,6 @@ export class NysToggle extends LitElement {
                   : html`<nys-icon
                       class="toggle-icon"
                       name="${this.checked ? "check" : "close"}"
-                      size="xs"
                     ></nys-icon>`}
               </div>
             </span>
