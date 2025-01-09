@@ -44,11 +44,8 @@ export default css`
       sans-serif
     );
     --_nys-textinput-size-ui-md: var(--nys-font-size-ui-md, 16px);
-    --_nys-textinput-weight-ui: var(--nys-font-weight-semibold, 600);
-    --_nys-textinput-weight-ui-description: var(
-      --nys-font-weight-semibold,
-      400
-    );
+    --_nys-textinput-weight-ui: var(--nys-font-weight-regular, 400);
+    --_nys-textinput-weight-ui-bold: var(--nys-font-weight-semibold, 600);
     --_nys-textinput-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
     --nys-textinput-letterspacing-ui: var(
       --nys-font-letterspacing-ui-md,
@@ -71,6 +68,15 @@ export default css`
 
   :host([width="full"]) {
     --_nys-textinput-width: 100%;
+  }
+
+  .nys-textinput {
+    font-size: var(--_nys-textinput-size-ui-md);
+    font-weight: var(--_nys-textinput-weight-ui);
+    font-family: var(--_nys-textinput-family-ui);
+    line-height: var(--_nys-textinput-lineheight-ui);
+    letter-spacing: var(--nys-textinput-letterspacing-ui);
+    color: var(--_nys-textinput-color-ui);
   }
 
   .nys-textinput__input {
@@ -116,20 +122,17 @@ export default css`
     display: inline;
   }
 
-  /* Label Styling */
   .nys-textinput__text {
-    font-size: var(--_nys-textinput-size-ui-md);
-    font-weight: var(--_nys-textinput-weight-ui);
-    font-family: var(--_nys-textinput-family-ui);
-    line-height: var(--_nys-textinput-lineheight-ui);
-    letter-spacing: var(--nys-textinput-letterspacing-ui);
-    color: var(--_nys-textinput-color-ui);
     margin-bottom: var(--nys-space-50, 4px);
+  }
+
+  /* Label Styling */
+  .nys-textinput__label {
+    font-weight: var(--_nys-textinput-weight-ui-bold);
   }
 
   /* Description styling */
   .nys-textinput__description {
-    font-weight: var(--_nys-textinput-weight-ui-description);
     font-style: italic;
   }
 
@@ -139,5 +142,6 @@ export default css`
     margin-top: var(--nys-space-50, 4px);
     gap: var(--nys-space-100, 8px);
     display: flex;
+    line-height: var(--_nys-textinput-size-ui-md);
   }
 `;
