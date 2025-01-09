@@ -93,7 +93,7 @@ export default css`
   }
 
   /* Hovered */
-  .nys-textinput__input:hover {
+  .nys-textinput__input:hover:not(:disabled) {
     outline: solid var(--_nys-textinput-hover-width-outline)
       var(--_nys-textinput-hover-color-outline);
     border-color: var(--_nys-textinput-hover-color-outline);
