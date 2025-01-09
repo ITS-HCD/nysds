@@ -201,7 +201,7 @@ export default css`
     margin-top: var(--nys-space-150, 12px);
     padding-top: var(--nys-space-100, 8px);
     color: var(--nys-color-danger, #b52c2c);
-    margin-left: var(--nys-spacing, 0.25rem);
+    margin-left: 0.25rem;
   }
 
   /* Checkbox Group Styling */
