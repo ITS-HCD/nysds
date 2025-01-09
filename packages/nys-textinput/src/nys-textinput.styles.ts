@@ -11,9 +11,19 @@ export default css`
       -moz-available
     );
     --_nys-textinput-radius: var(--nys-radius-md, 4px);
-    --_nys-textinput-border-width: var(--nys-border-width-sm, 1px);
-    --_nys-textinput-border-color: var(--nys-color-neutral-400, #909395);
+    --_nys-textinput-width-border: var(--nys-border-width-sm, 1px);
+    --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
     --_nys-textinput-padding: var(--nys-space-100, 8px);
+
+    /* Hovered */
+    --_nys-textinput-hover-color-outline: var(--nys-color-neutral-900, #1b1b1b);
+    --_nys-textinput-hover-width-outline: var(--nys-border-width-sm, 1px);
+
+    /* Focused */
+    --_nys-textinput-focus-color-outline: var(--nys-color-focus, #004dd1);
+    --_nys-textinput-focus-width-outline: var(--nys-border-width-sm, 1px);
+
+    /* Disabled */
 
     /* Global Font Styles */
     --_nys-textinput-family-ui: var(
@@ -51,19 +61,29 @@ export default css`
 
   .nys-textinput__input {
     border-radius: var(--_nys-textinput-radius);
-    border: solid var(--_nys-textinput-border-color)
-      var(--_nys-textinput-border-width);
+    border: solid var(--_nys-textinput-color-border)
+      var(--_nys-textinput-width-border);
     padding: var(--_nys-textinput-padding);
     width: var(--_nys-textinput-width);
     min-width: var(--_nys-textinput-width);
     max-width: var(--_nys-textinput-width);
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+  /* Hovered */
+  .nys-textinput__input:hover {
+    outline: solid var(--_nys-textinput-hover-width-outline)
+      var(--_nys-textinput-hover-color-outline);
+    border-color: var(--_nys-textinput-hover-color-outline);
   }
 
   /* Focused */
   .nys-textinput__input:focus {
-    outline-offset: 3px;
-    outline: 3px solid var(--form-focus-color, #007bff);
+    outline: solid var(--_nys-textinput-focus-width-outline)
+      var(--_nys-textinput-focus-color-outline);
+    border-color: var(--_nys-textinput-focus-color-outline);
   }
 
   /* Disabled */
@@ -98,29 +118,6 @@ export default css`
     font-size: 12px;
     color: var(--form-help-text-color, gray);
     font-style: italic;
-  }
-
-  /* Pattern validation styling */
-  .nys-textinput__validation {
-    padding-top: 0.5rem;
-  }
-
-  .nys-textinput__input:invalid + .nys-textinput__validation:after {
-    color: var(--nys-error, #d54309);
-    content: " invalid";
-    font-weight: bold;
-  }
-
-  .nys-textinput__input:valid + .nys-textinput__validation:after {
-    color: green;
-    content: " valid";
-    font-weight: bold;
-  }
-
-  .nys-textinput__input:placeholder-shown + .nys-textinput__validation:after {
-    color: black;
-    content: " empty";
-    font-weight: bold;
   }
 
   /* Error Message Styling */
