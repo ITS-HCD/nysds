@@ -16,6 +16,7 @@ export default css`
         ) -
         2px
     );
+    --_nys-toggle-font-family: var(--nys-font-family-ui, var(--nys-font-family-sans, 'Proxima Nova', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif));
     --_nys-toggle-transition-duration: 0.3s;
 
     /* Focus outline */
@@ -74,6 +75,7 @@ export default css`
     display: flex;
     flex-direction: column;
     font-size: var(--_nys-toggle-label-font-size);
+    font-family: var(--_nys-toggle-font-family);
   }
 
   .nys-toggle__text.disabled {
