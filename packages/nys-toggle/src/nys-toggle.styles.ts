@@ -17,7 +17,17 @@ export default css`
         ) -
         2px
     );
-    --_nys-toggle-font-family: var(--nys-font-family-ui, var(--nys-font-family-sans, 'Proxima Nova', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif));
+    --_nys-toggle-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
     --_nys-toggle-transition-duration: 0.3s;
 
     /* Focus outline */
@@ -49,8 +59,14 @@ export default css`
     /* Font sizes and spacing for labels, descriptions, and icons */
     --_nys-toggle-label-font-size: var(--nys-font-size-sm, 14px);
     --_nys-toggle-description-font-size: var(--nys-font-size-xs, 12px);
-    --_nys-toggle-icon-font-size-xs: var(--nys-font-size-body-xs, var(--nys-font-size-xs, 12px));
-    --_nys-toggle-icon-font-size-sm: var(--nys-font-size-body-sm, var(--nys-font-size-sm, 14px));
+    --_nys-toggle-icon-font-size-xs: var(
+      --nys-font-size-body-xs,
+      var(--nys-font-size-xs, 12px)
+    );
+    --_nys-toggle-icon-font-size-sm: var(
+      --nys-font-size-body-sm,
+      var(--nys-font-size-sm, 14px)
+    );
   }
 
   /* Slotted styling (e.g. HTML <p> tags for descriptions) */
@@ -156,7 +172,8 @@ export default css`
   /* Switch BG: Active */
   input:active + .slider {
     background-color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
-    outline: solid var(--_nys-toggle-border-width-focus) var(--_nys-toggle-border-focus-color);
+    outline: solid var(--_nys-toggle-border-width-focus)
+      var(--_nys-toggle-border-focus-color);
   }
 
   /* Switch BG: Active + Checked */
@@ -166,7 +183,8 @@ export default css`
 
   /* Switch Outline: Focus */
   input:focus + .slider {
-    outline: solid var(--_nys-toggle-border-width-focus) var(--_nys-toggle-border-focus-color);
+    outline: solid var(--_nys-toggle-border-width-focus)
+      var(--_nys-toggle-border-focus-color);
   }
 
   /* Switch Knob: Checked */

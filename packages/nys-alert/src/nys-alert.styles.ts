@@ -12,7 +12,17 @@ export default css`
       #0000001a
     );
     --_nys-alert-spacing: var(--nys-space-250, 20px);
-    --_nys-alert-font-family: var(--nys-font-family-ui, var(--nys-font-family-sans, 'Proxima Nova', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif));
+    --_nys-alert-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
     --_nys-alert-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-alert-lineheight: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-alert-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
