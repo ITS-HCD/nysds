@@ -106,8 +106,8 @@ export class NysToggle extends LitElement {
               .checked=${this.checked}
               ?disabled=${this.disabled}
               role="switch"
-              aria-checked="${this.checked}"
-              aria-disabled="${this.disabled}"
+              aria-checked="${this.checked ? "true" : "false"}"
+              aria-disabled="${this.disabled ? "true" : "false"}"
               @change=${this._handleChange}
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
