@@ -54,8 +54,8 @@ type Story = StoryObj<NysAvatarArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
-// Story: Default
-export const Default: Story = {
+// Story: Basic
+export const Basic: Story = {
   args: {
     label: "User avatar",
     image:

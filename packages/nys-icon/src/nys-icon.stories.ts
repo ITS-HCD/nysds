@@ -59,8 +59,8 @@ type Story = StoryObj<NysIconArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
-// Story: Default
-export const Default: Story = {
+// Story: Basic
+export const Basic: Story = {
   args: {
     name: "social_youtube",
     size: "3xl",

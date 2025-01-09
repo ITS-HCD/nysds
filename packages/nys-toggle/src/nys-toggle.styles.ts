@@ -112,7 +112,7 @@ export default css`
     bottom: var(--_nys-slider-offset);
     border-radius: 50%;
     background-color: var(--_nys-color-ink-reverse, #fff);
-    transition: 0.3s;
+    transition: all 0.3s cubic-bezier(0.27, 0.2, 0.25, 1.51);
     overflow: hidden;
     display: flex; /* Center icon inside the knob */
     align-items: center;
@@ -132,6 +132,16 @@ export default css`
   /* Switch BG: Hover + Checked */
   input:checked + .slider:hover {
     background-color: var(--_nys-color-theme-strong, #0e324f);
+  }
+
+  /* Switch Icon color: Hover */
+  .slider:hover .knob .toggle-icon {
+    color: var(--_nys-color-neutral, #62666a);
+  }
+
+  /* Switch Icon color: Hover + Checked */
+  input:checked + .slider:hover .knob .toggle-icon {
+    color: var(--_nys-color-theme-strong, #0e324f);
   }
 
   /* Switch BG: Active */
