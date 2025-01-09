@@ -548,7 +548,7 @@ export const Pattern: Story = {
 };
 
 export const Required: Story = {
-  args: { required: true, label: "label", description: "desc", value: "" },
+  args: { required: true, label: "label", value: "" },
   render: (args) => html`
     <nys-textinput
       .id=${args.id}
@@ -575,10 +575,7 @@ export const Required: Story = {
   parameters: {
     docs: {
       source: {
-        code: `
-<nys-textinput required label="label"></nys-textinput>
-<nys-textinput required label="label" description="desc"></nys-textinput>      
-`,
+        code: `<nys-textinput required label="label"></nys-textinput>`,
         type: "auto",
       },
     },
