@@ -8,7 +8,7 @@ export default css`
     --_nys-checkbox-size: var(--nys-size-400, 32px);
     --_nys-checkbox-radius: var(--nys-border-radius-md, 4px);
     --_nys-checkbox-width-border: var(--nys-border-width-md, 2px);
-    --_nys-checkbox-color-focus: var(--nys-color-focus, #286ad8);
+    --_nys-checkbox-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-checkbox-width-focus: var(--nys-border-width-md, 2px);
     --_nys-checkbox-transition-duration: var(
       --nys-transition-duration-sm,
@@ -146,13 +146,14 @@ export default css`
   .nys-checkbox__checkboxwrapper {
     position: relative;
     display: inline-block;
+    max-height: var(--_nys-checkbox-size);
   }
 
   .nys-checkbox__icon {
     position: absolute;
-    bottom: 50%;
+    top: 50%;
     left: 50%;
-    transform: translate3d(-50%, 50%, 0);
+    transform: translate3d(-50%, -25%, 0);
     pointer-events: none;
     color: white;
   }
@@ -160,16 +161,16 @@ export default css`
   /* Required */
   .nys-checkbox__required {
     color: var(--nys-color-danger, #b52c2c);
-    margin-left: var(--nys-spacing, 0.25rem);
+    margin-left: var(--nys-space-2px, 2px);
   }
 
   .nys-checkbox__requiredwrapper {
-    display: flex;
+    display: inline;
   }
 
   /* Checkbox Label Holder */
   .nys-checkbox__text {
-    margin: auto 0 auto var(--nys-spacing, 0.5rem);
+    margin: auto 0 auto var(--nys-space-150, 12px);
   }
 
   /* Label styling */
@@ -197,8 +198,8 @@ export default css`
   /* Error Message Styling */
   .nys-checkbox__error {
     border-top: 1px solid var(--nys-color-danger, #b52c2c);
-    margin-top: var(--nys-spacing, 0.75rem);
-    padding-top: var(--nys-spacing, 0.75rem);
+    margin-top: var(--nys-space-150, 12px);
+    padding-top: var(--nys-space-100, 8px);
     color: var(--nys-color-danger, #b52c2c);
     margin-left: var(--nys-spacing, 0.25rem);
   }
@@ -210,6 +211,9 @@ export default css`
   }
 
   .nys-checkboxgroup__content {
-    padding-top: var(--nys-spacing, 0.5rem);
+    padding-top: var(--nys-space-50, 4px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-space-200, 16px);
   }
 `;
