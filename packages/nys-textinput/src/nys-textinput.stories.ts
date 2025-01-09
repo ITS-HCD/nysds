@@ -312,6 +312,7 @@ export const Disabled: Story = {
     <nys-textinput
       .id=${args.id}
       .name=${args.name}
+      .label=${args.label}
       .type=${args.type}
       .description=${args.description}
       .placeholder=${args.placeholder}
@@ -344,7 +345,7 @@ export const Disabled: Story = {
 
 export const Readonly: Story = {
   args: {
-    label: "Disabled",
+    label: "Read Only",
     readonly: true,
     value: "You cannot edit me",
   },
@@ -352,6 +353,7 @@ export const Readonly: Story = {
     <nys-textinput
       .id=${args.id}
       .name=${args.name}
+      .label=${args.label}
       .type=${args.type}
       .description=${args.description}
       .placeholder=${args.placeholder}
