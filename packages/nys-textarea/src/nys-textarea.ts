@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
-import "../../nys-icon/src/index.ts"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nys-excelsior/nys-icon";
 
 @customElement("nys-textarea")
 export class NysTextarea extends LitElement {

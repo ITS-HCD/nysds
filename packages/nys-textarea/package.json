@@ -1,25 +1,42 @@
 {
-    "name": "@excelsior/nys-textarea",
-    "version": "0.0.1",
+    "name": "@nys-excelsior/nys-textarea",
+    "version": "0.0.5-alpha",
     "description": "An textarea component from the NYS Design System.",
-    "main": "dist/nys-textarea.js",
-    "module": "dist/nys-textarea.es.js",
+      "module": "dist/nys-textarea.js",
+    "types": "dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/nys-textarea.es.js",
-            "require": "./dist/nys-textarea.js"
+          "import": "./dist/nys-textarea.js",
+          "types": "./dist/index.d.ts"
         }
-    },
+      },
     "type": "module",
+    "files": [
+        "dist/"
+    ],
     "scripts": {
-        "build": "vite build"
+        "dev": "tsc --emitDeclarationOnly && vite",
+        "build": "tsc --emitDeclarationOnly && vite build"
     },
     "peerDependencies": {
-        "lit": "^3.0.0"
+        "lit": "^3.2.1"
     },
     "devDependencies": {
-        "rollup-plugin-delete": "^2.1.0",
-        "typescript": "^5.7.2",
-        "vite": "^6.0.3"
-    }
+      "lit": "^3.2.1",
+      "typescript": "^5.7.2",
+      "vite": "^6.0.3"
+    },
+    "keywords": [
+      "excelsior",
+      "new-york-state",
+      "design-system",
+      "web-components",
+      "lit",
+      "nys",
+      "textarea",
+      "forms"
+    ],
+    "author": "New York State Design System Team",
+    "license": "MIT"
 }
+  

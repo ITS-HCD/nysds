@@ -1,0 +1,186 @@
+import { Meta, Story, Description, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysTestComponentStories from './nys-test-component.stories';
+
+<Meta of={NysTestComponentStories} title="Components/TestComponent/Documentation" />
+
+# Test **Component**
+
+The **`nys-test-component`** component is a simple test component that can be used to test the rendering of a component in Storybook.
+
+<p class="pill stable">Stable</p>
+
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysTestComponentStories.Default} />
+
+<Controls />
+
+### Variants
+
+<Canvas of={NysTestComponentStories.CustomName} />
+
+## Use cases
+
+### When to use this component
+  - When should you use this?
+  - What is its purpose
+
+### When to consider something else
+  - What guidance should we display for when to NOT use this component
+
+## Usage 
+
+Primary usage guidelines for a component in a short and sweet paragraph
+
+## Usage do's and don'ts
+
+<div class="usagedos do">
+### Do
+- Do this thing
+- This other thing
+</div>
+
+<div class="usagedos dont">
+### Don't
+  - Do NOT do this thing
+  - Or use it this way
+</div>
+
+## Accessibility
+
+Short description of A11y features. 
+
+<table border="1">
+  <thead>
+    <tr>
+      <th><strong>ARIA Role</strong></th>
+      <th><strong>Attribute</strong></th>
+      <th><strong>Use Case</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`role="alert"`</td>
+      <td>Important messages that demand the user's immediate attention.</td>
+      <td>Example: Error and Emergency alert</td>
+    </tr>
+    <tr>
+      <td>`role="status"`</td>
+      <td>Messages that provide advisory information but do not have the same urgency as alerts.</td>
+      <td>Example: Success alert</td>
+    </tr>
+    <tr>
+      <td>`role="region"`</td>
+      <td>Messages that provide information the user would want to be able to easily find, but are not important enough to interrupt user workflow.</td>
+      <td>Information and Warning alert (An `aria-label`will be added for this role.)</td>
+    </tr>
+  </tbody>
+</table>
+
+## CSS Properties
+<table>
+    <thead>
+    <tr>
+        <th>Variable</th>
+        <th>CSS Property</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`boxShadow`</td>
+        <td>box-shadow</td>
+        <td>box-shadow</td>
+    </tr>
+    <tr>
+        <td>`textShadow`</td>
+        <td>text-shadow</td>
+        <td>text-shadow</td>
+    </tr>
+    </tbody>
+</table>
+
+## Events
+The `NysToggle` component emits three custom events:
+
+1. **`change`** – Fired when the toggle state changes (checked/unchecked).
+2. **`focus`** – Fired when the toggle gains focus.
+3. **`blur`** – Fired when the toggle loses focus.
+4. **`keydown`** – Fired when a key is pressed while the toggle is focused.
+
+You can listen to these events using JavaScript:
+
+```js
+
+  // Select the toggle component
+  const toggle = document.querySelector('nys-toggle');
+
+  // Listen for the 'change' event
+  toggle.addEventListener('change', (event) => {
+    console.log('Checkbox changed:', event.target.checked);
+  });
+
+  // Listen for the 'focus' event
+  toggle.addEventListener('focus', () => {
+    console.log('Checkbox is focused');
+  });
+
+  // Listen for the 'blur' event
+  toggle.addEventListener('blur', () => {
+    console.log('Checkbox lost focus');
+  });
+
+  // Listen for the 'keydown' event
+  toggle.addEventListener('keydown', (event) => {
+    console.log('Key pressed:', event.key);
+  });
+```
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`boxShadow`</td>
+        <td>box-shadow</td>
+        <td>box-shadow</td>
+    </tr>
+    <tr>
+        <td>`textShadow`</td>
+        <td>text-shadow</td>
+        <td>text-shadow</td>
+    </tr>
+    </tbody>
+</table>
+
+## Parts
+<table>
+    <thead>
+    <tr>
+        <th>Part name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`boxShadow`</td>
+        <td>box-shadow</td>
+        <td>box-shadow</td>
+    </tr>
+    <tr>
+        <td>`textShadow`</td>
+        <td>text-shadow</td>
+        <td>text-shadow</td>
+    </tr>
+    </tbody>
+</table>

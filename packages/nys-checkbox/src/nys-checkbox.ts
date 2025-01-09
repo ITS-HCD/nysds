@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles"; // Assuming styles are in a separate file
+import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
@@ -15,6 +16,8 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: Boolean }) showError = false;
+  @property({ type: String }) errorMessage = "";
 
   static styles = styles;
 
@@ -68,33 +71,58 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <label class="nys-checkbox">
-        <input
-          id="${this.id}"
-          class="nys-checkbox__input"
-          type="checkbox"
-          name="${ifDefined(this.name ? this.name : undefined)}"
-          .checked=${this.checked}
-          ?disabled=${this.disabled}
-          .value=${this.value}
-          ?required="${this.required}"
-          aria-checked="${this.checked}"
-          aria-disabled="${this.disabled}"
-          aria-required="${this.required}"
-          @change="${this._handleChange}"
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-          @keydown="${this._handleKeydown}"
-        />
-        <div class="nys-checkbox__text">
-          <div class="nys-checkbox__label">${this.label}</div>
-          ${this.description
-            ? html`<div class="nys-checkbox__description">
-                ${this.description}
-              </div>`
-            : ""}
+      <div class="nys-checkbox">
+        <div class="nys-checkbox__content">
+          <div class="nys-checkbox__checkboxwrapper">
+            <input
+              id="${this.id}"
+              class="nys-checkbox__checkbox"
+              type="checkbox"
+              name="${ifDefined(this.name ? this.name : undefined)}"
+              .checked=${this.checked}
+              ?disabled=${this.disabled}
+              .value=${this.value}
+              ?required="${this.required}"
+              aria-checked="${this.checked}"
+              aria-disabled="${this.disabled}"
+              aria-required="${this.required}"
+              @change="${this._handleChange}"
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+              @keydown="${this._handleKeydown}"
+            />
+            ${this.checked
+              ? html`<nys-icon
+                  for="${this.id}"
+                  name="check"
+                  size="2xl"
+                  class="nys-checkbox__icon"
+                ></nys-icon>`
+              : ""}
+          </div>
+          ${this.label &&
+          html` <div class="nys-checkbox__text">
+            <div class="nys-checkbox__requiredwrapper">
+              <label for=${this.id} class="nys-checkbox__label"
+                >${this.label}</label
+              >
+              ${this.required
+                ? html`<label class="nys-checkbox__required">*</label>`
+                : ""}
+            </div>
+            <div for=${this.id} class="nys-checkbox__description">
+              ${this.description}
+              <slot name="description"></slot>
+            </div>
+          </div>`}
         </div>
-      </label>
+        ${this.showError && this.errorMessage
+          ? html`<div class="nys-checkbox__error">
+              <nys-icon name="error"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
+      </div>
     `;
   }
 }
