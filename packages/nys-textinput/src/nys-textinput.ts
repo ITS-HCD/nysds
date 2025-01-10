@@ -105,7 +105,7 @@ export class NysTextinput extends LitElement {
               : ""}
           </div>
 
-          <div for=${this.id} class="nys-textinput__description">
+          <div class="nys-textinput__description">
             ${this.description}
             <slot name="description"> </slot>
           </div>
