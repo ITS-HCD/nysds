@@ -1,5 +1,5 @@
 {
-  "name": "@nys-excelsior/nys-alert",
+  "name": "@excelsior/nys-alert",
   "version": "0.0.5-alpha",
   "description": "An alert component from the NYS Design System.",
   "module": "dist/nys-alert.js",
