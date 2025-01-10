@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     display: inline-block;
-    --_nys-icon-size: 0.7em;
+    --_nys-icon-size: 0.7em; /* If cap isn't supported, a fallback value of 0.7em is used, as it closely approximates the height of capital letters in most fonts. */
     box-sizing: content-box !important;
   }
 
