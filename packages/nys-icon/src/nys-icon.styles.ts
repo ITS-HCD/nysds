@@ -2,63 +2,62 @@ import { css } from "lit";
 
 export default css`
   :host {
-    --nys-icon-color: currentcolor;
-    --nys-icon-size: 1em;
     display: inline-block;
+    --_nys-icon-size: 0.7em; /* If cap isn't supported, a fallback value of 0.7em is used, as it closely approximates the height of capital letters in most fonts. */
     box-sizing: content-box !important;
   }
 
   /* Use 'cap' if supported */
   @supports (font-size: 1cap) {
     :host {
-      --nys-icon-size: 1cap;
+      --_nys-icon-size: 1cap;
     }
   }
 
   /* SVG size and color is initially determined by the parent's font-size and text-color */
   .nys-icon--svg {
-    width: var(--nys-icon-size, 1em);
-    height: var(--nys-icon-size, 1em);
+    width: var(--_nys-icon-size, 1em);
+    height: var(--_nys-icon-size, 1em);
     display: block;
     white-space: nowrap;
   }
 
   /* Relative Sizes */
   .nys-icon--2xs {
-    width: calc(var(--nys-icon-size) * 0.75);
-    height: calc(var(--nys-icon-size) * 0.75);
+    width: calc(var(--_nys-icon-size) * 0.75);
+    height: calc(var(--_nys-icon-size) * 0.75);
   }
   .nys-icon--xs {
-    width: calc(var(--nys-icon-size) * 0.875);
-    height: calc(var(--nys-icon-size) * 0.875);
+    width: calc(var(--_nys-icon-size) * 0.875);
+    height: calc(var(--_nys-icon-size) * 0.875);
   }
   .nys-icon--sm {
-    width: var(--nys-icon-size);
-    height: var(--nys-icon-size);
+    width: var(--_nys-icon-size);
+    height: var(--_nys-icon-size);
   }
   .nys-icon--md {
-    width: calc(var(--nys-icon-size) * 1.125);
-    height: calc(var(--nys-icon-size) * 1.125);
+    width: calc(var(--_nys-icon-size) * 1.125);
+    height: calc(var(--_nys-icon-size) * 1.125);
   }
   .nys-icon--lg {
-    width: calc(var(--nys-icon-size) * 1.25);
-    height: calc(var(--nys-icon-size) * 1.25);
+    width: calc(var(--_nys-icon-size) * 1.25);
+    height: calc(var(--_nys-icon-size) * 1.25);
   }
   .nys-icon--xl {
-    width: calc(var(--nys-icon-size) * 1.5);
-    height: calc(var(--nys-icon-size) * 1.5);
+    width: calc(var(--_nys-icon-size) * 1.5);
+    height: calc(var(--_nys-icon-size) * 1.5);
   }
   .nys-icon--2xl {
-    width: calc(var(--nys-icon-size) * 1.875);
-    height: calc(var(--nys-icon-size) * 1.875);
+    width: calc(var(--_nys-icon-size) * 1.875);
+    height: calc(var(--_nys-icon-size) * 1.875);
   }
   .nys-icon--3xl {
-    width: calc(var(--nys-icon-size) * 2.25);
-    height: calc(var(--nys-icon-size) * 2.25);
+    width: calc(var(--_nys-icon-size) * 2.25);
+    height: calc(var(--_nys-icon-size) * 2.25);
   }
   .nys-icon--4xl {
-    width: calc(var(--nys-icon-size) * 3);
-    height: calc(var(--nys-icon-size) * 3);
+    width: calc(var(--_nys-icon-size) * 3);
+    height: calc(var(--_nys-icon-size) * 3);
   }
 
   /* Literal Sizing */

@@ -9,7 +9,6 @@ interface NysAlertArgs {
   text: string;
   duration?: number;
   icon?: string;
-  isSlim?: boolean;
   dismissible?: boolean;
 }
 
@@ -19,13 +18,12 @@ const meta: Meta<NysAlertArgs> = {
   argTypes: {
     theme: {
       control: "select",
-      options: ["info", "warning", "success", "error", "emergency"],
+      options: ["base", "info", "warning", "success", "danger", "emergency"],
     },
     heading: { control: "text" },
     text: { control: "text" },
     duration: { control: "number" },
     icon: { control: "text" },
-    isSlim: { control: "boolean", default: false },
     dismissible: { control: "boolean", default: false },
   },
   parameters: {
@@ -42,10 +40,43 @@ type Story = StoryObj<NysAlertArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
+// Story: Basic
+export const Basic: Story = {
+  args: {
+    heading: "Custom Heading",
+    text: "This is a custom text describing your alert.",
+  },
+  render: (args) => html`
+    <nys-alert
+      .theme=${args.theme}
+      .heading=${args.heading}
+      .text=${args.text}
+      .duration=${args.duration}
+      .icon=${args.icon}
+      ?dismissible=${args.dismissible}
+    >
+    </nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert 
+  theme="info" 
+  heading="Information status" 
+  text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.">
+</nys-alert>
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 // Story: AllAlerts
 export const AllAlerts: Story = {
   render: () => html`
-    ${["info", "warning", "success", "error", "emergency"].map(
+    ${["base", "info", "success", "warning", "danger", "emergency"].map(
       (theme) =>
         html`<nys-alert
             .theme=${theme}
@@ -65,10 +96,11 @@ export const AllAlerts: Story = {
     docs: {
       source: {
         code: `
+<nys-alert theme="base" heading="Default status" text="This is an example of an neutral base alert." dismissible></nys-alert>
 <nys-alert theme="info" heading="Info status" text="This is an example of an info alert." dismissible></nys-alert>
-<nys-alert theme="warning" heading="Warning status" text="This is an example of a warning alert." dismissible></nys-alert>
 <nys-alert theme="success" heading="Success status" text="This is an example of a success alert." dismissible></nys-alert>
-<nys-alert theme="error" heading="Error status" text="This is an example of an error alert." dismissible></nys-alert>
+<nys-alert theme="warning" heading="Warning status" text="This is an example of a warning alert." dismissible></nys-alert>
+<nys-alert theme="danger" heading="Danger status" text="This is an example of a danger alert." dismissible></nys-alert>
 <nys-alert theme="emergency" heading="Emergency status" text="This is an example of an emergency alert." dismissible></nys-alert>
 `.trim(),
         type: "auto",
@@ -91,7 +123,6 @@ export const AlertType: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
     </nys-alert>
@@ -125,7 +156,6 @@ export const Description: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
       <p slot="text">
@@ -163,7 +193,6 @@ export const Dismissible: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
       <p slot="text">
@@ -212,7 +241,6 @@ export const Duration: Story = {
         newAlert.setAttribute("text", args.text);
         newAlert.setAttribute("duration", String(args.duration));
         if (args.dismissible) newAlert.setAttribute("dismissible", "");
-        if (args.isSlim) newAlert.setAttribute("isSlim", "");
         container.appendChild(newAlert);
       }
     };
@@ -260,10 +288,10 @@ export const Duration: Story = {
 // Story: CustomIcon
 export const CustomIcon: Story = {
   args: {
-    theme: "warning",
-    heading: "Help status",
-    text: "Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?",
-    icon: "help",
+    theme: "emergency",
+    heading: "Winter storm warning: Dec 10th, 2024.",
+    text: "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.",
+    icon: "ac_unit",
   },
   render: (args) => html`
     <nys-alert
@@ -272,7 +300,6 @@ export const CustomIcon: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
     </nys-alert>
@@ -282,9 +309,9 @@ export const CustomIcon: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="warning" 
-  heading="Help status"
-  text=""Niagara Falls magna ut Catskills serenity, Bronx Zoo vehicula Brooklyn Bridge tristique at?" 
+  theme="emergency" 
+  heading="Winter storm warning: Dec 10th, 2024."
+  text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving." 
   icon="help">
 </nys-alert>
 `.trim(),
@@ -294,12 +321,12 @@ export const CustomIcon: Story = {
   },
 };
 
-// Story: Slim
-export const Slim: Story = {
+// Story: HeadingOnly
+export const HeadingOnly: Story = {
   args: {
     theme: "info",
-    text: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
-    isSlim: true,
+    heading:
+      "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
   },
   render: (args) => html`
     <nys-alert
@@ -308,12 +335,8 @@ export const Slim: Story = {
       .text=${args.text}
       .duration=${args.duration}
       .icon=${args.icon}
-      ?isSlim=${args.isSlim}
       ?dismissible=${args.dismissible}
     >
-      <p>
-        Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.
-      </p>
     </nys-alert>
   `,
   parameters: {
@@ -322,8 +345,7 @@ export const Slim: Story = {
         code: `
 <nys-alert 
   theme="info"
-  text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
-  isSlim>
+  heading="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
 </nys-alert>
 `.trim(),
         type: "auto",
