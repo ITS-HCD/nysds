@@ -14,7 +14,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
-  @property({ type: Boolean }) showError = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "md";
@@ -104,9 +104,7 @@ export class NysSelect extends LitElement {
         </div>`}
         <div class="nys-select__selectwrapper">
           <select
-            class=${this.showError
-              ? "nys-select__select nys-select__selecterror"
-              : "nys-select__select"}
+            class="nys-select__select"
             name=${this.name}
             id=${this.id}
             ?disabled=${this.disabled}

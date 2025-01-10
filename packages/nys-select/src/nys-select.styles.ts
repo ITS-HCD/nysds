@@ -22,7 +22,8 @@ export default css`
     --_nys-select-margin: var(--nys-space-50, 4px);
     --_nys-select-gap: var(--nys-space-100, 8px);
     --_nys-select-radius: var(--nys-radius-md, var(--nys-space-50, 4px));
-    --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px) var(--nys-space-100, 8px) var(--nys-space-100, 8px);
+    --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px)
+      var(--nys-space-100, 8px) var(--nys-space-100, 8px);
 
     /* Global Select Colors */
     --_nys-select-color: var(
@@ -114,7 +115,6 @@ export default css`
     cursor: pointer;
     border: var(--_nys-select-border-hover);
     outline: var(--_nys-select-border-hover);
-
   }
 
   /* Focused */
@@ -174,8 +174,8 @@ export default css`
     color: var(--_nys-select-error-color);
   }
 
-  .nys-select__selecterror {
-    border: var(--_nys-select-border-error);
-    outline: var(--_nys-select-border-error);
+  :host([showError]) {
+    --_nys-select-border-default: var(--nys-border-width-sm, 1px) solid
+      var(--_nys-select-error-color);
   }
 `;
