@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/nys-checkbox",
-  "version": "0.0.5-alpha",
+  "version": "0.0.7-alpha",
   "description": "A checkbox component from the NYS Design System.",
   "module": "dist/nys-checkbox.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@nys-excelsior/nys-icon": "^0.0.5-alpha"
+    "@nys-excelsior/nys-icon": "^0.0.7-alpha"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
