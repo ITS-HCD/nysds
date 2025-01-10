@@ -1,0 +1,68 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Styles" />
+
+# Styling the Excelsior Design System
+
+## Summary
+  - A centralized CSS file for core design tokens (excelsior.min.css)
+  - Agency-specific theme stylesheets (e.g., theme-health.min.css, theme-environment.min.css) that can override the components and UI elements using themed variables
+  - Utility classes the cover common styling needs for grid layout, display styles, flexbox, floats, opacity, and z-index 
+  - Integration support for the design system’s code components, which will reference these variables in their Shadow DOM.
+
+## Features
+
+**Global Stylesheet:**
+
+The `excelsior.min.css` file includes foundational design tokens, like spacing, typography, and default theme colors.
+
+To use, reference this on pages where you'll be using the variables or the design system components:
+
+```html
+<link rel="stylesheet" href="[path-to-dir]/excelsior.min.css" />
+```
+
+**Agency-Specific Themes:**
+
+Additional theme stylesheets are published that provide agency-specific color tokens:
+
+- **Administration:** `excelsior-theme-admin.min.css`
+- **Business:** `excelsior-theme-business.min.css`
+- **Recreation and Environment:** `excelsior-theme-environment.min.css`
+- **Health and Human Services:** `excelsior-theme-health.min.css`
+- **Local and Regional Authorities:** `excelsior-theme-local.min.css`
+- **Public Safety:** `excelsior-theme-safety.min.css`
+- **Transportation and Utilities:** `excelsior-theme-transportation.min.css`
+
+To override the default theme:
+
+```html
+<link rel="stylesheet" href="[path-to-dir]/excelsior.min.css" />
+<link rel="stylesheet" href="[path-to-dir]/excelsior-theme-health.min.css" />
+```
+**Utility classes:**
+
+Excelsior includes a set of utility classes for common styling needs, including grid layout, display styles, flexbox, floats, opacity, and z-index. These classes are designed to be used directly in your HTML to quickly apply common styles without writing custom CSS.
+
+To include the full utility classes, simply include the utility CSS file:
+
+```html
+<link rel="stylesheet" href="[path-to-dir]/excelsior-full.min.css" />
+```
+
+**Shadow DOM Integration:**
+
+The design system’s web components dynamically reference these tokens using CSS variables within their Shadow DOM. For example:
+
+```css
+:host {
+  --_nys-button-background-color: var(--nys-button-background-color, var(--nys-color-theme, #0044cc));
+}
+button {
+  background-color: var(--_nys-button-background-color);
+}
+```
+
+**Theme Variables:**
+
+Each theme includes a predefined set of CSS variables (e.g., --nys-color-theme-faint, --nys-color-theme-stronger) tailored to the agency-specific color palette. These variables are used by components and design elements in the library to give residents a cohesive and branded user experience. Including an agency-specific theme stylesheet will override the default colors, and change these color of the components and elements to reflect the theme for a given agency group. This makes it easy to adapt the design system to align with each agency's branding requirements.
