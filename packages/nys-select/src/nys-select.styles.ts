@@ -4,7 +4,17 @@ export default css`
   :host {
     /* Global Select Styles */
     --_nys-select-form-width: var(--nys-form-width-md, 200px);
-    --_nys-select-font-family: var(--nys-font-family-ui, "Proxima Nova");
+    --_nys-select-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
     --_nys-select-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-select-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-select-gap: var(--nys-space-50, 4px);
@@ -22,15 +32,16 @@ export default css`
     --_nys-select-bg-disabled-color: var(--nys-color-neutral-50, #ededed);
     --_nys-select-icon-disabled-color: var(--nys-color-neutral-300, #a7a9ab);
 
-    /* Select box-shadow States */
-    --_nys-select-box-shadow-default: 0 0 0 var(--nys-border-width-sm, 1px)
+    /* Select Outline States */
+    --_nys-select-outline-default: solid var(--nys-border-width-sm, 1px)
       var(--nys-color-neutral-400, #909395);
-    --_nys-select-box-shadow-focus: 0 0 0 var(--nys-border-width-md, 2px)
+    --_nys-select-outline-focus: solid var(--nys-border-width-md, 2px)
       var(--nys-color-focus, var(--nys-color-blue-600, #004dd1));
-    --_nys-select-box-shadow-disabled: 0 0 0 var(--nys-border-width-sm, 1px)
+    --_nys-select-outline-disabled: solid var(--nys-border-width-sm, 1px)
       var(--nys-color-neutral-200, #bec0c1);
-    --_nys-select-box-shadow-hover: 0 0 0 var(--nys-border-width-md, 2px)
+    --_nys-select-outline-hover: solid var(--nys-border-width-md, 2px)
       var(--nys-color-neutral-900, #1b1b1b);
+    --_nys-select-outline-error: solid var(--nys-border-width-md, 2px) var(--nys-color-danger, var(--nys-color-red-600, #b52c2c));
   }
 
   .nys-select {
@@ -48,7 +59,7 @@ export default css`
     font-weight: var(--_nys-select-font-weight);
     border-radius: 0.25rem;
     border: 0;
-    box-shadow: var(--_nys-select-box-shadow-default);
+    outline: var(--_nys-select-outline-default);
     font-size: var(--_nys-select-font-size);
     padding: 0.5rem 2rem 0.5rem 0.5rem;
     width: var(--_nys-select-form-width);
@@ -99,18 +110,23 @@ export default css`
   /* Hover */
   .nys-select__select:hover:not(:disabled) {
     cursor: pointer;
-    box-shadow: var(--_nys-select-box-shadow-hover);
+    outline: var(--_nys-select-outline-hover);
   }
 
   /* Focused */
   .nys-select__select:focus {
-    box-shadow: var(--_nys-select-box-shadow-focus);
+    outline: var(--_nys-select-outline-focus);
+  }
+
+  /* When both focus and hover are active, prioritize focus */
+  .nys-select__select:focus:hover {
+    outline: var(--_nys-select-outline-focus);
   }
 
   /* Disabled */
   .nys-select__select:disabled {
     background-color: var(--_nys-select-bg-disabled-color);
-    box-shadow: var(--_nys-select-box-shadow-disabled);
+    outline: var(--_nys-select-outline-disabled);
     cursor: not-allowed;
   }
   .nys-select__select:disabled ~ .nys-select__icon {
@@ -147,6 +163,7 @@ export default css`
 
   /* Error Message Styling */
   .nys-select__error {
+    padding-top: 0.25rem;
     display: flex;
     align-items: center;
     gap: 7px;
@@ -154,6 +171,6 @@ export default css`
   }
 
   .nys-select__selecterror {
-    border-color: var(--_nys-select-error-color); /* border of <select> */
+    outline: var(--_nys-select-outline-error); /* border of <select> */
   }
 `;
