@@ -31,17 +31,17 @@ export default css`
     --_nys-textinput-error-color: var(--nys-color-danger, #b52c2c);
 
     /* Global Font Styles */
-    --_nys-textinput-family-ui: --_nys-textinput-family-ui: var(
-        --nys-font-family-ui,
-        var(
-          --nys-font-family-sans,
-          "Proxima Nova",
-          "Helvetica Neue",
-          "Helvetica",
-          "Arial",
-          sans-serif
-        )
-      );
+    --_nys-textinput-family-ui: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
     --_nys-textinput-size-ui-md: var(--nys-font-size-ui-md, 16px);
     --_nys-textinput-weight-ui: var(--nys-font-weight-regular, 400);
     --_nys-textinput-weight-ui-bold: var(--nys-font-weight-semibold, 600);
