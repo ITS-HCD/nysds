@@ -52,7 +52,6 @@ body {
     }
   }
 
-  // scss-lint:disable SelectorDepth
   [class*="nys-grid-gap"] {
     [class*="nys-grid-col"] > * {
       background-color: color("white");
