@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
-import { classMap } from "lit/directives/class-map.js";
 import "@nys-excelsior/nys-icon";
 import { NysOption } from "./nys-option";
 
@@ -15,37 +14,51 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
-  @property({ type: String }) size = "";
-  @property({ type: Boolean }) hasError = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
+  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
+  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "md";
 
-  @state() private _options: {
-    value: string;
-    label: string;
-    disabled: boolean;
-    selected: boolean;
-  }[] = [];
+  // Getter and setter for the `width` property.
+  @property({ reflect: true })
+  get width(): (typeof NysSelect.VALID_WIDTHS)[number] {
+    return this._width;
+  }
+
+  set width(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._width = NysSelect.VALID_WIDTHS.includes(
+      value as (typeof NysSelect.VALID_WIDTHS)[number],
+    )
+      ? (value as (typeof NysSelect.VALID_WIDTHS)[number])
+      : "full";
+  }
 
   static styles = styles;
 
   private _handleSlotChange() {
-    const slot = this.shadowRoot?.querySelector("slot");
+    const slot = this.shadowRoot?.querySelector(
+      'slot:not([name="description"])',
+    ) as HTMLSlotElement | null;
     if (slot) {
-      const nodes = slot.assignedElements({ flatten: true });
-      this._options = nodes
-        .filter((node) => node instanceof NysOption)
-        .map((node) => {
-          const nysOption = node as NysOption;
-          const label = nysOption.label || nysOption.textContent?.trim() || "";
-          return {
-            value: nysOption.value,
-            label: label,
-            disabled: nysOption.disabled,
-            selected: nysOption.selected,
-          };
+      const assignedElements = slot.assignedElements({ flatten: true });
+      const select = this.shadowRoot?.querySelector("select");
+
+      if (select) {
+        // Clone and append slotted elements
+        assignedElements.forEach((node) => {
+          if (node instanceof NysOption) {
+            const optionElement = document.createElement("option");
+            optionElement.value = node.value;
+            optionElement.textContent =
+              node.label || node.textContent?.trim() || "";
+            optionElement.disabled = node.disabled;
+            optionElement.selected = node.selected;
+            select.appendChild(optionElement);
+          }
         });
+      }
     }
-    this.requestUpdate(); // Request an update after processing options
   }
 
   // Handle focus event
@@ -72,12 +85,6 @@ export class NysSelect extends LitElement {
   }
 
   render() {
-    const selectClasses = {
-      "nys-select__select": true,
-      "nys-select__selecterror": this.hasError,
-      [this.size]: !!this.size,
-    };
-
     return html`
       <div class="nys-select">
         ${this.label &&
@@ -90,57 +97,39 @@ export class NysSelect extends LitElement {
               ? html`<label class="nys-select__required">*</label>`
               : ""}
           </div>
-          <label for=${this.id} class="nys-select__description">
+          <div class="nys-select__description">
             ${this.description}
-          </label>
-        </div>`}
-        <div class="nys-select__requiredwrapper">
-          <div class="nys-select__selectwrapper">
-            <select
-              class="${classMap(selectClasses)}"
-              name=${this.name}
-              id=${this.id}
-              ?disabled=${this.disabled}
-              ?required=${this.required}
-              aria-disabled="${this.disabled}"
-              aria-label="${this.label} ${this.description}"
-              value=${this.value}
-              @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
-            >
-              <option hidden disabled selected value></option>
-              ${this._options.map(
-                (opt) =>
-                  html`<option
-                    value=${opt.value}
-                    label=${opt.label}
-                    ?disabled=${opt.disabled}
-                    ?hidden=${opt.selected}
-                    ?selected=${opt.selected}
-                  >
-                    ${opt.label}
-                  </option>`,
-              )}
-            </select>
-            <slot
-              @slotchange="${this._handleSlotChange}"
-              style="display: none;"
-            ></slot>
-            <slot name="icon">
-              <nys-icon
-                name="chevron_down"
-                size="lg"
-                class="nys-select__icon"
-              ></nys-icon>
-            </slot>
+            <slot name="description"></slot>
           </div>
-          ${this.required && !this.label
-            ? html`<label class="nys-select__required">*</label>`
-            : ""}
+        </div>`}
+        <div class="nys-select__selectwrapper">
+          <select
+            class="nys-select__select"
+            name=${this.name}
+            id=${this.id}
+            ?disabled=${this.disabled}
+            ?required=${this.required}
+            aria-disabled="${this.disabled}"
+            aria-label="${this.label} ${this.description}"
+            value=${this.value}
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+          >
+            <option hidden disabled selected value></option>
+          </select>
+          <slot
+            @slotchange="${this._handleSlotChange}"
+            style="display: none;"
+          ></slot>
+          <nys-icon
+            name="chevron_down"
+            size="lg"
+            class="nys-select__icon"
+          ></nys-icon>
         </div>
-        ${this.hasError && this.errorMessage
+        ${this.showError && this.errorMessage
           ? html`<div class="nys-select__error">
-              <nys-icon name="error"></nys-icon>
+              <nys-icon name="error" size="xl"></nys-icon>
               ${this.errorMessage}
             </div>`
           : ""}
