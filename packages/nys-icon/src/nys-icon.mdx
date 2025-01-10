@@ -97,8 +97,7 @@ Include a label property to provide accessible text for screen readers.
 ## Variants
 
 ### Size Inheritance
-The icon size will inherit the relative font size from its nearest parent. By default, the icon will have a `font-size` set to `1cap` (if supported by browser, otherwise 0.7em), which is based on the capital letters' height of the current font.
-
+The icon size adjusts to the relative font size of its nearest parent element. By default, the icon's `font-size` is set to `1cap`, aligning it with the height of capital letters in the current font. For browsers that do not support `1cap`, a fallback value of `0.7em` is used, as it closely approximates the height of capital letters in most fonts.
 <Canvas of={NysIconStories.InheritSize} />
 
 ### Size Naming Variant
