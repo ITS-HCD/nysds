@@ -145,6 +145,6 @@ export default css`
     margin-top: var(--nys-space-50, 4px);
     gap: var(--nys-space-100, 8px);
     display: flex;
-    line-height: var(--_nys-textinput-size-ui-md);
+    line-height: var(--_nys-textinput-lineheight-ui);
   }
 `;
