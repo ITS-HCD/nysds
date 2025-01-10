@@ -1,0 +1,48 @@
+import { Meta } from "@storybook/blocks";
+
+
+<Meta title="Layout Grid" />
+
+<header>
+
+
+    <p className="site-subheading">Utilities</p>
+
+
+    <h1 id="layout-grid" className="site-page-title">Layout grid</h1>
+</header>
+<p className="site-text-intro">Use our flexible grid system to structure website content. The grid is mobile-first, powered by flexbox, and based on a 12-column system.</p>
+<h2 id="how-it-works"><a id="how-it-works-2"></a>How it works</h2>
+<p>The grid system uses a series of containers, rows, and columns to lay out and align content. The following row and corresponding code are an example of and  in-depth look at how the grid comes together.</p>
+<div className="docs-grid-example">
+
+  <div className="nys-grid-container">
+    <div className="nys-grid-row">
+      <div class="nys-tablet:nys-grid-col">.nys-tablet:nys-grid-col</div>
+      <div class="nys-tablet:nys-grid-col">.nys-tablet:nys-grid-col</div>
+      <div class="nys-tablet:nys-grid-col">.nys-tablet:nys-grid-col</div>
+    </div>
+  </div>
+
+</div>
+
+```html
+<div class="nys-grid-container">
+  <div class="nys-grid-row">
+    <div class="nys-tablet:nys-grid-col">.nys-tablet:nys-grid-col</div>
+    <div class="nys-tablet:nys-grid-col">.nys-tablet:nys-grid-col</div>
+    <div class="nys-tablet:nys-grid-col">.nys-tablet:nys-grid-col</div>
+  </div>
+</div>
+```
+
+<p>This example code creates three equal-width columns on tablet, desktop, and widescreen devices by using our predefined grid classes. Those columns are centered in the page with the parent <code>nys-grid-container</code> container.</p>
+<p>The following sections break the layout grid down and describe how it works.</p>
+<h3 id="containers-rows-and-columns"><a id="containers-rows-and-columns-2" class="usa-anchor"></a>Containers, rows, and columns</h3>
+  <p><strong>Containers:</strong> <code>nys-grid-container</code> centers the container and gives it a maximum width of <code>nys-desktop</code> (1024px). If you would like the grid to span the full width of the page, do not use <code>nys-grid-container</code>.</p>
+    <ul>
+      <li><code>nys-grid-container</code> can also accept any breakpoint width: <code>nys-mobile-lg</code>, <code>nys-tablet</code>, and <code>nys-desktop</code>.</li>
+      <li>By default, <code>nys-grid-container</code> has a <code>padding-x</code> of 2 at narrow widths, and a <code>padding-x</code> of 4 at <code>nys-desktop</code> and wider.</li>
+    </ul>
+  <p><strong>Rows:</strong> Columns must have a <code>nys-grid-row</code> as a parent.</p>
+  <p><strong>Columns:</strong> <code>nys-grid-col-[1-12]</code> indicates the number of columns the item spans out of a possible 12 per row. So, if you want three equal-width columns across, use <code>nys-grid-col-4</code> for each item.</p>

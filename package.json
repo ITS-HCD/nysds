@@ -78,7 +78,6 @@
     "lightningcss": "^1.29.1",
     "lit": "^3.2.1",
     "npm": "^10.9.0",
-    "rollup-plugin-css-bundle": "^1.0.4",
     "sinon": "^19.0.2",
     "storybook": "^8.4.7",
     "tslib": "^2.7.0",

@@ -1,4 +1,5 @@
 import "@nys-excelsior/nys-styles/dist/excelsior.min.css"; // Excelsior Design Tokens
+import "@nys-excelsior/nys-styles/dist/excelsior-full.min.css"; // Excelsior Design Tokens
 
 import { addons } from "@storybook/manager-api";
 import { create } from "@storybook/theming";

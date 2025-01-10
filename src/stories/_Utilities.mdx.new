@@ -1,0 +1,251 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Utilities" />
+
+# Utilities
+
+## display
+<section className="utility" id="utility-display">
+    
+
+
+
+<section className="utility-title-bar">
+  <div className="nys-grid-row">
+    <div className="nys-grid-col utility-name">
+      <h3 className="utility-title"><a id="display-2" className="nys-anchor"></a>Display</h3>
+      
+        <p className="utility-property">CSS property: <span className="utility-property-code">display</span></p>
+      
+    </div>
+
+  </div>
+</section>
+
+    <section className="utility-examples">
+      
+      
+      
+      
+      
+        
+        
+        
+        <div className="utility-example-container">
+  <div className="nys-grid-row flex-justify">
+    <div className="nys-grid-col utility-example-class grid-col-12 tablet:grid-col">
+      <span className="utility-class">
+          .display-block
+        </span>
+    </div>
+    
+      <div className="nys-grid-col utility-example-value">
+        <span className="utility-value">
+          block
+        </span>
+      </div>
+    
+    
+      <div className="nys-grid-col utility-example">
+        
+          <div className="display-block bg-secondary-light border-1px border-secondary-light padding-x-10 padding-y-3">
+          </div>
+        
+      </div>
+    
+    
+  </div>
+</div>
+
+      
+        
+        
+        
+        <div className="utility-example-container">
+  <div className="nys-grid-row flex-justify">
+    <div className="nys-grid-col utility-example-class grid-col-12 tablet:grid-col">
+      <span className="utility-class">
+          .display-flex
+        </span>
+    </div>
+    
+      <div className="nys-grid-col utility-example-value">
+        <span className="utility-value">
+          flex
+        </span>
+      </div>
+    
+    
+      <div className="nys-grid-col utility-example">
+        
+          <div className="display-flex bg-secondary-light border-1px border-secondary-light padding-x-10 padding-y-3">
+          </div>
+        
+      </div>
+    
+    
+  </div>
+</div>
+
+      
+        
+        
+        
+        <div className="utility-example-container">
+  <div className="nys-grid-row flex-justify">
+    <div className="nys-grid-col utility-example-class grid-col-12 tablet:grid-col">
+      <span className="utility-class">
+          .display-inline
+        </span>
+    </div>
+    
+      <div className="nys-grid-col utility-example-value">
+        <span className="utility-value">
+          inline
+        </span>
+      </div>
+    
+    
+      <div className="nys-grid-col utility-example">
+        
+          <div className="display-inline bg-secondary-light border-1px border-secondary-light padding-x-10 padding-y-3">
+          </div>
+        
+      </div>
+    
+    
+  </div>
+</div>
+
+      
+        
+        
+        
+        <div className="utility-example-container">
+  <div className="nys-grid-row flex-justify">
+    <div className="nys-grid-col utility-example-class grid-col-12 tablet:grid-col">
+      <span className="utility-class">
+          .display-inline-block
+        </span>
+    </div>
+    
+      <div className="nys-grid-col utility-example-value">
+        <span className="utility-value">
+          inline-block
+        </span>
+      </div>
+    
+    
+      <div className="nys-grid-col utility-example">
+        
+          <div className="display-inline-block bg-secondary-light border-1px border-secondary-light padding-x-10 padding-y-3">
+          </div>
+        
+      </div>
+    
+    
+  </div>
+</div>
+
+      
+        
+        
+        
+        <div className="utility-example-container">
+  <div className="nys-grid-row flex-justify">
+    <div className="nys-grid-col utility-example-class grid-col-12 tablet:grid-col">
+      <span className="utility-class">
+          .display-inline-flex
+        </span>
+    </div>
+    
+      <div className="nys-grid-col utility-example-value">
+        <span className="utility-value">
+          inline-flex
+        </span>
+      </div>
+    
+    
+      <div className="nys-grid-col utility-example">
+        
+          <div className="display-inline-flex bg-secondary-light border-1px border-secondary-light padding-x-10 padding-y-3">
+          </div>
+        
+      </div>
+    
+    
+  </div>
+</div>
+
+      
+        
+        
+        
+        <div className="utility-example-container">
+  <div className="nys-grid-row flex-justify">
+    <div className="nys-grid-col utility-example-class grid-col-12 tablet:grid-col">
+      <span className="utility-class">
+          .display-none
+        </span>
+    </div>
+    
+      <div className="nys-grid-col utility-example-value">
+        <span className="utility-value">
+          none
+        </span>
+      </div>
+    
+    
+      <div className="nys-grid-col utility-example">
+        
+          <div className="display-none bg-secondary-light border-1px border-secondary-light padding-x-10 padding-y-3">
+          </div>
+        
+      </div>
+    
+    
+  </div>
+</div>
+
+      
+      
+      
+      
+      
+      
+        
+        
+        
+        <div className="utility-example-container">
+  <div className="nys-grid-row flex-justify">
+    <div className="nys-grid-col utility-example-class grid-col-12 tablet:grid-col">
+      <span className="utility-class">
+          .display-table-cell
+        </span>
+    </div>
+    
+      <div className="nys-grid-col utility-example-value">
+        <span className="utility-value">
+          table-cell
+        </span>
+      </div>
+    
+    
+      <div className="nys-grid-col utility-example">
+        
+          <div className="display-table">
+            <div className="display-table-row">
+              <div className="display-table-cell border-1px border-white bg-secondary-light padding-x-5 padding-y-3"></div>
+              <div className="display-table-cell border-1px border-white bg-secondary-light padding-x-5 padding-y-3"></div>
+            </div>
+          </div>
+        
+      </div>
+    
+    
+  </div>
+</div>
+
+      
+    </section>
+  </section>

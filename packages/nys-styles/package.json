@@ -7,7 +7,8 @@
     "dist/"
   ],
   "exports": {
-    "./dist/excelsior.min.css": "./dist/excelsior.min.css"
+    "./dist/excelsior.min.css": "./dist/excelsior.min.css",
+    "./dist/excelsior-full.min.css": "./dist/excelsior-full.min.css"
   },
   "scripts": {
     "dev": "vite",
