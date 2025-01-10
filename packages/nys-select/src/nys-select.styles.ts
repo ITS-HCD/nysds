@@ -41,7 +41,8 @@ export default css`
       var(--nys-color-neutral-200, #bec0c1);
     --_nys-select-outline-hover: solid var(--nys-border-width-md, 2px)
       var(--nys-color-neutral-900, #1b1b1b);
-    --_nys-select-outline-error: solid var(--nys-border-width-md, 2px) var(--nys-color-danger, var(--nys-color-red-600, #b52c2c));
+    --_nys-select-outline-error: solid var(--nys-border-width-md, 2px)
+      var(--nys-color-danger, var(--nys-color-red-600, #b52c2c));
   }
 
   .nys-select {
