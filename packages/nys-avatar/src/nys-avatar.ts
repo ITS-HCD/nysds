@@ -17,37 +17,19 @@ export class NysAvatar extends LitElement {
   @property({ type: String }) icon = "";
   @property({ type: String }) color = "#555";
   @property({ type: Boolean }) lazy = false;
-  private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
   private static readonly VALID_SHAPES = [
     "square",
     "rounded",
     "circle",
   ] as const;
 
-  // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
-  private _size: (typeof NysAvatar.VALID_SIZES)[number] = "md";
-
   // Private property to store the internal `shape` value, restricted to the valid types. Default is "rounded".
   private _shape: (typeof NysAvatar.VALID_SHAPES)[number] = "rounded";
 
-  // Getter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysAvatar.VALID_SIZES)[number] {
-    return this._size;
-  }
-  // Getter for the `size` property.
+  // Getter for the `shape` property.
   @property({ reflect: true })
   get shape(): (typeof NysAvatar.VALID_SHAPES)[number] {
     return this._shape;
-  }
-  // Setter for the `size` property.
-  set size(value: string) {
-    this._size = NysAvatar.VALID_SIZES.includes(
-      value as (typeof NysAvatar.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysAvatar.VALID_SIZES)[number])
-      : "lg";
-    this.requestUpdate("size");
   }
   // Setter for the `shape` property.
   set shape(value: string) {
@@ -108,7 +90,6 @@ export class NysAvatar extends LitElement {
                   : html`<div part="nys-avatar__icon">
                       <slot name="icon">
                         <nys-icon
-                          part="icon"
                           label="nys-avatar__icon"
                           name="account_circle"
                           size="md"

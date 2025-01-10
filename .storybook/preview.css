@@ -32,3 +32,9 @@ body {
 .usagedos.dont {
     background-color: rgb(255, 202, 202)
 }
+
+.usage-link {
+    color: rgb(9, 84, 223) !important;
+    text-decoration: underline !important;
+    font-weight: bold;
+}
