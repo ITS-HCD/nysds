@@ -5,11 +5,7 @@ export default css`
     /* Anything that can be overridden should be defined here */
 
     /* Global Text Input Styles */
-    --_nys-textinput-width: var(
-      fill-available,
-      -webkit-fill-available,
-      -moz-available
-    );
+    --_nys-textinput-width: 100%;
     --_nys-textinput-radius: var(--nys-radius-md, 4px);
     --_nys-textinput-width-border: var(--nys-border-width-sm, 1px);
     --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
@@ -97,7 +93,7 @@ export default css`
   }
 
   /* Hovered */
-  .nys-textinput__input:hover:not(:disabled) {
+  .nys-textinput__input:hover:not(:disabled):not(:focus) {
     outline: solid var(--_nys-textinput-hover-width-outline)
       var(--_nys-textinput-hover-color-outline);
     border-color: var(--_nys-textinput-hover-color-outline);
