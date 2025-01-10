@@ -12,11 +12,11 @@ The `nys-textarea` is a reusable web component for use in New York State digital
 
 <Canvas of={NysTextareaStories.Blank} />
 
-### Size 
-Size control's the font size and padding of the text area. If no size is provided, the `nys-textarea` will default to `md`.\
-Supported sizes are `xs`, `sm`, `md`, `lg`, and `xl`. If any other input is assigned to `size`, it will be ignored.
-
-<Canvas of={NysTextareaStories.Size} />
+### Width 
+If no width is provided, the `nys-textinput` will default to `full`. Supported widths are `sm`, `md`, `lg`, and `full`.\
+Width `full` will take up the full width of the parent container.\
+If an invalid option is assigned to `width`, it will be ignored and default to `full`.
+<Canvas of={NysTextareaStories.Width} />
 
 ### Rows
 The `rows` attribute specifies the visible height of a text area, in number of lines.\

@@ -15,7 +15,7 @@ interface NysTextareaArgs {
   required: boolean;
   form: string;
   maxlength: string;
-  size: string;
+  width: string;
   rows: string;
   resize: string;
   showError: boolean;
@@ -37,7 +37,7 @@ const meta: Meta<NysTextareaArgs> = {
     required: { control: "boolean" },
     form: { control: "text" },
     maxlength: { control: "text" },
-    size: { control: "select", options: ["xs", "sm", "md", "lg", "xl"] },
+    width: { control: "select", options: ["sm", "md", "lg", "full"] },
     rows: { control: "text" },
     resize: { control: "select", options: [undefined, "none"] },
     showError: { control: "boolean" },
@@ -76,7 +76,7 @@ export const Blank: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -93,8 +93,8 @@ export const Blank: Story = {
   },
 };
 
-export const Size: Story = {
-  args: { label: "This textarea is XS", value: "", size: "xs" },
+export const Width: Story = {
+  args: { label: "This textarea is SM", value: "", width: "sm" },
   render: (args) => html`
     <nys-textarea
       .id=${args.id}
@@ -108,7 +108,7 @@ export const Size: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -119,7 +119,7 @@ export const Size: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea size="xs" label="This textarea is XS"></nys-textarea>
+<nys-textarea width="sm" label="This textarea is SM"></nys-textarea>
         `,
         type: "auto",
       },
@@ -128,7 +128,7 @@ export const Size: Story = {
 };
 
 export const Rows: Story = {
-  args: { label: "", value: "", rows: "4" },
+  args: { label: "This textarea renders with 4 rows", value: "", rows: "4" },
   render: (args) => html`
     <nys-textarea
       .id=${args.id}
@@ -142,7 +142,7 @@ export const Rows: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -179,7 +179,7 @@ export const Resize: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -211,7 +211,7 @@ export const DescriptionSlot: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -229,7 +229,7 @@ export const DescriptionSlot: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -272,7 +272,7 @@ export const ValueAndPlaceholder: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -309,7 +309,7 @@ export const Disabled: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -343,7 +343,7 @@ export const Readonly: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -382,7 +382,7 @@ export const Maxlength: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -420,7 +420,7 @@ export const Required: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}
@@ -456,7 +456,7 @@ export const ErrorMessage: Story = {
       .required=${args.required}
       .form=${args.form}
       .maxlength=${args.maxlength}
-      .size=${args.size}
+      .width=${args.width}
       .rows=${args.rows}
       .resize=${args.resize}
       .showError=${args.showError}

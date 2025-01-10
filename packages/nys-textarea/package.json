@@ -21,6 +21,9 @@
     "peerDependencies": {
         "lit": "^3.2.1"
     },
+    "dependencies": {
+        "@nys-excelsior/nys-icon": "^0.0.5-alpha"
+      },
     "devDependencies": {
       "lit": "^3.2.1",
       "typescript": "^5.7.2",
