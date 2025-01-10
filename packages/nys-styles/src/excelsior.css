@@ -160,9 +160,9 @@
 --nys-font-letterspacing-h6: var(--nys-font-letterspacing-300);
 
 /* UI */
---nys-font-letterpacing-ui-md: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-sm: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-xs: var(--nys-font-letterspacing-600);
+--nys-font-letterspacing-ui-md: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-body-sm: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-body-xs: var(--nys-font-letterspacing-600);
 
 /* --- Icon Size --- */
 
@@ -405,6 +405,31 @@
 --nys-color-safety-gray-700: #435d6e;
 --nys-color-safety-gray-800: #30424f;
 --nys-color-safety-gray-900: #1d2830;
+
+/* ================== TRANSPARENT COLORS (ALPHA HEX) ===================== */
+/* Black Transparent */
+--nys-color-black-transparent-50: #00000003;
+--nys-color-black-transparent-100: #0000001a;
+--nys-color-black-transparent-200: #00000033;
+--nys-color-black-transparent-300: #0000004d;
+--nys-color-black-transparent-400: #00000066;
+--nys-color-black-transparent-500: #00000080;
+--nys-color-black-transparent-600: #00000099;
+--nys-color-black-transparent-700: #000000b3;
+--nys-color-black-transparent-800: #000000cc;
+--nys-color-black-transparent-900: #000000e6;
+
+/* White Transparent */
+--nys-color-white-transparent-50: #ffffff03;
+--nys-color-white-transparent-100: #ffffff1a;
+--nys-color-white-transparent-200: #ffffff33;
+--nys-color-white-transparent-300: #ffffff4d;
+--nys-color-white-transparent-400: #ffffff66;
+--nys-color-white-transparent-500: #ffffff80;
+--nys-color-white-transparent-600: #ffffff99;
+--nys-color-white-transparent-700: #ffffffb3;
+--nys-color-white-transparent-800: #ffffffcc;
+--nys-color-white-transparent-900: #ffffffe6;
 
 /* ================ PRIMITIVE TYPOGRAPHY TOKENS ===================== */
 

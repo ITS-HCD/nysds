@@ -10,23 +10,23 @@ The **`nys-avatar`** component is a reusable web component for use in New York S
 By default, a generic icon is displayed. Personalize avatars with custom icons, initials, or images, and always include a label for accessibility. \
 If an id is not passed, a unique id will be generated.
 
-<p class="pill stable">Stable</p>
-<p class="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-1601&p=f&m=dev">Get the UI kit</a></p>
+<p className="pill stable">Stable</p>
+<p className="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-1601&p=f&m=dev">Get the UI kit</a></p>
 
 ***
 
-<Canvas of={NysAvatarStories.Default} />
+<Canvas of={NysAvatarStories.Basic} />
 
 <Controls />
 
 
 ## Variants
 ### Images
-To display an image in the avatar, set the `image` and `label` attributes. These will take priority and override initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
+To display an image in the avatar, set the `image` and `label` attributes. Images will take **priority** and **override** initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
 <Canvas of={NysAvatarStories.AvatarImage} />
 
 ### Initials
-If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon.
+If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon. Initials will take **priority** and **override** icons. 
 <Canvas of={NysAvatarStories.AvatarInitials} />
 
 ### Custom Icons
@@ -36,10 +36,6 @@ When no image or initials are set, an icon will be shown. The default avatar sho
 ### Shapes
 Avatars can be shaped using the shape attribute.
 <Canvas of={NysAvatarStories.AvatarShapes} />
-
-### Sizes
-Avatars can come in three different sizes: `sm`, `md`, and `lg`.
-<Canvas of={NysAvatarStories.AvatarSizes} />
 
 ### Background Color
 You can change the background color of an Avatar. Note that images will naturally cover over the background color.
@@ -56,15 +52,15 @@ You can change the background color of an Avatar. Note that images will naturall
   - When a simple label or text works better.
 
 ## Usage 
-<div class="usage-wrapper">
-   <div class="usagedos do">
+<div className="usage-wrapper">
+   <div className="usagedos do">
    ### Do
    - Use for clear, simple user or entity representation.
    - Use appropriate shapes, sizes, and images to fit the overall page design.
    - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
    </div>
 
-   <div class="usagedos dont">
+   <div className="usagedos dont">
    ### Don't
    - Don’t overload the avatar with unnecessary customizations.
    - Don’t skip the `label` attribute for screen reader users.
@@ -83,24 +79,14 @@ The `nys-avatar` component includes the following accessibility-focused features
       <tr>
          <th>Part name</th>
          <th>Description</th>
+         <th>Default value</th>
       </tr>
    </thead>
    <tbody>
       <tr>
-         <td>`nys-avatar`</td>
-         <td>The component’s base wrapper.</td>
-      </tr>
-      <tr>
          <td>`nys-avatar__icon`</td>
          <td>The container that wraps the avatar’s icon.</td>
-      </tr>
-      <tr>
-         <td>`nys-avatar__initials`</td>
-         <td>The container that wraps the avatar’s initials.</td>
-      </tr>
-      <tr>
-         <td>`nys-avatar__image`</td>
-         <td>The avatar image. Only shown when the image attribute is set.</td>
+         <td>nys-avatar__icon</td>
       </tr>
    </tbody>
 </table>
