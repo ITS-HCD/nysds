@@ -24,6 +24,7 @@ export default css`
     --_nys-select-radius: var(--nys-radius-md, var(--nys-space-50, 4px));
     --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px)
       var(--nys-space-100, 8px) var(--nys-space-100, 8px);
+    --_nys-select-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
 
     /* Global Select Colors */
     --_nys-select-color: var(
@@ -57,9 +58,6 @@ export default css`
     gap: var(--_nys-select-gap);
     font-family: var(--_nys-select-font-family);
     color: var(--_nys-select-color);
-    width: -webkit-fill-available;
-    width: -moz-available;
-    width: fill-available;
   }
 
   .nys-select__select {
@@ -149,11 +147,10 @@ export default css`
     display: inline;
   }
 
-  /* Label styling */
   .nys-select__text {
-    padding-bottom: var(--_nys-select-margin);
+    line-height: var(--_nys-select-lineheight-ui);
   }
-
+  
   .nys-select__label {
     font-weight: var(--_nys-select-font-weight-600);
     color: var(--_nys-select-color);
@@ -167,7 +164,6 @@ export default css`
 
   /* Error Message Styling */
   .nys-select__error {
-    margin-top: var(--_nys-select-margin);
     display: flex;
     align-items: center;
     gap: var(--_nys-select-gap);
