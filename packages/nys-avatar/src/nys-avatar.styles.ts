@@ -2,55 +2,36 @@ import { css } from "lit";
 
 export default css`
   :host {
-    --radius-rounded: 1776px;
-    --radius-md: 4px;
-    --radius-1: 1px;
-    --size-200: 16px;
-    --size-300: 24px;
-    --size-400: 32px;
-
-    /* Default values */
-    --avatar-shape: var(--radius-md);
-    --avatar-border: var(--size-300);
+    /* Global Avatar Styles */
+    --_nys-avatar-shape: var(--nys-radius-md, var(--nys-space-50, 4px));
+    --_nys-avatar-border: var(--nys-font-size-6xl, 36px);
+    --_nys-avatar-size: var(--nys-font-size-6xl, 36px);
   }
 
   .nys-component__component {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: var(--avatar-shape);
-    width: var(--avatar-size, var(--size-300));
-    height: var(--avatar-size, var(--size-300));
-    font-size: var(--avatar-size, var(--size-300));
+    border-radius: var(--_nys-avatar-shape);
+    width: var(--_nys-avatar-size);
+    height: var(--_nys-avatar-size);
+    font-size: var(--_nys-avatar-size);
     overflow: hidden;
     box-sizing: border-box;
     color: white;
   }
 
-  /* Sizes */
-  :host([size="sm"]) {
-    --avatar-size: var(--size-200);
-  }
-
-  :host([size="md"]) {
-    --avatar-size: var(--size-300);
-  }
-
-  :host([size="lg"]) {
-    --avatar-size: var(--size-400);
-  }
-
   /* Shape */
   :host([shape="square"]) {
-    --avatar-shape: var(--radius-1);
+    --_nys-avatar-shape: var(--nys-radius-xs, var(--nys-space-1px, 1px));
   }
 
   :host([shape="rounded"]) {
-    --avatar-shape: var(--radius-md);
+    --_nys-avatar-shape: var(--nys-radius-md, var(--nys-space-50, 4px));
   }
 
   :host([shape="circle"]) {
-    --avatar-shape: var(--radius-rounded);
+    --_nys-avatar-shape: var(--nys-radius-round, 1776px);
   }
 
   div[part="nys-avatar__icon"] {
@@ -66,7 +47,7 @@ export default css`
     justify-content: center;
     width: 100%;
     height: 100%;
-    font-size: calc(var(--avatar-size, var(--size-300)) * 0.5);
+    font-size: calc(var(--_nys-avatar-size, 36px) * 0.5);
     font-weight: bold;
     text-transform: uppercase;
   }
