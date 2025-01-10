@@ -145,5 +145,6 @@ export default css`
     gap: var(--nys-space-100, 8px);
     display: flex;
     line-height: var(--_nys-textinput-lineheight-ui);
+    align-items: center;
   }
 `;
