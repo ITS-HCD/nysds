@@ -34,7 +34,7 @@
     "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public --tag alpha",
     "test": "wtr --node-resolve",
     "storybook": "npm run build:all && storybook dev -p 6006",
-    "build-storybook": "npm run build:packages && storybook build",
+    "build-storybook": "npm run build:packages && npm run build:css && storybook build",
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules",
     "clean:dist": "rm -rf dist && rm -rf packages/*/dist",
     "clean:all": "npm run clean:dist && npm run clean:node"
