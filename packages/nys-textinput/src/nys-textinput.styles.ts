@@ -10,6 +10,7 @@ export default css`
     --_nys-textinput-width-border: var(--nys-border-width-sm, 1px);
     --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
     --_nys-textinput-padding: var(--nys-space-100, 8px);
+    --_nys-textinput-gap: var(--nys-space-50, 4px);
 
     /* Hovered */
     --_nys-textinput-hover-color-outline: var(--nys-color-neutral-900, #1b1b1b);
@@ -80,6 +81,9 @@ export default css`
     line-height: var(--_nys-textinput-lineheight-ui);
     letter-spacing: var(--nys-textinput-letterspacing-ui);
     color: var(--_nys-textinput-color-ui);
+    gap: var(--_nys-textinput-gap);
+    display: flex;
+    flex-direction: column;
   }
 
   .nys-textinput__input {
@@ -125,10 +129,6 @@ export default css`
     display: inline;
   }
 
-  .nys-textinput__text {
-    margin-bottom: var(--nys-space-50, 4px);
-  }
-
   /* Label Styling */
   .nys-textinput__label {
     font-weight: var(--_nys-textinput-weight-ui-bold);
@@ -142,7 +142,6 @@ export default css`
   /* Error Message Styling */
   .nys-textinput__error {
     color: var(--_nys-textinput-error-color);
-    margin-top: var(--nys-space-50, 4px);
     gap: var(--nys-space-100, 8px);
     display: flex;
     line-height: var(--_nys-textinput-lineheight-ui);
