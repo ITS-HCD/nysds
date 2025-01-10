@@ -56,7 +56,7 @@ type Story = StoryObj<NysTextareaArgs>;
 
 // Define stories without using args
 
-export const Blank: Story = {
+export const Basic: Story = {
   args: {
     label: "Label",
     value: "",
