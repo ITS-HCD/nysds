@@ -30,7 +30,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
     checked: { control: "boolean" },
     label: { control: "text" },
     description: { control: "text" },
-    size: { control: "select", options: ["md"] }, //don't have other sizes yet
+    size: { control: "select", options: ["sm", "md"] },
     disabled: { control: "boolean" },
     value: { control: "text" },
     form: { control: "text" },
@@ -51,18 +51,20 @@ type Story = StoryObj<NysRadiobuttonArgs>;
 
 // Define stories without using args
 
-// Story: Editable
-export const AllEditableOptions: Story = {
+// Story: Basic
+export const Basic: Story = {
   args: {
     name: "office",
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
+    size: "md",
   },
   render: (args) => html`
     <nys-radiogroup
       label="What is your primary work location?"
       description="This is the location you use for your in office days."
+      size=${args.size}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -91,6 +93,7 @@ export const AllEditableOptions: Story = {
 <nys-radiogroup 
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
+  size="md"
 >
   <nys-radiobutton
     name="office"
@@ -269,6 +272,98 @@ export const Required: Story = {
     <nys-radiogroup
       label="What is your primary work location?"
       description="This is the location you use for your in office days."
+      .required=${args.required}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${args.checked}
+        .label=${args.label}
+        .description=${args.description}
+        .disabled=${args.disabled}
+        .value=${args.value}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${false}
+        .label=${"Manhattan"}
+        .description=${"New York City"}
+        .disabled=${args.disabled}
+        .value=${"manhattan"}
+      ></nys-radiobutton>
+    </nys-radiogroup>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup 
+  label="What is your primary work location?"
+  description="This is the location you use for your in office days."
+  required
+>
+  <nys-radiobutton
+    name="office"
+    label="Albany"
+    description="Upstate New York"
+    value="albany"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="office"
+    label="Manhattan"
+    description="New York City"
+    value="manhattan"
+  ></nys-radiobutton>
+</nys-radiogroup>
+`.trim(),
+
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Size: Story = {
+  args: {
+    name: "office",
+    label: "Albany",
+    description: "Upstate New York",
+    value: "albany",
+  },
+
+  render: (args) => html`
+    <nys-radiogroup
+      label="What is your primary work location?"
+      description="This is the location you use for your in office days."
+      size="sm"
+      .required=${args.required}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${args.checked}
+        .label=${args.label}
+        .description=${args.description}
+        .disabled=${args.disabled}
+        .value=${args.value}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${false}
+        .label=${"Manhattan"}
+        .description=${"New York City"}
+        .disabled=${args.disabled}
+        .value=${"manhattan"}
+      ></nys-radiobutton>
+    </nys-radiogroup>
+    <hr>
+    <nys-radiogroup
+      label="What is your primary work location?"
+      description="This is the location you use for your in office days."
+      size="md"
       .required=${args.required}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}

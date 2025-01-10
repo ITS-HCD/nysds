@@ -15,6 +15,22 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
+  private static readonly VALID_SIZES = ["sm", "md"] as const;
+  private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
+  // Getter and setter for the `width` property.
+  @property({ reflect: true })
+  get size(): (typeof NysRadiobutton.VALID_SIZES)[number] {
+    return this._size;
+  }
+
+  set size(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._size = NysRadiobutton.VALID_SIZES.includes(
+      value as (typeof NysRadiobutton.VALID_SIZES)[number],
+    )
+      ? (value as (typeof NysRadiobutton.VALID_SIZES)[number])
+      : "md";
+  }
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
 

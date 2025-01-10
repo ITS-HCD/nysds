@@ -2,8 +2,6 @@ import { css } from "lit";
 
 export default css`
   :host {
-    /* Anything that can be overridden should be defined here */
-
     /* Global Radiobutton Styles */
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
     --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
@@ -14,6 +12,7 @@ export default css`
       --nys-transition-duration-sm,
       0.1s
     );
+    --_nys-radiobutton-gap: var(--nys-space-100, 8px);
     /* Default (Empty) */
     --_nys-radiobutton-color-bg: var(--nys-color-ink-reverse, #ffffff);
     --_nys-radiobutton-color-border: var(--nys-color-neutral-600, #62666a);
@@ -71,6 +70,11 @@ export default css`
   :host([size="sm"]) {
     --_nys-radiobutton-size: var(--nys-size-300, 24px);
     --_nys-radiobutton-radius: var(--nys-border-radius-sm, 2px);
+  }
+  /* Medium Variant */
+  :host([size="md"]) {
+    --_nys-radiobutton-size: var(--nys-size-400, 32px);
+    --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
   }
 
   .nys-radiobutton {
@@ -160,6 +164,9 @@ export default css`
 
   /* Error Message Styling */
   .nys-radiobutton__error {
+    display: flex;
+    align-items: center;
+    gap: var(--_nys-radiobutton-gap);
     border-top: 1px solid var(--nys-color-danger, #b52c2c);
     margin-top: var(--nys-spacing, 0.75rem);
     padding-top: var(--nys-spacing, 0.75rem);

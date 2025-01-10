@@ -14,6 +14,23 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  private static readonly VALID_SIZES = ["sm", "md"] as const;
+  private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
+
+  // Getter and setter for the `width` property.
+  @property({ reflect: true })
+  get size(): (typeof NysRadiogroup.VALID_SIZES)[number] {
+    return this._size;
+  }
+
+  set size(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._size = NysRadiogroup.VALID_SIZES.includes(
+      value as (typeof NysRadiogroup.VALID_SIZES)[number],
+    )
+      ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
+      : "md";
+  }
 
   static styles = styles;
 
@@ -23,6 +40,15 @@ export class NysRadiogroup extends LitElement {
     if (!this.id) {
       this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
     }
+    this.updateRadioButtonsSize();
+
+  }
+
+  private updateRadioButtonsSize() {
+    const radioButtons = this.querySelectorAll('nys-radiobutton');
+    radioButtons.forEach((radioButton) => {
+      radioButton.setAttribute('size', this.size);
+    });
   }
 
   render() {
@@ -47,7 +73,7 @@ export class NysRadiogroup extends LitElement {
       </div>
       ${this.showError && this.errorMessage
         ? html`<div class="nys-radiobutton__error">
-            <nys-icon name="error"></nys-icon>
+            <nys-icon name="error" size="xl"></nys-icon>
             ${this.errorMessage}
           </div>`
         : ""}
