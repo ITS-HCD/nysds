@@ -16,7 +16,6 @@ export class NysToggle extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -47,7 +46,7 @@ export class NysToggle extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${toggleIdCounter++}`;
+      this.id = `nys-toggle-${Date.now()}-${toggleIdCounter++}`;
     }
   }
 
@@ -106,11 +105,9 @@ export class NysToggle extends LitElement {
               form=${this.form}
               .checked=${this.checked}
               ?disabled=${this.disabled}
-              ?required="${this.required}"
               role="switch"
-              aria-checked="${this.checked}"
-              aria-disabled="${this.disabled}"
-              aria-required="${this.required}"
+              aria-checked="${this.checked ? "true" : "false"}"
+              aria-disabled="${this.disabled ? "true" : "false"}"
               @change=${this._handleChange}
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
@@ -123,7 +120,6 @@ export class NysToggle extends LitElement {
                   : html`<nys-icon
                       class="toggle-icon"
                       name="${this.checked ? "check" : "close"}"
-                      size="xs"
                     ></nys-icon>`}
               </div>
             </span>

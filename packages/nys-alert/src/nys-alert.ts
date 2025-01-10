@@ -14,17 +14,17 @@ export class NysAlert extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
-  @property({ type: Boolean }) isSlim = false;
   @property({ type: Boolean }) dismissible = false;
   @property({ type: Number }) duration = 0;
   @property({ type: String }) text = "";
 
   @state() private _alertClosed = false;
   private static readonly VALID_TYPES = [
+    "base",
     "info",
-    "warning",
     "success",
-    "error",
+    "warning",
+    "danger",
     "emergency",
   ] as const;
   private _theme: (typeof NysAlert.VALID_TYPES)[number] = "info";
@@ -39,12 +39,13 @@ export class NysAlert extends LitElement {
       value as (typeof NysAlert.VALID_TYPES)[number],
     )
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
-      : "info";
+      : "base";
   }
 
+  // Aria attributes based on the theme
   get ariaAttributes() {
     const ariaRole =
-      this.theme === "error" || this.theme === "emergency"
+      this.theme === "danger" || this.theme === "emergency"
         ? "alert"
         : this.theme === "success"
           ? "status"
@@ -98,12 +99,17 @@ export class NysAlert extends LitElement {
 
   private _checkAltNaming() {
     // map 'success' to 'check_circle'
-    return this.theme === "success" ? "check_circle" : this.theme;
+    return this.theme === "success"
+      ? "check_circle"
+      : this.theme === "base"
+        ? "info"
+        : this.theme === "danger"
+          ? "error"
+          : this.theme;
   }
 
   private _closeAlert() {
     this._alertClosed = true;
-
     /* Dispatch a custom event for the close action:
      * allows bubbling up so if developers wish to implement a local save to remember closed alerts.
      */
@@ -116,22 +122,36 @@ export class NysAlert extends LitElement {
     );
   }
 
+  private hasSlotContent(): boolean {
+    const slot = this.shadowRoot?.querySelector('slot[name="text"]');
+    if (slot !== null) {
+      return (slot as HTMLSlotElement).assignedNodes().length > 0;
+    }
+    return false;
+  }
+
   render() {
     const { role, ariaLabel } = this.ariaAttributes;
+
+    // Helper function to determine if the slot is empty
+    const isSlotEmpty =
+      typeof this.text === "string" &&
+      this.text.trim() === "" &&
+      !this.hasSlotContent();
 
     return html`
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container nys-alert--${this.theme}"
+            class="nys-alert__container ${isSlotEmpty
+              ? "nys-alert--centered"
+              : ""}"
             role=${role}
             aria-label=${ifDefined(
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
             )}
           >
-            <div
-              class="nys-alert__icon ${this.isSlim ? "nys-alert--slim" : ""}"
-            >
+            <div part="nys-alert__icon" class="nys-alert__icon">
               <nys-icon
                 name="${this._getIconName()}"
                 size="2xl"
@@ -139,10 +159,8 @@ export class NysAlert extends LitElement {
               ></nys-icon>
             </div>
             <div class="nys-alert__text">
-              ${this.isSlim
-                ? ""
-                : html`<h4 class="nys-alert__label">${this.heading}</h4>`}
-              <slot name="text">${this.text}</slot>
+              <h4 class="nys-alert__label">${this.heading}</h4>
+              ${!isSlotEmpty ? html`<slot name="text">${this.text}</slot>` : ""}
             </div>
             ${this.dismissible
               ? html`<div class="close-container">

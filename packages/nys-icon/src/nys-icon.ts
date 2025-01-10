@@ -1,4 +1,4 @@
-import { LitElement } from "lit";
+import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
@@ -83,7 +83,8 @@ export class NysIcon extends LitElement {
   }
 
   render() {
-    return this.getIcon();
+    const icon = this.getIcon();
+    return icon ? html`${icon}` : null;
   }
 }
 
