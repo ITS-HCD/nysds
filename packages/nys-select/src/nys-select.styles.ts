@@ -146,7 +146,7 @@ export default css`
   }
 
   .nys-select__requiredwrapper {
-    display: flex;
+    display: inline;
   }
 
   /* Label styling */

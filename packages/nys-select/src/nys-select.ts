@@ -97,42 +97,37 @@ export class NysSelect extends LitElement {
               ? html`<label class="nys-select__required">*</label>`
               : ""}
           </div>
-          <label for=${this.id} class="nys-select__description">
+          <div class="nys-select__description">
             ${this.description}
             <slot name="description"></slot>
-          </label>
-        </div>`}
-        <div class="nys-select__requiredwrapper">
-          <div class="nys-select__selectwrapper">
-            <select
-              class=${this.showError
-                ? "nys-select__select nys-select__selecterror"
-                : "nys-select__select"}
-              name=${this.name}
-              id=${this.id}
-              ?disabled=${this.disabled}
-              ?required=${this.required}
-              aria-disabled="${this.disabled}"
-              aria-label="${this.label} ${this.description}"
-              value=${this.value}
-              @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
-            >
-              <option hidden disabled selected value></option>
-            </select>
-            <slot
-              @slotchange="${this._handleSlotChange}"
-              style="display: none;"
-            ></slot>
-            <nys-icon
-              name="chevron_down"
-              size="lg"
-              class="nys-select__icon"
-            ></nys-icon>
           </div>
-          ${this.required && !this.label
-            ? html`<label class="nys-select__required">*</label>`
-            : ""}
+        </div>`}
+        <div class="nys-select__selectwrapper">
+          <select
+            class=${this.showError
+              ? "nys-select__select nys-select__selecterror"
+              : "nys-select__select"}
+            name=${this.name}
+            id=${this.id}
+            ?disabled=${this.disabled}
+            ?required=${this.required}
+            aria-disabled="${this.disabled}"
+            aria-label="${this.label} ${this.description}"
+            value=${this.value}
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+          >
+            <option hidden disabled selected value></option>
+          </select>
+          <slot
+            @slotchange="${this._handleSlotChange}"
+            style="display: none;"
+          ></slot>
+          <nys-icon
+            name="chevron_down"
+            size="lg"
+            class="nys-select__icon"
+          ></nys-icon>
         </div>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-select__error">
