@@ -16,8 +16,13 @@ export default css`
       )
     );
     --_nys-select-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-select-font-weight-400: var(--nys-font-weight-regular, 400);
+    --_nys-select-font-weight-600: var(--nys-font-weight-semibold, 600);
     --_nys-select-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-select-gap: var(--nys-space-50, 4px);
+    --_nys-select-margin: var(--nys-space-50, 4px);
+    --_nys-select-gap: var(--nys-space-100, 8px);
+    --_nys-select-radius: var(--nys-radius-md, var(--nys-space-50, 4px));
+    --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px) var(--nys-space-100, 8px) var(--nys-space-100, 8px);
 
     /* Global Select Colors */
     --_nys-select-color: var(
@@ -32,16 +37,16 @@ export default css`
     --_nys-select-bg-disabled-color: var(--nys-color-neutral-50, #ededed);
     --_nys-select-icon-disabled-color: var(--nys-color-neutral-300, #a7a9ab);
 
-    /* Select Outline States */
-    --_nys-select-outline-default: solid var(--nys-border-width-sm, 1px)
+    /* Select Outline & Border States */
+    --_nys-select-border-default: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-400, #909395);
-    --_nys-select-outline-focus: solid var(--nys-border-width-md, 2px)
+    --_nys-select-border-focus: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-focus, var(--nys-color-blue-600, #004dd1));
-    --_nys-select-outline-disabled: solid var(--nys-border-width-sm, 1px)
+    --_nys-select-border-disabled: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-200, #bec0c1);
-    --_nys-select-outline-hover: solid var(--nys-border-width-md, 2px)
+    --_nys-select-border-hover: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-900, #1b1b1b);
-    --_nys-select-outline-error: solid var(--nys-border-width-md, 2px)
+    --_nys-select-border-error: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-danger, var(--nys-color-red-600, #b52c2c));
   }
 
@@ -50,19 +55,18 @@ export default css`
     flex-direction: column;
     gap: var(--_nys-select-gap);
     font-family: var(--_nys-select-font-family);
+    color: var(--_nys-select-color);
     width: -webkit-fill-available;
     width: -moz-available;
     width: fill-available;
   }
 
   .nys-select__select {
-    color: var(--_nys-select-color);
-    font-weight: var(--_nys-select-font-weight);
-    border-radius: 0.25rem;
-    border: 0;
-    outline: var(--_nys-select-outline-default);
+    font-weight: var(--_nys-select-font-weight-400);
+    border-radius: var(--_nys-select-radius);
+    border: var(--_nys-select-border-default);
     font-size: var(--_nys-select-font-size);
-    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    padding: var(--_nys-select-padding);
     width: var(--_nys-select-form-width);
     min-width: var(--_nys-select-form-width);
     max-width: var(--_nys-select-form-width);
@@ -103,31 +107,32 @@ export default css`
 
   :host([width="full"]) {
     --_nys-select-form-width: 100%;
-    width: -webkit-fill-available;
-    width: -moz-available;
-    width: fill-available;
   }
 
   /* Hover */
   .nys-select__select:hover:not(:disabled) {
     cursor: pointer;
-    outline: var(--_nys-select-outline-hover);
+    border: var(--_nys-select-border-hover);
+    outline: var(--_nys-select-border-hover);
+
   }
 
   /* Focused */
   .nys-select__select:focus {
-    outline: var(--_nys-select-outline-focus);
+    border: var(--_nys-select-border-focus);
+    outline: var(--_nys-select-border-focus);
   }
 
   /* When both focus and hover are active, prioritize focus */
   .nys-select__select:focus:hover {
-    outline: var(--_nys-select-outline-focus);
+    border: var(--_nys-select-border-focus);
+    outline: var(--_nys-select-border-focus);
   }
 
   /* Disabled */
   .nys-select__select:disabled {
     background-color: var(--_nys-select-bg-disabled-color);
-    outline: var(--_nys-select-outline-disabled);
+    border: var(--_nys-select-border-disabled);
     cursor: not-allowed;
   }
   .nys-select__select:disabled ~ .nys-select__icon {
@@ -136,8 +141,8 @@ export default css`
 
   /* Required */
   .nys-select__required {
-    color: red;
-    margin-left: 0.25rem;
+    color: var(--_nys-select-error-color);
+    margin-left: var(--_nys-select-margin);
   }
 
   .nys-select__requiredwrapper {
@@ -146,32 +151,31 @@ export default css`
 
   /* Label styling */
   .nys-select__text {
-    padding-bottom: 0.25rem;
+    padding-bottom: var(--_nys-select-margin);
   }
 
   .nys-select__label {
-    font-size: 16px;
-    font-weight: 400;
+    font-weight: var(--_nys-select-font-weight-600);
     color: var(--_nys-select-color);
   }
 
   /* Help text styling */
   .nys-select__description {
-    font-size: 12px;
-    color: var(--form-help-text-color, gray);
+    font-weight: var(--_nys-select-font-weight-400);
     font-style: italic;
   }
 
   /* Error Message Styling */
   .nys-select__error {
-    padding-top: 0.25rem;
+    margin-top: var(--_nys-select-margin);
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: var(--_nys-select-gap);
     color: var(--_nys-select-error-color);
   }
 
   .nys-select__selecterror {
-    outline: var(--_nys-select-outline-error); /* border of <select> */
+    border: var(--_nys-select-border-error);
+    outline: var(--_nys-select-border-error);
   }
 `;
