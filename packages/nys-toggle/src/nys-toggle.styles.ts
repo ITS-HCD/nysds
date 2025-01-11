@@ -105,6 +105,7 @@ export default css`
     position: relative;
     display: inline-block;
     width: var(--_nys-toggle-width);
+    min-width: var(--_nys-toggle-width);
     height: var(--_nys-toggle-height);
   }
 
