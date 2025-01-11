@@ -337,21 +337,21 @@ export const Size: Story = {
     <nys-radiogroup
       label="What is your primary work location?"
       description="This is the location you use for your in office days."
-      size="sm"
+      size="md"
       .required=${args.required}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <nys-radiobutton
-        .name=${args.name}
-        .checked=${args.checked}
-        .label=${args.label}
-        .description=${args.description}
+        .name=${"office"}
+        .checked=${true}
+        .label=${"Albany"}
+        .description=${"Upstate New York"}
         .disabled=${args.disabled}
-        .value=${args.value}
+        .value=${"albany"}
       ></nys-radiobutton>
       <nys-radiobutton
-        .name=${args.name}
+        .name=${"office"}
         .checked=${false}
         .label=${"Manhattan"}
         .description=${"New York City"}
@@ -359,30 +359,34 @@ export const Size: Story = {
         .value=${"manhattan"}
       ></nys-radiobutton>
     </nys-radiogroup>
-    <hr>
+    <br />
+    <hr />
+    <br />
     <nys-radiogroup
-      label="What is your primary work location?"
-      description="This is the location you use for your in office days."
-      size="md"
+      label="Select your agency"
+      description="This is the agency, department, or office you work for."
+      size="sm"
       .required=${args.required}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
       <nys-radiobutton
-        .name=${args.name}
-        .checked=${args.checked}
-        .label=${args.label}
-        .description=${args.description}
-        .disabled=${args.disabled}
-        .value=${args.value}
+        .name=${"agency"}
+        .checked=${true}
+        .label=${"Department of Health"}
+        .value=${"doh"}
       ></nys-radiobutton>
       <nys-radiobutton
-        .name=${args.name}
+        .name=${"agency"}
         .checked=${false}
-        .label=${"Manhattan"}
-        .description=${"New York City"}
-        .disabled=${args.disabled}
-        .value=${"manhattan"}
+        .label=${"Office of Information Technology Services"}
+        .value=${"its"}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${"agency"}
+        .checked=${false}
+        .label=${"New York State Attorney General"}
+        .value=${"ag"}
       ></nys-radiobutton>
     </nys-radiogroup>
   `,
@@ -391,15 +395,17 @@ export const Size: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup 
+<nys-radiogroup
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
-  required
+  size="md"
 >
   <nys-radiobutton
     name="office"
+    checked
     label="Albany"
     description="Upstate New York"
+    disabled=args.disabled
     value="albany"
   ></nys-radiobutton>
   <nys-radiobutton
@@ -407,6 +413,31 @@ export const Size: Story = {
     label="Manhattan"
     description="New York City"
     value="manhattan"
+  ></nys-radiobutton>
+</nys-radiogroup>
+<br />
+<hr />
+<br />
+<nys-radiogroup
+  label="Select your agency"
+  description="This is the agency, department, or office you work for."
+  size="s
+>
+  <nys-radiobutton
+    .name="agency"
+    checked
+    .label="Department of Health"
+    .value="doh"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    .name="agency"
+    .label="Office of Information Technology Services"
+    .value="its"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    .name="agency"
+    .label="New York State Attorney General"
+    .value="ag"
   ></nys-radiobutton>
 </nys-radiogroup>
 `.trim(),
