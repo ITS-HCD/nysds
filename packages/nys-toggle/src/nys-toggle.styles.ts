@@ -170,14 +170,14 @@ export default css`
   }
 
   /* Switch BG: Active */
-  input:active + .slider {
+  input:active:not(:disabled) + .slider {
     background-color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
     outline: solid var(--_nys-toggle-border-width-focus)
       var(--_nys-toggle-border-focus-color);
   }
 
   /* Switch BG: Active + Checked */
-  input:active:checked + .slider {
+  input:active:not(:disabled):checked + .slider {
     background-color: var(--_nys-toggle-color-theme-stronger, #081b2b);
   }
 
