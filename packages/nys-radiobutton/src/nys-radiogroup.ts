@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
@@ -14,6 +14,9 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  // State for storing the selected name and value for form-controller use
+  @state() private selectedName: string | null = null;
+  @state() private selectedValue: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
 
@@ -41,14 +44,31 @@ export class NysRadiogroup extends LitElement {
       this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
     }
     this.updateRadioButtonsSize();
-
+    this.addEventListener("change", this._handleRadioButtonChange);
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("change", this._handleRadioButtonChange);
+  }
+
+  // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
   private updateRadioButtonsSize() {
     const radioButtons = this.querySelectorAll('nys-radiobutton');
     radioButtons.forEach((radioButton) => {
       radioButton.setAttribute('size', this.size);
     });
+  }
+
+  // Keeps radiogroup informed of the name and value of its current selected radiobutton
+  private _handleRadioButtonChange(event: Event) {
+    const customEvent = event as CustomEvent;
+    const { name, value } = customEvent.detail;
+
+    this.selectedName = name;
+    this.selectedValue = value;
+    console.log("you have selected:", this.selectedName, this.selectedValue);
+
   }
 
   render() {

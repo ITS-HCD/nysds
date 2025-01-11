@@ -17,7 +17,8 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) value = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
-  // Getter and setter for the `width` property.
+
+  // Getter and setter for the `size` property.
   @property({ reflect: true })
   get size(): (typeof NysRadiobutton.VALID_SIZES)[number] {
     return this._size;
@@ -66,17 +67,26 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
-  // Handle radiobutton change event
-  private _handleChange(e: Event) {
-    const { checked } = e.target as HTMLInputElement;
-    this.checked = checked;
-    this.dispatchEvent(
-      new CustomEvent("change", {
-        detail: { checked: this.checked },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+  // Handle radiobutton change event & unselection of other options in group
+  private _handleChange() {
+    if (!this.checked) {
+      if (NysRadiobutton.buttonGroup[this.name]) {
+        NysRadiobutton.buttonGroup[this.name].checked = false;
+        NysRadiobutton.buttonGroup[this.name].requestUpdate();
+      }
+
+      NysRadiobutton.buttonGroup[this.name] = this;
+      this.checked = true;
+
+      // Dispatch a change event with the name and value
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: { checked: this.checked, name: this.name, value: this.value },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    }
   }
 
   // Handle focus event
@@ -103,25 +113,12 @@ export class NysRadiobutton extends LitElement {
         this.checked = true;
         this.dispatchEvent(
           new CustomEvent("change", {
-            detail: { checked: this.checked },
+            detail: { checked: this.checked, name: this.name, value: this.value },
             bubbles: true,
             composed: true,
           }),
         );
       }
-    }
-  }
-
-  // Handle unselection of other options in group
-  private _handleClick() {
-    if (!this.checked) {
-      if (NysRadiobutton.buttonGroup[this.name]) {
-        NysRadiobutton.buttonGroup[this.name].checked = false;
-        NysRadiobutton.buttonGroup[this.name].requestUpdate();
-      }
-
-      NysRadiobutton.buttonGroup[this.name] = this;
-      this.checked = true;
     }
   }
 
@@ -137,14 +134,13 @@ export class NysRadiobutton extends LitElement {
           ?disabled=${this.disabled}
           .value=${this.value}
           ?required="${this.required}"
-          aria-checked="${this.checked}"
-          aria-disabled="${this.disabled}"
-          aria-required="${this.required}"
+          aria-checked="${this.checked ? "true" : "false"}"
+          aria-disabled="${this.disabled ? "true" : "false"}"
+          aria-required="${this.required ? "true" : "false"}"
           @change="${this._handleChange}"
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
           @keydown="${this._handleKeydown}"
-          @click="${this._handleClick}"
         />
         ${this.label &&
         html` <div class="nys-radiobutton__text">
