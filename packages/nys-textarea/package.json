@@ -22,7 +22,7 @@
         "lit": "^3.2.1"
     },
     "dependencies": {
-        "@nys-excelsior/nys-icon": "^0.0.5-alpha"
+        "@nys-excelsior/nys-icon": "^0.0.7-alpha"
       },
     "devDependencies": {
       "lit": "^3.2.1",
