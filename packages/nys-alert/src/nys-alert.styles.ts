@@ -80,20 +80,16 @@ export default css`
   }
 
   /* Links */
-  a:any-link,
+  a,
   a:active,
   a:hover {
     font-weight: var(--_nys-font-weight-semibold);
     font-size: var(--_nys-alert-font-size);
-    color: var(--_nys-alert-link-color) important!;
+    color: var(--_nys-alert-link-color);
   }
 
   /* For HTML elements put into the slot */
   ::slotted(a) {
-    color: var(--_nys-alert-link-color);
-  }
-
-  slot[name="text"] a {
     color: var(--_nys-alert-link-color);
   }
 
