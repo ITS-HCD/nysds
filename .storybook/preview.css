@@ -38,3 +38,27 @@ body {
     text-decoration: underline !important;
     font-weight: bold;
 }
+
+/* Layout grid page */
+
+  .docs-grid-example .nys-grid-row {
+    margin-top: 1em;
+    font-family:'Courier New', Courier, monospace;
+  }
+
+  .docs-grid-example [class*="nys-grid-col"] {
+    background-color: lightgray;
+    text-align: center;
+  }
+
+
+  .docs-grid-example .nys-grid-row:not([class*="nys-grid-gap"]) [class*="nys-grid-col"] {
+    border: 1px solid;
+    padding: 2em;
+  }
+
+  .docs-grid-example [class*="nys-grid-gap"] [class*="nys-grid-col"] > * {
+    background-color: color("white");
+    border: 1px solid;
+    padding: 2em;
+  }
