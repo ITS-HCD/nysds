@@ -17,19 +17,31 @@ export default css`
     --_nys-radiobutton-color-bg: var(--nys-color-ink-reverse, #ffffff);
     --_nys-radiobutton-color-border: var(--nys-color-neutral-600, #62666a);
     /* Empty + Hovered */
-    --_nys-radiobutton-hover-color-bg: var(--nys-color-neutral-50, #EDEDED);
-    --_nys-radiobutton-hover-color-border: var(--nys-color-ink, #1B1B1B);
+    --_nys-radiobutton-hover-color-bg: var(--nys-color-neutral-50, #ededed);
+    --_nys-radiobutton-hover-color-border: var(--nys-color-ink, #1b1b1b);
     /* Empty + Pressed */
-    --_nys-radiobutton-pressed-color-bg: var(--nys-color-neutral-100, #D0D0CE);
-    --_nys-radiobutton-pressed-color-border: var(--nys-color-ink, #1B1B1B);
+    --_nys-radiobutton-pressed-color-bg: var(--nys-color-neutral-100, #d0d0ce);
+    --_nys-radiobutton-pressed-color-border: var(--nys-color-ink, #1b1b1b);
     /* Checked */
     --_nys-radiobutton-checked-color-bg: var(--nys-color-theme, #154973);
     /* Checked + Hovered */
-    --_nys-radiobutton-checked-hover-color-bg: var(--nys-color-theme-strong, var(--nys-color-state-blue-800, #0e324f));
-    --_nys-radiobutton-checked-hover-color-border: var(--nys-color-ink, #1B1B1B);
+    --_nys-radiobutton-checked-hover-color-bg: var(
+      --nys-color-theme-strong,
+      var(--nys-color-state-blue-800, #0e324f)
+    );
+    --_nys-radiobutton-checked-hover-color-border: var(
+      --nys-color-ink,
+      #1b1b1b
+    );
     /* Checked + Pressed */
-    --_nys-radiobutton-checked-pressed-color-bg: var(--nys-color-theme-strong, var(--nys-color-state-blue-800, #0e324f));
-    --_nys-radiobutton-checked-pressed-color-border: var(--nys-color-ink, #1B1B1B);
+    --_nys-radiobutton-checked-pressed-color-bg: var(
+      --nys-color-theme-strong,
+      var(--nys-color-state-blue-800, #0e324f)
+    );
+    --_nys-radiobutton-checked-pressed-color-border: var(
+      --nys-color-ink,
+      #1b1b1b
+    );
     /* Disabled */
     --_nys-radiobutton-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
     --_nys-radiobutton-disabled-color-border: var(

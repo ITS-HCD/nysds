@@ -84,7 +84,7 @@ export class NysRadiobutton extends LitElement {
           detail: { checked: this.checked, name: this.name, value: this.value },
           bubbles: true,
           composed: true,
-        })
+        }),
       );
     }
   }
@@ -113,7 +113,11 @@ export class NysRadiobutton extends LitElement {
         this.checked = true;
         this.dispatchEvent(
           new CustomEvent("change", {
-            detail: { checked: this.checked, name: this.name, value: this.value },
+            detail: {
+              checked: this.checked,
+              name: this.name,
+              value: this.value,
+            },
             bubbles: true,
             composed: true,
           }),

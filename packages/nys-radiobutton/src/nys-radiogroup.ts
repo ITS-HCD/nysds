@@ -28,11 +28,16 @@ export class NysRadiogroup extends LitElement {
 
   set size(value: string) {
     // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
-    this._size = NysRadiogroup.VALID_SIZES.includes(
+    const newSize = NysRadiogroup.VALID_SIZES.includes(
       value as (typeof NysRadiogroup.VALID_SIZES)[number],
     )
       ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
       : "md";
+
+    if (newSize !== this.size) {
+      this._size = newSize;
+      this.updateRadioButtonsSize();
+    }
   }
 
   static styles = styles;
@@ -43,7 +48,6 @@ export class NysRadiogroup extends LitElement {
     if (!this.id) {
       this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
     }
-    this.updateRadioButtonsSize();
     this.addEventListener("change", this._handleRadioButtonChange);
   }
 
@@ -54,9 +58,9 @@ export class NysRadiogroup extends LitElement {
 
   // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
   private updateRadioButtonsSize() {
-    const radioButtons = this.querySelectorAll('nys-radiobutton');
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
-      radioButton.setAttribute('size', this.size);
+      radioButton.setAttribute("size", this.size);
     });
   }
 
@@ -68,7 +72,6 @@ export class NysRadiogroup extends LitElement {
     this.selectedName = name;
     this.selectedValue = value;
     console.log("you have selected:", this.selectedName, this.selectedValue);
-
   }
 
   render() {
