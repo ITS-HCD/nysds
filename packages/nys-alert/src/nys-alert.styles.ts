@@ -7,10 +7,7 @@ export default css`
     --_nys-alert-border-radius: var(--nys-radius-md, 4px);
     --_nys-alert-hover-border-radius: var(--nys-radius-sm, 2px);
     --_nys-alert-color: var(--nys-color-ink, #1b1b1b);
-    --_nys-alert-hover-button-color: var(
-      --nys-color-black-transparent-100,
-      #0000001a
-    );
+    --_nys-alert-link-color: var(--nys-color-ink, #1b1b1b);
     --_nys-alert-spacing: var(--nys-space-250, 20px);
     --_nys-alert-font-family: var(
       --nys-font-family-ui,
@@ -29,8 +26,20 @@ export default css`
     --_nys-font-weight-regular: var(--nys-font-weight-regular, 400);
     --_nys-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 
-    /* Dissmiss button sizes */
+    /* Dissmiss button */
     --_nys-alert-close-button-size: var(--nys-font-size-2xl, 22px);
+    --_nys-alert-hover-button-color: var(
+      --nys-color-black-transparent-100,
+      #0000001a
+    );
+    --_nys-alert-active-button-color: var(
+      --nys-color-black-transparent-200,
+      #00000033
+    );
+    --_nys-alert-active-button-icon-color: var(
+      --nys-color-neutral-700,
+      #4a4d4f
+    );
 
     /* Border specifics */
     --_nys-alert-color-border-left: var(
@@ -43,11 +52,18 @@ export default css`
       --nys-color-neutral-weak,
       var(--nys-color-neutral-10, #f6f6f6)
     );
+
+    /* Theme Icon */
+    --_nys-alert-gap-space: var(--nys-space-150, 12px);
   }
 
   .nys-alert__icon {
-    margin-top: 1.5px;
-    margin-right: 0.8rem;
+    margin-top: 1.5px; /* this margin is to just better align the icon with the texts */
+  }
+
+  /* For HTML elements put into the slot */
+  ::slotted(a) {
+    color: var(--_nys-alert-link-color);
   }
 
   .nys-alert__container {
@@ -63,12 +79,14 @@ export default css`
     font-size: var(--_nys-alert-font-size);
     line-height: var(--_nys-alert-lineheight);
     letter-spacing: var(--_nys-alert-letterspacing);
+    gap: var(--_nys-alert-gap-space);
   }
 
   .nys-alert__text {
     position: relative;
     display: flex;
     flex-direction: column;
+    flex: 1;
   }
 
   .nys-alert__label {
@@ -76,10 +94,12 @@ export default css`
     font-weight: var(--_nys-font-weight-semibold);
   }
 
+  /* For descriptions made with "text" prop that populated in the slot */
   slot[name="text"] {
     font-weight: var(--_nys-font-weight-regular);
     margin: 0;
   }
+  /* For HTML elements put into the slot */
   ::slotted(p) {
     font-weight: var(--_nys-font-weight-regular);
     margin: 0;
@@ -91,6 +111,7 @@ export default css`
   .close-button {
     width: var(--_nys-alert-close-button-size);
     height: var(--_nys-alert-close-button-size);
+    border-radius: var(--_nys-alert-hover-border-radius);
     background: none;
     border: none;
     display: flex;
@@ -100,8 +121,13 @@ export default css`
     color: currentColor;
   }
   .close-button:hover {
-    border-radius: var(--_nys-alert-hover-border-radius);
     background: var(--_nys-alert-hover-button-color);
+  }
+  .close-button:active {
+    background: var(--_nys-alert-active-button-color);
+  }
+  .close-button:active {
+    color: var(--_nys-alert-active-button-icon-color);
   }
 
   /* Centered variant: For no descriptions, we remove the <slot name="text"> via JS logic. In styling, centers the icon for a compact layout. */
@@ -144,5 +170,18 @@ export default css`
       --nys-color-white-transparent-100,
       #ffffff1a
     );
+    --_nys-alert-hover-button-color: var(
+      --nys-color-white-transparent-100,
+      #ffffff1a
+    );
+    --_nys-alert-active-button-color: var(
+      --nys-color-white-transparent-200,
+      #ffffff33
+    );
+    --_nys-alert-active-button-icon-color: var(
+      --nys-color-neutral-50,
+      #ededed
+    );
+    --_nys-alert-link-color: #fff;
   }
 `;
