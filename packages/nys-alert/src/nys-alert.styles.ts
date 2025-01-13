@@ -85,7 +85,7 @@ export default css`
   a:hover {
     font-weight: var(--_nys-font-weight-semibold);
     font-size: var(--_nys-alert-font-size);
-    color: var(--_nys-alert-link-color);
+    color: var(--_nys-alert-link-color) important!;
   }
 
   /* For HTML elements put into the slot */
@@ -97,7 +97,7 @@ export default css`
     color: var(--_nys-alert-link-color);
   }
 
-  .nys-alert__text {
+  .nys-alert__texts {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -105,7 +105,7 @@ export default css`
     gap: var(--_nys-alert-gap-space-50);
   }
 
-  .nys-alert__label {
+  .nys-alert__header {
     margin: 0;
     font-weight: var(--_nys-font-weight-semibold);
   }
@@ -151,7 +151,7 @@ export default css`
     display: flex;
     align-items: center;
   }
-  .nys-alert--centered .nys-alert__label {
+  .nys-alert--centered .nys-alert__header {
     margin: 0;
   }
   .nys-alert--centered div[part="nys-alert__icon"] {

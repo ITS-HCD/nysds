@@ -162,8 +162,8 @@ export class NysAlert extends LitElement {
                 label="${this.theme} icon"
               ></nys-icon>
             </div>
-            <div class="nys-alert__text">
-              <h4 class="nys-alert__label">${this.heading}</h4>
+            <div class="nys-alert__texts">
+              <h4 class="nys-alert__header">${this.heading}</h4>
               ${!isSlotEmpty ? html`<slot name="text">${this.text}</slot>` : ""}
               ${this.primaryAction || this.secondaryAction
                 ? html`<div class="nys-alert__actions">

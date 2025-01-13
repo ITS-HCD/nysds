@@ -236,7 +236,7 @@ export const Dismissible: Story = {
   theme="info" 
   heading="Information status" 
   dismissible>
-  <p slot="text">Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank"">https://www.ny.gov/</a> for more info.</p>
+  <p slot="text">Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
