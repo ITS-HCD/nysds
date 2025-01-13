@@ -8,11 +8,39 @@ export default css`
     --_nys-radiobutton-width-border: var(--nys-border-width-md, 2px);
     --_nys-radiobutton-color-focus: var(--nys-color-focus, #286ad8);
     --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-radiobutton-offset-focus: var(--nys-space-2px, 2px);
     --_nys-radiobutton-transition-duration: var(
       --nys-transition-duration-sm,
       0.1s
     );
     --_nys-radiobutton-gap: var(--nys-space-100, 8px);
+    --_nys-radiobutton-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
+    --_nys-radiobutton-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-radiobutton-font-weight-400: var(--nys-font-weight-regular, 400);
+    --_nys-radiobutton-font-weight-600: var(--nys-font-weight-semibold, 600);
+    --_nys-radiobutton-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-radiobutton-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
+
+    /* Global Radio Button Colors */
+    --_nys-radiobutton-color: var(
+      --nys-color-ink,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-radiobutton-error-color: var(
+      --nys-color-danger,
+      var(--nys-color-red-600, #b52c2c)
+    );
+
     /* Default (Empty) */
     --_nys-radiobutton-color-bg: var(--nys-color-ink-reverse, #ffffff);
     --_nys-radiobutton-color-border: var(--nys-color-neutral-600, #62666a);
@@ -70,12 +98,26 @@ export default css`
     --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
   }
 
+  .nys-radiogroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--_nys-radiobutton-gap);
+  }
+
+  .nys-radiogroup__content {
+    gap: var(--nys-spacing-200, 16px);
+    padding-top: var(--nys-spacing-200, 16px);
+    display: flex;
+    flex-direction: column;
+  }
+
   .nys-radiobutton {
     display: flex;
-    flex: 1;
-    flex-direction: row;
     align-items: center;
-    font-family: Arial, sans-serif;
+    font-family: var(--_nys-radiobutton-font-family);
+    font-size: var(--_nys-radiobutton-font-size);
+    line-height: var(--_nys-radiobutton-line-height);
+    gap: var(--_nys-radiobutton-gap);
   }
 
   .nys-radiobutton__radio {
@@ -84,10 +126,11 @@ export default css`
     height: var(--_nys-radiobutton-size);
     min-width: var(--_nys-radiobutton-size);
     min-height: var(--_nys-radiobutton-size);
+    max-width: var(--_nys-radiobutton-size);
+    max-height: var(--_nys-radiobutton-size);
     border: solid var(--_nys-radiobutton-width-border)
       var(--_nys-radiobutton-color-border);
     background-color: var(--_nys-radiobutton-color-bg);
-    outline-offset: 2px;
     cursor: pointer;
     border-radius: 100%;
     background-repeat: no-repeat;
@@ -121,7 +164,6 @@ export default css`
     background-color: var(--_nys-radiobutton-hover-color-bg);
   }
   .nys-radiobutton__radio:not(:disabled):checked:not(:focus):hover {
-    opacity: 0.3;
     border-color: var(--_nys-radiobutton-checked-hover-color-border);
     background-color: var(--_nys-radiobutton-checked-hover-color-bg);
   }
@@ -139,28 +181,28 @@ export default css`
 
   /* Focused */
   .nys-radiobutton__radio:focus {
-    opacity: 1;
     outline: solid var(--_nys-radiobutton-width-focus)
       var(--_nys-radiobutton-color-focus);
+    outline-offset: var(--_nys-radiobutton-offset-focus);
   }
 
   /* Radiobutton Label Holder */
   .nys-radiobutton__text {
-    margin: auto 0 auto var(--nys-spacing, 0.5rem);
+    line-height: var(--_nys-radiobutton-lineheight-ui);
+    display: flex;
+    flex-direction: column;
   }
 
   /* Label styling */
   .nys-radiobutton__label {
-    font-size: var(--nys-font-size-ui-md, 16px);
-    font-weight: var(--nys-font-weight-regular, 400);
-    color: var(--nys-color-ink, #1b1b1b);
+    font-weight: var(--_nys-radiobutton-font-weight-600);
+    color: var(--_nys-radiobutton-color);
   }
 
   /* Help text styling */
   .nys-radiobutton__description {
-    font-size: var(--nys-font-size-sm, 14px);
-    font-weight: var(--nys-font-weight-light, 300);
-    color: var(--nys-color-neutral-700, #4a4d4f);
+    font-weight: var(--_nys-radiobutton-font-weight-400);
+    font-style: italic;
   }
 
   /* Disabled label */
@@ -172,12 +214,12 @@ export default css`
 
   /* Required */
   .nys-radiobutton__required {
-    color: var(--nys-color-danger, #b52c2c);
-    margin-left: var(--nys-spacing, 0.25rem);
+    color: var(--_nys-radiobutton-error-color);
+    margin-left: var(--_nys-select-margin);
   }
 
   .nys-radiobutton__requiredwrapper {
-    display: flex;
+    display: inline;
   }
 
   /* Error Message Styling */
@@ -185,17 +227,10 @@ export default css`
     display: flex;
     align-items: center;
     gap: var(--_nys-radiobutton-gap);
-    border-top: 1px solid var(--nys-color-danger, #b52c2c);
-    margin-top: var(--nys-spacing, 0.75rem);
-    padding-top: var(--nys-spacing, 0.75rem);
-    color: var(--nys-color-danger, #b52c2c);
-    margin-left: var(--nys-spacing, 0.25rem);
-  }
+    color: var(--_nys-radiobutton-error-color);
 
-  .nys-radiogroup__content {
-    gap: var(--nys-spacing-200, 16px);
-    padding-top: var(--nys-spacing-200, 16px);
-    display: flex;
-    flex-direction: column;
+    /* add divider line */
+    border-top: 1px solid var(--_nys-radiobutton-error-color);
+    padding-top: var(--_nys-radiobutton-gap);
   }
 `;

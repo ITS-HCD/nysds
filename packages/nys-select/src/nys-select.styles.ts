@@ -19,12 +19,12 @@ export default css`
     --_nys-select-font-weight-400: var(--nys-font-weight-regular, 400);
     --_nys-select-font-weight-600: var(--nys-font-weight-semibold, 600);
     --_nys-select-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-select-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-select-margin: var(--nys-space-50, 4px);
     --_nys-select-gap: var(--nys-space-100, 8px);
     --_nys-select-radius: var(--nys-radius-md, var(--nys-space-50, 4px));
     --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px)
       var(--nys-space-100, 8px) var(--nys-space-100, 8px);
-    --_nys-select-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
 
     /* Global Select Colors */
     --_nys-select-color: var(
@@ -150,7 +150,7 @@ export default css`
   .nys-select__text {
     line-height: var(--_nys-select-lineheight-ui);
   }
-  
+
   .nys-select__label {
     font-weight: var(--_nys-select-font-weight-600);
     color: var(--_nys-select-color);
