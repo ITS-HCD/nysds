@@ -153,7 +153,7 @@ export default css`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%, -25%, 0);
+    transform: translate3d(-50%, -35%, 0); /* Centering the icon visually */
     pointer-events: none;
     color: white;
   }
