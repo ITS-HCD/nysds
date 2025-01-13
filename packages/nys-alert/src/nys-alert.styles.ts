@@ -6,8 +6,8 @@ export default css`
     --_nys-alert-border-width: var(--nys-border-width-lg, 4px);
     --_nys-alert-border-radius: var(--nys-radius-md, 4px);
     --_nys-alert-hover-border-radius: var(--nys-radius-sm, 2px);
-    --_nys-alert-color: var(--nys-color-ink, #1b1b1b);
-    --_nys-alert-link-color: var(--nys-color-ink, #1b1b1b);
+    --_nys-alert-color: var(--nys-color-ink, var(--nys-color-neutral-900, #1b1b1b));
+    --_nys-alert-link-color: var(--nys-color-link, var(--nys-color-blue-600, #004dd1));
     --_nys-alert-spacing: var(--nys-space-250, 20px);
     --_nys-alert-font-family: var(
       --nys-font-family-ui,
