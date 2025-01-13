@@ -67,6 +67,7 @@ export const Basic: Story = {
       size=${args.size}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .required=${args.required}
     >
       <nys-radiobutton
         .name=${args.name}
@@ -421,7 +422,7 @@ export const Size: Story = {
 <nys-radiogroup
   label="Select your agency"
   description="This is the agency, department, or office you work for."
-  size="s
+  size="sm"
 >
   <nys-radiobutton
     .name="agency"

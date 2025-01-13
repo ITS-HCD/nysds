@@ -28,16 +28,11 @@ export class NysRadiogroup extends LitElement {
 
   set size(value: string) {
     // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
-    const newSize = NysRadiogroup.VALID_SIZES.includes(
+    this._size = NysRadiogroup.VALID_SIZES.includes(
       value as (typeof NysRadiogroup.VALID_SIZES)[number],
     )
       ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
       : "md";
-
-    if (newSize !== this.size) {
-      this._size = newSize;
-      this.updateRadioButtonsSize();
-    }
   }
 
   static styles = styles;
@@ -54,6 +49,25 @@ export class NysRadiogroup extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("change", this._handleRadioButtonChange);
+  }
+
+  updated(changedProperties: Map<string | symbol, unknown>) {
+    if (changedProperties.has("required")) {
+      this.updateRadioButtonsRequire();
+    }
+    if (changedProperties.has("size")) {
+      this.updateRadioButtonsSize();
+    }
+  }
+
+  // Updates the "require" attribute of a radiobutton underneath a radiogroup to ensure requirement for all radiobutton under the same name/group
+  private updateRadioButtonsRequire() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton, index) => {
+      if (this.required && index === 0) {
+        radioButton.setAttribute("required", "required");
+      }
+    });
   }
 
   // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
