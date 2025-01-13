@@ -54,18 +54,15 @@ export default css`
     );
 
     /* Theme Icon */
-    --_nys-alert-gap-space: var(--nys-space-150, 12px);
+    --_nys-alert-gap-space-150: var(--nys-space-150, 12px);
+    --_nys-alert-gap-space-50: var(--nys-space-50, 4px);
   }
 
   .nys-alert__icon {
     margin-top: 1.5px; /* this margin is to just better align the icon with the texts */
   }
 
-  /* For HTML elements put into the slot */
-  ::slotted(a) {
-    color: var(--_nys-alert-link-color);
-  }
-
+  /* Main alert container */
   .nys-alert__container {
     display: flex;
     background-color: var(--_nys-alert-color-bg);
@@ -79,7 +76,25 @@ export default css`
     font-size: var(--_nys-alert-font-size);
     line-height: var(--_nys-alert-lineheight);
     letter-spacing: var(--_nys-alert-letterspacing);
-    gap: var(--_nys-alert-gap-space);
+    gap: var(--_nys-alert-gap-space-150);
+  }
+
+  /* Links */
+  a:any-link,
+  a:active,
+  a:hover {
+    font-weight: var(--_nys-font-weight-semibold);
+    font-size: var(--_nys-alert-font-size);
+    color: var(--_nys-alert-link-color);
+  }
+
+  /* For HTML elements put into the slot */
+  ::slotted(a) {
+    color: var(--_nys-alert-link-color);
+  }
+
+  slot[name="text"] a {
+    color: var(--_nys-alert-link-color);
   }
 
   .nys-alert__text {
@@ -87,6 +102,7 @@ export default css`
     display: flex;
     flex-direction: column;
     flex: 1;
+    gap: var(--_nys-alert-gap-space-50);
   }
 
   .nys-alert__label {
@@ -145,6 +161,12 @@ export default css`
     justify-content: center;
   }
 
+  /* Action Statement */
+  .nys-alert__actions {
+    display: flex;
+    gap: var(--_nys-alert-gap-space-150);
+  }
+
   /* Alert Types */
   :host([theme="info"]) {
     --_nys-alert-color-border-left: var(--nys-color-info, #154973);
@@ -178,10 +200,7 @@ export default css`
       --nys-color-white-transparent-200,
       #ffffff33
     );
-    --_nys-alert-active-button-icon-color: var(
-      --nys-color-neutral-50,
-      #ededed
-    );
+    --_nys-alert-active-button-icon-color: var(--nys-color-neutral-50, #ededed);
     --_nys-alert-link-color: #fff;
   }
 `;

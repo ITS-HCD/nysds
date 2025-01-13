@@ -17,6 +17,10 @@ export class NysAlert extends LitElement {
   @property({ type: Boolean }) dismissible = false;
   @property({ type: Number }) duration = 0;
   @property({ type: String }) text = "";
+  @property({ type: String }) primaryAction = "";
+  @property({ type: String }) secondaryAction = "";
+  @property({ type: String }) primaryLabel = "Learn more";
+  @property({ type: String }) secondaryLabel = "Dismiss";
 
   @state() private _alertClosed = false;
   private static readonly VALID_TYPES = [
@@ -161,6 +165,26 @@ export class NysAlert extends LitElement {
             <div class="nys-alert__text">
               <h4 class="nys-alert__label">${this.heading}</h4>
               ${!isSlotEmpty ? html`<slot name="text">${this.text}</slot>` : ""}
+              ${this.primaryAction || this.secondaryAction
+                ? html`<div class="nys-alert__actions">
+                    ${this.primaryAction
+                      ? html`<a
+                          href=${ifDefined(this.primaryAction || undefined)}
+                          class="nys-alert__action nys-alert__primary"
+                        >
+                          ${this.primaryLabel}
+                        </a>`
+                      : ""}
+                    ${this.secondaryAction
+                      ? html`<a
+                          href=${ifDefined(this.secondaryAction || undefined)}
+                          class="nys-alert__action nys-alert__secondary"
+                        >
+                          ${this.secondaryLabel}
+                        </a>`
+                      : ""}
+                  </div> `
+                : ""}
             </div>
             ${this.dismissible
               ? html`<div class="close-container">
