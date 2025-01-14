@@ -18,8 +18,8 @@ export default css`
       12px
     ); /* space between radio and it's label */
     --_nys-radiogroup-gap: var(
-      --nys-space-200,
-      16px
+      --nys-space-50,
+      4px
     ); /* space between radio buttons */
 
     /* Typography */
