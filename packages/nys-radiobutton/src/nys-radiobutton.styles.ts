@@ -128,7 +128,6 @@ export default css`
     font-family: var(--_nys-radiobutton-font-family);
     font-size: var(--_nys-radiobutton-font-size);
     line-height: var(--_nys-radiobutton-line-height);
-    gap: var(--_nys-radiobutton-gap);
   }
 
   .nys-radiobutton__radio {
@@ -149,11 +148,12 @@ export default css`
     margin-bottom: auto; /* Causes centered radio button if single line of label but top aligned if multiline */
   }
 
-  /* Pointer cursor for unchecked radio button */
+  /* Pointer cursor for unchecked radio button and its label on hover */
   .nys-radiobutton__radio:not(:checked),
   .nys-radiobutton__radio:not(:checked) + .nys-radiobutton__text:hover * {
     cursor: pointer;
   }
+
   /* Checked */
   .nys-radiobutton__radio:not(:disabled):checked {
     background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" stroke="white" stroke-width="6"/></svg>');
@@ -215,6 +215,10 @@ export default css`
   .nys-radiogroup__description {
     font-weight: var(--_nys-radiobutton-font-weight-400);
     font-style: italic;
+  }
+  .nys-radiobutton__label,
+  .nys-radiobutton__description {
+    margin-inline-start: var(--_nys-radiobutton-gap);
   }
 
   /* Disabled label */
