@@ -14,12 +14,12 @@ export default css`
       0.1s
     );
     --_nys-radiobutton-gap: var(
-      --nys-space-100,
-      8px
+      --nys-space-150,
+      12px
     ); /* space between radio and it's label */
     --_nys-radiogroup-gap: var(
-      --nys-space-200,
-      16px
+      --nys-space-50,
+      4px
     ); /* space between radio buttons */
 
     /* Typography */
@@ -100,6 +100,7 @@ export default css`
     --_nys-radiobutton-size: var(--nys-size-300, 24px);
     --_nys-radiobutton-radius: var(--nys-border-radius-sm, 2px);
     --_nys-radiogroup-gap: var(--nys-space-100, 8px);
+    --_nys-radiobutton-gap: var(--nys-space-100, 8px);
   }
   /* Medium Variant */
   :host([size="md"]) {
@@ -110,7 +111,7 @@ export default css`
   .nys-radiogroup {
     display: flex;
     flex-direction: column;
-    gap: var(--_nys-radiobutton-gap);
+    gap: var(--_nys-radiogroup-gap);
     font-family: var(--_nys-radiobutton-font-family);
     font-size: var(--_nys-radiobutton-font-size);
     line-height: var(--_nys-radiobutton-line-height);
@@ -128,7 +129,6 @@ export default css`
     font-family: var(--_nys-radiobutton-font-family);
     font-size: var(--_nys-radiobutton-font-size);
     line-height: var(--_nys-radiobutton-line-height);
-    gap: var(--_nys-radiobutton-gap);
   }
 
   .nys-radiobutton__radio {
@@ -142,12 +142,16 @@ export default css`
     border: solid var(--_nys-radiobutton-width-border)
       var(--_nys-radiobutton-color-border);
     background-color: var(--_nys-radiobutton-color-bg);
-    cursor: pointer;
     border-radius: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     margin-bottom: auto; /* Causes centered radio button if single line of label but top aligned if multiline */
+  }
+
+  /* Pointer cursor for unchecked radio button */
+  .nys-radiobutton:hover * {
+    cursor: pointer;
   }
 
   /* Checked */
@@ -213,10 +217,19 @@ export default css`
     font-style: italic;
   }
 
+  /* gap between radio and it's label */
+  .nys-radiobutton__label,
+  .nys-radiobutton__description {
+    margin-inline-start: var(--_nys-radiobutton-gap);
+  }
+
   /* Disabled label */
   .nys-radiobutton__radio:disabled
     + .nys-radiobutton__text
-    .nys-radiobutton__label {
+    .nys-radiobutton__label,
+  .nys-radiobutton__radio:disabled
+    + .nys-radiobutton__text
+    .nys-radiobutton__description {
     color: var(--form-label-color-disabled, #757575);
   }
 
@@ -234,12 +247,13 @@ export default css`
   .nys-radiobutton__error {
     display: flex;
     align-items: center;
-    gap: var(--_nys-radiobutton-gap);
+    gap: var(--nys-space-100, 8px);
     color: var(--_nys-radiobutton-error-color);
 
     /* add divider line */
     border-top: 1px solid var(--_nys-radiobutton-error-color);
-    padding-top: var(--_nys-radiobutton-gap);
+    padding-top: var(--nys-space-50, 4px);
+    margin-top: var(--nys-space-100, 8px);
   }
 
   /* Error Icon Styling */

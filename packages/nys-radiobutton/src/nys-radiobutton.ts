@@ -128,7 +128,7 @@ export class NysRadiobutton extends LitElement {
 
   render() {
     return html`
-      <div class="nys-radiobutton">
+      <label class="nys-radiobutton">
         <input
           id="${this.id}"
           class="nys-radiobutton__radio"
@@ -158,7 +158,7 @@ export class NysRadiobutton extends LitElement {
             <slot name="description"></slot>
           </label>
         </div>`}
-      </div>
+      </label>
     `;
   }
 }
