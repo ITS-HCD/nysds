@@ -215,6 +215,10 @@ export default css`
     font-weight: var(--_nys-radiobutton-font-weight-400);
     font-style: italic;
   }
+  .nys-radiobutton__label,
+  .nys-radiobutton__description {
+    margin-inline-start: var(--_nys-radiobutton-gap);
+  }
 
   /* Disabled label */
   .nys-radiobutton__radio:disabled
