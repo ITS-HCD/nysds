@@ -10,7 +10,8 @@ export default {
       entry: [
         // The order of these files doesn't matter, it combines them however it wants...
         "./src/excelsior.css",
-        "./src/utility.css",      ],
+        "./src/utility.css",
+      ],
     },
   },
   plugins: [
