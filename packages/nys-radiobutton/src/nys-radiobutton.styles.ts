@@ -13,7 +13,16 @@ export default css`
       --nys-transition-duration-sm,
       0.1s
     );
-    --_nys-radiobutton-gap: var(--nys-space-100, 8px);
+    --_nys-radiobutton-gap: var(
+      --nys-space-100,
+      8px
+    ); /* space between radio and it's label */
+    --_nys-radiogroup-gap: var(
+      --nys-space-200,
+      16px
+    ); /* space between radio buttons */
+
+    /* Typography */
     --_nys-radiobutton-font-family: var(
       --nys-font-family-ui,
       var(
@@ -91,6 +100,7 @@ export default css`
   :host([size="sm"]) {
     --_nys-radiobutton-size: var(--nys-size-300, 24px);
     --_nys-radiobutton-radius: var(--nys-border-radius-sm, 2px);
+    --_nys-radiogroup-gap: var(--nys-space-100, 8px);
   }
   /* Medium Variant */
   :host([size="md"]) {
@@ -105,8 +115,7 @@ export default css`
   }
 
   .nys-radiogroup__content {
-    gap: var(--nys-spacing-200, 16px);
-    padding-top: var(--nys-spacing-200, 16px);
+    gap: var(--_nys-radiogroup-gap);
     display: flex;
     flex-direction: column;
   }
