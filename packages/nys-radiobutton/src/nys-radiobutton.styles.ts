@@ -136,6 +136,7 @@ export default css`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    margin-bottom: auto; /* Causes centered radio button if single line of label but top aligned if multiline */
   }
 
   /* Checked */
