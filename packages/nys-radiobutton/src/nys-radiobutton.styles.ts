@@ -143,12 +143,17 @@ export default css`
     border: solid var(--_nys-radiobutton-width-border)
       var(--_nys-radiobutton-color-border);
     background-color: var(--_nys-radiobutton-color-bg);
-    cursor: pointer;
     border-radius: 100%;
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
     margin-bottom: auto; /* Causes centered radio button if single line of label but top aligned if multiline */
+  }
+
+  /* Pointer cursor for unchecked radio button */
+  .nys-radiobutton__radio:not(:checked),
+  .nys-radiobutton__radio:not(:checked) + .nys-radiobutton__text:hover * {
+    cursor: pointer;
   }
 
   /* Checked */
