@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysRadiobuttonStories from './nys-radiobutton.stories';
 
@@ -6,25 +6,79 @@ import * as NysRadiobuttonStories from './nys-radiobutton.stories';
 
 # Radiobutton
 
+<p className="pill stable">Stable</p>
+
+<p className="pill uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=2191-4934&p=f&t=cZ4tR1bBvLjvWG2s-0">Get the UI kit</a></p>
+
 The **`nys-radiobutton`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
 
 If an id is not passed, a unique id will be generated.
 
 If `checked=true` is assigned to multiple options in a `radiogroup` only the last option will take the `true` state
 
-## Examples
+***
 
-### All Editable Options
+<Canvas of={NysRadiobuttonStories.Basic} />
 
-<Canvas of={NysRadiobuttonStories.AllEditableOptions} />
+<Controls />
 
-### Partial Editable Options
+### Variants
 
+#### Partial Editable Options
 <Canvas of={NysRadiobuttonStories.PartialEditableOptions} />
-
-### Disabled Options
-
+#### Disabled Options
 <Canvas of={NysRadiobuttonStories.DisabledOptions} />
+#### Required
+<Canvas of={NysRadiobuttonStories.Required} />
+#### Size
+Set the `size` prop of the **`nys-radiogroup`** to have all **`nys-radiobutton`** be the same size. Our current sizes are:
+- `sm`: Set to 24px in width and height
+- `md`: The default size. Set to 32px in width and height.
+<Canvas of={NysRadiobuttonStories.Size} />
+#### Error Message
+Note: in order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
+<Canvas of={NysRadiobuttonStories.ErrorMessage} />
+#### Slots
+When the description requires more complexity than a simple `string` value, use the slot `description` to hold the text. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`\
+Note: Both `nys-radiobutton` and `nys-radiogroup` support the description slot.
+<Canvas of={NysRadiobuttonStories.Slot} />
+
+## Use cases
+
+### When to use this component
+- When the user needs to select only one option from a list.
+- When there are 7 or fewer options to choose from. 
+
+### When to consider something else
+- When the user needs to select multiple options from a list.
+- When there are more than 7 options to choose from.
+
+## Usage
+
+<div className="usage-wrapper">
+  <div className="usagedos do">
+    ### Do
+    - Use the radiobutton component when the user needs to select only one option from a list.
+    - Use the radiobutton component when there are 7 or fewer options to choose from.
+  </div>
+  <div className="usagedos dont">
+    ### Don't
+    - Use the radiobutton component when the user needs to select multiple options from a list.
+    - Use the radiobutton component when there are more than 7 options to choose from.
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-radiobutton` component includes the following accessibility-focused features:
+
+- Note: all `nys-radiobutton` elements of the same group need to be wrapped in a `<div role=radiogroup>` in order to work properly with screenreaders
+- Proper ARIA roles and attributes to ensure screen readers can interpret the radiobutton correctly.
+    - `aria-checked`
+    - `aria-disabled`
+    - `aria-required`
+- Keyboard navigation support, allowing users to toggle the radiobutton using the keyboard.
+- Visual focus indicators to help users navigate the component.
 
 ## Events
 
@@ -63,14 +117,21 @@ You can listen to these events using JavaScript:
   });
 ```
 
-## Accessibility
+## Slots
 
-The `nys-radiobutton` component includes the following accessibility-focused features:
-
-- Note: all `nys-radiobutton` elements of the same group need to be wrapped in a `<div role=radiogroup>` in order to work properly with screenreaders
-- Proper ARIA roles and attributes to ensure screen readers can interpret the radiobutton correctly.
-    - `aria-checked`
-    - `aria-disabled`
-    - `aria-required`
-- Keyboard navigation support, allowing users to toggle the radiobutton using the keyboard.
-- Visual focus indicators to help users navigate the component.
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for either `nys-radiobutton` or `nys-radiogroup`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>

@@ -150,7 +150,7 @@ export default css`
   .nys-select__text {
     line-height: var(--_nys-select-lineheight-ui);
   }
-  
+
   .nys-select__label {
     font-weight: var(--_nys-select-font-weight-600);
     color: var(--_nys-select-color);

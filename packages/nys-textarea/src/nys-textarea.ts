@@ -16,7 +16,18 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: Number }) maxlength = null;
-  @property({ type: String }) size = "";
+  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
+  @property({ reflect: true })
+  width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
+
+  // Ensure the "width" property is valid after updates
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("width")) {
+      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
+        ? this.width
+        : "full";
+    }
+  }
   @property({ type: Number }) rows = null;
   private static readonly VALID_RESIZE = ["vertical", "none"] as const;
 
@@ -36,6 +47,7 @@ export class NysTextarea extends LitElement {
       ? (value as (typeof NysTextarea.VALID_RESIZE)[number])
       : "vertical";
   }
+  @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
   constructor() {
@@ -73,42 +85,41 @@ export class NysTextarea extends LitElement {
         ${this.label &&
         html` <div class="nys-textarea__text">
           <div class="nys-textarea__requiredwrapper">
-            <div class="nys-textarea__label">${this.label}</div>
+            <label for=${this.id} class="nys-textarea__label"
+              >${this.label}</label
+            >
             ${this.required
-              ? html`<div class="nys-textarea__required">*</div>`
+              ? html`<label class="nys-textarea__required">*</label>`
               : ""}
           </div>
-          <slot class="nys-textarea__description" name="description">
+          <div class="nys-textarea__description">
             ${this.description}
-          </slot>
+            <slot name="description"> </slot>
+          </div>
         </div>`}
-        <div class="nys-textarea__requiredwrapper">
-          <textarea
-            class="nys-textarea__textarea ${this.size} ${this.resize}"
-            name=${this.name}
-            id=${this.id}
-            ?disabled=${this.disabled}
-            ?required=${this.required}
-            ?readonly=${this.readonly}
-            aria-disabled="${this.disabled}"
-            .value=${this.value}
-            placeholder=${this.placeholder}
-            maxlength=${this.maxlength}
-            rows=${this.rows}
-            form=${this.form}
-            @input=${this._handleInput}
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-          ></textarea>
-          ${this.required && !this.label
-            ? html`<div class="nys-textarea__required">*</div>`
-            : ""}
-        </div>
-        ${this.errorMessage &&
-        html`<div class="nys-textarea__error">
-          <nys-icon name="error"></nys-icon>
-          ${this.errorMessage}
-        </div>`}
+        <textarea
+          class="nys-textarea__textarea ${this.resize}"
+          name=${this.name}
+          id=${this.id}
+          ?disabled=${this.disabled}
+          ?required=${this.required}
+          ?readonly=${this.readonly}
+          aria-disabled="${this.disabled}"
+          .value=${this.value}
+          placeholder=${this.placeholder}
+          maxlength=${this.maxlength}
+          rows=${this.rows}
+          form=${this.form}
+          @input=${this._handleInput}
+          @focus="${this._handleFocus}"
+          @blur="${this._handleBlur}"
+        ></textarea>
+        ${this.showError && this.errorMessage
+          ? html`<div class="nys-textarea__error">
+              <nys-icon name="error" size="xl"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
       </label>
     `;
   }
