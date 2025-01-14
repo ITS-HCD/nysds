@@ -10,6 +10,10 @@ interface NysAlertArgs {
   duration?: number;
   icon?: string;
   dismissible?: boolean;
+  primaryAction?: string;
+  secondaryAction?: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
 }
 
 const meta: Meta<NysAlertArgs> = {
@@ -24,6 +28,10 @@ const meta: Meta<NysAlertArgs> = {
     text: { control: "text" },
     duration: { control: "number" },
     icon: { control: "text" },
+    primaryAction: { control: "text" },
+    secondaryAction: { control: "text" },
+    primaryLabel: { control: "text" },
+    secondaryLabel: { control: "text" },
     dismissible: { control: "boolean", default: false },
   },
   parameters: {
@@ -54,6 +62,10 @@ export const Basic: Story = {
       .duration=${args.duration}
       .icon=${args.icon}
       ?dismissible=${args.dismissible}
+      .primaryAction=${args.primaryAction}
+      .secondaryAction=${args.secondaryAction}
+      .primaryLabel=${args.primaryLabel}
+      .secondaryLabel=${args.secondaryLabel}
     >
     </nys-alert>
   `,
@@ -124,6 +136,10 @@ export const AlertType: Story = {
       .duration=${args.duration}
       .icon=${args.icon}
       ?dismissible=${args.dismissible}
+      .primaryAction=${args.primaryAction}
+      .secondaryAction=${args.secondaryAction}
+      .primaryLabel=${args.primaryLabel}
+      .secondaryLabel=${args.secondaryLabel}
     >
     </nys-alert>
   `,
@@ -157,6 +173,10 @@ export const Description: Story = {
       .duration=${args.duration}
       .icon=${args.icon}
       ?dismissible=${args.dismissible}
+      .primaryAction=${args.primaryAction}
+      .secondaryAction=${args.secondaryAction}
+      .primaryLabel=${args.primaryLabel}
+      .secondaryLabel=${args.secondaryLabel}
     >
       <p slot="text">
         This is a custom alert with <strong>HTML content</strong>.
@@ -194,6 +214,10 @@ export const Dismissible: Story = {
       .duration=${args.duration}
       .icon=${args.icon}
       ?dismissible=${args.dismissible}
+      .primaryAction=${args.primaryAction}
+      .secondaryAction=${args.secondaryAction}
+      .primaryLabel=${args.primaryLabel}
+      .secondaryLabel=${args.secondaryLabel}
     >
       <p slot="text">
         Adirondack peaks auctor Hudson River flows semper Statue of Liberty
@@ -212,7 +236,7 @@ export const Dismissible: Story = {
   theme="info" 
   heading="Information status" 
   dismissible>
-  <p slot="text">Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank"">https://www.ny.gov/</a> for more info.</p>
+  <p slot="text">Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -301,6 +325,10 @@ export const CustomIcon: Story = {
       .duration=${args.duration}
       .icon=${args.icon}
       ?dismissible=${args.dismissible}
+      .primaryAction=${args.primaryAction}
+      .secondaryAction=${args.secondaryAction}
+      .primaryLabel=${args.primaryLabel}
+      .secondaryLabel=${args.secondaryLabel}
     >
     </nys-alert>
   `,
@@ -336,6 +364,10 @@ export const HeadingOnly: Story = {
       .duration=${args.duration}
       .icon=${args.icon}
       ?dismissible=${args.dismissible}
+      .primaryAction=${args.primaryAction}
+      .secondaryAction=${args.secondaryAction}
+      .primaryLabel=${args.primaryLabel}
+      .secondaryLabel=${args.secondaryLabel}
     >
     </nys-alert>
   `,
@@ -347,6 +379,52 @@ export const HeadingOnly: Story = {
   theme="info"
   heading="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
 </nys-alert>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: ActionLinks
+export const ActionLinks: Story = {
+  args: {
+    theme: "emergency",
+    heading: "Winter storm warning: Dec 10th, 2024.",
+    text: "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.",
+    primaryAction: "https://www.ny.gov/",
+    secondaryAction: "https://www.ny.gov/",
+    primaryLabel: "Weather Report",
+    secondaryLabel: "Plowing Schedule",
+  },
+  render: (args) => html`
+    <nys-alert
+      .theme=${args.theme}
+      .heading=${args.heading}
+      .text=${args.text}
+      .duration=${args.duration}
+      .icon=${args.icon}
+      ?dismissible=${args.dismissible}
+      .primaryAction=${args.primaryAction}
+      .secondaryAction=${args.secondaryAction}
+      .primaryLabel=${args.primaryLabel}
+      .secondaryLabel=${args.secondaryLabel}
+    >
+    </nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert 
+  theme="emergency" 
+  heading="Winter storm warning: Dec 10th, 2024."
+  text= "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+  primaryAction="https://www.ny.gov/"
+  secondaryAction="https://www.ny.gov/"
+  primaryLabel="Weather Report"
+  secondaryLabel="Plowing Schedule"
+></nys-alert>
 `.trim(),
         type: "auto",
       },
