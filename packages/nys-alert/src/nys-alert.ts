@@ -109,7 +109,9 @@ export class NysAlert extends LitElement {
         ? "info"
         : this.theme === "danger"
           ? "error"
-          : this.theme;
+          : this.theme === "emergency"
+            ? "emergency_home"
+            : this.theme;
   }
 
   private _closeAlert() {

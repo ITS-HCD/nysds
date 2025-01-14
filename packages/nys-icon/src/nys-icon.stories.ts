@@ -437,8 +437,8 @@ export const Rotate: Story = {
 // Story: Flip prop
 export const Flip: Story = {
   args: {
-    label: "chevron_back icon",
-    name: "chevron_back",
+    label: "arrow_back icon",
+    name: "arrow_back",
     size: "2xl",
     flip: "horizontal",
   },
@@ -457,8 +457,8 @@ export const Flip: Story = {
       source: {
         code: `
   <nys-icon
-  label="chevron_back icon"
-  name="chevron_back"
+  label="arrow_back icon"
+  name="arrow_back"
   flip="horizontal"
   size="2xl"
   ></nys-icon>

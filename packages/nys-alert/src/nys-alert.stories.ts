@@ -100,6 +100,10 @@ export const AllAlerts: Story = {
               ? `an ${theme}`
               : `a ${theme}`} alert."
             dismissible
+            primaryLabel="{primaryAction}"
+            secondaryLabel="{secondaryAction}"
+            primaryAction="https://www.ny.gov/"
+            secondaryAction="https://www.ny.gov/"
           ></nys-alert>
           <br />`,
     )}
@@ -108,12 +112,12 @@ export const AllAlerts: Story = {
     docs: {
       source: {
         code: `
-<nys-alert theme="base" heading="Default status" text="This is an example of an neutral base alert." dismissible></nys-alert>
-<nys-alert theme="info" heading="Info status" text="This is an example of an info alert." dismissible></nys-alert>
-<nys-alert theme="success" heading="Success status" text="This is an example of a success alert." dismissible></nys-alert>
-<nys-alert theme="warning" heading="Warning status" text="This is an example of a warning alert." dismissible></nys-alert>
-<nys-alert theme="danger" heading="Danger status" text="This is an example of a danger alert." dismissible></nys-alert>
-<nys-alert theme="emergency" heading="Emergency status" text="This is an example of an emergency alert." dismissible></nys-alert>
+<nys-alert theme="base" heading="Default status" text="This is an example of an neutral base alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert theme="info" heading="Info status" text="This is an example of an info alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert theme="success" heading="Success status" text="This is an example of a success alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert theme="warning" heading="Warning status" text="This is an example of a warning alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert theme="danger" heading="Danger status" text="This is an example of a danger alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert theme="emergency" heading="Emergency status" text="This is an example of an emergency alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
 `.trim(),
         type: "auto",
       },
