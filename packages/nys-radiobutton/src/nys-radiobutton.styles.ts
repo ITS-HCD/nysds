@@ -142,7 +142,6 @@ export default css`
     border: solid var(--_nys-radiobutton-width-border)
       var(--_nys-radiobutton-color-border);
     background-color: var(--_nys-radiobutton-color-bg);
-    cursor: pointer;
     border-radius: 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -150,6 +149,11 @@ export default css`
     margin-bottom: auto; /* Causes centered radio button if single line of label but top aligned if multiline */
   }
 
+  /* Pointer cursor for unchecked radio button */
+  .nys-radiobutton__radio:not(:checked),
+  .nys-radiobutton__radio:not(:checked) + .nys-radiobutton__text:hover * {
+    cursor: pointer;
+  }
   /* Checked */
   .nys-radiobutton__radio:not(:disabled):checked {
     background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" stroke="white" stroke-width="6"/></svg>');
@@ -216,7 +220,10 @@ export default css`
   /* Disabled label */
   .nys-radiobutton__radio:disabled
     + .nys-radiobutton__text
-    .nys-radiobutton__label {
+    .nys-radiobutton__label,
+  .nys-radiobutton__radio:disabled
+    + .nys-radiobutton__text
+    .nys-radiobutton__description {
     color: var(--form-label-color-disabled, #757575);
   }
 
