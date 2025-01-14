@@ -190,8 +190,6 @@ export default css`
   /* Radiobutton Label Holder */
   .nys-radiobutton__text {
     line-height: var(--_nys-radiobutton-lineheight-ui);
-    display: flex;
-    flex-direction: column;
   }
 
   /* Label styling */

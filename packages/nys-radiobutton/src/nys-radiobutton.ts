@@ -153,10 +153,10 @@ export class NysRadiobutton extends LitElement {
               >${this.label}</label
             >
           </div>
-          <label for=${this.id} class="nys-radiobutton__description">
+          <div for=${this.id} class="nys-radiobutton__description">
             ${this.description}
             <slot name="description"></slot>
-          </label>
+          </div>
         </div>`}
       </div>
     `;
