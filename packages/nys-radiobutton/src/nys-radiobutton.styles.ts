@@ -195,13 +195,18 @@ export default css`
   }
 
   /* Label styling */
-  .nys-radiobutton__label {
+  .nys-radiogroup__label {
     font-weight: var(--_nys-radiobutton-font-weight-600);
     color: var(--_nys-radiobutton-color);
   }
+  .nys-radiobutton__label {
+    font-weight: var(--_nys-radiobutton-font-weight-400);
+    color: var(--_nys-radiobutton-color);
+  }
 
-  /* Help text styling */
-  .nys-radiobutton__description {
+  /* Description styling */
+  .nys-radiobutton__description,
+  .nys-radiogroup__description {
     font-weight: var(--_nys-radiobutton-font-weight-400);
     font-style: italic;
   }

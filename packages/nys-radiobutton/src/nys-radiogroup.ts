@@ -93,14 +93,14 @@ export class NysRadiogroup extends LitElement {
       ${this.label &&
       html` <div class="nys-radiobutton__text">
         <div class="nys-radiobutton__requiredwrapper">
-          <label for=${this.id} class="nys-radiobutton__label"
+          <label for=${this.id} class="nys-radiogroup__label"
             >${this.label}</label
           >
           ${this.required
             ? html`<label class="nys-radiobutton__required">*</label>`
             : ""}
         </div>
-        <div class="nys-radiobutton__description">
+        <div class="nys-radiogroup__description">
           ${this.description}
           <slot name="description"></slot>
         </div>
