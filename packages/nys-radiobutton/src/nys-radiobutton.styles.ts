@@ -117,7 +117,6 @@ export default css`
 
   .nys-radiogroup__content {
     gap: var(--_nys-radiogroup-gap);
-    margin-top: var(--nys-space-50, 4px);
     display: flex;
     flex-direction: column;
   }
