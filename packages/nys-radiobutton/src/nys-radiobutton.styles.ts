@@ -245,8 +245,8 @@ export default css`
 
     /* add divider line */
     border-top: 1px solid var(--_nys-radiobutton-error-color);
-    padding-top: var(var(--nys-space-50, 4px));
-    margin-top: var(--_nys-radiobutton-gap);
+    padding-top: var(--nys-space-50, 4px);
+    margin-top: var(--nys-space-100, 8px);
   }
 
   /* Error Icon Styling */
