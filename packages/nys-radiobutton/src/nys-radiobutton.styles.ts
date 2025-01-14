@@ -110,7 +110,6 @@ export default css`
   .nys-radiogroup {
     display: flex;
     flex-direction: column;
-    gap: var(--_nys-radiobutton-gap);
     font-family: var(--_nys-radiobutton-font-family);
     font-size: var(--_nys-radiobutton-font-size);
     line-height: var(--_nys-radiobutton-line-height);
@@ -241,12 +240,13 @@ export default css`
   .nys-radiobutton__error {
     display: flex;
     align-items: center;
-    gap: var(--_nys-radiobutton-gap);
+    gap: var(--nys-space-100, 8px);
     color: var(--_nys-radiobutton-error-color);
 
     /* add divider line */
     border-top: 1px solid var(--_nys-radiobutton-error-color);
-    padding-top: var(--_nys-radiobutton-gap);
+    padding-top: var(var(--nys-space-50, 4px));
+    margin-top: var(--_nys-radiobutton-gap);
   }
 
   /* Error Icon Styling */
