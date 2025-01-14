@@ -111,6 +111,7 @@ export default css`
     outline: solid var(--_nys-textinput-focus-width-outline)
       var(--_nys-textinput-focus-color-outline);
     border-color: var(--_nys-textinput-focus-color-outline);
+    caret-color: var(--_nys-textinput-focus-color-outline);
   }
 
   /* Disabled */
