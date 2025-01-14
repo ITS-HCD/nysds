@@ -158,25 +158,16 @@ export default css`
     cursor: not-allowed;
   }
 
-  /* Hover */
-  .nys-radiobutton__radio:not(:disabled):not(:focus):hover {
+  /* Hover - only allow hover on unchecked */
+  .nys-radiobutton__radio:hover:not(:disabled):not(:checked) {
     border-color: var(--_nys-radiobutton-hover-color-border);
     background-color: var(--_nys-radiobutton-hover-color-bg);
   }
-  .nys-radiobutton__radio:not(:disabled):checked:not(:focus):hover {
-    border-color: var(--_nys-radiobutton-checked-hover-color-border);
-    background-color: var(--_nys-radiobutton-checked-hover-color-bg);
-  }
 
-  /* Active */
-  .nys-radiobutton__radio:not(:disabled):active {
+  /* Pressed - only allow pressed on unchecked */
+  .nys-radiobutton__radio:active:not(:disabled):not(:checked) {
     border-color: var(--_nys-radiobutton-pressed-color-border);
     background-color: var(--_nys-radiobutton-pressed-color-bg);
-  }
-  .nys-radiobutton__radio:not(:disabled):checked:active {
-    opacity: 0.3;
-    border-color: var(--_nys-radiobutton-checked-pressed-color-border);
-    background-color: var(--_nys-radiobutton-checked-pressed-color-bg);
   }
 
   /* Focused */
