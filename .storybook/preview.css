@@ -5,10 +5,11 @@ body {
 .pill {
     padding: .5rem 1rem;
     display: inline-block;
+    border-radius: var(--nys-radius-md);
 }
 
 .pill.stable {
-    background-color: rgb(171, 251, 171);
+    background-color: var(--nys-color-success-weak);
 }
 
 .usage-wrapper {
@@ -26,11 +27,11 @@ body {
 }
 
 .usagedos.do {
-    background-color: rgb(171, 251, 171);
+    background-color: var(--nys-color-success-weak);
 }
 
 .usagedos.dont {
-    background-color: rgb(255, 202, 202)
+    background-color: var(--nys-color-danger-weak);
 }
 
 .usage-link {
