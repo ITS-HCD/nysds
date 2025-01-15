@@ -196,11 +196,6 @@
 --nys-space-700: 56px;
 --nys-space-800: 64px;
 --nys-space-1200: 96px;
---nys-space-negative-50: -4px;
---nys-space-negative-100: -8px;
---nys-space-negative-150: -12px;
---nys-space-negative-200: -16px;
---nys-space-negative-300: -24px;
 
 /* --- Size --- */
 --nys-size-1px: 1px;
@@ -212,7 +207,9 @@
 --nys-size-250: 20px;
 --nys-size-300: 24px;
 --nys-size-400: 32px;
+--nys-size-450: 36px;
 --nys-size-500: 40px;
+--nys-size-550: 44px;
 --nys-size-600: 48px;
 --nys-size-700: 56px;
 --nys-size-800: 64px;
@@ -222,6 +219,12 @@
 --nys-border-width-sm: var(--nys-space-1px);
 --nys-border-width-md: var(--nys-space-2px);
 --nys-border-width-lg: var(--nys-space-50);
+
+/* --- Form Input Widths --- */
+
+--nys-form-width-sm: 88px;
+--nys-form-width-md: 200px;
+--nys-form-width-lg: 384px;
 
 /* ===================== BORDER RADIUS TOKENS ======================= */
 

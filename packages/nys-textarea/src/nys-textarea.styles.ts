@@ -116,6 +116,7 @@ export default css`
     outline: solid var(--_nys-textarea-focus-width-outline)
       var(--_nys-textarea-focus-color-outline);
     border-color: var(--_nys-textarea-focus-color-outline);
+    caret-color: var(--_nys-textarea-focus-color-outline);
   }
 
   /* Disabled */
