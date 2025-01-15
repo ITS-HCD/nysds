@@ -14,15 +14,13 @@ const config: StorybookConfig = {
     "@storybook/addon-links",
     "@storybook/addon-toolbars",
   ],
-
   framework: {
     name: "@storybook/web-components-vite",
     options: {},
   },
-  docs: {},
-
   managerHead: (head) => `
     ${head}
     <meta name="robots" content="noindex">`,
 };
+
 export default config;
