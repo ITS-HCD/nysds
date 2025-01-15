@@ -59,6 +59,38 @@ type Story = StoryObj<NysIconArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
+// Story: Basic
+export const Basic: Story = {
+  args: {
+    name: "social_youtube",
+    size: "3xl",
+    color: "#b2071d",
+  },
+  render: (args) =>
+    html` <nys-icon
+      .label=${args.label}
+      .name=${args.name}
+      color=${args.color}
+      rotate=${args.rotate}
+      flip=${args.flip}
+      size=${args.size}
+    >
+    </nys-icon>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-icon
+  name="social_youtube"
+  size="3xl"
+  name="#1ca1ba"
+  ></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
 // Story: NameProp
 export const NameProp: Story = {
   args: {
@@ -70,6 +102,7 @@ export const NameProp: Story = {
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
+      flip=${args.flip}
       size=${args.size}
     >
     </nys-icon>`,
@@ -98,6 +131,7 @@ export const Labels: Story = {
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
+      flip=${args.flip}
       size=${args.size}
     >
     </nys-icon>
@@ -403,8 +437,8 @@ export const Rotate: Story = {
 // Story: Flip prop
 export const Flip: Story = {
   args: {
-    label: "chevron_back icon",
-    name: "chevron_back",
+    label: "arrow_back icon",
+    name: "arrow_back",
     size: "2xl",
     flip: "horizontal",
   },
@@ -423,8 +457,8 @@ export const Flip: Story = {
       source: {
         code: `
   <nys-icon
-  label="chevron_back icon"
-  name="chevron_back"
+  label="arrow_back icon"
+  name="arrow_back"
   flip="horizontal"
   size="2xl"
   ></nys-icon>

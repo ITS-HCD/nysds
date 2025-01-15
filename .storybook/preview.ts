@@ -1,5 +1,6 @@
 import type { Preview } from "@storybook/web-components";
 import "@nys-excelsior/nys-styles/dist/excelsior.min.css"; // Excelsior Design Tokens
+import "@nys-excelsior/nys-styles/dist/excelsior-full.min.css"; // Excelsior Design Tokens
 import "./preview.css"; // Custom Storybook styles
 
 // Add this function to dynamically load themes based on Storybook globals
@@ -51,6 +52,11 @@ const preview: Preview = {
     },
   ],
   parameters: {
+    options: {
+      storySort: {
+        order: ['About', 'Styles', 'Design Tokens', 'Layout Grid', 'Flexbox', 'Utilities', 'Components'],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

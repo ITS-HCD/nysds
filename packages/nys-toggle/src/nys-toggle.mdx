@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/blocks";
 import { html } from "lit";
 import * as NysToggleStories from "./nys-toggle.stories";
 
@@ -9,9 +9,18 @@ The **`nys-toggle`** component is a reusable web component for use in New York S
 
 If an id is not passed, a unique id will be generated.
 
-<Canvas of={NysToggleStories.ToggleSwitch} />
+<p className="pill stable">Stable</p>
 
-## Property Examples
+<p className="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1626-2591&p=f&t=QF8BQ6f9JDt9M72a-0">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysToggleStories.Basic} />
+
+<Controls />
+
+
+## Variants
 ### Checked
 <Canvas of={NysToggleStories.Checked} />
 
@@ -35,20 +44,34 @@ Supported sizes are `sm` and `md`. **Default size for toggle component is `md`.*
 To remove icons from the toggle switch, use the `NoIcons` boolean property.
 <Canvas of={NysToggleStories.NoIcons} />
 
+## Use cases
+
+### When to use this component
+  - Consider using `nys-toggle` when expecting immediate UI effects when turning switch on/off.
+  - Ideal for settings pages, feature toggles, or user preferences.
+
+### When to consider something else
+  - Consider using `nys-checkbox` or `nys-radiobutton` to select one or more options from a list where the selections
+  - Use `nys-checkbox` for forms, especially when you're not expecting immediate action.
+
+## Usage 
+<div className="usage-wrapper">
+   <div className="usagedos do">
+   ### Do
+   - Provide a clear label and optional description to explain the toggle's purpose.
+   - Show the UI for toggle’s state is visually distinct for on/off positions.
+   </div>
+
+   <div className="usagedos dont">
+   ### Don't
+   - Use toggles for complex multi-state options.
+   - Overuse toggles for trivial settings that do not impact user experience significantly.
+   - Hide labels entirely unless another accessible method of describing the toggle exists.
+   </div>
+</div>
+
 ## Form Prop
-The `form` attribute links a component, located outside the form, to a specific `<form>` element by its id. This ensures its state is included during form submission.
-### How It Works
-Use the `form` property to explicitly associate the components (outside a form) with a specific `<form>` element by referencing the form's `id`.
-```html
-<!-- For example -->
-<nys-form id="my-form">
-  <nys-textinput label="Label"></nys-textinput>
-  <nys-textinput label="Label"></nys-textinput>
-  <nys-checkbox label="Label"></nys-checkbox>
-</nys-form>
-<nys-toggle form="my-form" label="Label" name="example-name"></nys-toggle>
-<button form="my-form" type="submit">Submit</button>
-```
+The form attribute associates the `nys-toggle` component with a specific `<form>` element, regardless of its location on the page. This ensures that the toggle's state is included in the form submission, whether it is inside the `<form>` element or outside it.
 
 ## Events
 The `NysToggle` component emits three custom events:
@@ -97,3 +120,21 @@ The `nys-toggle` component includes the following accessibility-focused features
 ### Labels
 Include a label property to provide accessible text for screen readers.
 <Canvas of={NysToggleStories.Labels} />
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Allows insertion of custom HTML description content into the component.</td>
+        <td>""</td>
+    </tr>
+    </tbody>
+</table>

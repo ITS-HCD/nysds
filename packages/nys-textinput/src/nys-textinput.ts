@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
+import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { FormControlController } from "@nys-excelsior/form-controller";
 
@@ -69,11 +70,24 @@ export class NysTextinput extends LitElement {
   @property({ reflect: true }) form = null;
   @property({ type: String }) pattern = null;
   @property({ type: Number }) maxlength = null;
-  @property({ type: String }) size = "";
+  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
+  @property({ reflect: true })
+  width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
+
+  // Ensure the "width" property is valid after updates
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("width")) {
+      this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
+        ? this.width
+        : "full";
+    }
+  }
+
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
-  @property({ type: String }) autocomplete = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
+  @property({ type: String }) errorMessage = "";
 
   constructor() {
     super();
@@ -153,49 +167,51 @@ export class NysTextinput extends LitElement {
   render() {
     return html`
       <div class="nys-textinput">
-        ${(this.label || this.description) &&
+        ${this.label &&
         html` <div class="nys-textinput__text">
-          <div class="nys-textinput__label_labelwrapper">
+          <div class="nys-textinput__requiredwrapper">
             <label for=${this.id} class="nys-textinput__label"
               >${this.label}</label
             >
-            <label for=${this.id} class="nys-textinput__description"
-              >${this.description}</label
-            >
+            ${this.required
+              ? html`<label class="nys-textinput__required">*</label>`
+              : ""}
           </div>
-          ${this.required && (this.label || this.description)
-            ? html`<label class="nys-textinput__required">*</label>`
-            : ""}
+
+          <div class="nys-textinput__description">
+            ${this.description}
+            <slot name="description"> </slot>
+          </div>
         </div>`}
-        <div class="nys-textinput__requiredwrapper">
-          <input
-            class="nys-textinput__input ${this.size}"
-            type=${this.type}
-            name=${this.name}
-            id=${this.id}
-            ?disabled=${this.disabled}
-            ?required=${this.required}
-            ?readonly=${this.readonly}
-            autocomplete=${this.autocomplete}
-            aria-disabled="${this.disabled}"
-            aria-label="${this.label} ${this.description}"
-            .value=${this.value}
-            placeholder=${this.placeholder}
-            maxlength=${ifDefined(this.maxlength)}
-            pattern=${ifDefined(this.pattern)}
-            step=${ifDefined(this.step)}
-            min=${ifDefined(this.min)}
-            max=${ifDefined(this.max)}
-            form=${ifDefined(this.form)}
-            @input=${this._handleInput}
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-            @invalid=${this.handleInvalid}
-          />
-          ${this.required && !this.label && !this.description
-            ? html`<label class="nys-textinput__required">*</label>`
-            : ""}
-        </div>
+        <input
+          class="nys-textinput__input"
+          type=${this.type}
+          name=${this.name}
+          id=${this.id}
+          ?disabled=${this.disabled}
+          ?required=${this.required}
+          ?readonly=${this.readonly}
+          aria-disabled="${this.disabled}"
+          aria-label="${this.label} ${this.description}"
+          .value=${this.value}
+          placeholder=${this.placeholder}
+          maxlength=${ifDefined(this.maxlength)}
+          pattern=${ifDefined(this.pattern)}
+          step=${ifDefined(this.step)}
+          min=${ifDefined(this.min)}
+          max=${ifDefined(this.max)}
+          form=${ifDefined(this.form)}
+          @input=${this._handleInput}
+          @focus="${this._handleFocus}"
+          @blur="${this._handleBlur}"
+          @invalid=${this.handleInvalid}
+        />
+        ${this.showError && this.errorMessage
+          ? html`<div class="nys-textinput__error">
+              <nys-icon name="error" size="xl"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
       </div>
     `;
   }

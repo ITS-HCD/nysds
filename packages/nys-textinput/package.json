@@ -1,6 +1,6 @@
 {
     "name": "@nys-excelsior/nys-textinput",
-    "version": "0.0.5-alpha",
+    "version": "0.0.7-alpha",
     "description": "An input component from the NYS Design System.",
     "module": "dist/nys-textinput.js",
     "exports": {
@@ -23,6 +23,9 @@
     "peerDependencies": {
         "lit": "^3.2.1"
     },
+    "dependencies": {
+        "@nys-excelsior/nys-icon": "^0.0.7-alpha"
+      },
     "devDependencies": {
         "lit": "^3.2.1",
         "typescript": "^5.7.2",
