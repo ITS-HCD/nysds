@@ -148,73 +148,6 @@ export const tokens = [
     description: "Used to color focus rings on interactive elements.",
     type: "color",
   },
-  // Color: Neutrals
-  {
-    name: "--nys-color-neutral-900",
-    displayname: "Color Neutral 900",
-    description: "Darkest neutral shade for text or backgrounds.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-800",
-    displayname: "Color Neutral 800",
-    description: "Very dark neutral shade for subdued elements.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-700",
-    displayname: "Color Neutral 700",
-    description: "Dark neutral tone for text or muted accents.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-600",
-    displayname: "Color Neutral 600",
-    description: "Medium-dark neutral tone for UI elements.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-500",
-    displayname: "Color Neutral 500",
-    description: "Medium neutral tone for balanced emphasis.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-400",
-    displayname: "Color Neutral 400",
-    description: "Light-medium neutral tone for soft elements.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-300",
-    displayname: "Color Neutral 300",
-    description: "Light neutral tone for subtle backgrounds.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-200",
-    displayname: "Color Neutral 200",
-    description: "Very light neutral tone for minimal elements.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-100",
-    displayname: "Color Neutral 100",
-    description: "Near-white neutral for soft backgrounds.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-50",
-    displayname: "Color Neutral 50",
-    description: "Faint neutral shade for background contrast.",
-    type: "color",
-  },
-  {
-    name: "--nys-color-neutral-10",
-    displayname: "Color Neutral 10",
-    description: "Subtle neutral shade for faint accents.",
-    type: "color",
-  },
   // Spacing
   {
     name: "--nys-space-1px",
@@ -385,7 +318,116 @@ export const tokens = [
     description: "Maximum size for expansive layouts or hero elements.",
     type: "size",
   },
+  // Radius Tokens
+    {
+    name: "--nys-radius-xs",
+    displayname: "Radius XS",
+    description: "Extra-small radius for subtle rounding.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-sm",
+    displayname: "Radius SM",
+    description: "Small radius for slightly rounded elements.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-md",
+    displayname: "Radius MD",
+    description: "Medium radius input elements like text fields, checkboxes, and select dropdowns.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-lg",
+    displayname: "Radius LG",
+    description: "Larger radius for a more pronounced rounding.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-xl",
+    displayname: "Radius XL",
+    description: "Extra-large radius for buttons, to quickly indicate interactivity.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-round",
+    displayname: "Radius Round",
+    description: "Fully rounded elements. Used for avatars and icons.",
+    type: "radius",
+  }
 ];
+
+
+export const hiddentokens = [
+// Not publishing these tokens in the documentation (yet)
+// Color: Neutrals
+ {
+    name: "--nys-color-neutral-10",
+    displayname: "Color Neutral 10",
+    description: "Subtle neutral shade for faint accents.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-50",
+    displayname: "Color Neutral 50",
+    description: "Faint neutral shade for background contrast.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-100",
+    displayname: "Color Neutral 100",
+    description: "Near-white neutral for soft backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-200",
+    displayname: "Color Neutral 200",
+    description: "Very light neutral tone for minimal elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-300",
+    displayname: "Color Neutral 300",
+    description: "Light neutral tone for subtle backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-400",
+    displayname: "Color Neutral 400",
+    description: "Light-medium neutral tone for soft elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-500",
+    displayname: "Color Neutral 500",
+    description: "Medium neutral tone for balanced emphasis.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-600",
+    displayname: "Color Neutral 600",
+    description: "Medium-dark neutral tone for UI elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-700",
+    displayname: "Color Neutral 700",
+    description: "Dark neutral tone for text or muted accents.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-800",
+    displayname: "Color Neutral 800",
+    description: "Very dark neutral shade for subdued elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-900",
+    displayname: "Color Neutral 900",
+    description: "Darkest neutral shade for text or backgrounds.",
+    type: "color",
+  },
+]
 
 <style>
   {`
@@ -419,16 +461,20 @@ export const tokens = [
       return `
         .swatch-${token.name.replace("--", "")} {
           border: 0;
+          margin: 0 auto;
           border-radius: 0;
+          border-top: dashed var(--nys-size-1px) var(--nys-color-theme-mid);
+          border-bottom: dashed var(--nys-size-1px) var(--nys-color-theme-mid);
+          border-left: solid var(--nys-size-2px) var(--nys-color-theme);
+          border-right: solid var(--nys-size-2px) var(--nys-color-theme);
           width: var(${token.name});
-          background-color: var(--nys-color-neutral-50);
         }
       `;
     } else if (token.type === "size") {
       return `
         .swatch-${token.name.replace("--", "")} {
           border: 0;
-          border-radius: 0;
+          border-radius: var(--nys-radius-round);
           margin: 0 auto;
           width: var(${token.name});
           height: var(${token.name});
