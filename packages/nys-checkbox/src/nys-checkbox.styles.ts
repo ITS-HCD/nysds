@@ -126,9 +126,25 @@ export default css`
     font-family: Arial, sans-serif;
   }
 
-  /* wraps the native checkbox and it's icon */
+  /* wraps the single checkbox */
   .nys-checkbox__content {
     display: flex;
+  }
+
+  /* wraps the native checkbox and it's icon */
+  .nys-checkbox__checkboxwrapper {
+    position: relative;
+    display: inline-block;
+    max-height: var(--_nys-checkbox-size);
+  }
+
+  .nys-checkbox__icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -35%, 0); /* Centering the icon visually */
+    pointer-events: none;
+    color: white;
   }
 
   .nys-checkbox__checkbox {
@@ -191,31 +207,6 @@ export default css`
       var(--_nys-checkbox-color-focus, #004dd1);
   }
 
-  .nys-checkbox__checkboxwrapper {
-    position: relative;
-    display: inline-block;
-    max-height: var(--_nys-checkbox-size);
-  }
-
-  .nys-checkbox__icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -35%, 0); /* Centering the icon visually */
-    pointer-events: none;
-    color: white;
-  }
-
-  /* Required */
-  .nys-checkbox__required {
-    color: var(--nys-color-danger, #b52c2c);
-    margin-left: var(--nys-space-2px, 2px);
-  }
-
-  .nys-checkbox__requiredwrapper {
-    display: inline;
-  }
-
   /* Checkbox Label Holder */
   .nys-checkbox__text {
     margin: auto 0 auto var(--nys-space-150, 12px);
@@ -241,6 +232,16 @@ export default css`
     + .nys-checkbox__text
     .nys-checkbox__description {
     color: var(--form-label-color-disabled, #757575);
+  }
+
+  /* Required */
+  .nys-checkbox__required {
+    color: var(--nys-color-danger, #b52c2c);
+    margin-left: var(--nys-space-2px, 2px);
+  }
+
+  .nys-checkbox__requiredwrapper {
+    display: inline;
   }
 
   /* Error Message Styling */
