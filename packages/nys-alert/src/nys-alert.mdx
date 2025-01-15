@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysAlertStories from './nys-alert.stories';
 
@@ -10,6 +10,17 @@ The **`nys-alert`** component is a reusable web component for use in New York St
 
 If an id is not passed, a unique id will be generated.
 
+<p className="pill stable">Stable</p>
+
+<p className="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=866-814&p=f&m=dev">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysAlertStories.Basic} />
+
+<Controls />
+
+## Variants
 ## All Alerts
 Below are the available alert theme, each showcasing its unique style and purpose.
 <Canvas of={NysAlertStories.AllAlerts} />
@@ -20,7 +31,7 @@ Set the `theme` property to customize the alert style. Example: `theme="info"`.
 <Canvas of={NysAlertStories.AlertType} />
 
 ### Custom Text
-Add descriptive content to your alert using the `text` prop or the `slot="text"` feature.
+Add descriptive content to your alert using the `text` prop or the `slot="text"` feature. \
 Use the `text` prop for simple texts, or leverage `slot="text"` for advanced HTML customizations, such as links or styled texts.
 <Canvas of={NysAlertStories.Description} />
 
@@ -37,9 +48,42 @@ Set the `duration` property to automatically hide the alert after a specified ti
 Override the default `theme` icon by setting the `icon` property to any name from the icon library.
 <Canvas of={NysAlertStories.CustomIcon} />
 
-### Slim Variant
-The slim variant `isSlim` is a compact version of the alert, ideal for short descriptions. It removes the header and centers the icon for a cleaner layout.
-<Canvas of={NysAlertStories.Slim} />
+### Heading only
+You may find having just a heading without description as a good compact version of the alert, ideal for short contexts. An empty description will center the text and icon for a cleaner layout.
+<Canvas of={NysAlertStories.HeadingOnly} />
+
+### Action Links
+Display primary and secondary actions as links in the alert, providing clear and direct user options. \
+You must provide both an action label and a URL for each action to ensure proper functionality.
+<Canvas of={NysAlertStories.ActionLinks} />
+
+## Use cases
+
+### When to use this component
+  - Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
+  - Ideal for messages such as success notifications, danger alerts, warnings, or informational updates.
+  - Use for dismissible or temporary alerts when the message is not critical to user workflow.
+
+### When to consider something else
+  - If the information is not time-sensitive or critical, consider using a less intrusive component, such as a tooltip or inline message.
+  - Avoid using alerts for repetitive or non-actionable content that could frustrate users.
+  - For notifications outside the page context, consider using a toast or modal component instead.
+
+## Usage 
+<div className="usage-wrapper">
+   <div className="usagedos do">
+   ### Do
+   - Keep the alert content concise and focused on the message.
+   - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
+   - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
+   </div>
+
+   <div className="usagedos dont">
+   ### Don't
+   - Overuse alerts for non-critical information, as this can desensitize users to important messages.
+   - Use icons or themes that don’t clearly communicate the purpose of the alert.
+   </div>
+</div>
 
 ## Accessibility
 
@@ -61,7 +105,7 @@ The `nys-alert` component includes the following accessibility-focused features:
     <tr>
       <td>`role="alert"`</td>
       <td>Important messages that demand the user's immediate attention.</td>
-      <td>Example: Error and Emergency alert</td>
+      <td>Example: Danger and Emergency alert</td>
     </tr>
     <tr>
       <td>`role="status"`</td>
@@ -74,4 +118,22 @@ The `nys-alert` component includes the following accessibility-focused features:
       <td>Information and Warning alert (An `aria-label`will be added for this role.)</td>
     </tr>
   </tbody>
+</table>
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`text`</td>
+        <td>Allows insertion of custom HTML description content into the component.</td>
+        <td>""</td>
+    </tr>
+    </tbody>
 </table>

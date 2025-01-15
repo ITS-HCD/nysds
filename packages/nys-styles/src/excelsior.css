@@ -9,7 +9,7 @@
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/excelsior
    * License: MIT
-   * Version: 0.0.1
+   * Version: 0.0.7-alpha
 */
 
 :root {
@@ -58,6 +58,9 @@
 --nys-color-link: var(--nys-color-blue-600);
 --nys-color-link-strong: var(--nys-color-blue-700);
 --nys-color-link-strongest: var(--nys-color-blue-800);
+
+/* === Focus Colors === */
+--nys-color-focus: var(--nys-color-blue-600);
 
 
 /* ================== SEMANTIC TYPOGRAPHY TOKENS ==================== */
@@ -142,10 +145,13 @@
 /* UI */
 --nys-font-letterspacing-ui-xs: var(--nys-font-letterspacing-600);
 --nys-font-letterspacing-ui-sm: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-ui-md: var(--nys-font-letterspacing-400);
 --nys-font-letterspacing-ui-lg: var(--nys-font-letterspacing-300);
 --nys-font-letterspacing-ui-xl: var(--nys-font-letterspacing-200);
 
 /* Body */
+--nys-font-letterspacing-body-xs: var(--nys-font-letterspacing-600);
+--nys-font-letterspacing-body-sm: var(--nys-font-letterspacing-400);
 --nys-font-letterspacing-body-md: var(--nys-font-letterspacing-400);
 
 /* Heading */
@@ -157,9 +163,9 @@
 --nys-font-letterspacing-h6: var(--nys-font-letterspacing-300);
 
 /* UI */
---nys-font-letterpacing-ui-md: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-sm: var(--nys-font-letterspacing-400);
---nys-font-letterpacing-body-xs: var(--nys-font-letterspacing-600);
+--nys-font-letterspacing-ui-md: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-body-sm: var(--nys-font-letterspacing-400);
+--nys-font-letterspacing-body-xs: var(--nys-font-letterspacing-600);
 
 /* --- Icon Size --- */
 
@@ -190,11 +196,6 @@
 --nys-space-700: 56px;
 --nys-space-800: 64px;
 --nys-space-1200: 96px;
---nys-space-negative-50: -4px;
---nys-space-negative-100: -8px;
---nys-space-negative-150: -12px;
---nys-space-negative-200: -16px;
---nys-space-negative-300: -24px;
 
 /* --- Size --- */
 --nys-size-1px: 1px;
@@ -206,7 +207,9 @@
 --nys-size-250: 20px;
 --nys-size-300: 24px;
 --nys-size-400: 32px;
+--nys-size-450: 36px;
 --nys-size-500: 40px;
+--nys-size-550: 44px;
 --nys-size-600: 48px;
 --nys-size-700: 56px;
 --nys-size-800: 64px;
@@ -216,6 +219,12 @@
 --nys-border-width-sm: var(--nys-space-1px);
 --nys-border-width-md: var(--nys-space-2px);
 --nys-border-width-lg: var(--nys-space-50);
+
+/* --- Form Input Widths --- */
+
+--nys-form-width-sm: 88px;
+--nys-form-width-md: 200px;
+--nys-form-width-lg: 384px;
 
 /* ===================== BORDER RADIUS TOKENS ======================= */
 
@@ -402,6 +411,31 @@
 --nys-color-safety-gray-700: #435d6e;
 --nys-color-safety-gray-800: #30424f;
 --nys-color-safety-gray-900: #1d2830;
+
+/* ================== TRANSPARENT COLORS (ALPHA HEX) ===================== */
+/* Black Transparent */
+--nys-color-black-transparent-50: #00000003;
+--nys-color-black-transparent-100: #0000001a;
+--nys-color-black-transparent-200: #00000033;
+--nys-color-black-transparent-300: #0000004d;
+--nys-color-black-transparent-400: #00000066;
+--nys-color-black-transparent-500: #00000080;
+--nys-color-black-transparent-600: #00000099;
+--nys-color-black-transparent-700: #000000b3;
+--nys-color-black-transparent-800: #000000cc;
+--nys-color-black-transparent-900: #000000e6;
+
+/* White Transparent */
+--nys-color-white-transparent-50: #ffffff03;
+--nys-color-white-transparent-100: #ffffff1a;
+--nys-color-white-transparent-200: #ffffff33;
+--nys-color-white-transparent-300: #ffffff4d;
+--nys-color-white-transparent-400: #ffffff66;
+--nys-color-white-transparent-500: #ffffff80;
+--nys-color-white-transparent-600: #ffffff99;
+--nys-color-white-transparent-700: #ffffffb3;
+--nys-color-white-transparent-800: #ffffffcc;
+--nys-color-white-transparent-900: #ffffffe6;
 
 /* ================ PRIMITIVE TYPOGRAPHY TOKENS ===================== */
 

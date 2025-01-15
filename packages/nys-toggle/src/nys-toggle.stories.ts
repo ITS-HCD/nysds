@@ -41,8 +41,8 @@ type Story = StoryObj<NysToggleArgs>;
 /******************************** STORIES ********************************/
 // Define stories without using args
 
-// Story: Toggle switch
-export const ToggleSwitch: Story = {
+// Story: Basic
+export const Basic: Story = {
   args: {
     label: "Dark Mode",
     name: "theme",

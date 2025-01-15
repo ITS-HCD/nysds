@@ -1,6 +1,6 @@
 {
     "name": "@nys-excelsior/nys-textarea",
-    "version": "0.0.5-alpha",
+    "version": "0.0.7-alpha",
     "description": "An textarea component from the NYS Design System.",
       "module": "dist/nys-textarea.js",
     "types": "dist/index.d.ts",
@@ -21,6 +21,9 @@
     "peerDependencies": {
         "lit": "^3.2.1"
     },
+    "dependencies": {
+        "@nys-excelsior/nys-icon": "^0.0.7-alpha"
+      },
     "devDependencies": {
       "lit": "^3.2.1",
       "typescript": "^5.7.2",
