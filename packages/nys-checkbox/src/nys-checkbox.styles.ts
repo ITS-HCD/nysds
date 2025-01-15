@@ -8,20 +8,17 @@ export default css`
     --_nys-checkbox-size: var(--nys-size-400, 32px);
     --_nys-checkbox-radius: var(--nys-border-radius-md, 4px);
     --_nys-checkbox-width-border: var(--nys-border-width-md, 2px);
-    --_nys-checkbox-color-focus: var(--nys-color-focus, #004dd1);
+    --_nys-checkbox-color-focus: var(--nys-color-focus, #286ad8);
     --_nys-checkbox-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-checkbox-offset-focus: var(--nys-space-2px, 2px);
     --_nys-checkbox-transition-duration: var(
       --nys-transition-duration-sm,
       0.1s
     );
-    --_nys-checkbox-gap: var(
-      --nys-space-150,
-      12px
-    ); /* space between checkbox and it's label */
-    --_nys-checkboxgroup-gap: var(
-      --nys-space-50,
-      4px
-    ); /* space between checkboxes */
+    /* space between checkbox and it's label */
+    --_nys-checkbox-gap: var(--nys-space-150, 12px);
+    /* space between checkboxes */
+    --_nys-checkboxgroup-gap: var(--nys-space-200, 16px);
 
     /* Typography */
     --_nys-checkbox-font-family: var(
@@ -101,6 +98,8 @@ export default css`
   :host([size="sm"]) {
     --_nys-checkbox-size: var(--nys-size-300, 24px);
     --_nys-checkbox-radius: var(--nys-border-radius-sm, 2px);
+    --_nys-checkboxgroup-gap: var(--nys-space-100, 8px);
+    --_nys-checkbox-gap: var(--nys-space-100, 8px);
   }
   /* Medium Variant */
   :host([size="md"]) {
@@ -108,27 +107,33 @@ export default css`
     --_nys-checkbox-radius: var(--nys-border-radius-md, 4px);
   }
 
-  /* Checkbox Group Styling */
   .nys-checkboxgroup {
     display: flex;
     flex-direction: column;
+    gap: var(--_nys-checkboxgroup-gap);
+    font-family: var(--_nys-checkbox-font-family);
+    font-size: var(--_nys-checkbox-font-size);
+    line-height: var(--_nys-checkbox-line-height);
   }
 
   .nys-checkboxgroup__content {
-    padding-top: var(--nys-space-50, 4px);
     display: flex;
     flex-direction: column;
-    gap: var(--nys-space-200, 16px);
+    gap: var(--_nys-checkboxgroup-gap);
   }
 
   .nys-checkbox {
-    align-items: center;
-    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--_nys-checkbox-font-family);
+    font-size: var(--_nys-checkbox-font-size);
+    line-height: var(--_nys-checkbox-line-height);
   }
 
   /* wraps the single checkbox */
   .nys-checkbox__content {
     display: flex;
+    gap: var(--_nys-checkbox-gap);
   }
 
   /* wraps the native checkbox and it's icon */
@@ -151,21 +156,20 @@ export default css`
     appearance: none;
     background-repeat: no-repeat;
     background-position: center;
-    outline-offset: var(--_nys-checkbox-width-border);
+    outline-offset: var(--_nys-checkbox-offset-focus);
     width: var(--_nys-checkbox-size);
+    min-width: var(--_nys-checkbox-size);
+    min-height: var(--_nys-checkbox-size);
     height: var(--_nys-checkbox-size);
+    max-width: var(--_nys-checkbox-size);
+    max-height: var(--_nys-checkbox-size);
     border: solid var(--_nys-checkbox-width-border)
       var(--_nys-checkbox-color-border);
     background-color: var(--_nys-checkbox-color-bg);
-    cursor: pointer;
     border-radius: var(--_nys-checkbox-radius);
-
-    transition:
-      background-color var(--_nys-checkbox-transition-duration),
-      border-color var(--_nys-checkbox-transition-duration);
   }
 
-  /* Pointer cursor for unchecked radio button */
+  /* Pointer cursor for unchecked checkbox */
   .nys-checkbox:hover * {
     cursor: pointer;
   }
@@ -189,14 +193,14 @@ export default css`
     cursor: not-allowed;
   }
 
-  /* Hovered */
-  .nys-checkbox__checkbox:hover {
+  /* Hover - only allow hover on unchecked */
+  .nys-checkbox__checkbox:hover:not(:disabled):not(:checked) {
     background-color: var(--_nys-checkbox-hover-color-bg);
     border-color: var(--_nys-checkbox-hover-color-border);
   }
 
-  /* Pressed */
-  .nys-checkbox__checkbox:active {
+  /* Pressed - only allow pressed on unchecked */
+  .nys-checkbox__checkbox:active:not(:disabled):not(:checked) {
     background-color: var(--_nys-checkbox-pressed-color-bg);
     border-color: var(--_nys-checkbox-pressed-color-border);
   }
@@ -204,40 +208,36 @@ export default css`
   /* Focused */
   .nys-checkbox__checkbox:focus {
     outline: solid var(--_nys-checkbox-width-focus)
-      var(--_nys-checkbox-color-focus, #004dd1);
+      var(--_nys-checkbox-color-focus);
   }
 
   /* Checkbox Label Holder */
   .nys-checkbox__text {
-    margin: auto 0 auto var(--nys-space-150, 12px);
+    display: flex;
+    flex-direction: column;
   }
 
   /* Label styling */
+  .nys-checkboxgroup__label {
+    font-weight: var(--_nys-checkbox-font-weight-600);
+    color: var(--_nys-checkbox-color);
+  }
   .nys-checkbox__label {
-    font-size: var(--nys-font-size-ui-md, 16px);
-    font-weight: var(--nys-font-weight-regular, 400);
-    color: var(--nys-color-ink, #1b1b1b);
+    font-weight: var(--_nys-checkbox-font-weight-400);
+    color: var(--_nys-checkbox-color);
   }
 
   /* Description styling */
-  .nys-checkbox__description {
-    font-size: var(--nys-font-size-sm, 14px);
-    font-weight: var(--nys-font-weight-light, 300);
-    color: var(--nys-color-neutral-700, #4a4d4f);
-  }
-
-  /* Disabled label */
-  .nys-checkbox__checkbox:disabled + .nys-checkbox__text .nys-checkbox__label,
-  .nys-checkbox__checkbox:disabled
-    + .nys-checkbox__text
-    .nys-checkbox__description {
-    color: var(--form-label-color-disabled, #757575);
+  .nys-checkbox__description,
+  .nys-checkboxgroup__description {
+    font-weight: var(--_nys-checkbox-font-weight-400);
+    font-style: italic;
   }
 
   /* Required */
   .nys-checkbox__required {
-    color: var(--nys-color-danger, #b52c2c);
-    margin-left: var(--nys-space-2px, 2px);
+    color: var(--_nys-checkbox-error-color);
+    margin-left: var(--_nys-select-margin);
   }
 
   .nys-checkbox__requiredwrapper {
@@ -246,10 +246,25 @@ export default css`
 
   /* Error Message Styling */
   .nys-checkbox__error {
-    border-top: 1px solid var(--nys-color-danger, #b52c2c);
-    margin-top: var(--nys-space-150, 12px);
-    padding-top: var(--nys-space-100, 8px);
-    color: var(--nys-color-danger, #b52c2c);
-    margin-left: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: var(--nys-space-100, 8px);
+    color: var(--_nys-checkbox-error-color);
+
+    /* add divider line */
+    border-top: 1px solid var(--_nys-checkbox-error-color);
+    padding-top: var(--nys-space-50, 4px);
+    margin-top: var(--nys-space-100, 8px);
+  }
+
+  /* Error Icon Styling */
+  nys-icon[name="error"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: auto;
+    box-sizing: border-box;
+    height: var(--_nys-checkbox-line-height);
+    text-align: center;
   }
 `;

@@ -72,7 +72,7 @@ export class NysCheckbox extends LitElement {
   render() {
     return html`
       <div class="nys-checkbox">
-        <div class="nys-checkbox__content">
+        <label class="nys-checkbox__content">
           <div class="nys-checkbox__checkboxwrapper">
             <input
               id="${this.id}"
@@ -110,15 +110,15 @@ export class NysCheckbox extends LitElement {
                 ? html`<label class="nys-checkbox__required">*</label>`
                 : ""}
             </div>
-            <div for=${this.id} class="nys-checkbox__description">
+            <label for=${this.id} class="nys-checkbox__description">
               ${this.description}
               <slot name="description"></slot>
-            </div>
+            </label>
           </div>`}
-        </div>
+        </label>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-checkbox__error">
-              <nys-icon name="error"></nys-icon>
+              <nys-icon name="error" size="xl"></nys-icon>
               ${this.errorMessage}
             </div>`
           : ""}

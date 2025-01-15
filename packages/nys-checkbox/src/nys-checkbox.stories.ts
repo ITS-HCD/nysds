@@ -333,7 +333,7 @@ export const CheckboxGroup: Story = {
     errorMessage: "You must select both options to continue.",
   },
   render: (args) => html`
-    <div style="display: flex;">
+    <div style="display: flex; gap: 8px;">
       <nys-checkboxgroup
         style="flex: 1;"
         .label=${args.label}
