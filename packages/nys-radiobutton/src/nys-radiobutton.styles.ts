@@ -18,8 +18,8 @@ export default css`
       12px
     ); /* space between radio and it's label */
     --_nys-radiogroup-gap: var(
-      --nys-space-50,
-      4px
+      --nys-space-200,
+      16px
     ); /* space between radio buttons */
 
     /* Typography */
@@ -106,6 +106,8 @@ export default css`
   :host([size="md"]) {
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
     --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
+    --_nys-radiogroup-gap: var(--nys-space-200, 16px);
+    --_nys-radiobutton-gap: var(--nys-space-150, 12px);
   }
 
   .nys-radiogroup {
