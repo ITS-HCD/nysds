@@ -83,7 +83,7 @@ export default css`
       --nys-color-neutral-400,
       #757575
     );
-    --_nys-checkbox-disabled-color-text: var(--nys-color-neutral-400, #757575);
+    --_nys-checkbox-disabled-color-text: var(--nys-color-neutral-500, #797c7f);
     /* Disabled Checked */
     --_nys-checkbox-disabled-checked-color-bg: var(
       --nys-color-neutral-200,

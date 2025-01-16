@@ -80,18 +80,22 @@ export default css`
     );
     /* Disabled */
     --_nys-radiobutton-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
+    --_nys-radiobutton-disabled-color-text: var(
+      --nys-color-neutral-500,
+      #797c7f
+    );
     --_nys-radiobutton-disabled-color-border: var(
-      --nys-color-neutral-200,
-      #bec0c1
+      --nys-color-neutral-100,
+      #d0d0ce
     );
     /* Disabled Checked */
     --_nys-radiobutton-disabled-checked-color-bg: var(
-      --nys-color-neutral-200,
-      #bec0c1
+      --nys-color-neutral-100,
+      #d0d0ce
     );
     --_nys-radiobutton-disabled-checked-color-border: var(
-      --nys-color-neutral-200,
-      #bec0c1
+      --nys-color-neutral-100,
+      #d0d0ce
     );
   }
 
@@ -232,7 +236,7 @@ export default css`
   .nys-radiobutton__radio:disabled
     + .nys-radiobutton__text
     .nys-radiobutton__description {
-    color: var(--form-label-color-disabled, #757575);
+    color: var(--_nys-radiobutton-disabled-color-text);
     cursor: not-allowed;
   }
 
