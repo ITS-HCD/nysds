@@ -1,7 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-checkbox";
-import "./nys-checkboxgroup";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {

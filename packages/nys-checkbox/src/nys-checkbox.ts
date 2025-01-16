@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles"; // Assuming styles are in a separate file
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "./nys-checkboxgroup";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 

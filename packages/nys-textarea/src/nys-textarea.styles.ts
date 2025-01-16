@@ -68,6 +68,7 @@ export default css`
 
   :host([width="full"]) {
     --_nys-textarea-width: 100%;
+    flex: 1; /* stretches width for flex container */
   }
 
   :host([showError]) {
