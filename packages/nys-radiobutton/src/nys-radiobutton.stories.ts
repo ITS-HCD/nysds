@@ -379,20 +379,20 @@ export const Size: Story = {
   size="sm"
 >
   <nys-radiobutton
-    .name="agency"
+    name="agency"
     checked
-    .label="Department of Health"
-    .value="doh"
+    label="Department of Health"
+    value="doh"
   ></nys-radiobutton>
   <nys-radiobutton
-    .name="agency"
-    .label="Office of Information Technology Services"
-    .value="its"
+    name="agency"
+    label="Office of Information Technology Services"
+    value="its"
   ></nys-radiobutton>
   <nys-radiobutton
-    .name="agency"
-    .label="New York State Attorney General"
-    .value="ag"
+    name="agency"
+    label="New York State Attorney General"
+    value="ag"
   ></nys-radiobutton>
 </nys-radiogroup>
 `.trim(),
