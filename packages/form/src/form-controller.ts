@@ -107,6 +107,7 @@ export class FormControlController implements ReactiveController {
     });
   }
 
+  // Attaching listeners to the native form
   private attachForm(form?: HTMLFormElement) {
     console.log("attaching form");
     if (form) {
@@ -122,8 +123,8 @@ export class FormControlController implements ReactiveController {
       }
 
       console.log("We have a form, now attaching listeners form");
-      this.form.addEventListener("formdata", this.handleFormData);
       this.form.addEventListener("submit", this.handleFormSubmit);
+      this.form.addEventListener("formdata", this.handleFormData);
       this.form.addEventListener("reset", this.handleFormReset);
 
       if (!reportValidityOverloads.has(this.form)) {
@@ -204,7 +205,7 @@ export class FormControlController implements ReactiveController {
       ) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        console.log("Preventing submission -- invalid requirements");
+        console.log("Preventing submission -- invalid requirements: ", this.options.name);
       }
     }
   };

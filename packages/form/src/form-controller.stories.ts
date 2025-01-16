@@ -79,7 +79,7 @@ export const Basic: Story = {
         });
         alert("Form Data:\n" + JSON.stringify(formDataObj, null, 2));
       }}
-      style="display: flex; flex-direction: column; gap: 10px;"
+      style="display: flex; flex-direction: column; gap: var(--nys-space-200, 16px)"
     >
       <div
         style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
@@ -92,12 +92,16 @@ export const Basic: Story = {
           placeholder="John.Smith@its.ny.gov"
           type="text"
         ></nys-textinput>
-        <nys-checkbox
+        <nys-checkboxgroup
           label="Opt In"
           description="Newsletter"
-          name="nys-resident"
-          value="nys-resident"
-        ></nys-checkbox>
+        >
+          <nys-checkbox
+            label="Send me updates"
+            name="newsletter"
+            value="newsletter"
+          ></nys-checkbox>
+        </nys-checkboxgroup>
       </div>
       <div
         style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
@@ -160,25 +164,7 @@ export const Basic: Story = {
           width="sm"
         ></nys-textinput>
       </div>
-      <nys-textarea name="comments" label="Comments"> </nys-textarea>
-      <nys-radiogroup
-        label="What is your primary work location?"
-        description="This is the location you use for your in office days."
-        size="md"
-      >
-        <nys-radiobutton
-          name="office"
-          label="Albany"
-          description="Upstate New York"
-          value="albany"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          name="office"
-          label="Manhattan"
-          description="New York City"
-          value="manhattan"
-        ></nys-radiobutton>
-      </nys-radiogroup>
+      <nys-textarea name="comments" label="Comments"></nys-textarea>
       <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
       <button type="submit">Send</button>
     </form>

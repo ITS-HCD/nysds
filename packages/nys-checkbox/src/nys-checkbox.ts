@@ -16,8 +16,8 @@ export class NysCheckbox extends LitElement {
       this.form
         ? (document.getElementById(this.form) as HTMLFormElement)
         : this.closest("form"),
-    value: () => (this.checked ? "on" : undefined),
-    defaultValue: () => (this.checked ? "on" : undefined),
+    value: () => (this.checked ? this.value || "on" : undefined),
+    defaultValue: () => (this.checked ? this.value || "on" : undefined),
     reportValidity: () => this.reportValidity(),
     checkValidity: () => this.checkValidity(),
   });
