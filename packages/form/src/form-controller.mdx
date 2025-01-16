@@ -13,9 +13,11 @@ To address this, Excelsior leverages the **[formdata](https://developer.mozilla.
 
 <p className="pill stable">Stable</p>
 
-<p className="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=3307-8378&t=FsdGi49PZJ04VzFO-0">Get the UI kit</a></p>
+<p className="pill uikit" target="_blank"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=3307-8378&t=FsdGi49PZJ04VzFO-0">Get the UI kit</a></p>
 
-In the examples below, we demonstrate how to process the `FormData` object by listening to a native form submission event. Your form can include both standard HTML form elements and custom `nys-components`.
+<Canvas of={FormStories.Basic} />
+
+In the example above, we successfully processed the `FormData` object from our `nys-component` by listening to the native form submission event. This allows your form to seamlessly handle both standard HTML form elements and custom `nys-components`.
 ```js
 const form = document.querySelector('form');
 
@@ -44,15 +46,15 @@ const useData = (formData: FormData) => {
    alert(JSON.stringify(formValues, null, 2));
 };
 ```
-<Canvas of={FormStories.nativeFormWithComponents} />
 
 ## Variants
 ### Required Fields
 Form will handle all required attributes for you.
 <Canvas of={FormStories.RequiredFields} />
 
-### Form Property on Outer Web Components
-Use the `form` property to explicitly associate components and elements with a specific `<form>` by [referencing that form's `id`](https://www.w3.org/TR/2009/WD-html5-20090212/forms.html). 
+### Associating Components with Forms Using the `form` Property
+Use the `form` property to explicitly associate components and elements with a specific `<form>` by [referencing that form's `id`](https://www.w3.org/TR/2009/WD-html5-20090212/forms.html). /
+This property should only be used when the component is located outside the `<form>` element it needs to interact with.
 ```html
 <!-- For example -->
 <nys-form id="my-form">

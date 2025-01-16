@@ -49,12 +49,6 @@ export class NysTextinput extends LitElement {
       ? (value as (typeof NysTextinput.VALID_TYPES)[number])
       : "text";
   }
-
-  // Gets the validity property
-  get validity() {
-    const input = this.shadowRoot?.querySelector("input");
-    return input ? input.validity : { valid: true };
-  }
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
@@ -62,11 +56,6 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
-  /**
-   * Form controls are typically linked to the nearest <form> element.
-   * Use this attribute to associate the control with a form by its id, even if it's outside the form.
-   * The form must be in the same document or shadow root.
-   */
   @property({ reflect: true }) form = null;
   @property({ type: String }) pattern = null;
   @property({ type: Number }) maxlength = null;
@@ -95,13 +84,13 @@ export class NysTextinput extends LitElement {
 
   static styles = styles;
 
-  // Generate a unique ID if one is not provided
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
-    }
-  }
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
 
   firstUpdated() {
     this.formControlController.updateValidity();
@@ -110,6 +99,12 @@ export class NysTextinput extends LitElement {
   // Gets the associated form, if one exists.
   getForm(): HTMLFormElement | null {
     return this.formControlController.getForm();
+  }
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.validity : { valid: true };
   }
 
   // Set the form control custom validity message
@@ -131,6 +126,15 @@ export class NysTextinput extends LitElement {
   reportValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
+    }
   }
 
   // Handle invalid event
@@ -164,6 +168,7 @@ export class NysTextinput extends LitElement {
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
   }
+
   render() {
     return html`
       <div class="nys-textinput">

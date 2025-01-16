@@ -4,6 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles"; // Assuming styles are in a separate file
 import { FormControlController } from "@nys-excelsior/form-controller";
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "./nys-checkboxgroup";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
@@ -35,26 +36,28 @@ export class NysCheckbox extends LitElement {
 
   static styles = styles;
 
-  // Generate a unique ID if one is not provided
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
-    }
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
+
+  // Ensures the form control's validity state is updated after the first render.
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
   }
 
   // Gets the validity property
   get validity() {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.validity : { valid: true };
-  }
-
-  firstUpdated() {
-    this.formControlController.updateValidity();
-  }
-
-  getForm(): HTMLFormElement | null {
-    return this.formControlController.getForm();
   }
 
   // Set the form control custom validity message
@@ -76,6 +79,15 @@ export class NysCheckbox extends LitElement {
   reportValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
+    }
   }
 
   // Handle invalid event

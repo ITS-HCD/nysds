@@ -27,8 +27,8 @@ export interface FormControlControllerOptions {
  * A controller to enable custom form controls to participate in native HTML forms.
  *
  * We use FormControlController for building form-associated custom elements, particularly when:
- * 1. You insert our nys-component (e.g., nys-textinput, nys-radiogroup).
- * 2. You need the component to interact with native forms:
+ * 1. You insert our nys-component (e.g., nys-textinput, nys-radiogroup) into a native form.
+ * 2. You need the component to interact with native forms events:
  *    - Submit data during form submission.
  *    - Support resetting to a default value on <form> reset.
  *    - Provide validation states (e.g., required, validity checks).
@@ -184,7 +184,9 @@ export class FormControlController implements ReactiveController {
   };
 
   private handleFormSubmit = (event: Event) => {
-    console.log("form is being submitted -- handleFormSubmit");
+    console.log(
+      "The handleFormSubmit() is being called -- checking validation.",
+    );
     const disabled = this.options.disabled(this.host);
     const reportValidity = this.options.reportValidity;
 
@@ -236,7 +238,7 @@ export class FormControlController implements ReactiveController {
 
   // Check form validity by checking all form controls, including custom ones. Note that this does not trigger the native validation UI.
   private checkFormValidity() {
-    console.log("checking form validity...pls check first!!!!");
+    console.log("checking form validity from the form-controller...");
 
     if (this.form && !this.form.noValidate) {
       const elements = Array.from(
@@ -256,7 +258,7 @@ export class FormControlController implements ReactiveController {
 
   // Report form validity by checking all form controls, including custom ones.
   private reportFormValidity = () => {
-    console.log("reporting form validity...pls report first!!!!");
+    console.log("reporting form validity from the form-controller...");
 
     if (this.form && !this.form.noValidate) {
       const elements = Array.from(

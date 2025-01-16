@@ -49,12 +49,13 @@ const useData = (formData: FormData) => {
 // Define stories without using args
 
 // Story: Native Form with Custom Web Components
-export const nativeFormWithComponents: Story = {
+export const Basic: Story = {
   args: {
-    id: "nys-work-form",
+    id: "nys-registration-form",
   },
 
   render: (args) => html`
+    <h2>New York State Employee Registration</h2>
     <form
       .id=${args.id}
       @submit=${(e: SubmitEvent) => {
@@ -80,83 +81,104 @@ export const nativeFormWithComponents: Story = {
       }}
       style="display: flex; flex-direction: column; gap: 10px;"
     >
-      <label for="fullname">Enter full name: </label>
-      <input
-        id="fullname"
-        type="text"
-        name="fullname"
-        placeholder="Did you know I'm a native HTML element?"
-      />
-
-      <label for="password-native">Password (Native): </label>
-      <input
-        id="password-native"
-        type="password"
-        autocomplete="on"
-        name="password-native"
-        placeholder="Testing: Can you break into my password? (native)"
-      />
-
-      <nys-textinput
-        name="password-nys"
-        placeholder="Can you break into my password? (nys-component)"
-        label="Password (nys-component):"
-        description="Hack me"
-        id="password-nys"
-        type="password"
-        required
-      ></nys-textinput>
-
-      <nys-textinput
-        name="empid"
-        placeholder="N00000000"
-        label="Please enter your Employee number"
-        description="include the N prefix"
-        maxlength="9"
-        pattern="N[0-9]{8}"
-        id="nID"
-      ></nys-textinput>
-      <nys-checkbox
-        label="NYS Resident?"
-        description="Please check the box if you are a resident of New York State."
-        name="nys-resident"
-        value="nys-resident"
-      ></nys-checkbox>
-      <nys-radiogroup>
-        <p>What is your primary work location?</p>
+      <div
+        style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
+      >
+        <nys-textinput
+          label="Email"
+          name="user-email"
+          id="user-email"
+          description="Used to send you a monthly update on your account."
+          placeholder="John.Smith@its.ny.gov"
+          type="text"
+        ></nys-textinput>
+        <nys-checkbox
+          label="Opt In"
+          description="Newsletter"
+          name="nys-resident"
+          value="nys-resident"
+        ></nys-checkbox>
+      </div>
+      <div
+        style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
+      >
+        <nys-textinput
+          name="fname"
+          label="First Name"
+          id="fname"
+          placeholder="John"
+          type="text"
+          width="md"
+          required
+        ></nys-textinput>
+        <nys-textinput
+          name="mname"
+          label="Middle Name"
+          id="mname"
+          type="text"
+          width="full"
+        ></nys-textinput>
+        <nys-textinput
+          name="lname"
+          label="Last Name"
+          id="lname"
+          placeholder="Smith"
+          type="text"
+          width="md"
+          required
+        ></nys-textinput>
+      </div>
+      <nys-select
+        name="nys-agency"
+        label="NYS Agency"
+        id="nys-agency"
+        description="Select the agency name/code you work for."
+        width="lg"
+      >
+        <nys-option value="its(01110)" label="ITS (01110)"></nys-option>
+        <nys-option value="dot(17060)" label="DoT (17060)"></nys-option>
+        <nys-option value="ocfs(25000)" label="OCFS (25000)"></nys-option>
+        <nys-option value="oag(03000)" label="OAG (03000)"></nys-option>
+        <nys-option value="others" label="others"></nys-option>
+      </nys-select>
+      <div
+        style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
+      >
+        <nys-textinput
+          name="telephone"
+          label="Phone Number"
+          id="tele"
+          placeholder="( )___-___"
+          type="tel"
+          width="md"
+        ></nys-textinput>
+        <nys-textinput
+          name="tele-extension"
+          label="Ext. (Optional)"
+          id="ext"
+          type="number"
+          width="sm"
+        ></nys-textinput>
+      </div>
+      <nys-textarea name="comments" label="Comments"> </nys-textarea>
+      <nys-radiogroup
+        label="What is your primary work location?"
+        description="This is the location you use for your in office days."
+        size="md"
+      >
         <nys-radiobutton
+          name="office"
           label="Albany"
           description="Upstate New York"
-          name="office"
           value="albany"
         ></nys-radiobutton>
         <nys-radiobutton
+          name="office"
           label="Manhattan"
           description="New York City"
-          name="office"
           value="manhattan"
         ></nys-radiobutton>
       </nys-radiogroup>
-      <nys-select
-        name="favorite-borough"
-        label="Select your favorite borough"
-        description="Valid sizes are xs, sm, md, lg, and xl"
-        size="xs"
-        required
-      >
-        <option value="bronx">The Bronx</option>
-        <option value="brooklyn">Brooklyn</option>
-        <option value="manhattan">Manhattan</option>
-        <option value="staten_island">Staten Island</option>
-        <option value="queens">Queens</option>
-      </nys-select>
-      <nys-textarea
-        name="additional-feedback"
-        label="Additional Feedback"
-        description="You cannot type more than 10 characters in the below field"
-        maxlength="10"
-      >
-      </nys-textarea>
       <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
       <button type="submit">Send</button>
     </form>
@@ -166,75 +188,105 @@ export const nativeFormWithComponents: Story = {
       source: {
         code: `
 <form id="nys-work-form">
-  <label for="fullname">Enter full name: </label>
-  <input id="fullname" type="text" name="fullname" placeholder="Did you know I'm a native HTML element?"/>
-
-  <label for="password-native">Password (Native): </label>
-  <input id="password-native" type="password" autocomplete="on" name="password-native" placeholder="Testing: Can you break into my password? (native)"/>
-
-  <nys-textinput
-    name="password-nys"
-    placeholder="Can you break into my password? (nys-component)"
-    label="Password (nys-component):"
-    description="Hack me"
-    id="password-nys"
-    type="password"
-  ></nys-textinput>
-
-  <nys-textinput
-    name="empid"
-    placeholder="N00000000"
-    label="Please enter your Employee number"
-    description="include the N prefix"
-    maxlength="9"
-    pattern="N[0-9]{8}"
-    id="nID"
-  ></nys-textinput>
-  <nys-checkbox
-    label="NYS Resident?"
-    description="Please check the box if you are a resident of New York State."
-    name="nys-resident"
-    value="nys-resident"
-  ></nys-checkbox>
-  <nys-radiogroup>
-    <p>What is your primary work location?</p>
+  <div
+    style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
+  >
+    <nys-textinput
+      label="Email"
+      name="user-email"
+      id="user-email"
+      description="Used to send you a monthly update on your account."
+      placeholder="John.Smith@its.ny.gov"
+      type="text"
+    ></nys-textinput>
+    <nys-checkbox
+      label="Opt In"
+      description="Newsletter"
+      name="nys-resident"
+      value="nys-resident"
+    ></nys-checkbox>
+  </div>
+  <div
+    style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
+  >
+    <nys-textinput
+      name="fname"
+      label="First Name"
+      id="fname"
+      placeholder="John"
+      type="text"
+      width="md"
+      required
+    ></nys-textinput>
+    <nys-textinput
+      name="mname"
+      label="Middle Name"
+      id="mname"
+      type="text"
+      width="full"
+    ></nys-textinput>
+    <nys-textinput
+      name="lname"
+      label="Last Name"
+      id="lname"
+      placeholder="Smith"
+      type="text"
+      width="md"
+      required
+    ></nys-textinput>
+  </div>
+  <nys-select
+    name="nys-agency"
+    label="NYS Agency"
+    id="nys-agency"
+    description="Select the agency name/code you work for."
+    width="lg"
+  >
+    <nys-option value="its(01110)" label="ITS (01110)"></nys-option>
+    <nys-option value="dot(17060)" label="DoT (17060)"></nys-option>
+    <nys-option value="ocfs(25000)" label="OCFS (25000)"></nys-option>
+    <nys-option value="oag(03000)" label="OAG (03000)"></nys-option>
+    <nys-option value="others" label="others"></nys-option>
+  </nys-select>
+  <div
+    style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
+  >
+    <nys-textinput
+      name="telephone"
+      label="Phone Number"
+      id="tele"
+      placeholder="( )___-___"
+      type="tel"
+      width="md"
+    ></nys-textinput>
+    <nys-textinput
+      name="tele-extension"
+      label="Ext. (Optional)"
+      id="ext"
+      type="number"
+      width="sm"
+    ></nys-textinput>
+  </div>
+  <nys-textarea name="comments" label="Comments"> </nys-textarea>
+  <nys-radiogroup
+    label="What is your primary work location?"
+    description="This is the location you use for your in office days."
+    size="md"
+  >
     <nys-radiobutton
+      name="office"
       label="Albany"
       description="Upstate New York"
-      name="office"
       value="albany"
     ></nys-radiobutton>
     <nys-radiobutton
+      name="office"
       label="Manhattan"
       description="New York City"
-      name="office"
       value="manhattan"
     ></nys-radiobutton>
   </nys-radiogroup>
-  <nys-select
-    name="favorite-borough"
-    label="Select your favorite borough"
-    description="Valid sizes are xs, sm, md, lg, and xl"
-    size="xs"
-  >
-    <option value="bronx">The Bronx</option>
-    <option value="brooklyn">Brooklyn</option>
-    <option value="manhattan">Manhattan</option>
-    <option value="staten_island">Staten Island</option>
-    <option value="queens">Queens</option>
-  </nys-select>
-  <nys-textarea
-    name="additional-feedback"
-    label="Additional Feedback"
-    description="You cannot type more than 10 characters in the below field"
-    maxlength="10"
-  >
-  </nys-textarea>
-  <nys-toggle
-    label="Dark Mode"
-    name="dark-mode"
-    value="dark"
-  ></nys-toggle>
+  <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
   <button type="submit">Send</button>
 </form>
 `.trim(),
@@ -262,8 +314,6 @@ export const RequiredFields: Story = {
       }}
       style="display: flex; flex-direction: column; gap: 10px;"
     >
-      <label for="fav-color">Enter color:</label>
-      <input id="fav-color" placeholder="what's your favorite color?" name="favorite-color" required></input>
       <nys-textinput
         name="username"
         placeholder="John Doe"
@@ -400,43 +450,61 @@ export const Fieldset: Story = {
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
     >
-      <fieldset>
-        <legend>Select a Location:</legend>
-        <input type="radio" id="albany" name="office" value="albany" />
-        <label for="albany">Albany</label><br />
+      <fieldset style="display: flex; flex-direction: column; gap: 10px; background-color: #f0f0f0; padding: 20px;">
+        <legend>User Information</legend>
+        <nys-radiogroup
+          label="Select your agency"
+          description="This is the agency, department, or office you work for."
+          size="sm"
+        >
+          <nys-radiobutton
+            name="agency"
+            checked
+            label="Department of Health"
+            value="doh"
+          ></nys-radiobutton>
+          <nys-radiobutton
+            name="agency"
+            label="Office of Information Technology Services"
+            value="its"
+          ></nys-radiobutton>
+          <nys-radiobutton
+            name="agency"
+            label="New York State Attorney General"
+            value="ag"
+          ></nys-radiobutton>
+        </nys-radiogroup>
 
-        <input type="radio" id="manhattan" name="office" value="manhattan" />
-        <label for="manhattan">Manhattan</label><br />
-
-        <input type="radio" id="remote" name="office" value="remote" />
-        <label for="remote">Remote</label>
-
-        <div style="display:flex; margin:20px 0;">
-          <select name="state-native" id="state-select-native">
-            <option value="">--Please choose an option--</option>
-            <option value="nj">New Jersey</option>
-            <option value="ny">New York</option>
-            <option value="pa">Pennsylvania</option>
-            <option value="ma">Massachusetts</option>
-            <option value="vt">Vermont</option>
-            <option value="ct">Connecticut</option>
-          </select>
-        </div>
         <nys-select
           name="state"
           id="state-select"
           label="Select state"
           description="This is your primary work location state"
-          size="sm"
+          width="full"
         >
-          <option value="">--Please choose an option--</option>
-          <option value="nj">New Jersey</option>
-          <option value="ny">New York</option>
-          <option value="pa">Pennsylvania</option>
-          <option value="ma">Massachusetts</option>
-          <option value="vt">Vermont</option>
-          <option value="ct">Connecticut</option>
+          <nys-option value="nj" label="New Jersey"></nys-option>
+          <nys-option value="ny" label="New York"></nys-option>
+          <nys-option value="pa" label="Pennsylvania"></nys-option>
+          <nys-option value="ma" label="Massachusetts">/nys-option>
+          <nys-option value="vt" label="Vermont"></nys-option>
+          <nys-option value="ct" label="Connecticut"></nys-option>
         </nys-select>
+        <nys-checkboxgroup
+          label="Select your favorite New York landmarks"
+          description="Choose from the options below"
+        >
+          <nys-checkbox
+            label="Adirondacks"
+            name="landmarks"
+            value="adirondacks"
+            errorMessage="You must select all that applies"
+            checked
+          ></nys-checkbox>
+          <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
+          <nys-checkbox label="Catskills" checked></nys-checkbox>
+          <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
+          <nys-checkbox label="Coney Island"></nys-checkbox>
+        </nys-checkboxgroup>
         <button type="submit">Send</button>
       </fieldset>
     </form>
@@ -447,42 +515,60 @@ export const Fieldset: Story = {
         code: `
 <form id="work-location">
   <fieldset>
-    <legend>Select a Location:</legend>
-    <input type="radio" id="albany" name="office" value="albany" />
-    <label for="albany">Albany</label><br />
+    <legend>User Information</legend>
+    <nys-radiogroup
+      label="Select your agency"
+      description="This is the agency, department, or office you work for."
+      size="sm"
+    >
+      <nys-radiobutton
+        name="agency"
+        checked
+        label="Department of Health"
+        value="doh"
+      ></nys-radiobutton>
+      <nys-radiobutton
+        name="agency"
+        label="Office of Information Technology Services"
+        value="its"
+      ></nys-radiobutton>
+      <nys-radiobutton
+        name="agency"
+        label="New York State Attorney General"
+        value="ag"
+      ></nys-radiobutton>
+    </nys-radiogroup>
 
-    <input type="radio" id="manhattan" name="office" value="manhattan" />
-    <label for="manhattan">Manhattan</label><br />
-
-    <input type="radio" id="remote" name="office" value="remote" />
-    <label for="remote">Remote</label>
-
-    <div style="display:flex; margin:20px 0;">
-      <select name="state" id="state-select">
-        <option value="">--Please choose an option--</option>
-        <option value="nj">New Jersey</option>
-        <option value="ny">New York</option>
-        <option value="pa">Pennsylvania</option>
-        <option value="ma">Massachusetts</option>
-        <option value="vt">Vermont</option>
-        <option value="ct">Connecticut</option>
-      </select>
-    </div>
     <nys-select
       name="state"
       id="state-select"
       label="Select state"
       description="This is your primary work location state"
-      size="sm"
+      width="full"
     >
-      <option value="">--Please choose an option--</option>
-      <option value="nj">New Jersey</option>
-      <option value="ny">New York</option>
-      <option value="pa">Pennsylvania</option>
-      <option value="ma">Massachusetts</option>
-      <option value="vt">Vermont</option>
-      <option value="ct">Connecticut</option>
+      <nys-option value="nj" label="New Jersey"></nys-option>
+      <nys-option value="ny" label="New York"></nys-option>
+      <nys-option value="pa" label="Pennsylvania"></nys-option>
+      <nys-option value="ma" label="Massachusetts">/nys-option>
+      <nys-option value="vt" label="Vermont"></nys-option>
+      <nys-option value="ct" label="Connecticut"></nys-option>
     </nys-select>
+    <nys-checkboxgroup
+      label="Select your favorite New York landmarks"
+      description="Choose from the options below"
+    >
+      <nys-checkbox
+        label="Adirondacks"
+        name="landmarks"
+        value="adirondacks"
+        errorMessage="You must select all that applies"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
+      <nys-checkbox label="Catskills" checked></nys-checkbox>
+      <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
+      <nys-checkbox label="Coney Island"></nys-checkbox>
+    </nys-checkboxgroup>
     <button type="submit">Send</button>
   </fieldset>
 </form>

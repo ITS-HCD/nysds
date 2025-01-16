@@ -78,14 +78,15 @@ export class NysTextarea extends LitElement {
 
   static styles = styles;
 
-  // Generate a unique ID if one is not provided
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-textarea-${Date.now()}-${textareaIdCounter++}`;
-    }
-  }
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
 
+  // Ensures the form control's validity state is updated after the first render.
   firstUpdated() {
     this.formControlController.updateValidity();
   }
@@ -114,6 +115,15 @@ export class NysTextarea extends LitElement {
   reportValidity(): boolean {
     const textarea = this.shadowRoot?.querySelector("textarea");
     return textarea ? textarea.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-textarea-${Date.now()}-${textareaIdCounter++}`;
+    }
   }
 
   // Handle invalid event
@@ -183,7 +193,7 @@ export class NysTextarea extends LitElement {
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
-            @invalid=${this.handleInvalid}
+          @invalid=${this.handleInvalid}
         ></textarea>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textarea__error">

@@ -13,9 +13,11 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  @property({ type: String }) form = null;
 
   static styles = styles;
 
+  /******************** Functions ********************/
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();

@@ -50,12 +50,27 @@ export class NysSelect extends LitElement {
 
   static styles = styles;
 
-  // Generate a unique ID if one is not provided
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
-    }
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
+
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
+  }
+
+  // Gets the validity property
+  get validity() {
+    const select = this.shadowRoot?.querySelector("select");
+    return select ? select.validity : { valid: true };
   }
 
   // Set the form control custom validity message
@@ -77,6 +92,15 @@ export class NysSelect extends LitElement {
   reportValidity(): boolean {
     const select = this.shadowRoot?.querySelector("select");
     return select ? select.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
+    }
   }
 
   // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form directly.
@@ -113,6 +137,13 @@ export class NysSelect extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
+  }
+
+  // Handle select change event
+  private _handleChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.value = target.value; // Update the value
+    console.log(target.value);
   }
 
   // Check if the current value matches any option, and if so, set it as selected
@@ -158,6 +189,7 @@ export class NysSelect extends LitElement {
             value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
+            @change="${this._handleChange}"
           >
             <option hidden disabled selected value></option>
           </select>

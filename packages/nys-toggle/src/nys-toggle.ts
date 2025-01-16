@@ -21,8 +21,6 @@ export class NysToggle extends LitElement {
     checkValidity: () => this.checkValidity(),
   });
 
-  static styles = styles;
-
   /********************** Properties **********************/
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -51,25 +49,19 @@ export class NysToggle extends LitElement {
       ? (value as (typeof NysToggle.VALID_SIZES)[number])
       : "md";
   }
-
-  // Gets the validity property
-  get validity() {
-    const input = this.shadowRoot?.querySelector("input");
-    return input ? input.validity : { valid: true };
-  }
-
   @property({ type: String }) form = "";
 
-  /******************** Functions ********************/
+  static styles = styles;
 
-  // Generate a unique ID if one is not provided
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-toggle-${Date.now()}-${toggleIdCounter++}`;
-    }
-  }
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
 
+  // Ensures the form control's validity state is updated after the first render.
   firstUpdated() {
     this.formControlController.updateValidity();
   }
@@ -77,6 +69,12 @@ export class NysToggle extends LitElement {
   // Gets the associated form, if one exists.
   getForm(): HTMLFormElement | null {
     return this.formControlController.getForm();
+  }
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.validity : { valid: true };
   }
 
   // Set the form control custom validity message
@@ -98,6 +96,15 @@ export class NysToggle extends LitElement {
   reportValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-toggle-${Date.now()}-${toggleIdCounter++}`;
+    }
   }
 
   // Handle invalid event
