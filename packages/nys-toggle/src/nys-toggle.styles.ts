@@ -28,6 +28,10 @@ export default css`
         sans-serif
       )
     );
+    --_nys-toggle-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-toggle-font-weight: var(--nys-font-weight-regular, 400);
+    --_nys-toggle-line-height: var(--nys-font-lineheight-ui-md, 24px);
+
     --_nys-toggle-transition-duration: 0.3s;
 
     /* Focus outline */
@@ -57,8 +61,6 @@ export default css`
     );
 
     /* Font sizes and spacing for labels, descriptions, and icons */
-    --_nys-toggle-label-font-size: var(--nys-font-size-sm, 14px);
-    --_nys-toggle-description-font-size: var(--nys-font-size-xs, 12px);
     --_nys-toggle-icon-font-size-xs: var(
       --nys-font-size-body-xs,
       var(--nys-font-size-xs, 12px)
@@ -71,13 +73,11 @@ export default css`
 
   /* Slotted styling (e.g. HTML <p> tags for descriptions) */
   ::slotted([slot^="description"]) {
-    font-size: var(--_nys-toggle-description-font-size);
-    color: gray;
+    font-style: italic;
     margin: 0;
   }
   slot[name="description"] {
-    font-size: var(--_nys-toggle-description-font-size);
-    color: gray;
+    font-style: italic;
     margin: 0;
   }
 
@@ -92,12 +92,15 @@ export default css`
   .nys-toggle__text {
     display: flex;
     flex-direction: column;
-    font-size: var(--_nys-toggle-label-font-size);
+    font-size: var(--_nys-toggle-font-size);
     font-family: var(--_nys-toggle-font-family);
+    font-weight: var(--_nys-toggle-font-weight);
+    line-height: var(--_nys-toggle-line-height);
   }
 
-  .nys-toggle__text.disabled {
-    color: var(--_nys-toggle-color-base, #797c7f);
+  .nys-toggle__content:has(input:disabled) .nys-toggle__text * {
+    color: var(--_nys-toggle-color-base);
+    cursor: not-allowed;
   }
 
   /* Toggle Switch component */
@@ -239,8 +242,6 @@ export default css`
     --_nys-toggle-width: var(--nys-toggle-font-size-6xl, 36px);
     --_nys-toggle-height: var(--nys-toggle-size-250, 20px);
     --_nys-toggle-slider-diameter: var(--nys-toggle--font-size-md, 16px);
-    --_nys-label-font-size: var(--nys-toggle-font-size-xs, 12px);
-    --_nys-description-font-size: var(--nys-toggle-font-size-2xs, 10px);
     --_nys-icon-font-size: var(--nys-toggle-font-size-sm, 14px);
   }
 
@@ -248,8 +249,6 @@ export default css`
     --_nys-toggle-width: var(--nys-toggle-font-size-8xl, 44px);
     --_nys-toggle-height: var(--nys-toggle-size-300, 24px);
     --_nys-toggle-slider-diameter: var(--nys-toggle-font-size-xl, 20px);
-    --_nys-label-font-size: var(--nys-toggle-font-size-sm, 14px);
-    --_nys-description-font-size: var(--nys-toggle-font-size-xs, 12px);
     --_nys-icon-font-size: var(--nys-toggle-font-size-md, 16px);
   }
 
