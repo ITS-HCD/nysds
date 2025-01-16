@@ -233,6 +233,7 @@ export default css`
     + .nys-radiobutton__text
     .nys-radiobutton__description {
     color: var(--form-label-color-disabled, #757575);
+    cursor: not-allowed;
   }
 
   /* Required */
