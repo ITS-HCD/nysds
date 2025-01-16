@@ -5,12 +5,13 @@ import "./nys-checkboxgroup";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {
-  checked: boolean;
-  disabled: boolean;
-  label: string;
-  description: string;
   id: string;
   name: string;
+  checked: boolean;
+  label: string;
+  description: string;
+  size: string;
+  disabled: boolean;
   value: string;
   required: boolean;
   showError: boolean;
@@ -21,13 +22,14 @@ const meta: Meta<NysCheckboxArgs> = {
   title: "Components/Checkbox",
   component: "nys-checkbox",
   argTypes: {
-    checked: { control: "boolean" },
-    disabled: { control: "boolean" },
-    required: { control: "boolean" },
-    label: { control: "text" },
-    description: { control: "text" },
     id: { control: "text" },
     name: { control: "text" },
+    checked: { control: "boolean" },
+    label: { control: "text" },
+    description: { control: "text" },
+    size: { control: "select", options: ["sm", "md"] },
+    disabled: { control: "boolean" },
+    required: { control: "boolean" },
     value: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
@@ -62,6 +64,7 @@ export const Basic: Story = {
     <nys-checkboxgroup
       label="Select your favorite New York landmarks"
       description="Choose from the options below"
+      size=${args.size}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >

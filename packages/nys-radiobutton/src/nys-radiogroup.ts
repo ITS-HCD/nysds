@@ -20,7 +20,7 @@ export class NysRadiogroup extends LitElement {
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
 
-  // Getter and setter for the `width` property.
+  // Getter and setter for the `size` property.
   @property({ reflect: true })
   get size(): (typeof NysRadiogroup.VALID_SIZES)[number] {
     return this._size;

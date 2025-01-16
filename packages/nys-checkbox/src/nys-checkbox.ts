@@ -18,6 +18,23 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
+  private static readonly VALID_SIZES = ["sm", "md"] as const;
+  private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
+
+  // Getter and setter for the `size` property.
+  @property({ reflect: true })
+  get size(): (typeof NysCheckbox.VALID_SIZES)[number] {
+    return this._size;
+  }
+
+  set size(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._size = NysCheckbox.VALID_SIZES.includes(
+      value as (typeof NysCheckbox.VALID_SIZES)[number],
+    )
+      ? (value as (typeof NysCheckbox.VALID_SIZES)[number])
+      : "md";
+  }
 
   static styles = styles;
 

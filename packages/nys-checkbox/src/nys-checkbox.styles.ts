@@ -86,12 +86,12 @@ export default css`
     --_nys-checkbox-disabled-color-text: var(--nys-color-neutral-500, #797c7f);
     /* Disabled Checked */
     --_nys-checkbox-disabled-checked-color-bg: var(
-      --nys-color-neutral-200,
-      #757575
+      --nys-color-neutral-100,
+      #d0d0ce
     );
     --_nys-checkbox-disabled-checked-color-border: var(
-      --nys-color-neutral-200,
-      #757575
+      --nys-color-neutral-100,
+      #d0d0ce
     );
   }
 

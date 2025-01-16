@@ -13,6 +13,23 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  private static readonly VALID_SIZES = ["sm", "md"] as const;
+  private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
+
+  // Getter and setter for the `size` property.
+  @property({ reflect: true })
+  get size(): (typeof NysCheckboxgroup.VALID_SIZES)[number] {
+    return this._size;
+  }
+
+  set size(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._size = NysCheckboxgroup.VALID_SIZES.includes(
+      value as (typeof NysCheckboxgroup.VALID_SIZES)[number],
+    )
+      ? (value as (typeof NysCheckboxgroup.VALID_SIZES)[number])
+      : "md";
+  }
 
   static styles = styles;
 
@@ -22,6 +39,20 @@ export class NysCheckboxgroup extends LitElement {
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
+  }
+
+  updated(changedProperties: Map<string | symbol, unknown>) {
+    if (changedProperties.has("size")) {
+      this.updateCheckboxSize();
+    }
+  }
+
+  // Updates the size of each checkbox in the group
+  private updateCheckboxSize() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.setAttribute("size", this.size);
+    });
   }
 
   render() {
