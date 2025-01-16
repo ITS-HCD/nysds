@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-radiobutton.styles"; // Assuming styles are in a separate file
+import "./nys-radiogroup";
 
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
