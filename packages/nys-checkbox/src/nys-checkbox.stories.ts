@@ -179,6 +179,73 @@ export const Disabled: Story = {
   },
 };
 
+export const Size: Story = {
+  args: {
+    checked: true,
+    label: "Adirondacks",
+    description: "",
+    name: "landmarks",
+    value: "adirondacks",
+    size: "sm",
+  },
+  render: (args) => html`
+    <nys-checkboxgroup
+      label="Select your favorite New York landmarks"
+      description="Choose from the options below"
+      size=${args.size}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-checkbox
+        .checked=${args.checked}
+        .disabled=${args.disabled}
+        .required=${args.required}
+        .label=${args.label}
+        .description=${args.description}
+        .name=${args.name}
+        .value=${args.value}
+      ></nys-checkbox>
+      <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
+      <nys-checkbox label="Catskills" checked></nys-checkbox>
+      <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
+      <nys-checkbox label="Coney Island"></nys-checkbox>
+      <nys-checkbox
+        label="Mount Greylock"
+        description="This is disabled because it's not in New York."
+        disabled
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Select your favorite New York landmarks"
+  description="Choose from the options below"
+  size="sm"
+>
+  <nys-checkbox
+    label="Adirondacks"
+    name="landmarks"
+    value="adirondacks"
+    errorMessage="You must select this box to continue"
+    checked
+  ></nys-checkbox>
+  <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox label="Catskills" checked></nys-checkbox>
+  <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox label="Coney Island"></nys-checkbox>
+  <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
+</nys-checkboxgroup>
+
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 // Story: Error Message
 export const Required: Story = {
   args: {
