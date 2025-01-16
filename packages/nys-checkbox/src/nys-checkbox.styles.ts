@@ -215,6 +215,7 @@ export default css`
   .nys-checkbox__text {
     display: flex;
     flex-direction: column;
+    margin: auto 0; /* Center text if single line label */
   }
 
   /* Label styling */
