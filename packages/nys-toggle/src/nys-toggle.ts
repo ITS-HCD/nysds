@@ -124,7 +124,7 @@ export class NysToggle extends LitElement {
               </div>
             </span>
           </div>
-          <div class="nys-toggle__text ${this.disabled ? "disabled" : ""}">
+          <div class="nys-toggle__text">
             <div class="nys-toggle__label">${this.label}</div>
             <slot name="description">${this.description}</slot>
           </div>
