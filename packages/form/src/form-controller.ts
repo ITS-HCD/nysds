@@ -205,7 +205,10 @@ export class FormControlController implements ReactiveController {
       ) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        console.log("Preventing submission -- invalid requirements: ", this.options.name);
+        console.log(
+          "Preventing submission -- invalid requirements: ",
+          this.options.name,
+        );
       }
     }
   };

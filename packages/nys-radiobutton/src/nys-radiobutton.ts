@@ -10,7 +10,6 @@ let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 export class NysRadiobutton extends LitElement {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) id = "";
@@ -138,10 +137,8 @@ export class NysRadiobutton extends LitElement {
           .checked=${this.checked}
           ?disabled=${this.disabled}
           .value=${this.value}
-          ?required="${this.required}"
           aria-checked="${this.checked ? "true" : "false"}"
           aria-disabled="${this.disabled ? "true" : "false"}"
-          aria-required="${this.required ? "true" : "false"}"
           @change="${this._handleChange}"
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"

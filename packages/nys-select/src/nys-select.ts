@@ -143,7 +143,6 @@ export class NysSelect extends LitElement {
   private _handleChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     this.value = target.value; // Update the value
-    console.log(target.value);
   }
 
   // Check if the current value matches any option, and if so, set it as selected

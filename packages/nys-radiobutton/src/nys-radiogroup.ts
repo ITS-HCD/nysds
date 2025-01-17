@@ -22,7 +22,6 @@ export class NysRadiogroup extends LitElement {
   });
 
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
   @property({ type: Boolean }) required = false;
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
@@ -78,23 +77,89 @@ export class NysRadiogroup extends LitElement {
 
   // Set the form control custom validity message
   setCustomValidity(message: string) {
-    const input = this.shadowRoot?.querySelector("input");
-    if (input) {
-      input.setCustomValidity(message);
-      this.formControlController.updateValidity();
+    const radioButton = this.querySelector("nys-radiobutton");
+    if (radioButton) {
+      // Find the input inside the radiobutton
+      const input = radioButton.shadowRoot?.querySelector("input");
+
+      if (input) {
+        input.setCustomValidity(message);
+        this.formControlController.updateValidity();
+      }
     }
   }
 
   // Check the form control validity
   checkValidity(): boolean {
-    const textarea = this.shadowRoot?.querySelector("textarea");
-    return textarea ? textarea.checkValidity() : false;
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+
+    if (this.required) {
+      // Check if at least one radiobutton is selected
+      const isValid = Array.from(radioButtons).some((radioButton) => {
+        const input = radioButton.shadowRoot?.querySelector("input");
+        return input?.checked;
+      });
+
+      if (!isValid) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // Report the form control validity
   reportValidity(): boolean {
-    const textarea = this.shadowRoot?.querySelector("textarea");
-    return textarea ? textarea.reportValidity() : false;
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+
+    if (this.required) {
+      // Check if at least one radiobutton is selected
+      const isValid = Array.from(radioButtons).some((radioButton) => {
+        const input = radioButton.shadowRoot?.querySelector("input");
+        return input?.checked;
+      });
+
+      if (!isValid) {
+        // Set the error state and custom error message
+        this.showError = true;
+        this.errorMessage = "Please select an option.";
+
+        // Call native error message to appear on the first radiobutton in the radiogroup
+        const firstRadioButton = radioButtons[0];
+        if (firstRadioButton) {
+          const input = firstRadioButton.shadowRoot?.querySelector("input");
+          if (input) {
+            input.setCustomValidity(this.errorMessage);
+            input.reportValidity();
+          }
+        }
+
+        return false;
+      } else {
+        // Clear error state if valid
+        this.showError = false;
+        this.errorMessage = "";
+
+        // Clear error message on all radiobutton in the group
+        radioButtons.forEach((radiobutton) => {
+          const input = radiobutton.shadowRoot?.querySelector("input");
+          if (input) {
+            input.setCustomValidity(""); // Clear custom validity
+          }
+        });
+      }
+    }
+
+    // Report validity for all inputs in the group
+    let groupValid = true;
+    radioButtons.forEach((radioButton) => {
+      const input = radioButton.shadowRoot?.querySelector("input");
+      if (input) {
+        const valid = input.reportValidity();
+        groupValid = groupValid && valid;
+      }
+    });
+
+    return groupValid;
   }
 
   /******************** Functions ********************/
@@ -113,41 +178,58 @@ export class NysRadiogroup extends LitElement {
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
-    if (changedProperties.has("required")) {
-      this.updateRadioButtonsRequire();
-    }
     if (changedProperties.has("size")) {
       this.updateRadioButtonsSize();
     }
   }
 
-  // Updates the "require" attribute of a radiobutton underneath a radiogroup to ensure requirement for all radiobutton under the same name/group
-  private updateRadioButtonsRequire() {
-    const radioButtons = this.querySelectorAll("nys-radiobutton");
-    radioButtons.forEach((radioButton, index) => {
-      if (this.required && index === 0) {
-        radioButton.setAttribute("required", "required");
+  private handleSlotChange() {
+    const checkedRadioButton = this.querySelector("nys-radiobutton[checked]");
+
+    if (checkedRadioButton) {
+      const input = checkedRadioButton.shadowRoot?.querySelector("input");
+      if (input) {
+        // Update selectedName and selectedValue with the currently checked radio button's values
+        this.selectedName = input.name;
+        this.selectedValue = input.value;
       }
-    });
+    }
   }
 
   // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
   private updateRadioButtonsSize() {
-    console.log("we should be updating the radio size");
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       radioButton.setAttribute("size", this.size);
     });
   }
 
-  // Keeps radiogroup informed of the name and value of its current selected radiobutton
+  /**
+   * Updates the radiogroup's selected name and value based on the currently selected radiobutton.
+   * Clears any error messages displayed if the selection satisfies the required condition.
+   */
   private _handleRadioButtonChange(event: Event) {
     const customEvent = event as CustomEvent;
     const { name, value } = customEvent.detail;
 
     this.selectedName = name;
     this.selectedValue = value;
-    console.log("you have selected:", this.selectedName, this.selectedValue);
+
+    const isValid = this.checkValidity();
+
+    if (isValid) {
+      this.showError = false;
+      this.errorMessage = "";
+
+      // Clear custom validity for all radio buttons
+      const radioButtons = this.querySelectorAll("nys-radiobutton");
+      radioButtons.forEach((radioButton) => {
+        const input = radioButton.shadowRoot?.querySelector("input");
+        if (input) {
+          input.setCustomValidity(""); // Clear custom validity
+        }
+      });
+    }
   }
 
   render() {
@@ -168,7 +250,7 @@ export class NysRadiogroup extends LitElement {
         </div>
       </div>`}
       <div class="nys-radiogroup__content">
-        <slot></slot>
+        <slot @slotchange=${this.handleSlotChange}></slot>
       </div>
       ${this.showError && this.errorMessage
         ? html`<div class="nys-radiobutton__error">

@@ -92,10 +92,7 @@ export const Basic: Story = {
           placeholder="John.Smith@its.ny.gov"
           type="text"
         ></nys-textinput>
-        <nys-checkboxgroup
-          label="Opt In"
-          description="Newsletter"
-        >
+        <nys-checkboxgroup label="Opt In" description="Newsletter">
           <nys-checkbox
             label="Send me updates"
             name="newsletter"
@@ -165,6 +162,24 @@ export const Basic: Story = {
         ></nys-textinput>
       </div>
       <nys-textarea name="comments" label="Comments"></nys-textarea>
+      <nys-radiogroup
+        label="What is your primary work location?"
+        description="This is the location you use for your in office days."
+        size="md"
+      >
+        <nys-radiobutton
+          name="office"
+          label="Albany"
+          description="Upstate New York"
+          value="albany"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="office"
+          label="Manhattan"
+          description="New York City"
+          value="manhattan"
+        ></nys-radiobutton>
+      </nys-radiogroup>
       <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
       <button type="submit">Send</button>
     </form>
@@ -558,6 +573,64 @@ export const Fieldset: Story = {
     <button type="submit">Send</button>
   </fieldset>
 </form>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: TEST
+export const TEST: Story = {
+  args: {
+    id: "work-location",
+  },
+  render: (args) => html`
+    <form
+      .id=${args.id}
+      @submit=${(e: SubmitEvent) => {
+        e.preventDefault();
+        console.log(
+          "You should not be seeing this message if validation fails.",
+        );
+        const formData = new FormData(e.target as HTMLFormElement);
+        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
+      }}
+    >
+      <fieldset
+        style="display: flex; flex-direction: column; gap: 10px; background-color: #f0f0f0; padding: 20px;"
+      >
+        <legend>User Information</legend>
+        <nys-radiogroup
+          label="Select your agency"
+          description="This is the agency, department, or office you work for."
+          size="sm"
+          required
+        >
+          <nys-radiobutton
+            name="agency"
+            label="Department of Health"
+            value="doh"
+          ></nys-radiobutton>
+          <nys-radiobutton
+            name="agency"
+            label="Office of Information Technology Services"
+            value="its"
+          ></nys-radiobutton>
+          <nys-radiobutton
+            name="agency"
+            label="New York State Attorney General"
+            value="ag"
+          ></nys-radiobutton>
+        </nys-radiogroup>
+        <button type="submit">Send</button>
+      </fieldset>
+    </form>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
 `.trim(),
         type: "auto",
       },

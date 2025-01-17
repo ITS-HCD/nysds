@@ -133,15 +133,6 @@ export class NysToggle extends LitElement {
         composed: true,
       }),
     );
-
-    // Dispatch formSubmission event for integration with nys-form
-    this.dispatchEvent(
-      new CustomEvent("nys-formSubmission", {
-        detail: { name: [this.name], value: this.checked },
-        bubbles: true,
-        composed: true,
-      }),
-    );
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
