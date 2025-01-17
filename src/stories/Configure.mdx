@@ -4,55 +4,96 @@ import { Meta } from "@storybook/blocks";
 
 # Welcome to the Excelsior Design System
 
-Welcome to **New York State's Excelsior Design System** Storybook. This is where you can explore, experiment with, and contribute to the **components**, **patterns**, and **guidelines** that make up the design system.
+The Excelsior Design System is a design system for New York State government websites. It's a set of reusable web components, design tokens, and utilities to create consistent, mobile-friendly, accessible digital experiences across the state's digital products.
 
-## Getting Started for Developers
+This Storybook serves as a guide for engineers to explore, understand, and implement Excelsior’s components and styles in their applications.
+
+## Quick Start for Developers
+
+⚠️ **Note:** This project is currently in development and not yet ready for production use. The instructions here are for developers who want to evaluate or provide feedback on the Excelsior Design System.
+
+### Install the core libraries in your project:
+
+To start using Excelsior in your project, you need to install the core libraries:
 
 ```
-npm install @nys-excelsior/components
-npm install @nys-excelsior/styles
+npm install @nys-excelsior/components @nys-excelsior/nys-styles
 ```
 
-Then reference the files in yout HTML:
+### Reference the files in your application:
 
 ```html
-<script type="module" src="[path-to-dir]/excelsior.min.js"></script>
+<script type="module" src="[path-to-dir]/excelsior.js"></script>
 <link rel="stylesheet" href="[path-to-dir]/excelsior.min.css" />
 ```
 
-**If you are not using a package manager**, you can download the files from [NPM](https://www.npmjs.com/package/@nys-excelsior/components) and [NPM](https://www.npmjs.com/package/@nys-excelsior/styles).
+**If you are not using a package manager**, you can download the files directly from the [Excelsior Components NPM](https://www.npmjs.com/package/@nys-excelsior/components) and [Excelsior Style NPM](https://www.npmjs.com/package/@nys-excelsior/nys-styles). Keep in mind, you will need to manually update the files when new versions are released.
 
-## What is the Excelsior Design System?
+### Start using Excelsior components in your application:
 
-The **Excelsior Design System** is a set of **reusable web components** designed to create consistent user experiences across New York State's digital products.
+All that's left is to start using Excelsior components in your application.
 
-## Key Features
+``` html
+<nys-alert 
+  dismissible
+  theme="success" 
+  heading="Application Submitted" 
+  text="Your application has been submitted. You will receive a confirmation email shortly."> 
+</nys-alert>
+```
+Explore the **Components** section in the sidebar to find documentation, usage guidance, and interactive previews for each of the components in the Excelsior Design System.
 
-- **Lit-based Web Components**: Built on the powerful and lightweight Lit framework.
-- **Scalable Architecture**: Designed for long-term scalability and flexibility.
-- **Vite for Modern Builds**: Leveraging Vite for fast development and production builds.
+## About Excelsior
 
-## How to Use
+Excelsior’s mission is to standardize and elevate digital experiences across New York State by providing scalable, accessible tools for building applications.
 
-- Navigate through the components using the **sidebar**.
-- Experiment with the **controls** to customize components in real time.
-- Use the **documentation** tabs to read more about component usage and best practices.
+### What’s Included?
 
-## Getting Started
+- **Components:** Modular web components built with Lit for performance and flexibility.
+- **Styles:** A foundational CSS framework, including design tokens and utility classes.
+- **Themes:** Customizable agency-specific themes for adapting designs to organizational branding.
+- **Figma Libraries:** Design libraries for prototyping that mirror the components and variables in code, promoting consistency between design and development.
 
-To start using the components, explore the available components in the sidebar. For each component, you'll find:
+## Why Use Excelsior
 
-- **Live previews** of each component.
-- **Interactive controls** for changing properties and styles.
-- **Documentation** on best practices for using the components.
+### Key Benefits
 
-Let's build together to improve the digital experience across New York State!
+- **Accessibility:** Every component is tested to meet WCAG 2.2 standards.
+- **Lit-based Web Components**: Built on the powerful and lightweight Lit framework, web components are native code designed to work seamlessly across modern frameworks or standalone applications.
+- **Customizable Design Tokens:** CSS variables that serve as a foundation for consistently building new components.
+- **Override-Friendly Architecture:** Components are designed with built-in overrides, making it easy to styles and behavior to meet specific application needs.
+
+## Explore the Foundations
+
+- [**Styles:**](?path=/docs/styles--docs) Learn how the Excelsior CSS framework works, from global styles, CSS variables, and agency themes.
+- [**Design Tokens:**](?path=/docs/design-tokens--docs) A reference for the design tokens: colors, typography, spacing, etc.
+- [**Layout Grid:**](?path=/docs/layout-grid--docs) Build responsive layouts using the system’s grid utilities.
+- [**Flexbox:**](?path=/docs/flexbox--docs) Simple flexbox utilities for layout flexibility.
+- [**Utilities:**](?path=/docs/utilities--docs) Lightweight utility classes for spacing, alignment, and display styles.
+
+
 
 ---
 
-### Helpful Resources
+## Resources and Support
+
+### Essential Links 
 
 - [Excelsior GitHub Repo](https://github.com/its-hcd/excelsior)
 - [Excelsior Reference Website GitHub Repo](https://github.com/its-hcd/excelsior-site)
-- [USWDS Reference Website](https://designsystem.digital.gov/)
-- [USWDS GitHub Repo](https://github.com/uswds/uswds)
+- [Excelsior on NPM](https://www.npmjs.com/org/nys-excelsior)
+
+### Inspiration
+
+Excelsior had drawn inspiration from the federal government's design system:
+
+- [USWDS Reference Site](https://designsystem.digital.gov/)
+- [USWDS GitHub Repository](https://github.com/uswds/uswds)
+
+### Coming Soon
+
+In addition to the current components, we’re adding:
+
+- Buttons to standardize interactions across applications.
+- Universal Header & Footer for statewide consistency.
+- Global Header & Footer for application-level customization.

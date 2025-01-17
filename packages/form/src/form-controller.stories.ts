@@ -166,6 +166,7 @@ export const Basic: Story = {
         label="What is your primary work location?"
         description="This is the location you use for your in office days."
         size="md"
+        required
       >
         <nys-radiobutton
           name="office"
@@ -273,6 +274,7 @@ export const Basic: Story = {
     label="What is your primary work location?"
     description="This is the location you use for your in office days."
     size="md"
+    required
   >
     <nys-radiobutton
       name="office"

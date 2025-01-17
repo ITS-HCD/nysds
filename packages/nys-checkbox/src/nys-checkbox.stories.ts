@@ -4,12 +4,13 @@ import "./nys-checkbox";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {
-  checked: boolean;
-  disabled: boolean;
-  label: string;
-  description: string;
   id: string;
   name: string;
+  checked: boolean;
+  label: string;
+  description: string;
+  size: string;
+  disabled: boolean;
   value: string;
   required: boolean;
   showError: boolean;
@@ -20,13 +21,14 @@ const meta: Meta<NysCheckboxArgs> = {
   title: "Components/Checkbox",
   component: "nys-checkbox",
   argTypes: {
-    checked: { control: "boolean" },
-    disabled: { control: "boolean" },
-    required: { control: "boolean" },
-    label: { control: "text" },
-    description: { control: "text" },
     id: { control: "text" },
     name: { control: "text" },
+    checked: { control: "boolean" },
+    label: { control: "text" },
+    description: { control: "text" },
+    size: { control: "select", options: ["sm", "md"] },
+    disabled: { control: "boolean" },
+    required: { control: "boolean" },
     value: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
@@ -61,6 +63,7 @@ export const Basic: Story = {
     <nys-checkboxgroup
       label="Select your favorite New York landmarks"
       description="Choose from the options below"
+      size=${args.size}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -170,6 +173,73 @@ export const Disabled: Story = {
   value="early-voting"
 ></nys-checkbox>
         `.trim(),
+      },
+    },
+  },
+};
+
+export const Size: Story = {
+  args: {
+    checked: true,
+    label: "Adirondacks",
+    description: "",
+    name: "landmarks",
+    value: "adirondacks",
+    size: "sm",
+  },
+  render: (args) => html`
+    <nys-checkboxgroup
+      label="Select your favorite New York landmarks"
+      description="Choose from the options below"
+      size=${args.size}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-checkbox
+        .checked=${args.checked}
+        .disabled=${args.disabled}
+        .required=${args.required}
+        .label=${args.label}
+        .description=${args.description}
+        .name=${args.name}
+        .value=${args.value}
+      ></nys-checkbox>
+      <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
+      <nys-checkbox label="Catskills" checked></nys-checkbox>
+      <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
+      <nys-checkbox label="Coney Island"></nys-checkbox>
+      <nys-checkbox
+        label="Mount Greylock"
+        description="This is disabled because it's not in New York."
+        disabled
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Select your favorite New York landmarks"
+  description="Choose from the options below"
+  size="sm"
+>
+  <nys-checkbox
+    label="Adirondacks"
+    name="landmarks"
+    value="adirondacks"
+    errorMessage="You must select this box to continue"
+    checked
+  ></nys-checkbox>
+  <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox label="Catskills" checked></nys-checkbox>
+  <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox label="Coney Island"></nys-checkbox>
+  <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
+</nys-checkboxgroup>
+
+        `,
+        type: "auto",
       },
     },
   },
@@ -332,7 +402,7 @@ export const CheckboxGroup: Story = {
     errorMessage: "You must select both options to continue.",
   },
   render: (args) => html`
-    <div style="display: flex;">
+    <div style="display: flex; gap: 8px;">
       <nys-checkboxgroup
         style="flex: 1;"
         .label=${args.label}

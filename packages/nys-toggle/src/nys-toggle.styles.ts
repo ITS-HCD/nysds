@@ -17,6 +17,9 @@ export default css`
         ) -
         2px
     );
+    /* space between toggle and it's label */
+    --_nys-toggle-gap: var(--nys-space-150, 12px);
+
     --_nys-toggle-font-family: var(
       --nys-font-family-ui,
       var(
@@ -28,6 +31,10 @@ export default css`
         sans-serif
       )
     );
+    --_nys-toggle-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-toggle-font-weight: var(--nys-font-weight-regular, 400);
+    --_nys-toggle-line-height: var(--nys-font-lineheight-ui-md, 24px);
+
     --_nys-toggle-transition-duration: 0.3s;
 
     /* Focus outline */
@@ -57,8 +64,6 @@ export default css`
     );
 
     /* Font sizes and spacing for labels, descriptions, and icons */
-    --_nys-toggle-label-font-size: var(--nys-font-size-sm, 14px);
-    --_nys-toggle-description-font-size: var(--nys-font-size-xs, 12px);
     --_nys-toggle-icon-font-size-xs: var(
       --nys-font-size-body-xs,
       var(--nys-font-size-xs, 12px)
@@ -71,33 +76,32 @@ export default css`
 
   /* Slotted styling (e.g. HTML <p> tags for descriptions) */
   ::slotted([slot^="description"]) {
-    font-size: var(--_nys-toggle-description-font-size);
-    color: gray;
+    font-style: italic;
     margin: 0;
   }
   slot[name="description"] {
-    font-size: var(--_nys-toggle-description-font-size);
-    color: gray;
-    margin: 0;
+    font-style: italic;
   }
 
   /* Toggle switch overall container */
   .nys-toggle__content {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    gap: var(--_nys-toggle-gap);
   }
 
   /* Label & description text container */
   .nys-toggle__text {
     display: flex;
     flex-direction: column;
-    font-size: var(--_nys-toggle-label-font-size);
+    font-size: var(--_nys-toggle-font-size);
     font-family: var(--_nys-toggle-font-family);
+    font-weight: var(--_nys-toggle-font-weight);
+    line-height: var(--_nys-toggle-line-height);
   }
 
-  .nys-toggle__text.disabled {
-    color: var(--_nys-toggle-color-base, #797c7f);
+  .nys-toggle__content:has(input:disabled) .nys-toggle__text * {
+    color: var(--_nys-toggle-color-base);
+    cursor: not-allowed;
   }
 
   /* Toggle Switch component */
@@ -105,7 +109,11 @@ export default css`
     position: relative;
     display: inline-block;
     width: var(--_nys-toggle-width);
+    min-width: var(--_nys-toggle-width);
+    max-width: var(--_nys-toggle-width);
     height: var(--_nys-toggle-height);
+    min-height: var(--_nys-toggle-height);
+    max-height: var(--_nys-toggle-height);
   }
 
   .nys-toggle__toggle input {
@@ -170,7 +178,7 @@ export default css`
   }
 
   /* Switch BG: Active */
-  input:active + .slider {
+  input:active:not(:disabled) + .slider {
     background-color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
     outline: solid var(--_nys-toggle-border-width-focus)
       var(--_nys-toggle-border-focus-color);
@@ -239,17 +247,14 @@ export default css`
     --_nys-toggle-width: var(--nys-toggle-font-size-6xl, 36px);
     --_nys-toggle-height: var(--nys-toggle-size-250, 20px);
     --_nys-toggle-slider-diameter: var(--nys-toggle--font-size-md, 16px);
-    --_nys-label-font-size: var(--nys-toggle-font-size-xs, 12px);
-    --_nys-description-font-size: var(--nys-toggle-font-size-2xs, 10px);
     --_nys-icon-font-size: var(--nys-toggle-font-size-sm, 14px);
+    --_nys-toggle-gap: var(--nys-space-100, 8px);
   }
 
   :host([size="md"]) {
     --_nys-toggle-width: var(--nys-toggle-font-size-8xl, 44px);
     --_nys-toggle-height: var(--nys-toggle-size-300, 24px);
     --_nys-toggle-slider-diameter: var(--nys-toggle-font-size-xl, 20px);
-    --_nys-label-font-size: var(--nys-toggle-font-size-sm, 14px);
-    --_nys-description-font-size: var(--nys-toggle-font-size-xs, 12px);
     --_nys-icon-font-size: var(--nys-toggle-font-size-md, 16px);
   }
 

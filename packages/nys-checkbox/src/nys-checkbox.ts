@@ -33,6 +33,23 @@ export class NysCheckbox extends LitElement {
   @property({ reflect: true }) form = "";
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
+  private static readonly VALID_SIZES = ["sm", "md"] as const;
+  private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
+
+  // Getter and setter for the `size` property.
+  @property({ reflect: true })
+  get size(): (typeof NysCheckbox.VALID_SIZES)[number] {
+    return this._size;
+  }
+
+  set size(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._size = NysCheckbox.VALID_SIZES.includes(
+      value as (typeof NysCheckbox.VALID_SIZES)[number],
+    )
+      ? (value as (typeof NysCheckbox.VALID_SIZES)[number])
+      : "md";
+  }
 
   static styles = styles;
 
@@ -140,7 +157,7 @@ export class NysCheckbox extends LitElement {
   render() {
     return html`
       <div class="nys-checkbox">
-        <div class="nys-checkbox__content">
+        <label class="nys-checkbox__content">
           <div class="nys-checkbox__checkboxwrapper">
             <input
               id="${this.id}"
@@ -164,7 +181,11 @@ export class NysCheckbox extends LitElement {
               ? html`<nys-icon
                   for="${this.id}"
                   name="check"
-                  size="2xl"
+                  size="${this.size === "md"
+                    ? "2xl"
+                    : this.size === "sm"
+                      ? "sm"
+                      : "md"}"
                   class="nys-checkbox__icon"
                 ></nys-icon>`
               : ""}
@@ -179,15 +200,15 @@ export class NysCheckbox extends LitElement {
                 ? html`<label class="nys-checkbox__required">*</label>`
                 : ""}
             </div>
-            <div for=${this.id} class="nys-checkbox__description">
+            <label for=${this.id} class="nys-checkbox__description">
               ${this.description}
               <slot name="description"></slot>
-            </div>
+            </label>
           </div>`}
-        </div>
+        </label>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-checkbox__error">
-              <nys-icon name="error"></nys-icon>
+              <nys-icon name="error" size="xl"></nys-icon>
               ${this.errorMessage}
             </div>`
           : ""}

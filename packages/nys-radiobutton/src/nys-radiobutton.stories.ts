@@ -57,7 +57,6 @@ export const Basic: Story = {
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
-    size: "md",
   },
   render: (args) => html`
     <nys-radiogroup
@@ -343,7 +342,7 @@ export const Size: Story = {
     <nys-radiogroup
       label="Select your agency"
       description="This is the agency, department, or office you work for."
-      size="sm"
+      size=${args.size}
       .required=${args.required}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
