@@ -17,6 +17,9 @@ export default css`
         ) -
         2px
     );
+    /* space between checkbox and it's label */
+    --_nys-toggle-gap: var(--nys-space-150, 12px);
+
     --_nys-toggle-font-family: var(
       --nys-font-family-ui,
       var(
@@ -84,8 +87,7 @@ export default css`
   /* Toggle switch overall container */
   .nys-toggle__content {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    gap: var(--_nys-toggle-gap);
   }
 
   /* Label & description text container */
@@ -243,6 +245,7 @@ export default css`
     --_nys-toggle-height: var(--nys-toggle-size-250, 20px);
     --_nys-toggle-slider-diameter: var(--nys-toggle--font-size-md, 16px);
     --_nys-icon-font-size: var(--nys-toggle-font-size-sm, 14px);
+    --_nys-toggle-gap: var(--nys-space-100, 8px);
   }
 
   :host([size="md"]) {
