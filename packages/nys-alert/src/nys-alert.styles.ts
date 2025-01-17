@@ -88,7 +88,8 @@ export default css`
   /* Links */
   a,
   a:active,
-  a:hover {
+  a:hover,
+  a:visited {
     font-weight: var(--_nys-font-weight-semibold);
     font-size: var(--_nys-alert-font-size);
     color: var(--_nys-alert-link-color);
