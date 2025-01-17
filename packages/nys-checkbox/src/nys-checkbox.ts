@@ -16,8 +16,8 @@ export class NysCheckbox extends LitElement {
       this.form
         ? (document.getElementById(this.form) as HTMLFormElement)
         : this.closest("form"),
-    value: () => (this.checked ? this.value || "on" : undefined),
-    defaultValue: () => (this.checked ? this.value || "on" : undefined),
+    value: () => this.getGroupedValue(),
+    defaultValue: () => this.getGroupedValue(),
     reportValidity: () => this.reportValidity(),
     checkValidity: () => this.checkValidity(),
   });
@@ -105,6 +105,31 @@ export class NysCheckbox extends LitElement {
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
+  }
+
+  // Group checkboxes by the same name and serialize as a string
+  private getGroupedValue() {
+    // Find the associated form
+    const form = this.getForm();
+    if (!form) return this.checked ? this.value || "on" : undefined;
+
+    // Find all checkboxes with the same "name" in the same form
+    const checkboxes = Array.from(
+      form.querySelectorAll(`nys-checkbox[name="${this.name}"]`)
+    ) as NysCheckbox[];
+
+    if (checkboxes.length === 0) {
+      // If no group found, return the single checkbox value
+      return this.checked ? this.value || "on" : undefined;
+    }
+
+    // Collect checked values into an array
+    const checkedValues = checkboxes
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value || "on");
+
+    // Return the array of checked values as JSON string
+    return checkedValues.length > 0 ? JSON.stringify(checkedValues) : undefined;
   }
 
   // Handle invalid event

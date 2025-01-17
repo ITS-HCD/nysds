@@ -91,6 +91,7 @@ export const Basic: Story = {
           description="Used to send you a monthly update on your account."
           placeholder="John.Smith@its.ny.gov"
           type="text"
+          width="lg"
         ></nys-textinput>
         <nys-checkboxgroup label="Opt In" description="Newsletter">
           <nys-checkbox
@@ -607,7 +608,6 @@ export const TEST: Story = {
           label="Select your agency"
           description="This is the agency, department, or office you work for."
           size="sm"
-          required
         >
           <nys-radiobutton
             name="agency"
@@ -625,6 +625,60 @@ export const TEST: Story = {
             value="ag"
           ></nys-radiobutton>
         </nys-radiogroup>
+        <nys-checkboxgroup
+          label="Select your favorite New York landmarks"
+          description="Choose from the options below"
+        >
+          <nys-checkbox
+            label="Adirondacks"
+            name="landmarks"
+            value="adirondacks"
+            errorMessage="You must select this box to continue"
+            checked
+          ></nys-checkbox>
+          <nys-checkbox
+            label="Finger Lakes"
+            name="landmarks"
+            value="finger-lakes"
+            checked
+          ></nys-checkbox>
+          <nys-checkbox
+            label="Catskills"
+            name="landmarks"
+            value="catskills"
+            checked
+          ></nys-checkbox>
+          <nys-checkbox
+            label="Niagara Falls"
+            name="landmarks"
+            value="niagara-falls"
+            checked
+          ></nys-checkbox>
+          <nys-checkbox
+            label="Coney Island"
+            name="landmarks"
+            value="coney-island"
+          ></nys-checkbox>
+          <nys-checkbox
+            label="Mount Greylock"
+            name="landmarks"
+            value="mount-greylock"
+            description="This is disabled because it's not in New York."
+            disabled
+          ></nys-checkbox>
+        </nys-checkboxgroup>
+        <nys-checkbox
+            label="wow"
+            name="yolo"
+            value="wowzers"
+            checked
+          ></nys-checkbox>
+          <nys-checkbox
+            label="yolo"
+            name="yolo"
+            value="haha"
+            checked
+          ></nys-checkbox>
         <button type="submit">Send</button>
       </fieldset>
     </form>

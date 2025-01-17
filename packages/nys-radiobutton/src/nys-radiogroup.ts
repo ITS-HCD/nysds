@@ -16,7 +16,7 @@ export class NysRadiogroup extends LitElement {
         : this.closest("form"),
     name: () => this.selectedName,
     value: () => this.selectedValue,
-    defaultValue: () => "",
+    defaultValue: () => undefined,
     reportValidity: () => this.reportValidity(),
     checkValidity: () => this.checkValidity(),
   });
