@@ -81,7 +81,6 @@ export default css`
   }
   slot[name="description"] {
     font-style: italic;
-    margin: 0;
   }
 
   /* Toggle switch overall container */
@@ -110,7 +109,11 @@ export default css`
     position: relative;
     display: inline-block;
     width: var(--_nys-toggle-width);
+    min-width: var(--_nys-toggle-width);
+    max-width: var(--_nys-toggle-width);
     height: var(--_nys-toggle-height);
+    min-height: var(--_nys-toggle-height);
+    max-height: var(--_nys-toggle-height);
   }
 
   .nys-toggle__toggle input {
