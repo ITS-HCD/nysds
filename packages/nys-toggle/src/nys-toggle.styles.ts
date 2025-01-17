@@ -17,7 +17,7 @@ export default css`
         ) -
         2px
     );
-    /* space between checkbox and it's label */
+    /* space between toggle and it's label */
     --_nys-toggle-gap: var(--nys-space-150, 12px);
 
     --_nys-toggle-font-family: var(
