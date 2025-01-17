@@ -178,7 +178,7 @@ export default css`
   }
 
   /* Switch BG: Active */
-  input:active + .slider {
+  input:active:not(:disabled) + .slider {
     background-color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
     outline: solid var(--_nys-toggle-border-width-focus)
       var(--_nys-toggle-border-focus-color);
