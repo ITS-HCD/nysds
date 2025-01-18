@@ -9,7 +9,8 @@ const config: StorybookConfig = {
   ],
   staticDirs: [
     { from: "../packages/nys-styles/dist", to: "/assets/css" },
-    { from: "./assets", to: "/assets" }
+    { from: "./assets/fonts", to: "/assets/fonts" },
+    { from: "./assets/images", to: "/assets/images" }
   ],
   addons: [
     "@storybook/addon-essentials",
@@ -21,11 +22,6 @@ const config: StorybookConfig = {
     name: "@storybook/web-components-vite",
     options: {},
   },
-  managerHead: (head) => `
-    ${head}
-    <meta name="robots" content="noindex">
-    <link rel="preload" href="/assets/fonts/proximanova-regular.woff2" as="font" type="font/woff2">
-    `,
 };
 
 export default config;
