@@ -1,5 +1,9 @@
 @import url('./assets/fonts/excelsior-fonts.css');
 
+body {
+    font-family: "Proxima Nova", Arial, sans-serif;
+}
+
 .pill {
     padding: var(--nys-space-50) var(--nys-space-150);
     display: inline-block;

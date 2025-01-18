@@ -9,7 +9,7 @@ const config: StorybookConfig = {
   ],
   staticDirs: [
     { from: "../packages/nys-styles/dist", to: "/assets/css" },
-    { from: "./assets/fonts", to: "/assets/fonts" }
+    { from: "./assets", to: "/assets" }
   ],
   addons: [
     "@storybook/addon-essentials",
