@@ -1,15 +1,16 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Proxima Nova", Arial, sans-serif;
 }
 
 .pill {
-    padding: .5rem 1rem;
+    padding: var(--nys-space-50) var(--nys-space-150);
     display: inline-block;
     border-radius: var(--nys-radius-md);
 }
 
 .pill.stable {
-    background-color: var(--nys-color-success-weak);
+    background: var(--nys-color-success);
+    color: var(--nys-color-ink-reverse);
 }
 
 .usage-wrapper {
@@ -21,8 +22,7 @@ body {
 .usagedos {
     display: inline-block;
     width: 45%;
-    padding: .5rem 1rem;
-    border-radius: 15px;
+    padding: var(--nys-space-200) var(--nys-space-200);
     margin: 0;
 }
 

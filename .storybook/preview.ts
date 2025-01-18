@@ -1,5 +1,4 @@
 import type { Preview } from "@storybook/web-components";
-import "@nys-excelsior/nys-styles/dist/excelsior-full.min.css"; // Excelsior Design Tokens
 import "./preview.css"; // Custom Storybook styles
 
 const loadTheme = (() => {
@@ -17,7 +16,7 @@ const loadTheme = (() => {
     // Update the href to the new theme
     themeLink.href = theme === "default"
       ? "" // Set to empty or a default stylesheet if needed
-      : `./assets/excelsior-theme-${theme}.min.css`;
+      : `./assets/css/excelsior-theme-${theme}.min.css`;
   };
 })();
 
