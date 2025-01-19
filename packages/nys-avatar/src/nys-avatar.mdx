@@ -41,7 +41,7 @@ Avatars can be shaped using the shape attribute.
 You can change the background color of an Avatar. Note that images will naturally cover over the background color.
 <Canvas of={NysAvatarStories.AvatarBgColor} />
 
-## Use cases
+## Usage
 
 ### When to use this component
   - To visually represent users, objects, or entities in a UI.
@@ -51,20 +51,22 @@ You can change the background color of an Avatar. Note that images will naturall
   - If the avatar doesn’t add value to the context.
   - When a simple label or text works better.
 
-## Usage 
-<div className="usage-wrapper">
-   <div className="usagedos do">
-   ### Do
-   - Use for clear, simple user or entity representation.
-   - Use appropriate shapes, sizes, and images to fit the overall page design.
-   - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
+<div class="nys-grid-row nys-grid-gap-lg">
+   <div class="nys-mobile-lg:nys-grid-col">
+      <div class="usage-card usage-card--do">
+         ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+         - Use for clear, simple user or entity representation.
+         - Use appropriate shapes, sizes, and images to fit the overall page design.
+         - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
+      </div>
    </div>
-
-   <div className="usagedos dont">
-   ### Don't
-   - Don’t overload the avatar with unnecessary customizations.
-   - Don’t skip the `label` attribute for screen reader users.
-   - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
+   <div class="nys-mobile-lg:nys-grid-col">
+      <div class="usage-card usage-card--dont">
+         ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+         - Don’t overload the avatar with unnecessary customizations.
+         - Don’t skip the `label` attribute for screen reader users.
+         - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
+      </div>
    </div>
 </div>
 ## Accessibility

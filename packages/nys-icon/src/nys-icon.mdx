@@ -156,7 +156,7 @@ Set an icon to flip horizontally, vertically, or in both directions by using the
 Available values are `horizontal`, `vertical`, and `both`. 
 <Canvas of={NysIconStories.Flip} />
 
-## Use cases
+## Usage
 
 ### When to use this component
   - To provide recognizable visual representations for common actions or objects (e.g., search, download, social media links).
@@ -166,22 +166,24 @@ Available values are `horizontal`, `vertical`, and `both`.
   - If an icon does not add meaningful value to the context or might confuse users.
   - When a descriptive label or plain text provides clearer communication.
 
-## Usage 
-<div className="usage-wrapper">
-   <div className="usagedos do">
-   ### Do
-   - Use icons to enhance user interfaces with clear, recognizable icons.
-   - Use appropriate icons align with the purpose and context of the UI elements they accompany.
-   - Provide an accessible label using the label attribute to ensure screen readers can interpret the icon's purpose (if warranted).
-   - Customize icon sizes and colors to match the design system.
-   </div>
-
-   <div className="usagedos dont">
-   ### Don't
-   - Use icons that lack clarity or context for their intended purpose.
-   - Use excessive customization that distracts from UI and established design patterns.
-   - Replace meaningful text with an icon unless its meaning is universally recognized or accompanied by a text label.
-   </div>
+<div class="nys-grid-row nys-grid-gap-lg">
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Use icons to enhance user interfaces with clear, recognizable icons.
+      - Use appropriate icons align with the purpose and context of the UI elements they accompany.
+      - Provide an accessible label using the label attribute to ensure screen readers can interpret the icon's purpose (if warranted).
+      - Customize icon sizes and colors to match the design system.
+    </div>
+  </div>
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use icons that lack clarity or context for their intended purpose.
+      - Use excessive customization that distracts from UI and established design patterns.
+      - Replace meaningful text with an icon unless its meaning is universally recognized or accompanied by a text label.
+    </div>
+  </div>
 </div>
 
 ## Accessibility

@@ -19,23 +19,26 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
     color: var(--nys-color-ink-reverse);
 }
 
+
 .usage-card {
     padding: var(--nys-space-200) var(--nys-space-200);
     margin: var(--nys-space-200) 0 !important;
 }
 
+.usage-card a {
+    color: var(--nys-color-ink);
+    text-decoration: underline;
+}
+
+.usage-card ul {
+    padding-left: var(--nys-space-250);
+}
 .usage-card--do {
     background-color: var(--nys-color-success-weak);
 }
 
 .usage-card--dont {
     background-color: var(--nys-color-danger-weak);
-}
-
-.usage-link {
-    color: rgb(9, 84, 223) !important;
-    text-decoration: underline !important;
-    font-weight: bold;
 }
 
 .nys-grid-offset-4 {
