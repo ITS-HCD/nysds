@@ -19,24 +19,16 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
     color: var(--nys-color-ink-reverse);
 }
 
-.usage-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.usagedos {
-    display: inline-block;
-    width: 45%;
+.usage-card {
     padding: var(--nys-space-200) var(--nys-space-200);
-    margin: 0;
+    margin: var(--nys-space-200) 0 !important;
 }
 
-.usagedos.do {
+.usage-card--do {
     background-color: var(--nys-color-success-weak);
 }
 
-.usagedos.dont {
+.usage-card--dont {
     background-color: var(--nys-color-danger-weak);
 }
 
