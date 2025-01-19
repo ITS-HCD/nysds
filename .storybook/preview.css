@@ -1,5 +1,11 @@
-body {
-    font-family: "Proxima Nova", Arial, sans-serif;
+/* Apply Proxima Nova globally, except for <code> and <pre> elements */
+body, .sb-show-main *, .sb-show-main *:before, .sb-show-main *:after {
+    font-family: "Proxima Nova", Helvetica, Arial, sans-serif !important;
+}
+
+/* Exclude <pre> and <code> from the override */
+pre, code, .sb-show-main pre *, .sb-show-main code * {
+    font-family: ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New", monospace !important;
 }
 
 .pill {
@@ -13,31 +19,26 @@ body {
     color: var(--nys-color-ink-reverse);
 }
 
-.usage-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
 
-.usagedos {
-    display: inline-block;
-    width: 45%;
+.usage-card {
     padding: var(--nys-space-200) var(--nys-space-200);
-    margin: 0;
+    margin: var(--nys-space-200) 0 !important;
 }
 
-.usagedos.do {
+.usage-card a {
+    color: var(--nys-color-ink);
+    text-decoration: underline;
+}
+
+.usage-card ul {
+    padding-left: var(--nys-space-250);
+}
+.usage-card--do {
     background-color: var(--nys-color-success-weak);
 }
 
-.usagedos.dont {
+.usage-card--dont {
     background-color: var(--nys-color-danger-weak);
-}
-
-.usage-link {
-    color: rgb(9, 84, 223) !important;
-    text-decoration: underline !important;
-    font-weight: bold;
 }
 
 .nys-grid-offset-4 {
