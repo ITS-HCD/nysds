@@ -169,7 +169,7 @@ import { Meta } from "@storybook/blocks";
 ```
 
 <h3><a id="stacked-columns-at-narrow-widths"></a>Stacked columns at narrow widths</h3>
-<p>Columns are full-width until the narrowest breakpoint specified in a <code>.grid-col</code> class. For instance, using a single set of <code>tablet:grid-col-*</code> classes, you can create a basic grid system that starts out stacked before displaying as columns at the tablet breakpoint (<code>tablet:</code>) as illustrated in the following rows and corresponding code.</p>
+<p>Columns are full-width until the narrowest breakpoint specified in a <code>.nys-grid-col</code> class. For instance, using a single set of <code>tablet:grid-col-*</code> classes, you can create a basic grid system that starts out stacked before displaying as columns at the tablet breakpoint (<code>tablet:</code>) as illustrated in the following rows and corresponding code.</p>
 
 <div className="docs-grid-example">
 
@@ -247,20 +247,20 @@ import { Meta } from "@storybook/blocks";
 {/* Stack the columns on mobile by making one full-width and the other half-width */}
 <div className="nys-grid-row">
   <div className="nys-tablet:nys-grid-col-8">.nys-tablet:nys-grid-col-8</div>
-  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.grid-col-6 .nys-tablet:nys-grid-col-4</div>
+  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.nys-grid-col-6 .nys-tablet:nys-grid-col-4</div>
 </div>
 
 {/* Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop */}
 <div className="nys-grid-row">
-  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.grid-col-6 .nys-tablet:nys-grid-col-4</div>
-  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.grid-col-6 .nys-tablet:nys-grid-col-4</div>
-  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.grid-col-6 .nys-tablet:nys-grid-col-4</div>
+  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.nys-grid-col-6 .nys-tablet:nys-grid-col-4</div>
+  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.nys-grid-col-6 .nys-tablet:nys-grid-col-4</div>
+  <div className="nys-grid-col-6 nys-tablet:nys-grid-col-4">.nys-grid-col-6 .nys-tablet:nys-grid-col-4</div>
 </div>
 
 {/* Columns are always 50% wide, on mobile and desktop */}
 <div className="nys-grid-row">
-  <div className="nys-grid-col-6">.grid-col-6</div>
-  <div className="nys-grid-col-6">.grid-col-6</div>
+  <div className="nys-grid-col-6">.nys-grid-col-6</div>
+  <div className="nys-grid-col-6">.nys-grid-col-6</div>
 </div>
 
 </div>
@@ -287,7 +287,7 @@ import { Meta } from "@storybook/blocks";
 ```
 
 <h2 id="offsetting-columns"><a id="offsetting-columns-2"></a>Offsetting columns</h2>
-<p><code>.grid-offset-[1-12]</code> offsets an item by the specified number of grid columns as shown in the following example.</p>
+<p><code>.nys-grid-offset-[1-12]</code> offsets an item by the specified number of grid columns as shown in the following example.</p>
 
 <div className="nys-grid-row border-left">
   <div className="nys-grid-col-1 border-right">

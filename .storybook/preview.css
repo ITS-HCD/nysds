@@ -48,40 +48,40 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
 /* Layout grid page */
 
   .docs-grid-example .nys-grid-row {
-    margin-top: 1em;
-    font-family:'Courier New', Courier, monospace;
+    margin-top: var(--nys-space-200);
+    font-family: var(--nys-font-family-monospace);
   }
 
   .docs-grid-example [class*="nys-grid-col"] {
-    background-color: lightgray;
+    background-color: var(--nys-color-theme-weaker);
     text-align: center;
   }
 
-
   .docs-grid-example .nys-grid-row:not([class*="nys-grid-gap"]) [class*="nys-grid-col"] {
-    border: 1px solid;
-    padding: 1em;
+    border: 1px solid var(--nys-color-theme-weak);
+    padding: var(--nys-space-200);
+    font-size: var(--nys-font-size-ui-sm);
   }
 
   .docs-grid-example [class*="nys-grid-gap"] [class*="nys-grid-col"] > * {
     background-color: white;
-    border: 1px solid;
-    padding: 1em;
+    border: 1px solid var(--nys-color-theme-weak);
+    padding: var(--nys-space-200);
+    font-size: var(--nys-font-size-ui-sm);
   }
 
   .border-left {
-    border-left: 1px solid #face00
+    border-left: 1px solid var(--nys-color-accent);
   }
 
   .border-right {
-    border-right: 1px solid #face00;
+    border-right: 1px solid var(--nys-color-accent);
   }
 
   .text-center {
     text-align: center;
   }
   .utilities-property-title {
-    font-family: Public Sans Web,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
     font-size: .63rem;
     margin-left: 2px;
     margin-bottom: 0;

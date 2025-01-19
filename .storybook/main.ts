@@ -22,6 +22,10 @@ const config: StorybookConfig = {
     name: "@storybook/web-components-vite",
     options: {},
   },
+  viteFinal: (config) => {
+    config.base = process.env.NODE_ENV === "production" ? "/excelsior/" : "/";
+    return config;
+  },
 };
 
 export default config;
