@@ -57,7 +57,7 @@ Display primary and secondary actions as links in the alert, providing clear and
 You must provide both an action label and a URL for each action to ensure proper functionality.
 <Canvas of={NysAlertStories.ActionLinks} />
 
-## Use cases
+## Usage 
 
 ### When to use this component
   - Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
@@ -69,26 +69,23 @@ You must provide both an action label and a URL for each action to ensure proper
   - Avoid using alerts for repetitive or non-actionable content that could frustrate users.
   - For notifications outside the page context, consider using a toast or modal component instead.
 
-## Usage 
-
-
-  <div className="nys-grid-row nys-grid-gap-lg">
-    <div className="nys-mobile-lg:nys-grid-col">
-      <div className="usage-card usage-card--do">
-        ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
-        - Keep the alert content concise and focused on the message.
-        - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
-        - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
-      </div>
-    </div>
-    <div className="nys-mobile-lg:nys-grid-col">
-      <div className="usage-card usage-card--dont">
-        ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
-        - Overuse alerts for non-critical information, as this can desensitize users to important messages.
-        - Use icons or themes that don’t clearly communicate the purpose of the alert.
-      </div>
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Keep the alert content concise and focused on the message.
+      - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
+      - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
     </div>
   </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Overuse alerts for non-critical information, as this can desensitize users to important messages.
+      - Use icons or themes that don’t clearly communicate the purpose of the alert.
+    </div>
+  </div>
+</div>
 
 
 ## Accessibility
