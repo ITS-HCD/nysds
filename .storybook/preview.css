@@ -4,21 +4,27 @@ body, .sb-show-main *, .sb-show-main *:before, .sb-show-main *:after {
 }
 
 /* Exclude <pre> and <code> from the override */
-pre, code, .sb-show-main pre *, .sb-show-main code * {
+pre, code, .sb-show-main * pre, .sb-show-main * code, * .token, .utility-class, .utility-class p, .utility-value {
     font-family: ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New", monospace !important;
 }
 
+:where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
+:where(li:not(.sb-anchor, .sb-unstyled, .sb-unstyled li)) {
+  font-size: max(1em, 16px) !important;
+}
+
 .pill {
-    padding: var(--nys-space-50) var(--nys-space-150);
+    padding: var(--nys-space-100) var(--nys-space-200);
     display: inline-block;
-    border-radius: var(--nys-radius-md);
+    border-radius: var(--nys-radius-round);
+    margin-top: 0 !important;
+    line-height: 1 !important;
 }
 
-.pill.stable {
+.pill--stable {
     background: var(--nys-color-success);
-    color: var(--nys-color-ink-reverse);
+    color: var(--nys-color-ink-reverse) !important;
 }
-
 
 .usage-card {
     padding: var(--nys-space-200) var(--nys-space-200);
@@ -311,10 +317,9 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
     margin: 0
 }
 
-.utility-class,.utility-value,.utility-value-color {
+.utility-class,.utility-class p,.utility-value,.utility-value p,.utility-value-color {
     display: inline-block;
-    font-family: Roboto Mono Web,Bitstream Vera Sans Mono,Consolas,Courier,monospace;
-    font-size: .83rem;
+    font-size: var(--nys-font-size-ui-xs) !important;
     padding-bottom: 2px;
     padding-top: 2px;
     padding-left: .25rem;
@@ -324,7 +329,7 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
 
 .utility-value {
     margin: 0;
-    background-color: #f3e1e4
+    background-color: var(--nys-color-theme-weaker);
 }
 
 .utility-value-color {
@@ -451,8 +456,8 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
 
 .utility-example div {
   padding: 1em;
-  border: 1px solid #bbb;
-  background-color: #f3e1e4;
+  border: 1px solid var(--nys-color-theme-weak);
+  background-color: var(--nys-color-theme-weaker);
 }
 
 .bg-white {
@@ -542,14 +547,14 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
 
 .height-6 {
     height: 2rem;
-    margin: .25em !important;
+    /* margin: .25em !important; */
 }
 .border-base-dark {
     border: 1px solid #5c5c5c!important;
 }
 
 .bg-secondary-light {
-    background-color: #f3e1e4!important;
+    background-color: var(--nys-color-theme-weak)!important;
 }
 
 .padding-1px {
@@ -598,7 +603,7 @@ pre, code, .sb-show-main pre *, .sb-show-main code * {
 }
 
 .border-secondary-light {
-    border: 1px solid #f3e1e4!important;
+    border: 1px solid var(--nys-color-theme-weak)!important;
 }
 .margin-y-1px {
     margin-top: 1px!important;
