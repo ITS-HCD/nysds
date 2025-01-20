@@ -421,6 +421,130 @@ export const tokens = [
     displayname: "Radius Round",
     description: "Fully rounded elements. Used for avatars and icons.",
     type: "radius",
+  },
+  // Typography Tokens
+  // Body
+  {
+    name: "--nys-font-body-xs",
+    displayname: "Body Extra Small",
+    description: "Extra small text for secondary or less prominent content.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-body-sm",
+    displayname: "Body Small",
+    description: "Small text used for body content and supporting details.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-body-md",
+    displayname: "Body Medium",
+    description: "Default size for primary body text.",
+    type: "font",
+  },
+
+  // UI
+  {
+    name: "--nys-font-ui-xs",
+    displayname: "UI Extra Small",
+    description: "Extra small text for UI elements like buttons or labels.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-ui-sm",
+    displayname: "UI Small",
+    description: "Small text for compact UI elements like forms or secondary actions.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-ui-md",
+    displayname: "UI Medium",
+    description: "Standard size for UI text, used in buttons or primary actions.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-ui-lg",
+    displayname: "UI Large",
+    description: "Larger UI text for prominent buttons or actions.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-ui-xl",
+    displayname: "UI Extra Large",
+    description: "Extra large UI text for highly visible elements or calls to action.",
+    type: "font",
+  },
+
+  // Heading
+  {
+    name: "--nys-font-h6",
+    displayname: "Heading 6",
+    description: "Smallest heading size, often used for subheadings.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-h5",
+    displayname: "Heading 5",
+    description: "Used for secondary headings or section titles.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-h4",
+    displayname: "Heading 4",
+    description: "Mid-sized headings for subsections.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-h3",
+    displayname: "Heading 3",
+    description: "Medium-large headings for prominent sections.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-h2",
+    displayname: "Heading 2",
+    description: "Large headings for primary sections or subsections.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-h1",
+    displayname: "Heading 1",
+    description: "Largest heading size, used for page titles or key sections.",
+    type: "font",
+  },
+
+  // Agency and Application Names
+  {
+    name: "--nys-font-agency-md",
+    displayname: "Agency and Application Names Medium",
+    description: "Default size for agency or application names, ensuring readability.",
+    type: "font",
+  },
+
+  // Display
+  {
+    name: "--nys-font-display-sm",
+    displayname: "Display Small",
+    description: "Small display text for impactful but subtle headings.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-display-md",
+    displayname: "Display Medium",
+    description: "Medium-sized display text for prominent headings.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-display-lg",
+    displayname: "Display Large",
+    description: "Large display text for attention-grabbing headlines.",
+    type: "font",
+  },
+  {
+    name: "--nys-font-display-xl",
+    displayname: "Display Extra Large",
+    description: "Extra large display text for highly visible, standout sections.",
+    type: "font",
   }
 ];
 
@@ -484,9 +608,25 @@ export const hiddentokens = [
     } else if (token.type === "radius") {
       return `
         .swatch-${token.name.replace("--", "")} {
-          background: #f0f0f0;
+          background: var(--nys-color-neutral-50);
           border-radius: var(${token.name});
-          border: 1px solid #ccc;
+          border: 1px solid var(--nys-color-neutral-100);
+        }
+      `;
+    } else if (token.type === "font") {
+      return `
+        .swatch-${token.name.replace("--", "")}::before {
+          font: var(${token.name});
+          content: "Aa";
+          color: black;
+          height: 100%;
+          width: 100%;
+          text-align:center;
+          display: grid; 
+          align-content: center;
+        }
+        .swatch-${token.name.replace("--", "")} {
+          border: none;
         }
       `;
     }
