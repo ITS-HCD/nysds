@@ -53,7 +53,7 @@ const preview: Preview = {
   parameters: {
     options: {
       storySort: {
-        order: ['About', 'Styles', 'Design Tokens', 'Layout Grid', 'Flexbox', 'Utilities', 'Components'],
+        order: ['About', 'Styles', 'Design Tokens', 'Typography', 'Layout Grid', 'Flexbox', 'Utilities', 'Components'],
       },
     },
     controls: {

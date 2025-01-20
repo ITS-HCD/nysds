@@ -288,10 +288,6 @@ pre, code, .sb-show-main * pre, .sb-show-main * code, * .token, .utility-class, 
     color: #fff
 }
 
-.utility-examples {
-    margin-left: 1rem;
-    margin-right: 1rem
-}
 
 .utility-examples-helper,.utility-examples-title {
     font-family: Public Sans Web,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol
@@ -547,10 +543,12 @@ pre, code, .sb-show-main * pre, .sb-show-main * code, * .token, .utility-class, 
 
 .height-6 {
     height: 2rem;
-    /* margin: .25em !important; */
+    margin: .25em !important;
+    border: 1px solid var(--nys-color-theme-weak) !important;
 }
+
 .border-base-dark {
-    border: 1px solid #5c5c5c!important;
+    border: 1px solid var(--nys-color-theme-weak) !important;
 }
 
 .bg-secondary-light {

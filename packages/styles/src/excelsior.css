@@ -15,6 +15,9 @@
 /* Include Design Tokens (variables for colors, spacing, typography) */
 @import "./core/tokens.css";
 
+/* Include Design Tokens (variables for colors, spacing, typography) */
+@import "./core/typography.css";
+
 /* TODO: Include Global Styles (default typography and body styles) */
 /* @import "./core/globals.css"; */
   
