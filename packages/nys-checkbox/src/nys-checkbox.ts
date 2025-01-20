@@ -94,6 +94,7 @@ export class NysCheckbox extends LitElement {
 
   // Report the form control validity
   reportValidity(): boolean {
+    console.log("reporting validity inside checkbox")
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
   }
@@ -109,6 +110,7 @@ export class NysCheckbox extends LitElement {
 
   // Group checkboxes by the same name and serialize as a string
   private getGroupedValue() {
+    console.log('grouping checkboxes')
     // Find the associated form
     const form = this.getForm();
     if (!form) return this.checked ? this.value || "on" : undefined;
@@ -145,7 +147,7 @@ export class NysCheckbox extends LitElement {
     this.checked = checked;
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { checked: this.checked },
+        detail: { name: this.name, value: this.value, checked: this.checked },
         bubbles: true,
         composed: true,
       }),
@@ -170,7 +172,7 @@ export class NysCheckbox extends LitElement {
         this.checked = !this.checked;
         this.dispatchEvent(
           new CustomEvent("change", {
-            detail: { checked: this.checked },
+            detail: { name: this.name, value: this.value, checked: this.checked },
             bubbles: true,
             composed: true,
           }),

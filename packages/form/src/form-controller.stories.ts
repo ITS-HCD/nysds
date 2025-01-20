@@ -604,30 +604,10 @@ export const TEST: Story = {
         style="display: flex; flex-direction: column; gap: 10px; background-color: #f0f0f0; padding: 20px;"
       >
         <legend>User Information</legend>
-        <nys-radiogroup
-          label="Select your agency"
-          description="This is the agency, department, or office you work for."
-          size="sm"
-        >
-          <nys-radiobutton
-            name="agency"
-            label="Department of Health"
-            value="doh"
-          ></nys-radiobutton>
-          <nys-radiobutton
-            name="agency"
-            label="Office of Information Technology Services"
-            value="its"
-          ></nys-radiobutton>
-          <nys-radiobutton
-            name="agency"
-            label="New York State Attorney General"
-            value="ag"
-          ></nys-radiobutton>
-        </nys-radiogroup>
         <nys-checkboxgroup
           label="Select your favorite New York landmarks"
           description="Choose from the options below"
+          required
         >
           <nys-checkbox
             label="Adirondacks"
@@ -640,45 +620,23 @@ export const TEST: Story = {
             label="Finger Lakes"
             name="landmarks"
             value="finger-lakes"
-            checked
           ></nys-checkbox>
           <nys-checkbox
             label="Catskills"
             name="landmarks"
             value="catskills"
-            checked
           ></nys-checkbox>
           <nys-checkbox
             label="Niagara Falls"
             name="landmarks"
             value="niagara-falls"
-            checked
           ></nys-checkbox>
           <nys-checkbox
             label="Coney Island"
             name="landmarks"
             value="coney-island"
           ></nys-checkbox>
-          <nys-checkbox
-            label="Mount Greylock"
-            name="landmarks"
-            value="mount-greylock"
-            description="This is disabled because it's not in New York."
-            disabled
-          ></nys-checkbox>
         </nys-checkboxgroup>
-        <nys-checkbox
-            label="wow"
-            name="yolo"
-            value="wowzers"
-            checked
-          ></nys-checkbox>
-          <nys-checkbox
-            label="yolo"
-            name="yolo"
-            value="haha"
-            checked
-          ></nys-checkbox>
         <button type="submit">Send</button>
       </fieldset>
     </form>

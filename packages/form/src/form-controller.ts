@@ -174,6 +174,7 @@ export class FormControlController implements ReactiveController {
 
   /** Handles the 'formdata' event to append the control's value to the form data. **/
   private handleFormData = (event: FormDataEvent) => {
+    console.log("Handling FormData event inside form-controller")
     if (this.options.disabled(this.host)) return;
 
     const name = this.options.name(this.host);

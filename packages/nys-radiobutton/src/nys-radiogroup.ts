@@ -64,10 +64,18 @@ export class NysRadiogroup extends LitElement {
     this.formControlController.updateValidity();
   }
 
-  // Gets the validity property
+  // Get validity by aggregating the state of the radio buttons
   get validity() {
-    const input = this.shadowRoot?.querySelector("input");
-    return input ? input.validity : { valid: true };
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    if (this.required) {
+      // Ensure at least one radio button is checked
+      const isValid = Array.from(radioButtons).some((radioButton: any) => {
+        const input = radioButton.shadowRoot?.querySelector("input");
+        return input?.checked ?? false;
+      });
+      return { valid: isValid };
+    }
+    return { valid: true };
   }
 
   // Gets the associated form, if one exists.
@@ -183,6 +191,7 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  // This function is needed to initially establish selectedName and selectedValue 
   private handleSlotChange() {
     const checkedRadioButton = this.querySelector("nys-radiobutton[checked]");
 
