@@ -6,8 +6,10 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
+        // Excelsior Bundles: Using @import to create style bundles
         excelsior: "./src/excelsior.css", // Main core styles
         "excelsior-full": "./src/excelsior-full.css", // Core + utilities
+        // Themes
         "excelsior-theme-admin": "./src/themes/admin.css",
         "excelsior-theme-business": "./src/themes/business.css",
         "excelsior-theme-environment": "./src/themes/environment.css",
