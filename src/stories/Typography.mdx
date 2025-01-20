@@ -4,3 +4,251 @@ import { Meta } from "@storybook/blocks";
 
 # Typography
 
+Typography is a core pillar of the Excelsior Design System, providing a consistent foundation for readability, accessibility, and brand alignment across all New York State digital applications.
+
+## Overview
+
+Typography in Excelsior is powered by the core fonts that define the New York State brand. These include:
+
+- **Proxima Nova**: The primary typeface for body text and UI elements.
+- **D Sari**: The brand font used for agency, program, and initiative titles.
+- **Oswald**: A supporting typeface for content-heavy websites (optional).
+
+Due to licensing restrictions, the fonts themselves are not distributed as part of the open-source Excelsior Design System. They are available exclusively to New York State teams via [Excelsior Fonts](https://github.com/ITS-HCD/excelsior-fonts) _(internal)_. However, Excelsior provides a set of typography tokens and utilities that work well with Proxima Nova but will fall back to system fonts if the primary fonts are not available.
+
+---
+
+## What’s Included
+
+### Typography Tokens
+
+Excelsior defines typography tokens for each font property. These tokens are organized into **primitive** and **semantic** categories.
+
+#### Primitives
+
+Primitive tokens are the raw typographical building blocks: family, size, weight, line height, and letter spacing. You should only be using semantic tokens in your application.
+
+Here are a few examples:
+
+<table>
+  <thead>
+    <tr>
+      <th>Token Name</th>
+      <th>Description</th>
+      <th>Example Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--nys-font-family-sans</code></td>
+      <td>Default sans-serif typeface for body and UI elements.</td>
+      <td><code>Proxima Nova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif</code></td>
+    </tr>
+    <tr>
+      <td><code>--nys-font-size-md</code></td>
+      <td>Medium font size for body text.</td>
+      <td><code>16px</code></td>
+    </tr>
+    <tr>
+      <td><code>--nys-font-weight-bold</code></td>
+      <td>Bold font weight for emphasis in headings or UI elements.</td>
+      <td><code>700</code></td>
+    </tr>
+    <tr>
+      <td><code>--nys-font-lineheight-lg</code></td>
+      <td>Large line height for improved readability in headings or paragraphs.</td>
+      <td><code>28px</code></td>
+    </tr>
+    <tr>
+      <td><code>--nys-font-letterspacing-100</code></td>
+      <td>Slightly expanded letter spacing for improved readability in large text.</td>
+      <td><code>0.013px</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### Semantic Typography Tokens
+
+Semantic tokens map specific properties to specific roles, like headings, body text, and UI elements. These tokens are based on the primitives. They help standardize font usage across components and applications.
+
+<table>
+  <thead>
+    <tr>
+      <th>Token Name</th>
+      <th>Description</th>
+      <th>Example Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>--nys-font-family-body</code></td>
+      <td>Font family for body text.</td>
+      <td><code>var(--nys-font-family-sans)</code></td>
+    </tr>
+    <tr>
+      <td><code>--nys-font-size-h1</code></td>
+      <td>Font size for Heading 1 elements.</td>
+      <td><code>var(--nys-font-size-5xl)</code></td>
+    </tr>
+    <tr>
+      <td><code>--nys-font-size-ui-md</code></td>
+      <td>Medium font size for UI elements.</td>
+      <td><code>var(--nys-font-size-md)</code></td>
+    </tr>
+  </tbody>
+</table>
+---
+
+## Using Typography
+
+⚠️ Note: The Excelsior fonts include proprietary typefaces (Proxima Nova, D Sari, and Oswald) that are licensed for use exclusively by New York State government agencies and their digital products. These fonts are distributed separately from the design system and are not part of the open-source package to comply with licensing restrictions.
+
+### 1. Add the Fonts
+
+To access these fonts:
+
+1. Download the appropriate font bundle from [Excelsior Fonts](https://github.com/ITS-HCD/excelsior-fonts). (🔒 Internal NYS Only)
+2. Extract the fonts into your project.
+3. Add the provided `excelsior-fonts.css` to your project:
+
+``` html
+<link rel="stylesheet" href="/assets/fonts/excelsior-fonts.css">
+```
+
+If you're using Excelsior web components, the fonts are automatically loaded when you import the components.
+
+### 2. Use Typography Tokens
+
+Typography tokens ensure consistent application of styles across your application. Examples of how to use them:
+
+``` css
+body {
+  font-family: var(--nys-font-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--nys-font-heading);
+}
+
+button {
+  font-family: var(--nys-font-ui);
+}
+```
+
+### 3. Preload Critical Fonts (Optional)
+
+Preload critical fonts to reduce the chance of a Flash of Unstyled Text (FOUT):
+
+``` html
+<head>
+  <link rel="preload" href="/assets/fonts/proximanova-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+</head>
+```
+
+---
+
+### How to Use Typography Tokens
+
+Excelsior typography tokens can be applied using `var()` in CSS or SCSS. Here are some examples:
+
+#### Example 1: Setting Typography for the Body
+
+```css
+body {
+  font-family: var(--nys-font-family-body);
+  font-size: var(--nys-font-size-md);
+  line-height: var(--nys-font-lineheight-lg);
+}
+```
+
+### 2. Utility Classes
+
+Excelsior also provides utility classes that combine several font tokens into common styles. These can be applied directly in your HTML or included in your project’s CSS.
+
+A few examples:
+
+``` css
+.nys-font-h1 {
+  font: var(--nys-font-size-h1) / var(--nys-font-lineheight-h1) var(--nys-font-heading);
+}
+.nys-font-body {
+  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-body);
+}
+```
+
+### 3. Adoptable Styles
+
+When using Excelsior’s web components, core typography styles are encapsulated in the Shadow DOM via [adoptedStyleSheets](https://lit.dev/docs/api/styles/#adoptStyles). This means components are visually consistent yet isolated from external styles, and alleviates performance concerns by internally sharing styles across components.
+
+
+---
+
+## Typography Utilities
+
+Excelsior includes predefined utility classes for font styles. Use these classes to quickly apply consistent typography:
+
+<table>
+  <thead>
+    <tr>
+      <th>Class Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>.nys-font-h1</code></td>
+      <td>Heading 1 style.</td>
+    </tr>
+    <tr>
+      <td><code>.nys-font-h2</code></td>
+      <td>Heading 2 style.</td>
+    </tr>
+    <tr>
+      <td><code>.nys-font-body</code></td>
+      <td>Body text style.</td>
+    </tr>
+    <tr>
+      <td><code>.nys-font-ui</code></td>
+      <td>UI text style (e.g., buttons, inputs).</td>
+    </tr>
+    <tr>
+      <td><code>.nys-font-brand</code></td>
+      <td>Brand title style (e.g., agency titles).</td>
+    </tr>
+  </tbody>
+</table>
+
+Example:
+``` html
+<h1 class="nys-font-h1">Welcome to Excelsior</h1>
+<p class="nys-font-body">This is a sample paragraph styled using Excelsior typography utilities.</p>
+```
+
+---
+
+## Best Practices
+
+1. **Use Tokens for Consistency**  
+   Always reference typography tokens for fonts, sizes, and line heights. Avoid hardcoding font properties.
+
+2. **Leverage Utilities**  
+   Use the predefined `.nys-font-*` classes for rapid development and consistent styling.
+
+3. **Preload Critical Fonts**  
+   Preload the most-used font weights and styles to improve perceived performance.
+
+4. **Integrate with Components**  
+   Excelsior web components automatically reference typography tokens. Custom styles can extend or override these tokens for specific needs.
+
+
+---
+
+## Further Reading
+
+- [Excelsior Fonts Repository (Internal)](https://github.com/ITS-HCD/excelsior-fonts)
+- [Typography Tokens in Excelsior Design System](#)
+- [Performance Guide for Preloading Fonts](https://web.dev/optimize-webfonts/)
+
+---
+
+This format ensures the information is clearly structured, actionable, and tailored for users of the Excelsior Design System. Let me know if you'd like to adjust any sections.
