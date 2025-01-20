@@ -1,5 +1,5 @@
 /*!
-  * Theme: Health and Human Services
+  * Excelsior Theme: Health and Human Services
   * Designed for agencies in the Health and Human Services grouping 
   * Part of New York State's Excelsior Design System
   * A design system for New York State's digital products.
@@ -8,7 +8,6 @@
 */
 
 :root {
-  /* --- Theme Colors --- */
   --nys-color-theme-faint: var(--nys-color-health-purple-10);
   --nys-color-theme-weaker: var(--nys-color-health-purple-100);
   --nys-color-theme-weak: var(--nys-color-health-purple-200);

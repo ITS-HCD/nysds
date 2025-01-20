@@ -1,5 +1,5 @@
 /*!
-  * Theme: Local and Regional Authorities
+  * Excelsior Theme: Local and Regional Authorities
   * Designed for agencies in the Local and Regional Authorities grouping 
   * Part of New York State's Excelsior Design System
   * A design system for New York State's digital products.
@@ -8,7 +8,6 @@
 */
 
 :root {
-  /* --- Theme Colors --- */
   --nys-color-theme-faint: var(--nys-color-local-brown-10);
   --nys-color-theme-weaker: var(--nys-color-local-brown-100);
   --nys-color-theme-weak: var(--nys-color-local-brown-200);

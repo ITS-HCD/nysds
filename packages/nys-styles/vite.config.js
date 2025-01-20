@@ -2,25 +2,24 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   build: {
-    cssCodeSplit: true, // Split up CSS files
+    cssCodeSplit: true,
+    sourcemap: true,
     rollupOptions: {
       input: {
-        excelsior: "./src/excelsior.css",
-        "excelsior-theme-admin": "./src/theme-admin.css",
-        "excelsior-theme-business": "./src/theme-business.css",
-        "excelsior-theme-environment": "./src/theme-environment.css",
-        "excelsior-theme-health": "./src/theme-health.css",
-        "excelsior-theme-local": "./src/theme-local.css",
-        "excelsior-theme-safety": "./src/theme-safety.css",
-        "excelsior-theme-transportation": "./src/theme-transportation.css",
-        "excelsior-utility": "./src/utility.css",
-        "excelsior-utility-grid": "./src/utility-layout-grid.css",
+        excelsior: "./src/excelsior.css", // Main core styles
+        "excelsior-full": "./src/excelsior-full.css", // Core + utilities
+        "excelsior-theme-admin": "./src/themes/admin.css",
+        "excelsior-theme-business": "./src/themes/business.css",
+        "excelsior-theme-environment": "./src/themes/environment.css",
+        "excelsior-theme-health": "./src/themes/health.css",
+        "excelsior-theme-local": "./src/themes/local.css",
+        "excelsior-theme-safety": "./src/themes/safety.css",
+        "excelsior-theme-transportation": "./src/themes/transportation.css",
       },
       output: {
         assetFileNames: "[name].min.css",
-        dir: "dist", // Output folder
+        dir: "dist",
       },
     },
-    sourcemap: true, // Optional, add source maps if needed
   },
 });
