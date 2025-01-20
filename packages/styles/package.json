@@ -18,7 +18,8 @@
     "./themes/health": "./dist/excelsior-theme-health.min.css",
     "./themes/local": "./dist/excelsior-theme-local.min.css",
     "./themes/safety": "./dist/excelsior-theme-safety.min.css",
-    "./themes/transportation": "./dist/excelsior-theme-transportation.min.css"
+    "./themes/transportation": "./dist/excelsior-theme-transportation.min.css",
+    "./typography": "./dist/typography.min.css"
   },
   "scripts": {
     "dev": "vite --config",

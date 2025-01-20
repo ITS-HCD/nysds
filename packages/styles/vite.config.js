@@ -17,6 +17,8 @@ export default defineConfig({
         "excelsior-theme-local": "./src/themes/local.css",
         "excelsior-theme-safety": "./src/themes/safety.css",
         "excelsior-theme-transportation": "./src/themes/transportation.css",
+        // Typography
+        typography: "./src/core/typography.css",
       },
       output: {
         assetFileNames: "[name].min.css",
