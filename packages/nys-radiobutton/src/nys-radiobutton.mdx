@@ -6,15 +6,15 @@ import * as NysRadiobuttonStories from './nys-radiobutton.stories';
 
 # Radiobutton
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pillpill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=2191-4934&p=f&t=cZ4tR1bBvLjvWG2s-0">View in Figma</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=2191-4934&p=f&t=cZ4tR1bBvLjvWG2s-0">View in Figma</a></p>
 
 The **`nys-radiobutton`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
 
-If an id is not passed, a unique id will be generated.
-
-If `checked=true` is assigned to multiple options in a `radiogroup` only the last option will take the `true` state
+- If an `id` is not passed, a unique `id` will be generated.
+- You must wrap radio buttons with **`nys-radiogroup`** to group multiple radios or radio buttons so they function as a single form control.
+- If `checked=true` is assigned to multiple options in a `radiogroup` only the last option will take the `true` state
 
 ***
 
@@ -23,6 +23,7 @@ If `checked=true` is assigned to multiple options in a `radiogroup` only the las
 <Controls />
 
 ### Variants
+⚠️ Important: Wrap radio buttons with `nys-radiogroup` to ensure they function as a single form control.
 
 #### Partial Editable Options
 <Canvas of={NysRadiobuttonStories.PartialEditableOptions} />
@@ -53,9 +54,9 @@ Note: Both `nys-radiobutton` and `nys-radiogroup` support the description slot.
 - When users need to select multiple options (consider [checkboxes](?path=/docs/components-checkbox--docs) instead).
 - When there are more than 7 options (consider a dropdown for better space utilization).
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
       - Group radio buttons vertically for easier scanning, especially when labels are lengthy.
       - Use a clear default selection if applicable (e.g., the most common or recommended choice).
@@ -63,8 +64,8 @@ Note: Both `nys-radiobutton` and `nys-radiogroup` support the description slot.
       - Group related radio buttons with a heading or contextual instructions to clarify the choice.
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
       - Use radio buttons for yes/no questions (consider a toggle or checkbox).
       - Overload the user with too many radio button options; simplify or use a dropdown if needed.

@@ -10,9 +10,9 @@ The **`nys-alert`** component is a reusable web component for use in New York St
 
 If an id is not passed, a unique id will be generated.
 
-<p class="pill pill--stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p class="pill pill--uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=866-814&p=f&m=dev">View in Figma</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=866-814&p=f&m=dev">View in Figma</a></p>
 
 ***
 
@@ -69,17 +69,17 @@ You must provide both an action label and a URL for each action to ensure proper
   - Avoid using alerts for repetitive or non-actionable content that could frustrate users.
   - For notifications outside the page context, consider using a toast or modal component instead.
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
       - Keep the alert content concise and focused on the message.
       - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
       - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
       - Overuse alerts for non-critical information, as this can desensitize users to important messages.
       - Use icons or themes that don’t clearly communicate the purpose of the alert.

@@ -8,9 +8,9 @@ import * as NysIconStories from "./nys-icon.stories";
 
 The **`nys-icon`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pillpill--uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1308-271&p=f&m=dev">View in Figma</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1308-271&p=f&m=dev">View in Figma</a></p>
 
 ***
 
@@ -166,9 +166,9 @@ Available values are `horizontal`, `vertical`, and `both`.
   - If an icon does not add meaningful value to the context or might confuse users.
   - When a descriptive label or plain text provides clearer communication.
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
       - Use icons to enhance user interfaces with clear, recognizable icons.
       - Use appropriate icons align with the purpose and context of the UI elements they accompany.
@@ -176,8 +176,8 @@ Available values are `horizontal`, `vertical`, and `both`.
       - Customize icon sizes and colors to match the design system.
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
       - Use icons that lack clarity or context for their intended purpose.
       - Use excessive customization that distracts from UI and established design patterns.
