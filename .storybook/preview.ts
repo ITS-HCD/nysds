@@ -18,7 +18,7 @@ const loadTheme = (() => {
     themeLink.href =
       theme === "default"
         ? "" // Set to empty or a default stylesheet if needed
-        : `/assets/css/themes/${theme}.css`;
+        : `./assets/css/themes/${theme}.css`;
   };
 })();
 
