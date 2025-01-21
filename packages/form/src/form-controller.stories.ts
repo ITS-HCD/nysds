@@ -39,6 +39,7 @@ type Story = StoryObj<NysFormArgs>;
 const useData = (formData: FormData) => {
   const formValues: Record<string, string> = {};
   formData.forEach((value, key) => {
+    console.log(`This is the formData key: ${key} and value: ${value}`);
     formValues[key] = value.toString();
   });
 
@@ -604,39 +605,33 @@ export const TEST: Story = {
         style="display: flex; flex-direction: column; gap: 10px; background-color: #f0f0f0; padding: 20px;"
       >
         <legend>User Information</legend>
+        
+        <nys-checkbox label="YOLO" name="yolo" value="YOLO"></nys-checkbox>
+        <nys-checkbox label="yolo2" name="yolo" value="yolo2"></nys-checkbox>
+        <nys-checkbox label="Wow" name="wow" value="wow"></nys-checkbox>
+        <hr style="background-color: black; width: 100%; height: 2px;" />
+
         <nys-checkboxgroup
           label="Select your favorite New York landmarks"
           description="Choose from the options below"
-          required
         >
           <nys-checkbox
-            label="Adirondacks"
-            name="landmarks"
-            value="adirondacks"
-            errorMessage="You must select this box to continue"
-            checked
+            label="Broccoli"
+            name="food"
+            value="Broccoli"
           ></nys-checkbox>
           <nys-checkbox
-            label="Finger Lakes"
-            name="landmarks"
-            value="finger-lakes"
+            label="celery"
+            name="food"
+            value="celery"
           ></nys-checkbox>
           <nys-checkbox
-            label="Catskills"
-            name="landmarks"
-            value="catskills"
-          ></nys-checkbox>
-          <nys-checkbox
-            label="Niagara Falls"
-            name="landmarks"
-            value="niagara-falls"
-          ></nys-checkbox>
-          <nys-checkbox
-            label="Coney Island"
-            name="landmarks"
-            value="coney-island"
+            label="Veggies"
+            name="food"
+            value="Veggies"
           ></nys-checkbox>
         </nys-checkboxgroup>
+
         <button type="submit">Send</button>
       </fieldset>
     </form>

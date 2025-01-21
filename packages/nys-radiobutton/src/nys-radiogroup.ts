@@ -191,7 +191,7 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
-  // This function is needed to initially establish selectedName and selectedValue 
+  // This function is needed to initially establish selectedName and selectedValue
   private handleSlotChange() {
     const checkedRadioButton = this.querySelector("nys-radiobutton[checked]");
 

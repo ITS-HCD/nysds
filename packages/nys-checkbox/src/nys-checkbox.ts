@@ -10,17 +10,30 @@ let checkboxIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-checkbox")
 export class NysCheckbox extends LitElement {
-  // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
-  private readonly formControlController = new FormControlController(this, {
-    form: () =>
-      this.form
-        ? (document.getElementById(this.form) as HTMLFormElement)
-        : this.closest("form"),
-    value: () => this.getGroupedValue(),
-    defaultValue: () => this.getGroupedValue(),
-    reportValidity: () => this.reportValidity(),
-    checkValidity: () => this.checkValidity(),
-  });
+  private formControlController: FormControlController | null = null;
+  constructor() {
+    super();
+
+    // Determine if part of a group and initialize form controller
+    const isPartOfGroup = !!this.closest("nys-checkboxgroup");
+    if (!isPartOfGroup) {
+      // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
+      this.formControlController = new FormControlController(this, {
+        form: () =>
+          this.form
+            ? (document.getElementById(this.form) as HTMLFormElement)
+            : this.closest("form"),
+        value: () => this.getGroupedValue(),
+        defaultValue: () => this.getGroupedValue(),
+        reportValidity: () => this.reportValidity(),
+        checkValidity: () => this.checkValidity(),
+      });
+    }
+    console.log(
+      "FormControlController initialized!!!!:",
+      this.formControlController,
+    );
+  }
 
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
@@ -30,7 +43,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
-  @property({ reflect: true }) form = "";
+  @property({ type: String }) form = null;
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
@@ -63,12 +76,12 @@ export class NysCheckbox extends LitElement {
 
   // Ensures the form control's validity state is updated after the first render.
   firstUpdated() {
-    this.formControlController.updateValidity();
+    this.formControlController?.updateValidity();
   }
 
   // Gets the associated form, if one exists.
   getForm(): HTMLFormElement | null {
-    return this.formControlController.getForm();
+    return this.formControlController?.getForm() ?? null;
   }
 
   // Gets the validity property
@@ -82,7 +95,7 @@ export class NysCheckbox extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (input) {
       input.setCustomValidity(message);
-      this.formControlController.updateValidity();
+      this.formControlController?.updateValidity();
     }
   }
 
@@ -94,7 +107,8 @@ export class NysCheckbox extends LitElement {
 
   // Report the form control validity
   reportValidity(): boolean {
-    console.log("reporting validity inside checkbox")
+    console.log("reporting validity inside checkbox");
+    console.log("Grouped Value:", this.getGroupedValue());
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
   }
@@ -110,14 +124,13 @@ export class NysCheckbox extends LitElement {
 
   // Group checkboxes by the same name and serialize as a string
   private getGroupedValue() {
-    console.log('grouping checkboxes')
     // Find the associated form
     const form = this.getForm();
     if (!form) return this.checked ? this.value || "on" : undefined;
 
     // Find all checkboxes with the same "name" in the same form
     const checkboxes = Array.from(
-      form.querySelectorAll(`nys-checkbox[name="${this.name}"]`)
+      form.querySelectorAll(`nys-checkbox[name="${this.name}"]`),
     ) as NysCheckbox[];
 
     if (checkboxes.length === 0) {
@@ -131,14 +144,14 @@ export class NysCheckbox extends LitElement {
       .map((checkbox) => checkbox.value || "on");
 
     // Return the array of checked values as JSON string
-    return checkedValues.length > 0 ? JSON.stringify(checkedValues) : undefined;
+    return checkedValues.length > 0 ? checkedValues : undefined;
   }
 
   // Handle invalid event
   private handleInvalid(event: Event) {
     console.log("INVALID, need handling");
-    this.formControlController.setValidity(false);
-    this.formControlController.emitInvalidEvent(event);
+    this.formControlController?.setValidity(false);
+    this.formControlController?.emitInvalidEvent(event);
   }
 
   // Handle checkbox change event
@@ -172,7 +185,11 @@ export class NysCheckbox extends LitElement {
         this.checked = !this.checked;
         this.dispatchEvent(
           new CustomEvent("change", {
-            detail: { name: this.name, value: this.value, checked: this.checked },
+            detail: {
+              name: this.name,
+              value: this.value,
+              checked: this.checked,
+            },
             bubbles: true,
             composed: true,
           }),

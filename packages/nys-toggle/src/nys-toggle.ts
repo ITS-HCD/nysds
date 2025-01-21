@@ -49,7 +49,7 @@ export class NysToggle extends LitElement {
       ? (value as (typeof NysToggle.VALID_SIZES)[number])
       : "md";
   }
-  @property({ type: String }) form = "";
+  @property({ type: String }) form = null;
 
   static styles = styles;
 

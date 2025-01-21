@@ -27,7 +27,7 @@ export class NysSelect extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
+  @property({ type: String }) form = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;

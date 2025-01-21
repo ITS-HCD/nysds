@@ -19,7 +19,7 @@ export class NysCheckboxgroup extends LitElement {
     reportValidity: () => this.reportValidity(),
     checkValidity: () => this.checkValidity(),
   });
-  
+
   @property({ type: String }) id = "";
   // @property({ type: String }) name = "";
   @property({ type: Boolean }) required = false;
@@ -27,6 +27,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  @property({ type: String }) form = null;
   // State for storing the selected name and value for form-controller use
   @state() private selectedName: string | null = null;
   @state() private selectedValues: string[] = [];
@@ -47,11 +48,10 @@ export class NysCheckboxgroup extends LitElement {
       ? (value as (typeof NysCheckboxgroup.VALID_SIZES)[number])
       : "md";
   }
-  @property({ type: String }) form = null;
 
   static styles = styles;
 
-    /********************** Form Control Integration **********************/
+  /********************** Form Control Integration **********************/
   /**
    * Handles the integration of the component with form behavior.
    * This includes managing form control state (checked value), validity checks,
@@ -118,6 +118,7 @@ export class NysCheckboxgroup extends LitElement {
   // Report the form control validity
   reportValidity(): boolean {
     const checkboxes = this.querySelectorAll("nys-checkbox");
+    console.log("Selected Values inside the checkbox group - reportvalididyt:", this.selectedValues);
 
     if (this.required) {
       // Check if at least one radiobutton is selected
@@ -191,33 +192,34 @@ export class NysCheckboxgroup extends LitElement {
     }
   }
 
+  // Updates the selected checkboxes when the slot content changes or is set up initially.
   private handleSlotChange() {
-    console.log('handling slot in checkbox group')
+    console.log("handling slot in checkbox group");
     const checkedCheckboxes = this.querySelectorAll("nys-checkbox[checked]");
-    
+
     if (checkedCheckboxes.length > 0) {
       checkedCheckboxes.forEach((checkbox) => {
         const input = checkbox.shadowRoot?.querySelector("input");
 
-      if (input) {
-        // Update selectedName and selectedValue with the currently checked radio button's values
-        this.selectedName = input.name;
-        this.selectedValues.push(input.value);
-      }
-      })  
+        if (input) {
+          // Update selectedName and selectedValue with the currently checked radio button's values
+          this.selectedName = input.name;
+          this.selectedValues.push(input.value);
+        }
+      });
     }
   }
 
   /**
- * Updates the checkbox's selected name and value based on the currently selected checkbox.
- * Clears any error messages displayed if the selection satisfies the required condition.
- */
+   * Updates the checkbox's selected name and value based on the currently selected checkbox.
+   * Clears any error messages displayed if the selection satisfies the required condition.
+   */
   private _handleCheckboxChange(event: Event) {
     const customEvent = event as CustomEvent;
     const { name, value, checked } = customEvent.detail;
 
     this.selectedName = name;
-    
+
     // Add or remove the value from selectedValues based on the checkbox's state
     if (checked) {
       if (!this.selectedValues.includes(value)) {
