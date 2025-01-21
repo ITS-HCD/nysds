@@ -29,10 +29,6 @@ export class NysCheckbox extends LitElement {
         checkValidity: () => this.checkValidity(),
       });
     }
-    console.log(
-      "FormControlController initialized!!!!:",
-      this.formControlController,
-    );
   }
 
   @property({ type: Boolean }) checked = false;
@@ -107,8 +103,6 @@ export class NysCheckbox extends LitElement {
 
   // Report the form control validity
   reportValidity(): boolean {
-    console.log("reporting validity inside checkbox");
-    console.log("Grouped Value:", this.getGroupedValue());
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.reportValidity() : false;
   }
@@ -149,7 +143,6 @@ export class NysCheckbox extends LitElement {
 
   // Handle invalid event
   private handleInvalid(event: Event) {
-    console.log("INVALID, need handling");
     this.formControlController?.setValidity(false);
     this.formControlController?.emitInvalidEvent(event);
   }

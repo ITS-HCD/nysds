@@ -118,7 +118,6 @@ export class NysCheckboxgroup extends LitElement {
   // Report the form control validity
   reportValidity(): boolean {
     const checkboxes = this.querySelectorAll("nys-checkbox");
-    console.log("Selected Values inside the checkbox group - reportvalididyt:", this.selectedValues);
 
     if (this.required) {
       // Check if at least one radiobutton is selected
@@ -194,7 +193,6 @@ export class NysCheckboxgroup extends LitElement {
 
   // Updates the selected checkboxes when the slot content changes or is set up initially.
   private handleSlotChange() {
-    console.log("handling slot in checkbox group");
     const checkedCheckboxes = this.querySelectorAll("nys-checkbox[checked]");
 
     if (checkedCheckboxes.length > 0) {
