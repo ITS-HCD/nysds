@@ -1,8 +1,9 @@
 import type { Preview } from "@storybook/web-components";
+
 import "./preview.css"; // Custom Storybook styles
 
 const loadTheme = (() => {
-  let themeLink;
+  let themeLink: HTMLLinkElement | null;
 
   return (theme) => {
     if (!themeLink) {
@@ -14,9 +15,10 @@ const loadTheme = (() => {
     }
 
     // Update the href to the new theme
-    themeLink.href = theme === "default"
-      ? "" // Set to empty or a default stylesheet if needed
-      : `./assets/css/excelsior-theme-${theme}.min.css`;
+    themeLink.href =
+      theme === "default"
+        ? "" // Set to empty or a default stylesheet if needed
+        : `./assets/css/themes/${theme}.css`;
   };
 })();
 
@@ -53,7 +55,16 @@ const preview: Preview = {
   parameters: {
     options: {
       storySort: {
-        order: ['About', 'Styles', 'Design Tokens', 'Typography', 'Layout Grid', 'Flexbox', 'Utilities', 'Components'],
+        order: [
+          "About",
+          "Styles",
+          "Design Tokens",
+          "Typography",
+          "Layout Grid",
+          "Flexbox",
+          "Utilities",
+          "Components",
+        ],
       },
     },
     controls: {

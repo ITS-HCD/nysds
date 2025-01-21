@@ -9,7 +9,7 @@ export default create({
   colorPrimary: "#154973",
   colorSecondary: "#154973",
 
-  brandImage: "/assets/images/excelsior-logo.svg",
+  brandImage: "./assets/images/excelsior-logo.svg",
   brandTarget: "_self",
 
   // App colors
