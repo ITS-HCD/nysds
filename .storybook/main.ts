@@ -8,7 +8,7 @@ const config: StorybookConfig = {
     "../packages/**/src/*.stories.@(js|jsx|ts|tsx)",
   ],
   staticDirs: [
-    { from: "../packages/styles/dist", to: "/assets/css" },
+    { from: "../packages/styles/src", to: "/assets/css" },
     { from: "./assets/fonts", to: "/assets/fonts" },
     { from: "./assets/images", to: "/assets/images" }
   ],
@@ -21,10 +21,6 @@ const config: StorybookConfig = {
   framework: {
     name: "@storybook/web-components-vite",
     options: {},
-  },
-  viteFinal: (config) => {
-    config.base = process.env.NODE_ENV === "production" ? "/excelsior/" : "/";
-    return config;
   },
 };
 
