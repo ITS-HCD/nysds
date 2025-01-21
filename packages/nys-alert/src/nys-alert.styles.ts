@@ -168,6 +168,7 @@ export default css`
   .nys-alert__actions {
     display: flex;
     gap: var(--_nys-alert-gap-space-150);
+    flex-wrap: wrap;
   }
 
   /* Alert Types */
