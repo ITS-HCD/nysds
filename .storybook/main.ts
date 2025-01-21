@@ -22,10 +22,6 @@ const config: StorybookConfig = {
     name: "@storybook/web-components-vite",
     options: {},
   },
-  viteFinal: (config) => {
-    config.base = "/";
-    return config;
-  },
 };
 
 export default config;
