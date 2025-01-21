@@ -6,6 +6,17 @@ import "./nys-button";
 interface NysButtonArgs {
   id: string;
   name: string;
+  size: string;
+  variant: string;
+  inverse: boolean;
+  label: string;
+  prefixIcon: string;
+  suffixIcon: string;
+  disabled: boolean;
+  form: string;
+  value: string;
+  type: string;
+  onClick: string;
 }
 
 const meta: Meta<NysButtonArgs> = {
@@ -14,6 +25,20 @@ const meta: Meta<NysButtonArgs> = {
   argTypes: {
     id: { control: "text" },
     name: { control: "text" },
+    size: { control: "select", options: ["sm", "md", "lg"] },
+    variant: {
+      control: "select",
+      options: ["fill", "outline", "ghost", "text"],
+    },
+    inverse: { control: "boolean" },
+    label: { control: "text" },
+    prefixIcon: { control: "text" },
+    suffixIcon: { control: "text" },
+    disabled: { control: "boolean" },
+    form: { control: "text" },
+    value: { control: "text" },
+    type: { control: "select", options: ["submit", "reset", "button"] },
+    onClick: { control: "text" },
   },
   parameters: {
     docs: {
@@ -29,9 +54,27 @@ type Story = StoryObj<NysButtonArgs>;
 // Define stories without using args
 
 export const Basic: Story = {
-  args: {},
+  args: {
+    id: "button1",
+    name: "button1",
+    label: "Click Me",
+  },
   render: (args) => html`
-    <nys-button .id=${args.id} .name=${args.name}></nys-button>
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      .variant=${args.variant}
+      .inverse=${args.inverse}
+      .label=${args.label}
+      .prefixIcon=${args.prefixIcon}
+      .suffixIcon=${args.suffixIcon}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .type=${args.type}
+      .onClick=${args.onClick}
+    ></nys-button>
   `,
   parameters: {
     docs: {
