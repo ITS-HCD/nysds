@@ -1,5 +1,5 @@
 /*!
-  * Theme: Public Safety
+  * Excelsior Theme: Public Safety
   * Designed for agencies in the Public Safety grouping 
   * Part of New York State's Excelsior Design System
   * A design system for New York State's digital products.
@@ -8,7 +8,6 @@
 */
 
 :root {
-  /* --- Theme Colors --- */
   --nys-color-theme-faint: var(--nys-color-safety-gray-10);
   --nys-color-theme-weaker: var(--nys-color-safety-gray-50);
   --nys-color-theme-weak: var(--nys-color-safety-gray-100);

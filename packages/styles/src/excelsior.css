@@ -1,0 +1,24 @@
+/*!
+   * 
+   * ░█▀▀▀ ▀▄░▄▀ ░█▀▀█ ░█▀▀▀ ░█─── ░█▀▀▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█ 
+   * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
+   * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
+   * 
+   * Excelsior: Core Styles
+   * Part of New York State's Excelsior Design System
+   * A design system for New York State's digital products.
+   * Repository: https://github.com/its-hcd/excelsior
+   * License: MIT
+   * Version: 0.0.7-alpha
+*/
+
+/* Include Design Tokens (variables for colors, spacing, typography) */
+@import "./core/tokens.css";
+
+/* Include Design Tokens (variables for colors, spacing, typography) */
+@import "./core/typography.css";
+
+/* TODO: Include Global Styles (default typography and body styles) */
+/* @import "./core/globals.css"; */
+  
+  

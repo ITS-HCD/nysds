@@ -1,0 +1,47 @@
+{
+  "name": "@nys-excelsior/styles",
+  "type": "module",
+  "version": "0.0.8-alpha",
+  "description": "CSS variables, styles, and themes for the New York State Design System",
+  "main": "dist/excelsior.css",
+  "files": [
+    "dist/"
+  ],
+  "exports": {
+    ".": {
+      "default": "./dist/excelsior.min.css"
+    },
+    "./full": "./dist/excelsior-full.min.css",
+    "./themes/admin": "./dist/excelsior-theme-admin.min.css",
+    "./themes/business": "./dist/excelsior-theme-business.min.css",
+    "./themes/environment": "./dist/excelsior-theme-environment.min.css",
+    "./themes/health": "./dist/excelsior-theme-health.min.css",
+    "./themes/local": "./dist/excelsior-theme-local.min.css",
+    "./themes/safety": "./dist/excelsior-theme-safety.min.css",
+    "./themes/transportation": "./dist/excelsior-theme-transportation.min.css",
+    "./typography": "./dist/typography.min.css"
+  },
+  "scripts": {
+    "dev": "vite --config",
+    "build": "vite build",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "lit": "^3.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
+  },
+  "keywords": [
+    "excelsior",
+    "new-york-state",
+    "design-system",
+    "styles",
+    "css",
+    "variables",
+    "themes",
+    "tokens",
+    "nys"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}

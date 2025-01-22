@@ -6,7 +6,7 @@ export default css`
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
     --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
     --_nys-radiobutton-width-border: var(--nys-border-width-md, 2px);
-    --_nys-radiobutton-color-focus: var(--nys-color-focus, #286ad8);
+    --_nys-radiobutton-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
     --_nys-radiobutton-offset-focus: var(--nys-space-2px, 2px);
     --_nys-radiobutton-transition-duration: var(
@@ -18,8 +18,8 @@ export default css`
       12px
     ); /* space between radio and it's label */
     --_nys-radiogroup-gap: var(
-      --nys-space-50,
-      4px
+      --nys-space-200,
+      16px
     ); /* space between radio buttons */
 
     /* Typography */
@@ -80,18 +80,22 @@ export default css`
     );
     /* Disabled */
     --_nys-radiobutton-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
+    --_nys-radiobutton-disabled-color-text: var(
+      --nys-color-neutral-500,
+      #797c7f
+    );
     --_nys-radiobutton-disabled-color-border: var(
-      --nys-color-neutral-200,
-      #bec0c1
+      --nys-color-neutral-100,
+      #d0d0ce
     );
     /* Disabled Checked */
     --_nys-radiobutton-disabled-checked-color-bg: var(
-      --nys-color-neutral-200,
-      #bec0c1
+      --nys-color-neutral-100,
+      #d0d0ce
     );
     --_nys-radiobutton-disabled-checked-color-border: var(
-      --nys-color-neutral-200,
-      #bec0c1
+      --nys-color-neutral-100,
+      #d0d0ce
     );
   }
 
@@ -106,12 +110,14 @@ export default css`
   :host([size="md"]) {
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
     --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
+    --_nys-radiogroup-gap: var(--nys-space-200, 16px);
+    --_nys-radiobutton-gap: var(--nys-space-150, 12px);
   }
 
   .nys-radiogroup {
     display: flex;
     flex-direction: column;
-    gap: var(--_nys-radiogroup-gap);
+    gap: var(--nys-spacing-50, 4px);
     font-family: var(--_nys-radiobutton-font-family);
     font-size: var(--_nys-radiobutton-font-size);
     line-height: var(--_nys-radiobutton-line-height);
@@ -230,7 +236,8 @@ export default css`
   .nys-radiobutton__radio:disabled
     + .nys-radiobutton__text
     .nys-radiobutton__description {
-    color: var(--form-label-color-disabled, #757575);
+    color: var(--_nys-radiobutton-disabled-color-text);
+    cursor: not-allowed;
   }
 
   /* Required */

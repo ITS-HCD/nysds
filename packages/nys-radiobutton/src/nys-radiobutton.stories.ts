@@ -1,7 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-radiobutton";
-import "./nys-radiogroup";
 
 // Define the structure of the args used in the stories
 interface NysRadiobuttonArgs {
@@ -58,7 +57,6 @@ export const Basic: Story = {
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
-    size: "md",
   },
   render: (args) => html`
     <nys-radiogroup
@@ -344,7 +342,7 @@ export const Size: Story = {
     <nys-radiogroup
       label="Select your agency"
       description="This is the agency, department, or office you work for."
-      size="sm"
+      size=${args.size}
       .required=${args.required}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -379,20 +377,20 @@ export const Size: Story = {
   size="sm"
 >
   <nys-radiobutton
-    .name="agency"
+    name="agency"
     checked
-    .label="Department of Health"
-    .value="doh"
+    label="Department of Health"
+    value="doh"
   ></nys-radiobutton>
   <nys-radiobutton
-    .name="agency"
-    .label="Office of Information Technology Services"
-    .value="its"
+    name="agency"
+    label="Office of Information Technology Services"
+    value="its"
   ></nys-radiobutton>
   <nys-radiobutton
-    .name="agency"
-    .label="New York State Attorney General"
-    .value="ag"
+    name="agency"
+    label="New York State Attorney General"
+    value="ag"
   ></nys-radiobutton>
 </nys-radiogroup>
 `.trim(),

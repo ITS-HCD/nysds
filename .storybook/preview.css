@@ -1,43 +1,90 @@
-body {
-    font-family: 'Arial', sans-serif;
+/* Apply Proxima Nova globally, except for <code> and <pre> elements */
+body, .sb-show-main *, .sb-show-main *:before, .sb-show-main *:after {
+    font-family: "Proxima Nova", Helvetica, Arial, sans-serif !important;
 }
+
+/* Exclude <pre> and <code> from the override */
+pre, code, .sb-show-main * pre, .sb-show-main * code, .sb-show-main * pre *, .sb-show-main * code *, * .token, .utility-class, .utility-class p, .utility-value {
+    font-family: ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New", monospace !important;
+}
+
+:where(p:not(.sb-anchor, .sb-unstyled, .sb-unstyled p)),
+:where(li:not(.sb-anchor, .sb-unstyled, .sb-unstyled li)) {
+  font-size: max(1em, 16px) !important;
+}
+
+/**/
+
+/* === EXCELSIOR: Typography Styles */
+
+/* Adding these here to combat Storyboook's excessive specificity */
+
+/* --- Body --- */
+
+.nys-font-body-xs { font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs) var(--nys-font-family-body) !important; }
+.nys-font-body-sm { font: var(--nys-font-size-sm) / var(--nys-font-lineheight-sm) var(--nys-font-family-body) !important; }
+.nys-font-body-md { font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-family-body) !important; }
+
+/* --- Heading --- */
+
+.nys-font-h1 { font: normal normal var(--nys-font-weight-h1, bold) var(--nys-font-size-h1) / var(--nys-font-lineheight-h1) var(--nys-font-family-heading) !important; }
+.nys-font-h2 { font: normal normal var(--nys-font-weight-h2, bold) var(--nys-font-size-h2) / var(--nys-font-lineheight-h2) var(--nys-font-family-heading) !important; }
+.nys-font-h3 { font: normal normal var(--nys-font-weight-h3, bold) var(--nys-font-size-h3) / var(--nys-font-lineheight-h3) var(--nys-font-family-heading) !important; }
+.nys-font-h4 { font: normal normal var(--nys-font-weight-h4, bold) var(--nys-font-size-h4) / var(--nys-font-lineheight-h4) var(--nys-font-family-heading) !important; }
+.nys-font-h5 { font: normal normal var(--nys-font-weight-h5, bold) var(--nys-font-size-h5) / var(--nys-font-lineheight-h5) var(--nys-font-family-heading) !important; }
+.nys-font-h6 { font: normal normal var(--nys-font-weight-h6, bold) var(--nys-font-size-h6) / var(--nys-font-lineheight-h6) var(--nys-font-family-heading) !important; }
+
+/* --- UI --- */
+
+.nys-font-ui-xs { font: var(--nys-font-size-ui-xs) / var(--nys-font-lineheight-ui-xs) var(--nys-font-family-ui) !important; }
+.nys-font-ui-sm { font: var(--nys-font-size-ui-sm) / var(--nys-font-lineheight-ui-sm) var(--nys-font-family-ui) !important; }
+.nys-font-ui-md { font: var(--nys-font-size-ui-md) / var(--nys-font-lineheight-ui-md) var(--nys-font-family-ui) !important; }
+.nys-font-ui-lg { font: var(--nys-font-size-ui-lg) / var(--nys-font-lineheight-ui-lg) var(--nys-font-family-ui) !important; }
+.nys-font-ui-xl { font: var(--nys-font-size-ui-xl) / var(--nys-font-lineheight-ui-xl) var(--nys-font-family-ui) !important; }
+
+/* --- Display --- */
+
+.nys-font-display-sm { font: var(--nys-font-size-display-sm) / var(--nys-font-lineheight-display-sm) var(--nys-font-family-display) !important; }
+.nys-font-display-md { font: var(--nys-font-size-display-md) / var(--nys-font-lineheight-display-md) var(--nys-font-family-display) !important; }
+.nys-font-display-lg { font: var(--nys-font-size-display-lg) / var(--nys-font-lineheight-display-lg) var(--nys-font-family-display) !important; }
+.nys-font-display-xl { font: var(--nys-font-size-display-xl) / var(--nys-font-lineheight-display-xl) var(--nys-font-family-display) !important; }
+
+/* --- Agency --- */
+
+.nys-font-agency { font: var(--nys-font-size-agency) / var(--nys-font-lineheight-h1) var(--nys-font-family-agency) !important; }
 
 .pill {
-    padding: .5rem 1rem;
+    padding: var(--nys-space-100) var(--nys-space-200);
     display: inline-block;
-    border-radius: var(--nys-radius-md);
+    border-radius: var(--nys-radius-round);
+    margin-top: 0 !important;
+    line-height: 1 !important;
 }
 
-.pill.stable {
+.pill--stable {
+    background: var(--nys-color-success);
+    color: var(--nys-color-ink-reverse) !important;
+}
+
+.usage-card {
+    padding: var(--nys-space-200) var(--nys-space-200);
+    margin: var(--nys-space-200) 0 !important;
+}
+
+.usage-card a {
+    color: var(--nys-color-ink);
+    text-decoration: underline;
+}
+
+.usage-card ul {
+    padding-left: var(--nys-space-250);
+}
+.usage-card--do {
     background-color: var(--nys-color-success-weak);
 }
 
-.usage-wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.usagedos {
-    display: inline-block;
-    width: 45%;
-    padding: .5rem 1rem;
-    border-radius: 15px;
-    margin: 0;
-}
-
-.usagedos.do {
-    background-color: var(--nys-color-success-weak);
-}
-
-.usagedos.dont {
+.usage-card--dont {
     background-color: var(--nys-color-danger-weak);
-}
-
-.usage-link {
-    color: rgb(9, 84, 223) !important;
-    text-decoration: underline !important;
-    font-weight: bold;
 }
 
 .nys-grid-offset-4 {
@@ -47,40 +94,40 @@ body {
 /* Layout grid page */
 
   .docs-grid-example .nys-grid-row {
-    margin-top: 1em;
-    font-family:'Courier New', Courier, monospace;
+    margin-top: var(--nys-space-200);
+    font-family: var(--nys-font-family-monospace);
   }
 
   .docs-grid-example [class*="nys-grid-col"] {
-    background-color: lightgray;
+    background-color: var(--nys-color-theme-weaker);
     text-align: center;
   }
 
-
   .docs-grid-example .nys-grid-row:not([class*="nys-grid-gap"]) [class*="nys-grid-col"] {
-    border: 1px solid;
-    padding: 1em;
+    border: 1px solid var(--nys-color-theme-weak);
+    padding: var(--nys-space-200);
+    font-size: var(--nys-font-size-ui-sm);
   }
 
   .docs-grid-example [class*="nys-grid-gap"] [class*="nys-grid-col"] > * {
     background-color: white;
-    border: 1px solid;
-    padding: 1em;
+    border: 1px solid var(--nys-color-theme-weak);
+    padding: var(--nys-space-200);
+    font-size: var(--nys-font-size-ui-sm);
   }
 
   .border-left {
-    border-left: 1px solid #face00
+    border-left: 1px solid var(--nys-color-accent);
   }
 
   .border-right {
-    border-right: 1px solid #face00;
+    border-right: 1px solid var(--nys-color-accent);
   }
 
   .text-center {
     text-align: center;
   }
   .utilities-property-title {
-    font-family: Public Sans Web,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
     font-size: .63rem;
     margin-left: 2px;
     margin-bottom: 0;
@@ -281,10 +328,6 @@ body {
     color: #fff
 }
 
-.utility-examples {
-    margin-left: 1rem;
-    margin-right: 1rem
-}
 
 .utility-examples-helper,.utility-examples-title {
     font-family: Public Sans Web,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol
@@ -310,10 +353,9 @@ body {
     margin: 0
 }
 
-.utility-class,.utility-value,.utility-value-color {
+.utility-class,.utility-class p,.utility-value,.utility-value p,.utility-value-color {
     display: inline-block;
-    font-family: Roboto Mono Web,Bitstream Vera Sans Mono,Consolas,Courier,monospace;
-    font-size: .83rem;
+    font-size: var(--nys-font-size-ui-xs) !important;
     padding-bottom: 2px;
     padding-top: 2px;
     padding-left: .25rem;
@@ -323,7 +365,7 @@ body {
 
 .utility-value {
     margin: 0;
-    background-color: #f3e1e4
+    background-color: var(--nys-color-theme-weaker);
 }
 
 .utility-value-color {
@@ -450,8 +492,8 @@ body {
 
 .utility-example div {
   padding: 1em;
-  border: 1px solid #bbb;
-  background-color: #f3e1e4;
+  border: 1px solid var(--nys-color-theme-weak);
+  background-color: var(--nys-color-theme-weaker);
 }
 
 .bg-white {
@@ -542,13 +584,15 @@ body {
 .height-6 {
     height: 2rem;
     margin: .25em !important;
+    border: 1px solid var(--nys-color-theme-weak) !important;
 }
+
 .border-base-dark {
-    border: 1px solid #5c5c5c!important;
+    border: 1px solid var(--nys-color-theme-weak) !important;
 }
 
 .bg-secondary-light {
-    background-color: #f3e1e4!important;
+    background-color: var(--nys-color-theme-weak)!important;
 }
 
 .padding-1px {
@@ -597,7 +641,7 @@ body {
 }
 
 .border-secondary-light {
-    border: 1px solid #f3e1e4!important;
+    border: 1px solid var(--nys-color-theme-weak)!important;
 }
 .margin-y-1px {
     margin-top: 1px!important;
