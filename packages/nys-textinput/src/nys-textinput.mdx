@@ -59,9 +59,9 @@ Note: in order to display an error message, you must pass in `hasError` to the c
 - If you need to collect multiple lines of input, use [textarea](?path=/docs/components-textarea--docs) instead.
 - If the input can be chosen from predefined options, use [select](?path=/docs/components-select--docs), [radiobutton](?path=/docs/components-radiobutton--docs), or [checkbox](?path=/docs/components-checkbox--docs).
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
       - Use clear and concise labels to describe the input required.
       - Provide helper text to guide the user, but don’t rely on placeholders as a substitute for labels.
@@ -69,8 +69,8 @@ Note: in order to display an error message, you must pass in `hasError` to the c
       - Use a logical default value when applicable (e.g., for a country or date field).
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
       - Use single-line text inputs for collecting long or detailed text responses (use a [textarea](?path=/docs/components-textarea--docs)).
       - Overwhelm users with too many single-line inputs; group similar fields when possible.
