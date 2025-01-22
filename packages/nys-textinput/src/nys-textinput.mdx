@@ -9,9 +9,9 @@ import * as NysTextinputStories from './nys-textinput.stories';
 
 The **`nys-textinput`** is a reusable web component for use in New York State digital products. It allows users to input data to be collected.
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pill uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=2896-7897&m=dev">Get the UI kit</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=2896-7897&m=dev">View in Figma</a></p>
 
 ***
 
@@ -49,29 +49,33 @@ Note: Takes in valid regex
 Note: in order to display an error message, you must pass in `hasError` to the component. Setting `errorMessage` does not display the message by default.
 <Canvas of={NysTextinputStories.ErrorMessage} />
 
-## Use cases
-
-### When to use this component
-- When you need to collect text input from the user.
-- When the input is specific to the user.
-
-### When to consider something else
-- When you need to collect multiple lines of data from the user.
-- When you need the user to select data from a list of predetermined options.
-
 ## Usage
 
-<div className="usage-wrapper">
-  <div className="usagedos do">
-    ### Do
-    - When you need to collect text input from the user.
-    - When the input is specific to the user.
+### When to use this component
+- To collect short, single-line text input from the user (e.g., names, email addresses, or short descriptions).
+- For open-ended, user-specific input.
+
+### When to consider something else
+- If you need to collect multiple lines of input, use [textarea](?path=/docs/components-textarea--docs) instead.
+- If the input can be chosen from predefined options, use [select](?path=/docs/components-select--docs), [radiobutton](?path=/docs/components-radiobutton--docs), or [checkbox](?path=/docs/components-checkbox--docs).
+
+<div class="nys-grid-row nys-grid-gap-lg">
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      - Use clear and concise labels to describe the input required.
+      - Provide helper text to guide the user, but don’t rely on placeholders as a substitute for labels.
+      - Validate input in real-time to catch errors early (e.g., invalid email formats).
+      - Use a logical default value when applicable (e.g., for a country or date field).
+    </div>
   </div>
-  <div className="usagedos dont">
-    ### Don't
-    - When you need to collect multiple lines of data from the user.
-    - When you need the user to select data from a list of predetermined options.
- </div>
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use single-line text inputs for collecting long or detailed text responses (use a [textarea](?path=/docs/components-textarea--docs)).
+      - Overwhelm users with too many single-line inputs; group similar fields when possible.
+    </div>
+  </div>
 </div>
 
 ## Accessibility

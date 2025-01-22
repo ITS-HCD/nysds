@@ -8,9 +8,9 @@ import * as NysCheckboxStories from './nys-checkbox.stories';
 
 The **`nys-checkbox`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pill uikit"><a href="#">Get the UI kit</a></p>
+{/* <p className="pill pill--uikit"><a href="#">View in Figma</a></p> */}
 
 ***
 
@@ -38,28 +38,29 @@ When the description requires more complexity than a simple `string` value, use 
 #### Checkbox Group
 <Canvas of={NysCheckboxStories.CheckboxGroup} />
 
-## Use cases
-
-### When to use this component
-- When you need to provide a yes/no answer.
-- When you need a confirmation from the user.
-- When you need a user to select multiple options from a list.
-
-### When to consider something else
-- When you need a user to select only one option from a list.
-
 ## Usage
 
-<div className="usage-wrapper">
-  <div className="usagedos do">
-    ### Do
-    - Use the checkbox component when you need to provide a yes/no answer.
-    - Use the checkbox component when you need a confirmation from the user.
-    - Use the checkbox component when you need a user to select multiple options from a list.
+### When to use this component
+- When collecting yes/no answers.
+- When obtaining confirmation from users.
+- When allowing users to select multiple options from a list.
+
+### When to consider something else
+- When users need to select only one option (consider a [radio button](?path=/docs/components-radiobutton--docs) instead).
+
+<div class="nys-grid-row nys-grid-gap-lg">
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Use checkboxes for binary decisions (agree/disagree).
+      - Use checkboxes for multi-select lists (like selecting interests).
+    </div>
   </div>
-  <div className="usagedos dont">
-    ### Don't
-    - Use the checkbox component when you need a user to select only one option from a list.
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use checkboxes when users should choose only one option.
+    </div>
   </div>
 </div>
 

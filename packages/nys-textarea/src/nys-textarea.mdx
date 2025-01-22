@@ -8,9 +8,9 @@ import * as NysTextareaStories from './nys-textarea.stories';
 # Text Area
 The **`nys-textarea`** is a reusable web component for use in New York State digital products. It allows users to input multiple lines of text to be collected.
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pill uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-993&p=f&m=dev">Get the UI kit</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-993&p=f&m=dev">View in Figma</a></p>
 
 ***
 
@@ -49,29 +49,31 @@ Note: resize is not affected by setting `nys-textarea` to `disabled` or `readonl
 #### Error Message
 <Canvas of={NysTextareaStories.ErrorMessage} />
 
-## Use cases
-
-### When to use this component
-- When you need to collect multiple lines of text input from the user.
-- When the input is specific to the user.
-
-### When to consider something else
-- When you need to collect a single line of text input from the user.
-- When you need the user to select data from a list of predetermined options.
-
 ## Usage
 
-<div className="usage-wrapper">
-    <div className="usagedos do">
-        <h3>Do</h3>
-        <p>Use the `nys-textarea` when you need to collect multiple lines of text input from the user.</p>
-        <p>Use the `nys-textarea` when the input is specific to the user.</p>
+### When to use this component
+- To collect **multiple lines of text input** from the user (e.g., comments, descriptions).
+- For **open-ended input** specific to the user (e.g., personal notes, feedback).
+
+### When to consider something else
+- If you need to collect a **single line of text input**, use an input field instead.
+- If the input should be **selected from predefined options**, use a dropdown or radio button.
+
+<div class="nys-grid-row nys-grid-gap-lg">
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Use the `nys-textarea` for **long-form text** like descriptions or detailed feedback.
+      - Use the `nys-textarea` when **precise user input** is required in multiple lines.
     </div>
-    <div className="usagedos dont">
-        <h3>Don't</h3>
-        <p>Don't use the `nys-textarea` when you need to collect a single line of text input from the user.</p>
-        <p>Don't use the `nys-textarea` when you need the user to select data from a list of predetermined options.</p>
+  </div>
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Don't use the `nys-textarea` for **short or single-line inputs** (use `nys-input` instead).
+      - Don't use the `nys-textarea` for **data selection tasks** (e.g., dropdowns or predefined options).
     </div>
+  </div>
 </div>
 
 ## Accessibility

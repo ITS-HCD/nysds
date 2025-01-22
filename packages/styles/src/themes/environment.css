@@ -1,5 +1,5 @@
 /*!
-  * Theme: Recreation and Environment
+  * Excelsior Theme: Recreation and Environment
   * Designed for agencies in the Recreation and Environment grouping 
   * Part of New York State's Excelsior Design System
   * A design system for New York State's digital products.
@@ -8,7 +8,6 @@
 */
 
 :root {
-  /* --- Theme Colors --- */
   --nys-color-theme-faint: var(--nys-color-environment-green-10);
   --nys-color-theme-weaker: var(--nys-color-environment-green-100);
   --nys-color-theme-weak: var(--nys-color-environment-green-200);

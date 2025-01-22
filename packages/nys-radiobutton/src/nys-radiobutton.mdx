@@ -6,9 +6,9 @@ import * as NysRadiobuttonStories from './nys-radiobutton.stories';
 
 # Radiobutton
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pill uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=2191-4934&p=f&t=cZ4tR1bBvLjvWG2s-0">Get the UI kit</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=2191-4934&p=f&t=cZ4tR1bBvLjvWG2s-0">View in Figma</a></p>
 
 The **`nys-radiobutton`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
 
@@ -43,28 +43,33 @@ When the description requires more complexity than a simple `string` value, use 
 Note: Both `nys-radiobutton` and `nys-radiogroup` support the description slot.
 <Canvas of={NysRadiobuttonStories.Slot} />
 
-## Use cases
+## Usage
 
 ### When to use this component
 - When the user needs to select only one option from a list.
-- When there are 7 or fewer options to choose from. 
+- When there are 7 or fewer options to choose from (for better usability). 
 
 ### When to consider something else
-- When the user needs to select multiple options from a list.
-- When there are more than 7 options to choose from.
+- When users need to select multiple options (consider [checkboxes](?path=/docs/components-checkbox--docs) instead).
+- When there are more than 7 options (consider a dropdown for better space utilization).
 
-## Usage
-
-<div className="usage-wrapper">
-  <div className="usagedos do">
-    ### Do
-    - Use the radiobutton component when the user needs to select only one option from a list.
-    - Use the radiobutton component when there are 7 or fewer options to choose from.
+<div class="nys-grid-row nys-grid-gap-lg">
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      - Group radio buttons vertically for easier scanning, especially when labels are lengthy.
+      - Use a clear default selection if applicable (e.g., the most common or recommended choice).
+      - Provide descriptive and concise labels for each option.
+      - Group related radio buttons with a heading or contextual instructions to clarify the choice.
+    </div>
   </div>
-  <div className="usagedos dont">
-    ### Don't
-    - Use the radiobutton component when the user needs to select multiple options from a list.
-    - Use the radiobutton component when there are more than 7 options to choose from.
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use radio buttons for yes/no questions (consider a toggle or checkbox).
+      - Overload the user with too many radio button options; simplify or use a dropdown if needed.
+      - Leave all radio buttons unselected if a default selection would help guide users.
+    </div>
   </div>
 </div>
 
