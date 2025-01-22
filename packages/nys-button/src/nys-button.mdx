@@ -1,1 +1,19 @@
-COMING SOON
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysButtonStories from './nys-button.stories';
+
+<Meta of={NysButtonStories} title="Components/Button/Documentation" />
+
+# Button
+
+The **`nys-button`** component is a reusable web component for use in New York State digital products.
+
+<p className="pill pill--stable">Stable</p>
+
+{/* <p className="pill pill--uikit"><a href="#">View in Figma</a></p> */}
+
+***
+
+<Canvas of={NysButtonStories.Basic} />
+
+<Controls />
