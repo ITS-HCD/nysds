@@ -11,6 +11,9 @@ export default css`
     --_nys-button-padding-x: var(--nys-space-250, 20px);
     --_nys-button-gap: var(--nys-space-100, 8px);
     --_nys-button-width-border: var(--nys-border-width-md, 2px);
+    --_nys-button-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-button-offset-focus: var(--nys-space-2px, 2px);
+    --_nys-button-color-focus: var(--nys-color-focus, #004dd1);
 
     /* Global Button Colors */
     --_nys-button-color-bg: var(--nys-color-theme, #154973);
@@ -87,17 +90,17 @@ export default css`
     --_nys-button-color-border-active: var(--nys-color-theme, #154973);
   }
   :host([variant="ghost"]) {
-    --_nys-button-color-bg: transparent;
+    --_nys-button-color-bg: var(--nys-color-transparent, #ffffff00);
     --_nys-button-color-text: var(--nys-color-theme, #154973);
-    --_nys-button-color-border: transparent;
+    --_nys-button-color-border: var(--nys-color-transparent, #ffffff00);
 
     --_nys-button-color-bg-hover: var(--nys-color-theme-weaker, #eff6fb);
     --_nys-button-color-text-hover: var(--nys-color-theme, #154973);
-    --_nys-button-color-border-hover: transparent;
+    --_nys-button-color-border-hover: var(--nys-color-transparent, #ffffff00);
 
     --_nys-button-color-bg-active: var(--nys-color-theme-weak, #cddde9);
     --_nys-button-color-text-active: var(--nys-color-theme, #154973);
-    --_nys-button-color-border-active: transparent;
+    --_nys-button-color-border-active: var(--nys-color-transparent, #ffffff00);
   }
   :host([variant="text"]) {
   }
@@ -132,6 +135,13 @@ export default css`
     color: var(--_nys-button-color-text-active);
     border-color: var(--_nys-button-color-border-active);
   }
+
+  /* Focused */
+  /*
+  .nys-button:focus {
+    outline-offset: var(--_nys-button-offset-focus);
+    outline: solid var(--_nys-button-width-focus) var(--_nys-button-color-focus);
+  } */
 
   .nys-button__text {
     padding: auto;

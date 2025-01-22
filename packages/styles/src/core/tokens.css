@@ -403,7 +403,7 @@
   /* ================== TRANSPARENT COLORS (ALPHA HEX) ===================== */
   
   /* Transparent */
-  --nys-color-transparent: #00000000;
+  --nys-color-transparent: #ffffff00;
 
   /* Black Transparent */
   --nys-color-black-transparent-50: #00000003;
@@ -421,7 +421,6 @@
   --nys-color-white-transparent-50: #ffffff03;
   --nys-color-white-transparent-100: #ffffff1a;
   --nys-color-white-transparent-200: #ffffff33;
-  --nys-color-white-transparent-300: #ffffff4d;
   --nys-color-white-transparent-400: #ffffff66;
   --nys-color-white-transparent-500: #ffffff80;
   --nys-color-white-transparent-600: #ffffff99;
