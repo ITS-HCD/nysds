@@ -4,7 +4,7 @@ body, .sb-show-main *, .sb-show-main *:before, .sb-show-main *:after {
 }
 
 /* Exclude <pre> and <code> from the override */
-pre, code, .sb-show-main * pre, .sb-show-main * code, * .token, .utility-class, .utility-class p, .utility-value {
+pre, code, .sb-show-main * pre, .sb-show-main * code, .sb-show-main * pre *, .sb-show-main * code *, * .token, .utility-class, .utility-class p, .utility-value {
     font-family: ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New", monospace !important;
 }
 
