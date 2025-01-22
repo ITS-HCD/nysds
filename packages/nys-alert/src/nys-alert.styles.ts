@@ -32,7 +32,7 @@ export default css`
     --_nys-font-weight-regular: var(--nys-font-weight-regular, 400);
     --_nys-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 
-    /* Dissmiss button */
+    /* Dismiss button */
     --_nys-alert-close-button-size: var(--nys-font-size-2xl, 22px);
     --_nys-alert-hover-button-color: var(
       --nys-color-black-transparent-100,
@@ -175,7 +175,7 @@ export default css`
   :host([theme="info"]) {
     --_nys-alert-color-border-left: var(
       --nys-color-info,
-      var(--nys-color-blue-600, #154973)
+      var(--nys-color-blue-600, #004dd1)
     );
     --_nys-alert-color-bg: var(
       --nys-color-info-weak,
@@ -185,7 +185,7 @@ export default css`
   :host([theme="success"]) {
     --_nys-alert-color-border-left: var(
       --nys-color-success,
-      var(--nys-color-green-600, #00a91c)
+      var(--nys-color-green-600, #1e752e)
     );
     --_nys-alert-color-bg: var(
       --nys-color-success-weak,
@@ -195,7 +195,7 @@ export default css`
   :host([theme="warning"]) {
     --_nys-alert-color-border-left: var(
       --nys-color-warning,
-      var(--nys-color-yellow-400, #ffbe2e)
+      var(--nys-color-yellow-400, #face00)
     );
     --_nys-alert-color-bg: var(
       --nys-color-warning-weak,
