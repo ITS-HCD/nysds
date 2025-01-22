@@ -61,7 +61,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "submit";
   }
-  @property({ type: String }) onClick = "";
+  @property({ type: Function }) onClick: (event: Event) => void = () => {};
 
   static styles = styles;
 
@@ -77,11 +77,11 @@ export class NysButton extends LitElement {
         @click=${this.onClick}
       >
         ${this.prefixIcon
-          ? html`<nys-icon icon=${this.prefixIcon}></nys-icon>`
+          ? html`<nys-icon name=${this.prefixIcon}></nys-icon>`
           : ""}
         ${this.label}
         ${this.suffixIcon
-          ? html`<nys-icon icon=${this.suffixIcon}></nys-icon>`
+          ? html`<nys-icon name=${this.suffixIcon}></nys-icon>`
           : ""}
       </button>
     `;

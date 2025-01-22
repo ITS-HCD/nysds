@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
+import { action } from "@storybook/addon-actions";
 import "./nys-button";
 
 // Define the structure of the args used in the stories
@@ -16,7 +17,7 @@ interface NysButtonArgs {
   form: string;
   value: string;
   type: string;
-  onClick: string;
+  onClick: () => void;
 }
 
 const meta: Meta<NysButtonArgs> = {
@@ -38,7 +39,6 @@ const meta: Meta<NysButtonArgs> = {
     form: { control: "text" },
     value: { control: "text" },
     type: { control: "select", options: ["submit", "reset", "button"] },
-    onClick: { control: "text" },
   },
   parameters: {
     docs: {
@@ -73,7 +73,7 @@ export const Basic: Story = {
       .form=${args.form}
       .value=${args.value}
       .type=${args.type}
-      .onClick=${args.onClick}
+      .onClick=${action("on-click")}
     ></nys-button>
   `,
   parameters: {
