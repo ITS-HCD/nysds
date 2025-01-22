@@ -401,6 +401,10 @@
   --nys-color-safety-gray-900: #1d2830;
   
   /* ================== TRANSPARENT COLORS (ALPHA HEX) ===================== */
+  
+  /* Transparent */
+  --nys-color-transparent: #00000000;
+
   /* Black Transparent */
   --nys-color-black-transparent-50: #00000003;
   --nys-color-black-transparent-100: #0000001a;

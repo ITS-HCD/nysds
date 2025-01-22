@@ -17,6 +17,14 @@ export default css`
     --_nys-button-color-text: var(--nys-color-ink-reverse, #ffffff);
     --_nys-button-color-border: var(--nys-color-theme, #154973);
 
+    --_nys-button-color-bg-hover: var(--nys-color-theme-strong, #0e324f);
+    --_nys-button-color-text-hover: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-button-color-border-hover: var(--nys-color-theme-strong, #0e324f);
+
+    --_nys-button-color-bg-active: var(--nys-color-theme-stronger, #081b2b);
+    --_nys-button-color-text-active: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-button-color-border-active: var(--nys-color-theme-stronger, #081b2b);
+
     /* Typography */
     --_nys-button-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-button-font-weight: var(--nys-font-weight-semibold, 600);
@@ -53,10 +61,43 @@ export default css`
 
   /* Variants */
   :host([variant="fill"]) {
+    --_nys-button-color-bg: var(--nys-color-theme, #154973);
+    --_nys-button-color-text: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-button-color-border: var(--nys-color-theme, #154973);
+
+    --_nys-button-color-bg-hover: var(--nys-color-theme-strong, #0e324f);
+    --_nys-button-color-text-hover: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-button-color-border-hover: var(--nys-color-theme-strong, #0e324f);
+
+    --_nys-button-color-bg-active: var(--nys-color-theme-stronger, #081b2b);
+    --_nys-button-color-text-active: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-button-color-border-active: var(--nys-color-theme-stronger, #081b2b);
   }
   :host([variant="outline"]) {
+    --_nys-button-color-bg: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-button-color-text: var(--nys-color-theme, #154973);
+    --_nys-button-color-border: var(--nys-color-theme, #154973);
+
+    --_nys-button-color-bg-hover: var(--nys-color-theme-weaker, #eff6fb);
+    --_nys-button-color-text-hover: var(--nys-color-theme, #154973);
+    --_nys-button-color-border-hover: var(--nys-color-theme, #154973);
+
+    --_nys-button-color-bg-active: var(--nys-color-theme-weak, #cddde9);
+    --_nys-button-color-text-active: var(--nys-color-theme, #154973);
+    --_nys-button-color-border-active: var(--nys-color-theme, #154973);
   }
   :host([variant="ghost"]) {
+    --_nys-button-color-bg: transparent;
+    --_nys-button-color-text: var(--nys-color-theme, #154973);
+    --_nys-button-color-border: transparent;
+
+    --_nys-button-color-bg-hover: var(--nys-color-theme-weaker, #eff6fb);
+    --_nys-button-color-text-hover: var(--nys-color-theme, #154973);
+    --_nys-button-color-border-hover: transparent;
+
+    --_nys-button-color-bg-active: var(--nys-color-theme-weak, #cddde9);
+    --_nys-button-color-text-active: var(--nys-color-theme, #154973);
+    --_nys-button-color-border-active: transparent;
   }
   :host([variant="text"]) {
   }
@@ -78,6 +119,18 @@ export default css`
     border: solid var(--_nys-button-width-border)
       var(--_nys-button-color-border);
     cursor: pointer;
+  }
+
+  .nys-button:hover {
+    background-color: var(--_nys-button-color-bg-hover);
+    color: var(--_nys-button-color-text-hover);
+    border-color: var(--_nys-button-color-border-hover);
+  }
+
+  .nys-button:active {
+    background-color: var(--_nys-button-color-bg-active);
+    color: var(--_nys-button-color-text-active);
+    border-color: var(--_nys-button-color-border-active);
   }
 
   .nys-button__text {

@@ -57,9 +57,9 @@ export const Basic: Story = {
   args: {
     id: "button1",
     name: "button1",
-    label: "{text}",
-    prefixIcon: "check_circle",
-    suffixIcon: "check",
+    label: "Click Me",
+    prefixIcon: "cancel",
+    suffixIcon: "cancel",
   },
   render: (args) => html`
     <nys-button
