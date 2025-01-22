@@ -68,6 +68,7 @@ export class NysButton extends LitElement {
   render() {
     return html`
       <button
+        class="nys-button"
         id=${this.id}
         name=${this.name}
         ?disabled=${this.disabled}
@@ -77,11 +78,13 @@ export class NysButton extends LitElement {
         @click=${this.onClick}
       >
         ${this.prefixIcon
-          ? html`<nys-icon name=${this.prefixIcon}></nys-icon>`
+          ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
           : ""}
-        ${this.label}
+        ${this.label
+          ? html`<label class="nys-button__text">${this.label}</label>`
+          : ""}
         ${this.suffixIcon
-          ? html`<nys-icon name=${this.suffixIcon}></nys-icon>`
+          ? html`<nys-icon size="16" name=${this.suffixIcon}></nys-icon>`
           : ""}
       </button>
     `;
