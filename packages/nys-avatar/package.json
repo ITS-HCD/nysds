@@ -1,6 +1,6 @@
 {
    "name": "@nys-excelsior/nys-avatar",
-   "version": "0.0.7-alpha",
+   "version": "0.0.8-alpha",
    "description": "An avatar component from the NYS Design System.",
     "module": "dist/nys-avatar.js",
     "exports": {
@@ -18,7 +18,7 @@
       "build": "tsc --emitDeclarationOnly && vite build"
    },
    "dependencies": {
-      "@nys-excelsior/nys-icon": "^0.0.7-alpha"
+      "@nys-excelsior/nys-icon": "^0.0.8-alpha"
    },
    "peerDependencies": {
       "lit": "^3.2.1"
