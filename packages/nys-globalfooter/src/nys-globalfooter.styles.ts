@@ -46,6 +46,7 @@ export default css`
     font-weight: var(--_nys-globalfooter-font-weight-bold);
     line-height: var(--_nys-globalfooter-lineheight-h2);
     letter-spacing: var(--_nys-globalfooter-letterspacing);
+    text-wrap: wrap;
   }
 
   /* Slotted content */

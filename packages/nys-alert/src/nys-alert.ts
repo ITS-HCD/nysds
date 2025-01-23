@@ -141,7 +141,7 @@ export class NysAlert extends LitElement {
     const { role, ariaLabel } = this.ariaAttributes;
 
     // Helper function to determine if the slot is empty
-    const isSlotEmpty =
+    const slotIsEmpty =
       typeof this.text === "string" &&
       this.text.trim() === "" &&
       !this.hasSlotContent();
@@ -150,7 +150,7 @@ export class NysAlert extends LitElement {
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container ${isSlotEmpty
+            class="nys-alert__container ${slotIsEmpty
               ? "nys-alert--centered"
               : ""}"
             role=${role}
@@ -167,7 +167,7 @@ export class NysAlert extends LitElement {
             </div>
             <div class="nys-alert__texts">
               <h4 class="nys-alert__header">${this.heading}</h4>
-              ${!isSlotEmpty ? html`<slot name="text">${this.text}</slot>` : ""}
+              ${!slotIsEmpty ? html`<slot name="text">${this.text}</slot>` : ""}
               ${this.primaryAction || this.secondaryAction
                 ? html`<div class="nys-alert__actions">
                     ${this.primaryAction
