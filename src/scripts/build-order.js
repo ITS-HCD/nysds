@@ -12,6 +12,7 @@ const packages = [
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
+  { name: "nys-globalheader", path: "packages/nys-globalheader" },
 ];
 
 packages.forEach((pkg) => {

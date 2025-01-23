@@ -51,7 +51,7 @@ pre, code, .sb-show-main * pre, .sb-show-main * code, .sb-show-main * pre *, .sb
 
 /* --- Agency --- */
 
-.nys-font-agency { font: var(--nys-font-size-agency) / var(--nys-font-lineheight-h1) var(--nys-font-family-agency) !important; }
+.nys-font-agency { font: var(--nys-font-size-agency-xl) / var(--nys-font-lineheight-h1) var(--nys-font-family-agency) !important; }
 
 .pill {
     padding: var(--nys-space-100) var(--nys-space-200);
