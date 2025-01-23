@@ -23,12 +23,12 @@ export class NysButton extends LitElement {
   }
   // variant
   private static readonly VALID_VARIANTS = [
-    "fill",
+    "filled",
     "outline",
     "ghost",
     "text",
   ] as const;
-  private _variant: (typeof NysButton.VALID_VARIANTS)[number] = "fill";
+  private _variant: (typeof NysButton.VALID_VARIANTS)[number] = "filled";
   @property({ reflect: true })
   get variant(): (typeof NysButton.VALID_VARIANTS)[number] {
     return this._variant;
@@ -38,7 +38,7 @@ export class NysButton extends LitElement {
       value as (typeof NysButton.VALID_VARIANTS)[number],
     )
       ? (value as (typeof NysButton.VALID_VARIANTS)[number])
-      : "fill";
+      : "filled";
   }
   @property({ type: Boolean }) inverse = false; //used on dark text
   @property({ type: String }) label = "";

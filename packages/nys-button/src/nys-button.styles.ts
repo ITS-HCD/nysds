@@ -67,7 +67,7 @@ export default css`
   }
 
   /* Variants */
-  :host([variant="fill"]) {
+  :host([variant="filled"]) {
     --_nys-button-color-bg: var(--nys-color-theme, #154973);
     --_nys-button-color-text: var(--nys-color-ink-reverse, #ffffff);
     --_nys-button-color-border: var(--nys-color-theme, #154973);

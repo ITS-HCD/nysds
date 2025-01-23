@@ -29,7 +29,7 @@ const meta: Meta<NysButtonArgs> = {
     size: { control: "select", options: ["sm", "md", "lg"] },
     variant: {
       control: "select",
-      options: ["fill", "outline", "ghost", "text"],
+      options: ["filled", "outline", "ghost", "text"],
     },
     inverse: { control: "boolean" },
     label: { control: "text" },
