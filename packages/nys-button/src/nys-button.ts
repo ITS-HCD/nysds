@@ -77,13 +77,13 @@ export class NysButton extends LitElement {
         type=${this.type}
         @click=${this.onClick}
       >
-        ${this.prefixIcon
+        ${this.prefixIcon && this.variant !== "text"
           ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
           : ""}
         ${this.label
           ? html`<label class="nys-button__text">${this.label}</label>`
           : ""}
-        ${this.suffixIcon
+        ${this.suffixIcon && this.variant !== "text"
           ? html`<nys-icon size="16" name=${this.suffixIcon}></nys-icon>`
           : ""}
       </button>
