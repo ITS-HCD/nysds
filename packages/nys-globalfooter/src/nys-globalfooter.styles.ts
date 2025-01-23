@@ -13,6 +13,31 @@ export default css`
     );
     --_nys-globalfooter-gap-spacing: var(--nys-space-600, 48px);
     --_nys-globalfooter-padding: var(--nys-space-400, 32px);
+    --_nys-globalfooter-font-size: var(--nys-font-size-agency-xl, var(--nys-font-size-2xl, 22px));
+    --_nys-globalfooter-font-size-links: var(
+      --nys-font-size-body-md,
+      var(--nys-font-size-md, 16px)
+    );
+    --_nys-globalfooter-lineheight: normal;
+    --_nys-globalfooter-letterspacing: var(
+      --nys-font-letterspacing-h2,
+      var(--nys-font-letterspacing-100, 0.013px;)
+    );
+    --_nys-globalfooter-font-weight-bold: var(--nys-font-weight-bold, 700);
+    --_nys-globalfooter-font-weight-semibold: var(
+      --nys-font-weight-semibold,
+      600
+    );
+
+    /* Agency Name */
+    --_nys-globalfooter-font-family-agency: var(
+      --nys-font-family-agency,
+      "D Sari", Arial, sans-serif
+    );
+
+    /* Links */
+    --_nys-globalfooter-lineheight-links: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-globalfooter-letterspacing: var(--nys-font-letterspacing-ui-md, var(--nys-font-letterspacing-400, 0.044px));
     --_nys-globalfooter-font-family: var(
       --nys-font-family-ui,
       var(
@@ -24,24 +49,7 @@ export default css`
         sans-serif
       )
     );
-    --_nys-globalfooter-font-size-h2: var(
-      --nys-font-size-h2,
-      var(--nys-font-size-4xl, 28px)
-    );
-    --_nys-globalfooter-font-size-links: var(
-      --nys-font-size-body-md,
-      var(--nys-font-size-md, 16px)
-    );
-    --_nys-globalfooter-lineheight-h2: var(--nys-font-lineheight-h2, 36px);
-    --_nys-globalfooter-letterspacing: var(
-      --nys-font-letterspacing-h2,
-      var(--nys-font-letterspacing-100, 0.013px;)
-    );
-    --_nys-globalfooter-font-weight-bold: var(--nys-font-weight-bold, 700);
-    --_nys-globalfooter-font-weight-semibold: var(
-      --nys-font-weight-semibold,
-      600
-    );
+
     box-sizing: border-box;
   }
 
@@ -58,11 +66,11 @@ export default css`
   .nys-globalfooter__name {
     margin: 0;
     color: var(--_nys-globalfooter-color);
-    font-family: var(--_nys-globalfooter-font-family);
-    font-size: var(--_nys-globalfooter-font-size-h2);
+    font-family: var(--_nys-globalfooter-font-family-agency);
+    font-size: var(--_nys-globalfooter-font-size);
     font-style: normal;
     font-weight: var(--_nys-globalfooter-font-weight-bold);
-    line-height: var(--_nys-globalfooter-lineheight-h2);
+    line-height: var(--_nys-globalfooter-lineheight);
     letter-spacing: var(--_nys-globalfooter-letterspacing);
     text-wrap: wrap;
   }
@@ -79,10 +87,11 @@ export default css`
   ::slotted(a) {
     color: var(--_nys-globalfooter-color);
     text-decoration: none;
+    font-family: var(--_nys-globalfooter-font-family);
     font-size: var(--_nys-globalfooter-font-size-links);
     font-style: normal;
     font-weight: var(--_nys-globalfooter-font-weight-semibold);
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    line-height: var(--_nys-globalfooter-lineheight-links);
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
   }
 
