@@ -3,8 +3,14 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Footer Styles */
-    --_nys-globalfooter-color: var(--nys-color-ink, var(--nys-color-neutral-900, #1b1b1b));
-    --_nys-globalfooter-background: var(--nys-color-theme-weaker, var(--nys-color-state-blue-50, #eff6fb));
+    --_nys-globalfooter-color: var(
+      --nys-color-ink,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-globalfooter-background: var(
+      --nys-color-theme-weaker,
+      var(--nys-color-state-blue-50, #eff6fb)
+    );
     --_nys-globalfooter-gap-spacing: var(--nys-space-600, 48px);
     --_nys-globalfooter-padding: var(--nys-space-400, 32px);
     --_nys-globalfooter-font-family: var(
@@ -18,12 +24,24 @@ export default css`
         sans-serif
       )
     );
-    --_nys-globalfooter-font-size-h2: var(--nys-font-size-h2, var(--nys-font-size-4xl, 28px));
-    --_nys-globalfooter-font-size-links: var(--nys-font-size-body-md, var(--nys-font-size-md, 16px));
+    --_nys-globalfooter-font-size-h2: var(
+      --nys-font-size-h2,
+      var(--nys-font-size-4xl, 28px)
+    );
+    --_nys-globalfooter-font-size-links: var(
+      --nys-font-size-body-md,
+      var(--nys-font-size-md, 16px)
+    );
     --_nys-globalfooter-lineheight-h2: var(--nys-font-lineheight-h2, 36px);
-    --_nys-globalfooter-letterspacing: var(--nys-font-letterspacing-h2, var(--nys-font-letterspacing-100, 0.013px;));
+    --_nys-globalfooter-letterspacing: var(
+      --nys-font-letterspacing-h2,
+      var(--nys-font-letterspacing-100, 0.013px;)
+    );
     --_nys-globalfooter-font-weight-bold: var(--nys-font-weight-bold, 700);
-    --_nys-globalfooter-font-weight-semibold: var(--nys-font-weight-semibold, 600);
+    --_nys-globalfooter-font-weight-semibold: var(
+      --nys-font-weight-semibold,
+      600
+    );
     box-sizing: border-box;
   }
 
@@ -69,13 +87,15 @@ export default css`
   }
 
   /* Breakpoints using Excelsior Grid Guidelines */
-  @media (min-width: 480px) { /* sm + xs */
+  @media (min-width: 480px) {
+    /* sm + xs */
     .nys-globalfooter__content {
       grid-template-columns: repeat(1, 1fr); /* One columns */
     }
   }
 
-  @media (min-width: 768px) { /* md */
+  @media (min-width: 768px) {
+    /* md */
     .nys-globalfooter__content {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }
@@ -84,9 +104,13 @@ export default css`
     }
   }
 
-  @media (min-width: 1024px) { /* lg + xl */
+  @media (min-width: 1024px) {
+    /* lg + xl */
     .nys-globalfooter__content {
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Auto-fill columns */
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(100px, 1fr)
+      ); /* Auto-fill columns */
     }
   }
 `;

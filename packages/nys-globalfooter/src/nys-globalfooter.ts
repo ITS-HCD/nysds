@@ -14,7 +14,8 @@ export class NyGlobalFooter extends LitElement {
 
   firstUpdated() {
     // Check for slot content after rendering
-    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    const slot =
+      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
     slot?.addEventListener("slotchange", () => this._checkSlotContent());
     this._checkSlotContent(); // Initial check
   }
@@ -22,10 +23,13 @@ export class NyGlobalFooter extends LitElement {
   /******************** Functions ********************/
   private _checkSlotContent() {
     console.log("This is shadowRoot in global footer: ", this.shadowRoot);
-    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    const slot =
+      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
     console.log("This is slot in global footer: ", slot);
     if (slot) {
-      const assignedNodes = (slot as HTMLSlotElement).assignedNodes({ flatten: true });
+      const assignedNodes = (slot as HTMLSlotElement).assignedNodes({
+        flatten: true,
+      });
       this.slotHasContent = assignedNodes.length > 0; // Update state based on slot content
     } else {
       this.slotHasContent = false; // If no slot found, assume no content
