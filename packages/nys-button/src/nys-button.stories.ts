@@ -9,7 +9,7 @@ interface NysButtonArgs {
   name: string;
   size: string;
   variant: string;
-  inverse: boolean;
+  inverted: boolean;
   label: string;
   prefixIcon: string;
   suffixIcon: string;
@@ -31,7 +31,7 @@ const meta: Meta<NysButtonArgs> = {
       control: "select",
       options: ["filled", "outline", "ghost", "text"],
     },
-    inverse: { control: "boolean" },
+    inverted: { control: "boolean" },
     label: { control: "text" },
     prefixIcon: { control: "text" },
     suffixIcon: { control: "text" },
@@ -63,7 +63,7 @@ export const Basic: Story = {
       .name=${args.name}
       .size=${args.size}
       .variant=${args.variant}
-      .inverse=${args.inverse}
+      .inverted=${args.inverted}
       .label=${args.label}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
@@ -100,7 +100,7 @@ export const Size: Story = {
         .name=${args.name}
         size="sm"
         .variant=${args.variant}
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Small"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -115,7 +115,7 @@ export const Size: Story = {
         .name=${args.name}
         size="md"
         .variant=${args.variant}
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Medium"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -130,7 +130,7 @@ export const Size: Story = {
         .name=${args.name}
         size="lg"
         .variant=${args.variant}
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Large"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -162,7 +162,7 @@ export const Variants: Story = {
         .id=${args.id}
         .name="${args.name}"
         .size=${args.size}
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Filled"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -177,7 +177,7 @@ export const Variants: Story = {
         .name=${args.name}
         .size=${args.size}
         variant="outline"
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Outline"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -192,7 +192,7 @@ export const Variants: Story = {
         .name=${args.name}
         .size=${args.size}
         variant="ghost"
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Ghost"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -207,7 +207,7 @@ export const Variants: Story = {
         .name=${args.name}
         .size=${args.size}
         variant="text"
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Text"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -242,7 +242,7 @@ export const Icons: Story = {
       .name=${args.name}
       .size=${args.size}
       .variant=${args.variant}
-      .inverse=${args.inverse}
+      .inverted=${args.inverted}
       .label=${args.label}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
@@ -283,7 +283,7 @@ export const Disabled: Story = {
         .id=${args.id}
         .name="${args.name}"
         .size=${args.size}
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Filled"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -298,7 +298,7 @@ export const Disabled: Story = {
         .name=${args.name}
         .size=${args.size}
         variant="outline"
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Outline"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -313,7 +313,7 @@ export const Disabled: Story = {
         .name=${args.name}
         .size=${args.size}
         variant="ghost"
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Ghost"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
@@ -328,7 +328,7 @@ export const Disabled: Story = {
         .name=${args.name}
         .size=${args.size}
         variant="text"
-        .inverse=${args.inverse}
+        .inverted=${args.inverted}
         label="Text"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}

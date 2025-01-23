@@ -123,7 +123,7 @@ export default css`
   }
   :host([variant="text"]) {
     --_nys-button-height: fit-content;
-    --_nys-button-radius: var(--nys-border-radius-xl, 12px);
+    --_nys-button-radius: var(--nys-border-radius-md, 4px);
     --_nys-button-padding-y: var(--nys-space-2px, 2px);
     --_nys-button-padding-x: var(--nys-space-50, 4px);
     --_nys-button-width-border: 0px;
