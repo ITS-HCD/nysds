@@ -4,7 +4,7 @@ body, .sb-show-main *, .sb-show-main *:before, .sb-show-main *:after {
 }
 
 /* Exclude <pre> and <code> from the override */
-pre, code, .sb-show-main * pre, .sb-show-main * code, * .token, .utility-class, .utility-class p, .utility-value {
+pre, code, .sb-show-main * pre, .sb-show-main * code, .sb-show-main * pre *, .sb-show-main * code *, * .token, .utility-class, .utility-class p, .utility-value {
     font-family: ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New", monospace !important;
 }
 
@@ -12,6 +12,46 @@ pre, code, .sb-show-main * pre, .sb-show-main * code, * .token, .utility-class, 
 :where(li:not(.sb-anchor, .sb-unstyled, .sb-unstyled li)) {
   font-size: max(1em, 16px) !important;
 }
+
+/**/
+
+/* === EXCELSIOR: Typography Styles */
+
+/* Adding these here to combat Storyboook's excessive specificity */
+
+/* --- Body --- */
+
+.nys-font-body-xs { font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs) var(--nys-font-family-body) !important; }
+.nys-font-body-sm { font: var(--nys-font-size-sm) / var(--nys-font-lineheight-sm) var(--nys-font-family-body) !important; }
+.nys-font-body-md { font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-family-body) !important; }
+
+/* --- Heading --- */
+
+.nys-font-h1 { font: normal normal var(--nys-font-weight-h1, bold) var(--nys-font-size-h1) / var(--nys-font-lineheight-h1) var(--nys-font-family-heading) !important; }
+.nys-font-h2 { font: normal normal var(--nys-font-weight-h2, bold) var(--nys-font-size-h2) / var(--nys-font-lineheight-h2) var(--nys-font-family-heading) !important; }
+.nys-font-h3 { font: normal normal var(--nys-font-weight-h3, bold) var(--nys-font-size-h3) / var(--nys-font-lineheight-h3) var(--nys-font-family-heading) !important; }
+.nys-font-h4 { font: normal normal var(--nys-font-weight-h4, bold) var(--nys-font-size-h4) / var(--nys-font-lineheight-h4) var(--nys-font-family-heading) !important; }
+.nys-font-h5 { font: normal normal var(--nys-font-weight-h5, bold) var(--nys-font-size-h5) / var(--nys-font-lineheight-h5) var(--nys-font-family-heading) !important; }
+.nys-font-h6 { font: normal normal var(--nys-font-weight-h6, bold) var(--nys-font-size-h6) / var(--nys-font-lineheight-h6) var(--nys-font-family-heading) !important; }
+
+/* --- UI --- */
+
+.nys-font-ui-xs { font: var(--nys-font-size-ui-xs) / var(--nys-font-lineheight-ui-xs) var(--nys-font-family-ui) !important; }
+.nys-font-ui-sm { font: var(--nys-font-size-ui-sm) / var(--nys-font-lineheight-ui-sm) var(--nys-font-family-ui) !important; }
+.nys-font-ui-md { font: var(--nys-font-size-ui-md) / var(--nys-font-lineheight-ui-md) var(--nys-font-family-ui) !important; }
+.nys-font-ui-lg { font: var(--nys-font-size-ui-lg) / var(--nys-font-lineheight-ui-lg) var(--nys-font-family-ui) !important; }
+.nys-font-ui-xl { font: var(--nys-font-size-ui-xl) / var(--nys-font-lineheight-ui-xl) var(--nys-font-family-ui) !important; }
+
+/* --- Display --- */
+
+.nys-font-display-sm { font: var(--nys-font-size-display-sm) / var(--nys-font-lineheight-display-sm) var(--nys-font-family-display) !important; }
+.nys-font-display-md { font: var(--nys-font-size-display-md) / var(--nys-font-lineheight-display-md) var(--nys-font-family-display) !important; }
+.nys-font-display-lg { font: var(--nys-font-size-display-lg) / var(--nys-font-lineheight-display-lg) var(--nys-font-family-display) !important; }
+.nys-font-display-xl { font: var(--nys-font-size-display-xl) / var(--nys-font-lineheight-display-xl) var(--nys-font-family-display) !important; }
+
+/* --- Agency --- */
+
+.nys-font-agency { font: var(--nys-font-size-agency) / var(--nys-font-lineheight-h1) var(--nys-font-family-agency) !important; }
 
 .pill {
     padding: var(--nys-space-100) var(--nys-space-200);
