@@ -2,38 +2,24 @@ import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-globalfooter.styles";
 
-let globalFooterIdCounter = 0; // Counter for generating unique IDs
-
 @customElement("nys-globalfooter")
 export class NyGlobalFooter extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
   @property({ type: String }) agencyName = "";
   @state() private slotHasContent = true;
 
   /**************** Lifecycle Methods ****************/
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
-  }
-
   firstUpdated() {
     // Check for slot content after rendering
-    this._checkSlotContent();
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    slot?.addEventListener("slotchange", () => this._checkSlotContent());
+    this._checkSlotContent(); // Initial check
   }
 
   /******************** Functions ********************/
-  private _generateUniqueId() {
-    return `nys-globalfooter-${Date.now()}-${globalFooterIdCounter++}`;
-  }
-
   private _checkSlotContent() {
     console.log("This is shadowRoot in global footer: ", this.shadowRoot);
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');

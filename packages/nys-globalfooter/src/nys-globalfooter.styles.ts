@@ -79,6 +79,9 @@ export default css`
     .nys-globalfooter__content {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }
+    :host() {
+      --_nys-globalfooter-gap-spacing: var(--nys-space-400, 32px);
+    }
   }
 
   @media (min-width: 1024px) { /* lg + xl */

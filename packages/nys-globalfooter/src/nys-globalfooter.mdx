@@ -6,9 +6,7 @@ import * as NysGlobalFooterStories from './nys-globalfooter.stories';
 
 # Global Footer
 
-The **`nys-globalfooter`** component is a reusable web component for use in New York State digital products. t helps provide users with important information, navigation links, and resources while maintaining consistency across applications.
-
-If an id is not passed, a unique id will be generated.
+The **`nys-globalfooter`** component is a reusable web component for use in New York State digital products. It helps provide users with essential information, secondary navigation, legal links, and contact details across all pages.
 
 <p className="pill pill--stable">Stable</p>
 
@@ -22,39 +20,35 @@ If an id is not passed, a unique id will be generated.
 
 ## Variants
 ## Without Links
-Below are the available alert theme, each showcasing its unique style and purpose.
 <Canvas of={NysGlobalFooterStories.WithoutLinks} />
 
 ## With Links
-Below are the available alert theme, each showcasing its unique style and purpose.
+To include links, use the slot="text" attribute to define each link within the `nys-globalfooter`.
 <Canvas of={NysGlobalFooterStories.WithLinks} />
 
 ## Usage 
 
 ### When to use this component
-  - Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
-  - Ideal for messages such as success notifications, danger alerts, warnings, or informational updates.
-  - Use for dismissible or temporary alerts when the message is not critical to user workflow.
+  - Use `nys-globalfooter` to provide consistent access to essential links like contact details, privacy policies, and terms of use across all pages.
+  - Ideal for displaying organizational information and secondary navigation.
 
 ### When to consider something else
-  - If the information is not time-sensitive or critical, consider using a less intrusive component, such as a tooltip or inline message.
-  - Avoid using alerts for repetitive or non-actionable content that could frustrate users.
-  - For notifications outside the page context, consider using a toast or modal component instead.
+  - Don’t use the global footer for primary navigation or highly interactive features.
+  - Avoid adding content that is not relevant or essential for all pages.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
-      - Keep the alert content concise and focused on the message.
-      - Use the appropriate `theme` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
-      - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
+      - Include essential links and information users need site-wide.
+      - Keep the design consistent and unobtrusive.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
-      - Overuse alerts for non-critical information, as this can desensitize users to important messages.
-      - Use icons or themes that don’t clearly communicate the purpose of the alert.
+      - Overcrowd the footer with unnecessary links.
+      - Use it for critical alerts or primary navigation.
     </div>
   </div>
 </div>
@@ -62,10 +56,10 @@ Below are the available alert theme, each showcasing its unique style and purpos
 
 ## Accessibility
 
-The `nys-alert` component includes the following accessibility-focused features:
+The `nys-globalfooter` component includes the following accessibility-focused features:
 
-- Keyboard navigation support, allowing users to use voiceover to read the alert using the keyboard.
-- Visual focus indicators to help users navigate the component.
+- Proper use of `<footer>` and `<a>` elements ensures compatibility with assistive technologies.
+- Keyboard navigation: Users can tab through all links in the footer.
 
 ## Slots
 <table>
@@ -79,7 +73,7 @@ The `nys-alert` component includes the following accessibility-focused features:
     <tbody>
     <tr>
         <td>`text`</td>
-        <td>Allows insertion of custom HTML description content into the component.</td>
+        <td>Allows insertion of custom HTML a href links into the component.</td>
         <td>""</td>
     </tr>
     </tbody>

@@ -4,7 +4,6 @@ import "./nys-globalfooter";
 
 // Define the structure of the args used in the stories
 interface NysGlobalFooterArgs {
-	id: string;
 	agencyName: string;
 }
 
@@ -12,7 +11,6 @@ const meta: Meta<NysGlobalFooterArgs> = {
 	title: "Components/GlobalFooter",
 	component: "nys-globalfooter",
 	argTypes: {
-		id: { control: "text" },
 		agencyName: { control: "text" },
 	},
 	parameters: {
@@ -32,11 +30,10 @@ type Story = StoryObj<NysGlobalFooterArgs>;
 // Story: Basic
 export const Basic: Story = {
 	args: {
-		id: "Custom Heading",
 		agencyName: "Office of Information Technology Services",
 	},
 	render: (args) => html`
-    <nys-globalfooter .id=${args.id} .agencyName=${args.agencyName}>
+    <nys-globalfooter .agencyName=${args.agencyName}>
 	 	<a slot="text" href="https://its.ny.gov">ITS Home</a>
 		<a slot="text" href="https://its.ny.gov/about">About ITS</a>
 		<a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
@@ -49,7 +46,7 @@ export const Basic: Story = {
 		docs: {
 			source: {
 				code: `
-<nys-globalfooter id="its" agencyName="Office of Information Technology Services">
+<nys-globalfooter agencyName="Office of Information Technology Services">
 	<a slot="text" href="https://its.ny.gov">ITS Home</a>
 	<a slot="text" href="https://its.ny.gov/about">About ITS</a>
 	<a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
@@ -67,21 +64,17 @@ export const Basic: Story = {
 // Story: Without Links
 export const WithoutLinks: Story = {
 	args: {
-		id: "info",
 		agencyName: "Office of Information Technology Services",
 	},
 	render: (args) => html`
-    <nys-globalfooter .id=${args.id} .agencyName=${args.agencyName}>
+    <nys-globalfooter .agencyName=${args.agencyName}>
     </nys-globalfooter>
   `,
 	parameters: {
 		docs: {
 			source: {
 				code: `
-<nys-globalfooter
-  id="its" 
-  agencyName="Office of Information Technology Services" 
->
+<nys-globalfooter agencyName="Office of Information Technology Services">
 </nys-globalfooter>
 `.trim(),
 				type: "auto",
@@ -93,11 +86,10 @@ export const WithoutLinks: Story = {
 // Story: With Links
 export const WithLinks: Story = {
 	args: {
-		id: "info",
 		agencyName: "Office of Information Technology Services",
 	},
 	render: (args) => html`
-    <nys-globalfooter .id=${args.id} .agencyName=${args.agencyName}>
+    <nys-globalfooter .agencyName=${args.agencyName}>
 		<a slot="text" href="https://its.ny.gov">ITS Home</a>
 		<a slot="text" href="https://its.ny.gov/about">About ITS</a>
 		<a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
@@ -110,7 +102,7 @@ export const WithLinks: Story = {
 		docs: {
 			source: {
 				code: `
-<nys-globalfooter id="its" agencyName="Office of Information Technology Services">
+<nys-globalfooter agencyName="Office of Information Technology Services">
 	<a slot="text" href="https://its.ny.gov">ITS Home</a>
 	<a slot="text" href="https://its.ny.gov/about">About ITS</a>
 	<a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
