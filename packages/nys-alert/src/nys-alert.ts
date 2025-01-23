@@ -23,6 +23,8 @@ export class NysAlert extends LitElement {
   @property({ type: String }) secondaryLabel = "Dismiss";
 
   @state() private _alertClosed = false;
+  @state() private _slotHasContent = true;
+
   private static readonly VALID_TYPES = [
     "base",
     "info",
@@ -80,11 +82,16 @@ export class NysAlert extends LitElement {
       }, this.duration);
     }
   }
+
   disconnectedCallback() {
     if (this._timeoutId) {
       clearTimeout(this._timeoutId);
     }
     super.disconnectedCallback();
+  }
+
+  firstUpdated() {
+    this._checkSlotContent();
   }
 
   /******************** Functions ********************/
@@ -128,29 +135,29 @@ export class NysAlert extends LitElement {
     );
   }
 
-  private hasSlotContent(): boolean {
-    const slot = this.shadowRoot?.querySelector('slot[name="text"]');
-    console.log("In alert, the slot is: ", slot);
-    if (slot !== null) {
-      return (slot as HTMLSlotElement).assignedNodes().length > 0;
+  private _checkSlotContent() {
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    if (slot) {
+      // Check if slot has assigned nodes with content (elements or non-empty text nodes)
+      const assignedNodes = slot.assignedNodes({ flatten: true }).filter(
+        (node) =>
+          node.nodeType === Node.ELEMENT_NODE ||
+          (node.nodeType === Node.TEXT_NODE && node.textContent?.trim())
+      );
+      this._slotHasContent = assignedNodes.length > 0;
+    } else {
+      this._slotHasContent = false; // No slot found
     }
-    return false;
   }
 
   render() {
     const { role, ariaLabel } = this.ariaAttributes;
-
-    // Helper function to determine if the slot is empty
-    const slotIsEmpty =
-      typeof this.text === "string" &&
-      this.text.trim() === "" &&
-      !this.hasSlotContent();
-
+    
     return html`
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container ${slotIsEmpty
+            class="nys-alert__container ${!this._slotHasContent
               ? "nys-alert--centered"
               : ""}"
             role=${role}
@@ -167,7 +174,7 @@ export class NysAlert extends LitElement {
             </div>
             <div class="nys-alert__texts">
               <h4 class="nys-alert__header">${this.heading}</h4>
-              ${!slotIsEmpty ? html`<slot name="text">${this.text}</slot>` : ""}
+              ${this._slotHasContent ? html`<slot name="text">${this.text}</slot>` : ""}
               ${this.primaryAction || this.secondaryAction
                 ? html`<div class="nys-alert__actions">
                     ${this.primaryAction

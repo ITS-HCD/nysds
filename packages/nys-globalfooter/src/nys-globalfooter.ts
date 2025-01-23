@@ -11,7 +11,7 @@ export class NyGlobalFooter extends LitElement {
   /********************** Properties **********************/
   @property({ type: String }) id = "";
   @property({ type: String }) agencyName = "";
-  @state() private slotHasContent = false;
+  @state() private slotHasContent = true;
 
   /**************** Lifecycle Methods ****************/
 
@@ -26,7 +26,7 @@ export class NyGlobalFooter extends LitElement {
 
   firstUpdated() {
     // Check for slot content after rendering
-    this.checkSlotContent();
+    this._checkSlotContent();
   }
 
   /******************** Functions ********************/
@@ -34,12 +34,15 @@ export class NyGlobalFooter extends LitElement {
     return `nys-globalfooter-${Date.now()}-${globalFooterIdCounter++}`;
   }
 
-  private checkSlotContent() {
+  private _checkSlotContent() {
+    console.log("This is shadowRoot in global footer: ", this.shadowRoot);
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
     console.log("This is slot in global footer: ", slot);
     if (slot) {
       const assignedNodes = (slot as HTMLSlotElement).assignedNodes({ flatten: true });
       this.slotHasContent = assignedNodes.length > 0; // Update state based on slot content
+    } else {
+      this.slotHasContent = false; // If no slot found, assume no content
     }
   }
 
