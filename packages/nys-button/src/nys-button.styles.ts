@@ -137,11 +137,10 @@ export default css`
   }
 
   /* Focused */
-  /*
-  .nys-button:focus {
+  .nys-button:focus-visible {
     outline-offset: var(--_nys-button-offset-focus);
     outline: solid var(--_nys-button-width-focus) var(--_nys-button-color-focus);
-  } */
+  }
 
   .nys-button__text {
     padding: auto;
