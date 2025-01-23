@@ -130,6 +130,7 @@ export class NysAlert extends LitElement {
 
   private hasSlotContent(): boolean {
     const slot = this.shadowRoot?.querySelector('slot[name="text"]');
+    console.log("In alert, the slot is: ", slot);
     if (slot !== null) {
       return (slot as HTMLSlotElement).assignedNodes().length > 0;
     }
