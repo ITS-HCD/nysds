@@ -28,9 +28,12 @@ export default css`
     );
     --_nys-alert-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-alert-lineheight: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-alert-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
-    --_nys-font-weight-regular: var(--nys-font-weight-regular, 400);
-    --_nys-font-weight-semibold: var(--nys-font-weight-semibold, 600);
+    --_nys-alert-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      var(--nys-font-letterspacing-400, 0.044px)
+    );
+    --_nys-alert-font-weight-regular: var(--nys-font-weight-regular, 400);
+    --_nys-alert-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 
     /* Dismiss button */
     --_nys-alert-close-button-size: var(--nys-font-size-2xl, 22px);
@@ -90,7 +93,7 @@ export default css`
   a:active,
   a:hover,
   a:visited {
-    font-weight: var(--_nys-font-weight-semibold);
+    font-weight: var(--_nys-alert-font-weight-semibold);
     font-size: var(--_nys-alert-font-size);
     color: var(--_nys-alert-link-color);
   }
@@ -110,17 +113,17 @@ export default css`
 
   .nys-alert__header {
     margin: 0;
-    font-weight: var(--_nys-font-weight-semibold);
+    font-weight: var(--_nys-alert-font-weight-semibold);
   }
 
   /* For descriptions made with "text" prop that populated in the slot */
   slot[name="text"] {
-    font-weight: var(--_nys-font-weight-regular);
+    font-weight: var(--_nys-alert-font-weight-regular);
     margin: 0;
   }
   /* For HTML elements put into the slot */
   ::slotted(p) {
-    font-weight: var(--_nys-font-weight-regular);
+    font-weight: var(--_nys-alert-font-weight-regular);
     margin: 0;
   }
 
