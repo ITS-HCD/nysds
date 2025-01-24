@@ -36,4 +36,4 @@
 
 /* --- Agency --- */
 
-.nys-font-agency { font: var(--nys-font-size-agency) / var(--nys-font-lineheight-h1) var(--nys-font-family-agency); }
+.nys-font-agency { font: var(--nys-font-size-agency-xl) / var(--nys-font-lineheight-h1) var(--nys-font-family-agency); }
