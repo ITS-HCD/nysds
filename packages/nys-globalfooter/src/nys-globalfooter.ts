@@ -7,7 +7,7 @@ export class NyGlobalFooter extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) agencyName = "";
+  @property({ type: String, attribute: "agency-name" }) agencyName = "";
   @state() private slotHasContent = true;
 
   /**************** Lifecycle Methods ****************/

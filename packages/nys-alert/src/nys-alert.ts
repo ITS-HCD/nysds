@@ -11,16 +11,16 @@ export class NysAlert extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
-  @property({ type: String }) heading = "";
-  @property({ type: String }) icon = "";
-  @property({ type: Boolean }) dismissible = false;
-  @property({ type: Number }) duration = 0;
-  @property({ type: String }) text = "";
-  @property({ type: String }) primaryAction = "";
-  @property({ type: String }) secondaryAction = "";
-  @property({ type: String }) primaryLabel = "Learn more";
-  @property({ type: String }) secondaryLabel = "Dismiss";
+  @property({ type: String, attribute: "id" }) id = "";
+  @property({ type: String, attribute: "heading" }) heading = "";
+  @property({ type: String, attribute: "icon" }) icon = "";
+  @property({ type: Boolean, attribute: "dismissible" }) dismissible = false;
+  @property({ type: Number, attribute: "duration" }) duration = 0;
+  @property({ type: String, attribute: "text" }) text = "";
+  @property({ type: String, attribute: "primary-action" }) primaryAction = "";
+  @property({ type: String, attribute: "secondary-action" }) secondaryAction = "";
+  @property({ type: String, attribute: "primary-label" }) primaryLabel = "Learn more";
+  @property({ type: String, attribute: "secondary-label" }) secondaryLabel = "Dismiss";
 
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;

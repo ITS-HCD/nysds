@@ -5,8 +5,8 @@ import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-ic
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, attribute: "id" }) id = "";
+  @property({ type: String, attribute: "name" }) name = "";
   private static readonly VALID_TYPES = [
     "email",
     "number",
@@ -33,16 +33,16 @@ export class NysTextinput extends LitElement {
       ? (value as (typeof NysTextinput.VALID_TYPES)[number])
       : "text";
   }
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
-  @property({ type: String }) placeholder = "";
-  @property({ type: String }) value = "";
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) readonly = false;
-  @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
-  @property({ type: String }) pattern = "";
-  @property({ type: Number }) maxlength = null;
+  @property({ type: String, attribute: "label" }) label = "";
+  @property({ type: String, attribute: "description" }) description = "";
+  @property({ type: String, attribute: "placeholder" }) placeholder = "";
+  @property({ type: String, attribute: "value" }) value = "";
+  @property({ type: Boolean, attribute: "disabled" }) disabled = false;
+  @property({ type: Boolean, attribute: "readonly" }) readonly = false;
+  @property({ type: Boolean, attribute: "required" }) required = false;
+  @property({ type: String, attribute: "form" }) form = "";
+  @property({ type: String, attribute: "pattern" }) pattern = "";
+  @property({ type: Number, attribute: "maxlength" }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
@@ -56,11 +56,11 @@ export class NysTextinput extends LitElement {
     }
   }
 
-  @property({ type: Number }) step = null;
-  @property({ type: Number }) min = null;
-  @property({ type: Number }) max = null;
+  @property({ type: Number, attribute: "step" }) step = null;
+  @property({ type: Number, attribute: "min" }) min = null;
+  @property({ type: Number, attribute: "max" }) max = null;
   @property({ type: Boolean, reflect: true }) showError = false;
-  @property({ type: String }) errorMessage = "";
+  @property({ type: String, attribute: "error-message" }) errorMessage = "";
 
   constructor() {
     super();

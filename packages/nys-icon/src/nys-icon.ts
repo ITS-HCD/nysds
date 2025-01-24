@@ -4,11 +4,11 @@ import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
 
 export class NysIcon extends LitElement {
-  @property({ type: String }) name = "";
-  @property({ type: String }) label = "";
-  @property({ type: String }) rotate = "0";
-  @property({ type: String }) flip = "";
-  @property({ type: String }) color = "";
+  @property({ type: String, attribute: "name" }) name = "";
+  @property({ type: String, attribute: "label" }) label = "";
+  @property({ type: String, attribute: "rotate" }) rotate = "0";
+  @property({ type: String, attribute: "flip" }) flip = "";
+  @property({ type: String, attribute: "color" }) color = "";
 
   static styles = styles;
 

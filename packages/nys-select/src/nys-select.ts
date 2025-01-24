@@ -6,16 +6,16 @@ import { NysOption } from "./nys-option";
 
 @customElement("nys-select")
 export class NysSelect extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
-  @property({ type: String }) value = "";
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
+  @property({ type: String, attribute: "id" }) id = "";
+  @property({ type: String, attribute: "name" }) name = "";
+  @property({ type: String, attribute: "label" }) label = "";
+  @property({ type: String, attribute: "description" }) description = "";
+  @property({ type: String, attribute: "value" }) value = "";
+  @property({ type: Boolean, attribute: "disabled" }) disabled = false;
+  @property({ type: Boolean, attribute: "required" }) required = false;
+  @property({ type: String, attribute: "form" }) form = "";
   @property({ type: Boolean, reflect: true }) showError = false;
-  @property({ type: String }) errorMessage = "";
+  @property({ type: String, attribute: "error-message" }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "md";
 

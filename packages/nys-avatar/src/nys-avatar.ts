@@ -10,13 +10,13 @@ export class NysAvatar extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
-  @property({ type: String }) label = "";
-  @property({ type: String }) image = "";
-  @property({ type: String }) initials = "";
-  @property({ type: String }) icon = "";
-  @property({ type: String }) color = "#555";
-  @property({ type: Boolean }) lazy = false;
+  @property({ type: String, attribute: "id" }) id = "";
+  @property({ type: String, attribute: "label" }) label = "";
+  @property({ type: String, attribute: "image" }) image = "";
+  @property({ type: String, attribute: "initials" }) initials = "";
+  @property({ type: String, attribute: "icon" }) icon = "";
+  @property({ type: String, attribute: "color" }) color = "#555";
+  @property({ type: Boolean, attribute: "lazy" }) lazy = false;
   private static readonly VALID_SHAPES = [
     "square",
     "rounded",

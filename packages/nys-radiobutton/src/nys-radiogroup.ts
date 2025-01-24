@@ -7,13 +7,13 @@ let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-radiogroup")
 export class NysRadiogroup extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
-  @property({ type: Boolean }) required = false;
-  @property({ type: Boolean }) showError = false;
-  @property({ type: String }) errorMessage = "";
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
+  @property({ type: String, attribute: "id" }) id = "";
+  @property({ type: String, attribute: "name" }) name = "";
+  @property({ type: Boolean, attribute: "required" }) required = false;
+  @property({ type: Boolean, attribute: "show-error" }) showError = false;
+  @property({ type: String, attribute: "error-message" }) errorMessage = "";
+  @property({ type: String, attribute: "label" }) label = "";
+  @property({ type: String, attribute: "description" }) description = "";
   // State for storing the selected name and value for form-controller use
   @state() private selectedName: string | null = null;
   @state() private selectedValue: string | null = null;

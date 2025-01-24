@@ -2,11 +2,11 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 
 export class NysOption extends LitElement {
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) selected = false;
-  @property({ type: String }) value = "";
-  @property({ type: String }) label = "";
-  @property({ type: Boolean }) hidden = false;
+  @property({ type: Boolean, attribute: "disabled" }) disabled = false;
+  @property({ type: Boolean, attribute: "selected" }) selected = false;
+  @property({ type: String, attribute: "value" }) value = "";
+  @property({ type: String, attribute: "label" }) label = "";
+  @property({ type: Boolean, attribute: "hidden" }) hidden = false;
 
   firstUpdated() {
     const slot = this.shadowRoot?.querySelector("slot");

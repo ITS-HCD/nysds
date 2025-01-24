@@ -6,13 +6,13 @@ let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-checkboxgroup")
 export class NysCheckboxgroup extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
-  @property({ type: Boolean }) required = false;
-  @property({ type: Boolean }) showError = false;
-  @property({ type: String }) errorMessage = "";
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
+  @property({ type: String, attribute: "id" }) id = "";
+  @property({ type: String, attribute: "name" }) name = "";
+  @property({ type: Boolean, attribute: "required" }) required = false;
+  @property({ type: Boolean, attribute: "show-error" }) showError = false;
+  @property({ type: String, attribute: "error-message" }) errorMessage = "";
+  @property({ type: String, attribute: "label" }) label = "";
+  @property({ type: String, attribute: "description" }) description = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
 
