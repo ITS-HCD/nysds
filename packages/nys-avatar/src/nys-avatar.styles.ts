@@ -47,7 +47,7 @@ export default css`
     justify-content: center;
     width: 100%;
     height: 100%;
-    font-size: calc(var(--_nys-avatar-size, 36px) * 0.5);
+    font-size: calc(var(--_nys-avatar-size) * 0.5);
     font-weight: bold;
     text-transform: uppercase;
   }
