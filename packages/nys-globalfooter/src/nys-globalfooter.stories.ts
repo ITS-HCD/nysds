@@ -34,12 +34,12 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-globalfooter .agencyName=${args.agencyName}>
-	 	<a slot="text" href="https://its.ny.gov">ITS Home</a>
-		<a slot="text" href="https://its.ny.gov/about">About ITS</a>
-		<a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
-		<a slot="text" href="https://its.ny.gov/privacy">Privacy Policy</a>
-		<a slot="text" href="https://its.ny.gov/accessibility">Accessibility</a>
-		<a slot="text" href="https://its.ny.gov/terms">Terms of Use</a>
+      <a slot="text" href="https://its.ny.gov">ITS Home</a>
+      <a slot="text" href="https://its.ny.gov/about">About ITS</a>
+      <a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
+      <a slot="text" href="https://its.ny.gov/privacy">Privacy Policy</a>
+      <a slot="text" href="https://its.ny.gov/accessibility">Accessibility</a>
+      <a slot="text" href="https://its.ny.gov/terms">Terms of Use</a>
     </nys-globalfooter>
   `,
   parameters: {

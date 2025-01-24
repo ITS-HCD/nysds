@@ -22,10 +22,8 @@ export class NyGlobalFooter extends LitElement {
 
   /******************** Functions ********************/
   private _checkSlotContent() {
-    console.log("This is shadowRoot in global footer: ", this.shadowRoot);
     const slot =
       this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
-    console.log("This is slot in global footer: ", slot);
     if (slot) {
       const assignedNodes = (slot as HTMLSlotElement).assignedNodes({
         flatten: true,

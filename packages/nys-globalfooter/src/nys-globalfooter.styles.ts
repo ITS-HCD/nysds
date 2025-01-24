@@ -40,7 +40,8 @@ export default css`
     );
 
     /* Links */
-    --_nys-globalfooter-link-gap-spacing: var(--nys-space-600, 48px);
+    --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-400, 32px);
+    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-600, 48px);
     --_nys-globalfooter-lineheight-links: var(
       --nys-font-lineheight-ui-md,
       24px
@@ -90,7 +91,8 @@ export default css`
   .nys-globalfooter__content {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--_nys-globalfooter-link-gap-spacing);
+    gap: var(--_nys-globalfooter-link-gap-spacing-row)
+      var(--_nys-globalfooter-link-gap-spacing-column);
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
@@ -106,7 +108,7 @@ export default css`
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
   }
 
-  /* Breakpoints using Excelsior Grid Guidelines */
+  /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
   @media (min-width: 480px) {
     /* sm + xs */
     .nys-globalfooter__content {
@@ -119,9 +121,6 @@ export default css`
     .nys-globalfooter__content {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }
-    :host() {
-      --_nys-globalfooter-link-gap-spacing: var(--nys-space-400, 32px);
-    }
   }
 
   @media (min-width: 1024px) {
@@ -130,7 +129,8 @@ export default css`
       grid-template-columns: repeat(
         auto-fill,
         minmax(100px, 1fr)
-      ); /* Auto-fill columns */
+      ); /* Single row, Auto-fill columns */
+      gap: var(--_nys-globalfooter-link-gap-spacing-column);
     }
   }
 `;
