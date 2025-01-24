@@ -3,8 +3,14 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Header Styles */
-    --_nys-globalheader-color: var(--nys-color-ink-reverse, var(--nys-color-white, #ffffff));
-    --_nys-globalheader-background: var(--nys-color-theme, var(--nys-color-state-blue-700, #154973));
+    --_nys-globalheader-color: var(
+      --nys-color-ink-reverse,
+      var(--nys-color-white, #ffffff)
+    );
+    --_nys-globalheader-background: var(
+      --nys-color-theme,
+      var(--nys-color-state-blue-700, #154973)
+    );
     --_nys-globalheader-gap-spacing: var(--nys-space-100, 8px);
     --_nys-globalheader-padding: var(--nys-space-200, 16px);
     --_nys-globalheader-font-family: var(
@@ -19,22 +25,39 @@ export default css`
       )
     );
     --_nys-globalheader-lineheight: normal;
-    --_nys-globalheader-letterspacing: var(--nys-font-letterspacing-h2, var(--nys-font-letterspacing-100, 0.013px;));
+    --_nys-globalheader-letterspacing: var(
+      --nys-font-letterspacing-h2,
+      var(--nys-font-letterspacing-100, 0.013px;)
+    );
     --_nys-globalheader-font-weight-bold: var(--nys-font-weight-bold, 700);
-    --_nys-globalheader-font-weight-semibold: var(--nys-font-weight-semibold, 600);
+    --_nys-globalheader-font-weight-semibold: var(
+      --nys-font-weight-semibold,
+      600
+    );
 
     /* Agency and App Name Styling */
-    --_nys-globalheader-font-size-main-name: var(--nys-font-size-agency-xl, var(--nys-font-size-2xl, 22px));
-    --_nys-globalheader-font-size-sub-name: var(--nys-font-size-agency-md, var(--nys-font-size-md, 16px));
+    --_nys-globalheader-font-size-main-name: var(
+      --nys-font-size-agency-xl,
+      var(--nys-font-size-2xl, 22px)
+    );
+    --_nys-globalheader-font-size-sub-name: var(
+      --nys-font-size-agency-md,
+      var(--nys-font-size-md, 16px)
+    );
     --_nys-globalheader-font-family-agency: var(
       --nys-font-family-agency,
-      "D Sari", Arial, sans-serif
+      "D Sari",
+      Arial,
+      sans-serif
     );
 
     /* Menu Content Styling */
-    --_nys-globalheader-font-size-links: var(--nys-font-size-body-md, var(--nys-font-size-md, 16px));
+    --_nys-globalheader-font-size-links: var(
+      --nys-font-size-body-md,
+      var(--nys-font-size-md, 16px)
+    );
     --_nys-globalheader-link-gap-spacing: var(--nys-space-600, 48px);
-    
+
     box-sizing: border-box;
   }
 
@@ -98,13 +121,15 @@ export default css`
   }
 
   /* Breakpoints using Excelsior Grid Guidelines */
-  @media (min-width: 480px) { /* sm + xs */
+  @media (min-width: 480px) {
+    /* sm + xs */
     .nys-globalheader__content {
       grid-template-columns: repeat(1, 1fr); /* One columns */
     }
   }
 
-  @media (min-width: 768px) { /* md */
+  @media (min-width: 768px) {
+    /* md */
     .nys-globalheader__content {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }
@@ -113,9 +138,13 @@ export default css`
     }
   }
 
-  @media (min-width: 1024px) { /* lg + xl */
+  @media (min-width: 1024px) {
+    /* lg + xl */
     .nys-globalheader__content {
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Auto-fill columns */
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(100px, 1fr)
+      ); /* Auto-fill columns */
     }
   }
 `;
