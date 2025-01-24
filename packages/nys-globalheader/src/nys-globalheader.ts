@@ -22,9 +22,7 @@ export class NyGlobalHeader extends LitElement {
 
   /******************** Functions ********************/
   private _checkSlotContent() {
-    console.log("This is shadowRoot in global header: ", this.shadowRoot);
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
-    console.log("This is slot in global header: ", slot);
     if (slot) {
       const assignedNodes = (slot as HTMLSlotElement).assignedNodes({ flatten: true });
       this.slotHasContent = assignedNodes.length > 0; // Update state based on slot content

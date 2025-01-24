@@ -33,7 +33,8 @@ export default css`
 
     /* Menu Content Styling */
     --_nys-globalheader-font-size-links: var(--nys-font-size-body-md, var(--nys-font-size-md, 16px));
-
+    --_nys-globalheader-link-gap-spacing: var(--nys-space-600, 48px);
+    
     box-sizing: border-box;
   }
 
@@ -81,7 +82,7 @@ export default css`
     font-family: var(--_nys-globalheader-font-family);
     display: flex;
     flex-wrap: wrap;
-    gap: var(--_nys-globalheader-gap-spacing);
+    gap: var(--_nys-globalheader-link-gap-spacing);
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;

@@ -37,7 +37,7 @@ export const Basic: Story = {
 	},
 	render: (args) => html`
     <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
-    </nys-global-header>
+    </nys-globalheader>
   `,
 	parameters: {
 		docs: {
