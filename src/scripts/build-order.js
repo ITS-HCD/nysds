@@ -13,6 +13,7 @@ const packages = [
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
+  { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
 ];
 
 packages.forEach((pkg) => {

@@ -49,7 +49,7 @@ export default css`
     --_nys-textarea-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
     --nys-textarea-letterspacing-ui: var(
       --nys-font-letterspacing-ui-md,
-      0.044px
+      var(--nys-font-letterspacing-400, 0.044px)
     );
     --_nys-textarea-color-ui: var(--nys-color-ink, #1b1b1b);
   }
