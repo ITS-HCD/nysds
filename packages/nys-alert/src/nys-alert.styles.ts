@@ -28,7 +28,10 @@ export default css`
     );
     --_nys-alert-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-alert-lineheight: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-alert-letterspacing: var(--nys-font-letterspacing-ui-md, var(--nys-font-letterspacing-400, 0.044px));
+    --_nys-alert-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      var(--nys-font-letterspacing-400, 0.044px)
+    );
     --_nys-alert-font-weight-regular: var(--nys-font-weight-regular, 400);
     --_nys-alert-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 

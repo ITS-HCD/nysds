@@ -13,7 +13,10 @@ export default css`
     );
     --_nys-globalfooter-gap-spacing: var(--nys-space-300, 24px);
     --_nys-globalfooter-padding: var(--nys-space-400, 32px);
-    --_nys-globalfooter-font-size: var(--nys-font-size-agency-xl, var(--nys-font-size-2xl, 22px));
+    --_nys-globalfooter-font-size: var(
+      --nys-font-size-agency-xl,
+      var(--nys-font-size-2xl, 22px)
+    );
     --_nys-globalfooter-font-size-links: var(
       --nys-font-size-body-md,
       var(--nys-font-size-md, 16px)
@@ -31,13 +34,21 @@ export default css`
     /* Agency Name */
     --_nys-globalfooter-font-family-agency: var(
       --nys-font-family-agency,
-      "D Sari", Arial, sans-serif
+      "D Sari",
+      Arial,
+      sans-serif
     );
 
     /* Links */
     --_nys-globalfooter-link-gap-spacing: var(--nys-space-600, 48px);
-    --_nys-globalfooter-lineheight-links: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-globalfooter-letterspacing: var(--nys-font-letterspacing-ui-md, var(--nys-font-letterspacing-400, 0.044px));
+    --_nys-globalfooter-lineheight-links: var(
+      --nys-font-lineheight-ui-md,
+      24px
+    );
+    --_nys-globalfooter-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      var(--nys-font-letterspacing-400, 0.044px)
+    );
     --_nys-globalfooter-font-family: var(
       --nys-font-family-ui,
       var(
