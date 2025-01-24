@@ -40,7 +40,7 @@ export const Basic: Story = {
 		<a slot="text" href="https://its.ny.gov/privacy">Privacy Policy</a>
 		<a slot="text" href="https://its.ny.gov/accessibility">Accessibility</a>
 		<a slot="text" href="https://its.ny.gov/terms">Terms of Use</a>
-    </nys-global-footer>
+    </nys-globalfooter>
   `,
   parameters: {
     docs: {
