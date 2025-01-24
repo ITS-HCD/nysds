@@ -11,7 +11,7 @@ export default css`
       --nys-color-theme-weaker,
       var(--nys-color-state-blue-50, #eff6fb)
     );
-    --_nys-globalfooter-gap-spacing: var(--nys-space-600, 48px);
+    --_nys-globalfooter-gap-spacing: var(--nys-space-300, 24px);
     --_nys-globalfooter-padding: var(--nys-space-400, 32px);
     --_nys-globalfooter-font-size: var(--nys-font-size-agency-xl, var(--nys-font-size-2xl, 22px));
     --_nys-globalfooter-font-size-links: var(
@@ -23,7 +23,6 @@ export default css`
       --nys-font-letterspacing-h2,
       var(--nys-font-letterspacing-100, 0.013px;)
     );
-    --_nys-globalfooter-font-weight-bold: var(--nys-font-weight-bold, 700);
     --_nys-globalfooter-font-weight-semibold: var(
       --nys-font-weight-semibold,
       600
@@ -36,6 +35,7 @@ export default css`
     );
 
     /* Links */
+    --_nys-globalfooter-link-gap-spacing: var(--nys-space-600, 48px);
     --_nys-globalfooter-lineheight-links: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-globalfooter-letterspacing: var(--nys-font-letterspacing-ui-md, var(--nys-font-letterspacing-400, 0.044px));
     --_nys-globalfooter-font-family: var(
@@ -56,7 +56,7 @@ export default css`
   .nys-globalfooter {
     display: flex;
     padding: var(--_nys-globalfooter-padding);
-    gap: 24px;
+    gap: var(--_nys-globalfooter-gap-spacing);
     flex-direction: column;
     align-items: flex-start;
     background-color: var(--_nys-globalfooter-background);
@@ -69,17 +69,17 @@ export default css`
     font-family: var(--_nys-globalfooter-font-family-agency);
     font-size: var(--_nys-globalfooter-font-size);
     font-style: normal;
-    font-weight: var(--_nys-globalfooter-font-weight-bold);
+    font-weight: var(--_nys-globalfooter-font-weight-semibold);
     line-height: var(--_nys-globalfooter-lineheight);
     letter-spacing: var(--_nys-globalfooter-letterspacing);
     text-wrap: wrap;
   }
 
-  /* Slotted content */
+  /* Slotted content (menu links) */
   .nys-globalfooter__content {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--_nys-globalfooter-gap-spacing);
+    gap: var(--_nys-globalfooter-link-gap-spacing);
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
@@ -109,7 +109,7 @@ export default css`
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }
     :host() {
-      --_nys-globalfooter-gap-spacing: var(--nys-space-400, 32px);
+      --_nys-globalfooter-link-gap-spacing: var(--nys-space-400, 32px);
     }
   }
 
