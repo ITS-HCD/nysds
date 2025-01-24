@@ -96,39 +96,3 @@ export const WithAppName: Story = {
     },
   },
 };
-
-// ⚠️ FUTURE UPDATES
-// Story: WithLinks
-export const WithLinks: Story = {
-  args: {
-    appName: "Unemployment Insurance Benefits",
-    agencyName: "Department of Labor",
-  },
-  render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
-      <a slot="text" href="https://its.ny.gov">ITS Home</a>
-      <a slot="text" href="https://its.ny.gov/about">About ITS</a>
-      <a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
-      <a slot="text" href="https://its.ny.gov/privacy">Privacy Policy</a>
-      <a slot="text" href="https://its.ny.gov/accessibility">Accessibility</a>
-      <a slot="text" href="https://its.ny.gov/terms">Terms of Use</a>
-    </nys-globalheader>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-globalheader agencyName="Department of Labor" appName="Unemployment Insurance Benefits">
-	<a slot="text" href="https://its.ny.gov">ITS Home</a>
-	<a slot="text" href="https://its.ny.gov/about">About ITS</a>
-	<a slot="text" href="https://its.ny.gov/contact">Contact ITS</a>
-	<a slot="text" href="https://its.ny.gov/privacy">Privacy Policy</a>
-	<a slot="text" href="https://its.ny.gov/accessibility">Accessibility</a>
-	<a slot="text" href="https://its.ny.gov/terms">Terms of Use</a>
-</nys-globalheader>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
