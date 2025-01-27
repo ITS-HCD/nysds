@@ -103,15 +103,21 @@ export default css`
   }
   :host([variant="ghost"]) {
     --_nys-button-color-bg: var(--nys-color-transparent, #ffffff00);
-    --_nys-button-color-text: var(--nys-color-theme, #154973);
+    --_nys-button-color-text: var(--nys-color-ink, #000000);
     --_nys-button-color-border: var(--nys-color-transparent, #ffffff00);
 
-    --_nys-button-color-bg-hover: var(--nys-color-theme-weaker, #eff6fb);
-    --_nys-button-color-text-hover: var(--nys-color-theme, #154973);
+    --_nys-button-color-bg-hover: var(
+      --nys-color-black-transparent-100,
+      #0000001a
+    );
+    --_nys-button-color-text-hover: var(--nys-color-ink, #000000);
     --_nys-button-color-border-hover: var(--nys-color-transparent, #ffffff00);
 
-    --_nys-button-color-bg-active: var(--nys-color-theme-weak, #cddde9);
-    --_nys-button-color-text-active: var(--nys-color-theme, #154973);
+    --_nys-button-color-bg-active: var(
+      --nys-color-black-transparent-200,
+      #00000033
+    );
+    --_nys-button-color-text-active: var(--nys-color-ink, #000000);
     --_nys-button-color-border-active: var(--nys-color-transparent, #ffffff00);
 
     --_nys-button-color-bg-disabled: var(--nys-color-transparent, #ffffff00);
