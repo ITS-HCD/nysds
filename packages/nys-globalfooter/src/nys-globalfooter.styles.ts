@@ -88,6 +88,25 @@ export default css`
   }
 
   /* Slotted content (menu links) */
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h4 {
+    font-size: 8.5rem;
+  }
+
   .nys-globalfooter__content {
     display: flex;
     flex-wrap: wrap;
@@ -97,6 +116,7 @@ export default css`
     grid-template-columns: 1fr;
     width: 100%;
   }
+  
   ::slotted(a) {
     color: var(--_nys-globalfooter-color);
     text-decoration: none;
