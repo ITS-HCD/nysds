@@ -13,6 +13,8 @@ export default css`
     );
     --_nys-globalheader-gap-spacing: var(--nys-space-100, 8px);
     --_nys-globalheader-padding: var(--nys-space-200, 16px);
+    --_nys-globalheader-gutter: var(--nys-gutter-sm, 20px);
+    --_nys-gutter: var(--nys-gutter-md, 32px);
     --_nys-globalheader-font-family: var(
       --nys-font-family-ui,
       var(
@@ -57,18 +59,18 @@ export default css`
       var(--nys-font-size-md, 16px)
     );
     --_nys-globalheader-link-gap-spacing: var(--nys-space-600, 48px);
-
-    box-sizing: border-box;
   }
 
   .nys-globalheader {
     display: flex;
-    padding: var(--_nys-globalheader-padding);
+    padding: var(--_nys-globalheader-padding) var(--_nys-globalheader-gutter);
     flex-direction: column;
     align-items: flex-start;
     background-color: var(--_nys-globalheader-background);
     color: var(--_nys-globalheader-color);
     gap: var(--_nys-globalheader-gap-spacing);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   /* Left-hand side Agency and App names */
@@ -109,7 +111,9 @@ export default css`
     display: grid;
     grid-template-columns: 1fr;
     width: 100%;
+    grid-template-columns: repeat(1, 1fr);
   }
+
   ::slotted(a) {
     color: var(--_nys-globalheader-color);
     text-decoration: none;
@@ -121,13 +125,6 @@ export default css`
   }
 
   /* Breakpoints using Excelsior Grid Guidelines */
-  @media (min-width: 480px) {
-    /* sm + xs */
-    .nys-globalheader__content {
-      grid-template-columns: repeat(1, 1fr); /* One columns */
-    }
-  }
-
   @media (min-width: 768px) {
     /* md */
     .nys-globalheader__content {
@@ -135,16 +132,23 @@ export default css`
     }
     :host() {
       --_nys-globalheader-gap-spacing: var(--nys-space-400, 32px);
+      --_nys-globalheader-gutter: var(--nys-gutter-lg, 32px);
     }
   }
 
   @media (min-width: 1024px) {
-    /* lg + xl */
+    /* Large Desktop (LG - Above 1024px) */
     .nys-globalheader__content {
       grid-template-columns: repeat(
         auto-fill,
         minmax(100px, 1fr)
       ); /* Auto-fill columns */
+    }
+  }
+  @media (min-width: 1280px) {
+    /* Large Desktop (XL - Above 1280px) */
+    :host {
+      --_nys-globalheader-gutter: var(--nys-gutter-xl, 64px);
     }
   }
 `;

@@ -13,6 +13,7 @@ export default css`
     );
     --_nys-globalfooter-gap-spacing: var(--nys-space-300, 24px);
     --_nys-globalfooter-padding: var(--nys-space-400, 32px);
+    --_nys-globalfooter-gutter: var(--nys-gutter-sm, 20px);
     --_nys-globalfooter-font-size: var(
       --nys-font-size-agency-xl,
       var(--nys-font-size-2xl, 22px)
@@ -61,18 +62,19 @@ export default css`
         sans-serif
       )
     );
-
-    box-sizing: border-box;
+    --foo-color: red;
   }
 
   .nys-globalfooter {
     display: flex;
-    padding: var(--_nys-globalfooter-padding);
+    padding: var(--_nys-globalfooter-padding) var(--_nys-globalfooter-gutter);
     gap: var(--_nys-globalfooter-gap-spacing);
     flex-direction: column;
     align-items: flex-start;
     background-color: var(--_nys-globalfooter-background);
     color: var(--_nys-globalfooter-color);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .nys-globalfooter__name {
@@ -88,33 +90,20 @@ export default css`
   }
 
   /* Slotted content (menu links) */
-  ul {
+  ::slotted(ul) {
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
 
-  li {
+  ::slotted(ul) li {
     margin: 0;
     padding: 0;
+    text-transform: uppercase;
   }
 
   a {
     text-decoration: none;
-  }
-
-  h4 {
-    font-size: 8.5rem;
-  }
-
-  .nys-globalfooter__content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--_nys-globalfooter-link-gap-spacing-row)
-      var(--_nys-globalfooter-link-gap-spacing-column);
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
   }
   
   ::slotted(a) {
@@ -128,29 +117,43 @@ export default css`
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
   }
 
-  /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
-  @media (min-width: 480px) {
-    /* sm + xs */
-    .nys-globalfooter__content {
-      grid-template-columns: repeat(1, 1fr); /* One columns */
-    }
+  .nys-globalfooter__content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--_nys-globalfooter-link-gap-spacing-row)
+      var(--_nys-globalfooter-link-gap-spacing-column);
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    grid-template-columns: repeat(1, 1fr); /* One columns */
   }
 
+  /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
   @media (min-width: 768px) {
-    /* md */
+    /* Tablet (MD - Above 768px) */
     .nys-globalfooter__content {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
+    }
+    :host {
+      --_nys-globalfooter-gutter: var(--nys-gutter-lg, 32px);
     }
   }
 
   @media (min-width: 1024px) {
-    /* lg + xl */
+    /* Large Desktop (LG - Above 1024px) */
     .nys-globalfooter__content {
       grid-template-columns: repeat(
         auto-fill,
         minmax(100px, 1fr)
-      ); /* Single row, Auto-fill columns */
+      ); /* Single row, auto-fill columns */
       gap: var(--_nys-globalfooter-link-gap-spacing-column);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    /* Large Desktop (XL - Above 1280px) */
+    :host {
+      --_nys-globalfooter-gutter: var(--nys-gutter-xl, 64px);
     }
   }
 `;
