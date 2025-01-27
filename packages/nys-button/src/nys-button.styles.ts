@@ -264,6 +264,10 @@ export default css`
     cursor: pointer;
   }
 
+  a.nys-button {
+    width: fit-content;
+  }
+
   .nys-button:hover {
     background-color: var(--_nys-button-color-bg-hover);
     color: var(--_nys-button-color-text-hover);

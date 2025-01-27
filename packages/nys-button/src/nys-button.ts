@@ -62,31 +62,58 @@ export class NysButton extends LitElement {
       : "submit";
   }
   @property({ type: Function }) onClick: (event: Event) => void = () => {};
+  @property({ type: String }) href = "";
 
   static styles = styles;
 
   render() {
     return html`
-      <button
-        class="nys-button"
-        id=${this.id}
-        name=${this.name}
-        ?disabled=${this.disabled}
-        form=${this.form}
-        value=${this.value}
-        type=${this.type}
-        @click=${this.onClick}
-      >
-        ${this.prefixIcon && this.variant !== "text"
-          ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
-          : ""}
-        ${this.label
-          ? html`<label class="nys-button__text">${this.label}</label>`
-          : ""}
-        ${this.suffixIcon && this.variant !== "text"
-          ? html`<nys-icon size="16" name=${this.suffixIcon}></nys-icon>`
-          : ""}
-      </button>
+      ${this.href
+        ? html`
+            <a
+              class="nys-button"
+              id=${this.id}
+              name=${this.name}
+              ?disabled=${this.disabled}
+              form=${this.form}
+              value=${this.value}
+              href=${this.href}
+              target="_blank"
+              @click=${this.onClick}
+            >
+              ${this.prefixIcon && this.variant !== "text"
+                ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
+                : ""}
+              ${this.label
+                ? html`<label class="nys-button__text">${this.label}</label>`
+                : ""}
+              ${this.suffixIcon && this.variant !== "text"
+                ? html`<nys-icon size="16" name=${this.suffixIcon}></nys-icon>`
+                : ""}
+            </a>
+          `
+        : html`
+            <button
+              class="nys-button"
+              id=${this.id}
+              name=${this.name}
+              ?disabled=${this.disabled}
+              form=${this.form}
+              value=${this.value}
+              type=${this.type}
+              @click=${this.onClick}
+            >
+              ${this.prefixIcon && this.variant !== "text"
+                ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
+                : ""}
+              ${this.label
+                ? html`<label class="nys-button__text">${this.label}</label>`
+                : ""}
+              ${this.suffixIcon && this.variant !== "text"
+                ? html`<nys-icon size="16" name=${this.suffixIcon}></nys-icon>`
+                : ""}
+            </button>
+          `}
     `;
   }
 }

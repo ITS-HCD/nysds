@@ -17,6 +17,7 @@ interface NysButtonArgs {
   form: string;
   value: string;
   type: string;
+  href: string;
   onClick: () => void;
 }
 
@@ -38,6 +39,7 @@ const meta: Meta<NysButtonArgs> = {
     disabled: { control: "boolean" },
     form: { control: "text" },
     value: { control: "text" },
+    href: { control: "text" },
     type: { control: "select", options: ["submit", "reset", "button"] },
   },
   parameters: {
@@ -56,6 +58,7 @@ type Story = StoryObj<NysButtonArgs>;
 export const Basic: Story = {
   args: {
     label: "Click Me",
+    href: "https://www.ny.gov/",
   },
   render: (args) => html`
     <nys-button
@@ -70,6 +73,7 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       .form=${args.form}
       .value=${args.value}
+      .href=${args.href}
       .type=${args.type}
       .onClick=${action("on-click")}
     ></nys-button>
@@ -107,6 +111,7 @@ export const Size: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -122,6 +127,7 @@ export const Size: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -137,6 +143,7 @@ export const Size: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -169,6 +176,7 @@ export const Variants: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -184,6 +192,7 @@ export const Variants: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -199,6 +208,7 @@ export const Variants: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -214,6 +224,7 @@ export const Variants: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -249,6 +260,7 @@ export const Icons: Story = {
       .disabled=${args.disabled}
       .form=${args.form}
       .value=${args.value}
+      .href=${args.href}
       .type=${args.type}
       .onClick=${action("on-click")}
     ></nys-button>
@@ -290,6 +302,7 @@ export const Disabled: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -305,6 +318,7 @@ export const Disabled: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -320,6 +334,7 @@ export const Disabled: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
@@ -335,6 +350,7 @@ export const Disabled: Story = {
         .disabled=${args.disabled}
         .form=${args.form}
         .value=${args.value}
+        .href=${args.href}
         .type=${args.type}
         .onClick=${action("on-click")}
       ></nys-button>
