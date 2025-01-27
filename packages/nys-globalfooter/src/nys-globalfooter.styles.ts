@@ -142,16 +142,16 @@ export default css`
   @media (min-width: 1024px) {
     /* Large Desktop (LG - Above 1024px) */
     .nys-globalfooter__content {
-      grid-template-columns: repeat(
-        auto-fill,
-        minmax(100px, 1fr)
-      ); /* Single row, auto-fill columns */
       gap: var(--_nys-globalfooter-link-gap-spacing-column);
     }
   }
 
   @media (min-width: 1280px) {
     /* Large Desktop (XL - Above 1280px) */
+    .nys-globalfooter__content {
+      display: flex;
+      flex-wrap: wrap;
+    }
     :host {
       --_nys-globalfooter-gutter: var(--nys-gutter-xl, 64px);
     }

@@ -108,10 +108,7 @@ export default css`
     display: flex;
     flex-wrap: wrap;
     gap: var(--_nys-globalheader-link-gap-spacing);
-    display: grid;
-    grid-template-columns: 1fr;
     width: 100%;
-    grid-template-columns: repeat(1, 1fr);
   }
 
   ::slotted(a) {
@@ -136,15 +133,6 @@ export default css`
     }
   }
 
-  @media (min-width: 1024px) {
-    /* Large Desktop (LG - Above 1024px) */
-    .nys-globalheader__content {
-      grid-template-columns: repeat(
-        auto-fill,
-        minmax(100px, 1fr)
-      ); /* Auto-fill columns */
-    }
-  }
   @media (min-width: 1280px) {
     /* Large Desktop (XL - Above 1280px) */
     :host {
