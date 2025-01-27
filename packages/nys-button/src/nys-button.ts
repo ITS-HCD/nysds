@@ -40,7 +40,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_VARIANTS)[number])
       : "filled";
   }
-  @property({ type: Boolean }) inverted = false; //used on dark text
+  @property({ type: Boolean, reflect: true }) inverted = false; //used on dark text
   @property({ type: String }) label = "";
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
