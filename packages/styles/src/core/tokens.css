@@ -1,0 +1,487 @@
+/* EXCELSIOR DESIGN TOKENS */
+
+:root {
+  /* ================== SEMANTIC COLORS ========================= */
+  
+  /* Theme */
+  --nys-color-theme-faint: var(--nys-color-state-blue-10);
+  --nys-color-theme-weaker: var(--nys-color-state-blue-50);
+  --nys-color-theme-weak: var(--nys-color-state-blue-100);
+  --nys-color-theme-mid: var(--nys-color-state-blue-500);
+  --nys-color-theme: var(--nys-color-state-blue-700);
+  --nys-color-theme-strong: var(--nys-color-state-blue-800);
+  --nys-color-theme-stronger: var(--nys-color-state-blue-900);
+  --nys-color-accent: var(--nys-color-yellow-400);
+  
+  /* Intent: Neutral */
+  --nys-color-neutral: var(--nys-color-neutral-600);
+  --nys-color-neutral-weak: var(--nys-color-neutral-10);
+  
+  /* Intent: Success */
+  --nys-color-success: var(--nys-color-green-600);
+  --nys-color-success-weak: var(--nys-color-green-50);
+  
+  /* Intent: Info */
+  --nys-color-info: var(--nys-color-blue-600);
+  --nys-color-info-weak: var(--nys-color-blue-50);
+  
+  /* Intent: Warning */
+  --nys-color-warning: var(--nys-color-yellow-400);
+  --nys-color-warning-weak: var(--nys-color-yellow-50);
+  
+  /* Intent: Danger */
+  --nys-color-danger: var(--nys-color-red-600);
+  --nys-color-danger-weak: var(--nys-color-red-50);
+  
+  /* Intent: Emergency */
+  --nys-color-emergency: var(--nys-color-red-800);
+  --nys-color-emergency-weak: var(--nys-color-red-300);
+  
+  /* === Text Colors === */
+  
+  --nys-color-ink: var(--nys-color-neutral-900);
+  --nys-color-ink-reverse: var(--nys-color-white);
+  
+  --nys-color-link: var(--nys-color-blue-600);
+  --nys-color-link-strong: var(--nys-color-blue-700);
+  --nys-color-link-strongest: var(--nys-color-blue-800);
+  
+  /* === Focus Ring === */
+  
+  --nys-color-focus: var(--nys-color-blue-600);
+  
+  
+  /* ================== SEMANTIC TYPOGRAPHY TOKENS ===================== */
+  
+  /* === Role-Base Semantic Values === */
+  
+  /* --- Font Family (by role) --- */
+  
+  /* Body */
+  --nys-font-family-body: var(--nys-font-family-sans);
+  --nys-font-family-display: var(--nys-font-family-sans);
+  --nys-font-family-ui: var(--nys-font-family-sans);
+  --nys-font-family-heading: var(--nys-font-family-sans);
+  
+  /* --- Font Size (by role) --- */
+    
+  /* Body */
+  --nys-font-size-body-md: var(--nys-font-size-md);
+  --nys-font-size-body-sm: var(--nys-font-size-sm);
+  --nys-font-size-body-xs: var(--nys-font-size-xs);
+  
+  /* Heading */
+  --nys-font-size-h1: var(--nys-font-size-5xl);
+  --nys-font-size-h2: var(--nys-font-size-4xl);
+  --nys-font-size-h3: var(--nys-font-size-3xl);
+  --nys-font-size-h4: var(--nys-font-size-2xl);
+  --nys-font-size-h5: var(--nys-font-size-xl);
+  --nys-font-size-h6: var(--nys-font-size-lg);
+  
+  /* UI */
+  --nys-font-size-ui-xs: var(--nys-font-size-xs);
+  --nys-font-size-ui-sm: var(--nys-font-size-sm);
+  --nys-font-size-ui-md: var(--nys-font-size-md);
+  --nys-font-size-ui-lg: var(--nys-font-size-lg);
+  --nys-font-size-ui-xl: var(--nys-font-size-xl);
+  
+  /* Display */
+  --nys-font-size-display-sm: var(--nys-font-size-6xl);
+  --nys-font-size-display-md: var(--nys-font-size-7xl);
+  --nys-font-size-display-lg: var(--nys-font-size-8xl);
+  --nys-font-size-display-xl: var(--nys-font-size-9xl);
+  
+  /* Agency */
+  --nys-font-size-agency-xl: var(--nys-font-size-2xl);
+  --nys-font-size-agency-lg: var(--nys-font-size-lg);
+  --nys-font-size-agency-md: var(--nys-font-size-md);
+  
+  /* --- Line Height (by role) --- */
+  
+  /* Body */
+  --nys-font-lineheight-body-xs: 20px;
+  --nys-font-lineheight-body-sm: 24px;
+  --nys-font-lineheight-body-md: 24px;
+  
+  /* UI */
+  --nys-font-lineheight-ui-xs: 20px;  
+  --nys-font-lineheight-ui-sm: 24px;
+  --nys-font-lineheight-ui-md: 24px;
+  --nys-font-lineheight-ui-lg: 28px;
+  --nys-font-lineheight-ui-xl: 28px;
+  
+  /* Display */
+  --nys-font-lineheight-display-sm: 44px;
+  --nys-font-lineheight-display-md: 48px;
+  --nys-font-lineheight-display-lg: 52px;
+  --nys-font-lineheight-display-xl: 60px;
+  
+  /* Heading */
+  --nys-font-lineheight-h1: 40px;
+  --nys-font-lineheight-h2: 36px;
+  --nys-font-lineheight-h3: 32px;
+  --nys-font-lineheight-h4: 32px;
+  --nys-font-lineheight-h5: 28px;
+  --nys-font-lineheight-h6: 28px;
+  
+  /* --- Letter Spacing (by role) --- */
+  
+  /* Display */
+  --nys-font-letterspacing-display-sm: var(--nys-font-letterspacing-0);
+  --nys-font-letterspacing-display-md: var(--nys-font-letterspacing-0);
+  --nys-font-letterspacing-display-lg: var(--nys-font-letterspacing-negative-100);
+  --nys-font-letterspacing-display-xl: var(--nys-font-letterspacing-negative-100);
+  
+  /* UI */
+  --nys-font-letterspacing-ui-xs: var(--nys-font-letterspacing-600);
+  --nys-font-letterspacing-ui-sm: var(--nys-font-letterspacing-400);
+  --nys-font-letterspacing-ui-md: var(--nys-font-letterspacing-400);
+  --nys-font-letterspacing-ui-lg: var(--nys-font-letterspacing-300);
+  --nys-font-letterspacing-ui-xl: var(--nys-font-letterspacing-200);
+  
+  /* Body */
+  --nys-font-letterspacing-body-xs: var(--nys-font-letterspacing-600);
+  --nys-font-letterspacing-body-sm: var(--nys-font-letterspacing-400);
+  --nys-font-letterspacing-body-md: var(--nys-font-letterspacing-400);
+  
+  /* Heading */
+  --nys-font-letterspacing-h1: var(--nys-font-letterspacing-0);
+  --nys-font-letterspacing-h2: var(--nys-font-letterspacing-100);
+  --nys-font-letterspacing-h3: var(--nys-font-letterspacing-100);
+  --nys-font-letterspacing-h4: var(--nys-font-letterspacing-200);
+  --nys-font-letterspacing-h5: var(--nys-font-letterspacing-200);
+  --nys-font-letterspacing-h6: var(--nys-font-letterspacing-300);
+  
+  /* UI */
+  --nys-font-letterspacing-ui-md: var(--nys-font-letterspacing-400);
+  --nys-font-letterspacing-body-sm: var(--nys-font-letterspacing-400);
+  --nys-font-letterspacing-body-xs: var(--nys-font-letterspacing-600);
+  
+  /* --- Icon Size --- */
+  
+  --nys-icon-size-xs: var(--nys-font-size-xs);
+  --nys-icon-size-sm: var(--nys-font-size-sm);
+  --nys-icon-size-md: var(--nys-font-size-md);
+  --nys-icon-size-lg: var(--nys-font-size-lg);
+  --nys-icon-size-xl: var(--nys-font-size-xl);
+  --nys-icon-size-2xl: var(--nys-font-size-2xl);
+  --nys-icon-size-3xl: var(--nys-font-size-3xl);
+  --nys-icon-size-4xl: var(--nys-font-size-4xl);
+  --nys-icon-size-5xl: var(--nys-font-size-5xl);
+  
+  /* ================== SPACE / SIZE TOKENS ===================== */
+  
+  /* --- Spacing --- */
+  --nys-space-1px: 1px;
+  --nys-space-2px: 2px;
+  --nys-space-50: 4px;
+  --nys-space-100: 8px;
+  --nys-space-150: 12px;
+  --nys-space-200: 16px;
+  --nys-space-250: 20px;
+  --nys-space-300: 24px;
+  --nys-space-400: 32px;
+  --nys-space-500: 40px;
+  --nys-space-600: 48px;
+  --nys-space-700: 56px;
+  --nys-space-800: 64px;
+  --nys-space-1200: 96px;
+  
+  /* --- Size --- */
+  --nys-size-1px: 1px;
+  --nys-size-2px: 2px;
+  --nys-size-50: 4px;
+  --nys-size-100: 8px;
+  --nys-size-150: 12px;
+  --nys-size-200: 16px;
+  --nys-size-250: 20px;
+  --nys-size-300: 24px;
+  --nys-size-400: 32px;
+  --nys-size-450: 36px;
+  --nys-size-500: 40px;
+  --nys-size-550: 44px;
+  --nys-size-600: 48px;
+  --nys-size-700: 56px;
+  --nys-size-800: 64px;
+  --nys-size-1200: 96px;
+  
+  /* --- Border Widths --- */
+  --nys-border-width-sm: var(--nys-space-1px);
+  --nys-border-width-md: var(--nys-space-2px);
+  --nys-border-width-lg: var(--nys-space-50);
+  
+  /* --- Form Input Widths --- */
+  
+  --nys-form-width-sm: 88px;
+  --nys-form-width-md: 200px;
+  --nys-form-width-lg: 384px;
+  
+  /* ===================== BORDER RADIUS TOKENS ======================= */
+  
+  --nys-radius-xs: var(--nys-space-1px);
+  --nys-radius-sm: var(--nys-space-2px);
+  --nys-radius-md: var(--nys-space-50);
+  --nys-radius-lg: var(--nys-space-100);
+  --nys-radius-xl: var(--nys-space-150);
+  --nys-radius-round: 1776px; /* Ever upward! */
+  
+  /* ===================== PRIMITIVE COLOR RAMPS ====================== */
+  
+  /* === Primitive Ramps - Global Colors === */
+  
+  /* --- Neutral --- */
+  --nys-color-neutral-10: #f6f6f6;
+  --nys-color-neutral-50: #ededed;
+  --nys-color-neutral-100: #d0d0ce;
+  --nys-color-neutral-200: #bec0c1;
+  --nys-color-neutral-300: #a7a9ab;
+  --nys-color-neutral-400: #909395;
+  --nys-color-neutral-500: #797c7f;
+  --nys-color-neutral-600: #62666a;
+  --nys-color-neutral-700: #4a4d4f;
+  --nys-color-neutral-800: #323435;
+  --nys-color-neutral-900: #1b1b1b;
+  --nys-color-black: #000000;
+  --nys-color-white: #ffffff;
+  
+  /* --- Red --- */
+  --nys-color-red-10: #fbf4f4;
+  --nys-color-red-50: #f7eaea;
+  --nys-color-red-100: #f0d5d5;
+  --nys-color-red-200: #e4b3b3;
+  --nys-color-red-300: #d89191;
+  --nys-color-red-400: #cc6f6f;
+  --nys-color-red-500: #c04d4d;
+  --nys-color-red-600: #b52c2c;
+  --nys-color-red-700: #932424;
+  --nys-color-red-800: #721c1c;
+  --nys-color-red-900: #511414;
+  
+  /* --- Blue --- */
+  --nys-color-blue-10: #f2f7fc;
+  --nys-color-blue-50: #e5effa;
+  --nys-color-blue-100: #cce0f6;
+  --nys-color-blue-200: #a3c2ee;
+  --nys-color-blue-300: #7aa5e7;
+  --nys-color-blue-400: #5187df;
+  --nys-color-blue-500: #286ad8;
+  --nys-color-blue-600: #004dd1;
+  --nys-color-blue-700: #003ba1;
+  --nys-color-blue-800: #002971;
+  --nys-color-blue-900: #001842;
+  
+  /* --- Green --- */
+  --nys-color-green-10: #f3f8f4;
+  --nys-color-green-50: #e8f1ea;
+  --nys-color-green-100: #d2e3d5;
+  --nys-color-green-200: #aecdb3;
+  --nys-color-green-300: #8ab792;
+  --nys-color-green-400: #66a170;
+  --nys-color-green-500: #428b4f;
+  --nys-color-green-600: #1e752e;
+  --nys-color-green-700: #165923;
+  --nys-color-green-800: #0f3d18;
+  --nys-color-green-900: #08210d;
+  
+  /* --- Yellow --- */
+  --nys-color-yellow-10: #fefcf2;
+  --nys-color-yellow-50: #fefae5;
+  --nys-color-yellow-100: #fef5cc;
+  --nys-color-yellow-200: #fce888;
+  --nys-color-yellow-300: #fbdb44;
+  --nys-color-yellow-400: #face00;
+  --nys-color-yellow-500: #d6b000;
+  --nys-color-yellow-600: #b29200;
+  --nys-color-yellow-700: #8e7500;
+  --nys-color-yellow-800: #6a5700;
+  --nys-color-yellow-900: #463a00;
+  
+  /* === Primitive Ramps - Theme Colors === */
+  
+  /* --- Theme: State Blue (Default) --- */
+  --nys-color-state-blue-10: #f7fafd;
+  --nys-color-state-blue-50: #eff6fb;
+  --nys-color-state-blue-100: #cddde9;
+  --nys-color-state-blue-200: #abc4d8;
+  --nys-color-state-blue-300: #89abc7;
+  --nys-color-state-blue-400: #6792b6;
+  --nys-color-state-blue-500: #457aa5;
+  --nys-color-state-blue-600: #2d618c;
+  --nys-color-state-blue-700: #154973;
+  --nys-color-state-blue-800: #0e324f;
+  --nys-color-state-blue-900: #081b2b;
+  
+  /* --- Theme: Business Teal --- */
+  --nys-color-business-teal-10: #f2f6f6;
+  --nys-color-business-teal-50: #e5eded;
+  --nys-color-business-teal-100: #c5d8d9;
+  --nys-color-business-teal-200: #a5c3c5;
+  --nys-color-business-teal-300: #85aeb1;
+  --nys-color-business-teal-400: #65999e;
+  --nys-color-business-teal-500: #387b82;
+  --nys-color-business-teal-600: #0b5d66;
+  --nys-color-business-teal-700: #084b52;
+  --nys-color-business-teal-800: #05393f;
+  --nys-color-business-teal-900: #02272c;
+  
+  /* --- Theme: Health Purple --- */
+  --nys-color-health-purple-10: #f4f4f8;
+  --nys-color-health-purple-50: #e9eaf1;
+  --nys-color-health-purple-100: #d3d5e3;
+  --nys-color-health-purple-200: #bbb8cc;
+  --nys-color-health-purple-300: #a39bb6;
+  --nys-color-health-purple-400: #8b7fa0;
+  --nys-color-health-purple-500: #736289;
+  --nys-color-health-purple-600: #5b4573;
+  --nys-color-health-purple-700: #43285d;
+  --nys-color-health-purple-800: #2c1a3e;
+  --nys-color-health-purple-900: #160d1f;
+  
+  /* --- Theme: Local Brown --- */
+  --nys-color-local-brown-10: #f6f5f4;
+  --nys-color-local-brown-50: #eeebe9;
+  --nys-color-local-brown-100: #ddd7d3;
+  --nys-color-local-brown-200: #c3b9b3;
+  --nys-color-local-brown-300: #a99b94;
+  --nys-color-local-brown-400: #8f7d75;
+  --nys-color-local-brown-500: #745e55;
+  --nys-color-local-brown-600: #5a4036;
+  --nys-color-local-brown-700: #402217;
+  --nys-color-local-brown-800: #2a160f;
+  --nys-color-local-brown-900: #150b07;
+  
+  /* --- Theme: Environment Green --- */
+  --nys-color-environment-green-10: #f5f7f6;
+  --nys-color-environment-green-50: #ecf0ee;
+  --nys-color-environment-green-100: #d9e1dd;
+  --nys-color-environment-green-200: #bac6bf;
+  --nys-color-environment-green-300: #9caba1;
+  --nys-color-environment-green-400: #7e9084;
+  --nys-color-environment-green-500: #5f7566;
+  --nys-color-environment-green-600: #415a48;
+  --nys-color-environment-green-700: #233f2b;
+  --nys-color-environment-green-800: #172a1c;
+  --nys-color-environment-green-900: #0b150e;
+  
+  /* --- Theme: Admin Orange --- */
+  --nys-color-admin-orange-10: #fcf4ef;
+  --nys-color-admin-orange-50: #f9e9e0;
+  --nys-color-admin-orange-100: #f3d3c1;
+  --nys-color-admin-orange-200: #e7b59c;
+  --nys-color-admin-orange-300: #db9778;
+  --nys-color-admin-orange-400: #d07954;
+  --nys-color-admin-orange-500: #c0623b;
+  --nys-color-admin-orange-600: #b14b22;
+  --nys-color-admin-orange-700: #a2350a;
+  --nys-color-admin-orange-800: #752607;
+  --nys-color-admin-orange-900: #481704;
+  
+  /* --- Theme: Transportation Blue --- */
+  --nys-color-transportation-blue-10: #f4f8fa;
+  --nys-color-transportation-blue-50: #eaf2f5;
+  --nys-color-transportation-blue-100: #d5e5eb;
+  --nys-color-transportation-blue-200: #b2ccd9;
+  --nys-color-transportation-blue-300: #90b3c7;
+  --nys-color-transportation-blue-400: #6e9ab5;
+  --nys-color-transportation-blue-500: #4d83a4;
+  --nys-color-transportation-blue-600: #2c6c93;
+  --nys-color-transportation-blue-700: #0b5583;
+  --nys-color-transportation-blue-800: #093a5c;
+  --nys-color-transportation-blue-900: #072036;
+  
+  /* --- Theme: Safety Gray --- */
+  --nys-color-safety-gray-10: #f2f5f6;
+  --nys-color-safety-gray-50: #e5ebed;
+  --nys-color-safety-gray-100: #cdd6da;
+  --nys-color-safety-gray-200: #b5c1c8;
+  --nys-color-safety-gray-300: #9dacb5;
+  --nys-color-safety-gray-400: #8697a3;
+  --nys-color-safety-gray-500: #6f8391;
+  --nys-color-safety-gray-600: #59707f;
+  --nys-color-safety-gray-700: #435d6e;
+  --nys-color-safety-gray-800: #30424f;
+  --nys-color-safety-gray-900: #1d2830;
+  
+  /* ================== TRANSPARENT COLORS (ALPHA HEX) ===================== */
+  /* Black Transparent */
+  --nys-color-black-transparent-50: #00000003;
+  --nys-color-black-transparent-100: #0000001a;
+  --nys-color-black-transparent-200: #00000033;
+  --nys-color-black-transparent-300: #0000004d;
+  --nys-color-black-transparent-400: #00000066;
+  --nys-color-black-transparent-500: #00000080;
+  --nys-color-black-transparent-600: #00000099;
+  --nys-color-black-transparent-700: #000000b3;
+  --nys-color-black-transparent-800: #000000cc;
+  --nys-color-black-transparent-900: #000000e6;
+  
+  /* White Transparent */
+  --nys-color-white-transparent-50: #ffffff03;
+  --nys-color-white-transparent-100: #ffffff1a;
+  --nys-color-white-transparent-200: #ffffff33;
+  --nys-color-white-transparent-300: #ffffff4d;
+  --nys-color-white-transparent-400: #ffffff66;
+  --nys-color-white-transparent-500: #ffffff80;
+  --nys-color-white-transparent-600: #ffffff99;
+  --nys-color-white-transparent-700: #ffffffb3;
+  --nys-color-white-transparent-800: #ffffffcc;
+  --nys-color-white-transparent-900: #ffffffe6;
+  
+  /* ================ PRIMITIVE TYPOGRAPHY TOKENS ===================== */
+  
+  /* --- Font Family --- */
+  --nys-font-family-sans: Proxima Nova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --nys-font-family-serif: Noto Serif, Georgia, Cambria, Times New Roman, Times, serif;
+  --nys-font-family-alt: Oswald, Arial, sans-serif;
+  --nys-font-family-monospace: Roboto Mono Web, Bitstream Vera Sans Mono, Consolas, Courier, monospace;
+  --nys-font-family-agency: D Sari, Arial, sans-serif;
+  
+  /* --- Font Size --- */
+  --nys-font-size-2xs: 10px;
+  --nys-font-size-xs: 12px;
+  --nys-font-size-sm: 14px;
+  --nys-font-size-md: 16px;
+  --nys-font-size-lg: 18px;
+  --nys-font-size-xl: 20px;
+  --nys-font-size-2xl: 22px;
+  --nys-font-size-3xl: 24px;
+  --nys-font-size-4xl: 28px;
+  --nys-font-size-5xl: 32px;
+  --nys-font-size-6xl: 36px;
+  --nys-font-size-7xl: 40px;
+  --nys-font-size-8xl: 44px;
+  --nys-font-size-9xl: 50px;
+  
+  /* --- Font Weight --- */
+  --nys-font-weight-thin: 100;
+  --nys-font-weight-extralight: 200;
+  --nys-font-weight-light: 300;
+  --nys-font-weight-regular: 400;
+  --nys-font-weight-medium: 500;
+  --nys-font-weight-semibold: 600;
+  --nys-font-weight-bold: 700;
+  --nys-font-weight-extrabold: 800;
+  --nys-font-weight-black: 900;
+  
+  /* --- Line Height --- */
+  --nys-font-lineheight-2xs: 18px;
+  --nys-font-lineheight-xs: 21px;
+  --nys-font-lineheight-sm: 22px;
+  --nys-font-lineheight-md: 25px;
+  --nys-font-lineheight-lg: 28px;
+  --nys-font-lineheight-xl: 31px;
+  --nys-font-lineheight-2xl: 39px;
+  --nys-font-lineheight-3xl: 45px;
+  --nys-font-lineheight-4xl: 57px;
+  
+  /* --- Letter Spacing --- */
+  --nys-font-letterspacing-negative-100: -0.006px;
+  --nys-font-letterspacing-0: 0px;
+  --nys-font-letterspacing-100: 0.013px;
+  --nys-font-letterspacing-200: 0.017px;
+  --nys-font-letterspacing-300: 0.027px;
+  --nys-font-letterspacing-400: 0.044px;
+  --nys-font-letterspacing-600: 0.057px;
+  --nys-font-letterspacing-500: 0.050px;
+  
+}

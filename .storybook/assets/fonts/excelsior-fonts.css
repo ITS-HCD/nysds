@@ -1,0 +1,101 @@
+/* ==== Load full NYS web font library */
+
+/* Proxima Nova: Regular */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-regular.woff') format('woff'),
+      url('./proximanova-regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Proxima Nova: Bold */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-bold.woff') format('woff'),
+      url('./proximanova-bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Proxima Nova: Bold Italic */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-bolditalic.woff') format('woff'),
+      url('./proximanova-bolditalic.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Proxima Nova: Extra Bold */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-extrabold.woff') format('woff'),
+      url('./proximanova-extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Proxima Nova: Italic */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-italic.woff') format('woff'),
+      url('./proximanova-italic.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Proxima Nova: Light */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-light.woff') format('woff'),
+      url('./proximanova-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Proxima Nova: Light Italic */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-lightitalic.woff') format('woff'),
+      url('./proximanova-lightitalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Proxima Nova: Semi Bold */
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./proximanova-semibold.woff') format('woff'),
+      url('./proximanova-semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* D Sari: Bold */
+@font-face {
+  font-family: 'D Sari';
+  src: url('./dsari-bold.woff') format('woff'),
+      url('./dsari-bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Oswald: Variable */
+@font-face {
+  font-family: 'Oswald';
+  src: url('./oswald-variable.woff') format('woff'),
+      url('./oswald-variable.woff2') format('woff2');
+  font-weight: 100 900; /* Supports variable weights */
+  font-style: normal;
+  font-display: swap;
+}

@@ -2,7 +2,7 @@ import { execSync } from "child_process";
 
 // Define the build order for your packages
 const packages = [
-  { name: "nys-styles", path: "packages/nys-styles" },
+  { name: "styles", path: "packages/styles" },
   { name: "form-controller", path: "packages/form" },
   { name: "nys-icon", path: "packages/nys-icon" },
   { name: "nys-avatar", path: "packages/nys-avatar" },
@@ -13,6 +13,8 @@ const packages = [
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
+  { name: "nys-globalheader", path: "packages/nys-globalheader" },
+  { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
 ];
 
 packages.forEach((pkg) => {

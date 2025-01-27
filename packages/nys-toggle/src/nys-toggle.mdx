@@ -5,13 +5,13 @@ import * as NysToggleStories from "./nys-toggle.stories";
 <Meta of={NysToggleStories} title="Components/Toggle/Documentation" />
 
 # Toggle
-The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle an option on or off.
+The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle a toggle switch "on" or "off".
 
 If an id is not passed, a unique id will be generated.
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1626-2591&p=f&t=QF8BQ6f9JDt9M72a-0">Get the UI kit</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1626-2591&p=f&t=QF8BQ6f9JDt9M72a-0">View in Figma</a></p>
 
 ***
 
@@ -44,7 +44,7 @@ Supported sizes are `sm` and `md`. **Default size for toggle component is `md`.*
 To remove icons from the toggle switch, use the `NoIcons` boolean property.
 <Canvas of={NysToggleStories.NoIcons} />
 
-## Use cases
+## Usage
 
 ### When to use this component
   - Consider using `nys-toggle` when expecting immediate UI effects when turning switch on/off.
@@ -54,27 +54,29 @@ To remove icons from the toggle switch, use the `NoIcons` boolean property.
   - Consider using `nys-checkbox` or `nys-radiobutton` to select one or more options from a list where the selections
   - Use `nys-checkbox` for forms, especially when you're not expecting immediate action.
 
-## Usage 
-<div className="usage-wrapper">
-   <div className="usagedos do">
-   ### Do
-   - Provide a clear label and optional description to explain the toggle's purpose.
-   - Show the UI for toggle’s state is visually distinct for on/off positions.
-   </div>
-
-   <div className="usagedos dont">
-   ### Don't
-   - Use toggles for complex multi-state options.
-   - Overuse toggles for trivial settings that do not impact user experience significantly.
-   - Hide labels entirely unless another accessible method of describing the toggle exists.
-   </div>
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      - Provide a clear label and optional description to explain the toggle's purpose.
+      - Show the UI for toggle’s state is visually distinct for on/off positions.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use toggles for complex multi-state options.
+      - Overuse toggles for trivial settings that do not impact user experience significantly.
+      - Hide labels entirely unless another accessible method of describing the toggle exists.
+    </div>
+  </div>
 </div>
 
 ## Form Prop
 The form attribute associates the `nys-toggle` component with a specific `<form>` element, regardless of its location on the page. This ensures that the toggle's state is included in the form submission, whether it is inside the `<form>` element or outside it.
 
 ## Events
-The `NysToggle` component emits three custom events:
+The `<nys-toggle>` component emits three custom Javascript events:
 
 1. **`change`** – Fired when the toggle state changes (checked/unchecked).
 2. **`focus`** – Fired when the toggle gains focus.

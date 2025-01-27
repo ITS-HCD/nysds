@@ -215,6 +215,110 @@ export const tokens = [
     description: "Darkest neutral shade for text or backgrounds.",
     type: "color",
   },
+  // Typography Tokens
+  // Body
+  {
+    name: "--nys-font-family-sans",
+    displayname: "Font Family, Sans",
+    description: "Primary brand font, used for content, headers, and UI text. → Proxima Nova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
+    type: "font-family",
+  },
+  {
+    name: "--nys-font-family-agency",
+    displayname: "Font Family, Agency",
+    description: "Brand font used only for agency, program, and initiative titles. → D Sari, Arial, sans-serif",
+    type: "font-family",
+  },
+  {
+    name: "--nys-font-family-alt",
+    displayname: "Font Family, Alternate",
+    description: "Alternate brand font, used sparingly for accent in public-facing sites. → Oswald, Arial, sans-serif",
+    type: "font-family",
+  },
+{
+  name: "--nys-font-size-2xs",
+  displayname: "Font Size, 2XS",
+  description: "Extra-extra-small font size. Typically used for fine print or disclaimers. → 10px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-xs",
+  displayname: "Font Size, XS",
+  description: "Extra-small font size. Used for less prominent labels or captions. → 12px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-sm",
+  displayname: "Font Size, SM",
+  description: "Small font size. Commonly used for secondary text or labels. → 14px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-md",
+  displayname: "Font Size, MD",
+  description: "Medium font size. Default body text size. → 16px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-lg",
+  displayname: "Font Size, LG",
+  description: "Large font size. Used for subheadings or larger labels. → 18px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-xl",
+  displayname: "Font Size, XL",
+  description: "Extra-large font size. Used for headings or standout elements. → 20px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-2xl",
+  displayname: "Font Size, 2XL",
+  description: "Double extra-large font size. Commonly used for secondary headings. → 22px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-3xl",
+  displayname: "Font Size, 3XL",
+  description: "Triple extra-large font size. Used for primary headings or key text. → 24px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-4xl",
+  displayname: "Font Size, 4XL",
+  description: "Quadruple extra-large font size. Typically used for prominent headlines. → 28px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-5xl",
+  displayname: "Font Size, 5XL",
+  description: "Quintuple extra-large font size. Reserved for key marketing or hero sections. → 32px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-6xl",
+  displayname: "Font Size, 6XL",
+  description: "Six times extra-large font size. Used for impactful hero text. → 36px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-7xl",
+  displayname: "Font Size, 7XL",
+  description: "Seven times extra-large font size. Highly prominent text. → 40px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-8xl",
+  displayname: "Font Size, 8XL",
+  description: "Eight times extra-large font size. Typically for titles or splash content. → 44px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-9xl",
+  displayname: "Font Size, 9XL",
+  description: "Nine times extra-large font size. Maximum size for hero content. → 50px",
+  type: "font-size",
+},
   // Spacing
   {
     name: "--nys-space-1px",
@@ -421,9 +525,8 @@ export const tokens = [
     displayname: "Radius Round",
     description: "Fully rounded elements. Used for avatars and icons.",
     type: "radius",
-  }
+  },
 ];
-
 
 export const hiddentokens = [
 // Store tokens here that are Not publishing to the documentation (yet)
@@ -457,6 +560,39 @@ export const hiddentokens = [
           background-color: var(${token.name});
         }
       `;
+    } else if (token.type === "font-family") {
+      return `
+        .swatch-${token.name.replace("--", "")}::before {
+          font-family: var(${token.name}) !important;
+          content: "NYS";
+          color: black;
+          height: 100%;
+          width: 100%;
+          text-align:center;
+          display: grid; 
+          align-content: center;
+          font-size: var(--nys-font-size-8xl) !important;
+        }
+        .swatch-${token.name.replace("--", "")} {
+          border: none;
+        }
+      `;
+    } else if (token.type === "font-size") {
+      return `
+        .swatch-${token.name.replace("--", "")}::before {
+          font-size: var(${token.name}) !important;
+          content: "NYS";
+          color: black;
+          height: 100%;
+          width: 100%;
+          text-align:center;
+          display: grid; 
+          align-content: center;
+        }
+        .swatch-${token.name.replace("--", "")} {
+          border: none;
+        }
+      `;
     } else if (token.type === "space") {
       return `
         .swatch-${token.name.replace("--", "")} {
@@ -478,15 +614,19 @@ export const hiddentokens = [
           margin: 0 auto;
           width: var(${token.name});
           height: var(${token.name});
-          background-color: var(--nys-color-theme);
+          background: linear-gradient(
+            to bottom right,
+            var(--nys-color-theme) 60%, /* Base color covers 60% */
+            color-mix(in srgb, var(--nys-color-theme) 60%, black 40%) 100% /* Darker shade starts after 60% */
+          );
         }
       `;
     } else if (token.type === "radius") {
       return `
         .swatch-${token.name.replace("--", "")} {
-          background: #f0f0f0;
+          background: var(--nys-color-theme-weaker);
           border-radius: var(${token.name});
-          border: 1px solid #ccc;
+          border: 1px solid var(--nys-color-theme-weak);
         }
       `;
     }

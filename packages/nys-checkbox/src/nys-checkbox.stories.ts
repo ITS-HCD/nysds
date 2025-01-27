@@ -76,11 +76,32 @@ export const Basic: Story = {
         .name=${args.name}
         .value=${args.value}
       ></nys-checkbox>
-      <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
-      <nys-checkbox label="Catskills" checked></nys-checkbox>
-      <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
-      <nys-checkbox label="Coney Island"></nys-checkbox>
       <nys-checkbox
+        name="landmarks"
+        value="finger-lakes"
+        label="Finger Lakes"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="catskills"
+        label="Catskills"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="niagara-falls"
+        label="Niagara Falls"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="coney-island"
+        label="Coney Island"
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="mount-greylock"
         label="Mount Greylock"
         description="This is disabled because it's not in New York."
         disabled
@@ -102,10 +123,10 @@ export const Basic: Story = {
     errorMessage="You must select this box to continue"
     checked
   ></nys-checkbox>
-  <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
-  <nys-checkbox label="Catskills" checked></nys-checkbox>
-  <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
-  <nys-checkbox label="Coney Island"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="finger-lakes" label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="catskills" label="Catskills" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara-falls" label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="coney-island" label="Coney Island"></nys-checkbox>
   <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
 </nys-checkboxgroup>
 
@@ -204,10 +225,29 @@ export const Size: Story = {
         .name=${args.name}
         .value=${args.value}
       ></nys-checkbox>
-      <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
-      <nys-checkbox label="Catskills" checked></nys-checkbox>
-      <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
-      <nys-checkbox label="Coney Island"></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="finger-lakes"
+        label="Finger Lakes"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="catskills"
+        label="Catskills"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="niagara-falls"
+        label="Niagara Falls"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="coney-island"
+        label="Coney Island"
+      ></nys-checkbox>
       <nys-checkbox
         label="Mount Greylock"
         description="This is disabled because it's not in New York."
@@ -231,10 +271,10 @@ export const Size: Story = {
     errorMessage="You must select this box to continue"
     checked
   ></nys-checkbox>
-  <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
-  <nys-checkbox label="Catskills" checked></nys-checkbox>
-  <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
-  <nys-checkbox label="Coney Island"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="finger-lakes" label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="catskills" label="Catskills" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara-falls" label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="coney-island" label="Coney Island"></nys-checkbox>
   <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
 </nys-checkboxgroup>
 

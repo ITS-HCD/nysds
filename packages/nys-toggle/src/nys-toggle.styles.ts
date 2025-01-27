@@ -45,22 +45,22 @@ export default css`
     --_nys-toggle-color-base: var(--nys-color-neutral-500, #797c7f);
     --_nys-toggle-color-base-weak: var(--nys-color-neutral-100, #d0d0ce);
     --_nys-toggle-color-theme: var(
-      --nys-toggle-color-theme,
+      --nys-color-theme,
       var(--nys-color-state-blue-700, #154973)
     );
     --_nys-toggle-color-neutral: var(--nys-color-neutral-600, #62666a);
     --_nys-toggle-color-neutral-700: var(--nys-color-neutral-700, #4a4d4f);
     --_nys-toggle-color-theme-strong: var(
-      --nys-toggle-color-theme-strong,
-      var(--nys-toggle-color-state-blue-800, #0e324f)
+      --nys-color-theme-strong,
+      var(--nys-color-state-blue-800, #0e324f)
     );
     --_nys-toggle-color-theme-stronger: var(
-      --nys-toggle-color-theme-stronger,
-      var(--nys-toggle-color-state-blue-900, #081b2b)
+      --nys-color-theme-stronger,
+      var(--nys-color-state-blue-900, #081b2b)
     );
     --_nys-toggle-color-ink-reverse: var(
-      --nys-toggle-color-ink-reverse,
-      var(--nys-toggle-color-white, #fff)
+      --nys-color-ink-reverse,
+      var(--nys-color-white, #fff)
     );
 
     /* Font sizes and spacing for labels, descriptions, and icons */

@@ -2,11 +2,13 @@ import { Meta } from "@storybook/blocks";
 
 <Meta title="Styles" />
 
+# CSS Framework
+
 The Excelsior Design System provides a CSS framework to ensure consistency, flexibility, and accessibility across applications. It is designed to work seamlessly with Excelsior’s web components or as a standalone package for teams using other platforms or frameworks.
 
 ## What's Included?
 
-The CSS framework is an collection of stylesheets that provide foundational CSS for tokens, themes, and utilities. The `@nys-excelsior/nys-styles` package includes:
+The CSS framework is an collection of stylesheets that provide foundational CSS for tokens, themes, and utilities. The `@nys-excelsior/styles` package includes:
   - **Global Stylesheet:** A centralized CSS file (excelsior.min.css) for core design tokens like colors, typography, and spacing.
   - **Agency-Specific Themes:** Optional CSS files tailored for individual agencies, enabling branding customization via CSS variables.
   - **Utility Classes:** Lightweight, reusable classes for layout, spacing, and display styles.
@@ -19,33 +21,33 @@ The global stylesheet (`excelsior.min.css`) is the foundation of the Excelsior D
 
 For the full token list, see the [Design Tokens page](?path=/docs/design-tokens--docs).
 
-The @nys-styles package is available on npm and can be used in any application, even without Excelsior’s web components. This flexibility means you can use the design system’s tokens, themes, and utilities across different platforms.
+The `@nys-excelsior/styles` package is available on npm and can be used in any application, even without Excelsior’s web components. This flexibility means you can use the design system’s tokens, themes, and utilities across different platforms.
 
 ### Installing via npm
 
-Install the nys-styles package:
+Install the styles package:
 
 ``` bash 
-npm install @nys-excelsior/nys-styles
+npm install @nys-excelsior/styles
 ```
 
 After installation, reference the styles in your application:
 
 ```html
-<link rel="stylesheet" href="node_modules/@nys-excelsior/nys-styles/dist/excelsior.min.css"> 
+<link rel="stylesheet" href="[path-to-dir]/excelsior.min.css"> 
 ```
 
 ### Manual Download
 
-You can also download the CSS files directly from the nys-styles npm page and include them in your project:
+You can also download the CSS files directly from the [`@nys-excelsior/styles` npm page](https://www.npmjs.com/org/nys-excelsior) and include them in your project:
 
 ```html
-<link rel="stylesheet" href="[path-to-your-project]/excelsior.min.css">
+<link rel="stylesheet" href="[path-to-dir]/excelsior.min.css">
 ```
 
 ##  Applying Agency-Specific Themes
 
-Excelsior provides theme stylesheets for NYS agency groups in order to to align applications and components design with specific agency branding. These themes override themed design tokens like `--nys-color-theme`.
+Excelsior's default theme uses the default New York State blue, but theme stylesheets for NYS agency groups are included with specific agency branding. Components that use themed design tokens like `--nys-color-theme` will be styled according to the selected theme.
 
 To use a theme in an application, include a reference to the theme stylesheet after the global stylesheet:
 
@@ -92,7 +94,7 @@ The button component sets its own background color using a pseudo-private `--_ny
 To create a button with a custom background color, set the `--nys-button-background-color` variable on the button element:
 
 ``` html
-<button style="--nys-button-background-color: #990000;">Delete Forever</button>
+<nys-button style="--nys-button-background-color: #990000;">Delete Forever</button>
 ```
 
 In short, we've created a style API for buttons:
