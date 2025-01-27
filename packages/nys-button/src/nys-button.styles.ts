@@ -245,6 +245,7 @@ export default css`
   }
 
   .nys-button {
+    width: fit-content;
     height: var(--_nys-button-height);
     border-radius: var(--_nys-button-radius);
     padding: var(--_nys-button-padding-y) var(--_nys-button-padding-x);
@@ -264,10 +265,6 @@ export default css`
     cursor: pointer;
   }
 
-  a.nys-button {
-    width: fit-content;
-  }
-
   .nys-button:hover {
     background-color: var(--_nys-button-color-bg-hover);
     color: var(--_nys-button-color-text-hover);
@@ -280,11 +277,32 @@ export default css`
     border-color: var(--_nys-button-color-border-active);
   }
 
-  .nys-button:disabled {
+  .nys-button:disabled,
+  a[disabled] {
     background-color: var(--_nys-button-color-bg-disabled);
     color: var(--_nys-button-color-text-disabled);
     border-color: var(--_nys-button-color-border-disabled);
     cursor: not-allowed;
+  }
+
+  .nys-button__linkwrapper:has([disabled]) {
+    cursor: not-allowed;
+    width: fit-content;
+  }
+
+  /* Remove click functionality from disabled link button */
+  a[disabled] {
+    pointer-events: none;
+  }
+
+  a[disabled]:hover {
+    background-color: var(--_nys-button-color-bg-disabled);
+    color: var(--_nys-button-color-text-disabled);
+    border-color: var(--_nys-button-color-border-disabled);
+  }
+
+  .nys-button * {
+    cursor: pointer;
   }
 
   .nys-button:disabled * {

@@ -44,7 +44,7 @@ export class NysButton extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
-  @property({ type: Boolean }) disabled = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String }) form = "";
   @property({ type: String }) value = "";
   // type
@@ -70,27 +70,35 @@ export class NysButton extends LitElement {
     return html`
       ${this.href
         ? html`
-            <a
-              class="nys-button"
-              id=${this.id}
-              name=${this.name}
-              ?disabled=${this.disabled}
-              form=${this.form}
-              value=${this.value}
-              href=${this.href}
-              target="_blank"
-              @click=${this.onClick}
-            >
-              ${this.prefixIcon && this.variant !== "text"
-                ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
-                : ""}
-              ${this.label
-                ? html`<label class="nys-button__text">${this.label}</label>`
-                : ""}
-              ${this.suffixIcon && this.variant !== "text"
-                ? html`<nys-icon size="16" name=${this.suffixIcon}></nys-icon>`
-                : ""}
-            </a>
+            <div class="nys-button__linkwrapper">
+              <a
+                class="nys-button"
+                id=${this.id}
+                name=${this.name}
+                ?disabled=${this.disabled}
+                form=${this.form}
+                value=${this.value}
+                href=${this.href}
+                target="_blank"
+                @click=${this.onClick}
+              >
+                ${this.prefixIcon && this.variant !== "text"
+                  ? html`<nys-icon
+                      size="16"
+                      name=${this.prefixIcon}
+                    ></nys-icon>`
+                  : ""}
+                ${this.label
+                  ? html`<label class="nys-button__text">${this.label}</label>`
+                  : ""}
+                ${this.suffixIcon && this.variant !== "text"
+                  ? html`<nys-icon
+                      size="16"
+                      name=${this.suffixIcon}
+                    ></nys-icon>`
+                  : ""}
+              </a>
+            </div>
           `
         : html`
             <button
