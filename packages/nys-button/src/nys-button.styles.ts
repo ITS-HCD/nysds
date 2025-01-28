@@ -165,9 +165,9 @@ export default css`
     --_nys-button-color-text-hover: var(--nys-color-ink, #1b1b1b);
     --_nys-button-color-border-hover: var(--nys-color-neutral-100, #d0d0ce);
 
-    --_nys-button-color-bg-active: var(--nys-color-neutral-200, #bec0c1);
+    --_nys-button-color-bg-active: var(--nys-color-neutral-300, #a7a9ab);
     --_nys-button-color-text-active: var(--nys-color-ink, #1b1b1b);
-    --_nys-button-color-border-active: var(--nys-color-neutral-200, #bec0c1);
+    --_nys-button-color-border-active: var(--nys-color-neutral-300, #a7a9ab);
 
     --_nys-button-color-bg-disabled: var(--nys-color-ink, #1b1b1b);
     --_nys-button-color-text-disabled: var(--nys-color-neutral-600, #62666a);
@@ -183,8 +183,8 @@ export default css`
     --_nys-button-color-border-hover: var(--nys-color-neutral-100, #d0d0ce);
 
     --_nys-button-color-bg-active: var(--nys-color-ink, #1b1b1b);
-    --_nys-button-color-text-active: var(--nys-color-neutral-200, #bec0c1);
-    --_nys-button-color-border-active: var(--nys-color-neutral-200, #bec0c1);
+    --_nys-button-color-text-active: var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-button-color-border-active: var(--nys-color-neutral-300, #a7a9ab);
 
     --_nys-button-color-bg-disabled: var(--nys-color-ink, #1b1b1b);
     --_nys-button-color-text-disabled: var(--nys-color-neutral-600, #62666a);
