@@ -14,9 +14,9 @@
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/packages/src/index.d.ts",
       "import": "./dist/excelsior.es.js",
-      "require": "./dist/excelsior.js",
-      "types": "./dist/packages/src/index.d.ts"
+      "require": "./dist/excelsior.js"
     }
   },
   "scripts": {
