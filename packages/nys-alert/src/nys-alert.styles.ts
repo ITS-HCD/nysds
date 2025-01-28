@@ -103,6 +103,7 @@ export default css`
     color: var(--_nys-alert-link-color);
   }
 
+  /* Handles both header and description text */
   .nys-alert__texts {
     position: relative;
     display: flex;
@@ -116,11 +117,11 @@ export default css`
     font-weight: var(--_nys-alert-font-weight-semibold);
   }
 
-  /* For descriptions made with "text" prop that populated in the slot */
-  slot[name="text"] {
+  .nys-alert__text {
     font-weight: var(--_nys-alert-font-weight-regular);
     margin: 0;
   }
+
   /* For HTML elements put into the slot */
   ::slotted(p) {
     font-weight: var(--_nys-alert-font-weight-regular);

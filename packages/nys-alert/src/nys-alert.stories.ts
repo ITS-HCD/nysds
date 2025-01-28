@@ -182,10 +182,10 @@ export const Description: Story = {
       .primaryLabel=${args.primaryLabel}
       .secondaryLabel=${args.secondaryLabel}
     >
-      <p slot="text">
+      <p>
         This is a custom alert with <strong>HTML content</strong>.
       </p>
-      <a slot="text" href="https://www.ny.gov/" target="_blank">Learn more</a>
+      <a href="https://www.ny.gov/" target="_blank">Learn more</a>
     </nys-alert>
   `,
   parameters: {
@@ -193,8 +193,8 @@ export const Description: Story = {
       source: {
         code: `
 <nys-alert theme="success" heading="Custom Descriptions">
-  <p slot="text">This is a custom alert with <strong>HTML content</strong>.</p>
-  <a slot="text" href="https://www.ny.gov/" target="_blank">Learn more</a>
+  <p>This is a custom alert with <strong>HTML content</strong>.</p>
+  <a href="https://www.ny.gov/" target="_blank">Learn more</a>
 </nys-alert>
 `.trim(),
         type: "auto",
@@ -223,7 +223,7 @@ export const Dismissible: Story = {
       .primaryLabel=${args.primaryLabel}
       .secondaryLabel=${args.secondaryLabel}
     >
-      <p slot="text">
+      <p>
         Adirondack peaks auctor Hudson River flows semper Statue of Liberty
         est.<br />
         Click here:
@@ -240,7 +240,7 @@ export const Dismissible: Story = {
   theme="info" 
   heading="Information status" 
   dismissible>
-  <p slot="text">Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
+  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
 `.trim(),
         type: "auto",

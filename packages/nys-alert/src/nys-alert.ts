@@ -137,7 +137,7 @@ export class NysAlert extends LitElement {
 
   private _checkSlotContent() {
     const slot =
-      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+      this.shadowRoot?.querySelector<HTMLSlotElement>('slot');
     if (slot) {
       // Check if slot has assigned nodes with content (elements or non-empty text nodes)
       const assignedNodes = slot
@@ -160,9 +160,9 @@ export class NysAlert extends LitElement {
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container ${!this._slotHasContent
-              ? "nys-alert--centered"
-              : ""}"
+            class="nys-alert__container ${this._slotHasContent || this.text?.trim().length > 0
+              ? ""
+              : "nys-alert--centered"}"
             role=${role}
             aria-label=${ifDefined(
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
@@ -178,8 +178,8 @@ export class NysAlert extends LitElement {
             <div class="nys-alert__texts">
               <h4 class="nys-alert__header">${this.heading}</h4>
               ${this._slotHasContent
-                ? html`<slot name="text">${this.text}</slot>`
-                : ""}
+                ? html`<slot></slot>`
+                : html`<p class="nys-alert__text">${this.text}</p>`}
               ${this.primaryAction || this.secondaryAction
                 ? html`<div class="nys-alert__actions">
                     ${this.primaryAction
