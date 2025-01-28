@@ -87,7 +87,7 @@ export class NysSelect extends LitElement {
   // Handle input changes by update the value as input changes
   private _handleInput(e: Event) {
     const select = e.target as HTMLSelectElement;
-    this.value = select.value; 
+    this.value = select.value;
     this.dispatchEvent(
       new CustomEvent("input", {
         detail: { value: this.value },
