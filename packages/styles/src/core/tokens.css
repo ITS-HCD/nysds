@@ -221,6 +221,7 @@
   --nys-radius-md: var(--nys-space-50);
   --nys-radius-lg: var(--nys-space-100);
   --nys-radius-xl: var(--nys-space-150);
+  --nys-radius-xxl: var(--nys-space-200);
   --nys-radius-round: 1776px; /* Ever upward! */
   
   /* ===================== PRIMITIVE COLOR RAMPS ====================== */
