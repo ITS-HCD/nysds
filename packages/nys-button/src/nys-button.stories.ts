@@ -58,7 +58,6 @@ type Story = StoryObj<NysButtonArgs>;
 export const Basic: Story = {
   args: {
     label: "Click Me",
-    href: "https://www.ny.gov/",
   },
   render: (args) => html`
     <nys-button
@@ -152,7 +151,24 @@ export const Size: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `
+<nys-button
+  id="button1"
+  name="button1"
+  label="Small"
+  size="sm"
+></nys-button>
+<nys-button
+  id="button2"
+  name="button2"
+  label="Medium"
+></nys-button>
+<nys-button
+  id="button3"
+  name="button3"
+  label="Large"
+  size="lg"
+></nys-button>`,
         type: "auto",
       },
     },
@@ -233,7 +249,31 @@ export const Variants: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `
+<nys-button
+  id="button1"
+  name="button1"
+  label="Filled"
+></nys-button>
+<nys-button
+  id="button2"
+  name="button2"
+  label="Outline" 
+  variant="outline"
+></nys-button>
+<nys-button
+  id="button3"
+  name="button3"
+  label="Ghost"
+  variant="ghost"
+></nys-button>
+<nys-button
+  id="button4"
+  name="button4"
+  label="Text"
+  variant="text"
+></nys-button>
+        `,
         type: "auto",
       },
     },
@@ -274,6 +314,8 @@ export const Icons: Story = {
   id="button1"
   name="button1"
   label="Click Me"
+  prefixIcon="chevron_left"
+  suffixIcon="chevron_right"
 ></nys-button>`,
 
         type: "auto",
@@ -360,7 +402,35 @@ export const Disabled: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `
+<nys-button
+  id="button1"
+  name="button1"
+  label="Filled"
+  disabled
+></nys-button>
+<nys-button
+  id="button2"
+  name="button2"
+  label="Outline" 
+  variant="outline"
+  disabled
+></nys-button>
+<nys-button
+  id="button3"
+  name="button3"
+  label="Ghost"
+  variant="ghost"
+  disabled
+></nys-button>
+<nys-button
+  id="button4"
+  name="button4"
+  label="Text"
+  variant="text"
+  disabled
+></nys-button>  
+      `,
         type: "auto",
       },
     },
@@ -369,6 +439,7 @@ export const Disabled: Story = {
 
 export const Link: Story = {
   args: {
+    label: "Visit NY.gov",
     href: "https://www.ny.gov/",
   },
 
@@ -381,55 +452,7 @@ export const Link: Story = {
         .name="${args.name}"
         .size=${args.size}
         .inverted=${args.inverted}
-        label="Filled"
-        .prefixIcon=${args.prefixIcon}
-        .suffixIcon=${args.suffixIcon}
-        .disabled=${args.disabled}
-        .form=${args.form}
-        .value=${args.value}
-        .href=${args.href}
-        .type=${args.type}
-        .onClick=${action("on-click")}
-      ></nys-button>
-      <nys-button
-        .id=${args.id}
-        .name=${args.name}
-        .size=${args.size}
-        variant="outline"
-        .inverted=${args.inverted}
-        label="Outline"
-        .prefixIcon=${args.prefixIcon}
-        .suffixIcon=${args.suffixIcon}
-        .disabled=${args.disabled}
-        .form=${args.form}
-        .value=${args.value}
-        .href=${args.href}
-        .type=${args.type}
-        .onClick=${action("on-click")}
-      ></nys-button>
-      <nys-button
-        .id=${args.id}
-        .name=${args.name}
-        .size=${args.size}
-        variant="ghost"
-        .inverted=${args.inverted}
-        label="Ghost"
-        .prefixIcon=${args.prefixIcon}
-        .suffixIcon=${args.suffixIcon}
-        .disabled=${args.disabled}
-        .form=${args.form}
-        .value=${args.value}
-        .href=${args.href}
-        .type=${args.type}
-        .onClick=${action("on-click")}
-      ></nys-button>
-      <nys-button
-        .id=${args.id}
-        .name=${args.name}
-        .size=${args.size}
-        variant="text"
-        .inverted=${args.inverted}
-        label="Text"
+        label=${args.label}
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
         .disabled=${args.disabled}
@@ -445,7 +468,13 @@ export const Link: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `
+<nys-button
+  id="button1"
+  name="button1"
+  label="Visit NY.gov"
+  href="https://www.ny.gov/"
+></nys-button>`,
         type: "auto",
       },
     },
@@ -530,7 +559,35 @@ export const Inverted: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `
+<nys-button
+  id="button1"
+  name="button1"
+  label="Filled"
+  inverted
+></nys-button>
+<nys-button
+  id="button2"
+  name="button2"
+  label="Outline" 
+  variant="outline"
+  inverted
+></nys-button>
+<nys-button
+  id="button3"
+  name="button3"
+  label="Ghost"
+  variant="ghost"
+  inverted
+></nys-button>
+<nys-button
+  id="button4"
+  name="button4"
+  label="Text"
+  variant="text"
+  inverted
+></nys-button>  
+`,
         type: "auto",
       },
     },
