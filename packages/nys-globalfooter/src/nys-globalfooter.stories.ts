@@ -34,14 +34,12 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-globalfooter .agencyName=${args.agencyName}>
-      <ul>
-        <li><a href="https://its.ny.gov">ITS Home</a></li>
-        <li><a href="https://its.ny.gov/about">About ITS</a></li>
-        <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
-        <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
-        <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
-        <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
-      </ul>
+      <a href="https://its.ny.gov">ITS Home</a>
+      <a href="https://its.ny.gov/about">About ITS</a>
+      <a href="https://its.ny.gov/contact">Contact ITS</a>
+      <a href="https://its.ny.gov/privacy">Privacy Policy</a>
+      <a href="https://its.ny.gov/accessibility">Accessibility</a>
+      <a href="https://its.ny.gov/terms">Terms of Use</a>
     </nys-globalfooter>
   `,
   parameters: {
@@ -49,14 +47,12 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-globalfooter agencyName="Office of Information Technology Services">
-  <ul>
-    <li><a href="https://its.ny.gov">ITS Home</a></li>
-    <li><a href="https://its.ny.gov/about">About ITS</a></li>
-    <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
-    <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
-    <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
-    <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
-  </ul>
+    <a href="https://its.ny.gov">ITS Home</a>
+    <a href="https://its.ny.gov/about">About ITS</a>
+    <a href="https://its.ny.gov/contact">Contact ITS</a>
+    <a href="https://its.ny.gov/privacy">Privacy Policy</a>
+    <a href="https://its.ny.gov/accessibility">Accessibility</a>
+    <a href="https://its.ny.gov/terms">Terms of Use</a>
 </nys-globalfooter>
         `,
         type: "auto",
