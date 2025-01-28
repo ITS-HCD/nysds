@@ -23,6 +23,8 @@ export class NysAlert extends LitElement {
   @property({ type: String }) secondaryLabel = "Dismiss";
 
   @state() private _alertClosed = false;
+  @state() private _slotHasContent = true;
+
   private static readonly VALID_TYPES = [
     "base",
     "info",
@@ -31,32 +33,32 @@ export class NysAlert extends LitElement {
     "danger",
     "emergency",
   ] as const;
-  private _theme: (typeof NysAlert.VALID_TYPES)[number] = "info";
+  private _type: (typeof NysAlert.VALID_TYPES)[number] = "info";
 
   @property({ reflect: true })
-  get theme() {
-    return this._theme;
+  get type() {
+    return this._type;
   }
 
-  set theme(value: string) {
-    this._theme = NysAlert.VALID_TYPES.includes(
+  set type(value: string) {
+    this._type = NysAlert.VALID_TYPES.includes(
       value as (typeof NysAlert.VALID_TYPES)[number],
     )
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
       : "base";
   }
 
-  // Aria attributes based on the theme
+  // Aria attributes based on the type
   get ariaAttributes() {
     const ariaRole =
-      this.theme === "danger" || this.theme === "emergency"
+      this.type === "danger" || this.type === "emergency"
         ? "alert"
-        : this.theme === "success"
+        : this.type === "success"
           ? "status"
           : "region"; // Default role
 
     // Set aria-label only for role="region"
-    const ariaLabel = ariaRole === "region" ? `${this.theme} alert` : "";
+    const ariaLabel = ariaRole === "region" ? `${this.type} alert` : "";
 
     return { role: ariaRole, ariaLabel };
   }
@@ -80,6 +82,7 @@ export class NysAlert extends LitElement {
       }, this.duration);
     }
   }
+
   disconnectedCallback() {
     if (this._timeoutId) {
       clearTimeout(this._timeoutId);
@@ -87,12 +90,16 @@ export class NysAlert extends LitElement {
     super.disconnectedCallback();
   }
 
+  firstUpdated() {
+    this._checkSlotContent();
+  }
+
   /******************** Functions ********************/
   private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }
 
-  // Helper function for overriding default icons or checking special naming cases (e.g. theme=success)
+  // Helper function for overriding default icons or checking special naming cases (e.g. type=success)
   private _getIconName() {
     if (this.icon) {
       return this.icon;
@@ -103,15 +110,15 @@ export class NysAlert extends LitElement {
 
   private _checkAltNaming() {
     // map 'success' to 'check_circle'
-    return this.theme === "success"
+    return this.type === "success"
       ? "check_circle"
-      : this.theme === "base"
+      : this.type === "base"
         ? "info"
-        : this.theme === "danger"
+        : this.type === "danger"
           ? "error"
-          : this.theme === "emergency"
+          : this.type === "emergency"
             ? "emergency_home"
-            : this.theme;
+            : this.type;
   }
 
   private _closeAlert() {
@@ -121,37 +128,41 @@ export class NysAlert extends LitElement {
      */
     this.dispatchEvent(
       new CustomEvent("nys-alertClosed", {
-        detail: { theme: this.theme, label: this.heading },
+        detail: { type: this.type, label: this.heading },
         bubbles: true,
         composed: true,
       }),
     );
   }
 
-  private hasSlotContent(): boolean {
-    const slot = this.shadowRoot?.querySelector('slot[name="text"]');
-    if (slot !== null) {
-      return (slot as HTMLSlotElement).assignedNodes().length > 0;
+  private _checkSlotContent() {
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    if (slot) {
+      // Check if slot has assigned nodes with content (elements or non-empty text nodes)
+      const assignedNodes = slot
+        .assignedNodes({ flatten: true })
+        .filter(
+          (node) =>
+            node.nodeType === Node.ELEMENT_NODE ||
+            (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()),
+        );
+      this._slotHasContent = assignedNodes.length > 0;
+    } else {
+      this._slotHasContent = false; // No slot found
     }
-    return false;
   }
 
   render() {
     const { role, ariaLabel } = this.ariaAttributes;
 
-    // Helper function to determine if the slot is empty
-    const isSlotEmpty =
-      typeof this.text === "string" &&
-      this.text.trim() === "" &&
-      !this.hasSlotContent();
-
     return html`
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container ${isSlotEmpty
-              ? "nys-alert--centered"
-              : ""}"
+            class="nys-alert__container ${this._slotHasContent ||
+            this.text?.trim().length > 0
+              ? ""
+              : "nys-alert--centered"}"
             role=${role}
             aria-label=${ifDefined(
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
@@ -161,12 +172,16 @@ export class NysAlert extends LitElement {
               <nys-icon
                 name="${this._getIconName()}"
                 size="2xl"
-                label="${this.theme} icon"
+                label="${this.type} icon"
               ></nys-icon>
             </div>
             <div class="nys-alert__texts">
               <h4 class="nys-alert__header">${this.heading}</h4>
-              ${!isSlotEmpty ? html`<slot name="text">${this.text}</slot>` : ""}
+              ${this._slotHasContent
+                ? html`<slot></slot>`
+                : this.text?.trim().length > 0
+                  ? html`<p class="nys-alert__text">${this.text}</p>`
+                  : ""}
               ${this.primaryAction || this.secondaryAction
                 ? html`<div class="nys-alert__actions">
                     ${this.primaryAction

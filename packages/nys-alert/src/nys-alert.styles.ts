@@ -28,11 +28,14 @@ export default css`
     );
     --_nys-alert-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-alert-lineheight: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-alert-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
-    --_nys-font-weight-regular: var(--nys-font-weight-regular, 400);
-    --_nys-font-weight-semibold: var(--nys-font-weight-semibold, 600);
+    --_nys-alert-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      var(--nys-font-letterspacing-400, 0.044px)
+    );
+    --_nys-alert-font-weight-regular: var(--nys-font-weight-regular, 400);
+    --_nys-alert-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 
-    /* Dissmiss button */
+    /* Dismiss button */
     --_nys-alert-close-button-size: var(--nys-font-size-2xl, 22px);
     --_nys-alert-hover-button-color: var(
       --nys-color-black-transparent-100,
@@ -53,7 +56,7 @@ export default css`
       var(--nys-color-neutral-600, #62666a)
     );
 
-    /* Background theme specifics */
+    /* Background type specifics */
     --_nys-alert-color-bg: var(
       --nys-color-neutral-weak,
       var(--nys-color-neutral-10, #f6f6f6)
@@ -90,7 +93,7 @@ export default css`
   a:active,
   a:hover,
   a:visited {
-    font-weight: var(--_nys-font-weight-semibold);
+    font-weight: var(--_nys-alert-font-weight-semibold);
     font-size: var(--_nys-alert-font-size);
     color: var(--_nys-alert-link-color);
   }
@@ -100,6 +103,7 @@ export default css`
     color: var(--_nys-alert-link-color);
   }
 
+  /* Handles both header and description text */
   .nys-alert__texts {
     position: relative;
     display: flex;
@@ -110,17 +114,17 @@ export default css`
 
   .nys-alert__header {
     margin: 0;
-    font-weight: var(--_nys-font-weight-semibold);
+    font-weight: var(--_nys-alert-font-weight-semibold);
   }
 
-  /* For descriptions made with "text" prop that populated in the slot */
-  slot[name="text"] {
-    font-weight: var(--_nys-font-weight-regular);
+  .nys-alert__text {
+    font-weight: var(--_nys-alert-font-weight-regular);
     margin: 0;
   }
+
   /* For HTML elements put into the slot */
   ::slotted(p) {
-    font-weight: var(--_nys-font-weight-regular);
+    font-weight: var(--_nys-alert-font-weight-regular);
     margin: 0;
   }
 
@@ -168,28 +172,59 @@ export default css`
   .nys-alert__actions {
     display: flex;
     gap: var(--_nys-alert-gap-space-150);
+    flex-wrap: wrap;
   }
 
   /* Alert Types */
-  :host([theme="info"]) {
-    --_nys-alert-color-border-left: var(--nys-color-info, #154973);
-    --_nys-alert-color-bg: var(--nys-color-info-weak, #154973);
+  :host([type="info"]) {
+    --_nys-alert-color-border-left: var(
+      --nys-color-info,
+      var(--nys-color-blue-600, #004dd1)
+    );
+    --_nys-alert-color-bg: var(
+      --nys-color-info-weak,
+      var(--nys-color-blue-50, #e5effa)
+    );
   }
-  :host([theme="success"]) {
-    --_nys-alert-color-border-left: var(--nys-color-success, #00a91c);
-    --_nys-alert-color-bg: var(--nys-color-success-weak, #00a91c);
+  :host([type="success"]) {
+    --_nys-alert-color-border-left: var(
+      --nys-color-success,
+      var(--nys-color-green-600, #1e752e)
+    );
+    --_nys-alert-color-bg: var(
+      --nys-color-success-weak,
+      var(--nys-color-green-50, #e8f1ea)
+    );
   }
-  :host([theme="warning"]) {
-    --_nys-alert-color-border-left: var(--nys-color-warning, #ffbe2e);
-    --_nys-alert-color-bg: var(--nys-color-warning-weak, #ffbe2e);
+  :host([type="warning"]) {
+    --_nys-alert-color-border-left: var(
+      --nys-color-warning,
+      var(--nys-color-yellow-400, #face00)
+    );
+    --_nys-alert-color-bg: var(
+      --nys-color-warning-weak,
+      var(--nys-color-yellow-50, #fefae5)
+    );
   }
-  :host([theme="danger"]) {
-    --_nys-alert-color-border-left: var(--nys-color-danger, #b52c2c);
-    --_nys-alert-color-bg: var(--nys-color-danger-weak, #b52c2c);
+  :host([type="danger"]) {
+    --_nys-alert-color-border-left: var(
+      --nys-color-danger,
+      var(--nys-color-red-600, #b52c2c)
+    );
+    --_nys-alert-color-bg: var(
+      --nys-color-danger-weak,
+      var(--nys-color-red-50, #f7eaea)
+    );
   }
-  :host([theme="emergency"]) {
-    --_nys-alert-color-border-left: var(--nys-color-emergency, #d54309);
-    --_nys-alert-color-bg: var(--nys-color-emergency, #d54309);
+  :host([type="emergency"]) {
+    --_nys-alert-color-border-left: var(
+      --nys-color-emergency,
+      var(--nys-color-red-800, #721c1c)
+    );
+    --_nys-alert-color-bg: var(
+      --nys-color-emergency,
+      var(--nys-color-red-800, #721c1c)
+    );
     --_nys-alert-color: #fff;
     --_nys-alert-hover-button-color: var(
       --nys-color-white-transparent-100,

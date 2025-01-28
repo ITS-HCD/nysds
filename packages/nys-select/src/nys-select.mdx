@@ -10,7 +10,7 @@ The **`nys-select`** is a reusable web component for use in New York State digit
 
 <p className="pill pill--stable">Stable</p>
 
-<p className="pill pill--uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-996&p=f&m=dev">View in Figma</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-996&p=f&m=dev">View in Figma</a></p>
 
 ***
 
@@ -46,16 +46,16 @@ Note: in order to display an error message, you must pass in `showError` to the 
 ### When to consider something else
 - When you need to collect multiple items from a list
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
       - Use the `nys-select` component when you need the user to select a single item from a list
       - Use the `nys-option` component to define the options in the dropdown 
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
       - Use the native `<option>` element in the `nys-select` component
       - Use `<nys-select multiple>` as an input for users to select multiple items from a dropdown. Consider a [checkbox group](?path=/docs/components-checkbox--docs) instead. More guidance from the <a className="usage-link" target="_blank" href="https://designsystem.digital.gov/components/select/#when-to-consider-something-else">US Web Design System</a>.

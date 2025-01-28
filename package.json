@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/components",
-  "version": "0.0.7-alpha",
+  "version": "0.0.8-alpha",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -14,6 +14,7 @@
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/packages/src/index.d.ts",
       "import": "./dist/excelsior.es.js",
       "require": "./dist/excelsior.js"
     }
@@ -23,7 +24,7 @@
     "build": "npm run lint && tsc --emitDeclarationOnly && vite build",
     "build:umd": "tsc --emitDeclarationOnly && vite build --config vite.config.umd.js",
     "build:packages": "npm run lint:packages && node src/scripts/build-order.js",
-    "build:all": "npm run build:packages && npm run build && npm run build:umd",
+    "build:all": "npm run clean:dist && npm run build:packages && npm run build && npm run build:umd",
     "build:watch": "tsc --emitDeclarationOnly && vite",
     "lint": "eslint src/",
     "lint:packages": "eslint packages/**/*.{ts,js}",

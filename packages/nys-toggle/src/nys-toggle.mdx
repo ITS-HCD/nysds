@@ -5,13 +5,13 @@ import * as NysToggleStories from "./nys-toggle.stories";
 <Meta of={NysToggleStories} title="Components/Toggle/Documentation" />
 
 # Toggle
-The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle an option on or off.
+The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle a toggle switch "on" or "off".
 
 If an id is not passed, a unique id will be generated.
 
 <p className="pill pill--stable">Stable</p>
 
-<p className="pill pill--uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1626-2591&p=f&t=QF8BQ6f9JDt9M72a-0">View in Figma</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1626-2591&p=f&t=QF8BQ6f9JDt9M72a-0">View in Figma</a></p>
 
 ***
 
@@ -54,16 +54,16 @@ To remove icons from the toggle switch, use the `NoIcons` boolean property.
   - Consider using `nys-checkbox` or `nys-radiobutton` to select one or more options from a list where the selections
   - Use `nys-checkbox` for forms, especially when you're not expecting immediate action.
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
       - Provide a clear label and optional description to explain the toggle's purpose.
       - Show the UI for toggle’s state is visually distinct for on/off positions.
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
       - Use toggles for complex multi-state options.
       - Overuse toggles for trivial settings that do not impact user experience significantly.

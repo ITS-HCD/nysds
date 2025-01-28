@@ -7,10 +7,12 @@ import * as NysCheckboxStories from './nys-checkbox.stories';
 # Checkbox
 
 The **`nys-checkbox`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
+- If an `id` is not passed, a unique `id` will be generated.
+- Optional: `nys-checkboxgroup` can be used to group multiple checkboxes so they function as a single form control.
 
 <p className="pill pill--stable">Stable</p>
 
-{/* <p className="pill pill--uikit"><a href="#">View in Figma</a></p> */}
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1626-2561&p=f&m=dev">View in Figma</a></p>
 
 ***
 
@@ -19,6 +21,7 @@ The **`nys-checkbox`** component is a reusable web component for use in New York
 <Controls />
 
 ### Variants
+⚠️ Important: While optional, you may find wrapping checkboxes with `nys-checkboxgroup` helpful for multiple selections with the same checkbox name. This ensures they function as a single form control. Some of the examples below will show this.
 
 #### Disabled
 <Canvas of={NysCheckboxStories.Disabled} />
@@ -48,16 +51,16 @@ When the description requires more complexity than a simple `string` value, use 
 ### When to consider something else
 - When users need to select only one option (consider a [radio button](?path=/docs/components-radiobutton--docs) instead).
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
       - Use checkboxes for binary decisions (agree/disagree).
       - Use checkboxes for multi-select lists (like selecting interests).
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
       - Use checkboxes when users should choose only one option.
     </div>
