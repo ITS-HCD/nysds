@@ -62,7 +62,6 @@ export default css`
         sans-serif
       )
     );
-    --foo-color: red;
   }
 
   .nys-globalfooter {

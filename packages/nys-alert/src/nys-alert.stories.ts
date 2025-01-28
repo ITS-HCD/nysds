@@ -92,11 +92,8 @@ export const AllAlerts: Story = {
       (type) =>
         html`<nys-alert
             .type=${type}
-            .heading=${type.charAt(0).toUpperCase() +
-            type.slice(1) +
-            " Status"}
-            .text="This is an example of ${type == "info" ||
-            type == "emergency"
+            .heading=${type.charAt(0).toUpperCase() + type.slice(1) + " Status"}
+            .text="This is an example of ${type == "info" || type == "emergency"
               ? `an ${type}`
               : `a ${type}`} alert."
             dismissible
