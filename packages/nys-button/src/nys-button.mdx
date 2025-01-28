@@ -10,10 +10,108 @@ The **`nys-button`** component is a reusable web component for use in New York S
 
 <p className="pill pill--stable">Stable</p>
 
-{/* <p className="pill pill--uikit"><a href="#">View in Figma</a></p> */}
+<p className="pill pill--uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=730-1677&p=f&m=dev">View in Figma</a></p>
 
 ***
 
 <Canvas of={NysButtonStories.Basic} />
 
 <Controls />
+
+### Options
+
+#### Size
+Set the `size` prop of the **`nys-button`** to adjust the height of the button. The width of the button is determined by the label. Our current sizes are:
+- `sm`: Set to 40px in height
+- `md`: The default size. Set to 48px in height.
+- `lg`: Set to 56px in height.
+<Canvas of={NysButtonStories.Size} />
+#### Variants
+Set the `variant` prop of the **`nys-button`** to adjust the appearance of the button. Our current variants are:
+- `filled`: The default variant. Use for primary actions.
+- `outline`: Use for secondary actions.
+- `ghost`: Use for uncommon actions.
+- `text`: Use for inline actions.
+<Canvas of={NysButtonStories.Variants} />
+#### Icons
+Set the `prefixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the left of the label.
+Set the `suffixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the right of the label.
+<Canvas of={NysButtonStories.Icons} />
+#### Disabled
+<Canvas of={NysButtonStories.Disabled} />
+#### Link
+Set the `href` prop of the **`nys-button`** when using the button to navigate to a different page. This will render the `<nys-button>` as an `<a>` tag.
+<Canvas of={NysButtonStories.Link} />
+#### Inverted
+Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the button. Use this prop when the button is on a dark background.
+<Canvas of={NysButtonStories.Inverted} />
+
+## Usage    
+
+### When to use this component
+- When users need to submit a form.
+- When users need to navigate to a different page.
+- When users need to trigger an action.
+
+### When to consider something else
+
+<div class="nys-grid-row nys-grid-gap-lg">
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+        - When users need to submit a form.
+        - When users need to navigate to a different page.
+        - When users need to trigger an action.
+    </div>
+  </div>
+  <div class="nys-mobile-lg:nys-grid-col">
+    <div class="usage-card usage-card--dont">
+      ### <nys-icon name="cancel" color="--var(nys-color-error)" /> Don't
+      - Use inverted buttons on a light background.
+      - Use buttons with icons only.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-button` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
+- Keyboard navigation support, allowing users to use the keyboard to click the button.
+- Visual focus indicators to help users navigate the component.
+
+## Events
+
+The `nys-button` component emits the following events:
+
+1. `click`: Emitted when the button is clicked.
+2. `focus`: Emitted when the button receives focus.
+3. `blur`: Emitted when the button loses focus.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the button component
+const button = document.querySelector('nys-button');
+
+// Listen for the 'click' event
+button.addEventListener('click', () => {
+  console.log('Button clicked');
+});
+
+// Listen for the 'focus' event
+button.addEventListener('focus', () => {
+  console.log('Button is focused');
+});
+
+// Listen for the 'blur' event
+button.addEventListener('blur', () => {
+  console.log('Button lost focus');
+});
+```
+
+## Dependencies
+This component automatically imports the following dependencies.
+
+- `<nys-icon>`

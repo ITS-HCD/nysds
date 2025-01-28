@@ -366,3 +366,173 @@ export const Disabled: Story = {
     },
   },
 };
+
+export const Link: Story = {
+  args: {
+    href: "https://www.ny.gov/",
+  },
+
+  render: (args) => html`
+    <div
+      style="display: flex; align-items:center; gap: var(--nys-space-200, 16px);"
+    >
+      <nys-button
+        .id=${args.id}
+        .name="${args.name}"
+        .size=${args.size}
+        .inverted=${args.inverted}
+        label="Filled"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+      <nys-button
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        variant="outline"
+        .inverted=${args.inverted}
+        label="Outline"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+      <nys-button
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        variant="ghost"
+        .inverted=${args.inverted}
+        label="Ghost"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+      <nys-button
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        variant="text"
+        .inverted=${args.inverted}
+        label="Text"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+    </div>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: ``,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  args: {
+    inverted: true,
+  },
+
+  render: (args) => html`
+    <div
+      style="display: flex; align-items:center; gap: var(--nys-space-200, 16px); background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-200, 16px);"
+    >
+      <nys-button
+        .id=${args.id}
+        .name="${args.name}"
+        .size=${args.size}
+        .inverted=${args.inverted}
+        label="Filled"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+      <nys-button
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        variant="outline"
+        .inverted=${args.inverted}
+        label="Outline"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+      <nys-button
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        variant="ghost"
+        .inverted=${args.inverted}
+        label="Ghost"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+      <nys-button
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        variant="text"
+        .inverted=${args.inverted}
+        label="Text"
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+        .disabled=${args.disabled}
+        .form=${args.form}
+        .value=${args.value}
+        .href=${args.href}
+        .type=${args.type}
+        .onClick=${action("on-click")}
+      ></nys-button>
+    </div>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: ``,
+        type: "auto",
+      },
+    },
+  },
+};

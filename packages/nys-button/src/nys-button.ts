@@ -66,6 +66,16 @@ export class NysButton extends LitElement {
 
   static styles = styles;
 
+  // Handle focus event
+  private _handleFocus() {
+    this.dispatchEvent(new Event("focus"));
+  }
+
+  // Handle blur event
+  private _handleBlur() {
+    this.dispatchEvent(new Event("blur"));
+  }
+
   render() {
     return html`
       ${this.href
@@ -81,6 +91,8 @@ export class NysButton extends LitElement {
                 href=${this.href}
                 target="_blank"
                 @click=${this.onClick}
+                @focus="${this._handleFocus}"
+                @blur="${this._handleBlur}"
               >
                 ${this.prefixIcon && this.variant !== "text"
                   ? html`<nys-icon
@@ -110,6 +122,8 @@ export class NysButton extends LitElement {
               value=${this.value}
               type=${this.type}
               @click=${this.onClick}
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
             >
               ${this.prefixIcon && this.variant !== "text"
                 ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
