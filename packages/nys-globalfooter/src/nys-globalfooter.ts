@@ -14,16 +14,14 @@ export class NyGlobalFooter extends LitElement {
 
   firstUpdated() {
     // Check for slot content after rendering
-    const slot =
-      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     slot?.addEventListener("slotchange", () => this._checkSlotContent());
     this._checkSlotContent(); // Initial check
   }
 
   /******************** Functions ********************/
   private _checkSlotContent() {
-    const slot =
-      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (slot) {
       const assignedNodes = (slot as HTMLSlotElement).assignedNodes({
         flatten: true,
@@ -40,7 +38,7 @@ export class NyGlobalFooter extends LitElement {
         <h1 class="nys-globalfooter__name">${this.agencyName}</h1>
         ${this.slotHasContent
           ? html`<div class="nys-globalfooter__content">
-              <slot name="text"></slot>
+              <slot></slot>
             </div>`
           : ""}
       </footer>
