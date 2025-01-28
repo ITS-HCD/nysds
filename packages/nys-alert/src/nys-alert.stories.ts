@@ -382,6 +382,7 @@ export const HeadingOnly: Story = {
 <nys-alert 
   theme="info"
   heading="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
+>
 </nys-alert>
 `.trim(),
         type: "auto",
