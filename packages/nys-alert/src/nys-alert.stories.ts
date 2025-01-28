@@ -4,7 +4,7 @@ import "./nys-alert";
 
 // Define the structure of the args used in the stories
 interface NysAlertArgs {
-  theme: string;
+  type: string;
   heading: string;
   text: string;
   duration?: number;
@@ -20,7 +20,7 @@ const meta: Meta<NysAlertArgs> = {
   title: "Components/Alert",
   component: "nys-alert",
   argTypes: {
-    theme: {
+    type: {
       control: "select",
       options: ["base", "info", "warning", "success", "danger", "emergency"],
     },
@@ -56,7 +56,7 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-alert
-      .theme=${args.theme}
+      .type=${args.type}
       .heading=${args.heading}
       .text=${args.text}
       .duration=${args.duration}
@@ -74,7 +74,7 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="info" 
+  type="info" 
   heading="Information status" 
   text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.">
 </nys-alert>
@@ -89,16 +89,16 @@ export const Basic: Story = {
 export const AllAlerts: Story = {
   render: () => html`
     ${["base", "info", "success", "warning", "danger", "emergency"].map(
-      (theme) =>
+      (type) =>
         html`<nys-alert
-            .theme=${theme}
-            .heading=${theme.charAt(0).toUpperCase() +
-            theme.slice(1) +
+            .type=${type}
+            .heading=${type.charAt(0).toUpperCase() +
+            type.slice(1) +
             " Status"}
-            .text="This is an example of ${theme == "info" ||
-            theme == "emergency"
-              ? `an ${theme}`
-              : `a ${theme}`} alert."
+            .text="This is an example of ${type == "info" ||
+            type == "emergency"
+              ? `an ${type}`
+              : `a ${type}`} alert."
             dismissible
             primaryLabel="{primaryAction}"
             secondaryLabel="{secondaryAction}"
@@ -112,12 +112,12 @@ export const AllAlerts: Story = {
     docs: {
       source: {
         code: `
-<nys-alert theme="base" heading="Default status" text="This is an example of an neutral base alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
-<nys-alert theme="info" heading="Info status" text="This is an example of an info alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
-<nys-alert theme="success" heading="Success status" text="This is an example of a success alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
-<nys-alert theme="warning" heading="Warning status" text="This is an example of a warning alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
-<nys-alert theme="danger" heading="Danger status" text="This is an example of a danger alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
-<nys-alert theme="emergency" heading="Emergency status" text="This is an example of an emergency alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert type="base" heading="Default status" text="This is an example of an neutral base alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert type="info" heading="Info status" text="This is an example of an info alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert type="success" heading="Success status" text="This is an example of a success alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert type="warning" heading="Warning status" text="This is an example of a warning alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert type="danger" heading="Danger status" text="This is an example of a danger alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
+<nys-alert type="emergency" heading="Emergency status" text="This is an example of an emergency alert." dismissible primaryLabel="{primaryAction}" secondaryLabel="{secondaryAction}" primaryAction="https://www.ny.gov/" secondaryAction="https://www.ny.gov/"></nys-alert>
 `.trim(),
         type: "auto",
       },
@@ -128,13 +128,13 @@ export const AllAlerts: Story = {
 // Story: AlertType
 export const AlertType: Story = {
   args: {
-    theme: "info",
+    type: "info",
     heading: "Information status",
     text: "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
   },
   render: (args) => html`
     <nys-alert
-      .theme=${args.theme}
+      .type=${args.type}
       .heading=${args.heading}
       .text=${args.text}
       .duration=${args.duration}
@@ -152,7 +152,7 @@ export const AlertType: Story = {
       source: {
         code: `
 <nys-alert 
- theme="info" 
+ type="info" 
  heading="Information status" 
  text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.">
 </nys-alert>
@@ -166,12 +166,12 @@ export const AlertType: Story = {
 // Story: Description
 export const Description: Story = {
   args: {
-    theme: "success",
+    type: "success",
     heading: "Custom Descriptions",
   },
   render: (args) => html`
     <nys-alert
-      .theme=${args.theme}
+      .type=${args.type}
       .heading=${args.heading}
       .text=${args.text}
       .duration=${args.duration}
@@ -182,9 +182,7 @@ export const Description: Story = {
       .primaryLabel=${args.primaryLabel}
       .secondaryLabel=${args.secondaryLabel}
     >
-      <p>
-        This is a custom alert with <strong>HTML content</strong>.
-      </p>
+      <p>This is a custom alert with <strong>HTML content</strong>.</p>
       <a href="https://www.ny.gov/" target="_blank">Learn more</a>
     </nys-alert>
   `,
@@ -192,7 +190,7 @@ export const Description: Story = {
     docs: {
       source: {
         code: `
-<nys-alert theme="success" heading="Custom Descriptions">
+<nys-alert type="success" heading="Custom Descriptions">
   <p>This is a custom alert with <strong>HTML content</strong>.</p>
   <a href="https://www.ny.gov/" target="_blank">Learn more</a>
 </nys-alert>
@@ -206,13 +204,13 @@ export const Description: Story = {
 // Story: Dismissible Alerts
 export const Dismissible: Story = {
   args: {
-    theme: "info",
+    type: "info",
     heading: "Information status",
     dismissible: true,
   },
   render: (args) => html`
     <nys-alert
-      .theme=${args.theme}
+      .type=${args.type}
       .heading=${args.heading}
       .text=${args.text}
       .duration=${args.duration}
@@ -237,7 +235,7 @@ export const Dismissible: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="info" 
+  type="info" 
   heading="Information status" 
   dismissible>
   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
@@ -252,7 +250,7 @@ export const Dismissible: Story = {
 // Story: Duration Alerts
 export const Duration: Story = {
   args: {
-    theme: "info",
+    type: "info",
     heading: "Information status",
     text: "This alert will disappear after 3 seconds.",
     duration: 3000,
@@ -264,7 +262,7 @@ export const Duration: Story = {
         // Clear previous instance if present
         container.innerHTML = "";
         const newAlert = document.createElement("nys-alert");
-        newAlert.setAttribute("theme", args.theme);
+        newAlert.setAttribute("type", args.type);
         newAlert.setAttribute("heading", args.heading);
         newAlert.setAttribute("text", args.text);
         newAlert.setAttribute("duration", String(args.duration));
@@ -301,7 +299,7 @@ export const Duration: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="info" 
+  type="info" 
   heading="Information status" 
   text="This alert will disappear after 3 seconds."
   duration="3000">
@@ -316,14 +314,14 @@ export const Duration: Story = {
 // Story: CustomIcon
 export const CustomIcon: Story = {
   args: {
-    theme: "emergency",
+    type: "emergency",
     heading: "Winter storm warning: Dec 10th, 2024.",
     text: "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.",
     icon: "ac_unit",
   },
   render: (args) => html`
     <nys-alert
-      .theme=${args.theme}
+      .type=${args.type}
       .heading=${args.heading}
       .text=${args.text}
       .duration=${args.duration}
@@ -341,7 +339,7 @@ export const CustomIcon: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="emergency" 
+  type="emergency" 
   heading="Winter storm warning: Dec 10th, 2024."
   text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving." 
   icon="help">
@@ -356,13 +354,13 @@ export const CustomIcon: Story = {
 // Story: HeadingOnly
 export const HeadingOnly: Story = {
   args: {
-    theme: "info",
+    type: "info",
     heading:
       "Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.",
   },
   render: (args) => html`
     <nys-alert
-      .theme=${args.theme}
+      .type=${args.type}
       .heading=${args.heading}
       .text=${args.text}
       .duration=${args.duration}
@@ -380,7 +378,7 @@ export const HeadingOnly: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="info"
+  type="info"
   heading="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
 >
 </nys-alert>
@@ -394,7 +392,7 @@ export const HeadingOnly: Story = {
 // Story: ActionLinks
 export const ActionLinks: Story = {
   args: {
-    theme: "emergency",
+    type: "emergency",
     heading: "Winter storm warning: Dec 10th, 2024.",
     text: "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.",
     primaryAction: "https://www.ny.gov/",
@@ -404,7 +402,7 @@ export const ActionLinks: Story = {
   },
   render: (args) => html`
     <nys-alert
-      .theme=${args.theme}
+      .type=${args.type}
       .heading=${args.heading}
       .text=${args.text}
       .duration=${args.duration}
@@ -422,7 +420,7 @@ export const ActionLinks: Story = {
       source: {
         code: `
 <nys-alert 
-  theme="emergency" 
+  type="emergency" 
   heading="Winter storm warning: Dec 10th, 2024."
   text= "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
   primaryAction="https://www.ny.gov/"

@@ -105,7 +105,7 @@ export default css`
   a {
     text-decoration: none;
   }
-  
+
   ::slotted(a) {
     color: var(--_nys-globalfooter-color);
     text-decoration: none;

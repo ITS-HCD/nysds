@@ -8,6 +8,10 @@ export default css`
     --_nys-avatar-size: var(--nys-font-size-6xl, 36px);
   }
 
+  .nys-avatar {
+    display: inline-block;
+  }
+
   .nys-component__component {
     display: flex;
     justify-content: center;
