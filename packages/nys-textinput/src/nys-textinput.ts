@@ -98,6 +98,11 @@ export class NysTextinput extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
+  // Handle change event
+  private _handleChange() {
+    this.dispatchEvent(new Event("change"));
+  }
+
   render() {
     return html`
       <div class="nys-textinput">
@@ -138,6 +143,7 @@ export class NysTextinput extends LitElement {
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
+          @change="${this._handleChange}"
         />
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textinput__error">
