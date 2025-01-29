@@ -86,6 +86,10 @@ export class NysTextarea extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
+  private _handleChange() {
+    this.dispatchEvent(new Event("change"));
+  }
+
   private _handleSelect() {
     this.dispatchEvent(new Event("select"));
   }
@@ -128,6 +132,7 @@ export class NysTextarea extends LitElement {
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
+          @change="${this._handleChange}"
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
         ></textarea>
