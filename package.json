@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/components",
-  "version": "0.0.8-alpha",
+  "version": "0.0.9-alpha",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -83,7 +83,7 @@
     "storybook": "^8.4.7",
     "tslib": "^2.7.0",
     "typescript": "^5.7.2",
-    "vite": "^6.0.3"
+    "vite": "^6.0.11"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
