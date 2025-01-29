@@ -15,20 +15,51 @@ export class NyGlobalFooter extends LitElement {
   firstUpdated() {
     // Check for slot content after rendering
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
-    slot?.addEventListener("slotchange", () => this._checkSlotContent());
-    this._checkSlotContent(); // Initial check
+    slot?.addEventListener("slotchange", () => this._handleSlotChange());
+    this._handleSlotChange(); // Initial check
   }
 
-  /******************** Functions ********************/
-  private _checkSlotContent() {
+  private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
-    if (slot) {
-      const assignedNodes = (slot as HTMLSlotElement).assignedNodes({
-        flatten: true,
+    const assignedNodes = slot
+      ?.assignedNodes({ flatten: true })
+      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
+
+    // Update slotHasContent based on assigned elements
+    this.slotHasContent = assignedNodes.length > 0;
+
+    // Determine layout based on content structure
+    const container = this.shadowRoot?.querySelector(
+      ".nys-globalfooter__content",
+    );
+    const hasMultipleGroups = assignedNodes?.some(
+      (node) => node.tagName === "H4",
+    );
+
+    // Toggle layout classes
+    if (container) {
+      container.classList.toggle("columns", hasMultipleGroups);
+      container.classList.toggle("small", !hasMultipleGroups);
+
+      // Clear existing children in the container
+      container.innerHTML = "";
+
+      // Clone and append slotted elements into the shadow DOM container
+      assignedNodes.forEach((node) => {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const cleanNode = node.cloneNode(true);
+
+          // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
+          const dangerousTags = ["script", "iframe", "object", "embed"];
+          dangerousTags.forEach((tag) => {
+            (cleanNode as Element)
+              .querySelectorAll(tag)
+              .forEach((element) => element.remove());
+          });
+          container.appendChild(cleanNode);
+          node.remove(); // Remove from light DOM to avoid duplication
+        }
       });
-      this.slotHasContent = assignedNodes.length > 0; // Update state based on slot content
-    } else {
-      this.slotHasContent = false; // If no slot found, assume no content
     }
   }
 
@@ -38,7 +69,10 @@ export class NyGlobalFooter extends LitElement {
         <h1 class="nys-globalfooter__name">${this.agencyName}</h1>
         ${this.slotHasContent
           ? html`<div class="nys-globalfooter__content">
-              <slot></slot>
+              <slot
+                style="display: hidden"
+                @slotchange="${this._handleSlotChange}"
+              ></slot>
             </div>`
           : ""}
       </footer>
