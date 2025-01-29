@@ -59,6 +59,13 @@ export class NysTextarea extends LitElement {
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    this.dispatchEvent(
+      new CustomEvent("input", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
     const checkValidity = input.checkValidity();
     this.dispatchEvent(
       new CustomEvent("nys-checkValidity", {
@@ -77,6 +84,18 @@ export class NysTextarea extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
+  }
+
+  private _handleChange() {
+    this.dispatchEvent(new Event("change"));
+  }
+
+  private _handleSelect() {
+    this.dispatchEvent(new Event("select"));
+  }
+
+  private _handleSelectionChange() {
+    this.dispatchEvent(new Event("selectionchange"));
   }
 
   render() {
@@ -113,6 +132,9 @@ export class NysTextarea extends LitElement {
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
+          @change="${this._handleChange}"
+          @select="${this._handleSelect}"
+          @selectionchange="${this._handleSelectionChange}"
         ></textarea>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textarea__error">
