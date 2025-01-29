@@ -8,8 +8,9 @@ const banner = `
    * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
    * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
    * 
-   * TextArea Component v0.0.9-alpha
+   * Global Footer Component v0.0.9-alpha
    * Part of New York State's Excelsior Design System
+   * (c) ${new Date().getFullYear()} New York State Design System Team
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/excelsior
    * License: MIT
@@ -20,7 +21,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     lib: {
       entry: ["src/index.ts"], // Simplified entry point
-      fileName: "nys-textarea", // Output file name
+      fileName: "nys-globalfooter", // Output file name
       formats: ["es"], // ES build only
     },
     emptyOutDir: false,

@@ -92,7 +92,9 @@
   --nys-font-size-display-xl: var(--nys-font-size-9xl);
   
   /* Agency */
-  --nys-font-size-agency: var(--nys-font-size-xl);
+  --nys-font-size-agency-xl: var(--nys-font-size-2xl);
+  --nys-font-size-agency-lg: var(--nys-font-size-lg);
+  --nys-font-size-agency-md: var(--nys-font-size-md);
   
   /* --- Line Height (by role) --- */
   
@@ -213,6 +215,13 @@
   --nys-form-width-sm: 88px;
   --nys-form-width-md: 200px;
   --nys-form-width-lg: 384px;
+
+  /* Gutter Sizes --- */
+  --nys-gutter-xs: 20px; 
+  --nys-gutter-sm: 20px; 
+  --nys-gutter-md: 32px; 
+  --nys-gutter-lg: 32px;
+  --nys-gutter-xl: 64px; 
   
   /* ===================== BORDER RADIUS TOKENS ======================= */
   

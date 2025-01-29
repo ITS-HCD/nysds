@@ -71,6 +71,32 @@ export class NysSelect extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
+  // Handle change event to bubble up selected value
+  private _handleChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  // Handle input changes by update the value as input changes
+  private _handleInput(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("input", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   // Check if the current value matches any option, and if so, set it as selected
   updated(changedProperties: Map<string, unknown>): void {
     super.updated(changedProperties);
@@ -114,6 +140,8 @@ export class NysSelect extends LitElement {
             value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
+            @change="${this._handleChange}"
+            @input="${this._handleInput}"
           >
             <option hidden disabled selected value></option>
           </select>

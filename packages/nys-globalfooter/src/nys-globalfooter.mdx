@@ -1,0 +1,81 @@
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysGlobalFooterStories from './nys-globalfooter.stories';
+
+<Meta of={NysGlobalFooterStories} title="Components/GlobalFooter/Documentation" />
+
+# Global Footer
+
+The **`nys-globalfooter`** component is a reusable web component for use in New York State digital products. It helps provide users with essential information, secondary navigation, legal links, and contact details across all pages.
+
+<p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=958-1045&p=f&m=dev">View in Figma</a></p>
+
+***
+
+<Canvas of={NysGlobalFooterStories.Basic} />
+
+<Controls />
+
+## Variants
+## Without Links
+<Canvas of={NysGlobalFooterStories.WithoutLinks} />
+
+## With Links
+To add menu links, place an unordered list (`<ul>`) inside the `nys-globalfooter` slot. \
+The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
+<Canvas of={NysGlobalFooterStories.WithLinks} />
+
+## Usage 
+
+### When to use this component
+  - Use `nys-globalfooter` to provide consistent access to essential links like contact details, privacy policies, and terms of use across all pages.
+  - Ideal for displaying organizational information and secondary navigation.
+
+### When to consider something else
+  - Don’t use the global footer for primary navigation or highly interactive features.
+  - Avoid adding content that is not relevant or essential for all pages.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Include essential links and information users need site-wide.
+      - Keep the design consistent and unobtrusive.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Overcrowd the footer with unnecessary links.
+      - Use it for critical alerts or primary navigation.
+    </div>
+  </div>
+</div>
+
+
+## Accessibility
+
+The `nys-globalfooter` component includes the following accessibility-focused features:
+
+- Proper use of `<footer>` and `<a>` elements ensures compatibility with assistive technologies.
+- Keyboard navigation: Users can tab through all links in the footer.
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`text`</td>
+        <td>Allows insertion of custom HTML a href links into the component.</td>
+        <td>""</td>
+    </tr>
+    </tbody>
+</table>
