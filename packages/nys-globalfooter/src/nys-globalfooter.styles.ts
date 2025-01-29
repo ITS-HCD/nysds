@@ -25,7 +25,7 @@ export default css`
     --_nys-globalfooter-lineheight: normal;
     --_nys-globalfooter-letterspacing: var(
       --nys-font-letterspacing-h2,
-      var(--nys-font-letterspacing-100, 0.013px;)
+      var(--nys-font-letterspacing-100, 0.013px)
     );
     --_nys-globalfooter-font-weight-semibold: var(
       --nys-font-weight-semibold,
@@ -76,6 +76,7 @@ export default css`
     box-sizing: border-box;
   }
 
+  /* The Agency Name */
   .nys-globalfooter__name {
     margin: 0;
     color: var(--_nys-globalfooter-color);
@@ -85,27 +86,21 @@ export default css`
     font-weight: var(--_nys-globalfooter-font-weight-semibold);
     line-height: var(--_nys-globalfooter-lineheight);
     letter-spacing: var(--_nys-globalfooter-letterspacing);
-    text-wrap: wrap;
   }
 
-  /* Slotted content (menu links) */
-  ::slotted(ul) {
+  /* Slotted content (menu links) basic resets */
+  ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
 
-  ::slotted(ul) li {
+  li {
     margin: 0;
     padding: 0;
-    text-transform: uppercase;
   }
 
   a {
-    text-decoration: none;
-  }
-
-  ::slotted(a) {
     color: var(--_nys-globalfooter-color);
     text-decoration: none;
     font-family: var(--_nys-globalfooter-font-family);
@@ -116,21 +111,22 @@ export default css`
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
   }
 
+  /* Specific layout for menu links (grouped or singular list of menus) */
   .nys-globalfooter__content {
-    display: flex;
-    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .nys-globalfooter__content ul {
+    display: grid;
     gap: var(--_nys-globalfooter-link-gap-spacing-row)
       var(--_nys-globalfooter-link-gap-spacing-column);
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
     grid-template-columns: repeat(1, 1fr); /* One columns */
   }
 
   /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
-    .nys-globalfooter__content {
+    .nys-globalfooter__content ul {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }
     :host {
@@ -140,14 +136,14 @@ export default css`
 
   @media (min-width: 1024px) {
     /* Large Desktop (LG - Above 1024px) */
-    .nys-globalfooter__content {
+    .nys-globalfooter__content ul {
       gap: var(--_nys-globalfooter-link-gap-spacing-column);
     }
   }
 
   @media (min-width: 1280px) {
     /* Large Desktop (XL - Above 1280px) */
-    .nys-globalfooter__content {
+    .nys-globalfooter__content ul {
       display: flex;
       flex-wrap: wrap;
     }

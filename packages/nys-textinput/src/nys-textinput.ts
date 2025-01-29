@@ -71,6 +71,13 @@ export class NysTextinput extends LitElement {
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    this.dispatchEvent(
+      new CustomEvent("input", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
     const checkValidity = input.checkValidity();
     this.dispatchEvent(
       new CustomEvent("nys-checkValidity", {
@@ -89,6 +96,11 @@ export class NysTextinput extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
+  }
+
+  // Handle change event
+  private _handleChange() {
+    this.dispatchEvent(new Event("change"));
   }
 
   render() {
@@ -131,6 +143,7 @@ export class NysTextinput extends LitElement {
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
+          @change="${this._handleChange}"
         />
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textinput__error">

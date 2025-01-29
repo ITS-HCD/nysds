@@ -34,12 +34,14 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-globalfooter .agencyName=${args.agencyName}>
-      <a href="https://its.ny.gov">ITS Home</a>
-      <a href="https://its.ny.gov/about">About ITS</a>
-      <a href="https://its.ny.gov/contact">Contact ITS</a>
-      <a href="https://its.ny.gov/privacy">Privacy Policy</a>
-      <a href="https://its.ny.gov/accessibility">Accessibility</a>
-      <a href="https://its.ny.gov/terms">Terms of Use</a>
+      <ul>
+        <li><a href="https://its.ny.gov">ITS Home</a></li>
+        <li><a href="https://its.ny.gov/about">About ITS</a></li>
+        <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
+        <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
+        <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+        <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
+      </ul>
     </nys-globalfooter>
   `,
   parameters: {
@@ -47,12 +49,14 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-globalfooter agencyName="Office of Information Technology Services">
-    <a href="https://its.ny.gov">ITS Home</a>
-    <a href="https://its.ny.gov/about">About ITS</a>
-    <a href="https://its.ny.gov/contact">Contact ITS</a>
-    <a href="https://its.ny.gov/privacy">Privacy Policy</a>
-    <a href="https://its.ny.gov/accessibility">Accessibility</a>
-    <a href="https://its.ny.gov/terms">Terms of Use</a>
+ <ul>
+    <li><a href="https://its.ny.gov">ITS Home</a></li>
+    <li><a href="https://its.ny.gov/about">About ITS</a></li>
+    <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
+    <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
+    <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+    <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
+  </ul>
 </nys-globalfooter>
         `,
         type: "auto",
@@ -89,12 +93,14 @@ export const WithLinks: Story = {
   },
   render: (args) => html`
     <nys-globalfooter .agencyName=${args.agencyName}>
-      <a href="https://its.ny.gov">ITS Home</a>
-      <a href="https://its.ny.gov/about">About ITS</a>
-      <a href="https://its.ny.gov/contact">Contact ITS</a>
-      <a href="https://its.ny.gov/privacy">Privacy Policy</a>
-      <a href="https://its.ny.gov/accessibility">Accessibility</a>
-      <a href="https://its.ny.gov/terms">Terms of Use</a>
+      <ul>
+        <li><a href="https://its.ny.gov">ITS Home</a></li>
+        <li><a href="https://its.ny.gov/about">About ITS</a></li>
+        <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
+        <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
+        <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+        <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
+      </ul>
     </nys-globalfooter>
   `,
   parameters: {
@@ -102,12 +108,14 @@ export const WithLinks: Story = {
       source: {
         code: `
 <nys-globalfooter agencyName="Office of Information Technology Services">
-	<a href="https://its.ny.gov">ITS Home</a>
-	<a href="https://its.ny.gov/about">About ITS</a>
-	<a href="https://its.ny.gov/contact">Contact ITS</a>
-	<a href="https://its.ny.gov/privacy">Privacy Policy</a>
-	<a href="https://its.ny.gov/accessibility">Accessibility</a>
-	<a href="https://its.ny.gov/terms">Terms of Use</a>
+  <ul>
+    <li><a href="https://its.ny.gov">ITS Home</a></li>
+    <li><a href="https://its.ny.gov/about">About ITS</a></li>
+    <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
+    <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
+    <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+    <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
+  </ul>
 </nys-globalfooter>
 `.trim(),
         type: "auto",

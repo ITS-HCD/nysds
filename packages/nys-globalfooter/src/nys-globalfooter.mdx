@@ -23,7 +23,8 @@ The **`nys-globalfooter`** component is a reusable web component for use in New 
 <Canvas of={NysGlobalFooterStories.WithoutLinks} />
 
 ## With Links
-To include links, use the slot="text" attribute to define each link within the `nys-globalfooter`.
+To add menu links, place an unordered list (`<ul>`) inside the `nys-globalfooter` slot. \
+The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
 <Canvas of={NysGlobalFooterStories.WithLinks} />
 
 ## Usage 
