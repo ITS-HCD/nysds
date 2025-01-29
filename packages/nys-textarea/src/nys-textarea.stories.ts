@@ -128,7 +128,7 @@ export const Width: Story = {
 };
 
 export const Rows: Story = {
-  args: { label: "This textarea renders with 4 rows", value: "", rows: "4" },
+  args: { label: "This textarea renders with 6 rows", value: "", rows: "6" },
   render: (args) => html`
     <nys-textarea
       .id=${args.id}
@@ -152,7 +152,7 @@ export const Rows: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-textarea label="This textarea renders with 4 rows" rows="4"></nys-textarea>`,
+        code: `<nys-textarea label="This textarea renders with 6 rows" rows="6"></nys-textarea>`,
         type: "auto",
       },
     },

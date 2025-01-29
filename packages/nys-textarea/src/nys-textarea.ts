@@ -28,7 +28,7 @@ export class NysTextarea extends LitElement {
         : "full";
     }
   }
-  @property({ type: Number }) rows = null;
+  @property({ type: Number }) rows = 4;
   private static readonly VALID_RESIZE = ["vertical", "none"] as const;
 
   // Use `typeof` to dynamically infer the allowed types
