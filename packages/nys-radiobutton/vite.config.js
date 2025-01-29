@@ -8,7 +8,7 @@ const banner = `
    * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
    * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
    * 
-   * Radiobutton Component v0.0.7-alpha
+   * Radiobutton Component v0.0.9-alpha
    * Part of New York State's Excelsior Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/excelsior
