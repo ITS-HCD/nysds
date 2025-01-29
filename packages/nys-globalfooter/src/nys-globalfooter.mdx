@@ -25,6 +25,8 @@ The **`nys-globalfooter`** component is a reusable web component for use in New 
 ## With Links
 To add menu links, place an unordered list (`<ul>`) inside the `nys-globalfooter` slot. \
 The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
+
+ℹ️ Minimize the number of links to keep users focused and avoid distractions
 <Canvas of={NysGlobalFooterStories.WithLinks} />
 
 ## Usage 
@@ -43,6 +45,7 @@ The (`<ul>`) will act as grouping for each list item (`<li>`), which should cont
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
       - Include essential links and information users need site-wide.
       - Keep the design consistent and unobtrusive.
+      - Minimize the number of links.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
