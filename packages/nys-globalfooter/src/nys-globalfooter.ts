@@ -47,7 +47,16 @@ export class NyGlobalFooter extends LitElement {
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          container.appendChild(node.cloneNode(true));
+          const cleanNode = node.cloneNode(true);
+
+          // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
+          const dangerousTags = ["script", "iframe", "object", "embed"];
+          dangerousTags.forEach((tag) => {
+            (cleanNode as Element)
+              .querySelectorAll(tag)
+              .forEach((element) => element.remove());
+          });
+          container.appendChild(cleanNode);
           node.remove(); // Remove from light DOM to avoid duplication
         }
       });
