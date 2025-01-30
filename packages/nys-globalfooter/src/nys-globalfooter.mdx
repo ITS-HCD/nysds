@@ -1,6 +1,7 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysGlobalFooterStories from './nys-globalfooter.stories';
+import "@nys-excelsior/nys-icon";
 
 <Meta of={NysGlobalFooterStories} title="Components/GlobalFooter/Documentation" />
 
@@ -26,7 +27,7 @@ The **`nys-globalfooter`** component is a reusable web component for use in New 
 To add menu links, place an unordered list (`<ul>`) inside the `nys-globalfooter` slot. \
 The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
 
-ℹ️ Minimize the number of links to keep users focused and avoid distractions
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon name="info"></nys-icon> Minimize the number of links to keep users focused and avoid distractions </div>
 <Canvas of={NysGlobalFooterStories.WithLinks} />
 
 ## Usage 
