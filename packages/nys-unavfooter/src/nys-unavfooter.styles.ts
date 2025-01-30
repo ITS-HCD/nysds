@@ -33,10 +33,7 @@ export default css`
     /* Links */
     --_nys-unavfooter-link-gap-spacing-row: var(--nys-space-250, 20px);
     --_nys-unavfooter-link-gap-spacing-column: var(--nys-space-600, 48px);
-    --_nys-unavfooter-link-lineheight: var(
-      --nys-font-lineheight-ui-md,
-      24px
-    );
+    --_nys-unavfooter-link-lineheight: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-unavfooter-link-letterspacing: var(
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
@@ -101,7 +98,7 @@ export default css`
 
   /* Top level container for the footer (NYS Logo and Menu links) */
   .nys-unavfooter__container_menu {
-    display: flex; 
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -129,8 +126,11 @@ export default css`
   /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
-    .nys-unavfooter__container_menu { 
+    .nys-unavfooter__container_menu {
       flex-direction: row;
+    }
+    .nys-unavfooter__content ul {
+      justify-content: flex-start;
     }
     :host {
       --_nys-unavfooter-gutter: var(--nys-gutter-lg, 32px);

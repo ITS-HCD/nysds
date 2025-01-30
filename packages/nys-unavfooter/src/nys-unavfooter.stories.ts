@@ -21,16 +21,12 @@ type Story = StoryObj;
 
 // Story: Basic
 export const Basic: Story = {
-  render: () => html`
-    <nys-unavfooter>
-    </nys-unavfooter>
-  `,
+  render: () => html` <nys-unavfooter></nys-unavfooter> `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-unavfooter>
-</nys-unavfooter>
+<nys-unavfooter></nys-unavfooter>
         `,
         type: "auto",
       },
