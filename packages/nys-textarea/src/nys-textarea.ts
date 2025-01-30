@@ -19,15 +19,6 @@ export class NysTextarea extends LitElement {
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
-
-  // Ensure the "width" property is valid after updates
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has("width")) {
-      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
-        ? this.width
-        : "full";
-    }
-  }
   @property({ type: Number }) rows = 4;
   private static readonly VALID_RESIZE = ["vertical", "none"] as const;
 
@@ -50,8 +41,15 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
-  constructor() {
-    super();
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("width")) {
+      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
+        ? this.width
+        : "full";
+    }
+    if (changedProperties.has("rows")) {
+      this.rows = this.rows ?? 4;
+    }
   }
 
   static styles = styles;
@@ -127,7 +125,7 @@ export class NysTextarea extends LitElement {
           .value=${this.value}
           placeholder=${this.placeholder}
           maxlength=${this.maxlength}
-          rows=${this.rows}
+          .rows=${this.rows}
           form=${this.form}
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
