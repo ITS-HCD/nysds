@@ -38,7 +38,7 @@ export default css`
 
     /* Links */
     --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-400, 32px);
-    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-600, 48px);
+    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-400, 32px);
     --_nys-globalfooter-lineheight-links: var(
       --nys-font-lineheight-ui-md,
       24px
@@ -112,36 +112,23 @@ export default css`
   }
 
   .nys-globalfooter__content ul {
-    display: grid;
+    display: flex;
     gap: var(--_nys-globalfooter-link-gap-spacing-row)
       var(--_nys-globalfooter-link-gap-spacing-column);
-    grid-template-columns: repeat(1, 1fr); /* One columns */
+    flex-wrap: wrap;
   }
 
   /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
-    .nys-globalfooter__content ul {
-      grid-template-columns: repeat(2, 1fr); /* Two columns */
-    }
     :host {
       --_nys-globalfooter-gutter: var(--nys-gutter-lg, 32px);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    /* Large Desktop (LG - Above 1024px) */
-    .nys-globalfooter__content ul {
-      gap: var(--_nys-globalfooter-link-gap-spacing-column);
+      --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-600, 48px);
     }
   }
 
   @media (min-width: 1280px) {
     /* Large Desktop (XL - Above 1280px) */
-    .nys-globalfooter__content ul {
-      display: flex;
-      flex-wrap: wrap;
-    }
     :host {
       --_nys-globalfooter-gutter: var(--nys-gutter-xl, 64px);
     }
