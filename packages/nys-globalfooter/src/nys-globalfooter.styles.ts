@@ -23,10 +23,6 @@ export default css`
       var(--nys-font-size-md, 16px)
     );
     --_nys-globalfooter-lineheight: normal;
-    --_nys-globalfooter-letterspacing: var(
-      --nys-font-letterspacing-h2,
-      var(--nys-font-letterspacing-100, 0.013px)
-    );
     --_nys-globalfooter-font-weight-semibold: var(
       --nys-font-weight-semibold,
       600
@@ -47,7 +43,7 @@ export default css`
       --nys-font-lineheight-ui-md,
       24px
     );
-    --_nys-globalfooter-letterspacing: var(
+    --_nys-globalfooter-link-letterspacing: var(
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
     );
@@ -85,7 +81,6 @@ export default css`
     font-style: normal;
     font-weight: var(--_nys-globalfooter-font-weight-semibold);
     line-height: var(--_nys-globalfooter-lineheight);
-    letter-spacing: var(--_nys-globalfooter-letterspacing);
   }
 
   /* Slotted content (menu links) basic resets */
@@ -108,7 +103,7 @@ export default css`
     font-style: normal;
     font-weight: var(--_nys-globalfooter-font-weight-semibold);
     line-height: var(--_nys-globalfooter-lineheight-links);
-    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
+    letter-spacing: var(--_nys-globalfooter-link-letterspacing);
   }
 
   /* Specific layout for menu links (grouped or singular list of menus) */

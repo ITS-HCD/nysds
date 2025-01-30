@@ -6,11 +6,11 @@ import * as NysUnavFooterStories from './nys-unavfooter.stories';
 
 # Global Footer
 
-The **`nys-unavfooter`** component is a reusable web component for use in New York State digital products. It helps provide users with essential information, secondary navigation, legal links, and contact details across all pages.
+The **`nys-unavfooter`** component is a reusable web component for use in New York State digital products. It helps provide users with providing users with access to essential links across all pages.
 
 <p className="pill pill--stable">Stable</p>
 
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=958-1045&p=f&m=dev">View in Figma</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=6403-16757&t=23BYpyjDrYBPHHpW-0">View in Figma</a></p>
 
 ***
 
@@ -19,37 +19,29 @@ The **`nys-unavfooter`** component is a reusable web component for use in New Yo
 <Controls />
 
 ## Variants
-## Without Links
-<Canvas of={NysUnavFooterStories.WithoutLinks} />
-
-## With Links
-To add menu links, place an unordered list (`<ul>`) inside the `nys-unavfooter` slot. \
-The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
-<Canvas of={NysUnavFooterStories.WithLinks} />
+The Universal Navigation Footer remains consistent across all sites
+<Canvas of={NysUnavFooterStories.Basic} />
 
 ## Usage 
 
 ### When to use this component
-  - Use `nys-unavfooter` to provide consistent access to essential links like contact details, privacy policies, and terms of use across all pages.
-  - Ideal for displaying organizational information and secondary navigation.
+  - Use `nys-unavfooter` to provide consistent access to essential links across all sites.
 
 ### When to consider something else
-  - Don’t use the unav footer for primary navigation or highly interactive features.
-  - Avoid adding content that is not relevant or essential for all pages.
+  - Do not place the nys-unavfooter anywhere other than the bottom of the page as the final footer.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
-      - Include essential links and information users need site-wide.
-      - Keep the design consistent and unobtrusive.
+      - Use `nys-unavfooter` to provide consistent access to essential links across all sites.  
+      - Place it only at the bottom of the page as the final footer. 
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
-      - Overcrowd the footer with unnecessary links.
-      - Use it for critical alerts or primary navigation.
+      - Place it anywhere other than the bottom of the page.  
     </div>
   </div>
 </div>
@@ -61,21 +53,3 @@ The `nys-unavfooter` component includes the following accessibility-focused feat
 
 - Proper use of `<footer>` and `<a>` elements ensures compatibility with assistive technologies.
 - Keyboard navigation: Users can tab through all links in the footer.
-
-## Slots
-<table>
-    <thead>
-    <tr>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`text`</td>
-        <td>Allows insertion of custom HTML a href links into the component.</td>
-        <td>""</td>
-    </tr>
-    </tbody>
-</table>
