@@ -1,0 +1,53 @@
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysUnavFooterStories from './nys-unavfooter.stories';
+import "@nys-excelsior/nys-icon";
+
+<Meta of={NysUnavFooterStories} title="Components/GlobalFooter/Documentation" />
+
+# Universal Footer
+
+The **`nys-unavfooter`** component is a reusable web component for use in New York State digital products. It helps provide users with providing users with access to essential links across all pages.
+
+<p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=6403-16757&t=23BYpyjDrYBPHHpW-0">View in Figma</a></p>
+
+***
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The Universal Navigation Footer remains consistent across all sites </div>
+<Canvas of={NysUnavFooterStories.Basic} />
+
+<Controls />
+
+## Usage 
+
+### When to use this component
+  - Use `nys-unavfooter` to provide consistent access to essential links across all sites.
+
+### When to consider something else
+  - Do not place the nys-unavfooter anywhere other than the bottom of the page as the final footer.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Use `nys-unavfooter` to provide consistent access to essential links across all sites.  
+      - Place it only at the bottom of the page as the final footer. 
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Place it anywhere other than the bottom of the page.  
+    </div>
+  </div>
+</div>
+
+
+## Accessibility
+
+The `nys-unavfooter` component includes the following accessibility-focused features:
+
+- Proper use of `<footer>` and `<a>` elements ensures compatibility with assistive technologies.
+- Keyboard navigation: Users can tab through all links in the footer.
