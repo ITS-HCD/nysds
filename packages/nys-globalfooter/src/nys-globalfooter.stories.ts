@@ -37,10 +37,6 @@ export const Basic: Story = {
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
         <li><a href="https://its.ny.gov/about">About ITS</a></li>
-        <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
-        <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
-        <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
-        <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
       </ul>
     </nys-globalfooter>
   `,
@@ -52,10 +48,6 @@ export const Basic: Story = {
  <ul>
     <li><a href="https://its.ny.gov">ITS Home</a></li>
     <li><a href="https://its.ny.gov/about">About ITS</a></li>
-    <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
-    <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
-    <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
-    <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
   </ul>
 </nys-globalfooter>
         `,
@@ -96,10 +88,6 @@ export const WithLinks: Story = {
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
         <li><a href="https://its.ny.gov/about">About ITS</a></li>
-        <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
-        <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
-        <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
-        <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
       </ul>
     </nys-globalfooter>
   `,
@@ -111,10 +99,6 @@ export const WithLinks: Story = {
   <ul>
     <li><a href="https://its.ny.gov">ITS Home</a></li>
     <li><a href="https://its.ny.gov/about">About ITS</a></li>
-    <li><a href="https://its.ny.gov/contact">Contact ITS</a></li>
-    <li><a href="https://its.ny.gov/privacy">Privacy Policy</a></li>
-    <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
-    <li><a href="https://its.ny.gov/terms">Terms of Use</a></li>
   </ul>
 </nys-globalfooter>
 `.trim(),

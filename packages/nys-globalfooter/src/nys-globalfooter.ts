@@ -3,7 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-globalfooter.styles";
 
 @customElement("nys-globalfooter")
-export class NyGlobalFooter extends LitElement {
+export class NysGlobalFooter extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
