@@ -22,7 +22,6 @@ export default css`
       --nys-font-size-body-md,
       var(--nys-font-size-md, 16px)
     );
-    --_nys-unavfooter-lineheight: normal;
     --_nys-unavfooter-font-weight-semibold: var(
       --nys-font-weight-semibold,
       600
@@ -78,7 +77,7 @@ export default css`
     letter-spacing: var(--_nys-unavfooter-link-letterspacing);
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;
-    text-decoration-thickness: 7%; /* 1.12px */
+    text-decoration-thickness: 7%;
     text-underline-offset: auto;
     text-underline-position: from-font;
   }
@@ -109,7 +108,7 @@ export default css`
     width: 100%;
     padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-gutter);
     gap: var(--_nys-unavfooter-gap-spacing);
-    border-bottom: 2px solid var(--nys-color-neutral-700, #333333);
+    border-bottom: 2px solid var(--_nys-unavfooter-separator-color);
     box-sizing: border-box;
   }
 
@@ -130,7 +129,7 @@ export default css`
   /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
-    .nys-unavfooter__container_menu{ 
+    .nys-unavfooter__container_menu { 
       flex-direction: row;
     }
     :host {
