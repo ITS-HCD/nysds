@@ -215,6 +215,13 @@
   --nys-form-width-sm: 88px;
   --nys-form-width-md: 200px;
   --nys-form-width-lg: 384px;
+
+  /* Gutter Sizes --- */
+  --nys-gutter-xs: 20px; 
+  --nys-gutter-sm: 20px; 
+  --nys-gutter-md: 32px; 
+  --nys-gutter-lg: 32px;
+  --nys-gutter-xl: 64px; 
   
   /* ===================== BORDER RADIUS TOKENS ======================= */
   

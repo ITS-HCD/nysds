@@ -53,7 +53,7 @@ export const Basic: Story = {
 };
 
 // Story: Without Application Name
-export const WithoutAppName: Story = {
+export const OnlyAgencyName: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
   },
@@ -75,7 +75,29 @@ export const WithoutAppName: Story = {
 };
 
 // Story: Without Application Name
-export const WithAppName: Story = {
+export const OnlyAppName: Story = {
+  args: {
+    appName: "NYS Employee Portal",
+  },
+  render: (args) => html`
+    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    </nys-globalheader>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader appName="NYS Employee Portal">
+</nys-globalheader>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Without Application Name
+export const WithBothNames: Story = {
   args: {
     appName: "Unemployment Insurance Benefits",
     agencyName: "Department of Labor",

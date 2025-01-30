@@ -1,6 +1,7 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysGlobalFooterStories from './nys-globalfooter.stories';
+import "@nys-excelsior/nys-icon";
 
 <Meta of={NysGlobalFooterStories} title="Components/GlobalFooter/Documentation" />
 
@@ -23,7 +24,10 @@ The **`nys-globalfooter`** component is a reusable web component for use in New 
 <Canvas of={NysGlobalFooterStories.WithoutLinks} />
 
 ## With Links
-To include links, use the slot="text" attribute to define each link within the `nys-globalfooter`.
+To add menu links, place an unordered list (`<ul>`) inside the `nys-globalfooter` slot. \
+The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon name="info"></nys-icon> Minimize the number of links to keep users focused and avoid distractions </div>
 <Canvas of={NysGlobalFooterStories.WithLinks} />
 
 ## Usage 
@@ -42,6 +46,7 @@ To include links, use the slot="text" attribute to define each link within the `
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
       - Include essential links and information users need site-wide.
       - Keep the design consistent and unobtrusive.
+      - Minimize the number of links.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">

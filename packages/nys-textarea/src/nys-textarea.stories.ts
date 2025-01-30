@@ -37,8 +37,12 @@ const meta: Meta<NysTextareaArgs> = {
     required: { control: "boolean" },
     form: { control: "text" },
     maxlength: { control: "text" },
-    width: { control: "select", options: ["sm", "md", "lg", "full"] },
-    rows: { control: "text" },
+    width: {
+      control: "select",
+      options: ["sm", "md", "lg", "full"],
+      defaultValue: { summary: "full" },
+    },
+    rows: { control: "text", defaultValue: { summary: "4" } },
     resize: { control: "select", options: [undefined, "none"] },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
@@ -60,8 +64,6 @@ export const Basic: Story = {
   args: {
     label: "Label",
     value: "",
-
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-textarea
@@ -128,7 +130,7 @@ export const Width: Story = {
 };
 
 export const Rows: Story = {
-  args: { label: "This textarea renders with 4 rows", value: "", rows: "4" },
+  args: { label: "This textarea renders with 6 rows", value: "", rows: "6" },
   render: (args) => html`
     <nys-textarea
       .id=${args.id}
@@ -152,7 +154,7 @@ export const Rows: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-textarea label="This textarea renders with 4 rows" rows="4"></nys-textarea>`,
+        code: `<nys-textarea label="This textarea renders with 6 rows" rows="6"></nys-textarea>`,
         type: "auto",
       },
     },
@@ -163,7 +165,7 @@ export const Resize: Story = {
   args: {
     label: "This textarea is not resizable",
     value: "",
-    rows: "4",
+    rows: "6",
     resize: "none",
   },
   render: (args) => html`
@@ -189,7 +191,7 @@ export const Resize: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-textarea label="This textarea is not resizable" rows="4" resize="none"></nys-textarea>`,
+        code: `<nys-textarea label="This textarea is not resizable" rows="6" resize="none"></nys-textarea>`,
         type: "auto",
       },
     },

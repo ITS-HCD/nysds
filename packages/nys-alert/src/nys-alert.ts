@@ -33,32 +33,32 @@ export class NysAlert extends LitElement {
     "danger",
     "emergency",
   ] as const;
-  private _theme: (typeof NysAlert.VALID_TYPES)[number] = "info";
+  private _type: (typeof NysAlert.VALID_TYPES)[number] = "info";
 
   @property({ reflect: true })
-  get theme() {
-    return this._theme;
+  get type() {
+    return this._type;
   }
 
-  set theme(value: string) {
-    this._theme = NysAlert.VALID_TYPES.includes(
+  set type(value: string) {
+    this._type = NysAlert.VALID_TYPES.includes(
       value as (typeof NysAlert.VALID_TYPES)[number],
     )
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
       : "base";
   }
 
-  // Aria attributes based on the theme
+  // Aria attributes based on the type
   get ariaAttributes() {
     const ariaRole =
-      this.theme === "danger" || this.theme === "emergency"
+      this.type === "danger" || this.type === "emergency"
         ? "alert"
-        : this.theme === "success"
+        : this.type === "success"
           ? "status"
           : "region"; // Default role
 
     // Set aria-label only for role="region"
-    const ariaLabel = ariaRole === "region" ? `${this.theme} alert` : "";
+    const ariaLabel = ariaRole === "region" ? `${this.type} alert` : "";
 
     return { role: ariaRole, ariaLabel };
   }
@@ -99,7 +99,7 @@ export class NysAlert extends LitElement {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }
 
-  // Helper function for overriding default icons or checking special naming cases (e.g. theme=success)
+  // Helper function for overriding default icons or checking special naming cases (e.g. type=success)
   private _getIconName() {
     if (this.icon) {
       return this.icon;
@@ -110,15 +110,15 @@ export class NysAlert extends LitElement {
 
   private _checkAltNaming() {
     // map 'success' to 'check_circle'
-    return this.theme === "success"
+    return this.type === "success"
       ? "check_circle"
-      : this.theme === "base"
+      : this.type === "base"
         ? "info"
-        : this.theme === "danger"
+        : this.type === "danger"
           ? "error"
-          : this.theme === "emergency"
+          : this.type === "emergency"
             ? "emergency_home"
-            : this.theme;
+            : this.type;
   }
 
   private _closeAlert() {
@@ -128,7 +128,7 @@ export class NysAlert extends LitElement {
      */
     this.dispatchEvent(
       new CustomEvent("nys-alertClosed", {
-        detail: { theme: this.theme, label: this.heading },
+        detail: { type: this.type, label: this.heading },
         bubbles: true,
         composed: true,
       }),
@@ -136,8 +136,7 @@ export class NysAlert extends LitElement {
   }
 
   private _checkSlotContent() {
-    const slot =
-      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (slot) {
       // Check if slot has assigned nodes with content (elements or non-empty text nodes)
       const assignedNodes = slot
@@ -160,9 +159,10 @@ export class NysAlert extends LitElement {
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container ${!this._slotHasContent
-              ? "nys-alert--centered"
-              : ""}"
+            class="nys-alert__container ${this._slotHasContent ||
+            this.text?.trim().length > 0
+              ? ""
+              : "nys-alert--centered"}"
             role=${role}
             aria-label=${ifDefined(
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
@@ -172,14 +172,16 @@ export class NysAlert extends LitElement {
               <nys-icon
                 name="${this._getIconName()}"
                 size="2xl"
-                label="${this.theme} icon"
+                label="${this.type} icon"
               ></nys-icon>
             </div>
             <div class="nys-alert__texts">
               <h4 class="nys-alert__header">${this.heading}</h4>
               ${this._slotHasContent
-                ? html`<slot name="text">${this.text}</slot>`
-                : ""}
+                ? html`<slot></slot>`
+                : this.text?.trim().length > 0
+                  ? html`<p class="nys-alert__text">${this.text}</p>`
+                  : ""}
               ${this.primaryAction || this.secondaryAction
                 ? html`<div class="nys-alert__actions">
                     ${this.primaryAction

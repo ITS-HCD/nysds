@@ -13,6 +13,7 @@ export default css`
     );
     --_nys-globalfooter-gap-spacing: var(--nys-space-300, 24px);
     --_nys-globalfooter-padding: var(--nys-space-400, 32px);
+    --_nys-globalfooter-gutter: var(--nys-gutter-sm, 20px);
     --_nys-globalfooter-font-size: var(
       --nys-font-size-agency-xl,
       var(--nys-font-size-2xl, 22px)
@@ -24,7 +25,7 @@ export default css`
     --_nys-globalfooter-lineheight: normal;
     --_nys-globalfooter-letterspacing: var(
       --nys-font-letterspacing-h2,
-      var(--nys-font-letterspacing-100, 0.013px;)
+      var(--nys-font-letterspacing-100, 0.013px)
     );
     --_nys-globalfooter-font-weight-semibold: var(
       --nys-font-weight-semibold,
@@ -41,7 +42,7 @@ export default css`
 
     /* Links */
     --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-400, 32px);
-    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-600, 48px);
+    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-400, 32px);
     --_nys-globalfooter-lineheight-links: var(
       --nys-font-lineheight-ui-md,
       24px
@@ -61,20 +62,21 @@ export default css`
         sans-serif
       )
     );
-
-    box-sizing: border-box;
   }
 
   .nys-globalfooter {
     display: flex;
-    padding: var(--_nys-globalfooter-padding);
+    padding: var(--_nys-globalfooter-padding) var(--_nys-globalfooter-gutter);
     gap: var(--_nys-globalfooter-gap-spacing);
     flex-direction: column;
     align-items: flex-start;
     background-color: var(--_nys-globalfooter-background);
     color: var(--_nys-globalfooter-color);
+    width: 100%;
+    box-sizing: border-box;
   }
 
+  /* The Agency Name */
   .nys-globalfooter__name {
     margin: 0;
     color: var(--_nys-globalfooter-color);
@@ -84,20 +86,21 @@ export default css`
     font-weight: var(--_nys-globalfooter-font-weight-semibold);
     line-height: var(--_nys-globalfooter-lineheight);
     letter-spacing: var(--_nys-globalfooter-letterspacing);
-    text-wrap: wrap;
   }
 
-  /* Slotted content (menu links) */
-  .nys-globalfooter__content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--_nys-globalfooter-link-gap-spacing-row)
-      var(--_nys-globalfooter-link-gap-spacing-column);
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
+  /* Slotted content (menu links) basic resets */
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
   }
-  ::slotted(a) {
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
     color: var(--_nys-globalfooter-color);
     text-decoration: none;
     font-family: var(--_nys-globalfooter-font-family);
@@ -108,29 +111,31 @@ export default css`
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
   }
 
+  /* Specific layout for menu links (grouped or singular list of menus) */
+  .nys-globalfooter__content {
+    width: 100%;
+  }
+
+  .nys-globalfooter__content ul {
+    display: flex;
+    gap: var(--_nys-globalfooter-link-gap-spacing-row)
+      var(--_nys-globalfooter-link-gap-spacing-column);
+    flex-wrap: wrap;
+  }
+
   /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
-  @media (min-width: 480px) {
-    /* sm + xs */
-    .nys-globalfooter__content {
-      grid-template-columns: repeat(1, 1fr); /* One columns */
-    }
-  }
-
   @media (min-width: 768px) {
-    /* md */
-    .nys-globalfooter__content {
-      grid-template-columns: repeat(2, 1fr); /* Two columns */
+    /* Tablet (MD - Above 768px) */
+    :host {
+      --_nys-globalfooter-gutter: var(--nys-gutter-lg, 32px);
+      --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-600, 48px);
     }
   }
 
-  @media (min-width: 1024px) {
-    /* lg + xl */
-    .nys-globalfooter__content {
-      grid-template-columns: repeat(
-        auto-fill,
-        minmax(100px, 1fr)
-      ); /* Single row, Auto-fill columns */
-      gap: var(--_nys-globalfooter-link-gap-spacing-column);
+  @media (min-width: 1280px) {
+    /* Large Desktop (XL - Above 1280px) */
+    :host {
+      --_nys-globalfooter-gutter: var(--nys-gutter-xl, 64px);
     }
   }
 `;

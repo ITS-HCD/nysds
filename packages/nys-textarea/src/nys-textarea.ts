@@ -35,16 +35,7 @@ export class NysTextarea extends LitElement {
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
-
-  // Ensure the "width" property is valid after updates
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has("width")) {
-      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
-        ? this.width
-        : "full";
-    }
-  }
-  @property({ type: Number }) rows = null;
+  @property({ type: Number }) rows = 4;
   private static readonly VALID_RESIZE = ["vertical", "none"] as const;
 
   // Use `typeof` to dynamically infer the allowed types
@@ -72,8 +63,15 @@ export class NysTextarea extends LitElement {
   }
   @property({ type: String }) errorMessage = "";
 
-  constructor() {
-    super();
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("width")) {
+      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
+        ? this.width
+        : "full";
+    }
+    if (changedProperties.has("rows")) {
+      this.rows = this.rows ?? 4;
+    }
   }
 
   static styles = styles;
@@ -135,8 +133,18 @@ export class NysTextarea extends LitElement {
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+<<<<<<< HEAD
     this.value = input.value;
 
+=======
+    this.dispatchEvent(
+      new CustomEvent("input", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+>>>>>>> 48f996febb7eb1926377a3aa7196c2ff5bf91f7c
     const checkValidity = input.checkValidity();
     this.dispatchEvent(
       new CustomEvent("nys-checkValidity", {
@@ -157,6 +165,18 @@ export class NysTextarea extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
+  }
+
+  private _handleChange() {
+    this.dispatchEvent(new Event("change"));
+  }
+
+  private _handleSelect() {
+    this.dispatchEvent(new Event("select"));
+  }
+
+  private _handleSelectionChange() {
+    this.dispatchEvent(new Event("selectionchange"));
   }
 
   render() {
@@ -187,6 +207,7 @@ export class NysTextarea extends LitElement {
           aria-disabled="${this.disabled}"
           .value=${this.value}
           placeholder=${this.placeholder}
+<<<<<<< HEAD
           maxlength=${ifDefined(this.maxlength)}
           rows=${ifDefined(this.rows)}
           form=${ifDefined(this.form)}
@@ -194,6 +215,17 @@ export class NysTextarea extends LitElement {
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
           @invalid=${this.handleInvalid}
+=======
+          maxlength=${this.maxlength}
+          .rows=${this.rows}
+          form=${this.form}
+          @input=${this._handleInput}
+          @focus="${this._handleFocus}"
+          @blur="${this._handleBlur}"
+          @change="${this._handleChange}"
+          @select="${this._handleSelect}"
+          @selectionchange="${this._handleSelectionChange}"
+>>>>>>> 48f996febb7eb1926377a3aa7196c2ff5bf91f7c
         ></textarea>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textarea__error">
