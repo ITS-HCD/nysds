@@ -26,14 +26,14 @@ export class NysUnavFooter extends LitElement {
           <div class="nys-unavfooter__logo">${this._getNysLogo()}</div>
           <div class="nys-unavfooter__content">
             <ul>
-              <li><a href="https://its.ny.gov/agencies">Agencies</a></li>
+              <li><a href="https://www.ny.gov/agencies">Agencies</a></li>
               <li>
-                <a href="https://its.ny.gov/app-directory">App Directory</a>
+                <a href="https://www.ny.gov/mobileapps">App Directory</a>
               </li>
-              <li><a href="https://its.ny.gov/counties">Counties</a></li>
-              <li><a href="https://its.ny.gov/events">Events</a></li>
-              <li><a href="https://its.ny.gov/programs">Programs</a></li>
-              <li><a href="https://its.ny.gov/services">Services</a></li>
+              <li><a href="https://www.ny.gov/counties">Counties</a></li>
+              <li><a href="https://www.ny.gov/events">Events</a></li>
+              <li><a href="https://www.ny.gov/programs">Programs</a></li>
+              <li><a href="https://www.ny.gov/services">Services</a></li>
             </ul>
           </div>
         </div>
