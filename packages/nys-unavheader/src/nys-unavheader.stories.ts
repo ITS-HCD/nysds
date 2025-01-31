@@ -26,7 +26,7 @@ type Story = StoryObj<NysUnavHeaderArgs>;
 // Story: Basic
 export const Basic: Story = {
   args: {},
-  render: (args) => html``,
+  render: (args) => html`<nys-unavheader></nys-unavheader>`,
   parameters: {
     docs: {
       source: {
