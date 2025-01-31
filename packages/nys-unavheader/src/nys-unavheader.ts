@@ -23,13 +23,18 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-unavheader">
         <div class="nys-unavheader__left">
-          <div className="nys-unavheader__logo">${this._getNysLogo()}</div>
-          <div className="nys-unavheader__official"></div>
-          <div className="nys-unavheader__know"></div>
+          <div class="nys-unavheader__logo">${this._getNysLogo()}</div>
+          <label class="nys-unavheader__official"
+            >An official website of New York State</label
+          >
+          <label class="nys-unavheader__know"
+            >Here's how you know
+            <nys-icon size="12" name="chevron_down"></nys-icon
+          ></label>
         </div>
         <div class="nys-unavheader__right">
-          <div className="nys-unavheader__translate"></div>
-          <div className="nys-unavheader__search"></div>
+          <div class="nys-unavheader__translate"></div>
+          <div class="nys-unavheader__search"></div>
         </div>
       </header>
       <div class="nys-unavheader__trustbar">

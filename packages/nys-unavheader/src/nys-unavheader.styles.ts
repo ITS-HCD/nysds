@@ -8,6 +8,16 @@ export default css`
     border: red solid 2px;
   }
 
+  .nys-unavheader__left {
+    display: flex;
+    align-items: center;
+    gap: var(--nys-space-200, 16px);
+  }
+
+  .nys-unavheader__know {
+    color: var(--nys-color-link, #004dd1);
+  }
+
   .nys-unavheader__trustbar {
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-ink, #1b1b1b);
@@ -18,6 +28,7 @@ export default css`
 
   .nys-unavheader__trustcontent {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: var(--nys-space-100, 8px);
     line-height: var(--nys-font-lineheight-ui-md, 24px);
