@@ -5,7 +5,7 @@ export default css`
   }
 
   .nys-unavheader {
-    border: red solid 2px;
+    background-color: var(--nys-color-ink-reverse, #ffffff);
   }
 
   .nys-unavheader__left {
