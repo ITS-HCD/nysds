@@ -18,7 +18,11 @@ export default css`
     color: var(--nys-color-link, #004dd1);
   }
 
-  .nys-unavheader__trustbar {
+  .nys-unavheader__trustbar.hide {
+    display: none;
+  }
+
+  .nys-unavheader__trustbar.show {
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-ink, #1b1b1b);
     display: flex;

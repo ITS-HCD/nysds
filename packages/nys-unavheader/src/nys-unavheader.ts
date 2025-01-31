@@ -1,11 +1,13 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-unavheader.styles";
 import nysLogo from "./nys-unav.logo";
 import "@nys-excelsior/nys-icon";
 
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
+  @property({ type: Boolean }) trustbarVisible = false;
+
   static styles = styles;
 
   private _getNysLogo() {
@@ -19,6 +21,10 @@ export class NysGlobalHeader extends LitElement {
     return svgElement;
   }
 
+  private _toggleTrustbar() {
+    this.trustbarVisible = !this.trustbarVisible;
+  }
+
   render() {
     return html`
       <header class="nys-unavheader">
@@ -27,7 +33,7 @@ export class NysGlobalHeader extends LitElement {
           <label class="nys-unavheader__official"
             >An official website of New York State</label
           >
-          <label class="nys-unavheader__know"
+          <label class="nys-unavheader__know" @click="${this._toggleTrustbar}"
             >Here's how you know
             <nys-icon size="12" name="chevron_down"></nys-icon
           ></label>
@@ -37,7 +43,11 @@ export class NysGlobalHeader extends LitElement {
           <div class="nys-unavheader__search"></div>
         </div>
       </header>
-      <div class="nys-unavheader__trustbar">
+      <div
+        class="nys-unavheader__trustbar ${this.trustbarVisible
+          ? "show"
+          : "hide"}"
+      >
         <div class="nys-unavheader__trustcontent">
           <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
           <label><b>Official websites use ny.gov</b></label>
