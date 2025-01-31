@@ -59,6 +59,8 @@ export default css`
       var(--nys-font-size-md, 16px)
     );
     --_nys-globalheader-link-gap-spacing: var(--nys-space-600, 48px);
+    --_nys-globalheader-link-lineheight: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-globalheader-link-letterspacing: var(--nys-font-letterspacing-ui-md, 0.005em);
   }
 
   .nys-globalheader {
@@ -117,8 +119,8 @@ export default css`
     font-size: var(--_nys-globalheader-font-size-links);
     font-style: normal;
     font-weight: var(--_nys-globalheader-font-weight-semibold);
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
-    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
+    line-height: var(--_nys-globalheader-link-lineheight);
+    letter-spacing: var(--_nys-globalheader-link-letterspacing);
   }
 
   /* Breakpoints using Excelsior Grid Guidelines */
