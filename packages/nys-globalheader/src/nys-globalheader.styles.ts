@@ -14,7 +14,6 @@ export default css`
     --_nys-globalheader-gap-spacing: var(--nys-space-100, 8px);
     --_nys-globalheader-padding: var(--nys-space-200, 16px);
     --_nys-globalheader-gutter: var(--nys-gutter-sm, 20px);
-    --_nys-gutter: var(--nys-gutter-md, 32px);
     --_nys-globalheader-font-family: var(
       --nys-font-family-ui,
       var(
@@ -125,7 +124,7 @@ export default css`
 
   /* Breakpoints using Excelsior Grid Guidelines */
   @media (min-width: 768px) {
-    /* md */
+    /* Tablet (MD - Above 768px) */
     .nys-globalheader__content {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }
