@@ -77,6 +77,12 @@ export class NysButton extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
+  private _handleClick(event: Event) {
+    if (typeof this.onClick === "function") {
+      this.onClick(event);
+    }
+  }
+
   render() {
     return html`
       ${this.href
@@ -91,7 +97,7 @@ export class NysButton extends LitElement {
                 value=${ifDefined(this.value)}
                 href=${this.href}
                 target="_blank"
-                @click=${this.onClick}
+                @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
               >
@@ -122,7 +128,7 @@ export class NysButton extends LitElement {
               form=${ifDefined(this.form)}
               value=${ifDefined(this.value)}
               type=${this.type}
-              @click=${this.onClick}
+              @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
             >
