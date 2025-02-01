@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-button.styles";
 import "@nys-excelsior/nys-icon";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 @customElement("nys-button")
 export class NysButton extends LitElement {
@@ -83,11 +84,11 @@ export class NysButton extends LitElement {
             <div class="nys-button__linkwrapper">
               <a
                 class="nys-button"
-                id=${this.id}
-                name=${this.name}
+                id=${ifDefined(this.id)}
+                name=${ifDefined(this.name)}
                 ?disabled=${this.disabled}
-                form=${this.form}
-                value=${this.value}
+                form=${ifDefined(this.form)}
+                value=${ifDefined(this.value)}
                 href=${this.href}
                 target="_blank"
                 @click=${this.onClick}
@@ -115,11 +116,11 @@ export class NysButton extends LitElement {
         : html`
             <button
               class="nys-button"
-              id=${this.id}
-              name=${this.name}
+              id=${ifDefined(this.id)}
+              name=${ifDefined(this.name)}
               ?disabled=${this.disabled}
-              form=${this.form}
-              value=${this.value}
+              form=${ifDefined(this.form)}
+              value=${ifDefined(this.value)}
               type=${this.type}
               @click=${this.onClick}
               @focus="${this._handleFocus}"
