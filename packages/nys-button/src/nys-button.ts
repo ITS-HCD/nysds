@@ -50,7 +50,7 @@ export class NysButton extends LitElement {
   @property({ type: String }) value = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
-  private _type: (typeof NysButton.VALID_TYPES)[number] = "submit";
+  private _type: (typeof NysButton.VALID_TYPES)[number] = "button";
   @property({ reflect: true })
   get type(): (typeof NysButton.VALID_TYPES)[number] {
     return this._type;
@@ -60,7 +60,7 @@ export class NysButton extends LitElement {
       value as (typeof NysButton.VALID_TYPES)[number],
     )
       ? (value as (typeof NysButton.VALID_TYPES)[number])
-      : "submit";
+      : "button";
   }
   @property({ type: Function }) onClick: (event: Event) => void = () => {};
   @property({ type: String }) href = "";
