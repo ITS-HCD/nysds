@@ -74,7 +74,7 @@ export const Basic: Story = {
       .value=${args.value}
       .href=${args.href}
       .type=${args.type}
-      .onClick=${action("on-click")}
+      .onClick=${() => alert('Button clicked')}
     ></nys-button>
   `,
   parameters: {
