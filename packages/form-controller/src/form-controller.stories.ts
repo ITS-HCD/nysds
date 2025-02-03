@@ -179,14 +179,6 @@ export const Basic: Story = {
           value="manhattan"
         ></nys-radiobutton>
       </nys-radiogroup>
-      <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
-      <button type="submit">Send</button>
-      <nys-button
-        size="sm"
-        type="button"
-        .onClick=${() => alert("Button clicked")}
-        label="Click me"
-      ></nys-button>
       <nys-button size="sm" label="Submit" type="submit"></nys-button>
     </form>
   `,
@@ -296,7 +288,6 @@ export const Basic: Story = {
       value="manhattan"
     ></nys-radiobutton>
   </nys-radiogroup>
-  <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
   <nys-button size="sm" label="Submit" type="submit"></nys-button>
 </form>
 `.trim(),

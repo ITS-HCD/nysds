@@ -9,6 +9,6 @@ export * from "../packages/nys-select/src/index";
 export * from "../packages/nys-textarea/src/index";
 export * from "../packages/nys-textinput/src/index";
 export * from "../packages/nys-toggle/src/index";
-export * from "../packages/form/src/index";
+export * from "../packages/form-controller/src/index";
 export * from "../packages/nys-globalheader/src/index";
 export * from "../packages/nys-globalfooter/src/index";
