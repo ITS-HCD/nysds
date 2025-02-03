@@ -18,6 +18,9 @@ export default css`
   }
 
   #nys-unav__translate {
+    --_nys-button-color-text: var(--nys-color-theme, #154973);
+    --_nys-button-color-text-hover: var(--nys-color-theme, #154973);
+    --_nys-button-color-text-active: var(--nys-color-theme, #154973);
   }
 
   .nys-unavheader__know {

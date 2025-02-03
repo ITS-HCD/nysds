@@ -46,9 +46,7 @@ export class NysGlobalHeader extends LitElement {
             label="Translate"
             id="nys-unav__translate"
           ></nys-button>
-          <div class="nys-unavheader__search">
-            <nys-textinput placeholder="Search"></nys-textinput>
-          </div>
+          <nys-textinput placeholder="Search"></nys-textinput>
         </div>
       </header>
       <div
