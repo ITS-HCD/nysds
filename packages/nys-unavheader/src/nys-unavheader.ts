@@ -48,7 +48,6 @@ export class NysGlobalHeader extends LitElement {
           ></nys-button>
           <div class="nys-unavheader__search">
             <nys-textinput placeholder="Search"></nys-textinput>
-            <nys-button prefixIcon="search" size="sm"></nys-button>
           </div>
         </div>
       </header>
@@ -74,6 +73,12 @@ export class NysGlobalHeader extends LitElement {
             secure websites.</label
           >
         </div>
+        <nys-button
+          variant="ghost"
+          prefixIcon="close"
+          size="sm"
+          @click="${this._toggleTrustbar}"
+        ></nys-button>
       </div>
     `;
   }

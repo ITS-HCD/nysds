@@ -10,7 +10,8 @@ export default css`
     justify-content: space-between;
   }
 
-  .nys-unavheader * {
+  .nys-unavheader__left,
+  .nys-unavheader__right {
     display: flex;
     align-items: center;
     gap: var(--nys-space-300, 24px);
