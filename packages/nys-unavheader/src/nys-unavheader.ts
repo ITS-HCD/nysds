@@ -9,6 +9,7 @@ import "@nys-excelsior/nys-button";
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean }) trustbarVisible = false;
+  @property({ type: Boolean }) isSearchFocused = false;
 
   static styles = styles;
 
@@ -27,6 +28,14 @@ export class NysGlobalHeader extends LitElement {
     this.trustbarVisible = !this.trustbarVisible;
   }
 
+  private _handleSearchFocus() {
+    this.isSearchFocused = true;
+  }
+
+  private _handleSearchBlur() {
+    this.isSearchFocused = false;
+  }
+
   render() {
     return html`
       <header class="nys-unavheader" id="nys-universal-navigation">
@@ -41,14 +50,18 @@ export class NysGlobalHeader extends LitElement {
           ></label>
         </div>
         <div class="nys-unavheader__right">
-          <nys-button
-            variant="ghost"
-            label="Translate"
-            id="nys-unav__translate"
-          ></nys-button>
+          ${!this.isSearchFocused
+            ? html`<nys-button
+                variant="ghost"
+                label="Translate"
+                id="nys-unav__translate"
+              ></nys-button>`
+            : null}
           <nys-textinput
             id="nys-unav__search"
             placeholder="Search"
+            @focus="${this._handleSearchFocus}"
+            @blur="${this._handleSearchBlur}"
           ></nys-textinput>
         </div>
       </header>
