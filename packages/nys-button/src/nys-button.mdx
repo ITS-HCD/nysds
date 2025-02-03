@@ -8,6 +8,8 @@ import * as NysButtonStories from './nys-button.stories';
 
 The **`nys-button`** component is a reusable web component for use in New York State digital products.
 
+If an id is not passed, a unique id will be generated.
+
 <p className="pill pill--stable">Stable</p>
 
 <p className="pill pill--uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=730-1677&p=f&m=dev">View in Figma</a></p>
@@ -18,36 +20,44 @@ The **`nys-button`** component is a reusable web component for use in New York S
 
 <Controls />
 
-The `<nys-button>` component takes the property `onClick` which is a function that is called when the button is clicked.
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon>The `<nys-button>` component takes the property `onClick` which is a function that is called when the button is clicked. </div>
 ```html
 <nys-button onClick={() => alert('Button clicked')} label="Click Me"></nys-button>
 ```
 
-### Options
+## Options
 
-#### Size
+### Size
 Set the `size` prop of the **`nys-button`** to adjust the height of the button. The width of the button is determined by the label. Our current sizes are:
 - `sm`: Set to 40px in height
 - `md`: The default size. Set to 48px in height.
 - `lg`: Set to 56px in height.
 <Canvas of={NysButtonStories.Size} />
-#### Variants
+
+### Button Type
+Set the `type` prop of the `nys-button` to define the button's behavior in a form context. The available types are:
+
+- button (default): A standard button that does not submit a form.
+- submit: Submits the nearest form when clicked.
+- reset: Resets all inputs in the nearest form to their default values.
+
+### Variants
 Set the `variant` prop of the **`nys-button`** to adjust the appearance of the button. Our current variants are:
 - `filled`: The default variant. Use for primary actions.
 - `outline`: Use for secondary actions.
 - `ghost`: Use for uncommon actions.
 - `text`: Use for inline actions.
 <Canvas of={NysButtonStories.Variants} />
-#### Icons
+### Icons
 Set the `prefixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the left of the label.
 Set the `suffixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the right of the label.
 <Canvas of={NysButtonStories.Icons} />
-#### Disabled
+### Disabled
 <Canvas of={NysButtonStories.Disabled} />
-#### Link
+### Link
 Set the `href` prop of the **`nys-button`** when using the button to navigate to a different page. This will render the `<nys-button>` as an `<a>` tag.
 <Canvas of={NysButtonStories.Link} />
-#### Inverted
+### Inverted
 Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the button. Use this prop when the button is on a dark background.
 <Canvas of={NysButtonStories.Inverted} />
 
@@ -60,17 +70,17 @@ Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the 
 
 ### When to consider something else
 
-<div class="nys-grid-row nys-grid-gap-lg">
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--do">
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
         - When users need to submit a form.
         - When users need to navigate to a different page.
         - When users need to trigger an action.
     </div>
   </div>
-  <div class="nys-mobile-lg:nys-grid-col">
-    <div class="usage-card usage-card--dont">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
       ### <nys-icon name="cancel" color="--var(nys-color-error)" /> Don't
       - Use inverted buttons on a light background.
       - Use buttons with icons only.

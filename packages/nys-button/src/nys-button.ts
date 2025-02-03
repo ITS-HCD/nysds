@@ -2,6 +2,9 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-button.styles";
 import "@nys-excelsior/nys-icon";
+import { ifDefined } from "lit/directives/if-defined.js";
+
+let buttonIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-button")
 export class NysButton extends LitElement {
@@ -49,7 +52,7 @@ export class NysButton extends LitElement {
   @property({ type: String }) value = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
-  private _type: (typeof NysButton.VALID_TYPES)[number] = "submit";
+  private _type: (typeof NysButton.VALID_TYPES)[number] = "button";
   @property({ reflect: true })
   get type(): (typeof NysButton.VALID_TYPES)[number] {
     return this._type;
@@ -59,12 +62,27 @@ export class NysButton extends LitElement {
       value as (typeof NysButton.VALID_TYPES)[number],
     )
       ? (value as (typeof NysButton.VALID_TYPES)[number])
-      : "submit";
+      : "button";
   }
   @property({ type: Function }) onClick: (event: Event) => void = () => {};
   @property({ type: String }) href = "";
 
   static styles = styles;
+
+  /**************** Lifecycle Methods ****************/
+  connectedCallback() {
+    super.connectedCallback();
+
+    // Generate a unique ID if not provided
+    if (!this.id) {
+      this.id = this._generateUniqueId();
+    }
+  }
+
+  /******************** Functions ********************/
+  private _generateUniqueId() {
+    return `nys-button-${Date.now()}-${buttonIdCounter++}`;
+  }
 
   // Handle focus event
   private _handleFocus() {
@@ -76,6 +94,12 @@ export class NysButton extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
+  private _handleClick(event: Event) {
+    if (typeof this.onClick === "function") {
+      this.onClick(event);
+    }
+  }
+
   render() {
     return html`
       ${this.href
@@ -83,14 +107,14 @@ export class NysButton extends LitElement {
             <div class="nys-button__linkwrapper">
               <a
                 class="nys-button"
-                id=${this.id}
-                name=${this.name}
+                id=${ifDefined(this.id)}
+                name=${ifDefined(this.name)}
                 ?disabled=${this.disabled}
-                form=${this.form}
-                value=${this.value}
+                form=${ifDefined(this.form)}
+                value=${ifDefined(this.value)}
                 href=${this.href}
                 target="_blank"
-                @click=${this.onClick}
+                @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
               >
@@ -115,13 +139,13 @@ export class NysButton extends LitElement {
         : html`
             <button
               class="nys-button"
-              id=${this.id}
-              name=${this.name}
+              id=${ifDefined(this.id)}
+              name=${ifDefined(this.name)}
               ?disabled=${this.disabled}
-              form=${this.form}
-              value=${this.value}
+              form=${ifDefined(this.form)}
+              value=${ifDefined(this.value)}
               type=${this.type}
-              @click=${this.onClick}
+              @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
             >

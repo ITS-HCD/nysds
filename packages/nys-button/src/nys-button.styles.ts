@@ -315,8 +315,7 @@ export default css`
   }
 
   .nys-button__text {
-    padding: auto;
-    margin: auto;
     display: flex;
+    align-items: center;
   }
 `;
