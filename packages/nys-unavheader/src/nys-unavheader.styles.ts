@@ -23,6 +23,16 @@ export default css`
     --_nys-button-color-text-active: var(--nys-color-theme, #154973);
   }
 
+  #nys-unav__search {
+    width: var(--nys-form-width-md, 200px);
+    transition: width 0.5s ease;
+  }
+
+  /* Grow size on focus */
+  #nys-unav__search:focus {
+    width: var(--nys-form-width-lg, 384px);
+  }
+
   .nys-unavheader__know {
     color: var(--nys-color-link, #004dd1);
   }

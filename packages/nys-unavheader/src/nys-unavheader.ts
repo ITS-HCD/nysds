@@ -49,7 +49,6 @@ export class NysGlobalHeader extends LitElement {
           <nys-textinput
             id="nys-unav__search"
             placeholder="Search"
-            width="md"
           ></nys-textinput>
         </div>
       </header>
