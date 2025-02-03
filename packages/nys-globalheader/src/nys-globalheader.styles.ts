@@ -14,7 +14,6 @@ export default css`
     --_nys-globalheader-gap-spacing: var(--nys-space-100, 8px);
     --_nys-globalheader-padding: var(--nys-space-200, 16px);
     --_nys-globalheader-gutter: var(--nys-gutter-sm, 20px);
-    --_nys-gutter: var(--nys-gutter-md, 32px);
     --_nys-globalheader-font-family: var(
       --nys-font-family-ui,
       var(
@@ -59,6 +58,11 @@ export default css`
       var(--nys-font-size-md, 16px)
     );
     --_nys-globalheader-link-gap-spacing: var(--nys-space-600, 48px);
+    --_nys-globalheader-link-lineheight: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-globalheader-link-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      0.005em
+    );
   }
 
   .nys-globalheader {
@@ -117,13 +121,13 @@ export default css`
     font-size: var(--_nys-globalheader-font-size-links);
     font-style: normal;
     font-weight: var(--_nys-globalheader-font-weight-semibold);
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
-    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.005em);
+    line-height: var(--_nys-globalheader-link-lineheight);
+    letter-spacing: var(--_nys-globalheader-link-letterspacing);
   }
 
   /* Breakpoints using Excelsior Grid Guidelines */
   @media (min-width: 768px) {
-    /* md */
+    /* Tablet (MD - Above 768px) */
     .nys-globalheader__content {
       grid-template-columns: repeat(2, 1fr); /* Two columns */
     }

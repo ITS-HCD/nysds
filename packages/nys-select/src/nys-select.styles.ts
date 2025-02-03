@@ -48,8 +48,6 @@ export default css`
       var(--nys-color-neutral-200, #bec0c1);
     --_nys-select-border-hover: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-900, #1b1b1b);
-    --_nys-select-border-error: var(--nys-border-width-sm, 1px) solid
-      var(--nys-color-danger, var(--nys-color-red-600, #b52c2c));
   }
 
   .nys-select {
