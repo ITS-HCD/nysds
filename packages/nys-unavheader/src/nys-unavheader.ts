@@ -30,6 +30,7 @@ export class NysGlobalHeader extends LitElement {
 
   private _handleSearchFocus() {
     this.isSearchFocused = true;
+    this.trustbarVisible = false; //close trustbar when search is focused
   }
 
   private _handleSearchBlur() {
