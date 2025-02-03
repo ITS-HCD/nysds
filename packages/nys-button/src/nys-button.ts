@@ -4,6 +4,8 @@ import styles from "./nys-button.styles";
 import "@nys-excelsior/nys-icon";
 import { ifDefined } from "lit/directives/if-defined.js";
 
+let buttonIdCounter = 0; // Counter for generating unique IDs
+
 @customElement("nys-button")
 export class NysButton extends LitElement {
   @property({ type: String }) id = "";
@@ -66,6 +68,21 @@ export class NysButton extends LitElement {
   @property({ type: String }) href = "";
 
   static styles = styles;
+
+  /**************** Lifecycle Methods ****************/
+  connectedCallback() {
+    super.connectedCallback();
+
+    // Generate a unique ID if not provided
+    if (!this.id) {
+      this.id = this._generateUniqueId();
+    }
+  }
+
+  /******************** Functions ********************/
+  private _generateUniqueId() {
+    return `nys-button-${Date.now()}-${buttonIdCounter++}`;
+  }
 
   // Handle focus event
   private _handleFocus() {
