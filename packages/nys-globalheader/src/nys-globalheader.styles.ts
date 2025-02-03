@@ -59,7 +59,10 @@ export default css`
     );
     --_nys-globalheader-link-gap-spacing: var(--nys-space-600, 48px);
     --_nys-globalheader-link-lineheight: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-globalheader-link-letterspacing: var(--nys-font-letterspacing-ui-md, 0.005em);
+    --_nys-globalheader-link-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      0.005em
+    );
   }
 
   .nys-globalheader {
