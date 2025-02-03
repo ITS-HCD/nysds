@@ -2,7 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import "@nys-excelsior/nys-icon";
-import { FormControlController } from "@nys-excelsior/form-controller";
+import { FormControlController } from "@nys-excelsior/components/form-controller";
 let selectIdCounter = 0; // Counter for generating unique IDs
 import { NysOption } from "./nys-option";
 
