@@ -11,9 +11,12 @@ import { FormControlController } from "@nys-excelsior/form-controller";
 export class NysButton extends LitElement {
   // Form control controller
   private formControlController = new FormControlController(this, {
-    form: (input) => input.closest("form"),
-    name: (input) => input.getAttribute("name"),
-    value: (input) => input.getAttribute("value"),
+    form: () =>
+      this.form
+        ? (document.getElementById(this.form) as HTMLFormElement)
+        : this.closest("form"),
+    name: () => this.name,
+    value: () => this.value,
   });
 
   @property({ type: String }) id = "";
@@ -56,7 +59,7 @@ export class NysButton extends LitElement {
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: String }) form = "";
+  @property({ type: String }) form = null;
   @property({ type: String }) value = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
@@ -111,7 +114,12 @@ export class NysButton extends LitElement {
     // Internal logic for form submission
     if (this.type === "submit") {
       event.preventDefault(); // Prevent default form submission
-      const form = this.closest("form"); // Find the closest form
+      const form =
+        this.form &&
+        document.getElementById(this.form) instanceof HTMLFormElement
+          ? (document.getElementById(this.form) as HTMLFormElement)
+          : this.closest("form");
+
       if (form) {
         this.formControlController.submit(); // Submit the form
       }

@@ -302,7 +302,7 @@ export const Basic: Story = {
     ></nys-radiobutton>
   </nys-radiogroup>
   <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
-  <button type="submit">Send</button>
+  <nys-button size="sm" label="Submit" type="submit"></nys-button>
 </form>
 `.trim(),
         type: "auto",
@@ -345,7 +345,7 @@ export const RequiredFields: Story = {
         value="mailing-list"
         required
       ></nys-checkbox>
-      <button type="submit">Send</button>
+      <nys-button size="sm" label="Submit" type="submit"></nys-button>
     </form>
   `,
   parameters: {
@@ -368,7 +368,7 @@ export const RequiredFields: Story = {
     name="mailing-list"
     value="mailing-list"
   ></nys-checkbox>
-  <button type="submit">Send</button>
+  <nys-button size="sm" label="Submit" type="submit"></nys-button>
 </form>
 `.trim(),
         type: "auto",
@@ -413,7 +413,12 @@ export const OutsideFormElements: Story = {
         type="text"
         required
       ></nys-textinput>
-      <button form=${args.id} type="submit">Send</button>
+      <nys-button
+        form=${args.id}
+        size="sm"
+        label="Submit"
+        type="submit"
+      ></nys-button>
     </div>
   `,
   parameters: {
@@ -442,7 +447,7 @@ export const OutsideFormElements: Story = {
     type="text"
     required
   ></nys-textinput>
-  <button form="user-info-form" type="submit">Send</button>
+  <nys-button form="user-info-form" size="sm" label="Submit" type="submit"></nys-button>
 </div>
 `.trim(),
         type: "auto",
@@ -520,7 +525,7 @@ export const Fieldset: Story = {
           <nys-checkbox label="Niagara Falls" name="landmarks" value="niagara-falls" ></nys-checkbox>
           <nys-checkbox label="Coney Island" name="landmarks" value="coney-island"></nys-checkbox>
         </nys-checkboxgroup>
-        <button type="submit">Send</button>
+        <nys-button size="sm" label="Submit" type="submit"></nys-button>
       </fieldset>
     </form>
   `,
@@ -584,7 +589,7 @@ export const Fieldset: Story = {
       <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
       <nys-checkbox label="Coney Island"></nys-checkbox>
     </nys-checkboxgroup>
-    <button type="submit">Send</button>
+    <nys-button size="sm" label="Submit" type="submit"></nys-button>
   </fieldset>
 </form>
 `.trim(),
@@ -642,7 +647,7 @@ export const TEST: Story = {
           ></nys-checkbox>
         </nys-checkboxgroup>
 
-        <button type="submit">Send</button>
+        <nys-button size="sm" label="Submit" type="submit"></nys-button>
       </fieldset>
     </form>
   `,
