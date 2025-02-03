@@ -13,13 +13,6 @@ export default css`
   .nys-unavheader * {
     display: flex;
     align-items: center;
-  }
-
-  .nys-unavheader__left {
-    gap: var(--nys-space-200, 16px);
-  }
-
-  .nys-unavheader__right {
     gap: var(--nys-space-300, 24px);
   }
 
