@@ -6,6 +6,7 @@ import "@nys-excelsior/nys-select";
 import "@nys-excelsior/nys-textarea";
 import "@nys-excelsior/nys-textinput";
 import "@nys-excelsior/nys-toggle";
+import "@nys-excelsior/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysFormArgs {
@@ -185,6 +186,13 @@ export const Basic: Story = {
       </nys-radiogroup>
       <nys-toggle label="Dark Mode" name="dark-mode" value="dark"></nys-toggle>
       <button type="submit">Send</button>
+      <nys-button
+        size="sm"
+        type="button"
+        .onClick=${() => alert("Button clicked")}
+        label="Click me"
+      ></nys-button>
+      <nys-button size="sm" label="Submit" type="submit"></nys-button>
     </form>
   `,
   parameters: {
@@ -202,13 +210,15 @@ export const Basic: Story = {
       description="Used to send you a monthly update on your account."
       placeholder="John.Smith@its.ny.gov"
       type="text"
+      width="lg"
     ></nys-textinput>
-    <nys-checkbox
-      label="Opt In"
-      description="Newsletter"
-      name="nys-resident"
-      value="nys-resident"
-    ></nys-checkbox>
+    <nys-checkboxgroup label="Opt In" description="Newsletter">
+      <nys-checkbox
+        label="Send me updates"
+        name="newsletter"
+        value="newsletter"
+      ></nys-checkbox>
+    </nys-checkboxgroup>
   </div>
   <div
     style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"
@@ -505,10 +515,10 @@ export const Fieldset: Story = {
             errorMessage="You must select all that applies"
             checked
           ></nys-checkbox>
-          <nys-checkbox label="Finger Lakes" checked></nys-checkbox>
-          <nys-checkbox label="Catskills" checked></nys-checkbox>
-          <nys-checkbox label="Niagara Falls" checked></nys-checkbox>
-          <nys-checkbox label="Coney Island"></nys-checkbox>
+          <nys-checkbox label="Finger Lakes" name="landmarks" value="finger-lakes" checked></nys-checkbox>
+          <nys-checkbox label="Catskills" name="landmarks" value="catskills"></nys-checkbox>
+          <nys-checkbox label="Niagara Falls" name="landmarks" value="niagara-falls" ></nys-checkbox>
+          <nys-checkbox label="Coney Island" name="landmarks" value="coney-island"></nys-checkbox>
         </nys-checkboxgroup>
         <button type="submit">Send</button>
       </fieldset>
@@ -605,7 +615,7 @@ export const TEST: Story = {
         style="display: flex; flex-direction: column; gap: 10px; background-color: #f0f0f0; padding: 20px;"
       >
         <legend>User Information</legend>
-        
+
         <nys-checkbox label="YOLO" name="yolo" value="YOLO"></nys-checkbox>
         <nys-checkbox label="yolo2" name="yolo" value="yolo2"></nys-checkbox>
         <nys-checkbox label="Wow" name="wow" value="wow"></nys-checkbox>

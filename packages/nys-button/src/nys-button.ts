@@ -2,9 +2,17 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-button.styles";
 import "@nys-excelsior/nys-icon";
+import { FormControlController } from "@nys-excelsior/form-controller";
 
 @customElement("nys-button")
 export class NysButton extends LitElement {
+  // Form control controller
+  private formControlController = new FormControlController(this, {
+    form: (input) => input.closest("form"),
+    name: (input) => input.getAttribute("name"),
+    value: (input) => input.getAttribute("value"),
+  });
+
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   // size
@@ -61,7 +69,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "submit";
   }
-  @property({ type: Function }) onClick: (event: Event) => void = () => {};
+  @property({ type: Function }) onClick: ((event: Event) => void) | null = null;
   @property({ type: String }) href = "";
 
   static styles = styles;
@@ -74,6 +82,22 @@ export class NysButton extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this.dispatchEvent(new Event("blur"));
+  }
+
+  private _handleClick(event: Event) {
+    // Call the external onClick function if it exists
+    if (typeof this.onClick === "function") {
+      this.onClick(event);
+    }
+
+    // Internal logic for form submission
+    if (this.type === "submit") {
+      event.preventDefault(); // Prevent default form submission
+      const form = this.closest("form"); // Find the closest form
+      if (form) {
+        this.formControlController.submit(); // Submit the form
+      }
+    }
   }
 
   render() {
@@ -90,7 +114,7 @@ export class NysButton extends LitElement {
                 value=${this.value}
                 href=${this.href}
                 target="_blank"
-                @click=${this.onClick}
+                @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
               >
@@ -121,7 +145,7 @@ export class NysButton extends LitElement {
               form=${this.form}
               value=${this.value}
               type=${this.type}
-              @click=${this.onClick}
+              @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
             >

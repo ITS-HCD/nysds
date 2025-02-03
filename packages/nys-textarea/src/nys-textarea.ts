@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
-import { ifDefined } from "lit/directives/if-defined.js";
 import "@nys-excelsior/nys-icon";
 import { FormControlController } from "@nys-excelsior/form-controller";
 
@@ -124,31 +123,14 @@ export class NysTextarea extends LitElement {
     }
   }
 
-  // Handle invalid event
-  private handleInvalid(event: Event) {
-    this.formControlController.setValidity(false);
-    this.formControlController.emitInvalidEvent(event);
-  }
-
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
-<<<<<<< HEAD
     this.value = input.value;
 
-=======
     this.dispatchEvent(
       new CustomEvent("input", {
         detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
->>>>>>> 48f996febb7eb1926377a3aa7196c2ff5bf91f7c
-    const checkValidity = input.checkValidity();
-    this.dispatchEvent(
-      new CustomEvent("nys-checkValidity", {
-        detail: { checkValidity },
         bubbles: true,
         composed: true,
       }),
@@ -207,15 +189,6 @@ export class NysTextarea extends LitElement {
           aria-disabled="${this.disabled}"
           .value=${this.value}
           placeholder=${this.placeholder}
-<<<<<<< HEAD
-          maxlength=${ifDefined(this.maxlength)}
-          rows=${ifDefined(this.rows)}
-          form=${ifDefined(this.form)}
-          @input=${this._handleInput}
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-          @invalid=${this.handleInvalid}
-=======
           maxlength=${this.maxlength}
           .rows=${this.rows}
           form=${this.form}
@@ -225,7 +198,6 @@ export class NysTextarea extends LitElement {
           @change="${this._handleChange}"
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
->>>>>>> 48f996febb7eb1926377a3aa7196c2ff5bf91f7c
         ></textarea>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textarea__error">
