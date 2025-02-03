@@ -6,12 +6,24 @@ export default css`
 
   .nys-unavheader {
     background-color: var(--nys-color-ink-reverse, #ffffff);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nys-unavheader * {
+    display: flex;
+    align-items: center;
   }
 
   .nys-unavheader__left {
-    display: flex;
-    align-items: center;
     gap: var(--nys-space-200, 16px);
+  }
+
+  .nys-unavheader__right {
+    gap: var(--nys-space-300, 24px);
+  }
+
+  #nys-unav__translate {
   }
 
   .nys-unavheader__know {

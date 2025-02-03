@@ -3,6 +3,8 @@ import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-unavheader.styles";
 import nysLogo from "./nys-unav.logo";
 import "@nys-excelsior/nys-icon";
+import "@nys-excelsior/nys-textinput";
+import "@nys-excelsior/nys-button";
 
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
@@ -27,7 +29,7 @@ export class NysGlobalHeader extends LitElement {
 
   render() {
     return html`
-      <header class="nys-unavheader">
+      <header class="nys-unavheader" id="nys-universal-navigation">
         <div class="nys-unavheader__left">
           <div class="nys-unavheader__logo">${this._getNysLogo()}</div>
           <label class="nys-unavheader__official"
@@ -39,8 +41,15 @@ export class NysGlobalHeader extends LitElement {
           ></label>
         </div>
         <div class="nys-unavheader__right">
-          <div class="nys-unavheader__translate"></div>
-          <div class="nys-unavheader__search"></div>
+          <nys-button
+            variant="ghost"
+            label="Translate"
+            id="nys-unav__translate"
+          ></nys-button>
+          <div class="nys-unavheader__search">
+            <nys-textinput placeholder="Search"></nys-textinput>
+            <nys-button prefixIcon="search" size="sm"></nys-button>
+          </div>
         </div>
       </header>
       <div
