@@ -9,7 +9,7 @@ import * as FormStories from './form-controller.stories';
 Our form controller integrates custom form controls with native HTML form behaviors, handling association, data submission, validation, resetting, and interaction states.
 
 Excelsior components are built using Lit.dev and utilize the **[shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)**. While this approach is effective for encapsulating a component's internal structure, it prevents native `<form>` elements from recognizing form controls located inside a shadow root.
-To address this, Excelsior leverages the **[formdata](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/formdata_event) event**, which is available in [all modern browsers](https://caniuse.com/mdn-api_htmlformelement_formdata_event).
+To address this, Excelsior leverages the **[formdata](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/formdata_event) event**, which is available in **[all modern browsers](https://caniuse.com/mdn-api_htmlformelement_formdata_event)**.
 
 <p className="pill pill--stable">Stable</p>
 
@@ -18,13 +18,24 @@ To address this, Excelsior leverages the **[formdata](https://developer.mozilla.
 <Canvas of={FormStories.Basic} />
 
 In the example above, we successfully processed the `FormData` object from our `nys-component` by listening to the native form submission event. This allows your form to seamlessly handle both standard HTML form elements and custom `nys-components`.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> It is recommended that users perform a validation check within the submit event before processing form data. This ensures that all required fields and custom form controls are properly validated before submission. </div>
 ```js
 const form = document.querySelector('form');
 
 form.addEventListener('submit', (e) => {
    e.preventDefault();
+   const form = e.target as HTMLFormElement;
+   const isFormValid = form.checkValidity();
+
+   if (!isFormValid) {
+   console.log("Form validation failed.");
+   return;
+   }
+    
    // Collects all form control data into a FormData object
    const data = new FormData(form); 
+   
    // Use the FormData object as needed
    useData(formData);
 });

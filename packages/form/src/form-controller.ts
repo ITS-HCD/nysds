@@ -86,7 +86,6 @@ export class FormControlController implements ReactiveController {
   }
 
   hostConnected() {
-    console.log("hostConnected");
     const form = this.options.form(this.host);
 
     if (form) {
@@ -109,7 +108,6 @@ export class FormControlController implements ReactiveController {
 
   // Attaching listeners to the native form
   private attachForm(form?: HTMLFormElement) {
-    console.log("attaching form");
     if (form) {
       this.form = form;
 
@@ -122,13 +120,11 @@ export class FormControlController implements ReactiveController {
         );
       }
 
-      console.log("We have a form, now attaching listeners form");
       this.form.addEventListener("submit", this.handleFormSubmit);
       this.form.addEventListener("formdata", this.handleFormData);
       this.form.addEventListener("reset", this.handleFormReset);
 
       if (!reportValidityOverloads.has(this.form)) {
-        console.log("current form does not have reportValidityOverloads");
         reportValidityOverloads.set(this.form, this.form.reportValidity);
         this.form.reportValidity = () => this.reportFormValidity();
       }
@@ -174,7 +170,6 @@ export class FormControlController implements ReactiveController {
 
   /** Handles the 'formdata' event to append the control's value to the form data. **/
   private handleFormData = (event: FormDataEvent) => {
-    console.log("Handling FormData event inside form-controller");
     if (this.options.disabled(this.host)) return;
 
     const name = this.options.name(this.host);
@@ -186,9 +181,6 @@ export class FormControlController implements ReactiveController {
   };
 
   private handleFormSubmit = (event: Event) => {
-    console.log(
-      "The handleFormSubmit() is being called -- checking validation.",
-    );
     const disabled = this.options.disabled(this.host);
     const reportValidity = this.options.reportValidity;
 
@@ -206,10 +198,6 @@ export class FormControlController implements ReactiveController {
       ) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        console.log(
-          "Preventing submission -- invalid requirements: ",
-          this.options.name,
-        );
       }
     }
   };
@@ -243,8 +231,6 @@ export class FormControlController implements ReactiveController {
 
   // Check form validity by checking all form controls, including custom ones. Note that this does not trigger the native validation UI.
   private checkFormValidity() {
-    console.log("checking form validity from the form-controller...");
-
     if (this.form && !this.form.noValidate) {
       const elements = Array.from(
         this.form.querySelectorAll<HTMLInputElement>("*"),
@@ -263,8 +249,6 @@ export class FormControlController implements ReactiveController {
 
   // Report form validity by checking all form controls, including custom ones.
   private reportFormValidity = () => {
-    console.log("reporting form validity from the form-controller...");
-
     if (this.form && !this.form.noValidate) {
       const elements = Array.from(
         this.form.querySelectorAll<HTMLInputElement>("*"),

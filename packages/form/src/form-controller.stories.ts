@@ -40,7 +40,6 @@ type Story = StoryObj<NysFormArgs>;
 const useData = (formData: FormData) => {
   const formValues: Record<string, string> = {};
   formData.forEach((value, key) => {
-    console.log(`This is the formData key: ${key} and value: ${value}`);
     formValues[key] = value.toString();
   });
 
@@ -69,10 +68,6 @@ export const Basic: Story = {
           console.log("Form validation failed.");
           return;
         }
-
-        console.log(
-          "You should not be seeing this message if validation is suppose to fail. Otherwise, success!",
-        );
         const formData = new FormData(e.target as HTMLFormElement);
         // Convert FormData to a simple object for easier logging
         const formDataObj: Record<string, any> = {};
@@ -320,10 +315,16 @@ export const RequiredFields: Story = {
     <form
       .id=${args.id}
       @submit=${(e: SubmitEvent) => {
-        console.log(
-          "Form submitted...you should not see this message if validation fails.",
-        );
         e.preventDefault();
+
+        const form = e.target as HTMLFormElement;
+        const isFormValid = form.checkValidity();
+
+        if (!isFormValid) {
+          console.log("Form validation failed.");
+          return;
+        }
+
         const formData = new FormData(e.target as HTMLFormElement);
         useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
       }}
@@ -592,69 +593,6 @@ export const Fieldset: Story = {
     <nys-button size="sm" label="Submit" type="submit"></nys-button>
   </fieldset>
 </form>
-`.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-
-// Story: TEST
-export const TEST: Story = {
-  args: {
-    id: "work-location",
-  },
-  render: (args) => html`
-    <form
-      .id=${args.id}
-      @submit=${(e: SubmitEvent) => {
-        e.preventDefault();
-        console.log(
-          "You should not be seeing this message if validation fails.",
-        );
-        const formData = new FormData(e.target as HTMLFormElement);
-        useData(formData); // process FormData with the useData function (see above where it says "CUSTOM FUNCTION")
-      }}
-    >
-      <fieldset
-        style="display: flex; flex-direction: column; gap: 10px; background-color: #f0f0f0; padding: 20px;"
-      >
-        <legend>User Information</legend>
-
-        <nys-checkbox label="YOLO" name="yolo" value="YOLO"></nys-checkbox>
-        <nys-checkbox label="yolo2" name="yolo" value="yolo2"></nys-checkbox>
-        <nys-checkbox label="Wow" name="wow" value="wow"></nys-checkbox>
-        <hr style="background-color: black; width: 100%; height: 2px;" />
-
-        <nys-checkboxgroup
-          label="Select your favorite New York landmarks"
-          description="Choose from the options below"
-        >
-          <nys-checkbox
-            label="Broccoli"
-            name="food"
-            value="Broccoli"
-          ></nys-checkbox>
-          <nys-checkbox
-            label="celery"
-            name="food"
-            value="celery"
-          ></nys-checkbox>
-          <nys-checkbox
-            label="Veggies"
-            name="food"
-            value="Veggies"
-          ></nys-checkbox>
-        </nys-checkboxgroup>
-
-        <nys-button size="sm" label="Submit" type="submit"></nys-button>
-      </fieldset>
-    </form>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
 `.trim(),
         type: "auto",
       },
