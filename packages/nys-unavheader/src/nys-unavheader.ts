@@ -12,6 +12,23 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean }) languageVisible = true;
   @property({ type: Boolean }) isSearchFocused = false;
 
+  private languages: [string, string][] = [
+    ["English", ""],
+    ["Español", "es"],
+    ["中文", "zh"],
+    ["繁體中文", "zh-traditional"],
+    ["Русский", "ru"],
+    ["יידיש", "yi"],
+    ["বাংলা", "bn"],
+    ["한국어", "ko"],
+    ["Kreyòl Ayisyen", "ht"],
+    ["Italiano", "it"],
+    ["العربية", "ar"],
+    ["Polski", "pl"],
+    ["Français", "fr"],
+    ["اردو", "ur"],
+  ];
+
   static styles = styles;
 
   private _getNysLogo() {
