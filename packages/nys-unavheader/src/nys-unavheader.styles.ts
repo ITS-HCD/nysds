@@ -2,6 +2,21 @@ import { css } from "lit";
 
 export default css`
   :host {
+    /* Typography */
+    font-size: var(--nys-font-size-ui-md, 16px);
+    font-weight: var(--nys-font-weight-semibold, 600);
+    line-height: var(--nys-font-lineheight-ui-md, 24px);
+    font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
   }
 
   .nys-unavheader {
@@ -76,7 +91,9 @@ export default css`
   }
 
   a {
-    padding: var(--nys-space-200, 16px) var(--nys-space-400, 32px);
+    padding: var(--nys-space-200, 16px) var(--nys-space-300, 24px);
+    color: var(--nys-color-theme, #154973);
+    text-decoration: none;
   }
 
   a:hover {

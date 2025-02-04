@@ -9,7 +9,7 @@ import "@nys-excelsior/nys-button";
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean }) trustbarVisible = false;
-  @property({ type: Boolean }) languageVisible = true;
+  @property({ type: Boolean }) languageVisible = false;
   @property({ type: Boolean }) isSearchFocused = false;
 
   private languages: [string, string][] = [
@@ -98,9 +98,12 @@ export class NysGlobalHeader extends LitElement {
                     ? "show"
                     : "hide"}"
                 >
-                  <a variant="ghost" label="language 1">language 1</a>
-                  <a variant="ghost" label="language 2">language 2</a>
-                  <a variant="ghost" label="language 3">language 3</a>
+                  ${this.languages.map(
+                    ([label, code]) =>
+                      html`<a href="https://${code ? code + "." : ""}its.ny.gov"
+                        >${label}</a
+                      >`,
+                  )}
                 </div>
               </div>`
             : null}
