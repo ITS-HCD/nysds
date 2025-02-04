@@ -9,7 +9,7 @@ import "@nys-excelsior/nys-button";
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean }) trustbarVisible = false;
-  @property({ type: Boolean }) languageVisible = false;
+  @property({ type: Boolean }) languageVisible = true;
   @property({ type: Boolean }) isSearchFocused = false;
 
   static styles = styles;
@@ -65,7 +65,8 @@ export class NysGlobalHeader extends LitElement {
         </div>
         <div class="nys-unavheader__right">
           ${!this.isSearchFocused
-            ? html`<nys-button
+            ? html`<div class="nys-unavheader__translatewrapper">
+                <nys-button
                   variant="ghost"
                   label="Translate"
                   prefixIcon="language_filled"
@@ -80,8 +81,11 @@ export class NysGlobalHeader extends LitElement {
                     ? "show"
                     : "hide"}"
                 >
-                  testing
-                </div>`
+                  <a variant="ghost" label="language 1">language 1</a>
+                  <a variant="ghost" label="language 2">language 2</a>
+                  <a variant="ghost" label="language 3">language 3</a>
+                </div>
+              </div>`
             : null}
           <nys-textinput
             id="nys-unav__search"
@@ -119,6 +123,11 @@ export class NysGlobalHeader extends LitElement {
           size="sm"
           @click="${this._toggleTrustbar}"
         ></nys-button>
+      </div>
+      <div
+        style="background-color: lightblue; height: 20vh; align-items: center; display: flex; justify-content: center;"
+      >
+        Other content on page
       </div>
     `;
   }
