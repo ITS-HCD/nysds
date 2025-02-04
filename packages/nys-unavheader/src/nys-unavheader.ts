@@ -67,6 +67,19 @@ export class NysGlobalHeader extends LitElement {
     this.isSearchFocused = false;
   }
 
+  private _handleSearchKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      this.isSearchFocused = false;
+    }
+    if (e.key === "Enter") {
+      // Handle search
+      console.log(
+        "Searching for:",
+        (e.target as HTMLInputElement).value.trim(),
+      );
+    }
+  }
+
   render() {
     return html`
       <header class="nys-unavheader" id="nys-universal-navigation">
@@ -113,8 +126,10 @@ export class NysGlobalHeader extends LitElement {
           <nys-textinput
             id="nys-unav__search"
             placeholder="Search"
+            type="search"
             @focus="${this._handleSearchFocus}"
             @blur="${this._handleSearchBlur}"
+            @keydown="${this._handleSearchKeydown}"
           ></nys-textinput>
         </div>
       </header>
