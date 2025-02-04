@@ -55,7 +55,7 @@ export class NysGlobalHeader extends LitElement {
             ? html`<nys-button
                 variant="ghost"
                 label="Translate"
-                prefixIcon="translate"
+                prefixIcon="language"
                 suffixIcon="chevron_down"
                 id="nys-unav__translate"
               ></nys-button>`
