@@ -21,6 +21,8 @@ export class NysGlobalFooter extends LitElement {
 
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    if (!slot) return;
+
     const assignedNodes = slot
       ?.assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
