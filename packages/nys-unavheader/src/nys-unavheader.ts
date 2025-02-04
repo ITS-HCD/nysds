@@ -69,7 +69,8 @@ export class NysGlobalHeader extends LitElement {
 
   private _handleSearchKeydown(e: KeyboardEvent) {
     if (e.key === "Escape") {
-      this.isSearchFocused = false;
+      this._handleSearchBlur();
+      (e.target as HTMLInputElement).blur();
     }
     if (e.key === "Enter") {
       // Handle search
