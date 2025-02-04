@@ -76,7 +76,7 @@ export default css`
   }
 
   a {
-    padding: var(--nys-space-200, 16px);
+    padding: var(--nys-space-200, 16px) var(--nys-space-400, 32px);
   }
 
   a:hover {
