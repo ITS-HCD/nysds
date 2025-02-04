@@ -99,8 +99,16 @@ export class NysTextinput extends LitElement {
   }
 
   // Handle change event
-  private _handleChange() {
-    this.dispatchEvent(new Event("change"));
+  private _handleChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
