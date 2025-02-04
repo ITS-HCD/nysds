@@ -8,7 +8,7 @@ import "@nys-excelsior/nys-button";
 
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
-  @property({ type: Boolean }) trustbarVisible = false;
+  @property({ type: Boolean }) trustbarVisible = true;
   @property({ type: Boolean }) languageVisible = false;
   @property({ type: Boolean }) isSearchFocused = false;
 
@@ -138,21 +138,23 @@ export class NysGlobalHeader extends LitElement {
           : "hide"}"
       >
         <div class="nys-unavheader__trustcontent">
-          <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
-          <label><b>Official websites use ny.gov</b></label>
-          <label
-            >A <b>ny.gov</b> website belongs to an official New York State
-            government organization.</label
-          >
-        </div>
-        <div class="nys-unavheader__trustcontent">
-          <nys-icon size="3xl" name="lock_filled"></nys-icon>
-          <label><b>Secure ny.gov websites use HTTPS</b></label>
-          <label
-            >A <b>lock icon</b> or <b>https://</b> means you've safely connected
-            to the ny.gov website. Share sensitive information only on official,
-            secure websites.</label
-          >
+          <div class="nys-unavheader__trustcontentmessage">
+            <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
+            <label><b>Official websites use ny.gov</b></label>
+            <label
+              >A <b>ny.gov</b> website belongs to an official New York State
+              government organization.</label
+            >
+          </div>
+          <div class="nys-unavheader__trustcontentmessage">
+            <nys-icon size="3xl" name="lock_filled"></nys-icon>
+            <label><b>Secure ny.gov websites use HTTPS</b></label>
+            <label
+              >A <b>lock icon</b> or <b>https://</b> means you've safely
+              connected to the ny.gov website. Share sensitive information only
+              on official, secure websites.</label
+            >
+          </div>
         </div>
         <nys-button
           variant="ghost"
