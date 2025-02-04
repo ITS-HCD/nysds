@@ -129,7 +129,7 @@ export class NysGlobalHeader extends LitElement {
             type="search"
             @focus="${this._handleSearchFocus}"
             @blur="${this._handleSearchBlur}"
-            @keydown="${this._handleSearchKeydown}"
+            @keyup="${this._handleSearchKeydown}"
           ></nys-textinput>
         </div>
       </header>
