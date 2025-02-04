@@ -2,6 +2,8 @@ import { css } from "lit";
 
 export default css`
   :host {
+    --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
+
     /* Typography */
     font-size: var(--nys-font-size-ui-md, 16px);
     font-weight: var(--nys-font-weight-semibold, 600);
@@ -19,12 +21,28 @@ export default css`
     );
   }
 
+  /* Breakpoints using Excelsior Grid Guidelines */
+  @media (min-width: 768px) {
+    /* Tablet (MD - Above 768px) */
+    :host() {
+      --_nys-unavheader-gutter: var(--nys-gutter-lg, 32px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    /* Large Desktop (XL - Above 1280px) */
+    :host {
+      --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
+    }
+  }
+
   .nys-unavheader {
     background-color: var(--nys-color-ink-reverse, #ffffff);
     display: flex;
     justify-content: space-between;
     height: var(--nys-size-800, 64px);
     align-items: center;
+    padding: 0 var(--_nys-unavheader-gutter);
   }
 
   .nys-unavheader__left,
@@ -102,24 +120,5 @@ export default css`
 
   a:active {
     background-color: var(--nys-color-neutral-200, #bec0c1);
-  }
-
-  /* Breakpoints using Excelsior Grid Guidelines */
-  @media (min-width: 768px) {
-    /* md */
-    .nys-unavheader__content {
-      grid-template-columns: repeat(2, 1fr); /* Two columns */
-    }
-    :host() {
-      --_nys-unavheader-gap-spacing: var(--nys-space-400, 32px);
-      --_nys-unavheader-gutter: var(--nys-gutter-lg, 32px);
-    }
-  }
-
-  @media (min-width: 1280px) {
-    /* Large Desktop (XL - Above 1280px) */
-    :host {
-      --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
-    }
   }
 `;
