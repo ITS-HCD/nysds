@@ -70,13 +70,12 @@ export default css`
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-ink, #1b1b1b);
     display: flex;
-    padding: var(--nys-space-400, 32px);
+    padding: var(--nys-space-400, 32px) var(--_nys-unavheader-gutter);
   }
 
   .nys-unavheader__trustcontent {
     display: flex;
     flex: 1;
-    border: red solid 2px;
     flex-direction: column;
     gap: var(--nys-space-400, 24px);
   }
