@@ -100,7 +100,10 @@ export class NysGlobalHeader extends LitElement {
                 >
                   ${this.languages.map(
                     ([label, code]) =>
-                      html`<a href="https://${code ? code + "." : ""}its.ny.gov"
+                      html`<a
+                        target="_self"
+                        href="https://${code ? code + "." : ""}${window.location
+                          .hostname}"
                         >${label}</a
                       >`,
                   )}
