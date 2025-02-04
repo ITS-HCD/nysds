@@ -37,7 +37,8 @@ export default css`
     color: var(--nys-color-link, #004dd1);
   }
 
-  .nys-unavheader__trustbar.hide {
+  .nys-unavheader__trustbar.hide,
+  .nys-unavheader__languagelist.hide {
     display: none;
   }
 
@@ -47,6 +48,11 @@ export default css`
     display: flex;
     gap: var(--nys-space-400, 32px);
     padding: var(--nys-space-400, 32px);
+  }
+
+  .nys-unavheader__languagelist.show {
+    display: flex;
+    border: solid red 2px;
   }
 
   .nys-unavheader__trustcontent {

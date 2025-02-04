@@ -9,6 +9,7 @@ import "@nys-excelsior/nys-button";
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean }) trustbarVisible = false;
+  @property({ type: Boolean }) languageVisible = false;
   @property({ type: Boolean }) isSearchFocused = false;
 
   static styles = styles;
@@ -26,11 +27,23 @@ export class NysGlobalHeader extends LitElement {
 
   private _toggleTrustbar() {
     this.trustbarVisible = !this.trustbarVisible;
+
+    if (this.trustbarVisible) {
+      this.languageVisible = false; //close language list when trustbar is opened
+    }
+  }
+
+  private _toggleLanguageList() {
+    this.languageVisible = !this.languageVisible;
+    if (this.languageVisible) {
+      this.trustbarVisible = false; //close trustbar when language list is opened
+    }
   }
 
   private _handleSearchFocus() {
     this.isSearchFocused = true;
     this.trustbarVisible = false; //close trustbar when search is focused
+    this.languageVisible = false; //close language list when search is focused
   }
 
   private _handleSearchBlur() {
@@ -53,12 +66,22 @@ export class NysGlobalHeader extends LitElement {
         <div class="nys-unavheader__right">
           ${!this.isSearchFocused
             ? html`<nys-button
-                variant="ghost"
-                label="Translate"
-                prefixIcon="language_filled"
-                suffixIcon="chevron_down"
-                id="nys-unav__translate"
-              ></nys-button>`
+                  variant="ghost"
+                  label="Translate"
+                  prefixIcon="language_filled"
+                  suffixIcon=${this.languageVisible
+                    ? "chevron_up"
+                    : "chevron_down"}
+                  id="nys-unav__translate"
+                  @click="${this._toggleLanguageList}"
+                ></nys-button>
+                <div
+                  class="nys-unavheader__languagelist ${this.languageVisible
+                    ? "show"
+                    : "hide"}"
+                >
+                  testing
+                </div>`
             : null}
           <nys-textinput
             id="nys-unav__search"
