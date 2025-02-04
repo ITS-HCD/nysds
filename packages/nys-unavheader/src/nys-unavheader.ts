@@ -8,7 +8,7 @@ import "@nys-excelsior/nys-button";
 
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
-  @property({ type: Boolean }) trustbarVisible = true;
+  @property({ type: Boolean }) trustbarVisible = false;
   @property({ type: Boolean }) languageVisible = false;
   @property({ type: Boolean }) isSearchFocused = false;
 
