@@ -11,6 +11,8 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean }) trustbarVisible = false;
   @property({ type: Boolean }) languageVisible = false;
   @property({ type: Boolean }) isSearchFocused = false;
+  @property({ type: Boolean }) hideTranslate = false;
+  @property({ type: Boolean }) hideSearch = false;
 
   private languages: [string, string][] = [
     ["English", ""],
@@ -93,7 +95,7 @@ export class NysGlobalHeader extends LitElement {
           ></label>
         </div>
         <div class="nys-unavheader__right">
-          ${!this.isSearchFocused
+          ${!this.isSearchFocused && !this.hideTranslate
             ? html`<div class="nys-unavheader__translatewrapper">
                 <nys-button
                   variant="ghost"
@@ -122,14 +124,16 @@ export class NysGlobalHeader extends LitElement {
                 </div>
               </div>`
             : null}
-          <nys-textinput
-            id="nys-unav__search"
-            placeholder="Search"
-            type="search"
-            @focus="${this._handleSearchFocus}"
-            @blur="${this._handleSearchBlur}"
-            @keyup="${this._handleSearchKeydown}"
-          ></nys-textinput>
+          ${!this.hideSearch
+            ? html`<nys-textinput
+                id="nys-unav__search"
+                placeholder="Search"
+                type="search"
+                @focus="${this._handleSearchFocus}"
+                @blur="${this._handleSearchBlur}"
+                @keyup="${this._handleSearchKeydown}"
+              ></nys-textinput>`
+            : null}
         </div>
       </header>
       <div

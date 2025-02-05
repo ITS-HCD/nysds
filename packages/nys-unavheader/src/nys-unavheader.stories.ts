@@ -3,12 +3,18 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-unavheader";
 
 // Define the structure of the args used in the stories
-interface NysUnavHeaderArgs {}
+interface NysUnavHeaderArgs {
+  hideTranslate: boolean;
+  hideSearch: boolean;
+}
 
 const meta: Meta<NysUnavHeaderArgs> = {
   title: "Components/UnavHeader",
   component: "nys-unavheader",
-  argTypes: {},
+  argTypes: {
+    hideTranslate: { control: "boolean" },
+    hideSearch: { control: "boolean" },
+  },
   parameters: {
     docs: {
       source: { type: "dynamic" }, // Enables live Source code tab
@@ -26,7 +32,11 @@ type Story = StoryObj<NysUnavHeaderArgs>;
 // Story: Basic
 export const Basic: Story = {
   args: {},
-  render: (args) => html`<nys-unavheader></nys-unavheader>`,
+  render: (args) =>
+    html`<nys-unavheader
+      .hideTranslate=${args.hideTranslate}
+      .hideSearch=${args.hideSearch}
+    ></nys-unavheader>`,
   parameters: {
     docs: {
       source: {
