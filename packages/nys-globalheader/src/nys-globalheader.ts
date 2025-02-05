@@ -38,30 +38,32 @@ export class NysGlobalHeader extends LitElement {
   render() {
     return html`
       <header class="nys-globalheader">
-        <div class="nys-globalheader__name-container">
-          ${this.appName?.trim().length > 0
-            ? html`<div
-                class="nys-globalheader__appName nys-globalheader__name"
-              >
-                ${this.appName}
-              </div>`
-            : ""}
-          ${this.agencyName?.trim().length > 0
-            ? html`<div
-                class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                  .length > 0
-                  ? ""
-                  : "main"}"
-              >
-                ${this.agencyName}
+        <div class="nys-globalheader__main-container">
+          <div class="nys-globalheader__name-container">
+            ${this.appName?.trim().length > 0
+              ? html`<div
+                  class="nys-globalheader__appName nys-globalheader__name"
+                >
+                  ${this.appName}
+                </div>`
+              : ""}
+            ${this.agencyName?.trim().length > 0
+              ? html`<div
+                  class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
+                    .length > 0
+                    ? ""
+                    : "main"}"
+                >
+                  ${this.agencyName}
+                </div>`
+              : ""}
+          </div>
+          ${this.slotHasContent
+            ? html`<div class="nys-globalheader__content">
+                <slot name="text"></slot>
               </div>`
             : ""}
         </div>
-        ${this.slotHasContent
-          ? html`<div class="nys-globalheader__content">
-              <slot name="text"></slot>
-            </div>`
-          : ""}
       </header>
     `;
   }

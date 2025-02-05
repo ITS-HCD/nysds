@@ -35,6 +35,7 @@ export default css`
       --nys-font-weight-semibold,
       600
     );
+    --_nys-globalheader-content-max-width: var(--nys-max-content-width, 1280px);
 
     /* Agency and App Name Styling */
     --_nys-globalheader-font-size-main-name: var(
@@ -77,6 +78,13 @@ export default css`
     box-sizing: border-box;
   }
 
+  /* Main container */
+  .nys-globalheader__main-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   /* Left-hand side Agency and App names */
   .nys-globalheader__name-container {
     display: flex;
@@ -84,6 +92,8 @@ export default css`
     justify-content: center;
     align-items: flex-start;
     gap: var(--_nys-globalheader-gap-spacing);
+    width: 100%;
+    max-width: var(--_nys-globalheader-content-max-width);
   }
   .nys-globalheader__name {
     margin: 0;
