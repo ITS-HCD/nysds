@@ -5,6 +5,7 @@ export default css`
     /* Anything that can be overridden should be defined here */
 
     /* Global Button Styles */
+    --_nys-button-width: fit-content;
     --_nys-button-height: var(--nys-size-600, 48px);
     --_nys-button-radius: var(--nys-border-radius-xl, 12px);
     --_nys-button-padding-y: var(--nys-space-150, 12px);
@@ -64,6 +65,9 @@ export default css`
     --_nys-button-height: var(--nys-size-700, 56px);
     --_nys-button-padding-y: var(--nys-space-200, 16px);
     --_nys-button-padding-x: var(--nys-space-300, 24px);
+  }
+  :host([fullWidth]) {
+    --_nys-button-width: 100%;
   }
 
   /* Variants */
@@ -245,12 +249,13 @@ export default css`
   }
 
   .nys-button {
-    width: fit-content;
+    width: var(--_nys-button-width);
     height: var(--_nys-button-height);
     border-radius: var(--_nys-button-radius);
     padding: var(--_nys-button-padding-y) var(--_nys-button-padding-x);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--_nys-button-gap);
     font-family: var(--_nys-button-font-family);
     font-size: var(--_nys-button-font-size);
