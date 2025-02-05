@@ -211,6 +211,7 @@ export class NysAlert extends LitElement {
                     variant="ghost"
                     prefixIcon="close"
                     size="sm"
+                    @click=${this._closeAlert}
                   ></nys-button>
                 </div>`
               : this.dismissible && this.type === "emergency" ?
@@ -221,6 +222,7 @@ export class NysAlert extends LitElement {
                     prefixIcon="close"
                     size="sm"
                     inverted
+                    @click=${this._closeAlert}
                   ></nys-button>
                 </div>`
               : ""
