@@ -24,6 +24,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_SIZES)[number])
       : "md";
   }
+  @property({ type: Boolean, reflect: true }) fullWidth = false;
   // variant
   private static readonly VALID_VARIANTS = [
     "filled",
