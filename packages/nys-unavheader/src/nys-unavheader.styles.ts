@@ -43,6 +43,11 @@ export default css`
     --_nys-button-color-text-active: var(--nys-color-theme, #154973);
   }
 
+  #nys-unav__closetrustbar {
+    --_nys-button-width: var(--nys-size-500, 40px);
+    --_nys-button-height: var(--nys-size-500, 40px);
+  }
+
   #nys-unav__search {
     width: var(--nys-form-width-md, 200px);
     transition: width 0.5s ease;

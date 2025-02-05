@@ -161,6 +161,7 @@ export class NysGlobalHeader extends LitElement {
           </div>
         </div>
         <nys-button
+          id="nys-unav__closetrustbar"
           variant="ghost"
           prefixIcon="close"
           size="sm"
