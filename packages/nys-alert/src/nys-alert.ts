@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "@nys-excelsior/nys-icon";
+import "@nys-excelsior/nys-button";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 
@@ -203,17 +204,27 @@ export class NysAlert extends LitElement {
                   </div> `
                 : ""}
             </div>
-            ${this.dismissible
+            ${this.dismissible && this.type !== "emergency"
               ? html`<div class="close-container">
-                  <button class="close-button" @click=${this._closeAlert}>
-                    <nys-icon
-                      name="close"
-                      size="lg"
-                      label="close icon"
-                    ></nys-icon>
-                  </button>
+                  <nys-button
+                    id="dismiss-btn"
+                    variant="ghost"
+                    prefixIcon="close"
+                    size="sm"
+                  ></nys-button>
                 </div>`
-              : ""}
+              : this.dismissible && this.type === "emergency" ?
+              html`<div class="close-container">
+                  <nys-button
+                    id="dismiss-btn"
+                    variant="ghost"
+                    prefixIcon="close"
+                    size="sm"
+                    inverted
+                  ></nys-button>
+                </div>`
+              : ""
+              }
           </div>`
         : ""}
     `;

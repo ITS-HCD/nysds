@@ -35,21 +35,6 @@ export default css`
     --_nys-alert-font-weight-regular: var(--nys-font-weight-regular, 400);
     --_nys-alert-font-weight-semibold: var(--nys-font-weight-semibold, 600);
 
-    /* Dismiss button */
-    --_nys-alert-close-button-size: var(--nys-font-size-2xl, 22px);
-    --_nys-alert-hover-button-color: var(
-      --nys-color-black-transparent-100,
-      #0000001a
-    );
-    --_nys-alert-active-button-color: var(
-      --nys-color-black-transparent-200,
-      #00000033
-    );
-    --_nys-alert-active-button-icon-color: var(
-      --nys-color-neutral-700,
-      #4a4d4f
-    );
-
     /* Border specifics */
     --_nys-alert-color-border-left: var(
       --nys-color-neutral,
@@ -131,27 +116,6 @@ export default css`
   .close-container {
     margin-left: auto;
   }
-  .close-button {
-    width: var(--_nys-alert-close-button-size);
-    height: var(--_nys-alert-close-button-size);
-    border-radius: var(--_nys-alert-hover-border-radius);
-    background: none;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: currentColor;
-  }
-  .close-button:hover {
-    background: var(--_nys-alert-hover-button-color);
-  }
-  .close-button:active {
-    background: var(--_nys-alert-active-button-color);
-  }
-  .close-button:active {
-    color: var(--_nys-alert-active-button-icon-color);
-  }
 
   /* Centered variant: For no descriptions, we remove the <slot name="text"> via JS logic. In styling, centers the icon for a compact layout. */
   .nys-alert--centered {
@@ -226,19 +190,6 @@ export default css`
       var(--nys-color-red-800, #721c1c)
     );
     --_nys-alert-color: #fff;
-    --_nys-alert-hover-button-color: var(
-      --nys-color-white-transparent-100,
-      #ffffff1a
-    );
-    --_nys-alert-hover-button-color: var(
-      --nys-color-white-transparent-100,
-      #ffffff1a
-    );
-    --_nys-alert-active-button-color: var(
-      --nys-color-white-transparent-200,
-      #ffffff33
-    );
-    --_nys-alert-active-button-icon-color: var(--nys-color-neutral-50, #ededed);
     --_nys-alert-link-color: #fff;
   }
 `;
