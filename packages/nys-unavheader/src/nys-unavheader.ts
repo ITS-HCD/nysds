@@ -14,8 +14,15 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean, reflect: true }) isSearchFocused = false;
   @property({ type: Boolean, reflect: true }) hideTranslate = false;
   @property({ type: Boolean, reflect: true }) hideSearch = false;
-  @property({ type: Boolean, reflect: true }) isMediumScreen =
-    window.innerWidth < 1024;
+  @property({ type: String })
+  get screenSize(): string {
+    const width = window.innerWidth;
+    if (width < 480) return "xs";
+    if (width < 768) return "sm";
+    if (width < 1024) return "md";
+    if (width < 1280) return "lg";
+    return "xl";
+  }
 
   private languages: [string, string][] = [
     ["English", ""],
@@ -95,7 +102,7 @@ export class NysGlobalHeader extends LitElement {
   }
 
   private _updateScreenSize() {
-    this.isMediumScreen = window.innerWidth < 1024;
+    this.requestUpdate();
   }
 
   connectedCallback() {
@@ -128,8 +135,17 @@ export class NysGlobalHeader extends LitElement {
         <div class="nys-unavheader__right">
           ${!this.isSearchFocused && !this.hideTranslate
             ? html`<div class="nys-unavheader__translatewrapper">
-                ${!this.isMediumScreen
+                ${this.screenSize === "xs" ||
+                this.screenSize === "sm" ||
+                this.screenSize === "md"
                   ? html`<nys-button
+                      variant="ghost"
+                      prefixIcon="language"
+                      id="nys-unavheader__translate"
+                      class="nys-unavheader__iconbutton"
+                      @click="${this._toggleLanguageList}"
+                    ></nys-button>`
+                  : html`<nys-button
                       variant="ghost"
                       label="Translate"
                       prefixIcon="language_filled"
@@ -137,13 +153,6 @@ export class NysGlobalHeader extends LitElement {
                         ? "chevron_up"
                         : "chevron_down"}
                       id="nys-unavheader__translate"
-                      @click="${this._toggleLanguageList}"
-                    ></nys-button>`
-                  : html`<nys-button
-                      variant="ghost"
-                      prefixIcon="language"
-                      id="nys-unavheader__translate"
-                      class="nys-unavheader__iconbutton"
                       @click="${this._toggleLanguageList}"
                     ></nys-button>`}
                 <div
@@ -164,7 +173,9 @@ export class NysGlobalHeader extends LitElement {
               </div>`
             : null}
           ${!this.hideSearch
-            ? this.isMediumScreen
+            ? this.screenSize === "xs" ||
+              this.screenSize === "sm" ||
+              this.screenSize === "md"
               ? html`<nys-button
                   variant="ghost"
                   prefixIcon="search"
@@ -218,7 +229,9 @@ export class NysGlobalHeader extends LitElement {
       </div>
       <div
         class="nys-unavheader__searchdropdown ${this.searchDropdownVisible &&
-        this.isMediumScreen
+        (this.screenSize === "xs" ||
+          this.screenSize === "sm" ||
+          this.screenSize === "md")
           ? "show"
           : "hide"}"
       >
