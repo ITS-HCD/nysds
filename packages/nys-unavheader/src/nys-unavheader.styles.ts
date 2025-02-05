@@ -92,7 +92,8 @@ export default css`
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    min-width: 100%;
+    width: max-content;
     z-index: 99999;
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-theme, #154973);
@@ -100,7 +101,7 @@ export default css`
   }
 
   a {
-    padding: var(--nys-space-200, 16px) var(--nys-space-300, 24px);
+    padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
     color: var(--nys-color-theme, #154973);
     text-decoration: none;
   }
