@@ -71,6 +71,11 @@ export default css`
     --_nys-button-color-bg-active: var(--nys-color-transparent, #ffffff00);
   }
 
+  #nys-unavheader__official,
+  #nys-unavheader__know {
+    width: max-content;
+  }
+
   .nys-unavheader__translatewrapper {
     position: relative;
   }
