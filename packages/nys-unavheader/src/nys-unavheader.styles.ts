@@ -146,7 +146,7 @@ export default css`
 
   /* Breakpoints using Excelsior Grid Guidelines */
   @media (min-width: 768px) {
-    /* Mobile Large (SM - Above 768px) */
+    /* Tablet (MD - Above 768px) */
     :host() {
       --_nys-unavheader-gutter: var(--nys-gutter-lg, 32px);
     }
@@ -156,14 +156,14 @@ export default css`
   }
 
   @media (min-width: 1024px) {
-    /* Tablet (SM - Above 1024px) */
+    /* Desktop (LG - Above 1024px) */
     .nys-unavheader__languagelist.show {
       margin-top: var(--nys-space-100, 8px);
     }
   }
 
   @media (min-width: 1280px) {
-    /* Desktop (LG - Above 1280px) */
+    /* Desktop Large (XL - Above 1280px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
     }
