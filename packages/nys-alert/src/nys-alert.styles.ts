@@ -141,8 +141,10 @@ export default css`
 
   /* Dismiss Button */
   #dismiss-btn {
-    --_nys-button-width: var(--nys-size-200, 16px);
-    --_nys-button-height: var(--nys-size-200, 16px);
+    --_nys-button-width: var(--nys-size-400, 32px);
+    --_nys-button-height: var(--nys-size-400, 32px);
+    --_nys-button-padding-y: 0;
+    --_nys-button-padding-x: 0;
   }
 
   /* Alert Types */
