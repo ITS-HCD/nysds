@@ -8,12 +8,14 @@ import "@nys-excelsior/nys-button";
 
 @customElement("nys-unavheader")
 export class NysGlobalHeader extends LitElement {
-  @property({ type: Boolean }) trustbarVisible = false;
-  @property({ type: Boolean }) languageVisible = false;
-  @property({ type: Boolean }) isSearchFocused = false;
-  @property({ type: Boolean }) hideTranslate = false;
-  @property({ type: Boolean }) hideSearch = false;
-  @property({ type: Boolean }) isSmallScreen = window.innerWidth < 1024;
+  @property({ type: Boolean, reflect: true }) trustbarVisible = false;
+  @property({ type: Boolean, reflect: true }) searchDropdownVisible = false;
+  @property({ type: Boolean, reflect: true }) languageVisible = false;
+  @property({ type: Boolean, reflect: true }) isSearchFocused = false;
+  @property({ type: Boolean, reflect: true }) hideTranslate = false;
+  @property({ type: Boolean, reflect: true }) hideSearch = false;
+  @property({ type: Boolean, reflect: true }) isSmallScreen =
+    window.innerWidth < 1024;
 
   private languages: [string, string][] = [
     ["English", ""],
@@ -49,21 +51,31 @@ export class NysGlobalHeader extends LitElement {
     this.trustbarVisible = !this.trustbarVisible;
 
     if (this.trustbarVisible) {
-      this.languageVisible = false; //close language list when trustbar is opened
+      this.languageVisible = false;
+      this.searchDropdownVisible = false;
     }
   }
 
   private _toggleLanguageList() {
     this.languageVisible = !this.languageVisible;
     if (this.languageVisible) {
-      this.trustbarVisible = false; //close trustbar when language list is opened
+      this.trustbarVisible = false;
+      this.searchDropdownVisible = false;
+    }
+  }
+
+  private _toggleSearchDropdown() {
+    this.searchDropdownVisible = !this.searchDropdownVisible;
+    if (this.searchDropdownVisible) {
+      this.trustbarVisible = false;
+      this.languageVisible = false;
     }
   }
 
   private _handleSearchFocus() {
     this.isSearchFocused = true;
-    this.trustbarVisible = false; //close trustbar when search is focused
-    this.languageVisible = false; //close language list when search is focused
+    this.trustbarVisible = false;
+    this.languageVisible = false;
   }
 
   private _handleSearchBlur() {
@@ -124,13 +136,13 @@ export class NysGlobalHeader extends LitElement {
                       suffixIcon=${this.languageVisible
                         ? "chevron_up"
                         : "chevron_down"}
-                      id="nys-unav__translate"
+                      id="nys-unavheader__translate"
                       @click="${this._toggleLanguageList}"
                     ></nys-button>`
                   : html`<nys-button
                       variant="ghost"
-                      prefixIcon="language_filled"
-                      id="nys-unav__translate"
+                      prefixIcon="language"
+                      id="nys-unavheader__translate"
                       class="nys-unavheader__iconbutton"
                       @click="${this._toggleLanguageList}"
                     ></nys-button>`}
@@ -152,14 +164,22 @@ export class NysGlobalHeader extends LitElement {
               </div>`
             : null}
           ${!this.hideSearch
-            ? html`<nys-textinput
-                id="nys-unav__search"
-                placeholder="Search"
-                type="search"
-                @focus="${this._handleSearchFocus}"
-                @blur="${this._handleSearchBlur}"
-                @keyup="${this._handleSearchKeydown}"
-              ></nys-textinput>`
+            ? this.isSmallScreen
+              ? html`<nys-button
+                  variant="ghost"
+                  prefixIcon="search"
+                  id="nys-unavheader__searchbutton"
+                  class="nys-unavheader__iconbutton"
+                  @click="${this._toggleSearchDropdown}"
+                ></nys-button>`
+              : html`<nys-textinput
+                  id="nys-unavheader__search"
+                  placeholder="Search"
+                  type="search"
+                  @focus="${this._handleSearchFocus}"
+                  @blur="${this._handleSearchBlur}"
+                  @keyup="${this._handleSearchKeydown}"
+                ></nys-textinput>`
             : null}
         </div>
       </header>
@@ -188,13 +208,28 @@ export class NysGlobalHeader extends LitElement {
           </div>
         </div>
         <nys-button
-          id="nys-unav__closetrustbar"
+          id="nys-unavheader__closetrustbar"
           class="nys-unavheader__iconbutton"
           variant="ghost"
           prefixIcon="close"
           size="sm"
           @click="${this._toggleTrustbar}"
         ></nys-button>
+      </div>
+      <div
+        class="nys-unavheader__searchdropdown ${this.searchDropdownVisible &&
+        this.isSmallScreen
+          ? "show"
+          : "hide"}"
+      >
+        <nys-textinput
+          id="nys-unavheader__search"
+          placeholder="Search"
+          type="search"
+          @focus="${this._handleSearchFocus}"
+          @blur="${this._handleSearchBlur}"
+          @keyup="${this._handleSearchKeydown}"
+        ></nys-textinput>
       </div>
       <div
         style="background-color: lightblue; height: 20vh; align-items: center; display: flex; justify-content: center;"

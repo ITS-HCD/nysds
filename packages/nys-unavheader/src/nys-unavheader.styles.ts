@@ -37,7 +37,8 @@ export default css`
     gap: var(--nys-space-300, 24px);
   }
 
-  #nys-unav__translate {
+  #nys-unavheader__translate,
+  #nys-unavheader__searchbutton {
     --_nys-button-color-text: var(--nys-color-theme, #154973);
     --_nys-button-color-text-hover: var(--nys-color-theme, #154973);
     --_nys-button-color-text-active: var(--nys-color-theme, #154973);
@@ -48,13 +49,13 @@ export default css`
     --_nys-button-height: var(--nys-size-500, 40px);
   }
 
-  #nys-unav__search {
+  #nys-unavheader__search {
     width: var(--nys-form-width-md, 200px);
     transition: width 0.5s ease;
   }
 
   /* Grow size on focus */
-  #nys-unav__search:focus {
+  #nys-unavheader__search:focus {
     width: var(--nys-form-width-lg, 384px);
   }
 
@@ -81,8 +82,14 @@ export default css`
   }
 
   .nys-unavheader__trustbar.hide,
-  .nys-unavheader__languagelist.hide {
+  .nys-unavheader__languagelist.hide,
+  .nys-unavheader__searchdropdown.hide {
     display: none;
+  }
+
+  .nys-unavheader__searchdropdown.show {
+    background-color: var(--nys-color-neutral-50, #ededed);
+    padding: var(--nys-space-250, 20px) var(--_nys-unavheader-gutter);
   }
 
   .nys-unavheader__trustbar.show {
@@ -117,6 +124,10 @@ export default css`
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-theme, #154973);
     margin-top: var(--nys-space-150, 12px);
+  }
+
+  :host([isSmallScreen]) .nys-unavheader__languagelist.show {
+    right: 0;
   }
 
   a {
