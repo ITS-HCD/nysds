@@ -160,9 +160,6 @@ export default css`
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-theme, #154973);
     margin-top: var(--nys-space-150, 12px);
-  }
-
-  :host([isMediumScreen]) .nys-unavheader__languagelist.show {
     right: 0;
   }
 
