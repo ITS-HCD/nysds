@@ -15,6 +15,7 @@ const packages = [
   { name: "nys-toggle", path: "packages/nys-toggle" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
+  { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
 ];
 
 packages.forEach((pkg) => {
