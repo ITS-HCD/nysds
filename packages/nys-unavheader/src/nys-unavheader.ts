@@ -13,6 +13,7 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean }) isSearchFocused = false;
   @property({ type: Boolean }) hideTranslate = false;
   @property({ type: Boolean }) hideSearch = false;
+  @property({ type: Boolean }) isSmallScreen = window.innerWidth < 1024;
 
   private languages: [string, string][] = [
     ["English", ""],
@@ -81,15 +82,28 @@ export class NysGlobalHeader extends LitElement {
     }
   }
 
+  private _updateScreenSize() {
+    this.isSmallScreen = window.innerWidth < 1024;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener("resize", this._updateScreenSize.bind(this));
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener("resize", this._updateScreenSize.bind(this));
+  }
+
   render() {
     return html`
       <header class="nys-unavheader" id="nys-universal-navigation">
         <div class="nys-unavheader__left">
           <div class="nys-unavheader__logo">${this._getNysLogo()}</div>
-          <label class="nys-unavheader__official"
+          <label id="nys-unavheader__official"
             >An official website of New York State</label
-          >
-          <nys-button
+          ><nys-button
             id="nys-unavheader__know"
             label="Here's how you know"
             variant="ghost"
@@ -102,16 +116,24 @@ export class NysGlobalHeader extends LitElement {
         <div class="nys-unavheader__right">
           ${!this.isSearchFocused && !this.hideTranslate
             ? html`<div class="nys-unavheader__translatewrapper">
-                <nys-button
-                  variant="ghost"
-                  label="Translate"
-                  prefixIcon="language_filled"
-                  suffixIcon=${this.languageVisible
-                    ? "chevron_up"
-                    : "chevron_down"}
-                  id="nys-unav__translate"
-                  @click="${this._toggleLanguageList}"
-                ></nys-button>
+                ${!this.isSmallScreen
+                  ? html`<nys-button
+                      variant="ghost"
+                      label="Translate"
+                      prefixIcon="language_filled"
+                      suffixIcon=${this.languageVisible
+                        ? "chevron_up"
+                        : "chevron_down"}
+                      id="nys-unav__translate"
+                      @click="${this._toggleLanguageList}"
+                    ></nys-button>`
+                  : html`<nys-button
+                      variant="ghost"
+                      prefixIcon="language_filled"
+                      id="nys-unav__translate"
+                      class="nys-unavheader__iconbutton"
+                      @click="${this._toggleLanguageList}"
+                    ></nys-button>`}
                 <div
                   class="nys-unavheader__languagelist ${this.languageVisible
                     ? "show"
@@ -167,6 +189,7 @@ export class NysGlobalHeader extends LitElement {
         </div>
         <nys-button
           id="nys-unav__closetrustbar"
+          class="nys-unavheader__iconbutton"
           variant="ghost"
           prefixIcon="close"
           size="sm"

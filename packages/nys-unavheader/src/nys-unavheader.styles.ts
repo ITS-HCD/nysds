@@ -43,7 +43,7 @@ export default css`
     --_nys-button-color-text-active: var(--nys-color-theme, #154973);
   }
 
-  #nys-unav__closetrustbar {
+  .nys-unavheader__iconbutton {
     --_nys-button-width: var(--nys-size-500, 40px);
     --_nys-button-height: var(--nys-size-500, 40px);
   }
@@ -116,7 +116,7 @@ export default css`
     z-index: 99999;
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-theme, #154973);
-    margin-top: var(--nys-space-100, 8px);
+    margin-top: var(--nys-space-150, 12px);
   }
 
   a {
@@ -141,6 +141,12 @@ export default css`
     }
     .nys-unavheader__trustcontent {
       flex-direction: row;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .nys-unavheader__languagelist.show {
+      margin-top: var(--nys-space-100, 8px);
     }
   }
 
