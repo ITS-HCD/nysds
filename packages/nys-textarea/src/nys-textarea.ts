@@ -84,16 +84,41 @@ export class NysTextarea extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
-  private _handleChange() {
-    this.dispatchEvent(new Event("change"));
+  // Handle change event to bubble up selected value
+  private _handleChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private _handleSelect() {
-    this.dispatchEvent(new Event("select"));
+  private _handleSelect(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("select", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
-  private _handleSelectionChange() {
-    this.dispatchEvent(new Event("selectionchange"));
+  private _handleSelectionChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("selectionchange", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
