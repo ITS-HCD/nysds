@@ -27,6 +27,7 @@ export default css`
       --nys-font-weight-semibold,
       600
     );
+    --_nys-globalfooter-content-max-width: var(--nys-max-content-width, 1280px);
 
     /* Agency Name */
     --_nys-globalfooter-font-family-agency: var(
@@ -63,13 +64,20 @@ export default css`
   .nys-globalfooter {
     display: flex;
     padding: var(--_nys-globalfooter-padding) var(--_nys-globalfooter-gutter);
-    gap: var(--_nys-globalfooter-gap-spacing);
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: center;
     background-color: var(--_nys-globalfooter-background);
     color: var(--_nys-globalfooter-color);
     width: 100%;
     box-sizing: border-box;
+  }
+
+  /* Main Container */
+  .nys-globalfooter__main-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--_nys-globalfooter-gap-spacing);
+    width: 100%;
+    max-width: var(--_nys-globalfooter-content-max-width);
   }
 
   /* The Agency Name */

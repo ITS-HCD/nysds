@@ -69,8 +69,7 @@ export default css`
   .nys-globalheader {
     display: flex;
     padding: var(--_nys-globalheader-padding) var(--_nys-globalheader-gutter);
-    flex-direction: column;
-    align-items: flex-start;
+    justify-content: center;
     background-color: var(--_nys-globalheader-background);
     color: var(--_nys-globalheader-color);
     gap: var(--_nys-globalheader-gap-spacing);
@@ -80,8 +79,7 @@ export default css`
 
   /* Main container */
   .nys-globalheader__main-container {
-    display: flex;
-    justify-content: center;
+    max-width: var(--_nys-globalheader-content-max-width);
     width: 100%;
   }
 
@@ -93,7 +91,6 @@ export default css`
     align-items: flex-start;
     gap: var(--_nys-globalheader-gap-spacing);
     width: 100%;
-    max-width: var(--_nys-globalheader-content-max-width);
   }
   .nys-globalheader__name {
     margin: 0;
