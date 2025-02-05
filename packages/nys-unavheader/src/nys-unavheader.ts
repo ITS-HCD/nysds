@@ -14,7 +14,7 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: Boolean, reflect: true }) isSearchFocused = false;
   @property({ type: Boolean, reflect: true }) hideTranslate = false;
   @property({ type: Boolean, reflect: true }) hideSearch = false;
-  @property({ type: Boolean, reflect: true }) isSmallScreen =
+  @property({ type: Boolean, reflect: true }) isMediumScreen =
     window.innerWidth < 1024;
 
   private languages: [string, string][] = [
@@ -95,7 +95,7 @@ export class NysGlobalHeader extends LitElement {
   }
 
   private _updateScreenSize() {
-    this.isSmallScreen = window.innerWidth < 1024;
+    this.isMediumScreen = window.innerWidth < 1024;
   }
 
   connectedCallback() {
@@ -128,7 +128,7 @@ export class NysGlobalHeader extends LitElement {
         <div class="nys-unavheader__right">
           ${!this.isSearchFocused && !this.hideTranslate
             ? html`<div class="nys-unavheader__translatewrapper">
-                ${!this.isSmallScreen
+                ${!this.isMediumScreen
                   ? html`<nys-button
                       variant="ghost"
                       label="Translate"
@@ -164,7 +164,7 @@ export class NysGlobalHeader extends LitElement {
               </div>`
             : null}
           ${!this.hideSearch
-            ? this.isSmallScreen
+            ? this.isMediumScreen
               ? html`<nys-button
                   variant="ghost"
                   prefixIcon="search"
@@ -218,7 +218,7 @@ export class NysGlobalHeader extends LitElement {
       </div>
       <div
         class="nys-unavheader__searchdropdown ${this.searchDropdownVisible &&
-        this.isSmallScreen
+        this.isMediumScreen
           ? "show"
           : "hide"}"
       >
