@@ -37,6 +37,7 @@ export default css`
     justify-content: space-between;
     background-color: var(--nys-color-neutral-100, #d0d0ce);
     padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
+    min-height: var(--nys-space-400, 32px);
   }
 
   .nys-unavheader__left,
@@ -138,6 +139,7 @@ export default css`
     flex: 1;
     flex-direction: column;
     gap: var(--nys-space-400, 24px);
+    font-weight: var(--nys-font-weight-regular, 400);
   }
 
   .nys-unavheader__trustcontentmessage {
