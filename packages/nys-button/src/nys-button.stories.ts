@@ -8,6 +8,7 @@ interface NysButtonArgs {
   id: string;
   name: string;
   size: string;
+  fullWidth: boolean;
   variant: string;
   inverted: boolean;
   label: string;
@@ -28,6 +29,7 @@ const meta: Meta<NysButtonArgs> = {
     id: { control: "text" },
     name: { control: "text" },
     size: { control: "select", options: ["sm", "md", "lg"] },
+    fullWidth: { control: "boolean" },
     variant: {
       control: "select",
       options: ["filled", "outline", "ghost", "text"],
@@ -64,6 +66,7 @@ export const Basic: Story = {
       .id=${args.id}
       .name=${args.name}
       .size=${args.size}
+      .fullWidth=${args.fullWidth}
       .variant=${args.variant}
       .inverted=${args.inverted}
       .label=${args.label}
@@ -96,15 +99,68 @@ export const Size: Story = {
   args: {},
   render: (args) => html`
     <div
-      style="display: flex; align-items:center; gap: var(--nys-space-200, 16px);"
+      style="display: flex; flex-direction: column; gap: var(--nys-space-200, 16px);"
     >
+      <div
+        style="display: flex; align-items:center; justify-content:center; gap: var(--nys-space-200, 16px);"
+      >
+        <nys-button
+          .id=${args.id}
+          .name=${args.name}
+          size="sm"
+          .variant=${args.variant}
+          .inverted=${args.inverted}
+          label="Small"
+          .prefixIcon=${args.prefixIcon}
+          .suffixIcon=${args.suffixIcon}
+          .disabled=${args.disabled}
+          .form=${args.form}
+          .value=${args.value}
+          .href=${args.href}
+          .type=${args.type}
+          .onClick=${action("on-click")}
+        ></nys-button>
+        <nys-button
+          .id=${args.id}
+          .name=${args.name}
+          size="md"
+          .variant=${args.variant}
+          .inverted=${args.inverted}
+          label="Medium"
+          .prefixIcon=${args.prefixIcon}
+          .suffixIcon=${args.suffixIcon}
+          .disabled=${args.disabled}
+          .form=${args.form}
+          .value=${args.value}
+          .href=${args.href}
+          .type=${args.type}
+          .onClick=${action("on-click")}
+        ></nys-button>
+        <nys-button
+          .id=${args.id}
+          .name=${args.name}
+          size="lg"
+          .variant=${args.variant}
+          .inverted=${args.inverted}
+          label="Large"
+          .prefixIcon=${args.prefixIcon}
+          .suffixIcon=${args.suffixIcon}
+          .disabled=${args.disabled}
+          .form=${args.form}
+          .value=${args.value}
+          .href=${args.href}
+          .type=${args.type}
+          .onClick=${action("on-click")}
+        ></nys-button>
+      </div>
       <nys-button
         .id=${args.id}
         .name=${args.name}
         size="sm"
+        fullWidth="true"
         .variant=${args.variant}
         .inverted=${args.inverted}
-        label="Small"
+        label="Small Full"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
         .disabled=${args.disabled}
@@ -118,9 +174,10 @@ export const Size: Story = {
         .id=${args.id}
         .name=${args.name}
         size="md"
+        fullWidth="true"
         .variant=${args.variant}
         .inverted=${args.inverted}
-        label="Medium"
+        label="Medium Full"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
         .disabled=${args.disabled}
@@ -134,9 +191,10 @@ export const Size: Story = {
         .id=${args.id}
         .name=${args.name}
         size="lg"
+        fullWidth="true"
         .variant=${args.variant}
         .inverted=${args.inverted}
-        label="Large"
+        label="Large Full"
         .prefixIcon=${args.prefixIcon}
         .suffixIcon=${args.suffixIcon}
         .disabled=${args.disabled}
@@ -168,6 +226,26 @@ export const Size: Story = {
   name="button3"
   label="Large"
   size="lg"
+></nys-button>
+<nys-button
+  id="button4"
+  name="button4"
+  label="Small Full"
+  size="sm"
+  fullWidth
+></nys-button>
+<nys-button
+  id="button5"
+  name="button5"
+  label="Medium Full"
+  fullWidth
+></nys-button>
+<nys-button
+  id="button6"
+  name="button6"
+  label="Large Full"
+  size="lg"
+  fullWidth
 ></nys-button>`,
         type: "auto",
       },
