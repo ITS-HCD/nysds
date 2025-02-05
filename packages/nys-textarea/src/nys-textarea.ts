@@ -2,9 +2,24 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
 import "@nys-excelsior/nys-icon";
+import { FormControlController } from "@nys-excelsior/components/form-controller";
+
+let textareaIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-textarea")
 export class NysTextarea extends LitElement {
+  // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
+  private readonly formControlController = new FormControlController(this, {
+    form: () =>
+      this.form
+        ? (document.getElementById(this.form) as HTMLFormElement)
+        : this.closest("form"),
+    value: () => this.value,
+    defaultValue: () => "",
+    reportValidity: () => this.reportValidity(),
+    checkValidity: () => this.checkValidity(),
+  });
+
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
@@ -14,7 +29,7 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
+  @property({ type: String }) form = null;
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
@@ -39,6 +54,12 @@ export class NysTextarea extends LitElement {
       : "vertical";
   }
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.validity : { valid: true };
+  }
   @property({ type: String }) errorMessage = "";
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -54,9 +75,59 @@ export class NysTextarea extends LitElement {
 
   static styles = styles;
 
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
+
+  // Ensures the form control's validity state is updated after the first render.
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
+  }
+
+  // Set the form control custom validity message
+  setCustomValidity(message: string) {
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.setCustomValidity(message);
+      this.formControlController.updateValidity();
+    }
+  }
+
+  // Check the form control validity
+  checkValidity(): boolean {
+    const textarea = this.shadowRoot?.querySelector("textarea");
+    return textarea ? textarea.checkValidity() : false;
+  }
+
+  // Report the form control validity
+  reportValidity(): boolean {
+    const textarea = this.shadowRoot?.querySelector("textarea");
+    return textarea ? textarea.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-textarea-${Date.now()}-${textareaIdCounter++}`;
+    }
+  }
+
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    this.value = input.value;
+
     this.dispatchEvent(
       new CustomEvent("input", {
         detail: { value: this.value },
@@ -64,14 +135,8 @@ export class NysTextarea extends LitElement {
         composed: true,
       }),
     );
-    const checkValidity = input.checkValidity();
-    this.dispatchEvent(
-      new CustomEvent("nys-checkValidity", {
-        detail: { checkValidity },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+
+    this.formControlController.updateValidity();
   }
 
   // Handle focus event

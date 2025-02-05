@@ -14,6 +14,7 @@ interface NysTextinputArgs {
   disabled: boolean;
   readonly: boolean;
   required: boolean;
+  autocomplete: boolean;
   form: string;
   pattern: string;
   maxlength: string;
@@ -73,6 +74,15 @@ export const Basic: Story = {
   args: {
     label: "Label",
     value: "",
+    disabled: false,
+    readonly: false,
+    required: false,
+    form: "",
+    pattern: "",
+    maxlength: "",
+    step: "",
+    min: "",
+    max: "",
   },
   render: (args) => html`
     <nys-textinput
@@ -86,6 +96,7 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .autocomplete=${args.autocomplete}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}

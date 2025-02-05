@@ -1,12 +1,12 @@
 {
-  "name": "@nys-excelsior/nys-checkbox",
-  "version": "0.0.9-alpha",
-  "description": "A checkbox component from the NYS Design System.",
-  "module": "dist/nys-checkbox.js",
+  "name": "@nys-excelsior/form-controller",
+  "version": "0.0.5-alpha",
+  "description": "A form-controller component from the NYS Design System.",
+  "module": "dist/form-controller.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-checkbox.js",
+      "import": "./dist/form-controller.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -18,17 +18,14 @@
     "dev": "tsc --emitDeclarationOnly && vite",
     "build": "tsc --emitDeclarationOnly && vite build"
   },
-  "dependencies": {
-    "@nys-excelsior/nys-icon": "^0.0.9-alpha",
-    "@nys-excelsior/form-controller": "^0.0.5-alpha"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "lit": "^3.2.1"
   },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.0.11"
+    "vite": "^6.0.3"
   },
   "keywords": [
     "excelsior",
@@ -37,7 +34,7 @@
     "web-components",
     "lit",
     "nys",
-    "checkbox",
+    "form-controller",
     "forms"
   ],
   "author": "New York State Design System Team",

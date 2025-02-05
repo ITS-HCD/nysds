@@ -21,6 +21,7 @@
         "lit": "^3.2.1"
     },
     "dependencies": {
+        "@nys-excelsior/form-controller": "^0.0.5-alpha",
         "@nys-excelsior/nys-icon": "^0.0.9-alpha"
       },
     "devDependencies": {

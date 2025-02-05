@@ -2,10 +2,24 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import "@nys-excelsior/nys-icon";
+import { FormControlController } from "@nys-excelsior/components/form-controller";
+let selectIdCounter = 0; // Counter for generating unique IDs
 import { NysOption } from "./nys-option";
 
 @customElement("nys-select")
 export class NysSelect extends LitElement {
+  // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
+  private readonly formControlController = new FormControlController(this, {
+    form: () =>
+      this.form
+        ? (document.getElementById(this.form) as HTMLFormElement)
+        : this.closest("form"),
+    value: () => this.value,
+    defaultValue: () => "",
+    reportValidity: () => this.reportValidity(),
+    checkValidity: () => this.checkValidity(),
+  });
+
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
@@ -13,7 +27,7 @@ export class NysSelect extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
+  @property({ type: String }) form = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
@@ -36,6 +50,60 @@ export class NysSelect extends LitElement {
 
   static styles = styles;
 
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
+
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
+  }
+
+  // Gets the validity property
+  get validity() {
+    const select = this.shadowRoot?.querySelector("select");
+    return select ? select.validity : { valid: true };
+  }
+
+  // Set the form control custom validity message
+  setCustomValidity(message: string) {
+    const select = this.shadowRoot?.querySelector("select");
+    if (select) {
+      select.setCustomValidity(message);
+      this.formControlController.updateValidity();
+    }
+  }
+
+  // Check the form control validity
+  checkValidity(): boolean {
+    const select = this.shadowRoot?.querySelector("select");
+    return select ? select.checkValidity() : false;
+  }
+
+  // Report the form control validity
+  reportValidity(): boolean {
+    const select = this.shadowRoot?.querySelector("select");
+    return select ? select.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
+    }
+  }
+
+  // Because slot only projects HTML elements into the shadow DOM, we need to dynamically clone and append slotted elements into the shadow DOM form directly.
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
       'slot:not([name="description"])',

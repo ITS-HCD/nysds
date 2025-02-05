@@ -3,11 +3,22 @@ import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-button.styles";
 import "@nys-excelsior/nys-icon";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { FormControlController } from "@nys-excelsior/components/form-controller";
 
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-button")
 export class NysButton extends LitElement {
+  // Form control controller
+  private formControlController = new FormControlController(this, {
+    form: () =>
+      this.form
+        ? (document.getElementById(this.form) as HTMLFormElement)
+        : this.closest("form"),
+    name: () => this.name,
+    value: () => this.value,
+  });
+
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   // size
@@ -49,7 +60,7 @@ export class NysButton extends LitElement {
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: String }) form = "";
+  @property({ type: String }) form = null;
   @property({ type: String }) value = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
@@ -65,7 +76,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ type: Function }) onClick: (event: Event) => void = () => {};
+  @property({ type: Function }) onClick: ((event: Event) => void) | null = null;
   @property({ type: String }) href = "";
 
   static styles = styles;
@@ -96,8 +107,23 @@ export class NysButton extends LitElement {
   }
 
   private _handleClick(event: Event) {
+    // Call the external onClick function if it exists
     if (typeof this.onClick === "function") {
       this.onClick(event);
+    }
+
+    // Internal logic for form submission
+    if (this.type === "submit") {
+      event.preventDefault(); // Prevent default form submission
+      const form =
+        this.form &&
+        document.getElementById(this.form) instanceof HTMLFormElement
+          ? (document.getElementById(this.form) as HTMLFormElement)
+          : this.closest("form");
+
+      if (form) {
+        this.formControlController.submit(); // Submit the form
+      }
     }
   }
 

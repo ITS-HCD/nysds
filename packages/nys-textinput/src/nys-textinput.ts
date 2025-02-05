@@ -2,9 +2,25 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { FormControlController } from "@nys-excelsior/components/form-controller";
+
+let textinputIdCounter = 0; // Counter for generating unique IDs
 
 @customElement("nys-textinput")
 export class NysTextinput extends LitElement {
+  // The form controls will automatically append the component's values to the FormData object that’s used to submit the form.
+  private readonly formControlController = new FormControlController(this, {
+    form: () =>
+      this.form
+        ? (document.getElementById(this.form) as HTMLFormElement)
+        : this.closest("form"),
+    value: () => this.value,
+    defaultValue: () => "",
+    reportValidity: () => this.reportValidity(),
+    checkValidity: () => this.checkValidity(),
+  });
+
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   private static readonly VALID_TYPES = [
@@ -40,8 +56,8 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
-  @property({ type: String }) pattern = "";
+  @property({ reflect: true }) form = null;
+  @property({ type: String }) pattern = null;
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
@@ -68,9 +84,70 @@ export class NysTextinput extends LitElement {
 
   static styles = styles;
 
+  /********************** Form Control Integration **********************/
+  /**
+   * Handles the integration of the component with form behavior.
+   * This includes managing form control state (checked value), validity checks,
+   * and custom validity messages, ensuring the component works
+   * with HTML forms and participates in form submission.
+   */
+
+  firstUpdated() {
+    this.formControlController.updateValidity();
+  }
+
+  // Gets the associated form, if one exists.
+  getForm(): HTMLFormElement | null {
+    return this.formControlController.getForm();
+  }
+
+  // Gets the validity property
+  get validity() {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.validity : { valid: true };
+  }
+
+  // Set the form control custom validity message
+  setCustomValidity(message: string) {
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.setCustomValidity(message);
+      this.formControlController.updateValidity();
+    }
+  }
+
+  // Check the form control validity
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : false;
+  }
+
+  // Report the form control validity
+  reportValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.reportValidity() : false;
+  }
+
+  /******************** Functions ********************/
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
+    }
+  }
+
+  // Handle invalid event
+  private handleInvalid(event: Event) {
+    this.formControlController.setValidity(false);
+    this.formControlController.emitInvalidEvent(event);
+  }
+
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    this.value = input.value;
+
     this.dispatchEvent(
       new CustomEvent("input", {
         detail: { value: this.value },
@@ -86,6 +163,8 @@ export class NysTextinput extends LitElement {
         composed: true,
       }),
     );
+
+    this.formControlController.updateValidity();
   }
 
   // Handle focus event
@@ -142,16 +221,17 @@ export class NysTextinput extends LitElement {
           aria-label="${this.label} ${this.description}"
           .value=${this.value}
           placeholder=${this.placeholder}
-          maxlength=${this.maxlength}
-          pattern=${this.pattern}
-          step=${this.step}
-          min=${this.min}
-          max=${this.max}
-          form=${this.form}
+          maxlength=${ifDefined(this.maxlength)}
+          pattern=${ifDefined(this.pattern)}
+          step=${ifDefined(this.step)}
+          min=${ifDefined(this.min)}
+          max=${ifDefined(this.max)}
+          form=${ifDefined(this.form)}
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
           @change="${this._handleChange}"
+          @invalid=${this.handleInvalid}
         />
         ${this.showError && this.errorMessage
           ? html`<div class="nys-textinput__error">

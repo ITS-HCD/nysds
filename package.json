@@ -17,7 +17,8 @@
       "types": "./dist/packages/src/index.d.ts",
       "import": "./dist/excelsior.es.js",
       "require": "./dist/excelsior.js"
-    }
+    },
+    "./form-controller": "./dist/form-controller.js"
   },
   "scripts": {
     "dev": "vite",
