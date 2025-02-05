@@ -1,6 +1,5 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
-import { action } from "@storybook/addon-actions";
 import "./nys-button";
 
 // Define the structure of the args used in the stories
@@ -118,7 +117,6 @@ export const Size: Story = {
           .value=${args.value}
           .href=${args.href}
           .type=${args.type}
-          .onClick=${action("on-click")}
         ></nys-button>
         <nys-button
           .id=${args.id}
@@ -134,7 +132,6 @@ export const Size: Story = {
           .value=${args.value}
           .href=${args.href}
           .type=${args.type}
-          .onClick=${action("on-click")}
         ></nys-button>
         <nys-button
           .id=${args.id}
@@ -150,7 +147,6 @@ export const Size: Story = {
           .value=${args.value}
           .href=${args.href}
           .type=${args.type}
-          .onClick=${action("on-click")}
         ></nys-button>
       </div>
       <nys-button
@@ -168,7 +164,6 @@ export const Size: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -185,7 +180,6 @@ export const Size: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -202,7 +196,6 @@ export const Size: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
     </div>
   `,
@@ -272,7 +265,6 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -288,7 +280,6 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -304,7 +295,6 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -320,7 +310,6 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
     </div>
   `,
@@ -380,7 +369,6 @@ export const Icons: Story = {
       .value=${args.value}
       .href=${args.href}
       .type=${args.type}
-      .onClick=${action("on-click")}
     ></nys-button>
   `,
 
@@ -424,7 +412,6 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -440,7 +427,6 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -456,7 +442,6 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -472,7 +457,6 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
     </div>
   `,
@@ -538,7 +522,6 @@ export const Link: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
     </div>
   `,
@@ -581,7 +564,6 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -597,7 +579,6 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -613,7 +594,6 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -629,7 +609,6 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
-        .onClick=${action("on-click")}
       ></nys-button>
     </div>
   `,
