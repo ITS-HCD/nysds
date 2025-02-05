@@ -120,17 +120,23 @@ export class NysGlobalHeader extends LitElement {
       <header class="nys-unavheader" id="nys-universal-navigation">
         <div class="nys-unavheader__left">
           <div class="nys-unavheader__logo">${this._getNysLogo()}</div>
-          <label id="nys-unavheader__official"
-            >An official website of New York State</label
-          ><nys-button
-            id="nys-unavheader__know"
-            label="Here's how you know"
-            variant="ghost"
-            size="sm"
-            suffixIcon=${this.trustbarVisible ? "chevron_up" : "chevron_down"}
-            @click="${this._toggleTrustbar}"
-          >
-          </nys-button>
+          ${this.screenSize === "md" ||
+          this.screenSize === "lg" ||
+          this.screenSize === "xl"
+            ? html`<label id="nys-unavheader__official"
+                  >An official website of New York State</label
+                ><nys-button
+                  id="nys-unavheader__know"
+                  label="Here's how you know"
+                  variant="ghost"
+                  size="sm"
+                  suffixIcon=${this.trustbarVisible
+                    ? "chevron_up"
+                    : "chevron_down"}
+                  @click="${this._toggleTrustbar}"
+                >
+                </nys-button>`
+            : null}
         </div>
         <div class="nys-unavheader__right">
           ${!this.isSearchFocused && !this.hideTranslate

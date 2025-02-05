@@ -28,6 +28,8 @@ export default css`
     height: var(--nys-size-800, 64px);
     align-items: center;
     padding: 0 var(--_nys-unavheader-gutter);
+    max-width: 1280px;
+    margin: auto;
   }
 
   .nys-unavheader__left,
