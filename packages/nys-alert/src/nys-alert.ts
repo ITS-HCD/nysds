@@ -214,19 +214,18 @@ export class NysAlert extends LitElement {
                     @click=${this._closeAlert}
                   ></nys-button>
                 </div>`
-              : this.dismissible && this.type === "emergency" ?
-              html`<div class="close-container">
-                  <nys-button
-                    id="dismiss-btn"
-                    variant="ghost"
-                    prefixIcon="close"
-                    size="sm"
-                    inverted
-                    @click=${this._closeAlert}
-                  ></nys-button>
-                </div>`
-              : ""
-              }
+              : this.dismissible && this.type === "emergency"
+                ? html`<div class="close-container">
+                    <nys-button
+                      id="dismiss-btn"
+                      variant="ghost"
+                      prefixIcon="close"
+                      size="sm"
+                      inverted
+                      @click=${this._closeAlert}
+                    ></nys-button>
+                  </div>`
+                : ""}
           </div>`
         : ""}
     `;
