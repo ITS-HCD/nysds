@@ -1,6 +1,5 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
-import { action } from "@storybook/addon-actions";
 import "./nys-button";
 
 // Define the structure of the args used in the stories
