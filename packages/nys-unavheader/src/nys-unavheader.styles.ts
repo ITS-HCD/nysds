@@ -79,7 +79,28 @@ export default css`
     width: var(--nys-form-width-lg, 384px);
   }
 
-  #nys-unavheader__knowbutton {
+  #nys-unavheader__official {
+    width: max-content;
+  }
+
+  #nys-unavheader__know {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    gap: var(--nys-space-50, 4px);
+
+    --_nys-button-height: fit-content;
+    --_nys-button-radius: var(--nys-border-radius-md, 4px);
+    --_nys-button-padding-y: var(--nys-space-2px, 2px);
+    --_nys-button-padding-x: var(--nys-space-50, 4px);
+    --_nys-button-text-decoration: underline;
+    --_nys-button-color-text: var(--nys-color-link, #004dd1);
+    --_nys-button-color-text-hover: var(--nys-color-link-strong, #003ba1);
+    --_nys-button-color-text-active: var(--nys-color-link-strongest, #002971);
+    --_nys-button-color-bg-hover: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-color-bg-active: var(--nys-color-transparent, #ffffff00);
+
     /* typography */
     --_nys-button-font-size: var(--nys-font-size-ui-xs, 12px);
     --_nys-button-font-weight: var(--nys-font-weight-regular, 400);
@@ -95,27 +116,6 @@ export default css`
         sans-serif
       )
     );
-  }
-
-  #nys-unavheader__official {
-    width: max-content;
-  }
-
-  .nys-unavheader__know {
-    width: max-content;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    gap: var(--nys-space-50, 4px);
-    color: var(--nys-color-link, #004dd1);
-  }
-
-  .nys-unavheader__know:hover {
-    color: var(--nys-color-link-strong, #003ba1);
-  }
-
-  .nys-unavheader__know:active {
-    color: var(--nys-color-link-strongest, #002971);
   }
 
   .nys-unavheader__translatewrapper {

@@ -123,22 +123,17 @@ export class NysUNavHeader extends LitElement {
                 <label id="nys-unavheader__official"
                   >An official website of New York State</label
                 >
-                <div
-                  class="nys-unavheader__know"
+                <nys-button
+                  id="nys-unavheader__know"
+                  label="Here's how you know"
+                  variant="ghost"
+                  size="sm"
+                  suffixIcon=${this.trustbarVisible
+                    ? "chevron_up"
+                    : "chevron_down"}
                   @click="${this._toggleTrustbar}"
                 >
-                  <nys-button
-                    id="nys-unavheader__knowbutton"
-                    label="Here's how you know"
-                    variant="text"
-                    size="sm"
-                  >
-                  </nys-button
-                  ><nys-icon
-                    size="12"
-                    name=${this.trustbarVisible ? "chevron_up" : "chevron_down"}
-                  ></nys-icon>
-                </div>
+                </nys-button>
               </div>
               ${this.trustbarVisible
                 ? html`<nys-button
@@ -193,22 +188,22 @@ export class NysUNavHeader extends LitElement {
                 <label id="nys-unavheader__official"
                   >An official website of New York State</label
                 >
-                <div
-                  class="nys-unavheader__know"
+                <nys-button
+                  id="nys-unavheader__know"
+                  label="Here's how you know"
+                  variant="ghost"
+                  size="sm"
+                  suffixIcon=${this.trustbarVisible
+                    ? "chevron_up"
+                    : "chevron_down"}
                   @click="${this._toggleTrustbar}"
                 >
-                  <nys-button
-                    id="nys-unavheader__knowbutton"
-                    label="Here's how you know"
-                    variant="text"
-                    size="sm"
-                  >
-                  </nys-button
-                  ><nys-icon
+                  <nys-icon
+                    slot="suffix-icon"
                     size="12"
                     name=${this.trustbarVisible ? "chevron_up" : "chevron_down"}
                   ></nys-icon>
-                </div>
+                </nys-button>
               </div>`
             : null}
         </div>
