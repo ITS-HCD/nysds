@@ -2,6 +2,7 @@ import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "@nys-excelsior/nys-icon";
 import styles from "./nys-avatar.styles";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 let avatarIdCounter = 0; // Counter for generating unique IDs
 
@@ -61,8 +62,8 @@ export class NysAvatar extends LitElement {
             style="background-color: ${this.color?.length > 0
               ? this.color
               : "#555"};"
-            role="img"
-            aria-label=${this.label}
+            role=${ifDefined(this.image ? undefined : 'img')} 
+            aria-label=${ifDefined(this.image ? undefined : this.label)}
           >
             ${this.image?.length > 0
               ? html`<img

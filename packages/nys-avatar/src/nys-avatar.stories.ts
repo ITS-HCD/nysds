@@ -118,7 +118,7 @@ export const AvatarImage: Story = {
 <div style="display:flex; gap:5px;">
 <nys-avatar
   label="User avatar"
-  image="c"
+  image="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ></nys-avatar>
 <nys-avatar
   label="User avatar"
@@ -294,7 +294,7 @@ export const AvatarShapes: Story = {
 export const AvatarBgColor: Story = {
   args: {
     label: "User avatar",
-    color: "#105580",
+    color: "var(--nys-color-theme)",
   },
   render: (args) => html`
     <nys-avatar
@@ -314,7 +314,7 @@ export const AvatarBgColor: Story = {
         code: `
  <nys-avatar
 	label="User avatar"
-	color="#105580"
+	color="var(--nys-color-theme)"
  ></nys-avatar>
 	  `.trim(),
       },
