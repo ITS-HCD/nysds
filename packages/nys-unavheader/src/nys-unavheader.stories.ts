@@ -40,7 +40,7 @@ export const Basic: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `<nys-unavheader></nys-unavheader>`,
         type: "auto",
       },
     },
