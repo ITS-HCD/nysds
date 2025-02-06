@@ -179,7 +179,13 @@ export class NysGlobalHeader extends LitElement {
         : null}
       <header class="nys-unavheader" id="nys-universal-navigation">
         <div class="nys-unavheader__left">
-          <div class="nys-unavheader__logo">${this._getNysLogo()}</div>
+          <a
+            href="https://ny.gov"
+            target="_blank"
+            id="nys-unavheader__logolink"
+          >
+            <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
+          >
           ${this.screenSize === "md" ||
           this.screenSize === "lg" ||
           this.screenSize === "xl"
@@ -236,7 +242,7 @@ export class NysGlobalHeader extends LitElement {
                 >
                   ${this.languages.map(
                     ([label, code]) =>
-                      html`<a
+                      html`<a class="nys-unavheader__languagelink"
                         target="_self"
                         href="https://${code ? code + "." : ""}${window.location
                           .hostname}"

@@ -32,6 +32,10 @@ export default css`
     margin: auto;
   }
 
+  a#nys-unavheader__logolink {
+    padding: var(--nys-space-50, 4px);
+  }
+
   .nys-unavheader__toptrustbar {
     display: flex;
     justify-content: space-between;
@@ -163,17 +167,17 @@ export default css`
     right: 0;
   }
 
-  a {
+  a.nys-unavheader__languagelink {
     padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
     color: var(--nys-color-theme, #154973);
     text-decoration: none;
   }
 
-  a:hover {
+  a.nys-unavheader__languagelink:hover {
     background-color: var(--nys-color-neutral-100, #d0d0ce);
   }
 
-  a:active {
+  a.nys-unavheader__languagelink:active {
     background-color: var(--nys-color-neutral-200, #bec0c1);
   }
 
