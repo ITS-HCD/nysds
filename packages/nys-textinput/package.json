@@ -21,9 +21,7 @@
         "lit": "^3.2.1"
     },
     "dependencies": {
-        "@nys-excelsior/nys-icon": "^0.0.9-alpha",
-        "@nys-excelsior/nys-button": "^0.0.9-alpha",
-        "@nys-excelsior/nys-textinput": "^0.0.9-alpha"
+        "@nys-excelsior/nys-icon": "^0.0.9-alpha"
       },
     "devDependencies": {
         "lit": "^3.2.1",
