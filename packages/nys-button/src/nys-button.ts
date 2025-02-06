@@ -150,7 +150,7 @@ export class NysButton extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
             >
-              ${this.variant !== "text"
+              ${this.prefixIcon && this.variant !== "text"
                 ? html`<slot name="prefix-icon">
                     <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                   </slot>`
@@ -158,7 +158,7 @@ export class NysButton extends LitElement {
               ${this.label
                 ? html`<label class="nys-button__text">${this.label}</label>`
                 : ""}
-              ${this.variant !== "text"
+              ${this.suffixIcon && this.variant !== "text"
                 ? html`<slot name="suffix-icon">
                     <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                   </slot>`

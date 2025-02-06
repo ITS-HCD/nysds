@@ -128,6 +128,7 @@ export class NysUNavHeader extends LitElement {
                   label="Here's how you know"
                   variant="ghost"
                   size="sm"
+                  suffixIcon="slotted"
                   @click="${this._toggleTrustbar}"
                 >
                   <nys-icon
@@ -195,15 +196,15 @@ export class NysUNavHeader extends LitElement {
                   label="Here's how you know"
                   variant="ghost"
                   size="sm"
-                  suffixIcon=${this.trustbarVisible
-                    ? "chevron_up"
-                    : "chevron_down"}
+                  suffixIcon="slotted"
                   @click="${this._toggleTrustbar}"
                 >
                   <nys-icon
                     slot="suffix-icon"
                     size="12"
-                    name=${this.trustbarVisible ? "chevron_up" : "chevron_down"}
+                    name="${this.trustbarVisible
+                      ? "chevron_up"
+                      : "chevron_down"}"
                   ></nys-icon>
                 </nys-button>
               </div>`
