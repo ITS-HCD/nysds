@@ -26,6 +26,7 @@ export default css`
       --nys-font-weight-semibold,
       600
     );
+    --_nys-unavfooter-content-max-width: var(--nys-max-content-width, 1280px);
 
     /* Separator */
     --_nys-unavfooter-separator-color: var(--nys-color-neutral-500, #797c7f);
@@ -96,6 +97,13 @@ export default css`
     box-sizing: border-box;
   }
 
+  /* Main container */
+  .nys-unavfooter__main-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
   /* Top level container for the footer (NYS Logo and Menu links) */
   .nys-unavfooter__container_menu {
     display: flex;
@@ -103,10 +111,17 @@ export default css`
     justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: var(--_nys-unavfooter-content-max-width);
     padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-gutter);
     gap: var(--_nys-unavfooter-gap-spacing);
     border-bottom: 2px solid var(--_nys-unavfooter-separator-color);
     box-sizing: border-box;
+  }
+
+  .nys-unavfooter__logo a {
+    display: flex;
+    align-items: center;
+    line-height: 0;
   }
 
   /* Specific layout for menu links (grouped or singular list of menus) */

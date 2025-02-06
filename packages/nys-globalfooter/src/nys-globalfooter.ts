@@ -68,15 +68,17 @@ export class NysGlobalFooter extends LitElement {
   render() {
     return html`
       <footer class="nys-globalfooter">
-        <h1 class="nys-globalfooter__name">${this.agencyName}</h1>
-        ${this.slotHasContent
-          ? html`<div class="nys-globalfooter__content">
-              <slot
-                style="display: hidden"
-                @slotchange="${this._handleSlotChange}"
-              ></slot>
-            </div>`
-          : ""}
+        <div class="nys-globalfooter__main-container">
+          <p class="nys-globalfooter__name">${this.agencyName}</p>
+          ${this.slotHasContent
+            ? html`<div class="nys-globalfooter__content">
+                <slot
+                  style="display: hidden"
+                  @slotchange="${this._handleSlotChange}"
+                ></slot>
+              </div>`
+            : ""}
+        </div>
       </footer>
     `;
   }

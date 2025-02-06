@@ -19,7 +19,8 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@nys-excelsior/nys-icon": "^0.0.9-alpha"
+    "@nys-excelsior/nys-icon": "^0.0.9-alpha",
+    "@nys-excelsior/nys-button": "^0.0.9-alpha"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
