@@ -11,7 +11,7 @@ export default css`
       --nys-color-theme,
       var(--nys-color-state-blue-700, #154973)
     );
-    --_nys-globalheader-gap-spacing: var(--nys-space-100, 8px);
+    --_nys-globalheader-main-gap-spacing: var(--nys-space-500, 40px);
     --_nys-globalheader-padding: var(--nys-space-200, 16px);
     --_nys-globalheader-gutter: var(--nys-gutter-sm, 20px);
     --_nys-globalheader-font-family: var(
@@ -38,6 +38,7 @@ export default css`
     --_nys-globalheader-content-max-width: var(--nys-max-content-width, 1280px);
 
     /* Agency and App Name Styling */
+    --_nys-globalheader-name-gap-spacing: var(--nys-space-100, 8px);
     --_nys-globalheader-font-size-main-name: var(
       --nys-font-size-agency-xl,
       var(--nys-font-size-2xl, 22px)
@@ -54,31 +55,65 @@ export default css`
     );
 
     /* Menu Content Styling */
-    --_nys-globalheader-font-size-links: var(
-      --nys-font-size-body-md,
-      var(--nys-font-size-md, 16px)
+    --_nys-globalheader-link-gap-spacing: var(--nys-space-400, 32px);
+    --_nys-globalheader-lineheight-links: var(
+      --nys-font-lineheight-ui-md,
+      24px
     );
-    --_nys-globalheader-link-gap-spacing: var(--nys-space-600, 48px);
-    --_nys-globalheader-link-lineheight: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-globalheader-link-letterspacing: var(
       --nys-font-letterspacing-ui-md,
-      0.005em
+      var(--nys-font-letterspacing-400, 0.044px)
     );
+    --_nys-globalheader-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
+  }
+
+  /* Slotted content (menu links) basic resets */
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: var(--_nys-globalheader-color);
+    text-decoration: none;
+    font-family: var(--_nys-globalheader-font-family);
+    font-size: var(--_nys-globalheader-font-size-links);
+    font-style: normal;
+    font-weight: var(--_nys-globalheader-font-weight-semibold);
+    line-height: var(--_nys-globalheader-lineheight-links);
+    letter-spacing: var(--_nys-globalheader-link-letterspacing);
   }
 
   .nys-globalheader {
     display: flex;
-    padding: var(--_nys-globalheader-padding) var(--_nys-globalheader-gutter);
     justify-content: center;
+    padding: var(--_nys-globalheader-padding) var(--_nys-globalheader-gutter);
     background-color: var(--_nys-globalheader-background);
     color: var(--_nys-globalheader-color);
-    gap: var(--_nys-globalheader-gap-spacing);
     width: 100%;
     box-sizing: border-box;
   }
 
   /* Main container */
   .nys-globalheader__main-container {
+    display: flex;
+    gap: var(--_nys-globalheader-main-gap-spacing);
     max-width: var(--_nys-globalheader-content-max-width);
     width: 100%;
   }
@@ -89,8 +124,7 @@ export default css`
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: var(--_nys-globalheader-gap-spacing);
-    width: 100%;
+    gap: var(--_nys-globalheader-name-gap-spacing);
   }
   .nys-globalheader__name {
     margin: 0;
@@ -122,24 +156,21 @@ export default css`
     width: 100%;
   }
 
-  ::slotted(a) {
-    color: var(--_nys-globalheader-color);
-    text-decoration: none;
-    font-size: var(--_nys-globalheader-font-size-links);
-    font-style: normal;
-    font-weight: var(--_nys-globalheader-font-weight-semibold);
-    line-height: var(--_nys-globalheader-link-lineheight);
-    letter-spacing: var(--_nys-globalheader-link-letterspacing);
+  .nys-globalheader__content ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
-  /* Breakpoints using Excelsior Grid Guidelines */
+  /* Breakpoints using Excelsior Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
-    .nys-globalheader__content {
-      grid-template-columns: repeat(2, 1fr); /* Two columns */
+    .nys-globalheader__content ul {
+      flex-direction: row;
+      gap: var(--_nys-globalheader-link-gap-spacing);
     }
     :host() {
-      --_nys-globalheader-gap-spacing: var(--nys-space-400, 32px);
       --_nys-globalheader-gutter: var(--nys-gutter-lg, 32px);
     }
   }

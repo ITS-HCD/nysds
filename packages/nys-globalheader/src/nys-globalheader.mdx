@@ -30,10 +30,16 @@ When the application serves multiple agencies, just use the `appName`.
 ## With Agency and Application Name
 <Canvas of={NysGlobalHeaderStories.WithBothNames} />
 
+## With Menu Links
+To add menu links, place an unordered list (`<ul>`) inside the `nys-globalheader` slot. \
+The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
+<Canvas of={NysGlobalHeaderStories.WithLinks} />
+
 ## Usage 
 
 ### When to use this component
   - `nys-globalheader` application header should be used at the top of all agency related sites and applications.
+  - Use `nys-globalfooter` to provide consistent access to essential links of your agency.
 
 ### When to consider something else
   - If an application is not for a single agency, the Agency Name can be removed
