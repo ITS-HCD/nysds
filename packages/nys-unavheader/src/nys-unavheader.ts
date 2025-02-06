@@ -7,7 +7,7 @@ import "@nys-excelsior/nys-textinput";
 import "@nys-excelsior/nys-button";
 
 @customElement("nys-unavheader")
-export class NysGlobalHeader extends LitElement {
+export class NysUNavHeader extends LitElement {
   @property({ type: Boolean, reflect: true }) trustbarVisible = false;
   @property({ type: Boolean, reflect: true }) searchDropdownVisible = false;
   @property({ type: Boolean, reflect: true }) languageVisible = false;
@@ -242,7 +242,8 @@ export class NysGlobalHeader extends LitElement {
                 >
                   ${this.languages.map(
                     ([label, code]) =>
-                      html`<a class="nys-unavheader__languagelink"
+                      html`<a
+                        class="nys-unavheader__languagelink"
                         target="_self"
                         href="https://${code ? code + "." : ""}${window.location
                           .hostname}"
