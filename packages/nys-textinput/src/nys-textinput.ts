@@ -1,9 +1,8 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
-@customElement("nys-textinput")
 export class NysTextinput extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -163,4 +162,8 @@ export class NysTextinput extends LitElement {
       </div>
     `;
   }
+}
+
+if (!customElements.get("nys-textinput")) {
+  customElements.define("nys-textinput", NysTextinput);
 }

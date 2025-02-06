@@ -1,12 +1,11 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-button.styles";
 import "@nys-excelsior/nys-icon";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-button")
 export class NysButton extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -165,4 +164,8 @@ export class NysButton extends LitElement {
           `}
     `;
   }
+}
+
+if (!customElements.get("nys-button")) {
+  customElements.define("nys-button", NysButton);
 }

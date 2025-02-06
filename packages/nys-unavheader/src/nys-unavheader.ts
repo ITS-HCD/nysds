@@ -332,3 +332,8 @@ export class NysUNavHeader extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-unavheader")) {
+  customElements.define("nys-unavheader", NysUNavHeader);
+}
+
