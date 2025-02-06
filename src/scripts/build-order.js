@@ -4,9 +4,9 @@ import { execSync } from "child_process";
 const packages = [
   { name: "styles", path: "packages/styles" },
   { name: "nys-icon", path: "packages/nys-icon" },
+  { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-alert", path: "packages/nys-alert" },
-  { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
@@ -15,6 +15,7 @@ const packages = [
   { name: "nys-toggle", path: "packages/nys-toggle" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
+  { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
 ];
 
 packages.forEach((pkg) => {

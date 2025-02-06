@@ -57,6 +57,7 @@ export class NysTextarea extends LitElement {
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    this.value = input.value;
     this.dispatchEvent(
       new CustomEvent("input", {
         detail: { value: this.value },
