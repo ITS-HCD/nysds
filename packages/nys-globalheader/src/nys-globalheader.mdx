@@ -1,6 +1,7 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysGlobalHeaderStories from './nys-globalheader.stories';
+import "@nys-excelsior/nys-icon";
 
 <Meta of={NysGlobalHeaderStories} title="Components/GlobalHeader/Documentation" />
 
@@ -31,8 +32,11 @@ When the application serves multiple agencies, just use the `appName`.
 <Canvas of={NysGlobalHeaderStories.WithBothNames} />
 
 ## With Menu Links
-To add menu links, place an unordered list (`<ul>`) inside the `nys-globalheader` slot. \
-The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
+For public-facing content sites, the Global Header can include menu links. To add them, place an unordered list (`<ul>`) inside the `nys-globalheader` slot. Each list item (`<li>`) should contain an anchor (`<a href="">`) linking to the desired destination.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon>
+  Applications using the Global Header typically do not include links in the application or agency name to avoid distractions and keep users on task. However, public-facing sites may include links, often within a collapsed menu for better navigation.
+</div>
 <Canvas of={NysGlobalHeaderStories.WithLinks} />
 
 ## Usage 

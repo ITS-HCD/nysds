@@ -37,14 +37,6 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
-       <ul>
-        <li><a href="https://its.ny.gov/services">Services</a></li>
-        <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
-        <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-        <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
-        <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
-        <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-      </ul>
     </nys-globalheader>
   `,
   parameters: {
@@ -52,14 +44,6 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services">
-  <ul>
-  <li><a href="https://its.ny.gov/services">Services</a></li>
-  <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
-  <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-  <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
-  <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
-  <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-</ul>
 </nys-globalheader>
         `,
         type: "auto",
@@ -138,15 +122,17 @@ export const WithBothNames: Story = {
 // Story: Without Application Name
 export const WithLinks: Story = {
   args: {
-    appName: "Unemployment Insurance Benefits",
-    agencyName: "Department of Labor",
+    agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
     <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
       <ul>
-        <li><a href="https://www.dol.gov">Home</a></li>
-        <li><a href="https://www.dol.gov/general/forms">Forms</a></li>
-        <li><a href="https://www.dol.gov/general/dol-agencies">About Us</a></li>
+        <li><a href="https://its.ny.gov/services">Services</a></li>
+        <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+        <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+        <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
+        <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+        <li><a href="https://its.ny.gov/about-us">About Us</a></li>
       </ul>
     </nys-globalheader>
   `,
@@ -154,11 +140,14 @@ export const WithLinks: Story = {
     docs: {
       source: {
         code: `
-<nys-globalheader agencyName="Department of Labor" appName="Unemployment Insurance Benefits">
+<nys-globalheader agencyName="Office of Information Technology Services">
   <ul>
-    <li><a href="https://www.dol.gov">Home</a></li>
-    <li><a href="https://www.dol.gov/general/forms">Forms</a></li>
-    <li><a href="https://www.dol.gov/general/dol-agencies">About Us</a></li>
+    <li><a href="https://its.ny.gov/services">Services</a></li>
+    <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+    <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+    <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
+    <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+    <li><a href="https://its.ny.gov/about-us">About Us</a></li>
   </ul>
 </nys-globalheader>
 `.trim(),

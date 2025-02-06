@@ -55,7 +55,8 @@ export default css`
     );
 
     /* Menu Content Styling */
-    --_nys-globalheader-link-gap-spacing: var(--nys-space-400, 32px);
+    --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-300, 24px);
+    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-400, 32px);
     --_nys-globalheader-lineheight-links: var(
       --nys-font-lineheight-ui-md,
       24px
@@ -150,10 +151,6 @@ export default css`
   /* Slotted content */
   .nys-globalheader__content {
     font-family: var(--_nys-globalheader-font-family);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--_nys-globalheader-link-gap-spacing);
-    width: 100%;
   }
 
   .nys-globalheader__content ul {
@@ -168,7 +165,8 @@ export default css`
     /* Tablet (MD - Above 768px) */
     .nys-globalheader__content ul {
       flex-direction: row;
-      gap: var(--_nys-globalheader-link-gap-spacing);
+      gap: var(--_nys-globalfooter-link-gap-spacing-row)
+      var(--_nys-globalfooter-link-gap-spacing-column);
     }
     :host() {
       --_nys-globalheader-gutter: var(--nys-gutter-lg, 32px);
