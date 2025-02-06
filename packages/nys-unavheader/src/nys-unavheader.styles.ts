@@ -36,6 +36,10 @@ export default css`
     padding: var(--nys-space-50, 4px);
   }
 
+  .nys-unavheader__logo {
+    vertical-align: top;
+  }
+
   .nys-unavheader__toptrustbar {
     display: flex;
     justify-content: space-between;
