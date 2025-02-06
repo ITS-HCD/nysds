@@ -89,7 +89,7 @@ export class NysUNavHeader extends LitElement {
     this.isSearchFocused = false;
   }
 
-  private _handleSearchKeydown(e: KeyboardEvent) {
+  private _handleSearchKeyup(e: KeyboardEvent) {
     if (e.key === "Escape") {
       this._handleSearchBlur();
       (e.target as HTMLInputElement).blur();
@@ -270,7 +270,7 @@ export class NysUNavHeader extends LitElement {
                   type="search"
                   @focus="${this._handleSearchFocus}"
                   @blur="${this._handleSearchBlur}"
-                  @keyup="${this._handleSearchKeydown}"
+                  @keyup="${this._handleSearchKeyup}"
                 ></nys-textinput>`
             : null}
         </div>
@@ -326,7 +326,7 @@ export class NysUNavHeader extends LitElement {
           type="search"
           @focus="${this._handleSearchFocus}"
           @blur="${this._handleSearchBlur}"
-          @keyup="${this._handleSearchKeydown}"
+          @keyup="${this._handleSearchKeyup}"
         ></nys-textinput>
       </div>
     `;
