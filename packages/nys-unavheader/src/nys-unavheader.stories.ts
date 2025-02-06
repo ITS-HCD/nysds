@@ -46,3 +46,24 @@ export const Basic: Story = {
     },
   },
 };
+
+// Story: Basic
+export const HideTranslateSearch: Story = {
+  args: {
+    hideTranslate: true,
+    hideSearch: true,
+  },
+  render: (args) =>
+    html`<nys-unavheader
+      .hideTranslate=${args.hideTranslate}
+      .hideSearch=${args.hideSearch}
+    ></nys-unavheader>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-unavheader hideTranslate hideSearch></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};

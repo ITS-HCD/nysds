@@ -15,4 +15,41 @@ The **`nys-unavheader`** component is a reusable web component for use in New Yo
 
 ***
 
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The Universal Navigation Header remains consistent across all sites </div>
 <Canvas of={NysUnavHeaderStories.Basic} />
+
+<Controls />
+
+## Options
+
+The translate and search features can be disabled if the feature already exists within the webpage.
+<Canvas of={NysUnavHeaderStories.HideTranslateSearch} />
+
+## Usage 
+
+### When to use this component
+  - Use `nys-unavheader` to convey that this is a legitimate ny.gov site.
+
+### When to consider something else
+  - Do not place the nys-unavheader anywhere other than the top of the page as the topmost header.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Use `nys-unavheader` to convey that this is a legitimate ny.gov site.  
+      - Place it only at the top of the page as the topmost header. 
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Place it anywhere other than the top of the page.  
+    </div>
+  </div>
+</div>
+
+The `nys-unavheader` component includes the following accessibility-focused features:
+
+- Proper use of `<header>` and other elements ensures compatibility with assistive technologies.
+- Keyboard navigation: Users can tab through all interactive elements of the header.
