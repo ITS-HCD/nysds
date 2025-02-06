@@ -24,7 +24,7 @@ export class NysUnavFooter extends LitElement {
       <footer class="nys-unavfooter">
         <div class="nys-unavfooter__main-container">
           <div class="nys-unavfooter__container_menu">
-            <div class="nys-unavfooter__logo">${this._getNysLogo()}</div>
+            <div class="nys-unavfooter__logo"><a href="https://www.ny.gov">${this._getNysLogo()}</a></div>
             <div class="nys-unavfooter__content">
               <ul>
                 <li><a href="https://www.ny.gov/agencies">Agencies</a></li>

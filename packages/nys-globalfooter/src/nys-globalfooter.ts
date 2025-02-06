@@ -69,7 +69,7 @@ export class NysGlobalFooter extends LitElement {
     return html`
       <footer class="nys-globalfooter">
         <div class="nys-globalfooter__main-container">
-          <h1 class="nys-globalfooter__name">${this.agencyName}</h1>
+          <p class="nys-globalfooter__name">${this.agencyName}</p>
           ${this.slotHasContent
             ? html`<div class="nys-globalfooter__content">
                 <slot

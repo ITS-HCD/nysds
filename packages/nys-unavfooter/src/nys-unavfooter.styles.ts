@@ -118,6 +118,12 @@ export default css`
     box-sizing: border-box;
   }
 
+  .nys-unavfooter__logo a {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+  }
+
   /* Specific layout for menu links (grouped or singular list of menus) */
   .nys-unavfooter__content {
     display: flex;
