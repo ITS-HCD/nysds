@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/nys-unavfooter",
-  "version": "0.0.9-alpha",
+  "version": "1.0.0",
   "description": "A universal footer component from the NYS Design System.",
   "module": "dist/nys-unavfooter.js",
   "types": "dist/index.d.ts",
