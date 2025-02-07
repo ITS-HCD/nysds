@@ -28,9 +28,6 @@ export default css`
     );
     --_nys-unavfooter-content-max-width: var(--nys-max-content-width, 1280px);
 
-    /* Separator */
-    --_nys-unavfooter-separator-color: var(--nys-color-neutral-500, #797c7f);
-
     /* Links */
     --_nys-unavfooter-link-gap-spacing-row: var(--nys-space-250, 20px);
     --_nys-unavfooter-link-gap-spacing-column: var(--nys-space-600, 48px);
@@ -114,7 +111,6 @@ export default css`
     max-width: var(--_nys-unavfooter-content-max-width);
     padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-gutter);
     gap: var(--_nys-unavfooter-gap-spacing);
-    border-bottom: 2px solid var(--_nys-unavfooter-separator-color);
     box-sizing: border-box;
   }
 
