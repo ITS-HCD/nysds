@@ -1,6 +1,7 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysGlobalHeaderStories from './nys-globalheader.stories';
+import "@nys-excelsior/nys-icon";
 
 <Meta of={NysGlobalHeaderStories} title="Components/GlobalHeader/Documentation" />
 
@@ -20,20 +21,30 @@ The **`nys-globalheader`** component is a reusable web component for use in New 
 
 ## Variants
 ## Just Agency Name
-Display only the agency's official name for public-facing sites that are not tied to a specific application.
+Use the prop `homepageLink` to link your `agencyName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise (use `disableHomepageLink` to disable this).
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> Display only the agency's official name for public-facing sites that are not tied to a specific application.</div>
 <Canvas of={NysGlobalHeaderStories.OnlyAgencyName} />
 
 ## Just Application Name
-When the application serves multiple agencies, just use the `appName`.
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> When the application serves multiple agencies, use the application name instead of a specific agency name.</div>
 <Canvas of={NysGlobalHeaderStories.OnlyAppName} />
 
 ## With Agency and Application Name
 <Canvas of={NysGlobalHeaderStories.WithBothNames} />
 
+## With Menu Links
+For public-facing content sites, the Global Header can include menu links. To add them, place an unordered list (`<ul>`) inside the `nys-globalheader` slot. Each list item (`<li>`) should contain an anchor (`<a href="">`) linking to the desired destination.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon>
+  Applications using the Global Header typically do not include links in the application or agency name to avoid distractions and keep users on task. However, public-facing sites may include links, often within a collapsed menu for better navigation.
+</div>
+<Canvas of={NysGlobalHeaderStories.WithLinks} />
+
 ## Usage 
 
 ### When to use this component
   - `nys-globalheader` application header should be used at the top of all agency related sites and applications.
+  - Use `nys-globalfooter` to provide consistent access to essential links of your agency.
 
 ### When to consider something else
   - If an application is not for a single agency, the Agency Name can be removed

@@ -93,6 +93,7 @@ export default css`
       var(--_nys-textarea-width-border);
     padding: var(--_nys-textarea-padding);
     width: var(--_nys-textarea-width);
+    line-height: var(--_nys-textarea-lineheight-ui);
     min-width: var(--_nys-textarea-width);
     max-width: var(--_nys-textarea-width);
     box-sizing: border-box;

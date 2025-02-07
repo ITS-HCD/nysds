@@ -8,7 +8,7 @@ const banner = `
    * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
    * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
    * 
-   * Avatar Component v0.0.9-alpha
+   * Avatar Component v1.0.0
    * Part of New York State's Excelsior Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/excelsior

@@ -1,12 +1,11 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-radiobutton.styles"; // Assuming styles are in a separate file
 import "./nys-radiogroup";
 
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-radiobutton")
 export class NysRadiobutton extends LitElement {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
@@ -162,4 +161,8 @@ export class NysRadiobutton extends LitElement {
       </label>
     `;
   }
+}
+
+if (!customElements.get("nys-radiobutton")) {
+  customElements.define("nys-radiobutton", NysRadiobutton);
 }

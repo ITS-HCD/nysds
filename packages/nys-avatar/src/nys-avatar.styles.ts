@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Avatar Styles */
-    --_nys-avatar-shape: var(--nys-radius-md, var(--nys-space-50, 4px));
+    --_nys-avatar-shape: var(--nys-radius-round, 1776px);
     --_nys-avatar-border: var(--nys-font-size-6xl, 36px);
     --_nys-avatar-size: var(--nys-font-size-6xl, 36px);
   }

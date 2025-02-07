@@ -230,6 +230,7 @@
   --nys-radius-md: var(--nys-space-50);
   --nys-radius-lg: var(--nys-space-100);
   --nys-radius-xl: var(--nys-space-150);
+  --nys-radius-xxl: var(--nys-space-200);
   --nys-radius-round: 1776px; /* Ever upward! */
   
   /* ===================== PRIMITIVE COLOR RAMPS ====================== */
@@ -410,6 +411,10 @@
   --nys-color-safety-gray-900: #1d2830;
   
   /* ================== TRANSPARENT COLORS (ALPHA HEX) ===================== */
+  
+  /* Transparent */
+  --nys-color-transparent: #ffffff00;
+
   /* Black Transparent */
   --nys-color-black-transparent-50: #00000003;
   --nys-color-black-transparent-100: #0000001a;

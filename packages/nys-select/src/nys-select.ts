@@ -1,10 +1,9 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import "@nys-excelsior/nys-icon";
 import { NysOption } from "./nys-option";
 
-@customElement("nys-select")
 export class NysSelect extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -164,4 +163,8 @@ export class NysSelect extends LitElement {
       </div>
     `;
   }
+}
+
+if (!customElements.get("nys-select")) {
+  customElements.define("nys-select", NysSelect);
 }

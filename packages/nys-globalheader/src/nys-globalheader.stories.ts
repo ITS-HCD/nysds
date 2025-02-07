@@ -6,6 +6,8 @@ import "./nys-globalheader";
 interface NysGlobalHeaderArgs {
   appName: string;
   agencyName: string;
+  homepageLink: string;
+  disableHomepageLink: boolean;
 }
 
 const meta: Meta<NysGlobalHeaderArgs> = {
@@ -14,6 +16,8 @@ const meta: Meta<NysGlobalHeaderArgs> = {
   argTypes: {
     appName: { control: "text" },
     agencyName: { control: "text" },
+    homepageLink: { control: "text" },
+    disableHomepageLink: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -36,7 +40,12 @@ export const Basic: Story = {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    >
     </nys-globalheader>
   `,
   parameters: {
@@ -56,16 +65,22 @@ export const Basic: Story = {
 export const OnlyAgencyName: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
+    homepageLink: "https://its.ny.gov",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    >
     </nys-globalheader>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-globalheader agencyName="Office of Information Technology Services">
+<nys-globalheader agencyName="Office of Information Technology Services" homepageLink="https://its.ny.gov">
 </nys-globalheader>
 `.trim(),
         type: "auto",
@@ -80,7 +95,12 @@ export const OnlyAppName: Story = {
     appName: "NYS Employee Portal",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    >
     </nys-globalheader>
   `,
   parameters: {
@@ -103,7 +123,12 @@ export const WithBothNames: Story = {
     agencyName: "Department of Labor",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    >
     </nys-globalheader>
   `,
   parameters: {
@@ -111,6 +136,49 @@ export const WithBothNames: Story = {
       source: {
         code: `
 <nys-globalheader agencyName="Department of Labor" appName="Unemployment Insurance Benefits">
+</nys-globalheader>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Without Application Name
+export const WithLinks: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+  },
+  render: (args) => html`
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    >
+      <ul>
+        <li><a href="https://its.ny.gov/services">Services</a></li>
+        <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+        <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+        <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
+        <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+        <li><a href="https://its.ny.gov/about-us">About Us</a></li>
+      </ul>
+    </nys-globalheader>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader agencyName="Office of Information Technology Services">
+  <ul>
+    <li><a href="https://its.ny.gov/services">Services</a></li>
+    <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
+    <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+    <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
+    <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+    <li><a href="https://its.ny.gov/about-us">About Us</a></li>
+  </ul>
 </nys-globalheader>
 `.trim(),
         type: "auto",

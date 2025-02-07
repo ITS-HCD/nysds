@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Select Styles */
-    --_nys-select-form-width: var(--nys-form-width-md, 200px);
+    --_nys-select-width: 100%;
     --_nys-select-font-family: var(
       --nys-font-family-ui,
       var(
@@ -48,8 +48,6 @@ export default css`
       var(--nys-color-neutral-200, #bec0c1);
     --_nys-select-border-hover: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-900, #1b1b1b);
-    --_nys-select-border-error: var(--nys-border-width-sm, 1px) solid
-      var(--nys-color-danger, var(--nys-color-red-600, #b52c2c));
   }
 
   .nys-select {
@@ -66,9 +64,9 @@ export default css`
     border: var(--_nys-select-border-default);
     font-size: var(--_nys-select-font-size);
     padding: var(--_nys-select-padding);
-    width: var(--_nys-select-form-width);
-    min-width: var(--_nys-select-form-width);
-    max-width: var(--_nys-select-form-width);
+    width: var(--_nys-select-width);
+    min-width: var(--_nys-select-width);
+    max-width: var(--_nys-select-width);
     text-indent: 1px;
     text-overflow: "";
     background: var(--_nys-select-bg-color);
@@ -81,7 +79,7 @@ export default css`
   .nys-select__selectwrapper {
     position: relative;
     display: inline-block;
-    width: var(--_nys-select-form-width);
+    width: var(--_nys-select-width);
   }
 
   .nys-select__icon {
@@ -93,19 +91,19 @@ export default css`
   }
 
   :host([width="sm"]) {
-    --_nys-select-form-width: var(--nys-select-form-width-sm, 88px);
+    --_nys-select-width: var(--nys-select-form-width-sm, 88px);
   }
 
   :host([width="md"]) {
-    --_nys-select-form-width: var(--nys-select-form-width-md, 200px);
+    --_nys-select-width: var(--nys-select-form-width-md, 200px);
   }
 
   :host([width="lg"]) {
-    --_nys-select-form-width: var(--nys-select-form-width-lg, 384px);
+    --_nys-select-width: var(--nys-select-form-width-lg, 384px);
   }
 
   :host([width="full"]) {
-    --_nys-select-form-width: 100%;
+    --_nys-select-width: 100%;
     flex: 1; /* stretches width for flex container */
   }
 

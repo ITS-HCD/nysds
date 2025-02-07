@@ -1,13 +1,14 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-globalfooter.styles";
 
-@customElement("nys-globalfooter")
-export class NyGlobalFooter extends LitElement {
+export class NysGlobalFooter extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
   @property({ type: String }) agencyName = "";
+  @property({ type: String }) homepageLink = window.location.origin;
+  @property({ type: Boolean }) disableHomepageLink = false;
   @state() private slotHasContent = true;
 
   /**************** Lifecycle Methods ****************/
@@ -19,8 +20,12 @@ export class NyGlobalFooter extends LitElement {
     this._handleSlotChange(); // Initial check
   }
 
+  /******************** Functions ********************/
+  // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    if (!slot) return;
+
     const assignedNodes = slot
       ?.assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
@@ -66,16 +71,28 @@ export class NyGlobalFooter extends LitElement {
   render() {
     return html`
       <footer class="nys-globalfooter">
-        <h1 class="nys-globalfooter__name">${this.agencyName}</h1>
-        ${this.slotHasContent
-          ? html`<div class="nys-globalfooter__content">
-              <slot
-                style="display: hidden"
-                @slotchange="${this._handleSlotChange}"
-              ></slot>
-            </div>`
-          : ""}
+        <div class="nys-globalfooter__main-container">
+          ${this.disableHomepageLink
+            ? html`<p class="nys-globalfooter__name">${this.agencyName}</p>`
+            : html`<a
+                href=${this.homepageLink?.trim() || window.location.origin}
+              >
+                <p class="nys-globalfooter__name">${this.agencyName}</p>
+              </a>`}
+          ${this.slotHasContent
+            ? html`<div class="nys-globalfooter__content">
+                <slot
+                  style="display: hidden"
+                  @slotchange="${this._handleSlotChange}"
+                ></slot>
+              </div>`
+            : ""}
+        </div>
       </footer>
     `;
   }
+}
+
+if (!customElements.get("nys-globalfooter")) {
+  customElements.define("nys-globalfooter", NysGlobalFooter);
 }

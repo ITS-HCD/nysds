@@ -1,9 +1,8 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
-@customElement("nys-textinput")
 export class NysTextinput extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -71,6 +70,7 @@ export class NysTextinput extends LitElement {
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    this.value = input.value;
     this.dispatchEvent(
       new CustomEvent("input", {
         detail: { value: this.value },
@@ -99,8 +99,16 @@ export class NysTextinput extends LitElement {
   }
 
   // Handle change event
-  private _handleChange() {
-    this.dispatchEvent(new Event("change"));
+  private _handleChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
@@ -154,4 +162,8 @@ export class NysTextinput extends LitElement {
       </div>
     `;
   }
+}
+
+if (!customElements.get("nys-textinput")) {
+  customElements.define("nys-textinput", NysTextinput);
 }
