@@ -78,38 +78,43 @@ export class NysFileinput extends LitElement {
         composed: true,
       }),
     );
+    console.log("file: ", this.value);
   }
 
   render() {
     return html`
       <div class="nys-fileinput">
-        ${this.label &&
-        html` <div class="nys-fileinput__text">
-          <div class="nys-fileinput__requiredwrapper">
-            <label for=${this.id} class="nys-fileinput__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-fileinput__required">*</label>`
-              : ""}
-          </div>
-
-          <div class="nys-fileinput__description">
-            ${this.description}
-            <slot name="description"> </slot>
-          </div>
-        </div>`}
-        <label class="nys-fileinput__input">
-          ${this.width !== "sm"
-            ? html`<nys-button
-                class="nys-fileinput__iconbutton"
-                prefixIcon="upload_file"
-                label=${this.width !== "md" ? "Select File" : ""}
-                size="sm"
+        ${
+          this.label &&
+          html` <div class="nys-fileinput__text">
+            <div class="nys-fileinput__requiredwrapper">
+              <label for=${this.id} class="nys-fileinput__label"
+                >${this.label}</label
               >
-              </nys-button>`
-            : null}
-          <label class="nys-fileinput__filetext">No File Chosen</label>
+              ${this.required
+                ? html`<label class="nys-fileinput__required">*</label>`
+                : ""}
+            </div>
+
+            <div class="nys-fileinput__description">
+              ${this.description}
+              <slot name="description"> </slot>
+            </div>
+          </div>`
+        }
+        <label class="nys-fileinput__input">
+          ${
+            this.width !== "sm"
+              ? html`<nys-button
+                  class="nys-fileinput__iconbutton"
+                  prefixIcon="upload_file"
+                  label=${this.width !== "md" ? "Select File" : ""}
+                  size="sm"
+                >
+                </nys-button>`
+              : null
+          }
+          <label class="nys-fileinput__filetext">${this.width !== "sm" ? "No File Chosen" : "No File"}
           <input
             type="file"
             name=${this.name}
@@ -127,12 +132,14 @@ export class NysFileinput extends LitElement {
             @change="${this._handleChange}"
           />
         </label>
-        ${this.showError && this.errorMessage
-          ? html`<div class="nys-fileinput__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this.errorMessage}
-            </div>`
-          : ""}
+        ${
+          this.showError && this.errorMessage
+            ? html`<div class="nys-fileinput__error">
+                <nys-icon name="error" size="xl"></nys-icon>
+                ${this.errorMessage}
+              </div>`
+            : ""
+        }
       </div>
     `;
   }
