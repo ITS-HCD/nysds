@@ -126,7 +126,7 @@ export default css`
     flex-wrap: wrap;
   }
 
-  /* Breakpoints using Excelsior Grid Guidelines (Menu Links) */
+  /* Breakpoints using Excelsior Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
     :host {

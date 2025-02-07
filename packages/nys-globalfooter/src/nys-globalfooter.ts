@@ -19,6 +19,8 @@ export class NysGlobalFooter extends LitElement {
     this._handleSlotChange(); // Initial check
   }
 
+  /******************** Functions ********************/
+  // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) return;
