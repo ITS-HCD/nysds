@@ -1,12 +1,11 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "@nys-excelsior/nys-icon";
 import styles from "./nys-toggle.styles";
 
 let toggleIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-toggle")
 export class NysToggle extends LitElement {
   static styles = styles;
 
@@ -132,4 +131,8 @@ export class NysToggle extends LitElement {
       </label>
     `;
   }
+}
+
+if (!customElements.get("nys-toggle")) {
+  customElements.define("nys-toggle", NysToggle);
 }

@@ -1,9 +1,7 @@
 import { LitElement, html } from "lit";
-import { customElement } from "lit/decorators.js";
 import styles from "./nys-unavfooter.styles";
 import nysLogo from "./nys-unav.logo";
 
-@customElement("nys-unavfooter")
 export class NysUnavFooter extends LitElement {
   static styles = styles;
 
@@ -44,4 +42,8 @@ export class NysUnavFooter extends LitElement {
       </footer>
     `;
   }
+}
+
+if (!customElements.get("nys-unavfooter")) {
+  customElements.define("nys-unavfooter", NysUnavFooter);
 }

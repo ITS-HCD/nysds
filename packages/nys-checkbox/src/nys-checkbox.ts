@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles"; // Assuming styles are in a separate file
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
@@ -7,7 +7,6 @@ import "./nys-checkboxgroup";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-checkbox")
 export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
@@ -147,4 +146,8 @@ export class NysCheckbox extends LitElement {
       </div>
     `;
   }
+}
+
+if (!customElements.get("nys-checkbox")) {
+  customElements.define("nys-checkbox", NysCheckbox);
 }

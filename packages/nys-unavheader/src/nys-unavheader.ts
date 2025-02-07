@@ -1,13 +1,12 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-unavheader.styles";
 import nysLogo from "./nys-unav.logo";
 import "@nys-excelsior/nys-icon";
 import "@nys-excelsior/nys-textinput";
 import "@nys-excelsior/nys-button";
 
-@customElement("nys-unavheader")
-export class NysUNavHeader extends LitElement {
+export class NysUnavHeader extends LitElement {
   @property({ type: Boolean, reflect: true }) trustbarVisible = false;
   @property({ type: Boolean, reflect: true }) searchDropdownVisible = false;
   @property({ type: Boolean, reflect: true }) languageVisible = false;
@@ -334,6 +333,5 @@ export class NysUNavHeader extends LitElement {
 }
 
 if (!customElements.get("nys-unavheader")) {
-  customElements.define("nys-unavheader", NysUNavHeader);
+  customElements.define("nys-unavheader", NysUnavHeader);
 }
-
