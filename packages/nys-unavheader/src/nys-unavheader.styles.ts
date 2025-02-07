@@ -57,9 +57,9 @@ export default css`
 
   #nys-unavheader__translate,
   #nys-unavheader__searchbutton {
-    --_nys-button-color-text: var(--nys-color-theme, #154973);
-    --_nys-button-color-text-hover: var(--nys-color-theme, #154973);
-    --_nys-button-color-text-active: var(--nys-color-theme, #154973);
+    --_nys-button-color-text: var(--nys-color-state-blue-700, #154973);
+    --_nys-button-color-text-hover: var(--nys-color-state-blue-700, #154973);
+    --_nys-button-color-text-active: var(--nys-color-state-blue-700, #154973);
   }
 
   .nys-unavheader__iconbutton {
@@ -166,14 +166,14 @@ export default css`
     width: max-content;
     z-index: 99999;
     background-color: var(--nys-color-neutral-50, #ededed);
-    color: var(--nys-color-theme, #154973);
+    color: var(--nys-color-state-blue-700, #154973);
     margin-top: var(--nys-space-150, 12px);
     right: 0;
   }
 
   a.nys-unavheader__languagelink {
     padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
-    color: var(--nys-color-theme, #154973);
+    color: var(--nys-color-state-blue-700, #154973);
     text-decoration: none;
   }
 
