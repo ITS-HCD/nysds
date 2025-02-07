@@ -1,7 +1,7 @@
 {
   "name": "@nys-excelsior/styles",
   "type": "module",
-  "version": "0.0.9-alpha",
+  "version": "1.0.0",
   "description": "CSS variables, styles, and themes for the New York State Design System",
   "main": "dist/excelsior.css",
   "files": [

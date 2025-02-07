@@ -1,6 +1,6 @@
 {
   "name": "@nys-excelsior/nys-globalfooter",
-  "version": "0.0.9-alpha",
+  "version": "1.0.0",
   "description": "A global footer component from the NYS Design System.",
   "module": "dist/nys-globalfooter.js",
   "types": "dist/index.d.ts",
