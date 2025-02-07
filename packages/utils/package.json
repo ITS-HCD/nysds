@@ -1,0 +1,34 @@
+{
+  "name": "@nys-excelsior/utils",
+  "version": "0.0.1",
+  "description": "Internal utility package for the NYS Excelsior Design System.",
+  "private": true,
+  "type": "module",
+  "exports": {
+      ".": {
+          "import": "./dist/index.js",
+          "types": "./dist/index.d.ts"
+      }
+  },
+  "files": [
+      "dist/"
+  ],
+  "scripts": {
+      "build": "tsc --emitDeclarationOnly && vite build"
+  },
+  "devDependencies": {
+      "typescript": "^5.7.2",
+      "vite": "^6.0.11"
+  },
+  "keywords": [
+    "excelsior",
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "utility",
+    "nys",
+    "forms"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}
