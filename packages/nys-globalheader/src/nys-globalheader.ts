@@ -1,9 +1,8 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-globalheader.styles";
 import "@nys-excelsior/nys-icon";
 
-@customElement("nys-globalheader")
 export class NysGlobalHeader extends LitElement {
   static styles = styles;
 
@@ -162,4 +161,8 @@ export class NysGlobalHeader extends LitElement {
       ></div>
     `;
   }
+}
+
+if (!customElements.get("nys-globalheader")) {
+  customElements.define("nys-globalheader", NysGlobalHeader);
 }
