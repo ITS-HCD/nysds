@@ -11,8 +11,8 @@ export default css`
       --nys-color-theme,
       var(--nys-color-state-blue-700, #154973)
     );
-    --_nys-globalheader-main-gap-spacing: var(--nys-space-500, 40px);
-    --_nys-globalheader-padding: var(--nys-space-200, 16px);
+    --_nys-globalheader-main-gap-spacing: var(--nys-space-300, 24px);
+    --_nys-globalheader-padding: var(--nys-space-250, 20px);
     --_nys-globalheader-gutter: var(--nys-gutter-sm, 20px);
     --_nys-globalheader-font-family: var(
       --nys-font-family-ui,
@@ -76,6 +76,13 @@ export default css`
         sans-serif
       )
     );
+    /* Mobile Menu */
+    --_nys-globalheader-mobile-btn-font-size: var(--nys-type-size-ui-xs, 12px);
+    --_nys-globalheader-mobile-btn-lineheight: var(--nys-font-lineheight-ui-xs, 20px);
+    --_nys-globalheader-mobile-btn-letterspacing: var(--nys-font-letterspacing-ui-xs, 0.057px);
+    --_nys-globalheader-mobile-li-border-color: var(--nys-color-theme-mid, #457AA5);
+    --_nys-globalheader-mobile-li-hover-bg: var(--nys-color-theme-strong, #0E324F);
+    --_nys-globalheader-mobile-li-active-bg: var(--nys-color-theme-stronger, #081B2B);
   }
 
   /* Slotted content (menu links) basic resets */
@@ -150,6 +157,7 @@ export default css`
 
   /* Slotted content */
   .nys-globalheader__content {
+    display: none;
     font-family: var(--_nys-globalheader-font-family);
   }
 
@@ -160,15 +168,85 @@ export default css`
     flex-wrap: wrap;
   }
 
+  /* Mobile Menu */
+  .nys-globalheader__content-mobile {
+    position: relative;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--_nys-globalheader-background);
+    width: fit-content;
+  }
+  .nys-globalheader__content-mobile.close {
+    display: none;
+  }
+  .nys-globalheader__content-mobile ul {
+    display: flex;
+    flex-direction: column;
+  }
+  .nys-globalheader__content-mobile ul li:first-child a {
+    border-top: 1px solid var(--_nys-globalheader-color);
+  }
+  .nys-globalheader__content-mobile ul li a {
+    display: flex;
+    padding: 24px;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-bottom: 1px solid var(--_nys-globalheader-mobile-li-border-color);
+  }
+  .nys-globalheader__content-mobile ul li a:hover {
+    background: var(--_nys-globalheader-mobile-li-hover-bg);
+  }
+  .nys-globalheader__content-mobile ul li a:active {
+    background: var(--_nys-globalheader-mobile-li-active-bg);
+  }
+  /* Mobile Menu (OPEN/CLOSE Button Container) */
+  .nys-globalheader__button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .nys-globalheader__mobile-menu-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--_nys-globalheader-background);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    color: var(--_nys-globalheader-color);
+  }
+  .nys-globalheader__mobile-menu-button-text {
+    font-size: var(--_nys-globalheader-mobile-btn-font-size);
+    line-height: var(--_nys-globalheader-mobile-btn-lineheight);
+    letter-spacing: var(--_nys-globalheader-mobile-btn-letterspacing);
+  }
+
   /* Breakpoints using Excelsior Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
+    .nys-globalheader__content{
+      display: flex;
+    }
     .nys-globalheader__content ul {
       flex-direction: row;
       gap: var(--_nys-globalfooter-link-gap-spacing-row)
       var(--_nys-globalfooter-link-gap-spacing-column);
     }
-    :host() {
+    .nys-globalheader__content-mobile, .nys-globalheader__button-container {
+      display: none;
+    }
+    :host {
+      --_nys-globalheader-main-gap-spacing: var(--nys-space-500, 40px);
       --_nys-globalheader-gutter: var(--nys-gutter-lg, 32px);
     }
   }

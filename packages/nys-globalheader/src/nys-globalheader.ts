@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import styles from "./nys-globalheader.styles";
+import "@nys-excelsior/nys-icon";
 
 @customElement("nys-globalheader")
 export class NysGlobalHeader extends LitElement {
@@ -10,6 +11,7 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
   @state() private slotHasContent = true;
+  @state() private isMobileMenuOpen = false;
 
   /**************** Lifecycle Methods ****************/
 
@@ -38,15 +40,20 @@ export class NysGlobalHeader extends LitElement {
     const container = this.shadowRoot?.querySelector(
       ".nys-globalheader__content",
     );
+    const containerMobile = this.shadowRoot?.querySelector(
+      ".nys-globalheader__content-mobile",
+    );
 
-    if (container) {
+    if (container && containerMobile) {
       // Clear existing children in the container
       container.innerHTML = "";
+      containerMobile.innerHTML = "";
       
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
           const cleanNode = node.cloneNode(true);
+          const cleanNodeMobile = node.cloneNode(true);
 
           // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
           const dangerousTags = ["script", "iframe", "object", "embed"];
@@ -56,16 +63,37 @@ export class NysGlobalHeader extends LitElement {
               .forEach((element) => element.remove());
           });
           container.appendChild(cleanNode);
+          containerMobile.appendChild(cleanNodeMobile);
           node.remove(); // Remove from light DOM to avoid duplication
         }
       });
     }
   }
 
+  private _toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
   render() {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
+          ${this.slotHasContent ?
+            html`
+              <div class="nys-globalheader__button-container">
+              <button
+              class="nys-globalheader__mobile-menu-button"
+              @click="${this._toggleMobileMenu}"
+            >              <nys-icon
+                name="${this.isMobileMenuOpen ? "close" : "menu"}"
+                size="32"
+                label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
+              ></nys-icon>
+              <span class="nys-globalheader__mobile-menu-button-text">${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span>
+              </button>
+            </div>`
+              : ""
+          }
           <div class="nys-globalheader__name-container">
             ${this.appName?.trim().length > 0
               ? html`<div
@@ -95,6 +123,7 @@ export class NysGlobalHeader extends LitElement {
             : ""}
         </div>
       </header>
+      <div class="nys-globalheader__content-mobile ${this.isMobileMenuOpen ? "" : "close"}"></div>
     `;
   }
 }
