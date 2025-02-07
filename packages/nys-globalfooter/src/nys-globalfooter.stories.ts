@@ -37,8 +37,11 @@ export const Basic: Story = {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalfooter .agencyName=${args.agencyName}       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}>
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    >
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
         <li><a href="https://its.ny.gov/about">About ITS</a></li>
@@ -68,8 +71,11 @@ export const WithoutMenuLinks: Story = {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalfooter .agencyName=${args.agencyName} .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}></nys-globalfooter>
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    ></nys-globalfooter>
   `,
   parameters: {
     docs: {
@@ -88,10 +94,14 @@ export const WithoutMenuLinks: Story = {
 export const WithMenuLinks: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
+    homepageLink: "https://its.ny.gov",
   },
   render: (args) => html`
-    <nys-globalfooter .agencyName=${args.agencyName}       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}>
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}
+    >
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
         <li><a href="https://its.ny.gov/about">About ITS</a></li>
@@ -102,7 +112,7 @@ export const WithMenuLinks: Story = {
     docs: {
       source: {
         code: `
-<nys-globalfooter agencyName="Office of Information Technology Services">
+<nys-globalfooter agencyName="Office of Information Technology Services" homepageLink="https://its.ny.gov">
   <ul>
     <li><a href="https://its.ny.gov">ITS Home</a></li>
     <li><a href="https://its.ny.gov/about">About ITS</a></li>

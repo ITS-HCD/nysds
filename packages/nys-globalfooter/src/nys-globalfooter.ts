@@ -73,11 +73,12 @@ export class NysGlobalFooter extends LitElement {
       <footer class="nys-globalfooter">
         <div class="nys-globalfooter__main-container">
           ${this.disableHomepageLink
-            ? html`<p class="nys-globalfooter__name">${this.agencyName}</p>` :
-            html`<a href=${this.homepageLink?.trim() || window.location.origin}>
-              <p class="nys-globalfooter__name">${this.agencyName}</p>
-            </a>`
-          }
+            ? html`<p class="nys-globalfooter__name">${this.agencyName}</p>`
+            : html`<a
+                href=${this.homepageLink?.trim() || window.location.origin}
+              >
+                <p class="nys-globalfooter__name">${this.agencyName}</p>
+              </a>`}
           ${this.slotHasContent
             ? html`<div class="nys-globalfooter__content">
                 <slot
