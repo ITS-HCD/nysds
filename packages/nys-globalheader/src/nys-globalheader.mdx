@@ -26,7 +26,8 @@ Use the prop `homepageLink` to link your `agencyName` to your homepage. If `home
 <Canvas of={NysGlobalHeaderStories.OnlyAgencyName} />
 
 ## Just Application Name
-When the application serves multiple agencies, just use the `appName`.
+Use the prop `homepageLink` to link your `appName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise.
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> When the application serves multiple agencies, use the `appName` instead of `agencyName`.</div>
 <Canvas of={NysGlobalHeaderStories.OnlyAppName} />
 
 ## With Agency and Application Name

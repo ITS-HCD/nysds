@@ -98,11 +98,11 @@ export class NysGlobalHeader extends LitElement {
             : ""}
           <div class="nys-globalheader__name-container">
             ${this.appName?.trim().length > 0
-              ? html`<div
+              ? html`<a href=${this.homepageLink?.trim() || window.location.origin}><div
                   class="nys-globalheader__appName nys-globalheader__name"
                 >
                   ${this.appName}
-                </div>`
+                </div></a>`
               : ""}
             ${this.agencyName?.trim().length > 0
               ? html`<a href=${this.homepageLink?.trim() || window.location.origin}><div
