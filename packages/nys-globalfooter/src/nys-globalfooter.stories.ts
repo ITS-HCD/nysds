@@ -5,6 +5,8 @@ import "./nys-globalfooter";
 // Define the structure of the args used in the stories
 interface NysGlobalFooterArgs {
   agencyName: string;
+  homepageLink: string;
+  disableHomepageLink: boolean;
 }
 
 const meta: Meta<NysGlobalFooterArgs> = {
@@ -12,6 +14,8 @@ const meta: Meta<NysGlobalFooterArgs> = {
   component: "nys-globalfooter",
   argTypes: {
     agencyName: { control: "text" },
+    homepageLink: { control: "text" },
+    disableHomepageLink: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -33,7 +37,8 @@ export const Basic: Story = {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalfooter .agencyName=${args.agencyName}>
+    <nys-globalfooter .agencyName=${args.agencyName}       .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}>
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
         <li><a href="https://its.ny.gov/about">About ITS</a></li>
@@ -58,12 +63,13 @@ export const Basic: Story = {
 };
 
 // Story: Without Links
-export const WithoutLinks: Story = {
+export const WithoutMenuLinks: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalfooter .agencyName=${args.agencyName}></nys-globalfooter>
+    <nys-globalfooter .agencyName=${args.agencyName} .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}></nys-globalfooter>
   `,
   parameters: {
     docs: {
@@ -79,12 +85,13 @@ export const WithoutLinks: Story = {
 };
 
 // Story: With Links
-export const WithLinks: Story = {
+export const WithMenuLinks: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalfooter .agencyName=${args.agencyName}>
+    <nys-globalfooter .agencyName=${args.agencyName}       .homepageLink=${args.homepageLink}
+      ?disableHomepageLink=${args.disableHomepageLink}>
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
         <li><a href="https://its.ny.gov/about">About ITS</a></li>

@@ -7,6 +7,8 @@ export class NysGlobalFooter extends LitElement {
 
   /********************** Properties **********************/
   @property({ type: String }) agencyName = "";
+  @property({ type: String }) homepageLink = window.location.origin;
+  @property({ type: Boolean }) disableHomepageLink = false;
   @state() private slotHasContent = true;
 
   /**************** Lifecycle Methods ****************/
@@ -70,7 +72,12 @@ export class NysGlobalFooter extends LitElement {
     return html`
       <footer class="nys-globalfooter">
         <div class="nys-globalfooter__main-container">
-          <p class="nys-globalfooter__name">${this.agencyName}</p>
+          ${this.disableHomepageLink
+            ? html`<p class="nys-globalfooter__name">${this.agencyName}</p>` :
+            html`<a href=${this.homepageLink?.trim() || window.location.origin}>
+              <p class="nys-globalfooter__name">${this.agencyName}</p>
+            </a>`
+          }
           ${this.slotHasContent
             ? html`<div class="nys-globalfooter__content">
                 <slot
