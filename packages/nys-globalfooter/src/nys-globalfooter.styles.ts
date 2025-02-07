@@ -89,6 +89,7 @@ export default css`
     font-style: normal;
     font-weight: var(--_nys-globalfooter-font-weight-semibold);
     line-height: var(--_nys-globalfooter-lineheight);
+    letter-spacing: normal;
   }
 
   /* Slotted content (menu links) basic resets */
