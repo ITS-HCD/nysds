@@ -21,7 +21,8 @@ The **`nys-globalheader`** component is a reusable web component for use in New 
 
 ## Variants
 ## Just Agency Name
-Display only the agency's official name for public-facing sites that are not tied to a specific application.
+Use the prop `homepageLink` to link your `agencyName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise.
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> Display only the agency's official name for public-facing sites that are not tied to a specific application.</div>
 <Canvas of={NysGlobalHeaderStories.OnlyAgencyName} />
 
 ## Just Application Name

@@ -6,6 +6,7 @@ import "./nys-globalheader";
 interface NysGlobalHeaderArgs {
   appName: string;
   agencyName: string;
+  homepageLink: string;
 }
 
 const meta: Meta<NysGlobalHeaderArgs> = {
@@ -14,6 +15,7 @@ const meta: Meta<NysGlobalHeaderArgs> = {
   argTypes: {
     appName: { control: "text" },
     agencyName: { control: "text" },
+    homepageLink: { control: "text" },
   },
   parameters: {
     docs: {
@@ -36,7 +38,7 @@ export const Basic: Story = {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName} .homepageLink=${args.homepageLink}>
     </nys-globalheader>
   `,
   parameters: {
@@ -56,16 +58,17 @@ export const Basic: Story = {
 export const OnlyAgencyName: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
+    homepageLink: "https://its.ny.gov",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName} .homepageLink=${args.homepageLink}>
     </nys-globalheader>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-globalheader agencyName="Office of Information Technology Services">
+<nys-globalheader agencyName="Office of Information Technology Services" homepageLink="https://its.ny.gov">
 </nys-globalheader>
 `.trim(),
         type: "auto",
@@ -80,7 +83,7 @@ export const OnlyAppName: Story = {
     appName: "NYS Employee Portal",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName} .homepageLink=${args.homepageLink}>
     </nys-globalheader>
   `,
   parameters: {
@@ -103,7 +106,7 @@ export const WithBothNames: Story = {
     agencyName: "Department of Labor",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName} .homepageLink=${args.homepageLink}>
     </nys-globalheader>
   `,
   parameters: {
@@ -125,7 +128,7 @@ export const WithLinks: Story = {
     agencyName: "Office of Information Technology Services",
   },
   render: (args) => html`
-    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName}>
+    <nys-globalheader .agencyName=${args.agencyName} .appName=${args.appName} .homepageLink=${args.homepageLink}>
       <ul>
         <li><a href="https://its.ny.gov/services">Services</a></li>
         <li><a href="https://its.ny.gov/get-help">Help Center</a></li>

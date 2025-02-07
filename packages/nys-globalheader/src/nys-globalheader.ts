@@ -10,6 +10,7 @@ export class NysGlobalHeader extends LitElement {
   /********************** Properties **********************/
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
+  @property({ type: String }) homepageLink = window.location.origin;
   @state() private slotHasContent = true;
   @state() private isMobileMenuOpen = false;
 
@@ -104,14 +105,14 @@ export class NysGlobalHeader extends LitElement {
                 </div>`
               : ""}
             ${this.agencyName?.trim().length > 0
-              ? html`<div
+              ? html`<a href=${this.homepageLink?.trim() || window.location.origin}><div
                   class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
                     .length > 0
                     ? ""
                     : "main"}"
                 >
                   ${this.agencyName}
-                </div>`
+                </div></a>`
               : ""}
           </div>
           ${this.slotHasContent
