@@ -1,12 +1,11 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-button.styles";
 import "@nys-excelsior/nys-icon";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-button")
 export class NysButton extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -120,19 +119,17 @@ export class NysButton extends LitElement {
                 @blur="${this._handleBlur}"
               >
                 ${this.prefixIcon && this.variant !== "text"
-                  ? html`<nys-icon
-                      size="16"
-                      name=${this.prefixIcon}
-                    ></nys-icon>`
+                  ? html`<slot name="prefix-icon">
+                      <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
+                    </slot>`
                   : ""}
                 ${this.label
                   ? html`<label class="nys-button__text">${this.label}</label>`
                   : ""}
                 ${this.suffixIcon && this.variant !== "text"
-                  ? html`<nys-icon
-                      size="16"
-                      name=${this.suffixIcon}
-                    ></nys-icon>`
+                  ? html`<slot name="suffix-icon">
+                      <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
+                    </slot>`
                   : ""}
               </a>
             </div>
@@ -151,16 +148,24 @@ export class NysButton extends LitElement {
               @blur="${this._handleBlur}"
             >
               ${this.prefixIcon && this.variant !== "text"
-                ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
+                ? html`<slot name="prefix-icon">
+                    <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
+                  </slot>`
                 : ""}
               ${this.label
                 ? html`<label class="nys-button__text">${this.label}</label>`
                 : ""}
               ${this.suffixIcon && this.variant !== "text"
-                ? html`<nys-icon size="16" name=${this.suffixIcon}></nys-icon>`
+                ? html`<slot name="suffix-icon">
+                    <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
+                  </slot>`
                 : ""}
             </button>
           `}
     `;
   }
+}
+
+if (!customElements.get("nys-button")) {
+  customElements.define("nys-button", NysButton);
 }
