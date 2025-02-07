@@ -48,7 +48,7 @@ export class NysGlobalHeader extends LitElement {
       // Clear existing children in the container
       container.innerHTML = "";
       containerMobile.innerHTML = "";
-      
+
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
@@ -78,22 +78,23 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
-          ${this.slotHasContent ?
-            html`
-              <div class="nys-globalheader__button-container">
-              <button
-              class="nys-globalheader__mobile-menu-button"
-              @click="${this._toggleMobileMenu}"
-            >              <nys-icon
-                name="${this.isMobileMenuOpen ? "close" : "menu"}"
-                size="32"
-                label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
-              ></nys-icon>
-              <span class="nys-globalheader__mobile-menu-button-text">${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span>
-              </button>
-            </div>`
-              : ""
-          }
+          ${this.slotHasContent
+            ? html` <div class="nys-globalheader__button-container">
+                <button
+                  class="nys-globalheader__mobile-menu-button"
+                  @click="${this._toggleMobileMenu}"
+                >
+                  <nys-icon
+                    name="${this.isMobileMenuOpen ? "close" : "menu"}"
+                    size="32"
+                    label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
+                  ></nys-icon>
+                  <span class="nys-globalheader__mobile-menu-button-text"
+                    >${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span
+                  >
+                </button>
+              </div>`
+            : ""}
           <div class="nys-globalheader__name-container">
             ${this.appName?.trim().length > 0
               ? html`<div
@@ -123,7 +124,11 @@ export class NysGlobalHeader extends LitElement {
             : ""}
         </div>
       </header>
-      <div class="nys-globalheader__content-mobile ${this.isMobileMenuOpen ? "" : "close"}"></div>
+      <div
+        class="nys-globalheader__content-mobile ${this.isMobileMenuOpen
+          ? ""
+          : "close"}"
+      ></div>
     `;
   }
 }

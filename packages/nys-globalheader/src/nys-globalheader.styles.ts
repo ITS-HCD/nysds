@@ -78,11 +78,26 @@ export default css`
     );
     /* Mobile Menu */
     --_nys-globalheader-mobile-btn-font-size: var(--nys-type-size-ui-xs, 12px);
-    --_nys-globalheader-mobile-btn-lineheight: var(--nys-font-lineheight-ui-xs, 20px);
-    --_nys-globalheader-mobile-btn-letterspacing: var(--nys-font-letterspacing-ui-xs, 0.057px);
-    --_nys-globalheader-mobile-li-border-color: var(--nys-color-theme-mid, #457AA5);
-    --_nys-globalheader-mobile-li-hover-bg: var(--nys-color-theme-strong, #0E324F);
-    --_nys-globalheader-mobile-li-active-bg: var(--nys-color-theme-stronger, #081B2B);
+    --_nys-globalheader-mobile-btn-lineheight: var(
+      --nys-font-lineheight-ui-xs,
+      20px
+    );
+    --_nys-globalheader-mobile-btn-letterspacing: var(
+      --nys-font-letterspacing-ui-xs,
+      0.057px
+    );
+    --_nys-globalheader-mobile-li-border-color: var(
+      --nys-color-theme-mid,
+      #457aa5
+    );
+    --_nys-globalheader-mobile-li-hover-bg: var(
+      --nys-color-theme-strong,
+      #0e324f
+    );
+    --_nys-globalheader-mobile-li-active-bg: var(
+      --nys-color-theme-stronger,
+      #081b2b
+    );
   }
 
   /* Slotted content (menu links) basic resets */
@@ -234,15 +249,16 @@ export default css`
   /* Breakpoints using Excelsior Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
-    .nys-globalheader__content{
+    .nys-globalheader__content {
       display: flex;
     }
     .nys-globalheader__content ul {
       flex-direction: row;
       gap: var(--_nys-globalfooter-link-gap-spacing-row)
-      var(--_nys-globalfooter-link-gap-spacing-column);
+        var(--_nys-globalfooter-link-gap-spacing-column);
     }
-    .nys-globalheader__content-mobile, .nys-globalheader__button-container {
+    .nys-globalheader__content-mobile,
+    .nys-globalheader__button-container {
       display: none;
     }
     :host {
