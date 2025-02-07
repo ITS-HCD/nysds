@@ -21,13 +21,13 @@ The **`nys-globalheader`** component is a reusable web component for use in New 
 
 ## Variants
 ## Just Agency Name
-Use the prop `homepageLink` to link your `agencyName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise.
+Use the prop `homepageLink` to link your `agencyName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise (use `disableHomepageLink` to disable this).
 <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> Display only the agency's official name for public-facing sites that are not tied to a specific application.</div>
 <Canvas of={NysGlobalHeaderStories.OnlyAgencyName} />
 
 ## Just Application Name
-Use the prop `homepageLink` to link your `appName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise.
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> When the application serves multiple agencies, use the `appName` instead of `agencyName`.</div>
+Use the prop `homepageLink` to link your `appName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise (use `disableHomepageLink` to disable this).
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> When the application serves multiple agencies, use the application name instead of a specific agency name.</div>
 <Canvas of={NysGlobalHeaderStories.OnlyAppName} />
 
 ## With Agency and Application Name
