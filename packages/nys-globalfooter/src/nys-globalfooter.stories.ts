@@ -69,6 +69,7 @@ export const Basic: Story = {
 export const WithoutMenuLinks: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
+    homepageLink: "https://its.ny.gov",
   },
   render: (args) => html`
     <nys-globalfooter
@@ -81,7 +82,7 @@ export const WithoutMenuLinks: Story = {
     docs: {
       source: {
         code: `
-<nys-globalfooter agencyName="Office of Information Technology Services">
+<nys-globalfooter agencyName="Office of Information Technology Services" homepageLink="https://its.ny.gov">
 </nys-globalfooter>
 `.trim(),
         type: "auto",
@@ -94,7 +95,6 @@ export const WithoutMenuLinks: Story = {
 export const WithMenuLinks: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
-    homepageLink: "https://its.ny.gov",
   },
   render: (args) => html`
     <nys-globalfooter
@@ -112,7 +112,7 @@ export const WithMenuLinks: Story = {
     docs: {
       source: {
         code: `
-<nys-globalfooter agencyName="Office of Information Technology Services" homepageLink="https://its.ny.gov">
+<nys-globalfooter agencyName="Office of Information Technology Services">
   <ul>
     <li><a href="https://its.ny.gov">ITS Home</a></li>
     <li><a href="https://its.ny.gov/about">About ITS</a></li>
