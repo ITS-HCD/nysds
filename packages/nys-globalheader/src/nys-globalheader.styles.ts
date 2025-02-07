@@ -26,7 +26,10 @@ export default css`
       )
     );
     --_nys-globalheader-lineheight: normal;
-    --_nys-globalheader-letterspacing: normal;
+    --_nys-globalheader-letterspacing: var(
+      --nys-font-letterspacing-h2,
+      var(--nys-font-letterspacing-100, 0.013px;)
+    );
     --_nys-globalheader-font-weight-bold: var(--nys-font-weight-bold, 700);
     --_nys-globalheader-font-weight-semibold: var(
       --nys-font-weight-semibold,
@@ -115,7 +118,7 @@ export default css`
     font-family: var(--_nys-globalheader-font-family);
     font-size: var(--_nys-globalheader-font-size-links);
     font-style: normal;
-    font-weight: var(--_nys-globalheader-font-weight-semibold);
+    font-weight: 400;
     line-height: var(--_nys-globalheader-lineheight-links);
     letter-spacing: var(--_nys-globalheader-link-letterspacing);
   }
@@ -178,6 +181,15 @@ export default css`
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  .nys-globalheader__content ul a:hover {
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: 7%;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
   }
 
   /* Mobile Menu */
