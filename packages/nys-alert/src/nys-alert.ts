@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "@nys-excelsior/nys-icon";
@@ -7,7 +7,6 @@ import "@nys-excelsior/nys-button";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-alert")
 export class NysAlert extends LitElement {
   static styles = styles;
 

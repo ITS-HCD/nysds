@@ -1,12 +1,11 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import "@nys-excelsior/nys-icon";
 import styles from "./nys-avatar.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 let avatarIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-avatar")
 export class NysAvatar extends LitElement {
   static styles = styles;
 

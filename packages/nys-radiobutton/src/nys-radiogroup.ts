@@ -1,11 +1,10 @@
 import { LitElement, html } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-radiogroup")
 export class NysRadiogroup extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";

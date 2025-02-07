@@ -1,10 +1,9 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-checkbox.styles";
 
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-checkboxgroup")
 export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
