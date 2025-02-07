@@ -45,3 +45,7 @@ export class NysUnavFooter extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-unavfooter")) {
+  customElements.define("nys-unavfooter", NysUnavFooter);
+}

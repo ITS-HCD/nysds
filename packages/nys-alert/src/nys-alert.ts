@@ -231,3 +231,7 @@ export class NysAlert extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-alert")) {
+  customElements.define("nys-alert", NysAlert);
+}

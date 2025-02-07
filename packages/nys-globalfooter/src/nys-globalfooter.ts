@@ -85,3 +85,7 @@ export class NysGlobalFooter extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-globalfooter")) {
+  customElements.define("nys-globalfooter", NysGlobalFooter);
+}

@@ -165,3 +165,7 @@ export class NysSelect extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-select")) {
+  customElements.define("nys-select", NysSelect);
+}

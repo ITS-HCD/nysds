@@ -133,3 +133,7 @@ export class NysToggle extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-toggle")) {
+  customElements.define("nys-toggle", NysToggle);
+}

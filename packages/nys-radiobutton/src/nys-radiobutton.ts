@@ -163,3 +163,7 @@ export class NysRadiobutton extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-radiobutton")) {
+  customElements.define("nys-radiobutton", NysRadiobutton);
+}

@@ -170,3 +170,7 @@ export class NysTextarea extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-textarea")) {
+  customElements.define("nys-textarea", NysTextarea);
+}

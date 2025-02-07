@@ -117,3 +117,7 @@ export class NysRadiogroup extends LitElement {
     </div>`;
   }
 }
+
+if (!customElements.get("nys-radiogroup")) {
+  customElements.define("nys-radiogroup", NysRadiogroup);
+}

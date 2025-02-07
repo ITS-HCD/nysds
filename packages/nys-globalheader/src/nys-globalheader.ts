@@ -132,3 +132,7 @@ export class NysGlobalHeader extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-globalheader")) {
+  customElements.define("nys-globalheader", NysGlobalHeader);
+}

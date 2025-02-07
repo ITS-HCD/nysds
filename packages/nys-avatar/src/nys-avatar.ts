@@ -103,3 +103,7 @@ export class NysAvatar extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-avatar")) {
+  customElements.define("nys-avatar", NysAvatar);
+}

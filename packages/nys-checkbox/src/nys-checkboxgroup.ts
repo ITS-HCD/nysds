@@ -84,3 +84,7 @@ export class NysCheckboxgroup extends LitElement {
     </div>`;
   }
 }
+
+if (!customElements.get("nys-checkboxgroup")) {
+  customElements.define("nys-checkboxgroup", NysCheckboxgroup);
+}
