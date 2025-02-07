@@ -2,20 +2,18 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-fileinput.styles";
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nys-excelsior/nys-button";
 
 export class NysFileinput extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) placeholder = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) readonly = false;
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
-  @property({ type: String }) pattern = "";
-  @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysFileinput.VALID_WIDTHS)[number] = "full";
@@ -29,9 +27,6 @@ export class NysFileinput extends LitElement {
     }
   }
 
-  @property({ type: Number }) step = null;
-  @property({ type: Number }) min = null;
-  @property({ type: Number }) max = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
@@ -104,29 +99,34 @@ export class NysFileinput extends LitElement {
             <slot name="description"> </slot>
           </div>
         </div>`}
-        <input
-          class="nys-fileinput__input"
-          type="file"
-          name=${this.name}
-          id=${this.id}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          ?readonly=${this.readonly}
-          aria-disabled="${this.disabled}"
-          aria-label="${this.label} ${this.description}"
-          .value=${this.value}
-          placeholder=${this.placeholder}
-          maxlength=${this.maxlength}
-          pattern=${this.pattern}
-          step=${this.step}
-          min=${this.min}
-          max=${this.max}
-          form=${this.form}
-          @input=${this._handleInput}
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-          @change="${this._handleChange}"
-        />
+        <label class="nys-fileinput__input">
+          ${this.width !== "sm"
+            ? html`<nys-button
+                class="nys-fileinput__iconbutton"
+                prefixIcon="upload_file"
+                label=${this.width !== "md" ? "Select File" : ""}
+                size="sm"
+              >
+              </nys-button>`
+            : null}
+          <label class="nys-fileinput__filetext">No File Chosen</label>
+          <input
+            type="file"
+            name=${this.name}
+            id=${this.id}
+            ?disabled=${this.disabled}
+            ?required=${this.required}
+            ?readonly=${this.readonly}
+            aria-disabled="${this.disabled}"
+            aria-label="${this.label} ${this.description}"
+            .value=${this.value}
+            form=${this.form}
+            @input=${this._handleInput}
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+            @change="${this._handleChange}"
+          />
+        </label>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-fileinput__error">
               <nys-icon name="error" size="xl"></nys-icon>

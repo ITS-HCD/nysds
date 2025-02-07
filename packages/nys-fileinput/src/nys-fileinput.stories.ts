@@ -14,12 +14,7 @@ interface NysFileinputArgs {
   readonly: boolean;
   required: boolean;
   form: string;
-  pattern: string;
-  maxlength: string;
   width: string;
-  step: string;
-  min: string;
-  max: string;
   showError: boolean;
   errorMessage: string;
 }
@@ -38,31 +33,24 @@ const meta: Meta<NysFileinputArgs> = {
     readonly: { control: "boolean" },
     required: { control: "boolean" },
     form: { control: "text" },
-    pattern: { control: "text" },
-    maxlength: { control: "text" },
     width: {
       control: "select",
       options: ["sm", "md", "lg", "full"],
       defaultValue: { summary: "md" },
     },
-    step: { control: "text" },
-    min: { control: "text" },
-    max: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
 type Story = StoryObj<NysFileinputArgs>;
-
-// Define stories without using args
 
 export const Basic: Story = {
   args: {
@@ -81,12 +69,7 @@ export const Basic: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
       .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     ></nys-fileinput>

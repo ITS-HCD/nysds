@@ -88,16 +88,28 @@ export default css`
   }
 
   .nys-fileinput__input {
+    display: flex;
     border-radius: var(--_nys-fileinput-radius);
     border: solid var(--_nys-fileinput-color-border)
       var(--_nys-fileinput-width-border);
-    padding: var(--_nys-fileinput-padding);
     width: var(--_nys-fileinput-width);
     min-width: var(--_nys-fileinput-width);
     max-width: var(--_nys-fileinput-width);
-    box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+  }
+
+  input[type="file"] {
+    display: none;
+  }
+
+  .nys-fileinput__iconbutton {
+    --_nys-button-padding-x: var(--nys-space-100, 8px);
+    --_nys-button-radius: 0;
+  }
+
+  .nys-fileinput__filetext {
+    padding: var(--_nys-fileinput-padding);
   }
 
   /* Hovered */
