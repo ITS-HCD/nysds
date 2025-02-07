@@ -31,7 +31,7 @@
     "lint:fix": "eslint src/ --fix",
     "lint:fix:packages": "eslint packages/**/*.{ts,js} --fix",
     "release:dry-run": "npm run build:all && node src/scripts/publish-dry-run.js",
-    "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public --tag alpha",
+    "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public",
     "test": "wtr --node-resolve",
     "storybook": "npm run build:all && storybook dev -p 6006",
     "storybook:dev": "storybook dev -p 6006",
