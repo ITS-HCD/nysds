@@ -26,10 +26,7 @@ export default css`
       )
     );
     --_nys-globalheader-lineheight: normal;
-    --_nys-globalheader-letterspacing: var(
-      --nys-font-letterspacing-h2,
-      var(--nys-font-letterspacing-100, 0.013px;)
-    );
+    --_nys-globalheader-letterspacing: normal;
     --_nys-globalheader-font-weight-bold: var(--nys-font-weight-bold, 700);
     --_nys-globalheader-font-weight-semibold: var(
       --nys-font-weight-semibold,
@@ -194,8 +191,8 @@ export default css`
 
   /* Mobile Menu */
   .nys-globalheader__content-mobile {
-    position: relative;
-    top: 0;
+    position: absolute;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -225,6 +222,11 @@ export default css`
   }
   .nys-globalheader__content-mobile ul li a:active {
     background: var(--_nys-globalheader-mobile-li-active-bg);
+  }
+  .nys-globalheader__name-container-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   /* Mobile Menu (OPEN/CLOSE Button Container) */
   .nys-globalheader__button-container {
