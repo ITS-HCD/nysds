@@ -23,13 +23,16 @@ export default css`
 
   .nys-unavheader {
     background-color: var(--nys-color-ink-reverse, #ffffff);
+    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
+    margin: auto;
+  }
+
+  .nys-unavheader__maincontent {
     display: flex;
     justify-content: space-between;
     height: var(--nys-size-800, 64px);
-    align-items: center;
-    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
+    width: 100%;
     max-width: 1280px;
-    margin: auto;
   }
 
   a#nys-unavheader__logolink {
@@ -137,8 +140,8 @@ export default css`
     background-color: var(--nys-color-neutral-50, #ededed);
     color: var(--nys-color-ink, #1b1b1b);
     display: flex;
+    justify-content: center;
     padding: var(--nys-space-400, 32px) var(--_nys-unavheader-gutter);
-    max-width: 1280px;
     margin: auto;
   }
 
@@ -148,6 +151,7 @@ export default css`
     flex-direction: column;
     gap: var(--nys-space-400, 24px);
     font-weight: var(--nys-font-weight-regular, 400);
+    max-width: 1280px;
   }
 
   .nys-unavheader__trustcontentmessage {
@@ -248,6 +252,10 @@ export default css`
     /* Desktop Large (XL - Above 1280px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
+    }
+    .nys-unavheader {
+      display: flex;
+      justify-content: center;
     }
   }
 `;
