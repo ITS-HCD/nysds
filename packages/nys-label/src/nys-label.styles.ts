@@ -2,48 +2,73 @@ import { css } from "lit";
 
 export default css`
   :host {
-    /* Anything that can be overridden should be defined here */
-
-    /* Global Label Styles */
-    --_nys-label-font-family: var(
-      --nys-type-family-ui,
-      "Proxima Nova",
-      "Arial" /* TODO: this should not need to be specified */
+    /* Label Typography */
+    --nys-label-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
     );
+    --nys-label-font-weight: var(--nys-font-weight-semibold, 600);
+    --nys-label-font-size: var(--nys-font-size-ui-md, 16px);
+    --nys-label-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --nys-label-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    --nys-label-font-color: var(--nys-color-ink, #1b1b1b);
+
+    /* Description Typography */
+    --nys-description-font-weight: var(--nys-font-weight-regular, 400);
+    --nys-description-font-style: italic;
+    --nys-description-font-color: var(--nys-neutral-900, #1b1b1b);
+
+    /* Required Flag */
+    --nys-required-font-color: var(--nys-color-danger, #b52c2c);
+
+    /* Optional Flag */
+    --nys-optional-font-weight: var(--nys-font-weight-regular, 400);
+    --nys-optional-font-color: var(--nys-color-neutral-700, #4a4d4f);
+
+    /* Spacing */
+    --nys-label-flag-gap: var(--nys-space-2px, 2px);
   }
 
   .nys-label {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--nys-space-50, 4px);
-    font-family: var(--_nys-label-font-family);
+    font-family: var(--nys-label-font-family);
+    font-size: var(--nys-label-font-size);
+    line-height: var(--nys-label-line-height);
+    letter-spacing: var(--nys-label-letter-spacing);
+  }
+
+  .nys-label__labelwrapper {
+    display: flex;
+    gap: var(--nys-label-flag-gap);
   }
 
   .nys-label__label {
-    color: var(--nys-color-ink, #1b1b1b);
-    font-size: var(--nys-type-size-ui-md, 16px);
-    font-style: normal;
-    font-weight: 600;
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
-    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    font-weight: var(--nys-label-font-weight);
+    color: var(--nys-label-font-color);
   }
 
   .nys-label__description {
-    color: var(--Neutral-Neutral-9, #1b1b1b);
-    font-style: italic;
-    font-weight: 400;
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
-    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    font-weight: var(--nys-description-font-weight);
+    font-style: var(--nys-description-font-style);
+    color: var(--nys-description-font-color);
   }
 
   .nys-label__required {
-    color: var(--nys-color-danger, #b52c2c);
-    font-weight: 400;
+    font-weight: var(--nys-label-font-weight);
+    color: var(--nys-required-font-color);
   }
 
   .nys-label__optional {
-    color: var(--nys-neutral-700, #4a4d4f);
-    font-weight: 400;
+    font-weight: var(--nys-optional-font-weight);
+    color: var(--nys-optional-font-color);
   }
 `;
