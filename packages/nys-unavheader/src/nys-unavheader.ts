@@ -258,8 +258,47 @@ export class NysUnavHeader extends LitElement {
                 this.screenSize === "sm" ||
                 this.screenSize === "md"
                 ? html`<nys-button
+                      variant="ghost"
+                      prefixIcon="language"
+                      id="nys-unavheader__translate"
+                      class="nys-unavheader__iconbutton"
+                      @click="${this._toggleLanguageList}"
                     variant="ghost"
+                  : html`<nys-button
+                      variant="ghost"
+                      label="Translate"
+                      prefixIcon="language_filled"
+                      suffixIcon=${this.languageVisible
+                        ? "chevron_up"
+                        : "chevron_down"}
+                      id="nys-unavheader__translate"
+                      @click="${this._toggleLanguageList}"
+                    ></nys-button>`}
+                <div
+                  class="nys-unavheader__languagelist ${this.languageVisible
+                    ? "show"
+                    : "hide"}"
+                >
+                  ${this.languages.map(
                     prefixIcon="search"
+                      html`<a
+                        class="nys-unavheader__languagelink"
+                        target="_self"
+                        href="https://${code ? code + "." : ""}${window.location
+                          .hostname}"
+                        >${label}</a
+                      >`,
+                  )}
+                </div>
+              </div>`
+            : null}
+          ${!this.hideSearch
+            ? this.screenSize === "xs" ||
+              this.screenSize === "sm" ||
+              this.screenSize === "md"
+              ? html`<nys-button
+                  variant="ghost"
+                  prefixIcon="search"
                     id="nys-unavheader__searchbutton"
                     class="nys-unavheader__iconbutton"
                     @click="${this._toggleSearchDropdown}"
@@ -311,6 +350,14 @@ export class NysUnavHeader extends LitElement {
                 @click="${this._toggleTrustbar}"
               ></nys-button>
             </div>
+            <nys-button
+              id="nys-unavheader__closetrustbar"
+              class="nys-unavheader__iconbutton"
+              variant="ghost"
+              prefixIcon="close"
+              size="sm"
+              @click="${this._toggleTrustbar}"
+            ></nys-button>
           </div>`
         : null}
       <div

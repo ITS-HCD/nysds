@@ -31,7 +31,10 @@ export default css`
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: center;
+    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     max-width: 1280px;
+    margin: auto;
   }
 
   a#nys-unavheader__logolink {
@@ -142,6 +145,7 @@ export default css`
     display: flex;
     justify-content: center;
     padding: var(--nys-space-400, 32px) var(--_nys-unavheader-gutter);
+    max-width: 1280px;
     margin: auto;
   }
 

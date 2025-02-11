@@ -3,6 +3,11 @@ import { defineConfig } from "vite";
 // Banner to put at the top of the generated files
 const banner = `
 /*!
+   * 
+   * ░█▀▀▀ ▀▄░▄▀ ░█▀▀█ ░█▀▀▀ ░█─── ░█▀▀▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█ 
+   * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
+   * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
+   * 
    * Button Component v1.0.0
    * Part of the New York State Design System
    * A design system for New York State's digital products.

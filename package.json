@@ -1,5 +1,6 @@
 {
   "name": "@nysds/components",
+  "name": "@nys-excelsior/components",
   "version": "1.0.0",
   "description": "New York State's design system and code component library.",
   "type": "module",
