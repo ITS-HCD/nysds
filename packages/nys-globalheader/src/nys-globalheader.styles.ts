@@ -115,7 +115,7 @@ export default css`
     font-family: var(--_nys-globalheader-font-family);
     font-size: var(--_nys-globalheader-font-size-links);
     font-style: normal;
-    font-weight: var(--_nys-globalheader-font-weight-semibold);
+    font-weight: 400;
     line-height: var(--_nys-globalheader-lineheight-links);
     letter-spacing: var(--_nys-globalheader-link-letterspacing);
   }
@@ -180,10 +180,19 @@ export default css`
     flex-wrap: wrap;
   }
 
+  .nys-globalheader__content ul a:hover {
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: 7%;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+
   /* Mobile Menu */
   .nys-globalheader__content-mobile {
-    position: relative;
-    top: 0;
+    position: absolute;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -213,6 +222,11 @@ export default css`
   }
   .nys-globalheader__content-mobile ul li a:active {
     background: var(--_nys-globalheader-mobile-li-active-bg);
+  }
+  .nys-globalheader__name-container-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   /* Mobile Menu (OPEN/CLOSE Button Container) */
   .nys-globalheader__button-container {

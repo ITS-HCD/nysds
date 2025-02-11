@@ -1,25 +1,33 @@
 {
-    "name": "@nysds/nys-select",
+<<<<<<< HEAD
+    "name": "@nysds/nys-toggle",
+=======
+    "name": "@nys-excelsior/nys-toggle",
+>>>>>>> develop
     "version": "1.0.0",
-    "description": "A select component from the NYS Design System.",
-      "module": "dist/nys-select.js",
-      "exports": {
+    "description": "A toggle component from the NYS Design System.",
+    "module": "dist/nys-toggle.js",
+    "exports": {
         ".": {
-          "import": "./dist/nys-select.js",
-          "types": "./dist/index.d.ts"
+            "import": "./dist/nys-toggle.js",
+            "types": "./dist/index.d.ts"
         }
-      },
+    },
     "type": "module",
     "files": [
         "dist/"
-      ],
+    ],
     "scripts": {
         "dev": "tsc --emitDeclarationOnly && vite",
         "build": "tsc --emitDeclarationOnly && vite build"
     },
     "dependencies": {
+<<<<<<< HEAD
         "@nysds/nys-icon": "^1.0.0"
-      },
+=======
+        "@nys-excelsior/nys-icon": "^1.0.0"
+>>>>>>> develop
+    },
     "peerDependencies": {
         "lit": "^3.2.1"
     },
@@ -34,8 +42,8 @@
         "web-components",
         "lit",
         "nys",
-        "select",
-        "dropdown",
+        "input",
+        "toggle",
         "forms"
     ],
     "author": "New York State Design System Team",
