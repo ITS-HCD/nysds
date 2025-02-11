@@ -21,7 +21,7 @@ for (const pkg of allPackages) {
   console.log(`========================================================`);
   console.log(`Running dry-run for package: ${pkg}`);
   try {
-    execSync("npm publish --dry-run --tag alpha", {
+    execSync("npm publish --dry-run", {
       cwd: packagePath,
       stdio: "inherit",
     });

@@ -1,0 +1,100 @@
+{
+<<<<<<< HEAD
+  "name": "@nysds/components",
+=======
+  "name": "@nys-excelsior/components",
+>>>>>>> develop
+  "version": "1.0.0",
+  "description": "New York State's design system and code component library.",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/nysds.js",
+  "module": "dist/nysds.es.js",
+  "types": "dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/packages/src/index.d.ts",
+      "import": "./dist/nysds.es.js",
+      "require": "./dist/nysds.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run lint && tsc --emitDeclarationOnly && vite build",
+    "build:umd": "tsc --emitDeclarationOnly && vite build --config vite.config.umd.js",
+    "build:packages": "npm run lint:packages && node src/scripts/build-order.js",
+    "build:all": "npm run clean:dist && npm run build:packages && npm run build && npm run build:umd",
+    "build:watch": "tsc --emitDeclarationOnly && vite",
+    "lint": "eslint src/",
+    "lint:packages": "eslint packages/**/*.{ts,js}",
+    "lint:fix": "eslint src/ --fix",
+    "lint:fix:packages": "eslint packages/**/*.{ts,js} --fix",
+    "release:dry-run": "npm run build:all && node src/scripts/publish-dry-run.js",
+    "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public",
+    "test": "wtr --node-resolve",
+    "storybook": "npm run build:all && storybook dev -p 6006",
+    "storybook:dev": "storybook dev -p 6006",
+    "build-storybook": "npm run build:packages && storybook build",
+    "storybook:build": "storybook build",
+    "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules",
+    "clean:dist": "rm -rf dist && rm -rf packages/*/dist",
+    "clean:all": "npm run clean:dist && npm run clean:node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITS-HCD/nysds.git"
+  },
+  "author": "NYS Design System Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ITS-HCD/nysds/issues"
+  },
+  "homepage": "https://github.com/ITS-HCD/nysds/blob/main/README.md",
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.4",
+    "@open-wc/testing": "^3.2.2",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@storybook/addon-a11y": "^8.5.2",
+    "@storybook/addon-essentials": "^8.5.2",
+    "@storybook/addon-links": "^8.5.2",
+    "@storybook/addon-toolbars": "^8.5.2",
+    "@storybook/blocks": "^8.5.2",
+    "@storybook/manager-api": "^8.5.2",
+    "@storybook/test": "^8.5.2",
+    "@storybook/theming": "^8.5.2",
+    "@storybook/web-components": "^8.5.2",
+    "@storybook/web-components-vite": "^8.5.2",
+    "@types/mocha": "^10.0.9",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "@web/test-runner": "^0.19.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "@web/test-runner-playwright": "^0.11.0",
+    "eslint": "^9.10.0",
+    "eslint-plugin-lit": "^1.15.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-storybook": "^0.11.2",
+    "i": "^0.3.7",
+    "lit": "^3.2.1",
+    "npm": "^10.9.0",
+    "sinon": "^19.0.2",
+    "storybook": "^8.5.2",
+    "tslib": "^2.7.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.11"
+  },
+  "peerDependencies": {
+    "lit": "^3.2.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
+  }
+}

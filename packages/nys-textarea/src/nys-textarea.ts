@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
-import "@nys-excelsior/nys-icon";
+import "@nysds/nys-icon";
 
 export class NysTextarea extends LitElement {
   @property({ type: String }) id = "";

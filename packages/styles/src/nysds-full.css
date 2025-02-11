@@ -1,6 +1,6 @@
-@import "./excelsior.css"; /* Include core styles */
+@import "./nysds.css"; /* Include core styles */
 
-/* Excelsior: Full Style Library */
+/* NYSDS: Full Style Library */
 
 @import "./utilities/layout-grid.css";
 @import "./utilities/display.css";

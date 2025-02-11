@@ -1,4 +1,4 @@
-# Excelsior Design System
+# New York State Design System
 
 This repository contains a library of reusable code components for building New York State applications and websites. These components are built using LitElement and styled with custon CSS properties (variables) for easy customization.
 

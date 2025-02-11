@@ -1,5 +1,5 @@
 {
-    "name": "@nys-excelsior/nys-select",
+    "name": "@nysds/nys-select",
     "version": "1.0.0",
     "description": "A select component from the NYS Design System.",
       "module": "dist/nys-select.js",
@@ -18,7 +18,7 @@
         "build": "tsc --emitDeclarationOnly && vite build"
     },
     "dependencies": {
-        "@nys-excelsior/nys-icon": "^1.0.0"
+        "@nysds/nys-icon": "^1.0.0"
       },
     "peerDependencies": {
         "lit": "^3.2.1"
@@ -29,7 +29,6 @@
         "vite": "^6.0.11"
     },
     "keywords": [
-        "excelsior",
         "new-york-state",
         "design-system",
         "web-components",

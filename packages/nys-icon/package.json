@@ -1,5 +1,5 @@
 {
-   "name": "@nys-excelsior/nys-icon",
+   "name": "@nysds/nys-icon",
    "version": "1.0.0",
    "description": "An icon component from the NYS Design System.",
     "module": "dist/nys-icon.js",
@@ -27,7 +27,6 @@
       "vite": "^6.0.11"
    },
    "keywords": [
-      "excelsior",
       "new-york-state",
       "design-system",
       "web-components",
