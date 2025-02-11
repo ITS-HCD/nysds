@@ -1,25 +1,25 @@
 {
-  "name": "@nys-excelsior/styles",
+  "name": "@nysds/styles",
   "type": "module",
   "version": "1.0.0",
   "description": "CSS variables, styles, and themes for the New York State Design System",
-  "main": "dist/excelsior.css",
+  "main": "dist/nysds.css",
   "files": [
     "dist/"
   ],
   "exports": {
     ".": {
-      "default": "./dist/excelsior.min.css"
+      "default": "./dist/nysds.min.css"
     },
-    "./full": "./dist/excelsior-full.min.css",
-    "./themes/admin": "./dist/excelsior-theme-admin.min.css",
-    "./themes/business": "./dist/excelsior-theme-business.min.css",
-    "./themes/environment": "./dist/excelsior-theme-environment.min.css",
-    "./themes/health": "./dist/excelsior-theme-health.min.css",
-    "./themes/local": "./dist/excelsior-theme-local.min.css",
-    "./themes/safety": "./dist/excelsior-theme-safety.min.css",
-    "./themes/transportation": "./dist/excelsior-theme-transportation.min.css",
-    "./typography": "./dist/typography.min.css"
+    "./full": "./dist/nysds-full.min.css",
+    "./themes/admin": "./dist/nysds-theme-admin.min.css",
+    "./themes/business": "./dist/nysds-theme-business.min.css",
+    "./themes/environment": "./dist/nysds-theme-environment.min.css",
+    "./themes/health": "./dist/nysds-theme-health.min.css",
+    "./themes/local": "./dist/nysds-theme-local.min.css",
+    "./themes/safety": "./dist/nysds-theme-safety.min.css",
+    "./themes/transportation": "./dist/nysds-theme-transportation.min.css",
+    "./typography": "./dist/nysds-typography.min.css"
   },
   "scripts": {
     "dev": "vite --config",
@@ -32,7 +32,6 @@
     "vite": "^6.0.11"
   },
   "keywords": [
-    "excelsior",
     "new-york-state",
     "design-system",
     "styles",

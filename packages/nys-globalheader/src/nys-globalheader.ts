@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-globalheader.styles";
-import "@nys-excelsior/nys-icon";
+import "@nysds/nys-icon";
 
 export class NysGlobalHeader extends LitElement {
   static styles = styles;
@@ -119,6 +119,7 @@ export class NysGlobalHeader extends LitElement {
                 </div>
               `
             : html`<a
+                class="nys-globalheader__name-container-link"
                 href=${this.homepageLink?.trim() || window.location.origin}
               >
                 <div class="nys-globalheader__name-container">

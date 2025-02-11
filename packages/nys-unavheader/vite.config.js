@@ -10,9 +10,9 @@ const banner = `
    * 
    * Universal Header Component v1.0.0
    * Part of New York State's Excelsior Design System
-   * (c) ${new Date().getFullYear()} New York State Design System Team
+   * Part of the New York State Design System
    * A design system for New York State's digital products.
-   * Repository: https://github.com/its-hcd/excelsior
+   * Repository: https://github.com/its-hcd/nysds
    * License: MIT
 */
 `;

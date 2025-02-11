@@ -1,7 +1,7 @@
 {
-  "name": "@nys-excelsior/nys-globalheader",
+  "name": "@nysds/nys-globalheader",
   "version": "1.0.0",
-  "description": "An global header component from the NYS Design System.",
+  "description": "A global header component from the NYS Design System.",
   "module": "dist/nys-globalheader.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -19,7 +19,7 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@nys-excelsior/nys-icon": "^1.0.0"
+    "@nysds/nys-icon": "^1.0.0"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
@@ -30,7 +30,6 @@
     "vite": "^6.0.11"
   },
   "keywords": [
-    "excelsior",
     "new-york-state",
     "design-system",
     "web-components",

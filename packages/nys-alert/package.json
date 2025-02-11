@@ -1,5 +1,5 @@
 {
-  "name": "@nys-excelsior/nys-alert",
+  "name": "@nysds/nys-alert",
   "version": "1.0.0",
   "description": "An alert component from the NYS Design System.",
   "module": "dist/nys-alert.js",
@@ -19,8 +19,8 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@nys-excelsior/nys-icon": "^1.0.0",
-    "@nys-excelsior/nys-button": "^1.0.0"
+    "@nysds/nys-icon": "^1.0.0",
+    "@nysds/nys-button": "^1.0.0"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
@@ -31,7 +31,6 @@
     "vite": "^6.0.11"
   },
   "keywords": [
-    "excelsior",
     "new-york-state",
     "design-system",
     "web-components",
