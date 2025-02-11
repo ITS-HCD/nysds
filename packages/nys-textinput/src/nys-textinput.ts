@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
-import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nysds/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 export class NysTextinput extends LitElement {
   @property({ type: String }) id = "";

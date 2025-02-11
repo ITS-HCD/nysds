@@ -4,79 +4,79 @@ import { Meta } from "@storybook/blocks";
 
 # CSS Framework
 
-The Excelsior Design System provides a CSS framework to ensure consistency, flexibility, and accessibility across applications. It is designed to work seamlessly with Excelsior’s web components or as a standalone package for teams using other platforms or frameworks.
+The New York State Design System (NYSDS) provides a CSS framework to ensure consistency, flexibility, and accessibility across applications. It is designed to work seamlessly with NYSDS' web components or as a standalone package for teams using other platforms or frameworks.
 
 ## What's Included?
 
-The CSS framework is an collection of stylesheets that provide foundational CSS for tokens, themes, and utilities. The `@nys-excelsior/styles` package includes:
-  - **Global Stylesheet:** A centralized CSS file (excelsior.min.css) for core design tokens like colors, typography, and spacing.
+The CSS framework is an collection of stylesheets that provide foundational CSS for tokens, themes, and utilities. The `@nysds/styles` package includes:
+  - **Global Stylesheet:** A centralized CSS file (nysds.min.css) for core design tokens like colors, typography, and spacing.
   - **Agency-Specific Themes:** Optional CSS files tailored for individual agencies, enabling branding customization via CSS variables.
   - **Utility Classes:** Lightweight, reusable classes for layout, spacing, and display styles.
 
-Excelsior web components reference these CSS variables within the Shadow DOM for their styling.
+NYSDS web components reference these CSS variables within the Shadow DOM for their styling.
 
 ## Using the CSS Framework
 
-The global stylesheet (`excelsior.min.css`) is the foundation of the Excelsior Design System. It defines core design tokens for colors, typography, and spacing — like `--nys-color-theme`, `--nys-space-200`, and `--nys-font-size-md`. Excelsior's web components need these tokens to display correctly.
+The global stylesheet (`nysds.min.css`) is the foundation of the Excelsior Design System. It defines core design tokens for colors, typography, and spacing — like `--nys-color-theme`, `--nys-space-200`, and `--nys-font-size-md`. NYSDS's web components need these tokens to display correctly.
 
 For the full token list, see the [Design Tokens page](?path=/docs/design-tokens--docs).
 
-The `@nys-excelsior/styles` package is available on npm and can be used in any application, even without Excelsior’s web components. This flexibility means you can use the design system’s tokens, themes, and utilities across different platforms.
+The `@nysds/styles` package is available on npm and can be used in any application, even without NYSDS' web components. This flexibility means you can use the design system's tokens, themes, and utilities across different platforms.
 
 ### Installing via npm
 
 Install the styles package:
 
 ``` bash 
-npm install @nys-excelsior/styles
+npm install @nysds/styles
 ```
 
 After installation, reference the styles in your application:
 
 ```html
-<link rel="stylesheet" href="[path-to-dir]/excelsior.min.css"> 
+<link rel="stylesheet" href="[path-to-dir]/nysds.min.css"> 
 ```
 
 ### Manual Download
 
-You can also download the CSS files directly from the [`@nys-excelsior/styles` npm page](https://www.npmjs.com/org/nys-excelsior) and include them in your project:
+You can also download the CSS files directly from the [`@nysds/styles` npm page](https://www.npmjs.com/org/nysds) and include them in your project:
 
 ```html
-<link rel="stylesheet" href="[path-to-dir]/excelsior.min.css">
+<link rel="stylesheet" href="[path-to-dir]/nysds.min.css">
 ```
 
 ##  Applying Agency-Specific Themes
 
-Excelsior's default theme uses the default New York State blue, but theme stylesheets for NYS agency groups are included with specific agency branding. Components that use themed design tokens like `--nys-color-theme` will be styled according to the selected theme.
+NYSDS' default theme uses the default New York State blue, but theme stylesheets for NYS agency groups are included with specific agency branding. Components that use themed design tokens like `--nys-color-theme` will be styled according to the selected theme.
 
 To use a theme in an application, include a reference to the theme stylesheet after the global stylesheet:
 
 ``` html
-<link rel="stylesheet" href="[path-to-dir]/excelsior.min.css">
-<link rel="stylesheet" href="[path-to-dir]/excelsior-theme-health.min.css">
+<link rel="stylesheet" href="[path-to-dir]/nysds.min.css">
+<link rel="stylesheet" href="[path-to-dir]/nysds-theme-health.min.css">
 ```
 
-Every Excelsior component or element using one of the themed design tokens will now reflect that agency grouping's branding.
+Every NYSDS component or element using one of the themed design tokens will now reflect that agency grouping's branding.
 
 ### Available Themes
 
-- Administration: `excelsior-theme-admin.min.css`
-- Business: `excelsior-theme-business.min.css`
-- Recreation and Environment: `excelsior-theme-environment.min.css`
-- Health and Human Services: `excelsior-theme-health.min.css`
-- Local and Regional Authorities: `excelsior-theme-local.min.css`
-- Public Safety: `excelsior-theme-safety.min.css`
-- Transportation and Utilities: `excelsior-theme-transportation.min.css`
+- Administration: `nysds-theme-admin.min.css`
+- Business: `nysds-theme-business.min.css`
+- Recreation and Environment: `nysds-theme-environment.min.css`
+- Health and Human Services: `nysds-theme-health.min.css`
+- Local and Regional Authorities: `nysds-theme-local.min.css`
+- Public Safety: `nysds-theme-safety.min.css`
+- Transportation and Utilities: `nysds-theme-transportation.min.css`
 
-## Excelsior Components Integration
+## NYSDS Components Integration
 
-Excelsior web components use CSS variables for styling. We reference them within each component's Shadow DOM, allowing global tokens to cascade naturally while preserving encapsulation.
+NYSDS web components use CSS variables for styling. We reference them within each component's Shadow DOM, allowing global tokens to cascade naturally while preserving encapsulation.
 
-### How CSS Variables Work in Excelsior Components
+### How CSS Variables Work in NYSDS Components
 
-Excelsior components use CSS variables in two different ways to balance extensibility and encapsulation: public and pseudo-private variables.
+NYSDS components use CSS variables in two different ways to balance extensibility and encapsulation: public and pseudo-private variables.
 
-Most component properties are set using ["pseudo-private variables"](https://youtu.be/ZuZizqDF4q8?t=711) that are defined within a component’s Shadow DOM and are not meant to be overridden. They take the format `--_[component]-[property]` (note the underscore). Pseudo-variables are internal, but they listen for public variables, which take format `--[component]-[property]` (no underscore), to allow for flexibility and customization for some properties. They fall back to the design systems' default value if the public variable is not set.
+Most component properties are set using ["pseudo-private variables"](https://youtu.be/ZuZizqDF4q8?t=711) that are defined within a component's Shadow DOM and are not meant to be overridden. They take the format `--_[component]-[property]` (note the underscore). Pseudo-variables are internal, but they listen for public variables, which take format `--[component]-[property]` (no underscore), to allow for flexibility and customization for some properties. They fall back to the design systems' default value if the public variable is not set.
 
 For example:
 
@@ -101,13 +101,13 @@ In short, we've created a style API for buttons:
 
 1. If you need to change the background color of a single button, you can set `--nys-button-background-color` on that button.
 2. If you don't, the button will use the theme color.
-3. If Excelsior variables don't load, the button will default to a hardcoded value.
+3. If NYSDS variables don't load, the button will default to a hardcoded value.
 
 Public variables are not exposed for all component properties. Be sure to check the component's documentation for which variables are public.
 
 ## Utility Classes
 
-Excelsior provides a lightweight utility-focused CSS framework from [the US Web Design System](https://designsystem.digital.gov/utilities/) to speed up mobile-responsive web development. These classes let you quickly style responsive layouts without writing custom CSS.
+NYSDS provides a lightweight utility-focused CSS framework from [the US Web Design System](https://designsystem.digital.gov/utilities/) to speed up mobile-responsive web development. These classes let you quickly style responsive layouts without writing custom CSS.
 
 Available Utility Categories
 - [Layout](?path=/docs/layout-grid--docs): grid-related layout utilities.
@@ -117,5 +117,5 @@ Available Utility Categories
 To enable utility classes, include the full utility stylesheet:
 
 ```html
-<link rel="stylesheet" href="[path-to-dir]/excelsior-full.min.css">
+<link rel="stylesheet" href="[path-to-dir]/nysds-full.min.css">
 ```

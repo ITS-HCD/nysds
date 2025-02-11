@@ -1,5 +1,5 @@
 <!---
-Welcome! Thank you for contributing to Excelsior, New York State's Design System.
+Welcome! Thank you for contributing to New York State's Design System (NYSDS).
 Your contributions are vital to our success and we are glad you're here.
 
 This pull request (PR) template exists to help speed up the integration process.
@@ -10,8 +10,8 @@ On other words: we love clear explanations!
 
 <!---
 Step 1 - Title this PR with the following format:
-Excelsior - [Component]: [Brief statement describing what this pull request solves]
-eg: "Excelsior - Button: Update hover states"
+NYSDS - [Component]: [Brief statement describing what this pull request solves]
+eg: "NYSDS - Button: Update hover states"
 -->
 
 # Summary
@@ -47,7 +47,7 @@ _Closes #_[issue_no]\_
 <!--
 Every pull request should resolve an open issue.
 If no issue exists, please create one so we can track the change.
-https://github.com/its-hcd/excelsior/issues/new/choose.
+https://github.com/its-hcd/nysds/issues/new/choose.
 -->
 
 ## Related pull requests
@@ -57,7 +57,7 @@ _If this PR depends on other PRs (e.g., documentation changes in another repo), 
 <!--
 For example:
 - If this PR requires an update to the Storybook documentation, list that PR.
-- If a change to the component library requires an update to the reference site, include the PR from the [Excelsior site repo](https://github.com/its-hcd/excelsior-site).
+- If a change to the component library requires an update to the reference site, include the PR from the [NYSDS site repo](https://github.com/its-hcd/nysds-site).
 -->
 
 ## Preview link

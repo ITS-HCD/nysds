@@ -2,9 +2,9 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-unavheader.styles";
 import nysLogo from "./nys-unav.logo";
-import "@nys-excelsior/nys-icon";
-import "@nys-excelsior/nys-textinput";
-import "@nys-excelsior/nys-button";
+import "@nysds/nys-icon";
+import "@nysds/nys-textinput";
+import "@nysds/nys-button";
 
 export class NysUnavHeader extends LitElement {
   @property({ type: Boolean, reflect: true }) trustbarVisible = false;
