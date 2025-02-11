@@ -1,5 +1,5 @@
 {
-  "name": "@nys-excelsior/components",
+  "name": "@nysds/components",
   "version": "1.0.0",
   "description": "New York State's design system and code component library.",
   "type": "module",
@@ -9,14 +9,14 @@
   "files": [
     "dist/"
   ],
-  "main": "dist/excelsior.js",
-  "module": "dist/excelsior.es.js",
+  "main": "dist/nysds.js",
+  "module": "dist/nysds.es.js",
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/packages/src/index.d.ts",
-      "import": "./dist/excelsior.es.js",
-      "require": "./dist/excelsior.js"
+      "import": "./dist/nysds.es.js",
+      "require": "./dist/nysds.js"
     }
   },
   "scripts": {
@@ -43,14 +43,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ITS-HCD/excelsior.git"
+    "url": "git+https://github.com/ITS-HCD/nysds.git"
   },
   "author": "NYS Design System Team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ITS-HCD/excelsior/issues"
+    "url": "https://github.com/ITS-HCD/nysds/issues"
   },
-  "homepage": "https://github.com/ITS-HCD/excelsior/blob/main/README.md",
+  "homepage": "https://github.com/ITS-HCD/nysds/blob/main/README.md",
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",
     "@open-wc/testing": "^3.2.2",

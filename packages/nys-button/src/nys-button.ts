@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-button.styles";
-import "@nys-excelsior/nys-icon";
+import "@nysds/nys-icon";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 let buttonIdCounter = 0; // Counter for generating unique IDs

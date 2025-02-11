@@ -2,14 +2,14 @@ import { create } from "@storybook/theming";
 
 export default create({
   base: "light",
-  brandTitle: "Excelsior Design System ↗ Storybook",
-  brandUrl: "https://its-hcd.github.io/excelsior/",
+  brandTitle: "New York State Design System ↗ Storybook",
+  brandUrl: "https://its-hcd.github.io/nysds/",
   fontBase: '"Proxima Nova", Arial, sans-serif',
   fontCode: "Monaco, monospace",
   colorPrimary: "#154973",
   colorSecondary: "#154973",
 
-  brandImage: "./assets/images/excelsior-logo.svg",
+  brandImage: "./assets/images/nysds-logo.svg",
   brandTarget: "_self",
 
   // App colors

@@ -1,0 +1,51 @@
+{
+<<<<<<< HEAD
+    "name": "@nysds/nys-textinput",
+=======
+    "name": "@nys-excelsior/nys-textinput",
+>>>>>>> develop
+    "version": "1.0.0",
+    "description": "An input component from the NYS Design System.",
+    "module": "dist/nys-textinput.js",
+    "exports": {
+        ".": {
+            "import": "./dist/nys-textinput.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "type": "module",
+    "files": [
+        "dist/"
+    ],
+    "scripts": {
+        "dev": "tsc --emitDeclarationOnly && vite",
+        "build": "tsc --emitDeclarationOnly && vite build"
+    },
+    "peerDependencies": {
+        "lit": "^3.2.1"
+    },
+    "dependencies": {
+<<<<<<< HEAD
+        "@nysds/nys-icon": "^1.0.0"
+=======
+        "@nys-excelsior/nys-icon": "^1.0.0"
+>>>>>>> develop
+      },
+    "devDependencies": {
+        "lit": "^3.2.1",
+        "typescript": "^5.7.2",
+        "vite": "^6.0.11"
+    },
+    "keywords": [
+      "new-york-state",
+      "design-system",
+      "web-components",
+      "lit",
+      "nys",
+      "input",
+      "textinput",
+      "forms"
+    ],
+    "author": "New York State Design System Team",
+    "license": "MIT"
+}

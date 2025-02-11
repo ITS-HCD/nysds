@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
-import "@nys-excelsior/nys-icon";
+import "@nysds/nys-icon";
 import { NysOption } from "./nys-option";
 
 export class NysSelect extends LitElement {
