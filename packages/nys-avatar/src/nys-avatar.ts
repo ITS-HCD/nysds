@@ -1,11 +1,11 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import "@nys-excelsior/nys-icon";
 import styles from "./nys-avatar.styles";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 let avatarIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-avatar")
 export class NysAvatar extends LitElement {
   static styles = styles;
 
@@ -17,37 +17,19 @@ export class NysAvatar extends LitElement {
   @property({ type: String }) icon = "";
   @property({ type: String }) color = "#555";
   @property({ type: Boolean }) lazy = false;
-  private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
   private static readonly VALID_SHAPES = [
     "square",
     "rounded",
     "circle",
   ] as const;
 
-  // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
-  private _size: (typeof NysAvatar.VALID_SIZES)[number] = "md";
-
   // Private property to store the internal `shape` value, restricted to the valid types. Default is "rounded".
-  private _shape: (typeof NysAvatar.VALID_SHAPES)[number] = "rounded";
+  private _shape: (typeof NysAvatar.VALID_SHAPES)[number] = "circle";
 
-  // Getter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysAvatar.VALID_SIZES)[number] {
-    return this._size;
-  }
-  // Getter for the `size` property.
+  // Getter for the `shape` property.
   @property({ reflect: true })
   get shape(): (typeof NysAvatar.VALID_SHAPES)[number] {
     return this._shape;
-  }
-  // Setter for the `size` property.
-  set size(value: string) {
-    this._size = NysAvatar.VALID_SIZES.includes(
-      value as (typeof NysAvatar.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysAvatar.VALID_SIZES)[number])
-      : "lg";
-    this.requestUpdate("size");
   }
   // Setter for the `shape` property.
   set shape(value: string) {
@@ -79,8 +61,8 @@ export class NysAvatar extends LitElement {
             style="background-color: ${this.color?.length > 0
               ? this.color
               : "#555"};"
-            role="img"
-            aria-label=${this.label}
+            role=${ifDefined(this.image ? undefined : "img")}
+            aria-label=${ifDefined(this.image ? undefined : this.label)}
           >
             ${this.image?.length > 0
               ? html`<img
@@ -108,7 +90,6 @@ export class NysAvatar extends LitElement {
                   : html`<div part="nys-avatar__icon">
                       <slot name="icon">
                         <nys-icon
-                          part="icon"
                           label="nys-avatar__icon"
                           name="account_circle"
                           size="md"
@@ -120,4 +101,8 @@ export class NysAvatar extends LitElement {
       </label>
     `;
   }
+}
+
+if (!customElements.get("nys-avatar")) {
+  customElements.define("nys-avatar", NysAvatar);
 }

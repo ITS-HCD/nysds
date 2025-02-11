@@ -2,17 +2,21 @@ import { execSync } from "child_process";
 
 // Define the build order for your packages
 const packages = [
-  { name: "nys-styles", path: "packages/nys-styles" },
+  { name: "styles", path: "packages/styles" },
   { name: "nys-icon", path: "packages/nys-icon" },
+  { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
-  { name: "nys-test-component", path: "packages/nys-test-component" },
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
+  { name: "nys-globalheader", path: "packages/nys-globalheader" },
+  { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
+  { name: "nys-unavheader", path: "packages/nys-unavheader" },
+  { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
 ];
 
 packages.forEach((pkg) => {

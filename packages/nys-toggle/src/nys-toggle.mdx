@@ -1,17 +1,26 @@
-import { Meta, Story, Source, Canvas } from "@storybook/blocks";
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/blocks";
 import { html } from "lit";
 import * as NysToggleStories from "./nys-toggle.stories";
 
 <Meta of={NysToggleStories} title="Components/Toggle/Documentation" />
 
 # Toggle
-The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle an option on or off.
+The **`nys-toggle`** component is a reusable web component for use in New York State digital products. It allows users to toggle a toggle switch "on" or "off".
 
 If an id is not passed, a unique id will be generated.
 
-<Canvas of={NysToggleStories.ToggleSwitch} />
+<p className="pill pill--stable">Stable</p>
 
-## Property Examples
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1626-2591&p=f&t=QF8BQ6f9JDt9M72a-0">View in Figma</a></p>
+
+***
+
+<Canvas of={NysToggleStories.Basic} />
+
+<Controls />
+
+
+## Variants
 ### Checked
 <Canvas of={NysToggleStories.Checked} />
 
@@ -35,23 +44,39 @@ Supported sizes are `sm` and `md`. **Default size for toggle component is `md`.*
 To remove icons from the toggle switch, use the `NoIcons` boolean property.
 <Canvas of={NysToggleStories.NoIcons} />
 
+## Usage
+
+### When to use this component
+  - Consider using `nys-toggle` when expecting immediate UI effects when turning switch on/off.
+  - Ideal for settings pages, feature toggles, or user preferences.
+
+### When to consider something else
+  - Consider using `nys-checkbox` or `nys-radiobutton` to select one or more options from a list where the selections
+  - Use `nys-checkbox` for forms, especially when you're not expecting immediate action.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      - Provide a clear label and optional description to explain the toggle's purpose.
+      - Show the UI for toggle’s state is visually distinct for on/off positions.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use toggles for complex multi-state options.
+      - Overuse toggles for trivial settings that do not impact user experience significantly.
+      - Hide labels entirely unless another accessible method of describing the toggle exists.
+    </div>
+  </div>
+</div>
+
 ## Form Prop
 The form attribute associates the `nys-toggle` component with a specific `<form>` element, regardless of its location on the page. This ensures that the toggle's state is included in the form submission, whether it is inside the `<form>` element or outside it.
 
-### How It Works
-Use the `form` property to explicitly associate the toggle (or other components) with a specific `<form>` element by referencing the form's `id`.
-```html
-<!-- For example -->
-<form id="myForm">
-  <nys-textinput form="myForm" label="Label"></nys-textinput>
-  <nys-textinput form="myForm" label="Label"></nys-textinput>
-  <nys-checkbox form="myForm" label="Label"></nys-checkbox>
-</form>
-<nys-toggle form="myForm" label="Label" name="example-name"></nys-toggle>
-```
-
 ## Events
-The `NysToggle` component emits three custom events:
+The `<nys-toggle>` component emits three custom Javascript events:
 
 1. **`change`** – Fired when the toggle state changes (checked/unchecked).
 2. **`focus`** – Fired when the toggle gains focus.
@@ -97,3 +122,21 @@ The `nys-toggle` component includes the following accessibility-focused features
 ### Labels
 Include a label property to provide accessible text for screen readers.
 <Canvas of={NysToggleStories.Labels} />
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Allows insertion of custom HTML description content into the component.</td>
+        <td>""</td>
+    </tr>
+    </tbody>
+</table>

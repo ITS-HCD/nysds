@@ -4,13 +4,13 @@ import * as NysSelectStories from './nys-select.stories';
 
 <Meta of={NysSelectStories} title="Components/Select/Documentation" />
 
-
 # Select **Component**
+
 The **`nys-select`** is a reusable web component for use in New York State digital products. It allows users to select data from a dropdown to be collected. It accepts the child element `nys-option` to define the options in the dropdown.
 
-<p class="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-996&p=f&m=dev">View in Figma</a></p>
 
 ***
 
@@ -25,13 +25,19 @@ The `nys-option` can have the label set as either the label property or the inne
 <Canvas of={NysSelectStories.Disabled} />
 #### Required
 <Canvas of={NysSelectStories.Required} />
-#### Size
-<Canvas of={NysSelectStories.Size} />
+#### Width
+The following width options are available:
+- `sm` (Small): 88px, ideal for compact layouts.
+- `md` (Medium): 200px, ideal for balanced designs.
+- `lg` (Large): 384px, suitable for displaying longer content.
+- `full` (Full Width): default size. Expands to fill the available space.
+<Canvas of={NysSelectStories.Width} />
 #### Error Message
-Note: in order to display an error message, you must pass in `hasError` to the component. Setting `errorMessage` does not display the message by default.
+Note: in order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
+
 <Canvas of={NysSelectStories.ErrorMessage} />
 
-## Use cases    
+## Usage
 
 ### When to use this component
 - When you need to collect data from a dropdown
@@ -40,21 +46,21 @@ Note: in order to display an error message, you must pass in `hasError` to the c
 ### When to consider something else
 - When you need to collect multiple items from a list
 
-## Usage
-
-<div class="usage-wrapper">
-    <div class="usagedos do">
-    ### Do
-    - Use the `nys-select` component when you need the user to select a single item from a list
-    - Use the `nys-option` component to define the options in the dropdown
-    - Following the guidance of USWDS, we recommend against using `<nys-select multiple/>` as an input for users to select multiple items from a dropdown. Instead use a checkbox group.
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Use the `nys-select` component when you need the user to select a single item from a list
+      - Use the `nys-option` component to define the options in the dropdown 
     </div>
-
-    <div class="usagedos dont">
-    ### Don't
-    - Use the `nys-select` component when you need the user to select multiple items from a list
-    - Use the native `<option`> element in the `nys-select` component
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use the native `<option>` element in the `nys-select` component
+      - Use `<nys-select multiple>` as an input for users to select multiple items from a dropdown. Consider a [checkbox group](?path=/docs/components-checkbox--docs) instead. More guidance from the <a className="usage-link" target="_blank" href="https://designsystem.digital.gov/components/select/#when-to-consider-something-else">US Web Design System</a>.
     </div>
+  </div>
 </div>
 
 ## Accessibility
@@ -123,55 +129,6 @@ The `nys-select` component supports the following slots:
     </tbody>
 </table>
 
-## Parts
-
-<table>
-    <thead>
-    <tr>
-        <th>Part name</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`nys-select`</td>
-        <td>The div that wraps the entire `nys-select` component</td>
-    </tr>
-    <tr>
-        <td>`nys-select__text`</td>
-        <td>The text wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__label`</td>
-        <td>The label's wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__description`</td>
-        <td>The description's wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__required`</td>
-        <td>The required flag's wrapper</td>
-    </tr>
-    <tr>
-        <td>`nys-select__requiredwrapper`</td>
-        <td>Wraps the required flag with the text</td>
-    </tr>
-    <tr>
-        <td>`nys-select__selectwrapper`</td>
-        <td>Wraps the native `<select>` element</td>
-    </tr>
-    <tr>
-        <td>`nys-select__select`</td>
-        <td>The native `<select>` element</td>
-    </tr>
-    <tr>
-        <td>`nys-select__icon`</td>
-        <td>Wraps the down chevron icon</td>
-    </tr>
-    <tr>
-        <td>`nys-select__error`</td>
-        <td>The error message wrapper</td>
-    </tr>
-    </tbody>
-</table>
+## Dependencies
+This component automatically imports the following dependencies.
+- `<nys-icon>`

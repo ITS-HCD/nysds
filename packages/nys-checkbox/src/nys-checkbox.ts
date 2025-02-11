@@ -1,12 +1,12 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles"; // Assuming styles are in a separate file
 import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "./nys-checkboxgroup";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
-@customElement("nys-checkbox")
 export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
@@ -18,6 +18,23 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
+  private static readonly VALID_SIZES = ["sm", "md"] as const;
+  private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
+
+  // Getter and setter for the `size` property.
+  @property({ reflect: true })
+  get size(): (typeof NysCheckbox.VALID_SIZES)[number] {
+    return this._size;
+  }
+
+  set size(value: string) {
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    this._size = NysCheckbox.VALID_SIZES.includes(
+      value as (typeof NysCheckbox.VALID_SIZES)[number],
+    )
+      ? (value as (typeof NysCheckbox.VALID_SIZES)[number])
+      : "md";
+  }
 
   static styles = styles;
 
@@ -72,7 +89,7 @@ export class NysCheckbox extends LitElement {
   render() {
     return html`
       <div class="nys-checkbox">
-        <div class="nys-checkbox__content">
+        <label class="nys-checkbox__content">
           <div class="nys-checkbox__checkboxwrapper">
             <input
               id="${this.id}"
@@ -95,7 +112,11 @@ export class NysCheckbox extends LitElement {
               ? html`<nys-icon
                   for="${this.id}"
                   name="check"
-                  size="2xl"
+                  size="${this.size === "md"
+                    ? "2xl"
+                    : this.size === "sm"
+                      ? "sm"
+                      : "md"}"
                   class="nys-checkbox__icon"
                 ></nys-icon>`
               : ""}
@@ -115,14 +136,18 @@ export class NysCheckbox extends LitElement {
               <slot name="description"></slot>
             </label>
           </div>`}
-        </div>
+        </label>
         ${this.showError && this.errorMessage
           ? html`<div class="nys-checkbox__error">
-              <nys-icon name="error"></nys-icon>
+              <nys-icon name="error" size="xl"></nys-icon>
               ${this.errorMessage}
             </div>`
           : ""}
       </div>
     `;
   }
+}
+
+if (!customElements.get("nys-checkbox")) {
+  customElements.define("nys-checkbox", NysCheckbox);
 }

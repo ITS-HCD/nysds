@@ -10,23 +10,23 @@ The **`nys-avatar`** component is a reusable web component for use in New York S
 By default, a generic icon is displayed. Personalize avatars with custom icons, initials, or images, and always include a label for accessibility. \
 If an id is not passed, a unique id will be generated.
 
-<p class="pill stable">Stable</p>
-<p class="pill uikit"><a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-1601&p=f&m=dev">Get the UI kit</a></p>
+<p className="pill pill--stable">Stable</p>
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=1436-1601&p=f&m=dev">View in Figma</a></p>
 
 ***
 
-<Canvas of={NysAvatarStories.Default} />
+<Canvas of={NysAvatarStories.Basic} />
 
 <Controls />
 
 
 ## Variants
 ### Images
-To display an image in the avatar, set the `image` and `label` attributes. These will take priority and override initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
+To display an image in the avatar, set the `image` and `label` attributes. Images will take <u>priority and override</u> initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
 <Canvas of={NysAvatarStories.AvatarImage} />
 
 ### Initials
-If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon.
+If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon. Initials will take <u>priority and override</u> icons. 
 <Canvas of={NysAvatarStories.AvatarInitials} />
 
 ### Custom Icons
@@ -37,15 +37,12 @@ When no image or initials are set, an icon will be shown. The default avatar sho
 Avatars can be shaped using the shape attribute.
 <Canvas of={NysAvatarStories.AvatarShapes} />
 
-### Sizes
-Avatars can come in three different sizes: `sm`, `md`, and `lg`.
-<Canvas of={NysAvatarStories.AvatarSizes} />
-
 ### Background Color
-You can change the background color of an Avatar. Note that images will naturally cover over the background color.
+The background color of the Avatar can be customized using the color attribute. This attribute accepts any valid color value, including <a href="https://designsystem.ny.gov/foundations/design-tokens/" target="_blank" rel="noopener noreferrer">design tokens</a>, such as: `color="var(--nys-color-theme)"` \
+**Note:** When an image is provided, it will overlay and fully cover the background color.
 <Canvas of={NysAvatarStories.AvatarBgColor} />
 
-## Use cases
+## Usage
 
 ### When to use this component
   - To visually represent users, objects, or entities in a UI.
@@ -55,20 +52,22 @@ You can change the background color of an Avatar. Note that images will naturall
   - If the avatar doesn’t add value to the context.
   - When a simple label or text works better.
 
-## Usage 
-<div class="usage-wrapper">
-   <div class="usagedos do">
-   ### Do
-   - Use for clear, simple user or entity representation.
-   - Use appropriate shapes, sizes, and images to fit the overall page design.
-   - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
+<div className="nys-grid-row nys-grid-gap-lg">
+   <div className="nys-mobile-lg:nys-grid-col">
+      <div className="usage-card usage-card--do">
+         ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+         - Use for clear, simple user or entity representation.
+         - Use appropriate shapes, sizes, and images to fit the overall page design.
+         - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
+      </div>
    </div>
-
-   <div class="usagedos dont">
-   ### Don't
-   - Don’t overload the avatar with unnecessary customizations.
-   - Don’t skip the `label` attribute for screen reader users.
-   - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
+   <div className="nys-mobile-lg:nys-grid-col">
+      <div className="usage-card usage-card--dont">
+         ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+         - Don’t overload the avatar with unnecessary customizations.
+         - Don’t skip the `label` attribute for screen reader users.
+         - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
+      </div>
    </div>
 </div>
 ## Accessibility
@@ -83,24 +82,14 @@ The `nys-avatar` component includes the following accessibility-focused features
       <tr>
          <th>Part name</th>
          <th>Description</th>
+         <th>Default value</th>
       </tr>
    </thead>
    <tbody>
       <tr>
-         <td>`nys-avatar`</td>
-         <td>The component’s base wrapper.</td>
-      </tr>
-      <tr>
          <td>`nys-avatar__icon`</td>
          <td>The container that wraps the avatar’s icon.</td>
-      </tr>
-      <tr>
-         <td>`nys-avatar__initials`</td>
-         <td>The container that wraps the avatar’s initials.</td>
-      </tr>
-      <tr>
-         <td>`nys-avatar__image`</td>
-         <td>The avatar image. Only shown when the image attribute is set.</td>
+         <td>nys-avatar__icon</td>
       </tr>
    </tbody>
 </table>

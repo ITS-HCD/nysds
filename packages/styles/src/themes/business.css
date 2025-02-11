@@ -1,0 +1,18 @@
+/*!
+  * Excelsior Theme: Business
+  * Designed for agencies in the Business grouping 
+  * Part of New York State's Excelsior Design System
+  * A design system for New York State's digital products.
+  * Repository: https://github.com/its-hcd/excelsior
+  * License: MIT
+*/
+
+:root {
+  --nys-color-theme-faint: var(--nys-color-business-teal-10);
+  --nys-color-theme-weaker: var(--nys-color-business-teal-50);
+  --nys-color-theme-weak: var(--nys-color-business-teal-100);
+  --nys-color-theme-mid: var(--nys-color-business-teal-500);
+  --nys-color-theme: var(--nys-color-business-teal-700);
+  --nys-color-theme-strong: var(--nys-color-business-teal-800);
+  --nys-color-theme-stronger: var(--nys-color-business-teal-900);
+}

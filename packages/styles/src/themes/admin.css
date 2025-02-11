@@ -1,0 +1,18 @@
+/*!
+  * Excelsior Theme: Administration
+  * Designed for agencies in the Administration grouping 
+  * Part of New York State's Excelsior Design System
+  * A design system for New York State's digital products.
+  * Repository: https://github.com/its-hcd/excelsior
+  * License: MIT
+*/
+
+:root {
+  --nys-color-theme-faint: var(--nys-color-admin-orange-10);
+  --nys-color-theme-weaker: var(--nys-color-admin-orange-100);
+  --nys-color-theme-weak: var(--nys-color-admin-orange-200);
+  --nys-color-theme-mid: var(--nys-color-admin-orange-400);
+  --nys-color-theme: var(--nys-color-admin-orange-700);
+  --nys-color-theme-strong: var(--nys-color-admin-orange-800);
+  --nys-color-theme-stronger: var(--nys-color-admin-orange-900);
+}

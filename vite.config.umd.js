@@ -11,7 +11,7 @@ const banner = `
    * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
    * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
    * 
-   * New York State's Excelsior Design System (v0.0.1)
+   * New York State's Excelsior Design System (v1.0.0)
    * Description: A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/excelsior
    * License: MIT

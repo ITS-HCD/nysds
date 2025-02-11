@@ -1,0 +1,287 @@
+import { css } from "lit";
+
+export default css`
+  :host {
+    /* Global Header Styles */
+    --_nys-globalheader-color: var(
+      --nys-color-ink-reverse,
+      var(--nys-color-white, #ffffff)
+    );
+    --_nys-globalheader-background: var(
+      --nys-color-theme,
+      var(--nys-color-state-blue-700, #154973)
+    );
+    --_nys-globalheader-main-gap-spacing: var(--nys-space-300, 24px);
+    --_nys-globalheader-padding: var(--nys-space-250, 20px);
+    --_nys-globalheader-gutter: var(--nys-gutter-sm, 20px);
+    --_nys-globalheader-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
+    --_nys-globalheader-lineheight: normal;
+    --_nys-globalheader-letterspacing: normal;
+    --_nys-globalheader-font-weight-bold: var(--nys-font-weight-bold, 700);
+    --_nys-globalheader-font-weight-semibold: var(
+      --nys-font-weight-semibold,
+      600
+    );
+    --_nys-globalheader-content-max-width: var(--nys-max-content-width, 1280px);
+
+    /* Agency and App Name Styling */
+    --_nys-globalheader-name-gap-spacing: var(--nys-space-100, 8px);
+    --_nys-globalheader-font-size-main-name: var(
+      --nys-font-size-agency-xl,
+      var(--nys-font-size-2xl, 22px)
+    );
+    --_nys-globalheader-font-size-sub-name: var(
+      --nys-font-size-agency-md,
+      var(--nys-font-size-md, 16px)
+    );
+    --_nys-globalheader-font-family-agency: var(
+      --nys-font-family-agency,
+      "D Sari",
+      Arial,
+      sans-serif
+    );
+
+    /* Menu Content Styling */
+    --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-300, 24px);
+    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-400, 32px);
+    --_nys-globalheader-lineheight-links: var(
+      --nys-font-lineheight-ui-md,
+      24px
+    );
+    --_nys-globalheader-link-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      var(--nys-font-letterspacing-400, 0.044px)
+    );
+    --_nys-globalheader-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
+    /* Mobile Menu */
+    --_nys-globalheader-mobile-btn-font-size: var(--nys-type-size-ui-xs, 12px);
+    --_nys-globalheader-mobile-btn-lineheight: var(
+      --nys-font-lineheight-ui-xs,
+      20px
+    );
+    --_nys-globalheader-mobile-btn-letterspacing: var(
+      --nys-font-letterspacing-ui-xs,
+      0.057px
+    );
+    --_nys-globalheader-mobile-li-border-color: var(
+      --nys-color-theme-mid,
+      #457aa5
+    );
+    --_nys-globalheader-mobile-li-hover-bg: var(
+      --nys-color-theme-strong,
+      #0e324f
+    );
+    --_nys-globalheader-mobile-li-active-bg: var(
+      --nys-color-theme-stronger,
+      #081b2b
+    );
+  }
+
+  /* Slotted content (menu links) basic resets */
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: var(--_nys-globalheader-color);
+    text-decoration: none;
+    font-family: var(--_nys-globalheader-font-family);
+    font-size: var(--_nys-globalheader-font-size-links);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--_nys-globalheader-lineheight-links);
+    letter-spacing: var(--_nys-globalheader-link-letterspacing);
+  }
+
+  .nys-globalheader {
+    display: flex;
+    justify-content: center;
+    padding: var(--_nys-globalheader-padding) var(--_nys-globalheader-gutter);
+    background-color: var(--_nys-globalheader-background);
+    color: var(--_nys-globalheader-color);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Main container */
+  .nys-globalheader__main-container {
+    display: flex;
+    gap: var(--_nys-globalheader-main-gap-spacing);
+    max-width: var(--_nys-globalheader-content-max-width);
+    width: 100%;
+  }
+
+  /* Left-hand side Agency and App names */
+  .nys-globalheader__name-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--_nys-globalheader-name-gap-spacing);
+  }
+  .nys-globalheader__name {
+    margin: 0;
+    color: var(--_nys-globalheader-color);
+    font-family: var(--_nys-globalheader-font-family-agency);
+    font-size: var(--_nys-globalheader-font-size-main-name);
+    font-style: normal;
+    font-weight: var(--_nys-globalheader-font-weight-semibold);
+    line-height: var(--_nys-globalheader-lineheight);
+    letter-spacing: var(--_nys-globalheader-letterspacing);
+    text-wrap: wrap;
+  }
+
+  .nys-globalheader__agencyName {
+    font-size: var(--_nys-globalheader-font-size-sub-name);
+  }
+
+  /* Set the font size for the agency to be the main font if appName is not defined */
+  .nys-globalheader__agencyName.main {
+    font-size: var(--_nys-globalheader-font-size-main-name);
+  }
+
+  /* Slotted content */
+  .nys-globalheader__content {
+    display: none;
+    font-family: var(--_nys-globalheader-font-family);
+  }
+
+  .nys-globalheader__content ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .nys-globalheader__content ul a:hover {
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: 7%;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+
+  /* Mobile Menu */
+  .nys-globalheader__content-mobile {
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--_nys-globalheader-background);
+    width: fit-content;
+  }
+  .nys-globalheader__content-mobile.close {
+    display: none;
+  }
+  .nys-globalheader__content-mobile ul {
+    display: flex;
+    flex-direction: column;
+  }
+  .nys-globalheader__content-mobile ul li:first-child a {
+    border-top: 1px solid var(--_nys-globalheader-color);
+  }
+  .nys-globalheader__content-mobile ul li a {
+    display: flex;
+    padding: 24px;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-bottom: 1px solid var(--_nys-globalheader-mobile-li-border-color);
+  }
+  .nys-globalheader__content-mobile ul li a:hover {
+    background: var(--_nys-globalheader-mobile-li-hover-bg);
+  }
+  .nys-globalheader__content-mobile ul li a:active {
+    background: var(--_nys-globalheader-mobile-li-active-bg);
+  }
+  .nys-globalheader__name-container-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  /* Mobile Menu (OPEN/CLOSE Button Container) */
+  .nys-globalheader__button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .nys-globalheader__mobile-menu-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--_nys-globalheader-background);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    color: var(--_nys-globalheader-color);
+  }
+  .nys-globalheader__mobile-menu-button-text {
+    font-size: var(--_nys-globalheader-mobile-btn-font-size);
+    line-height: var(--_nys-globalheader-mobile-btn-lineheight);
+    letter-spacing: var(--_nys-globalheader-mobile-btn-letterspacing);
+  }
+
+  /* Breakpoints using Excelsior Guidelines (Menu Links) */
+  @media (min-width: 768px) {
+    /* Tablet (MD - Above 768px) */
+    .nys-globalheader__content {
+      display: flex;
+    }
+    .nys-globalheader__content ul {
+      flex-direction: row;
+      gap: var(--_nys-globalfooter-link-gap-spacing-row)
+        var(--_nys-globalfooter-link-gap-spacing-column);
+    }
+    .nys-globalheader__content-mobile,
+    .nys-globalheader__button-container {
+      display: none;
+    }
+    :host {
+      --_nys-globalheader-main-gap-spacing: var(--nys-space-500, 40px);
+      --_nys-globalheader-gutter: var(--nys-gutter-lg, 32px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    /* Large Desktop (XL - Above 1280px) */
+    :host {
+      --_nys-globalheader-gutter: var(--nys-gutter-xl, 64px);
+    }
+  }
+`;

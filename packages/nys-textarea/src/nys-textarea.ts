@@ -1,9 +1,8 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
 import "@nys-excelsior/nys-icon";
 
-@customElement("nys-textarea")
 export class NysTextarea extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -16,8 +15,10 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean }) required = false;
   @property({ type: String }) form = "";
   @property({ type: Number }) maxlength = null;
-  @property({ type: String }) size = "";
-  @property({ type: Number }) rows = null;
+  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
+  @property({ reflect: true })
+  width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
+  @property({ type: Number }) rows = 4;
   private static readonly VALID_RESIZE = ["vertical", "none"] as const;
 
   // Use `typeof` to dynamically infer the allowed types
@@ -36,10 +37,18 @@ export class NysTextarea extends LitElement {
       ? (value as (typeof NysTextarea.VALID_RESIZE)[number])
       : "vertical";
   }
+  @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
-  constructor() {
-    super();
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("width")) {
+      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
+        ? this.width
+        : "full";
+    }
+    if (changedProperties.has("rows")) {
+      this.rows = this.rows ?? 4;
+    }
   }
 
   static styles = styles;
@@ -47,6 +56,14 @@ export class NysTextarea extends LitElement {
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    this.value = input.value;
+    this.dispatchEvent(
+      new CustomEvent("input", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
     const checkValidity = input.checkValidity();
     this.dispatchEvent(
       new CustomEvent("nys-checkValidity", {
@@ -67,49 +84,92 @@ export class NysTextarea extends LitElement {
     this.dispatchEvent(new Event("blur"));
   }
 
+  // Handle change event to bubble up selected value
+  private _handleChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private _handleSelect(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("select", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private _handleSelectionChange(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.value = select.value;
+    this.dispatchEvent(
+      new CustomEvent("selectionchange", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   render() {
     return html`
       <label class="nys-textarea">
         ${this.label &&
         html` <div class="nys-textarea__text">
           <div class="nys-textarea__requiredwrapper">
-            <div class="nys-textarea__label">${this.label}</div>
+            <label for=${this.id} class="nys-textarea__label"
+              >${this.label}</label
+            >
             ${this.required
-              ? html`<div class="nys-textarea__required">*</div>`
+              ? html`<label class="nys-textarea__required">*</label>`
               : ""}
           </div>
-          <slot class="nys-textarea__description" name="description">
+          <div class="nys-textarea__description">
             ${this.description}
-          </slot>
+            <slot name="description"> </slot>
+          </div>
         </div>`}
-        <div class="nys-textarea__requiredwrapper">
-          <textarea
-            class="nys-textarea__textarea ${this.size} ${this.resize}"
-            name=${this.name}
-            id=${this.id}
-            ?disabled=${this.disabled}
-            ?required=${this.required}
-            ?readonly=${this.readonly}
-            aria-disabled="${this.disabled}"
-            .value=${this.value}
-            placeholder=${this.placeholder}
-            maxlength=${this.maxlength}
-            rows=${this.rows}
-            form=${this.form}
-            @input=${this._handleInput}
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-          ></textarea>
-          ${this.required && !this.label
-            ? html`<div class="nys-textarea__required">*</div>`
-            : ""}
-        </div>
-        ${this.errorMessage &&
-        html`<div class="nys-textarea__error">
-          <nys-icon name="error"></nys-icon>
-          ${this.errorMessage}
-        </div>`}
+        <textarea
+          class="nys-textarea__textarea ${this.resize}"
+          name=${this.name}
+          id=${this.id}
+          ?disabled=${this.disabled}
+          ?required=${this.required}
+          ?readonly=${this.readonly}
+          aria-disabled="${this.disabled}"
+          .value=${this.value}
+          placeholder=${this.placeholder}
+          maxlength=${this.maxlength}
+          .rows=${this.rows}
+          form=${this.form}
+          @input=${this._handleInput}
+          @focus="${this._handleFocus}"
+          @blur="${this._handleBlur}"
+          @change="${this._handleChange}"
+          @select="${this._handleSelect}"
+          @selectionchange="${this._handleSelectionChange}"
+        ></textarea>
+        ${this.showError && this.errorMessage
+          ? html`<div class="nys-textarea__error">
+              <nys-icon name="error" size="xl"></nys-icon>
+              ${this.errorMessage}
+            </div>`
+          : ""}
       </label>
     `;
   }
+}
+
+if (!customElements.get("nys-textarea")) {
+  customElements.define("nys-textarea", NysTextarea);
 }

@@ -1,0 +1,95 @@
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysGlobalHeaderStories from './nys-globalheader.stories';
+import "@nys-excelsior/nys-icon";
+
+<Meta of={NysGlobalHeaderStories} title="Components/GlobalHeader/Documentation" />
+
+# Global Header
+
+The **`nys-globalheader`** component is a reusable web component for use in New York State digital products. It helps provide users with consistent access to key features, branding, and primary navigation across all pages.
+
+<p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYS-%2F-Excelsior-Components-(Alpha)?node-id=3568-16366&m=dev">View in Figma</a></p>
+
+***
+
+<Canvas of={NysGlobalHeaderStories.Basic} />
+
+<Controls />
+
+## Variants
+## Just Agency Name
+Use the prop `homepageLink` to link your `agencyName` to your homepage. If `homepageLink` is not provided, default fallback is [window.location.origin](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin) otherwise (use `disableHomepageLink` to disable this).
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> Display only the agency's official name for public-facing sites that are not tied to a specific application.</div>
+<Canvas of={NysGlobalHeaderStories.OnlyAgencyName} />
+
+## Just Application Name
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> When the application serves multiple agencies, use the application name instead of a specific agency name.</div>
+<Canvas of={NysGlobalHeaderStories.OnlyAppName} />
+
+## With Agency and Application Name
+<Canvas of={NysGlobalHeaderStories.WithBothNames} />
+
+## With Menu Links
+For public-facing content sites, the Global Header can include menu links. To add them, place an unordered list (`<ul>`) inside the `nys-globalheader` slot. Each list item (`<li>`) should contain an anchor (`<a href="">`) linking to the desired destination.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon>
+  Applications using the Global Header typically do not include links in the application or agency name to avoid distractions and keep users on task. However, public-facing sites may include links, often within a collapsed menu for better navigation.
+</div>
+<Canvas of={NysGlobalHeaderStories.WithLinks} />
+
+## Usage 
+
+### When to use this component
+  - `nys-globalheader` application header should be used at the top of all agency related sites and applications.
+  - Use `nys-globalfooter` to provide consistent access to essential links of your agency.
+
+### When to consider something else
+  - If an application is not for a single agency, the Agency Name can be removed
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Use `agencyName` as stand alone if public-facing site and not in the context of a specific application.
+      - Use `appName` if an application is for a single agency
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use `appName` if an application is not for a single agency
+      - Add unnecessary or unrelated content.
+    </div>
+  </div>
+</div>
+
+
+## Accessibility
+
+The `nys-globalheader` component includes the following accessibility-focused features:
+
+- Proper use of `<header>` and `<a>` elements ensures compatibility with assistive technologies.
+- Keyboard navigation: Users can tab through all links in the header.
+
+{/*
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`text`</td>
+        <td>Allows insertion of custom HTML a href links into the component.</td>
+        <td>""</td>
+    </tr>
+    </tbody>
+</table>
+*/}

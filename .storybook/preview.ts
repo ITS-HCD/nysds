@@ -1,24 +1,26 @@
 import type { Preview } from "@storybook/web-components";
-import "@nys-excelsior/nys-styles/dist/excelsior.min.css"; // Excelsior Design Tokens
+
 import "./preview.css"; // Custom Storybook styles
 
-// Add this function to dynamically load themes based on Storybook globals
-const loadTheme = (theme: string) => {
-  // Remove existing theme link elements
-  const existingLink = document.querySelector("#storybook-theme-styles");
-  if (existingLink) {
-    existingLink.remove();
-  }
+const loadTheme = (() => {
+  let themeLink: HTMLLinkElement | null;
 
-  // Dynamically add the selected theme
-  if (theme !== "default") {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = `./assets/theme-${theme}.min.css`;
-    link.id = "storybook-theme-styles";
-    document.head.appendChild(link);
-  }
-};
+  return (theme) => {
+    if (!themeLink) {
+      // Create the theme <link> element if it doesn't exist
+      themeLink = document.createElement("link");
+      themeLink.rel = "stylesheet";
+      themeLink.id = "storybook-theme-styles";
+      document.head.appendChild(themeLink);
+    }
+
+    // Update the href to the new theme
+    themeLink.href =
+      theme === "default"
+        ? "" // Set to empty or a default stylesheet if needed
+        : `./assets/css/themes/${theme}.css`;
+  };
+})();
 
 const preview: Preview = {
   globalTypes: {
@@ -51,6 +53,20 @@ const preview: Preview = {
     },
   ],
   parameters: {
+    options: {
+      storySort: {
+        order: [
+          "About",
+          "Styles",
+          "Design Tokens",
+          "Typography",
+          "Layout Grid",
+          "Flexbox",
+          "Utilities",
+          "Components",
+        ],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

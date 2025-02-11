@@ -1,0 +1,663 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Design Tokens" />
+
+# Design Tokens
+
+Excelsior components are built using a set of design tokens. In this design system, design tokens are variables in Figma and CSS that represent core design choices. These are used to build components that are consistent between design and code and across platforms.
+
+export const tokens = [
+  // Color: Theme
+  {
+    name: "--nys-color-theme",
+    displayname: "Color Theme",
+    description: "Primary brand color. Used for primary actions and interactive elements like buttons, checkboxes, and agency-specific headers and footers. Overridden by agency-specific themes.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-theme-strong",
+    displayname: "Color Theme Strong",
+    description: "Stronger shade of theme color, used for hover state on interactive elements. Overridden by agency-specific themes.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-theme-stronger",
+    displayname: "Color Theme Stronger",
+    description: "Strongest shade of theme color, used for pressed state on interactive elements. Overridden by agency-specific themes.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-theme-mid",
+    displayname: "Color Theme Mid",
+    description: "Mid-range shade of theme color. Use sparingly, since text contrast against this color is problematic. Overridden by agency-specific themes.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-theme-weak",
+    displayname: "Color Theme Weak",
+    description: "Slightly lighter shade of theme color. Overridden by agency-specific themes.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-theme-weaker",
+    displayname: "Color Theme Weaker",
+    description: "Lighter shade of theme color, used to subtly convey brand in places with a lot of text, like the global agency footer. Overridden by agency-specific themes.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-theme-faint",
+    displayname: "Color Theme Faint",
+    description: "Faint shade of the theme color. Good for subtle accents or backgrounds. Overridden by agency-specific themes.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-accent",
+    displayname: "Color Accent",
+    description: "Bold accent color for highlighting or emphasis. Use sparingly, especially in application contexts where it can be confused with warning or error colors.",
+    type: "color",
+  },
+  // Color: Intent
+  {
+    name: "--nys-color-info",
+    displayname: "Color Info",
+    description: "Informational color for neutral messages.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-info-weak",
+    displayname: "Color Info Weak",
+    description: "Used as a background for informational contexts with a lot of text, like alerts.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-success",
+    displayname: "Color Success",
+    description: "Used to communicate successful actions or states.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-success-weak",
+    displayname: "Color Success Weak",
+    description: "Used as a background for success contexts with a lot of text, like alerts.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-warning",
+    displayname: "Color Warning",
+    description: "Used as a warning color for non-critical alerts.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-warning-weak",
+    displayname: "Color Warning Weak",
+    description: "Used as a background for warning contexts with a lot of text, like alerts.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-danger",
+    displayname: "Color Danger",
+    description: "Used to indicate destructive actions or failures.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-danger-weak",
+    displayname: "Color Danger Weak",
+    description: "Used as a background in destructive or error contexts with a lot of text, like alerts.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-emergency",
+    displayname: "Color Emergency",
+    description: "Emergency color for critical alerts or actions. Use sparingly.",
+    type: "color",
+  },
+  // Color: Contexts
+  {
+    name: "--nys-color-ink",
+    displayname: "Color Ink",
+    description: "Default text color. Provides good legibility.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-ink-reverse",
+    displayname: "Color Ink Reverse",
+    description: "Reverse text color for dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-link",
+    displayname: "Color Link",
+    description: "Standard color for text links.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-link-strong",
+    displayname: "Color Link Strong",
+    description: "Used for hover and active states on text links.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-link-strongest",
+    displayname: "Color Link Strongest",
+    description: "Used for pressed states on text links.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-focus",
+    displayname: "Color Focus",
+    description: "Used to color focus rings on interactive elements.",
+    type: "color",
+  },
+// Color: Neutrals
+ {
+    name: "--nys-color-neutral-10",
+    displayname: "Color Neutral 10",
+    description: "Subtle neutral shade for faint accents.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-50",
+    displayname: "Color Neutral 50",
+    description: "Faint neutral shade for background contrast.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-100",
+    displayname: "Color Neutral 100",
+    description: "Near-white neutral for soft backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-200",
+    displayname: "Color Neutral 200",
+    description: "Very light neutral tone for minimal elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-300",
+    displayname: "Color Neutral 300",
+    description: "Light neutral tone for subtle backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-400",
+    displayname: "Color Neutral 400",
+    description: "Light-medium neutral tone for soft elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-500",
+    displayname: "Color Neutral 500",
+    description: "Medium neutral tone for balanced emphasis.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-600",
+    displayname: "Color Neutral 600",
+    description: "Medium-dark neutral tone for UI elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-700",
+    displayname: "Color Neutral 700",
+    description: "Dark neutral tone for text or muted accents.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-800",
+    displayname: "Color Neutral 800",
+    description: "Very dark neutral shade for subdued elements.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-neutral-900",
+    displayname: "Color Neutral 900",
+    description: "Darkest neutral shade for text or backgrounds.",
+    type: "color",
+  },
+  // Typography Tokens
+  // Body
+  {
+    name: "--nys-font-family-sans",
+    displayname: "Font Family, Sans",
+    description: "Primary brand font, used for content, headers, and UI text. → Proxima Nova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol",
+    type: "font-family",
+  },
+  {
+    name: "--nys-font-family-agency",
+    displayname: "Font Family, Agency",
+    description: "Brand font used only for agency, program, and initiative titles. → D Sari, Arial, sans-serif",
+    type: "font-family",
+  },
+  {
+    name: "--nys-font-family-alt",
+    displayname: "Font Family, Alternate",
+    description: "Alternate brand font, used sparingly for accent in public-facing sites. → Oswald, Arial, sans-serif",
+    type: "font-family",
+  },
+{
+  name: "--nys-font-size-2xs",
+  displayname: "Font Size, 2XS",
+  description: "Extra-extra-small font size. Typically used for fine print or disclaimers. → 10px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-xs",
+  displayname: "Font Size, XS",
+  description: "Extra-small font size. Used for less prominent labels or captions. → 12px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-sm",
+  displayname: "Font Size, SM",
+  description: "Small font size. Commonly used for secondary text or labels. → 14px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-md",
+  displayname: "Font Size, MD",
+  description: "Medium font size. Default body text size. → 16px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-lg",
+  displayname: "Font Size, LG",
+  description: "Large font size. Used for subheadings or larger labels. → 18px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-xl",
+  displayname: "Font Size, XL",
+  description: "Extra-large font size. Used for headings or standout elements. → 20px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-2xl",
+  displayname: "Font Size, 2XL",
+  description: "Double extra-large font size. Commonly used for secondary headings. → 22px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-3xl",
+  displayname: "Font Size, 3XL",
+  description: "Triple extra-large font size. Used for primary headings or key text. → 24px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-4xl",
+  displayname: "Font Size, 4XL",
+  description: "Quadruple extra-large font size. Typically used for prominent headlines. → 28px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-5xl",
+  displayname: "Font Size, 5XL",
+  description: "Quintuple extra-large font size. Reserved for key marketing or hero sections. → 32px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-6xl",
+  displayname: "Font Size, 6XL",
+  description: "Six times extra-large font size. Used for impactful hero text. → 36px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-7xl",
+  displayname: "Font Size, 7XL",
+  description: "Seven times extra-large font size. Highly prominent text. → 40px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-8xl",
+  displayname: "Font Size, 8XL",
+  description: "Eight times extra-large font size. Typically for titles or splash content. → 44px",
+  type: "font-size",
+},
+{
+  name: "--nys-font-size-9xl",
+  displayname: "Font Size, 9XL",
+  description: "Nine times extra-large font size. Maximum size for hero content. → 50px",
+  type: "font-size",
+},
+  // Spacing
+  {
+    name: "--nys-space-1px",
+    displayname: "Space 1px",
+    description: "Spacing tokens standardize margins, padding, and gaps in layouts. This is ultra-thin for fine detail, like borders or dividers.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-2px",
+    displayname: "Space 2px",
+    description: "Very small spacing for micro-adjustments or compact layouts.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-50",
+    displayname: "Space 50",
+    description: "Extra-small spacing, typically used for tight content spacing.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-100",
+    displayname: "Space 100",
+    description: "Small spacing, often used for compact layouts or minimal margins.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-150",
+    displayname: "Space 150",
+    description: "Small-medium spacing for general UI elements.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-200",
+    displayname: "Space 200",
+    description: "Medium spacing, commonly used for standard element separation.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-250",
+    displayname: "Space 250",
+    description: "Medium-large spacing for container padding or visual balance.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-300",
+    displayname: "Space 300",
+    description: "Standard spacing for layouts with moderate separation.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-400",
+    displayname: "Space 400",
+    description: "Large spacing for separating sections or creating visual breaks.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-500",
+    displayname: "Space 500",
+    description: "Extra-large spacing for major sections or wide gaps.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-600",
+    displayname: "Space 600",
+    description: "Very large spacing, often used for section padding or layouts.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-700",
+    displayname: "Space 700",
+    description: "Generous spacing for wide content separation.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-800",
+    displayname: "Space 800",
+    description: "Maximum spacing for highly open designs or major layouts.",
+    type: "space",
+  },
+  {
+    name: "--nys-space-1200",
+    displayname: "Space 1200",
+    description: "Largest spacing token for creating significant visual separation.",
+    type: "space",
+  },
+  // Sizing
+ {
+    name: "--nys-size-1px",
+    displayname: "Size 1px",
+    description: "Size tokens standardize the width and height of elements, like icons, typography, and UI components.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-2px",
+    displayname: "Size 2px",
+    description: "Slightly thicker size for minimal elements, such as borders.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-50",
+    displayname: "Size 50",
+    description: "Extra-small size for compact UI elements or icons.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-100",
+    displayname: "Size 100",
+    description: "Small size for UI elements or containers.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-150",
+    displayname: "Size 150",
+    description: "Small-medium size for buttons or small containers.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-200",
+    displayname: "Size 200",
+    description: "Medium size, often used for inputs or cards.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-250",
+    displayname: "Size 250",
+    description: "Medium-large size for slightly larger UI elements.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-300",
+    displayname: "Size 300",
+    description: "Standard size for larger UI controls or containers.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-400",
+    displayname: "Size 400",
+    description: "Large size for buttons, modals, or prominent elements.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-500",
+    displayname: "Size 500",
+    description: "Very large size for main containers or sections.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-600",
+    displayname: "Size 600",
+    description: "Extra-large size for significant UI containers or elements.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-700",
+    displayname: "Size 700",
+    description: "Massive size for prominent layout features.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-800",
+    displayname: "Size 800",
+    description: "Largest size for visual anchors or major elements.",
+    type: "size",
+  },
+  {
+    name: "--nys-size-1200",
+    displayname: "Size 1200",
+    description: "Maximum size for expansive layouts or hero elements.",
+    type: "size",
+  },
+  // Radius Tokens
+    {
+    name: "--nys-radius-xs",
+    displayname: "Radius XS",
+    description: "Extra-small radius for subtle rounding.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-sm",
+    displayname: "Radius SM",
+    description: "Small radius for slightly rounded elements.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-md",
+    displayname: "Radius MD",
+    description: "Medium radius input elements like text fields, checkboxes, and select dropdowns.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-lg",
+    displayname: "Radius LG",
+    description: "Larger radius for a more pronounced rounding.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-xl",
+    displayname: "Radius XL",
+    description: "Extra-large radius for buttons, to quickly indicate interactivity.",
+    type: "radius",
+  },
+  {
+    name: "--nys-radius-round",
+    displayname: "Radius Round",
+    description: "Fully rounded elements. Used for avatars and icons.",
+    type: "radius",
+  },
+];
+
+export const hiddentokens = [
+// Store tokens here that are Not publishing to the documentation (yet)
+]
+
+<style>
+  {`
+    /* Static styles */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      height: 100%;
+      /* No border */
+      border: 0 !important;
+    }
+    td {
+      background: #fff !important;
+    }
+    .swatch {
+      display: block;
+      border: solid 1px var(--nys-color-neutral-300);
+      border-radius: var(--nys-radius-md);
+      width: var(--nys-size-1000);
+      height: var(--nys-size-600);
+    }
+  `}
+  {tokens.map((token) => {
+    if (token.type === "color") {
+      return `
+        .swatch-${token.name.replace("--", "")} {
+          background-color: var(${token.name});
+        }
+      `;
+    } else if (token.type === "font-family") {
+      return `
+        .swatch-${token.name.replace("--", "")}::before {
+          font-family: var(${token.name}) !important;
+          content: "NYS";
+          color: black;
+          height: 100%;
+          width: 100%;
+          text-align:center;
+          display: grid; 
+          align-content: center;
+          font-size: var(--nys-font-size-8xl) !important;
+        }
+        .swatch-${token.name.replace("--", "")} {
+          border: none;
+        }
+      `;
+    } else if (token.type === "font-size") {
+      return `
+        .swatch-${token.name.replace("--", "")}::before {
+          font-size: var(${token.name}) !important;
+          content: "NYS";
+          color: black;
+          height: 100%;
+          width: 100%;
+          text-align:center;
+          display: grid; 
+          align-content: center;
+        }
+        .swatch-${token.name.replace("--", "")} {
+          border: none;
+        }
+      `;
+    } else if (token.type === "space") {
+      return `
+        .swatch-${token.name.replace("--", "")} {
+          border: 0;
+          margin: 0 auto;
+          border-radius: 0;
+          border-top: dashed var(--nys-size-1px) var(--nys-color-theme-mid);
+          border-bottom: dashed var(--nys-size-1px) var(--nys-color-theme-mid);
+          border-left: solid var(--nys-size-2px) var(--nys-color-theme);
+          border-right: solid var(--nys-size-2px) var(--nys-color-theme);
+          width: var(${token.name});
+        }
+      `;
+    } else if (token.type === "size") {
+      return `
+        .swatch-${token.name.replace("--", "")} {
+          border: 0;
+          border-radius: var(--nys-radius-round);
+          margin: 0 auto;
+          width: var(${token.name});
+          height: var(${token.name});
+          background: linear-gradient(
+            to bottom right,
+            var(--nys-color-theme) 60%, /* Base color covers 60% */
+            color-mix(in srgb, var(--nys-color-theme) 60%, black 40%) 100% /* Darker shade starts after 60% */
+          );
+        }
+      `;
+    } else if (token.type === "radius") {
+      return `
+        .swatch-${token.name.replace("--", "")} {
+          background: var(--nys-color-theme-weaker);
+          border-radius: var(${token.name});
+          border: 1px solid var(--nys-color-theme-weak);
+        }
+      `;
+    }
+    return "";
+  }).join("")}
+</style>
+
+<table>
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th>Variable Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {tokens.map((token) => (
+      <tr key={token.name}>
+        <td>
+          <div className={`swatch swatch-${token.name.replace("--", "")}`}></div>
+        </td>
+        <td>
+          <div>
+            <h3>{token.displayname}</h3>
+            <p>{token.description}</p>
+          </div>
+        </td>
+        <td>
+          <code>{token.name}</code>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
