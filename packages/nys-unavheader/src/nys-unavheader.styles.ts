@@ -35,7 +35,7 @@ export default css`
   }
 
   a#nys-unavheader__logolink {
-    padding: var(--nys-space-2px, 2px);
+    outline-offset: var(--nys-space-2px, 2px);
   }
 
   .nys-unavheader__logo {
