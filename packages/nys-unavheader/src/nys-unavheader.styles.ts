@@ -193,7 +193,7 @@ export default css`
     background-color: var(--nys-color-neutral-200, #bec0c1);
   }
 
-  /* Breakpoints using Excelsior Grid Guidelines */
+  /* Breakpoints using NYSDS Grid Guidelines */
   @media (min-width: 0) {
     /* Mobile (XS) */
     :host() {
