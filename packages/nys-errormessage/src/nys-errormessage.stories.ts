@@ -45,7 +45,33 @@ export const Basic: Story = {
   parameters: {
     docs: {
       source: {
-        code: ``,
+        code: `
+<nys-errormessage showError errorMessage="This is an error message"></nys-errormessage>
+    `,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Divider: Story = {
+  args: {
+    showError: true,
+    errorMessage: "This is an error message",
+    showDivider: true,
+  },
+  render: (args) =>
+    html`<nys-errormessage
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+      .showDivider=${args.showDivider}
+    ></nys-errormessage>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-errormessage showError errorMessage="This is an error message" showDivider></nys-errormessage>
+`,
         type: "auto",
       },
     },

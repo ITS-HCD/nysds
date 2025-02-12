@@ -20,18 +20,29 @@ Note: `nys-errormessage` is already built into form components. You do not need 
 
 <Controls />
 
-## Use cases    
+## Options
+Add a divider to components that are not bordered.
+<Canvas of={NysErrorMessageStories.Divider} />
 
+## Use cases    
+Use in form components to display an error to a user if the input is invalid and needs to be modified.
+In inputs that are bordered (ie. text inputs and select) do not show the divider. Otherwise add it with `showDivider`
 
 ## Usage
 
 <div class="usage-wrapper">
     <div class="usagedos do">
+    - Use the error message component to convey a clear message on a form field.
+    - Hide the divider in bordered form fields.
+    - Use relevant error messages for the form field
     ### Do
     </div>
 
     <div class="usagedos dont">
     ### Don't
+    - Use the error message alone or without a form field.
+    - Add a divider to bordered form fields.
+    - Use generalized error messages.
     </div>
 </div>
 
