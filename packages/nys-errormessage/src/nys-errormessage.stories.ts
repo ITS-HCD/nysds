@@ -24,7 +24,11 @@ type Story = StoryObj<NysErrorMessageArgs>;
 
 export const Basic: Story = {
   args: {},
-  render: () => html``,
+  render: () =>
+    html`<nys-errormessage
+      showError
+      errorMessage="This is an error."
+    ></nys-errormessage>`,
   parameters: {
     docs: {
       source: {

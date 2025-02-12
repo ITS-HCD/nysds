@@ -20,7 +20,7 @@ export default css`
     --nys-label-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
     --nys-label-font-color: var(--nys-color-ink, #1b1b1b);
 
-    /* Description Typography */
+    /* Description */
     --nys-description-font-weight: var(--nys-font-weight-regular, 400);
     --nys-description-font-style: italic;
     --nys-description-font-color: var(--nys-neutral-900, #1b1b1b);
