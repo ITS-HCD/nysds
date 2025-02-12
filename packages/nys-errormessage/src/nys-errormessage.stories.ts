@@ -3,12 +3,20 @@ import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-errormessage";
 
 // Define the structure of the args used in the stories
-interface NysErrorMessageArgs {}
+interface NysErrorMessageArgs {
+  showError?: boolean;
+  errorMessage?: string;
+  showDivider?: boolean;
+}
 
 const meta: Meta<NysErrorMessageArgs> = {
   title: "Components/ErrorMessage",
   component: "nys-errormessage",
-  argTypes: {},
+  argTypes: {
+    showError: { control: "boolean", type: "boolean" },
+    errorMessage: { control: "text", type: "string" },
+    showDivider: { control: "boolean", type: "boolean" },
+  },
   parameters: {
     docs: {
       source: { type: "dynamic" }, // Enables live Source code tab
@@ -28,6 +36,7 @@ export const Basic: Story = {
     html`<nys-errormessage
       showError
       errorMessage="This is an error."
+      showDivider
     ></nys-errormessage>`,
   parameters: {
     docs: {
