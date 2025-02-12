@@ -4,9 +4,9 @@ import "./nys-errormessage";
 
 // Define the structure of the args used in the stories
 interface NysErrorMessageArgs {
-  showError?: boolean;
-  errorMessage?: string;
-  showDivider?: boolean;
+  showError: boolean;
+  errorMessage: string;
+  showDivider: boolean;
 }
 
 const meta: Meta<NysErrorMessageArgs> = {
@@ -31,12 +31,16 @@ type Story = StoryObj<NysErrorMessageArgs>;
 // Define stories without using args
 
 export const Basic: Story = {
-  args: {},
-  render: () =>
+  args: {
+    showError: true,
+    errorMessage: "This is an error message",
+    showDivider: false,
+  },
+  render: (args) =>
     html`<nys-errormessage
-      showError
-      errorMessage="This is an error."
-      showDivider
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+      .showDivider=${args.showDivider}
     ></nys-errormessage>`,
   parameters: {
     docs: {
