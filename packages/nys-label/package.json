@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "A label component from the NYS Design System.",
     "module": "dist/nys-label.js",
+    "private": true,
     "types": "dist/index.d.ts",
     "exports": {
       ".": {
