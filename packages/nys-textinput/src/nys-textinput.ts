@@ -66,8 +66,7 @@ export class NysTextinput extends LitElement {
 
   static styles = styles;
 
-  // private _hasReportedValidity = false;
-  private _wasInvalid = false;
+  private _hasUserInteracted = false;
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
@@ -102,9 +101,9 @@ export class NysTextinput extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    if (this.required) {
+    if (this.required && !this.value) {
       this._internals.ariaRequired = "true";
-      this._internals.setValidity({ valueMissing: true }, 'This field is required', input);
+      this._internals.setValidity({ customError: true }, 'This field is required', input);
     } else {
       this._internals.setValidity({});
     }
@@ -112,13 +111,14 @@ export class NysTextinput extends LitElement {
     input.checkValidity();
   }
 
-  setCustomValidity(message: string = "") {
+  private _setValidityMessage(message: string = "") {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    // errorMessage overrides any native error message
-    this.errorMessage = this.errorMessage.trim() ? this.errorMessage : message;
+    // Toggle the HTML <div> tag error message
     this.showError = !!message;
+    // If user sets errorMessage, this overrides the native validation message
+    this.errorMessage = this.errorMessage ? this.errorMessage : message;
 
     console.log("User value: ", this.value);
     console.log("The validity is: ", input.checkValidity());
@@ -128,7 +128,7 @@ export class NysTextinput extends LitElement {
     console.log("test2: ", !!message);
     console.log("test3: ", this.showError);
 
-    this._internals.setValidity(message ? { customError: true } : {}, message);
+    this._internals.setValidity(message ? { customError: true } : {}, this.errorMessage);
 
     // Force revalidation to update the form's state
     input.checkValidity();
@@ -137,23 +137,33 @@ export class NysTextinput extends LitElement {
 
   private _validate() {
     const input = this.shadowRoot?.querySelector("input");
-    const regexTest = new RegExp(this.pattern).test(this.value)
     if (!input) return;
 
-    // Required and value is empty - validation fails
-    if (this.required && !this.value) {
-      this.setCustomValidity("This field is required");
-      return;
+    // Get the native validation state
+    const validity = input.validity;
+    console.log("VALIDATION is :", input.validity);
+    let message = "";
+
+    // Check each possible validation error
+    if (validity.valueMissing) {
+      message = "This field is required";
+    } else if (validity.typeMismatch) {
+      message = "Invalid format for this type";
+    } else if (validity.patternMismatch) {
+      message = "Invalid format";
+    } else if (validity.tooShort) {
+      message = `Value is too short. Minimum length is ${input.minLength}`;
+    } else if (validity.tooLong) {
+      message = `Value is too long. Maximum length is ${input.maxLength}`;
+    } else if (validity.rangeUnderflow) {
+      message = `Value must be at least ${input.min}`;
+    } else if (validity.rangeOverflow) {
+      message = `Value must be at most ${input.max}`;
+    } else if (validity.stepMismatch) {
+      message = "Invalid step value";
     }
 
-    // Pattern exist and regex match fails
-    if (this.pattern && !regexTest) {
-      this.setCustomValidity("Invalid format");
-      return;
-    }
-
-    // Reset error if no validation errors
-    this.setCustomValidity();
+    this._setValidityMessage(message);
   }
 
   /******************** Event Handlers ********************/
@@ -163,8 +173,8 @@ export class NysTextinput extends LitElement {
     this.value = input.value;
     this._internals.setFormValue(this.value);
 
-    // If the field was invalid, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
-    if (this._wasInvalid) {
+    // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
+    if (this._hasUserInteracted) {
       this._validate();
     }
 
@@ -195,11 +205,9 @@ export class NysTextinput extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    console.log('repeating?????')
+    this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
     this._validate();
-    if (this.showError) {
-      this._wasInvalid = true; // If invalid, start aggressive mode
-    }
+
     this.dispatchEvent(new Event("blur"));
   }
 
