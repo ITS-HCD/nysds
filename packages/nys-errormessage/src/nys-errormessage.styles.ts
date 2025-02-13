@@ -13,7 +13,7 @@ export default css`
         sans-serif
       )
     );
-    --nys-errormessage-font-weight: var(--nys-font-weight-semibold, 600);
+    --nys-errormessage-font-weight: var(--nys-font-weight-regular, 400);
     --nys-errormessage-font-size: var(--nys-font-size-ui-md, 16px);
     --nys-errormessage-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --nys-errormessage-letter-spacing: var(
@@ -45,6 +45,7 @@ export default css`
 
   .nys-errormessage[showDivider] {
     padding-top: var(--nys-errormessage-divider-gap);
+    margin-top: var(--nys-errormessage-divider-gap);
     border-top: var(--nys-errormessage-divider-width) solid
       var(--nys-errormessage-color);
   }

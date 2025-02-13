@@ -2,6 +2,8 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
 import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 export class NysTextarea extends LitElement {
   @property({ type: String }) id = "";
@@ -124,21 +126,11 @@ export class NysTextarea extends LitElement {
   render() {
     return html`
       <label class="nys-textarea">
-        ${this.label &&
-        html` <div class="nys-textarea__text">
-          <div class="nys-textarea__requiredwrapper">
-            <label for=${this.id} class="nys-textarea__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-textarea__required">*</label>`
-              : ""}
-          </div>
-          <div class="nys-textarea__description">
-            ${this.description}
-            <slot name="description"> </slot>
-          </div>
-        </div>`}
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          ?flag=${this.required ? "required" : ""}
+        ></nys-label>
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
@@ -159,12 +151,10 @@ export class NysTextarea extends LitElement {
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
         ></textarea>
-        ${this.showError && this.errorMessage
-          ? html`<div class="nys-textarea__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this.errorMessage}
+        ></nys-errormessage>
       </label>
     `;
   }

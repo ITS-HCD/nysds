@@ -1,8 +1,10 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
-import "@nysds/nys-icon";
 import { NysOption } from "./nys-option";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 export class NysSelect extends LitElement {
   @property({ type: String }) id = "";
@@ -112,21 +114,11 @@ export class NysSelect extends LitElement {
   render() {
     return html`
       <div class="nys-select">
-        ${this.label &&
-        html` <div class="nys-select__text">
-          <div class="nys-select__requiredwrapper">
-            <label for=${this.id} class="nys-select__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-select__required">*</label>`
-              : ""}
-          </div>
-          <div class="nys-select__description">
-            ${this.description}
-            <slot name="description"></slot>
-          </div>
-        </div>`}
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          ?flag=${this.required ? "required" : ""}
+        ></nys-label>
         <div class="nys-select__selectwrapper">
           <select
             class="nys-select__select"
@@ -154,12 +146,10 @@ export class NysSelect extends LitElement {
             class="nys-select__icon"
           ></nys-icon>
         </div>
-        ${this.showError && this.errorMessage
-          ? html`<div class="nys-select__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this.errorMessage}
+        ></nys-errormessage>
       </div>
     `;
   }

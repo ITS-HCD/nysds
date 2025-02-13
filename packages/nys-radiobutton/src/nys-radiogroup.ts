@@ -1,7 +1,8 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
-import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
@@ -89,30 +90,19 @@ export class NysRadiogroup extends LitElement {
 
   render() {
     return html` <div role="radiogroup" class="nys-radiogroup">
-      ${this.label &&
-      html` <div class="nys-radiobutton__text">
-        <div class="nys-radiobutton__requiredwrapper">
-          <label for=${this.id} class="nys-radiogroup__label"
-            >${this.label}</label
-          >
-          ${this.required
-            ? html`<label class="nys-radiobutton__required">*</label>`
-            : ""}
-        </div>
-        <div class="nys-radiogroup__description">
-          ${this.description}
-          <slot name="description"></slot>
-        </div>
-      </div>`}
+      <nys-label
+        label=${this.label}
+        description=${this.description}
+        ?flag=${this.required ? "required" : ""}
+      ></nys-label>
       <div class="nys-radiogroup__content">
         <slot></slot>
       </div>
-      ${this.showError && this.errorMessage
-        ? html`<div class="nys-radiobutton__error">
-            <nys-icon name="error" size="xl"></nys-icon>
-            ${this.errorMessage}
-          </div>`
-        : ""}
+      <nys-errormessage
+        ?showError=${this.showError}
+        errorMessage=${this.errorMessage}
+        showDivider
+      ></nys-errormessage>
     </div>`;
   }
 }

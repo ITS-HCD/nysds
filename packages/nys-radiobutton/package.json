@@ -18,7 +18,10 @@
     "dev": "tsc --emitDeclarationOnly && vite",
     "build": "tsc --emitDeclarationOnly && vite build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@nysds/nys-label": "^1.0.0",
+    "@nysds/nys-errormessage": "^1.0.0"
+  },
   "peerDependencies": {
     "lit": "^3.2.1"
   },
