@@ -66,7 +66,7 @@ export class NysTextinput extends LitElement {
 
   static styles = styles;
 
-  private _hasUserInteracted = false;
+  private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
@@ -98,16 +98,17 @@ export class NysTextinput extends LitElement {
 
   private _manageRequire() {
     const input = this.shadowRoot?.querySelector("input");
+    const message = this.errorMessage
+      ? this.errorMessage
+      : "This field is required";
     if (!input) return;
 
     if (this.required && !this.value) {
       this._internals.ariaRequired = "true";
-      this._internals.setValidity({ valueMissing: true }, 'This field is required', input);
+      this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
       this._internals.setValidity({});
     }
-    // Force revalidation to update the form's state
-    input.checkValidity();
   }
 
   private _setValidityMessage(message: string = "") {
@@ -116,27 +117,16 @@ export class NysTextinput extends LitElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
-    if (message) {
-      // If user sets errorMessage, this overrides the native validation message
-      this.errorMessage = this.errorMessage ? this.errorMessage : message;
-    } else {
-      this.errorMessage = "" // reset to no error if message is empty
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage.trim() && message !== "") {
+      message = this.errorMessage;
     }
 
-    console.log('the error msg: ', this.errorMessage)
-    console.log("User value: ", this.value);
-    console.log("The validity is: ", input.checkValidity());
-    console.log("The message is: ", message);
-    console.log("The errorMsg is: ", this.errorMessage);
-    console.log("test: ", this.errorMessage || message);
-    console.log("test2: ", !!message);
-    console.log("test3: ", this.showError);
-
-    this._internals.setValidity(message ? { customError: true } : {}, this.errorMessage, input);
-
-    // Force revalidation to update the form's state
-    // input.checkValidity();
-    // input.reportValidity();
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      input,
+    );
   }
 
   private _validate() {
@@ -145,7 +135,6 @@ export class NysTextinput extends LitElement {
 
     // Get the native validation state
     const validity = input.validity;
-    console.log("VALIDATION is :", input.validity);
     let message = "";
 
     // Check each possible validation error
@@ -165,6 +154,8 @@ export class NysTextinput extends LitElement {
       message = `Value must be at most ${input.max}`;
     } else if (validity.stepMismatch) {
       message = "Invalid step value";
+    } else {
+      message = input.validationMessage;
     }
 
     this._setValidityMessage(message);
@@ -189,17 +180,6 @@ export class NysTextinput extends LitElement {
         composed: true,
       }),
     );
-
-
-    // DELETE BELOW ~~~~~!!!!!
-    const checkValidity = input.checkValidity();
-    this.dispatchEvent(
-      new CustomEvent("nys-checkValidity", {
-        detail: { checkValidity },
-        bubbles: true,
-        composed: true,
-      }),
-    );
   }
 
   // Handle focus event
@@ -210,25 +190,13 @@ export class NysTextinput extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
-    // this._validate();
+    this._validate();
 
     this.dispatchEvent(new Event("blur"));
   }
 
   // Handle change event
   private _handleChange() {
-    // DELETE BELOW ~~~~~!!!!!
-    // const select = e.target as HTMLSelectElement;
-    // this.value = select.value;
-    // this.setCustomValidity(); // Validate on change
-
-    // this.dispatchEvent(
-    //   new CustomEvent("change", {
-    //     detail: { value: this.value },
-    //     bubbles: true,
-    //     composed: true,
-    //   }),
-    // );
     this.dispatchEvent(new Event("change"));
   }
 
@@ -263,21 +231,33 @@ export class NysTextinput extends LitElement {
           aria-label="${this.label} ${this.description}"
           .value=${this.value}
           placeholder=${this.placeholder}
-          maxlength=${ifDefined(this.maxlength ? this.maxlength : undefined)}
           pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
-          step=${ifDefined(this.step ? this.step : undefined)}
-          min=${ifDefined(this.min ? this.min : undefined)}
-          max=${ifDefined(this.max ? this.max : undefined)}
+          min=${ifDefined(
+            this.min !== null && this.min !== undefined ? this.min : undefined,
+          )}
+          maxlength=${ifDefined(
+            this.maxlength !== null && this.maxlength !== undefined
+              ? this.maxlength
+              : undefined,
+          )}
+          step=${ifDefined(
+            this.step !== null && this.step !== undefined
+              ? this.step
+              : undefined,
+          )}
+          max=${ifDefined(
+            this.max !== null && this.max !== undefined ? this.max : undefined,
+          )}
           form=${ifDefined(this.form ? this.form : undefined)}
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
           @change="${this._handleChange}"
         />
-        ${this.showError && this.errorMessage
+        ${this.showError
           ? html`<div class="nys-textinput__error">
               <nys-icon name="error" size="xl"></nys-icon>
-              ${this._internals.validationMessage}
+              ${this._internals.validationMessage || this.errorMessage}
             </div>`
           : ""}
       </div>
