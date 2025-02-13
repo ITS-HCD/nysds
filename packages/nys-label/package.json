@@ -1,6 +1,6 @@
 {
-    "name": "@excelsior/nys-label",
-    "version": "0.0.1",
+    "name": "@nysds/nys-label",
+    "version": "1.0.0",
     "description": "A label component from the NYS Design System.",
     "module": "dist/nys-label.js",
     "private": true,

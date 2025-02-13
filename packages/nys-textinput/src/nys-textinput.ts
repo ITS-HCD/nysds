@@ -2,6 +2,8 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 export class NysTextinput extends LitElement {
   @property({ type: String }) id = "";
