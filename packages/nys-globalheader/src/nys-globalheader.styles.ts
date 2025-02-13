@@ -257,7 +257,7 @@ export default css`
     letter-spacing: var(--_nys-globalheader-mobile-btn-letterspacing);
   }
 
-  /* Breakpoints using Excelsior Guidelines (Menu Links) */
+  /* Breakpoints using NYSDS Guidelines (Menu Links) */
   @media (min-width: 768px) {
     /* Tablet (MD - Above 768px) */
     .nys-globalheader__content {

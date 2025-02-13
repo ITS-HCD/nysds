@@ -3,14 +3,9 @@ import { defineConfig } from "vite";
 // This banner will go at the top of our generated files
 const banner = `
 /*!
-   * 
-   * ░█▀▀▀ ▀▄░▄▀ ░█▀▀█ ░█▀▀▀ ░█─── ░█▀▀▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█ 
-   * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
-   * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
-   * 
-   * New York State's Excelsior Design System (v1.0.0)
+   * New York State Design System (v1.0.0)
    * Description: A design system for New York State's digital products.
-   * Repository: https://github.com/its-hcd/excelsior
+   * Repository: https://github.com/its-hcd/nysds
    * License: MIT
  */
 `;
@@ -31,7 +26,7 @@ export default defineConfig({
           format: "es",
           banner,
           dir: "dist",
-          entryFileNames: "excelsior.es.js",
+          entryFileNames: "nysds.es.js",
           globals: {
             lit: "Lit",
           },

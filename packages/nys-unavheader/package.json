@@ -1,5 +1,5 @@
 {
-  "name": "@nys-excelsior/nys-unavheader",
+  "name": "@nysds/nys-unavheader",
   "version": "1.0.0",
   "description": "A universal navigation header component from the NYS Design System.",
   "module": "dist/nys-unavheader.js",
@@ -22,9 +22,9 @@
     "lit": "^3.2.1"
   },
   "dependencies": {
-    "@nys-excelsior/nys-icon": "^1.0.0",
-    "@nys-excelsior/nys-button": "^1.0.0",
-    "@nys-excelsior/nys-textinput": "^1.0.0"
+    "@nysds/nys-icon": "^1.0.0",
+    "@nysds/nys-button": "^1.0.0",
+    "@nysds/nys-textinput": "^1.0.0"
   },
   "devDependencies": {
     "lit": "^3.2.1",
@@ -32,7 +32,7 @@
     "vite": "^6.0.11"
   },
   "keywords": [
-    "excelsior",
+    "nysds",
     "new-york-state",
     "design-system",
     "web-components",

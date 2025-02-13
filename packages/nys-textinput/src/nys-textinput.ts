@@ -2,7 +2,7 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nysds/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 

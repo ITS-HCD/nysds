@@ -6,14 +6,9 @@ import path from "path";
 const banner = `
 
 /*!
-   * 
-   * ░█▀▀▀ ▀▄░▄▀ ░█▀▀█ ░█▀▀▀ ░█─── ░█▀▀▀█ ▀█▀ ░█▀▀▀█ ░█▀▀█ 
-   * ░█▀▀▀ ─░█── ░█─── ░█▀▀▀ ░█─── ─▀▀▀▄▄ ░█─ ░█──░█ ░█▄▄▀ 
-   * ░█▄▄▄ ▄▀░▀▄ ░█▄▄█ ░█▄▄▄ ░█▄▄█ ░█▄▄▄█ ▄█▄ ░█▄▄▄█ ░█─░█
-   * 
-   * New York State's Excelsior Design System (v1.0.0)
+   * New York State Design System (v1.0.0)
    * Description: A design system for New York State's digital products.
-   * Repository: https://github.com/its-hcd/excelsior
+   * Repository: https://github.com/its-hcd/nysds
    * License: MIT
  */
 
@@ -23,8 +18,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "Excelsior", // Global variable for UMD
-      fileName: () => "excelsior.js", // Output as "excelsior.js" for UMD
+      name: "NYSDS", // Global variable for UMD
+      fileName: () => "nysds.js", // Output as "nysds.js" for UMD
       formats: ["umd"], // UMD format
     },
     sourcemap: true,

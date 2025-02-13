@@ -1,5 +1,5 @@
 {
-  "name": "@nys-excelsior/nys-unavfooter",
+  "name": "@nysds/nys-unavfooter",
   "version": "1.0.0",
   "description": "A universal footer component from the NYS Design System.",
   "module": "dist/nys-unavfooter.js",
@@ -27,7 +27,7 @@
     "vite": "^6.0.11"
   },
   "keywords": [
-    "excelsior",
+    "nysds",
     "new-york-state",
     "design-system",
     "web-components",

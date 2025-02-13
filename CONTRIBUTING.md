@@ -1,8 +1,8 @@
-## Welcome!
+# Welcome!
 
-We’re glad you’re thinking about contributing to Excelsior, New York State's Web Design System. Here are a few things you should know before you get started.
+We’re glad you’re thinking about contributing to New York State's Design System (NYSDS). Here are a few things you should know before you get started.
 
-Excelsior is for everyone. It an open source project that accepts contributions from our community members. Your contributions help make the Design System better for everyone that uses it.
+NYSDS is for everyone. It an open source project that accepts contributions from our community members. Your contributions help make the Design System better for everyone that uses it.
 
 ## Code of Conduct
 
@@ -14,9 +14,9 @@ We encourage you to read this project’s Contribution Guide (you are here), its
 
 ### Getting Started
 
-Anyone can contribute to Excelsior. Whether it's submitting a bug or proposing a new component, we welcome your ideas on how to improve the Design System.
+Anyone can contribute to NYSDS. Whether it's submitting a bug or proposing a new component, we welcome your ideas on how to improve the Design System.
 
-First time contributor? We’re here to help guide you through a successful contribution. We review all contributions before merging them into the Design System. If you’re unsure about anything, just [ask](mailto:designsystem@its.ny.gov) — or submit your issue or pull request anyway to get the conversation started.
+First time contributor? We’re here to help guide you through a successful contribution. We review all contributions before merging them into the Design System. If you’re unsure about anything, [just email us](mailto:designsystem@its.ny.gov) — or submit your issue or pull request anyway to get the conversation started.
 
 Before submitting a contribution, you’ll just need to create a GitHub account or sign in to your existing account.
 
