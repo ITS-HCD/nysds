@@ -2,8 +2,8 @@ import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-alert.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "@nys-excelsior/nys-icon";
-import "@nys-excelsior/nys-button";
+import "@nysds/nys-icon";
+import "@nysds/nys-button";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 

@@ -2,9 +2,9 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-unavheader.styles";
 import nysLogo from "./nys-unav.logo";
-import "@nys-excelsior/nys-icon";
-import "@nys-excelsior/nys-textinput";
-import "@nys-excelsior/nys-button";
+import "@nysds/nys-icon";
+import "@nysds/nys-textinput";
+import "@nysds/nys-button";
 
 export class NysUnavHeader extends LitElement {
   @property({ type: Boolean, reflect: true }) trustbarVisible = false;
@@ -176,102 +176,104 @@ export class NysUnavHeader extends LitElement {
             </div>`
         : null}
       <header class="nys-unavheader" id="nys-universal-navigation">
-        <div class="nys-unavheader__left">
-          <a
-            href="https://ny.gov"
-            target="_blank"
-            id="nys-unavheader__logolink"
-            aria-label="logo of New York State"
-          >
-            <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
-          >
-          ${this.screenSize === "md" ||
-          this.screenSize === "lg" ||
-          this.screenSize === "xl"
-            ? html` <div class="nys-unavheader__officialmessage">
-                <label id="nys-unavheader__official"
-                  >An official website of New York State</label
-                >
-                <nys-button
-                  id="nys-unavheader__know"
-                  label="Here's how you know"
-                  variant="ghost"
-                  size="sm"
-                  suffixIcon="slotted"
-                  @click="${this._toggleTrustbar}"
-                >
-                  <nys-icon
-                    slot="suffix-icon"
-                    size="12"
-                    name="${this.trustbarVisible
-                      ? "chevron_up"
-                      : "chevron_down"}"
-                  ></nys-icon>
-                </nys-button>
-              </div>`
-            : null}
-        </div>
-        <div class="nys-unavheader__right">
-          ${!this.isSearchFocused && !this.hideTranslate
-            ? html`<div class="nys-unavheader__translatewrapper">
-                ${this.screenSize === "xs" ||
+        <div class="nys-unavheader__maincontent">
+          <div class="nys-unavheader__left">
+            <a
+              href="https://ny.gov"
+              target="_blank"
+              id="nys-unavheader__logolink"
+              aria-label="logo of New York State"
+            >
+              <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
+            >
+            ${this.screenSize === "md" ||
+            this.screenSize === "lg" ||
+            this.screenSize === "xl"
+              ? html` <div class="nys-unavheader__officialmessage">
+                  <label id="nys-unavheader__official"
+                    >An official website of New York State</label
+                  >
+                  <nys-button
+                    id="nys-unavheader__know"
+                    label="Here's how you know"
+                    variant="ghost"
+                    size="sm"
+                    suffixIcon="slotted"
+                    @click="${this._toggleTrustbar}"
+                  >
+                    <nys-icon
+                      slot="suffix-icon"
+                      size="12"
+                      name="${this.trustbarVisible
+                        ? "chevron_up"
+                        : "chevron_down"}"
+                    ></nys-icon>
+                  </nys-button>
+                </div>`
+              : null}
+          </div>
+          <div class="nys-unavheader__right">
+            ${!this.isSearchFocused && !this.hideTranslate
+              ? html`<div class="nys-unavheader__translatewrapper">
+                  ${this.screenSize === "xs" ||
+                  this.screenSize === "sm" ||
+                  this.screenSize === "md"
+                    ? html`<nys-button
+                        variant="ghost"
+                        prefixIcon="language"
+                        id="nys-unavheader__translate"
+                        class="nys-unavheader__iconbutton"
+                        @click="${this._toggleLanguageList}"
+                      ></nys-button>`
+                    : html`<nys-button
+                        variant="ghost"
+                        label="Translate"
+                        prefixIcon="language_filled"
+                        suffixIcon=${this.languageVisible
+                          ? "chevron_up"
+                          : "chevron_down"}
+                        id="nys-unavheader__translate"
+                        @click="${this._toggleLanguageList}"
+                      ></nys-button>`}
+                  <div
+                    class="nys-unavheader__languagelist ${this.languageVisible
+                      ? "show"
+                      : "hide"}"
+                  >
+                    ${this.languages.map(
+                      ([label, code]) =>
+                        html`<a
+                          class="nys-unavheader__languagelink"
+                          target="_self"
+                          href="https://${code ? code + "." : ""}${window
+                            .location.hostname}"
+                          >${label}</a
+                        >`,
+                    )}
+                  </div>
+                </div>`
+              : null}
+            ${!this.hideSearch
+              ? this.screenSize === "xs" ||
                 this.screenSize === "sm" ||
                 this.screenSize === "md"
-                  ? html`<nys-button
-                      variant="ghost"
-                      prefixIcon="language"
-                      id="nys-unavheader__translate"
-                      class="nys-unavheader__iconbutton"
-                      @click="${this._toggleLanguageList}"
-                    ></nys-button>`
-                  : html`<nys-button
-                      variant="ghost"
-                      label="Translate"
-                      prefixIcon="language_filled"
-                      suffixIcon=${this.languageVisible
-                        ? "chevron_up"
-                        : "chevron_down"}
-                      id="nys-unavheader__translate"
-                      @click="${this._toggleLanguageList}"
-                    ></nys-button>`}
-                <div
-                  class="nys-unavheader__languagelist ${this.languageVisible
-                    ? "show"
-                    : "hide"}"
-                >
-                  ${this.languages.map(
-                    ([label, code]) =>
-                      html`<a
-                        class="nys-unavheader__languagelink"
-                        target="_self"
-                        href="https://${code ? code + "." : ""}${window.location
-                          .hostname}"
-                        >${label}</a
-                      >`,
-                  )}
-                </div>
-              </div>`
-            : null}
-          ${!this.hideSearch
-            ? this.screenSize === "xs" ||
-              this.screenSize === "sm" ||
-              this.screenSize === "md"
-              ? html`<nys-button
-                  variant="ghost"
-                  prefixIcon="search"
-                  id="nys-unavheader__searchbutton"
-                  class="nys-unavheader__iconbutton"
-                  @click="${this._toggleSearchDropdown}"
-                ></nys-button>`
-              : html`<nys-textinput
-                  id="nys-unavheader__search"
-                  placeholder="Search"
-                  type="search"
-                  @focus="${this._handleSearchFocus}"
-                  @blur="${this._handleSearchBlur}"
-                  @keyup="${this._handleSearchKeyup}"
-                ></nys-textinput>`
-            : null}
+                ? html`<nys-button
+                    variant="ghost"
+                    prefixIcon="search"
+                    id="nys-unavheader__searchbutton"
+                    class="nys-unavheader__iconbutton"
+                    @click="${this._toggleSearchDropdown}"
+                  ></nys-button>`
+                : html`<nys-textinput
+                    id="nys-unavheader__search"
+                    placeholder="Search"
+                    type="search"
+                    @focus="${this._handleSearchFocus}"
+                    @blur="${this._handleSearchBlur}"
+                    @keyup="${this._handleSearchKeyup}"
+                  ></nys-textinput>`
+              : null}
+          </div>
         </div>
       </header>
       ${this.screenSize === "md" ||
@@ -300,15 +302,15 @@ export class NysUnavHeader extends LitElement {
                   only on official, secure websites.</label
                 >
               </div>
+              <nys-button
+                id="nys-unavheader__closetrustbar"
+                class="nys-unavheader__iconbutton"
+                variant="ghost"
+                prefixIcon="close"
+                size="sm"
+                @click="${this._toggleTrustbar}"
+              ></nys-button>
             </div>
-            <nys-button
-              id="nys-unavheader__closetrustbar"
-              class="nys-unavheader__iconbutton"
-              variant="ghost"
-              prefixIcon="close"
-              size="sm"
-              @click="${this._toggleTrustbar}"
-            ></nys-button>
           </div>`
         : null}
       <div

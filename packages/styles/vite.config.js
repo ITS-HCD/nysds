@@ -6,19 +6,19 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        // Excelsior Bundles: Using @import to create style bundles
-        excelsior: "./src/excelsior.css", // Main core styles
-        "excelsior-full": "./src/excelsior-full.css", // Core + utilities
+        // NYSDS Bundles: Using @import to create style bundles
+        nysds: "./src/nysds.css", // Main core styles
+        "nysds-full": "./src/nysds-full.css", // Core + utilities
         // Themes
-        "excelsior-theme-admin": "./src/themes/admin.css",
-        "excelsior-theme-business": "./src/themes/business.css",
-        "excelsior-theme-environment": "./src/themes/environment.css",
-        "excelsior-theme-health": "./src/themes/health.css",
-        "excelsior-theme-local": "./src/themes/local.css",
-        "excelsior-theme-safety": "./src/themes/safety.css",
-        "excelsior-theme-transportation": "./src/themes/transportation.css",
+        "nysds-theme-admin": "./src/themes/admin.css",
+        "nysds-theme-business": "./src/themes/business.css",
+        "nysds-theme-environment": "./src/themes/environment.css",
+        "nysds-theme-health": "./src/themes/health.css",
+        "nysds-theme-local": "./src/themes/local.css",
+        "nysds-theme-safety": "./src/themes/safety.css",
+        "nysds-theme-transportation": "./src/themes/transportation.css",
         // Typography
-        typography: "./src/core/typography.css",
+        "nysds-typography": "./src/core/typography.css",
       },
       output: {
         assetFileNames: "[name].min.css",

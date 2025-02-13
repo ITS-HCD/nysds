@@ -322,5 +322,6 @@ export default css`
   .nys-button__text {
     display: flex;
     align-items: center;
+    user-select: none;
   }
 `;

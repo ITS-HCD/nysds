@@ -1,7 +1,7 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
-import "@nys-excelsior/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nysds/nys-icon";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 

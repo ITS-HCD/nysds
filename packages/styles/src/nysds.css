@@ -1,0 +1,22 @@
+/*!
+   * ▒█▄░▒█ ▒█░░▒█ ▒█▀▀▀█ ▒█▀▀▄ ▒█▀▀▀█ 
+   * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
+   * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
+   * 
+   * Core Styles
+   * Part of the New York State Design System (NYSDS)
+   * Repository: https://github.com/its-hcd/nysds
+   * License: MIT
+   * Version: 1.0.0
+*/
+
+/* Include Design Tokens (variables for colors, spacing, typography) */
+@import "./core/tokens.css";
+
+/* Include Design Tokens (variables for colors, spacing, typography) */
+@import "./core/typography.css";
+
+/* TODO: Include Global Styles (default typography and body styles) */
+/* @import "./core/globals.css"; */
+  
+  

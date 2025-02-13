@@ -4,11 +4,11 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for suggesting a new component for the Excelsior Design System.
+        Thank you for suggesting a new component for the New York State Design System (NYSDS)!
         
-        To get the discussion started, you just need to fill out the three fields marked with an asterisk (*). Then collaborate with the community to add supporting evidence and research, and get feedback. The work you do now can help the Excelsior team create a formal component proposal.
+        To get the discussion started, you just need to fill out the three fields marked with an asterisk (*). Then collaborate with the community to add supporting evidence and research, and get feedback. The work you do now can help the NYSDS team create a formal component proposal.
       
-        ## The basics
+        ## The Basics
   - type: textarea
     id: name
     attributes:
@@ -30,9 +30,9 @@ body:
   - type: textarea
     id: need
     attributes:
-      label: 'Why Excelsior needs this component'
+      label: 'Why the NYS Design System needs this component'
       description: |
-        Include key interactions, current gaps in Excelsior, and the problems this component solves. Explain how the component supports state laws, guidance, or policies.
+        Include key interactions, current gaps in NYS Design System, and the problems this component solves. Explain how the component supports state laws, guidance, or policies.
       value:
     validations:
       required: true

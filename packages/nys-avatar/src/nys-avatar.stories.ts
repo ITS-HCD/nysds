@@ -1,7 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-avatar";
-import "@nys-excelsior/nys-icon";
+import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysAvatarArgs {
