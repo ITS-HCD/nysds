@@ -1,5 +1,5 @@
 {
-    "name": "@nys-excelsior/nys-fileinput",
+    "name": "@nysds/nys-fileinput",
     "version": "0.0.9-alpha",
     "description": "A file input component from the NYS Design System.",
     "module": "dist/nys-fileinput.js",
@@ -21,7 +21,7 @@
         "lit": "^3.2.1"
     },
     "dependencies": {
-        "@nys-excelsior/nys-icon": "^0.0.9-alpha"
+        "@nysds/nys-icon": "^0.0.9-alpha"
       },
     "devDependencies": {
         "lit": "^3.2.1",
