@@ -75,7 +75,6 @@ export class NysTextinput extends LitElement {
   constructor() {
     super();
     this._internals = this.attachInternals();
-    console.log(this._internals);
   }
 
   // Generate a unique ID if one is not provided
@@ -103,7 +102,7 @@ export class NysTextinput extends LitElement {
 
     if (this.required && !this.value) {
       this._internals.ariaRequired = "true";
-      this._internals.setValidity({ customError: true }, 'This field is required', input);
+      this._internals.setValidity({ valueMissing: true }, 'This field is required', input);
     } else {
       this._internals.setValidity({});
     }
@@ -117,9 +116,14 @@ export class NysTextinput extends LitElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
-    // If user sets errorMessage, this overrides the native validation message
-    this.errorMessage = this.errorMessage ? this.errorMessage : message;
+    if (message) {
+      // If user sets errorMessage, this overrides the native validation message
+      this.errorMessage = this.errorMessage ? this.errorMessage : message;
+    } else {
+      this.errorMessage = "" // reset to no error if message is empty
+    }
 
+    console.log('the error msg: ', this.errorMessage)
     console.log("User value: ", this.value);
     console.log("The validity is: ", input.checkValidity());
     console.log("The message is: ", message);
@@ -128,10 +132,10 @@ export class NysTextinput extends LitElement {
     console.log("test2: ", !!message);
     console.log("test3: ", this.showError);
 
-    this._internals.setValidity(message ? { customError: true } : {}, this.errorMessage);
+    this._internals.setValidity(message ? { customError: true } : {}, this.errorMessage, input);
 
     // Force revalidation to update the form's state
-    input.checkValidity();
+    // input.checkValidity();
     // input.reportValidity();
   }
 
@@ -206,7 +210,7 @@ export class NysTextinput extends LitElement {
   // Handle blur event
   private _handleBlur() {
     this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
-    this._validate();
+    // this._validate();
 
     this.dispatchEvent(new Event("blur"));
   }
