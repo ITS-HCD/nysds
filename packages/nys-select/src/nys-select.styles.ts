@@ -22,7 +22,6 @@ export default css`
     --_nys-select-radius: var(--nys-radius-md, var(--nys-space-50, 4px));
     --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px)
       var(--nys-space-100, 8px) var(--nys-space-100, 8px);
-    --_nys-select-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
 
     /* Global Select Colors */
     --_nys-select-color: var(
@@ -61,7 +60,6 @@ export default css`
     border-radius: var(--_nys-select-radius);
     border: var(--_nys-select-border-default);
     font-size: var(--_nys-select-font-size);
-    line-height: var(--_nys-select-lineheight-ui)
     padding: var(--_nys-select-padding);
     width: var(--_nys-select-width);
     min-width: var(--_nys-select-width);
