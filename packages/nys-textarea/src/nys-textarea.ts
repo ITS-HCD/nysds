@@ -129,7 +129,7 @@ export class NysTextarea extends LitElement {
         <nys-label
           label=${this.label}
           description=${this.description}
-          ?flag=${this.required ? "required" : ""}
+          flag=${this.required ? "required" : ""}
         ></nys-label>
         <textarea
           class="nys-textarea__textarea ${this.resize}"

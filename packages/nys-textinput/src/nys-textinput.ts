@@ -119,7 +119,7 @@ export class NysTextinput extends LitElement {
         <nys-label
           label=${this.label}
           description=${this.description}
-          ?flag=${this.required ? "required" : ""}
+          flag=${this.required ? "required" : ""}
         ></nys-label>
         <input
           class="nys-textinput__input"

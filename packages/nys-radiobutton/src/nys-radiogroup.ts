@@ -93,7 +93,7 @@ export class NysRadiogroup extends LitElement {
       <nys-label
         label=${this.label}
         description=${this.description}
-        ?flag=${this.required ? "required" : ""}
+        flag=${this.required ? "required" : ""}
       ></nys-label>
       <div class="nys-radiogroup__content">
         <slot></slot>
