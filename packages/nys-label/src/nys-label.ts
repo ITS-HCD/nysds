@@ -1,8 +1,7 @@
 import { LitElement, html } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-label.styles";
 
-@customElement("nys-label")
 export class NysLabel extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
