@@ -101,8 +101,8 @@ You can listen to these events using JavaScript:
 // Select the textinput component
 const textinput = document.querySelector('nys-textinput');
 
-// Listen for the 'nys-checkValidity' event
-textinput.addEventListener('nys-checkValidity', (event) => {
+// Listen for the 'input' event
+textinput.addEventListener('input', (event) => {
   console.log('Text input changed:', event.target.value);
 });
 
