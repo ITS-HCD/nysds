@@ -28,9 +28,6 @@ export default css`
     );
     --_nys-textinput-disabled-color-text: var(--nys-color-neutral-300, #a7a9ab);
 
-    /* Error and Required */
-    --_nys-textinput-error-color: var(--nys-color-danger, #b52c2c);
-
     /* Global Font Styles */
     --_nys-textinput-family-ui: var(
       --nys-font-family-ui,
@@ -121,32 +118,5 @@ export default css`
     border-color: var(--_nys-textinput-disabled-color-border);
     color: var(--_nys-textinput-disabled-color-text);
     cursor: not-allowed;
-  }
-
-  .nys-textinput__required {
-    color: var(--_nys-textinput-error-color);
-  }
-
-  .nys-textinput__requiredwrapper {
-    display: inline;
-  }
-
-  /* Label Styling */
-  .nys-textinput__label {
-    font-weight: var(--_nys-textinput-weight-ui-bold);
-  }
-
-  /* Description styling */
-  .nys-textinput__description {
-    font-style: italic;
-  }
-
-  /* Error Message Styling */
-  .nys-textinput__error {
-    color: var(--_nys-textinput-error-color);
-    gap: var(--nys-space-100, 8px);
-    display: flex;
-    line-height: var(--_nys-textinput-lineheight-ui);
-    align-items: center;
   }
 `;

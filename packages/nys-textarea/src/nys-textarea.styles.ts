@@ -28,9 +28,6 @@ export default css`
     );
     --_nys-textarea-disabled-color-text: var(--nys-color-neutral-300, #a7a9ab);
 
-    /* Error and Required */
-    --_nys-textarea-error-color: var(--nys-color-danger, #b52c2c);
-
     /* Global Font Styles */
     --_nys-textarea-family-ui: var(
       --nys-font-family-ui,
@@ -127,35 +124,5 @@ export default css`
     border-color: var(--_nys-textarea-disabled-color-border);
     color: var(--_nys-textarea-disabled-color-text);
     cursor: not-allowed;
-  }
-
-  .nys-textarea__required {
-    color: var(--_nys-textarea-error-color);
-  }
-
-  .nys-textarea__requiredwrapper {
-    display: inline;
-  }
-
-  /* Label styling */
-  .nys-textarea__label {
-    font-weight: var(--_nys-textarea-weight-ui-bold);
-  }
-
-  /* Help text styling */
-  .nys-textarea__description {
-    font-style: italic;
-  }
-  ::slotted([slot^="description"]) {
-    margin: 0;
-  }
-
-  /* Error Message Styling */
-  .nys-textarea__error {
-    color: var(--_nys-textarea-error-color);
-    gap: var(--nys-space-100, 8px);
-    display: flex;
-    line-height: var(--_nys-textarea-lineheight-ui);
-    align-items: center;
   }
 `;

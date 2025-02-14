@@ -42,7 +42,7 @@ export default css`
       --nys-color-ink,
       var(--nys-color-neutral-900, #1b1b1b)
     );
-    --_nys-checkbox-error-color: var(
+    --_nys-checkbox-required-color: var(
       --nys-color-danger,
       var(--nys-color-red-600, #b52c2c)
     );
@@ -226,53 +226,24 @@ export default css`
   }
 
   /* Label styling */
-  .nys-checkboxgroup__label {
-    font-weight: var(--_nys-checkbox-font-weight-600);
-    color: var(--_nys-checkbox-color);
-  }
   .nys-checkbox__label {
     font-weight: var(--_nys-checkbox-font-weight-400);
     color: var(--_nys-checkbox-color);
   }
 
   /* Description styling */
-  .nys-checkbox__description,
-  .nys-checkboxgroup__description {
+  .nys-checkbox__description {
     font-weight: var(--_nys-checkbox-font-weight-400);
     font-style: italic;
   }
 
   /* Required */
   .nys-checkbox__required {
-    color: var(--_nys-checkbox-error-color);
+    color: var(--_nys-checkbox-required-color);
     margin-left: var(--_nys-select-margin);
   }
 
   .nys-checkbox__requiredwrapper {
     display: inline;
-  }
-
-  /* Error Message Styling */
-  .nys-checkbox__error {
-    display: flex;
-    align-items: center;
-    gap: var(--nys-space-100, 8px);
-    color: var(--_nys-checkbox-error-color);
-
-    /* add divider line */
-    border-top: 1px solid var(--_nys-checkbox-error-color);
-    padding-top: var(--nys-space-50, 4px);
-    margin-top: var(--nys-space-100, 8px);
-  }
-
-  /* Error Icon Styling */
-  nys-icon[name="error"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: auto;
-    box-sizing: border-box;
-    height: var(--_nys-checkbox-line-height);
-    text-align: center;
   }
 `;

@@ -136,37 +136,8 @@ export default css`
     color: var(--_nys-select-icon-disabled-color);
   }
 
-  /* Required */
-  .nys-select__required {
-    color: var(--_nys-select-error-color);
-    margin-left: var(--_nys-select-margin);
-  }
-
-  .nys-select__requiredwrapper {
-    display: inline;
-  }
-
   .nys-select__text {
     line-height: var(--_nys-select-lineheight-ui);
-  }
-
-  .nys-select__label {
-    font-weight: var(--_nys-select-font-weight-600);
-    color: var(--_nys-select-color);
-  }
-
-  /* Help text styling */
-  .nys-select__description {
-    font-weight: var(--_nys-select-font-weight-400);
-    font-style: italic;
-  }
-
-  /* Error Message Styling */
-  .nys-select__error {
-    display: flex;
-    align-items: center;
-    gap: var(--_nys-select-gap);
-    color: var(--_nys-select-error-color);
   }
 
   :host([showError]) {
