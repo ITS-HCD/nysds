@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     /* Label Typography */
-    --nys-label-font-family: var(
+    --_nys-label-font-family: var(
       --nys-font-family-ui,
       var(
         --nys-font-family-sans,
@@ -14,11 +14,11 @@ export default css`
         sans-serif
       )
     );
-    --nys-label-font-weight: var(--nys-font-weight-semibold, 600);
-    --nys-label-font-size: var(--nys-font-size-ui-md, 16px);
-    --nys-label-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --nys-label-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
-    --nys-label-font-color: var(--nys-color-ink, #1b1b1b);
+    --_nys-label-font-weight: var(--nys-font-weight-semibold, 600);
+    --_nys-label-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-label-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-label-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    --_nys-label-font-color: var(--nys-color-ink, #1b1b1b);
 
     /* Description */
     --nys-description-font-weight: var(--nys-font-weight-regular, 400);
@@ -33,27 +33,27 @@ export default css`
     --nys-optional-font-color: var(--nys-color-neutral-700, #4a4d4f);
 
     /* Spacing */
-    --nys-label-flag-gap: var(--nys-space-2px, 2px);
+    --_nys-label-flag-gap: var(--nys-space-2px, 2px);
   }
 
   .nys-label {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    font-family: var(--nys-label-font-family);
-    font-size: var(--nys-label-font-size);
-    line-height: var(--nys-label-line-height);
-    letter-spacing: var(--nys-label-letter-spacing);
+    font-family: var(--_nys-label-font-family);
+    font-size: var(--_nys-label-font-size);
+    line-height: var(--_nys-label-line-height);
+    letter-spacing: var(--_nys-label-letter-spacing);
   }
 
   .nys-label__labelwrapper {
     display: flex;
-    gap: var(--nys-label-flag-gap);
+    gap: var(--_nys-label-flag-gap);
   }
 
   .nys-label__label {
-    font-weight: var(--nys-label-font-weight);
-    color: var(--nys-label-font-color);
+    font-weight: var(--_nys-label-font-weight);
+    color: var(--_nys-label-font-color);
   }
 
   .nys-label__description {
@@ -63,7 +63,7 @@ export default css`
   }
 
   .nys-label__required {
-    font-weight: var(--nys-label-font-weight);
+    font-weight: var(--_nys-label-font-weight);
     color: var(--nys-required-font-color);
   }
 
