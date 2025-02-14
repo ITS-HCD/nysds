@@ -134,7 +134,6 @@ export class NysTextarea extends LitElement {
   private _handleInput(event: Event) {
     const textarea = event.target as HTMLInputElement;
     this.value = textarea.value;
-    console.log(this.value);
     this._internals.setFormValue(this.value);
 
     // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
