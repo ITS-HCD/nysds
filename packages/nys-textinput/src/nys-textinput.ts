@@ -1,9 +1,12 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
+import { ifDefined } from "lit/directives/if-defined.js";
 import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+
+let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
   @property({ type: String }) id = "";
@@ -63,27 +66,118 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
-  constructor() {
-    super();
-  }
-
   static styles = styles;
 
+  private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _internals: ElementInternals;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
+    }
+  }
+
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue();
+    this._manageRequire();
+  }
+
+  /********************** Form Integration **********************/
+  private _setValue() {
+    this._internals.setFormValue(this.value);
+  }
+
+  private _manageRequire() {
+    const input = this.shadowRoot?.querySelector("input");
+    const message = this.errorMessage
+      ? this.errorMessage
+      : "This field is required";
+    if (!input) return;
+
+    if (this.required && !this.value) {
+      this._internals.ariaRequired = "true";
+      this._internals.setValidity({ valueMissing: true }, message, input);
+    } else {
+      this._internals.setValidity({});
+    }
+  }
+
+  private _setValidityMessage(message: string = "") {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      input,
+    );
+  }
+
+  private _validate() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    // Get the native validation state
+    const validity = input.validity;
+    let message = "";
+
+    // Check each possible validation error
+    if (validity.valueMissing) {
+      message = "This field is required";
+    } else if (validity.typeMismatch) {
+      message = "Invalid format for this type";
+    } else if (validity.patternMismatch) {
+      message = "Invalid format";
+    } else if (validity.tooShort) {
+      message = `Value is too short. Minimum length is ${input.minLength}`;
+    } else if (validity.tooLong) {
+      message = `Value is too long. Maximum length is ${input.maxLength}`;
+    } else if (validity.rangeUnderflow) {
+      message = `Value must be at least ${input.min}`;
+    } else if (validity.rangeOverflow) {
+      message = `Value must be at most ${input.max}`;
+    } else if (validity.stepMismatch) {
+      message = "Invalid step value";
+    } else {
+      message = input.validationMessage;
+    }
+
+    this._setValidityMessage(message);
+  }
+
+  /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+    this._internals.setFormValue(this.value);
+
+    // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
+    if (this._hasUserInteracted) {
+      this._validate();
+    }
+
     this.dispatchEvent(
       new CustomEvent("input", {
         detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    const checkValidity = input.checkValidity();
-    this.dispatchEvent(
-      new CustomEvent("nys-checkValidity", {
-        detail: { checkValidity },
         bubbles: true,
         composed: true,
       }),
@@ -97,20 +191,15 @@ export class NysTextinput extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
+    this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
+    this._validate();
+
     this.dispatchEvent(new Event("blur"));
   }
 
   // Handle change event
-  private _handleChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
-    this.value = select.value;
-    this.dispatchEvent(
-      new CustomEvent("change", {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+  private _handleChange() {
+    this.dispatchEvent(new Event("change"));
   }
 
   render() {
@@ -133,12 +222,24 @@ export class NysTextinput extends LitElement {
           aria-label="${this.label} ${this.description}"
           .value=${this.value}
           placeholder=${this.placeholder}
-          maxlength=${this.maxlength}
-          pattern=${this.pattern}
-          step=${this.step}
-          min=${this.min}
-          max=${this.max}
-          form=${this.form}
+          pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
+          min=${ifDefined(
+            this.min !== null && this.min !== undefined ? this.min : undefined,
+          )}
+          maxlength=${ifDefined(
+            this.maxlength !== null && this.maxlength !== undefined
+              ? this.maxlength
+              : undefined,
+          )}
+          step=${ifDefined(
+            this.step !== null && this.step !== undefined
+              ? this.step
+              : undefined,
+          )}
+          max=${ifDefined(
+            this.max !== null && this.max !== undefined ? this.max : undefined,
+          )}
+          form=${ifDefined(this.form ? this.form : undefined)}
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
