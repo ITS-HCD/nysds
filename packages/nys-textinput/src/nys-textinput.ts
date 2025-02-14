@@ -230,24 +230,12 @@ export class NysTextinput extends LitElement {
           aria-disabled="${this.disabled}"
           aria-label="${this.label} ${this.description}"
           .value=${this.value}
-          placeholder=${this.placeholder}
+          placeholder=${ifDefined(this.placeholder ? this.placeholder : undefined)}
           pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
-          min=${ifDefined(
-            this.min !== null && this.min !== undefined ? this.min : undefined,
-          )}
-          maxlength=${ifDefined(
-            this.maxlength !== null && this.maxlength !== undefined
-              ? this.maxlength
-              : undefined,
-          )}
-          step=${ifDefined(
-            this.step !== null && this.step !== undefined
-              ? this.step
-              : undefined,
-          )}
-          max=${ifDefined(
-            this.max !== null && this.max !== undefined ? this.max : undefined,
-          )}
+          min=${ifDefined(this.min !== "" ? this.min : undefined)}
+          maxlength=${ifDefined(this.maxlength !== "" ? this.maxlength : undefined)}
+          step=${ifDefined(this.step !== "" ? this.step : undefined)}
+          max=${ifDefined(this.max !== "" ? this.max : undefined)}
           form=${ifDefined(this.form ? this.form : undefined)}
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
