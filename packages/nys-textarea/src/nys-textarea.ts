@@ -220,8 +220,12 @@ export class NysTextarea extends LitElement {
           ?readonly=${this.readonly}
           aria-disabled="${this.disabled}"
           .value=${this.value}
-          placeholder=${ifDefined(this.placeholder ? this.placeholder : undefined)}
-          maxlength=${ifDefined(this.maxlength !== "" ? this.maxlength : undefined)}
+          placeholder=${ifDefined(
+            this.placeholder ? this.placeholder : undefined,
+          )}
+          maxlength=${ifDefined(
+            this.maxlength !== "" ? this.maxlength : undefined,
+          )}
           .rows=${this.rows}
           form=${ifDefined(this.form || undefined)}
           @input=${this._handleInput}
