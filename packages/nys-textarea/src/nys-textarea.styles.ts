@@ -42,7 +42,6 @@ export default css`
     );
     --_nys-textarea-size-ui-md: var(--nys-font-size-ui-md, 16px);
     --_nys-textarea-weight-ui: var(--nys-font-weight-regular, 400);
-    --_nys-textarea-weight-ui-bold: var(--nys-font-weight-semibold, 600);
     --_nys-textarea-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
     --nys-textarea-letterspacing-ui: var(
       --nys-font-letterspacing-ui-md,

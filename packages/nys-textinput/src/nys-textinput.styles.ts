@@ -42,7 +42,6 @@ export default css`
     );
     --_nys-textinput-size-ui-md: var(--nys-font-size-ui-md, 16px);
     --_nys-textinput-weight-ui: var(--nys-font-weight-regular, 400);
-    --_nys-textinput-weight-ui-bold: var(--nys-font-weight-semibold, 600);
     --_nys-textinput-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
     --nys-textinput-letterspacing-ui: var(
       --nys-font-letterspacing-ui-md,

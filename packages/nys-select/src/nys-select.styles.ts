@@ -16,10 +16,8 @@ export default css`
       )
     );
     --_nys-select-font-size: var(--nys-font-size-ui-md, 16px);
-    --_nys-select-font-weight-400: var(--nys-font-weight-regular, 400);
-    --_nys-select-font-weight-600: var(--nys-font-weight-semibold, 600);
+    --_nys-select-font-weight: var(--nys-font-weight-regular, 400);
     --_nys-select-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-select-margin: var(--nys-space-50, 4px);
     --_nys-select-gap: var(--nys-space-100, 8px);
     --_nys-select-radius: var(--nys-radius-md, var(--nys-space-50, 4px));
     --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px)
@@ -59,10 +57,11 @@ export default css`
   }
 
   .nys-select__select {
-    font-weight: var(--_nys-select-font-weight-400);
+    font-weight: var(--_nys-select-font-weight);
     border-radius: var(--_nys-select-radius);
     border: var(--_nys-select-border-default);
     font-size: var(--_nys-select-font-size);
+    line-height: var(--_nys-select-lineheight-ui)
     padding: var(--_nys-select-padding);
     width: var(--_nys-select-width);
     min-width: var(--_nys-select-width);
@@ -134,10 +133,6 @@ export default css`
   }
   .nys-select__select:disabled ~ .nys-select__icon {
     color: var(--_nys-select-icon-disabled-color);
-  }
-
-  .nys-select__text {
-    line-height: var(--_nys-select-lineheight-ui);
   }
 
   :host([showError]) {

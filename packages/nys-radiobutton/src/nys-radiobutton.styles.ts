@@ -9,10 +9,6 @@ export default css`
     --_nys-radiobutton-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
     --_nys-radiobutton-offset-focus: var(--nys-space-2px, 2px);
-    --_nys-radiobutton-transition-duration: var(
-      --nys-transition-duration-sm,
-      0.1s
-    );
     --_nys-radiobutton-gap: var(
       --nys-space-150,
       12px

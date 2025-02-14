@@ -11,10 +11,6 @@ export default css`
     --_nys-checkbox-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-checkbox-width-focus: var(--nys-border-width-md, 2px);
     --_nys-checkbox-offset-focus: var(--nys-space-2px, 2px);
-    --_nys-checkbox-transition-duration: var(
-      --nys-transition-duration-sm,
-      0.1s
-    );
     /* space between checkbox and it's label */
     --_nys-checkbox-gap: var(--nys-space-150, 12px);
     /* space between checkboxes */
@@ -240,7 +236,6 @@ export default css`
   /* Required */
   .nys-checkbox__required {
     color: var(--_nys-checkbox-required-color);
-    margin-left: var(--_nys-select-margin);
   }
 
   .nys-checkbox__requiredwrapper {
