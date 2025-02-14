@@ -145,7 +145,7 @@ export class NysSelect extends LitElement {
     if (this._hasUserInteracted) {
       this._validate();
     }
-    
+
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: { value: this.value },
@@ -154,7 +154,7 @@ export class NysSelect extends LitElement {
       }),
     );
   }
-  
+
   // Handle input changes by update the value as select changes
   private _handleInput() {
     this.dispatchEvent(new Event("input"));
@@ -169,7 +169,7 @@ export class NysSelect extends LitElement {
   private _handleBlur() {
     this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
     this._validate();
-    
+
     this.dispatchEvent(new Event("blur"));
   }
 
