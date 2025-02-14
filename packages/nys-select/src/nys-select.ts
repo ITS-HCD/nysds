@@ -4,6 +4,8 @@ import styles from "./nys-select.styles";
 import "@nysds/nys-icon";
 import { NysOption } from "./nys-option";
 
+let selectIdCounter = 0; // Counter for generating unique IDs
+
 export class NysSelect extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
@@ -35,6 +37,31 @@ export class NysSelect extends LitElement {
 
   static styles = styles;
 
+  private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _internals: ElementInternals;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
+    }
+  }
+
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue();
+    this._manageRequire();
+  }
+
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
       'slot:not([name="description"])',
@@ -59,21 +86,66 @@ export class NysSelect extends LitElement {
       }
     }
   }
-
-  // Handle focus event
-  private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
+  /********************** Form Integration **********************/
+  private _setValue() {
+    this._internals.setFormValue(this.value);
   }
 
-  // Handle blur event
-  private _handleBlur() {
-    this.dispatchEvent(new Event("blur"));
+  private _manageRequire() {
+    const select = this.shadowRoot?.querySelector("select");
+    const message = this.errorMessage
+      ? this.errorMessage
+      : "This field is required";
+    if (!select) return;
+
+    if (this.required && !this.value) {
+      this._internals.ariaRequired = "true";
+      this._internals.setValidity({ valueMissing: true }, message, select);
+    } else {
+      this._internals.setValidity({});
+    }
   }
 
+  private _setValidityMessage(message: string = "") {
+    const select = this.shadowRoot?.querySelector("select");
+    if (!select) return;
+
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      select,
+    );
+  }
+
+  private _validate() {
+    const select = this.shadowRoot?.querySelector("select");
+    if (!select) return;
+
+    // Get the native validation state
+    let message = select.validationMessage;
+
+    this._setValidityMessage(message);
+  }
+
+  /******************** Event Handlers ********************/
   // Handle change event to bubble up selected value
   private _handleChange(e: Event) {
     const select = e.target as HTMLSelectElement;
     this.value = select.value;
+    this._internals.setFormValue(this.value);
+
+    // Field is invalid after unfocused, validate aggressively on each change (e.g. Eager mode: a combination of aggressive and lazy.)
+    if (this._hasUserInteracted) {
+      this._validate();
+    }
+    
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: { value: this.value },
@@ -82,18 +154,23 @@ export class NysSelect extends LitElement {
       }),
     );
   }
+  
+  // Handle input changes by update the value as select changes
+  private _handleInput() {
+    this.dispatchEvent(new Event("input"));
+  }
 
-  // Handle input changes by update the value as input changes
-  private _handleInput(e: Event) {
-    const select = e.target as HTMLSelectElement;
-    this.value = select.value;
-    this.dispatchEvent(
-      new CustomEvent("input", {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+  // Handle focus event
+  private _handleFocus() {
+    this.dispatchEvent(new Event("focus"));
+  }
+
+  // Handle blur event
+  private _handleBlur() {
+    this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
+    this._validate();
+    
+    this.dispatchEvent(new Event("blur"));
   }
 
   // Check if the current value matches any option, and if so, set it as selected
@@ -136,7 +213,7 @@ export class NysSelect extends LitElement {
             ?required=${this.required}
             aria-disabled="${this.disabled}"
             aria-label="${this.label} ${this.description}"
-            value=${this.value}
+            .value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
             @change="${this._handleChange}"
@@ -154,10 +231,10 @@ export class NysSelect extends LitElement {
             class="nys-select__icon"
           ></nys-icon>
         </div>
-        ${this.showError && this.errorMessage
+        ${this.showError
           ? html`<div class="nys-select__error">
               <nys-icon name="error" size="xl"></nys-icon>
-              ${this.errorMessage}
+              ${this._internals.validationMessage || this.errorMessage}
             </div>`
           : ""}
       </div>
