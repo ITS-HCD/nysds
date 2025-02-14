@@ -20,3 +20,7 @@ export class NysErrorMessage extends LitElement {
       : ""}`;
   }
 }
+
+if (!customElements.get("nys-errormessage")) {
+  customElements.define("nys-errormessage", NysErrorMessage);
+}

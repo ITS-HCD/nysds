@@ -29,3 +29,7 @@ export class NysLabel extends LitElement {
     `;
   }
 }
+
+if (!customElements.get("nys-label")) {
+  customElements.define("nys-label", NysLabel);
+}
