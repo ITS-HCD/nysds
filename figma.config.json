@@ -1,0 +1,18 @@
+{
+  "codeConnect": {
+    "include": ["packages/**/src/**/*.figma.ts"],
+    "exclude": ["node_modules", "dist"],
+    "parser": "html",
+    "importPaths": {
+      "components": "packages/components/src",
+      "styles": "packages/styles/src"
+    },
+    "paths": {
+      "components": ["packages/components/src"],
+      "styles": ["packages/styles/src"]
+    },
+    "documentUrlSubstitutions": {
+      "<FIGMA_BUTTONS_BUTTON>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=1335-125"
+    }
+  }
+}
