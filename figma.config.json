@@ -12,9 +12,11 @@
       "styles": ["packages/styles/src"]
     },
     "documentUrlSubstitutions": {
-      "<FIGMA_BUTTONS_BUTTON>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=1335-125",
-      "<FIGMA_ALERTS_ALERT>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=5560-6469",
-      "<FIGMA_AVATARS_AVATAR>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=3433-10872"
+      "<FIGMA_BUTTON>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=1335-125",
+      "<FIGMA_ALERT>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=5560-6469",
+      "<FIGMA_AVATAR>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=3433-10872",
+      "<FIGMA_UNAVHEADER>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=2983-21252",
+      "<FIGMA_UNAVFOOTER>": "https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=6199-15817"
     }
   }
 }

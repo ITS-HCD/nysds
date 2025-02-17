@@ -1,6 +1,6 @@
 import figma, { html } from "@figma/code-connect/html";
 
-figma.connect("<FIGMA_BUTTONS_BUTTON>", {
+figma.connect("<FIGMA_BUTTON>", {
   props: {
     labelText: figma.string("Label Text"),
     size: figma.enum("Size", {

@@ -1,6 +1,6 @@
 import figma, { html } from "@figma/code-connect/html";
 
-figma.connect("<FIGMA_ALERTS_ALERT>", {
+figma.connect("<FIGMA_ALERT>", {
   variant: { Contents: "Heading Only" },
   props: {
     heading: figma.string("Heading"),
@@ -23,7 +23,7 @@ figma.connect("<FIGMA_ALERTS_ALERT>", {
   `,
 });
 
-figma.connect("<FIGMA_ALERTS_ALERT>", {
+figma.connect("<FIGMA_ALERT>", {
   variant: { Contents: "Heading + Text" },
   props: {
     heading: figma.string("Heading"),
@@ -48,7 +48,7 @@ figma.connect("<FIGMA_ALERTS_ALERT>", {
   `,
 });
 
-figma.connect("<FIGMA_ALERTS_ALERT>", {
+figma.connect("<FIGMA_ALERT>", {
   variant: { Contents: "Heading + Text + Actions" },
   props: {
     heading: figma.string("Heading"),
@@ -79,7 +79,7 @@ figma.connect("<FIGMA_ALERTS_ALERT>", {
   `,
 });
 
-figma.connect("<FIGMA_ALERTS_ALERT>", {
+figma.connect("<FIGMA_ALERT>", {
   variant: { Contents: "Heading + Actions" },
   props: {
     heading: figma.string("Heading"),
