@@ -9,7 +9,7 @@ figma.connect("<FIGMA_GLOBALFOOTER>", {
       agencyName="${props.agencyName}"
       homepageLink="https://"
     >
-      <!-- Placeholder, replace with real agency links -->
+      <!-- Placeholder, replace with real links -->
       <ul>
         <li><a href="https://">Placeholder</a></li>
         <li><a href="https://">Placeholder</a></li>
