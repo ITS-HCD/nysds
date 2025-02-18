@@ -33,9 +33,26 @@ export class NysRadiobutton extends LitElement {
       : "md";
   }
 
+  public async getInputElement(): Promise<HTMLInputElement | null> {
+    await this.updateComplete; // Wait for the component to finish rendering
+    console.log("inside radiobutton getInputElement~~!");
+    const wow = this.shadowRoot?.querySelector("input") || null;
+    console.log("wow: ", wow);
+    return wow;
+  }
+  
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
   static styles = styles;
+  // private _internals: ElementInternals;
+  
+  /********************** Lifecycle updates **********************/
+  // static formAssociated = true; // allows use of elementInternals' API
+
+  // constructor() {
+  //   super();
+  //   this._internals = this.attachInternals();
+  // }
 
   // Generate a unique ID if one is not provided
   connectedCallback() {
@@ -55,9 +72,16 @@ export class NysRadiobutton extends LitElement {
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
-    // Watch for changes to `checked` and ensure only one is selected per group
-    if (changedProperties.has("checked") && this.checked) {
-      if (NysRadiobutton.buttonGroup[this.name] !== this) {
+    // When "checked" changes, update the internals.
+    if (changedProperties.has("checked")) {
+      // if (this.checked) {
+      //   this._internals.setFormValue(this.value);
+      // } else {
+      //   this._internals.setFormValue(null);
+      // }
+
+      // Ensure only one radiobutton per group is checked.
+      if (this.checked && NysRadiobutton.buttonGroup[this.name] !== this) {
         if (NysRadiobutton.buttonGroup[this.name]) {
           NysRadiobutton.buttonGroup[this.name].checked = false;
           NysRadiobutton.buttonGroup[this.name].requestUpdate();
@@ -67,6 +91,28 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
+  // firstUpdated() {
+  //   // This ensures our element always participates in the form
+  //   this._manageRequire();
+  // }
+
+  /********************** Form Integration **********************/
+  // private _manageRequire() {
+  //   const input = this.shadowRoot?.querySelector("input");
+  //   const message = "This field is required";
+  //   if (!input) return;
+
+  //   console.log("inside radiobutton REQUIRE")
+
+  //   if (this.required && this.checked) {
+  //     this._internals.ariaRequired = "true";
+  //     this._internals.setValidity({ valueMissing: true }, message, input);
+  //   } else {
+  //     this._internals.setValidity({});
+  //   }
+  // }
+
+  /******************** Event Handlers ********************/
   // Handle radiobutton change event & unselection of other options in group
   private _handleChange() {
     if (!this.checked) {

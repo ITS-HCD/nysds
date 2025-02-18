@@ -13,8 +13,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  // State for storing the selected name and value for form-controller use
-  @state() private selectedName: string | null = null;
+  // State for storing the selected value for form use
   @state() private selectedValue: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
@@ -35,6 +34,15 @@ export class NysRadiogroup extends LitElement {
   }
 
   static styles = styles;
+  private _internals: ElementInternals;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
 
   // Generate a unique ID if one is not provided
   connectedCallback() {
@@ -43,30 +51,70 @@ export class NysRadiogroup extends LitElement {
       this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
     }
     this.addEventListener("change", this._handleRadioButtonChange);
+    this.addEventListener("invalid", this._handleInvalid);
+
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("change", this._handleRadioButtonChange);
+    this.removeEventListener("invalid", this._handleInvalid);
+  }
+
+  firstUpdated() {
+    const slot = this.shadowRoot?.querySelector("slot");
+    slot?.addEventListener("slotchange", () => {
+      this._manageRequire();
+    });
+    // Optionally, call _manageRequire() here as well, but it may be too early.
+    this._manageRequire();
+    // This ensures our element always participates in the form
+    this._setValue();
+    this.setRadioButtonRequire();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
-    if (changedProperties.has("required")) {
-      this.updateRadioButtonsRequire();
+    if (changedProperties.has("required") || changedProperties.has("selectedValue")) {
+      console.log('we are updating require')
+      this._manageRequire();
     }
     if (changedProperties.has("size")) {
+      console.log('inside changed, required')
+
       this.updateRadioButtonsSize();
     }
   }
 
+  /********************** Form Integration **********************/
+  private _setValue() {
+    this._internals.setFormValue(this.selectedValue);
+  }
+
   // Updates the "require" attribute of a radiobutton underneath a radiogroup to ensure requirement for all radiobutton under the same name/group
-  private updateRadioButtonsRequire() {
+  private setRadioButtonRequire() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton, index) => {
       if (this.required && index === 0) {
         radioButton.setAttribute("required", "required");
       }
     });
+  }
+
+  private async _manageRequire() {
+    const message = this.errorMessage || "This field is required";
+
+    const firstRadio = this.querySelector("nys-radiobutton");
+    const firstRadioInput = firstRadio ? await (firstRadio as any).getInputElement() : null;
+
+    console.log("this is first radio", firstRadioInput)
+    if (this.required && !this.selectedValue) {
+      console.log('win in')
+      this._internals.setValidity({ valueMissing: true }, message, firstRadioInput ? firstRadioInput : this);
+    } else {
+      console.log('win in2')
+      this._internals.setValidity({});
+    }
+
   }
 
   // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
@@ -80,11 +128,23 @@ export class NysRadiogroup extends LitElement {
   // Keeps radiogroup informed of the name and value of its current selected radiobutton
   private _handleRadioButtonChange(event: Event) {
     const customEvent = event as CustomEvent;
-    const { name, value } = customEvent.detail;
+    const { value } = customEvent.detail;
 
-    this.selectedName = name;
     this.selectedValue = value;
-    console.log("you have selected:", this.selectedName, this.selectedValue);
+    this._internals.setFormValue(this.selectedValue);
+  }
+
+  private _handleInvalid() {
+    // event.preventDefault(); // Prevent default form validation messages
+    console.log("Form validation failed for radio group");
+    console.log(this._internals.validity.valueMissing);
+    console.log(this._internals.validity);
+    console.log(this._internals.validity.customError);
+  
+    // Check if the radio group is invalid and set `showError` accordingly
+    if (this._internals.validity.valueMissing) {
+      this.showError = true;
+    }
   }
 
   render() {
@@ -107,10 +167,10 @@ export class NysRadiogroup extends LitElement {
       <div class="nys-radiogroup__content">
         <slot></slot>
       </div>
-      ${this.showError && this.errorMessage
+      ${this.showError
         ? html`<div class="nys-radiobutton__error">
             <nys-icon name="error" size="xl"></nys-icon>
-            ${this.errorMessage}
+            ${this._internals.validationMessage || this.errorMessage}
           </div>`
         : ""}
     </div>`;
