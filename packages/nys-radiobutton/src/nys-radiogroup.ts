@@ -52,7 +52,6 @@ export class NysRadiogroup extends LitElement {
     }
     this.addEventListener("change", this._handleRadioButtonChange);
     this.addEventListener("invalid", this._handleInvalid);
-
   }
 
   disconnectedCallback() {
@@ -70,7 +69,10 @@ export class NysRadiogroup extends LitElement {
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
-    if (changedProperties.has("required") || changedProperties.has("selectedValue")) {
+    if (
+      changedProperties.has("required") ||
+      changedProperties.has("selectedValue")
+    ) {
       this._manageRequire();
     }
     if (changedProperties.has("size")) {
@@ -97,10 +99,16 @@ export class NysRadiogroup extends LitElement {
     const message = this.errorMessage || "This field is required";
 
     const firstRadio = this.querySelector("nys-radiobutton");
-    const firstRadioInput = firstRadio ? await (firstRadio as any).getInputElement() : null;
+    const firstRadioInput = firstRadio
+      ? await (firstRadio as any).getInputElement()
+      : null;
 
     if (this.required && !this.selectedValue) {
-      this._internals.setValidity({ valueMissing: true }, message, firstRadioInput ? firstRadioInput : this);
+      this._internals.setValidity(
+        { valueMissing: true },
+        message,
+        firstRadioInput ? firstRadioInput : this,
+      );
     } else {
       this._internals.setValidity({});
       this.showError = false;

@@ -40,11 +40,11 @@ export class NysRadiobutton extends LitElement {
     console.log("wow: ", wow);
     return wow;
   }
-  
+
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
   static styles = styles;
-  
+
   /********************** Lifecycle updates **********************/
   // Generate a unique ID if one is not provided
   connectedCallback() {
