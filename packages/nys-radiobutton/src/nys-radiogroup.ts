@@ -62,12 +62,8 @@ export class NysRadiogroup extends LitElement {
   }
 
   firstUpdated() {
-    const slot = this.shadowRoot?.querySelector("slot");
-    slot?.addEventListener("slotchange", () => {
-      this._manageRequire();
-    });
-    // Optionally, call _manageRequire() here as well, but it may be too early.
-    this._manageRequire();
+    // Ensure checked state is respected
+    this._initializeCheckedState();
     // This ensures our element always participates in the form
     this._setValue();
     this.setRadioButtonRequire();
@@ -75,12 +71,9 @@ export class NysRadiogroup extends LitElement {
 
   updated(changedProperties: Map<string | symbol, unknown>) {
     if (changedProperties.has("required") || changedProperties.has("selectedValue")) {
-      console.log('we are updating require')
       this._manageRequire();
     }
     if (changedProperties.has("size")) {
-      console.log('inside changed, required')
-
       this.updateRadioButtonsSize();
     }
   }
@@ -106,15 +99,20 @@ export class NysRadiogroup extends LitElement {
     const firstRadio = this.querySelector("nys-radiobutton");
     const firstRadioInput = firstRadio ? await (firstRadio as any).getInputElement() : null;
 
-    console.log("this is first radio", firstRadioInput)
     if (this.required && !this.selectedValue) {
-      console.log('win in')
       this._internals.setValidity({ valueMissing: true }, message, firstRadioInput ? firstRadioInput : this);
     } else {
-      console.log('win in2')
       this._internals.setValidity({});
+      this.showError = false;
     }
+  }
 
+  private _initializeCheckedState() {
+    const checkedRadio = this.querySelector("nys-radiobutton[checked]");
+    if (checkedRadio) {
+      this.selectedValue = checkedRadio.getAttribute("value");
+      this._internals.setFormValue(this.selectedValue);
+    }
   }
 
   // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
@@ -135,12 +133,6 @@ export class NysRadiogroup extends LitElement {
   }
 
   private _handleInvalid() {
-    // event.preventDefault(); // Prevent default form validation messages
-    console.log("Form validation failed for radio group");
-    console.log(this._internals.validity.valueMissing);
-    console.log(this._internals.validity);
-    console.log(this._internals.validity.customError);
-  
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
       this.showError = true;
