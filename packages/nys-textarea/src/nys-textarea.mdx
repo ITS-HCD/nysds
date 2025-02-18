@@ -88,7 +88,7 @@ The `nys-textarea` component includes the following accessibility-focused featur
 
 The `nys-textarea` component emits the following events:
 
-1. **`nys-checkValidity`** – Fired when the input text changes.
+1. **`input`** – Fired when the input text changes.
 2. **`focus`** – Fired when the input gains focus.
 3. **`blur`** – Fired when the input loses focus.
 
@@ -99,8 +99,8 @@ You can listen to these events using JavaScript:
 // Select the textarea component
 const textarea = document.querySelector('nys-textarea');
 
-// Listen for the 'nys-checkValidity' event
-textarea.addEventListener('nys-checkValidity', (event) => {
+// Listen for the 'input' event
+textarea.addEventListener('input', (event) => {
   console.log('Text input changed:', event.target.value);
 });
 
