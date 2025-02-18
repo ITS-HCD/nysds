@@ -7,14 +7,23 @@ export class NysErrorMessage extends LitElement {
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean, reflect: true }) showDivider = false;
+  private _internals: ElementInternals;
 
   static styles = styles;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
 
   render() {
     return html`${this.showError && this.errorMessage
       ? html`<div class="nys-errormessage" ?showDivider=${this.showDivider}>
           <nys-icon name="error" size="xl"></nys-icon>
-          ${this.errorMessage}
+          ${this._internals.validationMessage || this.errorMessage}
         </div>`
       : ""}`;
   }
