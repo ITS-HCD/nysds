@@ -30,7 +30,6 @@ export default css`
   .nys-unavheader__maincontent {
     display: flex;
     justify-content: space-between;
-    width: 100%;
     align-items: center;
     padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     max-width: 1280px;
