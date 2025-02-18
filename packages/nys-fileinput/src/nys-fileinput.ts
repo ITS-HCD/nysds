@@ -29,6 +29,7 @@ export class NysFileinput extends LitElement {
 
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
+  @property({ type: String }) fileName = "";
 
   constructor() {
     super();
@@ -69,8 +70,9 @@ export class NysFileinput extends LitElement {
 
   // Handle change event
   private _handleChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
-    this.value = select.value;
+    const input = e.target as HTMLInputElement;
+    this.value = input.value;
+    this.fileName = input.files?.length ? input.files[0].name : "";
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: { value: this.value },
@@ -114,7 +116,7 @@ export class NysFileinput extends LitElement {
                 </nys-button>`
               : null
           }
-          <label class="nys-fileinput__filetext">${this.width !== "sm" ? "No File Chosen" : "No File"}
+          <label class="nys-fileinput__filetext">${this.fileName || (this.width !== "sm" ? "No File Chosen" : "No File")}
           <input
             type="file"
             name=${this.name}
