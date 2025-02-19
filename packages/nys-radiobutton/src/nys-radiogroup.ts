@@ -80,6 +80,14 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      (radioButton as any).formResetUpdate();
+    });
+  }
+
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.selectedValue);

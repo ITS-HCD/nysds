@@ -38,6 +38,11 @@ export class NysRadiobutton extends LitElement {
     return this.shadowRoot?.querySelector("input") || null;
   }
 
+  // This callback is automatically called when the parent form is reset.
+  public formResetUpdate() {
+    this.checked = false;
+  }
+
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
   static styles = styles;
