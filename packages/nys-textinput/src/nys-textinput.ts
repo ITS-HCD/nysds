@@ -91,6 +91,11 @@ export class NysTextinput extends LitElement {
     this._manageRequire();
   }
 
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
+  }
+
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.value);

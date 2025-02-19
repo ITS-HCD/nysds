@@ -50,7 +50,6 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String }) form = "";
   @property({ type: String }) value = "";
-  // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
   private _type: (typeof NysButton.VALID_TYPES)[number] = "button";
   @property({ reflect: true })
@@ -68,8 +67,16 @@ export class NysButton extends LitElement {
   @property({ type: String }) href = "";
 
   static styles = styles;
+  private _internals: ElementInternals;
 
   /**************** Lifecycle Methods ****************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -95,8 +102,28 @@ export class NysButton extends LitElement {
   }
 
   private _handleClick(event: Event) {
+    if (this.disabled) {
+      event.preventDefault();
+      return;
+    }
+
     if (typeof this.onClick === "function") {
       this.onClick(event);
+    }
+
+    // If part of a form, perform the corresponding action.
+    const form = this._internals.form;
+
+    if (form) {
+      switch (this.type) {
+        case "submit":
+          form.requestSubmit();
+          break;
+        case "reset":
+          form.reset();
+          break;
+        case "button":
+      }
     }
   }
 

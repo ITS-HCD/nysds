@@ -62,6 +62,11 @@ export class NysSelect extends LitElement {
     this._manageRequire();
   }
 
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
+  }
+
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
       'slot:not([name="description"])',
