@@ -115,7 +115,6 @@ export class NysCheckbox extends LitElement {
     this._setValidityMessage(message);
   }
 
-
   /******************** Event Handlers ********************/
   // Handle checkbox change event
   private _handleChange(e: Event) {
