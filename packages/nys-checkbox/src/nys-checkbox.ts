@@ -37,6 +37,15 @@ export class NysCheckbox extends LitElement {
   }
 
   static styles = styles;
+  private _internals: ElementInternals;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
 
   // Generate a unique ID if one is not provided
   connectedCallback() {
@@ -46,10 +55,74 @@ export class NysCheckbox extends LitElement {
     }
   }
 
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue();
+    this._manageRequire();
+  }
+
+  /********************** Form Integration **********************/
+  private _setValue() {
+    this._internals.setFormValue(this.checked ? this.value : null);
+  }
+
+  private _manageRequire() {
+    console.log('inside required ')
+    const input = this.shadowRoot?.querySelector("input");
+    const message = this.errorMessage
+      ? this.errorMessage
+      : "This field is required";
+    if (!input) return;
+
+    if (this.required && !this.checked) {
+      this._internals.ariaRequired = "true";
+      this._internals.setValidity({ valueMissing: true }, message, input);
+    } else {
+      this._internals.setValidity({});
+    }
+  }
+
+  private _setValidityMessage(message: string = "") {
+    console.log("validating")
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
+    console.log("the message is: ", message);
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      input,
+    );
+  }
+
+  private _validate() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    // Get the native validation state
+    let message = input.validationMessage;
+    console.log("inside validate()", message);
+
+    this._setValidityMessage(message);
+  }
+
+
+  /******************** Event Handlers ********************/
   // Handle checkbox change event
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
     this.checked = checked;
+    console.log("checked: ", this.checked);
+    this._internals.setFormValue(this.checked ? this.value : null);
+    this._validate();
+
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: { checked: this.checked },
@@ -75,6 +148,9 @@ export class NysCheckbox extends LitElement {
       e.preventDefault();
       if (!this.disabled) {
         this.checked = !this.checked;
+        this._internals.setFormValue(this.checked ? this.value : null);
+        this._manageRequire();
+
         this.dispatchEvent(
           new CustomEvent("change", {
             detail: { checked: this.checked },
@@ -137,10 +213,10 @@ export class NysCheckbox extends LitElement {
             </label>
           </div>`}
         </label>
-        ${this.showError && this.errorMessage
+        ${this.showError
           ? html`<div class="nys-checkbox__error">
               <nys-icon name="error" size="xl"></nys-icon>
-              ${this.errorMessage}
+              ${this._internals.validationMessage || this.errorMessage}
             </div>`
           : ""}
       </div>
