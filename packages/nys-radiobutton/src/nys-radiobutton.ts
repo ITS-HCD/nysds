@@ -7,14 +7,14 @@ import "./nys-radiogroup";
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiobutton extends LitElement {
-  @property({ type: Boolean }) checked = false;
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
-  @property({ type: String }) value = "";
+  @property({ type: Boolean, reflect: true }) checked = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: String, reflect: true }) label = "";
+  @property({ type: String, reflect: true }) description = "";
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) name = "";
+  @property({ type: String, reflect: true }) value = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
 

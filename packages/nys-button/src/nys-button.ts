@@ -7,8 +7,8 @@ import { ifDefined } from "lit/directives/if-defined.js";
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysButton extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) name = "";
   // size
   private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
   private _size: (typeof NysButton.VALID_SIZES)[number] = "md";
@@ -44,12 +44,12 @@ export class NysButton extends LitElement {
       : "filled";
   }
   @property({ type: Boolean, reflect: true }) inverted = false; //used on dark text
-  @property({ type: String }) label = "";
-  @property({ type: String }) prefixIcon = "";
-  @property({ type: String }) suffixIcon = "";
+  @property({ type: String, reflect: true }) label = "";
+  @property({ type: String, reflect: true }) prefixIcon = "";
+  @property({ type: String, reflect: true }) suffixIcon = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: String }) form = "";
-  @property({ type: String }) value = "";
+  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) value = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
   private _type: (typeof NysButton.VALID_TYPES)[number] = "button";
@@ -64,8 +64,9 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ type: Function }) onClick: (event: Event) => void = () => {};
-  @property({ type: String }) href = "";
+  @property({ type: Function, reflect: true }) onClick: (event: Event) => void =
+    () => {};
+  @property({ type: String, reflect: true }) href = "";
 
   static styles = styles;
 

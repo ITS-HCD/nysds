@@ -7,21 +7,21 @@ import "@nysds/nys-icon";
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextarea extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
-  @property({ type: String }) placeholder = "";
-  @property({ type: String }) value = "";
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) readonly = false;
-  @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
-  @property({ type: Number }) maxlength = null;
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) name = "";
+  @property({ type: String, reflect: true }) label = "";
+  @property({ type: String, reflect: true }) description = "";
+  @property({ type: String, reflect: true }) placeholder = "";
+  @property({ type: String, reflect: true }) value = "";
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) readonly = false;
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: String, reflect: true }) form = "";
+  @property({ type: Number, reflect: true }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
-  @property({ type: Number }) rows = 4;
+  @property({ type: Number, reflect: true }) rows = 4;
   private static readonly VALID_RESIZE = ["vertical", "none"] as const;
 
   // Use `typeof` to dynamically infer the allowed types
@@ -41,7 +41,7 @@ export class NysTextarea extends LitElement {
       : "vertical";
   }
   @property({ type: Boolean, reflect: true }) showError = false;
-  @property({ type: String }) errorMessage = "";
+  @property({ type: String, reflect: true }) errorMessage = "";
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has("width")) {
