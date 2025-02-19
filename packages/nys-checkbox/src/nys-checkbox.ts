@@ -11,6 +11,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
+  @property({ type: Boolean }) partOfGrouping = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) id = "";
@@ -34,6 +35,11 @@ export class NysCheckbox extends LitElement {
     )
       ? (value as (typeof NysCheckbox.VALID_SIZES)[number])
       : "md";
+  }
+
+  public async getInputElement() {
+    await this.updateComplete;
+    return this.shadowRoot?.querySelector("input");
   }
 
   static styles = styles;
@@ -67,7 +73,6 @@ export class NysCheckbox extends LitElement {
   }
 
   private _manageRequire() {
-    console.log('inside required ')
     const input = this.shadowRoot?.querySelector("input");
     const message = this.errorMessage
       ? this.errorMessage
@@ -83,7 +88,6 @@ export class NysCheckbox extends LitElement {
   }
 
   private _setValidityMessage(message: string = "") {
-    console.log("validating")
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
@@ -94,7 +98,6 @@ export class NysCheckbox extends LitElement {
       message = this.errorMessage;
     }
 
-    console.log("the message is: ", message);
     this._internals.setValidity(
       message ? { customError: true } : {},
       message,
@@ -108,7 +111,6 @@ export class NysCheckbox extends LitElement {
 
     // Get the native validation state
     let message = input.validationMessage;
-    console.log("inside validate()", message);
 
     this._setValidityMessage(message);
   }
@@ -119,7 +121,6 @@ export class NysCheckbox extends LitElement {
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
     this.checked = checked;
-    console.log("checked: ", this.checked);
     this._internals.setFormValue(this.checked ? this.value : null);
     this._validate();
 
@@ -203,7 +204,7 @@ export class NysCheckbox extends LitElement {
               <label for=${this.id} class="nys-checkbox__label"
                 >${this.label}</label
               >
-              ${this.required
+              ${this.required && !this.partOfGrouping
                 ? html`<label class="nys-checkbox__required">*</label>`
                 : ""}
             </div>
