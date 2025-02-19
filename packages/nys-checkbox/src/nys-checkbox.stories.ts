@@ -137,6 +137,82 @@ export const Basic: Story = {
   },
 };
 
+// Story: Grouping
+export const Grouping: Story = {
+  args: {
+    required: true,
+    label: "Public Benefits Eligibility",
+    description: "Choose from the options below",
+  },
+  render: (args) => html`
+    <nys-checkboxgroup
+      label=${args.label}
+      description=${args.description}
+      size=${args.size}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+      .required=${args.required}
+    >
+      <nys-checkbox
+        name="benefits"
+        value="snap"
+        label="SNAP (Food Assistance)"
+      ></nys-checkbox>
+      <nys-checkbox
+        name="benefits"
+        value="medicaid"
+        label="Medicaid"
+      ></nys-checkbox>
+      <nys-checkbox
+        name="benefits"
+        value="housing_assistance"
+        label="Housing Assistance"
+      ></nys-checkbox>
+      <nys-checkbox
+        name="benefits"
+        value="none"
+        label="None of the above"
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Public Benefits Eligibility"
+  description="Choose from the options below"
+  required
+>
+  <nys-checkbox
+    name="benefits"
+    value="snap"
+    label="SNAP (Food Assistance)"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="benefits"
+    value="medicaid"
+    label="Medicaid"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="benefits"
+    value="housing_assistance"
+    label="Housing Assistance"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="benefits"
+    value="none"
+    label="None of the above"
+  ></nys-checkbox>
+</nys-checkboxgroup>
+
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
 // Story: Disabled
 export const Disabled: Story = {
   args: {

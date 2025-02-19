@@ -8,7 +8,7 @@ import * as NysCheckboxStories from './nys-checkbox.stories';
 
 The **`nys-checkbox`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
 - If an `id` is not passed, a unique `id` will be generated.
-- Optional: `nys-checkboxgroup` can be used to group multiple checkboxes so they function as a single form control.
+- Optional: **`nys-checkboxgroup`** can be used to group multiple checkboxes so they function as a single form control.
 
 <p className="pill pill--stable">Stable</p>
 
@@ -21,8 +21,9 @@ The **`nys-checkbox`** component is a reusable web component for use in New York
 <Controls />
 
 ### Variants
-⚠️ Important: While optional, you may find wrapping checkboxes with `nys-checkboxgroup` helpful for multiple selections with the same checkbox name. This ensures they function as a single form control. Some of the examples below will show this.
-
+#### Grouping
+⚠️ Important: While optional, you may find wrapping checkboxes with **`nys-checkboxgroup`** helpful for multiple selections with the same checkbox name. This ensures they function as a single form control. Some of the examples below will show this.
+<Canvas of={NysCheckboxStories.Grouping} />
 #### Disabled
 <Canvas of={NysCheckboxStories.Disabled} />
 #### Size
