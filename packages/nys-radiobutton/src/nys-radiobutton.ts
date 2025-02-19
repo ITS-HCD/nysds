@@ -35,10 +35,7 @@ export class NysRadiobutton extends LitElement {
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
-    console.log("inside radiobutton getInputElement~~!");
-    const wow = this.shadowRoot?.querySelector("input") || null;
-    console.log("wow: ", wow);
-    return wow;
+    return this.shadowRoot?.querySelector("input") || null;
   }
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
