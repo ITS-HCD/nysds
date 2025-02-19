@@ -24,6 +24,7 @@ The **`nys-checkbox`** component is a reusable web component for use in New York
 #### Grouping
 ⚠️ Important: While optional, you may find wrapping checkboxes with **`nys-checkboxgroup`** helpful for multiple selections with the same checkbox name. This ensures they function as a single form control visually & in validation.
 <Canvas of={NysCheckboxStories.Grouping} />
+
 #### Disabled
 <Canvas of={NysCheckboxStories.Disabled} />
 #### Size
@@ -37,10 +38,8 @@ Set the `size` prop of the **`nys-checkboxgroup`** to have all **`nys-checkbox`*
 The error message will appear **ONLY** when the `showError` attribute is set to `true`. Setting `errorMessage` will not display the error message by default.
 <Canvas of={NysCheckboxStories.ErrorMessage} />
 #### Slots
-When the description requires more complexity than a simple `string` value, use the slot `description` to hold the text. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`
+When the description requires more complexity than a simple `string` value,  add your HTML content directly within the component as slot content, rather than setting a `description` prop. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`
 <Canvas of={NysCheckboxStories.Slot} />
-#### Checkbox Group
-<Canvas of={NysCheckboxStories.CheckboxGroup} />
 
 ## Usage
 
@@ -112,25 +111,6 @@ You can listen to these events using JavaScript:
     console.log('Key pressed:', event.key);
   });
 ```
-
-## Slots
-
-<table>
-    <thead>
-    <tr>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-checkbox` or `nys-checkboxgroup`</td>
-        <td>none</td>
-    </tr>
-    </tbody>
-</table>
 
 ## Dependencies
 This component automatically imports the following dependencies.
