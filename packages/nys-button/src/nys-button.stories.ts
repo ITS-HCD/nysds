@@ -18,7 +18,7 @@ interface NysButtonArgs {
   value: string;
   type: string;
   href: string;
-  onClick: () => void;
+  onButtonClick: () => void;
 }
 
 const meta: Meta<NysButtonArgs> = {
@@ -76,7 +76,7 @@ export const Basic: Story = {
       .value=${args.value}
       .href=${args.href}
       .type=${args.type}
-      .onClick=${() => alert("Button clicked")}
+      .onButtonClick=${() => alert("Button clicked")}
     ></nys-button>
   `,
   parameters: {
