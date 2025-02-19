@@ -11,7 +11,6 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) checked = false;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) required = false;
-  @property({ type: Boolean }) partOfGrouping = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) id = "";
@@ -203,7 +202,7 @@ export class NysCheckbox extends LitElement {
               <label for=${this.id} class="nys-checkbox__label"
                 >${this.label}</label
               >
-              ${this.required && !this.partOfGrouping
+              ${this.required
                 ? html`<label class="nys-checkbox__required">*</label>`
                 : ""}
             </div>

@@ -181,7 +181,7 @@ export const Grouping: Story = {
         label="Do you attest to the following:"
       >
         <label
-          >Description as a 
+          >Description as a
           <a href="https://www.ny.gov/" target="__blank">slot</a></label
         >
         <nys-checkbox
