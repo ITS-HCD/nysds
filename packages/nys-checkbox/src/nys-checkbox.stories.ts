@@ -158,7 +158,8 @@ export const Grouping: Story = {
         <nys-checkbox
           name="benefits"
           value="snap"
-          label="SNAP (Food Assistance)"
+          label="SNAP"
+          description="The Supplemental Nutrition Assistance Program (SNAP)"
         ></nys-checkbox>
         <nys-checkbox
           name="benefits"
