@@ -58,6 +58,12 @@ export class NysCheckbox extends LitElement {
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
@@ -117,6 +123,14 @@ export class NysCheckbox extends LitElement {
     let message = input.validationMessage;
 
     this._setValidityMessage(message);
+  }
+
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    // Check if the radio group is invalid and set `showError` accordingly
+    if (this._internals.validity.valueMissing) {
+      this.showError = true;
+    }
   }
 
   /******************** Event Handlers ********************/
