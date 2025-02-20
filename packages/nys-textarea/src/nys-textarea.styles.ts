@@ -146,7 +146,7 @@ export default css`
   .nys-textarea__description {
     font-style: italic;
   }
-  ::slotted([slot^="description"]) {
+  ::slotted(p) {
     margin: 0;
   }
 

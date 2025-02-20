@@ -237,16 +237,16 @@ export const DescriptionSlot: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
-      <p slot="description">Slot: ${args.description}</p>
+      <p>Slot: ${args.description}</p>
     </nys-textarea>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-=<nys-textarea label="Label" description="Prop: description"></nys-textarea>
+<nys-textarea label="Label" description="Prop: description"></nys-textarea>
 <nys-textarea label="Label">
-  <p slot="description"> Slot: description</p>
+  <p> Slot: description</p>
 </nys-textarea>
         `,
         type: "auto",

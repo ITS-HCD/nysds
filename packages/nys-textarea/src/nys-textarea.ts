@@ -207,7 +207,7 @@ export class NysTextarea extends LitElement {
           </div>
           <div class="nys-textarea__description">
             ${this.description}
-            <slot name="description"> </slot>
+            <slot> </slot>
           </div>
         </div>`}
         <textarea
