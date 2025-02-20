@@ -19,10 +19,10 @@ figma.connect("<FIGMA_ICON>", {
       "4xl": "4xl",
       "5xl": "5xl",
     }),
-    name: figma.instance("shape").getProps<{ name: string }>(),
+    name: figma.instance("shape"),
   },
   example: (props) => html`
-    <nys-icon name="${props.name}" size="${props.size}"></nys-icon>
+    <nys-icon name="${props.name}" size="${props.size}"> </nys-icon>
   `,
 });
 
