@@ -73,6 +73,12 @@ export class NysTextarea extends LitElement {
     if (!this.id) {
       this.id = `nys-textarea-${Date.now()}-${textareaIdCounter++}`;
     }
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
@@ -129,6 +135,15 @@ export class NysTextarea extends LitElement {
     this._setValidityMessage(message);
   }
 
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    // Check if the radio group is invalid and set `showError` accordingly
+    if (this._internals.validity.valueMissing) {
+      this._hasUserInteracted = true; // Start aggressive mode due to form submission
+      this.showError = true;
+    }
+  }
+  
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {

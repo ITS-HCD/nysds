@@ -54,6 +54,12 @@ export class NysSelect extends LitElement {
     if (!this.id) {
       this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
     }
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
@@ -132,6 +138,15 @@ export class NysSelect extends LitElement {
     let message = select.validationMessage;
 
     this._setValidityMessage(message);
+  }
+
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    // Check if the radio group is invalid and set `showError` accordingly
+    if (this._internals.validity.valueMissing) {
+      this._hasUserInteracted = true; // Start aggressive mode due to form submission
+      this.showError = true;
+    }
   }
 
   /******************** Event Handlers ********************/
