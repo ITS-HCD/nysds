@@ -54,15 +54,12 @@ export default css`
     /* Menu Content Styling */
     --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-300, 24px);
     --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-400, 32px);
-    --_nys-globalheader-link-lineheight: var(
-      --nys-font-lineheight-ui-md,
-      24px
-    );
+    --_nys-globalheader-link-lineheight: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-globalheader-link-letterspacing: var(
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
     );
-    
+
     /* Mobile Menu */
     --_nys-globalheader-mobile-btn-font-size: var(--nys-type-size-ui-xs, 12px);
     --_nys-globalheader-mobile-btn-lineheight: var(
