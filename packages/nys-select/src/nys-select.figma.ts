@@ -33,4 +33,3 @@ figma.connect("<FIGMA_SELECT>", {
         <nys-option value="VALUE">OPTION (REPLACE)</nys-option>
       </nys-select>`,
 });
-

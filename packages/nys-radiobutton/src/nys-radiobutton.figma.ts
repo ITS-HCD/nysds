@@ -115,4 +115,3 @@ figma.connect("<FIGMA_RADIOBUTTON>", {
         disabled="${props.disabled}"
       ></nys-radiobutton>`,
 });
-

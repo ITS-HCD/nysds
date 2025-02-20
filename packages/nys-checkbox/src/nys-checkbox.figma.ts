@@ -38,7 +38,6 @@ figma.connect("<FIGMA_CHECKBOX>", {
       ></nys-checkbox>`,
 });
 
-
 // Checkbox Only (no label)
 figma.connect("<FIGMA_CHECKBOX>", {
   variant: { Label: false, Error: false },
@@ -101,7 +100,11 @@ figma.connect("<FIGMA_CHECKBOX>", {
 
 // Description Hidden
 figma.connect("<FIGMA_CHECKBOX>", {
-  variant: { "Multiline / Description": true, Description: false, Error: false },
+  variant: {
+    "Multiline / Description": true,
+    Description: false,
+    Error: false,
+  },
   props: {
     label: figma.string("↳ Label"),
     size: figma.enum("Size", {
@@ -162,4 +165,3 @@ figma.connect("<FIGMA_CHECKBOX>", {
         required="${props.required}"
       ></nys-checkbox>`,
 });
-

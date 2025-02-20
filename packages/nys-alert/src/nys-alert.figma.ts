@@ -12,10 +12,10 @@ figma.connect("<FIGMA_ALERT>", {
       "🛟 Emergency": "emergency",
       "🔘 Base": "base",
     }),
-    dismissible: figma.boolean("Dismissible")
+    dismissible: figma.boolean("Dismissible"),
   },
   example: (props) => html`
-    <nys-alert 
+    <nys-alert
       type="${props.type}"
       heading="${props.heading}"
       dismissible="${props.dismissible}"
@@ -36,10 +36,10 @@ figma.connect("<FIGMA_ALERT>", {
       "🛟 Emergency": "emergency",
       "🔘 Base": "base",
     }),
-    dismissible: figma.boolean("Dismissible")
+    dismissible: figma.boolean("Dismissible"),
   },
   example: (props) => html`
-    <nys-alert 
+    <nys-alert
       type="${props.type}"
       heading="${props.heading}"
       text="${props.text}"
@@ -63,7 +63,7 @@ figma.connect("<FIGMA_ALERT>", {
       "🛟 Emergency": "emergency",
       "🔘 Base": "base",
     }),
-    dismissible: figma.boolean("Dismissible")
+    dismissible: figma.boolean("Dismissible"),
   },
   example: (props) => html`
     <nys-alert
@@ -93,10 +93,10 @@ figma.connect("<FIGMA_ALERT>", {
       "🛟 Emergency": "emergency",
       "🔘 Base": "base",
     }),
-    dismissible: figma.boolean("Dismissible")
+    dismissible: figma.boolean("Dismissible"),
   },
   example: (props) => html`
-    <nys-alert 
+    <nys-alert
       type="${props.type}"
       heading="${props.heading}"
       dismissible="${props.dismissible}"

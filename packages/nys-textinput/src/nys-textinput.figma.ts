@@ -32,4 +32,3 @@ figma.connect("<FIGMA_TEXTINPUT>", {
         disabled="${props.type.disabled}"
       ></nys-textinput>`,
 });
-

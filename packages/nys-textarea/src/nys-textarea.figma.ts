@@ -40,7 +40,6 @@ figma.connect("<FIGMA_TEXTAREA>", {
     ></nys-textarea>`,
 });
 
-
 figma.connect("<FIGMA_TEXTAREA>", {
   variant: { State: "Error" },
   props: {

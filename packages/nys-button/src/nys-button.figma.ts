@@ -14,17 +14,6 @@ figma.connect("<FIGMA_BUTTON>", {
     }),
     inverted: figma.boolean("Inverted"),
     disabled: figma.boolean("Disabled"),
-    /*
-    prefixIcon: figma.instance("Prefix Icon"),
-    suffixIcon: figma.instance("Suffix Icon"),
-    
-    prefixIcon: figma.nestedProps("Prefix Icon", {
-      shape: figma.string("shape"),
-    }),
-    suffixIcon: figma.nestedProps("Suffix Icon", {
-      shape: figma.string("shape"),
-    }),
-    */
   },
   example: (props) => html`
     <nys-button
@@ -36,3 +25,15 @@ figma.connect("<FIGMA_BUTTON>", {
     ></nys-button>
   `,
 });
+
+/*
+    prefixIcon: figma.instance("Prefix Icon"),
+    suffixIcon: figma.instance("Suffix Icon"),
+    
+    prefixIcon: figma.nestedProps("Prefix Icon", {
+      shape: figma.string("shape"),
+    }),
+    suffixIcon: figma.nestedProps("Suffix Icon", {
+      shape: figma.string("shape"),
+    }),
+    */

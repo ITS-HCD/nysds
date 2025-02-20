@@ -7,10 +7,7 @@ figma.connect("<FIGMA_GLOBALHEADER>", {
     appName: figma.string("Application Name"),
   },
   example: (props) => html`
-    <nys-globalheader 
-      appName="${props.appName}"
-      homepageLink="https://"
-    >
+    <nys-globalheader appName="${props.appName}" homepageLink="https://">
       <!-- Placeholder, replace with real links -->
       <ul>
         <li><a href="https://">Placeholder</a></li>
@@ -27,10 +24,7 @@ figma.connect("<FIGMA_GLOBALHEADER>", {
     agencyName: figma.string("Agency Name"),
   },
   example: (props) => html`
-    <nys-globalheader 
-      agencyName="${props.agencyName}"
-      homepageLink="https://"
-    >
+    <nys-globalheader agencyName="${props.agencyName}" homepageLink="https://">
       <!-- Placeholder, replace with real links -->
       <ul>
         <li><a href="https://">Placeholder</a></li>
