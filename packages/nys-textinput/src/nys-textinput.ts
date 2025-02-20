@@ -175,7 +175,7 @@ export class NysTextinput extends LitElement {
       this.showError = true;
     }
   }
-  
+
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
