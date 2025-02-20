@@ -9,7 +9,7 @@ export class NysGlobalHeader extends LitElement {
   /********************** Properties **********************/
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
-  @property({ type: String }) homepageLink = window.location.origin;
+  @property({ type: String }) homepageLink = "";
   @property({ type: Boolean }) disableHomepageLink = false;
   @state() private slotHasContent = true;
   @state() private isMobileMenuOpen = false;
@@ -96,7 +96,7 @@ export class NysGlobalHeader extends LitElement {
                 </button>
               </div>`
             : ""}
-          ${this.disableHomepageLink
+          ${this.disableHomepageLink || !this.homepageLink
             ? html`
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0
@@ -120,7 +120,7 @@ export class NysGlobalHeader extends LitElement {
               `
             : html`<a
                 class="nys-globalheader__name-container-link"
-                href=${this.homepageLink?.trim() || window.location.origin}
+                href=${this.homepageLink?.trim()}
               >
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0
