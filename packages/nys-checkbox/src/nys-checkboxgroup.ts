@@ -49,11 +49,20 @@ export class NysCheckboxgroup extends LitElement {
       this.id = `nys-checkbox-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
     this.addEventListener("change", this._manageCheckboxRequired);
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("change", this._manageCheckboxRequired);
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
     if (changedProperties.has("required")) {
-      this.setupCheckboxRequired();
+      if (this.required) {
+        this.setupCheckboxRequired();
+      }
     }
     if (changedProperties.has("size")) {
       this.updateCheckboxSize();
@@ -61,6 +70,13 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   /********************** Functions **********************/
+  private _handleInvalid() {
+    // Check if the radio group is invalid and set `showError` accordingly
+    if (this._internals.validity.valueMissing) {
+      this.showError = true;
+    }
+  }
+
   // Initial update on checkbox required attribute
   private async setupCheckboxRequired() {
     const firstCheckbox = this.querySelector("nys-checkbox");
