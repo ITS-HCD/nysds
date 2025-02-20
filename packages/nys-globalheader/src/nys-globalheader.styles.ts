@@ -54,7 +54,7 @@ export default css`
     /* Menu Content Styling */
     --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-300, 24px);
     --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-400, 32px);
-    --_nys-globalheader-lineheight-links: var(
+    --_nys-globalheader-link-lineheight: var(
       --nys-font-lineheight-ui-md,
       24px
     );
@@ -62,17 +62,7 @@ export default css`
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
     );
-    --_nys-globalheader-font-family: var(
-      --nys-font-family-ui,
-      var(
-        --nys-font-family-sans,
-        "Proxima Nova",
-        "Helvetica Neue",
-        "Helvetica",
-        "Arial",
-        sans-serif
-      )
-    );
+    
     /* Mobile Menu */
     --_nys-globalheader-mobile-btn-font-size: var(--nys-type-size-ui-xs, 12px);
     --_nys-globalheader-mobile-btn-lineheight: var(
@@ -116,7 +106,7 @@ export default css`
     font-size: var(--_nys-globalheader-font-size-links);
     font-style: normal;
     font-weight: 400;
-    line-height: var(--_nys-globalheader-lineheight-links);
+    line-height: var(--_nys-globalheader-link-lineheight);
     letter-spacing: var(--_nys-globalheader-link-letterspacing);
   }
 
