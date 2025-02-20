@@ -19,7 +19,7 @@ export class NysGlobalHeader extends LitElement {
   firstUpdated() {
     // Check for slot content after rendering
     const slot =
-      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+      this.shadowRoot?.querySelector<HTMLSlotElement>('slot');
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
     this._handleSlotChange(); // Initial check
   }

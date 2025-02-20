@@ -68,7 +68,7 @@ export class NysCheckboxgroup extends LitElement {
         </div>
         <label for=${this.id} class="nys-checkboxgroup__description">
           ${this.description}
-          <slot name="description"></slot>
+          <slot></slot>
         </label>
       </div>`}
       <div class="nys-checkboxgroup__content">
