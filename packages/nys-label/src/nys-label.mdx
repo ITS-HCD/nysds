@@ -1,14 +1,19 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysLabelStories from './nys-label.stories';
+import "@nysds/nys-alert";
 
 <Meta of={NysLabelStories} title="Components/Select/Documentation" />
 
 
 # Label **Component**
-The **`nys-label`** is a reusable web component for use in New York State digital products. It allows users to add a label to a form field. It can display description and optional/required flags.
 
-Note: `nys-label` is already built into form components. You do not need to add it separately.
+<nys-alert 
+  type="warning"
+  heading="This component should not be used alone. It is already built into form fields.">
+</nys-alert>
+
+The **`nys-label`** is a reusable web component for use in New York State digital products. It allows users to add a label to a form field. It can display description and optional/required flags.
 
 <p class="pill stable">Stable</p>
 

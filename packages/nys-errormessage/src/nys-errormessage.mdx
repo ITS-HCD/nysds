@@ -1,14 +1,20 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
 import { html } from 'lit';
 import * as NysErrorMessageStories from './nys-errormessage.stories';
+import "@nysds/nys-alert";
 
 <Meta of={NysErrorMessageStories} title="Components/Select/Documentation" />
 
 
 # Error Message **Component**
+
+<nys-alert 
+  type="warning"
+  heading="This component should not be used alone. It is already built into form fields.">
+</nys-alert>
+
 The **`nys-errormessage`** is a reusable web component for use in New York State digital products. It allows users to add an error message to a form field. It can display description and optional/required flags.
 errormessage
-Note: `nys-errormessage` is already built into form components. You do not need to add it separately.
 
 <p class="pill stable">Stable</p>
 
