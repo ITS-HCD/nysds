@@ -76,6 +76,7 @@ export class NysCheckboxgroup extends LitElement {
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
       this.showError = true;
+      this._manageCheckboxRequired(); // Refresh validation message
     }
   }
 
@@ -97,7 +98,7 @@ export class NysCheckboxgroup extends LitElement {
 
   // Updates the required attribute of each checkbox in the group
   private async _manageCheckboxRequired() {
-    const message = this.errorMessage || "This field is required";
+    const message = this.errorMessage || "Please select at least one option.";
     const firstCheckbox = this.querySelector("nys-checkbox");
     const firstCheckboxInput = firstCheckbox
       ? await (firstCheckbox as any).getInputElement()
@@ -134,7 +135,11 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   render() {
-    return html` <div class="nys-checkboxgroup">
+    return html` <div
+      class="nys-checkboxgroup"
+      aria-required="${this.required ? "true" : "false"}"
+      role="group"
+    >
       <nys-label
         label=${this.label}
         description=${this.description}
