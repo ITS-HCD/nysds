@@ -13,8 +13,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String, reflect: true }) errorMessage = "";
   @property({ type: String, reflect: true }) label = "";
   @property({ type: String, reflect: true }) description = "";
-  // State for storing the selected name and value for form-controller use
-  @state() private selectedName: string | null = null;
+  // State for storing the selected value for form use
   @state() private selectedValue: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
