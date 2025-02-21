@@ -7,10 +7,10 @@ export class NysGlobalHeader extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String, reflect: true }) appName = "";
-  @property({ type: String, reflect: true }) agencyName = "";
-  @property({ type: String, reflect: true }) homepageLink = "";
-  @property({ type: Boolean, reflect: true }) disableHomepageLink = false;
+  @property({ type: String }) appName = "";
+  @property({ type: String }) agencyName = "";
+  @property({ type: String }) homepageLink = "";
+  @property({ type: Boolean }) disableHomepageLink = false;
   @state() private slotHasContent = true;
   @state() private isMobileMenuOpen = false;
 
