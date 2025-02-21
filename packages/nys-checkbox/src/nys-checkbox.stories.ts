@@ -181,7 +181,7 @@ export const Grouping: Story = {
         style="flex: 1;"
         label="Do you attest to the following:"
       >
-        <label
+        <label slot="description"
           >Description as a
           <a href="https://www.ny.gov/" target="__blank">slot</a></label
         >
@@ -231,7 +231,7 @@ export const Grouping: Story = {
   ></nys-checkbox>
 </nys-checkboxgroup>
 <nys-checkboxgroup label="Do you attest to the following:">
-  <label>Description as a <a href="https://www.ny.gov/" target="__blank">slot</a></label>
+  <label slot="description">Description as a <a href="https://www.ny.gov/" target="__blank">slot</a></label>
   <nys-checkbox
     label="I have read the terms and conditions."
     id="terms-conditions"
@@ -520,8 +520,9 @@ export const Slot: Story = {
       .errorMessage=${args.errorMessage}
     >
       <label
-        >${args.description}
-        <a href="https://www.ny.gov/" target="__blank">here</a></label
+        >${args.description}<a href="https://www.ny.gov/" target="__blank"
+          >here</a
+        ></label
       >
     </nys-checkbox>
   `,
