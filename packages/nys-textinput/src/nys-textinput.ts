@@ -7,8 +7,8 @@ import "@nysds/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) name = "";
+  @property({ type: String }) id = "";
+  @property({ type: String }) name = "";
   private static readonly VALID_TYPES = [
     "email",
     "number",
@@ -35,16 +35,16 @@ export class NysTextinput extends LitElement {
       ? (value as (typeof NysTextinput.VALID_TYPES)[number])
       : "text";
   }
-  @property({ type: String, reflect: true }) label = "";
-  @property({ type: String, reflect: true }) description = "";
-  @property({ type: String, reflect: true }) placeholder = "";
-  @property({ type: String, reflect: true }) value = "";
+  @property({ type: String }) label = "";
+  @property({ type: String }) description = "";
+  @property({ type: String }) placeholder = "";
+  @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
-  @property({ type: String, reflect: true }) form = "";
-  @property({ type: String, reflect: true }) pattern = "";
-  @property({ type: Number, reflect: true }) maxlength = null;
+  @property({ type: String }) form = "";
+  @property({ type: String }) pattern = "";
+  @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
@@ -58,11 +58,11 @@ export class NysTextinput extends LitElement {
     }
   }
 
-  @property({ type: Number, reflect: true }) step = null;
-  @property({ type: Number, reflect: true }) min = null;
-  @property({ type: Number, reflect: true }) max = null;
+  @property({ type: Number }) step = null;
+  @property({ type: Number }) min = null;
+  @property({ type: Number }) max = null;
   @property({ type: Boolean, reflect: true }) showError = false;
-  @property({ type: String, reflect: true }) errorMessage = "";
+  @property({ type: String }) errorMessage = "";
 
   static styles = styles;
 

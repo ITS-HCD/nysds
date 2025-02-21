@@ -6,14 +6,14 @@ import "@nysds/nys-icon";
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiogroup extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) name = "";
+  @property({ type: String }) id = "";
+  @property({ type: String }) name = "";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) showError = false;
-  @property({ type: String, reflect: true }) errorMessage = "";
-  @property({ type: String, reflect: true }) label = "";
-  @property({ type: String, reflect: true }) description = "";
-  // State for storing the selected value for form use
+  @property({ type: String }) errorMessage = "";
+  @property({ type: String }) label = "";
+  @property({ type: String }) description = "";
+  // State for storing the selected value for form-controller use
   @state() private selectedValue: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
