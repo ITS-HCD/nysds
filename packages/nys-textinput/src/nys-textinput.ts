@@ -9,8 +9,8 @@ import "@nysds/nys-errormessage";
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) name = "";
   private static readonly VALID_TYPES = [
     "email",
     "number",
@@ -37,16 +37,16 @@ export class NysTextinput extends LitElement {
       ? (value as (typeof NysTextinput.VALID_TYPES)[number])
       : "text";
   }
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
-  @property({ type: String }) placeholder = "";
-  @property({ type: String }) value = "";
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) readonly = false;
-  @property({ type: Boolean }) required = false;
-  @property({ type: String }) form = "";
-  @property({ type: String }) pattern = "";
-  @property({ type: Number }) maxlength = null;
+  @property({ type: String, reflect: true }) label = "";
+  @property({ type: String, reflect: true }) description = "";
+  @property({ type: String, reflect: true }) placeholder = "";
+  @property({ type: String, reflect: true }) value = "";
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) readonly = false;
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) pattern = "";
+  @property({ type: Number, reflect: true }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
@@ -60,11 +60,11 @@ export class NysTextinput extends LitElement {
     }
   }
 
-  @property({ type: Number }) step = null;
-  @property({ type: Number }) min = null;
-  @property({ type: Number }) max = null;
+  @property({ type: Number, reflect: true }) step = null;
+  @property({ type: Number, reflect: true }) min = null;
+  @property({ type: Number, reflect: true }) max = null;
   @property({ type: Boolean, reflect: true }) showError = false;
-  @property({ type: String }) errorMessage = "";
+  @property({ type: String, reflect: true }) errorMessage = "";
 
   static styles = styles;
 
@@ -91,6 +91,11 @@ export class NysTextinput extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this._manageRequire();
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
   }
 
   /********************** Form Integration **********************/
@@ -239,7 +244,7 @@ export class NysTextinput extends LitElement {
         />
         <nys-errormessage
           ?showError=${this.showError}
-          errorMessage=${this.errorMessage}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
         ></nys-errormessage>
       </div>
     `;
