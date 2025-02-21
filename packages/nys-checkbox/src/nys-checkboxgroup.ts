@@ -32,17 +32,94 @@ export class NysCheckboxgroup extends LitElement {
 
   static styles = styles;
 
+  private _internals: ElementInternals;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
+    this.addEventListener("change", this._manageCheckboxRequired);
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("change", this._manageCheckboxRequired);
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
+    if (changedProperties.has("required")) {
+      if (this.required) {
+        this.setupCheckboxRequired();
+      }
+    }
     if (changedProperties.has("size")) {
       this.updateCheckboxSize();
+    }
+  }
+
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    // Check if the radio group is invalid and set `showError` accordingly
+    if (this._internals.validity.valueMissing) {
+      this.showError = true;
+    }
+  }
+
+  // Initial update on checkbox required attribute
+  private async setupCheckboxRequired() {
+    const firstCheckbox = this.querySelector("nys-checkbox");
+    const message = this.errorMessage || "This field is required";
+
+    const firstCheckboxInput = firstCheckbox
+      ? await (firstCheckbox as any).getInputElement()
+      : null;
+
+    this._internals.setValidity(
+      { valueMissing: true },
+      message,
+      firstCheckboxInput ? firstCheckboxInput : this,
+    );
+  }
+
+  // Updates the required attribute of each checkbox in the group
+  private async _manageCheckboxRequired() {
+    const message = this.errorMessage || "This field is required";
+    const firstCheckbox = this.querySelector("nys-checkbox");
+    const firstCheckboxInput = firstCheckbox
+      ? await (firstCheckbox as any).getInputElement()
+      : null;
+
+    let atLeastOneChecked = false;
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    // Loop through each child checkbox to see if one is checked.
+    checkboxes.forEach((checkbox: any) => {
+      if (checkbox.checked) {
+        atLeastOneChecked = true;
+      }
+    });
+
+    if (atLeastOneChecked) {
+      this._internals.setValidity({});
+      this.showError = false;
+    } else {
+      this._internals.setValidity(
+        { valueMissing: true },
+        message,
+        firstCheckboxInput ? firstCheckboxInput : this,
+      );
+      this.showError = true;
     }
   }
 
@@ -74,10 +151,10 @@ export class NysCheckboxgroup extends LitElement {
       <div class="nys-checkboxgroup__content">
         <slot></slot>
       </div>
-      ${this.showError && this.errorMessage
+      ${this.showError
         ? html`<div class="nys-checkbox__error">
             <nys-icon name="error" size="xl"></nys-icon>
-            ${this.errorMessage}
+            ${this._internals.validationMessage || this.errorMessage}
           </div>`
         : ""}
     </div>`;
