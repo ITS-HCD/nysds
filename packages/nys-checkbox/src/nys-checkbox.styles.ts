@@ -148,7 +148,7 @@ export default css`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%, -35%, 0); /* Centering the icon visually */
+    transform: translate3d(-50%, -50%, 0); /* Centering the icon visually */
     pointer-events: none;
     color: white;
   }
@@ -168,6 +168,7 @@ export default css`
       var(--_nys-checkbox-color-border);
     background-color: var(--_nys-checkbox-color-bg);
     border-radius: var(--_nys-checkbox-radius);
+    margin: 0;
   }
 
   /* Pointer cursor for unchecked checkbox */
@@ -222,7 +223,7 @@ export default css`
   .nys-checkbox__text {
     display: flex;
     flex-direction: column;
-    margin: auto 0; /* Center text if single line label */
+    justify-content: center;
   }
 
   /* Label styling */

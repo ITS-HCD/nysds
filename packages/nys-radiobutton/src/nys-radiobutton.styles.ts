@@ -152,6 +152,7 @@ export default css`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    margin: 0;
     margin-bottom: auto; /* Causes centered radio button if single line of label but top aligned if multiline */
   }
 
@@ -204,6 +205,7 @@ export default css`
     line-height: var(--_nys-radiobutton-line-height);
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
 
   /* Label styling */
