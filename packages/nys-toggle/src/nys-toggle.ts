@@ -10,14 +10,14 @@ export class NysToggle extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
-  @property({ type: String }) value = "";
-  @property({ type: Boolean }) checked = false;
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) noIcon = false;
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) name = "";
+  @property({ type: String, reflect: true }) value = "";
+  @property({ type: Boolean, reflect: true }) checked = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) noIcon = false;
+  @property({ type: String, reflect: true }) label = "";
+  @property({ type: String, reflect: true }) description = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
@@ -37,7 +37,7 @@ export class NysToggle extends LitElement {
       ? (value as (typeof NysToggle.VALID_SIZES)[number])
       : "md";
   }
-  @property({ type: String }) form = "";
+  @property({ type: String, reflect: true }) form = "";
 
   /******************** Functions ********************/
 
