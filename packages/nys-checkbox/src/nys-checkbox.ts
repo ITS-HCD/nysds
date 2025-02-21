@@ -231,12 +231,11 @@ export class NysCheckbox extends LitElement {
             </label>
           </div>`}
         </label>
-        ${this.showError
-          ? html`<div class="nys-checkbox__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this._internals.validationMessage || this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          showDivider
+        ></nys-errormessage>
       </div>
     `;
   }

@@ -2,7 +2,9 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "@nysds/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
@@ -208,22 +210,11 @@ export class NysTextinput extends LitElement {
   render() {
     return html`
       <div class="nys-textinput">
-        ${this.label &&
-        html` <div class="nys-textinput__text">
-          <div class="nys-textinput__requiredwrapper">
-            <label for=${this.id} class="nys-textinput__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-textinput__required">*</label>`
-              : ""}
-          </div>
-
-          <div class="nys-textinput__description">
-            ${this.description}
-            <slot name="description"> </slot>
-          </div>
-        </div>`}
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : ""}
+        ></nys-label>
         <input
           class="nys-textinput__input"
           type=${this.type}
@@ -251,12 +242,10 @@ export class NysTextinput extends LitElement {
           @blur="${this._handleBlur}"
           @change="${this._handleChange}"
         />
-        ${this.showError
-          ? html`<div class="nys-textinput__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this._internals.validationMessage || this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+        ></nys-errormessage>
       </div>
     `;
   }
