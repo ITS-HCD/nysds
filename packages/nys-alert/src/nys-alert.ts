@@ -11,16 +11,16 @@ export class NysAlert extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
-  @property({ type: String }) heading = "";
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) heading = "";
   @property({ type: String }) icon = "";
-  @property({ type: Boolean }) dismissible = false;
-  @property({ type: Number }) duration = 0;
-  @property({ type: String }) text = "";
-  @property({ type: String }) primaryAction = "";
-  @property({ type: String }) secondaryAction = "";
-  @property({ type: String }) primaryLabel = "Learn more";
-  @property({ type: String }) secondaryLabel = "Dismiss";
+  @property({ type: Boolean, reflect: true }) dismissible = false;
+  @property({ type: Number, reflect: true }) duration = 0;
+  @property({ type: String, reflect: true }) text = "";
+  @property({ type: String, reflect: true }) primaryAction = "";
+  @property({ type: String, reflect: true }) secondaryAction = "";
+  @property({ type: String, reflect: true }) primaryLabel = "Learn more";
+  @property({ type: String, reflect: true }) secondaryLabel = "Dismiss";
 
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;

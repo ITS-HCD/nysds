@@ -13,7 +13,7 @@ export class NysUnavHeader extends LitElement {
   @property({ type: Boolean, reflect: true }) isSearchFocused = false;
   @property({ type: Boolean, reflect: true }) hideTranslate = false;
   @property({ type: Boolean, reflect: true }) hideSearch = false;
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   get screenSize(): string {
     const width = window.innerWidth;
     if (width < 480) return "xs";
