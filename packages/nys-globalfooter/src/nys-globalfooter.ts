@@ -6,10 +6,9 @@ export class NysGlobalFooter extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String, reflect: true }) agencyName = "";
-  @property({ type: String, reflect: true }) homepageLink =
-    window.location.origin;
-  @property({ type: Boolean, reflect: true }) disableHomepageLink = false;
+  @property({ type: String }) agencyName = "";
+  @property({ type: String }) homepageLink = window.location.origin;
+  @property({ type: Boolean }) disableHomepageLink = false;
   @state() private slotHasContent = true;
 
   /**************** Lifecycle Methods ****************/

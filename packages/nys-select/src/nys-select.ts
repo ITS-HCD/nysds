@@ -7,16 +7,16 @@ import { NysOption } from "./nys-option";
 let selectIdCounter = 0; // Counter for generating unique IDs
 
 export class NysSelect extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) name = "";
-  @property({ type: String, reflect: true }) label = "";
-  @property({ type: String, reflect: true }) description = "";
-  @property({ type: String, reflect: true }) value = "";
+  @property({ type: String }) id = "";
+  @property({ type: String }) name = "";
+  @property({ type: String }) label = "";
+  @property({ type: String }) description = "";
+  @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String }) form = "";
   @property({ type: Boolean, reflect: true }) showError = false;
-  @property({ type: String, reflect: true }) errorMessage = "";
+  @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "md";
 
