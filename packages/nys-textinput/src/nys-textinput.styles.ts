@@ -140,6 +140,9 @@ export default css`
   .nys-textinput__description {
     font-style: italic;
   }
+  ::slotted(p) {
+    margin: 0;
+  }
 
   /* Error Message Styling */
   .nys-textinput__error {
