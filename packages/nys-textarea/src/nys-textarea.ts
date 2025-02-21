@@ -3,6 +3,8 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
@@ -13,15 +15,15 @@ export class NysTextarea extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
   @property({ type: String }) value = "";
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) readonly = false;
-  @property({ type: Boolean }) required = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) readonly = false;
+  @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) form = "";
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
-  @property({ type: Number }) rows = 4;
+  @property({ type: Number, reflect: true }) rows = 4;
   private static readonly VALID_RESIZE = ["vertical", "none"] as const;
 
   // Use `typeof` to dynamically infer the allowed types
@@ -85,6 +87,11 @@ export class NysTextarea extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this._manageRequire();
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
   }
 
   /********************** Form Integration **********************/
@@ -210,21 +217,11 @@ export class NysTextarea extends LitElement {
   render() {
     return html`
       <label class="nys-textarea">
-        ${this.label &&
-        html` <div class="nys-textarea__text">
-          <div class="nys-textarea__requiredwrapper">
-            <label for=${this.id} class="nys-textarea__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-textarea__required">*</label>`
-              : ""}
-          </div>
-          <div class="nys-textarea__description">
-            ${this.description}
-            <slot name="description"> </slot>
-          </div>
-        </div>`}
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : ""}
+        ></nys-label>
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
@@ -249,12 +246,10 @@ export class NysTextarea extends LitElement {
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
         ></textarea>
-        ${this.showError
-          ? html`<div class="nys-textarea__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this._internals.validationMessage || this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+        ></nys-errormessage>
       </label>
     `;
   }

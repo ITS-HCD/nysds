@@ -7,9 +7,9 @@ import "./nys-radiogroup";
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiobutton extends LitElement {
-  @property({ type: Boolean }) checked = false;
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
+  @property({ type: Boolean, reflect: true }) checked = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) id = "";
@@ -33,10 +33,21 @@ export class NysRadiobutton extends LitElement {
       : "md";
   }
 
+  public async getInputElement(): Promise<HTMLInputElement | null> {
+    await this.updateComplete; // Wait for the component to finish rendering
+    return this.shadowRoot?.querySelector("input") || null;
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  public formResetUpdate() {
+    this.checked = false;
+  }
+
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
   static styles = styles;
 
+  /********************** Lifecycle updates **********************/
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
@@ -55,9 +66,10 @@ export class NysRadiobutton extends LitElement {
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
-    // Watch for changes to `checked` and ensure only one is selected per group
-    if (changedProperties.has("checked") && this.checked) {
-      if (NysRadiobutton.buttonGroup[this.name] !== this) {
+    // When "checked" changes, update the internals.
+    if (changedProperties.has("checked")) {
+      // Ensure only one radiobutton per group is checked.
+      if (this.checked && NysRadiobutton.buttonGroup[this.name] !== this) {
         if (NysRadiobutton.buttonGroup[this.name]) {
           NysRadiobutton.buttonGroup[this.name].checked = false;
           NysRadiobutton.buttonGroup[this.name].requestUpdate();
@@ -67,6 +79,7 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
+  /******************** Event Handlers ********************/
   // Handle radiobutton change event & unselection of other options in group
   private _handleChange() {
     if (!this.checked) {
@@ -148,14 +161,12 @@ export class NysRadiobutton extends LitElement {
         />
         ${this.label &&
         html` <div class="nys-radiobutton__text">
-          <div class="nys-radiobutton__requiredwrapper">
-            <label for=${this.id} class="nys-radiobutton__label"
-              >${this.label}</label
-            >
-          </div>
+          <label for=${this.id} class="nys-radiobutton__label"
+            >${this.label}</label
+          >
           <label for=${this.id} class="nys-radiobutton__description">
             ${this.description}
-            <slot name="description"></slot>
+            <slot></slot>
           </label>
         </div>`}
       </label>

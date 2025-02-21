@@ -16,7 +16,7 @@ export class NysAvatar extends LitElement {
   @property({ type: String }) initials = "";
   @property({ type: String }) icon = "";
   @property({ type: String }) color = "#555";
-  @property({ type: Boolean }) lazy = false;
+  @property({ type: Boolean, reflect: true }) lazy = false;
   private static readonly VALID_SHAPES = [
     "square",
     "rounded",

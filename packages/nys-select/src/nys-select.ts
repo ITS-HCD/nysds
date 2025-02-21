@@ -1,8 +1,10 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
-import "@nysds/nys-icon";
 import { NysOption } from "./nys-option";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let selectIdCounter = 0; // Counter for generating unique IDs
 
@@ -12,8 +14,8 @@ export class NysSelect extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) value = "";
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) form = "";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
@@ -66,6 +68,11 @@ export class NysSelect extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this._manageRequire();
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
   }
 
   private _handleSlotChange() {
@@ -204,21 +211,11 @@ export class NysSelect extends LitElement {
   render() {
     return html`
       <div class="nys-select">
-        ${this.label &&
-        html` <div class="nys-select__text">
-          <div class="nys-select__requiredwrapper">
-            <label for=${this.id} class="nys-select__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-select__required">*</label>`
-              : ""}
-          </div>
-          <div class="nys-select__description">
-            ${this.description}
-            <slot name="description"></slot>
-          </div>
-        </div>`}
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : ""}
+        ></nys-label>
         <div class="nys-select__selectwrapper">
           <select
             class="nys-select__select"
@@ -246,12 +243,10 @@ export class NysSelect extends LitElement {
             class="nys-select__icon"
           ></nys-icon>
         </div>
-        ${this.showError
-          ? html`<div class="nys-select__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this._internals.validationMessage || this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+        ></nys-errormessage>
       </div>
     `;
   }
