@@ -84,9 +84,7 @@ export class NysCheckbox extends LitElement {
 
   private _manageRequire() {
     const input = this.shadowRoot?.querySelector("input");
-    const message = this.errorMessage
-      ? this.errorMessage
-      : "This field is required";
+    const message = this.errorMessage || "This field is required";
     if (!input) return;
 
     if (this.required && !this.checked) {
@@ -127,9 +125,10 @@ export class NysCheckbox extends LitElement {
 
   /********************** Functions **********************/
   private _handleInvalid() {
-    // Check if the radio group is invalid and set `showError` accordingly
+    // Start aggressive mode due to form submission
     if (this._internals.validity.valueMissing) {
       this.showError = true;
+      this._setValidityMessage(); // Make sure validation message appears
     }
   }
 
@@ -195,7 +194,7 @@ export class NysCheckbox extends LitElement {
               .value=${this.value}
               ?required="${this.required}"
               aria-checked="${this.checked}"
-              aria-disabled="${this.disabled}"
+              aria-disabled="${this.disabled ? "true" : "false"}"
               aria-required="${this.required}"
               @change="${this._handleChange}"
               @focus="${this._handleFocus}"

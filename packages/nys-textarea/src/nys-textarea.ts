@@ -75,6 +75,12 @@ export class NysTextarea extends LitElement {
     if (!this.id) {
       this.id = `nys-textarea-${Date.now()}-${textareaIdCounter++}`;
     }
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
@@ -90,21 +96,27 @@ export class NysTextarea extends LitElement {
 
   /********************** Form Integration **********************/
   private _setValue() {
+    this._manageRequire();
     this._internals.setFormValue(this.value);
   }
 
   private _manageRequire() {
     const textarea = this.shadowRoot?.querySelector("textarea");
-    const message = this.errorMessage
-      ? this.errorMessage
-      : "This field is required";
+
     if (!textarea) return;
 
-    if (this.required && !this.value) {
+    const message = this.errorMessage || "This field is required";
+    const isInvalid = this.required && !this.value;
+
+    if (isInvalid) {
       this._internals.ariaRequired = "true";
       this._internals.setValidity({ valueMissing: true }, message, textarea);
+      this.showError = true;
     } else {
+      this._internals.ariaRequired = "false"; // Reset when valid
       this._internals.setValidity({});
+      this.showError = false;
+      this._hasUserInteracted = false; // Reset lazy validation when valid
     }
   }
 
@@ -136,6 +148,12 @@ export class NysTextarea extends LitElement {
     this._setValidityMessage(message);
   }
 
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    this._hasUserInteracted = true; // Start aggressive mode due to form submission
+    this._validate();
+  }
+
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
@@ -164,9 +182,11 @@ export class NysTextarea extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
-    this._validate();
+    if (!this._hasUserInteracted) {
+      this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
+    }
 
+    this._validate();
     this.dispatchEvent(new Event("blur"));
   }
 
