@@ -79,43 +79,52 @@ export class NysSelect extends LitElement {
     const slot = this.shadowRoot?.querySelector(
       'slot:not([name="description"])',
     ) as HTMLSlotElement | null;
-    if (slot) {
-      const assignedElements = slot.assignedElements({ flatten: true });
-      const select = this.shadowRoot?.querySelector("select");
+    const select = this.shadowRoot?.querySelector("select");
 
-      if (select) {
-        // Clone and append slotted elements
-        assignedElements.forEach((node) => {
-          if (node instanceof NysOption) {
-            const optionElement = document.createElement("option");
-            optionElement.value = node.value;
-            optionElement.textContent =
-              node.label || node.textContent?.trim() || "";
-            optionElement.disabled = node.disabled;
-            optionElement.selected = node.selected;
-            select.appendChild(optionElement);
-          }
-        });
+    if (!slot || !select) return;
+
+    // Clean up dynamically added options so we don't get duplicates
+    select
+      .querySelectorAll("option:not([hidden])")
+      .forEach((opt) => opt.remove());
+
+    const assignedElements = slot.assignedElements({ flatten: true });
+
+    // Clone and append slotted elements
+    assignedElements.forEach((node) => {
+      if (node instanceof NysOption) {
+        const optionElement = document.createElement("option");
+        optionElement.value = node.value;
+        optionElement.textContent =
+          node.label || node.textContent?.trim() || "";
+        optionElement.disabled = node.disabled;
+        optionElement.selected = node.selected;
+        select.appendChild(optionElement);
       }
-    }
+    });
   }
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.value);
+    this._manageRequire(); // Check validation when value is set
   }
 
   private _manageRequire() {
     const select = this.shadowRoot?.querySelector("select");
-    const message = this.errorMessage
-      ? this.errorMessage
-      : "This field is required";
     if (!select) return;
 
-    if (this.required && !this.value) {
-      this._internals.ariaRequired = "true";
+    const message = this.errorMessage || "Please select an option.";
+    const isInvalid = this.required && !this.value;
+
+    if (isInvalid) {
+      this._internals.ariaRequired = "true"; // Screen readers should announce error
       this._internals.setValidity({ valueMissing: true }, message, select);
+      this.showError = true;
     } else {
+      this._internals.ariaRequired = "false"; // Reset when valid
       this._internals.setValidity({});
+      this.showError = false;
+      this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
   }
 
@@ -143,17 +152,16 @@ export class NysSelect extends LitElement {
 
     // Get the native validation state
     let message = select.validationMessage;
+    this._manageRequire(); // Makes sure the required state is checked
 
     this._setValidityMessage(message);
   }
 
   /********************** Functions **********************/
   private _handleInvalid() {
-    // Check if the radio group is invalid and set `showError` accordingly
-    if (this._internals.validity.valueMissing) {
-      this._hasUserInteracted = true; // Start aggressive mode due to form submission
-      this.showError = true;
-    }
+    this._hasUserInteracted = true; // Start aggressive mode due to form submission
+    this._validate(); // Validate immediately
+    this.showError = true; // Show error message
   }
 
   /******************** Event Handlers ********************/
@@ -165,7 +173,7 @@ export class NysSelect extends LitElement {
 
     // Field is invalid after unfocused, validate aggressively on each change (e.g. Eager mode: a combination of aggressive and lazy.)
     if (this._hasUserInteracted) {
-      this._validate();
+      this._validate(); // Validate immediately if an error was found before
     }
 
     this.dispatchEvent(
@@ -189,9 +197,10 @@ export class NysSelect extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
+    if (!this._hasUserInteracted) {
+      this._hasUserInteracted = true;
+    }
     this._validate();
-
     this.dispatchEvent(new Event("blur"));
   }
 

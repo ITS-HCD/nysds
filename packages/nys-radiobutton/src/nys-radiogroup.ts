@@ -105,7 +105,7 @@ export class NysRadiogroup extends LitElement {
   }
 
   private async _manageRequire() {
-    const message = this.errorMessage || "This field is required";
+    const message = this.errorMessage || "Please select an option.";
 
     const firstRadio = this.querySelector("nys-radiobutton");
     const firstRadioInput = firstRadio
@@ -116,8 +116,9 @@ export class NysRadiogroup extends LitElement {
       this._internals.setValidity(
         { valueMissing: true },
         message,
-        firstRadioInput ? firstRadioInput : this,
+        firstRadioInput || this,
       );
+      this.showError = true;
     } else {
       this._internals.setValidity({});
       this.showError = false;
@@ -153,11 +154,17 @@ export class NysRadiogroup extends LitElement {
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
       this.showError = true;
+      this._manageRequire(); // Refresh validation message
     }
   }
 
   render() {
-    return html` <div role="radiogroup" class="nys-radiogroup">
+    return html` <div
+      role="radiogroup"
+      class="nys-radiogroup"
+      aria-required="${this.required ? "true" : "false"}"
+      aria-invalid="${this.showError ? "true" : "false"}"
+    >
       <nys-label
         label=${this.label}
         description=${this.description}

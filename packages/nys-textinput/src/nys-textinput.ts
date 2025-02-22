@@ -107,20 +107,26 @@ export class NysTextinput extends LitElement {
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.value);
+    this._manageRequire(); // Update validation
   }
 
   private _manageRequire() {
     const input = this.shadowRoot?.querySelector("input");
-    const message = this.errorMessage
-      ? this.errorMessage
-      : "This field is required";
+
     if (!input) return;
 
-    if (this.required && !this.value) {
+    const message = this.errorMessage || "This field is required";
+    const isInvalid = this.required && (!this.value || this.value.trim() === ""); // Check for blank as well
+
+    if (isInvalid) {
       this._internals.ariaRequired = "true";
       this._internals.setValidity({ valueMissing: true }, message, input);
+      this.showError = true;
     } else {
+      this._internals.ariaRequired = "false";
       this._internals.setValidity({});
+      this.showError = false;
+      this._hasUserInteracted = false; // Reset eager/lazy checking
     }
   }
 
@@ -176,11 +182,8 @@ export class NysTextinput extends LitElement {
 
   /********************** Functions **********************/
   private _handleInvalid() {
-    // Check if the radio group is invalid and set `showError` accordingly
-    if (this._internals.validity.valueMissing) {
-      this._hasUserInteracted = true; // Start aggressive mode due to form submission
-      this.showError = true;
-    }
+    this._hasUserInteracted = true; // Start aggressive mode due to form submission
+    this._validate();
   }
 
   /******************** Event Handlers ********************/
@@ -211,7 +214,9 @@ export class NysTextinput extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
+    if (!this._hasUserInteracted) {
+      this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
+    }
     this._validate();
 
     this.dispatchEvent(new Event("blur"));
