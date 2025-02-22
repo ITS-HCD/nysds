@@ -14,8 +14,8 @@ export class NysAlert extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
-  @property({ type: Boolean }) dismissible = false;
-  @property({ type: Number }) duration = 0;
+  @property({ type: Boolean, reflect: true }) dismissible = false;
+  @property({ type: Number, reflect: true }) duration = 0;
   @property({ type: String }) text = "";
   @property({ type: String }) primaryAction = "";
   @property({ type: String }) secondaryAction = "";

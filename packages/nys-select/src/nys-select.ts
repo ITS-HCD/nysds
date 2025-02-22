@@ -1,8 +1,10 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
-import "@nysds/nys-icon";
 import { NysOption } from "./nys-option";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let selectIdCounter = 0; // Counter for generating unique IDs
 
@@ -12,8 +14,8 @@ export class NysSelect extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) value = "";
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) form = "";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
@@ -54,6 +56,12 @@ export class NysSelect extends LitElement {
     if (!this.id) {
       this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
     }
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
@@ -62,47 +70,61 @@ export class NysSelect extends LitElement {
     this._manageRequire();
   }
 
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
+  }
+
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
       'slot:not([name="description"])',
     ) as HTMLSlotElement | null;
-    if (slot) {
-      const assignedElements = slot.assignedElements({ flatten: true });
-      const select = this.shadowRoot?.querySelector("select");
+    const select = this.shadowRoot?.querySelector("select");
 
-      if (select) {
-        // Clone and append slotted elements
-        assignedElements.forEach((node) => {
-          if (node instanceof NysOption) {
-            const optionElement = document.createElement("option");
-            optionElement.value = node.value;
-            optionElement.textContent =
-              node.label || node.textContent?.trim() || "";
-            optionElement.disabled = node.disabled;
-            optionElement.selected = node.selected;
-            select.appendChild(optionElement);
-          }
-        });
+    if (!slot || !select) return;
+
+    // Clean up dynamically added options so we don't get duplicates
+    select
+      .querySelectorAll("option:not([hidden])")
+      .forEach((opt) => opt.remove());
+
+    const assignedElements = slot.assignedElements({ flatten: true });
+
+    // Clone and append slotted elements
+    assignedElements.forEach((node) => {
+      if (node instanceof NysOption) {
+        const optionElement = document.createElement("option");
+        optionElement.value = node.value;
+        optionElement.textContent =
+          node.label || node.textContent?.trim() || "";
+        optionElement.disabled = node.disabled;
+        optionElement.selected = node.selected;
+        select.appendChild(optionElement);
       }
-    }
+    });
   }
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.value);
+    this._manageRequire(); // Check validation when value is set
   }
 
   private _manageRequire() {
     const select = this.shadowRoot?.querySelector("select");
-    const message = this.errorMessage
-      ? this.errorMessage
-      : "This field is required";
     if (!select) return;
 
-    if (this.required && !this.value) {
-      this._internals.ariaRequired = "true";
+    const message = this.errorMessage || "Please select an option.";
+    const isInvalid = this.required && !this.value;
+
+    if (isInvalid) {
+      this._internals.ariaRequired = "true"; // Screen readers should announce error
       this._internals.setValidity({ valueMissing: true }, message, select);
+      this.showError = true;
     } else {
+      this._internals.ariaRequired = "false"; // Reset when valid
       this._internals.setValidity({});
+      this.showError = false;
+      this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
   }
 
@@ -130,8 +152,16 @@ export class NysSelect extends LitElement {
 
     // Get the native validation state
     let message = select.validationMessage;
+    this._manageRequire(); // Makes sure the required state is checked
 
     this._setValidityMessage(message);
+  }
+
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    this._hasUserInteracted = true; // Start aggressive mode due to form submission
+    this._validate(); // Validate immediately
+    this.showError = true; // Show error message
   }
 
   /******************** Event Handlers ********************/
@@ -143,7 +173,7 @@ export class NysSelect extends LitElement {
 
     // Field is invalid after unfocused, validate aggressively on each change (e.g. Eager mode: a combination of aggressive and lazy.)
     if (this._hasUserInteracted) {
-      this._validate();
+      this._validate(); // Validate immediately if an error was found before
     }
 
     this.dispatchEvent(
@@ -167,9 +197,10 @@ export class NysSelect extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
+    if (!this._hasUserInteracted) {
+      this._hasUserInteracted = true;
+    }
     this._validate();
-
     this.dispatchEvent(new Event("blur"));
   }
 
@@ -189,21 +220,11 @@ export class NysSelect extends LitElement {
   render() {
     return html`
       <div class="nys-select">
-        ${this.label &&
-        html` <div class="nys-select__text">
-          <div class="nys-select__requiredwrapper">
-            <label for=${this.id} class="nys-select__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-select__required">*</label>`
-              : ""}
-          </div>
-          <div class="nys-select__description">
-            ${this.description}
-            <slot name="description"></slot>
-          </div>
-        </div>`}
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : ""}
+        ></nys-label>
         <div class="nys-select__selectwrapper">
           <select
             class="nys-select__select"
@@ -231,12 +252,10 @@ export class NysSelect extends LitElement {
             class="nys-select__icon"
           ></nys-icon>
         </div>
-        ${this.showError
-          ? html`<div class="nys-select__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this._internals.validationMessage || this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+        ></nys-errormessage>
       </div>
     `;
   }
