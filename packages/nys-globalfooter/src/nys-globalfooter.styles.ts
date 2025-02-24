@@ -115,6 +115,13 @@ export default css`
     letter-spacing: var(--_nys-globalfooter-link-letterspacing);
   }
 
+  a:hover {
+    text-decoration: underline;
+  }
+  a:active {
+    text-decoration-thickness: 12%;
+  }
+
   /* Specific layout for menu links (grouped or singular list of menus) */
   .nys-globalfooter__content {
     width: 100%;

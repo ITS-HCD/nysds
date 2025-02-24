@@ -176,6 +176,10 @@ export default css`
     text-underline-position: from-font;
   }
 
+  .nys-globalheader__content ul a:active {
+    text-decoration-thickness: 12%;
+  }
+
   /* Mobile Menu */
   .nys-globalheader__content-mobile {
     position: absolute;
