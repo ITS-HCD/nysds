@@ -533,6 +533,76 @@ export const Required: Story = {
   },
 };
 
+export const DescriptionSlot: Story = {
+  args: {
+    label: "Label",
+    description: "Prop: description",
+    value: "",
+  },
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      name="descriptionProp"
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textinput>
+    <br />
+    <nys-textinput
+      .id=${args.id}
+      name="descriptionSlot"
+      .type=${args.type}
+      .label=${args.label}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <p>Slot: description</p>
+    </nys-textinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput 
+  name="descriptionProp"
+  label="Label"
+  description="Slot: description"
+></nys-textinput>
+<nys-textinput name="descriptionSlot" label="Label">
+  <p>Slot: description</p>
+</nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const ErrorMessage: Story = {
   args: {
     name: "myTextInput8",

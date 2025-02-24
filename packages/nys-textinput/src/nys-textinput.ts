@@ -116,7 +116,8 @@ export class NysTextinput extends LitElement {
     if (!input) return;
 
     const message = this.errorMessage || "This field is required";
-    const isInvalid = this.required && (!this.value || this.value.trim() === ""); // Check for blank as well
+    const isInvalid =
+      this.required && (!this.value || this.value.trim() === ""); // Check for blank as well
 
     if (isInvalid) {
       this._internals.ariaRequired = "true";
