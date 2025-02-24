@@ -6,7 +6,6 @@ import "./nys-globalfooter";
 interface NysGlobalFooterArgs {
   agencyName: string;
   homepageLink: string;
-  disableHomepageLink: boolean;
 }
 
 const meta: Meta<NysGlobalFooterArgs> = {
@@ -15,7 +14,6 @@ const meta: Meta<NysGlobalFooterArgs> = {
   argTypes: {
     agencyName: { control: "text" },
     homepageLink: { control: "text" },
-    disableHomepageLink: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -40,7 +38,6 @@ export const Basic: Story = {
     <nys-globalfooter
       .agencyName=${args.agencyName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     >
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
@@ -75,7 +72,6 @@ export const WithoutMenuLinks: Story = {
     <nys-globalfooter
       .agencyName=${args.agencyName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     ></nys-globalfooter>
   `,
   parameters: {
@@ -100,7 +96,6 @@ export const WithMenuLinks: Story = {
     <nys-globalfooter
       .agencyName=${args.agencyName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     >
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
