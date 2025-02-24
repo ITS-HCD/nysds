@@ -32,8 +32,12 @@ The following width options are available:
 - `lg` (Large): 384px, suitable for displaying longer content.
 - `full` (Full Width): default size. Expands to fill the available space.
 <Canvas of={NysSelectStories.Width} />
+#### Description Slot
+You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization. \
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> You must use `slot="description"` on your embedded HTML for it to work properly. </div>
+<Canvas of={NysSelectStories.DescriptionSlot} />
 #### Error Message
-Note: in order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
+In order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
 
 <Canvas of={NysSelectStories.ErrorMessage} />
 

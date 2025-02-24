@@ -88,7 +88,7 @@ export class NysAvatar extends LitElement {
                       ></nys-icon>
                     </div>`
                   : html`<div part="nys-avatar__icon">
-                      <slot name="icon">
+                      <slot>
                         <nys-icon
                           label="nys-avatar__icon"
                           name="account_circle"
