@@ -2,7 +2,9 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "@nysds/nys-icon"; // references: "/packages/nys-icon/dist/nys-icon.es.js";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
@@ -83,6 +85,12 @@ export class NysTextinput extends LitElement {
     if (!this.id) {
       this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
     }
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
@@ -99,20 +107,27 @@ export class NysTextinput extends LitElement {
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.value);
+    this._manageRequire(); // Update validation
   }
 
   private _manageRequire() {
     const input = this.shadowRoot?.querySelector("input");
-    const message = this.errorMessage
-      ? this.errorMessage
-      : "This field is required";
+
     if (!input) return;
 
-    if (this.required && !this.value) {
+    const message = this.errorMessage || "This field is required";
+    const isInvalid =
+      this.required && (!this.value || this.value.trim() === ""); // Check for blank as well
+
+    if (isInvalid) {
       this._internals.ariaRequired = "true";
       this._internals.setValidity({ valueMissing: true }, message, input);
+      this.showError = true;
     } else {
+      this._internals.ariaRequired = "false";
       this._internals.setValidity({});
+      this.showError = false;
+      this._hasUserInteracted = false; // Reset eager/lazy checking
     }
   }
 
@@ -166,6 +181,12 @@ export class NysTextinput extends LitElement {
     this._setValidityMessage(message);
   }
 
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    this._hasUserInteracted = true; // Start aggressive mode due to form submission
+    this._validate();
+  }
+
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
@@ -194,7 +215,9 @@ export class NysTextinput extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
+    if (!this._hasUserInteracted) {
+      this._hasUserInteracted = true; // At initial unfocus: if input is invalid, start aggressive mode
+    }
     this._validate();
 
     this.dispatchEvent(new Event("blur"));
@@ -208,22 +231,11 @@ export class NysTextinput extends LitElement {
   render() {
     return html`
       <div class="nys-textinput">
-        ${this.label &&
-        html` <div class="nys-textinput__text">
-          <div class="nys-textinput__requiredwrapper">
-            <label for=${this.id} class="nys-textinput__label"
-              >${this.label}</label
-            >
-            ${this.required
-              ? html`<label class="nys-textinput__required">*</label>`
-              : ""}
-          </div>
-
-          <div class="nys-textinput__description">
-            ${this.description}
-            <slot></slot>
-          </div>
-        </div>`}
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : ""}
+        ></nys-label>
         <input
           class="nys-textinput__input"
           type=${this.type}
@@ -251,12 +263,10 @@ export class NysTextinput extends LitElement {
           @blur="${this._handleBlur}"
           @change="${this._handleChange}"
         />
-        ${this.showError
-          ? html`<div class="nys-textinput__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this._internals.validationMessage || this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+        ></nys-errormessage>
       </div>
     `;
   }

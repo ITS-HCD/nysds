@@ -1,7 +1,8 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
-import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
@@ -13,7 +14,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  // State for storing the selected value for form-controller use
+
   @state() private selectedValue: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
@@ -104,7 +105,7 @@ export class NysRadiogroup extends LitElement {
   }
 
   private async _manageRequire() {
-    const message = this.errorMessage || "This field is required";
+    const message = this.errorMessage || "Please select an option.";
 
     const firstRadio = this.querySelector("nys-radiobutton");
     const firstRadioInput = firstRadio
@@ -115,8 +116,9 @@ export class NysRadiogroup extends LitElement {
       this._internals.setValidity(
         { valueMissing: true },
         message,
-        firstRadioInput ? firstRadioInput : this,
+        firstRadioInput || this,
       );
+      this.showError = true;
     } else {
       this._internals.setValidity({});
       this.showError = false;
@@ -152,35 +154,30 @@ export class NysRadiogroup extends LitElement {
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
       this.showError = true;
+      this._manageRequire(); // Refresh validation message
     }
   }
 
   render() {
-    return html` <div role="radiogroup" class="nys-radiogroup">
-      ${this.label &&
-      html` <div class="nys-radiobutton__text">
-        <div class="nys-radiobutton__requiredwrapper">
-          <label for=${this.id} class="nys-radiogroup__label"
-            >${this.label}</label
-          >
-          ${this.required
-            ? html`<label class="nys-radiobutton__required">*</label>`
-            : ""}
-        </div>
-        <div class="nys-radiogroup__description">
-          ${this.description}
-          <slot name="description"></slot>
-        </div>
-      </div>`}
+    return html` <div
+      role="radiogroup"
+      class="nys-radiogroup"
+      aria-required="${this.required ? "true" : "false"}"
+      aria-invalid="${this.showError ? "true" : "false"}"
+    >
+      <nys-label
+        label=${this.label}
+        description=${this.description}
+        flag=${this.required ? "required" : ""}
+      ></nys-label>
       <div class="nys-radiogroup__content">
         <slot></slot>
       </div>
-      ${this.showError
-        ? html`<div class="nys-radiobutton__error">
-            <nys-icon name="error" size="xl"></nys-icon>
-            ${this._internals.validationMessage || this.errorMessage}
-          </div>`
-        : ""}
+      <nys-errormessage
+        ?showError=${this.showError}
+        errorMessage=${this._internals.validationMessage || this.errorMessage}
+        showDivider
+      ></nys-errormessage>
     </div>`;
   }
 }

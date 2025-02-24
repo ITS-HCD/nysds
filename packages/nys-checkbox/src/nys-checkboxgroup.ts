@@ -1,6 +1,8 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-checkbox.styles";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 
@@ -74,6 +76,7 @@ export class NysCheckboxgroup extends LitElement {
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
       this.showError = true;
+      this._manageCheckboxRequired(); // Refresh validation message
     }
   }
 
@@ -95,7 +98,7 @@ export class NysCheckboxgroup extends LitElement {
 
   // Updates the required attribute of each checkbox in the group
   private async _manageCheckboxRequired() {
-    const message = this.errorMessage || "This field is required";
+    const message = this.errorMessage || "Please select at least one option.";
     const firstCheckbox = this.querySelector("nys-checkbox");
     const firstCheckboxInput = firstCheckbox
       ? await (firstCheckbox as any).getInputElement()
@@ -132,31 +135,24 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   render() {
-    return html` <div class="nys-checkboxgroup">
-      ${this.label &&
-      html` <div class="nys-checkbox__text">
-        <div class="nys-checkbox__requiredwrapper">
-          <label for=${this.id} class="nys-checkboxgroup__label"
-            >${this.label}</label
-          >
-          ${this.required
-            ? html`<label class="nys-checkbox__required">*</label>`
-            : ""}
-        </div>
-        <label for=${this.id} class="nys-checkboxgroup__description">
-          ${this.description}
-          <slot name="description"></slot>
-        </label>
-      </div>`}
+    return html` <div
+      class="nys-checkboxgroup"
+      aria-required="${this.required ? "true" : "false"}"
+      role="group"
+    >
+      <nys-label
+        label=${this.label}
+        description=${this.description}
+        flag=${this.required ? "required" : ""}
+      ></nys-label>
       <div class="nys-checkboxgroup__content">
         <slot></slot>
       </div>
-      ${this.showError
-        ? html`<div class="nys-checkbox__error">
-            <nys-icon name="error" size="xl"></nys-icon>
-            ${this._internals.validationMessage || this.errorMessage}
-          </div>`
-        : ""}
+      <nys-errormessage
+        ?showError=${this.showError}
+        errorMessage=${this._internals.validationMessage || this.errorMessage}
+        showDivider
+      ></nys-errormessage>
     </div>`;
   }
 }
