@@ -226,7 +226,8 @@ export class NysTextarea extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : ""}
-        ></nys-label>
+          ><slot name="description" slot="description"></slot>
+        </nys-label>
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
