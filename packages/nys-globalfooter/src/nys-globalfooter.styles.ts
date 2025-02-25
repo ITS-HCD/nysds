@@ -48,7 +48,7 @@ export default css`
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
     );
-    --_nys-globalfooter-font-family: var(
+    --_nys-globalfooter-link-font-family: var(
       --nys-font-family-ui,
       var(
         --nys-font-family-sans,
@@ -59,6 +59,7 @@ export default css`
         sans-serif
       )
     );
+    --_nys-globalfooter-link-weight-decoration: var(--nys-size-2px, 2px);
   }
 
   .nys-globalfooter {
@@ -107,7 +108,7 @@ export default css`
   a {
     color: var(--_nys-globalfooter-color);
     text-decoration: none;
-    font-family: var(--_nys-globalfooter-font-family);
+    font-family: var(--_nys-globalfooter-link-font-family);
     font-size: var(--_nys-globalfooter-font-size-links);
     font-style: normal;
     font-weight: var(--_nys-globalfooter-font-weight-semibold);
@@ -119,7 +120,7 @@ export default css`
     text-decoration: underline;
   }
   a:active {
-    text-decoration-thickness: 12%;
+    text-decoration-thickness: var(--_nys-globalfooter-link-weight-decoration);
   }
 
   /* Specific layout for menu links (grouped or singular list of menus) */
