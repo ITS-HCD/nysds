@@ -84,6 +84,34 @@ export const Description: Story = {
   },
 };
 
+export const DescriptionSlot: Story = {
+  args: {
+    label: "This is a basic nys-label",
+    description: "This is a slot description",
+    flag: null,
+  },
+  render: (args) =>
+    html`<nys-label label=${args.label} flag=${args.flag}>
+      <span slot="description"
+        >${args.description}
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a"
+          >You can embed links</a
+        ></span
+      >
+    </nys-label>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-label label="This is a basic nys-label">
+  <span slot="description">This is a slot description</span>    
+</nys-label>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Required: Story = {
   args: {
     label: "This form is required",
