@@ -41,7 +41,7 @@ export const Basic: Story = {
     >
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
-        <li><a href="https://its.ny.gov/about">About ITS</a></li>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
       </ul>
     </nys-globalfooter>
   `,
@@ -52,7 +52,7 @@ export const Basic: Story = {
 <nys-globalfooter agencyName="Office of Information Technology Services">
  <ul>
     <li><a href="https://its.ny.gov">ITS Home</a></li>
-    <li><a href="https://its.ny.gov/about">About ITS</a></li>
+    <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
   </ul>
 </nys-globalfooter>
         `,
@@ -99,7 +99,7 @@ export const WithMenuLinks: Story = {
     >
       <ul>
         <li><a href="https://its.ny.gov">ITS Home</a></li>
-        <li><a href="https://its.ny.gov/about">About ITS</a></li>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
       </ul>
     </nys-globalfooter>
   `,
@@ -110,7 +110,7 @@ export const WithMenuLinks: Story = {
 <nys-globalfooter agencyName="Office of Information Technology Services">
   <ul>
     <li><a href="https://its.ny.gov">ITS Home</a></li>
-    <li><a href="https://its.ny.gov/about">About ITS</a></li>
+    <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
   </ul>
 </nys-globalfooter>
 `.trim(),
