@@ -145,7 +145,7 @@ export class NysCheckboxgroup extends LitElement {
         description=${this.description}
         flag=${this.required ? "required" : ""}
       >
-        <slot name="description" slot="description"></slot>
+        <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
       <div class="nys-checkboxgroup__content">
         <slot></slot>

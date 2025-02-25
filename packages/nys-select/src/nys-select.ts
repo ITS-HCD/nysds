@@ -224,7 +224,8 @@ export class NysSelect extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : ""}
-          ><slot name="description" slot="description"></slot>
+        >
+          <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
         <div class="nys-select__selectwrapper">
           <select
