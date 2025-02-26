@@ -14,7 +14,7 @@
   "types": "dist/src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/packages/src/index.d.ts",
+      "types": "./dist/src/index.d.ts",
       "import": "./dist/nysds.es.js",
       "require": "./dist/nysds.js"
     }
