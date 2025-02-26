@@ -582,7 +582,7 @@ export const DescriptionSlot: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
-      <p>Slot: description</p>
+      <label slot="description">Slot: description</label>
     </nys-textinput>
   `,
   parameters: {
@@ -595,7 +595,7 @@ export const DescriptionSlot: Story = {
   description="Slot: description"
 ></nys-textinput>
 <nys-textinput name="descriptionSlot" label="Label">
-  <p>Slot: description</p>
+  <label slot="description">Slot: description</label>
 </nys-textinput>`,
         type: "auto",
       },

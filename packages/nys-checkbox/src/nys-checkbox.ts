@@ -128,7 +128,7 @@ export class NysCheckbox extends LitElement {
     // Start aggressive mode due to form submission
     if (this._internals.validity.valueMissing) {
       this.showError = true;
-      this._setValidityMessage(); // Make sure validation message appears
+      this._validate(); // Make sure validation message appears
     }
   }
 

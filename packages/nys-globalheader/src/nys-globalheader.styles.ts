@@ -59,6 +59,7 @@ export default css`
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
     );
+    --_nys-globalheader-link-weight-decoration: var(--nys-size-2px, 2px);
 
     /* Mobile Menu */
     --_nys-globalheader-mobile-btn-font-size: var(--nys-type-size-ui-xs, 12px);
@@ -174,6 +175,10 @@ export default css`
     text-decoration-thickness: 7%;
     text-underline-offset: auto;
     text-underline-position: from-font;
+  }
+
+  .nys-globalheader__content ul a:active {
+    text-decoration-thickness: var(--_nys-globalheader-link-weight-decoration);
   }
 
   /* Mobile Menu */
