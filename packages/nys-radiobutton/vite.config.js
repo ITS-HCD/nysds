@@ -7,7 +7,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Radiobutton Component v1.0.0
+   * Radiobutton Component v1.1.0
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
