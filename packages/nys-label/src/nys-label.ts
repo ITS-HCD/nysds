@@ -23,7 +23,7 @@ export class NysLabel extends LitElement {
             : ""}</label
         >
         <label for=${this.id} class="nys-label__description">
-          ${this.description}
+          <slot name="description">${this.description}</slot>
         </label>
       </div>
     `;
