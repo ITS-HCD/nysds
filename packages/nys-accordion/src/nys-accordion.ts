@@ -1,13 +1,14 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-accordion.styles";
-import "@nysds/nys-icon";
+import "@nysds/nys-button";
 
 let accordionIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAccordion extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
+  @property({ type: Boolean }) isOpen = false; // Property to track the open state
 
   static styles = styles;
 
@@ -32,6 +33,10 @@ export class NysAccordion extends LitElement {
     return `nys-accordion-${Date.now()}-${accordionIdCounter++}`;
   }
 
+  private _toggleContent() {
+    this.isOpen = !this.isOpen;
+  }
+
   /******************** Event Handlers ********************/
   // Handle focus event
   // private _handleFocus() {
@@ -49,7 +54,14 @@ export class NysAccordion extends LitElement {
   // }
 
   render() {
-    return html``;
+    return html`
+      <div class="nys-accordion">
+        <button class="nys-accordion__header" @click="${this._toggleContent}">
+          header
+        </button>
+        <div class="nys-accordion__content" ?open="${this.isOpen}">content</div>
+      </div>
+    `;
   }
 }
 
