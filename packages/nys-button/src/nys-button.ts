@@ -68,8 +68,16 @@ export class NysButton extends LitElement {
   @property({ type: String }) href = "";
 
   static styles = styles;
+  private _internals: ElementInternals;
 
   /**************** Lifecycle Methods ****************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -84,6 +92,29 @@ export class NysButton extends LitElement {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
 
+  private _manageFormAction(event: Event) {
+    // If an onClick function is provided, call it
+    if (typeof this.onClick === "function") {
+      this.onClick(event);
+    }
+
+    // If part of a form, perform the corresponding action based on button's "type"
+    const form = this._internals.form;
+
+    if (form) {
+      switch (this.type) {
+        case "submit":
+          form.requestSubmit();
+          break;
+        case "reset":
+          form.reset();
+          break;
+        case "button":
+      }
+    }
+  }
+
+  /******************** Event Handlers ********************/
   // Handle focus event
   private _handleFocus() {
     this.dispatchEvent(new Event("focus"));
@@ -95,8 +126,20 @@ export class NysButton extends LitElement {
   }
 
   private _handleClick(event: Event) {
-    if (typeof this.onClick === "function") {
-      this.onClick(event);
+    if (this.disabled) {
+      event.preventDefault();
+      return;
+    }
+    this._manageFormAction(event);
+  }
+
+  // Handle keydown for keyboard accessibility
+  private _handleKeydown(e: KeyboardEvent) {
+    if (e.code === "Space" || e.code === "Enter") {
+      e.preventDefault();
+      if (!this.disabled) {
+        this._manageFormAction(e);
+      }
     }
   }
 
@@ -108,10 +151,11 @@ export class NysButton extends LitElement {
               <a
                 class="nys-button"
                 id=${ifDefined(this.id)}
-                name=${ifDefined(this.name)}
+                name=${ifDefined(this.name ? this.name : undefined)}
                 ?disabled=${this.disabled}
-                form=${ifDefined(this.form)}
-                value=${ifDefined(this.value)}
+                aria-disabled="${this.disabled ? "true" : "false"}"
+                form=${ifDefined(this.form ? this.form : undefined)}
+                value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target="_blank"
                 @click=${this._handleClick}
@@ -138,14 +182,15 @@ export class NysButton extends LitElement {
             <button
               class="nys-button"
               id=${ifDefined(this.id)}
-              name=${ifDefined(this.name)}
+              name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
-              form=${ifDefined(this.form)}
-              value=${ifDefined(this.value)}
+              form=${ifDefined(this.form ? this.form : undefined)}
+              value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
+              @keydown="${this._handleKeydown}"
             >
               ${this.prefixIcon && this.variant !== "text"
                 ? html`<slot name="prefix-icon">

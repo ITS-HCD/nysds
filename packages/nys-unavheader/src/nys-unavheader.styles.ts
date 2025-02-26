@@ -24,17 +24,16 @@ export default css`
   .nys-unavheader {
     background-color: var(--nys-color-ink-reverse, #ffffff);
     padding: var(--nys-space-2px, 2px) var(--_nys-unavheader-gutter);
-    margin: auto;
+    display: flex;
+    justify-content: center;
   }
 
   .nys-unavheader__maincontent {
     display: flex;
+    flex: 1;
     justify-content: space-between;
-    width: 100%;
     align-items: center;
-    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     max-width: 1280px;
-    margin: auto;
   }
 
   a#nys-unavheader__logolink {
@@ -145,7 +144,6 @@ export default css`
     display: flex;
     justify-content: center;
     padding: var(--nys-space-400, 32px) var(--_nys-unavheader-gutter);
-    max-width: 1280px;
     margin: auto;
   }
 
@@ -256,10 +254,6 @@ export default css`
     /* Desktop Large (XL - Above 1280px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
-    }
-    .nys-unavheader {
-      display: flex;
-      justify-content: center;
     }
   }
 `;

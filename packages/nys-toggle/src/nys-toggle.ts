@@ -13,8 +13,8 @@ export class NysToggle extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
-  @property({ type: Boolean }) checked = false;
-  @property({ type: Boolean }) disabled = false;
+  @property({ type: Boolean, reflect: true }) checked = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean }) noIcon = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";

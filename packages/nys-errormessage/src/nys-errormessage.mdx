@@ -1,0 +1,56 @@
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysErrorMessageStories from './nys-errormessage.stories';
+import "@nysds/nys-alert";
+
+<Meta of={NysErrorMessageStories} title="Components/Select/Documentation" />
+
+
+# Error Message **Component**
+
+<nys-alert 
+  type="warning"
+  heading="This component should not be used alone. It is already built into form fields.">
+</nys-alert>
+
+The **`nys-errormessage`** is a reusable web component for use in New York State digital products. It allows users to add an error message to a form field. It can display description and optional/required flags.
+errormessage
+
+<p class="pill stable">Stable</p>
+
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysErrorMessageStories.Basic} />
+
+<Controls />
+
+## Options
+Add a divider to components that are not bordered.
+<Canvas of={NysErrorMessageStories.Divider} />
+
+## Use cases    
+Use in form components to display an error to a user if the input is invalid and needs to be modified.
+In inputs that are bordered (i.e. text inputs and select) do not show the divider. Otherwise add it with `showDivider`
+
+## Usage
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+    - Use the error message component to convey a clear message on a form field.
+    - Hide the divider in bordered form fields.
+    - Use relevant error messages for the form field
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+    - Use the error message alone or without a form field.
+    - Add a divider to bordered form fields.
+    - Use generalized error messages.
+    </div>
+  </div>
+</div>

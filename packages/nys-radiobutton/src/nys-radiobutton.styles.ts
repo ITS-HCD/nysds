@@ -9,10 +9,6 @@ export default css`
     --_nys-radiobutton-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
     --_nys-radiobutton-offset-focus: var(--nys-space-2px, 2px);
-    --_nys-radiobutton-transition-duration: var(
-      --nys-transition-duration-sm,
-      0.1s
-    );
     --_nys-radiobutton-gap: var(
       --nys-space-150,
       12px
@@ -43,10 +39,6 @@ export default css`
     --_nys-radiobutton-color: var(
       --nys-color-ink,
       var(--nys-color-neutral-900, #1b1b1b)
-    );
-    --_nys-radiobutton-error-color: var(
-      --nys-color-danger,
-      var(--nys-color-red-600, #b52c2c)
     );
 
     /* Default (Empty) */
@@ -207,18 +199,13 @@ export default css`
   }
 
   /* Label styling */
-  .nys-radiogroup__label {
-    font-weight: var(--_nys-radiobutton-font-weight-600);
-    color: var(--_nys-radiobutton-color);
-  }
   .nys-radiobutton__label {
     font-weight: var(--_nys-radiobutton-font-weight-400);
     color: var(--_nys-radiobutton-color);
   }
 
   /* Description styling */
-  .nys-radiobutton__description,
-  .nys-radiogroup__description {
+  .nys-radiobutton__description {
     font-weight: var(--_nys-radiobutton-font-weight-400);
     font-style: italic;
   }
@@ -238,39 +225,5 @@ export default css`
     .nys-radiobutton__description {
     color: var(--_nys-radiobutton-disabled-color-text);
     cursor: not-allowed;
-  }
-
-  /* Required */
-  .nys-radiobutton__required {
-    color: var(--_nys-radiobutton-error-color);
-    margin-left: var(--_nys-select-margin);
-  }
-
-  .nys-radiobutton__requiredwrapper {
-    display: inline;
-  }
-
-  /* Error Message Styling */
-  .nys-radiobutton__error {
-    display: flex;
-    align-items: center;
-    gap: var(--nys-space-100, 8px);
-    color: var(--_nys-radiobutton-error-color);
-
-    /* add divider line */
-    border-top: 1px solid var(--_nys-radiobutton-error-color);
-    padding-top: var(--nys-space-50, 4px);
-    margin-top: var(--nys-space-100, 8px);
-  }
-
-  /* Error Icon Styling */
-  nys-icon[name="error"] {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: auto;
-    box-sizing: border-box;
-    height: var(--_nys-radiobutton-line-height);
-    text-align: center;
   }
 `;

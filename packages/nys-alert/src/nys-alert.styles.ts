@@ -108,7 +108,7 @@ export default css`
   }
 
   /* For HTML elements put into the slot */
-  ::slotted(p) {
+  ::slotted(*) {
     font-weight: var(--_nys-alert-font-weight-regular);
     margin: 0;
   }

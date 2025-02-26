@@ -7,7 +7,6 @@ interface NysGlobalHeaderArgs {
   appName: string;
   agencyName: string;
   homepageLink: string;
-  disableHomepageLink: boolean;
 }
 
 const meta: Meta<NysGlobalHeaderArgs> = {
@@ -17,7 +16,6 @@ const meta: Meta<NysGlobalHeaderArgs> = {
     appName: { control: "text" },
     agencyName: { control: "text" },
     homepageLink: { control: "text" },
-    disableHomepageLink: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -44,7 +42,6 @@ export const Basic: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     >
     </nys-globalheader>
   `,
@@ -72,7 +69,6 @@ export const OnlyAgencyName: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     >
     </nys-globalheader>
   `,
@@ -99,7 +95,6 @@ export const OnlyAppName: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     >
     </nys-globalheader>
   `,
@@ -127,7 +122,6 @@ export const WithBothNames: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     >
     </nys-globalheader>
   `,
@@ -154,7 +148,6 @@ export const WithLinks: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      ?disableHomepageLink=${args.disableHomepageLink}
     >
       <ul>
         <li><a href="https://its.ny.gov/services">Services</a></li>

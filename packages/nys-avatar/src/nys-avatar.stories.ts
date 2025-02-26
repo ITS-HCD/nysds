@@ -191,7 +191,6 @@ export const AvatarIcon: Story = {
         color="#f2efee"
       >
         <nys-icon
-          slot="icon"
           label="youtube icon"
           name="social_youtube"
           color="#b2071d"
@@ -211,7 +210,6 @@ export const AvatarIcon: Story = {
   color="#f2efee"
 >
   <nys-icon
-	  slot="icon"
 	  label="youtube icon"
 	  name="social_youtube"
 	  color="#b2071d"

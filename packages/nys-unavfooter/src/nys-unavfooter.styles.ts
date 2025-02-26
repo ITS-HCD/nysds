@@ -47,6 +47,7 @@ export default css`
         sans-serif
       )
     );
+    --_nys-unavfooter-link-weight-decoration: var(--nys-size-2px, 2px);
   }
 
   /* Slotted content (menu links) basic resets */
@@ -80,7 +81,7 @@ export default css`
     text-decoration-line: underline;
   }
   a:active {
-    text-decoration-thickness: 12%;
+    text-decoration-thickness: var(--_nys-unavfooter-link-weight-decoration);
   }
 
   .nys-unavfooter {
