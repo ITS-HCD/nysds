@@ -92,11 +92,11 @@ export const DescriptionSlot: Story = {
   },
   render: (args) =>
     html`<nys-label label=${args.label} flag=${args.flag}>
-      <span slot="description"
+      <label slot="description"
         >${args.description}
         <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a"
           >You can embed links</a
-        ></span
+        ></label
       >
     </nys-label>`,
   parameters: {
@@ -104,7 +104,7 @@ export const DescriptionSlot: Story = {
       source: {
         code: `
 <nys-label label="This is a basic nys-label">
-  <span slot="description">This is a slot description</span>    
+  <label slot="description">This is a slot description</label>    
 </nys-label>`,
         type: "auto",
       },
