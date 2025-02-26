@@ -17,6 +17,7 @@ export default css`
         ) -
         2px
     );
+    --_nys-toggle-slider-round: var(--nys-radius-round, 1776px);
     /* space between toggle and it's label */
     --_nys-toggle-gap: var(--nys-space-150, 12px);
 
@@ -142,7 +143,7 @@ export default css`
     width: var(--_nys-toggle-slider-diameter);
     left: var(--_nys-toggle-slider-offset);
     bottom: var(--_nys-toggle-slider-offset);
-    border-radius: 50%;
+    border-radius: var(--_nys-toggle-slider-round);
     background-color: var(--_nys-toggle-color-ink-reverse, #fff);
     transition: all var(--_nys-toggle-transition-duration)
       cubic-bezier(0.27, 0.2, 0.25, 1.51);

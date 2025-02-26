@@ -46,7 +46,7 @@ type Story = StoryObj<NysCheckboxArgs>;
 
 // Define stories without using args
 
-// Story: Unchecked
+// Story: Basic
 export const Basic: Story = {
   args: {
     checked: true,
@@ -130,6 +130,121 @@ export const Basic: Story = {
   <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
 </nys-checkboxgroup>
 
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Grouping
+export const Grouping: Story = {
+  args: {
+    required: true,
+    label: "Public Benefits Eligibility",
+    description: "Choose from the options below",
+  },
+  render: (args) => html`
+    <div style="display: flex; gap: 8px;">
+      <nys-checkboxgroup
+        style="flex: 1;"
+        label=${args.label}
+        description=${args.description}
+        size=${args.size}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
+        .required=${args.required}
+      >
+        <nys-checkbox
+          name="benefits"
+          value="snap"
+          label="SNAP"
+          description="The Supplemental Nutrition Assistance Program (SNAP)"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="benefits"
+          value="medicaid"
+          label="Medicaid"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="benefits"
+          value="housing_assistance"
+          label="Housing Assistance"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="benefits"
+          value="none"
+          label="None of the above"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+      <nys-checkboxgroup
+        style="flex: 1;"
+        label="Do you attest to the following:"
+      >
+        <label slot="description"
+          >Description as a
+          <a href="https://www.ny.gov/" target="__blank">slot</a></label
+        >
+        <nys-checkbox
+          label="I have read the terms and conditions."
+          id="terms-conditions"
+          name="terms"
+          value="terms-conditions"
+        ></nys-checkbox>
+        <nys-checkbox
+          label="I will not sue you."
+          id="legal"
+          name="legal"
+          value="legal"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Public Benefits Eligibility"
+  description="Choose from the options below"
+  required
+>
+  <nys-checkbox
+    name="benefits"
+    value="snap"
+    label="SNAP (Food Assistance)"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="benefits"
+    value="medicaid"
+    label="Medicaid"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="benefits"
+    value="housing_assistance"
+    label="Housing Assistance"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="benefits"
+    value="none"
+    label="None of the above"
+  ></nys-checkbox>
+</nys-checkboxgroup>
+<nys-checkboxgroup label="Do you attest to the following:">
+  <label slot="description">Description as a <a href="https://www.ny.gov/" target="__blank">slot</a></label>
+  <nys-checkbox
+    label="I have read the terms and conditions."
+    id="terms-conditions"
+    name="terms"
+    value="terms-conditions"
+  ></nys-checkbox>
+  <nys-checkbox
+    label="I will not sue you."
+    id="legal"
+    name="legal"
+    value="legal"
+  ></nys-checkbox>
+</nys-checkboxgroup>
         `,
         type: "auto",
       },
@@ -404,9 +519,10 @@ export const Slot: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
-      <label slot="description"
-        >${args.description}
-        <a href="https://www.ny.gov/" target="__blank">here</a></label
+      <label
+        >${args.description}<a href="https://www.ny.gov/" target="__blank"
+          >here</a
+        ></label
       >
     </nys-checkbox>
   `,
@@ -420,121 +536,8 @@ export const Slot: Story = {
   name="subscribe"
   value="email-updates"
 >
-  <label slot="description">
-  Read about previous updates <a href="https://www.ny.gov/" target="__blank">here</a>
-  </label>
+  <label Read about previous updates <a href="https://www.ny.gov/" target="__blank">here</a></label>
 </nys-checkbox>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Checkbox Group
-export const CheckboxGroup: Story = {
-  args: {
-    label: "Do you attest to the following:",
-    description: "Description as a ",
-    id: "attest-group",
-    name: "attest-group",
-    showError: false,
-    required: true,
-    errorMessage: "You must select both options to continue.",
-  },
-  render: (args) => html`
-    <div style="display: flex; gap: 8px;">
-      <nys-checkboxgroup
-        style="flex: 1;"
-        .label=${args.label}
-        .description="${args.description} prop"
-        .id=${args.id}
-        .name=${args.name}
-        .required=${args.required}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
-      >
-        <nys-checkbox
-          label="I have read the terms and conditions."
-          id="terms-conditions"
-          name="terms"
-          value="terms-conditions"
-        ></nys-checkbox>
-        <nys-checkbox
-          label="I will not sue you."
-          id="legal"
-          name="legal"
-          value="legal"
-        ></nys-checkbox>
-      </nys-checkboxgroup>
-      <nys-checkboxgroup
-        style="flex: 1;"
-        .label=${args.label}
-        .id=${args.id}
-        .name=${args.name}
-        .required=${args.required}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
-      >
-        <label slot="description"
-          >${args.description}
-          <a href="https://www.ny.gov/" target="__blank">slot</a></label
-        >
-        <nys-checkbox
-          label="I have read the terms and conditions."
-          id="terms-conditions"
-          name="terms"
-          value="terms-conditions"
-        ></nys-checkbox>
-        <nys-checkbox
-          label="I will not sue you."
-          id="legal"
-          name="legal"
-          value="legal"
-        ></nys-checkbox>
-      </nys-checkboxgroup>
-    </div>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkboxgroup
-  label="Do you attest to the following:"
-  description="Description as a prop"
->
-  <nys-checkbox
-    label="I have read the terms and conditions."
-    id="terms-conditions"
-    name="terms"
-    value="terms-conditions"
-  ></nys-checkbox>
-  <nys-checkbox
-    label="I will not sue you."
-    id="legal"
-    name="legal"
-    value="legal"
-  ></nys-checkbox>
-</nys-checkboxgroup>
-<nys-checkboxgroup
-  label="Do you attest to the following:"
->
-  <label slot="description"
-    >Description as a 
-    <a href="https://www.ny.gov/" target="__blank">slot</a></label
-  >
-  <nys-checkbox
-    label="I have read the terms and conditions."
-    id="terms-conditions"
-    name="terms"
-    value="terms-conditions"
-  ></nys-checkbox>
-  <nys-checkbox
-    label="I will not sue you."
-    id="legal"
-    name="legal"
-    value="legal"
-  ></nys-checkbox>
-</nys-checkboxgroup>
         `.trim(),
       },
     },

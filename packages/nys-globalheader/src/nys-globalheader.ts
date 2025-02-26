@@ -9,8 +9,7 @@ export class NysGlobalHeader extends LitElement {
   /********************** Properties **********************/
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
-  @property({ type: String }) homepageLink = window.location.origin;
-  @property({ type: Boolean }) disableHomepageLink = false;
+  @property({ type: String }) homepageLink = "";
   @state() private slotHasContent = true;
   @state() private isMobileMenuOpen = false;
 
@@ -18,8 +17,7 @@ export class NysGlobalHeader extends LitElement {
 
   firstUpdated() {
     // Check for slot content after rendering
-    const slot =
-      this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="text"]');
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
     this._handleSlotChange(); // Initial check
   }
@@ -96,7 +94,7 @@ export class NysGlobalHeader extends LitElement {
                 </button>
               </div>`
             : ""}
-          ${this.disableHomepageLink
+          ${!this.homepageLink?.trim()
             ? html`
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0
@@ -120,7 +118,7 @@ export class NysGlobalHeader extends LitElement {
               `
             : html`<a
                 class="nys-globalheader__name-container-link"
-                href=${this.homepageLink?.trim() || window.location.origin}
+                href=${this.homepageLink?.trim()}
               >
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0

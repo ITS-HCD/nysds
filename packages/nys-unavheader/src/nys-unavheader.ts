@@ -7,13 +7,13 @@ import "@nysds/nys-textinput";
 import "@nysds/nys-button";
 
 export class NysUnavHeader extends LitElement {
-  @property({ type: Boolean, reflect: true }) trustbarVisible = false;
-  @property({ type: Boolean, reflect: true }) searchDropdownVisible = false;
-  @property({ type: Boolean, reflect: true }) languageVisible = false;
-  @property({ type: Boolean, reflect: true }) isSearchFocused = false;
-  @property({ type: Boolean, reflect: true }) hideTranslate = false;
-  @property({ type: Boolean, reflect: true }) hideSearch = false;
-  @property({ type: String })
+  @property({ type: Boolean }) trustbarVisible = false;
+  @property({ type: Boolean }) searchDropdownVisible = false;
+  @property({ type: Boolean }) languageVisible = false;
+  @property({ type: Boolean }) isSearchFocused = false;
+  @property({ type: Boolean }) hideTranslate = false;
+  @property({ type: Boolean }) hideSearch = false;
+  @property({ type: String, reflect: true })
   get screenSize(): string {
     const width = window.innerWidth;
     if (width < 480) return "xs";

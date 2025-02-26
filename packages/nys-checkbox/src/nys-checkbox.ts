@@ -8,15 +8,15 @@ import "./nys-checkboxgroup";
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
 export class NysCheckbox extends LitElement {
-  @property({ type: Boolean }) checked = false;
-  @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean }) required = false;
+  @property({ type: Boolean, reflect: true }) checked = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) value = "";
-  @property({ type: Boolean }) showError = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
@@ -36,7 +36,21 @@ export class NysCheckbox extends LitElement {
       : "md";
   }
 
+  public async getInputElement() {
+    await this.updateComplete;
+    return this.shadowRoot?.querySelector("input");
+  }
+
   static styles = styles;
+  private _internals: ElementInternals;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
 
   // Generate a unique ID if one is not provided
   connectedCallback() {
@@ -44,12 +58,88 @@ export class NysCheckbox extends LitElement {
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
+    this.addEventListener("invalid", this._handleInvalid);
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
+  }
+
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue();
+    this._manageRequire();
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.checked = false;
+  }
+
+  /********************** Form Integration **********************/
+  private _setValue() {
+    this._internals.setFormValue(this.checked ? this.value : null);
+  }
+
+  private _manageRequire() {
+    const input = this.shadowRoot?.querySelector("input");
+    const message = this.errorMessage || "This field is required";
+    if (!input) return;
+
+    if (this.required && !this.checked) {
+      this._internals.ariaRequired = "true";
+      this._internals.setValidity({ valueMissing: true }, message, input);
+    } else {
+      this._internals.setValidity({});
+    }
+  }
+
+  private _setValidityMessage(message: string = "") {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      input,
+    );
+  }
+
+  private _validate() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    // Get the native validation state
+    let message = input.validationMessage;
+
+    this._setValidityMessage(message);
+  }
+
+  /********************** Functions **********************/
+  private _handleInvalid() {
+    // Start aggressive mode due to form submission
+    if (this._internals.validity.valueMissing) {
+      this.showError = true;
+      this._validate(); // Make sure validation message appears
+    }
+  }
+
+  /******************** Event Handlers ********************/
   // Handle checkbox change event
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
     this.checked = checked;
+    this._internals.setFormValue(this.checked ? this.value : null);
+    this._validate();
+
     this.dispatchEvent(
       new CustomEvent("change", {
         detail: { checked: this.checked },
@@ -75,6 +165,9 @@ export class NysCheckbox extends LitElement {
       e.preventDefault();
       if (!this.disabled) {
         this.checked = !this.checked;
+        this._internals.setFormValue(this.checked ? this.value : null);
+        this._manageRequire();
+
         this.dispatchEvent(
           new CustomEvent("change", {
             detail: { checked: this.checked },
@@ -101,7 +194,7 @@ export class NysCheckbox extends LitElement {
               .value=${this.value}
               ?required="${this.required}"
               aria-checked="${this.checked}"
-              aria-disabled="${this.disabled}"
+              aria-disabled="${this.disabled ? "true" : "false"}"
               aria-required="${this.required}"
               @change="${this._handleChange}"
               @focus="${this._handleFocus}"
@@ -133,16 +226,15 @@ export class NysCheckbox extends LitElement {
             </div>
             <label for=${this.id} class="nys-checkbox__description">
               ${this.description}
-              <slot name="description"></slot>
+              <slot></slot>
             </label>
           </div>`}
         </label>
-        ${this.showError && this.errorMessage
-          ? html`<div class="nys-checkbox__error">
-              <nys-icon name="error" size="xl"></nys-icon>
-              ${this.errorMessage}
-            </div>`
-          : ""}
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          showDivider
+        ></nys-errormessage>
       </div>
     `;
   }

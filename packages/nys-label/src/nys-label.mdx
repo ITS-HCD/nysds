@@ -1,0 +1,57 @@
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { html } from 'lit';
+import * as NysLabelStories from './nys-label.stories';
+import "@nysds/nys-alert";
+
+<Meta of={NysLabelStories} title="Components/Select/Documentation" />
+
+
+# Label **Component**
+
+<nys-alert 
+  type="warning"
+  heading="This component should not be used alone. It is already built into form fields.">
+</nys-alert>
+
+The **`nys-label`** is a reusable web component for use in New York State digital products. It allows users to add a label to a form field. It can display description and optional/required flags.
+
+<p class="pill stable">Stable</p>
+
+<p class="pill uikit"><a href="#">Get the UI kit</a></p>
+
+***
+
+<Canvas of={NysLabelStories.Basic} />
+
+<Controls />
+
+### Options
+
+#### Description
+<Canvas of={NysLabelStories.Description} />
+<Canvas of={NysLabelStories.DescriptionSlot} />
+#### Required
+<Canvas of={NysLabelStories.Required} />
+#### Optional
+<Canvas of={NysLabelStories.Optional} />
+
+## Use cases    
+
+
+## Usage
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+    - Use the required flag only if the required prop is added to the form field.
+    - Use clear wording for what information the user should input in the form field.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+    - Use the label alone or without a form field.
+    </div>
+  </div>
+</div>
