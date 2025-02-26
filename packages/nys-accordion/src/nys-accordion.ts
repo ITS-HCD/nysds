@@ -57,7 +57,8 @@ export class NysAccordion extends LitElement {
     return html`
       <div class="nys-accordion">
         <button class="nys-accordion__header" @click="${this._toggleContent}">
-          header
+          <label for="${this.id}">Accordion</label>
+          <nys-icon name="chevron_down"></nys-icon>
         </button>
         <div class="nys-accordion__content" ?open="${this.isOpen}">content</div>
       </div>
