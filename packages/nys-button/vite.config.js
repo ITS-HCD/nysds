@@ -8,7 +8,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Button Component v1.0.0
+   * Button Component v1.1.0
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
