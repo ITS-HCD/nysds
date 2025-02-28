@@ -111,7 +111,6 @@ export class NysTextinput extends LitElement {
   }
 
   private _manageRequire() {
-    console.log("manginang");
     const input = this.shadowRoot?.querySelector("input");
 
     if (!input) return;
