@@ -10,6 +10,7 @@ const packages = [
   { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
+  { name: "nys-dropdown", path: "packages/nys-dropdown" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
   { name: "nys-textarea", path: "packages/nys-textarea" },

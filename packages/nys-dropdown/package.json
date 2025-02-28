@@ -1,12 +1,12 @@
 {
-    "name": "@nysds/nys-accordion",
+    "name": "@nysds/nys-dropdown",
     "version": "1.0.0",
-    "description": "An accordion component from the NYS Design System.",
-      "module": "dist/nys-accordion.js",
+    "description": "A dropdown component from the NYS Design System.",
+      "module": "dist/nys-dropdown.js",
     "types": "dist/index.d.ts",
     "exports": {
         ".": {
-          "import": "./dist/nys-accordion.js",
+          "import": "./dist/nys-dropdown.js",
           "types": "./dist/index.d.ts"
         }
       },
@@ -35,7 +35,7 @@
       "web-components",
       "lit",
       "nys",
-      "accordion",
+      "dropdown",
       "forms"
     ],
     "author": "New York State Design System Team",

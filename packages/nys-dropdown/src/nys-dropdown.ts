@@ -1,11 +1,11 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-accordion.styles";
+import styles from "./nys-dropdown.styles";
 import "@nysds/nys-button";
 
-let accordionIdCounter = 0; // Counter for generating unique IDs
+let dropdownIdCounter = 0; // Counter for generating unique IDs
 
-export class NysAccordion extends LitElement {
+export class NysDropdown extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
@@ -31,7 +31,7 @@ export class NysAccordion extends LitElement {
 
   /******************** Functions ********************/
   private _generateUniqueId() {
-    return `nys-accordion-${Date.now()}-${accordionIdCounter++}`;
+    return `nys-dropdown-${Date.now()}-${dropdownIdCounter++}`;
   }
 
   private _toggleContent() {
@@ -56,14 +56,14 @@ export class NysAccordion extends LitElement {
 
   render() {
     return html`
-      <div class="nys-accordion">
-        <button class="nys-accordion__header" @click="${this._toggleContent}">
+      <div class="nys-dropdown">
+        <button class="nys-dropdown__header" @click="${this._toggleContent}">
           <label for="${this.id}">${this.label}</label>
           <nys-icon
             name=${this.isOpen ? "chevron_up" : "chevron_down"}
           ></nys-icon>
         </button>
-        <div class="nys-accordion__content" ?open="${this.isOpen}">
+        <div class="nys-dropdown__content" ?open="${this.isOpen}">
           <slot></slot>
         </div>
       </div>
@@ -71,6 +71,6 @@ export class NysAccordion extends LitElement {
   }
 }
 
-if (!customElements.get("nys-accordion")) {
-  customElements.define("nys-accordion", NysAccordion);
+if (!customElements.get("nys-dropdown")) {
+  customElements.define("nys-dropdown", NysDropdown);
 }

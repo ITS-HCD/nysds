@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     lib: {
       entry: ["src/index.ts"], // Simplified entry point
-      fileName: "nys-accordion", // Output file name
+      fileName: "nys-dropdown", // Output file name
       formats: ["es"], // ES build only
     },
     emptyOutDir: false,
