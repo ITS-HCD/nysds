@@ -8,12 +8,14 @@ figma.connect("<FIGMA_BUTTON>", {
       lg: "lg",
     }),
     variant: figma.enum("Variant", {
-      outline: "outline",
-      ghost: "ghost",
-      text: "text",
+      outline: "Outline",
+      ghost: "Ghost",
+      text: "Text",
     }),
     inverted: figma.boolean("Inverted"),
     disabled: figma.boolean("Disabled"),
+    prefixIcon: figma.instance("Prefix Icon"),
+    suffixIcon: figma.instance("Suffix Icon"),
   },
   example: (props) => html`
     <nys-button

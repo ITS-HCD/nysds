@@ -8,79 +8,56 @@ figma.connect("<FIGMA_TEXTAREA>", {
       md: "md",
       lg: "lg",
     }),
-    disabled: figma.enum("State", {
-      Disabled: true,
+    label: figma.nestedProps("Label", {
+      text: figma.string("Label"),
+      optional: figma.boolean("Optional"),
+      required: figma.boolean("Required"),
+      description: figma.boolean("Description", {
+        true: figma.string("↳ Description"),
+        false: undefined,
+      }),
     }),
-    resizable: figma.enum("Resizable", {
-      true: undefined,
-      false: "none",
+    input: figma.nestedProps("Input", {
+      disabled: figma.boolean("Disabled"),
+      resize: figma.boolean("Resizable"),
+      value: figma.boolean("Input", {
+        true: figma.string("↳ Input"),
+        false: undefined,
+      }),
+      description: figma.boolean("Input", {
+        true: figma.string("↳ Input"),
+        false: undefined,
+      }),
+      placeholder: figma.boolean("Placeholder", {
+        true: figma.string("↳ Placeholder"),
+        false: undefined,
+      }),
+      rows: figma.enum("Rows", {
+        "2": "2",
+        // "4": "4", // Default
+        "6": "6",
+      }),
+      showError: figma.boolean("Error"),
     }),
-    value: figma.boolean("Input", {
-      true: figma.string("↳ Input"),
-      false: undefined,
-    }),
-    placeholder: figma.boolean("Placeholder", {
-      true: figma.string("↳ Placeholder"),
-      false: undefined,
-    }),
-    rows: figma.enum("Rows", {
-      "2": 2,
-      "6": 6,
-    }),
-  },
-  example: (props) =>
-    html` <nys-textarea
-      width="${props.width}"
-      value="${props.value}"
-      placeholder="${props.placeholder}"
-      rows="${props.rows}"
-      name="GROUP_NAME_(REPLACE)"
-      disabled="${props.disabled}"
-      resizable="${props.resizable}"
-    ></nys-textarea>`,
-});
-
-figma.connect("<FIGMA_TEXTAREA>", {
-  variant: { State: "Error" },
-  props: {
-    width: figma.enum("Width", {
-      sm: "sm",
-      md: "md",
-      lg: "lg",
-    }),
-    disabled: figma.enum("State", {
-      Disabled: true,
-    }),
-    resizable: figma.enum("Resizable", {
-      true: undefined,
-      false: "none",
-    }),
-    value: figma.boolean("Input", {
-      true: figma.string("↳ Input"),
-      false: undefined,
-    }),
-    placeholder: figma.boolean("Placeholder", {
-      true: figma.string("↳ Placeholder"),
-      false: undefined,
-    }),
-    rows: figma.enum("Rows", {
-      "2": 2,
-      "6": 6,
-    }),
-    error: figma.nestedProps("_Error", {
+    error: figma.nestedProps("Error", {
       message: figma.string("Error Message"),
     }),
   },
   example: (props) =>
-    html` <nys-textarea
-      width="${props.width}"
-      value="${props.value}"
-      placeholder="${props.placeholder}"
-      rows="${props.rows}"
-      name="GROUP_NAME_(REPLACE)"
-      disabled="${props.disabled}"
-      resizable="${props.resizable}"
-      showError
-      errorMessage="${props.error.message}"
-    ></nys-textarea>`,
+    html`<!-- Update 'name' attribute -->
+      <nys-textarea
+        width="${props.width}"
+        label="${props.label.text}"
+        required="${props.label.required}"
+        optional="${props.label.optional}"
+        description="${props.label.description}"
+        value="${props.input.value}"
+        placeholder="${props.input.placeholder}"
+        rows="${props.input.rows}"
+        disabled="${props.input.disabled}"
+        resize="${props.input.resize}"
+        showError="${props.input.showError}"
+        errorMessage="${props.error.message}"
+        name="---REPLACE_THIS---"
+      ></nys-textarea>`,
 });
