@@ -24,10 +24,6 @@ figma.connect("<FIGMA_TEXTAREA>", {
         true: figma.string("↳ Input"),
         false: undefined,
       }),
-      description: figma.boolean("Input", {
-        true: figma.string("↳ Input"),
-        false: undefined,
-      }),
       placeholder: figma.boolean("Placeholder", {
         true: figma.string("↳ Placeholder"),
         false: undefined,
