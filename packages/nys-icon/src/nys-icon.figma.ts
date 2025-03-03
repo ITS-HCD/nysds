@@ -22,15 +22,36 @@ figma.connect("<FIGMA_ICON>", {
     name: figma.instance("shape"),
   },
   example: (props) => html`
-    <nys-icon name="${props.name}" size="${props.size}"> </nys-icon>
+    <!-- Replace icon name with name="icon_name" attribute -->
+    <nys-icon ${props.name} size="${props.size}"> </nys-icon>
   `,
 });
 
+/*
 // account_circle
 figma.connect(
-  "https://www.figma.com/design/Tad3pBv2jhA8XVf6aMlKEi?node-id=1-65",
+  "https://www.figma.com/design/Tad3pBv2jhA8XVf6aMlKEi/%F0%9F%92%9F-NYSDS-%2F-Icons?node-id=1-65",
   {
     props: { name: "account_circle" },
     example: (props) => html`${props.name}`,
   },
 );
+
+// select
+figma.connect(
+  "https://www.figma.com/design/Tad3pBv2jhA8XVf6aMlKEi/%F0%9F%92%9F-NYSDS-%2F-Icons?node-id=3-20",
+  {
+    props: { name: "select" },
+    example: (props) => html`${props.name}`,
+  },
+);
+
+// check
+figma.connect(
+  "https://www.figma.com/design/Tad3pBv2jhA8XVf6aMlKEi/%F0%9F%92%9F-NYSDS-%2F-Icons?node-id=1-17",
+  {
+    props: { name: "check" },
+    example: (props) => html`${props.name}`,
+  },
+);
+*/
