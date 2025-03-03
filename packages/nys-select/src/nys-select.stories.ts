@@ -11,6 +11,7 @@ interface NysSelectArgs {
   value: string;
   disabled: boolean;
   required: boolean;
+  optional: boolean;
   form: string;
   width: string;
   options: string;
@@ -29,6 +30,7 @@ const meta: Meta<NysSelectArgs> = {
     value: { control: "text" },
     disabled: { control: "boolean" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     form: { control: "text" },
     width: { control: "select", options: ["sm", "md", "lg", "full"] },
     showError: { control: "boolean" },
@@ -61,6 +63,7 @@ export const Basic: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -113,6 +116,7 @@ export const OptionsLabelSlot: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -156,6 +160,7 @@ export const DescriptionSlot: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -202,6 +207,7 @@ export const Disabled: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -246,6 +252,7 @@ export const Required: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -291,6 +298,7 @@ export const Width: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -340,6 +348,7 @@ export const ErrorMessage: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}

@@ -13,6 +13,7 @@ interface NysCheckboxArgs {
   disabled: boolean;
   value: string;
   required: boolean;
+  optional: boolean;
   showError: boolean;
   errorMessage: string;
 }
@@ -29,6 +30,7 @@ const meta: Meta<NysCheckboxArgs> = {
     size: { control: "select", options: ["sm", "md"] },
     disabled: { control: "boolean" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     value: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
@@ -71,6 +73,7 @@ export const Basic: Story = {
         .checked=${args.checked}
         .disabled=${args.disabled}
         .required=${args.required}
+        .optional=${args.optional}
         .label=${args.label}
         .description=${args.description}
         .name=${args.name}
@@ -154,6 +157,7 @@ export const Grouping: Story = {
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
         .required=${args.required}
+        .optional=${args.optional}
       >
         <nys-checkbox
           name="benefits"
@@ -270,6 +274,7 @@ export const Disabled: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
@@ -281,6 +286,7 @@ export const Disabled: Story = {
       checked
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
@@ -335,6 +341,7 @@ export const Size: Story = {
         .checked=${args.checked}
         .disabled=${args.disabled}
         .required=${args.required}
+        .optional=${args.optional}
         .label=${args.label}
         .description=${args.description}
         .name=${args.name}
@@ -419,6 +426,7 @@ export const Required: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .id=${args.id}
@@ -465,6 +473,7 @@ export const ErrorMessage: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .id=${args.id}
@@ -512,6 +521,7 @@ export const Slot: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .id=${args.id}
       .name=${args.name}

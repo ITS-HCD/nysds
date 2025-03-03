@@ -13,6 +13,7 @@ interface NysTextareaArgs {
   disabled: boolean;
   readonly: boolean;
   required: boolean;
+  optional: boolean;
   form: string;
   maxlength: string;
   width: string;
@@ -35,6 +36,7 @@ const meta: Meta<NysTextareaArgs> = {
     disabled: { control: "boolean" },
     readonly: { control: "boolean" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     form: { control: "text" },
     maxlength: { control: "text" },
     width: {
@@ -76,6 +78,7 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -108,6 +111,7 @@ export const Width: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -142,6 +146,7 @@ export const Rows: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -179,6 +184,7 @@ export const Resize: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -211,6 +217,7 @@ export const DescriptionSlot: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -229,6 +236,7 @@ export const DescriptionSlot: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -272,6 +280,7 @@ export const ValueAndPlaceholder: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -309,6 +318,7 @@ export const Disabled: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -343,6 +353,7 @@ export const Readonly: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -382,6 +393,7 @@ export const Maxlength: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -420,6 +432,7 @@ export const Required: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -456,6 +469,7 @@ export const ErrorMessage: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
