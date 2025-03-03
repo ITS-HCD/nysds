@@ -664,3 +664,46 @@ export const ErrorMessage: Story = {
     },
   },
 };
+
+export const Optional: Story = {
+  args: {
+    name: "myTextInput7",
+    label: "label",
+    value: "",
+    optional: true,
+  },
+
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .optional=${args.optional}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textinput>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textinput name="myTextInput7" optional label="label"></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};

@@ -492,3 +492,41 @@ export const ErrorMessage: Story = {
     },
   },
 };
+
+export const Optional: Story = {
+  args: {
+    label: "Label",
+    value: "",
+    optional: true,
+  },
+
+  render: (args) =>
+    html` <nys-textarea
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .optional=${args.optional}
+      .form=${args.form}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .rows=${args.rows}
+      .resize=${args.resize}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textarea>`,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textarea optional label="label"></nys-textarea>`,
+        type: "auto",
+      },
+    },
+  },
+};

@@ -553,3 +553,98 @@ export const Slot: Story = {
     },
   },
 };
+
+export const Optional: Story = {
+  args: {
+    checked: true,
+    disabled: false,
+    label: "Adirondacks",
+    description: "",
+    name: "landmarks",
+    value: "adirondacks",
+    showError: false,
+    errorMessage: "",
+    optional: true,
+  },
+
+  render: (args) => html`
+    <nys-checkboxgroup
+      label="Select your favorite New York landmarks"
+      description="Choose from the options below"
+      size=${args.size}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+      .required=${args.required}
+      .optional=${args.optional}
+    >
+      <nys-checkbox
+        .checked=${args.checked}
+        .disabled=${args.disabled}
+        .label=${args.label}
+        .description=${args.description}
+        .name=${args.name}
+        .value=${args.value}
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="finger-lakes"
+        label="Finger Lakes"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="catskills"
+        label="Catskills"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="niagara-falls"
+        label="Niagara Falls"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="coney-island"
+        label="Coney Island"
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="mount-greylock"
+        label="Mount Greylock"
+        description="This is disabled because it's not in New York."
+        disabled
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Select your favorite New York landmarks"
+  description="Choose from the options below"
+  optional
+>
+  <nys-checkbox
+    label="Adirondacks"
+    name="landmarks"
+    value="adirondacks"
+    errorMessage="You must select this box to continue"
+    checked
+  ></nys-checkbox>
+  <nys-checkbox name="landmarks" value="finger-lakes" label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="catskills" label="Catskills" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara-falls" label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="coney-island" label="Coney Island"></nys-checkbox>
+  <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
+</nys-checkboxgroup>
+
+        `,
+
+        type: "auto",
+      },
+    },
+  },
+};
