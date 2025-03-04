@@ -111,11 +111,9 @@ export class NysTextarea extends LitElement {
     if (isInvalid) {
       this._internals.ariaRequired = "true";
       this._internals.setValidity({ valueMissing: true }, message, textarea);
-      this.showError = true;
     } else {
       this._internals.ariaRequired = "false"; // Reset when valid
       this._internals.setValidity({});
-      this.showError = false;
       this._hasUserInteracted = false; // Reset lazy validation when valid
     }
   }

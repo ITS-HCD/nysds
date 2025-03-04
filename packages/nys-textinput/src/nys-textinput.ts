@@ -122,11 +122,9 @@ export class NysTextinput extends LitElement {
     if (isInvalid) {
       this._internals.ariaRequired = "true";
       this._internals.setValidity({ valueMissing: true }, message, input);
-      this.showError = true;
     } else {
       this._internals.ariaRequired = "false";
       this._internals.setValidity({});
-      this.showError = false;
       this._hasUserInteracted = false; // Reset eager/lazy checking
     }
   }

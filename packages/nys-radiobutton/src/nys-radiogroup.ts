@@ -118,10 +118,8 @@ export class NysRadiogroup extends LitElement {
         message,
         firstRadioInput || this,
       );
-      this.showError = true;
     } else {
       this._internals.setValidity({});
-      this.showError = false;
     }
   }
 
