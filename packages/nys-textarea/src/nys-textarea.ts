@@ -18,6 +18,7 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: String }) form = "";
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
@@ -223,7 +224,7 @@ export class NysTextarea extends LitElement {
         <nys-label
           label=${this.label}
           description=${this.description}
-          flag=${this.required ? "required" : ""}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
