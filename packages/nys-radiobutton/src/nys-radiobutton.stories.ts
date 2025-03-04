@@ -14,8 +14,8 @@ interface NysRadiobuttonArgs {
   disabled: boolean;
   value: string;
   form: string;
-  //radiogroup - not including id, name, label, description
   required: boolean;
+  optional: boolean;
   showError: boolean;
   errorMessage: string;
 }
@@ -34,6 +34,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
     value: { control: "text" },
     form: { control: "text" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
   },
@@ -66,6 +67,7 @@ export const Basic: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
       .required=${args.required}
+      .optional=${args.optional}
     >
       <nys-radiobutton
         .name=${args.name}
@@ -277,6 +279,7 @@ export const Required: Story = {
       description="This is the location you use for your in office days."
       size=${args.size}
       .required=${args.required}
+      .optional=${args.optional}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -344,6 +347,7 @@ export const Size: Story = {
       description="This is the agency, department, or office you work for."
       size=${args.size}
       .required=${args.required}
+      .optional=${args.optional}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -418,6 +422,7 @@ export const ErrorMessage: Story = {
       description="This is the location you use for your in office days."
       size=${args.size}
       .required=${args.required}
+      .optional=${args.optional}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -535,6 +540,74 @@ export const Slot: Story = {
   >
     <label> New York City <a href="https://www.ny.gov/" target="__blank">(slot)</a></label>      
   </nys-radiobutton>
+</nys-radiogroup>
+`.trim(),
+
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Optional: Story = {
+  args: {
+    name: "office",
+    label: "Albany",
+    description: "Upstate New York",
+    value: "albany",
+    optional: true,
+  },
+
+  render: (args) => html`
+    <nys-radiogroup
+      label="What is your primary work location?"
+      description="This is the location you use for your in office days."
+      size=${args.size}
+      .required=${args.required}
+      .optional=${args.optional}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${args.checked}
+        .label=${args.label}
+        .description=${args.description}
+        .disabled=${args.disabled}
+        .value=${args.value}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${false}
+        .label=${"Manhattan"}
+        .description=${"New York City"}
+        .disabled=${args.disabled}
+        .value=${"manhattan"}
+      ></nys-radiobutton>
+    </nys-radiogroup>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup 
+  label="What is your primary work location?"
+  description="This is the location you use for your in office days."
+  optional
+>
+  <nys-radiobutton
+    name="office"
+    label="Albany"
+    description="Upstate New York"
+    value="albany"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="office"
+    label="Manhattan"
+    description="New York City"
+    value="manhattan"
+  ></nys-radiobutton>
 </nys-radiogroup>
 `.trim(),
 
