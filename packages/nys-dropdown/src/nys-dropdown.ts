@@ -9,7 +9,8 @@ export class NysDropdown extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
-  @property({ type: Boolean }) isOpen = false;
+  @property({ type: Boolean }) dropdownVisible = true;
+  @property({ type: Array }) items: [string, string][] = [];
 
   static styles = styles;
 
@@ -34,8 +35,8 @@ export class NysDropdown extends LitElement {
     return `nys-dropdown-${Date.now()}-${dropdownIdCounter++}`;
   }
 
-  private _toggleContent() {
-    this.isOpen = !this.isOpen;
+  private _toggleDropdown() {
+    this.dropdownVisible = !this.dropdownVisible;
   }
 
   /******************** Event Handlers ********************/
@@ -57,14 +58,16 @@ export class NysDropdown extends LitElement {
   render() {
     return html`
       <div class="nys-dropdown">
-        <button class="nys-dropdown__header" @click="${this._toggleContent}">
-          <label for="${this.id}">${this.label}</label>
-          <nys-icon
-            name=${this.isOpen ? "chevron_up" : "chevron_down"}
-          ></nys-icon>
-        </button>
-        <div class="nys-dropdown__content" ?open="${this.isOpen}">
-          <slot></slot>
+        <nys-button
+          for="${this.id}"
+          @click="${this._toggleDropdown}"
+          label="${this.label}"
+        ></nys-button>
+        <div class="nys-dropdown__content" ?open="${this.dropdownVisible}">
+          ${this.items.map(
+            ([label, url]) =>
+              html`<a href="${url}" target="_self">${label}</a>`,
+          )}
         </div>
       </div>
     `;
