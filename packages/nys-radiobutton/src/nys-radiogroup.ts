@@ -8,7 +8,7 @@ let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiogroup extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
@@ -119,6 +119,7 @@ export class NysRadiogroup extends LitElement {
         firstRadioInput || this,
       );
     } else {
+      this.showError = false;
       this._internals.setValidity({});
     }
   }

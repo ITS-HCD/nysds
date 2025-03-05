@@ -8,7 +8,7 @@ let buttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysButton extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   // size
   private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
   private _size: (typeof NysButton.VALID_SIZES)[number] = "md";

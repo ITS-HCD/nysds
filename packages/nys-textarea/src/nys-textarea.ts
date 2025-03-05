@@ -10,7 +10,7 @@ let textareaIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextarea extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
