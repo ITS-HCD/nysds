@@ -13,6 +13,7 @@ interface NysCheckboxArgs {
   disabled: boolean;
   value: string;
   required: boolean;
+  optional: boolean;
   showError: boolean;
   errorMessage: string;
 }
@@ -29,6 +30,7 @@ const meta: Meta<NysCheckboxArgs> = {
     size: { control: "select", options: ["sm", "md"] },
     disabled: { control: "boolean" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     value: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
@@ -71,6 +73,7 @@ export const Basic: Story = {
         .checked=${args.checked}
         .disabled=${args.disabled}
         .required=${args.required}
+        .optional=${args.optional}
         .label=${args.label}
         .description=${args.description}
         .name=${args.name}
@@ -154,6 +157,7 @@ export const Grouping: Story = {
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
         .required=${args.required}
+        .optional=${args.optional}
       >
         <nys-checkbox
           name="benefits"
@@ -270,6 +274,7 @@ export const Disabled: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
@@ -281,6 +286,7 @@ export const Disabled: Story = {
       checked
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
@@ -335,6 +341,7 @@ export const Size: Story = {
         .checked=${args.checked}
         .disabled=${args.disabled}
         .required=${args.required}
+        .optional=${args.optional}
         .label=${args.label}
         .description=${args.description}
         .name=${args.name}
@@ -419,6 +426,7 @@ export const Required: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .id=${args.id}
@@ -465,6 +473,7 @@ export const ErrorMessage: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .description=${args.description}
       .id=${args.id}
@@ -512,6 +521,7 @@ export const Slot: Story = {
       .checked=${args.checked}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .label=${args.label}
       .id=${args.id}
       .name=${args.name}
@@ -539,6 +549,101 @@ export const Slot: Story = {
   <label Read about previous updates <a href="https://www.ny.gov/" target="__blank">here</a></label>
 </nys-checkbox>
         `.trim(),
+      },
+    },
+  },
+};
+
+export const Optional: Story = {
+  args: {
+    checked: true,
+    disabled: false,
+    label: "Adirondacks",
+    description: "",
+    name: "landmarks",
+    value: "adirondacks",
+    showError: false,
+    errorMessage: "",
+    optional: true,
+  },
+
+  render: (args) => html`
+    <nys-checkboxgroup
+      label="Select your favorite New York landmarks"
+      description="Choose from the options below"
+      size=${args.size}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+      .required=${args.required}
+      .optional=${args.optional}
+    >
+      <nys-checkbox
+        .checked=${args.checked}
+        .disabled=${args.disabled}
+        .label=${args.label}
+        .description=${args.description}
+        .name=${args.name}
+        .value=${args.value}
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="finger-lakes"
+        label="Finger Lakes"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="catskills"
+        label="Catskills"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="niagara-falls"
+        label="Niagara Falls"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="coney-island"
+        label="Coney Island"
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="mount-greylock"
+        label="Mount Greylock"
+        description="This is disabled because it's not in New York."
+        disabled
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Select your favorite New York landmarks"
+  description="Choose from the options below"
+  optional
+>
+  <nys-checkbox
+    label="Adirondacks"
+    name="landmarks"
+    value="adirondacks"
+    errorMessage="You must select this box to continue"
+    checked
+  ></nys-checkbox>
+  <nys-checkbox name="landmarks" value="finger-lakes" label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="catskills" label="Catskills" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara-falls" label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="coney-island" label="Coney Island"></nys-checkbox>
+  <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
+</nys-checkboxgroup>
+
+        `,
+
+        type: "auto",
       },
     },
   },
