@@ -5,7 +5,7 @@ export default css`
     /* Anything that can be overridden should be defined here */
 
     /* Global Dropdown Styles */
-    --_nys-dropdown-width: 100%;
+    --_nys-dropdown-width: 160px;
     --_nys-dropdown-height: var(--nys-size-600, 48px);
     --_nys-dropdown-radius: var(--nys-border-radius-xl, 12px);
     --_nys-dropdown-padding-y: var(--nys-space-150, 12px);
@@ -56,9 +56,10 @@ export default css`
     font-weight: var(--_nys-dropdown-font-weight);
     line-height: var(--_nys-dropdown-line-height);
     font-family: var(--_nys-dropdown-font-family);
-    width: max-content;
+    min-width: var(--_nys-dropdown-width);
+    max-width: var(--_nys-dropdown-width);
+    width: var(--_nys-dropdown-width);
     position: relative;
-    border: red solid 2px;
   }
 
   .nys-dropdown__content {
@@ -72,15 +73,16 @@ export default css`
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-width: -webkit-fill-available;
+    max-width: -webkit-fill-available;
+    width: -webkit-fill-available;
     width: max-content;
     z-index: 99999;
     position: absolute;
-    border: green solid 2px;
   }
 
   .nys-dropdown__content * {
     color: var(--_nys-dropdown-color-text-content);
     text-decoration: none;
-    border: blue solid 2px;
   }
 `;

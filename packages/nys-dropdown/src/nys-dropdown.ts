@@ -62,6 +62,8 @@ export class NysDropdown extends LitElement {
           for="${this.id}"
           @click="${this._toggleDropdown}"
           label="${this.label}"
+          variant="ghost"
+          fullWidth
         ></nys-button>
         <div class="nys-dropdown__content" ?open="${this.dropdownVisible}">
           ${this.items.map(
