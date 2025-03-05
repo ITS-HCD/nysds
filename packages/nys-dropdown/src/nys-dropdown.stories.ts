@@ -50,14 +50,16 @@ export const Basic: Story = {
         ["Menu", "https://www.google.com"],
       ]}
     ></nys-dropdown>
-    other content
-    <br />
-    other content <br />
-    other content <br />
-    other content <br />
-    other content <br />
-    other content <br />
-    other content
+    <div
+      style="
+      background: red; 
+      height: 20vh; 
+      align-items:center; 
+      justify-content:center; 
+      display:flex;"
+    >
+      other content
+    </div>
   `,
   parameters: {
     docs: {
