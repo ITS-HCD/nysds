@@ -224,7 +224,7 @@ export default css`
   /* Label styling */
   .nys-checkbox__label {
     font-weight: var(--_nys-checkbox-font-weight-400);
-    color: var(--_nys-checkbox-color);
+    color: var(--nys-color-text, #1B1B1B);
   }
 
   /* Description styling */
