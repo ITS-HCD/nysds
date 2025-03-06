@@ -41,15 +41,11 @@ export const Basic: Story = {
     dropdownVisible: false,
   },
   render: (args) => html`
-    <nys-dropdown
-      id=${args.id}
-      name=${args.name}
-      label=${args.label}
-      .items=${[
-        ["Example", "https://www.example.com"],
-        ["Menu", "https://www.google.com"],
-      ]}
-    ></nys-dropdown>
+    <nys-dropdown id=${args.id} name=${args.name} label=${args.label}>
+      <a href="https://example.com/en" target="_self">English</a>
+      <a href="https://example.com/es" target="_self">Español</a>
+      <a href="https://example.com/zh" target="_self">中文</a>
+    </nys-dropdown>
     <div
       style="
       background: red; 

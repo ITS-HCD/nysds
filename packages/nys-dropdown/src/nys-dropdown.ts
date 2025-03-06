@@ -10,7 +10,6 @@ export class NysDropdown extends LitElement {
   @property({ type: String }) name = "";
   @property({ type: String }) label = "";
   @property({ type: Boolean }) dropdownVisible = true;
-  @property({ type: Array }) items: [string, string][] = [];
 
   static styles = styles;
 
@@ -66,10 +65,7 @@ export class NysDropdown extends LitElement {
           fullWidth
         ></nys-button>
         <div class="nys-dropdown__content" ?open="${this.dropdownVisible}">
-          ${this.items.map(
-            ([label, url]) =>
-              html`<a href="${url}" target="_self">${label}</a>`,
-          )}
+          <slot></slot>
         </div>
       </div>
     `;
