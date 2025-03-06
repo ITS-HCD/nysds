@@ -538,7 +538,7 @@ export const Slot: Story = {
     label="Manhattan"
     value="manhattan"
   >
-    <label> New York City <a href="https://www.ny.gov/" target="__blank">(slot)</a></label>      
+    <label slot="description"> New York City <a href="https://www.ny.gov/" target="__blank">(slot)</a></label>      
   </nys-radiobutton>
 </nys-radiogroup>
 `.trim(),
