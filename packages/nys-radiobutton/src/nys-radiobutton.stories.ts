@@ -510,7 +510,7 @@ export const Slot: Story = {
         .disabled=${args.disabled}
         .value=${"manhattan"}
       >
-        <label>
+        <label slot="description">
           New York City
           <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
         >
