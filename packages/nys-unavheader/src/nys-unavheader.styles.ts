@@ -40,7 +40,6 @@ export default css`
     outline-offset: var(--nys-space-2px, 2px);
   }
 
-  .nys-unavheader__logo,
   .nys-unavheader__logo svg {
     vertical-align: top;
     height: var(--nys-size-500, 40px);
