@@ -529,7 +529,7 @@ export const Slot: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
-      <label
+      <label slot="description"
         >${args.description}<a href="https://www.ny.gov/" target="__blank"
           >here</a
         ></label
@@ -546,7 +546,9 @@ export const Slot: Story = {
   name="subscribe"
   value="email-updates"
 >
-  <label Read about previous updates <a href="https://www.ny.gov/" target="__blank">here</a></label>
+  <label slot="description"> Read about previous updates 
+    <a href="https://www.ny.gov/" target="__blank">here</a>
+  </label>
 </nys-checkbox>
         `.trim(),
       },
