@@ -37,13 +37,13 @@ export default css`
 
     /* Border specifics */
     --_nys-alert-color-border-left: var(
-      --nys-color-neutral,
+      --nys-color-base,
       var(--nys-color-neutral-600, #62666a)
     );
 
     /* Background type specifics */
     --_nys-alert-color-bg: var(
-      --nys-color-neutral-weak,
+      --nys-color-base-weak,
       var(--nys-color-neutral-10, #f6f6f6)
     );
 
