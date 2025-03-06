@@ -14,7 +14,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
@@ -225,8 +225,7 @@ export class NysCheckbox extends LitElement {
                 : ""}
             </div>
             <label for=${this.id} class="nys-checkbox__description">
-              ${this.description}
-              <slot></slot>
+              <slot name="description">${this.description}</slot>
             </label>
           </div>`}
         </label>

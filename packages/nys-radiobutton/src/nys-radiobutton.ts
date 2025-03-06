@@ -13,7 +13,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
@@ -165,8 +165,7 @@ export class NysRadiobutton extends LitElement {
             >${this.label}</label
           >
           <label for=${this.id} class="nys-radiobutton__description">
-            ${this.description}
-            <slot></slot>
+            <slot name="description">${this.description}</slot>
           </label>
         </div>`}
       </label>

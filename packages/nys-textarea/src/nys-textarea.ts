@@ -10,7 +10,7 @@ let textareaIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextarea extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
@@ -18,6 +18,7 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: String }) form = "";
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
@@ -111,11 +112,9 @@ export class NysTextarea extends LitElement {
     if (isInvalid) {
       this._internals.ariaRequired = "true";
       this._internals.setValidity({ valueMissing: true }, message, textarea);
-      this.showError = true;
     } else {
       this._internals.ariaRequired = "false"; // Reset when valid
       this._internals.setValidity({});
-      this.showError = false;
       this._hasUserInteracted = false; // Reset lazy validation when valid
     }
   }
@@ -225,7 +224,7 @@ export class NysTextarea extends LitElement {
         <nys-label
           label=${this.label}
           description=${this.description}
-          flag=${this.required ? "required" : ""}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>

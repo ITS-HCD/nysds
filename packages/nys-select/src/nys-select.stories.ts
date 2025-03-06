@@ -11,6 +11,7 @@ interface NysSelectArgs {
   value: string;
   disabled: boolean;
   required: boolean;
+  optional: boolean;
   form: string;
   width: string;
   options: string;
@@ -29,6 +30,7 @@ const meta: Meta<NysSelectArgs> = {
     value: { control: "text" },
     disabled: { control: "boolean" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     form: { control: "text" },
     width: { control: "select", options: ["sm", "md", "lg", "full"] },
     showError: { control: "boolean" },
@@ -61,6 +63,7 @@ export const Basic: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -113,6 +116,7 @@ export const OptionsLabelSlot: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -156,6 +160,7 @@ export const DescriptionSlot: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -202,6 +207,7 @@ export const Disabled: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -246,6 +252,7 @@ export const Required: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -291,6 +298,7 @@ export const Width: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -340,6 +348,7 @@ export const ErrorMessage: Story = {
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -367,6 +376,54 @@ export const ErrorMessage: Story = {
   <nys-option value="staten_island" label="Staten Island"></nys-option>
   <nys-option value="queens" label="Queens"></nys-option>  
 </nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Optional: Story = {
+  args: {
+    label: "Select your favorite borough",
+    value: "",
+    optional: true,
+  },
+
+  render: (args) => html`
+    <nys-select
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .optional=${args.optional}
+      .form=${args.form}
+      .width=${args.width}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-option value="bronx" label="The Bronx"></nys-option>
+      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
+      <nys-option value="manhattan" label="Manhattan"></nys-option>
+      <nys-option value="staten_island" label="Staten Island"></nys-option>
+      <nys-option value="queens" label="Queens"></nys-option>
+    </nys-select>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough" optional>
+  <nys-option value="bronx" label="The Bronx"></nys-option>
+  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
+  <nys-option value="manhattan" label="Manhattan"></nys-option>
+  <nys-option value="staten_island" label="Staten Island"></nys-option>
+  <nys-option value="queens" label="Queens"></nys-option>  
+</nys-select>`,
+
         type: "auto",
       },
     },
