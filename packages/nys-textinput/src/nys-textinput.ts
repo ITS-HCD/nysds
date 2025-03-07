@@ -89,13 +89,6 @@ export class NysTextinput extends LitElement {
 
     this._originalErrorMessage = this.errorMessage;
     this.addEventListener("invalid", this._handleInvalid);
-
-    const form = this._internals.form;
-    console.log("form", this.form);
-    if (form) {
-      form.addEventListener("submit", this._handleFormSubmit);
-      console.log("we in");
-    }
   }
 
   disconnectedCallback() {
@@ -162,7 +155,29 @@ export class NysTextinput extends LitElement {
     if (!input) return;
 
     // Get the native validation state
-    let message = input.validationMessage;
+    const validity = input.validity;
+    let message = "";
+
+    // Check each possible validation error
+    if (validity.valueMissing) {
+      message = "This field is required";
+    } else if (validity.typeMismatch) {
+      message = "Invalid format for this type";
+    } else if (validity.patternMismatch) {
+      message = "Invalid format";
+    } else if (validity.tooShort) {
+      message = `Value is too short. Minimum length is ${input.minLength}`;
+    } else if (validity.tooLong) {
+      message = `Value is too long. Maximum length is ${input.maxLength}`;
+    } else if (validity.rangeUnderflow) {
+      message = `Value must be at least ${input.min}`;
+    } else if (validity.rangeOverflow) {
+      message = `Value must be at most ${input.max}`;
+    } else if (validity.stepMismatch) {
+      message = "Invalid step value";
+    } else {
+      message = input.validationMessage;
+    }
 
     this._setValidityMessage(message);
   }
@@ -171,15 +186,6 @@ export class NysTextinput extends LitElement {
   private _handleInvalid() {
     this._hasUserInteracted = true; // Start aggressive mode due to form submission
     this._validate();
-  }
-
-  private _handleFormSubmit(event: Event) {
-    console.log("_handleFormSubmit");
-    // If the field is invalid, prevent form submission
-    if (!this._internals.checkValidity()) {
-      event.preventDefault();
-      this._handleInvalid();
-    }
   }
 
   /******************** Event Handlers ********************/
