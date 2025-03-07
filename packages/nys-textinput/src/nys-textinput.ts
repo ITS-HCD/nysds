@@ -91,10 +91,10 @@ export class NysTextinput extends LitElement {
     this.addEventListener("invalid", this._handleInvalid);
 
     const form = this._internals.form;
-    console.log("form", this.form)
+    console.log("form", this.form);
     if (form) {
       form.addEventListener("submit", this._handleFormSubmit);
-      console.log('we in')
+      console.log("we in");
     }
   }
 
@@ -142,10 +142,10 @@ export class NysTextinput extends LitElement {
   private _setValidityMessage(message: string = "") {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
-  
+
     // Always show the visual error if there is a message
     this.showError = !!message;
-  
+
     // Use the original errorMessage if defined, or keep the message from validation
     if (this._originalErrorMessage.trim() && message !== "") {
       this.errorMessage = this._originalErrorMessage;
@@ -174,7 +174,7 @@ export class NysTextinput extends LitElement {
   }
 
   private _handleFormSubmit(event: Event) {
-    console.log("_handleFormSubmit")
+    console.log("_handleFormSubmit");
     // If the field is invalid, prevent form submission
     if (!this._internals.checkValidity()) {
       event.preventDefault();
