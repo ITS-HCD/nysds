@@ -219,6 +219,7 @@ export default css`
     display: flex;
     flex-direction: column;
     margin: auto 0; /* Center text if single line label */
+    align-items: flex-start;
   }
 
   /* Label styling */

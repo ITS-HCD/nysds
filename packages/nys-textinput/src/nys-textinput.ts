@@ -68,6 +68,7 @@ export class NysTextinput extends LitElement {
 
   static styles = styles;
 
+  private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
@@ -85,7 +86,16 @@ export class NysTextinput extends LitElement {
     if (!this.id) {
       this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
     }
+
+    this._originalErrorMessage = this.errorMessage;
     this.addEventListener("invalid", this._handleInvalid);
+
+    const form = this._internals.form;
+    console.log("form", this.form)
+    if (form) {
+      form.addEventListener("submit", this._handleFormSubmit);
+      console.log('we in')
+    }
   }
 
   disconnectedCallback() {
@@ -132,19 +142,19 @@ export class NysTextinput extends LitElement {
   private _setValidityMessage(message: string = "") {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
-
-    // Toggle the HTML <div> tag error message
+  
+    // Always show the visual error if there is a message
     this.showError = !!message;
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage.trim() && message !== "") {
-      message = this.errorMessage;
+  
+    // Use the original errorMessage if defined, or keep the message from validation
+    if (this._originalErrorMessage.trim() && message !== "") {
+      this.errorMessage = this._originalErrorMessage;
+    } else {
+      this.errorMessage = message;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
+    const validityState = message ? { customError: true } : {};
+    this._internals.setValidity(validityState, this.errorMessage, input);
   }
 
   private _validate() {
@@ -152,29 +162,7 @@ export class NysTextinput extends LitElement {
     if (!input) return;
 
     // Get the native validation state
-    const validity = input.validity;
-    let message = "";
-
-    // Check each possible validation error
-    if (validity.valueMissing) {
-      message = "This field is required";
-    } else if (validity.typeMismatch) {
-      message = "Invalid format for this type";
-    } else if (validity.patternMismatch) {
-      message = "Invalid format";
-    } else if (validity.tooShort) {
-      message = `Value is too short. Minimum length is ${input.minLength}`;
-    } else if (validity.tooLong) {
-      message = `Value is too long. Maximum length is ${input.maxLength}`;
-    } else if (validity.rangeUnderflow) {
-      message = `Value must be at least ${input.min}`;
-    } else if (validity.rangeOverflow) {
-      message = `Value must be at most ${input.max}`;
-    } else if (validity.stepMismatch) {
-      message = "Invalid step value";
-    } else {
-      message = input.validationMessage;
-    }
+    let message = input.validationMessage;
 
     this._setValidityMessage(message);
   }
@@ -185,9 +173,19 @@ export class NysTextinput extends LitElement {
     this._validate();
   }
 
+  private _handleFormSubmit(event: Event) {
+    console.log("_handleFormSubmit")
+    // If the field is invalid, prevent form submission
+    if (!this._internals.checkValidity()) {
+      event.preventDefault();
+      this._handleInvalid();
+    }
+  }
+
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
+    event.preventDefault();
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this._internals.setFormValue(this.value);
@@ -265,7 +263,7 @@ export class NysTextinput extends LitElement {
         />
         <nys-errormessage
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.errorMessage}
         ></nys-errormessage>
       </div>
     `;

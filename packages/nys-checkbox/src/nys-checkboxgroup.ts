@@ -98,31 +98,33 @@ export class NysCheckboxgroup extends LitElement {
 
   // Updates the required attribute of each checkbox in the group
   private async _manageCheckboxRequired() {
-    const message = this.errorMessage || "Please select at least one option.";
-    const firstCheckbox = this.querySelector("nys-checkbox");
-    const firstCheckboxInput = firstCheckbox
-      ? await (firstCheckbox as any).getInputElement()
-      : null;
+    if (this.required) {
+      const message = this.errorMessage || "Please select at least one option.";
+      const firstCheckbox = this.querySelector("nys-checkbox");
+      const firstCheckboxInput = firstCheckbox
+        ? await (firstCheckbox as any).getInputElement()
+        : null;
 
-    let atLeastOneChecked = false;
-    const checkboxes = this.querySelectorAll("nys-checkbox");
-    // Loop through each child checkbox to see if one is checked.
-    checkboxes.forEach((checkbox: any) => {
-      if (checkbox.checked) {
-        atLeastOneChecked = true;
+      let atLeastOneChecked = false;
+      const checkboxes = this.querySelectorAll("nys-checkbox");
+      // Loop through each child checkbox to see if one is checked.
+      checkboxes.forEach((checkbox: any) => {
+        if (checkbox.checked) {
+          atLeastOneChecked = true;
+        }
+      });
+
+      if (atLeastOneChecked) {
+        this._internals.setValidity({});
+        this.showError = false;
+      } else {
+        this._internals.setValidity(
+          { valueMissing: true },
+          message,
+          firstCheckboxInput ? firstCheckboxInput : this,
+        );
+        this.showError = true;
       }
-    });
-
-    if (atLeastOneChecked) {
-      this._internals.setValidity({});
-      this.showError = false;
-    } else {
-      this._internals.setValidity(
-        { valueMissing: true },
-        message,
-        firstCheckboxInput ? firstCheckboxInput : this,
-      );
-      this.showError = true;
     }
   }
 
