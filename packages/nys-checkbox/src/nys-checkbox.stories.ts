@@ -380,9 +380,9 @@ export const Size: Story = {
   size="sm"
 >
   <nys-checkbox
-    label="Adirondacks"
     name="landmarks"
     value="adirondacks"
+    label="Adirondacks"
     errorMessage="You must select this box to continue"
     checked
   ></nys-checkbox>
