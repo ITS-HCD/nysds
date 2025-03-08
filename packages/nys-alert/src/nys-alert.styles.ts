@@ -71,6 +71,7 @@ export default css`
     line-height: var(--_nys-alert-lineheight);
     letter-spacing: var(--_nys-alert-letterspacing);
     gap: var(--_nys-alert-gap-space-150);
+    text-align: left;
   }
 
   /* Links */
