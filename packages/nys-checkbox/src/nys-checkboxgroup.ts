@@ -61,7 +61,7 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   firstUpdated() {
-    // This ensures our element always participates in the form
+    // This ensures our checkboxes sets the value only once for formData (not within the individual checkboxes)
     this._setGroupExist();
   }
 

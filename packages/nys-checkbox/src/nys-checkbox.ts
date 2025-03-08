@@ -80,7 +80,7 @@ export class NysCheckbox extends LitElement {
 
   /********************** Form Integration **********************/
   private _setValue() {
-    if (this.groupExist) {
+    if (!this.groupExist) {
       this._internals.setFormValue(this.checked ? this.value : null);
     }
   }
@@ -140,7 +140,7 @@ export class NysCheckbox extends LitElement {
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
     this.checked = checked;
-    if (this.groupExist) {
+    if (!this.groupExist) {
       this._internals.setFormValue(this.checked ? this.value : null);
     }
     this._validate();
