@@ -7,6 +7,13 @@ export default function (plop) {
         type: "input",
         name: "componentName",
         message: "Component Name (no spaces or nys- prefix)",
+        // cannot be blank, force user to enter a value
+        validate: (value) => {
+          if (value === "") {
+            return "Component Name cannot be blank";
+          }
+          return true;
+        },
       },
       {
         type: "input",
