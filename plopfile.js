@@ -18,7 +18,7 @@ export default function (plop) {
       {
         type: "input",
         name: "versionNumber",
-        message: "Version Number (default: 1.0.0)",
+        message: "Version Number",
         default: "1.0.0",
       },
     ],
@@ -30,13 +30,18 @@ export default function (plop) {
       },
       {
         type: "add",
-        path: "packages/nys-{{componentName}}/vite.config.js",
-        templateFile: "templates/viteconfig.template.hbs",
+        path: "packages/nys-{{componentName}}/package.json",
+        templateFile: "templates/package.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/tsconfig.json",
         templateFile: "templates/tsconfig.template.hbs",
+      },
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/vite.config.js",
+        templateFile: "templates/viteconfig.template.hbs",
       },
     ],
   });
