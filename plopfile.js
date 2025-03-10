@@ -9,14 +9,24 @@ export default function (plop) {
         message:
           "What is the name of the new component? Omit NYS and no spaces. ie: “textarea” not “text area”",
       },
-    ], // array of inquirer prompts
+      {
+        type: "input",
+        name: "versionNumber",
+        message: "What is the version of the component?",
+      },
+    ],
     actions: [
       {
         type: "add",
-        path: "packages/nys-{{componentName}}/index.ts",
+        path: "packages/nys-{{componentName}}/src/index.ts",
         templateFile: "templates/index.template.hbs",
       },
-    ], // array of actions
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/vite.config.ts",
+        templateFile: "templates/viteconfig.template.hbs",
+      },
+    ],
   });
 
   // input: "hello world"
