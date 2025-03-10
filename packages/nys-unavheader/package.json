@@ -1,7 +1,7 @@
 {
   "name": "@nysds/nys-unavheader",
   "version": "1.1.0",
-  "description": "A universal navigation header component from the NYS Design System.",
+  "description": "The Unavheader component from the NYS Design System.",
   "module": "dist/nys-unavheader.js",
   "types": "dist/index.d.ts",
   "exports": {
