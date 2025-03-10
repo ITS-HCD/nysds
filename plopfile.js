@@ -50,6 +50,11 @@ export default function (plop) {
       },
       {
         type: "add",
+        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.test.ts",
+        templateFile: "templates/test.template.hbs",
+      },
+      {
+        type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.ts",
         templateFile: "templates/component.template.hbs",
       },
