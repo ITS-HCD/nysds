@@ -1,0 +1,156 @@
+import { LitElement, html } from "lit";
+import { property } from "lit/decorators.js";
+import styles from "./nys-{{componentName}}.styles";
+import { ifDefined } from "lit/directives/if-defined.js";
+
+let idCounter = 0; // Counter for generating unique IDs
+
+export class Nys{{capitalize componentName}} extends LitElement {
+  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) name = "";
+
+  static styles = styles;
+
+  private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _internals: ElementInternals;
+
+  /**************** Lifecycle Methods ****************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-{{componentName}}-${Date.now()}-${idCounter++}`;
+    }
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
+  }
+
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue();
+    this._manageRequire();
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
+  }
+
+  /********************** Form Integration **********************/
+  private _setValue() {
+    this._manageRequire();
+    this._internals.setFormValue(this.value);
+  }
+
+  private _manageRequire() {
+    const {{componentName}} = this.shadowRoot?.querySelector("{{componentName}}");
+
+    if (!{{componentName}}) return;
+
+    const message = this.errorMessage || "This field is required";
+    const isInvalid = this.required && !this.value;
+
+    if (isInvalid) {
+      this._internals.ariaRequired = "true";
+      this._internals.setValidity({ valueMissing: true }, message, {{componentName}});
+    } else {
+      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.setValidity({});
+      this._hasUserInteracted = false; // Reset lazy validation when valid
+    }
+  }
+
+  private _setValidityMessage(message: string = "") {
+    const {{componentName}} = this.shadowRoot?.querySelector("{{componentName}}");
+    if (!{{componentName}}) return;
+
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      {{componentName}},
+    );
+  }
+
+  private _validate() {
+    const {{componentName}} = this.shadowRoot?.querySelector("{{componentName}}");
+    if (!{{componentName}}) return;
+
+    // Get the native validation state
+    let message = {{componentName}}.validationMessage;
+
+    this._setValidityMessage(message);
+  }
+
+
+  /******************** Functions ********************/
+  private _handleInvalid() {
+    this._hasUserInteracted = true; // Start aggressive mode due to form submission
+    this._validate();
+  }
+  /******************** Event Handlers ********************/
+  // Handle input event to check pattern validity
+  private _handleInput(event: Event) {
+    const {{componentName}} = event.target as HTMLInputElement;
+    this.value = {{componentName}}.value;
+    this._internals.setFormValue(this.value);
+
+    // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
+    if (this._hasUserInteracted) {
+      this._validate();
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("input", {
+        detail: { value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  // Handle focus event
+  private _handleFocus() {
+    this.dispatchEvent(new Event("focus"));
+  }
+
+  // Handle blur event
+  private _handleBlur() {
+    this.dispatchEvent(new Event("blur"));
+  }
+
+  // Handle click event
+  private _handleClick() {
+    this.dispatchEvent(new Event("click"));
+  }
+
+  // Handle change event
+  private _handleChange() {
+    this.dispatchEvent(new Event("change"));
+  }
+
+  render() {
+    return html`<div class="nys-{{componentName}}"></div>`;
+  }
+}
+
+if (!customElements.get("nys-{{componentName}}")) {
+  customElements.define("nys-{{componentName}}", Nys{{capitalize componentName}});
+}
