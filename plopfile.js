@@ -23,8 +23,13 @@ export default function (plop) {
       },
       {
         type: "add",
-        path: "packages/nys-{{componentName}}/vite.config.ts",
+        path: "packages/nys-{{componentName}}/vite.config.js",
         templateFile: "templates/viteconfig.template.hbs",
+      },
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/tsconfig.json",
+        templateFile: "templates/tsconfig.template.hbs",
       },
     ],
   });
