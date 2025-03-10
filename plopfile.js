@@ -73,7 +73,7 @@ export default function (plop) {
 
   // input: "helloworld"
   // output: "Helloworld"
-  plop.setHelper("titleCase", (text) => {
+  plop.setHelper("capitalize", (text) => {
     return text
       .split(" ")
       .map((word) => word[0].toUpperCase() + word.slice(1))
