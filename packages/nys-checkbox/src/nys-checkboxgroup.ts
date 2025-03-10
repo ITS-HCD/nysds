@@ -10,6 +10,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
@@ -175,7 +176,7 @@ export class NysCheckboxgroup extends LitElement {
       <nys-label
         label=${this.label}
         description=${this.description}
-        flag=${this.required ? "required" : ""}
+        flag=${this.required ? "required" : this.optional ? "optional" : ""}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
