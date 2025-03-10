@@ -30,6 +30,31 @@ export default function (plop) {
       },
       {
         type: "add",
+        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.figma.ts",
+        templateFile: "templates/figma.template.hbs",
+      },
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.mdx",
+        templateFile: "templates/mdx.template.hbs",
+      },
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.stories.ts",
+        templateFile: "templates/stories.template.hbs",
+      },
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.styles.ts",
+        templateFile: "templates/styles.template.hbs",
+      },
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.ts",
+        templateFile: "templates/component.template.hbs",
+      },
+      {
+        type: "add",
         path: "packages/nys-{{componentName}}/package.json",
         templateFile: "templates/package.template.hbs",
       },
@@ -46,8 +71,8 @@ export default function (plop) {
     ],
   });
 
-  // input: "hello world"
-  // output: "Hello World"
+  // input: "helloworld"
+  // output: "Helloworld"
   plop.setHelper("titleCase", (text) => {
     return text
       .split(" ")
@@ -55,28 +80,9 @@ export default function (plop) {
       .join(" ");
   });
 
-  // input: "hello world"
-  // output: "hello_world"
-  plop.setHelper("snakeCase", (text) => {
-    return text.toLowerCase().split(" ").join("_");
-  });
-
-  // input: "hello world"
-  // output: "helloWorld"
-  plop.setHelper("camelCase", (text) => {
-    return text
-      .split(" ")
-      .map((word, index) =>
-        index === 0
-          ? word.toLowerCase()
-          : word[0].toUpperCase() + word.slice(1).toLowerCase(),
-      )
-      .join("");
-  });
-
-  // input: "hello world"
-  // output: "hello-world"
-  plop.setHelper("kebabCase", (text) => {
-    return text.toLowerCase().split(" ").join("-");
+  // input: "helloworld"
+  // output: "HELLOWORLD"
+  plop.setHelper("uppercase", (text) => {
+    return text.toUpperCase();
   });
 }
