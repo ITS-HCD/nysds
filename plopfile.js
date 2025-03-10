@@ -6,13 +6,13 @@ export default function (plop) {
       {
         type: "input",
         name: "componentName",
-        message:
-          "What is the name of the new component? Omit NYS and no spaces. ie: “textarea” not “text area”",
+        message: "Component Name (no spaces or nys- prefix)",
       },
       {
         type: "input",
         name: "versionNumber",
-        message: "What is the version of the component?",
+        message: "Version Number (default: 1.0.0)",
+        default: "1.0.0",
       },
     ],
     actions: [
