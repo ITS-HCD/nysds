@@ -51,20 +51,25 @@ export class NysCheckboxgroup extends LitElement {
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
-    this.addEventListener("change", this._manageCheckboxRequired);
+    this.addEventListener("change", this._handleCheckboxChange);
     this.addEventListener("invalid", this._handleInvalid);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener("change", this._manageCheckboxRequired);
+    this.removeEventListener("change", this._handleCheckboxChange);
     this.removeEventListener("invalid", this._handleInvalid);
+  }
+
+  firstUpdated() {
+    // This ensures our checkboxes sets the value only once for formData (not within the individual checkboxes)
+    this._setGroupExist();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
     if (changedProperties.has("required")) {
       if (this.required) {
-        this.setupCheckboxRequired();
+        this._setupCheckboxRequired();
       }
     }
     if (changedProperties.has("size")) {
@@ -73,6 +78,13 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   /********************** Functions **********************/
+  private _setGroupExist() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox: any) => {
+      checkbox.groupExist = true;
+    });
+  }
+
   private _handleInvalid() {
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
@@ -82,7 +94,7 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   // Initial update on checkbox required attribute
-  private async setupCheckboxRequired() {
+  private async _setupCheckboxRequired() {
     const firstCheckbox = this.querySelector("nys-checkbox");
     const message = this.errorMessage || "This field is required";
 
@@ -97,33 +109,53 @@ export class NysCheckboxgroup extends LitElement {
     );
   }
 
+  // Similar to how native forms handle multiple same-name fields, we group the selected values into a list for FormData.
+  private _handleCheckboxChange(event: Event) {
+    const customEvent = event as CustomEvent;
+    const { name } = customEvent.detail;
+    const checkboxes = Array.from(this.querySelectorAll("nys-checkbox"));
+
+    // Filter to only the checked ones and extract their values.
+    const selectedValues = checkboxes
+      .filter((checkbox: any) => checkbox.checked)
+      .map((checkbox: any) => checkbox.value);
+
+    this.name = name;
+
+    this._internals.setFormValue(selectedValues.join(", "));
+
+    this._manageCheckboxRequired();
+  }
+
   // Updates the required attribute of each checkbox in the group
   private async _manageCheckboxRequired() {
-    const message = this.errorMessage || "Please select at least one option.";
-    const firstCheckbox = this.querySelector("nys-checkbox");
-    const firstCheckboxInput = firstCheckbox
-      ? await (firstCheckbox as any).getInputElement()
-      : null;
+    if (this.required) {
+      const message = this.errorMessage || "Please select at least one option.";
+      const firstCheckbox = this.querySelector("nys-checkbox");
+      const firstCheckboxInput = firstCheckbox
+        ? await (firstCheckbox as any).getInputElement()
+        : null;
 
-    let atLeastOneChecked = false;
-    const checkboxes = this.querySelectorAll("nys-checkbox");
-    // Loop through each child checkbox to see if one is checked.
-    checkboxes.forEach((checkbox: any) => {
-      if (checkbox.checked) {
-        atLeastOneChecked = true;
+      let atLeastOneChecked = false;
+      const checkboxes = this.querySelectorAll("nys-checkbox");
+      // Loop through each child checkbox to see if one is checked.
+      checkboxes.forEach((checkbox: any) => {
+        if (checkbox.checked) {
+          atLeastOneChecked = true;
+        }
+      });
+
+      if (atLeastOneChecked) {
+        this._internals.setValidity({});
+        this.showError = false;
+      } else {
+        this._internals.setValidity(
+          { valueMissing: true },
+          message,
+          firstCheckboxInput ? firstCheckboxInput : this,
+        );
+        this.showError = true;
       }
-    });
-
-    if (atLeastOneChecked) {
-      this._internals.setValidity({});
-      this.showError = false;
-    } else {
-      this._internals.setValidity(
-        { valueMissing: true },
-        message,
-        firstCheckboxInput ? firstCheckboxInput : this,
-      );
-      this.showError = true;
     }
   }
 
