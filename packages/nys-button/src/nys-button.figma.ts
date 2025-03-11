@@ -2,7 +2,10 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_BUTTON>", {
   props: {
-    labelText: figma.string("Label Text"),
+    label: figma.boolean("Label", {
+      true: figma.string("Label Text"),
+      false: undefined,
+    }),
     size: figma.enum("Size", {
       sm: "sm",
       // md: "md",
@@ -15,14 +18,8 @@ figma.connect("<FIGMA_BUTTON>", {
     }),
     inverted: figma.boolean("Inverted"),
     disabled: figma.boolean("Disabled"),
-    prefixIcon: figma.boolean("Prefix Icon", {
-      true: "icon_name_REPLACE",
-      false: undefined,
-    }),
-    suffixIcon: figma.boolean("Suffix Icon", {
-      true: "icon_name_REPLACE",
-      false: undefined,
-    }),
+    prefixIcon: figma.children("Prefix Icon"),
+    suffixIcon: figma.children("Suffix Icon"),
   },
   example: (props) => html`
     <!-- 
@@ -33,16 +30,27 @@ figma.connect("<FIGMA_BUTTON>", {
   - ⚠️ Icon names are not populated, replace with actual icon names
 -->
     <nys-button
-      label="${props.labelText}"
+      label="${props.label}"
       size="${props.size}"
       variant="${props.variant}"
       inverted="${props.inverted}"
       disabled="${props.disabled}"
-      prefixIcon="${props.prefixIcon}"
-      suffixIcon="${props.suffixIcon}"
+      ${props.prefixIcon}
+      ${props.suffixIcon}
     ></nys-button>
   `,
 });
+
+// figma.connect("https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYSDS-%2F-Components?m=auto&node-id=2205-1627&t=hlgC7mfYt6d2hrE9-1", {
+//   props: { icon: figma.instance("shape") },
+//   example: (props) => html`${props.icon}`,
+// });
+
+
+// figma.connect("<FIGMA_ICON_FIXED>", {
+//   props: { icon: figma.instance("shape") },
+//   example: (props) => html`${props.icon}`,
+// });
 
 /*
 prefixIcon: figma.instance("Prefix Icon"),
@@ -57,4 +65,16 @@ suffixIcon: figma.nestedProps("Suffix Icon", {
 
 prefixIcon="${props.prefixIcon.shape}"
 suffixIcon="${props.suffixIcon.shape}"
+
+    prefixIcon: figma.boolean("Prefix Icon", {
+      true: figma.children("Prefix Icon"),
+      false: undefined,
+    }),
+    suffixIcon: figma.boolean("Suffix Icon", {
+      true: figma.children("Suffix Icon"),
+      false: undefined,
+    }),
+
+
+
 */
