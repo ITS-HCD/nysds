@@ -183,7 +183,7 @@ export class NysTextinput extends LitElement {
   }
 
   /********************** Functions **********************/
-  // Expose a public checkValidity() that defers to the element's native validation.
+  // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.checkValidity() : true;
@@ -199,10 +199,14 @@ export class NysTextinput extends LitElement {
       // Focus only if this is the first invalid element (top-down approach)
       const form = this._internals.form;
       if (form) {
-        const elements = Array.from(form.elements) as Array<HTMLElement & { checkValidity?: () => boolean }>;
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
         // Find the first element in the form that is invalid
         const firstInvalidElement = elements.find(
-          (element) => typeof element.checkValidity === "function" && !element.checkValidity()
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
         );
         if (firstInvalidElement === this) {
           input.focus();

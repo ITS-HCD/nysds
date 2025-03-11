@@ -156,12 +156,12 @@ export class NysSelect extends LitElement {
   }
 
   /********************** Functions **********************/
-  // Expose a public checkValidity() that defers to the element's native validation.
+  // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const select = this.shadowRoot?.querySelector("select");
     return select ? select.checkValidity() : true;
   }
-  
+
   private _handleInvalid(event: Event) {
     event.preventDefault();
     this._hasUserInteracted = true; // Start aggressive mode due to form submission
@@ -173,10 +173,14 @@ export class NysSelect extends LitElement {
       // Focus only if this is the first invalid element (top-down approach)
       const form = this._internals.form;
       if (form) {
-        const elements = Array.from(form.elements) as Array<HTMLElement & { checkValidity?: () => boolean }>;
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
         // Find the first element in the form that is invalid
         const firstInvalidElement = elements.find(
-          (element) => typeof element.checkValidity === "function" && !element.checkValidity()
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
         );
         if (firstInvalidElement === this) {
           select.focus();
