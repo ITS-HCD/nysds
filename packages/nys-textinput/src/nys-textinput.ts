@@ -69,6 +69,7 @@ export class NysTextinput extends LitElement {
 
   static styles = styles;
 
+  private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
@@ -86,6 +87,8 @@ export class NysTextinput extends LitElement {
     if (!this.id) {
       this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
     }
+
+    this._originalErrorMessage = this.errorMessage;
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -134,18 +137,18 @@ export class NysTextinput extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    // Toggle the HTML <div> tag error message
+    // Always show the visual error if there is a message
     this.showError = !!message;
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage.trim() && message !== "") {
-      message = this.errorMessage;
+
+    // Use the original errorMessage if defined, or keep the message from validation
+    if (this._originalErrorMessage.trim() && message !== "") {
+      this.errorMessage = this._originalErrorMessage;
+    } else {
+      this.errorMessage = message;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
+    const validityState = message ? { customError: true } : {};
+    this._internals.setValidity(validityState, this.errorMessage, input);
   }
 
   private _validate() {
@@ -189,6 +192,7 @@ export class NysTextinput extends LitElement {
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
+    event.preventDefault();
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this._internals.setFormValue(this.value);
@@ -266,7 +270,7 @@ export class NysTextinput extends LitElement {
         />
         <nys-errormessage
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.errorMessage}
         ></nys-errormessage>
       </div>
     `;

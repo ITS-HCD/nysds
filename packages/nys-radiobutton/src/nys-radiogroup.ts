@@ -144,8 +144,9 @@ export class NysRadiogroup extends LitElement {
   // Keeps radiogroup informed of the name and value of its current selected radiobutton
   private _handleRadioButtonChange(event: Event) {
     const customEvent = event as CustomEvent;
-    const { value } = customEvent.detail;
+    const { name, value } = customEvent.detail;
 
+    this.name = name;
     this.selectedValue = value;
     this._internals.setFormValue(this.selectedValue);
   }

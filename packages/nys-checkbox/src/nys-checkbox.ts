@@ -18,6 +18,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
+  @property({ type: Boolean }) groupExist = false;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
 
@@ -79,7 +80,9 @@ export class NysCheckbox extends LitElement {
 
   /********************** Form Integration **********************/
   private _setValue() {
-    this._internals.setFormValue(this.checked ? this.value : null);
+    if (!this.groupExist) {
+      this._internals.setFormValue(this.checked ? this.value : null);
+    }
   }
 
   private _manageRequire() {
@@ -137,12 +140,18 @@ export class NysCheckbox extends LitElement {
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
     this.checked = checked;
-    this._internals.setFormValue(this.checked ? this.value : null);
+    if (!this.groupExist) {
+      this._internals.setFormValue(this.checked ? this.value : null);
+    }
     this._validate();
 
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { checked: this.checked },
+        detail: {
+          checked: this.checked,
+          name: this.name,
+          value: this.value,
+        },
         bubbles: true,
         composed: true,
       }),
@@ -170,7 +179,11 @@ export class NysCheckbox extends LitElement {
 
         this.dispatchEvent(
           new CustomEvent("change", {
-            detail: { checked: this.checked },
+            detail: {
+              checked: this.checked,
+              name: this.name,
+              value: this.value,
+            },
             bubbles: true,
             composed: true,
           }),
