@@ -2,8 +2,6 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-{{componentName}}.styles";
 
-let idCounter = 0; // Counter for generating unique IDs
-
 export class Nys{{capitalize componentName}} extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";

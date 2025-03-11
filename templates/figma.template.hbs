@@ -1,6 +1,8 @@
 import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_{{uppercase componentName}}>", {
-  props: {},
+  props: {
+    // TODO: Add props here
+  },
   example: (props) => html` <nys-{{componentName}}></nys-{{componentName}}> `,
 });
