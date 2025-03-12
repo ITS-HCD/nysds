@@ -94,6 +94,7 @@ export default css`
   .nys-toggle__text {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     font-size: var(--_nys-toggle-font-size);
     font-family: var(--_nys-toggle-font-family);
     font-weight: var(--_nys-toggle-font-weight);
