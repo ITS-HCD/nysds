@@ -23,7 +23,7 @@ export default css`
 
   .nys-unavheader {
     background-color: var(--nys-color-ink-reverse, #ffffff);
-    padding: var(--nys-space-2px, 2px) var(--_nys-unavheader-gutter);
+    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     display: flex;
     justify-content: center;
   }
@@ -40,9 +40,10 @@ export default css`
     outline-offset: var(--nys-space-2px, 2px);
   }
 
-  .nys-unavheader__logo {
+  .nys-unavheader__logo svg {
     vertical-align: top;
-    height: var(--nys-space-700, 56px);
+    height: var(--nys-size-500, 40px);
+    width: auto;
   }
 
   .nys-unavheader__toptrustbar {

@@ -1,12 +1,12 @@
 {
-    "name": "@nysds/nys-button",
-    "version": "1.1.0",
-    "description": "The Button component from the NYS Design System.",
-      "module": "dist/nys-button.js",
+    "name": "@nysds/nys-{{componentName}}",
+    "version": "{{versionNumber}}",
+    "description": "The {{capitalize componentName}} component from the NYS Design System.",
+      "module": "dist/nys-{{componentName}}.js",
     "types": "dist/index.d.ts",
     "exports": {
         ".": {
-          "import": "./dist/nys-button.js",
+          "import": "./dist/nys-{{componentName}}.js",
           "types": "./dist/index.d.ts"
         }
       },
@@ -22,8 +22,7 @@
         "lit": "^3.2.1"
     },
     "dependencies": {
-        "@nysds/nys-icon": "^1.1.0"
-      },
+    },
     "devDependencies": {
       "lit": "^3.2.1",
       "typescript": "^5.7.2",
@@ -35,7 +34,7 @@
       "web-components",
       "lit",
       "nys",
-      "button",
+      "{{componentName}}",
       "forms"
     ],
     "author": "New York State Design System Team",
