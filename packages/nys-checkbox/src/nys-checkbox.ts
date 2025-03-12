@@ -37,9 +37,9 @@ export class NysCheckbox extends LitElement {
       : "md";
   }
 
-  public async getInputElement() {
+  public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete;
-    return this.shadowRoot?.querySelector("input");
+    return this.shadowRoot?.querySelector("input") || null;
   }
 
   static styles = styles;

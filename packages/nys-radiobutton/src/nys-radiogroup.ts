@@ -174,7 +174,7 @@ export class NysRadiogroup extends LitElement {
           >;
           // Find the first element in the form that is invalid
           const firstInvalidElement = elements.find((element) => {
-            // IF element is radiogroup, we need to go down one level to find the 1st radiobutton in the group
+            // If element is radiogroup, we need to go down one level to find the 1st radiobutton in the group
             if (element.tagName.toLowerCase() === "nys-radiogroup") {
               const firstRadio = element.querySelector("nys-radiobutton");
               if (!(firstRadio as any).checkValidity()) {

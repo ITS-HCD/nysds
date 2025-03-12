@@ -84,11 +84,52 @@ export class NysCheckboxgroup extends LitElement {
     });
   }
 
-  private _handleInvalid() {
-    // Check if the radio group is invalid and set `showError` accordingly
-    if (this._internals.validity.valueMissing) {
-      this.showError = true;
-      this._manageCheckboxRequired(); // Refresh validation message
+  private async _handleInvalid(event: Event) {
+    event.preventDefault();
+
+    this.showError = true;
+    this._manageCheckboxRequired(); // Refresh validation message
+
+    const firstCheckbox = this.querySelector("nys-checkbox");
+    const firstCheckboxInput = firstCheckbox
+      ? await (firstCheckbox as any).getInputElement()
+      : null;
+    if (firstCheckboxInput) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find((element) => {
+          // If element is checkboxgroup, we see if anyone checkboxes within the group is checked to fulfill required constraint
+          if (element.tagName.toLowerCase() === "nys-checkboxgroup") {
+            const allCheckboxes = Array.from(
+              this.querySelectorAll("nys-checkbox"),
+            ) as any[];
+            const hasCheckedCheckbox = allCheckboxes.filter(
+              (checkbox) => checkbox.checked,
+            );
+            // Required constraint not met, continue logic to have this component be focused
+            if (hasCheckedCheckbox.length === 0) {
+              return element;
+            }
+          } else {
+            return (
+              typeof element.checkValidity === "function" &&
+              !element.checkValidity()
+            );
+          }
+        });
+
+        if (firstInvalidElement === this) {
+          firstCheckboxInput.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        firstCheckboxInput.focus();
+      }
     }
   }
 
