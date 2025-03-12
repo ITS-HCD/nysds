@@ -1,0 +1,64 @@
+import { html } from "lit";
+import { Meta, StoryObj } from "@storybook/web-components";
+import "./nys-{{componentName}}";
+
+// Define the structure of the args used in the stories
+interface Nys{{capitalize componentName}}Args {
+  id: string;
+  name: string;
+  size: string;
+  fullWidth: boolean;
+  variant: string;
+  inverted: boolean;
+  label: string;
+  prefixIcon: string;
+  suffixIcon: string;
+  disabled: boolean;
+  form: string;
+  value: string;
+  type: string;
+  href: string;
+  onClick: () => void;
+}
+
+const meta: Meta<Nys{{capitalize componentName}}Args> = {
+  title: "Components/{{capitalize componentName}}",
+  component: "nys-{{componentName}}",
+  argTypes: {
+    id: { control: "text" },
+    name: { control: "text" },
+  },
+  parameters: {
+    docs: {
+      source: { type: "dynamic" }, // Enables live Source code tab
+      inlineStories: true, // Ensures stories are rendered within the docs tab
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<Nys{{capitalize componentName}}Args>;
+
+// Define stories without using args
+
+export const Basic: Story = {
+  args: {
+    id: "{{componentName}}1",
+    name: "{{componentName}}1",
+  },
+  render: (args) => html`
+    <nys-{{componentName}} .id=${args.id} .name=${args.name}></nys-{{componentName}}>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-{{componentName}}
+  id="{{componentName}}1"
+  name="{{componentName}}1"
+></nys-{{componentName}}>`,
+        type: "auto",
+      },
+    },
+  },
+};
