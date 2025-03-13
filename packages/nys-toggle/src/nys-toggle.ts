@@ -59,7 +59,7 @@ export class NysToggle extends LitElement {
   /********************** Form Integration **********************/
   // Update the internals whenever `checked` or `value` changes.
   updated(changedProperties: Map<string, any>) {
-    if (changedProperties.has('checked') || changedProperties.has('value')) {
+    if (changedProperties.has("checked") || changedProperties.has("value")) {
       this._internals.setFormValue(this.checked ? this.value : null);
     }
   }
