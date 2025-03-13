@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "@nysds/nys-icon";
@@ -66,6 +66,7 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) max = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
+  @state() private showPassword = false;
 
   static styles = styles;
 
@@ -219,6 +220,10 @@ export class NysTextinput extends LitElement {
     }
   }
 
+  private _togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
@@ -270,33 +275,48 @@ export class NysTextinput extends LitElement {
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
-        <input
-          class="nys-textinput__input"
-          type=${this.type}
-          name=${this.name}
-          id=${this.id}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          ?readonly=${this.readonly}
-          aria-disabled="${this.disabled}"
-          aria-label="${this.label} ${this.description}"
-          .value=${this.value}
-          placeholder=${ifDefined(
-            this.placeholder ? this.placeholder : undefined,
-          )}
-          pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
-          min=${ifDefined(this.min !== "" ? this.min : undefined)}
-          maxlength=${ifDefined(
-            this.maxlength !== "" ? this.maxlength : undefined,
-          )}
-          step=${ifDefined(this.step !== "" ? this.step : undefined)}
-          max=${ifDefined(this.max !== "" ? this.max : undefined)}
-          form=${ifDefined(this.form ? this.form : undefined)}
-          @input=${this._handleInput}
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-          @change="${this._handleChange}"
-        />
+        <div class="nys-input-container ${this.disabled ? "disabled" : ""}">
+          <input
+            class="nys-textinput__input"
+            type=${this.type === "password"
+              ? this.showPassword
+                ? "text"
+                : "password"
+              : this.type}
+            name=${this.name}
+            id=${this.id}
+            ?disabled=${this.disabled}
+            ?required=${this.required}
+            ?readonly=${this.readonly}
+            aria-disabled="${this.disabled}"
+            aria-label="${this.label} ${this.description}"
+            .value=${this.value}
+            placeholder=${ifDefined(
+              this.placeholder ? this.placeholder : undefined,
+            )}
+            pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
+            min=${ifDefined(this.min !== "" ? this.min : undefined)}
+            maxlength=${ifDefined(
+              this.maxlength !== "" ? this.maxlength : undefined,
+            )}
+            step=${ifDefined(this.step !== "" ? this.step : undefined)}
+            max=${ifDefined(this.max !== "" ? this.max : undefined)}
+            form=${ifDefined(this.form ? this.form : undefined)}
+            @input=${this._handleInput}
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+            @change="${this._handleChange}"
+          />
+          ${this.type === "password"
+            ? html`<nys-icon
+                class="eye-icon"
+                @click=${() =>
+                  !this.disabled && this._togglePasswordVisibility()}
+                name=${this.showPassword ? "visibility_off" : "visibility"}
+                size="3xl"
+              ></nys-icon>`
+            : ""}
+        </div>
         <nys-errormessage
           ?showError=${this.showError}
           errorMessage=${this.errorMessage}
