@@ -184,15 +184,44 @@ export class NysTextinput extends LitElement {
   }
 
   /********************** Functions **********************/
-  private _handleInvalid() {
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
     this._hasUserInteracted = true; // Start aggressive mode due to form submission
     this._validate();
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          input.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        input.focus();
+      }
+    }
   }
 
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
-    event.preventDefault();
     const input = event.target as HTMLInputElement;
     this.value = input.value;
     this._internals.setFormValue(this.value);

@@ -37,9 +37,9 @@ export class NysCheckbox extends LitElement {
       : "md";
   }
 
-  public async getInputElement() {
+  public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete;
-    return this.shadowRoot?.querySelector("input");
+    return this.shadowRoot?.querySelector("input") || null;
   }
 
   static styles = styles;
@@ -127,11 +127,45 @@ export class NysCheckbox extends LitElement {
   }
 
   /********************** Functions **********************/
-  private _handleInvalid() {
-    // Start aggressive mode due to form submission
-    if (this._internals.validity.valueMissing) {
-      this.showError = true;
-      this._validate(); // Make sure validation message appears
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    // If the radiogroup is required but no radio is selected, return false.
+    if (this.required && !this.checked) {
+      return false;
+    }
+
+    // Otherwise, optionally check the native input's validity if available.
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
+
+    this.showError = true;
+    this._validate(); // Make sure validation message appears
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          input.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        input.focus();
+      }
     }
   }
 

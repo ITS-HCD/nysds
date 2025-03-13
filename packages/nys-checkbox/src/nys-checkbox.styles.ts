@@ -232,6 +232,7 @@ export default css`
   .nys-checkbox__description {
     font-weight: var(--_nys-checkbox-font-weight-400);
     font-style: italic;
+    text-align: left;
   }
 
   /* Required */
