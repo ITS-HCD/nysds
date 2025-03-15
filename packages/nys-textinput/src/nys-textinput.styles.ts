@@ -76,7 +76,6 @@ export default css`
   }
 
   .nys-textinput {
-    font-size: var(--_nys-textinput-size-ui-md);
     font-weight: var(--_nys-textinput-weight-ui);
     font-family: var(--_nys-textinput-family-ui);
     line-height: var(--_nys-textinput-lineheight-ui);
@@ -88,6 +87,7 @@ export default css`
   }
 
   .nys-textinput__input {
+    font-size: var(--_nys-textinput-size-ui-md);
     border-radius: var(--_nys-textinput-radius);
     border: solid var(--_nys-textinput-color-border)
       var(--_nys-textinput-width-border);
