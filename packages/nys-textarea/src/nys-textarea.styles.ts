@@ -72,7 +72,6 @@ export default css`
   }
 
   .nys-textarea {
-    font-size: var(--_nys-textarea-size-ui-md);
     font-weight: var(--_nys-textarea-weight-ui);
     font-family: var(--_nys-textarea-family-ui);
     line-height: var(--_nys-textarea-lineheight-ui);
@@ -84,6 +83,7 @@ export default css`
   }
 
   .nys-textarea__textarea {
+    font-size: var(--_nys-textarea-size-ui-md);
     border-radius: var(--_nys-textarea-radius);
     border: solid var(--_nys-textarea-color-border)
       var(--_nys-textarea-width-border);

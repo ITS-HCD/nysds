@@ -109,7 +109,7 @@ export default css`
   .nys-radiogroup {
     display: flex;
     flex-direction: column;
-    gap: var(--nys-spacing-50, 4px);
+    gap: var(--nys-space-200, 16px);
     font-family: var(--_nys-radiobutton-font-family);
     font-size: var(--_nys-radiobutton-font-size);
     line-height: var(--_nys-radiobutton-line-height);

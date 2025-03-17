@@ -107,7 +107,7 @@ export default css`
   .nys-checkboxgroup {
     display: flex;
     flex-direction: column;
-    gap: var(--nys-spacing-50, 4px);
+    gap: var(--nys-space-200, 16px);
     font-family: var(--_nys-checkbox-font-family);
     font-size: var(--_nys-checkbox-font-size);
     line-height: var(--_nys-checkbox-line-height);
