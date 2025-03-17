@@ -38,7 +38,10 @@ export default css`
     );
     --_nys-select-bg-color: var(--nys-color-ink-reverse, #fff);
     --_nys-select-bg-disabled-color: var(--nys-color-neutral-50, #ededed);
-    --_nys-select-text-disabled-color: var(--nys-color-text-disabled, var(--nys-color-neutral-200, #bec0c1));
+    --_nys-select-text-disabled-color: var(
+      --nys-color-text-disabled,
+      var(--nys-color-neutral-200, #bec0c1)
+    );
     --_nys-select-icon-disabled-color: var(--nys-color-neutral-200, #bec0c1);
 
     /* Select Outline & Border States */
