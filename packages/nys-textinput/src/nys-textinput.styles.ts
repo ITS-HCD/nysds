@@ -11,6 +11,10 @@ export default css`
     --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
     --_nys-textinput-padding: var(--nys-space-100, 8px);
     --_nys-textinput-gap: var(--nys-space-50, 4px);
+    --_nys-textinput-background-color: var(
+      --nys-color-ink-reverse,
+      var(--nys-color-white, #ffffff)
+    );
 
     /* Hovered */
     --_nys-textinput-hover-color-outline: var(--nys-color-neutral-900, #1b1b1b);
@@ -72,7 +76,6 @@ export default css`
   }
 
   .nys-textinput {
-    font-size: var(--_nys-textinput-size-ui-md);
     font-weight: var(--_nys-textinput-weight-ui);
     font-family: var(--_nys-textinput-family-ui);
     line-height: var(--_nys-textinput-lineheight-ui);
@@ -84,6 +87,7 @@ export default css`
   }
 
   .nys-textinput__input {
+    font-size: var(--_nys-textinput-size-ui-md);
     border-radius: var(--_nys-textinput-radius);
     border: solid var(--_nys-textinput-color-border)
       var(--_nys-textinput-width-border);
@@ -94,6 +98,20 @@ export default css`
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    background-color: var(--_nys-textinput-background-color);
+  }
+
+  /* This container exist to mainly style the type="password" eye icon */
+  .nys-input-container {
+    position: relative;
+  }
+  .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background-color: var(--_nys-textinput-background-color);
   }
 
   /* Hovered */
@@ -112,7 +130,9 @@ export default css`
   }
 
   /* Disabled */
-  .nys-textinput__input:disabled {
+  .nys-textinput__input:disabled,
+  .nys-input-container.disabled,
+  .nys-input-container.disabled .eye-icon {
     background-color: var(--_nys-textinput-disabled-color);
     border-color: var(--_nys-textinput-disabled-color-border);
     color: var(--_nys-textinput-disabled-color-text);

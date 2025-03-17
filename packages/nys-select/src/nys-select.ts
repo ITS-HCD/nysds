@@ -157,10 +157,40 @@ export class NysSelect extends LitElement {
   }
 
   /********************** Functions **********************/
-  private _handleInvalid() {
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    const select = this.shadowRoot?.querySelector("select");
+    return select ? select.checkValidity() : true;
+  }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
     this._hasUserInteracted = true; // Start aggressive mode due to form submission
-    this._validate(); // Validate immediately
-    this.showError = true; // Show error message
+    this._validate();
+    this.showError = true;
+
+    const select = this.shadowRoot?.querySelector("select");
+    if (select) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          select.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        select.focus();
+      }
+    }
   }
 
   /******************** Event Handlers ********************/

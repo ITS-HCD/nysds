@@ -208,6 +208,7 @@ export default css`
   .nys-radiobutton__description {
     font-weight: var(--_nys-radiobutton-font-weight-400);
     font-style: italic;
+    text-align: left;
   }
 
   /* gap between radio and it's label */

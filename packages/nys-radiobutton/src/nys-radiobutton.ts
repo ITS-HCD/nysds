@@ -78,6 +78,19 @@ export class NysRadiobutton extends LitElement {
       }
     }
   }
+  /******************** Function ********************/
+
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    // If the radiogroup is required but no radio is selected, return false.
+    if (this.required && !this.checked) {
+      return false;
+    }
+
+    // Otherwise, optionally check the native input's validity if available.
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
 
   /******************** Event Handlers ********************/
   // Handle radiobutton change event & unselection of other options in group

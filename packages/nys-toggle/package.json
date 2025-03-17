@@ -1,7 +1,7 @@
 {
     "name": "@nysds/nys-toggle",
     "version": "1.1.0",
-    "description": "A toggle component from the NYS Design System.",
+    "description": "The Toggle component from the NYS Design System.",
     "module": "dist/nys-toggle.js",
     "exports": {
         ".": {

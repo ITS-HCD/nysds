@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "@nysds/nys-icon";
@@ -66,9 +66,11 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) max = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
+  @state() private showPassword = false;
 
   static styles = styles;
 
+  private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
@@ -86,6 +88,8 @@ export class NysTextinput extends LitElement {
     if (!this.id) {
       this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
     }
+
+    this._originalErrorMessage = this.errorMessage;
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -134,18 +138,18 @@ export class NysTextinput extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    // Toggle the HTML <div> tag error message
+    // Always show the visual error if there is a message
     this.showError = !!message;
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage.trim() && message !== "") {
-      message = this.errorMessage;
+
+    // Use the original errorMessage if defined, or keep the message from validation
+    if (this._originalErrorMessage.trim() && message !== "") {
+      this.errorMessage = this._originalErrorMessage;
+    } else {
+      this.errorMessage = message;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
+    const validityState = message ? { customError: true } : {};
+    this._internals.setValidity(validityState, this.errorMessage, input);
   }
 
   private _validate() {
@@ -181,9 +185,43 @@ export class NysTextinput extends LitElement {
   }
 
   /********************** Functions **********************/
-  private _handleInvalid() {
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
     this._hasUserInteracted = true; // Start aggressive mode due to form submission
     this._validate();
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          input.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        input.focus();
+      }
+    }
+  }
+
+  private _togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   /******************** Event Handlers ********************/
@@ -237,36 +275,51 @@ export class NysTextinput extends LitElement {
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
-        <input
-          class="nys-textinput__input"
-          type=${this.type}
-          name=${this.name}
-          id=${this.id}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          ?readonly=${this.readonly}
-          aria-disabled="${this.disabled}"
-          aria-label="${this.label} ${this.description}"
-          .value=${this.value}
-          placeholder=${ifDefined(
-            this.placeholder ? this.placeholder : undefined,
-          )}
-          pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
-          min=${ifDefined(this.min !== "" ? this.min : undefined)}
-          maxlength=${ifDefined(
-            this.maxlength !== "" ? this.maxlength : undefined,
-          )}
-          step=${ifDefined(this.step !== "" ? this.step : undefined)}
-          max=${ifDefined(this.max !== "" ? this.max : undefined)}
-          form=${ifDefined(this.form ? this.form : undefined)}
-          @input=${this._handleInput}
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-          @change="${this._handleChange}"
-        />
+        <div class="nys-input-container ${this.disabled ? "disabled" : ""}">
+          <input
+            class="nys-textinput__input"
+            type=${this.type === "password"
+              ? this.showPassword
+                ? "text"
+                : "password"
+              : this.type}
+            name=${this.name}
+            id=${this.id}
+            ?disabled=${this.disabled}
+            ?required=${this.required}
+            ?readonly=${this.readonly}
+            aria-disabled="${this.disabled}"
+            aria-label="${this.label} ${this.description}"
+            .value=${this.value}
+            placeholder=${ifDefined(
+              this.placeholder ? this.placeholder : undefined,
+            )}
+            pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
+            min=${ifDefined(this.min !== "" ? this.min : undefined)}
+            maxlength=${ifDefined(
+              this.maxlength !== "" ? this.maxlength : undefined,
+            )}
+            step=${ifDefined(this.step !== "" ? this.step : undefined)}
+            max=${ifDefined(this.max !== "" ? this.max : undefined)}
+            form=${ifDefined(this.form ? this.form : undefined)}
+            @input=${this._handleInput}
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+            @change="${this._handleChange}"
+          />
+          ${this.type === "password"
+            ? html`<nys-icon
+                class="eye-icon"
+                @click=${() =>
+                  !this.disabled && this._togglePasswordVisibility()}
+                name=${this.showPassword ? "visibility_off" : "visibility"}
+                size="3xl"
+              ></nys-icon>`
+            : ""}
+        </div>
         <nys-errormessage
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.errorMessage}
         ></nys-errormessage>
       </div>
     `;

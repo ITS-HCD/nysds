@@ -18,6 +18,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
+  @property({ type: Boolean }) groupExist = false;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
 
@@ -36,9 +37,9 @@ export class NysCheckbox extends LitElement {
       : "md";
   }
 
-  public async getInputElement() {
+  public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete;
-    return this.shadowRoot?.querySelector("input");
+    return this.shadowRoot?.querySelector("input") || null;
   }
 
   static styles = styles;
@@ -79,7 +80,9 @@ export class NysCheckbox extends LitElement {
 
   /********************** Form Integration **********************/
   private _setValue() {
-    this._internals.setFormValue(this.checked ? this.value : null);
+    if (!this.groupExist) {
+      this._internals.setFormValue(this.checked ? this.value : null);
+    }
   }
 
   private _manageRequire() {
@@ -124,11 +127,45 @@ export class NysCheckbox extends LitElement {
   }
 
   /********************** Functions **********************/
-  private _handleInvalid() {
-    // Start aggressive mode due to form submission
-    if (this._internals.validity.valueMissing) {
-      this.showError = true;
-      this._validate(); // Make sure validation message appears
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    // If the radiogroup is required but no radio is selected, return false.
+    if (this.required && !this.checked) {
+      return false;
+    }
+
+    // Otherwise, optionally check the native input's validity if available.
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
+
+    this.showError = true;
+    this._validate(); // Make sure validation message appears
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          input.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        input.focus();
+      }
     }
   }
 
@@ -137,12 +174,18 @@ export class NysCheckbox extends LitElement {
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
     this.checked = checked;
-    this._internals.setFormValue(this.checked ? this.value : null);
+    if (!this.groupExist) {
+      this._internals.setFormValue(this.checked ? this.value : null);
+    }
     this._validate();
 
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { checked: this.checked },
+        detail: {
+          checked: this.checked,
+          name: this.name,
+          value: this.value,
+        },
         bubbles: true,
         composed: true,
       }),
@@ -170,7 +213,11 @@ export class NysCheckbox extends LitElement {
 
         this.dispatchEvent(
           new CustomEvent("change", {
-            detail: { checked: this.checked },
+            detail: {
+              checked: this.checked,
+              name: this.name,
+              value: this.value,
+            },
             bubbles: true,
             composed: true,
           }),
