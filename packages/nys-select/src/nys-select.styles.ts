@@ -18,7 +18,7 @@ export default css`
     --_nys-select-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-select-font-weight: var(--nys-font-weight-regular, 400);
     --_nys-select-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-select-gap: var(--nys-space-100, 8px);
+    --_nys-select-gap: var(--nys-space-50, 4px);
     --_nys-select-radius: var(--nys-radius-md, var(--nys-space-50, 4px));
     --_nys-select-padding: var(--nys-space-100, 8px) var(--nys-space-400, 32px)
       var(--nys-space-100, 8px) var(--nys-space-100, 8px);
