@@ -18,19 +18,19 @@ export default css`
     --_nys-label-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-label-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-label-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
-    --_nys-label-font-color: var(--nys-color-ink, #1b1b1b);
+    --_nys-label-font-color: var(--nys-color-text, #1b1b1b);
 
     /* Description */
     --nys-description-font-weight: var(--nys-font-weight-regular, 400);
     --nys-description-font-style: italic;
-    --nys-description-font-color: var(--nys-neutral-900, #1b1b1b);
+    --nys-description-font-color: var(--nys-color-text, #1b1b1b);
 
     /* Required Flag */
     --nys-required-font-color: var(--nys-color-danger, #b52c2c);
 
     /* Optional Flag */
     --nys-optional-font-weight: var(--nys-font-weight-regular, 400);
-    --nys-optional-font-color: var(--nys-color-neutral-700, #4a4d4f);
+    --nys-optional-font-color: var(--nys-color-text-weak, #4a4d4f);
 
     /* Spacing */
     --_nys-label-flag-gap: var(--nys-space-2px, 2px);
