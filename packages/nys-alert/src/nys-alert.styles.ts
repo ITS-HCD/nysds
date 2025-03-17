@@ -6,13 +6,21 @@ export default css`
     --_nys-alert-border-width: var(--nys-border-width-lg, 4px);
     --_nys-alert-border-radius: var(--nys-radius-md, 4px);
     --_nys-alert-hover-border-radius: var(--nys-radius-sm, 2px);
-    --_nys-alert-color: var(
-      --nys-color-ink,
+    --_nys-alert-text-color: var(
+      --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
     --_nys-alert-link-color: var(
       --nys-color-link,
       var(--nys-color-blue-600, #004dd1)
+    );
+    --_nys-alert-link-hover-color: var(
+      --nys-color-link-strong,
+      var(--nys-color-blue-700, #003ba1)
+    );
+    --_nys-alert-link-active-color: var(
+      --nys-color-link-strongest,
+      var(--nys-color-blue-800, #002971)
     );
     --_nys-alert-spacing: var(--nys-space-250, 20px);
     --_nys-alert-font-family: var(
@@ -63,7 +71,7 @@ export default css`
     border-left: var(--_nys-alert-border-width) solid
       var(--_nys-alert-color-border-left);
     border-radius: var(--_nys-alert-border-radius);
-    color: var(--_nys-alert-color);
+    color: var(--_nys-alert-text-color);
     padding: var(--_nys-alert-spacing);
     font-style: normal;
     font-family: var(--_nys-alert-font-family);
@@ -76,13 +84,22 @@ export default css`
 
   /* Links */
   a,
-  a:active,
-  a:hover,
   a:visited {
     font-weight: var(--_nys-alert-font-weight-semibold);
     font-size: var(--_nys-alert-font-size);
     color: var(--_nys-alert-link-color);
   }
+  a:hover {
+    color: var(--_nys-alert-link-hover-color);
+  }
+  a:active {
+    color: var(--_nys-alert-link-active-color);
+  }
+  /*
+  a:hover{
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+  } */
 
   /* For HTML elements put into the slot */
   ::slotted(a) {
@@ -198,7 +215,9 @@ export default css`
       --nys-color-emergency,
       var(--nys-color-red-800, #721c1c)
     );
-    --_nys-alert-color: #fff;
-    --_nys-alert-link-color: #fff;
+    --_nys-alert-text-color: var(--nys-color-text-reverse, var(--nys-color-white, #fff));
+    --_nys-alert-link-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));    
+    --_nys-alert-link-hover-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));
+    --_nys-alert-link-active-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));
   }
 `;
