@@ -11,8 +11,14 @@ export default css`
     --_nys-textarea-color-border: var(--nys-color-neutral-400, #909395);
     --_nys-textarea-padding: var(--nys-space-100, 8px);
     --_nys-textarea-gap: var(--nys-space-50, 4px);
-    --_nys-textarea-color: var(--nys-color-text, var(--nys-color-neutral-900, #1b1b1b));
-    --_nys-textarea-placeholder-color: var(--nys-color-text-weaker, var(--nys-color-neutral-500, #797c7f));
+    --_nys-textarea-color: var(
+      --nys-color-text,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-textarea-placeholder-color: var(
+      --nys-color-text-weaker,
+      var(--nys-color-neutral-500, #797c7f)
+    );
 
     /* Hovered */
     --_nys-textarea-hover-color-outline: var(--nys-color-neutral-900, #1b1b1b);
@@ -28,7 +34,10 @@ export default css`
       --nys-color-neutral-200,
       #bec0c1
     );
-    --_nys-textarea-disabled-color-text: var(--nys-color-text-disabled, var(--nys-color-neutral-200, #bec0c1));
+    --_nys-textarea-disabled-color-text: var(
+      --nys-color-text-disabled,
+      var(--nys-color-neutral-200, #bec0c1)
+    );
 
     /* Global Font Styles */
     --_nys-textarea-family-ui: var(
@@ -125,7 +134,8 @@ export default css`
   }
 
   /* Disabled */
-  .nys-textarea__textarea:disabled, .nys-textarea__textarea:disabled::placeholder {
+  .nys-textarea__textarea:disabled,
+  .nys-textarea__textarea:disabled::placeholder {
     background-color: var(--_nys-textarea-disabled-bg-color);
     border-color: var(--_nys-textarea-disabled-color-border);
     color: var(--_nys-textarea-disabled-color-text);

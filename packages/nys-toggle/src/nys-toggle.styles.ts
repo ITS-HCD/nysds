@@ -69,7 +69,10 @@ export default css`
       --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
-    --_nys-toggle-disabled-color: var(--nys-color-text-weaker, var(--nys-color-neutral-500, #797c7f));
+    --_nys-toggle-disabled-color: var(
+      --nys-color-text-weaker,
+      var(--nys-color-neutral-500, #797c7f)
+    );
     --_nys-toggle-icon-font-size-xs: var(
       --nys-font-size-body-xs,
       var(--nys-font-size-xs, 12px)

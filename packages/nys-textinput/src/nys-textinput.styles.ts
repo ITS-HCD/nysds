@@ -9,8 +9,14 @@ export default css`
     --_nys-textinput-radius: var(--nys-radius-md, 4px);
     --_nys-textinput-width-border: var(--nys-border-width-sm, 1px);
     --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
-    --_nys-textinput-text-color: var(--nys-color-text, var(--nys-color-neutral-900, #1b1b1b));
-    --_nys-textinput-placeholder-color: var(--nys-color-text-weaker, var(--nys-color-neutral-500, #797c7f));
+    --_nys-textinput-text-color: var(
+      --nys-color-text,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-textinput-placeholder-color: var(
+      --nys-color-text-weaker,
+      var(--nys-color-neutral-500, #797c7f)
+    );
     --_nys-textinput-padding: var(--nys-space-100, 8px);
     --_nys-textinput-gap: var(--nys-space-50, 4px);
     --_nys-textinput-background-color: var(
@@ -36,7 +42,10 @@ export default css`
       --nys-color-neutral-200,
       #bec0c1
     );
-    --_nys-textinput-disabled-color-text: var(--nys-color-text-disabled, var(--nys-color-neutral-200, #bec0c1));
+    --_nys-textinput-disabled-color-text: var(
+      --nys-color-text-disabled,
+      var(--nys-color-neutral-200, #bec0c1)
+    );
 
     /* Global Font Styles */
     --_nys-textinput-family-ui: var(
@@ -143,7 +152,8 @@ export default css`
   /* Disabled */
   .nys-textinput__input:disabled,
   .nys-input-container.disabled,
-  .nys-input-container.disabled .eye-icon, .nys-textinput__input:disabled::placeholder {
+  .nys-input-container.disabled .eye-icon,
+  .nys-textinput__input:disabled::placeholder {
     background-color: var(--_nys-textinput-disabled-color);
     border-color: var(--_nys-textinput-disabled-color-border);
     color: var(--_nys-textinput-disabled-color-text);

@@ -210,10 +210,22 @@ export default css`
       --nys-color-emergency,
       var(--nys-color-red-800, #721c1c)
     );
-    --_nys-alert-text-color: var(--nys-color-text-reverse, var(--nys-color-white, #fff));
-    --_nys-alert-link-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));    
-    --_nys-alert-link-hover-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));
-    --_nys-alert-link-active-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));
+    --_nys-alert-text-color: var(
+      --nys-color-text-reverse,
+      var(--nys-color-white, #fff)
+    );
+    --_nys-alert-link-color: var(
+      --nys-color-link-reverse-neutral,
+      var(--nys-color-white, #fff)
+    );
+    --_nys-alert-link-hover-color: var(
+      --nys-color-link-reverse-neutral,
+      var(--nys-color-white, #fff)
+    );
+    --_nys-alert-link-active-color: var(
+      --nys-color-link-reverse-neutral,
+      var(--nys-color-white, #fff)
+    );
   }
   :host([type="emergency"]) a:hover {
     text-decoration-thickness: 2px;

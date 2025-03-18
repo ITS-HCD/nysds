@@ -7,7 +7,10 @@ export default css`
       --nys-color-text-reverse,
       var(--nys-color-white, #ffffff)
     );
-    --_nys-globalheader-link-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));
+    --_nys-globalheader-link-color: var(
+      --nys-color-link-reverse-neutral,
+      var(--nys-color-white, #fff)
+    );
     --_nys-globalheader-background: var(
       --nys-color-theme,
       var(--nys-color-state-blue-700, #154973)

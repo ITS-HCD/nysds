@@ -4,14 +4,20 @@ export default css`
   :host {
     /* Global Unav Header Styles */
     --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
-    --_nys-unavheader-bg-color: var(--nys-color-surface, var(--nys-color-white, #ffffff));
+    --_nys-unavheader-bg-color: var(
+      --nys-color-surface,
+      var(--nys-color-white, #ffffff)
+    );
     --_nys-unavheader-text-color: var(
       --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
 
     /* Trustbar, Search Bar, and Language */
-    --_nys-unavheader-surface-raised-color: var(--nys-color-surface-raised, var(--nys-color-neutral-10, #f6f6f6));
+    --_nys-unavheader-surface-raised-color: var(
+      --nys-color-surface-raised,
+      var(--nys-color-neutral-10, #f6f6f6)
+    );
 
     /* Typography */
     font-size: var(--nys-font-size-ui-md, 16px);
