@@ -2,7 +2,16 @@ import { css } from "lit";
 
 export default css`
   :host {
+    /* Global Unav Header Styles */
     --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
+    --_nys-unavheader-bg-color: var(--nys-color-surface, var(--nys-color-white, #ffffff));
+    --_nys-unavheader-text-color: var(
+      --nys-color-text,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+
+    /* Trustbar, Search Bar, and Language */
+    --_nys-unavheader-surface-raised-color: var(--nys-color-surface-raised, var(--nys-color-neutral-10, #f6f6f6));
 
     /* Typography */
     font-size: var(--nys-font-size-ui-md, 16px);
@@ -22,7 +31,7 @@ export default css`
   }
 
   .nys-unavheader {
-    background-color: var(--nys-color-ink-reverse, #ffffff);
+    background-color: var(--_nys-unavheader-bg-color);
     padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     display: flex;
     justify-content: center;
@@ -87,6 +96,7 @@ export default css`
 
   #nys-unavheader__official {
     width: max-content;
+    color: var(--_nys-unavheader-text-color);
   }
 
   #nys-unavheader__know {
@@ -135,13 +145,13 @@ export default css`
   }
 
   .nys-unavheader__searchdropdown.show {
-    background-color: var(--nys-color-neutral-50, #ededed);
+    background-color: var(--_nys-unavheader-surface-raised-color);
     padding: var(--nys-space-250, 20px) var(--_nys-unavheader-gutter);
   }
 
   .nys-unavheader__trustbar.show {
-    background-color: var(--nys-color-neutral-50, #ededed);
-    color: var(--nys-color-ink, #1b1b1b);
+    background-color: var(--_nys-unavheader-surface-raised-color);
+    color: var(--_nys-unavheader-text-color);
     display: flex;
     justify-content: center;
     padding: var(--nys-space-400, 32px) var(--_nys-unavheader-gutter);
@@ -172,7 +182,7 @@ export default css`
     min-width: 100%;
     width: max-content;
     z-index: 99999;
-    background-color: var(--nys-color-neutral-50, #ededed);
+    background-color: var(--_nys-unavheader-surface-raised-color);
     color: var(--nys-color-state-blue-700, #154973);
     margin-top: var(--nys-space-150, 12px);
     right: 0;
