@@ -95,11 +95,6 @@ export default css`
   a:active {
     color: var(--_nys-alert-link-active-color);
   }
-  /*
-  a:hover{
-    text-decoration-line: underline;
-    text-decoration-thickness: 2px;
-  } */
 
   /* For HTML elements put into the slot */
   ::slotted(a) {
@@ -219,5 +214,11 @@ export default css`
     --_nys-alert-link-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));    
     --_nys-alert-link-hover-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));
     --_nys-alert-link-active-color: var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff));
+  }
+  :host([type="emergency"]) a:hover {
+    text-decoration-thickness: 2px;
+  }
+  :host([type="emergency"]) a:active {
+    text-decoration-thickness: 3px;
   }
 `;
