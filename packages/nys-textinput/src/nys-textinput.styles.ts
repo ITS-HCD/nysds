@@ -9,11 +9,23 @@ export default css`
     --_nys-textinput-radius: var(--nys-radius-md, 4px);
     --_nys-textinput-width-border: var(--nys-border-width-sm, 1px);
     --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
+    --_nys-textinput-text-color: var(
+      --nys-color-text,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-textinput-placeholder-color: var(
+      --nys-color-text-weaker,
+      var(--nys-color-neutral-500, #797c7f)
+    );
     --_nys-textinput-padding: var(--nys-space-100, 8px);
     --_nys-textinput-gap: var(--nys-space-50, 4px);
     --_nys-textinput-background-color: var(
       --nys-color-ink-reverse,
       var(--nys-color-white, #ffffff)
+    );
+    --_nys-textinput-icon-color: var(
+      --nys-color-ink,
+      var(--nys-color-neutral-900, #1b1b1b)
     );
 
     /* Hovered */
@@ -30,7 +42,10 @@ export default css`
       --nys-color-neutral-200,
       #bec0c1
     );
-    --_nys-textinput-disabled-color-text: var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-textinput-disabled-color-text: var(
+      --nys-color-text-disabled,
+      var(--nys-color-neutral-200, #bec0c1)
+    );
 
     /* Global Font Styles */
     --_nys-textinput-family-ui: var(
@@ -87,6 +102,7 @@ export default css`
   }
 
   .nys-textinput__input {
+    color: var(--_nys-textinput-text-color);
     font-size: var(--_nys-textinput-size-ui-md);
     border-radius: var(--_nys-textinput-radius);
     border: solid var(--_nys-textinput-color-border)
@@ -100,6 +116,9 @@ export default css`
     -moz-box-sizing: border-box;
     background-color: var(--_nys-textinput-background-color);
   }
+  .nys-textinput__input::placeholder {
+    color: var(--_nys-textinput-placeholder-color);
+  }
 
   /* This container exist to mainly style the type="password" eye icon */
   .nys-input-container {
@@ -111,6 +130,7 @@ export default css`
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
+    color: var(--_nys-textinput-icon-color);
     background-color: var(--_nys-textinput-background-color);
   }
 
@@ -132,7 +152,8 @@ export default css`
   /* Disabled */
   .nys-textinput__input:disabled,
   .nys-input-container.disabled,
-  .nys-input-container.disabled .eye-icon {
+  .nys-input-container.disabled .eye-icon,
+  .nys-textinput__input:disabled::placeholder {
     background-color: var(--_nys-textinput-disabled-color);
     border-color: var(--_nys-textinput-disabled-color-border);
     color: var(--_nys-textinput-disabled-color-text);

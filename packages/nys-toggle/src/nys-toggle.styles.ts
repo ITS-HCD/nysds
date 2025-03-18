@@ -64,7 +64,15 @@ export default css`
       var(--nys-color-white, #fff)
     );
 
-    /* Font sizes and spacing for labels, descriptions, and icons */
+    /* Font sizes, color, and spacing for labels, descriptions, and icons */
+    --_nys-toggle-text-color: var(
+      --nys-color-text,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-toggle-disabled-color: var(
+      --nys-color-text-weaker,
+      var(--nys-color-neutral-500, #797c7f)
+    );
     --_nys-toggle-icon-font-size-xs: var(
       --nys-font-size-body-xs,
       var(--nys-font-size-xs, 12px)
@@ -94,6 +102,7 @@ export default css`
 
   /* Label & description text container */
   .nys-toggle__text {
+    color: var(--_nys-toggle-text-color);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -104,7 +113,7 @@ export default css`
   }
 
   .nys-toggle__content:has(input:disabled) .nys-toggle__text * {
-    color: var(--_nys-toggle-color-base);
+    color: var(--_nys-toggle-disabled-color);
     cursor: not-allowed;
   }
 
@@ -136,7 +145,7 @@ export default css`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--_nys-toggle-color-base, #797c7f);
+    background-color: var(--_nys-toggle-color-base);
   }
 
   .knob {
@@ -207,7 +216,7 @@ export default css`
   /* Icon Styling */
   .toggle-icon {
     position: absolute;
-    color: var(--_nys-toggle-color-base, #797c7f);
+    color: var(--_nys-toggle-color-base);
   }
   input:checked + .slider .knob .toggle-icon {
     color: var(--_nys-toggle-color-theme, #154973);

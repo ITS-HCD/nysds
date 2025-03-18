@@ -24,7 +24,11 @@ export default css`
       var(--nys-space-100, 8px) var(--nys-space-100, 8px);
 
     /* Global Select Colors */
-    --_nys-select-color: var(
+    --_nys-select-text-color: var(
+      --nys-color-text,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-select-icon-color: var(
       --nys-color-ink,
       var(--nys-color-neutral-900, #1b1b1b)
     );
@@ -34,7 +38,11 @@ export default css`
     );
     --_nys-select-bg-color: var(--nys-color-ink-reverse, #fff);
     --_nys-select-bg-disabled-color: var(--nys-color-neutral-50, #ededed);
-    --_nys-select-icon-disabled-color: var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-select-text-disabled-color: var(
+      --nys-color-text-disabled,
+      var(--nys-color-neutral-200, #bec0c1)
+    );
+    --_nys-select-icon-disabled-color: var(--nys-color-neutral-200, #bec0c1);
 
     /* Select Outline & Border States */
     --_nys-select-border-default: var(--nys-border-width-sm, 1px) solid
@@ -52,10 +60,10 @@ export default css`
     flex-direction: column;
     gap: var(--_nys-select-gap);
     font-family: var(--_nys-select-font-family);
-    color: var(--_nys-select-color);
   }
 
   .nys-select__select {
+    color: var(--_nys-select-text-color);
     font-weight: var(--_nys-select-font-weight);
     border-radius: var(--_nys-select-radius);
     border: var(--_nys-select-border-default);
@@ -80,6 +88,7 @@ export default css`
   }
 
   .nys-select__icon {
+    color: var(--_nys-select-icon-color);
     position: absolute;
     right: 10px;
     top: 50%;
@@ -128,6 +137,7 @@ export default css`
     background-color: var(--_nys-select-bg-disabled-color);
     border: var(--_nys-select-border-disabled);
     cursor: not-allowed;
+    color: var(--_nys-select-text-disabled-color);
   }
   .nys-select__select:disabled ~ .nys-select__icon {
     color: var(--_nys-select-icon-disabled-color);
