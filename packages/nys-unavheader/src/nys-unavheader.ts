@@ -15,13 +15,17 @@ export class NysUnavHeader extends LitElement {
   @property({ type: Boolean }) hideSearch = false;
   @property({ type: String, reflect: true })
   get screenSize(): string {
-    const width = window.innerWidth;
+    const width = this.parentContainer
+      ? this.parentContainer.offsetWidth
+      : window.innerWidth;
     if (width < 480) return "xs";
     if (width < 768) return "sm";
     if (width < 1024) return "md";
     if (width < 1280) return "lg";
     return "xl";
   }
+
+  private parentContainer: HTMLElement | null = null;
 
   private languages: [string, string][] = [
     ["English", ""],
@@ -107,6 +111,7 @@ export class NysUnavHeader extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.parentContainer = this.parentElement;
     window.addEventListener("resize", this._updateScreenSize.bind(this));
   }
 
