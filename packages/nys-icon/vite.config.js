@@ -7,7 +7,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Icon Component v1.1.0
+   * Icon Component v1.1.1
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
