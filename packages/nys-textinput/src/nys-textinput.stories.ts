@@ -14,6 +14,7 @@ interface NysTextinputArgs {
   disabled: boolean;
   readonly: boolean;
   required: boolean;
+  optional: boolean;
   form: string;
   pattern: string;
   maxlength: string;
@@ -42,6 +43,7 @@ const meta: Meta<NysTextinputArgs> = {
     disabled: { control: "boolean" },
     readonly: { control: "boolean" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     form: { control: "text" },
     pattern: { control: "text" },
     maxlength: { control: "text" },
@@ -87,6 +89,7 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -127,6 +130,7 @@ export const Width: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -173,6 +177,7 @@ export const DifferentTypes: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -220,6 +225,7 @@ export const ValueAndPlaceholder: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -267,6 +273,7 @@ export const Disabled: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -309,6 +316,7 @@ export const Readonly: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -359,6 +367,7 @@ export const MaxMinAndStep: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -410,6 +419,7 @@ export const Maxlength: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -463,6 +473,7 @@ export const Pattern: Story = {
         .disabled=${args.disabled}
         .readonly=${args.readonly}
         .required=${args.required}
+        .optional=${args.optional}
         .form=${args.form}
         .pattern=${args.pattern}
         .maxlength=${args.maxlength}
@@ -512,6 +523,7 @@ export const Required: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -551,6 +563,7 @@ export const DescriptionSlot: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -572,6 +585,7 @@ export const DescriptionSlot: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -623,6 +637,7 @@ export const ErrorMessage: Story = {
       .disabled=${args.disabled}
       .readonly=${args.readonly}
       .required=${args.required}
+      .optional=${args.optional}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -644,6 +659,49 @@ export const ErrorMessage: Story = {
   showError
   errorMessage="Cannot be left blank"
 ></nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Optional: Story = {
+  args: {
+    name: "myTextInput7",
+    label: "label",
+    value: "",
+    optional: true,
+  },
+
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .optional=${args.optional}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textinput>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-textinput name="myTextInput7" optional label="label"></nys-textinput>`,
         type: "auto",
       },
     },
