@@ -18,16 +18,19 @@
     "dev": "tsc --emitDeclarationOnly && vite",
     "build": "tsc --emitDeclarationOnly && vite build"
   },
-  "peerDependencies": {
-    "lit": "^3.2.1"
-  },
   "dependencies": {
+  },
+  "peerDependencies": {
+    "lit": "^3.2.1",
     "@nysds/nys-icon": "^1.1.1",
     "@nysds/nys-button": "^1.1.1",
     "@nysds/nys-textinput": "^1.1.1"
   },
   "devDependencies": {
     "lit": "^3.2.1",
+    "@nysds/nys-icon": "^1.1.1",
+    "@nysds/nys-button": "^1.1.1",
+    "@nysds/nys-textinput": "^1.1.1",
     "typescript": "^5.7.2",
     "vite": "^6.0.11"
   },
