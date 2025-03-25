@@ -10,6 +10,9 @@
    * Version: 1.1.1
 */
 
+/* Include the selective CSS reset  */
+@import "./core/reset.css";
+
 /* Include Design Tokens (variables for colors, spacing, typography) */
 @import "./core/tokens.css";
 
