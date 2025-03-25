@@ -94,6 +94,11 @@ export class NysUnavHeader extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    // Check if the component has a parent element (should only be for documentation)
+    if (this.parentElement) {
+      this.style.containerType = "inline-size"; // Enable container query if inside a parent
+    }
   }
 
   disconnectedCallback() {
