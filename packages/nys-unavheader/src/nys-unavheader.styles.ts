@@ -254,10 +254,6 @@ export default css`
     .nys-unavheader__xs {
       display: block;
     }
-
-    .nys-unavheader {
-      border: solid red 2px;
-    }
   }
 
   @media (min-width: 480px) and (max-width: 767px) {
@@ -268,10 +264,6 @@ export default css`
 
     .nys-unavheader__sm {
       display: block;
-    }
-
-    .nys-unavheader {
-      border: solid orange 2px;
     }
   }
 
@@ -286,10 +278,6 @@ export default css`
 
     .nys-unavheader__md {
       display: block;
-    }
-
-    .nys-unavheader {
-      border: solid green 2px;
     }
   }
 
@@ -307,10 +295,6 @@ export default css`
     .nys-unavheader__lg {
       display: block;
     }
-
-    .nys-unavheader {
-      border: solid blue 2px;
-    }
   }
 
   @media (min-width: 1280px) {
@@ -323,10 +307,6 @@ export default css`
     }
     .nys-unavheader__xl {
       display: block;
-    }
-
-    .nys-unavheader {
-      border: solid pink 2px;
     }
   }
 `;
