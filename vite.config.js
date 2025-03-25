@@ -1,4 +1,7 @@
 import { defineConfig } from "vite";
+import { visualizer } from "rollup-plugin-visualizer";
+
+const shouldAnalyze = process.env.ANALYZE === "true";
 
 const banner = `
 /*!
@@ -11,9 +14,7 @@ const banner = `
 
 // Externalize Lit and all NYSDS internal packages
 const external = (id) =>
-  id === "lit" || 
-  id.startsWith("lit/") || 
-  id.startsWith("@nysds/");
+  id === "lit" || id.startsWith("lit/") || id.startsWith("@nysds/");
 
 export default defineConfig({
   build: {
@@ -35,6 +36,10 @@ export default defineConfig({
           },
         },
       ],
+      plugins: [
+        shouldAnalyze &&
+          visualizer({ filename: "dist/stats-es.html", open: true }),
+      ].filter(Boolean),
     },
   },
 });
