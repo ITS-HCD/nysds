@@ -252,7 +252,7 @@ export default css`
     }
 
     .nys-unavheader__xs {
-      display: block;
+      display: contents;
     }
   }
 
@@ -263,7 +263,7 @@ export default css`
     }
 
     .nys-unavheader__sm {
-      display: block;
+      display: contents;
     }
   }
 
@@ -277,7 +277,7 @@ export default css`
     }
 
     .nys-unavheader__md {
-      display: block;
+      display: contents;
     }
   }
 
@@ -293,7 +293,7 @@ export default css`
       flex-direction: row;
     }
     .nys-unavheader__lg {
-      display: block;
+      display: contents;
     }
   }
 
@@ -306,7 +306,7 @@ export default css`
       flex-direction: row;
     }
     .nys-unavheader__xl {
-      display: block;
+      display: contents;
     }
   }
 `;

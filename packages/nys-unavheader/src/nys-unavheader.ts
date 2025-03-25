@@ -302,7 +302,7 @@ export class NysUnavHeader extends LitElement {
           </div>
         </div>
       </div>
-      <div class="nys-unavheader__xm nys-unavheader__sm nys-unavheader__md">
+      <div class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md">
         <div
           class="nys-unavheader__searchdropdown ${this.searchDropdownVisible
             ? "show"
