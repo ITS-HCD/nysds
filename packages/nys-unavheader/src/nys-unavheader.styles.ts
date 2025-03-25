@@ -43,6 +43,36 @@ export default css`
     justify-content: center;
   }
 
+  .nys-unavheader__xs,
+  .nys-unavheader__sm,
+  .nys-unavheader__md,
+  .nys-unavheader__lg,
+  .nys-unavheader__xl {
+    display: none;
+  }
+
+  .nys-unavheader__officialmessage {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--nys-space-100, 8px);
+    /* Typography */
+    font-size: var(--nys-font-size-ui-xs, 12px);
+    font-weight: var(--nys-font-weight-regular, 400);
+    line-height: var(--nys-font-lineheight-ui-xs, 20px);
+    font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
+  }
+
   .nys-unavheader__maincontent {
     display: flex;
     flex: 1;
@@ -209,45 +239,43 @@ export default css`
   }
 
   /* Breakpoints using NYSDS Grid Guidelines */
-  @media (min-width: 0) {
+  @media (min-width: 0) and (max-width: 479px) {
     /* Mobile (XS) */
     :host() {
       --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
     }
+
     .nys-unavheader__officialmessage {
-      display: flex;
       flex-direction: column;
-      /* Typography */
-      font-size: var(--nys-font-size-ui-xs, 12px);
-      font-weight: var(--nys-font-weight-regular, 400);
-      line-height: var(--nys-font-lineheight-ui-xs, 20px);
-      font-family: var(
-        --nys-font-family-ui,
-        var(
-          --nys-font-family-sans,
-          "Proxima Nova",
-          "Helvetica Neue",
-          "Helvetica",
-          "Arial",
-          sans-serif
-        )
-      );
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .nys-unavheader__xs {
+      display: block;
+    }
+
+    .nys-unavheader {
+      border: solid red 2px;
     }
   }
 
-  @media (min-width: 480px) {
+  @media (min-width: 480px) and (max-width: 767px) {
     /* Mobile Large (SM - Above 480px) */
     :host() {
       --_nys-unavheader-gutter: var(--nys-gutter-sm, 20px);
     }
-    .nys-unavheader__officialmessage {
-      flex-direction: row;
-      align-items: center;
-      gap: var(--nys-space-100, 8px);
+
+    .nys-unavheader__sm {
+      display: block;
+    }
+
+    .nys-unavheader {
+      border: solid orange 2px;
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
     /* Tablet (MD - Above 768px) */
     :host() {
       --_nys-unavheader-gutter: var(--nys-gutter-md, 32px);
@@ -255,9 +283,17 @@ export default css`
     .nys-unavheader__trustcontent {
       flex-direction: row;
     }
+
+    .nys-unavheader__md {
+      display: block;
+    }
+
+    .nys-unavheader {
+      border: solid green 2px;
+    }
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1024px) and (max-width: 1279px) {
     /* Desktop (LG - Above 1024px) */
     :host() {
       --_nys-unavheader-gutter: var(--nys-gutter-lg, 32px);
@@ -265,12 +301,32 @@ export default css`
     .nys-unavheader__languagelist.show {
       margin-top: var(--nys-space-100, 8px);
     }
+    .nys-unavheader__trustcontent {
+      flex-direction: row;
+    }
+    .nys-unavheader__lg {
+      display: block;
+    }
+
+    .nys-unavheader {
+      border: solid blue 2px;
+    }
   }
 
   @media (min-width: 1280px) {
     /* Desktop Large (XL - Above 1280px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
+    }
+    .nys-unavheader__trustcontent {
+      flex-direction: row;
+    }
+    .nys-unavheader__xl {
+      display: block;
+    }
+
+    .nys-unavheader {
+      border: solid pink 2px;
     }
   }
 `;
