@@ -24,7 +24,8 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: ["lit"], // Externalize Lit for ES build
+      // External deps declared manually (should match peerDependencies)
+      external: ["lit", "@nysds/nys-icon", "@nysds/nys-button"],
       output: {
         banner: mode === "production" ? banner : undefined, // Add banner only in production
         globals: {
