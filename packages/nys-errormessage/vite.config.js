@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 // Banner to put at the top of the generated files
 const banner = `
 /*!
-   * Error Message v1.1.1
+   * Error Message v1.1.2
    * Part of the New York State Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: ["lit"], // Externalize Lit for ES build
+      external: ["lit", "@nysds/nys-icon"],
       output: {
         banner: mode === "production" ? banner : undefined, // Add banner only in production
         globals: {
