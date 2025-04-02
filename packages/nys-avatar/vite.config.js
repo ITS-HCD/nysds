@@ -7,7 +7,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Avatar Component v1.1.1
+   * Avatar Component v1.1.2
    * Part of the New York State Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
