@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 // Banner to put at the top of the generated files
 const banner = `
 /*!
-   * Label v1.1.2
+   * Label
    * Part of the New York State Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds

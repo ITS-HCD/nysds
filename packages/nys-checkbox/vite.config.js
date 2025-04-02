@@ -7,7 +7,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Checkbox v1.1.2
+   * Checkbox
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT

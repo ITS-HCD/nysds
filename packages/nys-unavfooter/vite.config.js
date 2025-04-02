@@ -8,7 +8,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Universal Navigation Footer Component v1.1.2
+   * Universal Navigation Footer Component
    * Part of New York State's Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
