@@ -260,7 +260,7 @@ export default css`
     --_nys-toggle-width: var(--nys-toggle-font-size-6xl, 36px);
     --_nys-toggle-height: var(--nys-toggle-size-250, 20px);
     --_nys-toggle-slider-diameter: var(--nys-toggle--font-size-md, 16px);
-    --_nys-icon-font-size: var(--nys-toggle-font-size-sm, 14px);
+    --_nys-toggle-icon-font-size: var(--nys-toggle-font-size-sm, 14px);
     --_nys-toggle-gap: var(--nys-space-100, 8px);
   }
 
@@ -268,7 +268,7 @@ export default css`
     --_nys-toggle-width: var(--nys-toggle-font-size-8xl, 44px);
     --_nys-toggle-height: var(--nys-toggle-size-300, 24px);
     --_nys-toggle-slider-diameter: var(--nys-toggle-font-size-xl, 20px);
-    --_nys-icon-font-size: var(--nys-toggle-font-size-md, 16px);
+    --_nys-toggle-icon-font-size: var(--nys-toggle-font-size-md, 16px);
   }
 
   @media (prefers-reduced-motion: reduce) {

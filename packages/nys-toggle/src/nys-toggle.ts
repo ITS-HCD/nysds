@@ -135,6 +135,7 @@ export class NysToggle extends LitElement {
                   : html`<nys-icon
                       class="toggle-icon"
                       name="${this.checked ? "check" : "close"}"
+                      size="2xl"
                     ></nys-icon>`}
               </div>
             </span>
