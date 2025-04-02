@@ -194,6 +194,7 @@ export const AvatarIcon: Story = {
           label="youtube icon"
           name="social_youtube"
           color="#b2071d"
+          size="lg"
         ></nys-icon>
       </nys-avatar>
     </div>`,
@@ -213,7 +214,7 @@ export const AvatarIcon: Story = {
 	  label="youtube icon"
 	  name="social_youtube"
 	  color="#b2071d"
-	  size="sm"
+	  size="lg"
   ></nys-icon>
 </nys-avatar>
     `.trim(),
