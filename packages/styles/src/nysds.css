@@ -21,5 +21,8 @@
 
 /* TODO: Include Global Styles (default typography and body styles) */
 /* @import "./core/globals.css"; */
-  
-  
+
+/* Hide unstyled components until they are fully loaded */
+:not(:defined) {
+   visibility: hidden;
+}
