@@ -22,7 +22,7 @@ export class NysErrorMessage extends LitElement {
   render() {
     return html`${this.showError
       ? html`<div class="nys-errormessage" ?showDivider=${this.showDivider}>
-          <nys-icon name="error" size="xl"></nys-icon>
+          <nys-icon name="error" size="2xl"></nys-icon>
           ${this._internals.validationMessage || this.errorMessage}
         </div>`
       : ""}`;

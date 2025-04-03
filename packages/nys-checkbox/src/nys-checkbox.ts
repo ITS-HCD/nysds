@@ -253,10 +253,10 @@ export class NysCheckbox extends LitElement {
                   for="${this.id}"
                   name="check"
                   size="${this.size === "md"
-                    ? "2xl"
+                    ? "4xl"
                     : this.size === "sm"
-                      ? "sm"
-                      : "md"}"
+                      ? "2xl"
+                      : "xl"}"
                   class="nys-checkbox__icon"
                 ></nys-icon>`
               : ""}

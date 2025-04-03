@@ -60,10 +60,6 @@ export default css`
     --_nys-alert-gap-space-50: var(--nys-space-50, 4px);
   }
 
-  .nys-alert__icon {
-    margin-top: 1.5px; /* this margin is to just better align the icon with the texts */
-  }
-
   /* Main alert container */
   .nys-alert__container {
     display: flex;
@@ -128,6 +124,7 @@ export default css`
 
   .close-container {
     margin-left: auto;
+    margin-top: -5px;
   }
 
   /* Centered variant: For no descriptions, we remove the <slot name="text"> via JS logic. In styling, centers the icon for a compact layout. */
