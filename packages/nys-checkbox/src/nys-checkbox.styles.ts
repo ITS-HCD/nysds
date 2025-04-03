@@ -139,7 +139,9 @@ export default css`
   /* wraps the native checkbox and it's icon */
   .nys-checkbox__checkboxwrapper {
     position: relative;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-height: var(--_nys-checkbox-size);
   }
 
@@ -147,7 +149,7 @@ export default css`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%, -35%, 0); /* Centering the icon visually */
+    transform: translate(-50%, -50%); /* Centering the icon visually */
     pointer-events: none;
     color: white;
   }

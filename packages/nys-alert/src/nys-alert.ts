@@ -171,7 +171,7 @@ export class NysAlert extends LitElement {
             <div part="nys-alert__icon" class="nys-alert__icon">
               <nys-icon
                 name="${this._getIconName()}"
-                size="2xl"
+                size="3xl"
                 label="${this.type} icon"
               ></nys-icon>
             </div>
