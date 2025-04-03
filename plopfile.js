@@ -19,7 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.1.3", //update this to the latest version when new release is made
+        default: "1.1.4", //update this to the latest version when new release is made
       },
     ],
     actions: [
