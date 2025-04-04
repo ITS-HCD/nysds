@@ -42,7 +42,9 @@ figma.connect("<FIGMA_SELECT>", {
         errorMessage="${props.error.message}"
         name="(REPLACE)"
       >
-        <nys-option value="${props.input.value}">${props.input.value}</nys-option>
+        <nys-option value="${props.input.value}"
+          >${props.input.value}</nys-option
+        >
         <nys-option value="value_REPLACE">Option 2 {REPLACE}</nys-option>
         <nys-option value="value_REPLACE">Option 3 {REPLACE}</nys-option>
       </nys-select>`,

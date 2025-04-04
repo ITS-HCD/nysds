@@ -46,7 +46,6 @@ figma.connect("<FIGMA_BUTTON>", {
 //   example: (props) => html`${props.icon}`,
 // });
 
-
 // figma.connect("<FIGMA_ICON_FIXED>", {
 //   props: { icon: figma.instance("shape") },
 //   example: (props) => html`${props.icon}`,

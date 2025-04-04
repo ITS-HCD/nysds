@@ -24,7 +24,7 @@ function extractFigmaData() {
   docSubstitutions.push("--- Document URL substitutions ---\n");
   topLevelItems.forEach((item) => {
     docSubstitutions.push(
-      `"<FIGMA_ICON_${item.name.toUpperCase()}>": "https://www.figma.com/design/Tad3pBv2jhA8XVf6aMlKEi/?node-id=${item.id}",`
+      `"<FIGMA_ICON_${item.name.toUpperCase()}>": "https://www.figma.com/design/Tad3pBv2jhA8XVf6aMlKEi/?node-id=${item.id}",`,
     );
   });
   const docSubstitutionsOutput = docSubstitutions.join("\n");
@@ -34,14 +34,20 @@ function extractFigmaData() {
   codeConnectLines.push("--- Code Connect lines ---\n");
   topLevelItems.forEach((item) => {
     codeConnectLines.push(
-      `figma.connect("<FIGMA_ICONS_${item.name.toUpperCase()}>", { example: () => html\`${item.name}\` });`
+      `figma.connect("<FIGMA_ICONS_${item.name.toUpperCase()}>", { example: () => html\`${item.name}\` });`,
     );
   });
   const codeConnectLinesOutput = codeConnectLines.join("\n");
 
   // 5) Write each set of lines to its own file:
-  fs.writeFileSync(path.join(__dirname, "codeconnect-docsubstitutions.txt"), docSubstitutionsOutput);
-  fs.writeFileSync(path.join(__dirname, "codeconnect-icons.txt"), codeConnectLinesOutput);
+  fs.writeFileSync(
+    path.join(__dirname, "codeconnect-docsubstitutions.txt"),
+    docSubstitutionsOutput,
+  );
+  fs.writeFileSync(
+    path.join(__dirname, "codeconnect-icons.txt"),
+    codeConnectLinesOutput,
+  );
 
   // 6) Confirm it worked
   console.log("Wrote doc substitutions to codeconnect-docsubstitutions.txt");

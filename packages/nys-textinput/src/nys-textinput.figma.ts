@@ -4,22 +4,20 @@ import figma, { html } from "@figma/code-connect/html";
 // TODO: Need to address varying props across different subcomponents
 figma.connect("<FIGMA_TEXTINPUT>", {
   props: {
-    width: figma.enum("Width", {
+    width: figma.enum<"sm" | "md" | "lg" | "full">("Width", {
       sm: "sm",
       md: "md",
       lg: "lg",
+      full: "full",
     }),
-    label: figma.boolean("Label", {
-      true: figma.nestedProps("Label", {
-        text: figma.string("Label"),
-        optional: figma.boolean("Optional"),
-        required: figma.boolean("Required"),
-        description: figma.boolean("Description", {
-          true: figma.string("↳ Description"),
-          false: undefined,
-        }),
+    label: figma.nestedProps("Label", {
+      text: figma.string("Label"),
+      optional: figma.boolean("Optional"),
+      required: figma.boolean("Required"),
+      description: figma.boolean("Description", {
+        true: figma.string("↳ Description"),
+        false: undefined,
       }),
-      false: undefined,
     }),
     input: figma.nestedProps("Input", {
       disabled: figma.boolean("Disabled"),
