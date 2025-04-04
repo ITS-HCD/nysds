@@ -41,7 +41,7 @@ export default css`
     width: 100%;
   }
 
-  .nys-unavheader {
+  .nys-unavheader__mainwrapper {
     background-color: var(--_nys-unavheader-bg-color);
     padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     display: flex;
@@ -244,7 +244,7 @@ export default css`
   }
 
   /* Breakpoints using NYSDS Grid Guidelines */
-  @container (min-width: 0) and (max-width: 479px) {
+  @media (min-width: 0) and (max-width: 479px) {
     /* Mobile (XS) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
@@ -261,7 +261,7 @@ export default css`
     }
   }
 
-  @container (min-width: 480px) and (max-width: 767px) {
+  @media (min-width: 480px) and (max-width: 767px) {
     /* Mobile Large (SM - Above 480px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-sm, 20px);
@@ -272,7 +272,7 @@ export default css`
     }
   }
 
-  @container (min-width: 768px) and (max-width: 1023px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
     /* Tablet (MD - Above 768px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-md, 32px);
@@ -286,7 +286,7 @@ export default css`
     }
   }
 
-  @container (min-width: 1024px) and (max-width: 1279px) {
+  @media (min-width: 1024px) and (max-width: 1279px) {
     /* Desktop (LG - Above 1024px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-lg, 32px);
@@ -302,7 +302,7 @@ export default css`
     }
   }
 
-  @container (min-width: 1280px) {
+  @media (min-width: 1280px) {
     /* Desktop Large (XL - Above 1280px) */
     :host {
       --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
