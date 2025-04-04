@@ -84,7 +84,7 @@ export class NysAvatar extends LitElement {
                       <nys-icon
                         label="nys-avatar__icon"
                         name=${this.icon}
-                        size="md"
+                        size="xl"
                       ></nys-icon>
                     </div>`
                   : html`<div part="nys-avatar__icon">
@@ -92,7 +92,7 @@ export class NysAvatar extends LitElement {
                         <nys-icon
                           label="nys-avatar__icon"
                           name="account_circle"
-                          size="md"
+                          size="xl"
                         ></nys-icon>
                       </slot>
                     </div>`}

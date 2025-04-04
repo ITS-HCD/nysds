@@ -7,8 +7,11 @@
    * Part of the New York State Design System (NYSDS)
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
-   * Version: 1.1.0
+   * Version: 1.1.5
 */
+
+/* Include the selective CSS reset  */
+@import "./core/reset.css";
 
 /* Include Design Tokens (variables for colors, spacing, typography) */
 @import "./core/tokens.css";
@@ -18,5 +21,8 @@
 
 /* TODO: Include Global Styles (default typography and body styles) */
 /* @import "./core/globals.css"; */
-  
-  
+
+/* Hide unstyled components until they are fully loaded */
+:not(:defined) {
+   visibility: hidden;
+}

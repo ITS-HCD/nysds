@@ -7,11 +7,9 @@ import styles from "./nys-toggle.styles";
 let toggleIdCounter = 0; // Counter for generating unique IDs
 
 export class NysToggle extends LitElement {
-  static styles = styles;
-
   /********************** Properties **********************/
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -39,7 +37,16 @@ export class NysToggle extends LitElement {
   }
   @property({ type: String }) form = "";
 
-  /******************** Functions ********************/
+  static styles = styles;
+  private _internals: ElementInternals;
+
+  /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
 
   // Generate a unique ID if one is not provided
   connectedCallback() {
@@ -49,6 +56,15 @@ export class NysToggle extends LitElement {
     }
   }
 
+  /********************** Form Integration **********************/
+  // Update the internals whenever `checked` or `value` changes.
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has("checked") || changedProperties.has("value")) {
+      this._internals.setFormValue(this.checked ? this.value : null);
+    }
+  }
+
+  /********************** Functions **********************/
   // Handle focus event
   private _handleFocus() {
     this.dispatchEvent(new Event("focus"));
@@ -119,6 +135,7 @@ export class NysToggle extends LitElement {
                   : html`<nys-icon
                       class="toggle-icon"
                       name="${this.checked ? "check" : "close"}"
+                      size="2xl"
                     ></nys-icon>`}
               </div>
             </span>

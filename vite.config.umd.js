@@ -1,12 +1,12 @@
 import { defineConfig } from "vite";
-import { nodeResolve } from "@rollup/plugin-node-resolve"; // Ensure bundled dependencies
-import path from "path";
+import { visualizer } from "rollup-plugin-visualizer";
+
+const shouldAnalyze = process.env.ANALYZE === "true";
 
 // This banner will go at the top of our generated files
 const banner = `
-
 /*!
-   * New York State Design System (v1.1.0)
+   * New York State Design System (v1.1.5)
    * Description: A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
@@ -17,7 +17,7 @@ const banner = `
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: ["./src/index.ts"],
       name: "NYSDS", // Global variable for UMD
       fileName: () => "nysds.js", // Output as "nysds.js" for UMD
       formats: ["umd"], // UMD format
@@ -26,15 +26,15 @@ export default defineConfig({
     emptyOutDir: false, // Since we're building both ESM and UMD
     rollupOptions: {
       external: [], // Bundle all dependencies including Lit
-      plugins: [
-        nodeResolve(), // Resolves and bundles Lit and other dependencies
-      ],
       output: {
         banner,
         globals: {
           lit: "Lit", // Ensure compatibility with global Lit
         },
       },
+      plugins: [
+        shouldAnalyze && visualizer({ filename: "dist/stats-umd.html", open: true }),
+      ].filter(Boolean),
     },
   },
 });

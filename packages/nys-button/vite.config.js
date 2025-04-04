@@ -8,7 +8,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Button Component v1.1.0
+   * Button Component
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
@@ -25,7 +25,8 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: ["lit"], // Externalize Lit for ES build
+      // External deps declared manually (should match peerDependencies)
+      external: ["lit", "@nysds/nys-icon"],
       output: {
         banner: mode === "production" ? banner : undefined, // Add banner only in production
         globals: {

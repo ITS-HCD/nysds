@@ -1,7 +1,7 @@
 {
   "name": "@nysds/nys-radiobutton",
-  "version": "1.1.0",
-  "description": "A radio button component from the NYS Design System.",
+  "version": "1.1.5",
+  "description": "The Radiobutton component from the NYS Design System.",
   "module": "dist/nys-radiobutton.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -19,16 +19,18 @@
     "build": "tsc --emitDeclarationOnly && vite build"
   },
   "dependencies": {
-    "@nysds/nys-label": "^1.1.0",
-    "@nysds/nys-errormessage": "^1.1.0"
   },
   "peerDependencies": {
-    "lit": "^3.2.1"
+    "lit": "^3.2.1",
+    "@nysds/nys-label": "^1.1.5",
+    "@nysds/nys-errormessage": "^1.1.5"
   },
   "devDependencies": {
     "lit": "^3.2.1",
+    "@nysds/nys-label": "^1.1.5",
+    "@nysds/nys-errormessage": "^1.1.5",
     "typescript": "^5.7.2",
-    "vite": "^6.0.11"
+    "vite": "^6.2.4"
 },
   "keywords": [
     "new-york-state",

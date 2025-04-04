@@ -8,7 +8,7 @@ let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiogroup extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = ""; // while not use by users, this prop is needed for internalElement form logic
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: Boolean, reflect: true }) showError = false;
@@ -64,7 +64,7 @@ export class NysRadiogroup extends LitElement {
 
   firstUpdated() {
     // Ensure checked state is respected
-    this._initializeCheckedState();
+    this._initializeCheckedRadioValue();
     // This ensures our element always participates in the form
     this._setValue();
     this.setRadioButtonRequire();
@@ -78,7 +78,7 @@ export class NysRadiogroup extends LitElement {
       this._manageRequire();
     }
     if (changedProperties.has("size")) {
-      this.updateRadioButtonsSize();
+      this._updateRadioButtonsSize();
     }
   }
 
@@ -95,7 +95,7 @@ export class NysRadiogroup extends LitElement {
     this._internals.setFormValue(this.selectedValue);
   }
 
-  // Updates the "require" attribute of a radiobutton underneath a radiogroup to ensure requirement for all radiobutton under the same name/group
+  // Updates the "require" attribute of the first radiobutton underneath a radiogroup to ensure requirement for all radiobutton under the same name/group
   private setRadioButtonRequire() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton, index) => {
@@ -117,14 +117,16 @@ export class NysRadiogroup extends LitElement {
       this._internals.setValidity(
         { valueMissing: true },
         message,
-        firstRadioInput || this,
+        firstRadioInput,
       );
     } else {
-      this._internals.setValidity({});
+      this.showError = false;
+      this._internals.setValidity({}, "", firstRadioInput);
     }
   }
 
-  private _initializeCheckedState() {
+  // Need to account for if radiogroup already have a radiobutton checked at initialization
+  private _initializeCheckedRadioValue() {
     const checkedRadio = this.querySelector("nys-radiobutton[checked]");
     if (checkedRadio) {
       this.selectedValue = checkedRadio.getAttribute("value");
@@ -132,28 +134,69 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  /********************** Functions **********************/
   // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
-  private updateRadioButtonsSize() {
+  private _updateRadioButtonsSize() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       radioButton.setAttribute("size", this.size);
     });
   }
 
-  // Keeps radiogroup informed of the name and value of its current selected radiobutton
+  // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
   private _handleRadioButtonChange(event: Event) {
     const customEvent = event as CustomEvent;
-    const { value } = customEvent.detail;
+    const { name, value } = customEvent.detail;
 
+    this.name = name;
     this.selectedValue = value;
     this._internals.setFormValue(this.selectedValue);
   }
 
-  private _handleInvalid() {
+  private async _handleInvalid(event: Event) {
+    event.preventDefault();
+
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
       this.showError = true;
       this._manageRequire(); // Refresh validation message
+
+      const firstRadio = this.querySelector("nys-radiobutton");
+      const firstRadioInput = firstRadio
+        ? await (firstRadio as any).getInputElement()
+        : null;
+
+      if (firstRadioInput) {
+        // Focus only if this is the first invalid element (top-down approach)
+        const form = this._internals.form;
+        if (form) {
+          const elements = Array.from(form.elements) as Array<
+            HTMLElement & { checkValidity?: () => boolean }
+          >;
+          // Find the first element in the form that is invalid
+          const firstInvalidElement = elements.find((element) => {
+            // If element is radiogroup, we need to go down one level to find the 1st radiobutton in the group
+            if (element.tagName.toLowerCase() === "nys-radiogroup") {
+              const firstRadio = element.querySelector("nys-radiobutton");
+              if (!(firstRadio as any).checkValidity()) {
+                return element;
+              }
+            } else {
+              return (
+                typeof element.checkValidity === "function" &&
+                !element.checkValidity()
+              );
+            }
+          });
+
+          if (firstInvalidElement === this) {
+            firstRadioInput.focus();
+          }
+        } else {
+          // If not part of a form, simply focus.
+          firstRadioInput.focus();
+        }
+      }
     }
   }
 
