@@ -7,7 +7,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Avatar Component v1.1.1
+   * Avatar Component
    * Part of the New York State Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
@@ -25,7 +25,8 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: ["lit"], // Externalize Lit for ES build
+      // External deps declared manually (should match peerDependencies)
+      external: ["lit", "@nysds/nys-icon"],
       output: {
         banner: mode === "production" ? banner : undefined, // Add banner only in production
         globals: {
