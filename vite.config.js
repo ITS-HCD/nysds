@@ -13,8 +13,7 @@ const banner = `
 `;
 
 // Externalize Lit and all NYSDS internal packages
-const external = (id) =>
-  id === "lit" || id.startsWith("lit/") || id.startsWith("@nysds/");
+const external = (id) => id === "lit" || id.startsWith("lit/");
 
 export default defineConfig({
   build: {
