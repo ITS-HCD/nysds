@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.1.5",
+  "version": "1.1.6-alpha.0",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -33,6 +33,7 @@
     "lint:fix:packages": "eslint packages/**/*.{ts,js} --fix",
     "release:dry-run": "npm run build:all && node src/scripts/publish-dry-run.js",
     "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public",
+    "release:alpha": "npm run build && npm publish --tag next",
     "test": "wtr --node-resolve",
     "storybook": "npm run build:all && storybook dev -p 6006",
     "storybook:dev": "storybook dev -p 6006",
