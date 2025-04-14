@@ -1,7 +1,7 @@
-import { expect, html, fixture } from '@open-wc/testing';
+import { expect, html, fixture } from "@open-wc/testing";
 
-import { sum } from './sum';
-import './nys-textinput';
+import { sum } from "./sum";
+import "./nys-textinput";
 
 /**
  * Test Tips (Official WTR Doc): Defaults, interactivity, customization, and accessibility, form a great baseline for testing most web UI.
@@ -10,69 +10,75 @@ import './nys-textinput';
  * */
 
 // This is a test for the sum function (NOT part of the web component!!!!! JUST A TEST >:9)
-it('sums up 2 numbers', () => {
+it("sums up 2 numbers", () => {
   expect(sum(1, 1)).to.equal(2);
   expect(sum(3, 12)).to.equal(15);
 });
 
 // Render the component
-describe('nys-textinput', () => {
-  it('should render component', async () => {
+describe("nys-textinput", () => {
+  it("should render component", async () => {
     const el = await fixture(html`<nys-textinput></nys-textinput>`);
-    expect(el).to.exist; 
-  })
+    expect(el).to.exist;
+  });
 
-  it('should render with default type as text', async () => {
+  it("should render with default type as text", async () => {
     const el = await fixture(html`<nys-textinput></nys-textinput>`);
-    const input = el.shadowRoot?.querySelector('input')
+    const input = el.shadowRoot?.querySelector("input");
     expect(input?.type).to.equal("text");
   });
 
-  it('should show required symbol when type is required', async() => {
+  it("should show required symbol when type is required", async () => {
     const el = await fixture(html`<nys-textinput required></nys-textinput>`);
-    const input = el.shadowRoot?.querySelector('input');
+    const input = el.shadowRoot?.querySelector("input");
 
-    expect(input?.hasAttribute('required')).to.be.true;
-    expect(input?.hasAttribute('aria-required')).to.be.true;
+    expect(input?.hasAttribute("required")).to.be.true;
+    expect(input?.hasAttribute("aria-required")).to.be.true;
 
-    const label = el.shadowRoot?.querySelector('nys-label');
-    expect(label?.getAttribute('flag')).to.equal('required');
+    const label = el.shadowRoot?.querySelector("nys-label");
+    expect(label?.getAttribute("flag")).to.equal("required");
   });
 
-  it('displays a toggle password icon that changes visilibity when property type is password', async() => {
-    const el = await fixture(html`<nys-textinput type="password"></nys-textinput>`);
-    const input = el.shadowRoot?.querySelector('input');
-    const eyeIcon = el.shadowRoot?.querySelector('eye-icon') as HTMLElement;
+  it("displays a toggle password icon that changes visilibity when property type is password", async () => {
+    const el = await fixture(
+      html`<nys-textinput type="password"></nys-textinput>`,
+    );
+    const input = el.shadowRoot?.querySelector("input");
+    const eyeIcon = el.shadowRoot?.querySelector("eye-icon") as HTMLElement;
 
-    expect(input?.type).to.equal("password"); 
+    expect(input?.type).to.equal("password");
     eyeIcon.click();
     expect(input?.type).to.equal("text");
     eyeIcon.click();
     expect(input?.type).to.equal("password");
   });
 
-  it('displays an error message when required field is empty', async () => {
+  it("displays an error message when required field is empty", async () => {
     const el = await fixture(html`<nys-textinput required></nys-textinput>`);
-    const input = el.shadowRoot?.querySelector('input') as HTMLInputElement;
-    input.value = '';
-    input?.dispatchEvent(new Event('blur')); // imitates user clicking in and out of input
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    input.value = "";
+    input?.dispatchEvent(new Event("blur")); // imitates user clicking in and out of input
 
-    const errorMessage = el.shadowRoot?.querySelector('nys-errormessage')
-    expect(errorMessage?.getAttribute('showError')).to.equal('true');
-  })
+    const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
+    expect(errorMessage?.getAttribute("showError")).to.equal("true");
+  });
 
-  it('validates pattern mismatch', async () => {
-    const el = await fixture(html`<nys-textinput pattern="\\d+">></nys-textinput>`);
-    const input = el.shadowRoot?.querySelector('input') as HTMLInputElement;
-    input.value = 'hello world';
-    input?.dispatchEvent(new Event('blur')); // imitates user clicking in and out of input
+  it("validates pattern mismatch", async () => {
+    const el = await fixture(
+      html`<nys-textinput pattern="\\d+">></nys-textinput>`,
+    );
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    input.value = "hello world";
+    input?.dispatchEvent(new Event("blur")); // imitates user clicking in and out of input
 
-    const errorMessage = el.shadowRoot?.querySelector('nys-errormessage')
-    expect(errorMessage?.getAttribute('showError')).to.equal('true');
-    expect(errorMessage?.getAttribute('errorMessage')).to.equal('Invalid format');
-  })
+    const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
+    expect(errorMessage?.getAttribute("showError")).to.equal("true");
+    expect(errorMessage?.getAttribute("errorMessage")).to.equal(
+      "Invalid format",
+    );
+  });
 
-  it('passes the a11y audit', async () => {
+  it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-textinput></nys-textinput>`);
     await expect(el).shadowDom.to.be.accessible();
   });
