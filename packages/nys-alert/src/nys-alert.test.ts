@@ -10,6 +10,6 @@ describe("nys-alert", () => {
 
   it("should have default type as base", async () => {
     const el = await fixture<NysAlert>(html`<nys-alert></nys-alert>`);
-    expect(el.type).to.equal("base");
+    expect(el?.type).to.equal("base");
   });
 });
