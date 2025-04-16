@@ -62,14 +62,14 @@ export class NysAvatar extends LitElement {
               ? this.color
               : "#555"};"
             role=${ifDefined(this.image ? undefined : "img")}
-            aria-label=${ifDefined(this.image ? undefined : this.label)}
+            aria-label=${ifDefined(this.image ? undefined : this.label ? this.label : "avatar")}
           >
             ${this.image?.length > 0
               ? html`<img
                   part="nys-avatar__image"
                   class="nys-avatar__image"
                   src=${this.image}
-                  alt=${this.label}
+                  alt=${this.label || "avatar"}
                   loading=${this.lazy ? "lazy" : "eager"}
                 />`
               : this.initials?.length > 0
