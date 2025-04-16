@@ -18,6 +18,7 @@ interface NysButtonArgs {
   value: string;
   type: string;
   href: string;
+  ariaLabel: string;
   onClick: () => void;
 }
 
@@ -41,6 +42,7 @@ const meta: Meta<NysButtonArgs> = {
     form: { control: "text" },
     value: { control: "text" },
     href: { control: "text" },
+    ariaLabel: { control: "text" },
     type: { control: "select", options: ["submit", "reset", "button"] },
   },
   parameters: {
@@ -352,6 +354,7 @@ export const Icons: Story = {
     label: "Click Me",
     prefixIcon: "chevron_left",
     suffixIcon: "chevron_right",
+    ariaLabel: "click me",
   },
 
   render: (args) => html`
