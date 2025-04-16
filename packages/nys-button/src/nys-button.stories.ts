@@ -60,7 +60,10 @@ type Story = StoryObj<NysButtonArgs>;
 
 export const Basic: Story = {
   args: {
+    id: "button1",
+    name: "button1",
     label: "Click Me",
+    ariaLabel: "click me",
   },
   render: (args) => html`
     <nys-button
@@ -78,6 +81,7 @@ export const Basic: Story = {
       .value=${args.value}
       .href=${args.href}
       .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
       .onClick=${() => alert("Button clicked")}
     ></nys-button>
   `,
@@ -119,6 +123,7 @@ export const Size: Story = {
           .value=${args.value}
           .href=${args.href}
           .type=${args.type}
+          .ariaLabel=${args.ariaLabel}
         ></nys-button>
         <nys-button
           .id=${args.id}
@@ -134,6 +139,7 @@ export const Size: Story = {
           .value=${args.value}
           .href=${args.href}
           .type=${args.type}
+          .ariaLabel=${args.ariaLabel}
         ></nys-button>
         <nys-button
           .id=${args.id}
@@ -149,6 +155,7 @@ export const Size: Story = {
           .value=${args.value}
           .href=${args.href}
           .type=${args.type}
+          .ariaLabel=${args.ariaLabel}
         ></nys-button>
       </div>
       <nys-button
@@ -166,6 +173,7 @@ export const Size: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -182,6 +190,7 @@ export const Size: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -198,6 +207,7 @@ export const Size: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
     </div>
   `,
@@ -267,6 +277,7 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -282,6 +293,7 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -297,6 +309,7 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -312,6 +325,7 @@ export const Variants: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
     </div>
   `,
@@ -372,6 +386,7 @@ export const Icons: Story = {
       .value=${args.value}
       .href=${args.href}
       .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
     ></nys-button>
   `,
 
@@ -383,6 +398,7 @@ export const Icons: Story = {
   id="button1"
   name="button1"
   label="Click Me"
+  ariaLabel="click me"
   prefixIcon="chevron_left"
   suffixIcon="chevron_right"
 ></nys-button>`,
@@ -415,6 +431,7 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -430,6 +447,7 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -445,6 +463,7 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -460,6 +479,7 @@ export const Disabled: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
     </div>
   `,
@@ -525,6 +545,7 @@ export const Link: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
     </div>
   `,
@@ -567,6 +588,7 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -582,6 +604,7 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -597,6 +620,7 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
       <nys-button
         .id=${args.id}
@@ -612,6 +636,7 @@ export const Inverted: Story = {
         .value=${args.value}
         .href=${args.href}
         .type=${args.type}
+        .ariaLabel=${args.ariaLabel}
       ></nys-button>
     </div>
   `,

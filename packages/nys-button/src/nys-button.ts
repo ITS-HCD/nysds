@@ -159,7 +159,7 @@ export class NysButton extends LitElement {
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target="_blank"
-                aria-label=${this.ariaLabel || this.label || 'Button'}
+                aria-label=${this.ariaLabel || this.label || 'button'}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
@@ -189,7 +189,7 @@ export class NysButton extends LitElement {
               form=${ifDefined(this.form ? this.form : undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
-              aria-label=${this.ariaLabel || this.label || 'Button'}
+              aria-label=${this.ariaLabel || this.label || 'button'}
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
