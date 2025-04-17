@@ -210,6 +210,7 @@ export class NysAlert extends LitElement {
                     variant="ghost"
                     prefixIcon="close"
                     size="sm"
+                    ariaLabel="close button"
                     @click=${this._closeAlert}
                   ></nys-button>
                 </div>`
@@ -221,6 +222,7 @@ export class NysAlert extends LitElement {
                       prefixIcon="close"
                       size="sm"
                       inverted
+                      ariaLabel="close button"
                       @click=${this._closeAlert}
                     ></nys-button>
                   </div>`
