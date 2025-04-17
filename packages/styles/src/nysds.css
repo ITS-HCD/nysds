@@ -7,7 +7,7 @@
    * Part of the New York State Design System (NYSDS)
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
-   * Version: 1.1.5
+   * Version: 1.1.6-alpha.0
 */
 
 /* Include the selective CSS reset  */
@@ -23,6 +23,23 @@
 /* @import "./core/globals.css"; */
 
 /* Hide unstyled components until they are fully loaded */
-:not(:defined) {
+nys-alert:not(:defined),
+nys-avatar:not(:defined),
+nys-button:not(:defined),
+nys-checkbox:not(:defined),
+nys-checkboxgroup:not(:defined),
+nys-globalheader:not(:defined),
+nys-globalfooter:not(:defined),
+nys-icon:not(:defined),
+nys-radiobutton:not(:defined),
+nys-radiogroup:not(:defined),
+nys-select:not(:defined),
+nys-textarea:not(:defined),
+nys-textinput:not(:defined),
+nys-toggle:not(:defined),
+nys-errormessage:not(:defined),
+nys-label:not(:defined),
+nys-unavheader:not(:defined),
+nys-unavfooter:not(:defined) {
    visibility: hidden;
 }
