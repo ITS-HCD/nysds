@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-alert",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "The Alert component from the NYS Design System.",
   "module": "dist/nys-alert.js",
   "types": "dist/index.d.ts",
@@ -22,13 +22,13 @@
   },
   "peerDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.1.5",
-    "@nysds/nys-button": "^1.1.5"
+    "@nysds/nys-icon": "^1.1.6",
+    "@nysds/nys-button": "^1.1.6"
   },
   "devDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.1.5",
-    "@nysds/nys-button": "^1.1.5",    
+    "@nysds/nys-icon": "^1.1.6",
+    "@nysds/nys-button": "^1.1.6",    
     "typescript": "^5.7.2",
     "vite": "^6.2.4"
   },

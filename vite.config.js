@@ -5,7 +5,7 @@ const shouldAnalyze = process.env.ANALYZE === "true";
 
 const banner = `
 /*!
-   * New York State Design System (v1.1.5)
+   * New York State Design System (v1.1.6)
    * Description: A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
@@ -13,8 +13,7 @@ const banner = `
 `;
 
 // Externalize Lit and all NYSDS internal packages
-const external = (id) =>
-  id === "lit" || id.startsWith("lit/") || id.startsWith("@nysds/");
+const external = (id) => id === "lit" || id.startsWith("lit/");
 
 export default defineConfig({
   build: {
