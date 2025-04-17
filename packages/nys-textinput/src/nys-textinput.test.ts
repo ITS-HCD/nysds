@@ -1,7 +1,7 @@
 import { expect, html, fixture } from "@open-wc/testing";
 
 import { sum } from "./sum";
-// import "./nys-textinput";
+import "../dist/nys-textinput.js";
 
 /**
  * Test Tips (Official WTR Doc): Defaults, interactivity, customization, and accessibility, form a great baseline for testing most web UI.

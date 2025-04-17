@@ -1,6 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import { NysAlert } from "./nys-alert";
-import "./nys-alert";
+import "../dist/nys-alert.js";
 
 describe("nys-alert", () => {
   // FAIL THE TEST (this is me testing out the errors)
