@@ -29,6 +29,6 @@ export default {
     }),
   ],
   coverageConfig: {
-    exclude: ["**/node_modules/**', '**/test/**"],
+    exclude: ["**/node_modules/**", "**/test/**"],
   },
 };
