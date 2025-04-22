@@ -45,6 +45,7 @@ export class NysButton extends LitElement {
   }
   @property({ type: Boolean, reflect: true }) inverted = false; //used on dark text
   @property({ type: String }) label = "";
+  @property({ type: String }) ariaLabel = "";
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -158,6 +159,7 @@ export class NysButton extends LitElement {
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target="_blank"
+                aria-label=${this.ariaLabel || this.label || "button"}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
@@ -187,6 +189,7 @@ export class NysButton extends LitElement {
               form=${ifDefined(this.form ? this.form : undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
+              aria-label=${this.ariaLabel || this.label || "button"}
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"

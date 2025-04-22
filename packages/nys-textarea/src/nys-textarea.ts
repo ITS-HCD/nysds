@@ -46,7 +46,8 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
+  async updated(changedProperties: Map<string | number | symbol, unknown>) {
+    await Promise.resolve();
     if (changedProperties.has("width")) {
       this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
         ? this.width

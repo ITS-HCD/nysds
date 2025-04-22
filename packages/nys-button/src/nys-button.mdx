@@ -22,9 +22,8 @@ If an id is not passed, a unique id will be generated.
 
 <Controls />
 
-<div style={{ display: "flex", gap: "10px", verticalAlign: "middle", alignItems: "center" }}>
-	{" "}
-	<nys-icon size="xl" name="info"></nys-icon>The button component takes the property `onClick`, which is a function that is called when the button is clicked.{" "}
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  
+	<nys-icon size="xl" name="info"></nys-icon> The button component takes the property `onClick`, which is a function that is called when the button is clicked.
 </div>
 ```html
 <nys-button onClick={() => alert("Button clicked")} label="Click Me"></nys-button>
@@ -67,6 +66,9 @@ Set the `variant` prop of the **`nys-button`** to adjust the appearance of the b
 Set the `prefixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the left of the label.\
 Set the `suffixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the right of the label.
 
+If you wish to create a button with just an icon and no text, you can set the `ariaLabel` prop. This will allow users who rely on screen readers to understand the purpose of the button even though there is no visible label. 
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The `aria-label` is automatically set to the label prop if provided, or defaults to "button"."</div>
 <Canvas of={NysButtonStories.Icons} />
 ### Disabled
 <Canvas of={NysButtonStories.Disabled} />
@@ -108,10 +110,9 @@ Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the 
 
 The `nys-button` component includes the following accessibility-focused features:
 
-- Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly.
+- ARIA roles and aria-label attribute: Properly set to ensure screen readers interpret the button correctly. The `aria-label` is automatically set to the label prop if provided, or defaults to "button".
 - Keyboard navigation support, allowing users to use the keyboard to click the button.
 - Visual focus indicators to help users navigate the component.
-
 ## Events
 
 The `nys-button` component emits the following events:
