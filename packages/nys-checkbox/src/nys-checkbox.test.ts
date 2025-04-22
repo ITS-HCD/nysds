@@ -25,7 +25,6 @@
  * - When the checkbox is disabled (this.disabled = true), the aria-disabled attribute should be set to "true."
  */
 
-
 /*
  * Ensure checkbox is focusable and keyboard accessibility.
  */
