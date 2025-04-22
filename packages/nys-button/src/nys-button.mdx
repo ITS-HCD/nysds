@@ -73,7 +73,13 @@ If you wish to create a button with just an icon and no text, you can set the `a
 ### Disabled
 <Canvas of={NysButtonStories.Disabled} />
 ### Link
-Set the `href` prop of the **`nys-button`** when using the button to navigate to a different page. This will render the `<nys-button>` as an `<a>` tag.
+Set the `href` prop of the **`nys-button`** when using the button to navigate to a different page. This will render the `<nys-button>` as an `<a>` tag.\
+Set the `target` prop of the **`nys-button`** to specify where to open the linked document. The available targets are:
+- `_self`: Opens the link in the same frame as it was clicked (default).
+- `_blank`: Opens the link in a new tab or window.
+- `_parent`: Opens the link in the parent frame.
+- `_top`: Opens the link in the full body of the window.
+- `framename`: Opens the link in a named iframe.
 <Canvas of={NysButtonStories.Link} />
 ### Inverted
 Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the button. Use this prop when the button is on a dark background.
