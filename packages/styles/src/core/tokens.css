@@ -509,9 +509,8 @@
   --nys-font-lineheight-4xl: 57px;
   
   /* --- Letter Spacing --- */
-  --nys-font-letterspacing-negative-300: -0.02rem; /* -0.32px */
-  --nys-font-letterspacing-negative-200: -0.01rem; /* -0.16px */
-  --nys-font-letterspacing-negative-100: 0rem; /* -0.006px */
+  --nys-font-letterspacing-negative-200: -0.02rem; /* -0.32px */
+  --nys-font-letterspacing-negative-100: -0.01rem; /* -0.16px */
   --nys-font-letterspacing-0: 0rem; /* 0px */
   --nys-font-letterspacing-100: 0.001rem; /* 0.013px */
   --nys-font-letterspacing-200: 0.001rem; /* 0.017px */
