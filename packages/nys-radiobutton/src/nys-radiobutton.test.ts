@@ -20,6 +20,11 @@
  */
 
 /*
+ * Ensure aria-disabled is set correctly when the radiobutton is disabled:
+ * - When the radiobutton is disabled (this.disabled = true), the aria-disabled attribute should be set to "true."
+ */
+
+/*
  * Ensure the radiobutton has error messaging for invalid states:
  * - Ex: if radio GROUP required, radiobutton must have one checked
  */

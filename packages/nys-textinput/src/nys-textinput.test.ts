@@ -1,6 +1,4 @@
 import { expect, html, fixture } from "@open-wc/testing";
-
-import { sum } from "./sum";
 import "../dist/nys-textinput.js";
 
 /**
@@ -13,12 +11,6 @@ import "../dist/nys-textinput.js";
 // ❌ Could not import your test module. Check the browser logs or open the browser in debug mode for more information.
 it("should NOT pass this basic test", () => {
   expect(true).to.be.false;
-});
-
-// This is a test for the sum function (NOT part of the web component!!!!! JUST A TEST >:9)
-it("sums up 2 numbers", () => {
-  expect(sum(1, 1)).to.equal(2);
-  expect(sum(3, 12)).to.equal(15);
 });
 
 // Render the component
