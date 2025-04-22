@@ -1,1 +1,7 @@
-// TODO: Testing to be added.
+// Render the component
+describe("nys-{{componentName}}", () => {
+  it("should render component", async () => {
+    const el = await fixture(html`<nys-{{componentName}}></nys-{{componentName}}>`);
+    expect(el).to.exist;
+  });
+})
