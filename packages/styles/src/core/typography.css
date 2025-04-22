@@ -14,9 +14,9 @@
 
 .nys-font-h1 { font: normal normal var(--nys-font-weight-h1, bold) var(--nys-font-size-h1) / var(--nys-font-lineheight-h1) var(--nys-font-family-heading); }
 .nys-font-h2 { font: normal normal var(--nys-font-weight-h2, bold) var(--nys-font-size-h2) / var(--nys-font-lineheight-h2) var(--nys-font-family-heading); }
-.nys-font-h3 { font: normal normal var(--nys-font-weight-h3, bold) var(--nys-font-size-h3) / var(--nys-font-lineheight-h3) var(--nys-font-family-heading); }
+.nys-font-h3 { font: normal normal var(--nys-font-weight-h3, 400) var(--nys-font-size-h3) / var(--nys-font-lineheight-h3) var(--nys-font-family-heading); }
 .nys-font-h4 { font: normal normal var(--nys-font-weight-h4, bold) var(--nys-font-size-h4) / var(--nys-font-lineheight-h4) var(--nys-font-family-heading); }
-.nys-font-h5 { font: normal normal var(--nys-font-weight-h5, bold) var(--nys-font-size-h5) / var(--nys-font-lineheight-h5) var(--nys-font-family-heading); }
+.nys-font-h5 { font: normal normal var(--nys-font-weight-h5, 400) var(--nys-font-size-h5) / var(--nys-font-lineheight-h5) var(--nys-font-family-heading); }
 .nys-font-h6 { font: normal normal var(--nys-font-weight-h6, bold) var(--nys-font-size-h6) / var(--nys-font-lineheight-h6) var(--nys-font-family-heading); }
 
 /* --- UI --- */
