@@ -110,6 +110,26 @@ export default css`
     --_nys-radiobutton-gap: var(--nys-space-150, 12px);
   }
 
+  /* Tile Variant */
+  :host([tile]) {
+    .nys-radiogroup {
+      gap: var(--nys-space-100, 8px);
+    }
+
+    .nys-radiobutton {
+      display: flex;
+      padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
+      align-items: center;
+      gap: var(--nys-space-150, 12px);
+      align-self: stretch;
+
+      border-radius: var(--nys-radius-md, 4px);
+      border: var(--nys-border-width-sm, 1px) solid
+        var(--nys-color-neutral-100, #d0d0ce);
+      background: var(--nys-color-ink-reverse, #fff);
+    }
+  }
+
   .nys-radiogroup {
     display: flex;
     flex-direction: column;

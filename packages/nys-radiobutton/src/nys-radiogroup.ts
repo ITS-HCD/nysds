@@ -15,6 +15,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  @property({ type: Boolean, reflect: true }) tile = false;
 
   @state() private selectedValue: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
@@ -140,6 +141,7 @@ export class NysRadiogroup extends LitElement {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       radioButton.setAttribute("size", this.size);
+      radioButton.setAttribute("tile", this.tile ? "true" : "false");
     });
   }
 

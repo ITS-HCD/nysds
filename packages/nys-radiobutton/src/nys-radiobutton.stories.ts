@@ -11,6 +11,7 @@ interface NysRadiobuttonArgs {
   label: string;
   description: string;
   size: string;
+  tile: boolean;
   disabled: boolean;
   value: string;
   form: string;
@@ -30,6 +31,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
     label: { control: "text" },
     description: { control: "text" },
     size: { control: "select", options: ["sm", "md"] },
+    tile: { control: "boolean" },
     disabled: { control: "boolean" },
     value: { control: "text" },
     form: { control: "text" },
@@ -64,6 +66,7 @@ export const Basic: Story = {
       label="What is your primary work location?"
       description="This is the location you use for your in office days."
       size=${args.size}
+      tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
       .required=${args.required}
@@ -128,6 +131,7 @@ export const PartialEditableOptions: Story = {
     <nys-radiogroup
       label="Choose your preferred work operating system."
       size=${args.size}
+      tile=${args.tile}
     >
       <nys-radiobutton
         .name=${args.name}
@@ -197,6 +201,7 @@ export const DisabledOptions: Story = {
       label="Current Title:"
       description="Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor."
       size=${args.size}
+      tile=${args.tile}
     >
       <nys-radiobutton
         .checked=${args.checked}
@@ -278,6 +283,7 @@ export const Required: Story = {
       label="What is your primary work location?"
       description="This is the location you use for your in office days."
       size=${args.size}
+      tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
       .showError=${args.showError}
@@ -346,6 +352,7 @@ export const Size: Story = {
       label="Select your agency"
       description="This is the agency, department, or office you work for."
       size=${args.size}
+      tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
       .showError=${args.showError}
@@ -405,6 +412,72 @@ export const Size: Story = {
   },
 };
 
+export const Tile: Story = {
+  args: {
+    name: "office",
+    label: "Albany",
+    description: "Upstate New York",
+    value: "albany",
+    tile: true,
+  },
+  render: (args) => html`
+    <nys-radiogroup
+      label="What is your primary work location?"
+      description="This is the location you use for your in office days."
+      size=${args.size}
+      tile=${args.tile}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+      .required=${args.required}
+      .optional=${args.optional}
+    >
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${args.checked}
+        .label=${args.label}
+        .description=${args.description}
+        .disabled=${args.disabled}
+        .value=${args.value}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${false}
+        .label=${"Manhattan"}
+        .description=${"New York City"}
+        .disabled=${args.disabled}
+        .value=${"manhattan"}
+      ></nys-radiobutton>
+    </nys-radiogroup>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup 
+  label="What is your primary work location?"
+  description="This is the location you use for your in office days."
+  size="md"
+>
+  <nys-radiobutton
+    name="office"
+    label="Albany"
+    description="Upstate New York"
+    value="albany"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="office"
+    label="Manhattan"
+    description="New York City"
+    value="manhattan"
+  ></nys-radiobutton>
+</nys-radiogroup>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const ErrorMessage: Story = {
   args: {
     name: "office",
@@ -421,6 +494,7 @@ export const ErrorMessage: Story = {
       label="What is your primary work location?"
       description="This is the location you use for your in office days."
       size=${args.size}
+      tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
       .showError=${args.showError}
@@ -488,6 +562,7 @@ export const Slot: Story = {
     <nys-radiogroup
       label="What is your primary work location?"
       size=${args.size}
+      tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -563,6 +638,7 @@ export const Optional: Story = {
       label="What is your primary work location?"
       description="This is the location you use for your in office days."
       size=${args.size}
+      tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
       .showError=${args.showError}
