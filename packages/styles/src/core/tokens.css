@@ -475,12 +475,12 @@
   --nys-font-size-xs: 12px;
   --nys-font-size-sm: 14px;
   --nys-font-size-md: 16px;
-  --nys-font-size-lg: 1.125rem;
-  --nys-font-size-xl: 1.375rem;
-  --nys-font-size-2xl: 1.375rem;
-  --nys-font-size-3xl: 1.75rem;
-  --nys-font-size-4xl: 2rem;
-  --nys-font-size-5xl: 2.5rem;
+  --nys-font-size-lg: 18px;
+  --nys-font-size-xl: 20px;
+  --nys-font-size-2xl: 22px;
+  --nys-font-size-3xl: 24px;
+  --nys-font-size-4xl: 28px;
+  --nys-font-size-5xl: 32px;
   --nys-font-size-6xl: 36px;
   --nys-font-size-7xl: 40px;
   --nys-font-size-8xl: 44px;
