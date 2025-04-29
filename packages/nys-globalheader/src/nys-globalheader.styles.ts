@@ -3,9 +3,13 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Header Styles */
-    --_nys-globalheader-color: var(
-      --nys-color-ink-reverse,
+    --_nys-globalheader-text-color: var(
+      --nys-color-text-reverse,
       var(--nys-color-white, #ffffff)
+    );
+    --_nys-globalheader-link-color: var(
+      --nys-color-link-reverse-neutral,
+      var(--nys-color-white, #fff)
     );
     --_nys-globalheader-background: var(
       --nys-color-theme,
@@ -98,7 +102,7 @@ export default css`
   }
 
   a {
-    color: var(--_nys-globalheader-color);
+    color: var(--_nys-globalheader-link-color);
     text-decoration: none;
     font-family: var(--_nys-globalheader-font-family);
     font-size: var(--_nys-globalheader-font-size-links);
@@ -113,7 +117,7 @@ export default css`
     justify-content: center;
     padding: var(--_nys-globalheader-padding) var(--_nys-globalheader-gutter);
     background-color: var(--_nys-globalheader-background);
-    color: var(--_nys-globalheader-color);
+    color: var(--_nys-globalheader-text-color);
     width: 100%;
     box-sizing: border-box;
   }
@@ -136,7 +140,7 @@ export default css`
   }
   .nys-globalheader__name {
     margin: 0;
-    color: var(--_nys-globalheader-color);
+    color: var(--_nys-globalheader-text-color);
     font-family: var(--_nys-globalheader-font-family-agency);
     font-size: var(--_nys-globalheader-font-size-main-name);
     font-style: normal;
@@ -199,7 +203,7 @@ export default css`
     flex-direction: column;
   }
   .nys-globalheader__content-mobile ul li:first-child a {
-    border-top: 1px solid var(--_nys-globalheader-color);
+    border-top: 1px solid var(--_nys-globalheader-text-color);
   }
   .nys-globalheader__content-mobile ul li a {
     display: flex;
@@ -241,7 +245,7 @@ export default css`
     justify-content: center;
     align-items: center;
     padding: 0;
-    color: var(--_nys-globalheader-color);
+    color: var(--_nys-globalheader-text-color);
   }
   .nys-globalheader__mobile-menu-button-text {
     font-size: var(--_nys-globalheader-mobile-btn-font-size);

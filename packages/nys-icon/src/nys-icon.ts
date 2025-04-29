@@ -4,7 +4,7 @@ import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.styles";
 
 export class NysIcon extends LitElement {
-  @property({ type: String }) name = "";
+  @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) flip = "";

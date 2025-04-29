@@ -5,6 +5,7 @@ figma.connect("<FIGMA_TOGGLE>", {
   props: {
     size: figma.enum("Size", {
       sm: "sm",
+      // md: "md", // Default
     }),
     checked: figma.enum("Checked", {
       Yes: true,
@@ -28,18 +29,16 @@ figma.connect("<FIGMA_TOGGLE>", {
     }),
   },
   example: (props) =>
-    html` <!-- Replace "name" value -->
+    html` <!-- Update 'name' and 'value' attributes -->
       <nys-toggle
         size="${props.size}"
         label="${props.label}"
         description="${props.description}"
-        name="(REPLACE)"
-        value="(REPLACE)"
         noIcon="${props.noIcon}"
         disabled="${props.disabled}"
         checked="${props.checked}"
+        name="---REPLACE_THIS---"
+        value="---REPLACE_THIS---"
       >
-        <!-- Use slot="description" if you need HTML (like links) -->
-        <!-- <div slot="description">${props.description}</div> -->
       </nys-toggle>`,
 });

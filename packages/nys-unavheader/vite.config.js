@@ -8,7 +8,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Universal Navigation Header Component v1.0.0
+   * Universal Navigation Header Component
    * Part of the New York State Design System
    * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
@@ -26,7 +26,12 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: ["lit"], // Externalize Lit for ES build
+      external: [
+        "lit",
+        "@nysds/nys-icon",
+        "@nysds/nys-button",
+        "@nysds/nys-textinput",
+      ],
       output: {
         banner: mode === "production" ? banner : undefined, // Add banner only in production
         globals: {

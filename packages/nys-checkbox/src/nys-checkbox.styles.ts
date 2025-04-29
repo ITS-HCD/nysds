@@ -79,7 +79,10 @@ export default css`
       --nys-color-neutral-400,
       #757575
     );
-    --_nys-checkbox-disabled-color-text: var(--nys-color-neutral-500, #797c7f);
+    --_nys-checkbox-disabled-color-text: var(
+      --nys-color-text-disabled,
+      #bec0c1
+    );
     /* Disabled Checked */
     --_nys-checkbox-disabled-checked-color-bg: var(
       --nys-color-neutral-100,
@@ -107,7 +110,7 @@ export default css`
   .nys-checkboxgroup {
     display: flex;
     flex-direction: column;
-    gap: var(--nys-spacing-50, 4px);
+    gap: var(--nys-space-200, 16px);
     font-family: var(--_nys-checkbox-font-family);
     font-size: var(--_nys-checkbox-font-size);
     line-height: var(--_nys-checkbox-line-height);
@@ -136,7 +139,9 @@ export default css`
   /* wraps the native checkbox and it's icon */
   .nys-checkbox__checkboxwrapper {
     position: relative;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-height: var(--_nys-checkbox-size);
   }
 
@@ -144,7 +149,7 @@ export default css`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%, -35%, 0); /* Centering the icon visually */
+    transform: translate(-50%, -50%); /* Centering the icon visually */
     pointer-events: none;
     color: white;
   }
@@ -219,18 +224,20 @@ export default css`
     display: flex;
     flex-direction: column;
     margin: auto 0; /* Center text if single line label */
+    align-items: flex-start;
   }
 
   /* Label styling */
   .nys-checkbox__label {
     font-weight: var(--_nys-checkbox-font-weight-400);
-    color: var(--_nys-checkbox-color);
+    color: var(--nys-color-text, #1b1b1b);
   }
 
   /* Description styling */
   .nys-checkbox__description {
     font-weight: var(--_nys-checkbox-font-weight-400);
     font-style: italic;
+    text-align: left;
   }
 
   /* Required */

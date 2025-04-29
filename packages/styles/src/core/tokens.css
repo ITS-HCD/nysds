@@ -41,11 +41,33 @@
   
   --nys-color-ink: var(--nys-color-neutral-900);
   --nys-color-ink-reverse: var(--nys-color-white);
+
+  --nys-color-text: var(--nys-color-neutral-900);
+  --nys-color-text-weak: var(--nys-color-neutral-700);
+  --nys-color-text-weaker: var(--nys-color-neutral-500);
+  --nys-color-text-disabled: var(--nys-color-neutral-200);
   
   --nys-color-link: var(--nys-color-blue-600);
   --nys-color-link-strong: var(--nys-color-blue-700);
   --nys-color-link-strongest: var(--nys-color-blue-800);
+  --nys-color-link-neutral: var(--nys-color-neutral-900);
   
+  --nys-color-text-reverse: var(--nys-color-white);
+  --nys-color-text-reverse-weak: var(--nys-color-neutral-100);
+  --nys-color-text-reverse-weaker: var(--nys-color-neutral-200);
+  --nys-color-text-reverse-disabled: var(--nys-color-neutral-600);
+
+  --nys-color-link-reverse: var(--nys-color-neutral-300);
+  --nys-color-link-reverse-strong: var(--nys-color-neutral-50);
+  --nys-color-link-reverse-strongest: var(--nys-color-white);
+  --nys-color-link-reverse-neutral: var(--nys-color-white);
+
+  /* === Surface Colors === */
+
+  --nys-color-surface: var(--nys-color-white);
+  --nys-color-surface-reverse: var(--nys-color-neutral-900);
+  --nys-color-surface-raised: var(--nys-color-neutral-10);
+
   /* === Focus Ring === */
   
   --nys-color-focus: var(--nys-color-blue-600);

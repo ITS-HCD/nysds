@@ -7,7 +7,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Select Component v1.0.0
+   * Select Component
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
@@ -24,7 +24,12 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: false,
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
-      external: ["lit"], // Externalize Lit for ES build
+      external: [
+        "lit",
+        "@nysds/nys-icon",
+        "@nysds/nys-label",
+        "@nysds/nys-errormessage",
+      ],
       output: {
         banner: mode === "production" ? banner : undefined, // Add banner only in production
         globals: {

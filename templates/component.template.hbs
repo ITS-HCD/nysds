@@ -1,0 +1,22 @@
+import { LitElement, html } from "lit";
+import { property } from "lit/decorators.js";
+import styles from "./nys-{{componentName}}.styles";
+
+export class Nys{{capitalize componentName}} extends LitElement {
+  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) name = "";
+
+  static styles = styles;
+
+  constructor() {
+    super();
+  }
+
+  render() {
+    return html`<div class="nys-{{componentName}}"></div>`;
+  }
+}
+
+if (!customElements.get("nys-{{componentName}}")) {
+  customElements.define("nys-{{componentName}}", Nys{{capitalize componentName}});
+}

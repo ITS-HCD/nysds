@@ -14,15 +14,6 @@ export class NysUnavHeader extends LitElement {
   @property({ type: Boolean }) hideTranslate = false;
   @property({ type: Boolean }) hideSearch = false;
   @property({ type: String, reflect: true })
-  get screenSize(): string {
-    const width = window.innerWidth;
-    if (width < 480) return "xs";
-    if (width < 768) return "sm";
-    if (width < 1024) return "md";
-    if (width < 1280) return "lg";
-    return "xl";
-  }
-
   private languages: [string, string][] = [
     ["English", ""],
     ["Español", "es"],
@@ -101,95 +92,90 @@ export class NysUnavHeader extends LitElement {
     }
   }
 
-  private _updateScreenSize() {
-    this.requestUpdate();
-  }
-
   connectedCallback() {
     super.connectedCallback();
-    window.addEventListener("resize", this._updateScreenSize.bind(this));
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener("resize", this._updateScreenSize.bind(this));
   }
 
   render() {
     return html`
-      ${this.screenSize === "xs" || this.screenSize === "sm"
-        ? html` <div class="nys-unavheader__toptrustbar">
-              <div class="nys-unavheader__officialmessage">
-                <label id="nys-unavheader__official"
-                  >An official website of New York State</label
-                >
-                <nys-button
-                  id="nys-unavheader__know"
-                  label="Here's how you know"
-                  variant="ghost"
-                  size="sm"
-                  suffixIcon="slotted"
-                  @click="${this._toggleTrustbar}"
-                >
-                  <nys-icon
-                    slot="suffix-icon"
-                    size="12"
-                    name=${this.trustbarVisible ? "chevron_up" : "chevron_down"}
-                  ></nys-icon>
-                </nys-button>
-              </div>
-              ${this.trustbarVisible
-                ? html`<nys-button
-                    id="nys-unavheader__closetrustbar"
-                    class="nys-unavheader__iconbutton"
-                    variant="ghost"
-                    prefixIcon="close"
-                    size="sm"
-                    @click="${this._toggleTrustbar}"
-                  ></nys-button>`
-                : null}
+      <header class="nys-unavheader">
+        <div class="nys-unavheader__xs nys-unavheader__sm">
+          <div class="nys-unavheader__toptrustbar">
+            <div class="nys-unavheader__officialmessage">
+              <label id="nys-unavheader__official"
+                >An official website of New York State</label
+              >
+              <nys-button
+                id="nys-unavheader__know"
+                label="Here's how you know"
+                variant="ghost"
+                size="sm"
+                suffixIcon="slotted"
+                @click="${this._toggleTrustbar}"
+              >
+                <nys-icon
+                  slot="suffix-icon"
+                  size="12"
+                  name=${this.trustbarVisible ? "chevron_up" : "chevron_down"}
+                ></nys-icon>
+              </nys-button>
             </div>
-            <div
-              class="nys-unavheader__trustbar ${this.trustbarVisible
-                ? "show"
-                : "hide"}"
-            >
-              <div class="nys-unavheader__trustcontent">
-                <div class="nys-unavheader__trustcontentmessage">
-                  <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
-                  <label><b>Official websites use ny.gov</b></label>
-                  <label
-                    >A <b>ny.gov</b> website belongs to an official New York
-                    State government organization.</label
-                  >
-                </div>
-                <div class="nys-unavheader__trustcontentmessage">
-                  <nys-icon size="3xl" name="lock_filled"></nys-icon>
-                  <label><b>Secure ny.gov websites use HTTPS</b></label>
-                  <label
-                    >A <b>lock icon</b> or <b>https://</b> means you've safely
-                    connected to the ny.gov website. Share sensitive information
-                    only on official, secure websites.</label
-                  >
-                </div>
+            ${this.trustbarVisible
+              ? html`<nys-button
+                  id="nys-unavheader__closetrustbar"
+                  class="nys-unavheader__iconbutton"
+                  variant="ghost"
+                  prefixIcon="close"
+                  size="sm"
+                  @click="${this._toggleTrustbar}"
+                ></nys-button>`
+              : null}
+          </div>
+          <div
+            class="nys-unavheader__trustbar ${this.trustbarVisible
+              ? "show"
+              : "hide"}"
+          >
+            <div class="nys-unavheader__trustcontent">
+              <div class="nys-unavheader__trustcontentmessage">
+                <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
+                <label><b>Official websites use ny.gov</b></label>
+                <label
+                  >A <b>ny.gov</b> website belongs to an official New York State
+                  government organization.</label
+                >
               </div>
-            </div>`
-        : null}
-      <header class="nys-unavheader" id="nys-universal-navigation">
-        <div class="nys-unavheader__maincontent">
-          <div class="nys-unavheader__left">
-            <a
-              href="https://ny.gov"
-              target="_blank"
-              id="nys-unavheader__logolink"
-              aria-label="logo of New York State"
-            >
-              <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
-            >
-            ${this.screenSize === "md" ||
-            this.screenSize === "lg" ||
-            this.screenSize === "xl"
-              ? html` <div class="nys-unavheader__officialmessage">
+              <div class="nys-unavheader__trustcontentmessage">
+                <nys-icon size="3xl" name="lock_filled"></nys-icon>
+                <label><b>Secure ny.gov websites use HTTPS</b></label>
+                <label
+                  >A <b>lock icon</b> or <b>https://</b> means you've safely
+                  connected to the ny.gov website. Share sensitive information
+                  only on official, secure websites.</label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nys-unavheader__mainwrapper" id="nys-universal-navigation">
+          <div class="nys-unavheader__maincontent">
+            <div class="nys-unavheader__left">
+              <a
+                href="https://ny.gov"
+                target="_blank"
+                id="nys-unavheader__logolink"
+                aria-label="logo of New York State"
+              >
+                <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
+              >
+              <div
+                class="nys-unavheader__md nys-unavheader__lg nys-unavheader__xl"
+              >
+                <div class="nys-unavheader__officialmessage">
                   <label id="nys-unavheader__official"
                     >An official website of New York State</label
                   >
@@ -209,23 +195,25 @@ export class NysUnavHeader extends LitElement {
                         : "chevron_down"}"
                     ></nys-icon>
                   </nys-button>
-                </div>`
-              : null}
-          </div>
-          <div class="nys-unavheader__right">
-            ${!this.isSearchFocused && !this.hideTranslate
-              ? html`<div class="nys-unavheader__translatewrapper">
-                  ${this.screenSize === "xs" ||
-                  this.screenSize === "sm" ||
-                  this.screenSize === "md"
-                    ? html`<nys-button
+                </div>
+              </div>
+            </div>
+            <div class="nys-unavheader__right">
+              ${!this.isSearchFocused && !this.hideTranslate
+                ? html`<div class="nys-unavheader__translatewrapper">
+                    <div
+                      class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md"
+                    >
+                      <nys-button
                         variant="ghost"
                         prefixIcon="language"
                         id="nys-unavheader__translate"
                         class="nys-unavheader__iconbutton"
                         @click="${this._toggleLanguageList}"
-                      ></nys-button>`
-                    : html`<nys-button
+                      ></nys-button>
+                    </div>
+                    <div class="nys-unavheader__lg nys-unavheader__xl">
+                      <nys-button
                         variant="ghost"
                         label="Translate"
                         prefixIcon="language_filled"
@@ -234,52 +222,54 @@ export class NysUnavHeader extends LitElement {
                           : "chevron_down"}
                         id="nys-unavheader__translate"
                         @click="${this._toggleLanguageList}"
-                      ></nys-button>`}
-                  <div
-                    class="nys-unavheader__languagelist ${this.languageVisible
-                      ? "show"
-                      : "hide"}"
-                  >
-                    ${this.languages.map(
-                      ([label, code]) =>
-                        html`<a
-                          class="nys-unavheader__languagelink"
-                          target="_self"
-                          href="https://${code ? code + "." : ""}${window
-                            .location.hostname}"
-                          >${label}</a
-                        >`,
-                    )}
-                  </div>
-                </div>`
-              : null}
-            ${!this.hideSearch
-              ? this.screenSize === "xs" ||
-                this.screenSize === "sm" ||
-                this.screenSize === "md"
-                ? html`<nys-button
-                    variant="ghost"
-                    prefixIcon="search"
-                    id="nys-unavheader__searchbutton"
-                    class="nys-unavheader__iconbutton"
-                    @click="${this._toggleSearchDropdown}"
-                  ></nys-button>`
-                : html`<nys-textinput
-                    id="nys-unavheader__search"
-                    placeholder="Search"
-                    type="search"
-                    @focus="${this._handleSearchFocus}"
-                    @blur="${this._handleSearchBlur}"
-                    @keyup="${this._handleSearchKeyup}"
-                  ></nys-textinput>`
-              : null}
+                      ></nys-button>
+                    </div>
+                    <div
+                      class="nys-unavheader__languagelist ${this.languageVisible
+                        ? "show"
+                        : "hide"}"
+                    >
+                      ${this.languages.map(
+                        ([label, code]) =>
+                          html`<a
+                            class="nys-unavheader__languagelink"
+                            target="_self"
+                            href="https://${code ? code + "." : ""}${window
+                              .location.hostname}"
+                            >${label}</a
+                          >`,
+                      )}
+                    </div>
+                  </div>`
+                : null}
+              ${!this.hideSearch
+                ? html` <div
+                      class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md"
+                    >
+                      <nys-button
+                        variant="ghost"
+                        prefixIcon="search"
+                        id="nys-unavheader__searchbutton"
+                        class="nys-unavheader__iconbutton"
+                        @click="${this._toggleSearchDropdown}"
+                      ></nys-button>
+                    </div>
+                    <div class="nys-unavheader__lg nys-unavheader__xl">
+                      <nys-textinput
+                        id="nys-unavheader__search"
+                        placeholder="Search"
+                        type="search"
+                        @focus="${this._handleSearchFocus}"
+                        @blur="${this._handleSearchBlur}"
+                        @keyup="${this._handleSearchKeyup}"
+                      ></nys-textinput>
+                    </div>`
+                : null}
+            </div>
           </div>
         </div>
-      </header>
-      ${this.screenSize === "md" ||
-      this.screenSize === "lg" ||
-      this.screenSize === "xl"
-        ? html` <div
+        <div class="nys-unavheader__md nys-unavheader__lg nys-unavheader__xl">
+          <div
             class="nys-unavheader__trustbar ${this.trustbarVisible
               ? "show"
               : "hide"}"
@@ -311,25 +301,25 @@ export class NysUnavHeader extends LitElement {
                 @click="${this._toggleTrustbar}"
               ></nys-button>
             </div>
-          </div>`
-        : null}
-      <div
-        class="nys-unavheader__searchdropdown ${this.searchDropdownVisible &&
-        (this.screenSize === "xs" ||
-          this.screenSize === "sm" ||
-          this.screenSize === "md")
-          ? "show"
-          : "hide"}"
-      >
-        <nys-textinput
-          id="nys-unavheader__search"
-          placeholder="Search"
-          type="search"
-          @focus="${this._handleSearchFocus}"
-          @blur="${this._handleSearchBlur}"
-          @keyup="${this._handleSearchKeyup}"
-        ></nys-textinput>
-      </div>
+          </div>
+        </div>
+        <div class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md">
+          <div
+            class="nys-unavheader__searchdropdown ${this.searchDropdownVisible
+              ? "show"
+              : "hide"}"
+          >
+            <nys-textinput
+              id="nys-unavheader__search"
+              placeholder="Search"
+              type="search"
+              @focus="${this._handleSearchFocus}"
+              @blur="${this._handleSearchBlur}"
+              @keyup="${this._handleSearchKeyup}"
+            ></nys-textinput>
+          </div>
+        </div>
+      </header>
     `;
   }
 }

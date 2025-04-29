@@ -21,13 +21,15 @@ export class NysGlobalFooter extends LitElement {
 
   /******************** Functions ********************/
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
-  private _handleSlotChange() {
+  private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) return;
 
     const assignedNodes = slot
       ?.assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
+
+    await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
     // Update slotHasContent based on assigned elements
     this.slotHasContent = assignedNodes.length > 0;

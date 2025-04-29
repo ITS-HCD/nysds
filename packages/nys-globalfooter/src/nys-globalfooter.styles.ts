@@ -3,8 +3,12 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Footer Styles */
-    --_nys-globalfooter-color: var(
-      --nys-color-ink,
+    --_nys-globalfooter-text-color: var(
+      --nys-color-text,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    --_nys-globalfooter-link-color: var(
+      --nys-color-link-neutral,
       var(--nys-color-neutral-900, #1b1b1b)
     );
     --_nys-globalfooter-background: var(
@@ -67,7 +71,7 @@ export default css`
     padding: var(--_nys-globalfooter-padding) var(--_nys-globalfooter-gutter);
     justify-content: center;
     background-color: var(--_nys-globalfooter-background);
-    color: var(--_nys-globalfooter-color);
+    color: var(--_nys-globalfooter-text-color);
     width: 100%;
     box-sizing: border-box;
   }
@@ -84,7 +88,7 @@ export default css`
   /* The Agency Name */
   .nys-globalfooter__name {
     margin: 0;
-    color: var(--_nys-globalfooter-color);
+    color: var(--_nys-globalfooter-text-color);
     font-family: var(--_nys-globalfooter-font-family-agency);
     font-size: var(--_nys-globalfooter-font-size);
     font-style: normal;
@@ -106,7 +110,7 @@ export default css`
   }
 
   a {
-    color: var(--_nys-globalfooter-color);
+    color: var(--_nys-globalfooter-link-color);
     text-decoration: none;
     font-family: var(--_nys-globalfooter-link-font-family);
     font-size: var(--_nys-globalfooter-font-size-links);

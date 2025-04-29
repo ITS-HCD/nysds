@@ -1,0 +1,45 @@
+import { css } from "lit";
+
+export default css`
+  :host {
+    /* Anything that can be overridden should be defined here */
+
+    /* Global {{capitalize componentName}} Styles */
+    --_nys-{{componentName}}-width: fit-content;
+    --_nys-{{componentName}}-height: var(--nys-size-600, 48px);
+    --_nys-{{componentName}}-radius: var(--nys-border-radius-xl, 12px);
+    --_nys-{{componentName}}-padding: var(--nys-space-100, 8px);
+    --_nys-{{componentName}}-gap: var(--nys-space-100, 8px);
+
+    /* Typography */
+    --_nys-{{componentName}}-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-{{componentName}}-font-weight: var(--nys-font-weight-semibold, 600);
+    --_nys-{{componentName}}-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-{{componentName}}-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
+  }
+
+  .nys-{{componentName}} {
+    width: var(--_nys-{{componentName}}-width);
+    height: var(--_nys-{{componentName}}-height);
+    border-radius: var(--_nys-{{componentName}}-radius);
+    padding: var(--_nys-{{componentName}}-padding);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--_nys-{{componentName}}-gap);
+    font-family: var(--_nys-{{componentName}}-font-family);
+    font-size: var(--_nys-{{componentName}}-font-size);
+    font-weight: var(--_nys-{{componentName}}-font-weight);
+    line-height: var(--_nys-{{componentName}}-line-height);
+  }
+`;

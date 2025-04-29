@@ -8,28 +8,44 @@ figma.connect("<FIGMA_SELECT>", {
       md: "md",
       lg: "lg",
     }),
-    disabled: figma.enum("State", {
-      Disabled: true,
+    label: figma.nestedProps("Label", {
+      text: figma.string("Label"),
+      description: figma.boolean("Description", {
+        true: figma.string("↳ Description"),
+        false: undefined,
+      }),
+      required: figma.boolean("Required"),
+      optional: figma.boolean("Optional"),
     }),
-    showError: figma.enum("State", {
-      Error: true,
+    input: figma.nestedProps("Input", {
+      disabled: figma.boolean("Disabled"),
+      value: figma.string("Input"),
+      showError: figma.boolean("Error"),
     }),
-    error: figma.nestedProps("_Error", {
+    error: figma.nestedProps("Error", {
       message: figma.string("Error Message"),
     }),
-    value: figma.string("Input"),
   },
   example: (props) =>
-    html` <!-- Replace "name" value with the name of your form field -->
+    html`<!-- 
+  - Replace "name" value with the name of your form field 
+  - Add <nys-option> elements as needed
+-->
       <nys-select
         width="${props.width}"
-        name="(REPLACE)"
-        showError="${props.showError}"
+        label="${props.label.text}"
+        description="${props.label.description}"
+        required="${props.label.required}"
+        optional="${props.label.optional}"
+        disabled="${props.input.disabled}"
+        showError="${props.input.showError}"
         errorMessage="${props.error.message}"
-        disabled="${props.disabled}"
+        name="(REPLACE)"
       >
-        <nys-option value="${props.value}">${props.value}</nys-option>
-        <nys-option value="VALUE">OPTION (REPLACE)</nys-option>
-        <nys-option value="VALUE">OPTION (REPLACE)</nys-option>
+        <nys-option value="${props.input.value}"
+          >${props.input.value}</nys-option
+        >
+        <nys-option value="value_REPLACE">Option 2 {REPLACE}</nys-option>
+        <nys-option value="value_REPLACE">Option 3 {REPLACE}</nys-option>
       </nys-select>`,
 });

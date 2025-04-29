@@ -3,12 +3,12 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Footer Styles */
-    --_nys-unavfooter-color: var(
-      --nys-color-ink-reverse,
+    --_nys-unavfooter-link-color: var(
+      --nys-color-link-reverse-neutral,
       var(--nys-color-white, #ffffff)
     );
     --_nys-unavfooter-background: var(
-      --nys-color-ink,
+      --nys-color-surface-reverse,
       var(--nys-color-neutral-900, #1b1b1b)
     );
     --_nys-unavfooter-gap-spacing: var(--nys-space-200, 16px);
@@ -63,7 +63,7 @@ export default css`
   }
 
   a {
-    color: var(--_nys-unavfooter-color);
+    color: var(--_nys-unavfooter-link-color);
     text-decoration: none;
     font-family: var(--_nys-unavfooter-font-family);
     font-size: var(--_nys-unavfooter-font-size-links);
@@ -90,7 +90,6 @@ export default css`
     gap: var(--_nys-unavfooter-gap-spacing);
     align-items: flex-start;
     background-color: var(--_nys-unavfooter-background);
-    color: var(--_nys-unavfooter-color);
     width: 100%;
     box-sizing: border-box;
   }
