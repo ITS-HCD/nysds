@@ -180,7 +180,9 @@ export const Description: Story = {
       .secondaryLabel=${args.secondaryLabel}
     >
       <p>This is a custom alert with <strong>HTML content</strong>.</p>
-      <a href="https://www.ny.gov/" target="_blank">Learn more about our accessibility services</a>
+      <a href="https://www.ny.gov/" target="_blank"
+        >Learn more about our accessibility services</a
+      >
     </nys-alert>
   `,
   parameters: {
@@ -221,8 +223,8 @@ export const Dismissible: Story = {
       <p>
         Adirondack peaks auctor Hudson River flows semper Statue of Liberty
         est.<br />
-      Click here for more info: 
-      <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
+        Click here for more info:
+        <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
       </p>
     </nys-alert>
   `,
