@@ -123,7 +123,9 @@ export default css`
   /* This container exist to mainly style the type="password" eye icon */
   .nys-input-container {
     position: relative;
+    width: var(--_nys-textinput-width);
   }
+
   .eye-icon {
     position: absolute;
     right: 10px;
