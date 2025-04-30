@@ -278,7 +278,9 @@ export class NysTextinput extends LitElement {
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
-        <div class="nys-input-container ${this.disabled ? "disabled" : ""}">
+        <div
+          class="nys-textinput__container ${this.disabled ? "disabled" : ""}"
+        >
           <input
             class="nys-textinput__input"
             type=${this.type === "password"

@@ -121,7 +121,7 @@ export default css`
   }
 
   /* This container exist to mainly style the type="password" eye icon */
-  .nys-input-container {
+  .nys-textinput__container {
     position: relative;
     width: var(--_nys-textinput-width);
     display: flex;
@@ -135,6 +135,7 @@ export default css`
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    --_nys-button-color-focus: transparent;
   }
 
   .eye-icon {
@@ -148,24 +149,31 @@ export default css`
   }
 
   /* Hovered */
-  .nys-textinput__input:hover:not(:disabled):not(:focus) {
+  .nys-textinput__container:hover:not(:disabled):not(:focus-within) {
     outline: solid var(--_nys-textinput-hover-width-outline)
       var(--_nys-textinput-hover-color-outline);
+  }
+  .nys-textinput__input:hover:not(:disabled):not(:focus) {
     border-color: var(--_nys-textinput-hover-color-outline);
   }
 
   /* Focused */
-  .nys-textinput__input:focus {
+  .nys-textinput__container:focus-within:not(:disabled) {
     outline: solid var(--_nys-textinput-focus-width-outline)
       var(--_nys-textinput-focus-color-outline);
     border-color: var(--_nys-textinput-focus-color-outline);
     caret-color: var(--_nys-textinput-focus-color-outline);
   }
 
+  .nys-textinput__input:focus {
+    outline: solid var(--_nys-textinput-focus-width-outline) purple;
+    border-color: var(--_nys-textinput-focus-color-outline);
+  }
+
   /* Disabled */
   .nys-textinput__input:disabled,
-  .nys-input-container.disabled,
-  .nys-input-container.disabled .eye-icon,
+  .nys-textinput__container.disabled,
+  .nys-textinput__container.disabled .eye-icon,
   .nys-textinput__input:disabled::placeholder {
     background-color: var(--_nys-textinput-disabled-color);
     border-color: var(--_nys-textinput-disabled-color-border);
