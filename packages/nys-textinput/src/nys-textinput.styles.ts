@@ -125,19 +125,21 @@ export default css`
     position: relative;
     width: var(--_nys-textinput-width);
     display: flex;
-    overflow: hidden;
+    align-items: center;
     border-radius: var(--_nys-textinput-radius);
   }
 
   #search-button {
-    --_nys-button-radius: 0;
+    --_nys-button-radius-left: 0;
+    --_nys-button-radius-right: var(--_nys-textinput-radius);
     position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    --_nys-button-color-focus: transparent;
-    --_nys-button-height: 100%;
-
+    --_nys-button-height: calc(
+      var(--_nys-textinput-lineheight-ui) + var(--_nys-textinput-padding) +
+        (4 * var(--_nys-textinput-width-border))
+    );
     --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color-text);
     --_nys-button-color-border-disabled: var(
       --_nys-textinput-disabled-color-text
@@ -165,7 +167,7 @@ export default css`
   }
 
   /* Focused */
-  .nys-textinput__container:focus-within:not(:disabled) {
+  .nys-textinput__container:has(> .nys-textinput__input:focus) {
     outline: solid var(--_nys-textinput-focus-width-outline)
       var(--_nys-textinput-focus-color-outline);
     border-color: var(--_nys-textinput-focus-color-outline);
