@@ -215,6 +215,7 @@ export class NysCheckboxgroup extends LitElement {
       role="group"
     >
       <nys-label
+        id=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
