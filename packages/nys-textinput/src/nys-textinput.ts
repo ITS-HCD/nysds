@@ -278,9 +278,7 @@ export class NysTextinput extends LitElement {
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
-        <div
-          class="nys-textinput__container ${this.disabled ? "disabled" : ""}"
-        >
+        <div class="nys-textinput__container">
           <input
             class="nys-textinput__input"
             type=${this.type === "password"
@@ -326,6 +324,8 @@ export class NysTextinput extends LitElement {
                 id="search-button"
                 size="sm"
                 suffixIcon="search"
+                ?disabled=${this.disabled}
+                aria-disabled="${this.disabled}"
               ></nys-button>`
             : ""}
         </div>

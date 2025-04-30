@@ -136,6 +136,13 @@ export default css`
     top: 50%;
     transform: translateY(-50%);
     --_nys-button-color-focus: transparent;
+    --_nys-button-height: 100%;
+
+    --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color-text);
+    --_nys-button-color-border-disabled: var(
+      --_nys-textinput-disabled-color-text
+    );
+    --_nys-button-color-text-disabled: var(--_nys-textinput-disabled-color);
   }
 
   .eye-icon {
@@ -145,11 +152,11 @@ export default css`
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--_nys-textinput-icon-color);
-    background-color: var(--_nys-textinput-background-color);
+    background-color: transparent;
   }
 
   /* Hovered */
-  .nys-textinput__container:hover:not(:disabled):not(:focus-within) {
+  .nys-textinput__container:hover:not(:has(:disabled)):not(:focus-within) {
     outline: solid var(--_nys-textinput-hover-width-outline)
       var(--_nys-textinput-hover-color-outline);
   }
@@ -172,9 +179,7 @@ export default css`
 
   /* Disabled */
   .nys-textinput__input:disabled,
-  .nys-textinput__container.disabled,
-  .nys-textinput__container.disabled .eye-icon,
-  .nys-textinput__input:disabled::placeholder {
+  .nys-textinput__input:disabled + .eye-icon {
     background-color: var(--_nys-textinput-disabled-color);
     border-color: var(--_nys-textinput-disabled-color-border);
     color: var(--_nys-textinput-disabled-color-text);
