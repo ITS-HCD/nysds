@@ -158,7 +158,7 @@ export const Width: Story = {
   },
 };
 
-export const DifferentTypes: Story = {
+export const Password: Story = {
   args: {
     label: "Password:",
     type: "password",
@@ -197,6 +197,53 @@ export const DifferentTypes: Story = {
   name="myTextInput1"
   type="password" 
   label="Password:"
+>
+</nys-textinput>
+`,
+        type: "auto",
+      },
+    },
+  },
+};
+export const Search: Story = {
+  args: {
+    type: "search",
+    placeholder: "Search",
+    value: "",
+    name: "myTextInput1",
+  },
+  render: (args) => html`
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .optional=${args.optional}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    ></nys-textinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput 
+  name="myTextInput1"
+  type="search" 
+  placeholder="Search">
 >
 </nys-textinput>
 `,

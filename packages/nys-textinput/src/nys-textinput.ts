@@ -5,6 +5,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
@@ -316,6 +317,13 @@ export class NysTextinput extends LitElement {
                 name=${this.showPassword ? "visibility_off" : "visibility"}
                 size="2xl"
               ></nys-icon>`
+            : ""}
+          ${this.type === "search"
+            ? html` <nys-button
+                id="search-button"
+                size="sm"
+                suffixIcon="search"
+              ></nys-button>`
             : ""}
         </div>
         <nys-errormessage
