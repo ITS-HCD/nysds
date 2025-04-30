@@ -4,7 +4,7 @@ export default css`
   :host {
     /* Global Radiobutton Styles */
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
-    --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
+    --_nys-radiobutton-radius: var(--nys-radius-md, 4px);
     --_nys-radiobutton-width-border: var(--nys-border-width-md, 2px);
     --_nys-radiobutton-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
@@ -98,14 +98,14 @@ export default css`
   /* Small Variant */
   :host([size="sm"]) {
     --_nys-radiobutton-size: var(--nys-size-300, 24px);
-    --_nys-radiobutton-radius: var(--nys-border-radius-sm, 2px);
+    --_nys-radiobutton-radius: var(--nys-radius-sm, 2px);
     --_nys-radiogroup-gap: var(--nys-space-100, 8px);
     --_nys-radiobutton-gap: var(--nys-space-100, 8px);
   }
   /* Medium Variant */
   :host([size="md"]) {
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
-    --_nys-radiobutton-radius: var(--nys-border-radius-md, 4px);
+    --_nys-radiobutton-radius: var(--nys-radius-md, 4px);
     --_nys-radiogroup-gap: var(--nys-space-200, 16px);
     --_nys-radiobutton-gap: var(--nys-space-150, 12px);
   }

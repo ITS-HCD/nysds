@@ -7,7 +7,7 @@ export default css`
     /* Global Button Styles */
     --_nys-button-width: fit-content;
     --_nys-button-height: var(--nys-size-600, 48px);
-    --_nys-button-radius: var(--nys-border-radius-xl, 12px);
+    --_nys-button-radius: var(--nys-radius-xl, 12px);
     --_nys-button-padding-y: var(--nys-space-150, 12px);
     --_nys-button-padding-x: var(--nys-space-250, 20px);
     --_nys-button-gap: var(--nys-space-100, 8px);
@@ -121,7 +121,7 @@ export default css`
   /* Text */
   :host([variant="text"]) {
     --_nys-button-height: fit-content;
-    --_nys-button-radius: var(--nys-border-radius-md, 4px);
+    --_nys-button-radius: var(--nys-radius-md, 4px);
     --_nys-button-padding-y: var(--nys-space-2px, 2px);
     --_nys-button-padding-x: var(--nys-space-50, 4px);
     --_nys-button-width-border: 0px;
@@ -252,7 +252,7 @@ export default css`
   /* Text Inverted */
   :host([variant="text"][inverted]) {
     --_nys-button-height: fit-content;
-    --_nys-button-radius: var(--nys-border-radius-md, 4px);
+    --_nys-button-radius: var(--nys-radius-md, 4px);
     --_nys-button-padding-y: var(--nys-space-2px, 2px);
     --_nys-button-padding-x: var(--nys-space-50, 4px);
     --_nys-button-width-border: 0px;
