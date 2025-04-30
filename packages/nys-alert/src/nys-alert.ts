@@ -135,7 +135,7 @@ export class NysAlert extends LitElement {
     );
   }
 
-  private _checkSlotContent() {
+  private async _checkSlotContent() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (slot) {
       // Check if slot has assigned nodes with content (elements or non-empty text nodes)
@@ -146,8 +146,11 @@ export class NysAlert extends LitElement {
             node.nodeType === Node.ELEMENT_NODE ||
             (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()),
         );
+
+      await Promise.resolve();
       this._slotHasContent = assignedNodes.length > 0;
     } else {
+      await Promise.resolve();
       this._slotHasContent = false; // No slot found
     }
   }
@@ -176,7 +179,7 @@ export class NysAlert extends LitElement {
               ></nys-icon>
             </div>
             <div class="nys-alert__texts">
-              <h4 class="nys-alert__header">${this.heading}</h4>
+              <div class="nys-alert__header">${this.heading}</div>
               ${this._slotHasContent
                 ? html`<slot></slot>`
                 : this.text?.trim().length > 0
