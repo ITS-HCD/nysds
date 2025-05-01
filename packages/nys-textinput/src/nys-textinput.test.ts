@@ -7,26 +7,28 @@ import "../dist/nys-textinput.js";
  * https://open-wc.org/blog/testing-web-components-with-web-test-runner/
  * */
 
-// FOR TESTING as I am trying to solve the issue with:
-// ❌ Could not import your test module. Check the browser logs or open the browser in debug mode for more information.
-it("should NOT pass this basic test", () => {
-  expect(true).to.be.false;
-});
-
 // Render the component
 describe("nys-textinput", () => {
-  it("should render component", async () => {
+  it("renders the component", async () => {
     const el = await fixture(html`<nys-textinput></nys-textinput>`);
     expect(el).to.exist;
   });
 
-  it("should render with default type as text", async () => {
+  it("renders with default type as text", async () => {
     const el = await fixture(html`<nys-textinput></nys-textinput>`);
     const input = el.shadowRoot?.querySelector("input");
     expect(input?.type).to.equal("text");
   });
 
-  it("should show required symbol when type is required", async () => {
+  it("reflects attributes to properties", async () => {
+    const el: any = await fixture(html`<nys-textinput label="My Label" required optional></nys-textinput>`);
+
+    expect(el.label).to.equal("My Label");
+    expect(el.required).to.be.true;
+    expect(el.optional).to.be.true;
+  });
+
+  it("show required symbol when type is required", async () => {
     const el = await fixture(html`<nys-textinput required></nys-textinput>`);
     const input = el.shadowRoot?.querySelector("input");
 
