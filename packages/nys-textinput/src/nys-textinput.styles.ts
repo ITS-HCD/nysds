@@ -124,6 +124,7 @@ export default css`
   .nys-textinput__input[type="search"] {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-right: none;
   }
 
   .nys-textinput__buttoncontainer {
@@ -143,11 +144,14 @@ export default css`
     --_nys-button-height: 100%;
     --_nys-button-radius-left: 0;
     --_nys-button-radius-right: var(--_nys-textinput-radius);
-    --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color-text);
+    --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color);
     --_nys-button-color-border-disabled: var(
       --_nys-textinput-disabled-color-text
     );
-    --_nys-button-color-text-disabled: var(--_nys-textinput-disabled-color);
+    --_nys-button-color-text-disabled: var(
+      --_nys-textinput-disabled-color-text
+    );
+    --_nys-button-width-border: var(--_nys-textinput-width-border);
     z-index: 1; /* to make sure the button outline renders on top of the input */
   }
 
