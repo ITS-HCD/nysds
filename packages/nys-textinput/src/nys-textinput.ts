@@ -278,47 +278,49 @@ export class NysTextinput extends LitElement {
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
-        <div class="nys-textinput__container">
-          <input
-            class="nys-textinput__input"
-            type=${this.type === "password"
-              ? this.showPassword
-                ? "text"
-                : "password"
-              : this.type}
-            name=${this.name}
-            id=${this.id}
-            ?disabled=${this.disabled}
-            ?required=${this.required}
-            ?readonly=${this.readonly}
-            aria-disabled="${this.disabled}"
-            aria-label="${this.label} ${this.description}"
-            .value=${this.value}
-            placeholder=${ifDefined(
-              this.placeholder ? this.placeholder : undefined,
-            )}
-            pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
-            min=${ifDefined(this.min !== "" ? this.min : undefined)}
-            maxlength=${ifDefined(
-              this.maxlength !== "" ? this.maxlength : undefined,
-            )}
-            step=${ifDefined(this.step !== "" ? this.step : undefined)}
-            max=${ifDefined(this.max !== "" ? this.max : undefined)}
-            form=${ifDefined(this.form ? this.form : undefined)}
-            @input=${this._handleInput}
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-            @change="${this._handleChange}"
-          />
-          ${this.type === "password"
-            ? html`<nys-icon
-                class="eye-icon"
-                @click=${() =>
-                  !this.disabled && this._togglePasswordVisibility()}
-                name=${this.showPassword ? "visibility_off" : "visibility"}
-                size="2xl"
-              ></nys-icon>`
-            : ""}
+        <div class="nys-textinput__buttoncontainer">
+          <div class="nys-textinput__container">
+            <input
+              class="nys-textinput__input"
+              type=${this.type === "password"
+                ? this.showPassword
+                  ? "text"
+                  : "password"
+                : this.type}
+              name=${this.name}
+              id=${this.id}
+              ?disabled=${this.disabled}
+              ?required=${this.required}
+              ?readonly=${this.readonly}
+              aria-disabled="${this.disabled}"
+              aria-label="${this.label} ${this.description}"
+              .value=${this.value}
+              placeholder=${ifDefined(
+                this.placeholder ? this.placeholder : undefined,
+              )}
+              pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
+              min=${ifDefined(this.min !== "" ? this.min : undefined)}
+              maxlength=${ifDefined(
+                this.maxlength !== "" ? this.maxlength : undefined,
+              )}
+              step=${ifDefined(this.step !== "" ? this.step : undefined)}
+              max=${ifDefined(this.max !== "" ? this.max : undefined)}
+              form=${ifDefined(this.form ? this.form : undefined)}
+              @input=${this._handleInput}
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+              @change="${this._handleChange}"
+            />
+            ${this.type === "password"
+              ? html`<nys-icon
+                  class="eye-icon"
+                  @click=${() =>
+                    !this.disabled && this._togglePasswordVisibility()}
+                  name=${this.showPassword ? "visibility_off" : "visibility"}
+                  size="2xl"
+                ></nys-icon>`
+              : ""}
+          </div>
           ${this.type === "search"
             ? html` <nys-button
                 id="search-button"

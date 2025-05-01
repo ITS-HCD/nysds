@@ -99,6 +99,7 @@ export default css`
     gap: var(--_nys-textinput-gap);
     display: flex;
     flex-direction: column;
+    width: var(--_nys-textinput-width);
   }
 
   .nys-textinput__input {
@@ -120,31 +121,34 @@ export default css`
     color: var(--_nys-textinput-placeholder-color);
   }
 
+  .nys-textinput__input[type="search"] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .nys-textinput__buttoncontainer {
+    width: fill;
+    display: flex;
+  }
+
   /* This container exist to mainly style the type="password" eye icon */
   .nys-textinput__container {
     position: relative;
     width: var(--_nys-textinput-width);
     display: flex;
     align-items: center;
-    border-radius: var(--_nys-textinput-radius);
   }
 
   #search-button {
+    --_nys-button-height: 100%;
     --_nys-button-radius-left: 0;
     --_nys-button-radius-right: var(--_nys-textinput-radius);
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    --_nys-button-height: calc(
-      var(--_nys-textinput-lineheight-ui) + var(--_nys-textinput-padding) +
-        (4 * var(--_nys-textinput-width-border))
-    );
     --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color-text);
     --_nys-button-color-border-disabled: var(
       --_nys-textinput-disabled-color-text
     );
     --_nys-button-color-text-disabled: var(--_nys-textinput-disabled-color);
+    z-index: 1; /* to make sure the button outline renders on top of the input */
   }
 
   .eye-icon {
@@ -158,25 +162,18 @@ export default css`
   }
 
   /* Hovered */
-  .nys-textinput__container:hover:not(:has(:disabled)):not(:focus-within) {
+  .nys-textinput__input:hover:not(:disabled):not(:focus) {
     outline: solid var(--_nys-textinput-hover-width-outline)
       var(--_nys-textinput-hover-color-outline);
-  }
-  .nys-textinput__input:hover:not(:disabled):not(:focus) {
     border-color: var(--_nys-textinput-hover-color-outline);
   }
 
   /* Focused */
-  .nys-textinput__container:has(> .nys-textinput__input:focus) {
+  .nys-textinput__input:focus {
     outline: solid var(--_nys-textinput-focus-width-outline)
       var(--_nys-textinput-focus-color-outline);
     border-color: var(--_nys-textinput-focus-color-outline);
     caret-color: var(--_nys-textinput-focus-color-outline);
-  }
-
-  .nys-textinput__input:focus {
-    outline: solid var(--_nys-textinput-focus-width-outline) purple;
-    border-color: var(--_nys-textinput-focus-color-outline);
   }
 
   /* Disabled */
