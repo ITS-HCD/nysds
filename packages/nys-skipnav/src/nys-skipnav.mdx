@@ -1,0 +1,96 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/blocks";
+import { html } from "lit";
+import * as NysSkipnavStories from "./nys-skipnav.stories";
+
+<Meta of={NysSkipnavStories} title="Components/Skipnav/Documentation" />
+
+# Skipnav
+
+The **`nys-skipnav`** component is a reusable web component for use in New York State digital products.
+
+If an id is not passed, a unique id will be generated.
+
+<p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--uikit">
+	<a href="https://www.figma.com/design/TODO/add/url">View in Figma</a>
+</p>
+
+---
+
+<Canvas of={NysSkipnavStories.Basic} />
+
+<Controls />
+
+## Options
+
+## Usage
+
+### When to use this component
+- TODO: Add when to use this component
+- TODO: Add when to use this component
+
+### When to consider something else
+- TODO: Add when to consider something else
+- TODO: Add when to consider something else
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - TODO: Add when to use this component
+      - TODO: Add when to use this component
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - TODO: Add when to consider something else
+      - TODO: Add when to consider something else
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-skipnav` component includes the following accessibility-focused features:
+
+- TODO: Add accessibility features
+- TODO: Add accessibility features
+- TODO: Add accessibility features
+
+## Events
+
+The `nys-skipnav` component emits the following events:
+
+1. `click`: Emitted when the skipnav is clicked.
+2. `focus`: Emitted when the skipnav receives focus.
+3. `blur`: Emitted when the skipnav loses focus.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the skipnav component
+const skipnav = document.querySelector("nys-skipnav");
+
+// Listen for the 'click' event
+skipnav.addEventListener("click", () => {
+	console.log("Skipnav clicked");
+});
+
+// Listen for the 'focus' event
+skipnav.addEventListener("focus", () => {
+	console.log("Skipnav is focused");
+});
+
+// Listen for the 'blur' event
+skipnav.addEventListener("blur", () => {
+	console.log("Skipnav lost focus");
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- TODO: Add dependencies

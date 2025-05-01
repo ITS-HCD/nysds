@@ -1,0 +1,43 @@
+{
+    "name": "@nysds/nys-skipnav",
+    "version": "1.1.7",
+    "description": "The Skipnav component from the NYS Design System.",
+      "module": "dist/nys-skipnav.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+          "import": "./dist/nys-skipnav.js",
+          "types": "./dist/index.d.ts"
+        }
+      },
+    "type": "module",
+    "files": [
+        "dist/"
+    ],
+    "scripts": {
+        "dev": "tsc --emitDeclarationOnly && vite",
+        "build": "tsc --emitDeclarationOnly && vite build"
+    },
+    "peerDependencies": {
+        "lit": "^3.2.1"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+      "lit": "^3.2.1",
+      "typescript": "^5.7.2",
+      "vite": "^6.2.4"
+    },
+    "keywords": [
+      "new-york-state",
+      "design-system",
+      "web-components",
+      "lit",
+      "nys",
+      "skipnav",
+      "forms"
+    ],
+    "author": "New York State Design System Team",
+    "license": "MIT"
+}
+  
