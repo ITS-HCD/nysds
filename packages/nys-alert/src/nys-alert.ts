@@ -179,7 +179,7 @@ export class NysAlert extends LitElement {
               ></nys-icon>
             </div>
             <div class="nys-alert__texts">
-              <div class="nys-alert__header">${this.heading}</div>
+              <p class="nys-alert__header">${this.heading}</p>
               ${this._slotHasContent
                 ? html`<slot></slot>`
                 : this.text?.trim().length > 0

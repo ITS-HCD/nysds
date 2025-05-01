@@ -78,6 +78,15 @@ export default css`
     text-align: left;
   }
 
+  p {
+    margin: 0;
+  }
+
+  /* Icon */
+  .nys-alert__icon {
+    margin-top: -1.5px;
+  }
+
   /* Links */
   a,
   a:visited {
@@ -133,7 +142,7 @@ export default css`
     align-items: center;
   }
   .nys-alert--centered .nys-alert__header {
-    margin: 0;
+    margin-bottom: -3px; /* Adjusts the header text to be centered */
   }
   .nys-alert--centered div[part="nys-alert__icon"] {
     margin-top: 0;
