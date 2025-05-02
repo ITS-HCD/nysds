@@ -156,7 +156,12 @@ export class NysButton extends LitElement {
 
   // Handle keydown for keyboard accessibility
   private _handleKeydown(e: KeyboardEvent) {
-    if (e.code === "Space" || e.code === "Enter") {
+    if (
+      e.code === "Space" ||
+      e.code === "Enter" ||
+      e.key === " " ||
+      e.key === "Enter"
+    ) {
       e.preventDefault();
       if (!this.disabled) {
         this._manageFormAction(e);
