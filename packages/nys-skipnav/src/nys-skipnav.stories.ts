@@ -1,6 +1,9 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-skipnav";
+import "../../nys-icon";
+import "../../nys-unavheader";
+import "../../nys-unavfooter";
 
 // Define the structure of the args used in the stories
 interface NysSkipnavArgs {
@@ -34,11 +37,8 @@ export const Basic: Story = {
     href: "#main-content",
   },
   render: (args) => html`
-    <nys-skipnav .id=${args.id} .href=${args.href}></nys-skipnav>
-    // unav
-    // Alert: Tab to focus on the hidden link (skip to main content)
-    // Main content
-    // Footer
+   <p>This skip link is visible for demo purposes. In a mock real-world scenario further down this page, it’s hidden until focused.</p>
+   <nys-skipnav .id=${args.id} .href=${args.href} demoVisible></nys-skipnav>
   `,
   parameters: {
     docs: {
@@ -48,6 +48,43 @@ export const Basic: Story = {
   id="skipnav"
   href="#main-content"
 ></nys-skipnav>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+
+export const HiddenUntilFocus: Story = {
+  args: {
+    id: "skipnav1",
+    href: "#main-content1",
+  },
+  render: (args) => html`
+    <nys-skipnav .id=${args.id} .href=${args.href}></nys-skipnav>
+    <nys-unavheader></nys-unavheader>
+    <div id="main-content1" style="padding:10px 30px; background-color: #f0f0f0;">
+      <h1>Main Content</h1>
+      <p style="display:flex; align-items:top; gap:10px;"><nys-icon name="info" size="2xl"></nys-icon>Press Tab to focus on the hidden "Skip to main content" link. This feature allows screen reader users and keyboard navigators to jump directly to the main content section, improving accessibility and usability.</p>
+    </div>
+    <nys-unavfooter></nys-unavfooter>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-skipnav
+  id="skipnav"
+  href="#main-content1"
+></nys-skipnav>
+
+<nys-unavheader></nys-unavheader>
+<div id="main-content1" style="padding:10px 30px; background-color: #f0f0f0;">
+  <h1>Main Content</h1>
+  <p style="display:flex; align-items:top; gap:10px;"><nys-icon name="info" size="2xl"></nys-icon>Press Tab to focus on the hidden "Skip to main content" link. This feature allows screen reader users and keyboard navigators to jump directly to the main content section, improving accessibility and usability.</p>
+</div>
+<nys-unavfooter></nys-unavfooter>
+`,
         type: "auto",
       },
     },
