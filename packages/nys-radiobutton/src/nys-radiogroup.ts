@@ -113,15 +113,17 @@ export class NysRadiogroup extends LitElement {
       ? await (firstRadio as any).getInputElement()
       : null;
 
-    if (this.required && !this.selectedValue) {
-      this._internals.setValidity(
-        { valueMissing: true },
-        message,
-        firstRadioInput,
-      );
-    } else {
-      this.showError = false;
-      this._internals.setValidity({}, "", firstRadioInput);
+    if (firstRadioInput) {
+      if (this.required && !this.selectedValue) {
+        this._internals.setValidity(
+          { valueMissing: true },
+          message,
+          firstRadioInput,
+        );
+      } else {
+        this.showError = false;
+        this._internals.setValidity({}, "", firstRadioInput);
+      }
     }
   }
 
