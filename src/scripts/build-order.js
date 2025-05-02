@@ -19,6 +19,7 @@ const packages = [
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
+  { name: "nys-skipnav", path: "packages/nys-skipnav" },
 ];
 
 packages.forEach((pkg) => {

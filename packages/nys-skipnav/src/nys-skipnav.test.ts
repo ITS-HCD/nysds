@@ -12,12 +12,10 @@ describe("nys-skipnav", () => {
 
 
   it("reflects attributes to properties", async () => {
-    const el = await fixture(html`
-      <nys-skipnav label="My Label" required optional></nys-skipnav>
+    const el: any = await fixture(html`
+      <nys-skipnav href="#main-content1"></nys-skipnav>
     `);
-    expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
+    expect(el.href).to.equal("#main-content1");
   });
 
   // Other test to consider:

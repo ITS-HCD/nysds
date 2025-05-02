@@ -23,9 +23,10 @@ If an id is not passed, a unique id will be generated.
 <Controls />
 
 ## Options
-The `<nys-skipnav>` component adds a hidden "Skip to main content" link that appears when you press Tab. This lets keyboard and screen reader users jump straight to the main content area.
+The `<nys-skipnav>` component adds a hidden "Skip to main content" link that appears on Tab, allowing keyboard and screen reader users to jump directly to the main content. \
+By default, `href` is set to `href="#main-content"`, but you can change it to match the **id** of your main content container.
 
-By default, `href` is set to "#main-content", but you can change the target using the `href` prop to match the **id** of your main content container.
+**IMPORTANT:** To work correctly, `<nys-skipnav>` should be the first focusable element. Ideally right after the opening `<body>` tag, before any headers or nav elements.
 <Canvas of={NysSkipnavStories.HiddenUntilFocus} />
 
 ## Usage

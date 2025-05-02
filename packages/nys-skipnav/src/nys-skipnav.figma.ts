@@ -1,8 +1,8 @@
-import figma, { html } from "@figma/code-connect/html";
+// import figma, { html } from "@figma/code-connect/html";
 
-figma.connect("<FIGMA_SKIPNAV>", {
-  props: {
-    // TODO: Add props here
-  },
-  example: (props) => html` <nys-skipnav></nys-skipnav> `,
-});
+// figma.connect("<FIGMA_SKIPNAV>", {
+//   props: {
+//     // TODO: Add props here
+//   },
+//   example: (props) => html` <nys-skipnav></nys-skipnav> `,
+// });
