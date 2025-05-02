@@ -276,7 +276,12 @@ export const Duration: Story = {
           type="button"
           @click=${showAlert}
           @keydown="${(e: KeyboardEvent) => {
-            if (e.key === "Enter" || e.key === " ") {
+            if (
+              e.code === "Enter" ||
+              e.code === "Space" ||
+              e.key === "Enter" ||
+              e.key === " "
+            ) {
               showAlert();
             }
           }}"

@@ -117,7 +117,12 @@ export class NysUnavHeader extends LitElement {
                 suffixIcon="slotted"
                 @click="${this._toggleTrustbar}"
                 @keydown="${(e: KeyboardEvent) => {
-                  if (e.key === "Enter" || e.key === " ") {
+                  if (
+                    e.code === "Enter" ||
+                    e.code === "Space" ||
+                    e.key === "Enter" ||
+                    e.key === " "
+                  ) {
                     this._toggleTrustbar();
                   }
                 }}"
@@ -138,7 +143,12 @@ export class NysUnavHeader extends LitElement {
                   size="sm"
                   @click="${this._toggleTrustbar}"
                   @keydown="${(e: KeyboardEvent) => {
-                    if (e.key === "Enter" || e.key === " ") {
+                    if (
+                      e.code === "Enter" ||
+                      e.code === "Space" ||
+                      e.key === "Enter" ||
+                      e.key === " "
+                    ) {
                       this._toggleTrustbar();
                     }
                   }}"
@@ -197,7 +207,12 @@ export class NysUnavHeader extends LitElement {
                     suffixIcon="slotted"
                     @click="${this._toggleTrustbar}"
                     @keydown="${(e: KeyboardEvent) => {
-                      if (e.key === "Enter" || e.key === " ") {
+                      if (
+                        e.code === "Enter" ||
+                        e.code === "Space" ||
+                        e.key === "Enter" ||
+                        e.key === " "
+                      ) {
                         this._toggleTrustbar();
                       }
                     }}"
@@ -226,7 +241,12 @@ export class NysUnavHeader extends LitElement {
                         class="nys-unavheader__iconbutton"
                         @click="${this._toggleLanguageList}"
                         @keydown="${(e: KeyboardEvent) => {
-                          if (e.key === "Enter" || e.key === " ") {
+                          if (
+                            e.code === "Enter" ||
+                            e.code === "Space" ||
+                            e.key === "Enter" ||
+                            e.key === " "
+                          ) {
                             this._toggleLanguageList();
                           }
                         }}"
@@ -243,7 +263,12 @@ export class NysUnavHeader extends LitElement {
                         id="nys-unavheader__translate"
                         @click="${this._toggleLanguageList}"
                         @keydown="${(e: KeyboardEvent) => {
-                          if (e.key === "Enter" || e.key === " ") {
+                          if (
+                            e.code === "Enter" ||
+                            e.code === "Space" ||
+                            e.key === "Enter" ||
+                            e.key === " "
+                          ) {
                             this._toggleLanguageList();
                           }
                         }}"
@@ -278,7 +303,12 @@ export class NysUnavHeader extends LitElement {
                         class="nys-unavheader__iconbutton"
                         @click="${this._toggleSearchDropdown}"
                         @keydown="${(e: KeyboardEvent) => {
-                          if (e.key === "Enter" || e.key === " ") {
+                          if (
+                            e.code === "Enter" ||
+                            e.code === "Space" ||
+                            e.key === "Enter" ||
+                            e.key === " "
+                          ) {
                             this._toggleSearchDropdown();
                           }
                         }}"
@@ -330,7 +360,12 @@ export class NysUnavHeader extends LitElement {
                 size="sm"
                 @click="${this._toggleTrustbar}"
                 @keydown="${(e: KeyboardEvent) => {
-                  if (e.key === "Enter" || e.key === " ") {
+                  if (
+                    e.code === "Enter" ||
+                    e.code === "Space" ||
+                    e.key === "Enter" ||
+                    e.key === " "
+                  ) {
                     this._toggleTrustbar();
                   }
                 }}"
