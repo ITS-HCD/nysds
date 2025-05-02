@@ -38,8 +38,8 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <p>
-      This skip link is visible for demo purposes. In a mock real-world scenario
-      further down this page, it’s hidden until focused.
+      This skip link is visible for demo purposes. In our mockup of a real-world scenario
+      further down this page, you'll see it's hidden until focused.
     </p>
     <nys-skipnav .id=${args.id} .href=${args.href} demoVisible></nys-skipnav>
   `,
