@@ -208,6 +208,7 @@ export class NysRadiogroup extends LitElement {
       aria-invalid="${this.showError ? "true" : "false"}"
     >
       <nys-label
+        id=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
