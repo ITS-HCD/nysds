@@ -10,7 +10,10 @@ export default css`
     /* Typography */
     --_nys-skipnav-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-skipnav-font-weight: var(--nys-font-weight-semibold, 600);
-    --_nys-skipnav-font-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    --_nys-skipnav-font-letterspacing: var(
+      --nys-font-letterspacing-ui-md,
+      0.044px
+    );
     --_nys-skipnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-skipnav-font-family: var(
       --nys-font-family-ui,
@@ -25,8 +28,8 @@ export default css`
     );
 
     /* Color */
-    --_nys-skipnav-color-link: var(--nys-color-link, #004DD1);
-    --_nys-skipnav-color-background: var(--nys-color-surface, #FFF);
+    --_nys-skipnav-color-link: var(--nys-color-link, #004dd1);
+    --_nys-skipnav-color-background: var(--nys-color-surface, #fff);
   }
 
   .nys-skipnav__link {
@@ -34,7 +37,8 @@ export default css`
     left: -9999px;
     top: auto;
     display: inline-flex;
-    padding: var(--_nys-skipnav-padding-vertical) var(--_nys-skipnav-padding-horizontal);
+    padding: var(--_nys-skipnav-padding-vertical)
+      var(--_nys-skipnav-padding-horizontal);
     align-items: flex-end;
     gap: var(--_nys-skipnav-gap);
     background: var(--_nys-skipnav-color-background);

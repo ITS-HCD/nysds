@@ -10,7 +10,6 @@ describe("nys-skipnav", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
     const el: any = await fixture(html`
       <nys-skipnav href="#main-content1"></nys-skipnav>
@@ -26,5 +25,4 @@ describe("nys-skipnav", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-
-})
+});

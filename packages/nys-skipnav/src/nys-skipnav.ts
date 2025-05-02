@@ -36,9 +36,10 @@ export class NysSkipnav extends LitElement {
         <a
           href=${this.href ? this.href : "#main-content"}
           tabindex="0"
-          class="nys-skipnav__link ${this.demoVisible ? 'show' : ''}"
+          class="nys-skipnav__link ${this.demoVisible ? "show" : ""}"
           @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}">
+          @blur="${this._handleBlur}"
+        >
           Skip to main content
         </a>
       </div>
