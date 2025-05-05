@@ -279,30 +279,27 @@ export class NysTextinput extends LitElement {
 
     const assignedElements = slot.assignedElements();
 
-    const hasValidButton = assignedElements.some(
-      (node) =>
-        node instanceof HTMLElement &&
-        node.tagName.toLowerCase() === "nys-button",
-    );
+    let foundValidButton = false;
 
-    container.classList.toggle("has-end-button", hasValidButton);
-
-    // Remove invalid nodes
     assignedElements.forEach((node) => {
       const isNysButton =
         node instanceof HTMLElement &&
         node.tagName.toLowerCase() === "nys-button";
 
-      if (!isNysButton) {
+      if (isNysButton && !foundValidButton) {
+        // First valid nys-button found
+        foundValidButton = true;
+        node.setAttribute("size", "sm");
+      } else {
         console.warn(
-          "The 'endButton' slot only accepts <nys-button> elements. Removing invalid node:",
+          "The 'endButton' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
           node,
         );
         node.remove();
-      } else {
-        node.setAttribute("size", "sm");
       }
     });
+
+    container.classList.toggle("has-end-button", foundValidButton);
   }
 
   render() {
