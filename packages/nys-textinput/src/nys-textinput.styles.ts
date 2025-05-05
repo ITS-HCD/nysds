@@ -6,6 +6,7 @@ export default css`
 
     /* Global Text Input Styles */
     --_nys-textinput-width: 100%;
+    --_nys-textinput-height: var(--nys-size-500, 40px);
     --_nys-textinput-radius: var(--nys-radius-md, 4px);
     --_nys-textinput-width-border: var(--nys-border-width-sm, 1px);
     --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
@@ -109,6 +110,7 @@ export default css`
       var(--_nys-textinput-width-border);
     padding: var(--_nys-textinput-padding);
     width: 100%;
+    height: var(--_nys-textinput-height);
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -140,7 +142,7 @@ export default css`
   }
 
   #search-button {
-    --_nys-button-height: 100%;
+    --_nys-button-height: var(--_nys-textinput-height);
     --_nys-button-radius-left: 0;
     --_nys-button-radius-right: var(--_nys-textinput-radius);
     --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color);
