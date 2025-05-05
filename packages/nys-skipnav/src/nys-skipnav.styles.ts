@@ -64,6 +64,7 @@ export default css`
   .nys-skipnav__link.show,
   .nys-skipnav__link.demo {
     top: 0;
+    left: auto;
   }
 
   .nys-skipnav__link.demo {
