@@ -235,11 +235,11 @@ export const Search: Story = {
       .max=${args.max}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-    <nys-textinput
-      .width=${args.width}
-      placeholder="without button"
-    ></nys-textinput>
+    >
+    </nys-textinput>
+    <nys-textinput .width=${args.width} placeholder="Search">
+      <nys-button slot="endButton" label="Continue" size="sm"></nys-button>
+    </nys-textinput>
   `,
   parameters: {
     docs: {

@@ -267,6 +267,30 @@ export class NysTextinput extends LitElement {
     this.dispatchEvent(new Event("change"));
   }
 
+  private _validateEndButtonSlot() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="endButton"]',
+    ) as HTMLSlotElement;
+
+    if (!slot) return;
+
+    const assignedElements = slot.assignedElements();
+
+    assignedElements.forEach((node) => {
+      const isNysButton =
+        node instanceof HTMLElement &&
+        node.tagName.toLowerCase() === "nys-button";
+
+      if (!isNysButton) {
+        console.warn(
+          "The 'endButton' slot only accepts <nys-button> elements. Removing invalid node:",
+          node,
+        );
+        node.remove(); // Remove it from the light DOM
+      }
+    });
+  }
+
   render() {
     return html`
       <div class="nys-textinput">
@@ -321,15 +345,10 @@ export class NysTextinput extends LitElement {
                 ></nys-icon>`
               : ""}
           </div>
-          ${this.type === "search"
-            ? html` <nys-button
-                id="search-button"
-                size="sm"
-                suffixIcon="search"
-                ?disabled=${this.disabled}
-                aria-disabled="${this.disabled}"
-              ></nys-button>`
-            : ""}
+          <slot
+            name="endButton"
+            @slotchange=${this._validateEndButtonSlot}
+          ></slot>
         </div>
         <nys-errormessage
           ?showError=${this.showError}

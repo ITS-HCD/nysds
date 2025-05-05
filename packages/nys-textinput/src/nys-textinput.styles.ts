@@ -120,12 +120,6 @@ export default css`
     color: var(--_nys-textinput-placeholder-color);
   }
 
-  .nys-textinput__input[type="search"] {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none;
-  }
-
   .nys-textinput__buttoncontainer {
     width: var(--_nys-textinput-width);
     min-width: var(--_nys-textinput-width);
@@ -141,7 +135,7 @@ export default css`
     width: 100%;
   }
 
-  #search-button {
+  ::slotted(nys-button) {
     --_nys-button-height: var(--_nys-textinput-height);
     --_nys-button-radius-left: 0;
     --_nys-button-radius-right: var(--_nys-textinput-radius);
