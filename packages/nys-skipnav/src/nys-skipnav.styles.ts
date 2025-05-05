@@ -34,8 +34,8 @@ export default css`
 
   .nys-skipnav__link {
     position: absolute;
-    left: auto;
-    top: 0;
+    left: 0;
+    top: -4.8rem;
     display: inline-flex;
     padding: var(--_nys-skipnav-padding-vertical)
       var(--_nys-skipnav-padding-horizontal);
@@ -56,16 +56,14 @@ export default css`
     text-decoration-thickness: 7%; /* 1.12px */
     text-underline-offset: auto;
     text-underline-position: from-font;
-    z-index: 1000;
-    transition: transform 0.15s ease-in-out;
-    transform: translate(0%, -100%);
+    z-index: 100;
+    transition: 0.15s ease-in-out;
   }
 
   .nys-skipnav__link:focus,
   .nys-skipnav__link.show,
   .nys-skipnav__link.demo {
-    top: auto;
-    transform: translate(0%, 0%);
+    top: 0;
   }
 
   .nys-skipnav__link.demo {

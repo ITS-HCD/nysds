@@ -2,6 +2,8 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-skipnav.styles";
 
+let skipnavIdCounter = 0; // Counter for generating unique IDs
+
 export class NysSkipnav extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) href = "";
@@ -11,6 +13,14 @@ export class NysSkipnav extends LitElement {
 
   constructor() {
     super();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-skipnav-${Date.now()}-${skipnavIdCounter++}`;
+    }
   }
 
   /**************** Event Handlers ****************/
@@ -34,6 +44,7 @@ export class NysSkipnav extends LitElement {
     return html`
       <div class="nys-skipnav">
         <a
+          id=${this.id}
           href=${this.href ? this.href : "#main-content"}
           tabindex="0"
           class="nys-skipnav__link ${this.demoVisible ? "demo" : ""}"
