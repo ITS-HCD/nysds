@@ -211,6 +211,7 @@ export const Search: Story = {
     placeholder: "Search",
     value: "",
     name: "myTextInput1",
+    width: "md",
   },
   render: (args) => html`
     <nys-textinput
@@ -234,6 +235,10 @@ export const Search: Story = {
       .max=${args.max}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+    ></nys-textinput>
+    <nys-textinput
+      .width=${args.width}
+      placeholder="without button"
     ></nys-textinput>
   `,
   parameters: {

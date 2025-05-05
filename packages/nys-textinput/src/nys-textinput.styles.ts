@@ -99,7 +99,6 @@ export default css`
     gap: var(--_nys-textinput-gap);
     display: flex;
     flex-direction: column;
-    width: var(--_nys-textinput-width);
   }
 
   .nys-textinput__input {
@@ -109,9 +108,7 @@ export default css`
     border: solid var(--_nys-textinput-color-border)
       var(--_nys-textinput-width-border);
     padding: var(--_nys-textinput-padding);
-    width: var(--_nys-textinput-width);
-    min-width: var(--_nys-textinput-width);
-    max-width: var(--_nys-textinput-width);
+    width: 100%;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -128,16 +125,18 @@ export default css`
   }
 
   .nys-textinput__buttoncontainer {
-    width: fill;
+    width: var(--_nys-textinput-width);
+    min-width: var(--_nys-textinput-width);
+    max-width: var(--_nys-textinput-width);
     display: flex;
   }
 
   /* This container exist to mainly style the type="password" eye icon */
   .nys-textinput__container {
     position: relative;
-    width: var(--_nys-textinput-width);
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   #search-button {
