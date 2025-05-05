@@ -237,8 +237,34 @@ export const Search: Story = {
       .errorMessage=${args.errorMessage}
     >
     </nys-textinput>
-    <nys-textinput .width=${args.width} placeholder="Search">
-      <nys-button slot="endButton" label="Continue" size="sm"></nys-button>
+    <nys-textinput
+      .id=${args.id}
+      .name=${args.name}
+      .type=${args.type}
+      .label=${args.label}
+      .description=${args.description}
+      .placeholder=${args.placeholder}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .readonly=${args.readonly}
+      .required=${args.required}
+      .optional=${args.optional}
+      .form=${args.form}
+      .pattern=${args.pattern}
+      .maxlength=${args.maxlength}
+      .width=${args.width}
+      .step=${args.step}
+      .min=${args.min}
+      .max=${args.max}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-button
+        slot="endButton"
+        label="Search"
+        prefixIcon="search"
+        size="sm"
+      ></nys-button>
     </nys-textinput>
   `,
   parameters: {

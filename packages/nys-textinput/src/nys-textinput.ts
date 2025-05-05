@@ -271,11 +271,23 @@ export class NysTextinput extends LitElement {
     const slot = this.shadowRoot?.querySelector(
       'slot[name="endButton"]',
     ) as HTMLSlotElement;
+    const container = this.shadowRoot?.querySelector(
+      ".nys-textinput__buttoncontainer",
+    );
 
-    if (!slot) return;
+    if (!slot || !container) return;
 
     const assignedElements = slot.assignedElements();
 
+    const hasValidButton = assignedElements.some(
+      (node) =>
+        node instanceof HTMLElement &&
+        node.tagName.toLowerCase() === "nys-button",
+    );
+
+    container.classList.toggle("has-end-button", hasValidButton);
+
+    // Remove invalid nodes
     assignedElements.forEach((node) => {
       const isNysButton =
         node instanceof HTMLElement &&
@@ -286,7 +298,9 @@ export class NysTextinput extends LitElement {
           "The 'endButton' slot only accepts <nys-button> elements. Removing invalid node:",
           node,
         );
-        node.remove(); // Remove it from the light DOM
+        node.remove();
+      } else {
+        node.setAttribute("size", "sm");
       }
     });
   }

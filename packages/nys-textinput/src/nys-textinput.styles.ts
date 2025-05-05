@@ -127,6 +127,12 @@ export default css`
     display: flex;
   }
 
+  .nys-textinput__buttoncontainer.has-end-button .nys-textinput__input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+  }
+
   /* This container exist to mainly style the type="password" eye icon */
   .nys-textinput__container {
     position: relative;
