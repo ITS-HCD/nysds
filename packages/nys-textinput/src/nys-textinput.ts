@@ -61,6 +61,10 @@ export class NysTextinput extends LitElement {
         ? this.width
         : "full";
     }
+
+    if (changedProperties.has("disabled")) {
+      this._validateEndButtonSlot();
+    }
   }
 
   @property({ type: Number }) step = null;
@@ -290,6 +294,12 @@ export class NysTextinput extends LitElement {
         // First valid nys-button found
         foundValidButton = true;
         node.setAttribute("size", "sm");
+        //set button to be disabled if the input is disabled
+        if (this.disabled) {
+          node.setAttribute("disabled", "true");
+        } else {
+          node.removeAttribute("disabled");
+        }
       } else {
         console.warn(
           "The 'endButton' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
