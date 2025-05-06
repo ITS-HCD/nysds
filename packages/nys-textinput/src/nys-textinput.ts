@@ -295,6 +295,7 @@ export class NysTextinput extends LitElement {
         // First valid nys-button found
         foundValidButton = true;
         node.setAttribute("size", "sm");
+        node.setAttribute("variant", "primary");
         //set button to be disabled if the input is disabled
         if (this.disabled) {
           node.setAttribute("disabled", "true");
@@ -336,6 +337,7 @@ export class NysTextinput extends LitElement {
         // First valid nys-button found
         foundValidButton = true;
         node.setAttribute("size", "sm");
+        node.setAttribute("variant", "primary");
         //set button to be disabled if the input is disabled
         if (this.disabled) {
           node.setAttribute("disabled", "true");
