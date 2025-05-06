@@ -133,6 +133,12 @@ export default css`
     border-right: none;
   }
 
+  .nys-textinput__buttoncontainer.has-start-button .nys-textinput__input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
+
   /* This container exist to mainly style the type="password" eye icon */
   .nys-textinput__container {
     position: relative;
@@ -143,7 +149,7 @@ export default css`
 
   ::slotted(nys-button) {
     --_nys-button-height: var(--_nys-textinput-height);
-    --_nys-button-radius-left: 0;
+    --_nys-button-radius-left: var(--_nys-textinput-radius);
     --_nys-button-radius-right: var(--_nys-textinput-radius);
     --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color);
     --_nys-button-color-border-disabled: var(
@@ -154,6 +160,14 @@ export default css`
     );
     --_nys-button-width-border: var(--_nys-textinput-width-border);
     z-index: 1; /* to make sure the button outline renders on top of the input */
+  }
+
+  .nys-textinput__buttoncontainer.has-start-button ::slotted(nys-button) {
+    --_nys-button-radius-right: 0;
+  }
+
+  .nys-textinput__buttoncontainer.has-end-button ::slotted(nys-button) {
+    --_nys-button-radius-left: 0;
   }
 
   .eye-icon {

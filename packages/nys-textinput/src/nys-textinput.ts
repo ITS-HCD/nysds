@@ -63,6 +63,7 @@ export class NysTextinput extends LitElement {
     }
 
     if (changedProperties.has("disabled")) {
+      this._validateStartButtonSlot();
       this._validateEndButtonSlot();
     }
   }
@@ -271,6 +272,47 @@ export class NysTextinput extends LitElement {
     this.dispatchEvent(new Event("change"));
   }
 
+  private _validateStartButtonSlot() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="startButton"]',
+    ) as HTMLSlotElement;
+    const container = this.shadowRoot?.querySelector(
+      ".nys-textinput__buttoncontainer",
+    );
+
+    if (!slot || !container) return;
+
+    const assignedElements = slot.assignedElements();
+
+    let foundValidButton = false;
+
+    assignedElements.forEach((node) => {
+      const isNysButton =
+        node instanceof HTMLElement &&
+        node.tagName.toLowerCase() === "nys-button";
+
+      if (isNysButton && !foundValidButton) {
+        // First valid nys-button found
+        foundValidButton = true;
+        node.setAttribute("size", "sm");
+        //set button to be disabled if the input is disabled
+        if (this.disabled) {
+          node.setAttribute("disabled", "true");
+        } else {
+          node.removeAttribute("disabled");
+        }
+      } else {
+        console.warn(
+          "The 'startButton' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
+          node,
+        );
+        node.remove();
+      }
+    });
+
+    container.classList.toggle("has-start-button", foundValidButton);
+  }
+
   private _validateEndButtonSlot() {
     const slot = this.shadowRoot?.querySelector(
       'slot[name="endButton"]',
@@ -324,6 +366,10 @@ export class NysTextinput extends LitElement {
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
         <div class="nys-textinput__buttoncontainer">
+          <slot
+            name="startButton"
+            @slotchange=${this._validateStartButtonSlot}
+          ></slot>
           <div class="nys-textinput__container">
             <input
               class="nys-textinput__input"
