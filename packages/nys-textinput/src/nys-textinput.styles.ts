@@ -197,6 +197,7 @@ export default css`
 
   /* Disabled */
   .nys-textinput__input:disabled,
+  .nys-textinput__input:disabled::placeholder,
   .nys-textinput__input:disabled + .eye-icon {
     background-color: var(--_nys-textinput-disabled-color);
     border-color: var(--_nys-textinput-disabled-color-border);
