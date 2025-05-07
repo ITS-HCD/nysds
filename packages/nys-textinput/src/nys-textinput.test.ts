@@ -21,7 +21,9 @@ describe("nys-textinput", () => {
   });
 
   it("reflects attributes to properties", async () => {
-    const el: any = await fixture(html`<nys-textinput label="My Label" required optional></nys-textinput>`);
+    const el: any = await fixture(
+      html`<nys-textinput label="My Label" required optional></nys-textinput>`,
+    );
 
     expect(el.label).to.equal("My Label");
     expect(el.required).to.be.true;
