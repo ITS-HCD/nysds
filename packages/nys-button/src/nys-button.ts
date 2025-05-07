@@ -67,6 +67,26 @@ export class NysButton extends LitElement {
   }
   @property({ type: Function }) onClick: (event: Event) => void = () => {};
   @property({ type: String }) href = "";
+  // target
+  private static readonly VALID_TARGETS = [
+    "_self",
+    "_blank",
+    "_parent",
+    "_top",
+    "framename",
+  ] as const;
+  private _target: (typeof NysButton.VALID_TARGETS)[number] = "_self";
+  @property({ reflect: true })
+  get target(): (typeof NysButton.VALID_TARGETS)[number] {
+    return this._target;
+  }
+  set target(value: string) {
+    this._target = NysButton.VALID_TARGETS.includes(
+      value as (typeof NysButton.VALID_TARGETS)[number],
+    )
+      ? (value as (typeof NysButton.VALID_TARGETS)[number])
+      : "_self";
+  }
 
   static styles = styles;
   private _internals: ElementInternals;
@@ -136,7 +156,12 @@ export class NysButton extends LitElement {
 
   // Handle keydown for keyboard accessibility
   private _handleKeydown(e: KeyboardEvent) {
-    if (e.code === "Space" || e.code === "Enter") {
+    if (
+      e.code === "Space" ||
+      e.code === "Enter" ||
+      e.key === " " ||
+      e.key === "Enter"
+    ) {
       e.preventDefault();
       if (!this.disabled) {
         this._manageFormAction(e);
@@ -158,7 +183,7 @@ export class NysButton extends LitElement {
                 form=${ifDefined(this.form ? this.form : undefined)}
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
-                target="_blank"
+                target=${this.target}
                 aria-label=${this.ariaLabel || this.label || "button"}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"

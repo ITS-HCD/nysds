@@ -117,6 +117,16 @@ export class NysUnavHeader extends LitElement {
                 size="sm"
                 suffixIcon="slotted"
                 @click="${this._toggleTrustbar}"
+                @keydown="${(e: KeyboardEvent) => {
+                  if (
+                    e.code === "Enter" ||
+                    e.code === "Space" ||
+                    e.key === "Enter" ||
+                    e.key === " "
+                  ) {
+                    this._toggleTrustbar();
+                  }
+                }}"
               >
                 <nys-icon
                   slot="suffix-icon"
@@ -134,6 +144,16 @@ export class NysUnavHeader extends LitElement {
                   size="sm"
                   ariaLabel="Close trustbar"
                   @click="${this._toggleTrustbar}"
+                  @keydown="${(e: KeyboardEvent) => {
+                    if (
+                      e.code === "Enter" ||
+                      e.code === "Space" ||
+                      e.key === "Enter" ||
+                      e.key === " "
+                    ) {
+                      this._toggleTrustbar();
+                    }
+                  }}"
                 ></nys-button>`
               : null}
           </div>
@@ -189,6 +209,16 @@ export class NysUnavHeader extends LitElement {
                     suffixIcon="slotted"
                     ariaLabel="Here's how you know"
                     @click="${this._toggleTrustbar}"
+                    @keydown="${(e: KeyboardEvent) => {
+                      if (
+                        e.code === "Enter" ||
+                        e.code === "Space" ||
+                        e.key === "Enter" ||
+                        e.key === " "
+                      ) {
+                        this._toggleTrustbar();
+                      }
+                    }}"
                   >
                     <nys-icon
                       slot="suffix-icon"
@@ -214,6 +244,16 @@ export class NysUnavHeader extends LitElement {
                         id="nys-unavheader__translate"
                         class="nys-unavheader__iconbutton"
                         @click="${this._toggleLanguageList}"
+                        @keydown="${(e: KeyboardEvent) => {
+                          if (
+                            e.code === "Enter" ||
+                            e.code === "Space" ||
+                            e.key === "Enter" ||
+                            e.key === " "
+                          ) {
+                            this._toggleLanguageList();
+                          }
+                        }}"
                       ></nys-button>
                     </div>
                     <div class="nys-unavheader__lg nys-unavheader__xl">
@@ -227,6 +267,16 @@ export class NysUnavHeader extends LitElement {
                         ariaLabel="Translate"
                         id="nys-unavheader__translate"
                         @click="${this._toggleLanguageList}"
+                        @keydown="${(e: KeyboardEvent) => {
+                          if (
+                            e.code === "Enter" ||
+                            e.code === "Space" ||
+                            e.key === "Enter" ||
+                            e.key === " "
+                          ) {
+                            this._toggleLanguageList();
+                          }
+                        }}"
                       ></nys-button>
                     </div>
                     <div
@@ -258,6 +308,16 @@ export class NysUnavHeader extends LitElement {
                         id="nys-unavheader__searchbutton"
                         class="nys-unavheader__iconbutton"
                         @click="${this._toggleSearchDropdown}"
+                        @keydown="${(e: KeyboardEvent) => {
+                          if (
+                            e.code === "Enter" ||
+                            e.code === "Space" ||
+                            e.key === "Enter" ||
+                            e.key === " "
+                          ) {
+                            this._toggleSearchDropdown();
+                          }
+                        }}"
                       ></nys-button>
                     </div>
                     <div class="nys-unavheader__lg nys-unavheader__xl">
@@ -306,6 +366,16 @@ export class NysUnavHeader extends LitElement {
                 size="sm"
                 ariaLabel="Close trustbar"
                 @click="${this._toggleTrustbar}"
+                @keydown="${(e: KeyboardEvent) => {
+                  if (
+                    e.code === "Enter" ||
+                    e.code === "Space" ||
+                    e.key === "Enter" ||
+                    e.key === " "
+                  ) {
+                    this._toggleTrustbar();
+                  }
+                }}"
               ></nys-button>
             </div>
           </div>
