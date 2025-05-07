@@ -275,6 +275,16 @@ export const Duration: Story = {
           id="show-alert"
           type="button"
           @click=${showAlert}
+          @keydown="${(e: KeyboardEvent) => {
+            if (
+              e.code === "Enter" ||
+              e.code === "Space" ||
+              e.key === "Enter" ||
+              e.key === " "
+            ) {
+              showAlert();
+            }
+          }}"
           style="
           background-color: #154973; 
           color: white; 

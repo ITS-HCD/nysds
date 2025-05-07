@@ -206,30 +206,27 @@ export class NysAlert extends LitElement {
                   </div> `
                 : ""}
             </div>
-            ${this.dismissible && this.type !== "emergency"
-              ? html`<div class="close-container">
-                  <nys-button
-                    id="dismiss-btn"
-                    variant="ghost"
-                    prefixIcon="close"
-                    size="sm"
-                    ariaLabel="close button"
-                    @click=${this._closeAlert}
-                  ></nys-button>
-                </div>`
-              : this.dismissible && this.type === "emergency"
-                ? html`<div class="close-container">
-                    <nys-button
-                      id="dismiss-btn"
-                      variant="ghost"
-                      prefixIcon="close"
-                      size="sm"
-                      inverted
-                      ariaLabel="close button"
-                      @click=${this._closeAlert}
-                    ></nys-button>
-                  </div>`
-                : ""}
+            ${this.dismissible
+              ? html` <nys-button
+                  id="dismiss-btn"
+                  variant="ghost"
+                  prefixIcon="close"
+                  size="sm"
+                  ?inverted=${this.type === "emergency"}
+                  ariaLabel="close button"
+                  @click=${this._closeAlert}
+                  @keydown="${(e: KeyboardEvent) => {
+                    if (
+                      e.code === "Enter" ||
+                      e.code === "Space" ||
+                      e.key === "Enter" ||
+                      e.key === " "
+                    ) {
+                      this._closeAlert();
+                    }
+                  }}"
+                ></nys-button>`
+              : ""}
           </div>`
         : ""}
     `;
