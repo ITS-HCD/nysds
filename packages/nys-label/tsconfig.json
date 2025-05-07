@@ -1,17 +1,16 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "dist",
-      "rootDir": "src"
-    },
-    "include": ["src/**/*"],
-    "exclude": [
-      "**/*.stories.ts",
-      "**/*.styles.ts",
-      "**/*.tests.ts",
-      "packages",
-      "node_modules", 
-      "dist"
-    ]
-  }
-  
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+	  "outDir": "./dist",
+	  "rootDir": "./src"
+	},
+	"include": ["src/**/*"],
+	"exclude": [
+	  "**/*.stories.ts",
+	  "**/*.styles.ts",
+	  "**/*.test.ts",
+	  "packages",
+	  "node_modules", 
+	  "dist"
+	]
+ }

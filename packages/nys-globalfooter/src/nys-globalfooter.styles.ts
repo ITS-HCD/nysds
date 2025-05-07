@@ -87,6 +87,7 @@ export default css`
 
   /* The Agency Name */
   .nys-globalfooter__name {
+    text-align: left;
     margin: 0;
     color: var(--_nys-globalfooter-text-color);
     font-family: var(--_nys-globalfooter-font-family-agency);
