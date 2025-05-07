@@ -42,7 +42,7 @@ export class NysSkipnav extends LitElement {
     // Use href or default to #main-content
     const targetId = (this.href || "#main-content").replace("#", "");
     const targetEl = document.getElementById(targetId);
-  
+
     if (targetEl) {
       // Make sure it's focusable for screen readers rather than just scrolling to it
       targetEl.setAttribute("tabindex", "-1");
