@@ -87,11 +87,15 @@ export const HiddenUntilFocus: Story = {
   id="skipnav"
   href="#main-content1"
 ></nys-skipnav>
-
 <nys-unavheader></nys-unavheader>
 <div id="main-content1" style="padding:10px 30px; background-color: #f0f0f0;">
   <h1>Main Content</h1>
-  <p style="display:flex; align-items:top; gap:10px;"><nys-icon name="info" size="2xl"></nys-icon>Press Tab to focus on the hidden "Skip to main content" link. This feature allows screen reader users and keyboard navigators to jump directly to the main content section, improving accessibility and usability.</p>
+  <p style="display:flex; align-items:top; gap:10px;">
+      <nys-icon name="info" size="2xl"></nys-icon>
+      Press Tab to focus on the hidden "Skip to main content" link. This feature 
+      allows screen reader users and keyboard navigators to jump directly to the 
+      main content section, improving accessibility and usability.
+  </p>
 </div>
 <nys-unavfooter></nys-unavfooter>
 `,
