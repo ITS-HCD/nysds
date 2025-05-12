@@ -457,6 +457,7 @@ export const Tile: Story = {
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
   size="md"
+  tile
 >
   <nys-radiobutton
     name="office"
