@@ -17,6 +17,10 @@ export default css`
       --nys-space-200,
       16px
     ); /* space between radio buttons */
+    --_nys-radiobutton-tile-border-width: var(--nys-border-width-sm, 1px);
+    --_nys-radiobutton-tile-border-radius: var(--nys-radius-md, 4px);
+    --_nys-radiobutton-tile-border-color: transparent;
+    --_nys-radiobutton-tile-color-bg: var(--nys-color-ink-reverse, #ffffff);
 
     /* Typography */
     --_nys-radiobutton-font-family: var(
@@ -111,23 +115,11 @@ export default css`
   }
 
   /* Tile Variant */
-  :host([tile]) {
-    .nys-radiogroup {
-      gap: var(--nys-space-100, 8px);
-    }
-
-    .nys-radiobutton {
-      display: flex;
-      padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
-      align-items: center;
-      gap: var(--nys-space-150, 12px);
-      align-self: stretch;
-
-      border-radius: var(--nys-radius-md, 4px);
-      border: var(--nys-border-width-sm, 1px) solid
-        var(--nys-color-neutral-100, #d0d0ce);
-      background: var(--nys-color-ink-reverse, #fff);
-    }
+  :host([tile="true"]) {
+    --_nys-radiobutton-tile-border-width: var(--nys-border-width-sm, 1px);
+    --_nys-radiobutton-tile-border-radius: var(--nys-radius-md, 4px);
+    --_nys-radiobutton-tile-border-color: var(--nys-color-neutral-100, #d0d0ce);
+    --_nys-radiobutton-tile-color-bg: var(--nys-color-ink-reverse, #ffffff);
   }
 
   .nys-radiogroup {
@@ -151,6 +143,12 @@ export default css`
     font-family: var(--_nys-radiobutton-font-family);
     font-size: var(--_nys-radiobutton-font-size);
     line-height: var(--_nys-radiobutton-line-height);
+
+    /* Tile */
+    border-radius: var(--_nys-radiobutton-tile-border-radius);
+    border: var(--_nys-radiobutton-tile-border-width) solid
+      var(--_nys-radiobutton-tile-border-color);
+    background: var(--_nys-radiobutton-tile-color-bg);
   }
 
   .nys-radiobutton__radio {
