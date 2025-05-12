@@ -135,7 +135,7 @@ export class NysAlert extends LitElement {
     );
   }
 
-  private _checkSlotContent() {
+  private async _checkSlotContent() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (slot) {
       // Check if slot has assigned nodes with content (elements or non-empty text nodes)
@@ -146,8 +146,11 @@ export class NysAlert extends LitElement {
             node.nodeType === Node.ELEMENT_NODE ||
             (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()),
         );
+
+      await Promise.resolve();
       this._slotHasContent = assignedNodes.length > 0;
     } else {
+      await Promise.resolve();
       this._slotHasContent = false; // No slot found
     }
   }
@@ -176,7 +179,7 @@ export class NysAlert extends LitElement {
               ></nys-icon>
             </div>
             <div class="nys-alert__texts">
-              <h4 class="nys-alert__header">${this.heading}</h4>
+              <div class="nys-alert__header">${this.heading}</div>
               ${this._slotHasContent
                 ? html`<slot></slot>`
                 : this.text?.trim().length > 0
@@ -203,30 +206,27 @@ export class NysAlert extends LitElement {
                   </div> `
                 : ""}
             </div>
-            ${this.dismissible && this.type !== "emergency"
-              ? html`<div class="close-container">
-                  <nys-button
-                    id="dismiss-btn"
-                    variant="ghost"
-                    prefixIcon="close"
-                    size="sm"
-                    ariaLabel="close button"
-                    @click=${this._closeAlert}
-                  ></nys-button>
-                </div>`
-              : this.dismissible && this.type === "emergency"
-                ? html`<div class="close-container">
-                    <nys-button
-                      id="dismiss-btn"
-                      variant="ghost"
-                      prefixIcon="close"
-                      size="sm"
-                      inverted
-                      ariaLabel="close button"
-                      @click=${this._closeAlert}
-                    ></nys-button>
-                  </div>`
-                : ""}
+            ${this.dismissible
+              ? html` <nys-button
+                  id="dismiss-btn"
+                  variant="ghost"
+                  prefixIcon="close"
+                  size="sm"
+                  ?inverted=${this.type === "emergency"}
+                  ariaLabel="close button"
+                  @click=${this._closeAlert}
+                  @keydown="${(e: KeyboardEvent) => {
+                    if (
+                      e.code === "Enter" ||
+                      e.code === "Space" ||
+                      e.key === "Enter" ||
+                      e.key === " "
+                    ) {
+                      this._closeAlert();
+                    }
+                  }}"
+                ></nys-button>`
+              : ""}
           </div>`
         : ""}
     `;

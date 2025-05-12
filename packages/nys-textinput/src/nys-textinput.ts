@@ -53,8 +53,9 @@ export class NysTextinput extends LitElement {
   width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
 
   // Ensure the "width" property is valid after updates
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
+  async updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has("width")) {
+      await Promise.resolve();
       this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
         ? this.width
         : "full";
@@ -269,6 +270,7 @@ export class NysTextinput extends LitElement {
     return html`
       <div class="nys-textinput">
         <nys-label
+          id=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}

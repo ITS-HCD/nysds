@@ -46,7 +46,8 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
+  async updated(changedProperties: Map<string | number | symbol, unknown>) {
+    await Promise.resolve();
     if (changedProperties.has("width")) {
       this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
         ? this.width
@@ -252,6 +253,7 @@ export class NysTextarea extends LitElement {
     return html`
       <label class="nys-textarea">
         <nys-label
+          id=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
