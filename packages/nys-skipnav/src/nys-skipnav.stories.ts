@@ -36,13 +36,20 @@ export const Basic: Story = {
     id: "skipnav",
     href: "#main-content",
   },
-  render: (args) => html`
-    <p>
-      This skip link is visible for demo purposes. In our mockup of a real-world
-      scenario further down this page, you'll see it's hidden until focused.
-    </p>
-    <nys-skipnav .id=${args.id} .href=${args.href} demoVisible></nys-skipnav>
-  `,
+  render: (args) => {
+    setTimeout(() => {
+      const skipnav = document.querySelector("nys-skipnav");
+      const link = skipnav?.shadowRoot?.querySelector(".nys-skipnav__link");
+      link?.classList.add("show");
+    }, 0);
+
+    return html`
+      <nys-skipnav .id=${args.id} .href=${args.href} demoVisible></nys-skipnav>
+      <p style="margin-top:45px;">
+        This skip link is visible for demo purposes. In our mockup of a real-world
+        scenario further down this page, you'll see it's hidden until focused.
+      </p>
+  `},
   parameters: {
     docs: {
       source: {

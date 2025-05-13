@@ -5,7 +5,7 @@ import styles from "./nys-skipnav.styles";
 export class NysSkipnav extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) href = "";
-  @property({ type: Boolean }) demoVisible = false; // For demo purposes only
+  // @property({ type: Boolean }) demoVisible = false; // For demo purposes only
 
   static styles = styles;
 
@@ -33,9 +33,9 @@ export class NysSkipnav extends LitElement {
     const linkElement = this.shadowRoot?.querySelector(".nys-skipnav__link");
     this.dispatchEvent(new Event("blur"));
 
-    if (!this.demoVisible) {
+    // if (!this.demoVisible) {
       linkElement?.classList.remove("show"); // Link is hidden whenever not focused unless the demoVisible is true (aka we're showing it for reference sites)
-    }
+    //}
   }
 
   private _handleClick() {
@@ -59,7 +59,7 @@ export class NysSkipnav extends LitElement {
           id=${this.id}
           href=${this.href ? this.href : "#main-content"}
           tabindex="0"
-          class="nys-skipnav__link ${this.demoVisible ? "demo" : ""}"
+          class="nys-skipnav__link"
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
           @click="${this._handleClick}"

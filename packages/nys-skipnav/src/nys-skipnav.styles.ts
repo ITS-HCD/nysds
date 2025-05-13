@@ -61,13 +61,8 @@ export default css`
   }
 
   .nys-skipnav__link:focus,
-  .nys-skipnav__link.show,
-  .nys-skipnav__link.demo {
+  .nys-skipnav__link.show {
     top: 0;
     left: auto;
-  }
-
-  .nys-skipnav__link.demo {
-    position: static;
   }
 `;
