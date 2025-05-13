@@ -20,7 +20,7 @@ export default css`
     --_nys-radiobutton-tile-border-width: var(--nys-border-width-sm, 1px);
     --_nys-radiobutton-tile-border-radius: var(--nys-radius-md, 4px);
     --_nys-radiobutton-tile-border-color: transparent;
-    --_nys-radiobutton-tile-color-bg: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-radiobutton-tile-color-bg: transparent;
 
     /* Typography */
     --_nys-radiobutton-font-family: var(
@@ -174,6 +174,7 @@ export default css`
   }
 
   /* Pointer cursor for unchecked radio button */
+  .nys-radiobutton:hover,
   .nys-radiobutton:hover * {
     cursor: pointer;
   }
