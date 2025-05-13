@@ -153,7 +153,7 @@ export class NysRadiogroup extends LitElement {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       if (this.tile) {
-        radioButton.setAttribute("tile", "true");
+        radioButton.toggleAttribute("tile", true);
       } else {
         radioButton.removeAttribute("tile");
       }
