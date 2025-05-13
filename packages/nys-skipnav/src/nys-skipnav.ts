@@ -34,7 +34,7 @@ export class NysSkipnav extends LitElement {
     this.dispatchEvent(new Event("blur"));
 
     // if (!this.demoVisible) {
-      linkElement?.classList.remove("show"); // Link is hidden whenever not focused unless the demoVisible is true (aka we're showing it for reference sites)
+    linkElement?.classList.remove("show"); // Link is hidden whenever not focused unless the demoVisible is true (aka we're showing it for reference sites)
     //}
   }
 
