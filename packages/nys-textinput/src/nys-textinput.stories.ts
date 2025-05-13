@@ -250,7 +250,7 @@ export const SlottedButton: Story = {
 <nys-textinput 
   name="searchInput"
   type="search" 
-  placeholder="Search">
+  placeholder="Search"
 >
   <nys-button
   slot="endButton"
