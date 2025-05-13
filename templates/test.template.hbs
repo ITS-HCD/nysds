@@ -1,9 +1,10 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-{{componentName}}.js";
+// You may need to import other dependencies such as the component's tag name
+// For example:
+// import { NysTextinput } from "./nys-textinput";
 
-// Below is an example of a test file for a web component. Add your own tests as needed.
-
-// Render the component
+// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-{{componentName}}", () => {
   it("renders the component", async () => {
     const el = await fixture(html`<nys-{{componentName}}></nys-{{componentName}}>`);
@@ -20,6 +21,11 @@ describe("nys-{{componentName}}", () => {
     expect(el.optional).to.be.true;
   });
 
+  it("passes the a11y audit", async () => {
+    const el = await fixture(html`<nys-{{componentName}} label="My Label"></nys-{{componentName}}>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
+
   // Other test to consider:
   // - Test for default values
   // - Test for different attributes
@@ -28,5 +34,4 @@ describe("nys-{{componentName}}", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-
 })

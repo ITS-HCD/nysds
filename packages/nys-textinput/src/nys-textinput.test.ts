@@ -1,4 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { NysTextinput } from "./nys-textinput";
 import "../dist/nys-textinput.js";
 
 /**
@@ -42,46 +43,56 @@ describe("nys-textinput", () => {
   });
 
   it("displays a toggle password icon that changes visilibity when property type is password", async () => {
-    const el = await fixture(
+    const el = await fixture<NysTextinput>(
       html`<nys-textinput type="password"></nys-textinput>`,
     );
     const input = el.shadowRoot?.querySelector("input");
-    const eyeIcon = el.shadowRoot?.querySelector("eye-icon") as HTMLElement;
+    const eyeIcon = el.shadowRoot?.querySelector(".eye-icon") as HTMLElement;
 
     expect(input?.type).to.equal("password");
     eyeIcon.click();
+    await el.updateComplete;
     expect(input?.type).to.equal("text");
     eyeIcon.click();
+    await el.updateComplete;
     expect(input?.type).to.equal("password");
   });
 
   it("displays an error message when required field is empty", async () => {
-    const el = await fixture(html`<nys-textinput required></nys-textinput>`);
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput required></nys-textinput>`,
+    );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
     input.value = "";
-    input?.dispatchEvent(new Event("blur")); // imitates user clicking in and out of input
+    input.dispatchEvent(new Event("input")); // simulate typing
+    input.dispatchEvent(new Event("blur")); // simulate losing focus
+    await el.updateComplete;
 
     const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
-    expect(errorMessage?.getAttribute("showError")).to.equal("true");
+    expect(errorMessage?.hasAttribute("showError")).to.be.true;
   });
 
   it("validates pattern mismatch", async () => {
-    const el = await fixture(
+    const el = await fixture<NysTextinput>(
       html`<nys-textinput pattern="\\d+">></nys-textinput>`,
     );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     input.value = "hello world";
     input?.dispatchEvent(new Event("blur")); // imitates user clicking in and out of input
+    await el.updateComplete;
 
     const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
-    expect(errorMessage?.getAttribute("showError")).to.equal("true");
+    expect(errorMessage?.hasAttribute("showError")).to.be.true;
     expect(errorMessage?.getAttribute("errorMessage")).to.equal(
       "Invalid format",
     );
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-textinput></nys-textinput>`);
+    const el = await fixture(
+      html`<nys-textinput label="First Name"></nys-textinput>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 });
