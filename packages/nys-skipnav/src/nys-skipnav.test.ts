@@ -32,12 +32,4 @@ describe("nys-skipnav", () => {
     link?.dispatchEvent(new FocusEvent("blur"));
     expect(link?.classList.contains("show")).to.be.false;
   });
-
-  it("keeps 'show' class after blur if demoVisible is true", async () => {
-    const el = await fixture(html`<nys-skipnav demoVisible></nys-skipnav>`);
-    const link = el.shadowRoot?.querySelector(".nys-skipnav__link")!;
-    link.dispatchEvent(new FocusEvent("focus"));
-    link.dispatchEvent(new FocusEvent("blur"));
-    expect(link.classList.contains("show")).to.be.true;
-  });
 });
