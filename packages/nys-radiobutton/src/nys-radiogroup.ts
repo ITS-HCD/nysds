@@ -34,6 +34,7 @@ export class NysRadiogroup extends LitElement {
       ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
       : "md";
   }
+  @property({ type: Boolean, reflect: true }) tile = false;
 
   static styles = styles;
   private _internals: ElementInternals;
@@ -68,6 +69,8 @@ export class NysRadiogroup extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this.setRadioButtonRequire();
+    this._updateRadioButtonsSize();
+    this._updateRadioButtonsTile();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -79,6 +82,9 @@ export class NysRadiogroup extends LitElement {
     }
     if (changedProperties.has("size")) {
       this._updateRadioButtonsSize();
+    }
+    if (changedProperties.has("tile")) {
+      this._updateRadioButtonsTile();
     }
   }
 
@@ -140,6 +146,18 @@ export class NysRadiogroup extends LitElement {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       radioButton.setAttribute("size", this.size);
+    });
+  }
+
+  private _updateRadioButtonsTile() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.tile) {
+        radioButton.setAttribute("tile", "true");
+      } else {
+        radioButton.removeAttribute("tile");
+      }
+      // Set the tile attribute to "true" or "false" based on the tile property
     });
   }
 

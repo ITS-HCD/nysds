@@ -115,11 +115,13 @@ export default css`
   }
 
   /* Tile Variant */
-  :host([tile="true"]) {
+  :host([tile]) {
     --_nys-radiobutton-tile-border-width: var(--nys-border-width-sm, 1px);
     --_nys-radiobutton-tile-border-radius: var(--nys-radius-md, 4px);
     --_nys-radiobutton-tile-border-color: var(--nys-color-neutral-100, #d0d0ce);
     --_nys-radiobutton-tile-color-bg: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-radiobutton-tile-padding-x: var(--nys-space-250, 20px);
+    --_nys-radiobutton-tile-padding-y: var(--nys-space-200, 16px);
   }
 
   .nys-radiogroup {
@@ -149,6 +151,8 @@ export default css`
     border: var(--_nys-radiobutton-tile-border-width) solid
       var(--_nys-radiobutton-tile-border-color);
     background: var(--_nys-radiobutton-tile-color-bg);
+    padding: var(--_nys-radiobutton-tile-padding-y)
+      var(--_nys-radiobutton-tile-padding-x);
   }
 
   .nys-radiobutton__radio {
