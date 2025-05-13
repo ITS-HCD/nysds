@@ -131,11 +131,6 @@ export default css`
     margin: 0;
   }
 
-  .close-container {
-    margin-left: auto;
-    margin-top: -5px;
-  }
-
   /* Centered variant: For no descriptions, we remove the <slot name="text"> via JS logic. In styling, centers the icon for a compact layout. */
   .nys-alert--centered {
     display: flex;
