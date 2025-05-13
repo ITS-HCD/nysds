@@ -33,7 +33,7 @@ export class NysAlert extends LitElement {
     "danger",
     "emergency",
   ] as const;
-  private _type: (typeof NysAlert.VALID_TYPES)[number] = "info";
+  private _type: (typeof NysAlert.VALID_TYPES)[number] = "base";
 
   @property({ reflect: true })
   get type() {
