@@ -1,5 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-skipnav.js";
+import { NysSkipnav } from "./nys-skipnav";
 
 describe("nys-skipnav", () => {
   it("renders the component", async () => {
@@ -8,7 +9,7 @@ describe("nys-skipnav", () => {
   });
 
   it("renders the component with default href values", async () => {
-    const el = await fixture<HTMLElement>(`<nys-skipnav></nys-skipnav>`);
+    const el = await fixture<NysSkipnav>(`<nys-skipnav></nys-skipnav>`);
     const link = el.shadowRoot?.querySelector(".nys-skipnav__link");
 
     expect(link).to.exist;
@@ -23,7 +24,7 @@ describe("nys-skipnav", () => {
   });
 
   it("adds 'show' class on focus and removes on blur", async () => {
-    const el = await fixture<HTMLElement>(`<nys-skipnav></nys-skipnav>`);
+    const el = await fixture<NysSkipnav>(`<nys-skipnav></nys-skipnav>`);
     const link = el.shadowRoot?.querySelector(".nys-skipnav__link");
 
     // Simulate focus/blur event
@@ -31,5 +32,15 @@ describe("nys-skipnav", () => {
     expect(link?.classList.contains("show")).to.be.true;
     link?.dispatchEvent(new FocusEvent("blur"));
     expect(link?.classList.contains("show")).to.be.false;
+  });
+
+  it("passes the a11y audit", async () => {
+    const el = await fixture(
+      html` <div>
+        <nys-skipnav></nys-skipnav>
+        <main id="main-content" tabindex="-1">Main content</main>
+      </div>`,
+    );
+    await expect(el).shadowDom.to.be.accessible();
   });
 });
