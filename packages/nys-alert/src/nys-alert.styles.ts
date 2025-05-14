@@ -82,6 +82,10 @@ export default css`
     margin: 0;
   }
 
+  ::slotted(p) {
+    margin-bottom: 0 !important;
+  }
+
   /* Icon */
   .nys-alert__icon {
     margin-top: -1.5px;
