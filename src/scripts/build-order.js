@@ -12,6 +12,7 @@ const packages = [
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
+  { name: "nys-skipnav", path: "packages/nys-skipnav" },
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
