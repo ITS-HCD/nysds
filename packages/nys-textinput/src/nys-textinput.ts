@@ -385,6 +385,7 @@ export class NysTextinput extends LitElement {
               ?disabled=${this.disabled}
               ?required=${this.required}
               ?readonly=${this.readonly}
+              aria-required=${this.required}
               aria-disabled="${this.disabled}"
               aria-label="${this.label} ${this.description}"
               .value=${this.value}
