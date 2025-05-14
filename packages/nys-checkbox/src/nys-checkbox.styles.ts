@@ -52,11 +52,11 @@ export default css`
     --_nys-checkbox-color-bg: var(--nys-color-ink-reverse, #ffffff);
     --_nys-checkbox-color-border: var(--nys-color-neutral-600, #62666a);
     /* Empty + Hovered */
-    --_nys-checkbox-hover-color-bg: var(--nys-color-neutral-100, #d0d0de);
-    --_nys-checkbox-hover-color-border: var(--nys-color-neutral-600, #62666a);
+    --_nys-checkbox-hover-color-bg: var(--nys-color-neutral-50, #ededed);
+    --_nys-checkbox-hover-color-border: var(--nys-color-ink, #1b1b1b);
     /* Empty + Pressed */
-    --_nys-checkbox-pressed-color-bg: var(--nys-color-neutral-200, #bec0c1);
-    --_nys-checkbox-pressed-color-border: var(--nys-color-neutral-600, #62666a);
+    --_nys-checkbox-pressed-color-bg: var(--nys-color-neutral-100, #d0d0ce);
+    --_nys-checkbox-pressed-color-border: var(--nys-color-ink, #1b1b1b);
     /* Checked */
     --_nys-checkbox-checked-color-bg: var(--nys-color-theme, #154973);
     --_nys-checkbox-checked-color-border: var(--nys-color-theme, #154973);
