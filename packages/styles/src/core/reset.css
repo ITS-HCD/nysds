@@ -68,6 +68,7 @@ h6 {
 h1 {
     font-size: var(--nys-font-size-h1);
     line-height: var(--nys-font-lineheight-h1);
+    letter-spacing: var(--nys-font-letterspacing-negative-300, -.02rem);
     margin-top: var(--nys-space-600);
     margin-bottom: var(--nys-space-250);
 }
@@ -75,6 +76,7 @@ h1 {
 h2 {
     font-size: var(--nys-font-size-h2);
     line-height: var(--nys-font-lineheight-h2);
+    letter-spacing: var(--nys-font-letterspacing-negative-200, -.01rem);
     margin-top: var(--nys-space-500);
     margin-bottom: var(--nys-space-200);
 }
@@ -82,6 +84,7 @@ h2 {
 h3 {
     font-size: var(--nys-font-size-h3);
     line-height: var(--nys-font-lineheight-h3);
+    letter-spacing: var(--nys-font-letterspacing-negative-200, -.01rem);
     margin-top: var(--nys-space-400);
     margin-bottom: var(--nys-space-150);
 }

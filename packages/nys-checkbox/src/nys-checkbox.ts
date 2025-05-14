@@ -38,7 +38,7 @@ export class NysCheckbox extends LitElement {
   }
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
-    await this.updateComplete;
+    await this.updateComplete; // Wait for the component to finish rendering
     return this.shadowRoot?.querySelector("input") || null;
   }
 
