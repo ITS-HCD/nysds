@@ -122,6 +122,33 @@ export default css`
     --_nys-radiobutton-tile-color-bg: var(--nys-color-ink-reverse, #ffffff);
     --_nys-radiobutton-tile-padding-x: var(--nys-space-250, 20px);
     --_nys-radiobutton-tile-padding-y: var(--nys-space-200, 16px);
+    /* Hover */
+    --_nys-radiobutton-hover-tile-border-color: var(
+      --nys-color-neutral-100,
+      #d0d0ce
+    );
+    --_nys-radiobutton-hover-tile-color-bg: var(
+      --nys-color-ink-reverse,
+      #ffffff
+    );
+    /* Pressed */
+    --_nys-radiobutton-pressed-tile-border-color: var(
+      --nys-color-theme,
+      #154973
+    );
+    --_nys-radiobutton-pressed-tile-color-bg: var(
+      --nys-color-theme-weak,
+      #cddde9
+    );
+    /* Checked */
+    --_nys-radiobutton-checked-tile-border-color: var(
+      --nys-color-theme,
+      #154973
+    );
+    --_nys-radiobutton-checked-tile-color-bg: var(
+      --nys-color-theme-weaker,
+      #eff6fb
+    );
   }
 
   .nys-radiogroup {

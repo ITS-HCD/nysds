@@ -120,6 +120,21 @@ export default css`
     --_nys-checkbox-tile-color-bg: var(--nys-color-ink-reverse, #ffffff);
     --_nys-checkbox-tile-padding-x: var(--nys-space-250, 20px);
     --_nys-checkbox-tile-padding-y: var(--nys-space-200, 16px);
+    /* Hover */
+    --_nys-checkbox-hover-tile-border-color: var(
+      --nys-color-neutral-100,
+      #d0d0ce
+    );
+    --_nys-checkbox-hover-tile-color-bg: var(--nys-color-ink-reverse, #ffffff);
+    /* Pressed */
+    --_nys-checkbox-pressed-tile-border-color: var(--nys-color-theme, #154973);
+    --_nys-checkbox-pressed-tile-color-bg: var(--nys-color-theme-weak, #cddde9);
+    /* Checked */
+    --_nys-checkbox-checked-tile-border-color: var(--nys-color-theme, #154973);
+    --_nys-checkbox-checked-tile-color-bg: var(
+      --nys-color-theme-weaker,
+      #eff6fb
+    );
   }
 
   .nys-checkboxgroup {
