@@ -12,7 +12,7 @@ export default css`
     display: inline-block;
   }
 
-  .nys-component__component {
+  .nys-avatar__component {
     display: flex;
     justify-content: center;
     align-items: center;
