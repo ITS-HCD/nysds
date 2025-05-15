@@ -48,7 +48,13 @@ const preview: Preview = {
       // Load the theme based on Storybook's global context
       const theme = context.globals.theme;
       loadTheme(theme);
-
+      setTimeout(() => {
+        const skipnav = document.querySelector("nys-skipnav");
+        const link = skipnav?.shadowRoot?.querySelector("a");
+        if (link) {
+          link.classList.add("show");
+        }
+      }, 0);
       return Story();
     },
   ],

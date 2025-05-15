@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -34,7 +34,7 @@
     "release:dry-run": "npm run build:all && node src/scripts/publish-dry-run.js",
     "release": "npm run build:all && npm publish --workspaces --access public && npm publish --access public",
     "release:alpha": "npm run build && npm publish --tag next",
-    "test": "wtr --node-resolve",
+    "test": "npm run build:all && wtr --node-resolve",
     "storybook": "npm run build:all && storybook dev -p 6006",
     "storybook:dev": "storybook dev -p 6006",
     "build-storybook": "npm run build:packages && storybook build",
@@ -89,7 +89,7 @@
     "storybook": "^8.6.12",
     "tslib": "^2.7.0",
     "typescript": "^5.7.2",
-    "vite": "^6.2.4"
+    "vite": "^6.3.4"
   },
   "peerDependencies": {
     "lit": "^3.2.1"

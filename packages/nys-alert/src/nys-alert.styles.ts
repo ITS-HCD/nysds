@@ -78,6 +78,19 @@ export default css`
     text-align: left;
   }
 
+  p {
+    margin: 0;
+  }
+
+  ::slotted(p) {
+    margin-bottom: 0 !important;
+  }
+
+  /* Icon */
+  .nys-alert__icon {
+    margin-top: -1.5px;
+  }
+
   /* Links */
   a,
   a:visited {
@@ -122,18 +135,13 @@ export default css`
     margin: 0;
   }
 
-  .close-container {
-    margin-left: auto;
-    margin-top: -5px;
-  }
-
   /* Centered variant: For no descriptions, we remove the <slot name="text"> via JS logic. In styling, centers the icon for a compact layout. */
   .nys-alert--centered {
     display: flex;
     align-items: center;
   }
   .nys-alert--centered .nys-alert__header {
-    margin: 0;
+    margin-bottom: -3px; /* Adjusts the header text to be centered */
   }
   .nys-alert--centered div[part="nys-alert__icon"] {
     margin-top: 0;

@@ -52,11 +52,13 @@ export default css`
   }
 
   .nys-label__label {
+    text-align: left;
     font-weight: var(--_nys-label-font-weight);
     color: var(--_nys-label-font-color);
   }
 
   .nys-label__description {
+    text-align: left;
     font-weight: var(--nys-description-font-weight);
     font-style: var(--nys-description-font-style);
     color: var(--nys-description-font-color);
