@@ -63,8 +63,8 @@ export class NysTextinput extends LitElement {
     }
 
     if (changedProperties.has("disabled")) {
-      this._validateStartButtonSlot();
-      this._validateEndButtonSlot();
+      this._validateButtonSlot("startButton");
+      this._validateButtonSlot("endButton");
     }
   }
 
@@ -272,9 +272,9 @@ export class NysTextinput extends LitElement {
     this.dispatchEvent(new Event("change"));
   }
 
-  private _validateStartButtonSlot() {
+  private _validateButtonSlot(slotName: string) {
     const slot = this.shadowRoot?.querySelector(
-      'slot[name="startButton"]',
+      'slot[name="' + slotName + '"]',
     ) as HTMLSlotElement;
     const container = this.shadowRoot?.querySelector(
       ".nys-textinput__buttoncontainer",
@@ -304,56 +304,20 @@ export class NysTextinput extends LitElement {
         }
       } else {
         console.warn(
-          "The 'startButton' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
+          "The '" +
+            slotName +
+            "' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
           node,
         );
         node.remove();
       }
     });
 
-    container.classList.toggle("has-start-button", foundValidButton);
-  }
-
-  private _validateEndButtonSlot() {
-    const slot = this.shadowRoot?.querySelector(
-      'slot[name="endButton"]',
-    ) as HTMLSlotElement;
-    const container = this.shadowRoot?.querySelector(
-      ".nys-textinput__buttoncontainer",
-    );
-
-    if (!slot || !container) return;
-
-    const assignedElements = slot.assignedElements();
-
-    let foundValidButton = false;
-
-    assignedElements.forEach((node) => {
-      const isNysButton =
-        node instanceof HTMLElement &&
-        node.tagName.toLowerCase() === "nys-button";
-
-      if (isNysButton && !foundValidButton) {
-        // First valid nys-button found
-        foundValidButton = true;
-        node.setAttribute("size", "sm");
-        node.setAttribute("variant", "primary");
-        //set button to be disabled if the input is disabled
-        if (this.disabled) {
-          node.setAttribute("disabled", "true");
-        } else {
-          node.removeAttribute("disabled");
-        }
-      } else {
-        console.warn(
-          "The 'endButton' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
-          node,
-        );
-        node.remove();
-      }
-    });
-
-    container.classList.toggle("has-end-button", foundValidButton);
+    if (slotName === "startButton") {
+      container.classList.toggle("has-start-button", foundValidButton);
+    } else if (slotName === "endButton") {
+      container.classList.toggle("has-end-button", foundValidButton);
+    }
   }
 
   render() {
@@ -370,7 +334,7 @@ export class NysTextinput extends LitElement {
         <div class="nys-textinput__buttoncontainer">
           <slot
             name="startButton"
-            @slotchange=${this._validateStartButtonSlot}
+            @slotchange=${this._validateButtonSlot("startButton")}
           ></slot>
           <div class="nys-textinput__container">
             <input
@@ -419,7 +383,7 @@ export class NysTextinput extends LitElement {
           </div>
           <slot
             name="endButton"
-            @slotchange=${this._validateEndButtonSlot}
+            @slotchange=${this._validateButtonSlot("endButton")}
           ></slot>
         </div>
         <nys-errormessage
