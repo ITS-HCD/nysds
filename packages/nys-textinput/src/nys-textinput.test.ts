@@ -42,7 +42,7 @@ describe("nys-textinput", () => {
     expect(label?.getAttribute("flag")).to.equal("required");
   });
 
-  it("displays a toggle password icon that changes visilibity when property type is password", async () => {
+  it("displays a toggle password icon that changes visibility when property type is password", async () => {
     const el = await fixture<NysTextinput>(
       html`<nys-textinput type="password"></nys-textinput>`,
     );
