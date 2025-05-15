@@ -33,7 +33,7 @@ export class NysAlert extends LitElement {
     "danger",
     "emergency",
   ] as const;
-  private _type: (typeof NysAlert.VALID_TYPES)[number] = "info";
+  private _type: (typeof NysAlert.VALID_TYPES)[number] = "base";
 
   @property({ reflect: true })
   get type() {
@@ -179,7 +179,7 @@ export class NysAlert extends LitElement {
               ></nys-icon>
             </div>
             <div class="nys-alert__texts">
-              <div class="nys-alert__header">${this.heading}</div>
+              <p class="nys-alert__header">${this.heading}</p>
               ${this._slotHasContent
                 ? html`<slot></slot>`
                 : this.text?.trim().length > 0
