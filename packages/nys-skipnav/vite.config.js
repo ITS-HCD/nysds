@@ -7,7 +7,7 @@ const banner = `
    * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
    * 
-   * Skipnav Component v1.1.7
+   * Skipnav Component
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
