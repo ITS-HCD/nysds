@@ -32,6 +32,7 @@ export class NysRadiobutton extends LitElement {
       ? (value as (typeof NysRadiobutton.VALID_SIZES)[number])
       : "md";
   }
+  @property({ type: Boolean, reflect: true }) tile = false;
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
