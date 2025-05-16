@@ -151,6 +151,11 @@ export default css`
     );
   }
 
+  :host([tile][size="sm"]) {
+    --_nys-radiobutton-tile-padding-x: var(--nys-space-200, 16px);
+    --_nys-radiobutton-tile-padding-y: var(--nys-space-150, 12px);
+  }
+
   .nys-radiogroup {
     display: flex;
     flex-direction: column;

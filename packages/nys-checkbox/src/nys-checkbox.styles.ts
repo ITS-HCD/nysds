@@ -137,6 +137,11 @@ export default css`
     );
   }
 
+  :host([tile][size="sm"]) {
+    --_nys-checkbox-tile-padding-x: var(--nys-space-200, 16px);
+    --_nys-checkbox-tile-padding-y: var(--nys-space-150, 12px);
+  }
+
   .nys-checkboxgroup {
     display: flex;
     flex-direction: column;
