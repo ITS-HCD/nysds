@@ -180,6 +180,7 @@ export default css`
     background: var(--_nys-radiobutton-tile-color-bg);
     padding: var(--_nys-radiobutton-tile-padding-y)
       var(--_nys-radiobutton-tile-padding-x);
+    outline-offset: var(--_nys-radiobutton-offset-focus);
   }
 
   .nys-radiobutton__radio {
@@ -197,6 +198,8 @@ export default css`
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    outline-offset: var(--_nys-radiobutton-offset-focus);
+    outline: none;
     margin: 0 0 auto 0; /* Causes centered radio button if single line of label but top aligned if multiline */
   }
 
@@ -239,10 +242,13 @@ export default css`
   }
 
   /* Focused */
-  .nys-radiobutton__radio:focus {
+  :host(:not([tile])) .nys-radiobutton__radio:focus {
     outline: solid var(--_nys-radiobutton-width-focus)
       var(--_nys-radiobutton-color-focus);
-    outline-offset: var(--_nys-radiobutton-offset-focus);
+  }
+  :host([tile]) .nys-radiobutton:has(*:focus) {
+    outline: solid var(--_nys-radiobutton-width-focus)
+      var(--_nys-radiobutton-color-focus);
   }
 
   /* Radiobutton Label Holder */
