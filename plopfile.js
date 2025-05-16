@@ -73,6 +73,11 @@ export default function (plop) {
         path: "packages/nys-{{componentName}}/vite.config.js",
         templateFile: "templates/viteconfig.template.hbs",
       },
+      {
+        type: "add",
+        path: "packages/nys-{{componentName}}/web-test-runner.config.js",
+        templateFile: "templates/webtestrunner.template.hbs",
+      },
     ],
   });
 
