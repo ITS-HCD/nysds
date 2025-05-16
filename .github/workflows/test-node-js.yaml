@@ -24,8 +24,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm i
-    - run: npx playwright install
-    - run: npm run test:build
-    - run: npm run build:all
-    - run: npm run build-storybook
+    - name: Install dependencies
+      run: npm i
+    - name: Install Playwright with Dependencies
+      run: npx playwright install --with-deps
+    - name: Test Components
+      run: npm run test:build
+    - name: Build all the components
+      run: npm run build:all
+    - name: Build Storybook
+      run: npm run build-storybook
