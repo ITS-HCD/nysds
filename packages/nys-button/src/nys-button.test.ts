@@ -8,15 +8,28 @@ describe("nys-button", () => {
     expect(el?.type).to.equal("button");
   });
 
-  it("allows 'type' prop to adjust button behavior and reflect 'label' prop", async () => {
+  it("should reflect 'label' prop", async () => {
     const el = await fixture<NysButton>(
-      html`<nys-button label="Click Me" type="submit"></nys-button>`,
+      html`<nys-button label="Click Me"></nys-button>`,
     );
-    expect(el?.type).to.equal("submit");
 
     const label = el.shadowRoot?.querySelector(".nys-button__text");
     expect(label).to.exist;
     expect(label?.textContent).to.equal("Click Me");
+  });
+
+  it("uses ariaLabel when provided", async () => {
+    const el = await fixture(
+      html`<nys-button ariaLabel="Custom label"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+    expect(button.getAttribute("aria-label")).to.equal("Custom label");
+  });
+
+  it('falls back to "button" if neither ariaLabel nor label is provided', async () => {
+    const el = await fixture(html`<nys-button></nys-button>`);
+    const button = el.shadowRoot?.querySelector("button")!;
+    expect(button.getAttribute("aria-label")).to.equal("button");
   });
 
   it("should show different variant results based on changing variant prop", async () => {
@@ -109,27 +122,122 @@ describe("nys-button", () => {
  *    - It is part of a form
  *    - It correctly triggers form submission/reset behavior
  */
+describe("<nys-button> form integration", () => {
+  it("has default type 'button'", async () => {
+    const el = await fixture<NysButton>(html`<nys-button></nys-button>`);
+    expect(el.type).to.equal("button");
+  });
+
+  it("renders label and respects 'type' prop", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Click Me" type="submit"></nys-button>`,
+    );
+
+    expect(el.type).to.equal("submit");
+    const button = el.shadowRoot?.querySelector("button");
+    expect(button?.getAttribute("type")).to.equal("submit");
+  });
+
+  it("triggers form submission when type='submit'", async () => {
+    const formSubmit = new Promise<Event>((resolve) => {
+      const submitHandler = (e: Event) => {
+        e.preventDefault(); // prevent actual navigation
+        resolve(e);
+      };
+
+      document.body.addEventListener("submit", submitHandler);
+    });
+
+    const el = await fixture(html`
+      <form id="test-form">
+        <nys-button label="Submit" type="submit"></nys-button>
+      </form>
+    `);
+
+    const button = el.querySelector("nys-button")!;
+    const innerButton = button.shadowRoot?.querySelector("button")!;
+    innerButton.click();
+
+    const event = await formSubmit;
+    expect(event).to.exist;
+    expect(event.type).to.equal("submit");
+  });
+
+  it("triggers form reset when type='reset'", async () => {
+    const resetHandler = oneEvent(document, "reset");
+
+    const el = await fixture(html`
+      <form id="test-form">
+        <input name="field" value="original" />
+        <nys-button label="Reset" type="reset"></nys-button>
+      </form>
+    `);
+
+    const form = el as HTMLFormElement;
+    const input = form.querySelector("input")!;
+    input.value = "changed";
+
+    const button = form
+      .querySelector("nys-button")!
+      .shadowRoot!.querySelector("button")!;
+    button.click();
+
+    const event = await resetHandler;
+    expect(event).to.exist;
+    expect(event.type).to.equal("reset");
+
+    // The form resets the input
+    expect(input.value).to.equal("original");
+  });
+});
 
 /*** Accessibility tests ***/
 /*
- * ENSURE ARIA LABELS:
- * - Buttons should have a label property to provide accessible text for screen readers (or default fallback text "button")
- * - Buttons should have property "ariaLabel" filled if no label is provided (i.e. icon button). Otherwise, at least a default fallback for aria-label is provided (e.g. "button")
- */
-
-/*
- * ENSURE Disabled STATE:
- * - If the button is disabled, it should not be focusable or operable
- * - Screen readers should announce the button as disabled
- */
-
-/*
  * ENSURE KEYBOARD SUPPORT:
- * - Buttons should be focusable and operable using the keyboard (e.g. Enter, Space, Arrow keys)
+ * - Buttons should be focusable and operable using the keyboard (e.g. Enter, Space)
  */
+describe("NysButton keyboard support", () => {
+  it("should fire click on Enter key", async () => {
+    const el = await fixture(
+      html`<nys-button label="Enter Test"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button");
+    const keydownPromise = new Promise<Event>((resolve) => {
+      el.addEventListener("keydown", (e) => resolve(e));
+    });
 
-/* ACCESSIBILITY INSIGHT TOOL (Feedback) */
-/*
- * ENSURE COLOR CONTRAST:
- * - Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
- */
+    button?.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    const event = await keydownPromise;
+    expect(event).to.exist;
+    expect(event.type).to.equal("keydown");
+  });
+
+  it("should dispatches click on Space key", async () => {
+    const el = await fixture(
+      html`<nys-button label="Space Test"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button");
+    const keydownPromise = new Promise<Event>((resolve) => {
+      el.addEventListener("keydown", (e) => resolve(e));
+    });
+
+    button?.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    const event = await keydownPromise;
+    expect(event).to.exist;
+    expect(event.type).to.equal("keydown");
+  });
+});
