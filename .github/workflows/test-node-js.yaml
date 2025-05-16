@@ -25,6 +25,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i
+    - run: npx playwright install
     - run: npm run test:build
     - run: npm run build:all
     - run: npm run build-storybook
