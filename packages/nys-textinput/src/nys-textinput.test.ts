@@ -42,7 +42,7 @@ describe("nys-textinput", () => {
     expect(label?.getAttribute("flag")).to.equal("required");
   });
 
-  it("displays a toggle password icon that changes visilibity when property type is password", async () => {
+  it("displays a toggle password icon that changes visibility when property type is password", async () => {
     const el = await fixture<NysTextinput>(
       html`<nys-textinput type="password"></nys-textinput>`,
     );
@@ -75,7 +75,7 @@ describe("nys-textinput", () => {
 
   it("validates pattern mismatch", async () => {
     const el = await fixture<NysTextinput>(
-      html`<nys-textinput pattern="\\d+">></nys-textinput>`,
+      html`<nys-textinput pattern="\\d+"></nys-textinput>`,
     );
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
     input.value = "hello world";
@@ -94,6 +94,30 @@ describe("nys-textinput", () => {
       html`<nys-textinput label="First Name"></nys-textinput>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+    // does label map to aria-label
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    expect(input?.getAttribute("aria-label")).to.equal("First Name");
+  });
+
+  it("renders a button in the slot", async () => {
+    const el = await fixture(
+      html`<nys-textinput name="searchInput" type="search" placeholder="Search">
+        <nys-button
+          slot="endButton"
+          type="submit"
+          label="Search"
+          prefixIcon="search"
+        ></nys-button>
+      </nys-textinput>`,
+    );
+    const slot = el.shadowRoot?.querySelector(
+      'slot[name="endButton"]',
+    ) as HTMLSlotElement;
+    const assigned = slot?.assignedElements() || [];
+    const button = assigned.find(
+      (el) => el.tagName.toLowerCase() === "nys-button",
+    );
+    expect(button).to.exist;
   });
 });
 
