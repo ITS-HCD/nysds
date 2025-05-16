@@ -163,6 +163,7 @@ export default css`
     font-family: var(--_nys-checkbox-font-family);
     font-size: var(--_nys-checkbox-font-size);
     line-height: var(--_nys-checkbox-line-height);
+    outline-offset: var(--_nys-checkbox-offset-focus);
 
     /* Tile */
     border-radius: var(--_nys-checkbox-tile-border-radius);
@@ -201,7 +202,6 @@ export default css`
     appearance: none;
     background-repeat: no-repeat;
     background-position: center;
-    outline-offset: var(--_nys-checkbox-offset-focus);
     width: var(--_nys-checkbox-size);
     min-width: var(--_nys-checkbox-size);
     min-height: var(--_nys-checkbox-size);
@@ -212,6 +212,8 @@ export default css`
       var(--_nys-checkbox-color-border);
     background-color: var(--_nys-checkbox-color-bg);
     border-radius: var(--_nys-checkbox-radius);
+    outline-offset: var(--_nys-checkbox-offset-focus);
+    outline: none;
   }
 
   /* Pointer cursor for unchecked checkbox */
@@ -258,7 +260,11 @@ export default css`
   }
 
   /* Focused */
-  .nys-checkbox__checkbox:focus {
+  :host(:not([tile])) .nys-checkbox__checkbox:focus {
+    outline: solid var(--_nys-checkbox-width-focus)
+      var(--_nys-checkbox-color-focus);
+  }
+  :host([tile]) .nys-checkbox:has(*:focus) {
     outline: solid var(--_nys-checkbox-width-focus)
       var(--_nys-checkbox-color-focus);
   }
