@@ -96,7 +96,7 @@ export class NysTextinput extends LitElement {
       this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
     }
 
-    this._originalErrorMessage = this.errorMessage;
+    this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
 
