@@ -71,6 +71,11 @@ describe("nys-avatar", () => {
     expect(initials?.textContent).to.equal("NYS");
     expect(icon).to.not.exist;
   });
+
+  it("passes the a11y audit", async () => {
+    const el = await fixture(html`<nys-avatar></nys-avatar>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
 });
 
 /*** Accessibility tests ***/
