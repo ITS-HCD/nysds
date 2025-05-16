@@ -47,7 +47,8 @@ export default css`
     gap: var(--_nys-skipnav-gap);
     background: var(--_nys-skipnav-color-background);
     color: var(--_nys-skipnav-color-link);
-    border: var(--_nys-skipnav-focus-border) solid var(--_nys-skipnav-color-link);
+    border: var(--_nys-skipnav-focus-border) solid
+      var(--_nys-skipnav-color-link);
     border-radius: var(--_nys-skipnav-focus-border-radius);
     font-family: var(--_nys-skipnav-font-family);
     font-size: var(--_nys-skipnav-font-size);
