@@ -129,7 +129,7 @@ export class NysTextinput extends LitElement {
 
     const message = this.errorMessage || "This field is required";
     const isInvalid =
-      this.required && (!this.value || this.value.trim() === ""); // Check for blank as well
+      this.required && (!this.value || this.value?.trim() === ""); // Check for blank as well
 
     if (isInvalid) {
       this._internals.ariaRequired = "true";
@@ -149,7 +149,7 @@ export class NysTextinput extends LitElement {
     this.showError = !!message;
 
     // Use the original errorMessage if defined, or keep the message from validation
-    if (this._originalErrorMessage.trim() && message !== "") {
+    if (this._originalErrorMessage?.trim() && message !== "") {
       this.errorMessage = this._originalErrorMessage;
     } else {
       this.errorMessage = message;
