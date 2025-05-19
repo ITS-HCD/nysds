@@ -7,6 +7,10 @@ export default css`
     --_nys-skipnav-padding-horizontal: var(--nys-space-200, 16px);
     --_nys-skipnav-gap: var(--nys-space-100, 8px);
 
+    /* Focus Styles */
+    --_nys-skipnav-focus-border: var(--nys-border-width-md, 2px);
+    --_nys-skipnav-focus-border-radius: var(--nys-radius-sm, 2px);
+
     /* Typography */
     --_nys-skipnav-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-skipnav-font-weight: var(--nys-font-weight-semibold, 600);
@@ -34,7 +38,7 @@ export default css`
 
   .nys-skipnav__link {
     position: absolute;
-    left: 0;
+    left: auto;
     top: -4.8rem;
     display: inline-flex;
     padding: var(--_nys-skipnav-padding-vertical)
@@ -43,7 +47,9 @@ export default css`
     gap: var(--_nys-skipnav-gap);
     background: var(--_nys-skipnav-color-background);
     color: var(--_nys-skipnav-color-link);
-    border: 2px solid var(--_nys-skipnav-color-link);
+    border: var(--_nys-skipnav-focus-border) solid
+      var(--_nys-skipnav-color-link);
+    border-radius: var(--_nys-skipnav-focus-border-radius);
     font-family: var(--_nys-skipnav-font-family);
     font-size: var(--_nys-skipnav-font-size);
     font-style: normal;
@@ -64,5 +70,6 @@ export default css`
   .nys-skipnav__link.show {
     top: 0;
     left: auto;
+    outline: none;
   }
 `;
