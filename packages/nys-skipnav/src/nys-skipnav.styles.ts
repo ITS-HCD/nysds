@@ -38,7 +38,7 @@ export default css`
 
   .nys-skipnav__link {
     position: absolute;
-    left: c;
+    left: auto;
     top: -4.8rem;
     display: inline-flex;
     padding: var(--_nys-skipnav-padding-vertical)
