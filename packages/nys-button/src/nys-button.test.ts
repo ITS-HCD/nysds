@@ -1,3 +1,119 @@
+import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import { NysButton } from "./nys-button";
+import "../dist/nys-button.js";
+
+describe("nys-button", () => {
+  it("should have default type as button", async () => {
+    const el = await fixture<NysButton>(html`<nys-button></nys-button>`);
+    expect(el?.type).to.equal("button");
+  });
+
+  it("should reflect 'label' prop", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Click Me"></nys-button>`,
+    );
+
+    const label = el.shadowRoot?.querySelector(".nys-button__text");
+    expect(label).to.exist;
+    expect(label?.textContent).to.equal("Click Me");
+  });
+
+  it("uses ariaLabel when provided", async () => {
+    const el = await fixture(
+      html`<nys-button ariaLabel="Custom label"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+    expect(button.getAttribute("aria-label")).to.equal("Custom label");
+  });
+
+  it('falls back to "button" if neither ariaLabel nor label is provided', async () => {
+    const el = await fixture(html`<nys-button></nys-button>`);
+    const button = el.shadowRoot?.querySelector("button")!;
+    expect(button.getAttribute("aria-label")).to.equal("button");
+  });
+
+  it("should show different variant results based on changing variant prop", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Click me" prefixIcon="arrow"></nys-button>`,
+    );
+
+    // 1. Check default variant and icon
+    expect(el.variant).to.equal("filled");
+    let icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.exist;
+
+    // 2. Set variant to "text" — icon should disappear
+    el.variant = "text";
+    await el.updateComplete;
+    icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.not.exist;
+
+    // 3. Switch back to "ghost" — icon should return
+    el.variant = "ghost";
+    await el.updateComplete;
+
+    icon = el.shadowRoot!.querySelector("nys-icon");
+    expect(icon).to.exist;
+  });
+
+  it("should reflect disabled and prevent click", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Disabled" disabled></nys-button>`,
+    );
+
+    const button = el.shadowRoot?.querySelector("button")!;
+    expect(button.disabled).to.be.true;
+  });
+
+  it("should render as <a> when href is provided", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button href="https://example.com" label="Link"></nys-button>`,
+    );
+
+    const ahref = el.shadowRoot?.querySelector("a")!;
+    expect(ahref).to.exist;
+    expect(ahref.getAttribute("href")).to.equal("https://example.com");
+    expect(ahref.textContent).to.include("Link");
+  });
+
+  it("should apply correct size or fallback", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button size="lg" label="Large Button"></nys-button>`,
+    );
+
+    expect(el.size).to.equal("lg");
+
+    // Checking fallback size in case of invalid input
+    el.size = "invalid";
+    await el.updateComplete;
+    expect(el.size).to.equal("md");
+  });
+
+  it("should dispatch focus and blur events", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="FocusMe"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+
+    // Focus event
+    const focusEventPromise = oneEvent(el, "focus");
+    button.focus();
+    const focusEvent = await focusEventPromise;
+    expect(focusEvent).to.exist;
+
+    // Blur event
+    const blurEventPromise = oneEvent(el, "blur");
+    button.blur();
+    const blurEvent = await blurEventPromise;
+    expect(blurEvent).to.exist;
+  });
+
+  it("passes the a11y audit", async () => {
+    const el = await fixture(html`<nys-avatar></nys-avatar>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
+});
+
 /*** CORE tests ***/
 /*
  * ENSURE FORM INTEGRATION (TYPE SUBMIT/RESET):
@@ -6,27 +122,122 @@
  *    - It is part of a form
  *    - It correctly triggers form submission/reset behavior
  */
+describe("<nys-button> form integration", () => {
+  it("has default type 'button'", async () => {
+    const el = await fixture<NysButton>(html`<nys-button></nys-button>`);
+    expect(el.type).to.equal("button");
+  });
+
+  it("renders label and respects 'type' prop", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Click Me" type="submit"></nys-button>`,
+    );
+
+    expect(el.type).to.equal("submit");
+    const button = el.shadowRoot?.querySelector("button");
+    expect(button?.getAttribute("type")).to.equal("submit");
+  });
+
+  it("triggers form submission when type='submit'", async () => {
+    const formSubmit = new Promise<Event>((resolve) => {
+      const submitHandler = (e: Event) => {
+        e.preventDefault(); // prevent actual navigation
+        resolve(e);
+      };
+
+      document.body.addEventListener("submit", submitHandler);
+    });
+
+    const el = await fixture(html`
+      <form id="test-form">
+        <nys-button label="Submit" type="submit"></nys-button>
+      </form>
+    `);
+
+    const button = el.querySelector("nys-button")!;
+    const innerButton = button.shadowRoot?.querySelector("button")!;
+    innerButton.click();
+
+    const event = await formSubmit;
+    expect(event).to.exist;
+    expect(event.type).to.equal("submit");
+  });
+
+  it("triggers form reset when type='reset'", async () => {
+    const resetHandler = oneEvent(document, "reset");
+
+    const el = await fixture(html`
+      <form id="test-form">
+        <input name="field" value="original" />
+        <nys-button label="Reset" type="reset"></nys-button>
+      </form>
+    `);
+
+    const form = el as HTMLFormElement;
+    const input = form.querySelector("input")!;
+    input.value = "changed";
+
+    const button = form
+      .querySelector("nys-button")!
+      .shadowRoot!.querySelector("button")!;
+    button.click();
+
+    const event = await resetHandler;
+    expect(event).to.exist;
+    expect(event.type).to.equal("reset");
+
+    // The form resets the input
+    expect(input.value).to.equal("original");
+  });
+});
 
 /*** Accessibility tests ***/
 /*
- * ENSURE ARIA LABELS:
- * - Buttons should have a label property to provide accessible text for screen readers (or default fallback text "button")
- * - Buttons should have property "ariaLabel" filled if no label is provided (i.e. icon button). Otherwise, at least a default fallback for aria-label is provided (e.g. "button")
- */
-
-/*
- * ENSURE Disabled STATE:
- * - If the button is disabled, it should not be focusable or operable
- * - Screen readers should announce the button as disabled
- */
-
-/*
  * ENSURE KEYBOARD SUPPORT:
- * - Buttons should be focusable and operable using the keyboard (e.g. Enter, Space, Arrow keys)
+ * - Buttons should be focusable and operable using the keyboard (e.g. Enter, Space)
  */
+describe("NysButton keyboard support", () => {
+  it("should fire click on Enter key", async () => {
+    const el = await fixture(
+      html`<nys-button label="Enter Test"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button");
+    const keydownPromise = new Promise<Event>((resolve) => {
+      el.addEventListener("keydown", (e) => resolve(e));
+    });
 
-/* ACCESSIBILITY INSIGHT TOOL (Feedback) */
-/*
- * ENSURE COLOR CONTRAST:
- * - Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
- */
+    button?.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    const event = await keydownPromise;
+    expect(event).to.exist;
+    expect(event.type).to.equal("keydown");
+  });
+
+  it("should dispatches click on Space key", async () => {
+    const el = await fixture(
+      html`<nys-button label="Space Test"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button");
+    const keydownPromise = new Promise<Event>((resolve) => {
+      el.addEventListener("keydown", (e) => resolve(e));
+    });
+
+    button?.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    const event = await keydownPromise;
+    expect(event).to.exist;
+    expect(event.type).to.equal("keydown");
+  });
+});

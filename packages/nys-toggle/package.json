@@ -1,44 +1,46 @@
 {
-    "name": "@nysds/nys-toggle",
-    "version": "1.1.8",
-    "description": "The Toggle component from the NYS Design System.",
-    "module": "dist/nys-toggle.js",
-    "exports": {
-        ".": {
-            "import": "./dist/nys-toggle.js",
-            "types": "./dist/index.d.ts"
-        }
-    },
-    "type": "module",
-    "files": [
-        "dist/"
-    ],
-    "scripts": {
-        "dev": "tsc --emitDeclarationOnly && vite",
-        "build": "tsc --emitDeclarationOnly && vite build"
-    },
-    "dependencies": {
-    },
-    "peerDependencies": {
-        "lit": "^3.2.1",
-        "@nysds/nys-icon": "^1.1.8"
-    },
-    "devDependencies": {
-        "lit": "^3.2.1",
-        "@nysds/nys-icon": "^1.1.8",
-        "typescript": "^5.7.2",
-        "vite": "^6.3.4"
-    },
-    "keywords": [
-        "new-york-state",
-        "design-system",
-        "web-components",
-        "lit",
-        "nys",
-        "input",
-        "toggle",
-        "forms"
-    ],
-    "author": "New York State Design System Team",
-    "license": "MIT"
+  "name": "@nysds/nys-toggle",
+  "version": "1.1.8",
+  "description": "The Toggle component from the NYS Design System.",
+  "module": "dist/nys-toggle.js",
+  "exports": {
+    ".": {
+      "import": "./dist/nys-toggle.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "lit": "^3.2.1",
+    "@nysds/nys-icon": "^1.1.8"
+  },
+  "devDependencies": {
+    "lit": "^3.2.1",
+    "@nysds/nys-icon": "^1.1.8",
+    "typescript": "^5.7.2",
+    "vite": "^6.3.4"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "input",
+    "toggle",
+    "forms"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
 }
