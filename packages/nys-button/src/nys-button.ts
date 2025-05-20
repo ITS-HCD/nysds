@@ -228,7 +228,6 @@ export class NysButton extends LitElement {
               ${this.label
                 ? html`<label class="nys-button__text">${this.label}</label>`
                 : ""}
-              <slot name="icon"></slot>
               ${this.suffixIcon && this.variant !== "text"
                 ? html`<slot name="suffix-icon">
                     <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
