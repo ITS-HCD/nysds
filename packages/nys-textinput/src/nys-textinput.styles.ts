@@ -185,8 +185,8 @@ export default css`
     ); /* Needs to be negative of the offset width */
     --_nys-button-radius-left: var(--_nys-textinput-radius);
     --_nys-button-radius-right: var(--_nys-textinput-radius);
-    --_nys-button-height: 32px;
-    --_nys-button-width: 32px;
+    --_nys-button-height: var(--nys-size-400, 32px);
+    --_nys-button-width: var(--nys-size-400, 32px);
     --_nys-button-padding-x: 0;
   }
 
