@@ -71,6 +71,7 @@ export class NysRadiogroup extends LitElement {
     this.setRadioButtonRequire();
     this._updateRadioButtonsSize();
     this._updateRadioButtonsTile();
+    this._updateRadioButtonsShowError();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -85,6 +86,9 @@ export class NysRadiogroup extends LitElement {
     }
     if (changedProperties.has("tile")) {
       this._updateRadioButtonsTile();
+    }
+    if (changedProperties.has("showError")) {
+      this._updateRadioButtonsShowError();
     }
   }
 
@@ -159,7 +163,17 @@ export class NysRadiogroup extends LitElement {
       } else {
         radioButton.removeAttribute("tile");
       }
-      // Set the tile attribute to "true" or "false" based on the tile property
+    });
+  }
+
+  private _updateRadioButtonsShowError() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.showError) {
+        radioButton.setAttribute("showError", "");
+      } else {
+        radioButton.removeAttribute("showError");
+      }
     });
   }
 
