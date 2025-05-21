@@ -47,13 +47,16 @@ describe("nys-textinput", () => {
       html`<nys-textinput type="password"></nys-textinput>`,
     );
     const input = el.shadowRoot?.querySelector("input");
-    const eyeIcon = el.shadowRoot?.querySelector(".eye-icon") as HTMLElement;
-
-    expect(input?.type).to.equal("password");
-    eyeIcon.click();
+    const eyeButton = el.shadowRoot?.querySelector(
+      "#password-toggle",
+    ) as HTMLElement;
+    const nativeButton = eyeButton.shadowRoot?.querySelector(
+      "button",
+    ) as HTMLButtonElement;
+    nativeButton.click();
     await el.updateComplete;
     expect(input?.type).to.equal("text");
-    eyeIcon.click();
+    nativeButton.click();
     await el.updateComplete;
     expect(input?.type).to.equal("password");
   });
