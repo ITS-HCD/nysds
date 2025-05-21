@@ -1,7 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components";
 import "./nys-alert";
-import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysAlertArgs {
@@ -74,9 +73,9 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-<nys-alert
-  type="info"
-  heading="Information status"
+<nys-alert 
+  type="info" 
+  heading="Information status" 
   text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.">
 </nys-alert>
         `,
@@ -149,9 +148,9 @@ export const AlertType: Story = {
     docs: {
       source: {
         code: `
-<nys-alert
- type="info"
- heading="Information status"
+<nys-alert 
+ type="info" 
+ heading="Information status" 
  text="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.">
 </nys-alert>
 `.trim(),
@@ -233,9 +232,9 @@ export const Dismissible: Story = {
     docs: {
       source: {
         code: `
-<nys-alert
-  type="info"
-  heading="Information status"
+<nys-alert 
+  type="info" 
+  heading="Information status" 
   dismissible>
   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
 </nys-alert>
@@ -272,11 +271,33 @@ export const Duration: Story = {
 
     return html`
       <div class="alert-duration-container">
-        <nys-button
+        <button
           id="show-alert"
-          label="Show Alert"
-          .onClick=${() => showAlert()}
-        ></nys-button>
+          type="button"
+          @click=${showAlert}
+          @keydown="${(e: KeyboardEvent) => {
+            if (
+              e.code === "Enter" ||
+              e.code === "Space" ||
+              e.key === "Enter" ||
+              e.key === " "
+            ) {
+              showAlert();
+            }
+          }}"
+          style="
+          background-color: #154973; 
+          color: white; 
+          border: none; 
+          padding: 10px 20px; 
+          margin-bottom: 10px;
+          font-size: 16px; 
+          border-radius: 5px; 
+          cursor: pointer;
+          "
+        >
+          Show Alert
+        </button>
         <div class="alert-container"></div>
       </div>
     `;
@@ -285,9 +306,9 @@ export const Duration: Story = {
     docs: {
       source: {
         code: `
-<nys-alert
-  type="info"
-  heading="Information status"
+<nys-alert 
+  type="info" 
+  heading="Information status" 
   text="This alert will disappear after 3 seconds."
   duration="3000">
 </nys-alert>
@@ -325,10 +346,10 @@ export const CustomIcon: Story = {
     docs: {
       source: {
         code: `
-<nys-alert
-  type="emergency"
+<nys-alert 
+  type="emergency" 
   heading="Winter storm warning: Dec 10th, 2024."
-  text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+  text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving." 
   icon="help">
 </nys-alert>
 `.trim(),
@@ -364,7 +385,7 @@ export const HeadingOnly: Story = {
     docs: {
       source: {
         code: `
-<nys-alert
+<nys-alert 
   type="info"
   heading="Adirondack peaks auctor Hudson River flows semper Statue of Liberty est."
 >
@@ -406,8 +427,8 @@ export const ActionLinks: Story = {
     docs: {
       source: {
         code: `
-<nys-alert
-  type="emergency"
+<nys-alert 
+  type="emergency" 
   heading="Winter storm warning: Dec 10th, 2024."
   text= "A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
   primaryAction="https://www.ny.gov/"
