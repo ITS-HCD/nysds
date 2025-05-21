@@ -142,6 +142,10 @@ export default css`
     --_nys-checkbox-tile-padding-y: var(--nys-space-150, 12px);
   }
 
+  :host([tile][showError]) {
+    --_nys-checkbox-tile-border-color: var(--nys-color-danger, #b52c2c);
+  }
+
   .nys-checkboxgroup {
     display: flex;
     flex-direction: column;

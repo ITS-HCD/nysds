@@ -280,7 +280,7 @@ export class NysCheckbox extends LitElement {
         <nys-errormessage
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
-          showDivider
+          .showDivider=${!this.tile}
         ></nys-errormessage>
       </div>
     `;

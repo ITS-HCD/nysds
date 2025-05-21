@@ -66,8 +66,8 @@ export class NysCheckboxgroup extends LitElement {
     // This ensures our checkboxes sets the value only once for formData (not within the individual checkboxes)
     this._setGroupExist();
     this.updateCheckboxSize();
-
     this.updateCheckboxTile();
+    this.updateCheckboxShowError();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -81,6 +81,9 @@ export class NysCheckboxgroup extends LitElement {
     }
     if (changedProperties.has("tile")) {
       this.updateCheckboxTile();
+    }
+    if (changedProperties.has("showError")) {
+      this.updateCheckboxShowError();
     }
   }
 
@@ -224,7 +227,17 @@ export class NysCheckboxgroup extends LitElement {
       } else {
         checkbox.removeAttribute("tile");
       }
-      // Set the tile attribute to "true" or "false" based on the tile property
+    });
+  }
+
+  private updateCheckboxShowError() {
+    const checkboxes = this.querySelectorAll("nys-radiobutton");
+    checkboxes.forEach((checkbox) => {
+      if (this.showError) {
+        checkbox.setAttribute("showError", "");
+      } else {
+        checkbox.removeAttribute("showError");
+      }
     });
   }
 
@@ -248,7 +261,7 @@ export class NysCheckboxgroup extends LitElement {
       <nys-errormessage
         ?showError=${this.showError}
         errorMessage=${this._internals.validationMessage || this.errorMessage}
-        showDivider
+        .showDivider=${!this.tile}
       ></nys-errormessage>
     </div>`;
   }
