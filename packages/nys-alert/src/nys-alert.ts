@@ -214,17 +214,7 @@ export class NysAlert extends LitElement {
                   size="sm"
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="close button"
-                  @click=${this._closeAlert}
-                  @keydown="${(e: KeyboardEvent) => {
-                    if (
-                      e.code === "Enter" ||
-                      e.code === "Space" ||
-                      e.key === "Enter" ||
-                      e.key === " "
-                    ) {
-                      this._closeAlert();
-                    }
-                  }}"
+                  .onClick=${() => this._closeAlert()}
                 ></nys-button>`
               : ""}
           </div>`

@@ -36,9 +36,10 @@ describe("nys-alert", () => {
     );
     const dismissButton = el.shadowRoot?.getElementById("dismiss-btn");
     expect(dismissButton).to.exist;
-
-    // Click the dismiss button
-    dismissButton!.click();
+    const nativeButton = dismissButton!.shadowRoot?.querySelector(
+      "button",
+    ) as HTMLButtonElement;
+    nativeButton.click();
     await el.updateComplete;
 
     // Check if the alert is closed by seeing if the container is not in the DOM
@@ -111,29 +112,6 @@ describe("nys-alert", () => {
       "https://example.com/secondary",
     );
     expect(secondaryLink?.textContent?.trim()).to.equal("Cancel");
-  });
-
-  it("should allow dismissing the alert with keyboard", async () => {
-    const el = await fixture<NysAlert>(
-      html`<nys-alert dismissible></nys-alert>`,
-    );
-
-    const dismissBtn = el.shadowRoot?.getElementById("dismiss-btn");
-    expect(dismissBtn).to.exist;
-
-    // Simulate keyboard press (space key)
-    const spaceEvent = new KeyboardEvent("keydown", {
-      key: " ",
-      code: "Space",
-      bubbles: true,
-    });
-    dismissBtn?.dispatchEvent(spaceEvent);
-    await el.updateComplete;
-
-    const containerAfter = el.shadowRoot?.querySelector(
-      ".nys-alert__container",
-    );
-    expect(containerAfter).to.not.exist;
   });
 
   it("passes the a11y audit", async () => {
