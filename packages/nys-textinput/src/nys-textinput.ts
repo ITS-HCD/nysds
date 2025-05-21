@@ -372,13 +372,21 @@ export class NysTextinput extends LitElement {
               @change="${this._handleChange}"
             />
             ${this.type === "password"
-              ? html`<nys-icon
+              ? html` <nys-button
                   class="eye-icon"
-                  @click=${() =>
+                  id="password-toggle"
+                  suffixIcon="slotted"
+                  .onClick=${() =>
                     !this.disabled && this._togglePasswordVisibility()}
-                  name=${this.showPassword ? "visibility_off" : "visibility"}
-                  size="2xl"
-                ></nys-icon>`
+                  variant="ghost"
+                  size="sm"
+                >
+                  <nys-icon
+                    slot="suffix-icon"
+                    size="2xl"
+                    name=${this.showPassword ? "visibility_off" : "visibility"}
+                  ></nys-icon>
+                </nys-button>`
               : ""}
           </div>
           <slot

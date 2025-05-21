@@ -172,12 +172,22 @@ export default css`
 
   .eye-icon {
     position: absolute;
-    right: 10px;
+    right: var(--nys-space-50, 4px);
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--_nys-textinput-icon-color);
-    background-color: transparent;
+    --_nys-button-color-bg: transparent;
+    --_nys-button-color-bg-hover: transparent;
+    --_nys-button-color-bg-active: transparent;
+    --_nys-button-offset-focus: calc(
+      var(--_nys-button-width-focus) * -1
+    ); /* Needs to be negative of the offset width */
+    --_nys-button-radius-left: var(--_nys-textinput-radius);
+    --_nys-button-radius-right: var(--_nys-textinput-radius);
+    --_nys-button-height: var(--nys-size-400, 32px);
+    --_nys-button-width: var(--nys-size-400, 32px);
+    --_nys-button-padding-x: 0;
   }
 
   /* Hovered */
