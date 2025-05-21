@@ -147,6 +147,10 @@ export default css`
     --_nys-radiobutton-tile-padding-y: var(--nys-space-150, 12px);
   }
 
+  :host([tile][showError]) {
+    --_nys-radiobutton-tile-border-color: var(--nys-color-danger, #b52c2c);
+  }
+
   .nys-radiogroup {
     display: flex;
     flex-direction: column;
