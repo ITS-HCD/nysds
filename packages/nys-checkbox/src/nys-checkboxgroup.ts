@@ -242,11 +242,7 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   render() {
-    return html` <div
-      class="nys-checkboxgroup"
-      aria-required="${this.required ? "true" : "false"}"
-      role="group"
-    >
+    return html` <div class="nys-checkboxgroup" role="group">
       <nys-label
         id=${this.id}
         label=${this.label}
