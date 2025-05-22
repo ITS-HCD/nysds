@@ -102,6 +102,7 @@ export class NysCheckboxgroup extends LitElement {
     const firstCheckboxInput = firstCheckbox
       ? await (firstCheckbox as any).getInputElement()
       : null;
+
     if (firstCheckboxInput) {
       // Focus only if this is the first invalid element (top-down approach)
       const form = this._internals.form;

@@ -9,7 +9,21 @@ export default {
     playwrightLauncher({
       product: "chromium",
       launchOptions: {
-        headless: false, // Forces the browser to open in non-headless mode
+        headless: true, // Forces the browser to open in non-headless mode
+        slowMo: 250, // Optional: slows down operations to make debugging easier
+      },
+    }),
+    playwrightLauncher({
+      product: "webkit",
+      launchOptions: {
+        headless: true, // Forces the browser to open in non-headless mode
+        slowMo: 250, // Optional: slows down operations to make debugging easier
+      },
+    }),
+    playwrightLauncher({
+      product: "firefox",
+      launchOptions: {
+        headless: true, // Forces the browser to open in non-headless mode
         slowMo: 250, // Optional: slows down operations to make debugging easier
       },
     }),
@@ -29,6 +43,6 @@ export default {
     }),
   ],
   coverageConfig: {
-    exclude: ["**/node_modules/**', '**/test/**"],
+    exclude: ["**/node_modules/**", "**/test/**"],
   },
 };

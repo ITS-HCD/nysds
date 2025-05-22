@@ -33,7 +33,7 @@ export class NysAlert extends LitElement {
     "danger",
     "emergency",
   ] as const;
-  private _type: (typeof NysAlert.VALID_TYPES)[number] = "info";
+  private _type: (typeof NysAlert.VALID_TYPES)[number] = "base";
 
   @property({ reflect: true })
   get type() {
@@ -179,7 +179,7 @@ export class NysAlert extends LitElement {
               ></nys-icon>
             </div>
             <div class="nys-alert__texts">
-              <div class="nys-alert__header">${this.heading}</div>
+              <p class="nys-alert__header">${this.heading}</p>
               ${this._slotHasContent
                 ? html`<slot></slot>`
                 : this.text?.trim().length > 0
@@ -214,17 +214,7 @@ export class NysAlert extends LitElement {
                   size="sm"
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="close button"
-                  @click=${this._closeAlert}
-                  @keydown="${(e: KeyboardEvent) => {
-                    if (
-                      e.code === "Enter" ||
-                      e.code === "Space" ||
-                      e.key === "Enter" ||
-                      e.key === " "
-                    ) {
-                      this._closeAlert();
-                    }
-                  }}"
+                  .onClick=${() => this._closeAlert()}
                 ></nys-button>`
               : ""}
           </div>`

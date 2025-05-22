@@ -5,6 +5,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
@@ -60,6 +61,11 @@ export class NysTextinput extends LitElement {
         ? this.width
         : "full";
     }
+
+    if (changedProperties.has("disabled")) {
+      this._validateButtonSlot("startButton");
+      this._validateButtonSlot("endButton");
+    }
   }
 
   @property({ type: Number }) step = null;
@@ -90,7 +96,7 @@ export class NysTextinput extends LitElement {
       this.id = `nys-textinput-${Date.now()}-${textinputIdCounter++}`;
     }
 
-    this._originalErrorMessage = this.errorMessage;
+    this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -123,7 +129,7 @@ export class NysTextinput extends LitElement {
 
     const message = this.errorMessage || "This field is required";
     const isInvalid =
-      this.required && (!this.value || this.value.trim() === ""); // Check for blank as well
+      this.required && (!this.value || this.value?.trim() === ""); // Check for blank as well
 
     if (isInvalid) {
       this._internals.ariaRequired = "true";
@@ -143,7 +149,7 @@ export class NysTextinput extends LitElement {
     this.showError = !!message;
 
     // Use the original errorMessage if defined, or keep the message from validation
-    if (this._originalErrorMessage.trim() && message !== "") {
+    if (this._originalErrorMessage?.trim() && message !== "") {
       this.errorMessage = this._originalErrorMessage;
     } else {
       this.errorMessage = message;
@@ -266,6 +272,54 @@ export class NysTextinput extends LitElement {
     this.dispatchEvent(new Event("change"));
   }
 
+  private _validateButtonSlot(slotName: string) {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="' + slotName + '"]',
+    ) as HTMLSlotElement;
+    const container = this.shadowRoot?.querySelector(
+      ".nys-textinput__buttoncontainer",
+    );
+
+    if (!slot || !container) return;
+
+    const assignedElements = slot.assignedElements();
+
+    let foundValidButton = false;
+
+    assignedElements.forEach((node) => {
+      const isNysButton =
+        node instanceof HTMLElement &&
+        node.tagName.toLowerCase() === "nys-button";
+
+      if (isNysButton && !foundValidButton) {
+        // First valid nys-button found
+        foundValidButton = true;
+        node.setAttribute("size", "sm");
+        node.setAttribute("variant", "primary");
+        //set button to be disabled if the input is disabled
+        if (this.disabled) {
+          node.setAttribute("disabled", "true");
+        } else {
+          node.removeAttribute("disabled");
+        }
+      } else {
+        console.warn(
+          "The '" +
+            slotName +
+            "' slot only accepts a single <nys-button> element. Removing invalid or extra node:",
+          node,
+        );
+        node.remove();
+      }
+    });
+
+    if (slotName === "startButton") {
+      container.classList.toggle("has-start-button", foundValidButton);
+    } else if (slotName === "endButton") {
+      container.classList.toggle("has-end-button", foundValidButton);
+    }
+  }
+
   render() {
     return html`
       <div class="nys-textinput">
@@ -277,47 +331,68 @@ export class NysTextinput extends LitElement {
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
-        <div class="nys-input-container ${this.disabled ? "disabled" : ""}">
-          <input
-            class="nys-textinput__input"
-            type=${this.type === "password"
-              ? this.showPassword
-                ? "text"
-                : "password"
-              : this.type}
-            name=${this.name}
-            id=${this.id}
-            ?disabled=${this.disabled}
-            ?required=${this.required}
-            ?readonly=${this.readonly}
-            aria-disabled="${this.disabled}"
-            aria-label="${this.label} ${this.description}"
-            .value=${this.value}
-            placeholder=${ifDefined(
-              this.placeholder ? this.placeholder : undefined,
-            )}
-            pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
-            min=${ifDefined(this.min !== "" ? this.min : undefined)}
-            maxlength=${ifDefined(
-              this.maxlength !== "" ? this.maxlength : undefined,
-            )}
-            step=${ifDefined(this.step !== "" ? this.step : undefined)}
-            max=${ifDefined(this.max !== "" ? this.max : undefined)}
-            form=${ifDefined(this.form ? this.form : undefined)}
-            @input=${this._handleInput}
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-            @change="${this._handleChange}"
-          />
-          ${this.type === "password"
-            ? html`<nys-icon
-                class="eye-icon"
-                @click=${() =>
-                  !this.disabled && this._togglePasswordVisibility()}
-                name=${this.showPassword ? "visibility_off" : "visibility"}
-                size="2xl"
-              ></nys-icon>`
-            : ""}
+        <div class="nys-textinput__buttoncontainer">
+          <slot
+            name="startButton"
+            @slotchange=${this._validateButtonSlot("startButton")}
+          ></slot>
+          <div class="nys-textinput__container">
+            <input
+              class="nys-textinput__input"
+              type=${this.type === "password"
+                ? this.showPassword
+                  ? "text"
+                  : "password"
+                : this.type}
+              name=${this.name}
+              id=${this.id}
+              ?disabled=${this.disabled}
+              ?required=${this.required}
+              ?readonly=${this.readonly}
+              aria-required=${this.required}
+              aria-disabled="${this.disabled}"
+              aria-label="${[this.label, this.description]
+                .filter(Boolean)
+                .join(" ")}"
+              .value=${this.value}
+              placeholder=${ifDefined(
+                this.placeholder ? this.placeholder : undefined,
+              )}
+              pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
+              min=${ifDefined(this.min !== "" ? this.min : undefined)}
+              maxlength=${ifDefined(
+                this.maxlength !== "" ? this.maxlength : undefined,
+              )}
+              step=${ifDefined(this.step !== "" ? this.step : undefined)}
+              max=${ifDefined(this.max !== "" ? this.max : undefined)}
+              form=${ifDefined(this.form ? this.form : undefined)}
+              @input=${this._handleInput}
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+              @change="${this._handleChange}"
+            />
+            ${this.type === "password"
+              ? html` <nys-button
+                  class="eye-icon"
+                  id="password-toggle"
+                  suffixIcon="slotted"
+                  .onClick=${() =>
+                    !this.disabled && this._togglePasswordVisibility()}
+                  variant="ghost"
+                  size="sm"
+                >
+                  <nys-icon
+                    slot="suffix-icon"
+                    size="2xl"
+                    name=${this.showPassword ? "visibility_off" : "visibility"}
+                  ></nys-icon>
+                </nys-button>`
+              : ""}
+          </div>
+          <slot
+            name="endButton"
+            @slotchange=${this._validateButtonSlot("endButton")}
+          ></slot>
         </div>
         <nys-errormessage
           ?showError=${this.showError}

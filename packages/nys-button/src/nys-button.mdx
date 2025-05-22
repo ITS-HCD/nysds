@@ -1,6 +1,7 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/blocks";
 import { html } from "lit";
 import * as NysButtonStories from "./nys-button.stories";
+import "@nysds/nys-alert"
 
 <Meta of={NysButtonStories} title="Components/Button/Documentation" />
 
@@ -9,6 +10,13 @@ import * as NysButtonStories from "./nys-button.stories";
 The **`nys-button`** component is a reusable web component for use in New York State digital products.
 
 If an id is not passed, a unique id will be generated.
+
+<nys-alert type="warning" heading="Usage Guidance">
+If using the `nys-button` as a subcomponent in other nys components be sure to call the function on the
+`.onClick` prop. This will ensure that the button is accessible and can be used by all users. If you use
+`@click` the button will not be accessible to users relying on keyboard navigation.
+</nys-alert>
+<br/>
 
 <p className="pill pill--stable">Stable</p>
 
@@ -22,7 +30,7 @@ If an id is not passed, a unique id will be generated.
 
 <Controls />
 
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>
 	<nys-icon size="xl" name="info"></nys-icon> The button component takes the property `onClick`, which is a function that is called when the button is clicked.
 </div>
 ```html
@@ -66,7 +74,7 @@ Set the `variant` prop of the **`nys-button`** to adjust the appearance of the b
 Set the `prefixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the left of the label.\
 Set the `suffixIcon` prop of the **`nys-button`** to include an icon in the button. The icon will appear to the right of the label.
 
-If you wish to create a button with just an icon and no text, you can set the `ariaLabel` prop. This will allow users who rely on screen readers to understand the purpose of the button even though there is no visible label. 
+If you wish to create a button with just an icon and no text, you can set the `ariaLabel` prop. This will allow users who rely on screen readers to understand the purpose of the button even though there is no visible label.
 
 <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The `aria-label` is automatically set to the label prop if provided, or defaults to "button"."</div>
 <Canvas of={NysButtonStories.Icons} />
@@ -98,12 +106,16 @@ Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the 
 <div className="nys-grid-row nys-grid-gap-lg">
 	<div className="nys-mobile-lg:nys-grid-col">
 		<div className="usage-card usage-card--do">
-			### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do - When users need to submit a form. - When users need to navigate to a different page. - When users need to trigger an action.
+			### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+			- When users need to submit a form.
+			- When users need to navigate to a different page.
+			- When users need to trigger an action.
 		</div>
 	</div>
 	<div className="nys-mobile-lg:nys-grid-col">
 		<div className="usage-card usage-card--dont">
-			### <nys-icon name="cancel" color="--var(nys-color-error)" /> Don't - Use inverted buttons on a light background. - Use buttons with icons only.
+			### <nys-icon name="cancel" color="--var(nys-color-error)" /> Don't
+			- Use inverted buttons on a light background. - Use buttons with icons only.
 		</div>
 	</div>
 </div>

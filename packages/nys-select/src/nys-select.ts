@@ -134,7 +134,7 @@ export class NysSelect extends LitElement {
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
     // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage.trim() && message !== "") {
+    if (this.errorMessage?.trim() && message !== "") {
       message = this.errorMessage;
     }
 
@@ -265,7 +265,9 @@ export class NysSelect extends LitElement {
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-disabled="${this.disabled}"
-            aria-label="${this.label} ${this.description}"
+            aria-label="${[this.label, this.description]
+              .filter(Boolean)
+              .join(" ")}"
             .value=${this.value}
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
