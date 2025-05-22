@@ -225,8 +225,7 @@ export default css`
   }
   :host([tile])
     .nys-radiobutton:has(.nys-radiobutton__radio:not(:disabled):checked:hover) {
-    outline: solid var(--_nys-radiobutton-tile-border-width)
-      var(--_nys-radiobutton-checked-tile-border-color);
+    cursor: default;
   }
 
   /* Checked + Disabled */
