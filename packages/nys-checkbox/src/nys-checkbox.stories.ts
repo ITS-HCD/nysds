@@ -574,6 +574,7 @@ export const ErrorMessage: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .tile=${args.tile}
     ></nys-checkbox>
   `,
   parameters: {

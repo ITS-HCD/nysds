@@ -277,12 +277,12 @@ export class NysCheckbox extends LitElement {
             </label>
           </div>`}
         </label>
-        <nys-errormessage
-          ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
-          .showDivider=${!this.tile}
-        ></nys-errormessage>
       </div>
+      <nys-errormessage
+        ?showError=${this.showError}
+        errorMessage=${this._internals.validationMessage || this.errorMessage}
+        .showDivider=${!this.tile}
+      ></nys-errormessage>
     `;
   }
 }
