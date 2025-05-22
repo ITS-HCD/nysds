@@ -10,7 +10,7 @@ export default css`
     --_nys-checkbox-width-border: var(--nys-border-width-md, 2px);
     --_nys-checkbox-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-checkbox-width-focus: var(--nys-border-width-md, 2px);
-    --_nys-checkbox-offset-focus: var(--nys-space-2px, 2px);
+    --_nys-checkbox-outline-offset: var(--nys-space-2px, 2px);
     /* space between checkbox and it's label */
     --_nys-checkbox-gap: var(--nys-space-150, 12px);
     /* space between checkboxes */
@@ -20,6 +20,7 @@ export default css`
     --_nys-checkbox-tile-border-radius: var(--nys-radius-md, 4px);
     --_nys-checkbox-tile-border-color: transparent;
     --_nys-checkbox-tile-color-bg: transparent;
+    --_nys-checkbox-tile-outline-offset: 0;
 
     /* Typography */
     --_nys-checkbox-font-family: var(
@@ -167,7 +168,7 @@ export default css`
     font-family: var(--_nys-checkbox-font-family);
     font-size: var(--_nys-checkbox-font-size);
     line-height: var(--_nys-checkbox-line-height);
-    outline-offset: var(--_nys-checkbox-offset-focus);
+    outline-offset: var(--_nys-checkbox-tile-outline-offset);
 
     /* Tile */
     border-radius: var(--_nys-checkbox-tile-border-radius);
@@ -216,7 +217,7 @@ export default css`
       var(--_nys-checkbox-color-border);
     background-color: var(--_nys-checkbox-color-bg);
     border-radius: var(--_nys-checkbox-radius);
-    outline-offset: var(--_nys-checkbox-offset-focus);
+    outline-offset: var(--_nys-checkbox-outline-offset);
     outline: none;
   }
 
@@ -233,14 +234,22 @@ export default css`
   }
   :host([tile])
     .nys-checkbox:has(.nys-checkbox__checkbox:not(:disabled):checked) {
-    border-color: var(--_nys-checkbox-checked-color-bg);
+    border-color: var(--_nys-checkbox-checked-tile-border-color);
     background-color: var(--_nys-checkbox-checked-tile-color-bg);
+    outline: solid var(--_nys-checkbox-tile-border-width)
+      var(--_nys-checkbox-checked-tile-border-color);
   }
 
   /* Checked + Disabled */
   .nys-checkbox__checkbox:disabled:checked {
     background-color: var(--_nys-checkbox-disabled-checked-color-bg);
     border-color: var(--_nys-checkbox-disabled-checked-color-border);
+  }
+  :host([tile]) .nys-checkbox:has(.nys-checkbox__checkbox:disabled:checked) {
+    border-color: var(--_nys-checkbox-disabled-checked-color-border);
+    background-color: var(--_nys-checkbox-hover-tile-color-bg);
+    outline: solid var(--_nys-checkbox-tile-border-width)
+      var(--_nys-checkbox-disabled-checked-color-border);
   }
 
   /* Disabled */
@@ -267,11 +276,13 @@ export default css`
     border-color: var(--_nys-checkbox-hover-color-border);
   }
   :host([tile])
-    .nys-checkbox:has(
-      .nys-checkbox__checkbox:hover:not(:disabled):not(:checked)
+    .nys-checkbox:hover:has(
+      .nys-checkbox__checkbox:not(:disabled):not(:checked)
     ) {
     border-color: var(--_nys-checkbox-hover-color-border);
-    background-color: var(--_nys-checkbox-hover-color-bg);
+    background-color: var(--_nys-checkbox-hover-tile-color-bg);
+    outline: solid var(--_nys-checkbox-tile-border-width)
+      var(--_nys-checkbox-hover-color-border);
   }
 
   /* Pressed - only allow pressed on unchecked */
@@ -286,8 +297,9 @@ export default css`
       var(--_nys-checkbox-color-focus);
   }
   :host([tile]) .nys-checkbox:has(*:focus) {
-    outline: solid var(--_nys-checkbox-width-focus)
+    outline: solid var(--_nys-checkbox-tile-border-width)
       var(--_nys-checkbox-color-focus);
+    border-color: var(--_nys-checkbox-color-focus);
   }
 
   /* Checkbox Label Holder */
