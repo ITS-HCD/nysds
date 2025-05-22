@@ -138,12 +138,12 @@ export default css`
     );
     /* Checked */
     --_nys-radiobutton-checked-tile-border-color: var(
-      --nys-color-theme,
-      #154973
+      --nys-color-theme-mid,
+      #457aa5
     );
     --_nys-radiobutton-checked-tile-bg-color: var(
-      --nys-color-theme-weaker,
-      #eff6fb
+      --nys-color-theme-faint,
+      #f7fafd
     );
   }
 
@@ -220,8 +220,11 @@ export default css`
   }
   :host([tile])
     .nys-radiobutton:has(.nys-radiobutton__radio:not(:disabled):checked) {
-    border-color: var(--_nys-radiobutton-checked-color-bg);
+    border-color: var(--_nys-radiobutton-checked-tile-border-color);
     background-color: var(--_nys-radiobutton-checked-tile-bg-color);
+  }
+  :host([tile])
+    .nys-radiobutton:has(.nys-radiobutton__radio:not(:disabled):checked:hover) {
     outline: solid var(--_nys-radiobutton-tile-border-width)
       var(--_nys-radiobutton-checked-tile-border-color);
   }
