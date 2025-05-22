@@ -145,6 +145,15 @@ export default css`
       --nys-color-theme-faint,
       #f7fafd
     );
+    /* Disabled */
+    --_nys-radiobutton-disabled-tile-bg-color: var(
+      --nys-color-ink-reverse,
+      #f0f0f0
+    );
+    --_nys-radiobutton-disabled-tile-border-color: var(
+      --nys-color-neutral-100,
+      #d0d0ce
+    );
   }
 
   :host([tile][size="sm"]) {
@@ -247,7 +256,7 @@ export default css`
     background-color: var(--_nys-radiobutton-disabled-checked-color-bg);
   }
   :host([tile]) .nys-radiobutton:has(.nys-radiobutton__radio:disabled:checked) {
-    border-color: var(--_nys-radiobutton-disabled-checked-color-border);
+    border-color: var(--_nys-radiobutton-disabled-tile-border-color);
     background-color: var(--_nys-radiobutton-disabled-tile-bg-color);
   }
 
