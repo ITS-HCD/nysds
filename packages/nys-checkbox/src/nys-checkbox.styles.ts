@@ -155,7 +155,7 @@ export default css`
   }
 
   #single-error-message {
-    --_nys-errormessage-margin-top: var(--nys-space-100, 8px);
+    --_nys-errormessage-margin-top: var(--nys-space-50, 4px);
   }
 
   .nys-checkboxgroup {
