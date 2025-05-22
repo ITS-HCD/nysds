@@ -1,39 +1,44 @@
-/*** Accessibility tests ***/
-/*
- * Ensure checkbox has a label property to provide accessible text for screen readers:
- * - If description exist, it should be used readable for screen readers.
- * - If text contains prop "optional", make sure it is readable to screen readers.
- */
+import { expect, html, fixture } from "@open-wc/testing";
+import "../dist/nys-checkbox.js";
+import { NysCheckbox } from "../dist/nys-checkbox.js";
 
-/*
- * Clicking the label
- * - The aria-checked attribute should be dynamically set to "true" when the checkbox is checked and "false" when it is unchecked.
- */
+// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
+describe("nys-checkbox", () => {
+  it("renders the component", async () => {
+    const el = await fixture(html`<nys-checkbox></nys-checkbox>`);
+    expect(el).to.exist;
+  });
 
-/*
- * Ensure aria-checked is correctly set based on the checkbox's checked state:
- * - The aria-checked attribute should be dynamically set to "true" when the checkbox is checked and "false" when it is unchecked.
- */
+  it("reflects attributes to properties", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox label="My Label" required></nys-checkbox>
+    `);
+    expect(el.label).to.equal("My Label");
+    expect(el.required).to.be.true;
+  });
 
-/*
- * Ensure aria-required is set correctly when the checkbox is required:
- * - When the checkbox is required (this.required = true), the aria-required attribute should be set to "true."
- */
+  it("tile prop render", async () => {
+    const el = await fixture(html`
+      <nys-checkboxgroup tile>
+        <nys-checkbox label="My Label"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    expect(el.hasAttribute("tile")).to.be.true;
+  });
 
-/*
- * Ensure aria-disabled is set correctly when the checkbox is disabled:
- * - When the checkbox is disabled (this.disabled = true), the aria-disabled attribute should be set to "true."
- */
+  it("passes the a11y audit", async () => {
+    const el = await fixture(
+      html`<nys-checkbox label="My Label"></nys-checkbox>`,
+    );
+    await expect(el).shadowDom.to.be.accessible();
+  });
 
-/*
- * Ensure checkbox is focusable and keyboard accessibility.
- */
-
-/*
- * Ensure the checkbox has error messaging for invalid states:
- * - Ex: if checkbox GROUP required, checkboxes must have one checked
- * - Ex: if INDIVIDUAL checkbox required, checkbox must be checked
- */
-
-/* ACCESSIBILITY INSIGHT TOOL (Feedback) */
-// "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+  // Other test to consider:
+  // - Test for default values
+  // - Test for different attributes
+  // - Test for events
+  // - Test for methods
+  // - Test for accessibility
+  // - Test for slot content
+  // - Test for lifecycle methods
+});
