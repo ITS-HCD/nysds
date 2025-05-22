@@ -231,7 +231,7 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   private updateCheckboxShowError() {
-    const checkboxes = this.querySelectorAll("nys-radiobutton");
+    const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox) => {
       if (this.showError) {
         checkbox.setAttribute("showError", "");

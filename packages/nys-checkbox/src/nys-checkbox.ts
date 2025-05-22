@@ -278,11 +278,15 @@ export class NysCheckbox extends LitElement {
           </div>`}
         </label>
       </div>
-      <nys-errormessage
-        ?showError=${this.showError}
-        errorMessage=${this._internals.validationMessage || this.errorMessage}
-        .showDivider=${!this.tile}
-      ></nys-errormessage>
+      ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
+        ? html`<nys-errormessage
+            id="single-error-message"
+            ?showError=${this.showError}
+            errorMessage=${this._internals.validationMessage ||
+            this.errorMessage}
+            .showDivider=${!this.tile}
+          ></nys-errormessage>`
+        : ""}
     `;
   }
 }
