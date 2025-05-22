@@ -276,7 +276,7 @@ export default css`
     cursor: not-allowed;
   }
 
-  /* Hover - only allow hover on unchecked */
+  /* Hover - not checked */
   .nys-checkbox__checkbox:hover:not(:disabled):not(:checked) {
     background-color: var(--_nys-checkbox-hover-color-bg);
     border-color: var(--_nys-checkbox-hover-color-border);
@@ -289,6 +289,13 @@ export default css`
     background-color: var(--_nys-checkbox-hover-tile-bg-color);
     outline: solid var(--_nys-checkbox-tile-border-width)
       var(--_nys-checkbox-hover-tile-border-color);
+  }
+
+  /* Hover + Checked */
+  :host([tile])
+    .nys-checkbox:hover:has(.nys-checkbox__checkbox:not(:disabled):checked) {
+    outline: solid var(--_nys-checkbox-tile-border-width)
+      var(--_nys-checkbox-checked-tile-border-color);
   }
 
   /* Pressed - only allow pressed on unchecked */

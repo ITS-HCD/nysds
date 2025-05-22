@@ -249,8 +249,6 @@ export default css`
   :host([tile]) .nys-radiobutton:has(.nys-radiobutton__radio:disabled:checked) {
     border-color: var(--_nys-radiobutton-disabled-checked-color-border);
     background-color: var(--_nys-radiobutton-disabled-tile-bg-color);
-    outline: solid var(--_nys-radiobutton-tile-border-width)
-      var(--_nys-radiobutton-disabled-checked-color-border);
   }
 
   /* Disabled */
