@@ -154,6 +154,14 @@ export default css`
 
   :host([tile][showError]) {
     --_nys-radiobutton-tile-border-color: var(--nys-color-danger, #b52c2c);
+    --_nys-radiobutton-hover-tile-border-color: var(
+      --nys-color-danger,
+      #b52c2c
+    );
+    --_nys-radiobutton-pressed-tile-border-color: var(
+      --nys-color-danger,
+      #b52c2c
+    );
   }
 
   .nys-radiogroup {
