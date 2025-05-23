@@ -10,6 +10,7 @@ interface NysCheckboxArgs {
   label: string;
   description: string;
   size: string;
+  tile: boolean;
   disabled: boolean;
   value: string;
   required: boolean;
@@ -28,6 +29,7 @@ const meta: Meta<NysCheckboxArgs> = {
     label: { control: "text" },
     description: { control: "text" },
     size: { control: "select", options: ["sm", "md"] },
+    tile: { control: "boolean" },
     disabled: { control: "boolean" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
@@ -66,6 +68,7 @@ export const Basic: Story = {
       label="Select your favorite New York landmarks"
       description="Choose from the options below"
       size=${args.size}
+      .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -154,6 +157,7 @@ export const Grouping: Story = {
         label=${args.label}
         description=${args.description}
         size=${args.size}
+        .tile=${args.tile}
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
         .required=${args.required}
@@ -334,6 +338,95 @@ export const Size: Story = {
       label="Select your favorite New York landmarks"
       description="Choose from the options below"
       size=${args.size}
+      .tile=${args.tile}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-checkbox
+        .checked=${args.checked}
+        .disabled=${args.disabled}
+        .required=${args.required}
+        .optional=${args.optional}
+        .label=${args.label}
+        .description=${args.description}
+        .name=${args.name}
+        .value=${args.value}
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="finger-lakes"
+        label="Finger Lakes"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="catskills"
+        label="Catskills"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="niagara-falls"
+        label="Niagara Falls"
+        checked
+      ></nys-checkbox>
+      <nys-checkbox
+        name="landmarks"
+        value="coney-island"
+        label="Coney Island"
+      ></nys-checkbox>
+      <nys-checkbox
+        label="Mount Greylock"
+        description="This is disabled because it's not in New York."
+        disabled
+      ></nys-checkbox>
+    </nys-checkboxgroup>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Select your favorite New York landmarks"
+  description="Choose from the options below"
+  size="sm"
+>
+  <nys-checkbox
+    name="landmarks"
+    value="adirondacks"
+    label="Adirondacks"
+    errorMessage="You must select this box to continue"
+    checked
+  ></nys-checkbox>
+  <nys-checkbox name="landmarks" value="finger-lakes" label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="catskills" label="Catskills" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara-falls" label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="coney-island" label="Coney Island"></nys-checkbox>
+  <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
+</nys-checkboxgroup>
+
+        `,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Tile: Story = {
+  args: {
+    checked: true,
+    label: "Adirondacks",
+    description: "",
+    name: "landmarks",
+    value: "adirondacks",
+    tile: true,
+  },
+  render: (args) => html`
+    <nys-checkboxgroup
+      label="Select your favorite New York landmarks"
+      description="Choose from the options below"
+      size=${args.size}
+      .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -481,6 +574,7 @@ export const ErrorMessage: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .tile=${args.tile}
     ></nys-checkbox>
   `,
   parameters: {
@@ -546,7 +640,7 @@ export const Slot: Story = {
   name="subscribe"
   value="email-updates"
 >
-  <label slot="description"> Read about previous updates 
+  <label slot="description"> Read about previous updates
     <a href="https://www.ny.gov/" target="__blank">here</a>
   </label>
 </nys-checkbox>
@@ -574,6 +668,7 @@ export const Optional: Story = {
       label="Select your favorite New York landmarks"
       description="Choose from the options below"
       size=${args.size}
+      .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
       .required=${args.required}

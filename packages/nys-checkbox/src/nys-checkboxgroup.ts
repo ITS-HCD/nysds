@@ -15,6 +15,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  @property({ type: Boolean, reflect: true }) tile = false;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
 
@@ -64,6 +65,9 @@ export class NysCheckboxgroup extends LitElement {
   firstUpdated() {
     // This ensures our checkboxes sets the value only once for formData (not within the individual checkboxes)
     this._setGroupExist();
+    this.updateCheckboxSize();
+    this.updateCheckboxTile();
+    this.updateCheckboxShowError();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -74,6 +78,12 @@ export class NysCheckboxgroup extends LitElement {
     }
     if (changedProperties.has("size")) {
       this.updateCheckboxSize();
+    }
+    if (changedProperties.has("tile")) {
+      this.updateCheckboxTile();
+    }
+    if (changedProperties.has("showError")) {
+      this.updateCheckboxShowError();
     }
   }
 
@@ -209,12 +219,30 @@ export class NysCheckboxgroup extends LitElement {
     });
   }
 
+  private updateCheckboxTile() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (this.tile) {
+        checkbox.toggleAttribute("tile", true);
+      } else {
+        checkbox.removeAttribute("tile");
+      }
+    });
+  }
+
+  private updateCheckboxShowError() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (this.showError) {
+        checkbox.setAttribute("showError", "");
+      } else {
+        checkbox.removeAttribute("showError");
+      }
+    });
+  }
+
   render() {
-    return html` <div
-      class="nys-checkboxgroup"
-      aria-required="${this.required ? "true" : "false"}"
-      role="group"
-    >
+    return html` <div class="nys-checkboxgroup" role="group">
       <nys-label
         id=${this.id}
         label=${this.label}
@@ -229,7 +257,7 @@ export class NysCheckboxgroup extends LitElement {
       <nys-errormessage
         ?showError=${this.showError}
         errorMessage=${this._internals.validationMessage || this.errorMessage}
-        showDivider
+        .showDivider=${!this.tile}
       ></nys-errormessage>
     </div>`;
   }
