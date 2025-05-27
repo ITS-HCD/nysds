@@ -21,7 +21,7 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: 'Component description'
+      label: Component description
       description: |
         Briefly tell us the purpose of this component.
       value:
@@ -30,7 +30,7 @@ body:
   - type: textarea
     id: need
     attributes:
-      label: 'Why the NYS Design System needs this component'
+      label: Why the NYS Design System needs this component
       description: |
         Include key interactions, current gaps in NYS Design System, and the problems this component solves. Explain how the component supports state laws, guidance, or policies.
       value:
@@ -41,38 +41,61 @@ body:
       value: |
         ## Component details
   - type: textarea
-    id: design
+    id: api
     attributes:
-      label: 'How the component works'
+      label: Component API
       description: |
-        Describe how the component works. Include any interactive states and variants. Diagrams, images, wireframes, and prototypes can help you make your case.
+        List the props, slots, and events for each component element.
+        Please format as:
+        - propName (type) – Description (e.g. "required (boolean) – Marks field as required")
+        - slotName – Description
+        - nysCustomEventName – Description
       value:
     validations:
       required: false
   - type: textarea
-    id: implementation
+    id: behavior
     attributes:
-      label: 'Real-world examples'
+      label: Functionality and behavior
       description: |
-        Link to examples of other sites — preferably government sites — that use this kind of component.
+        Describe component behavior, edge cases, and interactions. Include any special considerations for mobile or desktop (responsiveness).
+        Include any min/max usage recommendations. 
       value:
     validations:
       required: false
   - type: textarea
-    id: when_to_use
+    id: decisions
     attributes:
-      label: When to use this component and when to consider something else
+      label: Team Decisions (for NYSDS team use)
       description: |
-        What kind of content works best with this component, and what kind of content would work poorly with it? What are common misuses of this type of component?
+        Document decisions made by the team during the proposal meeting of "to do" and "what not to do."
+        Example:
+        - Don’t show nested steps
+        - Only support linear flows
+        - Use discrete steps instead of a continuous progress bar
+        - Button slot sticks to the top on scroll      
       value:
     validations:
       required: false
   - type: textarea
-    id: usability
+    id: questions
     attributes:
-      label: Usability considerations
+      label: Outstanding Questions
       description: |
-        Include conditions that would make this component more usable or less usable. Also include common pitfalls or implementation mistakes associated with this component.
+        List open questions for the feedback window. These may need design input, dev review, or user research.
+        Example:
+        - Should we support optional steps that users can skip?
+        - Should we show descriptions under step labels?
+      value:
+    validations:
+      required: false
+  - type: textarea
+    id: references
+    attributes:
+      label: Comparatives / References
+      description: |
+        Link to comparable components or design systems (e.g. USWDS, Shoelace, Material, etc).
+        Include screenshots or internal examples when possible.
       value:
     validations:
       required: false
