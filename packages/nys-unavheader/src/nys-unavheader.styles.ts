@@ -106,6 +106,11 @@ export default css`
     background-color: var(--nys-color-neutral-100, #d0d0ce);
     padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     min-height: var(--nys-space-400, 32px);
+    cursor: pointer;
+  }
+
+  .nys-unavheader__toptrustbar * {
+    cursor: pointer;
   }
 
   .nys-unavheader__left,

@@ -104,7 +104,20 @@ export class NysUnavHeader extends LitElement {
     return html`
       <header class="nys-unavheader">
         <div class="nys-unavheader__trustbarwrapper">
-          <div class="nys-unavheader__toptrustbar">
+          <div
+            class="nys-unavheader__toptrustbar"
+            @click="${this._toggleTrustbar}"
+            @keydown="${(e: KeyboardEvent) => {
+              if (
+                e.code === "Enter" ||
+                e.code === "Space" ||
+                e.key === "Enter" ||
+                e.key === " "
+              ) {
+                this._toggleTrustbar();
+              }
+            }}"
+          >
             <div class="nys-unavheader__officialmessage">
               <label id="nys-unavheader__official"
                 >An official website of New York State</label
@@ -115,7 +128,6 @@ export class NysUnavHeader extends LitElement {
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
-                .onClick="${() => this._toggleTrustbar()}"
               >
                 <nys-icon
                   slot="suffix-icon"
@@ -124,17 +136,6 @@ export class NysUnavHeader extends LitElement {
                 ></nys-icon>
               </nys-button>
             </div>
-            ${this.trustbarVisible
-              ? html`<nys-button
-                  id="nys-unavheader__closetrustbar"
-                  class="nys-unavheader__iconbutton"
-                  variant="ghost"
-                  prefixIcon="close"
-                  size="sm"
-                  ariaLabel="Close trustbar"
-                  .onClick="${() => this._toggleTrustbar()}"
-                ></nys-button>`
-              : null}
           </div>
           <div
             class="nys-unavheader__trustbar ${this.trustbarVisible
@@ -160,6 +161,15 @@ export class NysUnavHeader extends LitElement {
                 >
               </div>
             </div>
+            <nys-button
+              id="nys-unavheader__closetrustbar"
+              class="nys-unavheader__iconbutton"
+              variant="ghost"
+              prefixIcon="close"
+              size="sm"
+              ariaLabel="Close trustbar"
+              .onClick="${() => this._toggleTrustbar()}"
+            ></nys-button>
           </div>
         </div>
         <div class="nys-unavheader__mainwrapper" id="nys-universal-navigation">
