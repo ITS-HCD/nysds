@@ -56,7 +56,7 @@ export class NysGlobalFooter extends LitElement {
           const cleanNode = node.cloneNode(true);
 
           // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
-          const dangerousTags = ["script", "iframe", "object", "embed"];
+          const dangerousTags = ["script", "iframe", "object", "embed", "img"];
           dangerousTags.forEach((tag) => {
             (cleanNode as Element)
               .querySelectorAll(tag)
