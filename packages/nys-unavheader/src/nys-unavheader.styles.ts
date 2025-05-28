@@ -48,11 +48,11 @@ export default css`
     justify-content: center;
   }
 
-  .nys-unavheader__xs,
-  .nys-unavheader__sm,
-  .nys-unavheader__md,
-  .nys-unavheader__lg,
-  .nys-unavheader__xl {
+  .nys-unavheader--xs,
+  .nys-unavheader--sm,
+  .nys-unavheader--md,
+  .nys-unavheader--lg,
+  .nys-unavheader--xl {
     display: none;
   }
 
@@ -260,7 +260,7 @@ export default css`
       gap: 0;
     }
 
-    .nys-unavheader__xs {
+    .nys-unavheader--xs {
       display: contents;
     }
   }
@@ -271,7 +271,7 @@ export default css`
       --_nys-unavheader-gutter: var(--nys-gutter-sm, 20px);
     }
 
-    .nys-unavheader__sm {
+    .nys-unavheader--sm {
       display: contents;
     }
   }
@@ -285,7 +285,7 @@ export default css`
       flex-direction: row;
     }
 
-    .nys-unavheader__md {
+    .nys-unavheader--md {
       display: contents;
     }
   }
@@ -301,7 +301,7 @@ export default css`
     .nys-unavheader__trustcontent {
       flex-direction: row;
     }
-    .nys-unavheader__lg {
+    .nys-unavheader--lg {
       display: contents;
     }
   }
@@ -314,7 +314,7 @@ export default css`
     .nys-unavheader__trustcontent {
       flex-direction: row;
     }
-    .nys-unavheader__xl {
+    .nys-unavheader--xl {
       display: contents;
     }
   }

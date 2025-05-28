@@ -103,7 +103,7 @@ export class NysUnavHeader extends LitElement {
   render() {
     return html`
       <header class="nys-unavheader">
-        <div class="nys-unavheader__xs nys-unavheader__sm">
+        <div class="nys-unavheader--xs nys-unavheader--sm">
           <div class="nys-unavheader__toptrustbar">
             <div class="nys-unavheader__officialmessage">
               <label id="nys-unavheader__official"
@@ -175,7 +175,7 @@ export class NysUnavHeader extends LitElement {
                 <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
               >
               <div
-                class="nys-unavheader__md nys-unavheader__lg nys-unavheader__xl"
+                class="nys-unavheader--md nys-unavheader--lg nys-unavheader--xl"
               >
                 <div class="nys-unavheader__officialmessage">
                   <label id="nys-unavheader__official"
@@ -205,7 +205,7 @@ export class NysUnavHeader extends LitElement {
               ${!this.isSearchFocused && !this.hideTranslate
                 ? html`<div class="nys-unavheader__translatewrapper">
                     <div
-                      class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md"
+                      class="nys-unavheader--xs nys-unavheader--sm nys-unavheader--md"
                     >
                       <nys-button
                         variant="ghost"
@@ -216,7 +216,7 @@ export class NysUnavHeader extends LitElement {
                         .onClick="${() => this._toggleLanguageList()}"
                       ></nys-button>
                     </div>
-                    <div class="nys-unavheader__lg nys-unavheader__xl">
+                    <div class="nys-unavheader--lg nys-unavheader--xl">
                       <nys-button
                         variant="ghost"
                         label="Translate"
@@ -249,7 +249,7 @@ export class NysUnavHeader extends LitElement {
                 : null}
               ${!this.hideSearch
                 ? html` <div
-                      class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md"
+                      class="nys-unavheader--xs nys-unavheader--sm nys-unavheader--md"
                     >
                       <nys-button
                         variant="ghost"
@@ -260,7 +260,7 @@ export class NysUnavHeader extends LitElement {
                         .onClick="${() => this._toggleSearchDropdown()}"
                       ></nys-button>
                     </div>
-                    <div class="nys-unavheader__lg nys-unavheader__xl">
+                    <div class="nys-unavheader--lg nys-unavheader--xl">
                       <nys-textinput
                         id="nys-unavheader__search"
                         placeholder="Search"
@@ -274,7 +274,7 @@ export class NysUnavHeader extends LitElement {
             </div>
           </div>
         </div>
-        <div class="nys-unavheader__md nys-unavheader__lg nys-unavheader__xl">
+        <div class="nys-unavheader--md nys-unavheader--lg nys-unavheader--xl">
           <div
             class="nys-unavheader__trustbar ${this.trustbarVisible
               ? "show"
@@ -310,7 +310,7 @@ export class NysUnavHeader extends LitElement {
             </div>
           </div>
         </div>
-        <div class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md">
+        <div class="nys-unavheader--xs nys-unavheader--sm nys-unavheader--md">
           <div
             class="nys-unavheader__searchdropdown ${this.searchDropdownVisible
               ? "show"
