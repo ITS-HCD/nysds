@@ -250,6 +250,10 @@ export default css`
       --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
     }
 
+    #nys-unavheader__know {
+      --_nys-button-padding-x: 0px;
+    }
+
     .nys-unavheader__officialmessage {
       flex-direction: column;
       align-items: flex-start;
