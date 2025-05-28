@@ -41,6 +41,10 @@ export default css`
     width: 100%;
   }
 
+  .nys-unavheader {
+    display: grid;
+  }
+
   .nys-unavheader__mainwrapper {
     background-color: var(--_nys-unavheader-bg-color);
     padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
@@ -288,6 +292,12 @@ export default css`
     .nys-unavheader--md {
       display: contents;
     }
+    .nys-unavheader__trustbarwrapper {
+      order: 999;
+    }
+    .nys-unavheader__toptrustbar {
+      display: none;
+    }
   }
 
   @media (min-width: 1024px) and (max-width: 1279px) {
@@ -304,6 +314,12 @@ export default css`
     .nys-unavheader--lg {
       display: contents;
     }
+    .nys-unavheader__trustbarwrapper {
+      order: 999;
+    }
+    .nys-unavheader__toptrustbar {
+      display: none;
+    }
   }
 
   @media (min-width: 1280px) {
@@ -316,6 +332,12 @@ export default css`
     }
     .nys-unavheader--xl {
       display: contents;
+    }
+    .nys-unavheader__trustbarwrapper {
+      order: 999;
+    }
+    .nys-unavheader__toptrustbar {
+      display: none;
     }
   }
 `;

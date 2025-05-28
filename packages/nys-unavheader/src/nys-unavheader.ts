@@ -103,7 +103,7 @@ export class NysUnavHeader extends LitElement {
   render() {
     return html`
       <header class="nys-unavheader">
-        <div class="nys-unavheader--xs nys-unavheader--sm">
+        <div class="nys-unavheader__trustbarwrapper">
           <div class="nys-unavheader__toptrustbar">
             <div class="nys-unavheader__officialmessage">
               <label id="nys-unavheader__official"
@@ -112,7 +112,6 @@ export class NysUnavHeader extends LitElement {
               <nys-button
                 id="nys-unavheader__know"
                 label="Here's how you know"
-                ariaLabel="Here's how you know"
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
@@ -187,7 +186,6 @@ export class NysUnavHeader extends LitElement {
                     variant="ghost"
                     size="sm"
                     suffixIcon="slotted"
-                    ariaLabel="Here's how you know"
                     .onClick="${() => this._toggleTrustbar()}"
                   >
                     <nys-icon
@@ -271,42 +269,6 @@ export class NysUnavHeader extends LitElement {
                       ></nys-textinput>
                     </div>`
                 : null}
-            </div>
-          </div>
-        </div>
-        <div class="nys-unavheader--md nys-unavheader--lg nys-unavheader--xl">
-          <div
-            class="nys-unavheader__trustbar ${this.trustbarVisible
-              ? "show"
-              : "hide"}"
-          >
-            <div class="nys-unavheader__trustcontent">
-              <div class="nys-unavheader__trustcontentmessage">
-                <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
-                <label><b>Official websites use ny.gov</b></label>
-                <label
-                  >A <b>ny.gov</b> website belongs to an official New York State
-                  government organization.</label
-                >
-              </div>
-              <div class="nys-unavheader__trustcontentmessage">
-                <nys-icon size="3xl" name="lock_filled"></nys-icon>
-                <label><b>Secure ny.gov websites use HTTPS</b></label>
-                <label
-                  >A <b>lock icon</b> or <b>https://</b> means you've safely
-                  connected to the ny.gov website. Share sensitive information
-                  only on official, secure websites.</label
-                >
-              </div>
-              <nys-button
-                id="nys-unavheader__closetrustbar"
-                class="nys-unavheader__iconbutton"
-                variant="ghost"
-                prefixIcon="close"
-                size="sm"
-                ariaLabel="Close trustbar"
-                .onClick="${() => this._toggleTrustbar()}"
-              ></nys-button>
             </div>
           </div>
         </div>
