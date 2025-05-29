@@ -101,4 +101,9 @@ describe("nys-icon", () => {
     expect(svg?.getAttribute("aria-hidden")).to.equal("true");
     expect(svg?.getAttribute("aria-label")).to.be.null;
   });
+
+  it("passes the a11y audit", async () => {
+    const el = await fixture(html`<nys-unavfooter></nys-unavfooter>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
 });
