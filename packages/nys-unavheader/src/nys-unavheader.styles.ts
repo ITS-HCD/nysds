@@ -65,6 +65,7 @@ export default css`
     flex-direction: row;
     align-items: center;
     gap: var(--nys-space-100, 8px);
+    height: fit-content;
     /* Typography */
     font-size: var(--nys-font-size-ui-xs, 12px);
     font-weight: var(--nys-font-weight-regular, 400);
@@ -105,7 +106,6 @@ export default css`
     justify-content: space-between;
     background-color: var(--nys-color-neutral-100, #d0d0ce);
     padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
-    min-height: var(--nys-space-400, 32px);
     cursor: pointer;
   }
 
@@ -156,10 +156,11 @@ export default css`
     cursor: pointer;
     gap: var(--nys-space-50, 4px);
 
-    --_nys-button-height: fit-content;
+    --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
     --_nys-button-radius: var(--nys-radius-md, 4px);
     --_nys-button-padding-y: var(--nys-space-2px, 2px);
     --_nys-button-padding-x: var(--nys-space-50, 4px);
+    --_nys-button-width-border: 0px;
     --_nys-button-text-decoration: underline;
     --_nys-button-color-text: var(--nys-color-link, #004dd1);
     --_nys-button-color-text-hover: var(--nys-color-link-strong, #003ba1);
@@ -262,8 +263,6 @@ export default css`
     #nys-unavheader__know {
       --_nys-button-padding-x: 0px;
       --_nys-button-padding-y: 0px;
-      --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
-      --_nys-button-width-border: 0px;
     }
 
     .nys-unavheader__officialmessage {
