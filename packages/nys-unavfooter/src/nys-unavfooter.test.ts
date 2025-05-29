@@ -57,3 +57,7 @@ describe("nys-unavfooter", () => {
  * Ensure that the <unav-footer> logo is readable for screen readers:
  * - Verify that the logo is properly read by screen readers when the <unav-footer> is focused.
  */
+it("passes the a11y audit", async () => {
+  const el = await fixture(html`<nys-unavfooter></nys-unavfooter>`);
+  await expect(el).shadowDom.to.be.accessible();
+});
