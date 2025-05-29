@@ -38,6 +38,7 @@
     "storybook": "storybook dev -p 6006",
     "storybook:build:all": "npm run build:all && storybook dev -p 6006",
     "build-storybook": "npm run build:packages && storybook build",
+    "storybook:cibuild": "storybook build",
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules",
     "clean:dist": "rm -rf dist && rm -rf packages/*/dist",
     "clean:all": "npm run clean:dist && npm run clean:node"
