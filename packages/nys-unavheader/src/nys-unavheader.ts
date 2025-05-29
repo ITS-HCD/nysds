@@ -87,9 +87,20 @@ export class NysUnavHeader extends LitElement {
     if (e.key === "Enter") {
       // Handle search
       const searchValue = (e.target as HTMLInputElement).value?.trim();
-      if (searchValue !== "")
-        window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${searchValue}+inurl:${window.location.hostname}&site=default_collection`;
+      if (searchValue !== "") this._handleSearch(searchValue);
     }
+  }
+
+  private _handleSearchButton(searchID: string) {
+    const searchInput = this.shadowRoot?.getElementById(
+      searchID,
+    ) as HTMLInputElement;
+    const searchValue = searchInput.value?.trim();
+    if (searchValue !== "") this._handleSearch(searchValue);
+  }
+
+  private _handleSearch(searchValue: string) {
+    window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${searchValue}+inurl:${window.location.hostname}&site=default_collection`;
   }
 
   connectedCallback() {
@@ -103,8 +114,21 @@ export class NysUnavHeader extends LitElement {
   render() {
     return html`
       <header class="nys-unavheader">
-        <div class="nys-unavheader__xs nys-unavheader__sm">
-          <div class="nys-unavheader__toptrustbar">
+        <div class="nys-unavheader__trustbarwrapper">
+          <div
+            class="nys-unavheader__toptrustbar"
+            @click="${this._toggleTrustbar}"
+            @keydown="${(e: KeyboardEvent) => {
+              if (
+                e.code === "Enter" ||
+                e.code === "Space" ||
+                e.key === "Enter" ||
+                e.key === " "
+              ) {
+                this._toggleTrustbar();
+              }
+            }}"
+          >
             <div class="nys-unavheader__officialmessage">
               <label id="nys-unavheader__official"
                 >An official website of New York State</label
@@ -112,11 +136,9 @@ export class NysUnavHeader extends LitElement {
               <nys-button
                 id="nys-unavheader__know"
                 label="Here's how you know"
-                ariaLabel="Here's how you know"
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
-                .onClick="${() => this._toggleTrustbar()}"
               >
                 <nys-icon
                   slot="suffix-icon"
@@ -125,17 +147,6 @@ export class NysUnavHeader extends LitElement {
                 ></nys-icon>
               </nys-button>
             </div>
-            ${this.trustbarVisible
-              ? html`<nys-button
-                  id="nys-unavheader__closetrustbar"
-                  class="nys-unavheader__iconbutton"
-                  variant="ghost"
-                  prefixIcon="close"
-                  size="sm"
-                  ariaLabel="Close trustbar"
-                  .onClick="${() => this._toggleTrustbar()}"
-                ></nys-button>`
-              : null}
           </div>
           <div
             class="nys-unavheader__trustbar ${this.trustbarVisible
@@ -161,6 +172,15 @@ export class NysUnavHeader extends LitElement {
                 >
               </div>
             </div>
+            <nys-button
+              id="nys-unavheader__closetrustbar"
+              class="nys-unavheader__iconbutton"
+              variant="ghost"
+              prefixIcon="close"
+              size="sm"
+              ariaLabel="Close trustbar"
+              .onClick="${() => this._toggleTrustbar()}"
+            ></nys-button>
           </div>
         </div>
         <div class="nys-unavheader__mainwrapper" id="nys-universal-navigation">
@@ -175,7 +195,7 @@ export class NysUnavHeader extends LitElement {
                 <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
               >
               <div
-                class="nys-unavheader__md nys-unavheader__lg nys-unavheader__xl"
+                class="nys-unavheader--md nys-unavheader--lg nys-unavheader--xl"
               >
                 <div class="nys-unavheader__officialmessage">
                   <label id="nys-unavheader__official"
@@ -187,7 +207,6 @@ export class NysUnavHeader extends LitElement {
                     variant="ghost"
                     size="sm"
                     suffixIcon="slotted"
-                    ariaLabel="Here's how you know"
                     .onClick="${() => this._toggleTrustbar()}"
                   >
                     <nys-icon
@@ -205,7 +224,7 @@ export class NysUnavHeader extends LitElement {
               ${!this.isSearchFocused && !this.hideTranslate
                 ? html`<div class="nys-unavheader__translatewrapper">
                     <div
-                      class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md"
+                      class="nys-unavheader--xs nys-unavheader--sm nys-unavheader--md"
                     >
                       <nys-button
                         variant="ghost"
@@ -216,7 +235,7 @@ export class NysUnavHeader extends LitElement {
                         .onClick="${() => this._toggleLanguageList()}"
                       ></nys-button>
                     </div>
-                    <div class="nys-unavheader__lg nys-unavheader__xl">
+                    <div class="nys-unavheader--lg nys-unavheader--xl">
                       <nys-button
                         variant="ghost"
                         label="Translate"
@@ -249,7 +268,7 @@ export class NysUnavHeader extends LitElement {
                 : null}
               ${!this.hideSearch
                 ? html` <div
-                      class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md"
+                      class="nys-unavheader--xs nys-unavheader--sm nys-unavheader--md"
                     >
                       <nys-button
                         variant="ghost"
@@ -260,69 +279,53 @@ export class NysUnavHeader extends LitElement {
                         .onClick="${() => this._toggleSearchDropdown()}"
                       ></nys-button>
                     </div>
-                    <div class="nys-unavheader__lg nys-unavheader__xl">
+                    <div class="nys-unavheader--lg nys-unavheader--xl">
                       <nys-textinput
-                        id="nys-unavheader__search"
+                        class="nys-unavheader__search"
+                        id="nys-unavheader__searchbar"
                         placeholder="Search"
                         type="search"
                         @focus="${this._handleSearchFocus}"
                         @blur="${this._handleSearchBlur}"
                         @keyup="${this._handleSearchKeyup}"
+                        ><nys-button
+                          slot="endButton"
+                          type="submit"
+                          prefixIcon="search"
+                          .onClick="${() =>
+                            this._handleSearchButton(
+                              "nys-unavheader__searchbar",
+                            )}"
+                        ></nys-button
                       ></nys-textinput>
                     </div>`
                 : null}
             </div>
           </div>
         </div>
-        <div class="nys-unavheader__md nys-unavheader__lg nys-unavheader__xl">
-          <div
-            class="nys-unavheader__trustbar ${this.trustbarVisible
-              ? "show"
-              : "hide"}"
-          >
-            <div class="nys-unavheader__trustcontent">
-              <div class="nys-unavheader__trustcontentmessage">
-                <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
-                <label><b>Official websites use ny.gov</b></label>
-                <label
-                  >A <b>ny.gov</b> website belongs to an official New York State
-                  government organization.</label
-                >
-              </div>
-              <div class="nys-unavheader__trustcontentmessage">
-                <nys-icon size="3xl" name="lock_filled"></nys-icon>
-                <label><b>Secure ny.gov websites use HTTPS</b></label>
-                <label
-                  >A <b>lock icon</b> or <b>https://</b> means you've safely
-                  connected to the ny.gov website. Share sensitive information
-                  only on official, secure websites.</label
-                >
-              </div>
-              <nys-button
-                id="nys-unavheader__closetrustbar"
-                class="nys-unavheader__iconbutton"
-                variant="ghost"
-                prefixIcon="close"
-                size="sm"
-                ariaLabel="Close trustbar"
-                .onClick="${() => this._toggleTrustbar()}"
-              ></nys-button>
-            </div>
-          </div>
-        </div>
-        <div class="nys-unavheader__xs nys-unavheader__sm nys-unavheader__md">
+        <div class="nys-unavheader--xs nys-unavheader--sm nys-unavheader--md">
           <div
             class="nys-unavheader__searchdropdown ${this.searchDropdownVisible
               ? "show"
               : "hide"}"
           >
             <nys-textinput
-              id="nys-unavheader__search"
+              class="nys-unavheader__search"
+              id="nys-unavheader__searchbardropdown"
               placeholder="Search"
               type="search"
               @focus="${this._handleSearchFocus}"
               @blur="${this._handleSearchBlur}"
               @keyup="${this._handleSearchKeyup}"
+              ><nys-button
+                slot="endButton"
+                type="submit"
+                prefixIcon="search"
+                .onClick="${() =>
+                  this._handleSearchButton(
+                    "nys-unavheader__searchbardropdown",
+                  )}"
+              ></nys-button
             ></nys-textinput>
           </div>
         </div>
