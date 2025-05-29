@@ -261,6 +261,9 @@ export default css`
 
     #nys-unavheader__know {
       --_nys-button-padding-x: 0px;
+      --_nys-button-padding-y: 0px;
+      --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
+      --_nys-button-width-border: 0px;
     }
 
     .nys-unavheader__officialmessage {
