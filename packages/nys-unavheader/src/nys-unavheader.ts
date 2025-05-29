@@ -87,12 +87,11 @@ export class NysUnavHeader extends LitElement {
     if (e.key === "Enter") {
       // Handle search
       const searchValue = (e.target as HTMLInputElement).value?.trim();
-      if (searchValue !== "")
-        window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${searchValue}+inurl:${window.location.hostname}&site=default_collection`;
+      if (searchValue !== "") this._handleSearch(searchValue);
     }
   }
 
-  private _handleSearch(searchID: string) {
+  private _handleSearchButton(searchID: string) {
     console.log("Search button clicked");
     const searchInput = this.shadowRoot?.getElementById(
       searchID,
@@ -100,6 +99,10 @@ export class NysUnavHeader extends LitElement {
     console.log("Search input:", searchInput);
     const searchValue = searchInput.value?.trim();
     console.log("Search value:", searchValue);
+    if (searchValue !== "") this._handleSearch(searchValue);
+  }
+
+  private _handleSearch(searchValue: string) {
     if (searchValue !== "")
       window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${searchValue}+inurl:${window.location.hostname}&site=default_collection`;
   }
@@ -294,7 +297,9 @@ export class NysUnavHeader extends LitElement {
                           type="submit"
                           prefixIcon="search"
                           .onClick="${() =>
-                            this._handleSearch("nys-unavheader__searchbar")}"
+                            this._handleSearchButton(
+                              "nys-unavheader__searchbar",
+                            )}"
                         ></nys-button
                       ></nys-textinput>
                     </div>`
@@ -321,7 +326,9 @@ export class NysUnavHeader extends LitElement {
                 type="submit"
                 prefixIcon="search"
                 .onClick="${() =>
-                  this._handleSearch("nys-unavheader__searchbardropdown")}"
+                  this._handleSearchButton(
+                    "nys-unavheader__searchbardropdown",
+                  )}"
               ></nys-button
             ></nys-textinput>
           </div>
