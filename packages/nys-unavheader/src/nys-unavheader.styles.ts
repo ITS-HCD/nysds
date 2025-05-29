@@ -134,13 +134,13 @@ export default css`
     --_nys-button-padding-x: 0;
   }
 
-  #nys-unavheader__search {
+  .nys-unavheader__search {
     width: var(--nys-form-width-md, 200px);
     transition: width 0.5s ease;
   }
 
   /* Grow size on focus */
-  #nys-unavheader__search:focus {
+  .nys-unavheader__search:focus {
     width: var(--nys-form-width-lg, 384px);
   }
 
