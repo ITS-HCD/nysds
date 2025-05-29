@@ -31,4 +31,4 @@ jobs:
     - name: Test Components
       run: npm run test:build
     - name: Build Storybook
-      run: npm run build-storybook
+      run: npm run storybook:cibuild
