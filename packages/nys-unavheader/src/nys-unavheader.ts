@@ -92,13 +92,10 @@ export class NysUnavHeader extends LitElement {
   }
 
   private _handleSearchButton(searchID: string) {
-    console.log("Search button clicked");
     const searchInput = this.shadowRoot?.getElementById(
       searchID,
     ) as HTMLInputElement;
-    console.log("Search input:", searchInput);
     const searchValue = searchInput.value?.trim();
-    console.log("Search value:", searchValue);
     if (searchValue !== "") this._handleSearch(searchValue);
   }
 
