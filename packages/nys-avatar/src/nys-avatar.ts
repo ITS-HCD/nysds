@@ -23,7 +23,7 @@ export class NysAvatar extends LitElement {
     "circle",
   ] as const;
 
-  // Private property to store the internal `shape` value, restricted to the valid types. Default is "rounded".
+  // Private property to store the internal `shape` value, restricted to the valid types. Default is "circle".
   private _shape: (typeof NysAvatar.VALID_SHAPES)[number] = "circle";
 
   // Getter for the `shape` property.
@@ -57,7 +57,7 @@ export class NysAvatar extends LitElement {
         <div class="nys-avatar__content">
           <div
             part="nys-avatar"
-            class="nys-component__component"
+            class="nys-avatar__component"
             style="background-color: ${this.color?.length > 0
               ? this.color
               : "#555"};"

@@ -29,6 +29,8 @@ export default css`
     --_nys-errormessage-gap: var(--nys-space-100, 8px);
     --_nys-errormessage-divider-gap: var(--nys-space-50, 4px);
     --_nys-errormessage-divider-width: var(--nys-border-width-sm, 1px);
+
+    --_nys-errormessage-margin-top: 0;
   }
 
   .nys-errormessage {
@@ -41,6 +43,7 @@ export default css`
     line-height: var(--_nys-errormessage-line-height);
     letter-spacing: var(--_nys-errormessage-letter-spacing);
     color: var(--_nys-errormessage-color);
+    margin-top: var(--_nys-errormessage-margin-top);
   }
 
   .nys-errormessage[showDivider] {

@@ -1,33 +1,81 @@
-/*** Accessibility tests ***/
-/*
- * Ensure radiobutton has a label property to provide accessible text for screen readers:
- * - If description exist, it should be used readable for screen readers.
- * - If text contains prop "optional", make sure it is readable to screen readers.
- */
+import { expect, html, fixture } from "@open-wc/testing";
+import "../dist/nys-radiobutton.js";
+import { NysRadiogroup } from "../dist/nys-radiogroup.js";
 
-/*
- * Ensure radiobutton is focusable and keyboard accessibility.
- */
+// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
+describe("nys-radiobutton", () => {
+  it("renders the component", async () => {
+    const el = await fixture(html`<nys-radiobutton></nys-radiobutton>`);
+    expect(el).to.exist;
+  });
 
-/*
- * Ensure aria-checked is correctly set based on the checkbox's checked state:
- * - The aria-checked attribute should be dynamically set to "true" when the checkbox is checked and "false" when it is unchecked.
- */
+  it("reflects attributes to properties", async () => {
+    const el = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup
+        label="What is your primary work location?"
+        description="This is the location you use for your in office days."
+        required
+      >
+        <nys-radiobutton
+          name="office"
+          label="Albany"
+          description="Upstate New York"
+          value="albany"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="office"
+          label="Manhattan"
+          description="New York City"
+          value="manhattan"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    expect(el.label).to.equal("What is your primary work location?");
+    expect(el.required).to.be.true;
+  });
 
-/*
- * Ensure aria-required is set correctly when the radiobutton is required:
- * - When the radiobutton is required (this.required = true), the aria-required attribute should be set to "true."
- */
+  it("tile prop render", async () => {
+    const el = await fixture(html`
+      <nys-radiogroup label="What is your primary work location?" tile>
+        <nys-radiobutton
+          name="office"
+          label="Albany"
+          value="albany"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="office"
+          label="Manhattan"
+          value="manhattan"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    expect(el.hasAttribute("tile")).to.be.true;
+  });
 
-/*
- * Ensure aria-disabled is set correctly when the radiobutton is disabled:
- * - When the radiobutton is disabled (this.disabled = true), the aria-disabled attribute should be set to "true."
- */
+  it("passes the a11y audit", async () => {
+    const el = await fixture(
+      html` <nys-radiogroup label="What is your primary work location?">
+        <nys-radiobutton
+          name="office"
+          label="Albany"
+          value="albany"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="office"
+          label="Manhattan"
+          value="manhattan"
+        ></nys-radiobutton>
+      </nys-radiogroup>`,
+    );
+    await expect(el).shadowDom.to.be.accessible();
+  });
 
-/*
- * Ensure the radiobutton has error messaging for invalid states:
- * - Ex: if radio GROUP required, radiobutton must have one checked
- */
-
-/* ACCESSIBILITY INSIGHT TOOL (Feedback) */
-// "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"
+  // Other test to consider:
+  // - Test for default values
+  // - Test for different attributes
+  // - Test for events
+  // - Test for methods
+  // - Test for accessibility
+  // - Test for slot content
+  // - Test for lifecycle methods
+});

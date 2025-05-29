@@ -19,6 +19,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) groupExist = false;
+  @property({ type: Boolean, reflect: true }) tile = false;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
 
@@ -105,7 +106,7 @@ export class NysCheckbox extends LitElement {
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
     // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage.trim() && message !== "") {
+    if (this.errorMessage?.trim() && message !== "") {
       message = this.errorMessage;
     }
 
@@ -276,12 +277,16 @@ export class NysCheckbox extends LitElement {
             </label>
           </div>`}
         </label>
-        <nys-errormessage
-          ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
-          showDivider
-        ></nys-errormessage>
       </div>
+      ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
+        ? html`<nys-errormessage
+            id="single-error-message"
+            ?showError=${this.showError}
+            errorMessage=${this._internals.validationMessage ||
+            this.errorMessage}
+            .showDivider=${!this.tile}
+          ></nys-errormessage>`
+        : ""}
     `;
   }
 }

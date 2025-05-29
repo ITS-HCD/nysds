@@ -34,6 +34,7 @@ export class NysRadiogroup extends LitElement {
       ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
       : "md";
   }
+  @property({ type: Boolean, reflect: true }) tile = false;
 
   static styles = styles;
   private _internals: ElementInternals;
@@ -68,6 +69,9 @@ export class NysRadiogroup extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this.setRadioButtonRequire();
+    this._updateRadioButtonsSize();
+    this._updateRadioButtonsTile();
+    this._updateRadioButtonsShowError();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -79,6 +83,12 @@ export class NysRadiogroup extends LitElement {
     }
     if (changedProperties.has("size")) {
       this._updateRadioButtonsSize();
+    }
+    if (changedProperties.has("tile")) {
+      this._updateRadioButtonsTile();
+    }
+    if (changedProperties.has("showError")) {
+      this._updateRadioButtonsShowError();
     }
   }
 
@@ -142,6 +152,28 @@ export class NysRadiogroup extends LitElement {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       radioButton.setAttribute("size", this.size);
+    });
+  }
+
+  private _updateRadioButtonsTile() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.tile) {
+        radioButton.toggleAttribute("tile", true);
+      } else {
+        radioButton.removeAttribute("tile");
+      }
+    });
+  }
+
+  private _updateRadioButtonsShowError() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.showError) {
+        radioButton.setAttribute("showError", "");
+      } else {
+        radioButton.removeAttribute("showError");
+      }
     });
   }
 
@@ -223,7 +255,7 @@ export class NysRadiogroup extends LitElement {
       <nys-errormessage
         ?showError=${this.showError}
         errorMessage=${this._internals.validationMessage || this.errorMessage}
-        showDivider
+        .showDivider=${!this.tile}
       ></nys-errormessage>
     </div>`;
   }

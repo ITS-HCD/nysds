@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-alert",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "The Alert component from the NYS Design System.",
   "module": "dist/nys-alert.js",
   "types": "dist/index.d.ts",
@@ -16,19 +16,22 @@
   ],
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "tsc --emitDeclarationOnly && vite build"
+    "build": "tsc --emitDeclarationOnly && vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch"
   },
   "dependencies": {
   },
   "peerDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.1.8",
-    "@nysds/nys-button": "^1.1.8"
+    "@nysds/nys-icon": "^1.1.9",
+    "@nysds/nys-button": "^1.1.9"
   },
   "devDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.1.8",
-    "@nysds/nys-button": "^1.1.8",    
+    "@nysds/nys-icon": "^1.1.9",
+    "@nysds/nys-button": "^1.1.9",    
     "typescript": "^5.7.2",
     "vite": "^6.3.4"
   },

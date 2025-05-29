@@ -1,39 +1,42 @@
 {
-   "name": "@nysds/nys-icon",
-   "version": "1.1.8",
-   "description": "The Icon component from the NYS Design System.",
-    "module": "dist/nys-icon.js",
-   "types": "dist/index.d.ts",
-   "exports": {
-      ".": {
-        "import": "./dist/nys-icon.js",
-        "types": "./dist/index.d.ts"
-      }
-    },
-   "type": "module",
-   "scripts": {
-      "dev": "tsc --emitDeclarationOnly && vite",
-      "build": "tsc --emitDeclarationOnly && vite build"
-   },
-   "files": [
-      "dist/"
-    ],
-   "peerDependencies": {
-      "lit": "^3.2.1"
-   },
-   "devDependencies": {
-      "lit": "^3.2.1",
-      "typescript": "^5.7.2",
-      "vite": "^6.3.4"
-   },
-   "keywords": [
-      "new-york-state",
-      "design-system",
-      "web-components",
-      "lit",
-      "nys",
-      "icon"
-    ],
-    "author": "New York State Design System Team",
-    "license": "MIT"
+  "name": "@nysds/nys-icon",
+  "version": "1.1.9",
+  "description": "The Icon component from the NYS Design System.",
+  "module": "dist/nys-icon.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/nys-icon.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch"
+  },
+  "files": [
+    "dist/"
+  ],
+  "peerDependencies": {
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "lit": "^3.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.3.4"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "icon"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
 }
