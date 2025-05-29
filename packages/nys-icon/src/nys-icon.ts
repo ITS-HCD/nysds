@@ -50,7 +50,6 @@ export class NysIcon extends LitElement {
 
   private getIcon(): SVGElement | null {
     const iconSVG = iconLibrary[this.name];
-    const hasLabel = Boolean(this.label);
 
     if (!iconSVG) return null;
 
