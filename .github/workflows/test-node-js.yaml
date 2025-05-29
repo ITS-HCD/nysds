@@ -30,7 +30,5 @@ jobs:
       run: npx playwright install --with-deps
     - name: Test Components
       run: npm run test:build
-    - name: Build all the components
-      run: npm run build:all
     - name: Build Storybook
       run: npm run build-storybook
