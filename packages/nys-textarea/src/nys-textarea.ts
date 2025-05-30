@@ -267,8 +267,8 @@ export class NysTextarea extends LitElement {
           ?disabled=${this.disabled}
           ?required=${this.required}
           ?readonly=${this.readonly}
-          aria-disabled="${this.disabled}"
-          .value=${this.value}
+          aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
+          aria-required=${ifDefined(this.required ? "true" : undefined)}
           placeholder=${ifDefined(
             this.placeholder ? this.placeholder : undefined,
           )}
@@ -283,7 +283,7 @@ export class NysTextarea extends LitElement {
           @change="${this._handleChange}"
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
-        ></textarea>
+        >${this.value}</textarea>
         <nys-errormessage
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
