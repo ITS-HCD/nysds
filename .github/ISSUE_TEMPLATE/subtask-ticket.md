@@ -1,9 +1,9 @@
 ---
-name: Parent Ticket
-about: Parent Ticket to track progress of sub-issues
-title: '[SPIKE]: Design guidance for [Component]'
-labels: 'subtask'
-assignees: 
+name: Subtask Ticket
+about: Spike Ticket
+title: "[SPIKE]: Design guidance for [Component]"
+labels: subtask
+assignees: ''
 
 ---
 
