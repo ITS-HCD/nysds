@@ -1,18 +1,18 @@
 ---
 name: Parent Ticket
 about: Parent Ticket to track progress of sub-issues
-title: ''
+title: 'BUILD: [Component]'
 labels: ''
-assignees: ''
+assignees: esteinborn
 
 ---
 
 Parent Ticket to track progress of [COMPONENT]
 
 ## Timeline:
-| Sprint # | Dates    | Description                                    |
-|---------|---------|---------------------------------|
-| |        |    Spike tickets and research       |
-| |     |    Feedback window open            |
-| |        |    Design phase                             |
-| |        |    Develop/QA phase                     |
+| Sprint # | Dates  | Description                     |
+|----------|--------|---------------------------------|
+|          |        |    Spike tickets and research   |
+|          |        |    Feedback window open         |
+|          |        |    Design phase                 |
+|          |        |    Develop/QA phase             |
