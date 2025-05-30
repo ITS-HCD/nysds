@@ -1,9 +1,9 @@
 ---
 name: Parent Ticket
 about: Parent Ticket to track progress of sub-issues
-title: ''
+title: 'BUILD: [Component]'
 labels: ''
-assignees: ''
+assignees: esteinborn
 
 ---
 
