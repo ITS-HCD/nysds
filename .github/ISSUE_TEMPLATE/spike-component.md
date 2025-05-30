@@ -1,7 +1,7 @@
 ---
 name: Subtask Ticket
 about: Spike Ticket
-title: "[SPIKE]: Design guidance for [Component]"
+title: "[SPIKE]: [Design|Code|A11y/QA] guidance for [Component]"
 labels: subtask
 assignees: ''
 
