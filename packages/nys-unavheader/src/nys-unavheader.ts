@@ -220,7 +220,7 @@ export class NysUnavHeader extends LitElement {
               </div>
             </div>
             <div class="nys-unavheader__right">
-              ${!this.isSearchFocused && !this.hideTranslate
+              ${!this.hideTranslate
                 ? html`<div class="nys-unavheader__translatewrapper">
                     <div
                       class="nys-unavheader--xs nys-unavheader--sm nys-unavheader--md"
@@ -234,19 +234,21 @@ export class NysUnavHeader extends LitElement {
                         .onClick="${() => this._toggleLanguageList()}"
                       ></nys-button>
                     </div>
-                    <div class="nys-unavheader--lg nys-unavheader--xl">
-                      <nys-button
-                        variant="ghost"
-                        label="Translate"
-                        prefixIcon="language_filled"
-                        suffixIcon=${this.languageVisible
-                          ? "chevron_up"
-                          : "chevron_down"}
-                        ariaLabel="Translate"
-                        id="nys-unavheader__translate"
-                        .onClick="${() => this._toggleLanguageList()}"
-                      ></nys-button>
-                    </div>
+                    ${!this.isSearchFocused
+                      ? html`<div class="nys-unavheader--lg nys-unavheader--xl">
+                          <nys-button
+                            variant="ghost"
+                            label="Translate"
+                            prefixIcon="language_filled"
+                            suffixIcon=${this.languageVisible
+                              ? "chevron_up"
+                              : "chevron_down"}
+                            ariaLabel="Translate"
+                            id="nys-unavheader__translate"
+                            .onClick="${() => this._toggleLanguageList()}"
+                          ></nys-button>
+                        </div>`
+                      : null}
                     <div
                       class="nys-unavheader__languagelist ${this.languageVisible
                         ? "show"
