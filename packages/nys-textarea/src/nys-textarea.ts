@@ -283,7 +283,9 @@ export class NysTextarea extends LitElement {
           @change="${this._handleChange}"
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
-        >${this.value}</textarea>
+        >
+${this.value}</textarea
+        >
         <nys-errormessage
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
