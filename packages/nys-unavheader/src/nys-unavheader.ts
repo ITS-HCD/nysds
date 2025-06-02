@@ -188,7 +188,6 @@ export class NysUnavHeader extends LitElement {
             <div class="nys-unavheader__left">
               <a
                 href="https://ny.gov"
-                target="_blank"
                 id="nys-unavheader__logolink"
                 aria-label="logo of New York State"
               >
