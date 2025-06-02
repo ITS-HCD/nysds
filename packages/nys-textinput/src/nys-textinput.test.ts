@@ -8,7 +8,6 @@ import "../dist/nys-textinput.js";
  * https://open-wc.org/blog/testing-web-components-with-web-test-runner/
  * */
 
-// Render the component
 describe("nys-textinput", () => {
   it("renders the component", async () => {
     const el = await fixture(html`<nys-textinput></nys-textinput>`);
