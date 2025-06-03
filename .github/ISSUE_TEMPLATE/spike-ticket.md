@@ -18,14 +18,13 @@ assignees: emilygorelik, ksorrentino, leo-vogel, mrhassan365, NovaCat35, shamiaa
 - [ ] <mark>DEV:</mark> General Behavior/Functionality
 
 ## Design
-- [ ] Breakpoint Considerations and different screen sizes
-- [ ] Colors/Typography and visual design
-- [ ] Existing examples in NYS agencies (if any)
-- [ ] Existing examples in other design systems
-- [ ] When to use/consider something else
-- [ ] Usability considerations
-- [ ] Prototyping
-- [ ] Interaction Design
+- [ ] What interaction behaviors does this component include?
+- [ ] What are the usability considerations?
+- [ ] When should this component be used, and when should something else be considered?
+- [ ] Are there existing examples of this component used by NYS agencies?
+- [ ] Are there similar components in other design systems to reference?
+- [ ] What breakpoint considerations have been taken into account?
+- [ ] What are the visual and layout options (Figma mockups)?
 ## Development
 - [ ] What props exist on this component
 - [ ] Will this component allow slots, if so does it need to be a specific type or allow anything
