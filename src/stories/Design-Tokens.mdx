@@ -106,24 +106,73 @@ export const tokens = [
     type: "color",
   },
   {
+    name: "--nys-color-base",
+    displayname: "Color Base",
+    description: "Base color for supplementary informational messages.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-base-weak",
+    displayname: "Color Base Weak",
+    description: "Base background color for supplementary informational messages.",
+    type: "color",
+  },
+  {
     name: "--nys-color-emergency",
     displayname: "Color Emergency",
     description: "Emergency color for critical alerts or actions. Use sparingly.",
     type: "color",
   },
-  // Color: Contexts
+  {
+    name: "--nys-color-emergency-weak",
+    displayname: "Color Emergency",
+    description: "Emergency background color for critical alerts or actions. Refrain from using for other purposes.",
+    type: "color",
+  },
+// Color: Texts and Context
   {
     name: "--nys-color-ink",
     displayname: "Color Ink",
-    description: "Default text color. Provides good legibility.",
+    description: "Default for non-text and non-surface elements on a light background.",
     type: "color",
   },
   {
     name: "--nys-color-ink-reverse",
     displayname: "Color Ink Reverse",
-    description: "Reverse text color for dark backgrounds.",
+    description: "Default for non-text and non-surface elements on a dark background.",
     type: "color",
   },
+  {
+    name: "--nys-color-text",
+    displayname: "Color Text",
+    description: "Default text color on surface or surface raised.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-text-weak",
+    displayname: "Color Text Weak",
+    description: "Default text color on surface or surface raised.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-text-weaker",
+    displayname: "Color Text Weaker",
+    description: "Default text color on surface or surface raised.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-text-weakest",
+    displayname: "Color Text Weakest",
+    description: "Default text color on surface or surface raised.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-text-disabled",
+    displayname: "Color Text Disabled",
+    description: "Default text color for disabled state.",
+    type: "color",
+  },
+// Color: Links
   {
     name: "--nys-color-link",
     displayname: "Color Link",
@@ -143,9 +192,78 @@ export const tokens = [
     type: "color",
   },
   {
+    name: "--nys-color-link-neutral",
+    displayname: "Color Link Neutral",
+    description: "Default color for text-based links pressed state.",
+    type: "color",
+  },
+  {
     name: "--nys-color-focus",
     displayname: "Color Focus",
     description: "Used to color focus rings on interactive elements.",
+    type: "color",
+  },
+// Color: Text Reverse
+  {
+    name: "--nys-color-text-reverse",
+    displayname: "Color Text Reverse",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-text-reverse-weak",
+    displayname: "Color Text Reverse Weak",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-text-reverse-weaker",
+    displayname: "Color Text Reverse Weaker",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-text-reverse-disabled",
+    displayname: "Color Text Reverse Disabled",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+// Color: Links Reverse
+  {
+    name: "--nys-color-link-reverse",
+    displayname: "Color Link Reverse",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-link-reverse-strong",
+    displayname: "Color Link Reverse Strong",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-link-reverse-strongest",
+    displayname: "Color Link Reverse Strongest",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-link-reverse-neutral",
+    displayname: "Color Link Reverse Neutral",
+    description: "Default text color against primary theme color.",
+    type: "color",
+  },
+// Color: Surface Reverse
+  {
+    name: "--nys-color-surface-reverse",
+    displayname: "Color Surface Reverse",
+    description: "Provides a strong contrast against {surface}. Used in the UNav footer.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-surface",
+    displayname: "Color Surface",
+    description: "Default surface. Frame background color, card background, and modal background.",
     type: "color",
   },
 // Color: Neutrals
@@ -213,6 +331,127 @@ export const tokens = [
     name: "--nys-color-neutral-900",
     displayname: "Color Neutral 900",
     description: "Darkest neutral shade for text or backgrounds.",
+    type: "color",
+  },
+// Color: Neutrals
+  {
+    name: "--nys-color-black-transparent-50",
+    displayname: "Color Black Transparent 50",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-100",
+    displayname: "Color Black Transparent 100",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-200",
+    displayname: "Color Black Transparent 200",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-300",
+    displayname: "Color Black Transparent 300",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-400",
+    displayname: "Color Black Transparent 400",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-500",
+    displayname: "Color Black Transparent 500",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-600",
+    displayname: "Color Black Transparent 600",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-700",
+    displayname: "Color Black Transparent 700",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-800",
+    displayname: "Color Black Transparent 800",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-black-transparent-900",
+    displayname: "Color Black Transparent 900",
+    description: "A black transparent overlay to be used with light backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-50",
+    displayname: "Color White Transparent 950",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-100",
+    displayname: "Color White Transparent 100",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-200",
+    displayname: "Color White Transparent 200",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-300",
+    displayname: "Color White Transparent 300",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-400",
+    displayname: "Color White Transparent 400",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-500",
+    displayname: "Color White Transparent 500",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-600",
+    displayname: "Color White Transparent 600",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-700",
+    displayname: "Color White Transparent 700",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-800",
+    displayname: "Color White Transparent 800",
+    description: "A white transparent overlay to be used with dark backgrounds.",
+    type: "color",
+  },
+  {
+    name: "--nys-color-white-transparent-900",
+    displayname: "Color White Transparent 900",
+    description: "A white transparent overlay to be used with dark backgrounds.",
     type: "color",
   },
   // Typography Tokens
@@ -328,7 +567,7 @@ export const tokens = [
   },
   {
     name: "--nys-space-2px",
-    displayname: "Space 2px",
+    c: "Space 2px",
     description: "Very small spacing for micro-adjustments or compact layouts.",
     type: "space",
   },
@@ -549,7 +788,7 @@ export const hiddentokens = [
       display: block;
       border: solid 1px var(--nys-color-neutral-300);
       border-radius: var(--nys-radius-md);
-      width: var(--nys-size-1000);
+      width: 100%;
       height: var(--nys-size-600);
     }
   `}
@@ -558,6 +797,15 @@ export const hiddentokens = [
       return `
         .swatch-${token.name.replace("--", "")} {
           background-color: var(${token.name});
+        }
+        .checkerboard {
+          background-image:
+            linear-gradient(45deg, var(--nys-color-neutral-40, #f6f6f6) 25%, transparent 25%),
+            linear-gradient(-45deg, var(--nys-color-neutral-40, #f6f6f6) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, var(--nys-color-neutral-40, #f6f6f6) 75%),
+            linear-gradient(-45deg, transparent 75%, var(--nys-color-neutral-40, #f6f6f6) 75%);
+          background-size: 20px 20px;
+          background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
         }
       `;
     } else if (token.type === "font-family") {
@@ -646,7 +894,9 @@ export const hiddentokens = [
     {tokens.map((token) => (
       <tr key={token.name}>
         <td>
-          <div className={`swatch swatch-${token.name.replace("--", "")}`}></div>
+          <div class="checkerboard">
+            <div className={`swatch swatch-${token.name.replace("--", "")}`}></div>
+          </div>
         </td>
         <td>
           <div>

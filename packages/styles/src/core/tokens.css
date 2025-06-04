@@ -45,6 +45,7 @@
   --nys-color-text: var(--nys-color-neutral-900);
   --nys-color-text-weak: var(--nys-color-neutral-700);
   --nys-color-text-weaker: var(--nys-color-neutral-500);
+  --nys-color-text-weakest: var(--nys-color-neutral-200);
   --nys-color-text-disabled: var(--nys-color-neutral-200);
   
   --nys-color-link: var(--nys-color-blue-600);
