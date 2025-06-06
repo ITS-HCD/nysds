@@ -1,6 +1,6 @@
 ---
 name: Spike Ticket
-about: Where Design/Dev/QA flesh out the component proposal
+about: Where Design/Dev/Accessibility flesh out the component proposal
 title: "[SPIKE]: Proposal Guidance for COMPONENT_NAME"
 labels: subtask
 assignees: emilygorelik, ksorrentino, leo-vogel, mrhassan365, NovaCat35, shamiaalam19
