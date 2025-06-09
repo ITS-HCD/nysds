@@ -127,7 +127,7 @@ The `nys-alert` component includes the following accessibility-focused features:
 
 The `nys-alert` component emits the following events:
 
-1. `nys-alertClosed`: Emitted when the alert is dismissed by the user (e.g. via a close button). This event allows developers to respond to the dismissal — for example, saving the closed state locally to prevent the alert from showing again.
+1. `nys-alertClosed`: Fire when the alert is dismissed by the user (i.e. via a close button).
 
 You can listen to these events using JavaScript:
 
@@ -139,7 +139,8 @@ const alert = document.querySelector("nys-alert");
 alert.addEventListener("nys-alertClosed", (event) => {
   const { type, label } = event.detail;
   console.log(`Alert closed. Type: ${type}, Label: ${label}`);
-  // Optionally save this state to localStorage or analytics
+  // Optional: persist dismissal (e.g., to localStorage or analytics)
+  // This can be used to prevent the alert from appearing again
 });
 
 ```
