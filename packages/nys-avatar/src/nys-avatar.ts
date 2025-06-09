@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import "@nysds/nys-icon";
 import styles from "./nys-avatar.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -40,15 +40,40 @@ export class NysAvatar extends LitElement {
       : "circle";
     this.requestUpdate("shape");
   }
+  @state() private _slotHasContent = true;
 
   /******************** Functions ********************/
-
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
       this.id = `nys-avatar-${Date.now()}-${avatarIdCounter++}`;
     }
+  }
+
+  firstUpdated() {
+    this._checkSlotContent();
+  }
+
+  private async _checkSlotContent() {
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    if (!slot) {
+      this._slotHasContent = false;
+      return;
+    }
+
+    // Wait a tick to ensure slot assignment settled
+    await Promise.resolve();
+
+    const assignedNodes = slot
+      .assignedNodes({ flatten: true })
+      .filter(
+        (node) =>
+          node.nodeType === Node.ELEMENT_NODE ||
+          (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()),
+      );
+
+    this._slotHasContent = assignedNodes.length > 0;
   }
 
   render() {
@@ -81,22 +106,18 @@ export class NysAvatar extends LitElement {
                     aria-hidden="true"
                     >${this.initials}</span
                   >`
-                : this.icon?.length > 0
+                : this._slotHasContent
                   ? html`<div part="nys-avatar__icon">
-                      <nys-icon
-                        label="nys-avatar__icon"
-                        name=${this.icon}
-                        size="xl"
-                      ></nys-icon>
+                      <slot></slot>
                     </div>`
                   : html`<div part="nys-avatar__icon">
-                      <slot>
-                        <nys-icon
-                          label="nys-avatar__icon"
-                          name="account_circle"
-                          size="xl"
-                        ></nys-icon>
-                      </slot>
+                      <nys-icon
+                        label="nys-avatar__icon"
+                        name=${this.icon?.length > 0
+                          ? this.icon
+                          : "account_circle"}
+                        size="xl"
+                      ></nys-icon>
                     </div>`}
           </div>
         </div>
