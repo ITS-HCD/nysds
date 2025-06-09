@@ -24,18 +24,14 @@ export class NysSkipnav extends LitElement {
   /**************** Event Handlers ****************/
   private _handleFocus() {
     const linkElement = this.shadowRoot?.querySelector(".nys-skipnav__link");
-    this.dispatchEvent(new Event("focus"));
 
     linkElement?.classList.add("show");
   }
 
   private _handleBlur() {
     const linkElement = this.shadowRoot?.querySelector(".nys-skipnav__link");
-    this.dispatchEvent(new Event("blur"));
 
-    // if (!this.demoVisible) {
-    linkElement?.classList.remove("show"); // Link is hidden whenever not focused unless the demoVisible is true (aka we're showing it for reference sites)
-    //}
+    linkElement?.classList.remove("show"); // Link is hidden whenever not focused
   }
 
   private _handleClick() {

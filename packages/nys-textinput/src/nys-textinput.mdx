@@ -103,9 +103,9 @@ The `nys-textinput` component includes the following accessibility-focused featu
 
 The `nys-textinput` component emits the following events:
 
-1. **`nys-checkValidity`** – Fired when the input text changes.
-2. **`focus`** – Fired when the input gains focus.
-3. **`blur`** – Fired when the input loses focus.
+1. **`nys-input`** – Fired when the input text changes.
+2. **`nys-focus`** – Fired when the input gains focus.
+3. **`nys-blur`** – Fired when the input loses focus.
 
 You can listen to these events using JavaScript:
 
@@ -114,18 +114,18 @@ You can listen to these events using JavaScript:
 // Select the textinput component
 const textinput = document.querySelector('nys-textinput');
 
-// Listen for the 'input' event
-textinput.addEventListener('input', (event) => {
+// Listen for the 'nys-input' event
+textinput.addEventListener('nys-input', (event) => {
   console.log('Text input changed:', event.target.value);
 });
 
-// Listen for the 'focus' event
-textinput.addEventListener('focus', () => {
+// Listen for the 'nys-focus' event
+textinput.addEventListener('nys-focus', () => {
   console.log('Text input is focused');
 });
 
-// Listen for the 'blur' event
-textinput.addEventListener('blur', () => {
+// Listen for the 'nys-blur' event
+textinput.addEventListener('nys-blur', () => {
   console.log('Text input is blurred');
 });
 ```

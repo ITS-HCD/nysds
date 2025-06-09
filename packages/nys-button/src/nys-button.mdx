@@ -127,13 +127,14 @@ The `nys-button` component includes the following accessibility-focused features
 - ARIA roles and aria-label attribute: Properly set to ensure screen readers interpret the button correctly. The `aria-label` is automatically set to the label prop if provided, or defaults to "button".
 - Keyboard navigation support, allowing users to use the keyboard to click the button.
 - Visual focus indicators to help users navigate the component.
+
 ## Events
 
 The `nys-button` component emits the following events:
 
-1. `click`: Emitted when the button is clicked.
-2. `focus`: Emitted when the button receives focus.
-3. `blur`: Emitted when the button loses focus.
+1. `nys-click`: Emitted when the button is clicked.
+2. `nys-focus`: Emitted when the button receives focus.
+3. `nys-blur`: Emitted when the button loses focus.
 
 You can listen to these events using JavaScript:
 
@@ -141,18 +142,18 @@ You can listen to these events using JavaScript:
 // Select the button component
 const button = document.querySelector("nys-button");
 
-// Listen for the 'click' event
-button.addEventListener("click", () => {
+// Listen for the 'nys-click' event
+button.addEventListener("nys-click", () => {
 	console.log("Button clicked");
 });
 
-// Listen for the 'focus' event
-button.addEventListener("focus", () => {
+// Listen for the 'nys-focus' event
+button.addEventListener("nys-focus", () => {
 	console.log("Button is focused");
 });
 
-// Listen for the 'blur' event
-button.addEventListener("blur", () => {
+// Listen for the 'nys-blur' event
+button.addEventListener("nys-blur", () => {
 	console.log("Button lost focus");
 });
 ```

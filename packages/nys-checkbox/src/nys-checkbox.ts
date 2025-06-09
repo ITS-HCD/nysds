@@ -171,17 +171,9 @@ export class NysCheckbox extends LitElement {
   }
 
   /******************** Event Handlers ********************/
-  // Handle checkbox change event
-  private _handleChange(e: Event) {
-    const { checked } = e.target as HTMLInputElement;
-    this.checked = checked;
-    if (!this.groupExist) {
-      this._internals.setFormValue(this.checked ? this.value : null);
-    }
-    this._validate();
-
+  private _emitChangeEvent() {
     this.dispatchEvent(
-      new CustomEvent("change", {
+      new CustomEvent("nys-change", {
         detail: {
           checked: this.checked,
           name: this.name,
@@ -193,36 +185,40 @@ export class NysCheckbox extends LitElement {
     );
   }
 
+  // Handle checkbox change event
+  private _handleChange(e: Event) {
+    const { checked } = e.target as HTMLInputElement;
+    this.checked = checked;
+    if (!this.groupExist) {
+      this._internals.setFormValue(this.checked ? this.value : null);
+    }
+    this._validate();
+    this._emitChangeEvent();
+  }
+
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.dispatchEvent(new Event("blur"));
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   // Handle keydown for keyboard accessibility
-  private _handleKeydown(e: KeyboardEvent) {
+  private async _handleKeydown(e: KeyboardEvent) {
     if (e.code === "Space") {
       e.preventDefault();
       if (!this.disabled) {
         this.checked = !this.checked;
         this._internals.setFormValue(this.checked ? this.value : null);
-        this._manageRequire();
 
-        this.dispatchEvent(
-          new CustomEvent("change", {
-            detail: {
-              checked: this.checked,
-              name: this.name,
-              value: this.value,
-            },
-            bubbles: true,
-            composed: true,
-          }),
-        );
+        // Wait for DOM updates before validating. This is necessary to ensure the native input validation state is updated before this.validate().
+        await this.updateComplete;
+        this._validate();
+
+        this._emitChangeEvent();
       }
     }
   }
