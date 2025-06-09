@@ -124,7 +124,7 @@ const select = document.querySelector('nys-select');
 
 //Listen for the 'nys-change' event
 select.addEventListener('nys-change', (event) => {
-  console.log('Select changed:', event.target.value);
+  console.log('Select changed:', event.detail.value);
 });
 
 //Listen for the 'focus' event

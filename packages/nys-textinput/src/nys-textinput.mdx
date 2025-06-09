@@ -116,7 +116,7 @@ const textinput = document.querySelector('nys-textinput');
 
 // Listen for the 'nys-input' event
 textinput.addEventListener('nys-input', (event) => {
-  console.log('Text input changed:', event.target.value);
+  console.log('Text input changed:', event.detail.value);
 });
 
 // Listen for the 'nys-focus' event
