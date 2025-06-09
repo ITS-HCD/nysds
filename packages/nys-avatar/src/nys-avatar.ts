@@ -70,7 +70,7 @@ export class NysAvatar extends LitElement {
       .filter(
         (node) =>
           node.nodeType === Node.ELEMENT_NODE ||
-          (node.nodeType === Node.TEXT_NODE && node.textContent?.trim())
+          (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()),
       );
 
     this._slotHasContent = assignedNodes.length > 0;
