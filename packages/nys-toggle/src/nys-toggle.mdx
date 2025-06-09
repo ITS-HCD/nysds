@@ -121,7 +121,7 @@ You can listen to these events using JavaScript:
 
   // Listen for the 'nys-change' event
   toggle.addEventListener('nys-change', (event) => {
-    console.log('Checkbox changed:', event.target.checked);
+    console.log('Checkbox changed:', event.detail.checked);
   });
 
   // Listen for the 'nys-focus' event
