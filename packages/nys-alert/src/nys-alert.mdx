@@ -136,11 +136,13 @@ You can listen to these events using JavaScript:
 const alert = document.querySelector("nys-alert");
 
 // Listen for the 'nys-alertClosed' event
+/* 
+ * Consider persisting dismissal state (e.g., to localStorage or analytics)
+ * This can be used to prevent the alert from appearing again
+ */
 alert.addEventListener("nys-alertClosed", (event) => {
   const { type, label } = event.detail;
   console.log(`Alert closed. Type: ${type}, Label: ${label}`);
-  // Optional: persist dismissal (e.g., to localStorage or analytics)
-  // This can be used to prevent the alert from appearing again
 });
 
 ```
