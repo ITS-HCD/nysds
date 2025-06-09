@@ -53,13 +53,13 @@ export class NysRadiogroup extends LitElement {
     if (!this.id) {
       this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
     }
-    this.addEventListener("change", this._handleRadioButtonChange);
+    this.addEventListener("nys-change", this._handleRadioButtonChange);
     this.addEventListener("invalid", this._handleInvalid);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener("change", this._handleRadioButtonChange);
+    this.removeEventListener("nys-change", this._handleRadioButtonChange);
     this.removeEventListener("invalid", this._handleInvalid);
   }
 

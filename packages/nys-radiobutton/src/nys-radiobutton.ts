@@ -94,6 +94,20 @@ export class NysRadiobutton extends LitElement {
   }
 
   /******************** Event Handlers ********************/
+  private _emitChangeEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-change", {
+        detail: {
+          checked: this.checked,
+          name: this.name,
+          value: this.value,
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   // Handle radiobutton change event & unselection of other options in group
   private _handleChange() {
     if (!this.checked) {
@@ -106,24 +120,18 @@ export class NysRadiobutton extends LitElement {
       this.checked = true;
 
       // Dispatch a change event with the name and value
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: { checked: this.checked, name: this.name, value: this.value },
-          bubbles: true,
-          composed: true,
-        }),
-      );
+      this._emitChangeEvent();
     }
   }
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.dispatchEvent(new Event("blur"));
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   // Handle keydown for keyboard accessibility
@@ -138,17 +146,7 @@ export class NysRadiobutton extends LitElement {
 
         NysRadiobutton.buttonGroup[this.name] = this;
         this.checked = true;
-        this.dispatchEvent(
-          new CustomEvent("change", {
-            detail: {
-              checked: this.checked,
-              name: this.name,
-              value: this.value,
-            },
-            bubbles: true,
-            composed: true,
-          }),
-        );
+        this._emitChangeEvent();
       }
     }
   }

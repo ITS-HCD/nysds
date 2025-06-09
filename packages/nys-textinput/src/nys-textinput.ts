@@ -244,7 +244,7 @@ export class NysTextinput extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent("input", {
+      new CustomEvent("nys-input", {
         detail: { value: this.value },
         bubbles: true,
         composed: true,
@@ -254,7 +254,7 @@ export class NysTextinput extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
@@ -264,12 +264,7 @@ export class NysTextinput extends LitElement {
     }
     this._validate();
 
-    this.dispatchEvent(new Event("blur"));
-  }
-
-  // Handle change event
-  private _handleChange() {
-    this.dispatchEvent(new Event("change"));
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   private _validateButtonSlot(slotName: string) {
@@ -369,7 +364,6 @@ export class NysTextinput extends LitElement {
               @input=${this._handleInput}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
-              @change="${this._handleChange}"
             />
             ${this.type === "password"
               ? html` <nys-button

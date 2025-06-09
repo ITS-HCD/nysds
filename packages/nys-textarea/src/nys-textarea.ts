@@ -197,7 +197,7 @@ export class NysTextarea extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent("input", {
+      new CustomEvent("nys-input", {
         detail: { value: this.value },
         bubbles: true,
         composed: true,
@@ -207,7 +207,7 @@ export class NysTextarea extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
@@ -217,19 +217,14 @@ export class NysTextarea extends LitElement {
     }
 
     this._validate();
-    this.dispatchEvent(new Event("blur"));
-  }
-
-  // Handle change event to bubble up selected value
-  private _handleChange() {
-    this.dispatchEvent(new Event("change"));
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   private _handleSelect(e: Event) {
     const select = e.target as HTMLSelectElement;
     this.value = select.value;
     this.dispatchEvent(
-      new CustomEvent("select", {
+      new CustomEvent("nys-select", {
         detail: { value: this.value },
         bubbles: true,
         composed: true,
@@ -280,7 +275,6 @@ export class NysTextarea extends LitElement {
           @input=${this._handleInput}
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
-          @change="${this._handleChange}"
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
         >

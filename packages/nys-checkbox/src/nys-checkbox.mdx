@@ -89,10 +89,9 @@ The `nys-checkbox` component includes the following accessibility-focused featur
 
 The `NysCheckbox` component emits three custom events:
 
-1. **`change`** – Fired when the checkbox state changes (checked/unchecked).
-2. **`focus`** – Fired when the checkbox gains focus.
-3. **`blur`** – Fired when the checkbox loses focus.
-4. **`keydown`** – Fired when a key is pressed while the checkbox is focused.
+1. **`nys-change`** – Fired when the checkbox state changes (checked/unchecked).
+2. **`nys-focus`** – Fired when the checkbox gains focus.
+3. **`nys-blur`** – Fired when the checkbox loses focus.
 
 You can listen to these events using JavaScript:
 
@@ -101,24 +100,19 @@ You can listen to these events using JavaScript:
   // Select the checkbox component
   const checkbox = document.querySelector('nys-checkbox');
 
-  // Listen for the 'change' event
-  checkbox.addEventListener('change', (event) => {
-    console.log('Checkbox changed:', event.target.checked);
+  // Listen for the 'nys-change' event
+  checkbox.addEventListener('nys-change', (event) => {
+    console.log('Checkbox changed:', event.detail.checked);
   });
 
-  // Listen for the 'focus' event
-  checkbox.addEventListener('focus', () => {
+  // Listen for the 'nys-focus' event
+  checkbox.addEventListener('nys-focus', () => {
     console.log('Checkbox is focused');
   });
 
-  // Listen for the 'blur' event
-  checkbox.addEventListener('blur', () => {
+  // Listen for the 'nys-blur' event
+  checkbox.addEventListener('nys-blur', () => {
     console.log('Checkbox lost focus');
-  });
-
-  // Listen for the 'keydown' event
-  checkbox.addEventListener('keydown', (event) => {
-    console.log('Key pressed:', event.key);
   });
 ```
 

@@ -167,11 +167,11 @@ export const DescriptionSlot: Story = {
       .errorMessage=${args.errorMessage}
     >
       <label slot="description">${args.description}</label>
-      <option value="bronx">The Bronx</option>
-      <option value="brooklyn">Brooklyn</option>
-      <option value="manhattan">Manhattan</option>
-      <option value="staten_island">Staten Island</option>
-      <option value="queens">Queens</option>
+      <nys-option value="bronx">The Bronx</nys-option>
+      <nys-option value="brooklyn">Brooklyn</nys-option>
+      <nys-option value="manhattan">Manhattan</nys-option>
+      <nys-option value="staten_island">Staten Island</nys-option>
+      <nys-option value="queens">Queens</nys-option>
     </nys-select>
   `,
   parameters: {
@@ -180,11 +180,11 @@ export const DescriptionSlot: Story = {
         code: `
 <nys-select label="Select your favorite borough">
   <label slot="description">This is a slot</label>
-  <option value="bronx">The Bronx</option>
-  <option value="brooklyn">Brooklyn</option>
-  <option value="manhattan">Manhattan</option>
-  <option value="staten_island">Staten Island</option>
-  <option value="queens">Queens</option>        
+  <nys-option value="bronx">The Bronx</nys-option>
+  <nys-option value="brooklyn">Brooklyn</nys-option>
+  <nys-option value="manhattan">Manhattan</nys-option>
+  <nys-option value="staten_island">Staten Island</nys-option>
+  <nys-option value="queens">Queens</nys-option>        
 </nys-select>`,
         type: "auto",
       },

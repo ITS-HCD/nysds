@@ -138,12 +138,12 @@ export class NysButton extends LitElement {
   /******************** Event Handlers ********************/
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.dispatchEvent(new Event("blur"));
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   private _handleClick(event: Event) {
@@ -152,6 +152,7 @@ export class NysButton extends LitElement {
       return;
     }
     this._manageFormAction(event);
+    this.dispatchEvent(new Event("nys-click"));
   }
 
   // Handle keydown for keyboard accessibility
