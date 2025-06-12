@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import { html } from 'lit';
 import * as NysRadiobuttonStories from './nys-radiobutton.stories';
 
@@ -93,43 +93,6 @@ The `nys-radiobutton` component includes the following accessibility-focused fea
 - Keyboard navigation support, allowing users to toggle the radiobutton using the keyboard.
 - Visual focus indicators to help users navigate the component.
 
-## Events
-
-The `NysRadiobutton` component emits four custom events:
-
-1. **`change`** – Fired when the radiobutton state changes (checked/unchecked).
-2. **`focus`** – Fired when the radiobutton gains focus.
-3. **`blur`** – Fired when the radiobutton loses focus.
-4. **`keydown`** – Fired when a key is pressed while the radiobutton is focused.
-
-You can listen to these events using JavaScript:
-
-```js
-
-  // Select the radiobutton component
-  const radiobutton = document.querySelector('nys-radiobutton');
-
-  // Listen for the 'change' event
-  radiobutton.addEventListener('change', (event) => {
-    console.log('Radiobutton changed:', event.target.checked);
-  });
-
-  // Listen for the 'focus' event
-  radiobutton.addEventListener('focus', () => {
-    console.log('Radiobutton is focused');
-  });
-
-  // Listen for the 'blur' event
-  radiobutton.addEventListener('blur', () => {
-    console.log('Radiobutton lost focus');
-  });
-
-  // Listen for the 'keydown' event
-  radiobutton.addEventListener('keydown', (event) => {
-    console.log('Key pressed:', event.key);
-  });
-```
-
 ## Slots
 
 <table>
@@ -148,3 +111,34 @@ You can listen to these events using JavaScript:
     </tr>
     </tbody>
 </table>
+
+## Events
+
+The `NysRadiobutton` component emits the following events:
+
+1. **`nys-change`** – Fired when the radiobutton state changes (checked/unchecked).
+2. **`nys-focus`** – Fired when the radiobutton gains focus.
+3. **`nys-blur`** – Fired when the radiobutton loses focus.
+
+You can listen to these events using JavaScript:
+
+```js
+
+  // Select the radiobutton component
+  const radiobutton = document.querySelector('nys-radiobutton');
+
+  // Listen for the 'nys-change' event
+  radiobutton.addEventListener('nys-change', (event) => {
+    console.log('Radiobutton changed:', event.detail.checked);
+  });
+
+  // Listen for the 'nys-focus' event
+  radiobutton.addEventListener('nys-focus', () => {
+    console.log('Radiobutton is focused');
+  });
+
+  // Listen for the 'nys-blur' event
+  radiobutton.addEventListener('nys-blur', () => {
+    console.log('Radiobutton lost focus');
+  });
+```

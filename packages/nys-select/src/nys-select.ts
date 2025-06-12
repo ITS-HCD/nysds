@@ -214,14 +214,9 @@ export class NysSelect extends LitElement {
     );
   }
 
-  // Handle input changes by update the value as select changes
-  private _handleInput() {
-    this.dispatchEvent(new Event("input"));
-  }
-
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
@@ -230,7 +225,7 @@ export class NysSelect extends LitElement {
       this._hasUserInteracted = true;
     }
     this._validate();
-    this.dispatchEvent(new Event("blur"));
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   // Check if the current value matches any option, and if so, set it as selected
@@ -272,7 +267,6 @@ export class NysSelect extends LitElement {
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
             @change="${this._handleChange}"
-            @input="${this._handleInput}"
           >
             <option hidden disabled selected value></option>
           </select>

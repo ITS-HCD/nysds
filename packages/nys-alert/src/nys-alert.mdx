@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import { html } from 'lit';
 import * as NysAlertStories from './nys-alert.stories';
 
@@ -37,7 +37,7 @@ Use the `text` prop for simple texts, or leverage the slot by simply putting HTM
 
 ### Dismissible
 Set a `dismissible` boolean property to add a close button in the top-right corner, allowing users to dismiss the alert.
-> Additionally, the **nys-alert-closed** custom event is dispatched when the alert is dismissed. Developers can implement their own event listeners to handle custom actions, such as saving the alert's state locally. This allows for features like remembering dismissed alerts across page reloads.
+> Additionally, the **nys-alertClosed** custom event is dispatched when the alert is dismissed. Developers can implement their own event listeners to handle custom actions, such as saving the alert's state locally. This allows for features like remembering dismissed alerts across page reloads.
 <Canvas of={NysAlertStories.Dismissible} />
 
 ### Duration
@@ -122,6 +122,30 @@ The `nys-alert` component includes the following accessibility-focused features:
     </tr>
   </tbody>
 </table>
+
+## Events
+
+The `nys-alert` component emits the following events:
+
+1. `nys-alertClosed`: Fire when the alert is dismissed by the user (i.e. via a close button).
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the alert component
+const alert = document.querySelector("nys-alert");
+
+// Listen for the 'nys-alertClosed' event
+/* 
+ * Consider persisting dismissal state (e.g., to localStorage or analytics)
+ * This can be used to prevent the alert from appearing again
+ */
+alert.addEventListener("nys-alertClosed", (event) => {
+  const { type, label } = event.detail;
+  console.log(`Alert closed. Type: ${type}, Label: ${label}`);
+});
+
+```
 
 ## Dependencies
 This component automatically imports the following dependencies.

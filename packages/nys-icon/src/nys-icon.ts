@@ -50,7 +50,6 @@ export class NysIcon extends LitElement {
 
   private getIcon(): SVGElement | null {
     const iconSVG = iconLibrary[this.name];
-    const hasLabel = Boolean(this.label);
 
     if (!iconSVG) return null;
 
@@ -66,8 +65,13 @@ export class NysIcon extends LitElement {
 
     // Add accessibility attributes directly to the <svg>
     svgElement.setAttribute("role", "img");
-    svgElement.setAttribute("aria-label", hasLabel ? this.label : "");
-    svgElement.setAttribute("aria-hidden", hasLabel ? "false" : "true");
+    if (this.label) {
+      svgElement.setAttribute("aria-label", this.label);
+      svgElement.removeAttribute("aria-hidden");
+    } else {
+      svgElement.setAttribute("aria-hidden", "true");
+      svgElement.removeAttribute("aria-label");
+    }
 
     // Add styles
     svgElement.style.rotate = `${this.rotate}deg`;

@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { Meta, StoryObj } from "@storybook/web-components";
+import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-unavfooter";
 
 const meta: Meta = {

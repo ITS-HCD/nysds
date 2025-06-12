@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/blocks";
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysToggleStories from "./nys-toggle.stories";
 
@@ -75,42 +75,6 @@ To remove icons from the toggle switch, use the `NoIcons` boolean property.
 ## Form Prop
 The form attribute associates the `nys-toggle` component with a specific `<form>` element, regardless of its location on the page. This ensures that the toggle's state is included in the form submission, whether it is inside the `<form>` element or outside it.
 
-## Events
-The `<nys-toggle>` component emits three custom Javascript events:
-
-1. **`change`** – Fired when the toggle state changes (checked/unchecked).
-2. **`focus`** – Fired when the toggle gains focus.
-3. **`blur`** – Fired when the toggle loses focus.
-4. **`keydown`** – Fired when a key is pressed while the toggle is focused.
-
-You can listen to these events using JavaScript:
-
-```js
-
-  // Select the toggle component
-  const toggle = document.querySelector('nys-toggle');
-
-  // Listen for the 'change' event
-  toggle.addEventListener('change', (event) => {
-    console.log('Checkbox changed:', event.target.checked);
-  });
-
-  // Listen for the 'focus' event
-  toggle.addEventListener('focus', () => {
-    console.log('Checkbox is focused');
-  });
-
-  // Listen for the 'blur' event
-  toggle.addEventListener('blur', () => {
-    console.log('Checkbox lost focus');
-  });
-
-  // Listen for the 'keydown' event
-  toggle.addEventListener('keydown', (event) => {
-    console.log('Key pressed:', event.key);
-  });
-```
-
 ## Accessibility
 
 The `nys-toggle` component includes the following accessibility-focused features:
@@ -140,3 +104,33 @@ Include a label property to provide accessible text for screen readers.
     </tr>
     </tbody>
 </table>
+
+## Events
+The `<nys-toggle>` component emits the following events:
+
+1. **`nys-change`** – Fired when the toggle state changes (checked/unchecked).
+2. **`nys-focus`** – Fired when the toggle gains focus.
+3. **`nys-blur`** – Fired when the toggle loses focus.
+
+You can listen to these events using JavaScript:
+
+```js
+
+  // Select the toggle component
+  const toggle = document.querySelector('nys-toggle');
+
+  // Listen for the 'nys-change' event
+  toggle.addEventListener('nys-change', (event) => {
+    console.log('Checkbox changed:', event.detail.checked);
+  });
+
+  // Listen for the 'nys-focus' event
+  toggle.addEventListener('nys-focus', () => {
+    console.log('Checkbox is focused');
+  });
+
+  // Listen for the 'nys-blur' event
+  toggle.addEventListener('nys-blur', () => {
+    console.log('Checkbox lost focus');
+  });
+```

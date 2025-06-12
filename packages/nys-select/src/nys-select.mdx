@@ -1,4 +1,4 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/blocks';
+import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import { html } from 'lit';
 import * as NysSelectStories from './nys-select.stories';
 
@@ -80,37 +80,6 @@ The `nys-select` component includes the following accessibility-focused features
 - Keyboard navigation support, allowing users to tab to the `<nys-select>` using the keyboard and spacebar to select an option.
 - Visual focus indicators to help users navigate the component.
 
-## Events
-The `nys-select` component emits the following events:
-
-1. **`change`**: Emitted when the value of the select changes. The event detail includes the value of the selected option.
-2. **`focus`**: Emitted when the select gains focus.
-3. **`blur`**: Emitted when the select loses focus.
-
-You can listen for these events using the `addEventListener` method on the `nys-select` element.
-
-```js
-
-//Select the select component
-const select = document.querySelector('nys-select');
-
-//Listen for the 'change' event
-select.addEventListener('change', (event) => {
-  console.log('Select changed:', event.target.value);
-});
-
-//Listen for the 'focus' event
-select.addEventListener('focus', () => {
-  console.log('Select is focused');
-});
-
-//Listen for the 'blur' event
-select.addEventListener('blur', () => {
-  console.log('Select lost focus');
-});
-
-```
-
 ## Slots
 
 The `nys-select` component supports the following slots:
@@ -138,6 +107,37 @@ The `nys-select` component supports the following slots:
     </tr>
     </tbody>
 </table>
+
+## Events
+The `nys-select` component emits the following events:
+
+1. **`nys-change`**: Emitted when the value of the select changes. The event detail includes the value of the selected option.
+2. **`nys-focus`**: Emitted when the select gains focus.
+3. **`nys-blur`**: Emitted when the select loses focus.
+
+You can listen for these events using the `addEventListener` method on the `nys-select` element.
+
+```js
+
+//Select the select component
+const select = document.querySelector('nys-select');
+
+//Listen for the 'nys-change' event
+select.addEventListener('nys-change', (event) => {
+  console.log('Select changed:', event.detail.value);
+});
+
+//Listen for the 'focus' event
+select.addEventListener('nys-focus', () => {
+  console.log('Select is focused');
+});
+
+//Listen for the 'nys-blur' event
+select.addEventListener('nys-blur', () => {
+  console.log('Select lost focus');
+});
+
+```
 
 ## Dependencies
 This component automatically imports the following dependencies.

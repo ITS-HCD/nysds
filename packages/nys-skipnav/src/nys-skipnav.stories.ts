@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { Meta, StoryObj } from "@storybook/web-components";
+import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-skipnav";
 import "../../nys-icon";
 import "../../nys-unavheader";
@@ -44,7 +44,7 @@ export const Basic: Story = {
     }, 0);
 
     return html`
-      <nys-skipnav .id=${args.id} .href=${args.href} demoVisible></nys-skipnav>
+      <nys-skipnav .id=${args.id} .href=${args.href}></nys-skipnav>
       <p style="margin-top:45px;">
         This skip link is visible for demo purposes. In our mockup of a
         real-world scenario further down this page, you'll see it's hidden until

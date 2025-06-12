@@ -64,27 +64,31 @@ export class NysToggle extends LitElement {
     }
   }
 
-  /********************** Functions **********************/
-  // Handle focus event
-  private _handleFocus() {
-    this.dispatchEvent(new Event("focus"));
-  }
-
-  // Handle blur event
-  private _handleBlur() {
-    this.dispatchEvent(new Event("blur"));
-  }
-
-  private _handleChange(e: Event) {
-    const { checked } = e.target as HTMLInputElement;
-    this.checked = checked;
+  /********************** Event Handlers **********************/
+  private _emitChangeEvent() {
     this.dispatchEvent(
-      new CustomEvent("change", {
+      new CustomEvent("nys-change", {
         detail: { checked: this.checked },
         bubbles: true,
         composed: true,
       }),
     );
+  }
+
+  // Handle focus event
+  private _handleFocus() {
+    this.dispatchEvent(new Event("nys-focus"));
+  }
+
+  // Handle blur event
+  private _handleBlur() {
+    this.dispatchEvent(new Event("nys-blur"));
+  }
+
+  private _handleChange(e: Event) {
+    const { checked } = e.target as HTMLInputElement;
+    this.checked = checked;
+    this._emitChangeEvent();
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
@@ -97,13 +101,7 @@ export class NysToggle extends LitElement {
       /* Dispatch a custom event for the toggle action:
        * allows bubbling up so if developers wish to use the toggle state info.
        */
-      this.dispatchEvent(
-        new CustomEvent("change", {
-          detail: { checked: this.checked },
-          bubbles: true,
-          composed: true,
-        }),
-      );
+      this._emitChangeEvent();
     }
   }
 
