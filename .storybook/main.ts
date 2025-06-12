@@ -12,12 +12,7 @@ const config: StorybookConfig = {
     { from: "./assets/fonts", to: "/assets/fonts" },
     { from: "./assets/images", to: "/assets/images" }
   ],
-  addons: [
-    "@storybook/addon-essentials",
-    "@storybook/addon-a11y",
-    "@storybook/addon-links",
-    "@storybook/addon-toolbars",
-  ],
+  addons: ["@storybook/addon-a11y", "@storybook/addon-links", "@storybook/addon-docs"],
   framework: {
     name: "@storybook/web-components-vite",
     options: {},
