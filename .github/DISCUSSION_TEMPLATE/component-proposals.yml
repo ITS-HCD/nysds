@@ -5,25 +5,16 @@ body:
     attributes:
       value: |
         Thank you for suggesting a new component for the New York State Design System (NYSDS)!
-        
+
         To get the discussion started, you just need to fill out the three fields marked with an asterisk (*). Then collaborate with the community to add supporting evidence and research, and get feedback. The work you do now can help the NYSDS team create a formal component proposal.
-      
-        ## The Basics
-  - type: textarea
-    id: name
-    attributes:
-      label: Component name
-      description: |
-        Share the common name (or names) for this component.
-      value:
-    validations:
-      required: true
+
+        ## The Basics (required)
   - type: textarea
     id: description
     attributes:
       label: Component description
       description: |
-        Briefly tell us the purpose of this component.
+        Brief functionality of what this component does.
       value:
     validations:
       required: true
@@ -39,7 +30,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        ## Component details
+        ## Component details (Optional)
   - type: textarea
     id: api
     attributes:
@@ -59,21 +50,7 @@ body:
       label: Functionality and behavior
       description: |
         Describe component behavior, edge cases, and interactions. Include any special considerations for mobile or desktop (responsiveness).
-        Include any min/max usage recommendations. 
-      value:
-    validations:
-      required: false
-  - type: textarea
-    id: decisions
-    attributes:
-      label: Team Decisions (for NYSDS team use)
-      description: |
-        Document decisions made by the team during the proposal meeting of "to do" and "what not to do."
-        Example:
-        - Don’t show nested steps
-        - Only support linear flows
-        - Use discrete steps instead of a continuous progress bar
-        - Button slot sticks to the top on scroll      
+        Include any min/max usage recommendations.
       value:
     validations:
       required: false
@@ -92,10 +69,10 @@ body:
   - type: textarea
     id: references
     attributes:
-      label: Comparatives / References
+      label: References/Mockups/Screenshots
       description: |
         Link to comparable components or design systems (e.g. USWDS, Shoelace, Material, etc).
-        Include screenshots or internal examples when possible.
+        Include links/screenshots to any relevant research, user testing, or other supporting evidence.
       value:
     validations:
       required: false
