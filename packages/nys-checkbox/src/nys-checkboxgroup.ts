@@ -26,7 +26,7 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   set size(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    // Check if the provided value is in VALID_WIDTHS. If not, default to "md".
     this._size = NysCheckboxgroup.VALID_SIZES.includes(
       value as (typeof NysCheckboxgroup.VALID_SIZES)[number],
     )

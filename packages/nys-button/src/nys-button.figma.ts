@@ -8,7 +8,7 @@ figma.connect("<FIGMA_BUTTON>", {
     }),
     size: figma.enum("Size", {
       sm: "sm",
-      // md: "md",
+      md: "md", //default
       lg: "lg",
     }),
     variant: figma.enum("Variant", {
