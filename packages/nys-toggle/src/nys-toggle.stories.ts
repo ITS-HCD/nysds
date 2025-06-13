@@ -135,6 +135,7 @@ export const UncheckedDisabled: Story = {
       source: {
         code: `
 <nys-toggle
+  label="Disabled Unchecked"
   name="toggle-switch"
   value="access"
   disabled
@@ -171,6 +172,7 @@ export const CheckedDisabled: Story = {
       source: {
         code: `
 <nys-toggle
+  label="Disabled Checked"
   name="toggle-switch"
   value="access"
   checked

@@ -1,10 +1,10 @@
 import figma, { html } from "@figma/code-connect/html";
 
-figma.connect("<FIGMA_RADIOBUTTON>", {
+figma.connect("<FIGMA_RADIOGROUP>", {
   props: {
-    width: figma.enum("Width", {
+    size: figma.enum("Size", {
       sm: "sm",
-      // md: "md", // Default
+      md: "md", // Default
     }),
     label: figma.nestedProps("Label", {
       text: figma.string("Label"),
@@ -15,6 +15,7 @@ figma.connect("<FIGMA_RADIOBUTTON>", {
         false: undefined,
       }),
     }),
+    tile: figma.boolean("Tile"),
     error: figma.nestedProps("_Error", {
       message: figma.string("Error Message"),
     }),
@@ -80,12 +81,13 @@ figma.connect("<FIGMA_RADIOBUTTON>", {
       <nys-radiogroup
         label="${props.label.text}"
         description="${props.label.description}"
-        size="${props.width}"
+        size="${props.size}"
         required="${props.label.required}"
         optional="${props.label.optional}"
         showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
+        tile="${props.tile}"
       >
         <nys-radiobutton
           label="${props.input.radio1text}"
