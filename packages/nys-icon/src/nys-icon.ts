@@ -26,6 +26,7 @@ export class NysIcon extends LitElement {
     "16",
     "24",
     "32",
+    "40",
     "48",
     "64",
   ] as const;
@@ -93,7 +94,7 @@ export class NysIcon extends LitElement {
 }
 
 /*
- Conditionally register the custom element. 
+ Conditionally register the custom element.
  This ensure the custom element is registered only once to avoid duplication, especially in environments like Storybook where this component may be used as a dependency.
  */
 if (!customElements.get("nys-icon")) {

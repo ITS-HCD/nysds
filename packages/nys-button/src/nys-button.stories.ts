@@ -13,6 +13,8 @@ interface NysButtonArgs {
   label: string;
   prefixIcon: string;
   suffixIcon: string;
+  circle: boolean;
+  icon: string;
   disabled: boolean;
   form: string;
   value: string;
@@ -39,6 +41,8 @@ const meta: Meta<NysButtonArgs> = {
     label: { control: "text" },
     prefixIcon: { control: "text" },
     suffixIcon: { control: "text" },
+    circle: { control: "boolean" },
+    icon: { control: "text" },
     disabled: { control: "boolean" },
     form: { control: "text" },
     value: { control: "text" },
@@ -81,6 +85,8 @@ export const Basic: Story = {
       .label=${args.label}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
+      .circle=${args.circle}
+      .icon=${args.icon}
       .disabled=${args.disabled}
       .form=${args.form}
       .value=${args.value}
@@ -357,7 +363,7 @@ export const Variants: Story = {
 <nys-button
   id="button2"
   name="button2"
-  label="Outline" 
+  label="Outline"
   variant="outline"
 ></nys-button>
 <nys-button
@@ -397,6 +403,51 @@ export const Icons: Story = {
       .label=${args.label}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+    ></nys-button>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button
+  id="button1"
+  name="button1"
+  label="Click Me"
+  ariaLabel="click me"
+  prefixIcon="chevron_left"
+  suffixIcon="chevron_right"
+></nys-button>`,
+
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Circle: Story = {
+  args: {
+    circle: true,
+    icon: "close",
+  },
+
+  render: (args) => html`
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      .variant=${args.variant}
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .circle=${args.circle}
+      .icon=${args.icon}
       .disabled=${args.disabled}
       .form=${args.form}
       .value=${args.value}
@@ -518,7 +569,7 @@ export const Disabled: Story = {
 <nys-button
   id="button2"
   name="button2"
-  label="Outline" 
+  label="Outline"
   variant="outline"
   disabled
 ></nys-button>
@@ -535,7 +586,7 @@ export const Disabled: Story = {
   label="Text"
   variant="text"
   disabled
-></nys-button>  
+></nys-button>
       `,
         type: "auto",
       },
@@ -682,7 +733,7 @@ export const Inverted: Story = {
 <nys-button
   id="button2"
   name="button2"
-  label="Outline" 
+  label="Outline"
   variant="outline"
   inverted
 ></nys-button>
@@ -699,7 +750,7 @@ export const Inverted: Story = {
   label="Text"
   variant="text"
   inverted
-></nys-button>  
+></nys-button>
 `,
         type: "auto",
       },
