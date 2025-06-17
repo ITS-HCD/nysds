@@ -1,24 +1,14 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-tooltip";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysTooltipArgs {
   id: string;
-  name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
+  text: string;
   inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  position: string;
 }
 
 const meta: Meta<NysTooltipArgs> = {
@@ -26,7 +16,12 @@ const meta: Meta<NysTooltipArgs> = {
   component: "nys-tooltip",
   argTypes: {
     id: { control: "text" },
-    name: { control: "text" },
+    text: { control: "text" },
+    inverted: { control: "boolean" },
+    position: {
+      control: "select",
+      options: ["top", "bottom", "left", "right"],
+    },
   },
   parameters: {
     docs: {
@@ -43,20 +38,34 @@ type Story = StoryObj<NysTooltipArgs>;
 
 export const Basic: Story = {
   args: {
-    id: "tooltip1",
-    name: "tooltip1",
+    id: "tooltip-example",
+    text: "I am a tooltip.",
+    inverted: false,
   },
   render: (args) => html`
-    <nys-tooltip .id=${args.id} .name=${args.name}></nys-tooltip>
+    <br />
+    <div style="display: flex; justify-content: center;">
+      <nys-tooltip
+        id=${args.id}
+        text=${args.text}
+        position=${args.position}
+        .inverted=${args.inverted}
+      >
+        <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
+      </nys-tooltip>
+    </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
 <nys-tooltip
-  id="tooltip1"
-  name="tooltip1"
-></nys-tooltip>`,
+  id="tooltip-example"
+  label="I am a tooltip."
+  position="top"
+>
+  <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
+</nys-tooltip>`,
         type: "auto",
       },
     },
