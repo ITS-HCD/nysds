@@ -208,6 +208,7 @@ export class NysAlert extends LitElement {
             </div>
             ${this.dismissible
               ? html` <nys-button
+                  id="dismiss-btn"
                   variant="ghost"
                   circle
                   icon="close"
