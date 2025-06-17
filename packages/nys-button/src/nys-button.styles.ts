@@ -326,6 +326,15 @@ export default css`
     );
   }
 
+  /* Circle */
+  :host([circle]) {
+    --_nys-button-width: var(--_nys-button-height);
+    --_nys-button-radius-left: var(--nys-radius-round, 1776px);
+    --_nys-button-radius-right: var(--nys-radius-round, 1776px);
+    --_nys-button-padding-y: 0;
+    --_nys-button-padding-x: 0;
+  }
+
   .nys-button {
     width: var(--_nys-button-width);
     min-height: var(--_nys-button-height);

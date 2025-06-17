@@ -48,6 +48,8 @@ export class NysButton extends LitElement {
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
+  @property({ type: Boolean, reflect: true }) circle = false;
+  @property({ type: String }) icon = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String }) form = "";
   @property({ type: String }) value = "";
@@ -185,7 +187,10 @@ export class NysButton extends LitElement {
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target=${this.target}
-                aria-label=${this.ariaLabel || this.label || "button"}
+                aria-label=${this.ariaLabel ||
+                this.label ||
+                (this.circle ? this.icon : null) ||
+                "button"}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
@@ -195,13 +200,16 @@ export class NysButton extends LitElement {
                       <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                     </slot>`
                   : ""}
-                ${this.label
+                ${this.label && !this.circle
                   ? html`<label class="nys-button__text">${this.label}</label>`
                   : ""}
                 ${this.suffixIcon && this.variant !== "text"
                   ? html`<slot name="suffix-icon">
                       <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                     </slot>`
+                  : ""}
+                ${this.circle && this.icon
+                  ? html`<nys-icon size="24" name=${this.icon}></nys-icon>`
                   : ""}
               </a>
             </div>
@@ -215,7 +223,10 @@ export class NysButton extends LitElement {
               form=${ifDefined(this.form ? this.form : undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
-              aria-label=${this.ariaLabel || this.label || "button"}
+              aria-label=${this.ariaLabel ||
+              this.label ||
+              (this.circle ? this.icon : null) ||
+              "button"}
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
@@ -226,13 +237,23 @@ export class NysButton extends LitElement {
                     <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                   </slot>`
                 : ""}
-              ${this.label
+              ${this.label && !this.circle
                 ? html`<label class="nys-button__text">${this.label}</label>`
                 : ""}
               ${this.suffixIcon && this.variant !== "text"
                 ? html`<slot name="suffix-icon">
                     <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                   </slot>`
+                : ""}
+              ${this.circle && this.icon
+                ? html`<nys-icon
+                    size=${this.size === "sm"
+                      ? "24"
+                      : this.size === "lg"
+                        ? "40"
+                        : "32"}
+                    name=${this.icon}
+                  ></nys-icon>`
                 : ""}
             </button>
           `}

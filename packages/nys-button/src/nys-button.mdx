@@ -78,6 +78,13 @@ If you wish to create a button with just an icon and no text, you can set the `a
 
 <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The `aria-label` is automatically set to the label prop if provided, or defaults to "button"."</div>
 <Canvas of={NysButtonStories.Icons} />
+### Circle
+Set the `circle` prop to create a circular button. This is useful for icon-only actions that require a more compact design.
+When using the `circle` prop the icon is set with the prop `icon`. If no `label` is provided the `aria-label` will be set to the value of the `icon` prop.
+If `label` is provided, it will not render but will be used to set the `aria-label` for accessibility purposes.
+
+Note: the `prefixIcon` and `suffixIcon` props are not supported when using the `circle` prop.
+<Canvas of={NysButtonStories.Circle} />
 ### Disabled
 <Canvas of={NysButtonStories.Disabled} />
 ### Link
