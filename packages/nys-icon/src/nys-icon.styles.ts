@@ -77,6 +77,10 @@ export default css`
     width: 2rem;
     height: 2rem;
   }
+  .nys-icon--40 {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
   .nys-icon--48 {
     width: 3rem;
     height: 3rem;

@@ -40,6 +40,7 @@ const meta: Meta<NysIconArgs> = {
         "16",
         "24",
         "32",
+        "40",
         "48",
         "64",
       ],
@@ -214,15 +215,15 @@ export const InheritSize: Story = {
         code: `
 <div class="parent-container" style="display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
   <p> The nearest parent container's font-size is not set <nys-icon
-    <nys-icon label="search icon" name="search"></nys-icon> 
+    <nys-icon label="search icon" name="search"></nys-icon>
   </p>
 </div>
 <div class="parent-container" style="font-size: 1.5rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
-  <p> The nearest parent container's font-size is set to 1.5rem 
+  <p> The nearest parent container's font-size is set to 1.5rem
     <nys-icon
       label="search icon"
       name="search"
-    ></nys-icon> 
+    ></nys-icon>
   </p>
 </div>
 <div class="parent-container" style="font-size: 2rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
@@ -230,7 +231,7 @@ export const InheritSize: Story = {
     <nys-icon
       label="search icon"
       name="search"
-    ></nys-icon> 
+    ></nys-icon>
   </p>
 </div>
         `.trim(),
