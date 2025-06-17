@@ -209,7 +209,16 @@ export class NysButton extends LitElement {
                     </slot>`
                   : ""}
                 ${this.circle && this.icon
-                  ? html`<nys-icon size="24" name=${this.icon}></nys-icon>`
+                  ? html`<slot name="circle-icon"
+                      ><nys-icon
+                        size=${this.size === "sm"
+                          ? "24"
+                          : this.size === "lg"
+                            ? "40"
+                            : "32"}
+                        name=${this.icon}
+                      ></nys-icon
+                    ></slot>`
                   : ""}
               </a>
             </div>
@@ -246,14 +255,16 @@ export class NysButton extends LitElement {
                   </slot>`
                 : ""}
               ${this.circle && this.icon
-                ? html`<nys-icon
-                    size=${this.size === "sm"
-                      ? "24"
-                      : this.size === "lg"
-                        ? "40"
-                        : "32"}
-                    name=${this.icon}
-                  ></nys-icon>`
+                ? html`<slot name="circle-icon">
+                    <nys-icon
+                      size=${this.size === "sm"
+                        ? "24"
+                        : this.size === "lg"
+                          ? "40"
+                          : "32"}
+                      name=${this.icon}
+                    ></nys-icon>
+                  </slot>`
                 : ""}
             </button>
           `}

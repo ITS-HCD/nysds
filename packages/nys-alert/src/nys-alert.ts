@@ -208,9 +208,9 @@ export class NysAlert extends LitElement {
             </div>
             ${this.dismissible
               ? html` <nys-button
-                  id="dismiss-btn"
                   variant="ghost"
-                  prefixIcon="close"
+                  circle
+                  icon="close"
                   size="sm"
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="close button"
