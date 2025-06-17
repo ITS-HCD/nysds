@@ -25,7 +25,7 @@ export class NysRadiobutton extends LitElement {
   }
 
   set size(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    // Check if the provided value is in VALID_SIZES. If not, default to "md".
     this._size = NysRadiobutton.VALID_SIZES.includes(
       value as (typeof NysRadiobutton.VALID_SIZES)[number],
     )

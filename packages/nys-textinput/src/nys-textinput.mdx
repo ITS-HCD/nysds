@@ -54,9 +54,9 @@ You can supply a description via our `description` prop for plain text or by emb
 #### Slotted Button
 Note: You can add a button to the input by adding a `slot="startButton"` or `slot="endButton"`.
 This will add a button to the left or right of the input respectively.\
-The button must be a `nys-button` component and one input should not add both a `startButton` and `endButton` to the same input.\
+Use a `<nys-button>` for the slotted button. Do not use both `startButton` and `endButton` on the same input.\
 The slotted button will automatically be `size="sm"` and `variant="filled"` and support the disabled state of the input.\
-When using a slotted button use either `<nys-textinput width="lg">` or `<nys-textinput width="full">` to ensure the input is wide enough for the user to see their input.
+Use `width="lg"` or `width="full"` on `<nys-textinput>` to give users enough space to enter text when a button is present.
 <Canvas of={NysTextinputStories.SlottedButton} />
 #### Error Message
 Note: in order to display an error message, you must pass in `hasError` to the component. Setting `errorMessage` does not display the message by default.
