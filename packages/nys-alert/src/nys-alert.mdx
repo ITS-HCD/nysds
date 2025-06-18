@@ -12,6 +12,8 @@ If an id is not passed, a unique id will be generated.
 
 <p className="pill pill--stable">Stable</p>
 
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
+
 <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYSDS-%2F-Components?node-id=866-814&m=dev">View in Figma</a></p>
 
 ***
@@ -57,7 +59,7 @@ Display primary and secondary actions as links in the alert, providing clear and
 You must provide both an action label and a URL for each action to ensure proper functionality.
 <Canvas of={NysAlertStories.ActionLinks} />
 
-## Usage 
+## Usage
 
 ### When to use this component
   - Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
@@ -72,7 +74,7 @@ You must provide both an action label and a URL for each action to ensure proper
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
       - Keep the alert content concise and focused on the message.
       - Use the appropriate `type` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
       - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
@@ -95,7 +97,7 @@ The `nys-alert` component includes the following accessibility-focused features:
 - Keyboard navigation support, allowing users to use voiceover to read the alert using the keyboard.
 - Visual focus indicators to help users navigate the component.
 
-#### Each alert type contains an ARIA role attribute that can notify assistive technologies of time-sensitive and important messages. 
+#### Each alert type contains an ARIA role attribute that can notify assistive technologies of time-sensitive and important messages.
 <table border="1">
   <thead>
     <tr>
@@ -136,7 +138,7 @@ You can listen to these events using JavaScript:
 const alert = document.querySelector("nys-alert");
 
 // Listen for the 'nys-alertClosed' event
-/* 
+/*
  * Consider persisting dismissal state (e.g., to localStorage or analytics)
  * This can be used to prevent the alert from appearing again
  */
