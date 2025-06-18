@@ -8,15 +8,11 @@ export class NysTooltip extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
-  @property({ type: String, reflect: true }) position:
-    | "top"
-    | "bottom"
-    | "left"
-    | "right"
-    | "" = "";
 
   // Track if user set position is set explicitly
   private _userHasSetPosition = false;
+  // Internal flag to prevent falsely triggering user intent
+  private _internallyUpdatingPosition = false;
   // Track if tooltip is active (hovered or focused)
   private _active = false;
 
@@ -34,9 +30,6 @@ export class NysTooltip extends LitElement {
     if (!this.id) {
       this.id = `nys-toggle-${Date.now()}-${tooltipIdCounter++}`;
     }
-
-    // We will dynamically update the position property if user doesn't set one up.
-    this._userHasSetPosition = this.position !== "";
 
     this.addEventListener("mouseenter", this._handleTooltipEnter);
     this.addEventListener("focusin", this._handleTooltipEnter);
@@ -56,6 +49,27 @@ export class NysTooltip extends LitElement {
     this.removeEventListener("focusout", this._handleBlurOrMouseLeave);
   }
 
+  /********************* Position Logic *********************/
+  private _position: "top" | "bottom" | "left" | "right" | "" = "";
+
+  @property({ type: String, reflect: true })
+  get position() {
+    return this._position;
+  }
+
+  set position(value) {
+    const oldVal = this._position;
+    this._position = value;
+    this.requestUpdate("position", oldVal);
+
+    // There are two ways to set position.
+    // This flag prevents auto-positioning from overriding user-defined values.
+    if (!this._internallyUpdatingPosition) {
+      this._userHasSetPosition = value !== "";
+    }
+  }
+
+  /******************** Event Handlers ********************/
   // Check if user has set position. If not, perform dynamic positioning logic
   private _handleTooltipEnter = () => {
     this._active = true;
@@ -88,6 +102,7 @@ export class NysTooltip extends LitElement {
     }
   };
 
+  /******************** Functions ********************/
   // Calculates the best placement based on available space (referencing popper code logic)
   private autoPositionTooltip() {
     const wrapper = this.shadowRoot?.querySelector(".nys-tooltip__wrapper");
@@ -98,14 +113,14 @@ export class NysTooltip extends LitElement {
     const triggerRect = wrapper.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
 
-    // Define some margin buffer between tooltip and trigger
+    // Define some margin buffer between tooltip and trigger (to avoid touching the edges too tightly)
     const margin = 8;
 
     // Available space on each side relative to trigger rect and viewport
     const spaceAvailable = {
       top: triggerRect.top - margin,
-      bottom: window.innerHeight - triggerRect.bottom - margin,
       left: triggerRect.left - margin,
+      bottom: window.innerHeight - triggerRect.bottom - margin,
       right: window.innerWidth - triggerRect.right - margin,
     };
 
@@ -117,7 +132,6 @@ export class NysTooltip extends LitElement {
       right: spaceAvailable.right >= tooltipRect.width,
     };
 
-    // Preferred order to position the tooltip
     const preferredOrder: Array<keyof typeof fits> = [
       "top",
       "bottom",
@@ -128,21 +142,28 @@ export class NysTooltip extends LitElement {
     // Pick first side that fits tooltip fully
     for (const pos of preferredOrder) {
       if (fits[pos]) {
-        this.position = pos;
+        this._setInternalPosition(pos);
         return;
       }
     }
 
     // If none fit fully, pick side with most space
     let maxSpace = 0;
-    let bestPos: keyof typeof spaceAvailable = "top";
+    let bestPosition: keyof typeof spaceAvailable = "top";
     for (const pos of preferredOrder) {
       if (spaceAvailable[pos] > maxSpace) {
         maxSpace = spaceAvailable[pos];
-        bestPos = pos;
+        bestPosition = pos;
       }
     }
-    this.position = bestPos;
+    this._setInternalPosition(bestPosition);
+  }
+
+  // Sets flag to distinguish to position's setter that we are updating "position" prop internally
+  private _setInternalPosition(bestPosition: typeof this._position) {
+    this._internallyUpdatingPosition = true;
+    this.position = bestPosition;
+    this._internallyUpdatingPosition = false;
   }
 
   render() {
