@@ -40,7 +40,6 @@ export const Basic: Story = {
   args: {
     id: "tooltip-example",
     text: "I am a tooltip.",
-    inverted: false,
   },
   render: (args) => html`
     <br />
@@ -48,8 +47,8 @@ export const Basic: Story = {
       <nys-tooltip
         id=${args.id}
         text=${args.text}
-        position=${args.position}
-        .inverted=${args.inverted}
+        position=${args.position ?? ""}
+        ?inverted=${args.inverted}
       >
         <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
       </nys-tooltip>
@@ -62,7 +61,6 @@ export const Basic: Story = {
 <nys-tooltip
   id="tooltip-example"
   label="I am a tooltip."
-  position="top"
 >
   <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
 </nys-tooltip>`,

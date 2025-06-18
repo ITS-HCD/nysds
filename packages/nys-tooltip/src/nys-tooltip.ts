@@ -7,9 +7,18 @@ let tooltipIdCounter = 0; // Counter for generating unique IDs
 export class NysTooltip extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) text = "";
-  @property({ type: Boolean }) inverted = false; // used on dark text
-  @property({ type: String }) position: "top" | "bottom" | "left" | "right" =
-    "top";
+  @property({ type: Boolean, reflect: true }) inverted = false;
+  @property({ type: String, reflect: true }) position:
+    | "top"
+    | "bottom"
+    | "left"
+    | "right"
+    | "" = "";
+
+  // Track if user set position is set explicitly
+  private _userHasSetPosition = false;
+  // Track if tooltip is active (hovered or focused)
+  private _active = false;
 
   static styles = styles;
 
@@ -26,56 +35,114 @@ export class NysTooltip extends LitElement {
       this.id = `nys-toggle-${Date.now()}-${tooltipIdCounter++}`;
     }
 
-    if (!this.position) {
-      this.setAttribute("position", "top");
-    }
-    this.addEventListener("mouseenter", this.handleHover);
+    // We will dynamically update the position property if user doesn't set one up.
+    this._userHasSetPosition = this.position !== "";
+
+    this.addEventListener("mouseenter", this._handleTooltipEnter);
+    this.addEventListener("focusin", this._handleTooltipEnter);
+    this.addEventListener("mousedown", this._handleTooltipEnter);
+
+    this.addEventListener("mouseleave", this._handleBlurOrMouseLeave);
+    this.addEventListener("focusout", this._handleBlurOrMouseLeave);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.removeEventListener("mouseenter", this.handleHover);
+    this.removeEventListener("mouseenter", this._handleTooltipEnter);
+    this.removeEventListener("focusin", this._handleTooltipEnter);
+    this.removeEventListener("mousedown", this._handleTooltipEnter);
+
+    this.removeEventListener("mouseleave", this._handleBlurOrMouseLeave);
+    this.removeEventListener("focusout", this._handleBlurOrMouseLeave);
   }
 
-  // Only when position not set do we perform dynamic positioning logic
-  private handleHover = () => {
-    if (!this.hasAttribute("position")) {
+  // Check if user has set position. If not, perform dynamic positioning logic
+  private _handleTooltipEnter = () => {
+    this._active = true;
+
+    if (!this._userHasSetPosition) {
+      this.autoPositionTooltip();
+    }
+    this._addScrollListeners();
+  };
+
+  private _handleBlurOrMouseLeave = () => {
+    this._active = false;
+    this._removeScrollListeners();
+  };
+
+  // Listen to window scroll so a focus tooltip can auto position even when user move across the page
+  private _addScrollListeners() {
+    window.addEventListener("scroll", this._handleScrollOrResize, true);
+    window.addEventListener("resize", this._handleScrollOrResize);
+  }
+
+  private _removeScrollListeners() {
+    window.removeEventListener("scroll", this._handleScrollOrResize, true);
+    window.removeEventListener("resize", this._handleScrollOrResize);
+  }
+
+  private _handleScrollOrResize = () => {
+    if (this._active && !this._userHasSetPosition) {
       this.autoPositionTooltip();
     }
   };
 
-  // The tooltip will move automatically if it's near the edge of the screen.
+  // Calculates the best placement based on available space (referencing popper code logic)
   private autoPositionTooltip() {
-    const tooltipWrapper = this.shadowRoot?.querySelector(
-      ".nys-tooltip__wrapper",
-    );
+    const wrapper = this.shadowRoot?.querySelector(".nys-tooltip__wrapper");
+    const tooltip = this.shadowRoot?.querySelector(".nys-tooltip__content");
 
-    if (!tooltipWrapper) return;
+    if (!wrapper || !tooltip) return;
 
-    // Get longest length of the surrounding space, make that the position where tooltip should go
-    const triggerRect = tooltipWrapper.getBoundingClientRect();
+    const triggerRect = wrapper.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
 
+    // Define some margin buffer between tooltip and trigger
+    const margin = 8;
+
+    // Available space on each side relative to trigger rect and viewport
     const spaceAvailable = {
-      top: triggerRect.top,
-      bottom: window.innerHeight - triggerRect.bottom,
-      left: triggerRect.left,
-      right: window.innerWidth - triggerRect.right,
+      top: triggerRect.top - margin,
+      bottom: window.innerHeight - triggerRect.bottom - margin,
+      left: triggerRect.left - margin,
+      right: window.innerWidth - triggerRect.right - margin,
     };
 
-    const preferredOrder: Array<keyof typeof spaceAvailable> = [
+    // Check if tooltip fits on each side (compare available space vs tooltip size)
+    const fits = {
+      top: spaceAvailable.top >= tooltipRect.height,
+      bottom: spaceAvailable.bottom >= tooltipRect.height,
+      left: spaceAvailable.left >= tooltipRect.width,
+      right: spaceAvailable.right >= tooltipRect.width,
+    };
+
+    // Preferred order to position the tooltip
+    const preferredOrder: Array<keyof typeof fits> = [
       "top",
       "bottom",
       "right",
       "left",
     ];
 
-    for (const position of preferredOrder) {
-      const buffer = 100; // tooltip height/width estimate
-      if (spaceAvailable[position] > buffer) {
-        this.setAttribute("position", position);
+    // Pick first side that fits tooltip fully
+    for (const pos of preferredOrder) {
+      if (fits[pos]) {
+        this.position = pos;
         return;
       }
     }
+
+    // If none fit fully, pick side with most space
+    let maxSpace = 0;
+    let bestPos: keyof typeof spaceAvailable = "top";
+    for (const pos of preferredOrder) {
+      if (spaceAvailable[pos] > maxSpace) {
+        maxSpace = spaceAvailable[pos];
+        bestPos = pos;
+      }
+    }
+    this.position = bestPos;
   }
 
   render() {

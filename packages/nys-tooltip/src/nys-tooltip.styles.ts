@@ -12,7 +12,7 @@ export default css`
 
   .nys-tooltip__content {
     position: absolute;
-    opacity: 1;
+    opacity: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +27,6 @@ export default css`
     flex-wrap: wrap;
     color: var(--nys-color-text-reverse, #ffffff);
     border-radius: var(--nys-radius-md, 4px);
-    border: var(--nys-border-width-sm, 1px) solid var(--nys-color-ink, #1b1b1b);
     background: var(--nys-color-ink, #1b1b1b);
     font-family: var(--nys-type-family-ui, "Proxima Nova");
     font-size: var(--nys-type-size-ui-sm, 14px);
@@ -37,6 +36,7 @@ export default css`
     letter-spacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
     left: 50%;
     transform: translateX(-50%);
+    z-index: 1;
   }
 
   /* Tooltip Arrow (default) */
@@ -52,9 +52,11 @@ export default css`
       no-repeat center;
   }
 
-  .nys-tooltip__wrapper:hover .nys-tooltip__content {
+  .nys-tooltip__wrapper:hover .nys-tooltip__content,
+  .nys-tooltip__wrapper:focus-within .nys-tooltip__content {
     opacity: 1;
   }
+
 
   /* ===================== POSITIONING ===================== */
   /* Top */
@@ -109,12 +111,12 @@ export default css`
 
   :host([position="right"]) .nys-tooltip__content::after {
     padding-bottom: var(--nys-space-2-px, 2px);
-    left: -11px;
+    left: -10px;
     top: 50%;
     transform: translateY(-50%) rotate(90deg);
   }
 
-  :host([inverted]) .nys-tooltip__content {
+  :host([inverted]) .nys-tooltip__content, :host([inverted]) .nys-tooltip__content::after {
     color: var(--nys-color-text, #1B1B1B);
     background: var(--nys-color-ink-reverse, #FFF);
   }
