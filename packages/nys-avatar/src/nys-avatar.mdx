@@ -11,6 +11,8 @@ By default, a generic icon is displayed. Personalize avatars with custom icons, 
 If an id is not passed, a unique id will be generated.
 
 <p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
 <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYSDS-%2F-Components?node-id=1436-1601&m=dev">View in Figma</a></p>
 
 ***
@@ -26,7 +28,7 @@ To display an image in the avatar, set the `image` and `label` attributes. Image
 <Canvas of={NysAvatarStories.AvatarImage} />
 
 ### Initials
-If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon. Initials will take <u>priority and override</u> icons. 
+If an image is unavailable, you can set the `initials` attribute to display a personalized placeholder instead of an icon. Initials will take <u>priority and override</u> icons.
 <Canvas of={NysAvatarStories.AvatarInitials} />
 
 ### Custom Icons
@@ -55,7 +57,7 @@ The background color of the Avatar can be customized using the color attribute. 
 <div className="nys-grid-row nys-grid-gap-lg">
    <div className="nys-mobile-lg:nys-grid-col">
       <div className="usage-card usage-card--do">
-         ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+         ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
          - Use for clear, simple user or entity representation.
          - Use appropriate shapes, sizes, and images to fit the overall page design.
          - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
