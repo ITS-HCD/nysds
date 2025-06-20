@@ -12,6 +12,7 @@ export * from "../packages/nys-skipnav/src/index";
 export * from "../packages/nys-textarea/src/index";
 export * from "../packages/nys-textinput/src/index";
 export * from "../packages/nys-toggle/src/index";
+export * from "../packages/nys-tooltip/src/index";
 export * from "../packages/nys-unavheader/src/index";
 export * from "../packages/nys-globalheader/src/index";
 export * from "../packages/nys-globalfooter/src/index";
