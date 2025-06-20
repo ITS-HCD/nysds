@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-tooltip.styles";
 
 let tooltipIdCounter = 0; // Counter for generating unique IDs
@@ -13,7 +13,8 @@ export class NysTooltip extends LitElement {
   private _userHasSetPosition = false;
   // Internal flag to prevent falsely triggering user intent
   private _internallyUpdatingPosition = false;
-  // Track if tooltip is active (hovered or focused)
+  // Track if tooltip is active (hovered or focused)\
+  @state()
   private _active = false;
 
   static styles = styles;
@@ -173,9 +174,9 @@ export class NysTooltip extends LitElement {
         <div
           class="nys-tooltip__content"
           role="tooltip"
-          aria-hidden=${!this.text}
+          aria-hidden=${!this._active}
         >
-          ${this.text}
+          <div class="nys-tooltip__inner">${this.text}</div>
         </div>
       </div>
     `;

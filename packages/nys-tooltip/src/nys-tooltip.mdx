@@ -23,30 +23,47 @@ If an id is not passed, a unique id will be generated.
 <Controls />
 
 ## Options
+### Position
+Use the `position` prop to control where the direction where the tooltip will appear.
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>
+  <nys-icon size="xl" name="info"></nys-icon> If no position is provided, the tooltip will automatically choose the best position based on the available space.
+</div>
+
+Valid positions are: 
+- `top`
+- `bottom`
+- `right`
+- `left`
+<Canvas of={NysTooltipStories.Position} />
+
+### Inverted
+Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the tooltip. Use this prop when the tooltip is on a dark background.
+<Canvas of={NysTooltipStories.Inverted} />
 
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+- Use a tooltip to explain unfamiliar concepts or to provide contextual help.
 
 ### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+- When the information is critical for understanding or completing a task. Use inline text instead.
+- When the information is long or includes links or actions. Tooltips should stay simple and passive.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - Provide brief and helpful content inside the tooltip.
+      - Provide tooltips for unlabeled icons.
+      - Position tooltips so they don’t block related content.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - Use tooltips for information that is vital to task completion.
+      - Use interactive elements such as links or buttons inside a tooltip.
+      - Rely on tooltips when you have room to provide more explanation.
     </div>
   </div>
 </div>
@@ -55,60 +72,6 @@ If an id is not passed, a unique id will be generated.
 
 The `nys-tooltip` component includes the following accessibility-focused features:
 
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-
-## Slots
-<table>
-    <thead>
-    <tr>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-component` or `nys-component`</td>
-        <td>none</td>
-    </tr>
-    </tbody>
-</table>
-
-## Events
-
-The `nys-tooltip` component emits the following events:
-
-1. `click`: Emitted when the tooltip is clicked.
-2. `focus`: Emitted when the tooltip receives focus.
-3. `blur`: Emitted when the tooltip loses focus.
-
-You can listen to these events using JavaScript:
-
-```js
-// Select the tooltip component
-const tooltip = document.querySelector("nys-tooltip");
-
-// Listen for the 'click' event
-tooltip.addEventListener("click", () => {
-	console.log("Tooltip clicked");
-});
-
-// Listen for the 'focus' event
-tooltip.addEventListener("focus", () => {
-	console.log("Tooltip is focused");
-});
-
-// Listen for the 'blur' event
-tooltip.addEventListener("blur", () => {
-	console.log("Tooltip lost focus");
-});
-```
-
-## Dependencies
-
-This component automatically imports the following dependencies.
-
-- TODO: Add dependencies
+- Keyboard and mouse support: tooltip appears when users hover with mouse or focus using a keyboard
+- Tooltip uses `role="tooltip"` for assistive technologies and sets `aria-hidden` based on internal state based on when tooltip is hidden or showing.
+- Positioning logic: If a position is not manually set, the tooltip will automatically appear in the direction with the most available space. 

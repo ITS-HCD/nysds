@@ -3,40 +3,53 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Tooltip Styles */
+    --_nys-tooltip-color: var(--nys-color-text-reverse, #ffffff);
+    --_nys-tooltip-background: var(--nys-color-ink, #1b1b1b);
+    --_nys-tooltip-border-radius: var(--nys-radius-md, 4px);
+    --_nys-tooltip-font-family: var(--nys-type-family-ui, "Proxima Nova");
+    --_nys-tooltip-font-size: var(--nys-type-size-ui-sm, 14px);
+    --_nys-tooltip-letterspacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
+    --_nys-tooltip-lineheight: var(--nys-font-lineheight-ui-sm, 24px);
   }
 
   .nys-tooltip__wrapper {
     position: relative;
     width: fit-content;
+    display: flex;
+    cursor: pointer;
   }
 
   .nys-tooltip__content {
     position: absolute;
     opacity: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    gap: 8px;
+    display: block;
     max-width: 400px;
-    width: fit-content;
-    text-wrap: nowrap;
-    text-align: center;
+    width: max-content;
     max-height: 120px;
     padding: var(--nys-space-50, 4px) var(--nys-space-100, 8px);
-    flex-wrap: wrap;
-    color: var(--nys-color-text-reverse, #ffffff);
-    border-radius: var(--nys-radius-md, 4px);
-    background: var(--nys-color-ink, #1b1b1b);
-    font-family: var(--nys-type-family-ui, "Proxima Nova");
-    font-size: var(--nys-type-size-ui-sm, 14px);
-    font-style: normal;
-    font-weight: 400;
-    line-height: var(--nys-font-lineheight-ui-sm, 24px);
-    letter-spacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
+    background: var(--_nys-tooltip-background);
+    border-radius: var(--_nys-tooltip-border-radius);
     left: 50%;
     transform: translateX(-50%);
+    cursor: auto;
     z-index: 1;
+  }
+
+  .nys-tooltip__inner {
+    display: block;
+    color: var(--_nys-tooltip-color);
+    font-family: var(--_nys-tooltip-font-family);
+    font-size: var(--_nys-tooltip-font-size);
+    font-weight: 400;
+    line-height: var(--_nys-tooltip-lineheight);
+    letter-spacing: var(--_nys-tooltip-letterspacing);
+    white-space: normal;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 
   /* Tooltip Arrow (default) */
@@ -56,7 +69,6 @@ export default css`
   .nys-tooltip__wrapper:focus-within .nys-tooltip__content {
     opacity: 1;
   }
-
 
   /* ===================== POSITIONING ===================== */
   /* Top */
@@ -110,14 +122,19 @@ export default css`
   }
 
   :host([position="right"]) .nys-tooltip__content::after {
-    padding-bottom: var(--nys-space-2-px, 2px);
+    padding-bottom: var(--nys-space-2px, 2px);
     left: -10px;
     top: 50%;
     transform: translateY(-50%) rotate(90deg);
   }
 
-  :host([inverted]) .nys-tooltip__content, :host([inverted]) .nys-tooltip__content::after {
-    color: var(--nys-color-text, #1B1B1B);
-    background: var(--nys-color-ink-reverse, #FFF);
+  :host([inverted]) .nys-tooltip__content {
+    --_nys-tooltip-color: var(--nys-color-text, #1b1b1b);
+    --_nys-tooltip-background: var(--nys-color-ink-reverse, #fff);
+  }
+
+  :host([inverted]) .nys-tooltip__content::after {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="6" viewBox="0 0 15 6" fill="none"><path d="M8.15079 5.44218C7.7763 5.76317 7.2237 5.76317 6.84921 5.44218L0.5 0H14.5L8.15079 5.44218Z" fill="white"/></svg>')
+      no-repeat center;
   }
 `;
