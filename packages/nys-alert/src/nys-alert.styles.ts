@@ -157,14 +157,6 @@ export default css`
     flex-wrap: wrap;
   }
 
-  /* Dismiss Button */
-  #dismiss-btn {
-    --_nys-button-width: var(--nys-size-400, 32px);
-    --_nys-button-height: var(--nys-size-400, 32px);
-    --_nys-button-padding-y: 0;
-    --_nys-button-padding-x: 0;
-  }
-
   /* Alert Types */
   :host([type="info"]) {
     --_nys-alert-color-border-left: var(

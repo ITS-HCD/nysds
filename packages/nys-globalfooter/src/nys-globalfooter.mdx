@@ -11,6 +11,8 @@ The **`nys-globalfooter`** component is a reusable web component for use in New 
 
 <p className="pill pill--stable">Stable</p>
 
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
+
 <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYSDS-%2F-Components?node-id=1616-6697&m=dev">View in Figma</a></p>
 
 ***
@@ -31,7 +33,7 @@ The (`<ul>`) will act as grouping for each list item (`<li>`), which should cont
 <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon name="info" size="xl"></nys-icon> Minimize the number of links to keep users focused and avoid distractions </div>
 <Canvas of={NysGlobalFooterStories.WithMenuLinks} />
 
-## Usage 
+## Usage
 
 ### When to use this component
   - Use `nys-globalfooter` to provide consistent access to essential links like contact details, privacy policies, and terms of use across all pages.
@@ -44,7 +46,7 @@ The (`<ul>`) will act as grouping for each list item (`<li>`), which should cont
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
       - Include essential links and information users need site-wide.
       - Keep the design consistent and unobtrusive.
       - Minimize the number of links.

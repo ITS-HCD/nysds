@@ -176,7 +176,8 @@ export class NysUnavHeader extends LitElement {
               id="nys-unavheader__closetrustbar"
               class="nys-unavheader__iconbutton"
               variant="ghost"
-              prefixIcon="close"
+              circle
+              icon="close"
               size="sm"
               ariaLabel="Close trustbar"
               .onClick="${() => this._toggleTrustbar()}"
@@ -227,12 +228,19 @@ export class NysUnavHeader extends LitElement {
                     >
                       <nys-button
                         variant="ghost"
-                        prefixIcon="language"
+                        circle
+                        icon="slotted"
                         ariaLabel="Translate"
                         id="nys-unavheader__translate"
                         class="nys-unavheader__iconbutton"
                         .onClick="${() => this._toggleLanguageList()}"
-                      ></nys-button>
+                      >
+                        <nys-icon
+                          slot="circle-icon"
+                          name="language"
+                          size="16"
+                        ></nys-icon>
+                      </nys-button>
                     </div>
                     ${!this.isSearchFocused
                       ? html`<div class="nys-unavheader--lg nys-unavheader--xl">
@@ -273,12 +281,19 @@ export class NysUnavHeader extends LitElement {
                     >
                       <nys-button
                         variant="ghost"
-                        prefixIcon="search"
+                        circle
+                        icon="search"
                         ariaLabel="Search"
                         id="nys-unavheader__searchbutton"
                         class="nys-unavheader__iconbutton"
                         .onClick="${() => this._toggleSearchDropdown()}"
-                      ></nys-button>
+                      >
+                        <nys-icon
+                          slot="circle-icon"
+                          name="search"
+                          size="16"
+                        ></nys-icon>
+                      </nys-button>
                     </div>
                     <div class="nys-unavheader--lg nys-unavheader--xl">
                       <nys-textinput
@@ -289,7 +304,8 @@ export class NysUnavHeader extends LitElement {
                         @focus="${this._handleSearchFocus}"
                         @blur="${this._handleSearchBlur}"
                         @keyup="${this._handleSearchKeyup}"
-                        ><nys-button
+                      >
+                        <nys-button
                           slot="endButton"
                           type="submit"
                           prefixIcon="search"
@@ -318,7 +334,8 @@ export class NysUnavHeader extends LitElement {
               @focus="${this._handleSearchFocus}"
               @blur="${this._handleSearchBlur}"
               @keyup="${this._handleSearchKeyup}"
-              ><nys-button
+            >
+              <nys-button
                 slot="endButton"
                 type="submit"
                 prefixIcon="search"
