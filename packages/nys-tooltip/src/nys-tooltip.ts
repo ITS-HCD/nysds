@@ -12,7 +12,7 @@ export class NysTooltip extends LitElement {
   // Track if user set position is set explicitly
   private _userHasSetPosition = false;
   private _originalUserPosition: typeof this._position | null = null;
-  // Internal flag to prevent falsely triggering user intent
+  // Internal flag to prevent dynamic positioning when not needed
   private _internallyUpdatingPosition = false;
 
   // Track if tooltip is active (hovered or focused)
@@ -81,7 +81,7 @@ export class NysTooltip extends LitElement {
     // Try to honor user's original preference first
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
-        this._setInternalPosition(this._originalUserPosition);
+        this.position = this._originalUserPosition;
         return;
       }
     }
@@ -111,7 +111,7 @@ export class NysTooltip extends LitElement {
 
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
-        this._setInternalPosition(this._originalUserPosition);
+        this.position = this._originalUserPosition;
         // Only call for dynamic positioning for active non-fitting current positions
       } else {
         this.autoPositionTooltip();
