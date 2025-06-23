@@ -34,7 +34,7 @@ export class NysTooltip extends LitElement {
     this._position = value;
     this.requestUpdate("position", oldVal);
 
-    // The "_internallyUpdatingPosition" flag prevents auto-positioning from overriding user-defined values.
+    // The "_internallyUpdatingPosition" flag allows user's set position to take preference
     if (!this._internallyUpdatingPosition) {
       this._userHasSetPosition = value !== null;
       this._originalUserPosition = value;
@@ -73,7 +73,7 @@ export class NysTooltip extends LitElement {
   }
 
   /******************** Event Handlers ********************/
-  // Check if user has set position. If not, perform dynamic positioning logic
+  // When toggling tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _handleTooltipEnter = () => {
     this._active = true;
     this._addScrollListeners();
