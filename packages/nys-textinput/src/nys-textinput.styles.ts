@@ -177,13 +177,15 @@ export default css`
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--_nys-textinput-icon-color);
-    --_nys-button-color-bg: transparent;
-    --_nys-button-color-bg-hover: transparent;
-    --_nys-button-color-bg-active: transparent;
+    --_nys-button-color-bg: var(--_nys-textinput-background-color);
+    --_nys-button-color-bg-hover: var(--_nys-textinput-background-color);
+    --_nys-button-color-bg-active: var(--_nys-textinput-background-color);
     --_nys-button-offset-focus: calc(
       var(--_nys-button-width-focus) * -1
     ); /* Needs to be negative of the offset width */
-    --_nys-button-height: var(--nys-size-400, 32px);
+    --_nys-button-padding-y: var(--nys-space-50, 4px);
+    --_nys-button-padding-x: var(--nys-space-50, 4px);
+    --_nys-button-height: var(--nys-size-300, 32px);
     --_nys-button-width: var(--nys-size-400, 32px);
   }
 
