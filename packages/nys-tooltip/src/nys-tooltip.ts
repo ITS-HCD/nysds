@@ -207,10 +207,19 @@ export class NysTooltip extends LitElement {
   }
 
   render() {
+    const tooltipContentId = `${this.id}__tooltip`;
+
     return html`
       <div class="nys-tooltip__wrapper">
-        <slot></slot>
+        <span
+          class="nys-tooltip__trigger"
+          tabindex="0"
+          aria-describedby=${tooltipContentId}
+        >
+          <slot></slot>
+        </span>
         <div
+          id=${tooltipContentId}
           class="nys-tooltip__content"
           role="tooltip"
           aria-hidden=${!this._active}
