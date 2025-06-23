@@ -8,7 +8,7 @@ import "@nysds/nys-alert";
 
 # Error Message **Component**
 
-<nys-alert 
+<nys-alert
   type="warning"
   heading="This component should not be used alone. It is already built into form fields.">
 </nys-alert>
@@ -16,9 +16,10 @@ import "@nysds/nys-alert";
 The **`nys-errormessage`** is a reusable web component for use in New York State digital products. It allows users to add an error message to a form field. It can display description and optional/required flags.
 errormessage
 
-<p className="pill stable">Stable</p>
+<p className="pill pill--stable">Stable</p>
 
-<p className="pill uikit"><a href="#">Get the UI kit</a></p>
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
+
 
 ***
 
@@ -30,7 +31,7 @@ errormessage
 Add a divider to components that are not bordered.
 <Canvas of={NysErrorMessageStories.Divider} />
 
-## Use cases    
+## Use cases
 Use in form components to display an error to a user if the input is invalid and needs to be modified.
 In inputs that are bordered (i.e. text inputs and select) do not show the divider. Otherwise add it with `showDivider`
 

@@ -65,6 +65,21 @@ pre, code, .sb-show-main * pre, .sb-show-main * code, .sb-show-main * pre *, .sb
     background: var(--nys-color-success);
     color: var(--nys-color-ink-reverse) !important;
 }
+.pill--uikit {
+    background: var(--nys-color-black-transparent);
+    color: var(--nys-color-link) !important;
+}
+
+.pill--wcag {
+    background: var(--nys-color-theme-weak);
+    color: var(--nys-color-ink) !important;
+}
+
+.pill a {
+    line-height: 1 !important;
+    color: inherit !important;
+    text-decoration: none !important;
+}
 
 .usage-card {
     padding: var(--nys-space-200) var(--nys-space-200);
