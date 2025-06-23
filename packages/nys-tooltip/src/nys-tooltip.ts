@@ -92,6 +92,7 @@ export class NysTooltip extends LitElement {
 
   private _handleBlurOrMouseLeave = () => {
     this._active = false;
+    console.log(this._active )
     this._removeScrollListeners();
   };
 
@@ -211,11 +212,7 @@ export class NysTooltip extends LitElement {
 
     return html`
       <div class="nys-tooltip__wrapper">
-        <span
-          class="nys-tooltip__trigger"
-          tabindex="0"
-          aria-describedby=${tooltipContentId}
-        >
+        <span class="nys-tooltip__trigger" aria-describedby=${tooltipContentId}>
           <slot></slot>
         </span>
         <div
@@ -223,6 +220,7 @@ export class NysTooltip extends LitElement {
           class="nys-tooltip__content"
           role="tooltip"
           aria-hidden=${!this._active}
+          ?active=${this._active}
         >
           <div class="nys-tooltip__inner">${this.text}</div>
         </div>

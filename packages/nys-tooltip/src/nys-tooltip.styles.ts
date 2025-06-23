@@ -66,7 +66,7 @@ export default css`
   }
 
   .nys-tooltip__wrapper:hover .nys-tooltip__content,
-  .nys-tooltip__wrapper:focus-within .nys-tooltip__content {
+  .nys-tooltip__content[active] {
     opacity: 1;
   }
 
@@ -140,7 +140,9 @@ export default css`
 
   @media (max-width: 400px) {
     .nys-tooltip__content {
-      max-width: 100vw;
+      max-width: calc(
+        100vw - 2rem
+      ); /* 2rem = 32px = 16px margin on each side */
     }
   }
 `;
