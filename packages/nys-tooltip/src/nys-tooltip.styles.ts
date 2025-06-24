@@ -101,14 +101,16 @@ export default css`
 
   /* Left */
   :host([position="left"]) .nys-tooltip__content {
-    left: -100%;
+    left: auto;
+    right: 100%;
     top: 50%;
     transform: translateY(-50%);
     margin-right: 10px;
   }
 
   :host([position="left"]) .nys-tooltip__content::after {
-    left: 96%;
+    left: 100%;
+    margin-left: -5px;
     top: 50%;
     transform: translateY(-50%) rotate(-90deg);
   }
@@ -122,7 +124,6 @@ export default css`
   }
 
   :host([position="right"]) .nys-tooltip__content::after {
-    padding-bottom: var(--nys-space-2px, 2px);
     left: -10px;
     top: 50%;
     transform: translateY(-50%) rotate(90deg);
