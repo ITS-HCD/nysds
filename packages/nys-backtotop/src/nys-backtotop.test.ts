@@ -11,11 +11,21 @@ describe("nys-backtotop", () => {
     expect(el).to.exist;
   });
 
-  it("reflects attributes to properties", async () => {
-    const el = await fixture(html`
-      <nys-backtotop id="id" name="name"></nys-backtotop>
-    `);
-    expect(el.id).to.equal("id");
+  it("has a default position of 'right'", async () => {
+    const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
+    expect(el.position).to.equal("right");
+  });
+
+  it("allows setting the position attribute", async () => {
+    const el = await fixture(
+      html`<nys-backtotop position="left"></nys-backtotop>`,
+    );
+    expect(el.position).to.equal("left");
+  });
+
+  it("is not visible when scrolled to the top", async () => {
+    const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
+    expect(el.visible).to.be.false;
   });
 
   it("passes the a11y audit", async () => {
