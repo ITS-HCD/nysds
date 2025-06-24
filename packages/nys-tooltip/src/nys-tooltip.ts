@@ -92,7 +92,7 @@ export class NysTooltip extends LitElement {
 
   private _handleBlurOrMouseLeave = () => {
     this._active = false;
-    console.log(this._active )
+    console.log(this._active);
     this._removeScrollListeners();
   };
 
