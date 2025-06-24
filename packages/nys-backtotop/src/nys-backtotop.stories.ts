@@ -3,8 +3,8 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-backtotop";
 import "@nysds/nys-unavheader";
 import "@nysds/nys-globalheader";
-import "@nysds/nys-globalfooter";
 import "@nysds/nys-unavfooter";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysBacktotopArgs {
@@ -80,15 +80,15 @@ export const Basic: Story = {
   },
 };
 
-// Define stories without using args
 export const Left: Story = {
   args: {
     position: "left",
   },
   render: (args) => {
-    // Force visible and disable scroll behavior for the demo
+    // Same fix: get last instance rendered
     setTimeout(() => {
-      const el = document.querySelector("nys-backtotop");
+      const elements = document.querySelectorAll("nys-backtotop");
+      const el = elements[elements.length - 1];
       if (el) {
         window.removeEventListener("scroll", el["_handleScroll"]);
         el.visible = true;
@@ -105,6 +105,14 @@ export const Left: Story = {
           background: var(--nys-color-neutral-10);
           font-size: var(--nys-font-size-sm);
         }
+
+        nys-button {
+          position: fixed;
+          bottom: 1rem;
+          right: 1rem;
+          --_nys-button-radius-left: var(--nys-radius-round);
+          --_nys-button-radius-right: var(--nys-radius-round);
+        }
       </style>
 
       <nys-unavheader hideTranslate hideSearch></nys-unavheader>
@@ -118,6 +126,11 @@ export const Left: Story = {
           down the page.
         </p>
       </div>
+      <nys-button
+        prefixIcon="sms"
+        variant="outline"
+        label="Chat With Us"
+      ></nys-button>
       <nys-unavfooter></nys-unavfooter>
       <nys-backtotop .position=${args.position}></nys-backtotop>
     `;
@@ -125,7 +138,7 @@ export const Left: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-backtotop></nys-backtotop>`,
+        code: `<nys-backtotop left></nys-backtotop>`,
         type: "auto",
       },
     },
