@@ -4,7 +4,7 @@ export default css`
   :host {
   }
 
-  #nys-backtotop {
+  .nys-backtotop {
     --_nys-button-radius-left: var(--nys-radius-round, 1776px);
     --_nys-button-radius-right: var(--nys-radius-round, 1776px);
     --_nys-button-padding-y: var(--nys-space-100, 8px);
@@ -14,10 +14,15 @@ export default css`
     bottom: 1rem;
     right: 1rem;
     z-index: 9999;
+    display: none;
   }
 
   .left {
     left: 1rem;
     right: auto;
+  }
+
+  .visible {
+    display: inline-flex;
   }
 `;
