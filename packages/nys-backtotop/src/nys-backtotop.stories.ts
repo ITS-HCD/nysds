@@ -32,80 +32,100 @@ export default meta;
 type Story = StoryObj<NysBacktotopArgs>;
 
 // Define stories without using args
-
 export const Basic: Story = {
-  render: (args) => html`
-    <nys-unavheader></nys-unavheader>
-    <nys-globalheader></nys-globalheader>
-    <div>
-      <h1>Sample Content on page</h1>
-      <p>
-        This is a sample content area. Scroll down to see the "Back to Top"
-        button in action.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-      <p>
-        More content here to make the page scrollable. Lorem ipsum dolor sit
-        amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </p>
-      <p>
-        This is a sample content area. Scroll down to see the "Back to Top"
-        button in action.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-      <p>
-        More content here to make the page scrollable. Lorem ipsum dolor sit
-        amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </p>
-      <p>
-        This is a sample content area. Scroll down to see the "Back to Top"
-        button in action.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-      <p>
-        More content here to make the page scrollable. Lorem ipsum dolor sit
-        amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </p>
-    </div>
-    <nys-globalfooter></nys-globalfooter>
-    <nys-unavfooter></nys-unavfooter>
-    <nys-backtotop .position=${args.position}></nys-backtotop>
-  `,
+  render: (args) => {
+    // Force visible and disable scroll behavior for the demo
+    setTimeout(() => {
+      const el = document.querySelector("nys-backtotop");
+      if (el) {
+        window.removeEventListener("scroll", el["_handleScroll"]);
+        el.visible = true;
+      }
+    }, 0);
+
+    return html`
+      <style>
+        code {
+          white-space: nowrap;
+          padding: var(--nys-space-1px) var(--nys-space-2px);
+          border-radius: var(--nys-radius-md);
+          color: var(--nys-color-red-600);
+          background: var(--nys-color-neutral-10);
+          font-size: var(--nys-font-size-sm);
+        }
+      </style>
+
+      <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+      <nys-globalheader appName="Back to Top Example"></nys-globalheader>
+      <div style="padding: 0 2rem">
+        <h1>Sample Content on page</h1>
+        <p>
+          This is a sample content area used to demonstrate the functionality of
+          the Back to Top button. In an actual application,
+          <code>nys-backtotop</code> would not be visible until the user scrolls
+          down the page.
+        </p>
+      </div>
+      <nys-unavfooter></nys-unavfooter>
+      <nys-backtotop .position=${args.position}></nys-backtotop>
+    `;
+  },
   parameters: {
     docs: {
       source: {
-        code: `
-<nys-backtotop></nys-backtotop>`,
+        code: `<nys-backtotop></nys-backtotop>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+// Define stories without using args
+export const Left: Story = {
+  args: {
+    position: "left",
+  },
+  render: (args) => {
+    // Force visible and disable scroll behavior for the demo
+    setTimeout(() => {
+      const el = document.querySelector("nys-backtotop");
+      if (el) {
+        window.removeEventListener("scroll", el["_handleScroll"]);
+        el.visible = true;
+      }
+    }, 0);
+
+    return html`
+      <style>
+        code {
+          white-space: nowrap;
+          padding: var(--nys-space-1px) var(--nys-space-2px);
+          border-radius: var(--nys-radius-md);
+          color: var(--nys-color-red-600);
+          background: var(--nys-color-neutral-10);
+          font-size: var(--nys-font-size-sm);
+        }
+      </style>
+
+      <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+      <nys-globalheader appName="Back to Top Example"></nys-globalheader>
+      <div style="padding: 0 2rem">
+        <h1>Sample Content on page</h1>
+        <p>
+          This is a sample content area used to demonstrate the functionality of
+          the Back to Top button. In an actual application,
+          <code>nys-backtotop</code> would not be visible until the user scrolls
+          down the page.
+        </p>
+      </div>
+      <nys-unavfooter></nys-unavfooter>
+      <nys-backtotop .position=${args.position}></nys-backtotop>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-backtotop></nys-backtotop>`,
         type: "auto",
       },
     },

@@ -1,15 +1,13 @@
 import { LitElement, html } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import styles from "./nys-backtotop.styles";
 import "@nysds/nys-button";
 
 export class NysBacktotop extends LitElement {
   @property({ type: String }) position = "right";
+  @property({ type: Boolean, reflect: true }) visible = false;
 
   static styles = styles;
-
-  @state()
-  private _visible = false;
 
   constructor() {
     super();
@@ -28,7 +26,7 @@ export class NysBacktotop extends LitElement {
 
   private _handleScroll() {
     const showAfter = window.innerHeight * 1.5;
-    this._visible = window.scrollY > showAfter;
+    this.visible = window.scrollY > showAfter;
   }
   private _scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -38,7 +36,7 @@ export class NysBacktotop extends LitElement {
     const classes = [
       "nys-backtotop",
       this.position,
-      this._visible ? "visible" : "",
+      this.visible ? "visible" : "",
     ]
       .filter(Boolean)
       .join(" ");

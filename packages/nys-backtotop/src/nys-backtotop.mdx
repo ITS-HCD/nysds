@@ -7,15 +7,14 @@ import * as NysBacktotopStories from "./nys-backtotop.stories";
 # Backtotop
 
 The **`nys-backtotop`** component is a reusable web component for use in New York State digital products.
-
-If an id is not passed, a unique id will be generated.
+It provides a button that allows users to quickly return to the top of a page, enhancing user experience and accessibility.
 
 <p className="pill pill--stable">Stable</p>
 
 <p className="pill pill--wcag">WCAG 2.2 AA</p>
 
 <p className="pill pill--uikit">
-	<a href="https://www.figma.com/design/TODO/add/url" target="_blank">View in Figma</a>
+	<a href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/branch/Kiy3oi0AHSoxhBhMXdCHrN/%E2%9A%A0%EF%B8%8F-NYSDS---Components--Deprecated-?node-id=17082-2037&m=dev" target="_blank">View in Figma</a>
 </p>
 
 ---
@@ -26,29 +25,35 @@ If an id is not passed, a unique id will be generated.
 
 ## Options
 
+### Left
+When the bottom right part of the screen cannot display the backtotop button, you can set the `left` prop to `true` to position it on the bottom left instead.
+This is useful when the right side of the screen is occupied by other elements, such as a chat bot.
+
+<Canvas of={NysBacktotopStories.Left} />
+
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+- Only use 1 back to top component on a page
+- Use the component when the content is designed to be longer than the height of the screen
 
 ### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+- Add multiple back to top components to one page
+- Use when the content is designed to fill the size of the screen and is not scrollable
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - Only use 1 back to top component on a page
+      - Use the component when the content is designed to be longer than the height of the screen
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - Add multiple back to top components to one page
+      - Use when the content is designed to fill the size of the screen and is not scrollable
     </div>
   </div>
 </div>
@@ -57,27 +62,10 @@ If an id is not passed, a unique id will be generated.
 
 The `nys-backtotop` component includes the following accessibility-focused features:
 
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-
-## Slots
-<table>
-    <thead>
-    <tr>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-component` or `nys-component`</td>
-        <td>none</td>
-    </tr>
-    </tbody>
-</table>
+- Last focusable element on page load for easy keyboard navigation
+- Keyboard navigable with `Tab` key
+- Pressing `Enter` or `Space` activates the backtotop functionality
+- Visible only when the user scrolls down the page, ensuring it does not distract from the content
 
 ## Events
 
@@ -113,4 +101,4 @@ backtotop.addEventListener("blur", () => {
 
 This component automatically imports the following dependencies.
 
-- TODO: Add dependencies
+- `nys-button`
