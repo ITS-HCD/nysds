@@ -215,15 +215,17 @@ export class NysTooltip extends LitElement {
         <span class="nys-tooltip__trigger" aria-describedby=${tooltipContentId}>
           <slot></slot>
         </span>
-        <div
-          id=${tooltipContentId}
-          class="nys-tooltip__content"
-          role="tooltip"
-          aria-hidden=${!this._active}
-          ?active=${this._active}
-        >
-          <div class="nys-tooltip__inner">${this.text}</div>
-        </div>
+        ${this.text.length > 0
+          ? html`<div
+              id=${tooltipContentId}
+              class="nys-tooltip__content"
+              role="tooltip"
+              aria-hidden=${!this._active}
+              ?active=${this._active}
+            >
+              <div class="nys-tooltip__inner">${this.text}</div>
+            </div>`
+          : ""}
       </div>
     `;
   }
