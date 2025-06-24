@@ -43,13 +43,22 @@ export class NysBacktotop extends LitElement {
       .filter(Boolean)
       .join(" ");
     return html`<nys-button
-      id="nys-backtotop"
-      prefixIcon="chevron_up"
-      variant="outline"
-      label="Back To Top"
-      class="${classes}"
-      .onClick=${this._scrollToTop}
-    ></nys-button>`;
+        id="nys-backtotop"
+        prefixIcon="chevron_up"
+        variant="outline"
+        label="Back To Top"
+        class="nys-backtotop--full ${classes}"
+        .onClick=${this._scrollToTop}
+      ></nys-button>
+      <nys-button
+        id="nys-backtotop"
+        icon="chevron_up"
+        circle
+        variant="outline"
+        label="Back To Top"
+        class="nys-backtotop--mobile ${classes}"
+        .onClick=${this._scrollToTop}
+      ></nys-button>`;
   }
 }
 
