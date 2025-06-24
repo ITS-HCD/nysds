@@ -179,14 +179,40 @@ export class NysTooltip extends LitElement {
       "left",
     ];
 
-    for (const pos of preferredOrder) {
+    // Get the user-specified position
+    const userPosition = this.position as keyof typeof spaceAvailable;
+    // Custom logic when user requests a specific position like "left"
+    let tryOrder: Array<keyof typeof spaceAvailable> = preferredOrder;
+
+    if (userPosition === "left") {
+      tryOrder = [
+        "left",
+        "right",
+        ...preferredOrder.filter((pos) => pos != "left" && pos !== "right"),
+      ];
+    } else if (userPosition === "right") {
+      tryOrder = [
+        "right",
+        "left",
+        ...preferredOrder.filter((pos) => pos !== "left" && pos !== "right"),
+      ];
+    } else if (userPosition === "top") {
+      tryOrder = ["top", ...preferredOrder.filter((pos) => pos !== "top")];
+    } else if (userPosition === "bottom") {
+      tryOrder = [
+        "bottom",
+        ...preferredOrder.filter((pos) => pos !== "bottom"),
+      ];
+    }
+
+    for (const pos of tryOrder) {
       if (this._doesPositionFit(pos)) {
         this._setInternalPosition(pos);
         return;
       }
     }
 
-    // If none fit fully, pick side with most space
+    // Fallback: if none fit fully, pick side with most space
     let bestPosition: keyof typeof spaceAvailable = "top";
     let maxSpace = spaceAvailable.top;
 

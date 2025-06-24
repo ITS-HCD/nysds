@@ -43,7 +43,7 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <br />
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: left;">
       <nys-tooltip
         id=${args.id}
         text=${args.text}
