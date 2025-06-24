@@ -27,7 +27,7 @@ export class NysBacktotop extends LitElement {
   }
 
   private _handleScroll() {
-    const showAfter = window.innerHeight * 2;
+    const showAfter = window.innerHeight * 1.5;
     this._visible = window.scrollY > showAfter;
   }
   private _scrollToTop() {
@@ -43,7 +43,7 @@ export class NysBacktotop extends LitElement {
       .filter(Boolean)
       .join(" ");
     return html`<nys-button
-        id="nys-backtotop"
+        id="nys-backtotop-full"
         prefixIcon="chevron_up"
         variant="outline"
         label="Back To Top"
@@ -51,7 +51,7 @@ export class NysBacktotop extends LitElement {
         .onClick=${this._scrollToTop}
       ></nys-button>
       <nys-button
-        id="nys-backtotop"
+        id="nys-backtotop-mobile"
         icon="chevron_up"
         circle
         variant="outline"
