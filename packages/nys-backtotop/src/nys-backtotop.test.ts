@@ -1,30 +1,34 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-backtotop.js";
-// You may need to import other dependencies such as the component's tag name
-// For example:
-// import { NysTextinput } from "./nys-textinput";
+import { NysBacktotop } from "./nys-backtotop.js";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-backtotop", () => {
   it("renders the component", async () => {
-    const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
     expect(el).to.exist;
   });
 
   it("has a default position of 'right'", async () => {
-    const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
     expect(el.position).to.equal("right");
   });
 
   it("allows setting the position attribute", async () => {
-    const el = await fixture(
+    const el = await fixture<NysBacktotop>(
       html`<nys-backtotop position="left"></nys-backtotop>`,
     );
     expect(el.position).to.equal("left");
   });
 
   it("is not visible when scrolled to the top", async () => {
-    const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
     expect(el.visible).to.be.false;
   });
 
