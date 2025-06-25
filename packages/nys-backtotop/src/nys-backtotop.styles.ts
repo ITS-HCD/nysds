@@ -14,7 +14,6 @@ export default css`
     bottom: 1rem;
     right: 1rem;
     z-index: 9999;
-    display: none;
   }
 
   .left {
@@ -24,16 +23,5 @@ export default css`
 
   .visible {
     display: inline-flex;
-  }
-  @media (min-width: 0) and (max-width: 479px) {
-    .nys-backtotop--full {
-      display: none;
-    }
-  }
-
-  @media (min-width: 480px) {
-    .nys-backtotop--mobile {
-      display: none;
-    }
   }
 `;

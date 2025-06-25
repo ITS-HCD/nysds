@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-backtotop.styles";
 import "@nysds/nys-button";
 
@@ -9,18 +9,26 @@ export class NysBacktotop extends LitElement {
 
   static styles = styles;
 
+  @state() private isMobile = false;
+  private mediaQuery: MediaQueryList;
+
   constructor() {
     super();
     this._handleScroll = this._handleScroll.bind(this);
+    this._handleResize = this._handleResize.bind(this);
+    this.mediaQuery = window.matchMedia("(max-width: 480px)");
   }
 
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener("scroll", this._handleScroll);
+    this.mediaQuery.addEventListener("change", this._handleResize);
+    this._handleResize(); // Initialize
   }
 
   disconnectedCallback() {
     window.removeEventListener("scroll", this._handleScroll);
+    this.mediaQuery.removeEventListener("change", this._handleResize);
     super.disconnectedCallback();
   }
 
@@ -32,6 +40,10 @@ export class NysBacktotop extends LitElement {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  private _handleResize() {
+    this.isMobile = this.mediaQuery.matches;
+  }
+
   render() {
     const classes = [
       "nys-backtotop",
@@ -41,22 +53,14 @@ export class NysBacktotop extends LitElement {
       .filter(Boolean)
       .join(" ");
     return html`<nys-button
-        id="nys-backtotop-full"
-        prefixIcon="chevron_up"
-        variant="outline"
-        label="Back To Top"
-        class="nys-backtotop--full ${classes}"
-        .onClick=${this._scrollToTop}
-      ></nys-button>
-      <nys-button
-        id="nys-backtotop-mobile"
-        icon="chevron_up"
-        circle
-        variant="outline"
-        label="Back To Top"
-        class="nys-backtotop--mobile ${classes}"
-        .onClick=${this._scrollToTop}
-      ></nys-button>`;
+      id="nys-backtotop"
+      prefixIcon="chevron_up"
+      variant="outline"
+      label="Back To Top"
+      class="${classes}"
+      .onClick=${this._scrollToTop}
+      ?circle=${this.isMobile}
+    ></nys-button>`;
   }
 }
 
