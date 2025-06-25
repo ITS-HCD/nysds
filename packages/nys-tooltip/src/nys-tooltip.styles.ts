@@ -25,7 +25,7 @@ export default css`
 
   .nys-tooltip__content {
     position: absolute;
-    opacity: 1;
+    opacity: 0;
     display: block;
     max-width: 400px;
     width: max-content;
