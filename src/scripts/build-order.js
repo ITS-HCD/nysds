@@ -16,6 +16,7 @@ const packages = [
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
+  { name: "nys-tooltip", path: "packages/nys-tooltip" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
