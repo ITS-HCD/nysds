@@ -1,6 +1,8 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-tooltip.styles";
+import { shift } from "./shift";
+import { computePosition, shift as floatShift, flip } from "@floating-ui/dom";
 
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
@@ -53,23 +55,6 @@ export class NysTooltip extends LitElement {
     if (!this.id) {
       this.id = `nys-toggle-${Date.now()}-${tooltipIdCounter++}`;
     }
-
-    this.addEventListener("mouseenter", this._handleTooltipEnter);
-    this.addEventListener("focusin", this._handleTooltipEnter);
-    this.addEventListener("mousedown", this._handleTooltipEnter);
-
-    this.addEventListener("mouseleave", this._handleBlurOrMouseLeave);
-    this.addEventListener("focusout", this._handleBlurOrMouseLeave);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    this.removeEventListener("mouseenter", this._handleTooltipEnter);
-    this.removeEventListener("focusin", this._handleTooltipEnter);
-    this.removeEventListener("mousedown", this._handleTooltipEnter);
-
-    this.removeEventListener("mouseleave", this._handleBlurOrMouseLeave);
-    this.removeEventListener("focusout", this._handleBlurOrMouseLeave);
   }
 
   /******************** Event Handlers ********************/
@@ -92,7 +77,6 @@ export class NysTooltip extends LitElement {
 
   private _handleBlurOrMouseLeave = () => {
     this._active = false;
-    console.log(this._active);
     this._removeScrollListeners();
   };
 
@@ -155,15 +139,21 @@ export class NysTooltip extends LitElement {
     return fits[position];
   }
 
-  // Calculates the best placement based on available space (referencing popper code logic)
-  private autoPositionTooltip() {
-    const wrapper = this.shadowRoot?.querySelector(".nys-tooltip__wrapper");
-    const tooltip = this.shadowRoot?.querySelector(".nys-tooltip__content");
+  // Calculates the best placement based on available space (flips placement if it doesn't fit)
+  private async autoPositionTooltip() {
+    const wrapper = this.shadowRoot?.querySelector(
+      ".nys-tooltip__wrapper",
+    ) as HTMLElement;
+    const tooltip = this.shadowRoot?.querySelector(
+      ".nys-tooltip__content",
+    ) as HTMLElement;
 
     if (!wrapper || !tooltip) return;
 
     const triggerRect = wrapper.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
     const margin = 8;
+    const userPosition = this.position as keyof typeof spaceAvailable;
 
     const spaceAvailable = {
       top: triggerRect.top - margin,
@@ -179,9 +169,7 @@ export class NysTooltip extends LitElement {
       "left",
     ];
 
-    // Get the user-specified position
-    const userPosition = this.position as keyof typeof spaceAvailable;
-    // Custom logic when user requests a specific position like "left"
+    // Custom order preference for when user requests a specific position like "left" -> fallback should be "right"
     let tryOrder: Array<keyof typeof spaceAvailable> = preferredOrder;
 
     if (userPosition === "left") {
@@ -205,9 +193,38 @@ export class NysTooltip extends LitElement {
       ];
     }
 
+    // // ⭐️ The below code is popper/floating-ui shift(), as you can see it gives a valid x and y
+    // computePosition(wrapper, tooltip, {
+    //   placement: this.position || "top",
+    //   middleware: [
+    //     flip(), // flips placement if it doesn't fit
+    //     floatShift({
+    //       padding: 8,
+    //     }),
+    //   ],
+    // }).then(({ x, y, placement }) => {
+    //   console.log("🧭 Floating UI positioning:", { x, y, placement });
+
+    //   tooltip.style.position = "fixed";
+    //   tooltip.style.left = `${x}px`;
+    //   tooltip.style.top = `${y}px`;
+    // });
+
+    // 1) Decide best side
     for (const pos of tryOrder) {
       if (this._doesPositionFit(pos)) {
+        // 2) Apply the side (CSS takes over base placement)
         this._setInternalPosition(pos);
+
+        // Wait for the browser to apply CSS and layout
+        await this.updateComplete;
+
+        // // 😖 MY CODE TEST: The x and y return here from the shift() should return exactly what the floating-ui library computes...yet it doesn't
+        // console.log("triggerRect + tooltipRect", triggerRect, tooltipRect);
+        // const { x, y } = shift(triggerRect, tooltipRect, pos);
+        // tooltip.style.top = `${y}px`;
+        // tooltip.style.left = `${x}px`;
+        // console.log("✌️ Robert's Shift positioning:", { x, y });
         return;
       }
     }
@@ -222,7 +239,6 @@ export class NysTooltip extends LitElement {
         bestPosition = pos;
       }
     }
-
     this._setInternalPosition(bestPosition);
   }
 
@@ -237,7 +253,14 @@ export class NysTooltip extends LitElement {
     const tooltipContentId = `${this.id}__tooltip`;
 
     return html`
-      <div class="nys-tooltip__wrapper">
+      <div
+        class="nys-tooltip__wrapper"
+        @mouseenter=${this._handleTooltipEnter}
+        @mouseleave=${this._handleBlurOrMouseLeave}
+        @focusin=${this._handleTooltipEnter}
+        @focusout=${this._handleBlurOrMouseLeave}
+        @mousedown=${this._handleTooltipEnter}
+      >
         <span class="nys-tooltip__trigger" aria-describedby=${tooltipContentId}>
           <slot></slot>
         </span>

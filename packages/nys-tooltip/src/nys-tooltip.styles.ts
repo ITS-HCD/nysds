@@ -25,7 +25,7 @@ export default css`
 
   .nys-tooltip__content {
     position: absolute;
-    opacity: 0;
+    opacity: 1;
     display: block;
     max-width: 400px;
     width: max-content;
@@ -33,8 +33,6 @@ export default css`
     padding: var(--nys-space-50, 4px) var(--nys-space-100, 8px);
     background: var(--_nys-tooltip-background);
     border-radius: var(--_nys-tooltip-border-radius);
-    left: 50%;
-    transform: translateX(-50%);
     cursor: auto;
     z-index: 1;
   }
