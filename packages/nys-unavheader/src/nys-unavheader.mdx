@@ -10,11 +10,13 @@ import "@nysds/nys-icon";
 The **`nys-unavheader`** component is a reusable web component for use in New York State digital products. It helps provide users with access to essential links across all pages.
 
 This component is built to comply with with the policy set forth by the [New York State Information
-Technology Standard ](https://its.ny.gov/system/files/documents/2025/02/nys-s16-001-nys-universal-web-navigation.pdf) 
+Technology Standard ](https://its.ny.gov/system/files/documents/2025/02/nys-s16-001-nys-universal-web-navigation.pdf)
 
 <p className="pill pill--stable">Stable</p>
 
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYSDS-%2F-Components?node-id=1616-6759&m=dev">View in Figma</a></p>
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
+
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-11902">View in Figma</a></p>
 
 ***
 
@@ -28,7 +30,7 @@ Technology Standard ](https://its.ny.gov/system/files/documents/2025/02/nys-s16-
 The translate and search features can be disabled if the feature already exists within the webpage.
 <Canvas of={NysUnavHeaderStories.HideTranslateSearch} />
 
-## Usage 
+## Usage
 
 ### When to use this component
   - Use `nys-unavheader` to convey that this is a legitimate ny.gov site.
@@ -39,15 +41,15 @@ The translate and search features can be disabled if the feature already exists 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
-      - Use `nys-unavheader` to convey that this is a legitimate ny.gov site.  
-      - Place it only at the top of the page as the topmost header. 
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      - Use `nys-unavheader` to convey that this is a legitimate ny.gov site.
+      - Place it only at the top of the page as the topmost header.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
-      - Place it anywhere other than the top of the page.  
+      - Place it anywhere other than the top of the page.
     </div>
   </div>
 </div>

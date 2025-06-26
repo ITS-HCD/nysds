@@ -184,7 +184,6 @@ export default css`
 
   .nys-checkbox {
     display: flex;
-    flex-direction: column;
     font-family: var(--_nys-checkbox-font-family);
     font-size: var(--_nys-checkbox-font-size);
     line-height: var(--_nys-checkbox-line-height);
@@ -196,11 +195,6 @@ export default css`
     background: var(--_nys-checkbox-tile-bg-color);
     padding: var(--_nys-checkbox-tile-padding-y)
       var(--_nys-checkbox-tile-padding-x);
-  }
-
-  /* wraps the single checkbox */
-  .nys-checkbox__content {
-    display: flex;
     gap: var(--_nys-checkbox-gap);
   }
 

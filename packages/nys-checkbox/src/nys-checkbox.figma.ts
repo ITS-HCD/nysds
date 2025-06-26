@@ -5,9 +5,9 @@ figma.connect("<FIGMA_CHECKBOX>", {
     checked: figma.boolean("Checked"),
     disabled: figma.boolean("Disabled"),
     required: figma.boolean("Required"),
-    width: figma.enum("Size", {
+    size: figma.enum("Size", {
       sm: "sm",
-      // md: "md", // Default
+      md: "md", // Default
     }),
     label: figma.boolean("Label", {
       true: figma.string("↳ Label"),
@@ -15,6 +15,7 @@ figma.connect("<FIGMA_CHECKBOX>", {
     description: figma.boolean("Description", {
       true: figma.string("↳ Description"),
     }),
+    tile: figma.boolean("Tile"),
     showError: figma.boolean("Error"),
     error: figma.nestedProps("Error", {
       message: figma.string("Error Message"),
@@ -26,7 +27,7 @@ figma.connect("<FIGMA_CHECKBOX>", {
   2. Update 'value' attribute to change data sent via forms 
 -->
     <nys-checkbox
-      size="${props.width}"
+      size="${props.size}"
       label="${props.label}"
       description="${props.description}"
       checked="${props.checked}"
@@ -36,17 +37,18 @@ figma.connect("<FIGMA_CHECKBOX>", {
       errorMessage="${props.error.message}"
       value="${props.label}"
       name="---REPLACE_THIS---"
+      tile="${props.tile}"
     ></nys-checkbox>
   `,
 });
 
 figma.connect("<FIGMA_CHECKBOXGROUP>", {
   props: {
-    width: figma.enum("Width", {
+    size: figma.enum("Size", {
       sm: "sm",
-      // md: "md", // Default
+      md: "md", // Default
     }),
-    showError: figma.boolean("Error Message"),
+    // showError: figma.boolean("Error"),
     label: figma.nestedProps("Label", {
       text: figma.string("Label"),
       optional: figma.boolean("Optional"),
@@ -56,8 +58,18 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         false: undefined,
       }),
     }),
+    // error: figma.nestedProps("Error", {
+    //   message: figma.string("Error Message"),
+    // }),
     error: figma.nestedProps("_Error", {
       message: figma.string("Error Message"),
+    }),
+    tile: figma.boolean("Tile"),
+    input: figma.nestedProps("Input", {
+      showError: figma.boolean("Error"),
+      // error: figma.nestedProps("_Error", {
+      //   message: figma.string("Error Message"),
+      // }),
     }),
     checkbox_1: figma.nestedProps("Option 1", {
       text: figma.string("Label"),
@@ -177,12 +189,13 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
       <nys-checkboxgroup
         label="${props.label.text}"
         description="${props.label.description}"
-        size="${props.width}"
+        size="${props.size}"
         required="${props.label.required}"
         optional="${props.label.optional}"
-        showError="${props.showError}"
+        showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
+        tile="${props.tile}"
       >
         <nys-checkbox
           label="${props.checkbox_1.text}"

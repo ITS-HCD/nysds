@@ -10,7 +10,9 @@ The **`nys-textarea`** is a reusable web component for use in New York State dig
 
 <p className="pill pill--stable">Stable</p>
 
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYSDS-%2F-Components?node-id=1616-7061&m=dev">View in Figma</a></p>
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
+
+<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10108">View in Figma</a></p>
 
 ***
 
@@ -22,7 +24,7 @@ The **`nys-textarea`** is a reusable web component for use in New York State dig
 
 ### Basic Text Area
 
-#### Width 
+#### Width
 If no width is provided, the `nys-textarea` will default to `full`. Supported widths are `sm`, `md`, `lg`, and `full`.\
 Width `full` will take up the full width of the parent container.\
 If an invalid option is assigned to `width`, it will be ignored and default to `full`.
@@ -66,7 +68,7 @@ Adding the `optional` prop will add an optional flag to the input.
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
       - Use the `nys-textarea` for **long-form text** like descriptions or detailed feedback.
       - Use the `nys-textarea` when **precise user input** is required in multiple lines.
     </div>
@@ -87,7 +89,7 @@ The `nys-textarea` component includes the following accessibility-focused featur
 - Proper ARIA roles and attributes to ensure screen readers can interpret the label correctly.
 - Keyboard navigation support, allowing users to tab into the input using the keyboard.
 - Visual focus indicators to help users navigate the component.
- 
+
 ## Events
 
 The `nys-textarea` component emits the following events:

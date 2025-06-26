@@ -2,13 +2,10 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_BUTTON>", {
   props: {
-    label: figma.boolean("Label", {
-      true: figma.string("Label Text"),
-      false: undefined,
-    }),
+    label: figma.string("Label Text"),
     size: figma.enum("Size", {
       sm: "sm",
-      // md: "md",
+      md: "md", //default
       lg: "lg",
     }),
     variant: figma.enum("Variant", {
@@ -22,8 +19,8 @@ figma.connect("<FIGMA_BUTTON>", {
     suffixIcon: figma.children("Suffix Icon"),
   },
   example: (props) => html`
-    <!-- 
-  - Use fullWidth attribute to fill parent container 
+    <!--
+  - Use fullWidth attribute to fill parent container
   - Update 'type' attribute to change button type: submit, reset, button (default)
   - Update 'form' attribute to associate with a form
   - Add 'href' attribute to make it a link

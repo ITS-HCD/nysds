@@ -30,7 +30,7 @@ export class NysCheckbox extends LitElement {
   }
 
   set size(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
+    // Check if the provided value is in VALID_SIZES. If not, default to "md".
     this._size = NysCheckbox.VALID_SIZES.includes(
       value as (typeof NysCheckbox.VALID_SIZES)[number],
     )
@@ -225,55 +225,53 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <div class="nys-checkbox">
-        <label class="nys-checkbox__content">
-          <div class="nys-checkbox__checkboxwrapper">
-            <input
-              id="${this.id}"
-              class="nys-checkbox__checkbox"
-              type="checkbox"
-              name="${ifDefined(this.name ? this.name : undefined)}"
-              .checked=${this.checked}
-              ?disabled=${this.disabled}
-              .value=${this.value}
-              ?required="${this.required}"
-              aria-checked="${this.checked}"
-              aria-disabled="${this.disabled ? "true" : "false"}"
-              aria-required="${this.required}"
-              @change="${this._handleChange}"
-              @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
-              @keydown="${this._handleKeydown}"
-            />
-            ${this.checked
-              ? html`<nys-icon
-                  for="${this.id}"
-                  name="check"
-                  size="${this.size === "md"
-                    ? "4xl"
-                    : this.size === "sm"
-                      ? "2xl"
-                      : "xl"}"
-                  class="nys-checkbox__icon"
-                ></nys-icon>`
+      <label class="nys-checkbox">
+        <div class="nys-checkbox__checkboxwrapper">
+          <input
+            id="${this.id}"
+            class="nys-checkbox__checkbox"
+            type="checkbox"
+            name="${ifDefined(this.name ? this.name : undefined)}"
+            .checked=${this.checked}
+            ?disabled=${this.disabled}
+            .value=${this.value}
+            ?required="${this.required}"
+            aria-checked="${this.checked}"
+            aria-disabled="${this.disabled ? "true" : "false"}"
+            aria-required="${this.required}"
+            @change="${this._handleChange}"
+            @focus="${this._handleFocus}"
+            @blur="${this._handleBlur}"
+            @keydown="${this._handleKeydown}"
+          />
+          ${this.checked
+            ? html`<nys-icon
+                for="${this.id}"
+                name="check"
+                size="${this.size === "md"
+                  ? "4xl"
+                  : this.size === "sm"
+                    ? "2xl"
+                    : "xl"}"
+                class="nys-checkbox__icon"
+              ></nys-icon>`
+            : ""}
+        </div>
+        ${this.label &&
+        html` <div class="nys-checkbox__text">
+          <div class="nys-checkbox__requiredwrapper">
+            <label for=${this.id} class="nys-checkbox__label"
+              >${this.label}</label
+            >
+            ${this.required
+              ? html`<label class="nys-checkbox__required">*</label>`
               : ""}
           </div>
-          ${this.label &&
-          html` <div class="nys-checkbox__text">
-            <div class="nys-checkbox__requiredwrapper">
-              <label for=${this.id} class="nys-checkbox__label"
-                >${this.label}</label
-              >
-              ${this.required
-                ? html`<label class="nys-checkbox__required">*</label>`
-                : ""}
-            </div>
-            <label for=${this.id} class="nys-checkbox__description">
-              <slot name="description">${this.description}</slot>
-            </label>
-          </div>`}
-        </label>
-      </div>
+          <label for=${this.id} class="nys-checkbox__description">
+            <slot name="description">${this.description}</slot>
+          </label>
+        </div>`}
+      </label>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage
             id="single-error-message"

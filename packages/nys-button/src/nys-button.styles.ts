@@ -326,9 +326,18 @@ export default css`
     );
   }
 
+  /* Circle */
+  :host([circle]) {
+    --_nys-button-width: var(--_nys-button-height);
+    --_nys-button-radius-left: var(--nys-radius-round, 1776px);
+    --_nys-button-radius-right: var(--nys-radius-round, 1776px);
+    --_nys-button-padding-y: 0;
+    --_nys-button-padding-x: 0;
+  }
+
   .nys-button {
     width: var(--_nys-button-width);
-    height: var(--_nys-button-height);
+    min-height: var(--_nys-button-height);
     /* set every corner individually */
     border-top-left-radius: var(--_nys-button-radius-left);
     border-bottom-left-radius: var(--_nys-button-radius-left);
@@ -350,6 +359,11 @@ export default css`
     border: solid var(--_nys-button-width-border)
       var(--_nys-button-color-border);
     cursor: pointer;
+  }
+
+  :host([circle]) .nys-button {
+    max-width: var(--_nys-button-height);
+    max-height: var(--_nys-button-height);
   }
 
   .nys-button:hover {

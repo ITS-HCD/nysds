@@ -1,13 +1,12 @@
 {
-  "name": "@nysds/nys-label",
+  "name": "@nysds/nys-backtotop",
   "version": "1.3.0",
-  "description": "The Label component from the NYS Design System.",
-  "module": "dist/nys-label.js",
-  "private": true,
+  "description": "The Back To Top component from the NYS Design System.",
+  "module": "dist/nys-backtotop.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-label.js",
+      "import": "./dist/nys-backtotop.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -22,14 +21,19 @@
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch"
   },
-  "dependencies": {},
   "peerDependencies": {
-    "lit": "^3.2.1"
+    "lit": "^3.2.1",
+    "@nysds/nys-button": "^1.3.0",
+    "@nysds/nys-icon": "^1.3.0"
+  },
+  "dependencies": {
   },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.3.4"
+    "vite": "^6.3.4",
+    "@nysds/nys-button": "^1.3.0",
+    "@nysds/nys-icon": "^1.3.0"
   },
   "keywords": [
     "new-york-state",
@@ -37,8 +41,10 @@
     "web-components",
     "lit",
     "nys",
-    "label"
+    "backtotop",
+    "forms"
   ],
   "author": "New York State Design System Team",
   "license": "MIT"
 }
+

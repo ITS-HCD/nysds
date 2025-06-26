@@ -89,6 +89,33 @@ describe("nys-button", () => {
     expect(el.size).to.equal("md");
   });
 
+  it("should render circle button with icon", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button circle icon="close"></nys-button>`,
+    );
+
+    expect(el.circle).to.be.true;
+  });
+
+  it("should render prefix and suffix icons", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button
+        label="With Icons"
+        prefixIcon="arrow-left"
+        suffixIcon="arrow-right"
+      ></nys-button>`,
+    );
+
+    const prefixIcon = el.shadowRoot?.querySelector(
+      "nys-icon[name='arrow-left']",
+    );
+    const suffixIcon = el.shadowRoot?.querySelector(
+      "nys-icon[name='arrow-right']",
+    );
+    expect(prefixIcon).to.exist;
+    expect(suffixIcon).to.exist;
+  });
+
   it("should dispatch focus and blur events", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="FocusMe"></nys-button>`,
