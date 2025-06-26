@@ -14,7 +14,7 @@ body:
     id: checklist
     attributes:
       label: Testing Checklist
-      description: |
+      value: |
         ## Test Execution
         - [ ] Desktop
         - [ ] Mobile
