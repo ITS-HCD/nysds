@@ -1,0 +1,47 @@
+name: Testing Checklist
+description: Where QA provides testing guidance for the component
+title: "Testing Checklist for COMPONENT_NAME"
+labels:
+  - Research
+  - subtask
+assignees:
+  - mrhassan365
+projects:
+  - ITS-HCD/1
+
+body:
+  - type: input
+    id: component-name
+    attributes:
+      label: Component Name
+      description: Name of the component this testing checklist applies to
+      placeholder: e.g. Date Picker, Info Banner
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Test Execution
+        - [ ] Desktop
+        - [ ] Mobile
+
+  - type: markdown
+    attributes:
+      value: |
+        ## Testing
+
+        **1. Perceivable**
+        - [ ] checklist item
+
+        **2. Operable**
+        - [ ] checklist item
+
+        **3. Understandable**
+        - [ ] checklist item
+
+        **4. Robust**
+        - [ ] checklist item
+
+        **5. Edge Cases**
+        - [ ] checklist item
