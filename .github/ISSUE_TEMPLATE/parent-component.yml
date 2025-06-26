@@ -8,14 +8,14 @@ projects:
   - ITS-HCD/1
 
 body:
-  - type: markdown
+  - type: textarea
+    id: parent-ticket-content
     attributes:
+      label: Parent Ticket Content
+      description: Please fill out the details below for tracking this component's progress.
       value: |
-        Parent Ticket to track progress of **[COMPONENT]**
+        Parent Ticket to track progress of COMPONENT_NAME
 
-  - type: markdown
-    attributes:
-      value: |
         ## Timeline:
 
         | Sprint # | Dates     | Description                 |
