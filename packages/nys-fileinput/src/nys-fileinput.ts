@@ -45,9 +45,11 @@ export class NysFileinput extends LitElement {
     const input = this.renderRoot.querySelector(
       "#hidden-file-input",
     ) as HTMLInputElement;
+
     input?.click();
   }
 
+  // Handles adding new files to the internal list for display and tracking
   private _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
     const files = input.files;
@@ -64,10 +66,24 @@ export class NysFileinput extends LitElement {
     });
 
     this.requestUpdate(); // Trigger re-render
+    this._dispatchChangeEvent();
+  }
 
+  private _handleFileRemove(e: CustomEvent) {
+    const filenameToRemove = e.detail.filename;
+
+    this._selectedFiles = this._selectedFiles.filter(
+      (file) => file.name !== filenameToRemove,
+    );
+
+    this.requestUpdate(); // Trigger re-render
+    this._dispatchChangeEvent();
+  }
+
+  private _dispatchChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-fileChange", {
-        detail: { files },
+        detail: { files: this._selectedFiles },
         bubbles: true,
         composed: true,
       }),
@@ -128,7 +144,7 @@ export class NysFileinput extends LitElement {
             <ul>
               ${this._selectedFiles.map(
                 (file) =>
-                  html`<li>
+                  html`<li @nys-fileRemove=${this._handleFileRemove}>
                     <nys-filelistitem filename=${file.name}></filelistitem>
                   </li>`,
               )}

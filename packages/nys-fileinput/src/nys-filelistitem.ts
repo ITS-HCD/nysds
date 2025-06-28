@@ -10,6 +10,16 @@ export class NysFileListItem extends LitElement {
 
   static styles = styles;
 
+  private _handleRemove() {
+    this.dispatchEvent(
+      new CustomEvent("nys-fileRemove", {
+        detail: { filename: this.filename },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   render() {
     return html`
       <div class="file-item">
@@ -22,6 +32,7 @@ export class NysFileListItem extends LitElement {
           size="sm"
           variant="ghost"
           prefixIcon="close"
+          @click=${this._handleRemove}
         ></nys-button>
       </div>
     `;
