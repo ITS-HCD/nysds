@@ -47,9 +47,9 @@ export const Basic: Story = {
     id: "fileinput1",
     name: "fileinput1",
     label: "Upload a file",
-    description: "Accepted formats: PDF, JPG",
+    description: "Accepted formats: PDF, JPG, PNG",
     multiple: false,
-    accept: "image/png, image/jpeg",
+    accept: "image/png, image/jpeg, image/*,.pdf",
     required: false,
     disabled: false,
     errorMessage: "",
@@ -76,7 +76,7 @@ export const Basic: Story = {
   name="fileinput1"
   label="Upload a file"
   description="Accepted formats: PDF, JPG"
-  accept=".pdf,.jpg"
+  accept="image/png, image/jpeg, image/*,.pdf"
 ></nys-fileinput>`,
         type: "auto",
       },

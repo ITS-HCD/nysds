@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-fileinput.styles";
+import "./nys-filelistitem";
 import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
@@ -14,7 +15,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) multiple = false;
-  @property({ type: String }) accept = ""; // e.g., "image/*,.pdf"
+  @property({ type: String }) accept = ""; // e.g. "image/*,.pdf"
   @property({ type: Boolean }) required = false;
   @property({ type: Boolean }) optional = false;
   @property({ type: Boolean }) disabled = false;
@@ -50,9 +51,17 @@ export class NysFileinput extends LitElement {
   private _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
     const files = input.files;
+    const newFiles = files ? Array.from(files) : []; // changes FileList to array
 
     // Store the files
-    this._selectedFiles = files ? Array.from(files) : [];
+    newFiles.map((file) => {
+      const isDuplicate = this._selectedFiles.some(
+        (existingFile) => existingFile.name == file.name,
+      );
+      if (!isDuplicate) {
+        this._selectedFiles.push(file);
+      }
+    });
 
     this.requestUpdate(); // Trigger re-render
 
@@ -119,14 +128,8 @@ export class NysFileinput extends LitElement {
             <ul>
               ${this._selectedFiles.map(
                 (file) =>
-                  html` <li class="file-item">
-                    <p>${file.name}</p>
-                    <nys-button
-                      ariaLabel="close button"
-                      size="sm"
-                      variant="ghost"
-                      prefixIcon="close"
-                    ></nys-button>
+                  html`<li>
+                    <nys-filelistitem filename=${file.name}></filelistitem>
                   </li>`,
               )}
             </ul>

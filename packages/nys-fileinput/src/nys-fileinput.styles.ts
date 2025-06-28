@@ -46,6 +46,10 @@ export default css`
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--_nys-fileinput-gap);
   }
 
   .file-item {
@@ -55,6 +59,11 @@ export default css`
     padding: var(--_nys-fileinput-items-padding);
     border-radius: var(--_nys-fileinput-items-radius);
     border: var(--_nys-fileinput-items-border);
+    gap: var(--_nys-fileinput-gap);
+  }
+  .file-info {
+    display: flex;
+    width: 100%;
   }
   .file-item p {
     flex: 1;
