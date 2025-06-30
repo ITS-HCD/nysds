@@ -12,4 +12,6 @@ export class NysStep extends LitElement {
   }
 }
 
-customElements.define("nys-step", NysStep);
+if (!customElements.get("nys-step")) {
+  customElements.define("nys-step", NysStep);
+}

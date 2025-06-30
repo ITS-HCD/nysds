@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-stepper";
+import "./nys-step";
 
 // Define the structure of the args used in the stories
 interface NysStepperArgs {
@@ -47,8 +48,13 @@ export const Basic: Story = {
     name: "stepper1",
   },
   render: (args) => html`
-    <nys-stepper .id=${args.id} .name=${args.name}>
-      <div slot="actions"></div>
+    <nys-stepper .id=${args.id} .name=${args.name} label="Stepper Label">
+      <div slot="actions">
+        <nys-button label="Save"></nys-button>
+        <nys-button label="Exit"></nys-button>
+      </div>
+      <nys-step label="Step 1"></nys-step>
+      <nys-step label="Step 2"></nys-step>
     </nys-stepper>
   `,
   parameters: {
