@@ -53,8 +53,9 @@ export const Basic: Story = {
         <nys-button label="Save"></nys-button>
         <nys-button label="Exit"></nys-button>
       </div>
-      <nys-step label="Step 1"></nys-step>
-      <nys-step label="Step 2"></nys-step>
+      <nys-step label="First"></nys-step>
+      <nys-step label="Then"></nys-step>
+      <nys-step label="Finally"></nys-step>
     </nys-stepper>
   `,
   parameters: {

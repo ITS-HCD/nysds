@@ -1,5 +1,6 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
+import styles from "./nys-stepper.styles";
 
 export class NysStep extends LitElement {
   @property({ type: Boolean, reflect: true }) selected = false;
@@ -7,8 +8,10 @@ export class NysStep extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
 
+  static styles = styles;
+
   render() {
-    return html` <div>${this.label}</div> `;
+    return html` <div class="nys-step">${this.label}</div> `;
   }
 }
 
