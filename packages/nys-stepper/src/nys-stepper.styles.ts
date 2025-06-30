@@ -36,6 +36,8 @@ export default css`
   .nys-step {
     position: relative;
     counter-increment: step;
+    display: flex;
+    align-items: center;
   }
 
   .nys-step__linewrapper {
@@ -63,7 +65,9 @@ export default css`
     );
     width: 24px;
     height: 24px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
   }
   /* Hide the line wrapper in the last step */
