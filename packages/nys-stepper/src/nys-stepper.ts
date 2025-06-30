@@ -72,6 +72,17 @@ export class NysStepper extends LitElement {
     });
   }
 
+  updated() {
+    const steps = this.querySelectorAll("nys-step");
+    steps.forEach((step, i) => {
+      if (i === steps.length - 1) {
+        step.setAttribute("last", "");
+      } else {
+        step.removeAttribute("last");
+      }
+    });
+  }
+
   render() {
     return html`
       <div class="nys-stepper">
