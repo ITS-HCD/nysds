@@ -8,6 +8,7 @@ import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
 
 let fileinputIdCounter = 0; // Counter for generating unique IDs
+
 interface FileWithProgress {
   file: File;
   progress: number;
@@ -28,6 +29,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) showError = false;
   @property({ type: Boolean }) dropzone = false;
+  @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
 
   private _selectedFiles: FileWithProgress[] = [];
 
@@ -71,7 +73,7 @@ export class NysFileinput extends LitElement {
 
     input.value = "";
 
-    this.requestUpdate(); // Trigger re-render
+    this.requestUpdate();
     this._dispatchChangeEvent();
   }
 
@@ -82,11 +84,13 @@ export class NysFileinput extends LitElement {
       (existingFile) => existingFile.file.name !== filenameToRemove,
     );
 
-    this.requestUpdate(); // Trigger re-render
+    this.requestUpdate();
     this._dispatchChangeEvent();
   }
 
   private _onDragOver(e: DragEvent) {
+    if (this.disabled) return;
+
     e.stopPropagation();
     e.preventDefault();
     if (!this._dragActive) {
@@ -97,6 +101,8 @@ export class NysFileinput extends LitElement {
 
   // Mostly used for styling purpose
   private _onDragLeave(e: DragEvent) {
+    if (this.disabled) return;
+
     e.stopPropagation();
     e.preventDefault();
     // Only reset if leaving the dropzone itself (not children)
@@ -107,6 +113,8 @@ export class NysFileinput extends LitElement {
   }
 
   private _onDrop(e: DragEvent) {
+    if (this.disabled) return;
+
     e.preventDefault();
     this._dragActive = false; // For styling purpose
     this.requestUpdate();
@@ -212,12 +220,13 @@ export class NysFileinput extends LitElement {
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
+            ?disabled=${this.disabled}
             @click=${this._openFileDialog}
           ></nys-button>`
         : html`<div
             class="nys-fileinput__dropzone ${this._dragActive
               ? "drag-active"
-              : ""}"
+              : ""} ${this.disabled ? "disabled" : ""}"
             @dragover=${this._onDragOver}
             @dragleave=${this._onDragLeave}
             @drop=${this._onDrop}
@@ -229,6 +238,7 @@ export class NysFileinput extends LitElement {
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
+                    ?disabled=${this.disabled}
                     @click=${this._openFileDialog}
                   ></nys-button>
                   <p>or drag here</p>`}

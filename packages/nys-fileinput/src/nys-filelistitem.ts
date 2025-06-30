@@ -55,12 +55,12 @@ export class NysFileListItem extends LitElement {
             ${this.error ? html`<p class="error-msg">${this.error}</p>` : null}
           </div>
           <nys-button
+            circle
+            icon="close"
             ariaLabel="close button"
-            suffixIcon="slotted"
             size="sm"
             variant="ghost"
             @click=${this._handleRemove}
-            ><nys-icon slot="suffix-icon" name="close" size="2xl"></nys-icon
           ></nys-button>
         </div>
         ${this.status === "processing"

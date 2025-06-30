@@ -8,6 +8,7 @@ interface NysFileinputArgs {
   name?: string;
   label?: string;
   description?: string;
+  width?: string;
   multiple?: boolean;
   accept?: string;
   required?: boolean;
@@ -25,6 +26,11 @@ const meta: Meta<NysFileinputArgs> = {
     name: { control: "text" },
     label: { control: "text" },
     description: { control: "text" },
+    width: {
+      control: "select",
+      options: ["lg", "full"],
+      defaultValue: { summary: "full" },
+    },
     multiple: { control: "boolean" },
     accept: { control: "text" },
     required: { control: "boolean" },
@@ -52,6 +58,7 @@ export const Basic: Story = {
     name: "fileinput1",
     label: "Upload a file",
     description: "Accepted formats: PDF, JPG, PNG",
+    width: "full",
     multiple: false,
     accept: "image/png, image/jpeg, image/*,.pdf",
     required: false,
@@ -66,6 +73,7 @@ export const Basic: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
+      .width=${args.width}
       ?multiple=${args.multiple}
       .accept=${args.accept}
       ?required=${args.required}

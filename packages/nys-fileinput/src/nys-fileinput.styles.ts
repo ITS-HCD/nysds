@@ -35,6 +35,7 @@ export default css`
     );
     --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
       var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-fileinput-dropzone-color: var(--nys-color-text-disabled, #BEC0C1);
   }
 
   .nys-fileinput {
@@ -48,6 +49,9 @@ export default css`
     font-weight: var(--_nys-fileinput-font-weight);
     line-height: var(--_nys-fileinput-line-height);
   }
+  :host([width="lg"]) .nys-fileinput {
+    max-width: var(--nys-form-width-lg, 384px);
+  }
 
   ul {
     list-style-type: none;
@@ -59,6 +63,7 @@ export default css`
     gap: var(--_nys-fileinput-gap);
   }
 
+  /***** Dragzone *****/
   .nys-fileinput__dropzone {
     display: flex;
     padding: var(--nys-space-400, 32px) var(--nys-space-200, 16px);
@@ -75,6 +80,13 @@ export default css`
     --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-900, #1b1b1b);
     --_nys-fileinput-dropzone-background: var(--nys-color-theme-faint, #f7fafd);
+  }
+
+  .nys-fileinput__dropzone.disabled {
+    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
+      var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-fileinput-dropzone-background: var(--nys-color-neutral-10, #f6f6f6);
+    color: var(--_nys-fileinput-dropzone-color);
   }
 
   /***** File List Item *****/

@@ -19,6 +19,8 @@ export default css`
     align-items: center;
     gap: var(--_nys-fileinput-gap);
     padding: var(--_nys-fileinput-items-padding);
+    height: 56px;
+    box-sizing: border-box;
   }
 
   .file-item__info {
@@ -26,6 +28,7 @@ export default css`
     flex-direction: column;
     width: 100%;
   }
+
   .file-item p {
     margin: 0;
   }
