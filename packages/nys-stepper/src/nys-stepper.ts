@@ -78,10 +78,10 @@ export class NysStepper extends LitElement {
 
     steps.forEach((step, i) => {
       // Handle 'last' attribute
-      if (i === steps.length - 1) {
-        step.setAttribute("last", "");
+      if (i === 0) {
+        step.setAttribute("first", "");
       } else {
-        step.removeAttribute("last");
+        step.removeAttribute("first");
       }
 
       // Handle 'previous' attribute for current tracking

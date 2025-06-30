@@ -38,6 +38,7 @@ export default css`
     counter-increment: step;
     display: flex;
     flex-direction: row;
+    align-items: flex-end;
   }
 
   .nys-step__linewrapper {
@@ -73,7 +74,9 @@ export default css`
   }
 
   :host([previous]) .nys-step__number,
-  :host([current]) .nys-step__number {
+  :host([previous]) .nys-step__line,
+  :host([current]) .nys-step__number,
+  :host([current]) .nys-step__line {
     background: var(--nys-color-theme-stronger, #081b2b);
     color: var(--nys-color-text-reverse, #fff);
     border-color: var(--nys-color-theme-stronger, #081b2b);
@@ -92,7 +95,7 @@ export default css`
   }
 
   /* Hide the line wrapper in the last step */
-  :host([last]) .nys-step__line {
+  :host([first]) .nys-step__line {
     display: none;
   }
 `;

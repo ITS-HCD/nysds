@@ -14,8 +14,8 @@ export class NysStep extends LitElement {
     return html`
       <div class="nys-step">
         <div class="nys-step__linewrapper">
-          <div class="nys-step__number"></div>
           <div class="nys-step__line"></div>
+          <div class="nys-step__number"></div>
         </div>
         ${this.label}
       </div>
