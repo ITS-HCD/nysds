@@ -20,11 +20,33 @@ export class NysFileListItem extends LitElement {
     );
   }
 
+  private truncateFilename(filename: string): string {
+    const lastDotIndex = filename.lastIndexOf(".");
+    if (lastDotIndex === -1) {
+      // No extension, truncate to max 30 chars + ellipsis if needed
+      return filename.length > 30 ? filename.slice(0, 30) + "..." : filename;
+    }
+
+    const extension = filename.slice(lastDotIndex); // e.g. ".pdf"
+    const namePart = filename.slice(0, lastDotIndex);
+
+    // Show at most 30 chars total in namePart (including last 3 chars before extension)
+    const maxNameLength = 30;
+    if (namePart.length <= maxNameLength) {
+      return filename; // no truncation needed
+    }
+
+    const startPart = namePart.slice(0, maxNameLength - 3);
+    const endPart = namePart.slice(-3);
+
+    return `${startPart}...${endPart}${extension}`;
+  }
+
   render() {
     return html`
       <div class="file-item">
         <div class="file-info">
-          <p>${this.filename}</p>
+          <p>${this.truncateFilename(this.filename)}</p>
           ${this.error ? html`<p class="error-msg">${this.error}</p>` : null}
         </div>
         <nys-button

@@ -13,6 +13,8 @@ interface NysFileinputArgs {
   required?: boolean;
   disabled?: boolean;
   errorMessage?: string;
+  showError?: boolean;
+  dropzone?: boolean;
 }
 
 const meta: Meta<NysFileinputArgs> = {
@@ -28,6 +30,8 @@ const meta: Meta<NysFileinputArgs> = {
     required: { control: "boolean" },
     disabled: { control: "boolean" },
     errorMessage: { control: "text" },
+    showError: { control: "boolean" },
+    dropzone: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -53,6 +57,8 @@ export const Basic: Story = {
     required: false,
     disabled: false,
     errorMessage: "",
+    showError: false,
+    dropzone: false,
   },
   render: (args) => html`
     <nys-fileinput
@@ -65,6 +71,8 @@ export const Basic: Story = {
       ?required=${args.required}
       ?disabled=${args.disabled}
       .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
     ></nys-fileinput>
   `,
   parameters: {

@@ -2,8 +2,6 @@ import { css } from "lit";
 
 export default css`
   :host {
-    /* Anything that can be overridden should be defined here */
-
     /* Global Fileinput Styles */
     --_nys-fileinput-gap: var(--nys-space-100, 8px);
 
@@ -28,6 +26,9 @@ export default css`
     --_nys-fileinput-items-padding: var(--nys-space-100, 8px);
     --_nys-fileinput-items-border: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-100, #d0d0ce);
+
+    /* Dropzone */
+    --_nys-fileinput-dropzone-radius: var(--nys-radius-lg, var(--nys-space-100, 8px));
   }
 
   .nys-fileinput {
@@ -66,7 +67,24 @@ export default css`
     width: 100%;
   }
   .file-item p {
-    flex: 1;
     margin: 0;
+  }
+
+  .nys-fileinput__dropzone {
+    display: flex;
+    padding: var(--nys-space-400, 32px) var(--nys-space-200, 16px);
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: var(--_nys-fileinput-dropzone-radius);
+    border: var(--nys-border-width-sm, 1px) dashed
+      var(--nys-color-neutral-300, #a7a9ab);
+    background: var(--nys-color-ink-reverse, #fff);
+  }
+
+  .nys-fileinput__dropzone.drag-active {
+    border: var(--nys-border-width-sm, 1px) solid var(--nys-color-neutral-900, #1B1B1B);
+    background: var(--nys-color-theme-faint, #F7FAFD);
   }
 `;

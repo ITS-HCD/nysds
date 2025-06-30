@@ -24,6 +24,7 @@ export class NysFileinput extends LitElement {
   @property({ type: Boolean }) dropzone = false;
 
   private _selectedFiles = [] as File[];
+  private _dragActive = false;
 
   static styles = styles;
 
@@ -49,7 +50,7 @@ export class NysFileinput extends LitElement {
     input?.click();
   }
 
-  // Handles adding new files to the internal list for display and tracking
+  // Handles adding new files to the internal list via the hidden <input type="file">
   private _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
     const files = input.files;
@@ -57,12 +58,7 @@ export class NysFileinput extends LitElement {
 
     // Store the files
     newFiles.map((file) => {
-      const isDuplicate = this._selectedFiles.some(
-        (existingFile) => existingFile.name == file.name,
-      );
-      if (!isDuplicate) {
-        this._selectedFiles.push(file);
-      }
+      this._saveSelectedFiles(file);
     });
 
     this.requestUpdate(); // Trigger re-render
@@ -80,6 +76,53 @@ export class NysFileinput extends LitElement {
     this._dispatchChangeEvent();
   }
 
+  private _onDragOver(e: DragEvent) {
+    e.preventDefault(); // Allows drop! Prevents default behavior of browser opening the file).
+    if (!this._dragActive) {
+      this._dragActive = true; // For styling purpose
+      this.requestUpdate();
+    }
+  }
+
+  // Mostly used for styling purpose
+  private _onDragLeave(e: DragEvent) {
+    e.preventDefault();
+    // Only reset if leaving the dropzone itself (not children)
+    if (e.currentTarget === e.target) {
+      this._dragActive = false; // For styling purpose
+      this.requestUpdate();
+    }
+  }
+
+  private _onDrop(e: DragEvent) {
+    e.preventDefault();
+    this._dragActive = false; // For styling purpose
+    this.requestUpdate();
+
+    const files = e.dataTransfer?.files;
+    if (!files) return;
+
+    const newFiles = Array.from(files);
+
+    newFiles.forEach((file) => {
+      this._saveSelectedFiles(file);
+    });
+
+    this.requestUpdate();
+    this._dispatchChangeEvent();
+  }
+
+  /******************** Functions ********************/
+  // Store the files to be displayed
+  private _saveSelectedFiles(file: File) {
+    const isDuplicate = this._selectedFiles.some(
+      (existingFile) => existingFile.name == file.name,
+    );
+    if (!isDuplicate) {
+      this._selectedFiles.push(file);
+    }
+  }
+
   private _dispatchChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-fileChange", {
@@ -91,7 +134,10 @@ export class NysFileinput extends LitElement {
   }
 
   render() {
-    return html`<div class="nys-fileinput">
+    return html`<div
+      class="nys-fileinput"
+      @nys-fileRemove=${this._handleFileRemove}
+    >
       <nys-label
         id=${this.id}
         label=${this.label}
@@ -117,19 +163,28 @@ export class NysFileinput extends LitElement {
         ? html`<nys-button
             id="file-btn"
             name="file-btn"
-            label="Choose file"
+            label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
             @click=${this._openFileDialog}
           ></nys-button>`
-        : html`<div class="dropzone-container">
-            <nys-button
-              id="file-btn"
-              name="file-btn"
-              label="Choose file"
-              variant="outline"
-              @click=${this._openFileDialog}
-            ></nys-button>
-            <p>or drag here</p>
+        : html`<div
+            class="nys-fileinput__dropzone ${this._dragActive
+              ? "drag-active"
+              : ""}"
+            @dragover=${this._onDragOver}
+            @dragleave=${this._onDragLeave}
+            @drop=${this._onDrop}
+          >
+            ${this._dragActive
+              ? html`<p>Drop file to upload</p>`
+              : html` <nys-button
+                    id="file-btn"
+                    name="file-btn"
+                    label=${this.multiple ? "Choose files" : "Choose file"}
+                    variant="outline"
+                    @click=${this._openFileDialog}
+                  ></nys-button>
+                  <p>or drag here</p>`}
           </div>`}
       ${this.showError
         ? html`
@@ -144,7 +199,7 @@ export class NysFileinput extends LitElement {
             <ul>
               ${this._selectedFiles.map(
                 (file) =>
-                  html`<li @nys-fileRemove=${this._handleFileRemove}>
+                  html`<li>
                     <nys-filelistitem filename=${file.name}></filelistitem>
                   </li>`,
               )}
