@@ -47,7 +47,9 @@ export const Basic: Story = {
     name: "stepper1",
   },
   render: (args) => html`
-    <nys-stepper .id=${args.id} .name=${args.name}></nys-stepper>
+    <nys-stepper .id=${args.id} .name=${args.name}>
+      <div slot="actions"></div>
+    </nys-stepper>
   `,
   parameters: {
     docs: {
