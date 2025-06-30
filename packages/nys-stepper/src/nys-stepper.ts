@@ -77,6 +77,9 @@ export class NysStepper extends LitElement {
     const hasCurrent = Array.from(steps).some((step) =>
       step.hasAttribute("current"),
     );
+    const hasSelected = Array.from(steps).some((step) =>
+      step.hasAttribute("selected"),
+    );
     let foundCurrent = false;
 
     steps.forEach((step, i) => {
@@ -98,10 +101,25 @@ export class NysStepper extends LitElement {
           step.removeAttribute("previous");
         }
       } else {
-        // No current -> ensure none have 'previous'
         step.removeAttribute("previous");
       }
     });
+
+    // Selected fallback
+    if (!hasSelected) {
+      if (hasCurrent) {
+        // If there is a current, mark it as selected
+        steps.forEach((step) => {
+          if (step.hasAttribute("current")) {
+            step.setAttribute("selected", "");
+          }
+        });
+      } else if (steps.length > 0) {
+        // If no current or selected, mark first as both current and selected
+        steps[0].setAttribute("current", "");
+        steps[0].setAttribute("selected", "");
+      }
+    }
   }
 
   render() {
