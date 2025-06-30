@@ -72,6 +72,19 @@ export default css`
     text-align: center;
   }
 
+  :host([selected]) .nys-step__number {
+    background: var(--nys-color-theme, #154973);
+    color: var(--nys-color-text-reverse, #fff);
+    border-color: var(--nys-color-theme, #154973);
+    outline: 4px solid var(--nys-color-theme-weak, #cddde9);
+  }
+
+  :host([current]) .nys-step__number {
+    background: var(--nys-color-theme-stronger, #081b2b);
+    color: var(--nys-color-text-reverse, #fff);
+    border-color: var(--nys-color-theme-stronger, #081b2b);
+  }
+
   .nys-step__number::before {
     content: counter(step);
     line-height: 1;
