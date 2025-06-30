@@ -1,10 +1,14 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-fileinput.styles";
+import styles from "./nys-filelistitem.styles";
 
 export class NysFileListItem extends LitElement {
   @property({ type: String }) filename = "";
-  @property({ type: Boolean, reflect: true }) status = "";
+  @property({ type: String }) status:
+    | "pending"
+    | "processing"
+    | "done"
+    | "error" = "pending";
   @property({ type: Number }) progress = 0;
   @property({ type: String }) error = "";
 
@@ -45,17 +49,23 @@ export class NysFileListItem extends LitElement {
   render() {
     return html`
       <div class="file-item">
-        <div class="file-info">
-          <p>${this.truncateFilename(this.filename)}</p>
-          ${this.error ? html`<p class="error-msg">${this.error}</p>` : null}
+        <div class="file-item__main">
+          <div class="file-item__info">
+            <p>${this.truncateFilename(this.filename)}</p>
+            ${this.error ? html`<p class="error-msg">${this.error}</p>` : null}
+          </div>
+          <nys-button
+            ariaLabel="close button"
+            suffixIcon="slotted"
+            size="sm"
+            variant="ghost"
+            @click=${this._handleRemove}
+            ><nys-icon slot="suffix-icon" name="close" size="2xl"></nys-icon
+          ></nys-button>
         </div>
-        <nys-button
-          ariaLabel="close button"
-          size="sm"
-          variant="ghost"
-          prefixIcon="close"
-          @click=${this._handleRemove}
-        ></nys-button>
+        ${this.status === "processing"
+          ? html`<progress value=${this.progress} max="100"></progress>`
+          : null}
       </div>
     `;
   }

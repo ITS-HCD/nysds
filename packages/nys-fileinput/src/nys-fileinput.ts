@@ -8,6 +8,12 @@ import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
 
 let fileinputIdCounter = 0; // Counter for generating unique IDs
+interface FileWithProgress {
+  file: File;
+  progress: number;
+  status: "pending" | "processing" | "done" | "error";
+  error?: string;
+}
 
 export class NysFileinput extends LitElement {
   @property({ type: String }) id = "";
@@ -23,7 +29,9 @@ export class NysFileinput extends LitElement {
   @property({ type: Boolean }) showError = false;
   @property({ type: Boolean }) dropzone = false;
 
-  private _selectedFiles = [] as File[];
+  private _selectedFiles: FileWithProgress[] = [];
+
+  // private _selectedFiles = [] as File[];
   private _dragActive = false;
 
   static styles = styles;
@@ -50,7 +58,7 @@ export class NysFileinput extends LitElement {
     input?.click();
   }
 
-  // Handles adding new files to the internal list via the hidden <input type="file">
+  // Access the selected files & add new files to the internal list via the hidden <input type="file">
   private _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;
     const files = input.files;
@@ -61,6 +69,8 @@ export class NysFileinput extends LitElement {
       this._saveSelectedFiles(file);
     });
 
+    input.value = "";
+
     this.requestUpdate(); // Trigger re-render
     this._dispatchChangeEvent();
   }
@@ -69,7 +79,7 @@ export class NysFileinput extends LitElement {
     const filenameToRemove = e.detail.filename;
 
     this._selectedFiles = this._selectedFiles.filter(
-      (file) => file.name !== filenameToRemove,
+      (existingFile) => existingFile.file.name !== filenameToRemove,
     );
 
     this.requestUpdate(); // Trigger re-render
@@ -77,7 +87,8 @@ export class NysFileinput extends LitElement {
   }
 
   private _onDragOver(e: DragEvent) {
-    e.preventDefault(); // Allows drop! Prevents default behavior of browser opening the file).
+    e.stopPropagation();
+    e.preventDefault();
     if (!this._dragActive) {
       this._dragActive = true; // For styling purpose
       this.requestUpdate();
@@ -86,6 +97,7 @@ export class NysFileinput extends LitElement {
 
   // Mostly used for styling purpose
   private _onDragLeave(e: DragEvent) {
+    e.stopPropagation();
     e.preventDefault();
     // Only reset if leaving the dropzone itself (not children)
     if (e.currentTarget === e.target) {
@@ -116,11 +128,46 @@ export class NysFileinput extends LitElement {
   // Store the files to be displayed
   private _saveSelectedFiles(file: File) {
     const isDuplicate = this._selectedFiles.some(
-      (existingFile) => existingFile.name == file.name,
+      (existingFile) => existingFile.file.name == file.name,
     );
-    if (!isDuplicate) {
-      this._selectedFiles.push(file);
-    }
+    if (isDuplicate) return;
+
+    const entry: FileWithProgress = {
+      file,
+      progress: 0,
+      status: "pending",
+    };
+
+    this._selectedFiles.push(entry);
+    this._processFile(entry);
+  }
+
+  // Read the contents of stored files, this will indicate loading progress of the uploaded files
+  private _processFile(entry: FileWithProgress) {
+    const reader = new FileReader();
+    entry.status = "processing";
+
+    reader.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const percentage = Math.round((e.loaded * 100) / e.total);
+        entry.progress = percentage;
+        this.requestUpdate();
+      }
+    };
+
+    reader.onload = () => {
+      entry.progress = 100;
+      entry.status = "done";
+      this.requestUpdate();
+    };
+
+    reader.onerror = () => {
+      entry.status = "error";
+      entry.error = "Failed to load file.";
+      this.requestUpdate();
+    };
+
+    reader.readAsArrayBuffer(entry.file); // built-in browser API that reads the contents of files stored in our File object
   }
 
   private _dispatchChangeEvent() {
@@ -198,9 +245,9 @@ export class NysFileinput extends LitElement {
         ? html`
             <ul>
               ${this._selectedFiles.map(
-                (file) =>
+                (entry) =>
                   html`<li>
-                    <nys-filelistitem filename=${file.name}></filelistitem>
+                    <nys-filelistitem filename=${entry.file.name} status=${entry.status} progress=${entry.progress} error=${entry.error || ""}></filelistitem>
                   </li>`,
               )}
             </ul>
