@@ -11,10 +11,15 @@ export class NysStep extends LitElement {
   static styles = styles;
 
   render() {
-    return html` <div class="nys-step">${this.label}</div>
-      <div class="nys-step__linewrapper">
-        <div class="nys-step__line"></div>
-      </div>`;
+    return html`
+      <div class="nys-step">
+        <div class="nys-step__linewrapper">
+          <div class="nys-step__number"></div>
+          <div class="nys-step__line"></div>
+        </div>
+        ${this.label}
+      </div>
+    `;
   }
 }
 

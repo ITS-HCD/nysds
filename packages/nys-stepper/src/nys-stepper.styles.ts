@@ -37,26 +37,27 @@ export default css`
     position: relative;
     counter-increment: step;
     display: flex;
-    align-items: center;
+    flex-direction: row;
   }
 
   .nys-step__linewrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: var(--nys-size-300, 24px);
-    height: var(--nys-size-300, 24px);
-    margin: var(--nys-space-100, 8px) 0;
+    margin-right: var(--nys-space-150, 12px);
   }
 
   .nys-step__line {
     width: var(--nys-size-1px, 1px);
+    height: var(--nys-size-300, 24px);
     border-radius: var(--nys-radius-round, 1776px);
     background: var(--nys-color-black-transparent-200, rgba(27, 27, 27, 0.2));
+    margin: var(--nys-space-100, 8px) 0;
   }
 
-  .nys-step::before {
-    content: counter(step);
-    margin-right: 12px;
+  .nys-step__number {
     border-radius: var(--nys-radius-round, 1776px);
     border: 1px solid var(--nys-color-neutral-400, #909395);
     background: var(
@@ -70,8 +71,14 @@ export default css`
     justify-content: center;
     text-align: center;
   }
+
+  .nys-step__number::before {
+    content: counter(step);
+    line-height: 1;
+  }
+
   /* Hide the line wrapper in the last step */
-  :host([last]) .nys-step__linewrapper {
+  :host([last]) .nys-step__line {
     display: none;
   }
 `;
