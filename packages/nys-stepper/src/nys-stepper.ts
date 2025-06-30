@@ -74,23 +74,31 @@ export class NysStepper extends LitElement {
 
   updated() {
     const steps = this.querySelectorAll("nys-step");
+    const hasCurrent = Array.from(steps).some((step) =>
+      step.hasAttribute("current"),
+    );
     let foundCurrent = false;
 
     steps.forEach((step, i) => {
-      // Handle 'last' attribute
+      // Handle 'first' attribute
       if (i === 0) {
         step.setAttribute("first", "");
       } else {
         step.removeAttribute("first");
       }
 
-      // Handle 'previous' attribute for current tracking
-      if (step.hasAttribute("current")) {
-        foundCurrent = true;
-        step.removeAttribute("previous");
-      } else if (!foundCurrent) {
-        step.setAttribute("previous", "");
+      // Handle 'previous' attribute only if there's a current step
+      if (hasCurrent) {
+        if (step.hasAttribute("current")) {
+          foundCurrent = true;
+          step.removeAttribute("previous");
+        } else if (!foundCurrent) {
+          step.setAttribute("previous", "");
+        } else {
+          step.removeAttribute("previous");
+        }
       } else {
+        // No current -> ensure none have 'previous'
         step.removeAttribute("previous");
       }
     });
@@ -99,8 +107,8 @@ export class NysStepper extends LitElement {
   render() {
     return html`
       <div class="nys-stepper">
-        ${this.label}
         <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
+        ${this.label}
         <slot></slot>
       </div>
     `;

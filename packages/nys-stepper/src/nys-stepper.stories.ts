@@ -49,15 +49,11 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-stepper .id=${args.id} .name=${args.name} label="Stepper Label">
-      <div slot="actions">
-        <nys-button label="Save"></nys-button>
-        <nys-button label="Exit"></nys-button>
-      </div>
       <nys-step label="First"></nys-step>
-      <nys-step label="Then"></nys-step>
-      <nys-step label="Finally"></nys-step>
-      <nys-step label="Complete" current selected></nys-step>
-      <nys-step label="Done"></nys-step>
+      <nys-step label="First"></nys-step>
+      <nys-step label="First"></nys-step>
+      <nys-step label="First"></nys-step>
+      <nys-step label="First"></nys-step>
     </nys-stepper>
   `,
   parameters: {
