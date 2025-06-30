@@ -10,7 +10,7 @@ export class NysFileListItem extends LitElement {
     | "done"
     | "error" = "pending";
   @property({ type: Number }) progress = 0;
-  @property({ type: String }) error = "";
+  @property({ type: String }) errorMessage = "";
 
   static styles = styles;
 
@@ -48,11 +48,22 @@ export class NysFileListItem extends LitElement {
 
   render() {
     return html`
-      <div class="file-item">
+      <div class="file-item ${this.status}">
         <div class="file-item__main">
+          <nys-icon
+            class="file-icon"
+            name=${this.status === "processing"
+              ? "progress_activity"
+              : this.status === "error"
+                ? "error"
+                : "attach_file"}
+            size="2xl"
+          ></nys-icon>
           <div class="file-item__info">
             <p>${this.truncateFilename(this.filename)}</p>
-            ${this.error ? html`<p class="error-msg">${this.error}</p>` : null}
+            ${this.errorMessage
+              ? html`<p class="error-msg">${this.errorMessage}</p>`
+              : null}
           </div>
           <nys-button
             circle
@@ -60,7 +71,7 @@ export class NysFileListItem extends LitElement {
             ariaLabel="close button"
             size="sm"
             variant="ghost"
-            @click=${this._handleRemove}
+            .onClick=${() => this._handleRemove()}
           ></nys-button>
         </div>
         ${this.status === "processing"

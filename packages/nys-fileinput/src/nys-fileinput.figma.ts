@@ -4,5 +4,5 @@ figma.connect("<FIGMA_FILEINPUT>", {
   props: {
     // TODO: Add props here
   },
-  example: (props) => html` <nys-fileinput></nys-fileinput> `,
+  example: () => html` <nys-fileinput></nys-fileinput> `,
 });

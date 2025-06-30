@@ -21,12 +21,6 @@ export default css`
       )
     );
 
-    /* File items */
-    --_nys-fileinput-items-radius: var(--nys-radius-md, 4px);
-    --_nys-fileinput-items-padding: var(--nys-space-100, 8px);
-    --_nys-fileinput-items-border: var(--nys-border-width-sm, 1px) solid
-      var(--nys-color-neutral-100, #d0d0ce);
-
     /* Dropzone */
     --_nys-fileinput-dropzone-background: var(--nys-color-ink-reverse, #fff);
     --_nys-fileinput-dropzone-radius: var(
@@ -35,7 +29,7 @@ export default css`
     );
     --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
       var(--nys-color-neutral-300, #a7a9ab);
-    --_nys-fileinput-dropzone-color: var(--nys-color-text-disabled, #BEC0C1);
+    --_nys-fileinput-dropzone-color: var(--nys-color-text-disabled, #bec0c1);
   }
 
   .nys-fileinput {
@@ -82,35 +76,16 @@ export default css`
     --_nys-fileinput-dropzone-background: var(--nys-color-theme-faint, #f7fafd);
   }
 
+  .nys-fileinput__dropzone.error {
+    --_nys-fileinput-dropzone-border: var(--nys-border-width-md, 2px) dashed
+      var(--nys-color-danger, #b52c2c);
+  }
+
   .nys-fileinput__dropzone.disabled {
     --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
       var(--nys-color-neutral-300, #a7a9ab);
     --_nys-fileinput-dropzone-background: var(--nys-color-neutral-10, #f6f6f6);
     color: var(--_nys-fileinput-dropzone-color);
-  }
-
-  /***** File List Item *****/
-  .file-item {
-    border-radius: var(--_nys-fileinput-items-radius);
-    border: var(--_nys-fileinput-items-border);
-  }
-  .file-item__main {
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    gap: var(--_nys-fileinput-gap);
-    padding: var(--_nys-fileinput-items-padding);
-  }
-  .file-item__main.processing {
-    padding-bottom: 0;
-  }
-
-  .file-item__info {
-    display: flex;
-    width: 100%;
-  }
-  .file-item p {
-    margin: 0;
   }
 
   progress {

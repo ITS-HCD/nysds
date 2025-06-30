@@ -13,7 +13,7 @@ interface FileWithProgress {
   file: File;
   progress: number;
   status: "pending" | "processing" | "done" | "error";
-  error?: string;
+  errorMsg?: string;
 }
 
 export class NysFileinput extends LitElement {
@@ -151,31 +151,96 @@ export class NysFileinput extends LitElement {
   }
 
   // Read the contents of stored files, this will indicate loading progress of the uploaded files
-  private _processFile(entry: FileWithProgress) {
-    const reader = new FileReader();
+  private async _processFile(entry: FileWithProgress) {
     entry.status = "processing";
 
-    reader.onprogress = (e) => {
-      if (e.lengthComputable) {
-        const percentage = Math.round((e.loaded * 100) / e.total);
-        entry.progress = percentage;
+    try {
+      const isValid = await this._validateFileHeader(entry.file);
+      if (!isValid) {
+        entry.status = "error";
+        entry.errorMsg = "File format does not match expected type.";
         this.requestUpdate();
+        return;
       }
-    };
 
-    reader.onload = () => {
-      entry.progress = 100;
-      entry.status = "done";
-      this.requestUpdate();
-    };
+      const reader = new FileReader();
 
-    reader.onerror = () => {
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const percentage = Math.round((e.loaded * 100) / e.total);
+          entry.progress = percentage;
+          this.requestUpdate();
+        }
+      };
+
+      reader.onload = () => {
+        entry.progress = 100;
+        entry.status = "done";
+        this.requestUpdate();
+      };
+
+      reader.onerror = () => {
+        entry.status = "error";
+        entry.errorMsg = "Failed to load file.";
+        this.requestUpdate();
+      };
+
+      reader.readAsArrayBuffer(entry.file);
+    } catch (err) {
       entry.status = "error";
-      entry.error = "Failed to load file.";
+      entry.errorMsg = "Error validating file.";
       this.requestUpdate();
-    };
+    }
+  }
 
-    reader.readAsArrayBuffer(entry.file); // built-in browser API that reads the contents of files stored in our File object
+  // validates a file's true format by inspecting its header (magic number).
+  // Only detects corrupted files if given a valid accept prop.
+  private async _validateFileHeader(file: File): Promise<boolean> {
+    const blob = file.slice(0, 8); // first 8 bytes is enough for common formats
+    const buffer = await blob.arrayBuffer();
+    const header = new Uint8Array(buffer);
+
+    // PNG: 89 50 4E 47 0D 0A 1A 0A
+    const isPNG =
+      header.length >= 8 &&
+      header[0] === 0x89 &&
+      header[1] === 0x50 &&
+      header[2] === 0x4e &&
+      header[3] === 0x47 &&
+      header[4] === 0x0d &&
+      header[5] === 0x0a &&
+      header[6] === 0x1a &&
+      header[7] === 0x0a;
+
+    // PDF: 25 50 44 46 (%PDF)
+    const isPDF =
+      header.length >= 4 &&
+      header[0] === 0x25 &&
+      header[1] === 0x50 &&
+      header[2] === 0x44 &&
+      header[3] === 0x46;
+
+    // JPG: FF D8 FF
+    const isJPG =
+      header.length >= 3 &&
+      header[0] === 0xff &&
+      header[1] === 0xd8 &&
+      header[2] === 0xff;
+
+    const accepted = this.accept || "";
+    const acceptsImage =
+      accepted.includes("image/") ||
+      accepted.includes("jpg") ||
+      accepted.includes("jpeg") ||
+      accepted.includes("png");
+    const acceptsPDF = accepted.includes("pdf");
+
+    if (isPNG && acceptsImage) return true;
+    if (isJPG && acceptsImage) return true;
+    if (isPDF && acceptsPDF) return true;
+
+    // If accept is not specified, or file type is unknown, allow it
+    return this.accept ? false : true;
   }
 
   private _dispatchChangeEvent() {
@@ -227,7 +292,11 @@ export class NysFileinput extends LitElement {
         : html`<div
             class="nys-fileinput__dropzone ${this._dragActive
               ? "drag-active"
-              : ""} ${this.disabled ? "disabled" : ""}"
+              : ""} ${this.disabled
+              ? "disabled"
+              : this.showError
+                ? "error"
+                : ""}"
             @dragover=${this._onDragOver}
             @dragleave=${this._onDragLeave}
             @drop=${this._onDrop}
@@ -258,7 +327,7 @@ export class NysFileinput extends LitElement {
               ${this._selectedFiles.map(
                 (entry) =>
                   html`<li>
-                    <nys-filelistitem filename=${entry.file.name} status=${entry.status} progress=${entry.progress} error=${entry.error || ""}></filelistitem>
+                    <nys-filelistitem filename=${entry.file.name} status=${entry.status} progress=${entry.progress} errorMessage=${entry.errorMsg || ""}></filelistitem>
                   </li>`,
               )}
             </ul>
