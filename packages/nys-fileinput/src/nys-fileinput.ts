@@ -220,7 +220,8 @@ export class NysFileinput extends LitElement {
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
-            ?disabled=${this.disabled}
+            ?disabled=${this.disabled ||
+            (!this.multiple && this._selectedFiles.length > 0)}
             @click=${this._openFileDialog}
           ></nys-button>`
         : html`<div
