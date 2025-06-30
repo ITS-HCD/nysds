@@ -74,11 +74,24 @@ export class NysStepper extends LitElement {
 
   updated() {
     const steps = this.querySelectorAll("nys-step");
+    let foundCurrent = false;
+
     steps.forEach((step, i) => {
+      // Handle 'last' attribute
       if (i === steps.length - 1) {
         step.setAttribute("last", "");
       } else {
         step.removeAttribute("last");
+      }
+
+      // Handle 'previous' attribute for current tracking
+      if (step.hasAttribute("current")) {
+        foundCurrent = true;
+        step.removeAttribute("previous");
+      } else if (!foundCurrent) {
+        step.setAttribute("previous", "");
+      } else {
+        step.removeAttribute("previous");
       }
     });
   }
