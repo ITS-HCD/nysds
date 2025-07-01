@@ -126,7 +126,7 @@ export class NysStepper extends LitElement {
     return html`
       <div class="nys-stepper">
         <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
-        ${this.label}
+        <div class="nys-stepper__label">${this.label}</div>
         <slot></slot>
       </div>
     `;

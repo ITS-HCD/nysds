@@ -31,6 +31,12 @@ export default css`
     display: flex;
     flex-direction: column;
     counter-reset: step;
+    background: var(--nys-color-surface-raised, #f6f6f6);
+    padding: var(--nys-space-400, 32px);
+  }
+
+  .nys-stepper__label {
+    padding-bottom: var(--nys-space-300, 24px);
   }
 
   .nys-step {
