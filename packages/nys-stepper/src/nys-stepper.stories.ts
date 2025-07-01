@@ -38,12 +38,19 @@ export const Basic: Story = {
     label: "Register for Design System Office Hours",
   },
   render: (args) => html`
-    <nys-stepper .id=${args.id} .name=${args.name} label=${args.label}>
-      <nys-step label="Personal Details"></nys-step>
-      <nys-step label="Team Info" selected></nys-step>
-      <nys-step label="Usage Survey" current></nys-step>
-      <nys-step label="Newsletter Opt-In"></nys-step>
-    </nys-stepper>
+    <div style="display:flex;">
+      <nys-stepper .id=${args.id} .name=${args.name} label=${args.label}>
+        <nys-step label="Personal Details"></nys-step>
+        <nys-step label="Team Info" selected></nys-step>
+        <nys-step label="Usage Survey" current></nys-step>
+        <nys-step label="Newsletter Opt-In"></nys-step>
+      </nys-stepper>
+      <div
+        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; justify-content: center; display: flex; align-items: center; height: -webkit-fill-available;"
+      >
+        page content
+      </div>
+    </div>
   `,
   parameters: {
     docs: {
