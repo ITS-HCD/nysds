@@ -39,16 +39,22 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <div style="display:flex;">
-      <nys-stepper .id=${args.id} .name=${args.name} label=${args.label}>
-        <nys-step label="Personal Details"></nys-step>
-        <nys-step label="Team Info" selected></nys-step>
-        <nys-step label="Usage Survey" current></nys-step>
-        <nys-step label="Newsletter Opt-In"></nys-step>
+      <nys-stepper
+        .id=${args.id}
+        .name=${args.name}
+        label=${args.label}
+        contentTarget="stepper-content"
+      >
+        <nys-step label="Personal Details" href="/personal.html"></nys-step>
+        <nys-step label="Team Info" selected href="/team.html"></nys-step>
+        <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
+        <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
       </nys-stepper>
       <div
-        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; justify-content: center; display: flex; align-items: center; height: -webkit-fill-available;"
+        id="stepper-content"
+        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; height: -webkit-fill-available;"
       >
-        page content
+        Loading...
       </div>
     </div>
   `,

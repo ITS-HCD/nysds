@@ -10,13 +10,38 @@ export class NysStep extends LitElement {
 
   static styles = styles;
 
+  private _handleActivate() {
+    this.dispatchEvent(
+      new Event("nys-step-click", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private _handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      this._handleActivate();
+    }
+  }
+
   render() {
     return html`
       <div class="nys-step">
         <div class="nys-step__linewrapper">
           <div class="nys-step__line"></div>
         </div>
-        <div class="nys-step__contentwrapper">
+        <div
+          class="nys-step__contentwrapper"
+          tabindex=${this.selected ||
+          this.current ||
+          this.hasAttribute("previous")
+            ? "0"
+            : "-1"}
+          @click=${this._handleActivate}
+          @keydown=${this._handleKeydown}
+        >
           <div class="nys-step__number"></div>
           <div class="nys-step__content">
             ${this.current

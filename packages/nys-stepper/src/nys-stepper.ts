@@ -6,8 +6,11 @@ export class NysStepper extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
+  @property({ type: String }) contentTarget = "";
 
   static styles = styles;
+
+  private hasLoadedInitialContent = false;
 
   constructor() {
     super();
@@ -15,8 +18,14 @@ export class NysStepper extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.addEventListener("nys-step-click", this._onStepClick);
     // Defer step validation to next tick to ensure children are upgraded
     requestAnimationFrame(() => this._validateSteps());
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener("nys-step-click", this._onStepClick);
+    super.disconnectedCallback();
   }
 
   private _validateSteps() {
@@ -72,6 +81,36 @@ export class NysStepper extends LitElement {
     });
   }
 
+  private _onStepClick = async (event: Event) => {
+    const clickedStep = event
+      .composedPath()
+      .find(
+        (el) =>
+          el instanceof HTMLElement && el.tagName.toLowerCase() === "nys-step",
+      ) as HTMLElement | undefined;
+
+    if (!clickedStep) return;
+
+    const steps = Array.from(this.querySelectorAll("nys-step"));
+    const currentIndex = steps.findIndex((step) =>
+      step.hasAttribute("current"),
+    );
+    const clickedIndex = steps.indexOf(clickedStep);
+
+    // Can't select past current
+    if (currentIndex !== -1 && clickedIndex > currentIndex) return;
+
+    // Can't select already selected
+    if (clickedStep.hasAttribute("selected")) return;
+
+    // Update selected
+    steps.forEach((step) => step.removeAttribute("selected"));
+    clickedStep.setAttribute("selected", "");
+
+    // Load content
+    this._loadHref(clickedStep.getAttribute("href"));
+  };
+
   updated() {
     const steps = this.querySelectorAll("nys-step");
     let foundCurrent = false;
@@ -89,53 +128,34 @@ export class NysStepper extends LitElement {
       }
     });
 
-    const hasCurrent = currentAssigned;
-
-    // If there is NO current, force remove any `selected` that might exist
-    if (!hasCurrent) {
-      steps.forEach((step) => step.removeAttribute("selected"));
-    }
-
     steps.forEach((step, i) => {
-      // Handle 'first' attribute
       if (i === 0) {
         step.setAttribute("first", "");
       } else {
         step.removeAttribute("first");
       }
 
-      // Ensure `selected` is only before current and only one exists
-      if (hasCurrent) {
-        if (step.hasAttribute("selected")) {
-          if (foundCurrent || selectedAssigned) {
-            step.removeAttribute("selected");
-          } else {
-            selectedAssigned = true;
-          }
-        }
-      } else {
-        step.removeAttribute("selected");
-      }
-
-      // Handle 'previous' attribute only if there's a current step
-      if (hasCurrent) {
-        if (step.hasAttribute("current")) {
-          foundCurrent = true;
-          step.removeAttribute("previous");
-        } else if (!foundCurrent) {
-          step.setAttribute("previous", "");
-        } else {
-          step.removeAttribute("previous");
-        }
+      if (step.hasAttribute("current")) {
+        foundCurrent = true;
+        step.removeAttribute("previous");
+      } else if (!foundCurrent) {
+        step.setAttribute("previous", "");
       } else {
         step.removeAttribute("previous");
+      }
+
+      if (step.hasAttribute("selected")) {
+        if (foundCurrent || selectedAssigned) {
+          step.removeAttribute("selected");
+        } else {
+          selectedAssigned = true;
+        }
       }
     });
 
     // Selected fallback
     if (!selectedAssigned) {
-      if (hasCurrent) {
-        // If there is a current, mark it as selected
+      if (currentAssigned) {
         steps.forEach((step) => {
           if (step.hasAttribute("current") && !selectedAssigned) {
             step.setAttribute("selected", "");
@@ -147,6 +167,44 @@ export class NysStepper extends LitElement {
         steps[0].setAttribute("current", "");
         steps[0].setAttribute("selected", "");
       }
+    }
+
+    // Load content on first update
+    if (!this.hasLoadedInitialContent) {
+      this.hasLoadedInitialContent = true;
+      const selected = Array.from(steps).find((step) =>
+        step.hasAttribute("selected"),
+      );
+      if (selected) {
+        this._loadHref(selected.getAttribute("href"));
+      }
+    }
+  }
+
+  private async _loadHref(href: string | null) {
+    if (!href) return;
+
+    let container: HTMLElement | null = null;
+
+    // If developer specified a content target ID, use it
+    if (this.contentTarget) {
+      container = document.getElementById(this.contentTarget);
+    }
+
+    // Otherwise fallback to next sibling
+    if (!container) {
+      container = this.nextElementSibling as HTMLElement;
+    }
+
+    if (container) {
+      try {
+        const response = await fetch(href);
+        container.innerHTML = await response.text();
+      } catch (err) {
+        console.error("Failed to load step content:", err);
+      }
+    } else {
+      console.warn("No container found for loading step content.");
     }
   }
 

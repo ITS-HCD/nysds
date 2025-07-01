@@ -51,6 +51,14 @@ export default css`
     flex-direction: row;
     align-items: center;
     gap: var(--nys-space-150, 12px);
+    cursor: default;
+  }
+
+  .nys-step__contentwrapper:focus-visible {
+    outline: solid var(--nys-color-focus, #004dd1)
+      var(--nys-border-width-md, 2px);
+    outline-offset: var(--nys-space-2px, 2px);
+    border-radius: var(--nys-radius-md, 4px);
   }
 
   .nys-step__linewrapper {
@@ -137,15 +145,23 @@ export default css`
     text-decoration-line: underline;
   }
 
+  :host([current]) .nys-step__contentwrapper,
+  :host([previous]) .nys-step__contentwrapper {
+    cursor: pointer;
+  }
+
   :host([selected]) .nys-step__label {
     /* UI/Medium/Bold */
-    font-family: var(--nys-type-family-ui, "Proxima Nova");
-    font-size: var(--nys-type-size-ui-md, 16px);
-    font-style: normal;
     font-weight: 700;
-    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
-    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
     text-decoration-line: none;
+  }
+
+  :host([selected]) .nys-step__contentwrapper {
+    cursor: default;
+  }
+
+  :host([selected]) .nys-step__contentwrapper:focus-visible {
+    outline-offset: 6px;
   }
 
   .nys-step__currentflag {
