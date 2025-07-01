@@ -88,7 +88,6 @@ export class NysTextarea extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-    this._manageRequire();
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -98,8 +97,8 @@ export class NysTextarea extends LitElement {
 
   /********************** Form Integration **********************/
   private _setValue() {
-    this._manageRequire();
     this._internals.setFormValue(this.value);
+    this._manageRequire();
   }
 
   private _manageRequire() {

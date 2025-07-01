@@ -38,9 +38,15 @@ export class NysFileinput extends LitElement {
 
   static styles = styles;
 
+  //private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _internals: ElementInternals;
+
   /********************** Lifecycle updates **********************/
+  static formAssociated = true; // allows use of elementInternals' API
+
   constructor() {
     super();
+    this._internals = this.attachInternals();
   }
 
   // Generate a unique ID if one is not provided
@@ -48,6 +54,46 @@ export class NysFileinput extends LitElement {
     super.connectedCallback();
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${fileinputIdCounter++}`;
+    }
+  }
+
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue();
+    // this._manageRequire();
+  }
+
+  /********************** Form Integration **********************/
+  private _setValue() {
+    console.log("WIN IN");
+    // for multiple file uploads, we upload File object as an array
+    if (this.multiple) {
+      const files = this._selectedFiles.map((entry) => entry.file);
+      const formData = new FormData();
+      console.log(formData);
+      files.forEach((file) => formData.append(this.name, file));
+      this._internals.setFormValue(formData);
+    } else {
+      this._internals.setFormValue(this._selectedFiles[0]?.file || null);
+    }
+
+    this._manageRequire(); // Check validation when value is set
+  }
+
+  private _manageRequire() {
+    const fileInput = this.shadowRoot?.querySelector("input");
+    if (!fileInput) return;
+
+    const message = this.errorMessage || "Please upload a file.";
+    const isInvalid = this.required && this._selectedFiles.length == 0;
+
+    if (isInvalid) {
+      this._internals.ariaRequired = "true"; // Screen readers should announce error
+      this._internals.setValidity({ valueMissing: true }, message, fileInput);
+    } else {
+      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.setValidity({});
+      //this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
   }
 
@@ -244,8 +290,9 @@ export class NysFileinput extends LitElement {
   }
 
   private _dispatchChangeEvent() {
+    this._setValue();
     this.dispatchEvent(
-      new CustomEvent("nys-fileChange", {
+      new CustomEvent("nys-change", {
         detail: { files: this._selectedFiles },
         bubbles: true,
         composed: true,

@@ -108,7 +108,6 @@ export class NysTextinput extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-    this._manageRequire();
   }
 
   // This callback is automatically called when the parent form is reset.
