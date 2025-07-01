@@ -74,7 +74,6 @@ export class NysStepper extends LitElement {
 
   updated() {
     const steps = this.querySelectorAll("nys-step");
-    let hasCurrent = false;
     let foundCurrent = false;
     let selectedAssigned = false;
     let currentAssigned = false;
@@ -90,8 +89,12 @@ export class NysStepper extends LitElement {
       }
     });
 
-    // Re-calculate after cleaning multiple `current`s
-    hasCurrent = currentAssigned;
+    const hasCurrent = currentAssigned;
+
+    // If there is NO current, force remove any `selected` that might exist
+    if (!hasCurrent) {
+      steps.forEach((step) => step.removeAttribute("selected"));
+    }
 
     steps.forEach((step, i) => {
       // Handle 'first' attribute
@@ -102,12 +105,16 @@ export class NysStepper extends LitElement {
       }
 
       // Ensure `selected` is only before current and only one exists
-      if (step.hasAttribute("selected")) {
-        if (foundCurrent || selectedAssigned) {
-          step.removeAttribute("selected");
-        } else {
-          selectedAssigned = true;
+      if (hasCurrent) {
+        if (step.hasAttribute("selected")) {
+          if (foundCurrent || selectedAssigned) {
+            step.removeAttribute("selected");
+          } else {
+            selectedAssigned = true;
+          }
         }
+      } else {
+        step.removeAttribute("selected");
       }
 
       // Handle 'previous' attribute only if there's a current step

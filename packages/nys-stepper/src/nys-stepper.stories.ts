@@ -40,8 +40,8 @@ export const Basic: Story = {
   render: (args) => html`
     <nys-stepper .id=${args.id} .name=${args.name} label=${args.label}>
       <nys-step label="Personal Details"></nys-step>
-      <nys-step label="Team Info"></nys-step>
-      <nys-step label="Usage Survey"></nys-step>
+      <nys-step label="Team Info" selected></nys-step>
+      <nys-step label="Usage Survey" current></nys-step>
       <nys-step label="Newsletter Opt-In"></nys-step>
     </nys-stepper>
   `,
