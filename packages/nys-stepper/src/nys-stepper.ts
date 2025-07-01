@@ -74,13 +74,24 @@ export class NysStepper extends LitElement {
 
   updated() {
     const steps = this.querySelectorAll("nys-step");
-    const hasCurrent = Array.from(steps).some((step) =>
-      step.hasAttribute("current"),
-    );
-    const hasSelected = Array.from(steps).some((step) =>
-      step.hasAttribute("selected"),
-    );
+    let hasCurrent = false;
     let foundCurrent = false;
+    let selectedAssigned = false;
+    let currentAssigned = false;
+
+    // Pre-pass to normalize multiple `current` attributes
+    steps.forEach((step) => {
+      if (step.hasAttribute("current")) {
+        if (!currentAssigned) {
+          currentAssigned = true;
+        } else {
+          step.removeAttribute("current");
+        }
+      }
+    });
+
+    // Re-calculate after cleaning multiple `current`s
+    hasCurrent = currentAssigned;
 
     steps.forEach((step, i) => {
       // Handle 'first' attribute
@@ -88,6 +99,15 @@ export class NysStepper extends LitElement {
         step.setAttribute("first", "");
       } else {
         step.removeAttribute("first");
+      }
+
+      // Ensure `selected` is only before current and only one exists
+      if (step.hasAttribute("selected")) {
+        if (foundCurrent || selectedAssigned) {
+          step.removeAttribute("selected");
+        } else {
+          selectedAssigned = true;
+        }
       }
 
       // Handle 'previous' attribute only if there's a current step
@@ -106,12 +126,13 @@ export class NysStepper extends LitElement {
     });
 
     // Selected fallback
-    if (!hasSelected) {
+    if (!selectedAssigned) {
       if (hasCurrent) {
         // If there is a current, mark it as selected
         steps.forEach((step) => {
-          if (step.hasAttribute("current")) {
+          if (step.hasAttribute("current") && !selectedAssigned) {
             step.setAttribute("selected", "");
+            selectedAssigned = true;
           }
         });
       } else if (steps.length > 0) {
