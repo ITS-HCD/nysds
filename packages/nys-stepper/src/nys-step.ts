@@ -15,13 +15,15 @@ export class NysStep extends LitElement {
       <div class="nys-step">
         <div class="nys-step__linewrapper">
           <div class="nys-step__line"></div>
-          <div class="nys-step__number"></div>
         </div>
-        <div class="nys-step__content">
-          ${this.current
-            ? html`<div class="nys-step__currentflag">Current Step</div>`
-            : ""}
-          <div class="nys-step__label">${this.label}</div>
+        <div class="nys-step__contentwrapper">
+          <div class="nys-step__number"></div>
+          <div class="nys-step__content">
+            ${this.current
+              ? html`<div class="nys-step__currentflag">Current Step</div>`
+              : ""}
+            <div class="nys-step__label">${this.label}</div>
+          </div>
         </div>
       </div>
     `;

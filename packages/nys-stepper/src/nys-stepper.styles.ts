@@ -37,17 +37,20 @@ export default css`
     position: relative;
     counter-increment: step;
     display: flex;
+    flex-direction: column;
+  }
+
+  .nys-step__contentwrapper {
+    display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
+    gap: var(--nys-space-150, 12px);
   }
 
   .nys-step__linewrapper {
+    width: 24px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    width: var(--nys-size-300, 24px);
-    margin-right: var(--nys-space-150, 12px);
   }
 
   .nys-step__line {
@@ -92,10 +95,11 @@ export default css`
   .nys-step__number::before {
     content: counter(step);
     line-height: 1;
+    padding-top: 2px;
   }
 
   /* Hide the line wrapper in the last step */
-  :host([first]) .nys-step__line {
+  :host([first]) .nys-step__linewrapper {
     display: none;
   }
 
@@ -121,6 +125,17 @@ export default css`
     text-decoration-thickness: 7%; /* 1.12px */
     text-underline-offset: auto;
     text-underline-position: from-font;
+  }
+
+  :host([selected]) .nys-step__label {
+    /* UI/Medium/Bold */
+    font-family: var(--nys-type-family-ui, "Proxima Nova");
+    font-size: var(--nys-type-size-ui-md, 16px);
+    font-style: normal;
+    font-weight: 700;
+    line-height: var(--nys-font-lineheight-ui-md, 24px); /* 150% */
+    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    text-decoration-line: none;
   }
 
   .nys-step__currentflag {
