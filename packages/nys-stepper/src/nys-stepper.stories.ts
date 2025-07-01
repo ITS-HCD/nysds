@@ -7,18 +7,7 @@ import "./nys-step";
 interface NysStepperArgs {
   id: string;
   name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
   label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string;
-  value: string;
-  type: string;
-  href: string;
   onClick: () => void;
 }
 
