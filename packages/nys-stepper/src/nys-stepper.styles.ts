@@ -98,4 +98,38 @@ export default css`
   :host([first]) .nys-step__line {
     display: none;
   }
+
+  .nys-step__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-space-100, 8px);
+  }
+
+  .nys-step__label {
+    overflow: hidden;
+    color: var(--nys-color-text, #1b1b1b);
+    text-overflow: ellipsis;
+    font-family: var(--nys-type-family-ui, "Proxima Nova");
+    font-size: var(--nys-type-size-ui-md, 16px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--nys-type-size-ui-md, 16px);
+    letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: 7%; /* 1.12px */
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+
+  .nys-step__currentflag {
+    overflow: hidden;
+    color: var(--nys-color-text-weak, #4a4d4f);
+    text-overflow: ellipsis;
+    font-size: var(--nys-typography-type-size-ui-xs, 12px);
+    font-weight: 600;
+    line-height: var(--nys-typography-type-size-ui-xs, 12px);
+    letter-spacing: var(--nys-typography-font-letterspacing-ui-xs, 0.057px);
+  }
 `;

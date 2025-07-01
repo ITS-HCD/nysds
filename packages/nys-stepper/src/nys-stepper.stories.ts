@@ -35,14 +35,14 @@ export const Basic: Story = {
   args: {
     id: "stepper1",
     name: "stepper1",
+    label: "Register for Design System Office Hours",
   },
   render: (args) => html`
-    <nys-stepper .id=${args.id} .name=${args.name} label="Stepper Label">
-      <nys-step label="First"></nys-step>
-      <nys-step label="Second" selected></nys-step>
-      <nys-step label="Third" current></nys-step>
-      <nys-step label="Fourth"></nys-step>
-      <nys-step label="Fifth"></nys-step>
+    <nys-stepper .id=${args.id} .name=${args.name} label=${args.label}>
+      <nys-step label="Personal Details"></nys-step>
+      <nys-step label="Team Info" selected></nys-step>
+      <nys-step label="Usage Survey" current></nys-step>
+      <nys-step label="Newsletter Opt-In"></nys-step>
     </nys-stepper>
   `,
   parameters: {
