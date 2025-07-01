@@ -119,12 +119,16 @@ export default css`
     font-weight: 400;
     line-height: var(--nys-type-size-ui-md, 16px);
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
-    text-decoration-line: underline;
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;
     text-decoration-thickness: 7%; /* 1.12px */
     text-underline-offset: auto;
     text-underline-position: from-font;
+  }
+
+  :host([current]) .nys-step__label,
+  :host([previous]) .nys-step__label {
+    text-decoration-line: underline;
   }
 
   :host([selected]) .nys-step__label {
