@@ -1,7 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-{{componentName}}.js";
-import Nys{{capitalize componentName}} from "../dist/nys-{{componentName}}.js";
-
 // You may need to import other dependencies such as the component's tag name
 // For example:
 // import { NysTextinput } from "./nys-textinput";
@@ -15,7 +13,7 @@ describe("nys-{{componentName}}", () => {
 
 
   it("reflects attributes to properties", async () => {
-    const el = await fixture<Nys{{capitalize componentName}}>(html`
+    const el = await fixture(html`
       <nys-{{componentName}} label="My Label" required optional></nys-{{componentName}}>
     `);
     expect(el.label).to.equal("My Label");

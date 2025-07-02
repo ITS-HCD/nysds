@@ -78,12 +78,6 @@ export default function (plop) {
         path: "packages/nys-{{componentName}}/web-test-runner.config.js",
         templateFile: "templates/webtestrunner.template.hbs",
       },
-      {
-        type: "modify",
-        path: "src/scripts/build-order.js",
-        pattern: /(\];)/,
-        template: `  { name: "nys-{{componentName}}", path: "packages/nys-{{componentName}}" },\n$1`,
-      },
     ],
   });
 
