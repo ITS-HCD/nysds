@@ -84,9 +84,9 @@ The `nys-{{componentName}}` component includes the following accessibility-focus
 
 The `nys-{{componentName}}` component emits the following events:
 
-1. `click`: Emitted when the {{componentName}} is clicked.
-2. `focus`: Emitted when the {{componentName}} receives focus.
-3. `blur`: Emitted when the {{componentName}} loses focus.
+1. `nys-click`: Emitted when the {{componentName}} is clicked.
+2. `nys-focus`: Emitted when the {{componentName}} receives focus.
+3. `nys-blur`: Emitted when the {{componentName}} loses focus.
 
 You can listen to these events using JavaScript:
 
@@ -94,18 +94,18 @@ You can listen to these events using JavaScript:
 // Select the {{componentName}} component
 const {{componentName}} = document.querySelector("nys-{{componentName}}");
 
-// Listen for the 'click' event
-{{componentName}}.addEventListener("click", () => {
+// Listen for the 'nys-click' event
+{{componentName}}.addEventListener("nys-click", () => {
 	console.log("{{capitalize componentName}} clicked");
 });
 
-// Listen for the 'focus' event
-{{componentName}}.addEventListener("focus", () => {
+// Listen for the 'nys-focus' event
+{{componentName}}.addEventListener("nys-focus", () => {
 	console.log("{{capitalize componentName}} is focused");
 });
 
-// Listen for the 'blur' event
-{{componentName}}.addEventListener("blur", () => {
+// Listen for the 'nys-blur' event
+{{componentName}}.addEventListener("nys-blur", () => {
 	console.log("{{capitalize componentName}} lost focus");
 });
 ```

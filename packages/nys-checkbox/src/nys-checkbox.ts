@@ -122,7 +122,12 @@ export class NysCheckbox extends LitElement {
     if (!input) return;
 
     // Get the native validation state
-    let message = input.validationMessage;
+    const validity = input.validity;
+    let message = "";
+
+    if (validity.valueMissing) {
+      message = "This field is required";
+    }
 
     this._setValidityMessage(message);
   }
