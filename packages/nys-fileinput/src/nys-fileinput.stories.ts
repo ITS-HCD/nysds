@@ -99,3 +99,167 @@ export const Basic: Story = {
     },
   },
 };
+
+export const Dropzone: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    accept: "image/png, image/jpeg, image/*,.pdf",
+    dropzone: true,
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  label="Upload a file"
+  description="Accepted formats: PDF, JPG"
+  accept="image/png, image/jpeg, image/*,.pdf"
+  dropzone
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Width: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    width: "lg",
+    accept: "image/png, image/jpeg, image/*,.pdf",
+    dropzone: true,
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted formats: PDF, JPG"
+  accept="image/png, image/jpeg, image/*,.pdf"
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Multiple: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    multiple: true,
+    accept: "image/png, image/jpeg, image/*,.pdf",
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted formats: PDF, JPG"
+  accept="image/png, image/jpeg, image/*,.pdf"
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    id: "fileinput1",
+    name: "fileinput1",
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    width: "full",
+    multiple: false,
+    accept: "image/png, image/jpeg, image/*,.pdf",
+    disabled: true,
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput1"
+  name="fileinput1"
+  label="Upload a file"
+  description="Accepted formats: PDF, JPG"
+  accept="image/png, image/jpeg, image/*,.pdf"
+></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
