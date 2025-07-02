@@ -49,6 +49,9 @@ export const Basic: Story = {
         <nys-step label="Team Info" selected href="/team.html"></nys-step>
         <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
         <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
+        <div slot="actions">
+          <nys-button variant="outline" label="Save & Exit"></nys-button>
+        </div>
       </nys-stepper>
       <div
         id="stepper-content"

@@ -77,6 +77,11 @@ export class NysStepper extends LitElement {
           child,
         );
         child.remove();
+      } else {
+        // Ensure nys-button has correct styles
+        child.style.flex = "1 1 0";
+        child.setAttribute("size", "sm");
+        child.setAttribute("fullWidth", "");
       }
     });
   }

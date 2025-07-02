@@ -39,6 +39,14 @@ export default css`
     padding-bottom: var(--nys-space-300, 24px);
   }
 
+  ::slotted(div[slot="actions"]) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: var(--nys-space-100, 8px);
+    margin-bottom: var(--nys-space-300, 24px);
+  }
+
   .nys-step {
     position: relative;
     counter-increment: step;
