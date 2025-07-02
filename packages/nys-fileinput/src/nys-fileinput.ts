@@ -23,22 +23,20 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: Boolean }) multiple = false;
   @property({ type: String }) accept = ""; // e.g. "image/*,.pdf"
-  @property({ type: Boolean }) required = false;
-  @property({ type: Boolean }) optional = false;
-  @property({ type: Boolean }) disabled = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) optional = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
-  @property({ type: Boolean }) showError = false;
   @property({ type: Boolean }) dropzone = false;
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
 
-  private _selectedFiles: FileWithProgress[] = [];
-
-  // private _selectedFiles = [] as File[];
-  private _dragActive = false;
-
   static styles = styles;
 
-  //private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _selectedFiles: FileWithProgress[] = [];
+  private _dragActive = false;
+
+  // private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
@@ -55,127 +53,89 @@ export class NysFileinput extends LitElement {
     if (!this.id) {
       this.id = `nys-checkbox-${Date.now()}-${fileinputIdCounter++}`;
     }
+
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-    // this._manageRequire();
   }
 
   /********************** Form Integration **********************/
   private _setValue() {
-    console.log("WIN IN");
     // for multiple file uploads, we upload File object as an array
     if (this.multiple) {
       const files = this._selectedFiles.map((entry) => entry.file);
-      const formData = new FormData();
-      console.log(formData);
-      files.forEach((file) => formData.append(this.name, file));
-      this._internals.setFormValue(formData);
+
+      if (files.length > 0) {
+        const fileNamesJson = JSON.stringify(files.map((f) => f.name));
+        console.log(fileNamesJson);
+        this._internals.setFormValue(fileNamesJson);
+      } else {
+        this._internals.setFormValue(null);
+      }
     } else {
-      this._internals.setFormValue(this._selectedFiles[0]?.file || null);
+      console.log("setting value", this._selectedFiles[0]?.file);
+      const singleFile = this._selectedFiles[0]?.file || null;
+      this._internals.setFormValue(singleFile);
     }
 
     this._manageRequire(); // Check validation when value is set
   }
 
+  // Called to internally set the initial internalElement required flag.
   private _manageRequire() {
-    const fileInput = this.shadowRoot?.querySelector("input");
-    if (!fileInput) return;
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
 
     const message = this.errorMessage || "Please upload a file.";
     const isInvalid = this.required && this._selectedFiles.length == 0;
 
     if (isInvalid) {
       this._internals.ariaRequired = "true"; // Screen readers should announce error
-      this._internals.setValidity({ valueMissing: true }, message, fileInput);
+      console.log("manage require msg if invalid:", message);
+      this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
+      console.log("manage require is NOT INVALID");
       this._internals.ariaRequired = "false"; // Reset when valid
       this._internals.setValidity({});
-      //this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
+      // this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
   }
 
-  /******************** Event Handlers ********************/
-  private _openFileDialog() {
-    const input = this.renderRoot.querySelector(
-      "#hidden-file-input",
-    ) as HTMLInputElement;
+  private _setValidityMessage(message: string = "") {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
 
-    input?.click();
-  }
+    // Toggle the HTML <div> tag error message
+    console.log("we should be here", message);
+    console.log((this.showError = !!message));
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage?.trim() && message !== "") {
+      message = this.errorMessage;
+    }
 
-  // Access the selected files & add new files to the internal list via the hidden <input type="file">
-  private _handleFileChange(e: Event) {
-    const input = e.target as HTMLInputElement;
-    const files = input.files;
-    const newFiles = files ? Array.from(files) : []; // changes FileList to array
-
-    // Store the files
-    newFiles.map((file) => {
-      this._saveSelectedFiles(file);
-    });
-
-    input.value = "";
-
-    this.requestUpdate();
-    this._dispatchChangeEvent();
-  }
-
-  private _handleFileRemove(e: CustomEvent) {
-    const filenameToRemove = e.detail.filename;
-
-    this._selectedFiles = this._selectedFiles.filter(
-      (existingFile) => existingFile.file.name !== filenameToRemove,
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      input,
     );
-
-    this.requestUpdate();
-    this._dispatchChangeEvent();
   }
 
-  private _onDragOver(e: DragEvent) {
-    if (this.disabled) return;
-
-    e.stopPropagation();
-    e.preventDefault();
-    if (!this._dragActive) {
-      this._dragActive = true; // For styling purpose
-      this.requestUpdate();
-    }
-  }
-
-  // Mostly used for styling purpose
-  private _onDragLeave(e: DragEvent) {
-    if (this.disabled) return;
-
-    e.stopPropagation();
-    e.preventDefault();
-    // Only reset if leaving the dropzone itself (not children)
-    if (e.currentTarget === e.target) {
-      this._dragActive = false; // For styling purpose
-      this.requestUpdate();
-    }
-  }
-
-  private _onDrop(e: DragEvent) {
-    if (this.disabled) return;
-
-    e.preventDefault();
-    this._dragActive = false; // For styling purpose
-    this.requestUpdate();
-
-    const files = e.dataTransfer?.files;
-    if (!files) return;
-
-    const newFiles = Array.from(files);
-
-    newFiles.forEach((file) => {
-      this._saveSelectedFiles(file);
-    });
-
-    this.requestUpdate();
-    this._dispatchChangeEvent();
+  private _validate() {
+    const isInvalid = this.required && this._selectedFiles.length == 0;
+    console.log("WHAT IS IT????", isInvalid)
+    //this._manageRequire(); // Makes sure the required state is checked
+    const message = isInvalid ? `${this.errorMessage || "Please upload a file."}` : ""
+    console.log("THE MESSAGE in _validate()", message);
+    this._setValidityMessage(message);
   }
 
   /******************** Functions ********************/
@@ -232,7 +192,7 @@ export class NysFileinput extends LitElement {
       };
 
       reader.readAsArrayBuffer(entry.file);
-    } catch (err) {
+    } catch {
       entry.status = "error";
       entry.errorMsg = "Error validating file.";
       this.requestUpdate();
@@ -290,7 +250,6 @@ export class NysFileinput extends LitElement {
   }
 
   private _dispatchChangeEvent() {
-    this._setValue();
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: { files: this._selectedFiles },
@@ -298,6 +257,122 @@ export class NysFileinput extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  private _openFileDialog() {
+    const input = this.renderRoot.querySelector(
+      "#hidden-file-input",
+    ) as HTMLInputElement;
+
+    input?.click();
+  }
+
+  /******************** Event Handlers ********************/
+  // Access the selected files & add new files to the internal list via the hidden <input type="file">
+  private _handleFileChange(e: Event) {
+    const input = e.target as HTMLInputElement;
+    const files = input.files;
+    const newFiles = files ? Array.from(files) : []; // changes FileList to array
+
+    // Store the uploaded files
+    newFiles.map((file) => {
+      this._saveSelectedFiles(file);
+    });
+    this._setValue();
+    this._validate();
+
+    input.value = "";
+
+    this.requestUpdate();
+    this._dispatchChangeEvent();
+  }
+
+  private _handleFileRemove(e: CustomEvent) {
+    const filenameToRemove = e.detail.filename;
+
+    // Remove selected files
+    this._selectedFiles = this._selectedFiles.filter(
+      (existingFile) => existingFile.file.name !== filenameToRemove,
+    );
+    this._setValue();
+    this._validate();
+
+    this.requestUpdate();
+    this._dispatchChangeEvent();
+  }
+
+  private _onDragOver(e: DragEvent) {
+    if (this.disabled) return;
+
+    e.stopPropagation();
+    e.preventDefault();
+    if (!this._dragActive) {
+      this._dragActive = true; // For styling purpose
+      this.requestUpdate();
+    }
+  }
+
+  // Mostly used for styling purpose
+  private _onDragLeave(e: DragEvent) {
+    if (this.disabled) return;
+
+    e.stopPropagation();
+    e.preventDefault();
+    // Only reset if leaving the dropzone itself (not children)
+    if (e.currentTarget === e.target) {
+      this._dragActive = false; // For styling purpose
+      this.requestUpdate();
+    }
+  }
+
+  private _onDrop(e: DragEvent) {
+    if (this.disabled) return;
+
+    e.preventDefault();
+    this._dragActive = false; // For styling purpose
+    this.requestUpdate();
+
+    const files = e.dataTransfer?.files;
+    if (!files) return;
+
+    const newFiles = Array.from(files);
+
+    newFiles.forEach((file) => {
+      this._saveSelectedFiles(file);
+    });
+
+    this.requestUpdate();
+    this._dispatchChangeEvent();
+  }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
+    console.log("invalid handler")
+    // this._hasUserInteracted = true; // Start aggressive mode due to form submission
+    this._validate();
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          input.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        input.focus();
+      }
+    }
   }
 
   render() {
@@ -315,14 +390,15 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
-        id="hidden-file-input"
+        id="${this.id}"
         type="file"
         name=${this.name}
         ?multiple=${this.multiple}
         accept=${this.accept}
         ?required=${this.required}
         ?disabled=${this.disabled}
-        hidden
+        aria-disabled="${this.disabled}"
+        style="position: absolute; width: 1px; height: 1px; opacity: 0;"
         @change=${this._handleFileChange}
       />
 
@@ -364,7 +440,7 @@ export class NysFileinput extends LitElement {
         ? html`
             <nys-errormessage
               ?showError=${this.showError}
-              errorMessage=${this.errorMessage}
+              errorMessage=${this._internals.validationMessage || this.errorMessage}
             ></nys-errormessage>
           `
         : null}
