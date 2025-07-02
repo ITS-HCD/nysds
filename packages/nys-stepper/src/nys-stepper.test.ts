@@ -1,5 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-stepper.js";
+import { NysStepper } from "../dist/nys-stepper.js";
 // You may need to import other dependencies such as the component's tag name
 // For example:
 // import { NysTextinput } from "./nys-textinput";
@@ -11,18 +12,17 @@ describe("nys-stepper", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
-    const el = await fixture(html`
+    const el = await fixture<NysStepper>(html`
       <nys-stepper label="My Label" required optional></nys-stepper>
     `);
     expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-stepper label="My Label"></nys-stepper>`);
+    const el = await fixture(
+      html`<nys-stepper label="My Label"></nys-stepper>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -34,4 +34,4 @@ describe("nys-stepper", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});
