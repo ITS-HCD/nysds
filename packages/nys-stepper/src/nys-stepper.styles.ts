@@ -75,6 +75,11 @@ export default css`
     display: block;
   }
 
+  :host([isCompact]) .nys-stepper__steps {
+    display: flex;
+    gap: var(--nys-space-100, 8px);
+  }
+
   .nys-step {
     position: relative;
     counter-increment: step;
@@ -88,6 +93,10 @@ export default css`
     align-items: center;
     gap: var(--nys-space-150, 12px);
     cursor: default;
+  }
+
+  :host([isCompact]) .nys-step__contentwrapper {
+    gap: 0;
   }
 
   .nys-step__contentwrapper:focus-visible {
@@ -126,6 +135,14 @@ export default css`
     text-align: center;
   }
 
+  :host([isCompact]) .nys-step__number {
+    border-radius: 0;
+    border: none;
+    background-color: var(--nys-color-neutral-200, #bec0c1);
+    height: var(--nys-size-100, 8px);
+    width: 100%;
+  }
+
   :host([previous]) .nys-step__number,
   :host([previous]) .nys-step__line,
   :host([current]) .nys-step__number,
@@ -135,11 +152,21 @@ export default css`
     border-color: var(--nys-color-theme-stronger, #081b2b);
   }
 
+  :host([isCompact][previous]) .nys-step__number,
+  :host([isCompact][current]) .nys-step__number {
+    background-color: var(--nys-color-neutral-900, #1b1b1b);
+  }
+
   :host([selected]) .nys-step__number {
     background: var(--nys-color-theme, #154973);
     color: var(--nys-color-text-reverse, #fff);
     border-color: var(--nys-color-theme, #154973);
     outline: 4px solid var(--nys-color-theme-weak, #cddde9);
+  }
+
+  :host([isCompact][selected]) .nys-step__number {
+    background-color: var(--nys-color-theme-mid, #457aa5);
+    outline: none;
   }
 
   .nys-step__number::before {
@@ -148,8 +175,16 @@ export default css`
     padding-top: 2px;
   }
 
+  :host([isCompact]) .nys-step__number::before {
+    content: "";
+  }
+
   /* Hide the line wrapper in the last step */
   :host([first]) .nys-step__linewrapper {
+    display: none;
+  }
+
+  :host([isCompact]) .nys-step__linewrapper {
     display: none;
   }
 
@@ -174,6 +209,10 @@ export default css`
     text-decoration-thickness: 7%; /* 1.12px */
     text-underline-offset: auto;
     text-underline-position: from-font;
+  }
+
+  :host([isCompact]) .nys-step__label {
+    display: none;
   }
 
   :host([current]) .nys-step__label,
@@ -208,5 +247,9 @@ export default css`
     font-weight: 600;
     line-height: var(--nys-typography-type-size-ui-xs, 12px);
     letter-spacing: var(--nys-typography-font-letterspacing-ui-xs, 0.057px);
+  }
+
+  :host([isCompact]) .nys-step__currentflag {
+    display: none;
   }
 `;

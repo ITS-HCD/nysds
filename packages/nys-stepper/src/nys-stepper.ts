@@ -118,7 +118,7 @@ export class NysStepper extends LitElement {
   };
 
   updated() {
-    const steps = this.querySelectorAll("nys-step");
+    const steps = this.querySelectorAll<HTMLElement>("nys-step");
     let foundCurrent = false;
     let selectedAssigned = false;
     let currentAssigned = false;
@@ -131,6 +131,13 @@ export class NysStepper extends LitElement {
         } else {
           step.removeAttribute("current");
         }
+      }
+
+      if (this.hasAttribute("isCompact")) {
+        step.setAttribute("isCompact", "");
+        step.style.setProperty("flex", "1 1 0");
+      } else {
+        step.removeAttribute("isCompact");
       }
     });
 
