@@ -54,10 +54,15 @@ describe("nys-stepper", () => {
       </nys-stepper>
     `);
 
-    const actionsSlot = el.shadowRoot?.querySelector(
-      '[slot="actions"]',
-    ) as HTMLDivElement;
-    expect(actionsSlot).to.exist;
+    const slot = el.shadowRoot?.querySelector(
+      'slot[name="actions"]',
+    ) as HTMLSlotElement;
+    expect(slot).to.exist;
+
+    const assignedElements = slot.assignedElements();
+    expect(assignedElements.length).to.be.greaterThan(0);
+    expect(assignedElements[0].tagName.toLowerCase()).to.equal("div");
+    expect(assignedElements[0].getAttribute("slot")).to.equal("actions");
   });
 
   it("passes the a11y audit", async () => {
