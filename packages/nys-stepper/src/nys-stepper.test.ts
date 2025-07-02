@@ -1,4 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
+import { nextFrame } from "@open-wc/testing-helpers";
+
 import "../dist/nys-stepper.js";
 import { NysStepper } from "../dist/nys-stepper.js";
 // You may need to import other dependencies such as the component's tag name
@@ -17,6 +19,45 @@ describe("nys-stepper", () => {
       <nys-stepper label="My Label" required optional></nys-stepper>
     `);
     expect(el.label).to.equal("My Label");
+  });
+
+  // child elements must be of type nys step
+  it("allows child elements of type nys-step", async () => {
+    const el = await fixture(html`
+      <nys-stepper>
+        <nys-step label="Step 1"></nys-step>
+      </nys-stepper>
+    `);
+    expect(el.querySelector("nys-step")).to.exist;
+  });
+
+  it("does not allow child elements of other types", async () => {
+    const el = await fixture(html`
+      <nys-stepper>
+        <p>this is not allowed</p>
+        <nys-step label="Step 1"></nys-step>
+        <nys-step label="Step 2"></nys-step>
+      </nys-stepper>
+    `);
+
+    await nextFrame();
+
+    expect(el.querySelector("div")).to.not.exist;
+  });
+
+  it("allows a slot named actions", async () => {
+    const el = await fixture(html`
+      <nys-stepper>
+        <nys-step label="Step 1"></nys-step>
+        <nys-step label="Step 2"></nys-step>
+        <div slot="actions"><nys-button></nys-button></div>
+      </nys-stepper>
+    `);
+
+    const actionsSlot = el.shadowRoot?.querySelector(
+      '[slot="actions"]',
+    ) as HTMLDivElement;
+    expect(actionsSlot).to.exist;
   });
 
   it("passes the a11y audit", async () => {
