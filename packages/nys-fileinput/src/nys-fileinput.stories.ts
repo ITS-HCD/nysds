@@ -57,7 +57,7 @@ export const Basic: Story = {
     id: "fileinput1",
     name: "fileinput1",
     label: "Upload a file",
-    description: "Accepted formats: PDF, JPG, PNG",
+    description: "Accepted file types: .jpg, .png, .pdf",
     width: "full",
     multiple: false,
     accept: "image/png, image/jpeg, image/*,.pdf",

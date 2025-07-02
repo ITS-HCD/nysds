@@ -1,5 +1,6 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
+import { validateFileHeader } from "./validateFileHeader";
 import styles from "./nys-fileinput.styles";
 import "./nys-filelistitem";
 import "@nysds/nys-icon";
@@ -114,7 +115,7 @@ export class NysFileinput extends LitElement {
     if (!input) return;
 
     // Toggle the HTML <div> tag error message
-    this.showError = !!message;
+    this.showError = message === (this.errorMessage || "Please upload a file.");
     // If user sets errorMessage, this will always override the native validation message
     if (this.errorMessage?.trim() && message !== "") {
       message = this.errorMessage;
@@ -128,16 +129,24 @@ export class NysFileinput extends LitElement {
   }
 
   private _validate() {
-    const isInvalid = this.required && this._selectedFiles.length == 0;
-    const message = isInvalid
-      ? `${this.errorMessage || "Please upload a file."}`
-      : "";
+    const hasCorruptedFiles = this._selectedFiles.some(
+      (entry) => entry.status === "error",
+    );
+    const isEmpty = this.required && this._selectedFiles.length === 0;
+
+    let message = "";
+    if (isEmpty) {
+      message = this.errorMessage || "Please upload a file.";
+    } else if (hasCorruptedFiles) {
+      message = "One or more files are invalid.";
+    }
+
     this._setValidityMessage(message);
   }
 
   /******************** Functions ********************/
   // Store the files to be displayed
-  private _saveSelectedFiles(file: File) {
+  private async _saveSelectedFiles(file: File) {
     const isDuplicate = this._selectedFiles.some(
       (existingFile) => existingFile.file.name == file.name,
     );
@@ -150,7 +159,7 @@ export class NysFileinput extends LitElement {
     };
 
     this._selectedFiles.push(entry);
-    this._processFile(entry);
+    await this._processFile(entry);
 
     // Now that the file is added, update form value and validation
     this._setValue();
@@ -162,7 +171,7 @@ export class NysFileinput extends LitElement {
     entry.status = "processing";
 
     try {
-      const isValid = await this._validateFileHeader(entry.file);
+      const isValid = await validateFileHeader(entry.file, this.accept);
       if (!isValid) {
         entry.status = "error";
         entry.errorMsg = "File format does not match expected type.";
@@ -198,56 +207,6 @@ export class NysFileinput extends LitElement {
       entry.errorMsg = "Error validating file.";
       this.requestUpdate();
     }
-  }
-
-  // validates a file's true format by inspecting its header (magic number).
-  // Only detects corrupted files if given a valid accept prop.
-  private async _validateFileHeader(file: File): Promise<boolean> {
-    const blob = file.slice(0, 8); // first 8 bytes is enough for common formats
-    const buffer = await blob.arrayBuffer();
-    const header = new Uint8Array(buffer);
-
-    // PNG: 89 50 4E 47 0D 0A 1A 0A
-    const isPNG =
-      header.length >= 8 &&
-      header[0] === 0x89 &&
-      header[1] === 0x50 &&
-      header[2] === 0x4e &&
-      header[3] === 0x47 &&
-      header[4] === 0x0d &&
-      header[5] === 0x0a &&
-      header[6] === 0x1a &&
-      header[7] === 0x0a;
-
-    // PDF: 25 50 44 46 (%PDF)
-    const isPDF =
-      header.length >= 4 &&
-      header[0] === 0x25 &&
-      header[1] === 0x50 &&
-      header[2] === 0x44 &&
-      header[3] === 0x46;
-
-    // JPG: FF D8 FF
-    const isJPG =
-      header.length >= 3 &&
-      header[0] === 0xff &&
-      header[1] === 0xd8 &&
-      header[2] === 0xff;
-
-    const accepted = this.accept || "";
-    const acceptsImage =
-      accepted.includes("image/") ||
-      accepted.includes("jpg") ||
-      accepted.includes("jpeg") ||
-      accepted.includes("png");
-    const acceptsPDF = accepted.includes("pdf");
-
-    if (isPNG && acceptsImage) return true;
-    if (isJPG && acceptsImage) return true;
-    if (isPDF && acceptsPDF) return true;
-
-    // If accept is not specified, or file type is unknown, allow it
-    return this.accept ? false : true;
   }
 
   private _dispatchChangeEvent() {
