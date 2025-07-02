@@ -35,8 +35,10 @@ export class NysFileinput extends LitElement {
 
   private _selectedFiles: FileWithProgress[] = [];
   private _dragActive = false;
+  private get _isDropDisabled(): boolean {
+    return this.disabled || (!this.multiple && this._selectedFiles.length > 0);
+  }
 
-  // private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
@@ -75,13 +77,11 @@ export class NysFileinput extends LitElement {
 
       if (files.length > 0) {
         const fileNamesJson = JSON.stringify(files.map((f) => f.name));
-        console.log(fileNamesJson);
         this._internals.setFormValue(fileNamesJson);
       } else {
         this._internals.setFormValue(null);
       }
     } else {
-      console.log("setting value", this._selectedFiles[0]?.file);
       const singleFile = this._selectedFiles[0]?.file || null;
       this._internals.setFormValue(singleFile);
     }
@@ -99,13 +99,10 @@ export class NysFileinput extends LitElement {
 
     if (isInvalid) {
       this._internals.ariaRequired = "true"; // Screen readers should announce error
-      console.log("manage require msg if invalid:", message);
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
-      console.log("manage require is NOT INVALID");
       this._internals.ariaRequired = "false"; // Reset when valid
       this._internals.setValidity({});
-      // this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
   }
 
@@ -114,8 +111,6 @@ export class NysFileinput extends LitElement {
     if (!input) return;
 
     // Toggle the HTML <div> tag error message
-    console.log("we should be here", message);
-    console.log((this.showError = !!message));
     this.showError = !!message;
     // If user sets errorMessage, this will always override the native validation message
     if (this.errorMessage?.trim() && message !== "") {
@@ -131,10 +126,9 @@ export class NysFileinput extends LitElement {
 
   private _validate() {
     const isInvalid = this.required && this._selectedFiles.length == 0;
-    console.log("WHAT IS IT????", isInvalid)
-    //this._manageRequire(); // Makes sure the required state is checked
-    const message = isInvalid ? `${this.errorMessage || "Please upload a file."}` : ""
-    console.log("THE MESSAGE in _validate()", message);
+    const message = isInvalid
+      ? `${this.errorMessage || "Please upload a file."}`
+      : "";
     this._setValidityMessage(message);
   }
 
@@ -154,6 +148,10 @@ export class NysFileinput extends LitElement {
 
     this._selectedFiles.push(entry);
     this._processFile(entry);
+
+    // Now that the file is added, update form value and validation
+    this._setValue();
+    this._validate();
   }
 
   // Read the contents of stored files, this will indicate loading progress of the uploaded files
@@ -278,8 +276,6 @@ export class NysFileinput extends LitElement {
     newFiles.map((file) => {
       this._saveSelectedFiles(file);
     });
-    this._setValue();
-    this._validate();
 
     input.value = "";
 
@@ -337,9 +333,13 @@ export class NysFileinput extends LitElement {
 
     const newFiles = Array.from(files);
 
-    newFiles.forEach((file) => {
-      this._saveSelectedFiles(file);
-    });
+    if (this.multiple) {
+      newFiles.forEach((file) => {
+        this._saveSelectedFiles(file);
+      });
+    } else {
+      this._saveSelectedFiles(newFiles[0]);
+    }
 
     this.requestUpdate();
     this._dispatchChangeEvent();
@@ -347,8 +347,6 @@ export class NysFileinput extends LitElement {
 
   private _handleInvalid(event: Event) {
     event.preventDefault();
-    console.log("invalid handler")
-    // this._hasUserInteracted = true; // Start aggressive mode due to form submission
     this._validate();
 
     const input = this.shadowRoot?.querySelector("input");
@@ -390,7 +388,7 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
-        id="${this.id}"
+        id="hidden-file-input"
         type="file"
         name=${this.name}
         ?multiple=${this.multiple}
@@ -413,16 +411,13 @@ export class NysFileinput extends LitElement {
             @click=${this._openFileDialog}
           ></nys-button>`
         : html`<div
-            class="nys-fileinput__dropzone ${this._dragActive
-              ? "drag-active"
-              : ""} ${this.disabled
-              ? "disabled"
-              : this.showError
-                ? "error"
-                : ""}"
-            @dragover=${this._onDragOver}
-            @dragleave=${this._onDragLeave}
-            @drop=${this._onDrop}
+            class="nys-fileinput__dropzone
+              ${this._dragActive ? "drag-active" : ""}
+              ${this._isDropDisabled ? "disabled" : ""}
+              ${this.showError && !this._isDropDisabled ? "error" : ""}"
+            @dragover=${this._isDropDisabled ? null : this._onDragOver}
+            @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
+            @drop=${this._isDropDisabled ? null : this._onDrop}
           >
             ${this._dragActive
               ? html`<p>Drop file to upload</p>`
@@ -431,7 +426,7 @@ export class NysFileinput extends LitElement {
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
-                    ?disabled=${this.disabled}
+                    ?disabled=${this._isDropDisabled}
                     @click=${this._openFileDialog}
                   ></nys-button>
                   <p>or drag here</p>`}
@@ -440,7 +435,8 @@ export class NysFileinput extends LitElement {
         ? html`
             <nys-errormessage
               ?showError=${this.showError}
-              errorMessage=${this._internals.validationMessage || this.errorMessage}
+              errorMessage=${this._internals.validationMessage ||
+              this.errorMessage}
             ></nys-errormessage>
           `
         : null}
