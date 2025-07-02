@@ -9,6 +9,7 @@ interface NysStepperArgs {
   id: string;
   name: string;
   label: string;
+  isCompact?: boolean;
   onClick: () => void;
 }
 
@@ -18,6 +19,8 @@ const meta: Meta<NysStepperArgs> = {
   argTypes: {
     id: { control: "text" },
     name: { control: "text" },
+    label: { control: "text" },
+    isCompact: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -80,6 +83,66 @@ export const Basic: Story = {
     <nys-button variant="outline" label="Save & Exit"></nys-button>
   </div>
 </nys-stepper>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Compact: Story = {
+  args: {
+    id: "stepper2",
+    name: "stepper2",
+    label: "Register for Design System Office Hours",
+    isCompact: true,
+  },
+
+  render: (args) => html`
+    <div style="display:flex; flex-direction: column;">
+      <nys-stepper
+        .id=${args.id}
+        .name=${args.name}
+        label=${args.label}
+        contentTarget="stepper-content"
+        .isCompact=${args.isCompact}
+      >
+        <nys-step label="Personal Details" href="/personal.html"></nys-step>
+        <nys-step label="Team Info" selected href="/team.html"></nys-step>
+        <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
+        <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
+        <div slot="actions">
+          <nys-button variant="outline" label="Save & Exit"></nys-button>
+        </div>
+      </nys-stepper>
+      <div
+        id="stepper-content"
+        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; height: -webkit-fill-available;"
+      >
+        Loading...
+      </div>
+    </div>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-stepper
+  id="stepper2"
+  name="stepper2"
+  label="Register for Design System Office Hours"
+  contentTarget="stepper-content"
+  isCompact
+>
+  <nys-step label="Personal Details" href="/personal.html"></nys-step>
+  <nys-step label="Team Info" selected href="/team.html"></nys-step>
+  <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
+  <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
+  <div id="stepper-content" slot="actions">
+    <nys-button variant="outline" label="Save & Exit"></nys-button>
+  </div>
+</nys-stepper>`,
+
         type: "auto",
       },
     },

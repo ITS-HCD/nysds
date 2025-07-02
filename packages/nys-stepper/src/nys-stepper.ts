@@ -7,6 +7,7 @@ export class NysStepper extends LitElement {
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) contentTarget = "";
+  @property({ type: Boolean, reflect: true }) isCompact = false;
 
   static styles = styles;
 
@@ -215,10 +216,20 @@ export class NysStepper extends LitElement {
 
   render() {
     return html`
-      <div class="nys-stepper">
-        <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
-        <div class="nys-stepper__label">${this.label}</div>
-        <slot></slot>
+      <div
+        class="nys-stepper"
+        id=${this.id}
+        name=${this.name}
+        ?compact=${this.isCompact}
+      >
+        <div class="nys-stepper__header">
+          <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
+          <div>
+            <div class="nys-stepper__label">${this.label}</div>
+            <div class="nys-stepper__counter">Step x of y</div>
+          </div>
+        </div>
+        <div class="nys-stepper__steps"><slot></slot></div>
       </div>
     `;
   }

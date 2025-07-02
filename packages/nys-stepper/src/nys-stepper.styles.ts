@@ -35,8 +35,15 @@ export default css`
     padding: var(--nys-space-400, 32px);
   }
 
-  .nys-stepper__label {
-    padding-bottom: var(--nys-space-300, 24px);
+  .nys-stepper__header {
+    margin-bottom: var(--nys-space-300, 24px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  :host([isCompact]) .nys-stepper__header {
+    flex-direction: row-reverse;
+    justify-content: space-between;
   }
 
   ::slotted(div[slot="actions"]) {
@@ -45,6 +52,27 @@ export default css`
     justify-content: flex-start;
     gap: var(--nys-space-100, 8px);
     margin-bottom: var(--nys-space-300, 24px);
+  }
+
+  .nys-stepper__counter {
+    display: none;
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: 7%; /* 1.12px */
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+    color: var(--nys-color-text, #1b1b1b);
+    text-overflow: ellipsis;
+    font-family: var(--nys-type-family-ui, "Proxima Nova");
+    font-size: var(--nys-type-size-ui-md, 16px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--nys-type-size-ui-md, 16px);
+  }
+
+  :host([isCompact]) .nys-stepper__counter {
+    display: block;
   }
 
   .nys-step {
