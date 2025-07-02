@@ -76,8 +76,11 @@ export class NysFileinput extends LitElement {
       const files = this._selectedFiles.map((entry) => entry.file);
 
       if (files.length > 0) {
-        const fileNamesJson = JSON.stringify(files.map((f) => f.name));
-        this._internals.setFormValue(fileNamesJson);
+        const formData = new FormData();
+        files.forEach((file) => {
+          formData.append(this.name, file);
+        });
+        this._internals.setFormValue(formData);
       } else {
         this._internals.setFormValue(null);
       }

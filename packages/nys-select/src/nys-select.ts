@@ -150,6 +150,7 @@ export class NysSelect extends LitElement {
 
     // Get the native validation state
     let message = select.validationMessage;
+    this._manageRequire(); // Makes sure the required state is checked
 
     this._setValidityMessage(message);
   }
@@ -200,7 +201,7 @@ export class NysSelect extends LitElement {
 
     // Field is invalid after unfocused, validate aggressively on each change (e.g. Eager mode: a combination of aggressive and lazy.)
     if (this._hasUserInteracted) {
-      this._validate();
+      this._validate(); // Validate immediately if an error was found before
     }
 
     this.dispatchEvent(
