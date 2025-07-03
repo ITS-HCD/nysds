@@ -9,6 +9,7 @@ export class NysStep extends LitElement {
   @property({ type: String }) href = "";
 
   @property({ type: Boolean }) isCompact = false;
+  @property({ type: Boolean }) isCompactExpanded = false;
 
   static styles = styles;
 

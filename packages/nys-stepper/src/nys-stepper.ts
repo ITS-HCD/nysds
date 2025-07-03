@@ -160,6 +160,12 @@ export class NysStepper extends LitElement {
       } else {
         step.removeAttribute("isCompact");
       }
+
+      if (this.hasAttribute("isCompactExpanded")) {
+        step.setAttribute("isCompactExpanded", "");
+      } else {
+        step.removeAttribute("isCompactExpanded");
+      }
     });
 
     steps.forEach((step, i) => {
@@ -247,7 +253,15 @@ export class NysStepper extends LitElement {
 
   private _toggleCompact() {
     this.isCompactExpanded = !this.isCompactExpanded;
+    console.log("expanded is ", this.isCompactExpanded);
   }
+
+  private _handleCounterKeydown(event: KeyboardEvent) {
+  if (event.key === " " || event.key === "Enter") {
+    event.preventDefault();
+    this._toggleCompact();
+  }
+}
 
   render() {
     return html`
@@ -261,7 +275,8 @@ export class NysStepper extends LitElement {
           <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
           <div class="nys-stepper__headertext">
             <div class="nys-stepper__label">${this.label}</div>
-            <div class="nys-stepper__counter" @click=${this._toggleCompact}>
+            <div class="nys-stepper__counter" @click=${this._toggleCompact} @keydown=${this._handleCounterKeydown} role="button"
+ tabindex="0">
               ${this.counterText}
             </div>
           </div>

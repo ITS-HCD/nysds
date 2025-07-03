@@ -83,6 +83,8 @@ export default css`
     font-style: normal;
     font-weight: 400;
     line-height: var(--nys-type-size-ui-md, 16px);
+    cursor: pointer;
+    width: fit-content
   }
 
   :host([isCompact]) .nys-stepper__counter {
@@ -142,10 +144,6 @@ export default css`
     align-items: center;
     gap: var(--nys-space-150, 12px);
     cursor: default;
-  }
-
-  :host([isCompact]) .nys-step__contentwrapper {
-    gap: 0;
   }
 
   .nys-step__contentwrapper:focus-visible {
@@ -269,8 +267,8 @@ export default css`
     text-decoration-line: underline;
   }
 
-  :host([current][!isCompact]) .nys-step__contentwrapper,
-  :host([previous][!isCompact]) .nys-step__contentwrapper {
+  :host([current]) .nys-step__contentwrapper,
+  :host([previous]) .nys-step__contentwrapper {
     cursor: pointer;
   }
 
@@ -284,8 +282,13 @@ export default css`
     cursor: default;
   }
 
-  :host([selected][!isCompact]) .nys-step__contentwrapper:focus-visible {
+  :host([selected]) .nys-step__contentwrapper:focus-visible {
     outline-offset: 6px;
+  }
+
+  :host([isCompact]) .nys-step__contentwrapper {
+    gap: 0;
+    cursor: default;
   }
 
   .nys-step__currentflag {
@@ -300,5 +303,13 @@ export default css`
 
   :host([isCompact]) .nys-step__currentflag {
     display: none;
+  }
+
+  :host([isCompactExpanded]) .nys-stepper__counter {
+    border: red solid;
+  }
+
+  :host([!isCompactExpanded]) .nys-stepper__counter {
+    border: blue solid;
   }
 `;
