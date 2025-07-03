@@ -2,9 +2,7 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "@nysds/nys-icon";
-import "@nysds/nys-label";
-import "@nysds/nys-errormessage";
+
 
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
