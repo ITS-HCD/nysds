@@ -257,11 +257,11 @@ export class NysStepper extends LitElement {
   }
 
   private _handleCounterKeydown(event: KeyboardEvent) {
-  if (event.key === " " || event.key === "Enter") {
-    event.preventDefault();
-    this._toggleCompact();
+    if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      this._toggleCompact();
+    }
   }
-}
 
   render() {
     return html`
@@ -275,8 +275,13 @@ export class NysStepper extends LitElement {
           <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
           <div class="nys-stepper__headertext">
             <div class="nys-stepper__label">${this.label}</div>
-            <div class="nys-stepper__counter" @click=${this._toggleCompact} @keydown=${this._handleCounterKeydown} role="button"
- tabindex="0">
+            <div
+              class="nys-stepper__counter"
+              @click=${this._toggleCompact}
+              @keydown=${this._handleCounterKeydown}
+              role="button"
+              tabindex="0"
+            >
               ${this.counterText}
             </div>
           </div>
