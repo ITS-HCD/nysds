@@ -2,7 +2,6 @@ import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
 
-
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiogroup extends LitElement {

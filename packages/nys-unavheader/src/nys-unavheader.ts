@@ -3,7 +3,6 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-unavheader.styles";
 import nysLogo from "./nys-unav.logo";
 
-
 export class NysUnavHeader extends LitElement {
   @property({ type: Boolean }) trustbarVisible = false;
   @property({ type: Boolean }) searchDropdownVisible = false;

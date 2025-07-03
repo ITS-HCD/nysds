@@ -3,7 +3,6 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import { NysOption } from "./nys-option";
 
-
 let selectIdCounter = 0; // Counter for generating unique IDs
 
 export class NysSelect extends LitElement {

@@ -3,7 +3,6 @@ import { property, state } from "lit/decorators.js";
 import styles from "./nys-textinput.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
