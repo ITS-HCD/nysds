@@ -42,24 +42,74 @@ export const Basic: Story = {
     label: "Register for Design System Office Hours",
   },
   render: (args) => html`
-    <div style="display:flex;">
+    <div style="display:flex; height: 700px;">
       <nys-stepper
         .id=${args.id}
         .name=${args.name}
         label=${args.label}
         contentTarget="stepper-content"
       >
-        <nys-step label="Personal Details" href="/personal.html"></nys-step>
-        <nys-step label="Team Info" selected href="/team.html"></nys-step>
-        <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
-        <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
+        <nys-step
+          label="Personal Details"
+          href="/nys-stepper/personal.html"
+        ></nys-step>
+        <nys-step
+          label="Team Info"
+          selected
+          href="/nys-stepper/team.html"
+        ></nys-step>
+        <nys-step
+          label="Usage Survey"
+          current
+          href="/nys-stepper/survey.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
         <div slot="actions">
           <nys-button variant="outline" label="Save & Exit"></nys-button>
         </div>
       </nys-stepper>
       <div
         id="stepper-content"
-        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; height: -webkit-fill-available;"
+        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; overflow-y: scroll"
       >
         Loading...
       </div>
@@ -106,10 +156,24 @@ export const Compact: Story = {
         contentTarget="stepper-content2"
         .isCompact=${args.isCompact}
       >
-        <nys-step label="Personal Details" href="/personal.html"></nys-step>
-        <nys-step label="Team Info" selected href="/team.html"></nys-step>
-        <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
-        <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
+        <nys-step
+          label="Personal Details"
+          href="/nys-stepper/personal.html"
+        ></nys-step>
+        <nys-step
+          label="Team Info"
+          selected
+          href="/nys-stepper/team.html"
+        ></nys-step>
+        <nys-step
+          label="Usage Survey"
+          current
+          href="/nys-stepper/survey.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
         <div slot="actions">
           <nys-button variant="outline" label="Save & Exit"></nys-button>
         </div>
