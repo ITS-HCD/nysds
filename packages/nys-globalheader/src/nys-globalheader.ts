@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-globalheader.styles";
-import "@nysds/nys-icon";
 
 export class NysGlobalHeader extends LitElement {
   static styles = styles;

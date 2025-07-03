@@ -1,6 +1,8 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import { NysTextarea } from "./nys-textarea";
 import "../dist/nys-textarea.js";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 describe("nys-textarea", () => {
   it("renders the component with default attributes", async () => {
