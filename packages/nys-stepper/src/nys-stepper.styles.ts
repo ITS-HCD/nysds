@@ -47,6 +47,7 @@ export default css`
     justify-content: space-between;
     padding-bottom: 0;
     gap: var(--nys-space-200, 16px);
+    width: max-content;
   }
 
   ::slotted(div[slot="actions"]) {

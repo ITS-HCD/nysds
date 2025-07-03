@@ -42,7 +42,7 @@ export const Basic: Story = {
     label: "Register for Design System Office Hours",
   },
   render: (args) => html`
-    <div style="display:flex; height: 700px;">
+    <div style="display:flex; height: 600px">
       <nys-stepper
         .id=${args.id}
         .name=${args.name}
@@ -67,42 +67,12 @@ export const Basic: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
         <div slot="actions">
           <nys-button variant="outline" label="Save & Exit"></nys-button>
         </div>
@@ -174,22 +144,10 @@ export const Compact: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
+        <nys-step></nys-step>
         <div slot="actions">
           <nys-button variant="outline" label="Save & Exit"></nys-button>
         </div>
