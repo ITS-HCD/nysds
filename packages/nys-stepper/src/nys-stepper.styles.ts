@@ -84,7 +84,7 @@ export default css`
     font-weight: 400;
     line-height: var(--nys-type-size-ui-md, 16px);
     cursor: pointer;
-    width: fit-content
+    width: fit-content;
   }
 
   :host([isCompact]) .nys-stepper__counter {
