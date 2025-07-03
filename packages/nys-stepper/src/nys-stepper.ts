@@ -10,6 +10,8 @@ export class NysStepper extends LitElement {
   @property({ type: Boolean, reflect: true }) isCompact = false;
 
   @property({ type: String }) counterText = "initial";
+  @property({ type: Boolean, reflect: true })
+  isCompactExpanded = false;
 
   static styles = styles;
 
@@ -243,6 +245,10 @@ export class NysStepper extends LitElement {
     }
   }
 
+  private _toggleCompact() {
+    this.isCompactExpanded = !this.isCompactExpanded;
+  }
+
   render() {
     return html`
       <div
@@ -255,7 +261,9 @@ export class NysStepper extends LitElement {
           <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
           <div class="nys-stepper__headertext">
             <div class="nys-stepper__label">${this.label}</div>
-            <div class="nys-stepper__counter">${this.counterText}</div>
+            <div class="nys-stepper__counter" @click=${this._toggleCompact}>
+              ${this.counterText}
+            </div>
           </div>
         </div>
         <div class="nys-stepper__steps"><slot></slot></div>

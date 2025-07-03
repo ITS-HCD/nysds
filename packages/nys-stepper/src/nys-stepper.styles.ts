@@ -90,9 +90,10 @@ export default css`
   }
 
   .nys-stepper__steps {
+    display: flex;
+    flex-direction: column;
     padding: var(--nys-space-150, 12px) var(--nys-space-400, 32px)
       var(--nys-space-400, 32px);
-
     overflow-y: scroll;
     scrollbar-width: none;
     background:
@@ -123,7 +124,7 @@ export default css`
   }
 
   :host([isCompact]) .nys-stepper__steps {
-    display: flex;
+    flex-direction: row;
     gap: var(--nys-space-100, 8px);
     padding: var(--nys-space-150, 12px) 0 0 0;
   }
