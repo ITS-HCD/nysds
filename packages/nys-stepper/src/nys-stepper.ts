@@ -9,6 +9,8 @@ export class NysStepper extends LitElement {
   @property({ type: String }) contentTarget = "";
   @property({ type: Boolean, reflect: true }) isCompact = false;
 
+  @property({ type: String }) counterText = "initial";
+
   static styles = styles;
 
   private hasLoadedInitialContent = false;
@@ -113,9 +115,25 @@ export class NysStepper extends LitElement {
     steps.forEach((step) => step.removeAttribute("selected"));
     clickedStep.setAttribute("selected", "");
 
+    // Update counter immediately
+    this._updateCounter();
+
     // Load content
     this._loadHref(clickedStep.getAttribute("href"));
   };
+
+  private _updateCounter() {
+    const steps = this.querySelectorAll<HTMLElement>("nys-step");
+    const selectedIndex = Array.from(steps).findIndex((step) =>
+      step.hasAttribute("selected"),
+    );
+    const totalSteps = steps.length;
+
+    this.counterText =
+      selectedIndex >= 0
+        ? `Step ${selectedIndex + 1} of ${totalSteps}`
+        : `Step 1 of ${totalSteps}`;
+  }
 
   updated() {
     const steps = this.querySelectorAll<HTMLElement>("nys-step");
@@ -182,6 +200,9 @@ export class NysStepper extends LitElement {
       }
     }
 
+    // Always update counter
+    this._updateCounter();
+
     // Load content on first update
     if (!this.hasLoadedInitialContent) {
       this.hasLoadedInitialContent = true;
@@ -233,7 +254,7 @@ export class NysStepper extends LitElement {
           <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
           <div>
             <div class="nys-stepper__label">${this.label}</div>
-            <div class="nys-stepper__counter">Step x of y</div>
+            <div class="nys-stepper__counter">${this.counterText}</div>
           </div>
         </div>
         <div class="nys-stepper__steps"><slot></slot></div>

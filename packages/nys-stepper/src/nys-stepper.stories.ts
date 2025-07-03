@@ -98,12 +98,12 @@ export const Compact: Story = {
   },
 
   render: (args) => html`
-    <div style="display:flex; flex-direction: column;">
+    <div style="display:flex; flex-direction: column; width: 480px">
       <nys-stepper
         .id=${args.id}
         .name=${args.name}
         label=${args.label}
-        contentTarget="stepper-content"
+        contentTarget="stepper-content2"
         .isCompact=${args.isCompact}
       >
         <nys-step label="Personal Details" href="/personal.html"></nys-step>
@@ -115,7 +115,7 @@ export const Compact: Story = {
         </div>
       </nys-stepper>
       <div
-        id="stepper-content"
+        id="stepper-content2"
         style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; height: -webkit-fill-available;"
       >
         Loading...
