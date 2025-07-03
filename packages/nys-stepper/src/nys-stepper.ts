@@ -82,9 +82,10 @@ export class NysStepper extends LitElement {
         child.remove();
       } else {
         // Ensure nys-button has correct styles
-        child.style.flex = "1 1 0";
         child.setAttribute("size", "sm");
-        child.setAttribute("fullWidth", "");
+        if (child.hasAttribute("fullWidth")) {
+          child.style.flex = "1 1 0";
+        }
       }
     });
   }
@@ -252,7 +253,7 @@ export class NysStepper extends LitElement {
       >
         <div class="nys-stepper__header">
           <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
-          <div>
+          <div class="nys-stepper__headertext">
             <div class="nys-stepper__label">${this.label}</div>
             <div class="nys-stepper__counter">${this.counterText}</div>
           </div>

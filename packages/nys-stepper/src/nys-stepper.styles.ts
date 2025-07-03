@@ -47,7 +47,6 @@ export default css`
     justify-content: space-between;
     padding-bottom: 0;
     gap: var(--nys-space-200, 16px);
-    width: max-content;
   }
 
   ::slotted(div[slot="actions"]) {
@@ -58,8 +57,15 @@ export default css`
     margin-bottom: var(--nys-space-300, 24px);
   }
 
+  :host([isCompact]) .nys-stepper__headertext {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
   :host([isCompact]) ::slotted(div[slot="actions"]) {
     margin-bottom: 0;
+    flex: 2 1 1;
+    min-width: 0;
   }
 
   .nys-stepper__counter {

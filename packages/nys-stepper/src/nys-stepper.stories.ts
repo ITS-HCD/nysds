@@ -74,7 +74,11 @@ export const Basic: Story = {
         <nys-step></nys-step>
         <nys-step></nys-step>
         <div slot="actions">
-          <nys-button variant="outline" label="Save & Exit"></nys-button>
+          <nys-button
+            variant="outline"
+            label="Save & Exit"
+            fullWidth
+          ></nys-button>
         </div>
       </nys-stepper>
       <div
