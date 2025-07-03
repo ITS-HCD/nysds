@@ -1,6 +1,8 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import { NysAlert } from "./nys-alert";
 import "../dist/nys-alert.js";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 describe("nys-alert", () => {
   it("should have default type as base", async () => {
