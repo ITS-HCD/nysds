@@ -109,7 +109,7 @@ export const Basic: Story = {
       </nys-stepper>
       <div
         id="stepper-content"
-        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; overflow-y: scroll"
+        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; overflow-y: scroll; overflow-x: hidden;"
       >
         Loading...
       </div>
@@ -169,6 +169,22 @@ export const Compact: Story = {
           label="Usage Survey"
           current
           href="/nys-stepper/survey.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
         ></nys-step>
         <nys-step
           label="Newsletter Opt-In"

@@ -32,18 +32,21 @@ export default css`
     flex-direction: column;
     counter-reset: step;
     background: var(--nys-color-surface-raised, #f6f6f6);
-    padding: var(--nys-space-400, 32px);
+    height: -webkit-fill-available;
   }
 
   .nys-stepper__header {
-    margin-bottom: var(--nys-space-300, 24px);
     display: flex;
     flex-direction: column;
+    padding: var(--nys-space-400, 32px) var(--nys-space-400, 32px)
+      var(--nys-space-150, 12px);
   }
 
   :host([isCompact]) .nys-stepper__header {
     flex-direction: row-reverse;
     justify-content: space-between;
+    padding-bottom: 0;
+    gap: var(--nys-space-200, 16px);
   }
 
   ::slotted(div[slot="actions"]) {
@@ -52,6 +55,10 @@ export default css`
     justify-content: flex-start;
     gap: var(--nys-space-100, 8px);
     margin-bottom: var(--nys-space-300, 24px);
+  }
+
+  :host([isCompact]) ::slotted(div[slot="actions"]) {
+    margin-bottom: 0;
   }
 
   .nys-stepper__counter {
@@ -75,9 +82,43 @@ export default css`
     display: block;
   }
 
+  .nys-stepper__steps {
+    padding: var(--nys-space-150, 12px) var(--nys-space-400, 32px)
+      var(--nys-space-400, 32px);
+
+    overflow-y: scroll;
+    scrollbar-width: none;
+    background:
+    /* Shadow Cover TOP */
+      linear-gradient(
+          var(--nys-color-surface-raised, #f6f6f6) 30%,
+          rgba(255, 255, 255, 0)
+        )
+        center top,
+      /* Shadow Cover BOTTOM */
+        linear-gradient(
+          rgba(255, 255, 255, 0),
+          var(--nys-color-surface-raised, #f6f6f6) 70%
+        )
+        center bottom,
+      /* Shadow TOP */
+        linear-gradient(to bottom, rgba(99, 99, 99, 0.2), rgba(0, 0, 0, 0)) top,
+      /* Shadow BOTTOM */
+        linear-gradient(to top, rgba(99, 99, 99, 0.2), rgba(0, 0, 0, 0)) bottom;
+
+    background-repeat: no-repeat;
+    background-size:
+      100% 40px,
+      100% 40px,
+      100% 14px,
+      100% 14px;
+    background-attachment: local, local, scroll, scroll;
+  }
+
   :host([isCompact]) .nys-stepper__steps {
     display: flex;
     gap: var(--nys-space-100, 8px);
+    padding: var(--nys-space-150, 12px) 0 0 0;
   }
 
   .nys-step {
@@ -220,8 +261,8 @@ export default css`
     text-decoration-line: underline;
   }
 
-  :host([current]) .nys-step__contentwrapper,
-  :host([previous]) .nys-step__contentwrapper {
+  :host([current][!isCompact]) .nys-step__contentwrapper,
+  :host([previous][!isCompact]) .nys-step__contentwrapper {
     cursor: pointer;
   }
 
