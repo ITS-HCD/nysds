@@ -98,7 +98,7 @@ export const Compact: Story = {
   },
 
   render: (args) => html`
-    <div style="display:flex; flex-direction: column; width: 480px">
+    <div style="display:flex; flex-direction: column; max-width: 480px">
       <nys-stepper
         .id=${args.id}
         .name=${args.name}

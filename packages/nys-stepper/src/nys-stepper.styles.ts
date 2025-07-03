@@ -235,7 +235,7 @@ export default css`
     cursor: default;
   }
 
-  :host([selected]) .nys-step__contentwrapper:focus-visible {
+  :host([selected][!isCompact]) .nys-step__contentwrapper:focus-visible {
     outline-offset: 6px;
   }
 
