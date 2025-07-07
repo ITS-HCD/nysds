@@ -3,10 +3,6 @@ import { property } from "lit/decorators.js";
 import { validateFileHeader } from "./validateFileHeader";
 import styles from "./nys-fileinput.styles";
 import "./nys-filelistitem";
-import "@nysds/nys-icon";
-import "@nysds/nys-label";
-import "@nysds/nys-errormessage";
-import "@nysds/nys-button";
 
 let fileinputIdCounter = 0; // Counter for generating unique IDs
 
@@ -152,6 +148,8 @@ export class NysFileinput extends LitElement {
     );
     if (isDuplicate) return;
 
+    if (!this.multiple && this._selectedFiles.length >= 1) return;
+
     const entry: FileWithProgress = {
       file,
       progress: 0,
@@ -221,7 +219,7 @@ export class NysFileinput extends LitElement {
 
   private _openFileDialog() {
     const input = this.renderRoot.querySelector(
-      "#hidden-file-input",
+      ".hidden-file-input",
     ) as HTMLInputElement;
 
     input?.click();
@@ -350,7 +348,8 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
-        id="hidden-file-input"
+        id=${this.id}
+        class="hidden-file-input"
         type="file"
         name=${this.name}
         ?multiple=${this.multiple}
@@ -358,6 +357,7 @@ export class NysFileinput extends LitElement {
         ?required=${this.required}
         ?disabled=${this.disabled}
         aria-disabled="${this.disabled}"
+        aria-label=${this.id}
         style="position: absolute; width: 1px; height: 1px; opacity: 0;"
         @change=${this._handleFileChange}
       />

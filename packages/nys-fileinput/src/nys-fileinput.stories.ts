@@ -1,6 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-fileinput";
+import "@nysds/nys-icon";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysFileinputArgs {
@@ -12,6 +16,7 @@ interface NysFileinputArgs {
   multiple?: boolean;
   accept?: string;
   required?: boolean;
+  optional: boolean;
   disabled?: boolean;
   errorMessage?: string;
   showError?: boolean;
@@ -34,6 +39,7 @@ const meta: Meta<NysFileinputArgs> = {
     multiple: { control: "boolean" },
     accept: { control: "text" },
     required: { control: "boolean" },
+    optional: { control: "boolean" },
     disabled: { control: "boolean" },
     errorMessage: { control: "text" },
     showError: { control: "boolean" },
@@ -77,6 +83,7 @@ export const Basic: Story = {
       ?multiple=${args.multiple}
       .accept=${args.accept}
       ?required=${args.required}
+      ?optional=${args.optional}
       ?disabled=${args.disabled}
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
@@ -117,6 +124,7 @@ export const Dropzone: Story = {
       ?multiple=${args.multiple}
       .accept=${args.accept}
       ?required=${args.required}
+      ?optional=${args.optional}
       ?disabled=${args.disabled}
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
@@ -157,6 +165,7 @@ export const Width: Story = {
       ?multiple=${args.multiple}
       .accept=${args.accept}
       ?required=${args.required}
+      ?optional=${args.optional}
       ?disabled=${args.disabled}
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
@@ -197,6 +206,7 @@ export const Multiple: Story = {
       ?multiple=${args.multiple}
       .accept=${args.accept}
       ?required=${args.required}
+      ?optional=${args.optional}
       ?disabled=${args.disabled}
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
@@ -241,6 +251,7 @@ export const Disabled: Story = {
       ?multiple=${args.multiple}
       .accept=${args.accept}
       ?required=${args.required}
+      ?optional=${args.optional}
       ?disabled=${args.disabled}
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
