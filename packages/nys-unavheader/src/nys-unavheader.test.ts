@@ -47,7 +47,7 @@ it("toggles trustbar visibility when clicking the top trustbar", async () => {
   expect(el.trustbarVisible).to.be.false;
 });
 
-it("toggles language list when 'nys-click' event dispatched on translate button", async () => {
+it("toggles language list on translate button click", async () => {
   const el = await fixture<NysUnavHeader>(
     html`<nys-unavheader></nys-unavheader>`,
   );
@@ -64,6 +64,26 @@ it("toggles language list when 'nys-click' event dispatched on translate button"
   await el.updateComplete;
   expect(langList?.classList.contains("hide")).to.be.true;
   expect(langList?.classList.contains("show")).to.be.false;
+});
+
+it("toggles search dropdown on search button click", async () => {
+  const el = await fixture<NysUnavHeader>(
+    html`<nys-unavheader></nys-unavheader>`,
+  );
+  el.searchDropdownVisible = true;
+
+  await el.updateComplete;
+  const searchDrop = el.shadowRoot?.querySelector(
+    ".nys-unavheader__searchdropdown",
+  );
+  expect(searchDrop).to.exist;
+  expect(searchDrop?.classList.contains("show")).to.be.true;
+  expect(searchDrop?.classList.contains("hide")).to.be.false;
+
+  el.searchDropdownVisible = false;
+  await el.updateComplete;
+  expect(searchDrop?.classList.contains("hide")).to.be.true;
+  expect(searchDrop?.classList.contains("show")).to.be.false;
 });
 
 it("passes the a11y audit", async () => {
