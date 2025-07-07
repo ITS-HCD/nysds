@@ -1,6 +1,7 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
 import { NysButton } from "./nys-button";
 import "../dist/nys-button.js";
+import "@nysds/nys-icon";
 
 describe("nys-button", () => {
   it("should have default type as button", async () => {
@@ -114,6 +115,18 @@ describe("nys-button", () => {
     );
     expect(prefixIcon).to.exist;
     expect(suffixIcon).to.exist;
+  });
+
+  it(" should allow for the button to be slotted in", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button suffixIcon="slotted" size="sm">
+        <nys-icon slot="suffix-icon" size="2xl" name="visibility"></nys-icon>
+      </nys-button>`,
+    );
+    const prefixIcon = el.querySelector("nys-icon[name='visibility']");
+
+    expect(el.prefixIcon).to.exist;
+    expect(prefixIcon).to.exist;
   });
 
   it("should dispatch focus and blur events", async () => {
