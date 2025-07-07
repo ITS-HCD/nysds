@@ -3,6 +3,19 @@ import { NysUnavHeader } from "./nys-unavheader";
 import "../dist/nys-unavheader.js";
 
 describe("nys-unavheader", () => {
+  it("renders the component", async () => {
+    const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
+    expect(el).to.exist;
+  });
+
+  it("hides translate and search when specified", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader hideTranslate hideSearch></nys-unavheader>`,
+    );
+    expect(el.hideTranslate).to.be.true;
+    expect(el.hideSearch).to.be.true;
+  });
+
   it("should render with NYS logo link", async () => {
     const el = await fixture<NysUnavHeader>(
       html`<nys-unavheader></nys-unavheader>`,
