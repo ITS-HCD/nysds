@@ -136,6 +136,10 @@ describe("nys-fileinput", () => {
     await el["_saveSelectedFiles"](file);
     await el.updateComplete;
 
+    // Wait for all requestUpdate()s from FileReader.onload to finish
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    await el.updateComplete;
+
     const button = el.shadowRoot?.querySelector("nys-button");
     expect(el["_selectedFiles"].length).to.equal(1);
     expect(button?.hasAttribute("disabled")).to.be.true;
@@ -166,12 +170,6 @@ describe("nys-fileinput", () => {
     );
   });
 
-  // Accept will allow the proper file types
-
-  // Width Check (default = full)
-
-  // Multiple allows multiple file, no multiple will only allow one file and disable the button
-
   /* Accessibility */
   it("passes the a11y audit", async () => {
     const el = await fixture(
@@ -179,13 +177,4 @@ describe("nys-fileinput", () => {
     );
     await expect(el).shadowDom.to.be.accessible();
   });
-
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
 });

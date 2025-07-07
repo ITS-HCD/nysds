@@ -48,6 +48,10 @@ Set `multiple` to `true` to allow the selection of more than one file. Each sele
 Set `disabled` to prevent interaction with the file input. Useful when the input should not be used under certain form conditions.
 <Canvas of={NysFileinputStories.Disabled} />
 
+#### Description Slot
+You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization.
+<Canvas of={NysFileinputStories.DescriptionSlot} />
+
 ## Usage
 
 ### When to use this component
@@ -82,6 +86,24 @@ The `nys-fileinput` component includes the following accessibility-focused featu
 - Uses `ElementInternals` for form association and validation.
 - Implements ARIA attributes for required and invalid states.
 - Keyboard-accessible via standard tab/focus patterns.
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for `nys-fileinput`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
 
 ## Events
 

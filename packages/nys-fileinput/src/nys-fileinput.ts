@@ -355,7 +355,8 @@ export class NysFileinput extends LitElement {
         ?multiple=${this.multiple}
         accept=${this.accept}
         ?required=${this.required}
-        ?disabled=${this.disabled}
+        ?disabled=${this.disabled ||
+        (!this.multiple && this._selectedFiles.length > 0)}
         aria-disabled="${this.disabled}"
         aria-label=${this.id}
         style="position: absolute; width: 1px; height: 1px; opacity: 0;"
@@ -370,7 +371,7 @@ export class NysFileinput extends LitElement {
             variant="outline"
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
-            @click=${this._openFileDialog}
+            .onClick=${() => this._openFileDialog()}
           ></nys-button>`
         : html`<div
             class="nys-fileinput__dropzone
@@ -389,7 +390,7 @@ export class NysFileinput extends LitElement {
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
                     ?disabled=${this._isDropDisabled}
-                    @click=${this._openFileDialog}
+                    .onClick=${() => this._openFileDialog()}
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}

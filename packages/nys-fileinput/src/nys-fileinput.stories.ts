@@ -232,8 +232,6 @@ export const Multiple: Story = {
 
 export const Disabled: Story = {
   args: {
-    id: "fileinput1",
-    name: "fileinput1",
     label: "Upload a file",
     description: "Accepted file types: .jpg, .png, .pdf",
     width: "full",
@@ -269,6 +267,47 @@ export const Disabled: Story = {
   description="Accepted formats: PDF, JPG"
   accept="image/png, image/jpeg, image/*,.pdf"
 ></nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DescriptionSlot: Story = {
+  args: {
+    id: "fileinput-slot",
+    name: "fileinput-slot",
+    label: "Upload a file",
+    width: "full",
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .width=${args.width}
+    >
+      <span slot="description">
+        Learn more at
+        <a href="https://www.ny.gov" target="_blank" rel="noopener">ny.gov</a>
+      </span>
+    </nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  id="fileinput-slot"
+  name="fileinput-slot"
+  label="Upload a file"
+  width="full"
+>
+  <span slot="description">
+    Learn more at
+    <a href="https://www.ny.gov" target="_blank" rel="noopener">ny.gov</a>
+  </span>
+</nys-fileinput>`,
         type: "auto",
       },
     },
