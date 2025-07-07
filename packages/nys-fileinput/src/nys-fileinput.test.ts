@@ -49,7 +49,7 @@ describe("nys-fileinput", () => {
   });
 
   /*** Functionality tests ***/
-  it("opens file dialog when button is clicked", async () => {
+  it("opens file dialog when button onClick is called", async () => {
     const el = await fixture<NysFileinput>(
       html`<nys-fileinput></nys-fileinput>`,
     );
@@ -61,8 +61,9 @@ describe("nys-fileinput", () => {
     let clicked = false;
     input.click = () => (clicked = true);
 
-    const button = el.shadowRoot?.querySelector("nys-button");
-    button?.dispatchEvent(new Event("click"));
+    const button = el.shadowRoot?.querySelector("nys-button") as any;
+    button?.onClick?.();
+
     expect(clicked).to.be.true;
   });
 

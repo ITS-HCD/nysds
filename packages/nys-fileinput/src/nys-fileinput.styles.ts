@@ -70,6 +70,12 @@ export default css`
     background: var(--_nys-fileinput-dropzone-background);
   }
 
+  .nys-fileinput__dropzone:hover {
+    cursor: pointer;
+    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
+      var(--nys-color-neutral-900, #1b1b1b);
+  }
+
   .nys-fileinput__dropzone.drag-active {
     --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-900, #1b1b1b);
@@ -82,6 +88,7 @@ export default css`
   }
 
   .nys-fileinput__dropzone.disabled {
+    cursor: not-allowed;
     --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
       var(--nys-color-neutral-300, #a7a9ab);
     --_nys-fileinput-dropzone-background: var(--nys-color-neutral-10, #f6f6f6);
