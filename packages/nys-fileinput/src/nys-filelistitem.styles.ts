@@ -4,7 +4,8 @@ export default css`
   :host {
     /* Global Filelistitem Styles */
     --_nys-filelistitem-items-radius: var(--nys-radius-md, 4px);
-    --_nys-filelistitem-items-padding: var(--nys-space-100, 8px) var(--nys-space-200, 16px);
+    --_nys-filelistitem-items-padding: var(--nys-space-100, 8px)
+      var(--nys-space-200, 16px);
     --_nys-filelistitem-items-border: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-100, #d0d0ce);
     --_nys-filelistitem-error-color: var(--nys-color-danger, #b52c2c);

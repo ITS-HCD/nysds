@@ -49,21 +49,34 @@ export class NysFileListItem extends LitElement {
   render() {
     return html`
       <div class="file-item ${this.status}">
-        <div class="file-item__main">
+        <div class="file-item__main" role="group" aria-label="Filename: ${this.filename}">
           <nys-icon
             class="file-icon"
-            name=${this.status === "processing"
-              ? "progress_activity"
-              : this.status === "error"
-                ? "error"
-                : "attach_file"}
+            name=${
+              this.status === "processing"
+                ? "progress_activity"
+                : this.status === "error"
+                  ? "error"
+                  : "attach_file"
+            }
             size="2xl"
           ></nys-icon>
           <div class="file-item__info">
-            <p>${this.truncateFilename(this.filename)}</p>
-            ${this.errorMessage
-              ? html`<p class="error-msg">${this.errorMessage}</p>`
-              : null}
+            <p">
+              ${this.truncateFilename(this.filename)}
+            </p>
+            ${
+              this.errorMessage
+                ? html`<p
+                    class="error-msg"
+                    role="alert"
+                    aria-live="assertive"
+                    id="${this.filename}-error"
+                  >
+                    ${this.errorMessage}
+                  </p>`
+                : null
+            }
           </div>
           <nys-button
             circle
@@ -74,9 +87,20 @@ export class NysFileListItem extends LitElement {
             .onClick=${() => this._handleRemove()}
           ></nys-button>
         </div>
-        ${this.status === "processing"
-          ? html`<progress value=${this.progress} max="100"></progress>`
-          : null}
+        ${
+          this.status === "processing"
+            ? html`<div
+                class="progress-container"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="${this.progress}"
+                aria-label="Upload progress for ${this.filename}"
+              >
+                <progress value=${this.progress} max="100"></progress>
+              </div>`
+            : null
+        }
       </div>
     `;
   }

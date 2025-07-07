@@ -358,7 +358,8 @@ export class NysFileinput extends LitElement {
         ?disabled=${this.disabled ||
         (!this.multiple && this._selectedFiles.length > 0)}
         aria-disabled="${this.disabled}"
-        aria-label=${this.id}
+        aria-label="Drag files here or choose from folder"
+        aria-describedby="file-input-specific-hint"
         style="position: absolute; width: 1px; height: 1px; opacity: 0;"
         @change=${this._handleFileChange}
       />
