@@ -3,6 +3,8 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-textinput";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysTextinputArgs {
