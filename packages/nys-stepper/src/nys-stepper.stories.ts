@@ -147,9 +147,6 @@ export const Compact: Story = {
         ></nys-step>
         <div slot="actions">
           <nys-button variant="outline" label="Save & Exit"></nys-button>
-          <nys-button variant="outline" label="Save" fullWidth></nys-button>
-          <nys-button variant="outline" label="Save" fullWidth></nys-button>
-          <nys-button variant="outline" label="Save" fullWidth></nys-button>
         </div>
       </nys-stepper>
       <div

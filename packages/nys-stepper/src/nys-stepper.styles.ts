@@ -253,8 +253,9 @@ export default css`
 
     ::slotted(div[slot="actions"]) {
       margin-bottom: 0;
-      flex: 2 1 0;
+      flex: 1 1 0;
       min-width: 0;
+      justify-content: end;
     }
 
     .nys-stepper__counter {

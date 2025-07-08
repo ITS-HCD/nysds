@@ -121,6 +121,9 @@ export class NysStepper extends LitElement {
 
     // Load content
     this._loadHref(clickedStep.getAttribute("href"));
+
+    // Close expanded if it was open
+    this.isCompactExpanded = false;
   };
 
   private _updateCounter() {
