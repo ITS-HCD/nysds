@@ -28,6 +28,7 @@ const magicNumbers: Record<
       header[i + 3] === 0x46
     );
   },
+  gif: [0x47, 0x49, 0x46, 0x38],
   mp4: (header) => {
     const ftyp = [0x66, 0x74, 0x79, 0x70];
     for (let i = 0; i <= header.length - ftyp.length; i++) {
@@ -61,7 +62,7 @@ const acceptKeyMap: Record<string, string[]> = {
   "image/png": ["png"],
   "image/jpeg": ["jpg"],
   "image/jpg": ["jpg"],
-  "image/*": ["png", "jpg"],
+  "image/*": ["png", "jpg", "gif"],
   "video/mp4": ["mp4"],
   "video/*": ["mp4"],
   "application/pdf": ["pdf"],
