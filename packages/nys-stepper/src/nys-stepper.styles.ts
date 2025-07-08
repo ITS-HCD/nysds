@@ -295,6 +295,7 @@ export default css`
 
     .nys-step__contentwrapper {
       cursor: default;
+      pointer-events: none;
     }
 
     /* ---------------- Expanded Mode ---------------- */
@@ -341,6 +342,10 @@ export default css`
       content: counter(step);
       line-height: 1;
       padding-top: 2px;
+    }
+
+    :host([isCompactExpanded]) .nys-step__contentwrapper {
+      pointer-events: all;
     }
   }
 `;
