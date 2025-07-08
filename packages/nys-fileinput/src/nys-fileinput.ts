@@ -50,7 +50,7 @@ export class NysFileinput extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${fileinputIdCounter++}`;
+      this.id = `nys-fileinput-${Date.now()}-${fileinputIdCounter++}`;
     }
 
     this.addEventListener("invalid", this._handleInvalid);
@@ -418,7 +418,12 @@ export class NysFileinput extends LitElement {
               ${this._selectedFiles.map(
                 (entry) =>
                   html`<li>
-                    <nys-filelistitem filename=${entry.file.name} status=${entry.status} progress=${entry.progress} errorMessage=${entry.errorMsg || ""}></filelistitem>
+                    <nys-filelistitem
+                      filename=${entry.file.name}
+                      status=${entry.status}
+                      progress=${entry.progress}
+                      errorMessage=${entry.errorMsg || ""}
+                    ></nys-filelistitem>
                   </li>`,
               )}
             </ul>
