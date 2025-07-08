@@ -7,21 +7,17 @@ export class NysStep extends LitElement {
   @property({ type: Boolean, reflect: true }) current = false;
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
-
-  @property({ type: Boolean }) isCompact = false;
   @property({ type: Boolean }) isCompactExpanded = false;
 
   static styles = styles;
 
   private _handleActivate() {
-    // make sure isCompact is false first
-    if (!this.isCompact)
-      this.dispatchEvent(
-        new Event("nys-step-click", {
-          bubbles: true,
-          composed: true,
-        }),
-      );
+    this.dispatchEvent(
+      new Event("nys-step-click", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private _handleKeydown(e: KeyboardEvent) {
@@ -39,8 +35,11 @@ export class NysStep extends LitElement {
         </div>
         <div
           class="nys-step__contentwrapper"
-          tabindex=${this.hasAttribute("isCompact") ||
-          !(this.selected || this.current || this.hasAttribute("previous"))
+          tabindex=${!(
+            this.selected ||
+            this.current ||
+            this.hasAttribute("previous")
+          )
             ? "-1"
             : "0"}
           @click=${this._handleActivate}

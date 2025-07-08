@@ -238,10 +238,6 @@ export default css`
     letter-spacing: var(--nys-typography-font-letterspacing-ui-xs, 0.057px);
   }
 
-  :host([isCompactExpanded]) .nys-stepper__counter {
-    border: red solid;
-  }
-
   @media (max-width: 479px) {
     .nys-stepper__header {
       flex-direction: row-reverse;
@@ -257,7 +253,7 @@ export default css`
 
     ::slotted(div[slot="actions"]) {
       margin-bottom: 0;
-      flex: 2 1 1;
+      flex: 2 1 0;
       min-width: 0;
     }
 
@@ -305,5 +301,51 @@ export default css`
     .nys-step__currentflag {
       display: none;
     }
+
+    :host([isCompactExpanded]) .nys-stepper__counter {
+      background-color: teal;
+      color: white;
+    }
+    /*
+    :host([isCompactExpanded]).nys-stepper__steps {
+      flex-direction: row;
+      gap: var(--nys-space-100, 8px);
+      padding: var(--nys-space-150, 12px) 0 0 0;
+    }
+
+    :host([isCompactExpanded]) .nys-step__number {
+      border-radius: 0;
+      border: none;
+      background-color: var(--nys-color-neutral-200, #bec0c1);
+      height: var(--nys-size-100, 8px);
+      width: 100%;
+    }
+
+    :host([isCompactExpanded][previous]) .nys-step__number,
+    :host([isCompactExpanded][current]) .nys-step__number {
+      background-color: var(--nys-color-neutral-900, #1b1b1b);
+    }
+
+    :host([isCompactExpanded][selected]) .nys-step__number {
+      background-color: var(--nys-color-theme-mid, #457aa5);
+      outline: none;
+    }
+    :host([isCompactExpanded]).nys-step__number::before {
+      content: "";
+    }
+    :host([isCompactExpanded]) .nys-step__linewrapper {
+      display: block;
+    }
+    :host([isCompactExpanded]) .nys-step__label {
+      display: none;
+    }
+
+    :host([isCompactExpanded]).nys-step__contentwrapper {
+      gap: 0;
+      cursor: default;
+    }
+    :host([isCompactExpanded]) .nys-step__currentflag {
+      display: none;
+    } */
   }
 `;
