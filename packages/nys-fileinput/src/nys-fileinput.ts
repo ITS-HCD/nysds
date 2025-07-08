@@ -418,12 +418,12 @@ export class NysFileinput extends LitElement {
               ${this._selectedFiles.map(
                 (entry) =>
                   html`<li>
-                    <nys-filelistitem
+                    <nys-fileitem
                       filename=${entry.file.name}
                       status=${entry.status}
                       progress=${entry.progress}
                       errorMessage=${entry.errorMsg || ""}
-                    ></nys-filelistitem>
+                    ></nys-fileitem>
                   </li>`,
               )}
             </ul>

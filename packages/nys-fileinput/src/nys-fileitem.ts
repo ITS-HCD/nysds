@@ -2,7 +2,7 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-fileitem.styles";
 
-export class NysFileListItem extends LitElement {
+export class NysFileItem extends LitElement {
   @property({ type: String }) filename = "";
   @property({ type: String }) status:
     | "pending"
@@ -106,4 +106,4 @@ export class NysFileListItem extends LitElement {
   }
 }
 
-customElements.define("nys-filelistitem", NysFileListItem);
+customElements.define("nys-fileitem", NysFileItem);
