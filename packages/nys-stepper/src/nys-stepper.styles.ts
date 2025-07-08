@@ -178,7 +178,7 @@ export default css`
 
   /* Hide the line wrapper in the last step */
   :host([first]) .nys-step__linewrapper {
-    display: none;
+    display: none !important;
   }
 
   .nys-step__content {
@@ -294,14 +294,53 @@ export default css`
     }
 
     .nys-step__contentwrapper {
-      gap: 0;
       cursor: default;
     }
 
     /* ---------------- Expanded Mode ---------------- */
-    :host([isCompactExpanded]) .nys-stepper__counter {
-      background-color: teal;
-      color: white;
+    :host([isCompactExpanded]) .nys-step__content,
+    :host([isCompactExpanded]) .nys-step__linewrapper {
+      display: flex;
+    }
+
+    :host([isCompactExpanded]) .nys-stepper__steps {
+      flex-direction: column;
+      gap: 0;
+      padding: var(--nys-space-150, 12px) var(--nys-space-400, 32px)
+        var(--nys-space-400, 32px);
+    }
+
+    :host([isCompactExpanded]) .nys-step__number {
+      border-radius: var(--nys-radius-round, 1776px);
+      border: 1px solid var(--nys-color-neutral-400, #909395);
+      background: var(
+        --nys-color-white-transparent-900,
+        rgba(255, 255, 255, 0.9)
+      );
+      width: 24px;
+      height: 24px;
+    }
+
+    :host([isCompactExpanded][previous]) .nys-step__number,
+    :host([isCompactExpanded][previous]) .nys-step__line,
+    :host([isCompactExpanded][current]) .nys-step__number,
+    :host([isCompactExpanded][current]) .nys-step__line {
+      background: var(--nys-color-theme-stronger, #081b2b);
+      color: var(--nys-color-text-reverse, #fff);
+      border-color: var(--nys-color-theme-stronger, #081b2b);
+    }
+
+    :host([isCompactExpanded][selected]) .nys-step__number {
+      background: var(--nys-color-theme, #154973);
+      color: var(--nys-color-text-reverse, #fff);
+      border-color: var(--nys-color-theme, #154973);
+      outline: 4px solid var(--nys-color-theme-weak, #cddde9);
+    }
+
+    :host([isCompactExpanded]) .nys-step__number::before {
+      content: counter(step);
+      line-height: 1;
+      padding-top: 2px;
     }
   }
 `;
