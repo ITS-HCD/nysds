@@ -376,9 +376,9 @@ export class NysFileinput extends LitElement {
           ></nys-button>`
         : html`<div
             class="nys-fileinput__dropzone
-              ${this._dragActive ? "drag-active" : ""}
-              ${this._isDropDisabled ? "disabled" : ""}
-              ${this.showError && !this._isDropDisabled ? "error" : ""}"
+            ${this._dragActive ? "drag-active" : ""}
+            ${this._isDropDisabled ? "disabled" : ""}
+            ${this.showError && !this._isDropDisabled ? "error" : ""}"
             @click=${this._isDropDisabled ? null : this._openFileDialog}
             @keydown=${(e: KeyboardEvent) =>
               !this._isDropDisabled &&
@@ -396,7 +396,10 @@ export class NysFileinput extends LitElement {
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
                     ?disabled=${this._isDropDisabled}
-                    .onClick=${() => this._openFileDialog()}
+                    .onClick=${(e: Event) => {
+                      e.stopPropagation();
+                      this._openFileDialog();
+                    }}
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}
