@@ -9,7 +9,7 @@ export class NysStepper extends LitElement {
   @property({ type: String }) contentTarget = "";
   @property({ type: String }) counterText = "initial";
   @property({ type: Boolean, reflect: true })
-  isCompactExpanded = true;
+  isCompactExpanded = false;
 
   static styles = styles;
 
