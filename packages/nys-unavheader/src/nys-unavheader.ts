@@ -2,9 +2,6 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-unavheader.styles";
 import nysLogo from "./nys-unav.logo";
-import "@nysds/nys-icon";
-import "@nysds/nys-textinput";
-import "@nysds/nys-button";
 
 export class NysUnavHeader extends LitElement {
   @property({ type: Boolean }) trustbarVisible = false;
@@ -188,7 +185,7 @@ export class NysUnavHeader extends LitElement {
           <div class="nys-unavheader__maincontent">
             <div class="nys-unavheader__left">
               <a
-                href="https://ny.gov"
+                href="https://www.ny.gov"
                 id="nys-unavheader__logolink"
                 aria-label="logo of New York State"
               >

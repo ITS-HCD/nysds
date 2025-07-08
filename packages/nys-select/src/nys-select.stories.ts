@@ -1,6 +1,8 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-select";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 
 // Define the structure of the args used in the stories
 interface NysSelectArgs {

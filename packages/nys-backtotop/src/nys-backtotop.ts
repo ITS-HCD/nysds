@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-backtotop.styles";
-import "@nysds/nys-button";
 
 export class NysBacktotop extends LitElement {
   @property({ type: String }) position = "right";
