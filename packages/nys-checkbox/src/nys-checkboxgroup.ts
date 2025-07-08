@@ -1,8 +1,6 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-checkbox.styles";
-import "@nysds/nys-label";
-import "@nysds/nys-errormessage";
 
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 
