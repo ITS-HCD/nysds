@@ -3,6 +3,8 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-stepper";
 import "./nys-step";
 import "@nysds/nys-button";
+import "@nysds/nys-textinput";
+import "@nysds/nys-textarea";
 
 // Define the structure of the args used in the stories
 interface NysStepperArgs {
@@ -40,6 +42,9 @@ export const Basic: Story = {
     id: "stepper1",
     name: "stepper1",
     label: "Register for Design System Office Hours",
+  },
+  globals: {
+    viewport: { value: "tablet" },
   },
   render: (args) => html`
     <div style="display:flex; height: 600px">
@@ -115,9 +120,11 @@ export const Compact: Story = {
     label: "Register for Design System Office Hours",
     isCompact: true,
   },
-
+  globals: {
+    viewport: { value: "mobile2", isRotated: false },
+  },
   render: (args) => html`
-    <div style="display:flex; flex-direction: column; max-width: 480px">
+    <div style="display:flex; flex-direction: column;">
       <nys-stepper
         .id=${args.id}
         .name=${args.name}
@@ -155,7 +162,6 @@ export const Compact: Story = {
       </div>
     </div>
   `,
-
   parameters: {
     docs: {
       source: {
