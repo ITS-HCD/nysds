@@ -379,8 +379,6 @@ export class NysFileinput extends LitElement {
               ${this._dragActive ? "drag-active" : ""}
               ${this._isDropDisabled ? "disabled" : ""}
               ${this.showError && !this._isDropDisabled ? "error" : ""}"
-            role="button"
-            tabindex="0"
             @click=${this._isDropDisabled ? null : this._openFileDialog}
             @keydown=${(e: KeyboardEvent) =>
               !this._isDropDisabled &&
