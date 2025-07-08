@@ -47,6 +47,7 @@ export const Basic: Story = {
         .id=${args.id}
         .name=${args.name}
         label=${args.label}
+        .isCompact=${args.isCompact}
         contentTarget="stepper-content"
       >
         <nys-step
@@ -67,12 +68,6 @@ export const Basic: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
         <div slot="actions">
           <nys-button
             variant="outline"
@@ -148,10 +143,6 @@ export const Compact: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
-        <nys-step></nys-step>
         <div slot="actions">
           <nys-button variant="outline" label="Save & Exit"></nys-button>
         </div>
