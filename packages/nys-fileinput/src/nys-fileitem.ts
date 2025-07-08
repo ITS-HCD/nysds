@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-filelistitem.styles";
+import styles from "./nys-fileitem.styles";
 
 export class NysFileListItem extends LitElement {
   @property({ type: String }) filename = "";

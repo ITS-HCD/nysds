@@ -2,7 +2,7 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import { validateFileHeader } from "./validateFileHeader";
 import styles from "./nys-fileinput.styles";
-import "./nys-filelistitem";
+import "./nys-fileitem";
 
 let fileinputIdCounter = 0; // Counter for generating unique IDs
 
