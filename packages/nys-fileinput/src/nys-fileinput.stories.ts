@@ -66,7 +66,7 @@ export const Basic: Story = {
     description: "Accepted file types: .jpg, .png, .pdf",
     width: "full",
     multiple: false,
-    accept: "image/png, image/jpeg, image/*,.pdf",
+    accept: "image/png, image/jpeg, .pdf",
     required: false,
     disabled: false,
     errorMessage: "",
