@@ -11,7 +11,6 @@ interface NysStepperArgs {
   id: string;
   name: string;
   label: string;
-  isCompact?: boolean;
   onClick: () => void;
 }
 
@@ -22,7 +21,6 @@ const meta: Meta<NysStepperArgs> = {
     id: { control: "text" },
     name: { control: "text" },
     label: { control: "text" },
-    isCompact: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -52,7 +50,6 @@ export const Basic: Story = {
         .id=${args.id}
         .name=${args.name}
         label=${args.label}
-        .isCompact=${args.isCompact}
         contentTarget="stepper-content"
       >
         <nys-step
@@ -118,7 +115,6 @@ export const Compact: Story = {
     id: "stepper2",
     name: "stepper2",
     label: "Register for Design System Office Hours",
-    isCompact: true,
   },
   globals: {
     viewport: { value: "mobile2", isRotated: false },
@@ -130,7 +126,6 @@ export const Compact: Story = {
         .name=${args.name}
         label=${args.label}
         contentTarget="stepper-content2"
-        .isCompact=${args.isCompact}
       >
         <nys-step
           label="Personal Details"
@@ -152,6 +147,9 @@ export const Compact: Story = {
         ></nys-step>
         <div slot="actions">
           <nys-button variant="outline" label="Save & Exit"></nys-button>
+          <nys-button variant="outline" label="Save" fullWidth></nys-button>
+          <nys-button variant="outline" label="Save" fullWidth></nys-button>
+          <nys-button variant="outline" label="Save" fullWidth></nys-button>
         </div>
       </nys-stepper>
       <div
@@ -171,7 +169,6 @@ export const Compact: Story = {
   name="stepper2"
   label="Register for Design System Office Hours"
   contentTarget="stepper-content"
-  isCompact
 >
   <nys-step label="Personal Details" href="/personal.html"></nys-step>
   <nys-step label="Team Info" selected href="/team.html"></nys-step>
