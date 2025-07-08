@@ -42,30 +42,12 @@ export default css`
       var(--nys-space-150, 12px);
   }
 
-  :host([isCompact]) .nys-stepper__header {
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    padding-bottom: 0;
-    gap: var(--nys-space-200, 16px);
-  }
-
   ::slotted(div[slot="actions"]) {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: var(--nys-space-100, 8px);
     margin-bottom: var(--nys-space-300, 24px);
-  }
-
-  :host([isCompact]) .nys-stepper__headertext {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
-  :host([isCompact]) ::slotted(div[slot="actions"]) {
-    margin-bottom: 0;
-    flex: 2 1 1;
-    min-width: 0;
   }
 
   .nys-stepper__counter {
@@ -85,10 +67,6 @@ export default css`
     line-height: var(--nys-type-size-ui-md, 16px);
     cursor: pointer;
     width: fit-content;
-  }
-
-  :host([isCompact]) .nys-stepper__counter {
-    display: block;
   }
 
   .nys-stepper__steps {
@@ -123,12 +101,6 @@ export default css`
       100% 14px,
       100% 14px;
     background-attachment: local, local, scroll, scroll;
-  }
-
-  :host([isCompact]) .nys-stepper__steps {
-    flex-direction: row;
-    gap: var(--nys-space-100, 8px);
-    padding: var(--nys-space-150, 12px) 0 0 0;
   }
 
   .nys-step {
@@ -182,14 +154,6 @@ export default css`
     text-align: center;
   }
 
-  :host([isCompact]) .nys-step__number {
-    border-radius: 0;
-    border: none;
-    background-color: var(--nys-color-neutral-200, #bec0c1);
-    height: var(--nys-size-100, 8px);
-    width: 100%;
-  }
-
   :host([previous]) .nys-step__number,
   :host([previous]) .nys-step__line,
   :host([current]) .nys-step__number,
@@ -199,21 +163,11 @@ export default css`
     border-color: var(--nys-color-theme-stronger, #081b2b);
   }
 
-  :host([isCompact][previous]) .nys-step__number,
-  :host([isCompact][current]) .nys-step__number {
-    background-color: var(--nys-color-neutral-900, #1b1b1b);
-  }
-
   :host([selected]) .nys-step__number {
     background: var(--nys-color-theme, #154973);
     color: var(--nys-color-text-reverse, #fff);
     border-color: var(--nys-color-theme, #154973);
     outline: 4px solid var(--nys-color-theme-weak, #cddde9);
-  }
-
-  :host([isCompact][selected]) .nys-step__number {
-    background-color: var(--nys-color-theme-mid, #457aa5);
-    outline: none;
   }
 
   .nys-step__number::before {
@@ -222,16 +176,8 @@ export default css`
     padding-top: 2px;
   }
 
-  :host([isCompact]) .nys-step__number::before {
-    content: "";
-  }
-
   /* Hide the line wrapper in the last step */
   :host([first]) .nys-step__linewrapper {
-    display: none;
-  }
-
-  :host([isCompact]) .nys-step__linewrapper {
     display: none;
   }
 
@@ -258,10 +204,6 @@ export default css`
     text-underline-position: from-font;
   }
 
-  :host([isCompact]) .nys-step__label {
-    display: none;
-  }
-
   :host([current]) .nys-step__label,
   :host([previous]) .nys-step__label {
     text-decoration-line: underline;
@@ -286,11 +228,6 @@ export default css`
     outline-offset: 6px;
   }
 
-  :host([isCompact]) .nys-step__contentwrapper {
-    gap: 0;
-    cursor: default;
-  }
-
   .nys-step__currentflag {
     overflow: hidden;
     color: var(--nys-color-text-weak, #4a4d4f);
@@ -301,15 +238,72 @@ export default css`
     letter-spacing: var(--nys-typography-font-letterspacing-ui-xs, 0.057px);
   }
 
-  :host([isCompact]) .nys-step__currentflag {
-    display: none;
-  }
-
   :host([isCompactExpanded]) .nys-stepper__counter {
     border: red solid;
   }
 
-  :host([!isCompactExpanded]) .nys-stepper__counter {
-    border: blue solid;
+  @media (max-width: 479px) {
+    .nys-stepper__header {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      padding-bottom: 0;
+      gap: var(--nys-space-200, 16px);
+    }
+
+    .nys-stepper__headertext {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    ::slotted(div[slot="actions"]) {
+      margin-bottom: 0;
+      flex: 2 1 1;
+      min-width: 0;
+    }
+
+    .nys-stepper__counter {
+      display: block;
+    }
+
+    .nys-stepper__steps {
+      flex-direction: row;
+      gap: var(--nys-space-100, 8px);
+      padding: var(--nys-space-150, 12px) 0 0 0;
+    }
+
+    .nys-step__number {
+      border-radius: 0;
+      border: none;
+      background-color: var(--nys-color-neutral-200, #bec0c1);
+      height: var(--nys-size-100, 8px);
+      width: 100%;
+    }
+
+    :host([previous]) .nys-step__number,
+    :host([current]) .nys-step__number {
+      background-color: var(--nys-color-neutral-900, #1b1b1b);
+    }
+
+    :host([selected]) .nys-step__number {
+      background-color: var(--nys-color-theme-mid, #457aa5);
+      outline: none;
+    }
+    .nys-step__number::before {
+      content: "";
+    }
+    .nys-step__linewrapper {
+      display: none;
+    }
+    .nys-step__label {
+      display: none;
+    }
+
+    .nys-step__contentwrapper {
+      gap: 0;
+      cursor: default;
+    }
+    .nys-step__currentflag {
+      display: none;
+    }
   }
 `;
