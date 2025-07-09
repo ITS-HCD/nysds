@@ -127,6 +127,11 @@ export class NysStepper extends LitElement {
   };
 
   private _updateCounter() {
+    if (this.isCompactExpanded) {
+      this.counterText = "Back to Form";
+      return;
+    }
+
     const steps = this.querySelectorAll<HTMLElement>("nys-step");
     const selectedIndex = Array.from(steps).findIndex((step) =>
       step.hasAttribute("selected"),
