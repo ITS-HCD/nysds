@@ -106,6 +106,7 @@ export default css`
       100% 14px,
       100% 14px;
     background-attachment: local, local, scroll, scroll;
+    background-color: var(--nys-color-surface-raised, #f6f6f6);
   }
 
   .nys-step {
@@ -329,7 +330,7 @@ export default css`
       width: -webkit-fill-available;
       width: -moz-available;
       height: fit-content;
-      background: var(--nys-color-surface-raised, #f6f6f6);
+      max-height: 50vh;
       z-index: 9999;
       overflow-y: auto;
       flex-direction: column;

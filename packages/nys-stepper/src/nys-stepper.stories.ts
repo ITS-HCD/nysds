@@ -70,6 +70,18 @@ export const Basic: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
         <div slot="actions">
           <nys-button
             variant="outline"
@@ -140,6 +152,34 @@ export const Compact: Story = {
           label="Usage Survey"
           current
           href="/nys-stepper/survey.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
+        ></nys-step>
+        <nys-step
+          label="Newsletter Opt-In"
+          href="/nys-stepper/newsletter.html"
         ></nys-step>
         <nys-step
           label="Newsletter Opt-In"
