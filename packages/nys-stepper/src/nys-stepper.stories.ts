@@ -88,11 +88,12 @@ export const Basic: Story = {
             label="Save & Exit"
             fullWidth
           ></nys-button>
+          <nys-button variant="outline" label="Quick Exit"></nys-button>
         </div>
       </nys-stepper>
       <div
         id="stepper-content"
-        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; overflow-y: scroll; overflow-x: hidden;"
+        style=" width: -webkit-fill-available; overflow-y: scroll; overflow-x: hidden;"
       >
         Loading...
       </div>
@@ -186,12 +187,13 @@ export const Compact: Story = {
           href="/nys-stepper/newsletter.html"
         ></nys-step>
         <div slot="actions">
-          <nys-button variant="outline" label="Save & Exit"></nys-button>
+          <nys-button variant="outline" label="Save"></nys-button>
+          <nys-button variant="outline" label="Quick Exit"></nys-button>
         </div>
       </nys-stepper>
       <div
         id="stepper-content2"
-        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; height: 100vh;"
+        style="width: -webkit-fill-available; height: 100vh;"
       >
         Loading...
       </div>

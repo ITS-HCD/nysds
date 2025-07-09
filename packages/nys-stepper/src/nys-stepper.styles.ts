@@ -264,7 +264,6 @@ export default css`
 
     ::slotted(div[slot="actions"]) {
       margin-bottom: 0;
-      flex: 1 1 0;
       min-width: 0;
       justify-content: end;
     }
@@ -330,7 +329,7 @@ export default css`
       width: -webkit-fill-available;
       width: -moz-available;
       height: fit-content;
-      max-height: 50vh;
+      max-height: 100vh;
       z-index: 9999;
       overflow-y: auto;
       flex-direction: column;
