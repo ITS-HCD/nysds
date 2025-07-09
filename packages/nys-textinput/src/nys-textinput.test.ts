@@ -1,7 +1,10 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import { NysTextinput } from "./nys-textinput";
 import "../dist/nys-textinput.js";
-
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-button";
+import "@nysds/nys-icon";
 /**
  * Test Tips (Official WTR Doc): Defaults, interactivity, customization, and accessibility, form a great baseline for testing most web UI.
  * When testing web UI it is important to think of your test inputs as a future visitor interacting with your web component or a future developer building with your web component.
@@ -89,6 +92,58 @@ describe("nys-textinput", () => {
     expect(errorMessage?.getAttribute("errorMessage")).to.equal(
       "Invalid format",
     );
+  });
+
+  it("falls back to type text if invalid type is provided", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput type="invalid"></nys-textinput>`,
+    );
+    expect(el.type).to.equal("text");
+    const input = el.shadowRoot?.querySelector("input");
+    expect(input?.type).to.equal("text");
+  });
+
+  it("falls back to width full if invalid width is set", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput width="invalid"></nys-textinput>`,
+    );
+    await el.updateComplete;
+    expect(el.width).to.equal("full");
+  });
+
+  it("runs native checkValidity", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    expect(el.checkValidity()).to.be.true;
+  });
+
+  it("validates startButton slot and removes extra non-nys-button nodes", async () => {
+    const el = await fixture<NysTextinput>(html`
+      <nys-textinput>
+        <div slot="startButton">invalid</div>
+        <nys-button slot="startButton" label="MyBtn"></nys-button>
+        <div slot="startButton">also invalid</div>
+      </nys-textinput>
+    `);
+
+    const slot = el.shadowRoot?.querySelector('slot[name="startButton"]');
+    slot?.dispatchEvent(new Event("slotchange"));
+    await el.updateComplete;
+
+    const container = el.shadowRoot?.querySelector(
+      ".nys-textinput__buttoncontainer",
+    );
+    expect(container?.classList.contains("has-start-button")).to.be.true;
+  });
+
+  it("sets custom validity message and showError flag", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    (el as any)._setValidityMessage("Something is wrong");
+    expect(el.showError).to.be.true;
+    expect(el.errorMessage).to.include("Something is wrong");
   });
 
   it("passes the a11y audit", async () => {

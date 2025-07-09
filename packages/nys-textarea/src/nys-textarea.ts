@@ -2,9 +2,6 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-textarea.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "@nysds/nys-icon";
-import "@nysds/nys-label";
-import "@nysds/nys-errormessage";
 
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
@@ -88,7 +85,6 @@ export class NysTextarea extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-    this._manageRequire();
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -98,8 +94,8 @@ export class NysTextarea extends LitElement {
 
   /********************** Form Integration **********************/
   private _setValue() {
-    this._manageRequire();
     this._internals.setFormValue(this.value);
+    this._manageRequire();
   }
 
   private _manageRequire() {
