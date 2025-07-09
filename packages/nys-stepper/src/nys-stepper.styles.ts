@@ -318,6 +318,7 @@ export default css`
       position: absolute;
       top: 100%;
       width: -webkit-fill-available;
+      width: -moz-available;
       height: fit-content;
       background: var(--nys-color-surface-raised, #f6f6f6);
       z-index: 999;
