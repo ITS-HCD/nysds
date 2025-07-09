@@ -54,7 +54,7 @@ const meta: Meta<NysTextinputArgs> = {
     width: {
       control: "select",
       options: ["sm", "md", "lg", "full"],
-      defaultValue: { summary: "md" },
+      defaultValue: { summary: "full" },
     },
     step: { control: "text" },
     min: { control: "text" },
