@@ -33,6 +33,9 @@ export default css`
     counter-reset: step;
     background: var(--nys-color-surface-raised, #f6f6f6);
     height: -webkit-fill-available;
+    height: 100%;
+    width: max-content;
+    max-width: 300px;
   }
 
   .nys-stepper__header {
@@ -76,6 +79,7 @@ export default css`
       var(--nys-space-400, 32px);
     overflow-y: scroll;
     height: -webkit-fill-available;
+    height: -moz-available;
     scrollbar-width: none;
     background:
     /* Shadow Cover TOP */
@@ -240,6 +244,11 @@ export default css`
   }
 
   @media (max-width: 479px) {
+    .nys-stepper {
+      max-width: 479px;
+      width: 100%;
+    }
+
     .nys-stepper__header {
       flex-direction: row-reverse;
       justify-content: space-between;
