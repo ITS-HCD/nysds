@@ -75,6 +75,7 @@ export default css`
     padding: var(--nys-space-150, 12px) var(--nys-space-400, 32px)
       var(--nys-space-400, 32px);
     overflow-y: scroll;
+    height: -webkit-fill-available;
     scrollbar-width: none;
     background:
     /* Shadow Cover TOP */
@@ -305,7 +306,22 @@ export default css`
       display: flex;
     }
 
+    :host([isCompactExpanded]) .nys-stepper {
+      position: relative;
+    }
+
+    :host([isCompactExpanded]) .nys-stepper__header {
+      padding-bottom: var(--nys-space-250, 20px);
+    }
+
     :host([isCompactExpanded]) .nys-stepper__steps {
+      position: absolute;
+      top: 100%;
+      width: -webkit-fill-available;
+      height: fit-content;
+      background: var(--nys-color-surface-raised, #f6f6f6);
+      z-index: 999;
+      overflow-y: auto;
       flex-direction: column;
       gap: 0;
       padding: var(--nys-space-150, 12px) var(--nys-space-400, 32px)
