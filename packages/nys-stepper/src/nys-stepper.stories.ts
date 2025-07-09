@@ -151,7 +151,7 @@ export const Compact: Story = {
       </nys-stepper>
       <div
         id="stepper-content2"
-        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; height: -webkit-fill-available;"
+        style="background: var(--nys-color-theme-weak); width: -webkit-fill-available; height: 100vh;"
       >
         Loading...
       </div>

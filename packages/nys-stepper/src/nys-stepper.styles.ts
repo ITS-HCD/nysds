@@ -330,7 +330,7 @@ export default css`
       width: -moz-available;
       height: fit-content;
       background: var(--nys-color-surface-raised, #f6f6f6);
-      z-index: 999;
+      z-index: 9999;
       overflow-y: auto;
       flex-direction: column;
       gap: 0;
