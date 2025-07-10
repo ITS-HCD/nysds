@@ -1,12 +1,13 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysStepperStories from "./nys-stepper.stories";
+import { Resizable } from './nys-stepper_hidden.stories';
 
 <Meta of={NysStepperStories} title="Components/Stepper/Documentation" />
 
 # Stepper
 
-The **`nys-stepper`** component is a reusable web component for use in New York State digital products.
+The **`nys-stepper`** component is a reusable component indicating to a user how many steps are in a process. It updates with the process of the form completeness.
 
 If an id is not passed, a unique id will be generated.
 
@@ -20,38 +21,36 @@ If an id is not passed, a unique id will be generated.
 
 ---
 
-<Canvas of={NysStepperStories.Basic} />
+<Canvas of={Resizable} />
 
 <Controls />
 
 ## Options
 
 ### Compact
-<Canvas of={NysStepperStories.Compact} />
+On small screens, the `nys-stepper` will render in a compact mode where the progress is indicated by bars rather than complete steps. You can expand to see the names of steps by clicking on "Step x of y"
 
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+- Use a stepper for linear, ordered forms with more than 2 sections.
 
 ### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+- If there are only 1 or 2 sections to a form do not use a stepper.
+- Forms that are nonlinear and can be completed in any order should not use a stepper.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - Use a stepper for linear, ordered forms with more than 2 sections.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - If there are only 1 or 2 sections to a form do not use a stepper.
+      - Forms that are nonlinear and can be completed in any order should not use a stepper.
     </div>
   </div>
 </div>
@@ -60,9 +59,9 @@ If an id is not passed, a unique id will be generated.
 
 The `nys-stepper` component includes the following accessibility-focused features:
 
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-- TODO: Add accessibility features
+- Proper ARIA roles and attributes to ensure screen readers can interpret the steps correctly.
+- Keyboard navigation support, allowing users to iterate the steps using the keyboard.
+- Visual focus indicators to help users navigate the component.
 
 ## Slots
 <table>

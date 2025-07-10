@@ -253,7 +253,7 @@ export default css`
     .nys-stepper__header {
       flex-direction: row-reverse;
       justify-content: space-between;
-      padding-bottom: 0;
+      padding: var(--nys-space-150, 12px);
       gap: var(--nys-space-200, 16px);
     }
 
@@ -274,8 +274,8 @@ export default css`
 
     .nys-stepper__steps {
       flex-direction: row;
-      gap: var(--nys-space-100, 8px);
-      padding: var(--nys-space-150, 12px) 0 0 0;
+      gap: var(--nys-space-2px, 2px);
+      padding: 0;
     }
 
     .nys-stepper__steps::slotted(*) {

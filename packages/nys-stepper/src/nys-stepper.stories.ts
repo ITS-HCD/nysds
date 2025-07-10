@@ -35,7 +35,7 @@ type Story = StoryObj<NysStepperArgs>;
 
 // Define stories without using args
 
-export const Basic: Story = {
+export const LargeScreen: Story = {
   args: {
     id: "stepper1",
     name: "stepper1",
@@ -70,25 +70,12 @@ export const Basic: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
         <div slot="actions">
           <nys-button
             variant="outline"
             label="Save & Exit"
             fullWidth
           ></nys-button>
-          <nys-button variant="outline" label="Quick Exit"></nys-button>
         </div>
       </nys-stepper>
       <div
@@ -123,7 +110,7 @@ export const Basic: Story = {
   },
 };
 
-export const Compact: Story = {
+export const SmallScreen: Story = {
   args: {
     id: "stepper2",
     name: "stepper2",
@@ -158,37 +145,12 @@ export const Compact: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
         <div slot="actions">
-          <nys-button variant="outline" label="Save"></nys-button>
-          <nys-button variant="outline" label="Quick Exit"></nys-button>
+          <nys-button
+            variant="outline"
+            label="Save & Exit"
+            fullWidth
+          ></nys-button>
         </div>
       </nys-stepper>
       <div
@@ -218,114 +180,6 @@ export const Compact: Story = {
   </div>
 </nys-stepper>`,
 
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Resizable: Story = {
-  args: {
-    id: "stepper3",
-    name: "stepper3",
-    label: "Register for Design System Office Hours",
-  },
-  render: (args) => html`
-    <div class="wrapper">
-      <nys-stepper
-        .id=${args.id}
-        .name=${args.name}
-        label=${args.label}
-        contentTarget="stepper-content"
-      >
-        <nys-step
-          label="Personal Details"
-          href="/nys-stepper/personal.html"
-        ></nys-step>
-        <nys-step
-          label="Team Info"
-          selected
-          href="/nys-stepper/team.html"
-        ></nys-step>
-        <nys-step
-          label="Usage Survey"
-          current
-          href="/nys-stepper/survey.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <div slot="actions">
-          <nys-button
-            variant="outline"
-            label="Save & Exit"
-            fullWidth
-          ></nys-button>
-          <nys-button variant="outline" label="Quick Exit"></nys-button>
-        </div>
-      </nys-stepper>
-      <div id="stepper-content">Loading...</div>
-    </div>
-    <style>
-      html,
-      body {
-        display: flex;
-        height: 100%;
-        width: 100%;
-      }
-      #storybook-root,
-      #root-inner {
-        height: 100%;
-        width: 100%;
-      }
-      .wrapper {
-        display: flex;
-        flex: 1;
-        height: 100%;
-        width: 100%;
-      }
-      #stepper-content {
-        width: 100%;
-      }
-
-      @media (max-width: 479px) {
-        .wrapper {
-          flex-direction: column;
-        }
-      }
-    </style>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-stepper
-  id="stepper3"
-  name="stepper3"
-  label="Register for Design System Office Hours"
-  contentTarget="stepper-content"
->
-  <nys-step label="Personal Details" href="/personal.html"></nys-step>
-  <nys-step label="Team Info" selected href="/team.html"></nys-step>
-  <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
-  <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
-  <div slot="actions">
-    <nys-button variant="outline" label="Save & Exit"></nys-button>
-  </div>
-</nys-stepper>`,
         type: "auto",
       },
     },
