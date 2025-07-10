@@ -278,6 +278,10 @@ export default css`
       padding: var(--nys-space-150, 12px) 0 0 0;
     }
 
+    .nys-stepper__steps::slotted(*) {
+      flex: 1;
+    }
+
     .nys-step__number {
       border-radius: 0;
       border: none;

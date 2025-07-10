@@ -196,13 +196,6 @@ export class NysStepper extends LitElement {
       } else {
         step.removeAttribute("isCompactExpanded");
       }
-
-      // Apply flex style only if parent is row
-      if (stepsDirection === "row") {
-        step.style.setProperty("flex", "1");
-      } else {
-        step.style.removeProperty("flex");
-      }
     });
 
     // Selected fallback
@@ -292,7 +285,7 @@ export class NysStepper extends LitElement {
             </div>
           </div>
         </div>
-        <div class="nys-stepper__steps"><slot></slot></div>
+        <slot class="nys-stepper__steps"></slot>
       </div>
     `;
   }
