@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-button",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "The Button component from the NYS Design System.",
   "module": "dist/nys-button.js",
   "types": "dist/index.d.ts",
@@ -21,14 +21,13 @@
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch"
   },
-  "dependencies": {},
   "peerDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.2.0"
+    "@nysds/nys-icon": "^1.4.0"
   },
   "devDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.2.0",
+    "@nysds/nys-icon": "^1.4.0",
     "typescript": "^5.7.2",
     "vite": "^6.3.4"
   },

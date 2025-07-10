@@ -361,6 +361,11 @@ export default css`
     cursor: pointer;
   }
 
+  :host([circle]) .nys-button {
+    max-width: var(--_nys-button-height);
+    max-height: var(--_nys-button-height);
+  }
+
   .nys-button:hover {
     background-color: var(--_nys-button-color-bg-hover);
     color: var(--_nys-button-color-text-hover);

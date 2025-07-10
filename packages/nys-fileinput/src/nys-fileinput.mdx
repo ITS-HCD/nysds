@@ -1,0 +1,131 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysFileinputStories from "./nys-fileinput.stories";
+
+<Meta of={NysFileinputStories} title="Components/Fileinput/Documentation" />
+
+# Fileinput
+
+The **`nys-fileinput`** component is a reusable web component that allows users to select and upload one or more files from their device (like a computer or phone) to a server or app.
+
+If an id is not passed, a unique id will be generated.
+
+<p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
+
+<p className="pill pill--uikit">
+	<a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu/branch/s6RRas2SHWImnD7PMgmWJ8/%F0%9F%92%A0-NYS-Design-System?node-id=4821-4576&m=dev" target="_blank">View in Figma</a>
+</p>
+
+---
+
+<Canvas of={NysFileinputStories.Basic} />
+
+<Controls />
+
+## Options
+The `accept` attribute sets the allowed file types using MIME types or file extensions (for example, image/png, .pdf).
+
+This component checks the actual contents of each file to make sure it matches one of the allowed types. If a file does not match, it is marked as invalid. Invalid files will still appear in the list with an error message, but they will not be included in the form submission.
+
+### Dropzone
+Use the `dropzone` attribute to allow users to drag and drop files instead of (or in addition to) clicking the "Choose file" button.
+<Canvas of={NysFileinputStories.Dropzone} />
+
+### Width
+Available values are:
+
+- `full` (default)
+- `lg`
+<Canvas of={NysFileinputStories.Width} />
+
+### Multiple files
+Set `multiple` to `true` to allow the selection of more than one file. Each selected file will display its own item in the list with progress and validation feedback.
+<Canvas of={NysFileinputStories.Multiple} />
+
+### Disabled
+Set `disabled` to prevent interaction with the file input. Useful when the input should not be used under certain form conditions.
+<Canvas of={NysFileinputStories.Disabled} />
+
+#### Description Slot
+You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization.
+<Canvas of={NysFileinputStories.DescriptionSlot} />
+
+## Usage
+
+### When to use this component
+- When you need to upload a file as part of a form.
+- When you want to support drag-and-drop file uploads.
+
+### When to consider something else
+- When uploading large files requiring resumable upload logic.
+- When selecting only from camera input or other device-native features.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      - Use when a file is required in a form.
+      - Use when multiple file selection is needed.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use when a file is required in a form.
+      - Use when multiple file selection is needed.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-fileinput` component includes the following accessibility-focused features:
+
+- Uses `ElementInternals` for form association and validation.
+- Implements ARIA attributes for required and invalid states.
+- Keyboard-accessible via standard tab/focus patterns.
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for `nys-fileinput`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
+
+## Events
+
+The `nys-fileinput` component emits the following events:
+
+1. `nys-change`: Fired when files are selected or removed.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the fileinput component
+const fileinput = document.querySelector("nys-fileinput");
+
+// Listen for the 'nys-change' event
+fileinput.addEventListener("nys-change", (e) => {
+  console.log("Files changed", e.detail.files);
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- `nys-icon`
+- `nys-button`

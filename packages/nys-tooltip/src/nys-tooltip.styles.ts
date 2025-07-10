@@ -55,17 +55,6 @@ export default css`
   }
 
   /* Tooltip Arrow (default) */
-  /*
-  .nys-tooltip__content::after {
-    content: "";
-    position: absolute;
-    bottom: -8.3px;
-    transform: translateX(-50%);
-    width: 14px;
-    height: 6px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="6" viewBox="0 0 15 6" fill="none"><path d="M8.15079 5.44218C7.7763 5.76317 7.2237 5.76317 6.84921 5.44218L0.5 0H14.5L8.15079 5.44218Z" fill="%231B1B1B"/></svg>')
-      no-repeat center;
-  }*/
   .nys-tooltip__arrow {
     position: absolute;
     width: 14px;

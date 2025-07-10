@@ -2,9 +2,6 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
 import { NysOption } from "./nys-option";
-import "@nysds/nys-icon";
-import "@nysds/nys-label";
-import "@nysds/nys-errormessage";
 
 let selectIdCounter = 0; // Counter for generating unique IDs
 
@@ -68,7 +65,6 @@ export class NysSelect extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-    this._manageRequire();
   }
 
   // This callback is automatically called when the parent form is reset.

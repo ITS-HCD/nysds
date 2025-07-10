@@ -1,8 +1,6 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-tooltip.styles";
-// import { shift } from "./shift";
-// import { computePosition, shift as floatShift, flip } from "@floating-ui/dom";
 
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
@@ -203,23 +201,6 @@ export class NysTooltip extends LitElement {
       tryOrder = ["bottom", "top", "right", "left"];
     }
 
-    // // ⭐️ The below code is popper/floating-ui shift(), as you can see it gives a valid x and y
-    // computePosition(wrapper, tooltip, {
-    //   placement: this.position || "top",
-    //   middleware: [
-    //     flip(), // flips placement if it doesn't fit
-    //     floatShift({
-    //       padding: 8,
-    //     }),
-    //   ],
-    // }).then(({ x, y, placement }) => {
-    //   console.log("🧭 Floating UI positioning:", { x, y, placement });
-
-    //   tooltip.style.position = "fixed";
-    //   tooltip.style.left = `${x}px`;
-    //   tooltip.style.top = `${y}px`;
-    // });
-
     // 1) Decide best side
     for (const pos of tryOrder) {
       if (this._doesPositionFit(pos)) {
@@ -227,13 +208,6 @@ export class NysTooltip extends LitElement {
         this._setInternalPosition(pos);
         await this.updateComplete;
         this._shiftTooltipIntoViewport(tooltip);
-
-        // // 😖 MY CODE TEST: The x and y return here from the shift() should return exactly what the floating-ui library computes...yet it doesn't
-        // console.log("triggerRect + tooltipRect", triggerRect, tooltipRect);
-        // const { x, y } = shift(triggerRect, tooltipRect, pos);
-        // tooltip.style.top = `${y}px`;
-        // tooltip.style.left = `${x}px`;
-        // console.log("✌️ Robert's Shift positioning:", { x, y });
         return;
       }
     }

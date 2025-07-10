@@ -1,8 +1,6 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
-import "@nysds/nys-label";
-import "@nysds/nys-errormessage";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 

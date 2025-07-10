@@ -3,22 +3,29 @@ import { execSync } from "child_process";
 // Define the build order for your packages
 const packages = [
   { name: "styles", path: "packages/styles" },
-  { name: "nys-icon", path: "packages/nys-icon" },
-  { name: "nys-label", path: "packages/nys-label" },
-  { name: "nys-errormessage", path: "packages/nys-errormessage" },
+  { name: "nys-backtotop", path: "packages/nys-backtotop" },
   { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
+  { name: "nys-fileinput", path: "packages/nys-fileinput" },
+  { name: "nys-errormessage", path: "packages/nys-errormessage" },
+  { name: "nys-globalheader", path: "packages/nys-globalheader" },
+  { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
+  { name: "nys-icon", path: "packages/nys-icon" },
+  { name: "nys-label", path: "packages/nys-label" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
   { name: "nys-skipnav", path: "packages/nys-skipnav" },
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
+<<<<<<< HEAD
   { name: "nys-tooltip", path: "packages/nys-tooltip" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
+=======
+>>>>>>> c9851e96c6af6bca557ea8aa85b056f9b0b2cb3e
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
 ];
