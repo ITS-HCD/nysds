@@ -150,10 +150,6 @@ export class NysStepper extends LitElement {
     let selectedAssigned = false;
     let currentAssigned = false;
 
-    const stepsContainer = this.shadowRoot?.querySelector(
-      ".nys-stepper__steps",
-    );
-    const stepsDirection = getComputedStyle(stepsContainer!).flexDirection;
     steps.forEach((step, i) => {
       // Check if multiple "current" exist, respect the first instance
       if (step.hasAttribute("current")) {
