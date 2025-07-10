@@ -69,22 +69,22 @@ export class NysStepper extends LitElement {
     const div = assignedElements[0] as HTMLElement;
 
     // Iterate through its children and validate
-    Array.from(div.children).forEach((child) => {
+    Array.from(div.children).forEach((button) => {
       const isNysButton =
-        child instanceof HTMLElement &&
-        child.tagName.toLowerCase() === "nys-button";
+        button instanceof HTMLElement &&
+        button.tagName.toLowerCase() === "nys-button";
 
       if (!isNysButton) {
         console.warn(
           "The <div> inside 'actions' slot only accepts <nys-button> elements. Removing invalid node:",
-          child,
+          button,
         );
-        child.remove();
+        button.remove();
       } else {
         // Ensure nys-button has correct styles
-        child.setAttribute("size", "sm");
-        if (child.hasAttribute("fullWidth")) {
-          child.style.flex = "1 1 0";
+        button.setAttribute("size", "sm");
+        if (button.hasAttribute("fullWidth")) {
+          button.style.flex = "1 1 0";
         }
       }
     });
@@ -150,8 +150,8 @@ export class NysStepper extends LitElement {
     let selectedAssigned = false;
     let currentAssigned = false;
 
-    // Pre-pass to normalize multiple `current` attributes
-    steps.forEach((step) => {
+    steps.forEach((step, i) => {
+      // Check if multiple "current" exist, respect the first instance
       if (step.hasAttribute("current")) {
         if (!currentAssigned) {
           currentAssigned = true;
@@ -160,22 +160,14 @@ export class NysStepper extends LitElement {
         }
       }
 
-      step.style.setProperty("flex", "1 1 0");
-
-      if (this.hasAttribute("isCompactExpanded")) {
-        step.setAttribute("isCompactExpanded", "");
-      } else {
-        step.removeAttribute("isCompactExpanded");
-      }
-    });
-
-    steps.forEach((step, i) => {
+      // Set first
       if (i === 0) {
         step.setAttribute("first", "");
       } else {
         step.removeAttribute("first");
       }
 
+      // Set previous
       if (step.hasAttribute("current")) {
         foundCurrent = true;
         step.removeAttribute("previous");
@@ -185,6 +177,7 @@ export class NysStepper extends LitElement {
         step.removeAttribute("previous");
       }
 
+      // Handle selected, respect first instance
       if (step.hasAttribute("selected")) {
         if (foundCurrent || selectedAssigned) {
           step.removeAttribute("selected");
@@ -192,6 +185,17 @@ export class NysStepper extends LitElement {
           selectedAssigned = true;
         }
       }
+
+      // Handle compact expanded
+      if (this.hasAttribute("isCompactExpanded")) {
+        step.setAttribute("isCompactExpanded", "");
+      } else {
+        step.removeAttribute("isCompactExpanded");
+      }
+
+      // Always ensure style
+      step.style.setProperty("flex", "1");
+      step.style.setProperty("border", "red solid");
     });
 
     // Selected fallback

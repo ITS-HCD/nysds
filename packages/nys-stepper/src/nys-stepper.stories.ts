@@ -42,10 +42,10 @@ export const Basic: Story = {
     label: "Register for Design System Office Hours",
   },
   globals: {
-    viewport: { value: "tablet" },
+    viewport: { value: "tablet", isRotated: "true" },
   },
   render: (args) => html`
-    <div style="display:flex; height: 600px">
+    <div style="display:flex; height: 800px">
       <nys-stepper
         .id=${args.id}
         .name=${args.name}
