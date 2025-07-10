@@ -207,7 +207,7 @@ export const Compact: Story = {
   id="stepper2"
   name="stepper2"
   label="Register for Design System Office Hours"
-  contentTarget="stepper-content"
+  contentTarget="stepper-content2"
 >
   <nys-step label="Personal Details" href="/personal.html"></nys-step>
   <nys-step label="Team Info" selected href="/team.html"></nys-step>
@@ -231,34 +231,6 @@ export const Resizable: Story = {
     label: "Register for Design System Office Hours",
   },
   render: (args) => html`
-    <style>
-      html,
-      body {
-        display: flex;
-        height: 100%;
-        width: 100%;
-      }
-      #storybook-root,
-      #root-inner {
-        height: 100%;
-        width: 100%;
-      }
-      .wrapper {
-        display: flex;
-        flex: 1;
-        height: 100%;
-        width: 100%;
-      }
-      #stepper-content {
-        width: 100%;
-      }
-
-      @media (max-width: 479px) {
-        .wrapper {
-          flex-direction: column;
-        }
-      }
-    </style>
     <div class="wrapper">
       <nys-stepper
         .id=${args.id}
@@ -307,13 +279,53 @@ export const Resizable: Story = {
       </nys-stepper>
       <div id="stepper-content">Loading...</div>
     </div>
+    <style>
+      html,
+      body {
+        display: flex;
+        height: 100%;
+        width: 100%;
+      }
+      #storybook-root,
+      #root-inner {
+        height: 100%;
+        width: 100%;
+      }
+      .wrapper {
+        display: flex;
+        flex: 1;
+        height: 100%;
+        width: 100%;
+      }
+      #stepper-content {
+        width: 100%;
+      }
+
+      @media (max-width: 479px) {
+        .wrapper {
+          flex-direction: column;
+        }
+      }
+    </style>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-`,
-
+<nys-stepper
+  id="stepper3"
+  name="stepper3"
+  label="Register for Design System Office Hours"
+  contentTarget="stepper-content"
+>
+  <nys-step label="Personal Details" href="/personal.html"></nys-step>
+  <nys-step label="Team Info" selected href="/team.html"></nys-step>
+  <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
+  <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
+  <div slot="actions">
+    <nys-button variant="outline" label="Save & Exit"></nys-button>
+  </div>
+</nys-stepper>`,
         type: "auto",
       },
     },

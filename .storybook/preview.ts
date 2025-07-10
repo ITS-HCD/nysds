@@ -84,6 +84,7 @@ const preview: Preview = {
       source: {
         type: "code",
       },
+      codePanel: true,
     },
     viewport: {
       options: MINIMAL_VIEWPORTS,
