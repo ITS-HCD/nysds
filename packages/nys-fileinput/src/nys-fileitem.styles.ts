@@ -25,20 +25,11 @@ export default css`
     --_nys-fileitem-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-fileitem-font-weight-400: var(--nys-font-weight-regular, 400);
     --_nys-fileitem-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-fileitem-letterspacing: var(
-      --nys-font-letterspacing-ui-md,
-      0.044px
-    );
+    --_nys-fileitem-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
     /* Progress Bar */
-    --_nys-fileitem-progress-background: var(
-      --nys-color-neutral-50,
-      #ededed
-    );
-    --_nys-fileitem-progress-fill-background: var(
-      --nys-color-info,
-      #004dd1
-    );
+    --_nys-fileitem-progress-background: var(--nys-color-neutral-50, #ededed);
+    --_nys-fileitem-progress-fill-background: var(--nys-color-info, #004dd1);
   }
 
   /***** File List Item *****/
