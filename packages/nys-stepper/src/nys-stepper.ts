@@ -68,7 +68,7 @@ export class NysStepper extends LitElement {
 
     const div = assignedElements[0] as HTMLElement;
 
-    // Iterate through its children and validate
+    // Iterate through all buttons and validate
     Array.from(div.children).forEach((button) => {
       const isNysButton =
         button instanceof HTMLElement &&
@@ -150,6 +150,10 @@ export class NysStepper extends LitElement {
     let selectedAssigned = false;
     let currentAssigned = false;
 
+    const stepsContainer = this.shadowRoot?.querySelector(
+      ".nys-stepper__steps",
+    );
+    const stepsDirection = getComputedStyle(stepsContainer!).flexDirection;
     steps.forEach((step, i) => {
       // Check if multiple "current" exist, respect the first instance
       if (step.hasAttribute("current")) {
@@ -193,9 +197,12 @@ export class NysStepper extends LitElement {
         step.removeAttribute("isCompactExpanded");
       }
 
-      // Always ensure style
-      step.style.setProperty("flex", "1");
-      step.style.setProperty("border", "red solid");
+      // Apply flex style only if parent is row
+      if (stepsDirection === "row") {
+        step.style.setProperty("flex", "1");
+      } else {
+        step.style.removeProperty("flex");
+      }
     });
 
     // Selected fallback
