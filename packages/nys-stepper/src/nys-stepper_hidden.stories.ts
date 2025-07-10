@@ -44,6 +44,12 @@ export const Resizable: Story = {
           label="Newsletter Opt-In"
           href="/nys-stepper/newsletter.html"
         ></nys-step>
+        <nys-step label="Step 5"></nys-step>
+        <nys-step label="Step 6"></nys-step>
+        <nys-step label="Step 7"></nys-step>
+        <nys-step label="Step 8"></nys-step>
+        <nys-step label="Step 9"></nys-step>
+        <nys-step label="Step 10"></nys-step>
         <div slot="actions">
           <nys-button
             variant="outline"
