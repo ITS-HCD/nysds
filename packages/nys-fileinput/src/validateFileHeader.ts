@@ -122,16 +122,16 @@ export async function validateFileHeader(
   }
 
   // 5) Add wildcard logic: if accept includes "image/*" or "video/*", assume common types
-  if (acceptItems.some((a) => a.startsWith("image/"))) {
+  if (acceptItems.includes("image/*")) {
     acceptedKeys.add("png");
     acceptedKeys.add("jpg");
     acceptedKeys.add("gif");
     acceptedKeys.add("svg");
   }
-  if (acceptItems.some((a) => a.startsWith("video/"))) {
+  if (acceptItems.includes("video/*")) {
     acceptedKeys.add("mp4");
   }
-  if (acceptItems.some((a) => a.startsWith("audio/"))) {
+  if (acceptItems.includes("audio/*")) {
     acceptedKeys.add("mp3");
   }
 
