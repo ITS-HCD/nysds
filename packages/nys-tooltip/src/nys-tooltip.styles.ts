@@ -55,11 +55,19 @@ export default css`
   }
 
   /* Tooltip Arrow (default) */
+  /*
   .nys-tooltip__content::after {
     content: "";
     position: absolute;
     bottom: -8.3px;
     transform: translateX(-50%);
+    width: 14px;
+    height: 6px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="6" viewBox="0 0 15 6" fill="none"><path d="M8.15079 5.44218C7.7763 5.76317 7.2237 5.76317 6.84921 5.44218L0.5 0H14.5L8.15079 5.44218Z" fill="%231B1B1B"/></svg>')
+      no-repeat center;
+  }*/
+  .nys-tooltip__arrow {
+    position: absolute;
     width: 14px;
     height: 6px;
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="6" viewBox="0 0 15 6" fill="none"><path d="M8.15079 5.44218C7.7763 5.76317 7.2237 5.76317 6.84921 5.44218L0.5 0H14.5L8.15079 5.44218Z" fill="%231B1B1B"/></svg>')
@@ -80,9 +88,9 @@ export default css`
     margin-bottom: 10px;
   }
 
-  :host([position="top"]) .nys-tooltip__content::after {
+  :host([position="top"]) .nys-tooltip__arrow {
     top: 100%;
-    left: 50%;
+    left: var(--arrow-offset-x, 50%);
     transform: translateX(-50%);
   }
 
@@ -94,9 +102,9 @@ export default css`
     margin-top: 10px;
   }
 
-  :host([position="bottom"]) .nys-tooltip__content::after {
+  :host([position="bottom"]) .nys-tooltip__arrow {
     bottom: 100%;
-    left: 50%;
+    left: var(--arrow-offset-x, 50%);
     transform: translateX(-50%) rotate(180deg);
   }
 
@@ -109,13 +117,12 @@ export default css`
     margin-right: 10px;
   }
 
-  :host([position="left"]) .nys-tooltip__content::after {
+  :host([position="left"]) .nys-tooltip__arrow {
     left: 100%;
-    margin-left: -5px;
     top: 50%;
     transform: translateY(-50%) rotate(-90deg);
+    margin-left: -4px;
   }
-
   /* Right */
   :host([position="right"]) .nys-tooltip__content {
     left: 100%;
@@ -124,10 +131,11 @@ export default css`
     margin-left: 10px;
   }
 
-  :host([position="right"]) .nys-tooltip__content::after {
-    left: -10px;
+  :host([position="right"]) .nys-tooltip__arrow {
+    right: 100%;
     top: 50%;
     transform: translateY(-50%) rotate(90deg);
+    margin-right: -4px;
   }
 
   :host([inverted]) .nys-tooltip__content {
@@ -135,7 +143,7 @@ export default css`
     --_nys-tooltip-background: var(--nys-color-ink-reverse, #fff);
   }
 
-  :host([inverted]) .nys-tooltip__content::after {
+  :host([inverted]) .nys-tooltip__arrow {
     background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="6" viewBox="0 0 15 6" fill="none"><path d="M8.15079 5.44218C7.7763 5.76317 7.2237 5.76317 6.84921 5.44218L0.5 0H14.5L8.15079 5.44218Z" fill="white"/></svg>')
       no-repeat center;
   }
