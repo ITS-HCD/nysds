@@ -1,8 +1,8 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-tooltip.styles";
-import { shift } from "./shift";
-import { computePosition, shift as floatShift, flip } from "@floating-ui/dom";
+// import { shift } from "./shift";
+// import { computePosition, shift as floatShift, flip } from "@floating-ui/dom";
 
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
@@ -11,15 +11,15 @@ export class NysTooltip extends LitElement {
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
 
+  // Track if tooltip is active (hovered or focused)
+  @state()
+  private _active = false;
+
   // Track if user set position is set explicitly
   private _userHasSetPosition = false;
   private _originalUserPosition: typeof this._position | null = null;
   // Internal flag to prevent dynamic positioning when not needed
   private _internallyUpdatingPosition = false;
-
-  // Track if tooltip is active (hovered or focused)
-  @state()
-  private _active = false;
 
   static styles = styles;
 
@@ -67,6 +67,13 @@ export class NysTooltip extends LitElement {
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
         this.position = this._originalUserPosition;
+        // Check if current tooltip position overflows to edge of screen
+        this.updateComplete.then(() => {
+          const tooltip = this.shadowRoot?.querySelector(
+            ".nys-tooltip__content",
+          ) as HTMLElement;
+          if (tooltip) this._shiftTooltipIntoViewport(tooltip);
+        });
         return;
       }
     }
@@ -78,6 +85,14 @@ export class NysTooltip extends LitElement {
   private _handleBlurOrMouseLeave = () => {
     this._active = false;
     this._removeScrollListeners();
+
+    const tooltip = this.shadowRoot?.querySelector(
+      ".nys-tooltip__content",
+    ) as HTMLElement;
+
+    if (tooltip) {
+      this._resetTooltipPositioningStyles(tooltip);
+    }
   };
 
   // Listen to window scroll so a focus tooltip can auto position even when user move across the page
@@ -97,7 +112,13 @@ export class NysTooltip extends LitElement {
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
         this.position = this._originalUserPosition;
-        // Only call for dynamic positioning for active non-fitting current positions
+        // Check if current tooltip position overflows to edge of screen
+        this.updateComplete.then(() => {
+          const tooltip = this.shadowRoot?.querySelector(
+            ".nys-tooltip__content",
+          ) as HTMLElement;
+          if (tooltip) this._shiftTooltipIntoViewport(tooltip);
+        });
       } else {
         this.autoPositionTooltip();
       }
@@ -107,7 +128,7 @@ export class NysTooltip extends LitElement {
   };
 
   /******************** Functions ********************/
-  // Checks if user's set position fit with current viewport
+  // Checks if user's set position fit with current viewport (Does not account for overflow texts at this moment)
   private _doesPositionFit(position: typeof this._position) {
     const wrapper = this.shadowRoot?.querySelector(".nys-tooltip__wrapper");
     const tooltip = this.shadowRoot?.querySelector(".nys-tooltip__content");
@@ -151,7 +172,7 @@ export class NysTooltip extends LitElement {
     if (!wrapper || !tooltip) return;
 
     const triggerRect = wrapper.getBoundingClientRect();
-    const tooltipRect = tooltip.getBoundingClientRect();
+    // const tooltipRect = tooltip.getBoundingClientRect();
     const margin = 8;
     const userPosition = this.position as keyof typeof spaceAvailable;
 
@@ -170,27 +191,16 @@ export class NysTooltip extends LitElement {
     ];
 
     // Custom order preference for when user requests a specific position like "left" -> fallback should be "right"
-    let tryOrder: Array<keyof typeof spaceAvailable> = preferredOrder;
+    let tryOrder = preferredOrder;
 
     if (userPosition === "left") {
-      tryOrder = [
-        "left",
-        "right",
-        ...preferredOrder.filter((pos) => pos != "left" && pos !== "right"),
-      ];
+      tryOrder = ["left", "right", "top", "bottom"];
     } else if (userPosition === "right") {
-      tryOrder = [
-        "right",
-        "left",
-        ...preferredOrder.filter((pos) => pos !== "left" && pos !== "right"),
-      ];
+      tryOrder = ["right", "left", "top", "bottom"];
     } else if (userPosition === "top") {
-      tryOrder = ["top", ...preferredOrder.filter((pos) => pos !== "top")];
+      tryOrder = ["top", "bottom", "right", "left"];
     } else if (userPosition === "bottom") {
-      tryOrder = [
-        "bottom",
-        ...preferredOrder.filter((pos) => pos !== "bottom"),
-      ];
+      tryOrder = ["bottom", "top", "right", "left"];
     }
 
     // // ⭐️ The below code is popper/floating-ui shift(), as you can see it gives a valid x and y
@@ -215,9 +225,8 @@ export class NysTooltip extends LitElement {
       if (this._doesPositionFit(pos)) {
         // 2) Apply the side (CSS takes over base placement)
         this._setInternalPosition(pos);
-
-        // Wait for the browser to apply CSS and layout
         await this.updateComplete;
+        this._shiftTooltipIntoViewport(tooltip);
 
         // // 😖 MY CODE TEST: The x and y return here from the shift() should return exactly what the floating-ui library computes...yet it doesn't
         // console.log("triggerRect + tooltipRect", triggerRect, tooltipRect);
@@ -229,7 +238,7 @@ export class NysTooltip extends LitElement {
       }
     }
 
-    // Fallback: if none fit fully, pick side with most space
+    // Fallback: pick the side with the most space
     let bestPosition: keyof typeof spaceAvailable = "top";
     let maxSpace = spaceAvailable.top;
 
@@ -240,6 +249,8 @@ export class NysTooltip extends LitElement {
       }
     }
     this._setInternalPosition(bestPosition);
+    await this.updateComplete;
+    this._shiftTooltipIntoViewport(tooltip);
   }
 
   // Sets flag to distinguish to position's setter that we are updating "position" prop internally
@@ -247,6 +258,32 @@ export class NysTooltip extends LitElement {
     this._internallyUpdatingPosition = true;
     this.position = bestPosition;
     this._internallyUpdatingPosition = false;
+  }
+
+  // Determines if text of tooltip over-extends outside of viewport edge and adjust tooltip for horizontal overflow
+  private _shiftTooltipIntoViewport(tooltip: HTMLElement) {
+    const rect = tooltip.getBoundingClientRect();
+    const overflowLeft = rect.left < 0;
+    const overflowRight = rect.right > window.innerWidth;
+
+    this._resetTooltipPositioningStyles(tooltip);
+
+    // Tooltip is past the viewport edge, shift it inwards
+    if (overflowLeft) {
+      tooltip.style.left = "0px";
+      tooltip.style.transform = "none";
+    } else if (overflowRight) {
+      tooltip.style.right = "0px";
+      tooltip.style.left = "auto";
+      tooltip.style.transform = "none";
+    }
+  }
+
+  // Reposition tooltip back to original set position (e.g. top, left, bottom, right)
+  private _resetTooltipPositioningStyles(tooltip: HTMLElement) {
+    tooltip.style.left = "";
+    tooltip.style.right = "";
+    tooltip.style.transform = "";
   }
 
   render() {
@@ -259,12 +296,11 @@ export class NysTooltip extends LitElement {
         @mouseleave=${this._handleBlurOrMouseLeave}
         @focusin=${this._handleTooltipEnter}
         @focusout=${this._handleBlurOrMouseLeave}
-        @mousedown=${this._handleTooltipEnter}
       >
         <span class="nys-tooltip__trigger" aria-describedby=${tooltipContentId}>
           <slot></slot>
         </span>
-        ${this.text.length > 0
+        ${this.text?.trim()
           ? html`<div
               id=${tooltipContentId}
               class="nys-tooltip__content"
