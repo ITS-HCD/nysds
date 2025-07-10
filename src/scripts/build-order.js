@@ -20,12 +20,7 @@ const packages = [
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
-<<<<<<< HEAD
   { name: "nys-tooltip", path: "packages/nys-tooltip" },
-  { name: "nys-globalheader", path: "packages/nys-globalheader" },
-  { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
-=======
->>>>>>> c9851e96c6af6bca557ea8aa85b056f9b0b2cb3e
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
 ];
