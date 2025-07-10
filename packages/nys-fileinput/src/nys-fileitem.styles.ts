@@ -73,6 +73,7 @@ export default css`
   .error-msg {
     color: var(--_nys-fileitem-error-color);
     text-overflow: ellipsis;
+    font-weight: 700;
   }
 
   /**** Progress Bar ****/
