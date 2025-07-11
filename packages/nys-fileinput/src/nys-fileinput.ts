@@ -172,7 +172,7 @@ export class NysFileinput extends LitElement {
       const isValid = await validateFileHeader(entry.file, this.accept);
       if (!isValid) {
         entry.status = "error";
-        entry.errorMsg = "File format does not match expected type.";
+        entry.errorMsg = "File type is invalid.";
         this.requestUpdate();
         return;
       }
