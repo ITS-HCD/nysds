@@ -102,9 +102,6 @@ export async function validateFileHeader(
   const buffer = await blob.arrayBuffer();
   const header = new Uint8Array(buffer);
 
-  const filename = file.name.toLowerCase();
-  const fileExt = filename.includes(".") ? filename.split(".").pop()! : "";
-
   // 3) Normalize and parse the accept attribute
   const acceptItems = accept
     .toLowerCase()
@@ -135,21 +132,23 @@ export async function validateFileHeader(
     acceptedKeys.add("mp3");
   }
 
-  // 6) Infer file type from the actual file's extension, and try to validate it
+  // 6) Infer extension and see if it's allowed
+  const filename = file.name.toLowerCase();
+  const fileExt = filename.includes(".") ? filename.split(".").pop()! : "";
   const extAsAccept = "." + fileExt;
   const [inferredTypeKey] = acceptKeyMap[extAsAccept] || [];
 
-  // 7) If the extension maps to a known type, and it's allowed. Validate its magic number (if we support it)
+  // 7) If file extension maps to a known type and that type is accepted, validate magic (if possible)
   if (inferredTypeKey && acceptedKeys.has(inferredTypeKey)) {
     const magic = magicNumbers[inferredTypeKey];
     return magic ? matchesMagic(header, magic) : true;
   }
 
-  // 8) If file extension is not allowed by the `accept`, reject
-  if (!inferredTypeKey || !acceptedKeys.has(inferredTypeKey)) {
-    return false;
+  // 8) If the original `accept` string includes the file extension directly, allow
+  if (acceptItems.includes(extAsAccept)) {
+    return true;
   }
 
-  // 9) If file type is allowed but no magic number check exists, allow
-  return true;
+  // 9) Otherwise, reject
+  return false;
 }
