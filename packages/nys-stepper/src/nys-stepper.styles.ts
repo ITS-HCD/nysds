@@ -320,7 +320,6 @@ export default css`
     }
 
     :host([isCompactExpanded]) .nys-stepper {
-      position: relative;
     }
 
     :host([isCompactExpanded]) .nys-stepper__header {
@@ -328,12 +327,8 @@ export default css`
     }
 
     :host([isCompactExpanded]) .nys-stepper__steps {
-      position: absolute;
-      top: 100%;
       width: -webkit-fill-available;
       width: -moz-available;
-      height: fit-content;
-      max-height: 300px;
       z-index: 9999;
       overflow-y: auto;
       flex-direction: column;
