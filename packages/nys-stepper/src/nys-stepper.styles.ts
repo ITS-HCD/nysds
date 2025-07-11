@@ -333,7 +333,7 @@ export default css`
       width: -webkit-fill-available;
       width: -moz-available;
       height: fit-content;
-      max-height: 100vh;
+      max-height: 300px;
       z-index: 9999;
       overflow-y: auto;
       flex-direction: column;

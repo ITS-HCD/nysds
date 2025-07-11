@@ -153,12 +153,7 @@ export const SmallScreen: Story = {
           ></nys-button>
         </div>
       </nys-stepper>
-      <div
-        id="stepper-content2"
-        style="width: -webkit-fill-available; height: 100vh;"
-      >
-        Loading...
-      </div>
+      <div id="stepper-content2">Loading...</div>
     </div>
   `,
   parameters: {
