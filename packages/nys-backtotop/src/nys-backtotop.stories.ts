@@ -34,15 +34,6 @@ type Story = StoryObj<NysBacktotopArgs>;
 // Define stories without using args
 export const Basic: Story = {
   render: (args) => {
-    // Force visible and disable scroll behavior for the demo
-    setTimeout(() => {
-      const el = document.querySelector("nys-backtotop");
-      if (el) {
-        window.removeEventListener("scroll", el["_handleScroll"]);
-        el.visible = true;
-      }
-    }, 0);
-
     return html`
       <style>
         code {
@@ -85,16 +76,6 @@ export const Left: Story = {
     position: "left",
   },
   render: (args) => {
-    // Same fix: get last instance rendered
-    setTimeout(() => {
-      const elements = document.querySelectorAll("nys-backtotop");
-      const el = elements[elements.length - 1];
-      if (el) {
-        window.removeEventListener("scroll", el["_handleScroll"]);
-        el.visible = true;
-      }
-    }, 0);
-
     return html`
       <style>
         code {
