@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "vite",
     "gen": "plop",
-    "build": "npm run lint && tsc --emitDeclarationOnly && vite build",
+    "build": "npm run lint && tsc --emitDeclarationOnly && vite build && vite build --config vite.config.umd.js",
     "build:umd": "tsc --emitDeclarationOnly && vite build --config vite.config.umd.js",
     "build:packages": "npm run lint:packages && node src/scripts/build-order.js",
     "build:all": "npm run clean:dist && npm run build:packages && npm run build && npm run build:umd",
