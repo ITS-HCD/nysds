@@ -2,7 +2,6 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import styles from "./nys-checkbox.styles";
-import "@nysds/nys-icon";
 import "./nys-checkboxgroup";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
@@ -122,7 +121,12 @@ export class NysCheckbox extends LitElement {
     if (!input) return;
 
     // Get the native validation state
-    let message = input.validationMessage;
+    const validity = input.validity;
+    let message = "";
+
+    if (validity.valueMissing) {
+      message = "This field is required";
+    }
 
     this._setValidityMessage(message);
   }

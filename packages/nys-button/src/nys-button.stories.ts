@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-button";
+import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysButtonArgs {

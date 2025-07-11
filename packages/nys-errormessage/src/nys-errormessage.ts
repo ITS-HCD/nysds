@@ -1,7 +1,6 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-errormessage.styles";
-import "@nysds/nys-icon";
 
 export class NysErrorMessage extends LitElement {
   @property({ type: Boolean }) showError = false;

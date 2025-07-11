@@ -84,7 +84,7 @@ export const Basic: Story = {
   <nys-icon
   name="social_youtube"
   size="3xl"
-  name="#1ca1ba"
+  color="#1ca1ba"
   ></nys-icon>
         `.trim(),
       },

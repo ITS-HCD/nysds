@@ -1,6 +1,5 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
-import "@nysds/nys-icon";
 import styles from "./nys-avatar.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
 
