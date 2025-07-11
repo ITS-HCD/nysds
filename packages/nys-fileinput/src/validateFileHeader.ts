@@ -137,14 +137,19 @@ export async function validateFileHeader(
 
   // 6) Infer file type from the actual file's extension, and try to validate it
   const extAsAccept = "." + fileExt;
-  const [firstKey] = acceptKeyMap[extAsAccept] || [];
+  const [inferredTypeKey] = acceptKeyMap[extAsAccept] || [];
 
-  // 7) If the inferred type is one of the accepted types, validate its magic number (if we support it)
-  if (firstKey && acceptedKeys.has(firstKey)) {
-    const magic = magicNumbers[firstKey];
+  // 7) If the extension maps to a known type, and it's allowed. Validate its magic number (if we support it)
+  if (inferredTypeKey && acceptedKeys.has(inferredTypeKey)) {
+    const magic = magicNumbers[inferredTypeKey];
     return magic ? matchesMagic(header, magic) : true;
   }
 
-  // If the file type isn't recognized, skip validation and allow it
+  // 8) If file extension is not allowed by the `accept`, reject
+  if (!inferredTypeKey || !acceptedKeys.has(inferredTypeKey)) {
+    return false;
+  }
+
+  // 9) If file type is allowed but no magic number check exists, allow
   return true;
 }
