@@ -86,6 +86,7 @@ export const Resizable: Story = {
       @media (max-width: 479px) {
         .wrapper {
           flex-direction: column;
+          max-height: 100%;
         }
       }
     </style>

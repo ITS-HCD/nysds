@@ -130,8 +130,11 @@ export class NysStepper extends LitElement {
     if (this.isCompactExpanded) {
       this.counterText = "Back to Form";
       this.style.height = "-webkit-fill-available";
-      this.style.border = "purple solid";
+      this.style.height = "-moz-available";
+      this.style.height = "stretch";
       return;
+    } else {
+      this.style.height = "auto";
     }
 
     const steps = this.querySelectorAll<HTMLElement>("nys-step");
