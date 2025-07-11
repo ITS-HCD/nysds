@@ -463,12 +463,8 @@ export const Circle: Story = {
       source: {
         code: `
 <nys-button
-  id="button1"
-  name="button1"
-  label="Click Me"
-  ariaLabel="click me"
-  prefixIcon="chevron_left"
-  suffixIcon="chevron_right"
+  icon="close"
+  circle
 ></nys-button>`,
 
         type: "auto",
