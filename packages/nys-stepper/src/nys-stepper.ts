@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-stepper.styles";
+import "./nys-step";
 
 export class NysStepper extends LitElement {
   @property({ type: String }) id = "";
