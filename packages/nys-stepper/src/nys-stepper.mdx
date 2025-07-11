@@ -1,0 +1,118 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysStepperStories from "./nys-stepper.stories";
+import { Resizable } from './nys-stepper_hidden.stories';
+
+<Meta of={NysStepperStories} title="Components/Stepper/Documentation" />
+
+# Stepper
+
+The **`nys-stepper`** component is a reusable component indicating to a user how many steps are in a process. It updates with the process of the form completeness.
+
+If an id is not passed, a unique id will be generated.
+
+<p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--wcag">WCAG 2.2 AA</p>
+
+<p className="pill pill--uikit">
+	<a href="https://www.figma.com/design/TODO/add/url" target="_blank">View in Figma</a>
+</p>
+
+---
+
+<Canvas of={Resizable} />
+
+<Controls />
+
+## Options
+
+### Compact
+On small screens, the `nys-stepper` will render in a compact mode where the progress is indicated by bars rather than complete steps. You can expand to see the names of steps by clicking on "Step x of y"
+
+## Usage
+
+### When to use this component
+- Use a stepper for linear, ordered forms with more than 2 sections.
+
+### When to consider something else
+- If there are only 1 or 2 sections to a form do not use a stepper.
+- Forms that are nonlinear and can be completed in any order should not use a stepper.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      - Use a stepper for linear, ordered forms with more than 2 sections.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - If there are only 1 or 2 sections to a form do not use a stepper.
+      - Forms that are nonlinear and can be completed in any order should not use a stepper.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-stepper` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the steps correctly.
+- Keyboard navigation support, allowing users to iterate the steps using the keyboard.
+- Visual focus indicators to help users navigate the component.
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for either `nys-component` or `nys-component`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
+
+## Events
+
+The `nys-stepper` component emits the following events:
+
+1. `click`: Emitted when the stepper is clicked.
+2. `focus`: Emitted when the stepper receives focus.
+3. `blur`: Emitted when the stepper loses focus.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the stepper component
+const stepper = document.querySelector("nys-stepper");
+
+// Listen for the 'click' event
+stepper.addEventListener("click", () => {
+	console.log("Stepper clicked");
+});
+
+// Listen for the 'focus' event
+stepper.addEventListener("focus", () => {
+	console.log("Stepper is focused");
+});
+
+// Listen for the 'blur' event
+stepper.addEventListener("blur", () => {
+	console.log("Stepper lost focus");
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- TODO: Add dependencies
