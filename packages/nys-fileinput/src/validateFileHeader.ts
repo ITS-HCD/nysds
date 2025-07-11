@@ -124,6 +124,11 @@ export async function validateFileHeader(
     acceptedKeys.add("jpg");
     acceptedKeys.add("gif");
     acceptedKeys.add("svg");
+    acceptedKeys.add("webp");
+    acceptedKeys.add("bmp");
+    acceptedKeys.add("tiff");
+    acceptedKeys.add("ico");
+    acceptedKeys.add("heic");
   }
   if (acceptItems.includes("video/*")) {
     acceptedKeys.add("mp4");
