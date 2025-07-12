@@ -277,16 +277,18 @@ export class NysTooltip extends LitElement {
     const tooltipContentId = `${this.id}__tooltip`;
 
     return html`
-      <div
-        class="nys-tooltip__wrapper"
-        @mouseenter=${this._handleTooltipEnter}
-        @mouseleave=${this._handleBlurOrMouseLeave}
-        @focusin=${this._handleTooltipEnter}
-        @focusout=${this._handleBlurOrMouseLeave}
-      >
-        <span class="nys-tooltip__trigger" aria-describedby=${tooltipContentId}>
-          <slot></slot>
-        </span>
+      <div class="nys-tooltip__main">
+        <div
+          class="nys-tooltip__wrapper"
+          @mouseenter=${this._handleTooltipEnter}
+          @mouseleave=${this._handleBlurOrMouseLeave}
+          @focusin=${this._handleTooltipEnter}
+          @focusout=${this._handleBlurOrMouseLeave}
+        >
+          <span class="nys-tooltip__trigger" aria-describedby=${tooltipContentId}>
+            <slot></slot>
+          </span>
+        </div>
         ${this.text?.trim()
           ? html`<div
               id=${tooltipContentId}

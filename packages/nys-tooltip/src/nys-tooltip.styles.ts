@@ -12,8 +12,11 @@ export default css`
     --_nys-tooltip-lineheight: var(--nys-font-lineheight-ui-sm, 24px);
   }
 
-  .nys-tooltip__wrapper {
+  .nys-tooltip__main {
     position: relative;
+  }
+
+  .nys-tooltip__wrapper {
     width: fit-content;
     display: flex;
     cursor: pointer;
@@ -63,7 +66,6 @@ export default css`
       no-repeat center;
   }
 
-  .nys-tooltip__wrapper:hover .nys-tooltip__content,
   .nys-tooltip__content[active] {
     opacity: 1;
   }
