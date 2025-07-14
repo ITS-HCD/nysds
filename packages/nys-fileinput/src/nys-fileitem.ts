@@ -24,29 +24,21 @@ export class NysFileItem extends LitElement {
     );
   }
 
-  private truncateFilename(filename: string): string {
+  private splitFilename(filename: string) {
     const lastDotIndex = filename.lastIndexOf(".");
-    if (lastDotIndex === -1) {
-      // No extension, truncate to max 30 chars + ellipsis if needed
-      return filename.length > 30 ? filename.slice(0, 30) + "..." : filename;
-    }
+    const extension = lastDotIndex !== -1 ? filename.slice(lastDotIndex) : ""; // e.g. ".pdf"
+    const name =
+      lastDotIndex !== -1 ? filename.slice(0, lastDotIndex) : filename;
 
-    const extension = filename.slice(lastDotIndex); // e.g. ".pdf"
-    const namePart = filename.slice(0, lastDotIndex);
+    const startPart = name.slice(0, name.length - 3);
+    const endPart = name.slice(-3);
 
-    // Show at most 30 chars total in namePart (including last 3 chars before extension)
-    const maxNameLength = 30;
-    if (namePart.length <= maxNameLength) {
-      return filename; // no truncation needed
-    }
-
-    const startPart = namePart.slice(0, maxNameLength - 3);
-    const endPart = namePart.slice(-3);
-
-    return `${startPart}...${endPart}${extension}`;
+    return { startPart, endPart, extension };
   }
 
   render() {
+    const { startPart, endPart, extension } = this.splitFilename(this.filename);
+
     return html`
       <div
         class="file-item ${this.status}"
@@ -67,7 +59,10 @@ export class NysFileItem extends LitElement {
             size="2xl"
           ></nys-icon>
           <div class="file-item__info">
-            <p>${this.truncateFilename(this.filename)}</p>
+            <div class="filename-wrapper">
+              <span class="start">${startPart}</span>
+              <span class="end">${endPart}${extension}</span>
+            </div>
             ${this.errorMessage
               ? html`<p
                   class="error-msg"

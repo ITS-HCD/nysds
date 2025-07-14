@@ -57,13 +57,29 @@ export default css`
   .file-item__info {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    min-width: 0;
     font-family: var(--_nys-fileitem-font-family);
     font-size: var(--_nys-fileitem-font-size);
     font-style: normal;
     font-weight: var(--_nys-fileitem-font-weight-400);
     line-height: var(--_nys-fileitem-line-height);
     letter-spacing: var(--_nys-fileitem-letterspacing);
+  }
+
+  .filename-wrapper {
+    display: flex;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    align-items: center;
+  }
+
+  .start {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 1;
+    min-width: 0;
   }
 
   .file-item p {
