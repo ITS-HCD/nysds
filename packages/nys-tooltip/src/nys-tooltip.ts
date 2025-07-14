@@ -55,6 +55,16 @@ export class NysTooltip extends LitElement {
     }
   }
 
+  // Giving the slot component the aria-describedby for voiceover to announce the tooltip
+  firstUpdated() {
+    const slot = this.shadowRoot?.querySelector("slot");
+    const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+
+    if (assigned.length > 0 && assigned[0] instanceof HTMLElement) {
+      assigned[0].setAttribute("aria-describedby", this.id);
+    }
+  }
+
   /******************** Event Handlers ********************/
   // When toggling tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _handleTooltipEnter = () => {
@@ -272,10 +282,19 @@ export class NysTooltip extends LitElement {
     tooltip.style.right = "";
     tooltip.style.transform = "";
   }
+private _slotElement: HTMLElement | null = null;
+
+private _onSlotChange = () => {
+  const slot = this.shadowRoot?.querySelector("slot");
+  const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+
+  if (assigned.length > 0 && assigned[0] instanceof HTMLElement) {
+    this._slotElement = assigned[0];
+    this._slotElement.setAttribute("aria-describedby", this.id);
+  }
+};
 
   render() {
-    const tooltipContentId = `${this.id}__tooltip`;
-
     return html`
       <div class="nys-tooltip__main">
         <div
@@ -285,13 +304,13 @@ export class NysTooltip extends LitElement {
           @focusin=${this._handleTooltipEnter}
           @focusout=${this._handleBlurOrMouseLeave}
         >
-          <span class="nys-tooltip__trigger" aria-describedby=${tooltipContentId}>
-            <slot></slot>
+          <span class="nys-tooltip__trigger" aria-describedby=${this.id}>
+            <slot @slotchange=${this._onSlotChange}></slot>
           </span>
         </div>
         ${this.text?.trim()
           ? html`<div
-              id=${tooltipContentId}
+              id=${this.id}
               class="nys-tooltip__content"
               role="tooltip"
               aria-hidden=${!this._active}
