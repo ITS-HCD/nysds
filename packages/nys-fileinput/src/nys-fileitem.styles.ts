@@ -67,7 +67,7 @@ export default css`
     letter-spacing: var(--_nys-fileitem-letterspacing);
   }
 
-  .filename-wrapper {
+  .file-item__info-name {
     display: flex;
     max-width: 100%;
     overflow: hidden;
@@ -75,7 +75,7 @@ export default css`
     align-items: center;
   }
 
-  .start {
+  .file-item__info-name-start {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -87,7 +87,7 @@ export default css`
     margin: 0;
   }
 
-  .error-msg {
+  .file-item__error {
     color: var(--_nys-fileitem-error-color);
     text-overflow: ellipsis;
     font-weight: 700;

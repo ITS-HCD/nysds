@@ -59,13 +59,13 @@ export class NysFileItem extends LitElement {
             size="2xl"
           ></nys-icon>
           <div class="file-item__info">
-            <div class="filename-wrapper">
-              <span class="start">${startPart}</span>
-              <span class="end">${endPart}${extension}</span>
+            <div class="file-item__info-name">
+              <span class="file-item__info-name-start">${startPart}</span>
+              <span class="file-item__info-name-end">${endPart}${extension}</span>
             </div>
             ${this.errorMessage
               ? html`<p
-                  class="error-msg"
+                  class="file-item__error"
                   role="alert"
                   aria-live="assertive"
                   id="${this.filename}-error"
@@ -86,7 +86,7 @@ export class NysFileItem extends LitElement {
         </div>
         ${this.status === "processing"
           ? html`<div
-              class="progress-container"
+              class="file-item__progress-container"
               role="progressbar"
               aria-valuemin="0"
               aria-valuemax="100"
