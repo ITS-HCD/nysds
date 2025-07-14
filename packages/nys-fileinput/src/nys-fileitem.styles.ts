@@ -57,6 +57,7 @@ export default css`
   .file-item__info {
     display: flex;
     flex-direction: column;
+    flex: 1;
     min-width: 0;
     font-family: var(--_nys-fileitem-font-family);
     font-size: var(--_nys-fileitem-font-size);
