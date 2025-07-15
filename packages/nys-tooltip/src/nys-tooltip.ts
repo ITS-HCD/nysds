@@ -282,17 +282,6 @@ export class NysTooltip extends LitElement {
     tooltip.style.right = "";
     tooltip.style.transform = "";
   }
-private _slotElement: HTMLElement | null = null;
-
-private _onSlotChange = () => {
-  const slot = this.shadowRoot?.querySelector("slot");
-  const assigned = slot?.assignedElements({ flatten: true }) ?? [];
-
-  if (assigned.length > 0 && assigned[0] instanceof HTMLElement) {
-    this._slotElement = assigned[0];
-    this._slotElement.setAttribute("aria-describedby", this.id);
-  }
-};
 
   render() {
     return html`
@@ -305,7 +294,7 @@ private _onSlotChange = () => {
           @focusout=${this._handleBlurOrMouseLeave}
         >
           <span class="nys-tooltip__trigger" aria-describedby=${this.id}>
-            <slot @slotchange=${this._onSlotChange}></slot>
+            <slot></slot>
           </span>
         </div>
         ${this.text?.trim()
