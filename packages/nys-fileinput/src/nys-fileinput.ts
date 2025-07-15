@@ -141,6 +141,12 @@ export class NysFileinput extends LitElement {
   }
 
   /******************** Functions ********************/
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
   // Store the files to be displayed
   private async _saveSelectedFiles(file: File) {
     const isDuplicate = this._selectedFiles.some(

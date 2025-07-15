@@ -61,7 +61,9 @@ export class NysFileItem extends LitElement {
           <div class="file-item__info">
             <div class="file-item__info-name">
               <span class="file-item__info-name-start">${startPart}</span>
-              <span class="file-item__info-name-end">${endPart}${extension}</span>
+              <span class="file-item__info-name-end"
+                >${endPart}${extension}</span
+              >
             </div>
             ${this.errorMessage
               ? html`<p
