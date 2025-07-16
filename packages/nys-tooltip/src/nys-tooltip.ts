@@ -53,6 +53,13 @@ export class NysTooltip extends LitElement {
     if (!this.id) {
       this.id = `nys-toggle-${Date.now()}-${tooltipIdCounter++}`;
     }
+
+    window.addEventListener("keydown", this._handleEscapeKey);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener("keydown", this._handleEscapeKey);
   }
 
   // Giving the slot component the aria-describedby for voiceover to announce the tooltip
@@ -132,6 +139,20 @@ export class NysTooltip extends LitElement {
       }
     } else {
       this.autoPositionTooltip();
+    }
+  };
+
+  private _handleEscapeKey = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && this._active) {
+      this._active = false;
+      this._removeScrollListeners();
+
+      const tooltip = this.shadowRoot?.querySelector(
+        ".nys-tooltip__content",
+      ) as HTMLElement;
+      if (tooltip) {
+        this._resetTooltipPositioningStyles(tooltip);
+      }
     }
   };
 
@@ -276,7 +297,7 @@ export class NysTooltip extends LitElement {
     tooltip.style.setProperty("--arrow-offset-x", `${arrowOffset}px`);
   }
 
-  // Reposition tooltip back to original set position (e.g. top, left, bottom, right)
+  // Reposition tooltip back to original set position (e.g. top, left, bottom, right) to avoid positioning issue base on last position
   private _resetTooltipPositioningStyles(tooltip: HTMLElement) {
     tooltip.style.left = "";
     tooltip.style.right = "";
