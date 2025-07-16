@@ -126,7 +126,8 @@ export class NysTooltip extends LitElement {
 
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
-        this.position = this._originalUserPosition;
+        this._setInternalPosition(this._originalUserPosition);
+
         // Check if current tooltip position overflows to edge of screen
         this.updateComplete.then(() => {
           const tooltip = this.shadowRoot?.querySelector(
@@ -201,9 +202,7 @@ export class NysTooltip extends LitElement {
     if (!wrapper || !tooltip) return;
 
     const triggerRect = wrapper.getBoundingClientRect();
-    // const tooltipRect = tooltip.getBoundingClientRect();
     const margin = 8;
-    const userPosition = this.position as keyof typeof spaceAvailable;
 
     const spaceAvailable = {
       top: triggerRect.top - margin,
@@ -212,30 +211,32 @@ export class NysTooltip extends LitElement {
       right: window.innerWidth - triggerRect.right - margin,
     };
 
-    const preferredOrder: Array<keyof typeof spaceAvailable> = [
+    // Default tryOrder for auto mode
+    let tryOrder: Array<keyof typeof spaceAvailable> = [
       "top",
       "bottom",
       "right",
       "left",
     ];
 
-    // Custom order preference for when user requests a specific position like "left" -> fallback should be "right"
-    let tryOrder = preferredOrder;
-
-    if (userPosition === "left") {
-      tryOrder = ["left", "right", "top", "bottom"];
-    } else if (userPosition === "right") {
-      tryOrder = ["right", "left", "top", "bottom"];
-    } else if (userPosition === "top") {
-      tryOrder = ["top", "bottom", "right", "left"];
-    } else if (userPosition === "bottom") {
-      tryOrder = ["bottom", "top", "right", "left"];
+    // If user explicitly set a preferred position (even if it didn’t fit),
+    // favor it first before trying others
+    if (this._userHasSetPosition && this._originalUserPosition) {
+      const userPosition = this._originalUserPosition;
+      if (userPosition === "left") {
+        tryOrder = ["left", "right", "top", "bottom"];
+      } else if (userPosition === "right") {
+        tryOrder = ["right", "left", "top", "bottom"];
+      } else if (userPosition === "top") {
+        tryOrder = ["top", "bottom", "right", "left"];
+      } else if (userPosition === "bottom") {
+        tryOrder = ["bottom", "top", "right", "left"];
+      }
     }
 
-    // 1) Decide best side
+    // 1) Try to find the first side that fits
     for (const pos of tryOrder) {
       if (this._doesPositionFit(pos)) {
-        // 2) Apply the side (CSS takes over base placement)
         this._setInternalPosition(pos);
         await this.updateComplete;
         this._shiftTooltipIntoViewport(tooltip);
@@ -243,11 +244,11 @@ export class NysTooltip extends LitElement {
       }
     }
 
-    // Fallback: pick the side with the most space
+    // 2) Fallback: pick the side with the most space
     let bestPosition: keyof typeof spaceAvailable = "top";
     let maxSpace = spaceAvailable.top;
 
-    for (const pos of preferredOrder) {
+    for (const pos of tryOrder) {
       if (spaceAvailable[pos] > maxSpace) {
         maxSpace = spaceAvailable[pos];
         bestPosition = pos;

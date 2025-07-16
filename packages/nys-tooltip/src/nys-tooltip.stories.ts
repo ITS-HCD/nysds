@@ -47,7 +47,7 @@ export const Basic: Story = {
       <nys-tooltip
         id=${args.id}
         text=${args.text}
-        position=${args.position ?? ""}
+        position=${args.position}
         ?inverted=${args.inverted}
       >
         <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
@@ -82,7 +82,7 @@ export const Position: Story = {
         <nys-tooltip
           id=${args.id}
           text=${args.text}
-          position=${args.position ?? ""}
+          position=${args.position}
           ?inverted=${args.inverted}
         >
           <nys-icon name="info" size="3xl"></nys-icon>
@@ -124,7 +124,7 @@ export const Inverted: Story = {
         <nys-tooltip
           id=${args.id}
           text=${args.text}
-          position=${args.position ?? ""}
+          position=${args.position}
           ?inverted=${args.inverted}
         >
           <nys-icon name="info" size="3xl"></nys-icon>
