@@ -8,6 +8,7 @@ export class NysTooltip extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
+  @property({ type: Boolean, reflect: true }) focusable = false;
 
   // Track if tooltip is active (hovered or focused)
   @state()
@@ -69,6 +70,9 @@ export class NysTooltip extends LitElement {
 
     if (assigned.length > 0 && assigned[0] instanceof HTMLElement) {
       assigned[0].setAttribute("aria-describedby", this.id);
+      if (this.focusable) {
+        assigned[0].setAttribute("tabindex", "0");
+      }
     }
   }
 
