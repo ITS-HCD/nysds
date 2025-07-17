@@ -356,6 +356,7 @@ export class NysFileinput extends LitElement {
       <input
         id=${this.id}
         class="hidden-file-input"
+        tabindex="-1"
         type="file"
         name=${this.name}
         ?multiple=${this.multiple}
