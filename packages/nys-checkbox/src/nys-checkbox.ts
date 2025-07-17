@@ -19,6 +19,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) groupExist = false;
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: String }) ariaDescription = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
 
