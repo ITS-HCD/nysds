@@ -377,6 +377,7 @@ export class NysFileinput extends LitElement {
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
+            ariaDescription=${this.label + " " + this.description}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
             .onClick=${() => this._openFileDialog()}
@@ -402,6 +403,7 @@ export class NysFileinput extends LitElement {
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
+                    ariaDescription=${this.label + " " + this.description}
                     ?disabled=${this._isDropDisabled}
                     .onClick=${(e: Event) => {
                       e.stopPropagation();

@@ -52,6 +52,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String }) form = "";
   @property({ type: String }) value = "";
+  @property({ type: String }) ariaDescription = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
   private _type: (typeof NysButton.VALID_TYPES)[number] = "button";
@@ -186,10 +187,13 @@ export class NysButton extends LitElement {
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target=${this.target}
-                aria-label=${this.ariaLabel ||
-                this.label ||
-                (this.circle ? this.icon : null) ||
-                "button"}
+                aria-label=${ifDefined(
+                  this.ariaLabel ||
+                    this.label ||
+                    (this.circle ? this.icon : null) ||
+                    "button",
+                )}
+                aria-describedby=${ifDefined(this.ariaDescription || undefined)}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
@@ -231,10 +235,13 @@ export class NysButton extends LitElement {
               form=${ifDefined(this.form ? this.form : undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
-              aria-label=${this.ariaLabel ||
-              this.label ||
-              (this.circle ? this.icon : null) ||
-              "button"}
+              aria-label=${ifDefined(
+                this.ariaLabel ||
+                  this.label ||
+                  (this.circle ? this.icon : null) ||
+                  "button",
+              )}
+              aria-description=${ifDefined(this.ariaDescription || undefined)}
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"

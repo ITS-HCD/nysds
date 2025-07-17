@@ -70,6 +70,8 @@ export class NysFileItem extends LitElement {
                   class="file-item__error"
                   role="alert"
                   aria-live="assertive"
+                  aria-invalid="true"
+                  aria-errormessage=${this.errorMessage}
                   id="${this.filename}-error"
                 >
                   ${this.errorMessage}
