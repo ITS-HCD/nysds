@@ -52,7 +52,7 @@ export class NysTooltip extends LitElement {
 
     // Generate a unique ID if not provided
     if (!this.id) {
-      this.id = `nys-toggle-${Date.now()}-${tooltipIdCounter++}`;
+      this.id = `nys-tooltip-${Date.now()}-${tooltipIdCounter++}`;
     }
 
     window.addEventListener("keydown", this._handleEscapeKey);
@@ -69,7 +69,15 @@ export class NysTooltip extends LitElement {
     const assigned = slot?.assignedElements({ flatten: true }) ?? [];
 
     if (assigned.length > 0 && assigned[0] instanceof HTMLElement) {
-      assigned[0].setAttribute("aria-describedby", this.id);
+      const prefixIsNys = assigned[0].tagName.slice(0, 3).toLowerCase();
+      console.log("here: ", prefixIsNys)
+      if (prefixIsNys === "nys") {
+        assigned[0].setAttribute("ariaDescription", this.text);
+      } else {
+        assigned[0].setAttribute("aria-describedby", this.id);
+        // take the assigned[0] remove it, and directly put it into this shadowDOM
+      }
+      // Give focus on the wrapper if focusable prop provided
       if (this.focusable) {
         assigned[0].setAttribute("tabindex", "0");
       }
@@ -321,6 +329,11 @@ export class NysTooltip extends LitElement {
         >
           <span class="nys-tooltip__trigger" aria-describedby=${this.id}>
             <slot></slot>
+            <button aria-describedby=${this.id}>Native btn in ShadowDOM</button>
+            <nys-button
+              label="NYSDS btn in ShadowDOM"
+              ariaDescription=${this.text}
+            ></nys-button>
           </span>
         </div>
         ${this.text?.trim()

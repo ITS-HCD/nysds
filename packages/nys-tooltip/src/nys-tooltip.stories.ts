@@ -42,6 +42,7 @@ type Story = StoryObj<NysTooltipArgs>;
 export const Basic: Story = {
   args: {
     text: "I am a tooltip.",
+    focusable: false,
   },
   render: (args) => html`
     <br />
@@ -178,7 +179,7 @@ export const Inverted: Story = {
           ?inverted=${args.inverted}
           ?focusable=${args.focusable}
         >
-          <nys-icon name="info" size="3xl"></nys-icon>
+          <button>Native btn in ShadowDOM</button>
         </nys-tooltip>
       </div>
     </div>
