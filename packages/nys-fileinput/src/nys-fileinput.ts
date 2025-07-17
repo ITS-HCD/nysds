@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { validateFileHeader } from "./validateFileHeader";
 import styles from "./nys-fileinput.styles";
 import "./nys-fileitem";
@@ -27,6 +27,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) dropzone = false;
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
+  @state() private _announcement: string = "";
 
   static styles = styles;
 
@@ -231,6 +232,22 @@ export class NysFileinput extends LitElement {
     input?.click();
   }
 
+  private _buildAnnouncement(): string {
+    if (this._selectedFiles.length === 0)
+      return `${this.label + " " + this.description}`;
+
+    if (this._selectedFiles.length === 1) {
+      return `You have selected ${this._selectedFiles[0].file.name}.`;
+    }
+
+    const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
+    return `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
+  }
+
+  private _updateAnnouncement() {
+    this._announcement = this._buildAnnouncement();
+  }
+
   /******************** Event Handlers ********************/
   // Access the selected files & add new files to the internal list via the hidden <input type="file">
   private _handleFileChange(e: Event) {
@@ -247,6 +264,7 @@ export class NysFileinput extends LitElement {
 
     this.requestUpdate();
     this._dispatchChangeEvent();
+    this._updateAnnouncement();
   }
 
   private _handleFileRemove(e: CustomEvent) {
@@ -353,8 +371,11 @@ export class NysFileinput extends LitElement {
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
 
+      <div id="file-selection-announcer" aria-live="polite" class="sr-only">
+        ${this._announcement}
+      </div>
+
       <input
-        id=${this.id}
         class="hidden-file-input"
         tabindex="-1"
         type="file"
@@ -365,19 +386,18 @@ export class NysFileinput extends LitElement {
         ?disabled=${this.disabled ||
         (!this.multiple && this._selectedFiles.length > 0)}
         aria-disabled="${this.disabled}"
-        aria-label="Drag files here or choose from folder"
-        aria-describedby="file-input-specific-hint"
-        style="position: absolute; width: 1px; height: 1px; opacity: 0;"
+        aria-hidden="true"
+        hidden
         @change=${this._handleFileChange}
       />
 
       ${!this.dropzone
         ? html`<nys-button
-            id="file-btn"
+            id=${this.id}
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
-            ariaDescription=${this.label + " " + this.description}
+            ariaLabel=${this.label + " " + this.description}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
             .onClick=${() => this._openFileDialog()}
@@ -395,15 +415,16 @@ export class NysFileinput extends LitElement {
             @dragover=${this._isDropDisabled ? null : this._onDragOver}
             @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
             @drop=${this._isDropDisabled ? null : this._onDrop}
+            aria-label="Drag files here or choose from folder"
           >
             ${this._dragActive
               ? html`<p>Drop file to upload</p>`
               : html` <nys-button
-                    id="file-btn"
+                    id=${this.id}
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
-                    ariaDescription=${this.label + " " + this.description}
+                    ariaLabel=${this.label + " " + this.description}
                     ?disabled=${this._isDropDisabled}
                     .onClick=${(e: Event) => {
                       e.stopPropagation();
