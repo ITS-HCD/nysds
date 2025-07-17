@@ -10,7 +10,6 @@ interface NysIconArgs {
   rotate?: string;
   flip?: string;
   size?: string;
-  ariaDescription?: string;
 }
 
 const meta: Meta<NysIconArgs> = {
@@ -46,7 +45,6 @@ const meta: Meta<NysIconArgs> = {
         "64",
       ],
     },
-    ariaDescription: { control: "text" },
   },
   parameters: {
     docs: {
@@ -77,7 +75,6 @@ export const Basic: Story = {
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     >
     </nys-icon>`,
   parameters: {
@@ -108,7 +105,6 @@ export const NameProp: Story = {
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     >
     </nys-icon>`,
   parameters: {
@@ -138,7 +134,6 @@ export const Labels: Story = {
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     >
     </nys-icon>
   `,
@@ -178,7 +173,6 @@ export const InheritSize: Story = {
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         ></nys-icon>
       </p>
     </div>
@@ -195,7 +189,6 @@ export const InheritSize: Story = {
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         ></nys-icon>
       </p>
     </div>
@@ -212,7 +205,6 @@ export const InheritSize: Story = {
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         ></nys-icon>
       </p>
     </div>
@@ -291,7 +283,6 @@ export const CustomSize: Story = {
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         >
         </nys-icon>
       </p>
@@ -337,7 +328,6 @@ export const ColorInheritance: Story = {
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         >
         </nys-icon>
       </p>
@@ -385,7 +375,6 @@ export const ColorChange: Story = {
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         >
         </nys-icon>
       </p>
@@ -428,7 +417,6 @@ export const Rotate: Story = {
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     ></nys-icon>
   `,
   parameters: {
@@ -463,7 +451,6 @@ export const Flip: Story = {
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     ></nys-icon>
   `,
   parameters: {

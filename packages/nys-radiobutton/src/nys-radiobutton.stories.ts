@@ -61,6 +61,12 @@ export const Basic: Story = {
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
+    tile: false,
+    checked: false,
+    disabled: false,
+    required: false,
+    optional: false,
+    showError: false,
   },
   render: (args) => html`
     <nys-radiogroup

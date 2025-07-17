@@ -76,6 +76,10 @@ export const Basic: Story = {
     name: "button1",
     label: "Click Me",
     ariaLabel: "click me",
+    inverted: false,
+    circle: false,
+    disabled: false,
+    fullWidth: false,
   },
   render: (args) => html`
     <nys-button
