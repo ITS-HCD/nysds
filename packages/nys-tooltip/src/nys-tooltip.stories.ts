@@ -91,7 +91,7 @@ export const Focusable: Story = {
           ?inverted=${args.inverted}
           ?focusable=${args.focusable}
         >
-          <nys-icon name="info" size="3xl" focusable></nys-icon>
+          <nys-icon name="info" size="3xl"></nys-icon>
         </nys-tooltip>
       </div>
     </div>
@@ -135,7 +135,7 @@ export const Position: Story = {
           ?inverted=${args.inverted}
           ?focusable=${args.focusable}
         >
-          <nys-icon name="info" size="3xl" focusable></nys-icon>
+          <nys-icon name="info" size="3xl"></nys-icon>
         </nys-tooltip>
       </div>
     </div>

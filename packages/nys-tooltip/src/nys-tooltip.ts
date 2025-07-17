@@ -67,18 +67,11 @@ export class NysTooltip extends LitElement {
     const slot = this.shadowRoot?.querySelector("slot");
     const assigned = slot?.assignedElements({ flatten: true }) ?? [];
 
-    if (assigned.length > 0 && assigned[0] instanceof HTMLElement) {
-      const prefixIsNys = assigned[0].tagName.slice(0, 3).toLowerCase();
+    const firstEl = assigned[0] as HTMLElement | undefined;
+    if (!firstEl) return;
 
-      // Giving the slot component the aria-descrciption for voiceover to announce the tooltip's text
-      if (prefixIsNys === "nys") {
-        assigned[0].setAttribute("ariaDescription", this.text);
-      }
-      // Give focus on the wrapper if focusable prop provided
-      if (this.focusable) {
-        assigned[0].setAttribute("focusable", "");
-      }
-    }
+    this._passAriaDescription(firstEl);
+    this._applyFocusBehavior(firstEl);
   }
 
   /******************** Event Handlers ********************/
@@ -167,6 +160,32 @@ export class NysTooltip extends LitElement {
   };
 
   /******************** Functions ********************/
+  // We need to pass `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
+  private _passAriaDescription(el: HTMLElement) {
+    const tagName = el.tagName.toLowerCase();
+
+    if (tagName.startsWith("nys-")) {
+      el.setAttribute("ariaDescription", this.text);
+    }
+  }
+
+  private async _applyFocusBehavior(el: HTMLElement) {
+    if (!this.focusable) return;
+
+    const tagName = el.tagName.toLowerCase();
+    if (tagName === "nys-icon") {
+      if ("updateComplete" in el) {
+        await (el as any).updateComplete;
+      }
+      const svg = el.shadowRoot?.querySelector("svg");
+      if (svg) {
+        svg.setAttribute("tabindex", "0");
+      }
+    } else {
+      el.setAttribute("tabindex", "0");
+    }
+  }
+
   // Checks if user's set position fit with current viewport (Does not account for overflow texts at this moment)
   private _doesPositionFit(position: typeof this._position) {
     const wrapper = this.shadowRoot?.querySelector(".nys-tooltip__wrapper");
