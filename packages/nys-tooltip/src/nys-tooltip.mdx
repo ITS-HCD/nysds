@@ -7,7 +7,7 @@ import * as NysTooltipStories from "./nys-tooltip.stories";
 # Tooltip
 
 The **`nys-tooltip`** component is a reusable wrapper that displays a brief message when a user hovers over or focuses on its wrapped element, offering additional information or context.
-> Unlike tooltip props found on form components, this tooltip is a standalone wrapper and must be used explicitly around the element you want to enhance.
+> Unlike tooltip props found on form components, the `nys-tooltip` is a standalone wrapper, you must wrap the element you want to enhance manually.
 
 If an id is not passed, a unique id will be generated.
 
@@ -23,9 +23,22 @@ If an id is not passed, a unique id will be generated.
 
 <Controls />
 
+---
+
+## Best Practices for Wrapping Elements
+
+### Use only`nys-components` like `nys-icon` and `nys-button`
+
+The `nys-tooltip` is meant to wrap a single visual or interactive element. It works best with `nys-icon` or `nys-button`
+- Keyboard and screen reader support is built in
+- Layout and spacing are predictable
+- Tooltip positioning works reliably
+
+---
+
 ## Options
 ### Focusable
-Use the `focusable` prop to make non-focusable slotted elements (such as `<nys-icon>`) accessible via keyboard focus.
+Use the `focusable` prop to make non-focusable slotted elements (i.e. `<nys-icon>`) accessible via keyboard focus.
 <Canvas of={NysTooltipStories.Focusable} />
 
 ### Position
@@ -48,7 +61,7 @@ Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the
 ## Usage
 
 ### When to use this component
-- Use this component to wrap interactive or visual elements like icons, buttons, or labels to provide additional information or context.
+- Use this component to wrap interactive or visual elements like `nys-icon` or `nys-button` to provide additional information or context.
 
 ### When to consider something else
 - When the information is critical for understanding or completing a task. Use inline text instead.

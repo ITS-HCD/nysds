@@ -43,6 +43,7 @@ export const Basic: Story = {
   args: {
     text: "I am a tooltip.",
     focusable: false,
+    inverted: false,
   },
   render: (args) => html`
     <br />
@@ -179,7 +180,7 @@ export const Inverted: Story = {
           ?inverted=${args.inverted}
           ?focusable=${args.focusable}
         >
-          <button>Native btn in ShadowDOM</button>
+          <nys-icon name="info" size="3xl"></nys-icon>
         </nys-tooltip>
       </div>
     </div>
