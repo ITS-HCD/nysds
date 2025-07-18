@@ -65,6 +65,8 @@ export const Basic: Story = {
     value: "adirondacks",
     showError: false,
     errorMessage: "",
+    tile: false,
+    optional: false,
   },
   render: (args) => html`
     <nys-checkboxgroup
