@@ -44,11 +44,7 @@ export class NysFileItem extends LitElement {
         class="file-item ${this.status}"
         aria-busy=${this.status === "processing" ? "true" : "false"}
       >
-        <div
-          class="file-item__main"
-          role="group"
-          aria-label="Filename: ${this.filename}"
-        >
+        <div class="file-item__main" role="group">
           <nys-icon
             class="file-icon"
             name=${this.status === "processing"
@@ -85,7 +81,7 @@ export class NysFileItem extends LitElement {
             size="sm"
             variant="ghost"
             .onClick=${() => this._handleRemove()}
-            ariaLabel="Remove file ${this.filename}"
+            ariaLabel="Remove file: ${this.filename}"
           ></nys-button>
         </div>
         ${this.status === "processing"

@@ -27,7 +27,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) dropzone = false;
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
-  @state() private _announcement: string = "";
+  // @state() private _announcement: string = "";
 
   static styles = styles;
 
@@ -113,6 +113,7 @@ export class NysFileinput extends LitElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = message === (this.errorMessage || "Please upload a file.");
+
     // If user sets errorMessage, this will always override the native validation message
     if (this.errorMessage?.trim() && message !== "") {
       message = this.errorMessage;
@@ -126,7 +127,7 @@ export class NysFileinput extends LitElement {
   }
 
   private _validate() {
-    const hasCorruptedFiles = this._selectedFiles.some(
+    const hasErrorFiles = this._selectedFiles.some(
       (entry) => entry.status === "error",
     );
     const isEmpty = this.required && this._selectedFiles.length === 0;
@@ -134,7 +135,7 @@ export class NysFileinput extends LitElement {
     let message = "";
     if (isEmpty) {
       message = this.errorMessage || "Please upload a file.";
-    } else if (hasCorruptedFiles) {
+    } else if (hasErrorFiles) {
       message = "One or more files are invalid.";
     }
 
@@ -232,20 +233,32 @@ export class NysFileinput extends LitElement {
     input?.click();
   }
 
-  private _buildAnnouncement(): string {
+  private get _buttonAriaLabel(): string {
+    if (this._selectedFiles.length === 0) {
+      return this.multiple ? "Choose files: " : "Choose file: ";
+    }
+
+    return this.multiple ? "Change files: " : "Change file: ";
+  }
+
+  private get _buttonAriaDescription(): string {
     if (this._selectedFiles.length === 0)
       return `${this.label + " " + this.description}`;
 
+    let base = "";
+
     if (this._selectedFiles.length === 1) {
-      return `You have selected ${this._selectedFiles[0].file.name}.`;
+      base = `You have selected ${this._selectedFiles[0].file.name}.`;
+    } else {
+      const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
+      base = `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
     }
 
-    const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
-    return `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
-  }
+    const error = this._internals.validationMessage
+      ? ` Error: ${this._internals.validationMessage}`
+      : "";
 
-  private _updateAnnouncement() {
-    this._announcement = this._buildAnnouncement();
+    return `${base}${error}`;
   }
 
   /******************** Event Handlers ********************/
@@ -264,7 +277,7 @@ export class NysFileinput extends LitElement {
 
     this.requestUpdate();
     this._dispatchChangeEvent();
-    this._updateAnnouncement();
+    // this._updateAnnouncement();
   }
 
   private _handleFileRemove(e: CustomEvent) {
@@ -371,10 +384,6 @@ export class NysFileinput extends LitElement {
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
 
-      <div id="file-selection-announcer" aria-live="polite" class="sr-only">
-        ${this._announcement}
-      </div>
-
       <input
         class="hidden-file-input"
         tabindex="-1"
@@ -397,7 +406,8 @@ export class NysFileinput extends LitElement {
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
-            ariaLabel=${this.label + " " + this.description}
+            ariaLabel=${this._buttonAriaLabel}
+            ariaDescription=${this._buttonAriaDescription}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
             .onClick=${() => this._openFileDialog()}
@@ -424,7 +434,8 @@ export class NysFileinput extends LitElement {
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
-                    ariaLabel=${this.label + " " + this.description}
+                    ariaLabel=${this._buttonAriaLabel}
+                    ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
                     .onClick=${(e: Event) => {
                       e.stopPropagation();
