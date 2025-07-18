@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 import { validateFileHeader } from "./validateFileHeader";
 import styles from "./nys-fileinput.styles";
 import "./nys-fileitem";
@@ -27,7 +27,6 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) dropzone = false;
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
-  // @state() private _announcement: string = "";
 
   static styles = styles;
 
@@ -277,7 +276,6 @@ export class NysFileinput extends LitElement {
 
     this.requestUpdate();
     this._dispatchChangeEvent();
-    // this._updateAnnouncement();
   }
 
   private _handleFileRemove(e: CustomEvent) {
