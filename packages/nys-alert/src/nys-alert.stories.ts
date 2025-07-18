@@ -55,6 +55,7 @@ export const Basic: Story = {
   args: {
     heading: "Custom Heading",
     text: "This is a custom text describing your alert.",
+    dismissible: false,
   },
   render: (args) => html`
     <nys-alert
