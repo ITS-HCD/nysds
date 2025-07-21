@@ -48,6 +48,9 @@ export const Basic: Story = {
     label: "Dark Mode",
     name: "theme",
     value: "dark",
+    checked: false,
+    disabled: false,
+    noIcon: false,
   },
   render: (args) =>
     html` <nys-toggle

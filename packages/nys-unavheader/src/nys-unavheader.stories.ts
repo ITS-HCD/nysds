@@ -34,7 +34,10 @@ type Story = StoryObj<NysUnavHeaderArgs>;
 
 // Story: Basic
 export const Basic: Story = {
-  args: {},
+  args: {
+    hideTranslate: false,
+    hideSearch: false,
+  },
   render: (args) =>
     html`<nys-unavheader
       .hideTranslate=${args.hideTranslate}

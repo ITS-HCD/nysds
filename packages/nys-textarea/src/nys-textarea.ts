@@ -260,6 +260,8 @@ export class NysTextarea extends LitElement {
           ?readonly=${this.readonly}
           aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
           aria-required=${ifDefined(this.required ? "true" : undefined)}
+          aria-label=${ifDefined(this.label || undefined)}
+          aria-description=${ifDefined(this.description || undefined)}
           placeholder=${ifDefined(
             this.placeholder ? this.placeholder : undefined,
           )}

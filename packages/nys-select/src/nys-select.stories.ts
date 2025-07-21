@@ -56,6 +56,10 @@ export const Basic: Story = {
   args: {
     label: "Select your favorite borough",
     value: "",
+    disabled: false,
+    required: false,
+    optional: false,
+    showError: false,
   },
   render: (args) => html`
     <nys-select

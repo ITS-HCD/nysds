@@ -68,6 +68,11 @@ export const Basic: Story = {
   args: {
     label: "Label",
     value: "",
+    disabled: false,
+    readonly: false,
+    required: false,
+    optional: false,
+    showError: false,
   },
   render: (args) => html`
     <nys-textarea
