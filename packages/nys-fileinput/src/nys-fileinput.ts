@@ -36,6 +36,48 @@ export class NysFileinput extends LitElement {
     return this.disabled || (!this.multiple && this._selectedFiles.length > 0);
   }
 
+  private get _buttonAriaLabel(): string {
+    if (this._selectedFiles.length === 0) {
+      return this.multiple ? "Choose files: " : "Choose file: ";
+    }
+
+    return this.multiple ? "Change files: " : "Change file: ";
+  }
+
+  private get _buttonAriaDescription(): string {
+    if (this._selectedFiles.length === 0)
+      return `${this.label + " " + this.description}`;
+
+    const hasInvalidFiles = this._selectedFiles.some(
+      (file) => file.status === "error",
+    );
+
+    let base = "";
+
+    if (this._selectedFiles.length === 1) {
+      base = `You have selected ${this._selectedFiles[0].file.name}.`;
+    } else {
+      const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
+      base = `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
+    }
+
+    const error = hasInvalidFiles
+      ? " Error: One or more files are not valid file types."
+      : "";
+
+    return `${base}${error}`;
+  }
+
+  private get _innerNysButton(): HTMLElement | null {
+    const nysButton = this.renderRoot.querySelector(
+      '[name="file-btn"]',
+    ) as HTMLButtonElement | null;
+    const innerButton = nysButton?.shadowRoot?.querySelector(
+      "button",
+    ) as HTMLElement | null;
+    return innerButton;
+  }
+
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
@@ -151,8 +193,8 @@ export class NysFileinput extends LitElement {
     event.preventDefault();
     this._validate();
 
-    const input = this.shadowRoot?.querySelector("input");
-    if (input) {
+    const innerButton = this._innerNysButton;
+    if (innerButton) {
       // Focus only if this is the first invalid element (top-down approach)
       const form = this._internals.form;
       if (form) {
@@ -166,12 +208,11 @@ export class NysFileinput extends LitElement {
             !element.checkValidity(),
         );
         if (firstInvalidElement === this) {
-          console.log("WE ARE INCORRECT: ", this);
-          input.focus();
+          innerButton.focus();
         }
       } else {
         // If not part of a form, simply focus.
-        input.focus();
+        innerButton.focus();
       }
     }
   }
@@ -262,44 +303,13 @@ export class NysFileinput extends LitElement {
     input?.click();
   }
 
-  private get _buttonAriaLabel(): string {
-    if (this._selectedFiles.length === 0) {
-      return this.multiple ? "Choose files: " : "Choose file: ";
-    }
-
-    return this.multiple ? "Change files: " : "Change file: ";
-  }
-
-  private get _buttonAriaDescription(): string {
-    if (this._selectedFiles.length === 0)
-      return `${this.label + " " + this.description}`;
-
-    let base = "";
-
-    if (this._selectedFiles.length === 1) {
-      base = `You have selected ${this._selectedFiles[0].file.name}.`;
-    } else {
-      const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
-      base = `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
-    }
-
-    const error = this._internals.validationMessage
-      ? ` Error: ${this._internals.validationMessage}`
-      : "";
-
-    return `${base}${error}`;
-  }
-
   private _handlePostFileSelectionFocus() {
     if (this.multiple) {
-      const nysButton = this.renderRoot.querySelector(
-        '[name="file-btn"]',
-      ) as HTMLButtonElement | null;
-      const innerButton = nysButton?.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLElement | null;
+      const innerButton = this._innerNysButton;
 
-      innerButton?.focus();
+      if (innerButton) {
+        innerButton.focus();
+      }
     } else {
       this._focusFirstFileItemIfSingleMode();
     }
