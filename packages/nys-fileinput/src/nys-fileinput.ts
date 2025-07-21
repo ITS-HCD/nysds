@@ -141,12 +141,42 @@ export class NysFileinput extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /******************** Functions ********************/
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.checkValidity() : true;
   }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
+    this._validate();
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          console.log("WE ARE INCORRECT: ", this);
+          input.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        input.focus();
+      }
+    }
+  }
+
+  /******************** Functions ********************/
 
   // Store the files to be displayed
   private async _saveSelectedFiles(file: File) {
@@ -169,20 +199,6 @@ export class NysFileinput extends LitElement {
     // Now that the file is added, update form value and validation
     this._setValue();
     this._validate();
-    this._focusFirstFileItemIfSingleMode();
-  }
-
-  private async _focusFirstFileItemIfSingleMode() {
-    if (!this.multiple) {
-      await this.updateComplete;
-      const fileItem = this.renderRoot.querySelector(
-        "nys-fileitem",
-      ) as HTMLElement;
-      if (fileItem) {
-        fileItem.setAttribute("tabindex", "-1");
-        fileItem.focus();
-      }
-    }
   }
 
   // Read the contents of stored files, this will indicate loading progress of the uploaded files
@@ -274,6 +290,34 @@ export class NysFileinput extends LitElement {
     return `${base}${error}`;
   }
 
+  private _handlePostFileSelectionFocus() {
+    if (this.multiple) {
+      const nysButton = this.renderRoot.querySelector(
+        '[name="file-btn"]',
+      ) as HTMLButtonElement | null;
+      const innerButton = nysButton?.shadowRoot?.querySelector(
+        "button",
+      ) as HTMLElement | null;
+
+      innerButton?.focus();
+    } else {
+      this._focusFirstFileItemIfSingleMode();
+    }
+  }
+
+  private async _focusFirstFileItemIfSingleMode() {
+    if (!this.multiple) {
+      await this.updateComplete;
+      const fileItem = this.renderRoot.querySelector(
+        "nys-fileitem",
+      ) as HTMLElement;
+      if (fileItem) {
+        fileItem.setAttribute("tabindex", "-1");
+        fileItem.focus();
+      }
+    }
+  }
+
   /******************** Event Handlers ********************/
   // Access the selected files & add new files to the internal list via the hidden <input type="file">
   private _handleFileChange(e: Event) {
@@ -290,6 +334,7 @@ export class NysFileinput extends LitElement {
 
     this.requestUpdate();
     this._dispatchChangeEvent();
+    this._handlePostFileSelectionFocus();
   }
 
   private _handleFileRemove(e: CustomEvent) {
@@ -352,34 +397,6 @@ export class NysFileinput extends LitElement {
 
     this.requestUpdate();
     this._dispatchChangeEvent();
-  }
-
-  private _handleInvalid(event: Event) {
-    event.preventDefault();
-    this._validate();
-
-    const input = this.shadowRoot?.querySelector("input");
-    if (input) {
-      // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
-      if (form) {
-        const elements = Array.from(form.elements) as Array<
-          HTMLElement & { checkValidity?: () => boolean }
-        >;
-        // Find the first element in the form that is invalid
-        const firstInvalidElement = elements.find(
-          (element) =>
-            typeof element.checkValidity === "function" &&
-            !element.checkValidity(),
-        );
-        if (firstInvalidElement === this) {
-          input.focus();
-        }
-      } else {
-        // If not part of a form, simply focus.
-        input.focus();
-      }
-    }
   }
 
   render() {
