@@ -43,6 +43,7 @@ export class NysFileItem extends LitElement {
       <div
         class="file-item ${this.status}"
         aria-busy=${this.status === "processing" ? "true" : "false"}
+        aria-label="You have selected ${this.filename}"
       >
         <div class="file-item__main" role="group">
           <nys-icon

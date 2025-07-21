@@ -169,6 +169,20 @@ export class NysFileinput extends LitElement {
     // Now that the file is added, update form value and validation
     this._setValue();
     this._validate();
+    this._focusFirstFileItemIfSingleMode();
+  }
+
+  private async _focusFirstFileItemIfSingleMode() {
+    if (!this.multiple) {
+      await this.updateComplete;
+      const fileItem = this.renderRoot.querySelector(
+        "nys-fileitem",
+      ) as HTMLElement;
+      if (fileItem) {
+        fileItem.setAttribute("tabindex", "-1");
+        fileItem.focus();
+      }
+    }
   }
 
   // Read the contents of stored files, this will indicate loading progress of the uploaded files
