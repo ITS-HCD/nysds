@@ -193,7 +193,7 @@ export class NysButton extends LitElement {
                     (this.circle ? this.icon : null) ||
                     "button",
                 )}
-                aria-describedby=${ifDefined(this.ariaDescription || undefined)}
+                aria-description=${ifDefined(this.ariaDescription || undefined)}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
