@@ -63,15 +63,30 @@ export class NysTooltip extends LitElement {
     window.removeEventListener("keydown", this._handleEscapeKey);
   }
 
-  firstUpdated() {
+  private get _firstAssignedEl(): HTMLElement | undefined {
     const slot = this.shadowRoot?.querySelector("slot");
-    const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+    return slot?.assignedElements({ flatten: true })[0] as
+      | HTMLElement
+      | undefined;
+  }
 
-    const firstEl = assigned[0] as HTMLElement | undefined;
+  firstUpdated() {
+    const firstEl = this._firstAssignedEl;
+    if (firstEl) {
+      this._applyFocusBehavior(firstEl);
+    }
+  }
+
+  updated(changedProps: Map<string, unknown>) {
+    super.updated(changedProps);
+
+    const firstEl = this._firstAssignedEl;
     if (!firstEl) return;
 
-    this._passAriaDescription(firstEl);
-    this._applyFocusBehavior(firstEl);
+    // Accounts for tooltip's text change (for code editor changes & VO)
+    if (changedProps.has("text")) {
+      this._passAriaDescription(firstEl);
+    }
   }
 
   /******************** Event Handlers ********************/
@@ -343,7 +358,7 @@ export class NysTooltip extends LitElement {
           @focusin=${this._handleTooltipEnter}
           @focusout=${this._handleBlurOrMouseLeave}
         >
-          <span class="nys-tooltip__trigger" aria-describedby=${this.id}>
+          <span class="nys-tooltip__trigger">
             <slot></slot>
           </span>
         </div>
