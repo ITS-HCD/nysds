@@ -321,9 +321,14 @@ export class NysFileinput extends LitElement {
       const fileItem = this.renderRoot.querySelector(
         "nys-fileitem",
       ) as HTMLElement;
-      if (fileItem) {
-        fileItem.setAttribute("tabindex", "-1");
-        fileItem.focus();
+
+      const innerFileItemMainContainer = fileItem?.shadowRoot?.querySelector(
+        ".file-item",
+      ) as HTMLElement | null;
+
+      if (innerFileItemMainContainer) {
+        innerFileItemMainContainer.setAttribute("tabindex", "-1");
+        innerFileItemMainContainer.focus();
       }
     }
   }
