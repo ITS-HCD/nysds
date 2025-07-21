@@ -28,8 +28,7 @@ export default css`
 
   .nys-tooltip__content {
     position: absolute;
-    opacity: 0;
-    display: block;
+    display: none;
     max-width: 400px;
     width: max-content;
     max-height: 120px;
@@ -67,7 +66,7 @@ export default css`
   }
 
   .nys-tooltip__content[active] {
-    opacity: 1;
+    display: block;
   }
 
   /* ===================== POSITIONING ===================== */
