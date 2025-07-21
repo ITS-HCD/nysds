@@ -58,7 +58,8 @@ export const Resizable: Story = {
           ></nys-button>
         </div>
       </nys-stepper>
-      <div id="stepper-content">Loading...</div>
+
+      <div id="stepper-content"><div id="loading">Loading...</div></div>
     </div>
     <style>
       html,
@@ -81,6 +82,15 @@ export const Resizable: Story = {
       }
       #stepper-content {
         width: 100%;
+      }
+
+      #loading {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        border: solid 1px black;
       }
 
       @media (max-width: 479px) {
