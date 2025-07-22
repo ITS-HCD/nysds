@@ -239,6 +239,8 @@ export class NysButton extends LitElement {
                 this.ariaLabel ||
                   this.label ||
                   (this.circle ? this.icon : null) ||
+                  this.prefixIcon ||
+                  this.suffixIcon ||
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
