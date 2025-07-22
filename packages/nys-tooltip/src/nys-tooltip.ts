@@ -311,12 +311,13 @@ export class NysTooltip extends LitElement {
 
   // Determines if text of tooltip over-extends outside of viewport edge and adjust tooltip for horizontal overflow
   private _shiftTooltipIntoViewport(tooltip: HTMLElement) {
-    const tooltipRect = tooltip.getBoundingClientRect();
     const wrapper = this.shadowRoot?.querySelector(
       ".nys-tooltip__wrapper",
     ) as HTMLElement;
 
     const wrapperRect = wrapper.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+
     const wrapperCenter = wrapperRect.left + wrapperRect.width / 2;
 
     const overflowLeft = tooltipRect.left < 0;
@@ -334,11 +335,15 @@ export class NysTooltip extends LitElement {
       tooltip.style.transform = "none";
     }
 
-    // Recalculate new tooltip position and adjust arrow
+    // Recalculate tooltip rect after any shift
     const newTooltipRect = tooltip.getBoundingClientRect();
-    const arrowOffset = wrapperCenter - newTooltipRect.left;
 
-    tooltip.style.setProperty("--arrow-offset-x", `${arrowOffset}px`);
+    // Arrow offset relative to tooltip width to maintain accuracy on zoom and out-of-bounds
+    const arrowOffsetRatio =
+      (wrapperCenter - newTooltipRect.left) / newTooltipRect.width;
+    const arrowOffsetPercent = Math.max(0, Math.min(1, arrowOffsetRatio)) * 100;
+
+    tooltip.style.setProperty("--arrow-offset-x", `${arrowOffsetPercent}%`);
   }
 
   // Reposition tooltip back to original set position (e.g. top, left, bottom, right) to avoid positioning issue base on last position

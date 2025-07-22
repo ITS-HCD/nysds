@@ -6,7 +6,17 @@ export default css`
     --_nys-tooltip-color: var(--nys-color-text-reverse, #ffffff);
     --_nys-tooltip-background: var(--nys-color-ink, #1b1b1b);
     --_nys-tooltip-border-radius: var(--nys-radius-md, 4px);
-    --_nys-tooltip-font-family: var(--nys-type-family-ui, "Proxima Nova");
+    --_nys-tooltip-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
     --_nys-tooltip-font-size: var(--nys-type-size-ui-sm, 14px);
     --_nys-tooltip-letterspacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
     --_nys-tooltip-lineheight: var(--nys-font-lineheight-ui-sm, 24px);
