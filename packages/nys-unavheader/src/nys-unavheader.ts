@@ -306,6 +306,7 @@ export class NysUnavHeader extends LitElement {
                           slot="endButton"
                           type="submit"
                           prefixIcon="search"
+                          ariaLabel="Search"
                           .onClick="${() =>
                             this._handleSearchButton(
                               "nys-unavheader__searchbar",
@@ -336,6 +337,7 @@ export class NysUnavHeader extends LitElement {
                 slot="endButton"
                 type="submit"
                 prefixIcon="search"
+                ariaLabel="Search"
                 .onClick="${() =>
                   this._handleSearchButton(
                     "nys-unavheader__searchbardropdown",
