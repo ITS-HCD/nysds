@@ -806,6 +806,8 @@ export const hiddentokens = [
             linear-gradient(-45deg, transparent 75%, var(--nys-color-neutral-40, #f6f6f6) 75%);
           background-size: 20px 20px;
           background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+          display: flex;
+          justify-content: center;
         }
       `;
     } else if (token.type === "font-family") {
@@ -817,7 +819,7 @@ export const hiddentokens = [
           height: 100%;
           width: 100%;
           text-align:center;
-          display: grid; 
+          display: grid;
           align-content: center;
           font-size: var(--nys-font-size-8xl) !important;
         }
@@ -834,7 +836,7 @@ export const hiddentokens = [
           height: 100%;
           width: 100%;
           text-align:center;
-          display: grid; 
+          display: grid;
           align-content: center;
         }
         .swatch-${token.name.replace("--", "")} {
@@ -845,13 +847,35 @@ export const hiddentokens = [
       return `
         .swatch-${token.name.replace("--", "")} {
           border: 0;
-          margin: 0 auto;
+          margin: 0 var(--nys-size-150, 12px);;
           border-radius: 0;
-          border-top: dashed var(--nys-size-1px) var(--nys-color-theme-mid);
-          border-bottom: dashed var(--nys-size-1px) var(--nys-color-theme-mid);
-          border-left: solid var(--nys-size-2px) var(--nys-color-theme);
-          border-right: solid var(--nys-size-2px) var(--nys-color-theme);
+          background-color: var(--nys-color-neutral-100, #D0D0CE);
           width: var(${token.name});
+        }
+
+        .swatch-${token.name.replace("--", "")}::before {
+          content: "";
+          display: flex;
+          width: var(--nys-size-150, 12px);
+          height: var(--nys-size-150, 12px);
+          background-color: var(--nys-color-theme, #154973);
+          border-radius: 50%;
+          position: relative;
+          left: 0;
+          top: 50%;
+          transform: translateX(-100%) translateY(-50%);
+        }
+
+        .swatch-${token.name.replace("--", "")}::after {
+          content: "";
+          display: flex;
+          width: var(--nys-size-150, 12px);
+          height: var(--nys-size-150, 12px);
+          background-color: var(--nys-color-theme, #154973);
+          border-radius: 50%;
+          margin-left: var(${token.name});
+          position: relative;
+          transform: translateY(50%);
         }
       `;
     } else if (token.type === "size") {
