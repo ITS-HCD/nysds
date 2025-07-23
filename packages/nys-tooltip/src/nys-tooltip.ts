@@ -85,7 +85,7 @@ export class NysTooltip extends LitElement {
 
     // Accounts for tooltip's text change (for code editor changes & VO)
     if (changedProps.has("text")) {
-      this._passAriaDescription(firstEl);
+      this._passAria(firstEl);
     }
   }
 
@@ -175,12 +175,23 @@ export class NysTooltip extends LitElement {
   };
 
   /******************** Functions ********************/
-  // We need to pass `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
-  private _passAriaDescription(el: HTMLElement) {
+  // We need to pass `ariaLabel` or `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
+  private _passAria(el: HTMLElement) {
     const tagName = el.tagName.toLowerCase();
 
     if (tagName.startsWith("nys-")) {
-      el.setAttribute("ariaDescription", this.text);
+      if (tagName === "nys-icon") {
+        // For nys-icon, use ariaLabel instead
+        const existingLabel = el.getAttribute("ariaLabel") || "";
+        const mergedLabel = existingLabel
+          ? `${existingLabel}, ${this.text}`
+          : this.text;
+
+        el.setAttribute("ariaLabel", mergedLabel);
+      } else {
+        // For other components like nys-button, use ariaDescription
+        el.setAttribute("ariaDescription", this.text);
+      }
     }
   }
 
