@@ -133,6 +133,9 @@ export class NysUnavHeader extends LitElement {
               <nys-button
                 id="nys-unavheader__know"
                 label="Here's how you know"
+                ariaLabel=${this.trustbarVisible
+                  ? "Here's how you know expanded"
+                  : "Here's how you know collapsed"}
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
@@ -176,7 +179,7 @@ export class NysUnavHeader extends LitElement {
               circle
               icon="close"
               size="sm"
-              ariaLabel="Close trustbar"
+              ariaLabel="Close this notice"
               .onClick="${() => this._toggleTrustbar()}"
             ></nys-button>
           </div>
@@ -187,7 +190,7 @@ export class NysUnavHeader extends LitElement {
               <a
                 href="https://www.ny.gov"
                 id="nys-unavheader__logolink"
-                aria-label="logo of New York State"
+                aria-label="Visit the NY.gov homepage"
               >
                 <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
               >
@@ -201,6 +204,9 @@ export class NysUnavHeader extends LitElement {
                   <nys-button
                     id="nys-unavheader__know"
                     label="Here's how you know"
+                    ariaLabel=${this.trustbarVisible
+                      ? "Here's how you know expanded"
+                      : "Here's how you know collapsed"}
                     variant="ghost"
                     size="sm"
                     suffixIcon="slotted"
@@ -227,7 +233,9 @@ export class NysUnavHeader extends LitElement {
                         variant="ghost"
                         circle
                         icon="slotted"
-                        ariaLabel="Translate"
+                        ariaLabel=${this.languageVisible
+                          ? "Translate expanded"
+                          : "Translate collapsed"}
                         id="nys-unavheader__translate"
                         class="nys-unavheader__iconbutton"
                         .onClick="${() => this._toggleLanguageList()}"
@@ -248,7 +256,9 @@ export class NysUnavHeader extends LitElement {
                             suffixIcon=${this.languageVisible
                               ? "chevron_up"
                               : "chevron_down"}
-                            ariaLabel="Translate"
+                            ariaLabel=${this.languageVisible
+                              ? "Translate expanded"
+                              : "Translate collapsed"}
                             id="nys-unavheader__translate"
                             .onClick="${() => this._toggleLanguageList()}"
                           ></nys-button>
@@ -280,7 +290,9 @@ export class NysUnavHeader extends LitElement {
                         variant="ghost"
                         circle
                         icon="search"
-                        ariaLabel="Search"
+                        ariaLabel=${this.searchDropdownVisible
+                          ? "Search expanded"
+                          : "Search collapsed"}
                         id="nys-unavheader__searchbutton"
                         class="nys-unavheader__iconbutton"
                         .onClick="${() => this._toggleSearchDropdown()}"
@@ -306,7 +318,7 @@ export class NysUnavHeader extends LitElement {
                           slot="endButton"
                           type="submit"
                           prefixIcon="search"
-                          ariaLabel="Search"
+                          ariaLabel="Search Button"
                           .onClick="${() =>
                             this._handleSearchButton(
                               "nys-unavheader__searchbar",
@@ -337,7 +349,7 @@ export class NysUnavHeader extends LitElement {
                 slot="endButton"
                 type="submit"
                 prefixIcon="search"
-                ariaLabel="Search"
+                ariaLabel="Search Button"
                 .onClick="${() =>
                   this._handleSearchButton(
                     "nys-unavheader__searchbardropdown",
