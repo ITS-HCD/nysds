@@ -234,16 +234,6 @@ export default css`
     outline-offset: 6px;
   }
 
-  .nys-step__currentflag {
-    overflow: hidden;
-    color: var(--nys-color-text-weak, #4a4d4f);
-    text-overflow: ellipsis;
-    font-size: var(--nys-typography-type-size-ui-xs, 12px);
-    font-weight: 600;
-    line-height: var(--nys-typography-type-size-ui-xs, 12px);
-    letter-spacing: var(--nys-typography-font-letterspacing-ui-xs, 0.057px);
-  }
-
   @media (max-width: 479px) {
     .nys-stepper {
       max-width: 479px;

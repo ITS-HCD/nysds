@@ -45,9 +45,6 @@ export class NysStep extends LitElement {
         >
           <div class="nys-step__number"></div>
           <div class="nys-step__content">
-            ${this.current
-              ? html`<div class="nys-step__currentflag">Current Step</div>`
-              : ""}
             <div class="nys-step__label">${this.label}</div>
           </div>
         </div>
