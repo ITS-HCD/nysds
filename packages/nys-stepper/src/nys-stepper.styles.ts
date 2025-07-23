@@ -122,6 +122,7 @@ export default css`
     align-items: center;
     gap: var(--nys-space-150, 12px);
     cursor: default;
+    width: fit-content;
   }
 
   .nys-step__contentwrapper:focus-visible {
@@ -301,6 +302,7 @@ export default css`
     .nys-step__contentwrapper {
       cursor: default;
       pointer-events: none;
+      width: auto;
     }
 
     /* ---------------- Expanded Mode ---------------- */

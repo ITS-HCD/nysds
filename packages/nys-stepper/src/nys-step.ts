@@ -35,11 +35,13 @@ export class NysStep extends LitElement {
         </div>
         <div
           class="nys-step__contentwrapper"
-          tabindex=${!this.isCompactExpanded
-            ? null
-            : !(this.selected || this.current || this.hasAttribute("previous"))
-              ? "-1"
-              : "0"}
+          tabindex=${!(
+            this.selected ||
+            this.current ||
+            this.hasAttribute("previous")
+          )
+            ? "-1"
+            : "0"}
           @click=${this._handleActivate}
           @keydown=${this._handleKeydown}
         >
