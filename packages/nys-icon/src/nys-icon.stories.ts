@@ -5,19 +5,18 @@ import "./nys-icon";
 // Define the structure of the args used in the stories
 interface NysIconArgs {
   name: string;
-  label?: string;
+  ariaLabel?: string;
   color?: string;
   rotate?: string;
   flip?: string;
   size?: string;
-  ariaDescription?: string;
 }
 
 const meta: Meta<NysIconArgs> = {
   title: "Components/Icon",
   component: "nys-icon",
   argTypes: {
-    label: { control: "text" },
+    ariaLabel: { control: "text" },
     name: { control: "text" },
     color: { control: "text" },
     rotate: { control: "text" },
@@ -46,7 +45,6 @@ const meta: Meta<NysIconArgs> = {
         "64",
       ],
     },
-    ariaDescription: { control: "text" },
   },
   parameters: {
     docs: {
@@ -71,13 +69,12 @@ export const Basic: Story = {
   },
   render: (args) =>
     html` <nys-icon
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     >
     </nys-icon>`,
   parameters: {
@@ -102,13 +99,12 @@ export const NameProp: Story = {
   },
   render: (args) =>
     html` <nys-icon
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     >
     </nys-icon>`,
   parameters: {
@@ -127,18 +123,17 @@ export const NameProp: Story = {
 // Story: Labels
 export const Labels: Story = {
   args: {
-    label: "edit_square icon",
+    ariaLabel: "edit_square icon",
     name: "edit_square",
   },
   render: (args) => html`
     <nys-icon
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     >
     </nys-icon>
   `,
@@ -147,7 +142,7 @@ export const Labels: Story = {
       source: {
         code: `
   <nys-icon
-  label="edit_square icon"
+  ariaLabel="edit_square icon"
   name="edit_square"
   ></nys-icon>
         `,
@@ -160,7 +155,7 @@ export const Labels: Story = {
 // Story: InheritSize
 export const InheritSize: Story = {
   args: {
-    label: "search icon",
+    ariaLabel: "search icon",
     name: "search",
   },
   render: (args) => html`
@@ -172,13 +167,12 @@ export const InheritSize: Story = {
         Font size not found on the parent element. Defaulting to the root font
         size of 16px
         <nys-icon
-          .label=${args.label}
+          .ariaLabel=${args.ariaLabel}
           .name=${args.name}
           color=${args.color}
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         ></nys-icon>
       </p>
     </div>
@@ -189,13 +183,12 @@ export const InheritSize: Story = {
       <p>
         The nearest parent container's font-size is set to 1.5rem
         <nys-icon
-          .label=${args.label}
+          .ariaLabel=${args.ariaLabel}
           .name=${args.name}
           color=${args.color}
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         ></nys-icon>
       </p>
     </div>
@@ -206,13 +199,12 @@ export const InheritSize: Story = {
       <p>
         The nearest parent container's font-size is set to 2rem
         <nys-icon
-          .label=${args.label}
+          .ariaLabel=${args.ariaLabel}
           .name=${args.name}
           color=${args.color}
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         ></nys-icon>
       </p>
     </div>
@@ -223,13 +215,13 @@ export const InheritSize: Story = {
         code: `
 <div class="parent-container" style="display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
   <p> The nearest parent container's font-size is not set <nys-icon
-    <nys-icon label="search icon" name="search"></nys-icon>
+    <nys-icon ariaLabel="search icon" name="search"></nys-icon>
   </p>
 </div>
 <div class="parent-container" style="font-size: 1.5rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
   <p> The nearest parent container's font-size is set to 1.5rem
     <nys-icon
-      label="search icon"
+      ariaLabel="search icon"
       name="search"
     ></nys-icon>
   </p>
@@ -237,7 +229,7 @@ export const InheritSize: Story = {
 <div class="parent-container" style="font-size: 2rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;">
   <p> The nearest parent container's font-size is set to 2rem <nys-icon
     <nys-icon
-      label="search icon"
+      ariaLabel="search icon"
       name="search"
     ></nys-icon>
   </p>
@@ -251,7 +243,7 @@ export const InheritSize: Story = {
 // Story: CustomSize (ex: xl)
 export const CustomSize: Story = {
   args: {
-    label: "search icon",
+    ariaLabel: "search icon",
     name: "search",
     size: "3xl",
   },
@@ -285,13 +277,12 @@ export const CustomSize: Story = {
       <p>
         The font-size of the parent container is dynamically controlled.
         <nys-icon
-          .label=${args.label}
+          .ariaLabel=${args.ariaLabel}
           .name=${args.name}
           color=${args.color}
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         >
         </nys-icon>
       </p>
@@ -304,7 +295,7 @@ export const CustomSize: Story = {
   <div class="parent-container" style="font-size: var(--parent-font-size, 16px);  display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;">
     <p> The font-size of the parent container is dynamically controlled.
       <nys-icon
-      label="search icon"
+      ariaLabel="search icon"
       name="search"
       size="3xl"
       ></nys-icon>
@@ -319,7 +310,7 @@ export const CustomSize: Story = {
 // Story: Color with inheritance
 export const ColorInheritance: Story = {
   args: {
-    label: "upload_file icon",
+    ariaLabel: "upload_file icon",
     name: "upload_file",
     size: "2xl",
   },
@@ -331,13 +322,12 @@ export const ColorInheritance: Story = {
       <p style="display:flex; align-items: center;">
         The color of the nearest parent container is set to DarkBlue.&nbsp;
         <nys-icon
-          .label=${args.label}
+          .ariaLabel=${args.ariaLabel}
           .name=${args.name}
           color=${args.color}
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         >
         </nys-icon>
       </p>
@@ -351,7 +341,7 @@ export const ColorInheritance: Story = {
     <p style="display:flex; align-items: center;">
       The color of the nearest parent container is set to DarkBlue.
       <nys-icon
-        label="upload_file icon"
+        ariaLabel="upload_file icon"
         name="upload_file"
         size="2xl"
       ></nys-icon>
@@ -366,7 +356,7 @@ export const ColorInheritance: Story = {
 // Story: Color change using custom css variable
 export const ColorChange: Story = {
   args: {
-    label: "upload_file icon",
+    ariaLabel: "upload_file icon",
     name: "upload_file",
     color: "#db117d",
     size: "2xl",
@@ -379,13 +369,12 @@ export const ColorChange: Story = {
       <p style="display:flex; align-items: center;">
         The color of the nearest parent container is set to DarkBlue.&nbsp;
         <nys-icon
-          .label=${args.label}
+          .ariaLabel=${args.ariaLabel}
           .name=${args.name}
           color=${args.color}
           rotate=${args.rotate}
           flip=${args.flip}
           size=${args.size}
-          .ariaDescription=${args.ariaDescription}
         >
         </nys-icon>
       </p>
@@ -399,7 +388,7 @@ export const ColorChange: Story = {
     <p style="display:flex; align-items: center;">
       The color of the nearest parent container is set to DarkBlue.
       <nys-icon
-        label="upload_file icon"
+        ariaLabel="upload_file icon"
         name="upload_file"
         color="#db117d"
         size="2xl"
@@ -415,20 +404,19 @@ export const ColorChange: Story = {
 // Story: Rotate filter
 export const Rotate: Story = {
   args: {
-    label: "warning icon",
+    ariaLabel: "warning icon",
     name: "warning",
     rotate: "20",
     size: "2xl",
   },
   render: (args) => html`
     <nys-icon
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     ></nys-icon>
   `,
   parameters: {
@@ -436,7 +424,7 @@ export const Rotate: Story = {
       source: {
         code: `
   <nys-icon
-  label="warning icon"
+  ariaLabel="warning icon"
   name="warning"
   rotate="20"
   size="2xl"
@@ -450,20 +438,19 @@ export const Rotate: Story = {
 // Story: Flip prop
 export const Flip: Story = {
   args: {
-    label: "arrow_back icon",
+    ariaLabel: "arrow_back icon",
     name: "arrow_back",
     size: "2xl",
     flip: "horizontal",
   },
   render: (args) => html`
     <nys-icon
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .name=${args.name}
       color=${args.color}
       rotate=${args.rotate}
       flip=${args.flip}
       size=${args.size}
-      .ariaDescription=${args.ariaDescription}
     ></nys-icon>
   `,
   parameters: {
@@ -471,7 +458,7 @@ export const Flip: Story = {
       source: {
         code: `
   <nys-icon
-  label="arrow_back icon"
+  ariaLabel="arrow_back icon"
   name="arrow_back"
   flip="horizontal"
   size="2xl"
