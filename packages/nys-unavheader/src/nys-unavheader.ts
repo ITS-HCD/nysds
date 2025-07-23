@@ -134,8 +134,8 @@ export class NysUnavHeader extends LitElement {
                 id="nys-unavheader__know"
                 label="Here's how you know"
                 ariaLabel=${this.trustbarVisible
-                  ? "Close here's how you know banner"
-                  : "Open here's how you know banner"}
+                  ? "Here's how you know expanded"
+                  : "Here's how you know collapsed"}
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
@@ -179,7 +179,7 @@ export class NysUnavHeader extends LitElement {
               circle
               icon="close"
               size="sm"
-              ariaLabel="Close here's how you know banner"
+              ariaLabel="Close this notice"
               .onClick="${() => this._toggleTrustbar()}"
             ></nys-button>
           </div>
@@ -190,7 +190,7 @@ export class NysUnavHeader extends LitElement {
               <a
                 href="https://www.ny.gov"
                 id="nys-unavheader__logolink"
-                aria-label="logo of New York State"
+                aria-label="Visit the NY.gov homepage"
               >
                 <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
               >
@@ -205,8 +205,8 @@ export class NysUnavHeader extends LitElement {
                     id="nys-unavheader__know"
                     label="Here's how you know"
                     ariaLabel=${this.trustbarVisible
-                      ? "Close here's how you know banner"
-                      : "Open here's how you know banner"}
+                      ? "Here's how you know expanded"
+                      : "Here's how you know collapsed"}
                     variant="ghost"
                     size="sm"
                     suffixIcon="slotted"
@@ -234,8 +234,8 @@ export class NysUnavHeader extends LitElement {
                         circle
                         icon="slotted"
                         ariaLabel=${this.languageVisible
-                          ? "Close translate menu"
-                          : "Open translate menu"}
+                          ? "Translate expanded"
+                          : "Translate collapsed"}
                         id="nys-unavheader__translate"
                         class="nys-unavheader__iconbutton"
                         .onClick="${() => this._toggleLanguageList()}"
@@ -257,8 +257,8 @@ export class NysUnavHeader extends LitElement {
                               ? "chevron_up"
                               : "chevron_down"}
                             ariaLabel=${this.languageVisible
-                              ? "Close translate menu"
-                              : "Open translate menu"}
+                              ? "Translate expanded"
+                              : "Translate collapsed"}
                             id="nys-unavheader__translate"
                             .onClick="${() => this._toggleLanguageList()}"
                           ></nys-button>
@@ -291,8 +291,8 @@ export class NysUnavHeader extends LitElement {
                         circle
                         icon="search"
                         ariaLabel=${this.searchDropdownVisible
-                          ? "Close search"
-                          : "Open search"}
+                          ? "Search expanded"
+                          : "Search collapsed"}
                         id="nys-unavheader__searchbutton"
                         class="nys-unavheader__iconbutton"
                         .onClick="${() => this._toggleSearchDropdown()}"
@@ -318,7 +318,7 @@ export class NysUnavHeader extends LitElement {
                           slot="endButton"
                           type="submit"
                           prefixIcon="search"
-                          ariaLabel="Submit search"
+                          ariaLabel="Search Button"
                           .onClick="${() =>
                             this._handleSearchButton(
                               "nys-unavheader__searchbar",
@@ -349,7 +349,7 @@ export class NysUnavHeader extends LitElement {
                 slot="endButton"
                 type="submit"
                 prefixIcon="search"
-                ariaLabel="Submit search"
+                ariaLabel="Search Button"
                 .onClick="${() =>
                   this._handleSearchButton(
                     "nys-unavheader__searchbardropdown",
