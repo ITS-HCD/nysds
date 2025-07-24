@@ -75,7 +75,7 @@ export const Basic: Story = {
         </div>
       </nys-stepper>
 
-      <div id="stepper-content"><div id="loading">Loading...</div></div>
+      <div id="stepper-content">Loading...</div>
     </div>
     <style>
       html,
@@ -97,15 +97,6 @@ export const Basic: Story = {
       }
       #stepper-content {
         width: 100%;
-      }
-
-      #loading {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        border: solid 1px black;
       }
 
       @media (max-width: 479px) {
@@ -163,20 +154,6 @@ export const Basic: Story = {
   parameters: {
     docs: {
       source: {
-        code: `
-<nys-stepper
-  id="stepper3"
-  name="stepper3"
-  label="Register for Design System Office Hours"
->
-  <nys-step label="Personal Details" href="/personal.html"></nys-step>
-  <nys-step label="Team Info" selected href="/team.html"></nys-step>
-  <nys-step label="Usage Survey" current href="/survey.html"></nys-step>
-  <nys-step label="Newsletter Opt-In" href="/newsletter.html"></nys-step>
-  <div slot="actions">
-    <nys-button variant="outline" label="Save & Exit"></nys-button>
-  </div>
-</nys-stepper>`,
         type: "auto",
       },
     },

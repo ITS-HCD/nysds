@@ -15,7 +15,7 @@ If an id is not passed, a unique id will be generated.
 <p className="pill pill--wcag">WCAG 2.2 AA</p>
 
 <p className="pill pill--uikit">
-	<a href="https://www.figma.com/design/TODO/add/url" target="_blank">View in Figma</a>
+	<a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu/branch/48iU2kta3LO1aOcKGt7f0N/%F0%9F%92%A0-NYS-Design-System?node-id=4895-5328&p=f&m=dev" target="_blank">View in Figma</a>
 </p>
 
 ---
@@ -73,8 +73,8 @@ The `nys-stepper` component includes the following accessibility-focused feature
     </thead>
     <tbody>
     <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-component` or `nys-component`</td>
+        <td>`actions`</td>
+        <td>Action buttons, must be of type `nys-button`</td>
         <td>none</td>
     </tr>
     </tbody>
@@ -84,9 +84,7 @@ The `nys-stepper` component includes the following accessibility-focused feature
 
 The `nys-stepper` component emits the following events:
 
-1. `click`: Emitted when the stepper is clicked.
-2. `focus`: Emitted when the stepper receives focus.
-3. `blur`: Emitted when the stepper loses focus.
+1. `nys-step-click`: Emitted when a `nys-step` is clicked
 
 You can listen to these events using JavaScript:
 
@@ -95,23 +93,12 @@ You can listen to these events using JavaScript:
 const stepper = document.querySelector("nys-stepper");
 
 // Listen for the 'click' event
-stepper.addEventListener("click", () => {
-	console.log("Stepper clicked");
-});
-
-// Listen for the 'focus' event
-stepper.addEventListener("focus", () => {
-	console.log("Stepper is focused");
-});
-
-// Listen for the 'blur' event
-stepper.addEventListener("blur", () => {
-	console.log("Stepper lost focus");
+stepper.addEventListener("nys-step-click", () => {
+	console.log("nys-step clicked");
 });
 ```
 
 ## Dependencies
 
 This component automatically imports the following dependencies.
-
-- TODO: Add dependencies
+- `nys-button`
