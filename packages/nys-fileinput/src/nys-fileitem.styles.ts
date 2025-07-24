@@ -57,7 +57,8 @@ export default css`
   .file-item__info {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     font-family: var(--_nys-fileitem-font-family);
     font-size: var(--_nys-fileitem-font-size);
     font-style: normal;
@@ -66,13 +67,30 @@ export default css`
     letter-spacing: var(--_nys-fileitem-letterspacing);
   }
 
+  .file-item__info-name {
+    display: flex;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    align-items: center;
+  }
+
+  .file-item__info-name-start {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
   .file-item p {
     margin: 0;
   }
 
-  .error-msg {
+  .file-item__error {
     color: var(--_nys-fileitem-error-color);
     text-overflow: ellipsis;
+    font-weight: 700;
   }
 
   /**** Progress Bar ****/

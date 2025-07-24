@@ -1,0 +1,95 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysTooltipStories from "./nys-tooltip.stories";
+
+<Meta of={NysTooltipStories} title="Components/Tooltip/Documentation" />
+
+# Tooltip
+
+The **`nys-tooltip`** component is a reusable wrapper that displays a brief message when a user hovers over or focuses on its wrapped element, offering additional information or context.
+> Unlike tooltip props found on form components, the `nys-tooltip` is a standalone wrapper, you must wrap the element you want to enhance manually.
+
+If an id is not passed, a unique id will be generated.
+
+<p className="pill pill--stable">Stable</p>
+
+<p className="pill pill--uikit">
+	<a href="https://www.figma.com/design/TODO/add/url" target="_blank">View in Figma</a>
+</p>
+
+---
+
+<Canvas of={NysTooltipStories.Basic} />
+
+<Controls />
+
+---
+
+## Best Practices for Wrapping Elements
+
+### Use only`nys-components` like `nys-icon` and `nys-button`
+
+The `nys-tooltip` is meant to wrap a single visual or interactive element. It works best with `nys-icon` or `nys-button`
+- Keyboard and screen reader support is built in
+- Layout and spacing are predictable
+- Tooltip positioning works reliably
+
+---
+
+## Options
+### Focusable
+Use the `focusable` prop to make non-focusable slotted elements (i.e. `<nys-icon>`) accessible via keyboard focus.
+<Canvas of={NysTooltipStories.Focusable} />
+
+### Position
+Use the `position` prop to control where the direction where the tooltip will appear.
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>
+  <nys-icon size="xl" name="info"></nys-icon> If no position is provided, the tooltip will automatically choose the best position based on the available space.
+</div>
+
+Valid positions are: 
+- `top`
+- `bottom`
+- `right`
+- `left`
+<Canvas of={NysTooltipStories.Position} />
+
+### Inverted
+Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the tooltip. Use this prop when the tooltip is on a dark background.
+<Canvas of={NysTooltipStories.Inverted} />
+
+## Usage
+
+### When to use this component
+- Use this component to wrap interactive or visual elements like `nys-icon` or `nys-button` to provide additional information or context.
+
+### When to consider something else
+- When the information is critical for understanding or completing a task. Use inline text instead.
+- When the information is long or includes links or actions. Tooltips should stay simple and passive.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      - Provide brief and helpful content inside the tooltip.
+      - Provide tooltips for unlabeled icons.
+      - Position tooltips so they don’t block related content.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      - Use tooltips for information that is vital to task completion.
+      - Use interactive elements such as links or buttons inside a tooltip.
+      - Rely on tooltips when you have room to provide more explanation.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-tooltip` component includes the following accessibility-focused features:
+
+- Keyboard and mouse support: tooltip appears when users hover with mouse or focus using a keyboard
+- Tooltip uses `role="tooltip"` for assistive technologies and sets `aria-hidden` based on internal state based on when tooltip is hidden or showing.
+- Positioning logic: If a position is not manually set, the tooltip will automatically appear in the direction with the most available space. 
