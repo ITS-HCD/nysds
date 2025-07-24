@@ -1,7 +1,6 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysStepperStories from "./nys-stepper.stories";
-import { Resizable } from './nys-stepper_hidden.stories';
 
 <Meta of={NysStepperStories} title="Components/Stepper/Documentation" />
 
@@ -21,7 +20,7 @@ If an id is not passed, a unique id will be generated.
 
 ---
 
-<Canvas of={Resizable} />
+<Canvas of={NysStepperStories.Basic} />
 
 <Controls />
 

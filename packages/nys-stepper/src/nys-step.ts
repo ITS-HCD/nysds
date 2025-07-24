@@ -12,12 +12,14 @@ export class NysStep extends LitElement {
   static styles = styles;
 
   private _handleActivate() {
-    this.dispatchEvent(
-      new Event("nys-step-click", {
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    if ((this.hasAttribute("previous") || this.current) && !this.selected) {
+      this.dispatchEvent(
+        new Event("nys-step-click", {
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
   }
 
   private _handleKeydown(e: KeyboardEvent) {
