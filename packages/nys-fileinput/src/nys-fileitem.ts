@@ -24,59 +24,56 @@ export class NysFileItem extends LitElement {
     );
   }
 
-  private truncateFilename(filename: string): string {
+  private splitFilename(filename: string) {
     const lastDotIndex = filename.lastIndexOf(".");
-    if (lastDotIndex === -1) {
-      // No extension, truncate to max 30 chars + ellipsis if needed
-      return filename.length > 30 ? filename.slice(0, 30) + "..." : filename;
-    }
+    const extension = lastDotIndex !== -1 ? filename.slice(lastDotIndex) : ""; // e.g. ".pdf"
+    const name =
+      lastDotIndex !== -1 ? filename.slice(0, lastDotIndex) : filename;
 
-    const extension = filename.slice(lastDotIndex); // e.g. ".pdf"
-    const namePart = filename.slice(0, lastDotIndex);
+    const startPart = name.slice(0, name.length - 3);
+    const endPart = name.slice(-3);
 
-    // Show at most 30 chars total in namePart (including last 3 chars before extension)
-    const maxNameLength = 30;
-    if (namePart.length <= maxNameLength) {
-      return filename; // no truncation needed
-    }
-
-    const startPart = namePart.slice(0, maxNameLength - 3);
-    const endPart = namePart.slice(-3);
-
-    return `${startPart}...${endPart}${extension}`;
+    return { startPart, endPart, extension };
   }
 
   render() {
+    const { startPart, endPart, extension } = this.splitFilename(this.filename);
+
     return html`
-      <div class="file-item ${this.status}">
-        <div class="file-item__main" role="group" aria-label="Filename: ${this.filename}">
+      <div
+        class="file-item ${this.status}"
+        aria-busy=${this.status === "processing" ? "true" : "false"}
+        aria-label="You have selected ${this.filename}"
+      >
+        <div class="file-item__main" role="group">
           <nys-icon
             class="file-icon"
-            name=${
-              this.status === "processing"
-                ? "progress_activity"
-                : this.status === "error"
-                  ? "error"
-                  : "attach_file"
-            }
+            name=${this.status === "processing"
+              ? "progress_activity"
+              : this.status === "error"
+                ? "error"
+                : "attach_file"}
             size="2xl"
           ></nys-icon>
           <div class="file-item__info">
-            <p">
-              ${this.truncateFilename(this.filename)}
-            </p>
-            ${
-              this.errorMessage
-                ? html`<p
-                    class="error-msg"
-                    role="alert"
-                    aria-live="assertive"
-                    id="${this.filename}-error"
-                  >
-                    ${this.errorMessage}
-                  </p>`
-                : null
-            }
+            <div class="file-item__info-name">
+              <span class="file-item__info-name-start">${startPart}</span>
+              <span class="file-item__info-name-end"
+                >${endPart}${extension}</span
+              >
+            </div>
+            ${this.errorMessage
+              ? html`<p
+                  class="file-item__error"
+                  role="alert"
+                  aria-live="assertive"
+                  aria-invalid="true"
+                  aria-errormessage=${this.errorMessage}
+                  id="${this.filename}-error"
+                >
+                  ${this.errorMessage}
+                </p>`
+              : null}
           </div>
           <nys-button
             circle
@@ -85,22 +82,21 @@ export class NysFileItem extends LitElement {
             size="sm"
             variant="ghost"
             .onClick=${() => this._handleRemove()}
+            ariaLabel="Remove file: ${this.filename}"
           ></nys-button>
         </div>
-        ${
-          this.status === "processing"
-            ? html`<div
-                class="progress-container"
-                role="progressbar"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow="${this.progress}"
-                aria-label="Upload progress for ${this.filename}"
-              >
-                <progress value=${this.progress} max="100"></progress>
-              </div>`
-            : null
-        }
+        ${this.status === "processing"
+          ? html`<div
+              class="file-item__progress-container"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="${this.progress}"
+              aria-label="Upload progress for ${this.filename}"
+            >
+              <progress value=${this.progress} max="100"></progress>
+            </div>`
+          : null}
       </div>
     `;
   }

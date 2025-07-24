@@ -13,7 +13,7 @@ describe("nys-unavheader", () => {
     expect(logoLink).to.exist;
     expect(logoLink?.getAttribute("href")).to.equal("https://www.ny.gov");
     expect(logoLink?.getAttribute("aria-label")).to.equal(
-      "logo of New York State",
+      "Visit the NY.gov homepage",
     );
   });
 });

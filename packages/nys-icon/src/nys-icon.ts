@@ -5,8 +5,7 @@ import styles from "./nys-icon.styles";
 
 export class NysIcon extends LitElement {
   @property({ type: String, reflect: true }) name = "";
-  @property({ type: String }) label = "";
-  @property({ type: String }) ariaDescription = "";
+  @property({ type: String }) ariaLabel = "";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) flip = "";
   @property({ type: String }) color = "";
@@ -67,15 +66,12 @@ export class NysIcon extends LitElement {
 
     // Add accessibility attributes directly to the <svg>
     svgElement.setAttribute("role", "img");
-    if (this.label) {
-      svgElement.setAttribute("aria-label", this.label);
+    if (this.ariaLabel) {
+      svgElement.setAttribute("aria-label", this.ariaLabel);
       svgElement.removeAttribute("aria-hidden");
     } else {
       svgElement.setAttribute("aria-hidden", "true");
       svgElement.removeAttribute("aria-label");
-    }
-    if (this.ariaDescription) {
-      svgElement.setAttribute("aria-description", this.ariaDescription);
     }
 
     // Add styles

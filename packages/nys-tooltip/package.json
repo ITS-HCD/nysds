@@ -1,12 +1,12 @@
 {
-  "name": "@nysds/nys-button",
+  "name": "@nysds/nys-tooltip",
   "version": "1.5.0",
-  "description": "The Button component from the NYS Design System.",
-  "module": "dist/nys-button.js",
+  "description": "The Tooltip component from the NYS Design System.",
+  "module": "dist/nys-tooltip.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-button.js",
+      "import": "./dist/nys-tooltip.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -22,12 +22,12 @@
     "test:watch": "vite build && wtr --watch"
   },
   "peerDependencies": {
-    "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.5.0"
+    "lit": "^3.2.1"
+  },
+  "dependencies": {
   },
   "devDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.5.0",
     "typescript": "^5.7.2",
     "vite": "^6.3.4"
   },
@@ -37,9 +37,10 @@
     "web-components",
     "lit",
     "nys",
-    "button",
+    "tooltip",
     "forms"
   ],
   "author": "New York State Design System Team",
   "license": "MIT"
 }
+
