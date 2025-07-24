@@ -336,6 +336,8 @@ export default css`
         --nys-color-white-transparent-900,
         rgba(255, 255, 255, 0.9)
       );
+      width: var(--nys-space-300, 24px);
+      height: var(--nys-space-300, 24px);
     }
 
     :host([isCompactExpanded][previous]) .nys-step__number,
