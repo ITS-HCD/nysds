@@ -329,6 +329,10 @@ export default css`
         var(--nys-space-400, 32px);
     }
 
+    :host([isCompactExpanded]) .nys-stepper__steps::slotted(*) {
+      flex: none;
+    }
+
     :host([isCompactExpanded]) .nys-step__number {
       border-radius: var(--nys-radius-round, 1776px);
       border: 1px solid var(--nys-color-neutral-400, #909395);
