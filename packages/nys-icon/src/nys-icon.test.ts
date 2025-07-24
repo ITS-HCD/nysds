@@ -84,9 +84,9 @@ describe("nys-icon", () => {
     expect(svg).to.be.null;
   });
 
-  it("sets accessibility attributes when 'label' is provided", async () => {
+  it("sets accessibility attributes when 'ariaLabel' is provided", async () => {
     const el = await fixture<NysIcon>(
-      html`<nys-icon label="download icon" name="download"></nys-icon>`,
+      html`<nys-icon ariaLabel="download icon" name="download"></nys-icon>`,
     );
     const svg = el.shadowRoot?.querySelector("svg");
 
@@ -94,7 +94,7 @@ describe("nys-icon", () => {
     expect(svg?.getAttribute("aria-label")).to.equal("download icon");
   });
 
-  it("hides from screen readers when 'label' is not provided", async () => {
+  it("hides from screen readers when 'ariaLabel' is not provided", async () => {
     const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
     const svg = el.shadowRoot?.querySelector("svg");
 
