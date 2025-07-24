@@ -148,13 +148,13 @@ export default css`
 
   .nys-step__number {
     border-radius: var(--nys-radius-round, 1776px);
-    border: 1px solid var(--nys-color-neutral-400, #909395);
+    border: var(--nys-size-1px, 1px) solid var(--nys-color-neutral-400, #909395);
     background: var(
       --nys-color-white-transparent-900,
       rgba(255, 255, 255, 0.9)
     );
-    width: 24px;
-    height: 24px;
+    width: var(--nys-size-300, 24px);
+    height: var(--nys-size-300, 24px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,13 +174,13 @@ export default css`
     background: var(--nys-color-theme, #154973);
     color: var(--nys-color-text-reverse, #fff);
     border-color: var(--nys-color-theme, #154973);
-    outline: 4px solid var(--nys-color-theme-weak, #cddde9);
+    outline: var(--nys-size-50, 4px) solid var(--nys-color-theme-weak, #cddde9);
   }
 
   .nys-step__number::before {
     content: counter(step);
     line-height: 1;
-    padding-top: 2px;
+    padding-top: var(--nys-size-2px, 2px);
   }
 
   /* Hide the line wrapper in the last step */
@@ -336,8 +336,6 @@ export default css`
         --nys-color-white-transparent-900,
         rgba(255, 255, 255, 0.9)
       );
-      width: 24px;
-      height: 24px;
     }
 
     :host([isCompactExpanded][previous]) .nys-step__number,
