@@ -7,12 +7,11 @@ export class NysStep extends LitElement {
   @property({ type: Boolean, reflect: true }) current = false;
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
-  @property({ type: Function }) onClick?: (e: Event) => void;
   @property({ type: Boolean }) isCompactExpanded = false;
 
   static styles = styles;
 
-  private _handleActivate(e: Event) {
+  private _handleActivate() {
     if ((this.hasAttribute("previous") || this.current) && !this.selected) {
       this.dispatchEvent(
         new Event("nys-step-click", {
@@ -20,14 +19,13 @@ export class NysStep extends LitElement {
           composed: true,
         }),
       );
-      this.onClick?.(e);
     }
   }
 
   private _handleKeydown(e: KeyboardEvent) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      this._handleActivate(e);
+      this._handleActivate();
     }
   }
 
@@ -46,7 +44,7 @@ export class NysStep extends LitElement {
           )
             ? "-1"
             : "0"}
-          @click=${(e: MouseEvent) => this._handleActivate(e)}
+          @click=${this._handleActivate}
           @keydown=${this._handleKeydown}
         >
           <div class="nys-step__number"></div>
