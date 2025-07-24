@@ -276,25 +276,38 @@ export const Basic: Story = {
         const contentDiv = document.getElementById("stepper-content");
 
         if (stepper && contentDiv) {
+          // Function to load content by href
+          const loadContent = async (href) => {
+            if (!href) {
+              contentDiv.innerHTML =
+                "<div>This step has no href to load content from.</div>";
+              return;
+            }
+            try {
+              contentDiv.innerHTML = "<div>Loading...</div>";
+              const response = await fetch(href);
+              if (!response.ok) throw new Error("Network response was not ok");
+              const html = await response.text();
+              contentDiv.innerHTML = html;
+            } catch (error) {
+              console.error(error);
+              contentDiv.innerHTML = "<div>Error loading content.</div>";
+            }
+          };
+
+          // On initial load: find selected step and load content
+          const selectedStep = stepper.querySelector("nys-step[selected]");
+          if (selectedStep) {
+            const href = selectedStep.getAttribute("href");
+            loadContent(href);
+          }
+
+          // Listen for step clicks and load content
           stepper.addEventListener("nys-step-click", async (e) => {
             const stepEl = e.target;
             if (stepEl?.tagName === "NYS-STEP") {
               const href = stepEl.getAttribute("href");
-              if (href) {
-                try {
-                  contentDiv.innerHTML = "<div>Loading...</div>";
-                  const response = await fetch(href);
-                  if (!response.ok)
-                    throw new Error("Network response was not ok");
-                  const html = await response.text();
-                  contentDiv.innerHTML = html;
-                } catch (error) {
-                  console.error(error);
-                }
-              } else {
-                contentDiv.innerHTML =
-                  "<div>This step has no href to load content from.</div>";
-              }
+              await loadContent(href);
             }
           });
         }
