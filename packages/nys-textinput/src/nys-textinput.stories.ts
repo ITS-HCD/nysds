@@ -80,6 +80,11 @@ export const Basic: Story = {
     label: "Label",
     value: "",
     name: "myTextInputDemo",
+    disabled: false,
+    readonly: false,
+    required: false,
+    optional: false,
+    showError: false,
   },
   render: (args) => html`
     <nys-textinput

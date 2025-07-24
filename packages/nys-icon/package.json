@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-icon",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "The Icon component from the NYS Design System.",
   "module": "dist/nys-icon.js",
   "types": "dist/index.d.ts",

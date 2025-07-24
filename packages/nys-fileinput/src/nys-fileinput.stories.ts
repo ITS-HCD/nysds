@@ -98,8 +98,8 @@ export const Basic: Story = {
   id="fileinput1"
   name="fileinput1"
   label="Upload a file"
-  description="Accepted formats: PDF, JPG"
-  accept="image/png, image/jpeg, image/*,.pdf"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
 ></nys-fileinput>`,
         type: "auto",
       },
@@ -111,7 +111,7 @@ export const Dropzone: Story = {
   args: {
     label: "Upload a file",
     description: "Accepted file types: .jpg, .png, .pdf",
-    accept: "image/png, image/jpeg, image/*,.pdf",
+    accept: "image/png, image/jpeg, .pdf",
     dropzone: true,
   },
   render: (args) => html`
@@ -137,8 +137,8 @@ export const Dropzone: Story = {
         code: `
 <nys-fileinput
   label="Upload a file"
-  description="Accepted formats: PDF, JPG"
-  accept="image/png, image/jpeg, image/*,.pdf"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
   dropzone
 ></nys-fileinput>`,
         type: "auto",
@@ -152,7 +152,7 @@ export const Width: Story = {
     label: "Upload a file",
     description: "Accepted file types: .jpg, .png, .pdf",
     width: "lg",
-    accept: "image/png, image/jpeg, image/*,.pdf",
+    accept: "image/png, image/jpeg, .pdf",
     dropzone: true,
   },
   render: (args) => html`
@@ -180,8 +180,8 @@ export const Width: Story = {
   id="fileinput1"
   name="fileinput1"
   label="Upload a file"
-  description="Accepted formats: PDF, JPG"
-  accept="image/png, image/jpeg, image/*,.pdf"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
 ></nys-fileinput>`,
         type: "auto",
       },
@@ -194,7 +194,7 @@ export const Multiple: Story = {
     label: "Upload a file",
     description: "Accepted file types: .jpg, .png, .pdf",
     multiple: true,
-    accept: "image/png, image/jpeg, image/*,.pdf",
+    accept: "image/png, image/jpeg, .pdf",
   },
   render: (args) => html`
     <nys-fileinput
@@ -221,8 +221,9 @@ export const Multiple: Story = {
   id="fileinput1"
   name="fileinput1"
   label="Upload a file"
-  description="Accepted formats: PDF, JPG"
-  accept="image/png, image/jpeg, image/*,.pdf"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+  multiple
 ></nys-fileinput>`,
         type: "auto",
       },
@@ -236,7 +237,7 @@ export const Disabled: Story = {
     description: "Accepted file types: .jpg, .png, .pdf",
     width: "full",
     multiple: false,
-    accept: "image/png, image/jpeg, image/*,.pdf",
+    accept: "image/png, image/jpeg, .pdf",
     disabled: true,
   },
   render: (args) => html`
@@ -264,8 +265,9 @@ export const Disabled: Story = {
   id="fileinput1"
   name="fileinput1"
   label="Upload a file"
-  description="Accepted formats: PDF, JPG"
-  accept="image/png, image/jpeg, image/*,.pdf"
+  description="Accepted file types: .jpg, .png, .pdf"
+  accept="image/png, image/jpeg, .pdf"
+  disabled
 ></nys-fileinput>`,
         type: "auto",
       },

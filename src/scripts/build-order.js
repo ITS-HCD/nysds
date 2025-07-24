@@ -20,6 +20,7 @@ const packages = [
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },
+  { name: "nys-tooltip", path: "packages/nys-tooltip" },
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
 ];

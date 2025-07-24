@@ -105,12 +105,12 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
 The name property is the **ONLY** required attribute for the icon component. The
 current icon prop is `name="publish"` but you can change it to any of the listed icons like "edit-square".
 
-Note: Leaving the 'label' blank will set aria-hidden for screen readers.
+Note: Leaving the 'ariaLabel' blank will set aria-hidden for screen readers.
 
 <Canvas of={NysIconStories.NameProp} />
 
-### Labels
-Include a label property to provide accessible text for screen readers.
+### Aria Label
+Include a `ariaLabel` property to provide accessible text for screen readers.
 <Canvas of={NysIconStories.Labels} />
 
 
@@ -181,7 +181,7 @@ Available values are `horizontal`, `vertical`, and `both`.
       ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
       - Use icons to enhance user interfaces with clear, recognizable icons.
       - Use appropriate icons align with the purpose and context of the UI elements they accompany.
-      - Provide an accessible label using the label attribute to ensure screen readers can interpret the icon's purpose (if warranted).
+      - Provide an accessible label using the `ariaLabel` attribute to ensure screen readers can interpret the icon's purpose (if warranted).
       - Customize icon sizes and colors to match the design system.
     </div>
   </div>
@@ -199,5 +199,5 @@ Available values are `horizontal`, `vertical`, and `both`.
 
 The `nys-icon` component includes the following accessibility-focused features:
 
-- **ARIA Hidden by Default:** If no label is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
-- **Customizable ARIA Label:** If a label is provided, the component automatically adds an `aria-label` attribute, making the icon accessible to screen readers.
+- **ARIA Hidden by Default:** If no `ariaLabel` is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
+- **Customizable ARIA Label:** If a `ariaLabel` is provided, the component automatically adds an `aria-label` attribute, making the icon accessible to screen readers.
