@@ -61,6 +61,7 @@ export const Basic: Story = {
           label="Usage Survey"
           current
           href="/nys-stepper/survey.html"
+          .onClick=${() => alert("This step also has a function called on it")}
         ></nys-step>
         <nys-step
           label="Newsletter Opt-In"
@@ -132,19 +133,29 @@ export const Basic: Story = {
             }
           };
 
-          // On initial load: find selected step and load content
+          // On initial load: find selected step and load content + call onClick if present
           const selectedStep = stepper.querySelector("nys-step[selected]");
           if (selectedStep) {
             const href = selectedStep.getAttribute("href");
-            loadContent(href);
+            if (typeof selectedStep.onClick === "function") {
+              selectedStep.onClick();
+            }
+            if (href) {
+              loadContent(href);
+            }
           }
 
-          // Listen for step clicks and load content
+          // Listen for step clicks and do both if available
           stepper.addEventListener("nys-step-click", async (e) => {
             const stepEl = e.target;
             if (stepEl?.tagName === "NYS-STEP") {
               const href = stepEl.getAttribute("href");
-              await loadContent(href);
+              if (typeof selectedStep.onClick === "function") {
+                selectedStep.onClick();
+              }
+              if (href) {
+                loadContent(href);
+              }
             }
           });
         }
