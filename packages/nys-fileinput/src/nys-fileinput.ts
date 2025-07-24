@@ -36,6 +36,48 @@ export class NysFileinput extends LitElement {
     return this.disabled || (!this.multiple && this._selectedFiles.length > 0);
   }
 
+  private get _buttonAriaLabel(): string {
+    if (this._selectedFiles.length === 0) {
+      return this.multiple ? "Choose files: " : "Choose file: ";
+    }
+
+    return this.multiple ? "Change files: " : "Change file: ";
+  }
+
+  private get _buttonAriaDescription(): string {
+    if (this._selectedFiles.length === 0)
+      return `${this.label + " " + this.description}`;
+
+    const hasInvalidFiles = this._selectedFiles.some(
+      (file) => file.status === "error",
+    );
+
+    let base = "";
+
+    if (this._selectedFiles.length === 1) {
+      base = `You have selected ${this._selectedFiles[0].file.name}.`;
+    } else {
+      const fileNames = this._selectedFiles.map((f) => f.file.name).join(", ");
+      base = `You have selected ${this._selectedFiles.length} files: ${fileNames}`;
+    }
+
+    const error = hasInvalidFiles
+      ? " Error: One or more files are not valid file types."
+      : "";
+
+    return `${base}${error}`;
+  }
+
+  private get _innerNysButton(): HTMLElement | null {
+    const nysButton = this.renderRoot.querySelector(
+      '[name="file-btn"]',
+    ) as HTMLButtonElement | null;
+    const innerButton = nysButton?.shadowRoot?.querySelector(
+      "button",
+    ) as HTMLElement | null;
+    return innerButton;
+  }
+
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
@@ -112,6 +154,7 @@ export class NysFileinput extends LitElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = message === (this.errorMessage || "Please upload a file.");
+
     // If user sets errorMessage, this will always override the native validation message
     if (this.errorMessage?.trim() && message !== "") {
       message = this.errorMessage;
@@ -125,7 +168,7 @@ export class NysFileinput extends LitElement {
   }
 
   private _validate() {
-    const hasCorruptedFiles = this._selectedFiles.some(
+    const hasErrorFiles = this._selectedFiles.some(
       (entry) => entry.status === "error",
     );
     const isEmpty = this.required && this._selectedFiles.length === 0;
@@ -133,14 +176,49 @@ export class NysFileinput extends LitElement {
     let message = "";
     if (isEmpty) {
       message = this.errorMessage || "Please upload a file.";
-    } else if (hasCorruptedFiles) {
+    } else if (hasErrorFiles) {
       message = "One or more files are invalid.";
     }
 
     this._setValidityMessage(message);
   }
 
+  // This helper function is called to perform the element's native validation.
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
+    this._validate();
+
+    const innerButton = this._innerNysButton;
+    if (innerButton) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          innerButton.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        innerButton.focus();
+      }
+    }
+  }
+
   /******************** Functions ********************/
+
   // Store the files to be displayed
   private async _saveSelectedFiles(file: File) {
     const isDuplicate = this._selectedFiles.some(
@@ -172,7 +250,7 @@ export class NysFileinput extends LitElement {
       const isValid = await validateFileHeader(entry.file, this.accept);
       if (!isValid) {
         entry.status = "error";
-        entry.errorMsg = "File format does not match expected type.";
+        entry.errorMsg = "File type is invalid.";
         this.requestUpdate();
         return;
       }
@@ -225,6 +303,36 @@ export class NysFileinput extends LitElement {
     input?.click();
   }
 
+  private _handlePostFileSelectionFocus() {
+    if (this.multiple) {
+      const innerButton = this._innerNysButton;
+
+      if (innerButton) {
+        innerButton.focus();
+      }
+    } else {
+      this._focusFirstFileItemIfSingleMode();
+    }
+  }
+
+  private async _focusFirstFileItemIfSingleMode() {
+    if (!this.multiple) {
+      await this.updateComplete;
+      const fileItem = this.renderRoot.querySelector(
+        "nys-fileitem",
+      ) as HTMLElement;
+
+      const innerFileItemMainContainer = fileItem?.shadowRoot?.querySelector(
+        ".file-item",
+      ) as HTMLElement | null;
+
+      if (innerFileItemMainContainer) {
+        innerFileItemMainContainer.setAttribute("tabindex", "-1");
+        innerFileItemMainContainer.focus();
+      }
+    }
+  }
+
   /******************** Event Handlers ********************/
   // Access the selected files & add new files to the internal list via the hidden <input type="file">
   private _handleFileChange(e: Event) {
@@ -241,6 +349,7 @@ export class NysFileinput extends LitElement {
 
     this.requestUpdate();
     this._dispatchChangeEvent();
+    this._handlePostFileSelectionFocus();
   }
 
   private _handleFileRemove(e: CustomEvent) {
@@ -305,34 +414,6 @@ export class NysFileinput extends LitElement {
     this._dispatchChangeEvent();
   }
 
-  private _handleInvalid(event: Event) {
-    event.preventDefault();
-    this._validate();
-
-    const input = this.shadowRoot?.querySelector("input");
-    if (input) {
-      // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
-      if (form) {
-        const elements = Array.from(form.elements) as Array<
-          HTMLElement & { checkValidity?: () => boolean }
-        >;
-        // Find the first element in the form that is invalid
-        const firstInvalidElement = elements.find(
-          (element) =>
-            typeof element.checkValidity === "function" &&
-            !element.checkValidity(),
-        );
-        if (firstInvalidElement === this) {
-          input.focus();
-        }
-      } else {
-        // If not part of a form, simply focus.
-        input.focus();
-      }
-    }
-  }
-
   render() {
     return html`<div
       class="nys-fileinput"
@@ -348,8 +429,8 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
-        id=${this.id}
         class="hidden-file-input"
+        tabindex="-1"
         type="file"
         name=${this.name}
         ?multiple=${this.multiple}
@@ -358,18 +439,19 @@ export class NysFileinput extends LitElement {
         ?disabled=${this.disabled ||
         (!this.multiple && this._selectedFiles.length > 0)}
         aria-disabled="${this.disabled}"
-        aria-label="Drag files here or choose from folder"
-        aria-describedby="file-input-specific-hint"
-        style="position: absolute; width: 1px; height: 1px; opacity: 0;"
+        aria-hidden="true"
+        hidden
         @change=${this._handleFileChange}
       />
 
       ${!this.dropzone
         ? html`<nys-button
-            id="file-btn"
+            id=${this.id}
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
+            ariaLabel=${this._buttonAriaLabel}
+            ariaDescription=${this._buttonAriaDescription}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
             .onClick=${() => this._openFileDialog()}
@@ -387,14 +469,17 @@ export class NysFileinput extends LitElement {
             @dragover=${this._isDropDisabled ? null : this._onDragOver}
             @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
             @drop=${this._isDropDisabled ? null : this._onDrop}
+            aria-label="Drag files here or choose from folder"
           >
             ${this._dragActive
               ? html`<p>Drop file to upload</p>`
               : html` <nys-button
-                    id="file-btn"
+                    id=${this.id}
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
+                    ariaLabel=${this._buttonAriaLabel}
+                    ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
                     .onClick=${(e: Event) => {
                       e.stopPropagation();
