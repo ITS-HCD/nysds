@@ -7,14 +7,11 @@ export class NysStepper extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
-  @property({ type: String }) contentTarget = "";
   @property({ type: String }) counterText = "initial";
   @property({ type: Boolean, reflect: true })
   isCompactExpanded = false;
 
   static styles = styles;
-
-  private hasLoadedInitialContent = false;
 
   constructor() {
     super();
@@ -113,16 +110,14 @@ export class NysStepper extends LitElement {
     // Can't select already selected
     if (clickedStep.hasAttribute("selected")) return;
 
-    // Update selected
-    steps.forEach((step) => step.removeAttribute("selected"));
+    // Remove selected from previous and move to new selected
+    steps[currentIndex].removeAttribute("selected");
     clickedStep.setAttribute("selected", "");
 
     // Update counter immediately
     this._updateCounter();
 
-    // Load content
-    this._loadHref(clickedStep.getAttribute("href"));
-
+    console.log("supposed to close now");
     // Close expanded if it was open
     this.isCompactExpanded = false;
   };
@@ -218,44 +213,6 @@ export class NysStepper extends LitElement {
 
     // Always update counter
     this._updateCounter();
-
-    // Load content on first update
-    if (!this.hasLoadedInitialContent) {
-      this.hasLoadedInitialContent = true;
-      const selected = Array.from(steps).find((step) =>
-        step.hasAttribute("selected"),
-      );
-      if (selected) {
-        this._loadHref(selected.getAttribute("href"));
-      }
-    }
-  }
-
-  private async _loadHref(href: string | null) {
-    if (!href) return;
-
-    let container: HTMLElement | null = null;
-
-    // If developer specified a content target ID, use it
-    if (this.contentTarget) {
-      container = document.getElementById(this.contentTarget);
-    }
-
-    // Otherwise fallback to next sibling
-    if (!container) {
-      container = this.nextElementSibling as HTMLElement;
-    }
-
-    if (container) {
-      try {
-        const response = await fetch(href);
-        container.innerHTML = await response.text();
-      } catch (err) {
-        console.error("Failed to load step content:", err);
-      }
-    } else {
-      console.warn("No container found for loading step content.");
-    }
   }
 
   private _toggleCompact() {
