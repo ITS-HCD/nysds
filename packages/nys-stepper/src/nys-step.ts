@@ -20,7 +20,6 @@ export class NysStep extends LitElement {
           composed: true,
         }),
       );
-      this.onClick?.(e);
     }
   }
 

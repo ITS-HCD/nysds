@@ -113,52 +113,52 @@ export const Basic: Story = {
         const stepper = document.querySelector("nys-stepper");
         const contentDiv = document.getElementById("stepper-content");
 
-        if (stepper && contentDiv) {
-          // Function to load content by href
-          const loadContent = async (href) => {
-            if (!href) {
-              contentDiv.innerHTML =
-                "<div>This step has no href to load content from.</div>";
-              return;
-            }
-            try {
-              contentDiv.innerHTML = "<div>Loading...</div>";
-              const response = await fetch(href);
-              if (!response.ok) throw new Error("Network response was not ok");
-              const html = await response.text();
-              contentDiv.innerHTML = html;
-            } catch (error) {
-              console.error(error);
-              contentDiv.innerHTML = "<div>Error loading content.</div>";
-            }
-          };
+        if (!stepper || !contentDiv) return;
 
-          // On initial load: find selected step and load content + call onClick if present
-          const selectedStep = stepper.querySelector("nys-step[selected]");
-          if (selectedStep) {
-            const href = selectedStep.getAttribute("href");
-            if (typeof selectedStep.onClick === "function") {
-              selectedStep.onClick();
-            }
-            if (href) {
-              loadContent(href);
-            }
+        const loadContent = async (href) => {
+          if (!href) {
+            contentDiv.innerHTML =
+              "<div>This step has no href to load content from.</div>";
+            return;
           }
+          try {
+            contentDiv.innerHTML = "<div>Loading...</div>";
+            const response = await fetch(href);
+            if (!response.ok) throw new Error("Network response was not ok");
+            const html = await response.text();
+            contentDiv.innerHTML = html;
+          } catch (error) {
+            console.error(error);
+            contentDiv.innerHTML = "<div>Error loading content.</div>";
+          }
+        };
 
-          // Listen for step clicks and do both if available
-          stepper.addEventListener("nys-step-click", async (e) => {
-            const stepEl = e.target;
-            if (stepEl?.tagName === "NYS-STEP") {
-              const href = stepEl.getAttribute("href");
-              if (typeof selectedStep.onClick === "function") {
-                selectedStep.onClick();
-              }
-              if (href) {
-                loadContent(href);
-              }
-            }
-          });
+        // Helper to run onClick and/or href logic from a step element
+        const activateStep = async (stepEl) => {
+          if (!stepEl || stepEl.tagName !== "NYS-STEP") return;
+
+          const onClick = stepEl.onClick;
+          const href = stepEl.getAttribute("href");
+
+          if (typeof onClick === "function") {
+            onClick();
+          }
+          if (href) {
+            await loadContent(href);
+          }
+        };
+
+        // On initial load: find selected step and run logic
+        const selectedStep = stepper.querySelector("nys-step[selected]");
+        if (selectedStep) {
+          activateStep(selectedStep);
         }
+
+        // Handle custom event from click OR keyboard
+        stepper.addEventListener("nys-step-click", async (e) => {
+          const stepEl = e.target;
+          await activateStep(stepEl);
+        });
       }, 0);
     </script>
   `,
