@@ -111,13 +111,12 @@ export class NysStepper extends LitElement {
     if (clickedStep.hasAttribute("selected")) return;
 
     // Remove selected from previous and move to new selected
-    steps[currentIndex].removeAttribute("selected");
+    steps.forEach((step) => step.removeAttribute("selected"));
     clickedStep.setAttribute("selected", "");
 
     // Update counter immediately
     this._updateCounter();
 
-    console.log("supposed to close now");
     // Close expanded if it was open
     this.isCompactExpanded = false;
   };
