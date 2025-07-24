@@ -100,7 +100,6 @@ export const Basic: Story = {
         flex: 1;
         height: 100%;
         width: 100%;
-        max-height: 600px;
       }
       #stepper-content {
         width: 100%;
