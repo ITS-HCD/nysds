@@ -12,9 +12,7 @@ The **`nys-button`** component is a reusable web component for use in New York S
 If an id is not passed, a unique id will be generated.
 
 <nys-alert type="warning" heading="Usage Guidance">
-If using the `nys-button` as a subcomponent in other nys components be sure to call the function on the
-`.onClick` prop. This will ensure that the button is accessible and can be used by all users. If you use
-`@click` the button will not be accessible to users relying on keyboard navigation.
+When using the `<nys-button>`, use the `onClick` prop (in lit.dev it's `.onClick`) instead of adding your own @click, @keydown, or their equivalents in your framework. This makes sure your button responds to both mouse and keyboard interactions (like Enter or Space), keeping it fully accessible.
 </nys-alert>
 <br/>
 
