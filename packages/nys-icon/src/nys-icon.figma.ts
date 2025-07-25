@@ -2,7 +2,7 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_ICON>", {
   props: {
-    size: figma.enum("size", {
+    size: figma.enum("Size", {
       "12": "12",
       "24": "24",
       "32": "32",

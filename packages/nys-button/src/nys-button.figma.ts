@@ -5,7 +5,6 @@ figma.connect("<FIGMA_BUTTON>", {
     label: figma.string("Label Text"),
     size: figma.enum("Size", {
       sm: "sm",
-      md: "md", //default
       lg: "lg",
     }),
     variant: figma.enum("Variant", {
@@ -17,6 +16,8 @@ figma.connect("<FIGMA_BUTTON>", {
     disabled: figma.boolean("Disabled"),
     prefixIcon: figma.children("Prefix Icon"),
     suffixIcon: figma.children("Suffix Icon"),
+    circle: figma.boolean("Circle"),
+    icon: figma.children("Icon"),
   },
   example: (props) => html`
     <!--
@@ -34,6 +35,8 @@ figma.connect("<FIGMA_BUTTON>", {
       disabled="${props.disabled}"
       ${props.prefixIcon}
       ${props.suffixIcon}
+      circle="${props.circle}"
+      ${props.icon}
     ></nys-button>
   `,
 });
