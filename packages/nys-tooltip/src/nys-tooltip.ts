@@ -71,9 +71,14 @@ export class NysTooltip extends LitElement {
   }
 
   firstUpdated() {
-    const firstEl = this._firstAssignedEl;
-    if (firstEl) {
-      this._applyFocusBehavior(firstEl);
+    const slot = this.shadowRoot?.querySelector("slot");
+    if (slot) {
+      slot.addEventListener("slotchange", () => {
+        const firstEl = this._firstAssignedEl;
+        if (firstEl) {
+          this._applyFocusBehavior(firstEl);
+        }
+      });
     }
   }
 
