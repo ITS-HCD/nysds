@@ -10,7 +10,7 @@ export class NysAvatar extends LitElement {
 
   /********************** Properties **********************/
   @property({ type: String }) id = "";
-  @property({ type: String }) label = "";
+  @property({ type: String }) ariaLabel = "";
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";
   @property({ type: String }) icon = "";
@@ -87,7 +87,11 @@ export class NysAvatar extends LitElement {
               : "#555"};"
             role=${ifDefined(this.image ? undefined : "img")}
             aria-label=${ifDefined(
-              this.image ? undefined : this.label ? this.label : "avatar",
+              this.image
+                ? undefined
+                : this.ariaLabel
+                  ? this.ariaLabel
+                  : "avatar",
             )}
           >
             ${this.image?.length > 0
@@ -95,7 +99,7 @@ export class NysAvatar extends LitElement {
                   part="nys-avatar__image"
                   class="nys-avatar__image"
                   src=${this.image}
-                  alt=${this.label || "avatar"}
+                  alt=${this.ariaLabel || "avatar"}
                   loading=${this.lazy ? "lazy" : "eager"}
                 />`
               : this.initials?.length > 0
