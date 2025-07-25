@@ -28,9 +28,9 @@ describe("nys-avatar", () => {
     expect(icon?.getAttribute("name")).to.equal("account_circle");
   });
 
-  it("should have aria-label if label prop is provided", async () => {
+  it("should have aria-label if ariaLabel prop is provided", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar label="user avatar"></nys-avatar>`,
+      html`<nys-avatar ariaLabel="user avatar"></nys-avatar>`,
     );
     const avatarContainer = el?.shadowRoot?.querySelector(
       ".nys-avatar__component",
@@ -45,7 +45,7 @@ describe("nys-avatar", () => {
         image="https://images.cats.com"
         initials="NYS"
         icon="account_circle"
-        label="Test Avatar"
+        ariaLabel="Test Avatar"
       ></nys-avatar>`,
     );
 
@@ -83,7 +83,7 @@ describe("nys-avatar", () => {
  * ENSURE ALT TEXT:
  * - For initial avatars, include the person's full name as descriptive alt text if the person's full name is not shown next to the avatar
  * - For photo avatars, include the person's full name as descriptive alt text if the person's full name is not shown next to the avatar
- * A label property to provide accessible text for screen readers (or default fallback text "avatar")
+ * An ariaLabel property to provide accessible text for screen readers (or default fallback text "avatar")
  */
 
 /* ACCESSIBILITY INSIGHT TOOL (Feedback) */
