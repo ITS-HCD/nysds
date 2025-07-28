@@ -2,7 +2,9 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_STEPPER>", {
   props: {
-    // TODO: Add props here
+    label: figma.string("Label"),
   },
-  example: () => html` <nys-stepper></nys-stepper> `,
+  example: (props) => html`
+    <nys-stepper label="${props.label}"></nys-stepper>
+  `,
 });
