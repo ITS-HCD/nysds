@@ -7,7 +7,7 @@ import * as NysAvatarStories from "./nys-avatar.stories";
 # Avatar
 The **`nys-avatar`** component is a reusable web component for use in New York State digital products. It allows users to represent a person or object.
 
-By default, a generic icon is displayed. Personalize avatars with custom icons, initials, or images, and always include a label for accessibility. \
+By default, a generic icon is displayed. Personalize avatars with custom icons, initials, or images, and always include an `ariaLabel` for accessibility. \
 If an id is not passed, a unique id will be generated.
 
 <p className="pill pill--stable">Stable</p>
@@ -24,7 +24,7 @@ If an id is not passed, a unique id will be generated.
 
 ## Variants
 ### Images
-To display an image in the avatar, set the `image` and `label` attributes. Images will take <u>priority and override</u> initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
+To display an image in the avatar, set the `image` and `ariaLabel` attributes. Images will take <u>priority and override</u> initials and icons. You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
 <Canvas of={NysAvatarStories.AvatarImage} />
 
 ### Initials
@@ -67,7 +67,7 @@ The background color of the Avatar can be customized using the color attribute. 
       <div className="usage-card usage-card--dont">
          ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
          - Don’t overload the avatar with unnecessary customizations.
-         - Don’t skip the `label` attribute for screen reader users.
+         - Don’t skip the `ariaLabel` attribute for screen reader users.
          - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
       </div>
    </div>
@@ -76,7 +76,7 @@ The background color of the Avatar can be customized using the color attribute. 
 The `nys-avatar` component includes the following accessibility-focused features:
 
 - Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly.
-- A label property to provide accessible text for screen readers.
+- An `ariaLabel` property to provide accessible text for screen readers.
 
 ## Parts
 <table>
