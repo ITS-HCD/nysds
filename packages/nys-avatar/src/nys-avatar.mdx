@@ -57,7 +57,7 @@ The background color of the Avatar can be customized using the color attribute. 
 <div className="nys-grid-row nys-grid-gap-lg">
    <div className="nys-mobile-lg:nys-grid-col">
       <div className="usage-card usage-card--do">
-         ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+         ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
          - Use for clear, simple user or entity representation.
          - Use appropriate shapes, sizes, and images to fit the overall page design.
          - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
@@ -65,7 +65,7 @@ The background color of the Avatar can be customized using the color attribute. 
    </div>
    <div className="nys-mobile-lg:nys-grid-col">
       <div className="usage-card usage-card--dont">
-         ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+         ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
          - Don’t overload the avatar with unnecessary customizations.
          - Don’t skip the `label` attribute for screen reader users.
          - Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
