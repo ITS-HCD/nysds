@@ -1,7 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-stepper";
-import "./nys-step";
 import "@nysds/nys-button";
 import "@nysds/nys-textinput";
 import "@nysds/nys-textarea";
