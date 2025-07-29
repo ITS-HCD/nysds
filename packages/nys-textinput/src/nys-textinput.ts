@@ -16,6 +16,7 @@ export class NysTextinput extends LitElement {
     "tel",
     "text",
     "url",
+    "date",
   ] as const;
 
   // Use `typeof` to dynamically infer the allowed types

@@ -38,7 +38,16 @@ const meta: Meta<NysTextinputArgs> = {
     name: { control: "text" },
     type: {
       control: "select",
-      options: ["email", "number", "password", "search", "tel", "text", "url"],
+      options: [
+        "email",
+        "number",
+        "password",
+        "search",
+        "tel",
+        "text",
+        "url",
+        "date",
+      ],
     },
     label: { control: "text" },
     description: { control: "text" },
@@ -155,9 +164,9 @@ export const Width: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="myTextInput"
-  width="sm" 
+  width="sm"
   label="This label is extra small"
 ></nys-textinput>
         `,
@@ -202,9 +211,9 @@ export const Password: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="myTextInput1"
-  type="password" 
+  type="password"
   label="Password:"
 >
 </nys-textinput>
@@ -256,9 +265,9 @@ export const SlottedButton: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="searchInput"
-  type="search" 
+  type="search"
   placeholder="Search"
 >
   <nys-button
@@ -310,10 +319,10 @@ export const ValueAndPlaceholder: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="myTextInput2"
-  label="Label" 
-  value="initial value" 
+  label="Label"
+  value="initial value"
   placeholder="this is a placeholder">
 </nys-textinput>
         `,
@@ -401,10 +410,10 @@ export const Readonly: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="myTextInput4"
-  label="Read Only" 
-  value="You cannot edit me" 
+  label="Read Only"
+  value="You cannot edit me"
   readonly
 ></nys-textinput>
 `,
@@ -452,13 +461,13 @@ export const MaxMinAndStep: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="myTextInput5"
-  label="Max/Min Example" 
+  label="Max/Min Example"
   description="Must be between 0 and 100"
-  type="number" 
-  min="0" 
-  max="100" 
+  type="number"
+  min="0"
+  max="100"
   step="10">
 </nys-textinput>
         `,
@@ -507,7 +516,7 @@ export const Maxlength: Story = {
 <nys-textinput
   name="myTextInput6"
   label="Max Length"
-  description="You cannot type more than 10 characters in the below field" 
+  description="You cannot type more than 10 characters in the below field"
   maxlength="10">
 </nys-textinput>
         `,
@@ -570,7 +579,7 @@ export const Pattern: Story = {
   maxlength="9"
   pattern="N[0-9]{8}"
   id="nID"
-></nys-textinput>        
+></nys-textinput>
 `,
         type: "auto",
       },
@@ -672,7 +681,7 @@ export const DescriptionSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="descriptionProp"
   label="Label"
   description="Slot: description"
@@ -722,7 +731,7 @@ export const ErrorMessage: Story = {
     docs: {
       source: {
         code: `
-<nys-textinput 
+<nys-textinput
   name="myTextInput8"
   label="Label"
   showError
