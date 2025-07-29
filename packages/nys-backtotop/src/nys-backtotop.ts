@@ -9,6 +9,8 @@ export class NysBacktotop extends LitElement {
   static styles = styles;
 
   @state() private isMobile = false;
+  @state() private forceVisible = false;
+
   private mediaQuery: MediaQueryList;
 
   constructor() {
@@ -20,6 +22,7 @@ export class NysBacktotop extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.forceVisible = this.hasAttribute("visible"); // true only if passed in markup
     window.addEventListener("scroll", this._handleScroll);
     this.mediaQuery.addEventListener("change", this._handleResize);
     this._handleResize(); // Initialize
@@ -32,9 +35,17 @@ export class NysBacktotop extends LitElement {
   }
 
   private _handleScroll() {
-    const showAfter = window.innerHeight * 1.5;
-    this.visible = window.scrollY > showAfter;
+    // If visible was explicitly set by user, don't override it
+    if (this.forceVisible) return;
+
+    const screenHeight = window.innerHeight;
+    const pageHeight = document.documentElement.scrollHeight;
+
+    // Show only if total page height >= 4 screens and scrolled past 1.5 screens
+    this.visible =
+      pageHeight >= screenHeight * 4 && window.scrollY > screenHeight * 1.5;
   }
+
   private _scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
