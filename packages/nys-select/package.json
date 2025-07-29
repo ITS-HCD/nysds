@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-select",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "The Select component from the NYS Design System.",
   "module": "dist/nys-select.js",
   "exports": {
@@ -22,15 +22,15 @@
   },
   "peerDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.5.0",
-    "@nysds/nys-label": "^1.5.0",
-    "@nysds/nys-errormessage": "^1.5.0"
+    "@nysds/nys-icon": "^1.5.3",
+    "@nysds/nys-label": "^1.5.3",
+    "@nysds/nys-errormessage": "^1.5.3"
   },
   "devDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-icon": "^1.5.0",
-    "@nysds/nys-label": "^1.5.0",
-    "@nysds/nys-errormessage": "^1.5.0",
+    "@nysds/nys-icon": "^1.5.3",
+    "@nysds/nys-label": "^1.5.3",
+    "@nysds/nys-errormessage": "^1.5.3",
     "typescript": "^5.7.2",
     "vite": "^6.3.4"
   },
