@@ -56,6 +56,7 @@ export class NysBacktotop extends LitElement {
       prefixIcon="chevron_up"
       variant="outline"
       label="Back to top"
+      size="sm"
       class="${classes}"
       .onClick=${this._scrollToTop}
       ?circle=${this.isMobile}
