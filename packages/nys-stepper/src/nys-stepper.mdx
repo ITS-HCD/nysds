@@ -24,10 +24,25 @@ If an id is not passed, a unique id will be generated.
 
 <Controls />
 
-## Options
+## Stepper Options
 
 ### Compact
 On small screens, the `nys-stepper` will render in a compact mode where the progress is indicated by bars rather than complete steps. You can expand to see the names of steps by clicking on "Step x of y"
+
+
+## Step Options
+
+### Selected
+- Represents which step is being displayed to the user.
+- The `selected` step by default will match `current` step if `selected` is not defined.
+- `selected` cannot exist on a step later than the `current` step, if this is done by mistake it will correct to match `current`.
+
+### Current
+- Represents which step is the user is up to in the stepper's progress.
+- This is the last step the user is able to navigate to.
+- Users can go back and review past completed steps, therefor `current` and `selected` might not be the same at a given moment.
+- As the user completes steps, the `current` flag will iterate to the next step.
+- if `current` is not defined, the first step is marked by default.
 
 ## Usage
 
