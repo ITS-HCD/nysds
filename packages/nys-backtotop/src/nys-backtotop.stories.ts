@@ -111,7 +111,7 @@ export const Left: Story = {
       <nys-button
         prefixIcon="sms"
         variant="outline"
-        label="Chat With Us"
+        label="Chat with us"
         size="sm"
       ></nys-button>
       <nys-unavfooter></nys-unavfooter>
