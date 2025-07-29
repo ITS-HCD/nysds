@@ -35,15 +35,6 @@ type Story = StoryObj<NysBacktotopArgs>;
 // Define stories without using args
 export const Basic: Story = {
   render: (args) => {
-    // Force visible and disable scroll behavior for the demo
-    setTimeout(() => {
-      const el = document.querySelector("nys-backtotop");
-      if (el) {
-        window.removeEventListener("scroll", el["_handleScroll"]);
-        el.visible = true;
-      }
-    }, 0);
-
     return html`
       <style>
         code {
@@ -68,7 +59,7 @@ export const Basic: Story = {
         </p>
       </div>
       <nys-unavfooter></nys-unavfooter>
-      <nys-backtotop .position=${args.position}></nys-backtotop>
+      <nys-backtotop visible .position=${args.position}></nys-backtotop>
     `;
   },
   parameters: {
@@ -86,16 +77,6 @@ export const Left: Story = {
     position: "left",
   },
   render: (args) => {
-    // Same fix: get last instance rendered
-    setTimeout(() => {
-      const elements = document.querySelectorAll("nys-backtotop");
-      const el = elements[elements.length - 1];
-      if (el) {
-        window.removeEventListener("scroll", el["_handleScroll"]);
-        el.visible = true;
-      }
-    }, 0);
-
     return html`
       <style>
         code {
@@ -130,10 +111,11 @@ export const Left: Story = {
       <nys-button
         prefixIcon="sms"
         variant="outline"
-        label="Chat With Us"
+        label="Chat with us"
+        size="sm"
       ></nys-button>
       <nys-unavfooter></nys-unavfooter>
-      <nys-backtotop .position=${args.position}></nys-backtotop>
+      <nys-backtotop visible .position=${args.position}></nys-backtotop>
     `;
   },
   parameters: {
