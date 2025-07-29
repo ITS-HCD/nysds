@@ -32,6 +32,22 @@ On small screens, the `nys-stepper` will render in a compact mode where the prog
 
 ## Step Options
 
+### Label
+- Defines the label of a step:
+```
+<nys-step label="Personal Details">
+```
+
+### href and onClick
+Add a `href` if the content of the step is plain html:
+```
+<nys-step label="Personal Details" href="/nys-stepper/personal.html"></nys-step>
+```
+Add an `onClick` if the content of the step is retrieved from an API or a function needs to be called:
+```
+<nys-step label="Personal Details" .onClick=${() => alert("Personal Details need to be retrieved.")}></nys-step>
+```
+
 ### Selected
 - Represents which step is being displayed to the user.
 - The `selected` step by default will match `current` step if `selected` is not defined.
