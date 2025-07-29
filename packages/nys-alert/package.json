@@ -22,7 +22,9 @@
     "test:watch": "vite build && wtr --watch"
   },
   "peerDependencies": {
-    "lit": "^3.2.1",
+    "lit": "^3.2.1"
+  },
+  "dependencies": {
     "@nysds/nys-icon": "^1.5.3",
     "@nysds/nys-button": "^1.5.3"
   },
