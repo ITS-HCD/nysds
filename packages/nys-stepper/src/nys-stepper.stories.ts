@@ -74,39 +74,18 @@ export const Basic: Story = {
           ></nys-button>
         </div>
       </nys-stepper>
-
       <div id="stepper-content">Loading...</div>
     </div>
     <style>
-      html,
-      body {
-        display: flex;
-        height: 100%;
-        width: 100%;
-      }
-      #storybook-root,
-      #root-inner {
-        height: 100%;
-        width: 100%;
-      }
       .wrapper {
         display: flex;
-        flex: 1;
-        height: 100%;
-        width: 100%;
       }
-      #stepper-content {
-        width: 100%;
-      }
-
       @media (max-width: 479px) {
         .wrapper {
           flex-direction: column;
-          max-height: 100%;
         }
       }
     </style>
-
     <script>
       setTimeout(() => {
         const stepper = document.querySelector("nys-stepper");
