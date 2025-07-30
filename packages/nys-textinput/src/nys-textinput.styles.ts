@@ -102,9 +102,16 @@ export default css`
     flex-direction: column;
   }
 
+  .nys-textinput__mask-overlay {
+    position: absolute;
+    padding-left: calc(
+      var(--_nys-textinput-padding) + var(--_nys-textinput-width-border)
+    );
+    color: var(--nys-color-text-weaker, #797c7f);
+  }
+
   .nys-textinput__input {
     color: var(--_nys-textinput-text-color);
-    font-size: var(--_nys-textinput-size-ui-md);
     border-radius: var(--_nys-textinput-radius);
     border: solid var(--_nys-textinput-color-border)
       var(--_nys-textinput-width-border);
@@ -114,7 +121,9 @@ export default css`
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    background-color: var(--_nys-textinput-background-color);
+    background-color: transparent;
+    position: relative;
+    font: inherit;
   }
   .nys-textinput__input::placeholder {
     color: var(--_nys-textinput-placeholder-color);
@@ -145,6 +154,7 @@ export default css`
     display: flex;
     align-items: center;
     width: 100%;
+    font-family: monospace;
   }
 
   ::slotted(nys-button) {
