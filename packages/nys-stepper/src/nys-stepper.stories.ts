@@ -45,7 +45,6 @@ export const Basic: Story = {
         .id=${args.id}
         .name=${args.name}
         label=${args.label}
-        contentTarget="stepper-content"
       >
         <nys-step
           label="Personal Details"
