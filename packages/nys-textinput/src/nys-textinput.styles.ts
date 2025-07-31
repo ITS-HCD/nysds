@@ -108,6 +108,7 @@ export default css`
       var(--_nys-textinput-padding) + var(--_nys-textinput-width-border)
     );
     color: var(--nys-color-text-weaker, #797c7f);
+    display: inline;
   }
 
   .nys-textinput__input {
@@ -154,7 +155,6 @@ export default css`
     display: flex;
     align-items: center;
     width: 100%;
-    font-family: monospace;
   }
 
   ::slotted(nys-button) {
