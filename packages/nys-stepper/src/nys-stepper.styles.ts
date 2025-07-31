@@ -198,10 +198,10 @@ export default css`
     overflow: hidden;
     color: var(--nys-color-text, #1b1b1b);
     text-overflow: ellipsis;
-    font-family: var(--nys-type-family-ui, "Proxima Nova");
-    font-size: var(--nys-type-size-ui-md, 16px);
-    font-style: normal;
-    font-weight: 400;
+    font-family: var(--_nys-stepper-font-family);
+    font-size: var(--_nys-stepper-font-size);
+    font-weight: var(--_nys-stepper-font-weight);
+    line-height: var(--_nys-stepper-line-height);
     line-height: var(--nys-type-size-ui-md, 16px);
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
     text-decoration-style: solid;
