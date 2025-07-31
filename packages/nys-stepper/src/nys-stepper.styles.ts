@@ -35,7 +35,7 @@ export default css`
     height: -webkit-fill-available;
     height: 100%;
     width: max-content;
-    max-width: 300px;
+    max-width: 100%;
   }
 
   .nys-stepper__header {

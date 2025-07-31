@@ -40,11 +40,12 @@ export const Basic: Story = {
     label: "Register for Design System Office Hours",
   },
   render: (args) => html`
-    <div class="wrapper">
+    <div class="nys-grid-row">
       <nys-stepper
         .id=${args.id}
         .name=${args.name}
         label=${args.label}
+        class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4"
       >
         <nys-step
           label="Personal Details"
@@ -73,7 +74,7 @@ export const Basic: Story = {
           ></nys-button>
         </div>
       </nys-stepper>
-      <div id="stepper-content">Loading...</div>
+      <div class="nys-mobile-lg:nys-grid-col-6" id="stepper-content">Loading...</div>
     </div>
     <style>
       .wrapper {
