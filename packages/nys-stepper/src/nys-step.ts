@@ -46,10 +46,18 @@ export class NysStep extends LitElement {
             : "0"}
           @click=${this._handleActivate}
           @keydown=${this._handleKeydown}
+          aria-label="${this.label} Step"
+          ?disabled=${!(
+            this.selected ||
+            this.current ||
+            this.hasAttribute("previous")
+          )}
         >
-          <div class="nys-step__number"></div>
-          <div class="nys-step__content">
-            <div class="nys-step__label">${this.label}</div>
+          <div class="nys-step__number" tabindex="-1" aria-hidden="true"></div>
+          <div class="nys-step__content" tabindex="-1" aria-hidden="true">
+            <div class="nys-step__label" tabindex="-1" aria-hidden="true">
+              ${this.label}
+            </div>
           </div>
         </div>
       </div>
