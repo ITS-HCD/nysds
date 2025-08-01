@@ -45,7 +45,7 @@ export const Basic: Story = {
         .id=${args.id}
         .name=${args.name}
         label=${args.label}
-        class="nys-mobile-lg:nys-grid-col-6 nys-tablet:nys-grid-col-4"
+        class="nys-desktop:nys-grid-col-3"
       >
         <nys-step
           label="Personal Details"
@@ -74,10 +74,16 @@ export const Basic: Story = {
           ></nys-button>
         </div>
       </nys-stepper>
-      <div class="nys-mobile-lg:nys-grid-col-6" id="stepper-content">
+      <div class="nys-desktop:nys-grid-col-9" id="stepper-content">
         Loading...
       </div>
     </div>
+
+    <style>
+      #stepper-content {
+        border: red solid;
+      }
+    </style>
     <script>
       setTimeout(() => {
         const stepper = document.querySelector("nys-stepper");

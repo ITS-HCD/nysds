@@ -235,9 +235,9 @@ export default css`
     outline-offset: 6px;
   }
 
-  @media (max-width: 479px) {
+  @media (max-width: 1023px) {
     .nys-stepper {
-      max-width: 479px;
+      max-width: 1023px;
       width: 100%;
     }
 
