@@ -78,12 +78,6 @@ export const Basic: Story = {
         Loading...
       </div>
     </div>
-
-    <style>
-      #stepper-content {
-        border: red solid;
-      }
-    </style>
     <script>
       setTimeout(() => {
         const stepper = document.querySelector("nys-stepper");
