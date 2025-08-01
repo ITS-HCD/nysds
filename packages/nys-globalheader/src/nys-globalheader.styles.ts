@@ -17,7 +17,6 @@ export default css`
     );
     --_nys-globalheader-main-gap-spacing: var(--nys-space-300, 24px);
     --_nys-globalheader-padding: var(--nys-space-250, 20px);
-    --_nys-globalheader-gutter: var(--nys-gutter-sm, 20px);
     --_nys-globalheader-font-family: var(
       --nys-font-family-ui,
       var(
@@ -97,8 +96,11 @@ export default css`
   }
 
   li {
+    display: block;
     margin: 0;
     padding: 0;
+    height: 100%;
+    box-sizing: border-box;
   }
 
   a {
@@ -115,10 +117,11 @@ export default css`
   .nys-globalheader {
     display: flex;
     justify-content: center;
-    padding: var(--_nys-globalheader-padding) var(--_nys-globalheader-gutter);
+    padding: var(--_nys-globalheader-padding);
     background-color: var(--_nys-globalheader-background);
     color: var(--_nys-globalheader-text-color);
     width: 100%;
+    min-height: 76px;
     box-sizing: border-box;
   }
 
@@ -185,6 +188,21 @@ export default css`
     text-decoration-thickness: var(--_nys-globalheader-link-weight-decoration);
   }
 
+  /* Active Links */
+  .nys-globalheader__content li.active a,
+  .nys-globalheader__content-mobile li.active a {
+    font-weight: 700;
+    margin-bottom: -8px;
+  }
+  .nys-globalheader__content li.active {
+    border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
+  }
+
+  .nys-globalheader__content-mobile li.active a {
+    border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
+    border-bottom: 1px solid var(--_nys-globalheader-mobile-li-border-color);
+  }
+
   /* Mobile Menu */
   .nys-globalheader__content-mobile {
     position: absolute;
@@ -212,6 +230,7 @@ export default css`
     gap: 8px;
     align-self: stretch;
     border-bottom: 1px solid var(--_nys-globalheader-mobile-li-border-color);
+    background: var(--_nys-globalheader-background);
   }
   .nys-globalheader__content-mobile ul li a:hover {
     background: var(--_nys-globalheader-mobile-li-hover-bg);
@@ -254,8 +273,9 @@ export default css`
   }
 
   /* Breakpoints using NYSDS Guidelines (Menu Links) */
-  @media (min-width: 768px) {
-    /* Tablet (MD - Above 768px) */
+  /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu/%F0%9F%92%A0-NYS-Design-System?node-id=1170-340&t=jKfVbTz2ucNKof0r-0 */
+  @media (min-width: 1024px) {
+    /* Desktop (MD - Above 1024px) */
     .nys-globalheader__content {
       display: flex;
     }
@@ -268,16 +288,21 @@ export default css`
     .nys-globalheader__button-container {
       display: none;
     }
+    li {
+      display: flex;
+      align-items: center;
+    }
     :host {
       --_nys-globalheader-main-gap-spacing: var(--nys-space-500, 40px);
-      --_nys-globalheader-gutter: var(--nys-gutter-lg, 32px);
+      --_nys-globalheader-padding: var(--nys-space-50, 4px)
+        var(--nys-size-400, 32px) 0 var(--nys-size-400, 32px);
     }
   }
 
   @media (min-width: 1280px) {
     /* Large Desktop (XL - Above 1280px) */
     :host {
-      --_nys-globalheader-gutter: var(--nys-gutter-xl, 64px);
+      --_nys-globalfooter-link-gap-spacing-row: var(--nys-size-2px, 2px);
     }
   }
 `;
