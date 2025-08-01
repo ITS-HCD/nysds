@@ -104,11 +104,16 @@ export default css`
 
   .nys-textinput__mask-overlay {
     position: absolute;
-    padding-left: calc(
+    margin: calc(
       var(--_nys-textinput-padding) + var(--_nys-textinput-width-border)
     );
     color: var(--nys-color-text-weaker, #797c7f);
     display: inline;
+    overflow: hidden;
+    white-space: nowrap;
+    width: stretch;
+    width: -webkit-fill-available;
+    width: -moz-available;
   }
 
   .nys-textinput__input {
