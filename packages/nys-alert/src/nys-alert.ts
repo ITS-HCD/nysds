@@ -212,7 +212,7 @@ export class NysAlert extends LitElement {
                   icon="close"
                   size="sm"
                   ?inverted=${this.type === "emergency"}
-                  ariaLabel="close button"
+                  ariaLabel="${this.heading}, alert, Close"
                   .onClick=${() => this._closeAlert()}
                 ></nys-button>`
               : ""}
