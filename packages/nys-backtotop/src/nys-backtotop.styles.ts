@@ -14,6 +14,7 @@ export default css`
     bottom: 1rem;
     right: 1rem;
     z-index: 9999;
+    display: none;
   }
 
   .left {

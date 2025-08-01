@@ -64,7 +64,7 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-tooltip
-  label="I am a tooltip."
+  text="I am a tooltip."
 >
   <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
 </nys-tooltip>`,
@@ -103,8 +103,7 @@ export const Focusable: Story = {
 <div style="display: flex; gap: 5px">
   <p>Hover over the icon</p>
   <nys-tooltip
-    label="I am a tooltip."
-    position="right"
+    text="I am a tooltip."
     focusable
   >
     <nys-icon name="info" size="3xl"></nys-icon>
@@ -147,7 +146,7 @@ export const Position: Story = {
 <div style="display: flex; gap: 5px">
   <p>Hover over the icon</p>
   <nys-tooltip
-    label="I am a tooltip."
+    text="I am a tooltip."
     position="right"
     focusable
   >
@@ -192,7 +191,7 @@ export const Inverted: Story = {
 <div style="color: #fff; display: flex; gap: 5px">
   <p>Hover over the icon</p>
   <nys-tooltip
-    label="I am a tooltip."
+    text="I am a tooltip."
     inverted
     focusable
   >

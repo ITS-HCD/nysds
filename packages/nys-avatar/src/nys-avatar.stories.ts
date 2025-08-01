@@ -6,7 +6,7 @@ import "@nysds/nys-icon";
 // Define the structure of the args used in the stories
 interface NysAvatarArgs {
   id: string;
-  label: string;
+  ariaLabel: string;
   initials?: string;
   icon?: string;
   image?: string;
@@ -20,7 +20,7 @@ const meta: Meta<NysAvatarArgs> = {
   component: "nys-avatar",
   argTypes: {
     id: { control: "text", type: "string" },
-    label: { control: "text", type: "string" },
+    ariaLabel: { control: "text", type: "string" },
     initials: { control: "text", type: "string" },
     icon: {
       control: "text",
@@ -57,14 +57,14 @@ type Story = StoryObj<NysAvatarArgs>;
 // Story: Basic
 export const Basic: Story = {
   args: {
-    label: "User avatar",
+    ariaLabel: "User avatar",
     image:
       "https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`",
     lazy: false,
   },
   render: (args) =>
     html` <nys-avatar
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .initials=${args.initials}
       .icon=${args.icon}
       .image=${args.image}
@@ -78,7 +78,7 @@ export const Basic: Story = {
       source: {
         code: `
  <nys-avatar
-	label="User avatar"
+	ariaLabel="User avatar"
 	image="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
  ></nys-avatar>
 	  `.trim(),
@@ -90,12 +90,12 @@ export const Basic: Story = {
 // Story: Image
 export const AvatarImage: Story = {
   args: {
-    label: "User avatar",
+    ariaLabel: "User avatar",
   },
   render: (args) =>
     html` <div style="display:flex; gap:5px;">
       <nys-avatar
-        .label=${args.label}
+        .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .icon=${args.icon}
         image="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -103,7 +103,7 @@ export const AvatarImage: Story = {
       >
       </nys-avatar>
       <nys-avatar
-        .label=${args.label}
+        .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .icon=${args.icon}
         image="https://images.unsplash.com/photo-1523318840068-3e8c0f998509?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -118,11 +118,11 @@ export const AvatarImage: Story = {
         code: `
 <div style="display:flex; gap:5px;">
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   image="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ></nys-avatar>
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   image="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
   lazy
 ></nys-avatar>
@@ -136,12 +136,12 @@ export const AvatarImage: Story = {
 // Story: Initials
 export const AvatarInitials: Story = {
   args: {
-    label: "User avatar",
+    ariaLabel: "User avatar",
     initials: "RC",
   },
   render: (args) => html`
     <nys-avatar
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .initials=${args.initials}
       .icon=${args.icon}
       .image=${args.image}
@@ -156,7 +156,7 @@ export const AvatarInitials: Story = {
       source: {
         code: `
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   initials="RC"
 ></nys-avatar>
     `.trim(),
@@ -168,13 +168,13 @@ export const AvatarInitials: Story = {
 // Story: Icon
 export const AvatarIcon: Story = {
   args: {
-    label: "User avatar",
+    ariaLabel: "User avatar",
     icon: "account_circle",
   },
   render: (args) =>
     html` <div style="display:flex; gap:5px;">
       <nys-avatar
-        .label=${args.label}
+        .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .icon=${args.icon}
         .image=${args.image}
@@ -184,7 +184,7 @@ export const AvatarIcon: Story = {
       >
       </nys-avatar>
       <nys-avatar
-        .label=${args.label}
+        .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .image=${args.image}
         .shape=${args.shape}
@@ -192,7 +192,7 @@ export const AvatarIcon: Story = {
         color="#f2efee"
       >
         <nys-icon
-          label="youtube icon"
+          ariaLabel="youtube icon"
           name="social_youtube"
           color="#b2071d"
           size="lg"
@@ -204,15 +204,15 @@ export const AvatarIcon: Story = {
       source: {
         code: `
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   icon="account_circle"
 ></nys-avatar>
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   color="#f2efee"
 >
   <nys-icon
-	  label="youtube icon"
+	  ariaLabel="youtube icon"
 	  name="social_youtube"
 	  color="#b2071d"
 	  size="lg"
@@ -227,13 +227,13 @@ export const AvatarIcon: Story = {
 // Story: Shapes
 export const AvatarShapes: Story = {
   args: {
-    label: "User avatar",
+    ariaLabel: "User avatar",
     icon: "account_circle",
   },
   render: (args) =>
     html` <div style="display:flex; gap:5px;">
       <nys-avatar
-        .label=${args.label}
+        .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .icon=${args.icon}
         .image=${args.image}
@@ -243,7 +243,7 @@ export const AvatarShapes: Story = {
       >
       </nys-avatar>
       <nys-avatar
-        .label=${args.label}
+        .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .icon=${args.icon}
         .image=${args.image}
@@ -253,7 +253,7 @@ export const AvatarShapes: Story = {
       >
       </nys-avatar>
       <nys-avatar
-        .label=${args.label}
+        .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .icon=${args.icon}
         .image=${args.image}
@@ -269,17 +269,17 @@ export const AvatarShapes: Story = {
         code: `
 <div style="display:flex; gap:5px;">
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   icon="account_circle"
   shape="square"
 ></nys-avatar>
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   icon="account_circle"
   shape="rounded"
 ></nys-avatar>
 <nys-avatar
-  label="User avatar"
+  ariaLabel="User avatar"
   icon="account_circle"
   shape="circle"
 ></nys-avatar>
@@ -293,12 +293,12 @@ export const AvatarShapes: Story = {
 // Story: AvatarBgColor
 export const AvatarBgColor: Story = {
   args: {
-    label: "User avatar",
+    ariaLabel: "User avatar",
     color: "var(--nys-color-theme)",
   },
   render: (args) => html`
     <nys-avatar
-      .label=${args.label}
+      .ariaLabel=${args.ariaLabel}
       .initials=${args.initials}
       .icon=${args.icon}
       .image=${args.image}
@@ -313,7 +313,7 @@ export const AvatarBgColor: Story = {
       source: {
         code: `
  <nys-avatar
-	label="User avatar"
+	ariaLabel="User avatar"
 	color="var(--nys-color-theme)"
  ></nys-avatar>
 	  `.trim(),
