@@ -47,7 +47,7 @@ Use the `position` prop to control where the direction where the tooltip will ap
   <nys-icon size="xl" name="info"></nys-icon> If no position is provided, the tooltip will automatically choose the best position based on the available space.
 </div>
 
-Valid positions are: 
+Valid positions are:
 - `top`
 - `bottom`
 - `right`
@@ -70,7 +70,7 @@ Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do 
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
       - Provide brief and helpful content inside the tooltip.
       - Provide tooltips for unlabeled icons.
       - Position tooltips so they don’t block related content.
@@ -78,7 +78,7 @@ Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
       - Use tooltips for information that is vital to task completion.
       - Use interactive elements such as links or buttons inside a tooltip.
       - Rely on tooltips when you have room to provide more explanation.
@@ -92,4 +92,4 @@ The `nys-tooltip` component includes the following accessibility-focused feature
 
 - Keyboard and mouse support: tooltip appears when users hover with mouse or focus using a keyboard
 - Tooltip uses `role="tooltip"` for assistive technologies and sets `aria-hidden` based on internal state based on when tooltip is hidden or showing.
-- Positioning logic: If a position is not manually set, the tooltip will automatically appear in the direction with the most available space. 
+- Positioning logic: If a position is not manually set, the tooltip will automatically appear in the direction with the most available space.
