@@ -16,7 +16,6 @@ export class NysTextinput extends LitElement {
     "tel",
     "text",
     "url",
-    "date",
   ] as const;
 
   // Use `typeof` to dynamically infer the allowed types
@@ -67,9 +66,18 @@ export class NysTextinput extends LitElement {
     if (changedProperties.has("type")) {
       const mask = this._maskPatterns[this.type];
       const input = this.shadowRoot?.querySelector("input");
-      if (mask && input) {
-        input.maxLength = mask.length;
-        this._updateOverlay(input.value, mask);
+
+      if (input) {
+        if (mask) {
+          input.maxLength = mask.length;
+          this._updateOverlay(input.value, mask);
+        } else {
+          input.removeAttribute("maxLength");
+          const overlay = this.shadowRoot?.querySelector(
+            ".nys-textinput__mask-overlay",
+          );
+          if (overlay) overlay.textContent = "";
+        }
       }
     }
   }

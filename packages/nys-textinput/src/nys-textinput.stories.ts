@@ -38,16 +38,7 @@ const meta: Meta<NysTextinputArgs> = {
     name: { control: "text" },
     type: {
       control: "select",
-      options: [
-        "email",
-        "number",
-        "password",
-        "search",
-        "tel",
-        "text",
-        "url",
-        "date",
-      ],
+      options: ["email", "number", "password", "search", "tel", "text", "url"],
     },
     label: { control: "text" },
     description: { control: "text" },
