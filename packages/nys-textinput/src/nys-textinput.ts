@@ -271,7 +271,7 @@ export class NysTextinput extends LitElement {
       if (digits.length >= 4) {
         result += ") " + digits.substring(3, 6);
       }
-      // ✅ Only add dash if there are more than 6 digits
+      // Add dash if there are more than 6 digits
       if (digits.length > 6) {
         result += "-" + digits.substring(6, 10);
       }
@@ -311,6 +311,7 @@ export class NysTextinput extends LitElement {
     this.value = newValue;
     this._internals.setFormValue(this.value);
 
+    // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
     if (this._hasUserInteracted) {
       this._validate();
     }
