@@ -197,10 +197,12 @@ export default css`
   .nys-globalheader__content li.active {
     border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
   }
-
   .nys-globalheader__content-mobile li.active a {
     border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
     border-bottom: 1px solid var(--_nys-globalheader-mobile-li-border-color);
+  }
+  .nys-globalheader__content ul li.active a:hover {
+    text-decoration: none;
   }
 
   /* Mobile Menu */
