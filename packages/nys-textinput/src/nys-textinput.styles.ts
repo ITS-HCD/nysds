@@ -114,6 +114,8 @@ export default css`
     width: stretch;
     width: -webkit-fill-available;
     width: -moz-available;
+    font: inherit;
+    letter-spacing: normal;
   }
 
   .nys-textinput__input {
