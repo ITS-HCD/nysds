@@ -184,17 +184,21 @@ describe("nys-textinput", () => {
 
     const input = el.shadowRoot!.querySelector("input") as HTMLInputElement;
 
-    // Simulate typing 1234567 (should format to (123) 456-7)
     input.value = "1234567";
     input.dispatchEvent(new Event("input", { bubbles: true }));
     await el.updateComplete;
     expect(input.value).to.equal("(123) 456-7");
 
-    // Backspace once (remove 7)
-    input.value = "123456";
+    // Backspace
+    input.setSelectionRange(input.value.length, input.value.length);
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Backspace", bubbles: true }),
+    );
+    input.value = input.value.slice(0, -1);
     input.dispatchEvent(new Event("input", { bubbles: true }));
     await el.updateComplete;
-    expect(input.value).to.equal("(123) 456"); // ✅ No trailing dash
+
+    expect(input.value).to.equal("(123) 456");
   });
 });
 
