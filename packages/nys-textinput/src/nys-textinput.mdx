@@ -29,9 +29,11 @@ Width `full` will take up the full width of the parent container.\
 If an invalid option is assigned to `width`, it will be ignored and default to `full`.
 <Canvas of={NysTextinputStories.Width} />
 #### Different Input Types
-Note: Accepted types are: `text` `email` `number` `password` `search` `tel` `url`\
-Any other input defaults to `type="text"`
+Note: Accepted types are: `text` `email` `number` `password` `search` `tel` `url`. Any other input defaults to `type="text"`\
+Certain types will apply additional styling onto the input field. For `type="password"` the input will be automatically hidden.
+For `type="tel"` an input mask will appear to style the input properly.
 <Canvas of={NysTextinputStories.Password} />
+<Canvas of={NysTextinputStories.Telephone} />
 #### Values and Placeholders
 <Canvas of={NysTextinputStories.ValueAndPlaceholder} />
 #### Disabled and Readonly
