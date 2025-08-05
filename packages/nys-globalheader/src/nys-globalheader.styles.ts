@@ -300,4 +300,12 @@ export default css`
         var(--nys-size-400, 32px) 0;
     }
   }
+
+  @media (min-width: 1280px) {
+    /* Large Desktop (LG - Above 1280px) */
+    :host {
+      --_nys-globalheader-padding: var(--nys-space-50, 4px)
+        var(--nys-space-800, 64px) 0;
+    }
+  }
 `;
