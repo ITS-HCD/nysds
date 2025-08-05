@@ -34,7 +34,6 @@ export default css`
     background: var(--nys-color-surface-raised, #f6f6f6);
     height: -webkit-fill-available;
     height: 100%;
-    width: max-content;
     max-width: 100%;
   }
 
