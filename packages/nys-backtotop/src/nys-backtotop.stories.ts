@@ -59,7 +59,7 @@ export const Basic: Story = {
         </p>
       </div>
       <nys-unavfooter></nys-unavfooter>
-      <nys-backtotop .position=${args.position}></nys-backtotop>
+      <nys-backtotop visible .position=${args.position}></nys-backtotop>
     `;
   },
   parameters: {
@@ -111,10 +111,11 @@ export const Left: Story = {
       <nys-button
         prefixIcon="sms"
         variant="outline"
-        label="Chat With Us"
+        label="Chat with us"
+        size="sm"
       ></nys-button>
       <nys-unavfooter></nys-unavfooter>
-      <nys-backtotop .position=${args.position}></nys-backtotop>
+      <nys-backtotop visible .position=${args.position}></nys-backtotop>
     `;
   },
   parameters: {

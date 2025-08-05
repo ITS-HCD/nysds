@@ -122,8 +122,7 @@ export default css`
 
   .nys-textinput__buttoncontainer {
     width: var(--_nys-textinput-width);
-    min-width: var(--_nys-textinput-width);
-    max-width: var(--_nys-textinput-width);
+    max-width: 100%;
     display: flex;
   }
 

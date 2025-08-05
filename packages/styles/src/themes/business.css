@@ -1,6 +1,6 @@
 /*!
   * NYSDS Theme: Business
-  * Designed for agencies in the Business grouping 
+  * Designed for agencies in the Business grouping
   * Part of the New York State Design System
   * A design system for New York State's digital products.
   * Repository: https://github.com/its-hcd/nysds
@@ -12,7 +12,7 @@
   --nys-color-theme-weaker: var(--nys-color-business-teal-50);
   --nys-color-theme-weak: var(--nys-color-business-teal-100);
   --nys-color-theme-mid: var(--nys-color-business-teal-500);
-  --nys-color-theme: var(--nys-color-business-teal-700);
+  --nys-color-theme: var(--nys-color-business-teal-600);
   --nys-color-theme-strong: var(--nys-color-business-teal-800);
   --nys-color-theme-stronger: var(--nys-color-business-teal-900);
 }

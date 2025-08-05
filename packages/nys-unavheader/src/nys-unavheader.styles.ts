@@ -47,7 +47,6 @@ export default css`
 
   .nys-unavheader__mainwrapper {
     background-color: var(--_nys-unavheader-bg-color);
-    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
     display: flex;
     justify-content: center;
   }
@@ -85,6 +84,7 @@ export default css`
 
   .nys-unavheader__maincontent {
     display: flex;
+    flex-wrap: wrap;
     flex: 1;
     justify-content: space-between;
     align-items: center;
@@ -118,6 +118,22 @@ export default css`
     display: flex;
     align-items: center;
     gap: var(--nys-space-300, 24px);
+    padding-top: var(--nys-space-100, 8px);
+    padding-bottom: var(--nys-space-100, 8px);
+  }
+
+  .nys-unavheader__left {
+    order: 2;
+    padding-left: var(--_nys-unavheader-gutter);
+  }
+  .nys-unavheader__right {
+    order: 3;
+    padding-right: var(--_nys-unavheader-gutter);
+  }
+
+  .nys-unavheader__trustbarwrapper {
+    order: 1;
+    width: 100%;
   }
 
   #nys-unavheader__translate,
@@ -300,7 +316,7 @@ export default css`
       display: contents;
     }
     .nys-unavheader__trustbarwrapper {
-      order: 999;
+      order: 4;
     }
     .nys-unavheader__toptrustbar {
       display: none;
@@ -322,7 +338,7 @@ export default css`
       display: contents;
     }
     .nys-unavheader__trustbarwrapper {
-      order: 999;
+      order: 4;
     }
     .nys-unavheader__toptrustbar {
       display: none;
@@ -341,7 +357,7 @@ export default css`
       display: contents;
     }
     .nys-unavheader__trustbarwrapper {
-      order: 999;
+      order: 4;
     }
     .nys-unavheader__toptrustbar {
       display: none;
