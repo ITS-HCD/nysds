@@ -55,8 +55,6 @@ export default css`
     );
 
     /* Menu Content Styling */
-    --_nys-globalfooter-link-gap-spacing-row: var(--nys-space-300, 24px);
-    --_nys-globalfooter-link-gap-spacing-column: var(--nys-space-400, 32px);
     --_nys-globalheader-link-lineheight: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-globalheader-link-letterspacing: var(
       --nys-font-letterspacing-ui-md,
@@ -99,7 +97,6 @@ export default css`
     display: block;
     margin: 0;
     padding: 0;
-    height: 100%;
     box-sizing: border-box;
   }
 
@@ -192,10 +189,12 @@ export default css`
   .nys-globalheader__content li.active a,
   .nys-globalheader__content-mobile li.active a {
     font-weight: 700;
-    margin-bottom: -8px;
   }
   .nys-globalheader__content li.active {
     border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
+  }
+  .nys-globalheader__content li.active a {
+    margin-bottom: calc(-1 * var(--nys-space-100, 8px));
   }
   .nys-globalheader__content-mobile li.active a {
     border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
@@ -275,7 +274,7 @@ export default css`
   }
 
   /* Breakpoints using NYSDS Guidelines (Menu Links) */
-  /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu/%F0%9F%92%A0-NYS-Design-System?node-id=1170-340&t=jKfVbTz2ucNKof0r-0 */
+  /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=1170-340 */
   @media (min-width: 1024px) {
     /* Desktop (MD - Above 1024px) */
     .nys-globalheader__content {
@@ -283,8 +282,6 @@ export default css`
     }
     .nys-globalheader__content ul {
       flex-direction: row;
-      gap: var(--_nys-globalfooter-link-gap-spacing-row)
-        var(--_nys-globalfooter-link-gap-spacing-column);
     }
     .nys-globalheader__content-mobile,
     .nys-globalheader__button-container {
@@ -293,18 +290,12 @@ export default css`
     li {
       display: flex;
       align-items: center;
+      padding: var(--nys-space-300, 24px) var(--nys-space-200, 16px);
     }
     :host {
       --_nys-globalheader-main-gap-spacing: var(--nys-space-500, 40px);
       --_nys-globalheader-padding: var(--nys-space-50, 4px)
-        var(--nys-size-400, 32px) 0 var(--nys-size-400, 32px);
-    }
-  }
-
-  @media (min-width: 1280px) {
-    /* Large Desktop (XL - Above 1280px) */
-    :host {
-      --_nys-globalfooter-link-gap-spacing-row: var(--nys-size-2px, 2px);
+        var(--nys-size-400, 32px) 0;
     }
   }
 `;
