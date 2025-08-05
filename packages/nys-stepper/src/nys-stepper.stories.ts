@@ -46,7 +46,6 @@ export const Basic: Story = {
         .name=${args.name}
         label=${args.label}
         class="nys-desktop:nys-grid-col-3"
-        style="border: green solid;"
       >
         <nys-step
           label="Personal Details"
