@@ -61,6 +61,8 @@ export default css`
       var(--nys-font-letterspacing-400, 0.044px)
     );
     --_nys-globalheader-link-weight-decoration: var(--nys-size-2px, 2px);
+    --_nys-globalheader-link-padding: var(--nys-space-300, 24px)
+      var(--nys-space-200, 16px);
 
     /* Mobile Menu */
     --_nys-globalheader-mobile-btn-font-size: var(--nys-type-size-ui-xs, 12px);
@@ -290,7 +292,7 @@ export default css`
     li {
       display: flex;
       align-items: center;
-      padding: var(--nys-space-300, 24px) var(--nys-space-200, 16px);
+      padding: var(--_nys-globalheader-link-padding);
     }
     :host {
       --_nys-globalheader-main-gap-spacing: var(--nys-space-500, 40px);
