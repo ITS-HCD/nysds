@@ -444,6 +444,7 @@ export class NysTextinput extends LitElement {
                   class="eye-icon"
                   id="password-toggle"
                   suffixIcon="slotted"
+                  ariaLabel="password toggle"
                   .onClick=${() =>
                     !this.disabled && this._togglePasswordVisibility()}
                   variant="ghost"
