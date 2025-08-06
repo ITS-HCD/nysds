@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@nysds/nys-icon": "^1.6.0"
-
   },
   "devDependencies": {
     "lit": "^3.2.1",
