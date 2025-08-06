@@ -238,6 +238,10 @@ export class NysStepper extends LitElement {
               @keydown=${this._handleCounterKeydown}
               role="button"
               tabindex="0"
+              aria-label=${this.isCompactExpanded
+                ? "Collapse step navigation to view the form"
+                : `Expand step navigation. You are on ${this.counterText}`}
+              aria-expanded=${this.isCompactExpanded ? "true" : "false"}
             >
               ${this.counterText}
             </div>
