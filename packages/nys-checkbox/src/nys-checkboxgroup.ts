@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-checkbox.styles";
 
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
@@ -63,9 +63,10 @@ export class NysCheckboxgroup extends LitElement {
   firstUpdated() {
     // This ensures our checkboxes sets the value only once for formData (not within the individual checkboxes)
     this._setGroupExist();
-    this.updateCheckboxSize();
-    this.updateCheckboxTile();
-    this.updateCheckboxShowError();
+    this._updateCheckboxSize();
+    this._updateCheckboxTile();
+    this._updateCheckboxShowError();
+    this._getSlotDescriptionForAria();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -75,17 +76,32 @@ export class NysCheckboxgroup extends LitElement {
       }
     }
     if (changedProperties.has("size")) {
-      this.updateCheckboxSize();
+      this._updateCheckboxSize();
     }
     if (changedProperties.has("tile")) {
-      this.updateCheckboxTile();
+      this._updateCheckboxTile();
     }
     if (changedProperties.has("showError")) {
-      this.updateCheckboxShowError();
+      this._updateCheckboxShowError();
     }
   }
 
   /********************** Functions **********************/
+  @state()
+  private _slottedDescriptionText = "";
+  // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
+  private _getSlotDescriptionForAria() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement;
+    const nodes = slot?.assignedNodes({ flatten: true }) || [];
+
+    this._slottedDescriptionText = nodes
+      .map((node) => node.textContent?.trim())
+      .filter(Boolean)
+      .join(", ");
+  }
+
   private _setGroupExist() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox: any) => {
@@ -210,14 +226,14 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   // Updates the size of each checkbox in the group
-  private updateCheckboxSize() {
+  private _updateCheckboxSize() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox) => {
       checkbox.setAttribute("size", this.size);
     });
   }
 
-  private updateCheckboxTile() {
+  private _updateCheckboxTile() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox) => {
       if (this.tile) {
@@ -228,7 +244,7 @@ export class NysCheckboxgroup extends LitElement {
     });
   }
 
-  private updateCheckboxShowError() {
+  private _updateCheckboxShowError() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox) => {
       if (this.showError) {
@@ -240,24 +256,34 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   render() {
-    return html` <div class="nys-checkboxgroup" role="group">
-      <nys-label
-        id=${this.id}
-        label=${this.label}
-        description=${this.description}
-        flag=${this.required ? "required" : this.optional ? "optional" : ""}
-      >
-        <slot name="description" slot="description">${this.description}</slot>
-      </nys-label>
-      <div class="nys-checkboxgroup__content">
-        <slot></slot>
+    return html`<fieldset>
+      <legend class="sr-only">
+        ${this.label}${this._slottedDescriptionText
+          ? `, ${this._slottedDescriptionText}`
+          : this.description
+            ? `, ${this.description}`
+            : ""}
+      </legend>
+
+      <div class="nys-checkboxgroup">
+        <nys-label
+          id=${this.id}
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+        >
+          <slot name="description" slot="description">${this.description}</slot>
+        </nys-label>
+        <div class="nys-checkboxgroup__content">
+          <slot></slot>
+        </div>
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          .showDivider=${!this.tile}
+        ></nys-errormessage>
       </div>
-      <nys-errormessage
-        ?showError=${this.showError}
-        errorMessage=${this._internals.validationMessage || this.errorMessage}
-        .showDivider=${!this.tile}
-      ></nys-errormessage>
-    </div>`;
+    </fieldset>`;
   }
 }
 

@@ -356,4 +356,20 @@ export default css`
   .nys-checkbox__requiredwrapper {
     display: inline;
   }
+
+  /* Screen readers ONLY */
+  fieldset {
+    all: unset;
+    display: contents;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    border: 0;
+  }
 `;
