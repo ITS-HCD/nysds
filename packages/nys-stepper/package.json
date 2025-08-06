@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-stepper",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "The Stepper component from the NYS Design System.",
   "module": "dist/nys-stepper.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
   },
   "peerDependencies": {
     "lit": "^3.2.1",
-    "@nysds/nys-button": "^1.5.0"
+    "@nysds/nys-button": "^1.5.3"
   },
   "dependencies": {
   },
@@ -31,7 +31,7 @@
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
     "vite": "^6.3.4",
-    "@nysds/nys-button": "^1.5.0"
+    "@nysds/nys-button": "^1.5.3"
   },
   "keywords": [
     "new-york-state",
