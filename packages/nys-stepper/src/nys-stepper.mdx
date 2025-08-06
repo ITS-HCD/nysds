@@ -57,8 +57,12 @@ Add an `onClick` if the content of the step is retrieved from an API or a functi
 - Represents which step is the user is up to in the stepper's progress.
 - This is the last step the user is able to navigate to.
 - Users can go back and review past completed steps, therefor `current` and `selected` might not be the same at a given moment.
-- As the user completes steps, the `current` flag will iterate to the next step.
+- As the user completes steps, update the `current` flag to the next step, this needs to be done on the user side.
 - if `current` is not defined, the first step is marked by default.
+
+### Previous
+- This prop is automatically applied to all steps before the `current` step and is used to style the steps peoperly.
+- Do not add `previous` to a step on the implementation side.
 
 ## Usage
 
