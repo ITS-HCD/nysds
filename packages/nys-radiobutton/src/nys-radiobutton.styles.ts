@@ -352,4 +352,20 @@ export default css`
     color: var(--_nys-radiobutton-disabled-color-text);
     cursor: not-allowed;
   }
+
+  /* Screen readers ONLY */
+  fieldset {
+    all: unset;
+    display: contents;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    border: 0;
+  }
 `;

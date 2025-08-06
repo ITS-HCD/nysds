@@ -100,27 +100,6 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
-  private _handleSlotChange() {
-    const slot = this.shadowRoot?.querySelector(
-      'slot:not([name="description"])',
-    ) as HTMLSlotElement | null;
-    const fieldset = this.shadowRoot?.querySelector("fieldset");
-
-    if (!slot || !fieldset) return;
-
-    // Remove any previously cloned <nys-radio> we added before so we an avoid duplicates
-    fieldset.querySelectorAll("nys-radiobutton").forEach((el) => el.remove());
-
-    const assignedElements = slot.assignedElements({ flatten: true });
-
-    // Clone and append slotted elements
-    assignedElements.forEach((node) => {
-      const clone = node.cloneNode(true) as HTMLElement;
-      console.log("THE CLONE", clone);
-      fieldset.appendChild(clone);
-    });
-  }
-
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.selectedValue);
@@ -287,10 +266,7 @@ export class NysRadiogroup extends LitElement {
                 ? ` ${this.description}`
                 : ""}
           </legend>
-          <slot
-            @slotchange="${this._handleSlotChange}"
-            style="display: none;"
-          ></slot>
+          <slot></slot>
         </fieldset>
       </div>
       <nys-errormessage
