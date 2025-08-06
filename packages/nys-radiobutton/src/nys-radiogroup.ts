@@ -15,6 +15,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) description = "";
 
   @state() private selectedValue: string | null = null;
+  @state() private _slottedDescriptionText = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
 
@@ -70,6 +71,7 @@ export class NysRadiogroup extends LitElement {
     this._updateRadioButtonsSize();
     this._updateRadioButtonsTile();
     this._updateRadioButtonsShowError();
+    this._getSlotDescriptionForAria();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -232,13 +234,21 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
+  private _getSlotDescriptionForAria() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement;
+    const nodes = slot?.assignedNodes({ flatten: true }) || [];
+
+    this._slottedDescriptionText = nodes
+      .map((node) => node.textContent?.trim())
+      .filter(Boolean)
+      .join(", ");
+  }
+
   render() {
-    return html` <div
-      role="radiogroup"
-      class="nys-radiogroup"
-      aria-required="${this.required ? "true" : "false"}"
-      aria-invalid="${this.showError ? "true" : "false"}"
-    >
+    return html` <div>
       <nys-label
         id=${this.id}
         label=${this.label}
@@ -248,7 +258,16 @@ export class NysRadiogroup extends LitElement {
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
       <div class="nys-radiogroup__content">
-        <slot></slot>
+        <fieldset class="nys-radiogroup" role="radiogroup">
+          <legend class="sr-only">
+            ${this.label}${this._slottedDescriptionText
+              ? ` ${this._slottedDescriptionText}`
+              : this.description
+                ? ` ${this.description}`
+                : ""}
+          </legend>
+          <slot></slot>
+        </fieldset>
       </div>
       <nys-errormessage
         ?showError=${this.showError}

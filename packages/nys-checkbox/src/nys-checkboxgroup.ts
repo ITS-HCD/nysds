@@ -14,6 +14,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @state() private _slottedDescriptionText = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
 
@@ -87,21 +88,6 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   /********************** Functions **********************/
-  @state()
-  private _slottedDescriptionText = "";
-  // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
-  private _getSlotDescriptionForAria() {
-    const slot = this.shadowRoot?.querySelector(
-      'slot[name="description"]',
-    ) as HTMLSlotElement;
-    const nodes = slot?.assignedNodes({ flatten: true }) || [];
-
-    this._slottedDescriptionText = nodes
-      .map((node) => node.textContent?.trim())
-      .filter(Boolean)
-      .join(", ");
-  }
-
   private _setGroupExist() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox: any) => {
@@ -255,16 +241,21 @@ export class NysCheckboxgroup extends LitElement {
     });
   }
 
-  render() {
-    return html`<fieldset>
-      <legend class="sr-only">
-        ${this.label}${this._slottedDescriptionText
-          ? `, ${this._slottedDescriptionText}`
-          : this.description
-            ? `, ${this.description}`
-            : ""}
-      </legend>
+  // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
+  private _getSlotDescriptionForAria() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement;
+    const nodes = slot?.assignedNodes({ flatten: true }) || [];
 
+    this._slottedDescriptionText = nodes
+      .map((node) => node.textContent?.trim())
+      .filter(Boolean)
+      .join(", ");
+  }
+
+  render() {
+    return html`
       <div class="nys-checkboxgroup">
         <nys-label
           id=${this.id}
@@ -275,7 +266,16 @@ export class NysCheckboxgroup extends LitElement {
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
         <div class="nys-checkboxgroup__content">
-          <slot></slot>
+          <fieldset>
+            <legend class="sr-only">
+              ${this.label}${this._slottedDescriptionText
+                ? ` ${this._slottedDescriptionText}`
+                : this.description
+                  ? ` ${this.description}`
+                  : ""}
+            </legend>
+            <slot></slot>
+          </fieldset>
         </div>
         <nys-errormessage
           ?showError=${this.showError}
@@ -283,7 +283,7 @@ export class NysCheckboxgroup extends LitElement {
           .showDivider=${!this.tile}
         ></nys-errormessage>
       </div>
-    </fieldset>`;
+    `;
   }
 }
 
