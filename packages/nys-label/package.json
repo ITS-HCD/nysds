@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-label",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "The Label component from the NYS Design System.",
   "module": "dist/nys-label.js",
   "types": "dist/index.d.ts",
