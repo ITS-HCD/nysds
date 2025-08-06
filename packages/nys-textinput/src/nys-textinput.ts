@@ -62,6 +62,24 @@ export class NysTextinput extends LitElement {
       this._validateButtonSlot("startButton");
       this._validateButtonSlot("endButton");
     }
+
+    if (changedProperties.has("type")) {
+      const mask = this._maskPatterns[this.type];
+      const input = this.shadowRoot?.querySelector("input");
+
+      if (input) {
+        if (mask) {
+          input.maxLength = mask.length;
+          this._updateOverlay(input.value, mask);
+        } else {
+          input.removeAttribute("maxLength");
+          const overlay = this.shadowRoot?.querySelector(
+            ".nys-textinput__mask-overlay",
+          );
+          if (overlay) overlay.textContent = "";
+        }
+      }
+    }
   }
 
   @property({ type: Number }) step = null;
@@ -76,6 +94,10 @@ export class NysTextinput extends LitElement {
   private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
+
+  private _maskPatterns: Record<string, string> = {
+    tel: "(___) ___-____",
+  };
 
   /********************** Lifecycle updates **********************/
   static formAssociated = true; // allows use of elementInternals' API
@@ -226,11 +248,67 @@ export class NysTextinput extends LitElement {
     this.showPassword = !this.showPassword;
   }
 
+  private _updateOverlay(value: string, mask: string) {
+    const overlay = this.shadowRoot?.querySelector(
+      ".nys-textinput__mask-overlay",
+    ) as HTMLElement;
+    if (!overlay) return;
+
+    const filled = value;
+    const remaining = mask.slice(filled.length);
+    overlay.textContent = filled + remaining;
+  }
+
+  private _applyMask(value: string, mask: string): string {
+    const digits = value.replace(/\D/g, "");
+    let result = "";
+
+    // Special handling for tel to avoid trailing dash
+    if (this.type === "tel") {
+      if (digits.length > 0) {
+        result = "(" + digits.substring(0, 3);
+      }
+      if (digits.length >= 4) {
+        result += ") " + digits.substring(3, 6);
+      }
+      // Add dash if there are more than 6 digits
+      if (digits.length > 6) {
+        result += "-" + digits.substring(6, 10);
+      }
+      return result;
+    }
+
+    // Default generic masking logic
+    let digitIndex = 0;
+    for (let i = 0; i < mask.length; i++) {
+      if (mask[i] === "_" || mask[i].match(/[d9]/i)) {
+        if (digitIndex < digits.length) {
+          result += digits[digitIndex++];
+        } else {
+          break;
+        }
+      } else {
+        result += mask[i]; // keep formatting symbols
+      }
+    }
+
+    return result;
+  }
+
   /******************** Event Handlers ********************/
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.value = input.value;
+    let newValue = input.value;
+
+    const mask = this._maskPatterns[this.type];
+    if (mask) {
+      newValue = this._applyMask(newValue, mask);
+      input.value = newValue; // ensure input reflects masked value
+      this._updateOverlay(newValue, mask);
+    }
+
+    this.value = newValue;
     this._internals.setFormValue(this.value);
 
     // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
@@ -327,6 +405,7 @@ export class NysTextinput extends LitElement {
             @slotchange=${this._validateButtonSlot("startButton")}
           ></slot>
           <div class="nys-textinput__container">
+            <span class="nys-textinput__mask-overlay"></span>
             <input
               class="nys-textinput__input"
               type=${this.type === "password"
