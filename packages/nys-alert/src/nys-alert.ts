@@ -164,7 +164,6 @@ export class NysAlert extends LitElement {
             this.text?.trim().length > 0
               ? ""
               : "nys-alert--centered"}"
-            role=${role}
             aria-label=${ifDefined(
               ariaLabel.trim() !== "" ? ariaLabel : undefined,
             )}
@@ -176,7 +175,7 @@ export class NysAlert extends LitElement {
                 label="${this.type} icon"
               ></nys-icon>
             </div>
-            <div class="nys-alert__texts">
+            <div class="nys-alert__texts" role=${role}>
               <p class="nys-alert__header">${this.heading}</p>
               ${this._slotHasContent
                 ? html`<slot></slot>`
@@ -212,7 +211,7 @@ export class NysAlert extends LitElement {
                   icon="close"
                   size="sm"
                   ?inverted=${this.type === "emergency"}
-                  ariaLabel="close button"
+                  ariaLabel="${this.heading}, alert, Close"
                   .onClick=${() => this._closeAlert()}
                 ></nys-button>`
               : ""}
