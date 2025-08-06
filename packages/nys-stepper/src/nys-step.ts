@@ -46,6 +46,7 @@ export class NysStep extends LitElement {
             : "0"}
           @click=${this._handleActivate}
           @keydown=${this._handleKeydown}
+          role="button"
           aria-label="${this.label} Step"
           ?disabled=${!(
             this.selected ||
