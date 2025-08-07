@@ -37,6 +37,8 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> edit_square <nys-icon name="edit_square"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> help  <nys-icon name="help"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> language  <nys-icon name="language"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> link  <nys-icon name="link"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> mail  <nys-icon name="mail"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> menu  <nys-icon name="menu"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> more_vert  <nys-icon name="more_vert"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> open_in_new  <nys-icon name="open_in_new"></nys-icon> </div>
@@ -57,6 +59,9 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> content_copy  <nys-icon name="content_copy"></nys-icon> </div>
     <h4 style={{marginLeft: '-1.5rem'}}><u>Arrows</u></h4>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> arrow_back  <nys-icon name="arrow_back"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> arrow_downward  <nys-icon name="arrow_downward"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> arrow_forward  <nys-icon name="arrow_forward"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> arrow_upward  <nys-icon name="arrow_upward"></nys-icon> </div>
     <h4 style={{marginLeft: '-1.5rem'}}><u>Chevrons</u></h4>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> chevron_down  <nys-icon name="chevron_down"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> chevron_up  <nys-icon name="chevron_up"></nys-icon> </div>
@@ -178,7 +183,7 @@ Available values are `horizontal`, `vertical`, and `both`.
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
       - Use icons to enhance user interfaces with clear, recognizable icons.
       - Use appropriate icons align with the purpose and context of the UI elements they accompany.
       - Provide an accessible label using the `ariaLabel` attribute to ensure screen readers can interpret the icon's purpose (if warranted).
@@ -187,7 +192,7 @@ Available values are `horizontal`, `vertical`, and `both`.
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      ### <nys-icon name="error" color="var(--nys-color-danger)"/> Don't
       - Use icons that lack clarity or context for their intended purpose.
       - Use excessive customization that distracts from UI and established design patterns.
       - Replace meaningful text with an icon unless its meaning is universally recognized or accompanied by a text label.
