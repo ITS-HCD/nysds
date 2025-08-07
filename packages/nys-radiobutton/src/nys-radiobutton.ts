@@ -78,9 +78,14 @@ export class NysRadiobutton extends LitElement {
         NysRadiobutton.buttonGroup[this.name] = this;
       }
     }
+    // this._updateGroupTabIndex();
   }
-  /******************** Function ********************/
 
+  // firstUpdated() {
+  //   this._setInitialAttributes();
+  // }
+
+  /********************** Functions **********************/
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     // If the radiogroup is required but no radio is selected, return false.
@@ -92,6 +97,29 @@ export class NysRadiobutton extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.checkValidity() : true;
   }
+
+  // Set host role/tabindex/aria-checked so we can group the radio buttons together for keyboard & VO accessibility
+  // private _setInitialAttributes() {
+  //   this.setAttribute("role", "radio");
+  //   // this.tabIndex = this.checked ? 0 : -1;
+  //   this.setAttribute("aria-checked", this.checked ? "true" : "false");
+  //   this.setAttribute("aria-required", this.disabled ? "true" : "false");
+  //   this.setAttribute("aria-required", this.required ? "true" : "false");
+  // }
+
+  // // After any change, ensure only one radio in group is tabbable
+  // private _updateGroupTabIndex() {
+  //   const root = this.getRootNode() as Document | ShadowRoot;
+  //   const radioBtns = Array.from(
+  //     root.querySelectorAll(`nys-radiobutton[name="${this.name}"]`),
+  //   ) as NysRadiobutton[];
+
+  //   // If none checked, make first radiobutton tabbable
+  //   const active = radioBtns.find((radio) => radio.checked) || radioBtns[0];
+  //   radioBtns.forEach((radio) => {
+  //     radio.tabIndex = radio === active ? 0 : -1;
+  //   });
+  // }
 
   /******************** Event Handlers ********************/
   private _emitChangeEvent() {
@@ -135,21 +163,21 @@ export class NysRadiobutton extends LitElement {
   }
 
   // Handle keydown for keyboard accessibility
-  private _handleKeydown(e: KeyboardEvent) {
-    if (e.code === "Space") {
-      e.preventDefault();
-      if (!this.disabled && !this.checked) {
-        if (NysRadiobutton.buttonGroup[this.name]) {
-          NysRadiobutton.buttonGroup[this.name].checked = false;
-          NysRadiobutton.buttonGroup[this.name].requestUpdate();
-        }
+  // private _handleKeydown(e: KeyboardEvent) {
+  //   if (e.code === "Space") {
+  //     e.preventDefault();
+  //     if (!this.disabled && !this.checked) {
+  //       if (NysRadiobutton.buttonGroup[this.name]) {
+  //         NysRadiobutton.buttonGroup[this.name].checked = false;
+  //         NysRadiobutton.buttonGroup[this.name].requestUpdate();
+  //       }
 
-        NysRadiobutton.buttonGroup[this.name] = this;
-        this.checked = true;
-        this._emitChangeEvent();
-      }
-    }
-  }
+  //       NysRadiobutton.buttonGroup[this.name] = this;
+  //       this.checked = true;
+  //       this._emitChangeEvent();
+  //     }
+  //   }
+  // }
 
   render() {
     return html`
@@ -169,7 +197,7 @@ export class NysRadiobutton extends LitElement {
           @change="${this._handleChange}"
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
-          @keydown="${this._handleKeydown}"
+          tabindex="-1"
         />
         ${this.label &&
         html` <div class="nys-radiobutton__text">
