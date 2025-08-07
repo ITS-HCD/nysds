@@ -44,7 +44,6 @@ export class NysRadiogroup extends LitElement {
   constructor() {
     super();
     this._internals = this.attachInternals();
-    // this.addEventListener("click", this._handleRadioClick);
   }
 
   // Generate a unique ID if one is not provided
@@ -55,14 +54,12 @@ export class NysRadiogroup extends LitElement {
     }
     this.addEventListener("nys-change", this._handleRadioButtonChange);
     this.addEventListener("invalid", this._handleInvalid);
-    this.addEventListener("keydown", this._handleKeyDown);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("nys-change", this._handleRadioButtonChange);
     this.removeEventListener("invalid", this._handleInvalid);
-    this.removeEventListener("keydown", this._handleKeyDown);
   }
 
   async firstUpdated() {
@@ -157,23 +154,8 @@ export class NysRadiogroup extends LitElement {
     return Array.from(this.querySelectorAll("nys-radiobutton")) as any[];
   }
 
-  //// Click anywhere on a radio -> select it
-  // private _handleRadioClick = (e: MouseEvent) => {
-  //   const btn = e
-  //     .composedPath()
-  //     .find(
-  //       (node) =>
-  //         (node as Element).tagName?.toLowerCase?.() === "nys-radiobutton",
-  //     ) as any;
-  //   if (btn && !btn.disabled) {
-  //     // this._selectButton(btn);
-  //     this._updateGroupTabIndex();
-  //   }
-  // };
-
-  /** Arrow / Space / Enter navigation at group level */
-  private _handleKeyDown = (event: KeyboardEvent) => {
-    console.log("WE HANDLE KEY");
+  // Arrow / Space / Enter navigation at group level
+  private async _handleKeyDown(event: KeyboardEvent) {
     const keys = [
       "ArrowUp",
       "ArrowDown",
@@ -182,60 +164,39 @@ export class NysRadiogroup extends LitElement {
       " ",
       "Enter",
     ];
+
     if (!keys.includes(event.key)) return;
     event.preventDefault();
 
-    const radios = this._getAllRadios().filter((r) => !r.disabled);
-    const checked = radios.find((r) => r.checked) || radios[0];
-    const delta =
+    const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
+    const checkedRadio =
+      radioBtns.find((radio) => radio.checked) || radioBtns[0];
+
+    // Computing the new index based on the keydown event
+    const increment =
       event.key === " " || event.key === "Enter"
         ? 0
         : ["ArrowUp", "ArrowLeft"].includes(event.key)
           ? -1
           : 1;
 
-    let idx = radios.indexOf(checked) + delta;
-    if (idx < 0) idx = radios.length - 1;
-    if (idx >= radios.length) idx = 0;
+    let index = radioBtns.indexOf(checkedRadio) + increment;
+    // Handles the wrap around ends if user is at first or last radiobutton
+    if (index < 0) {
+      index = radioBtns.length - 1;
+    }
+    if (index >= radioBtns.length) {
+      index = 0;
+    }
 
-    // flip checked state
-    radios.forEach((r) => (r.checked = false));
-    const target = radios[idx];
-    target.checked = true;
+    // Let the target's input dispatch the clickEvent and call _handleRadioButtonChange() directly to make form integration work
+    const target = radioBtns[index];
+    const input = await target.getInputElement();
+    input?.click();
 
-    // update your form value
-    this.selectedValue = target.value;
-    this._internals.setFormValue(this.selectedValue);
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: { name: this.name, value: this.selectedValue },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-
-    // roving tabindex + ARIA
     this._updateGroupTabIndex();
-
-    // finally focus the host
     target.focus();
-  };
-
-  /** Centralized selection + form value + change event */
-  // private _selectButton(btn: any) {
-  //   console.log("SELECTING");
-  //   this._getAllRadios().forEach((r) => (r.checked = false));
-  //   btn.checked = true;
-  //   this.selectedValue = btn.value;
-  //   this._internals.setFormValue(this.selectedValue);
-  //   this.dispatchEvent(
-  //     new CustomEvent("nys-change", {
-  //       detail: { name: this.name, value: this.selectedValue },
-  //       bubbles: true,
-  //       composed: true,
-  //     }),
-  //   );
-  // }
+  }
 
   private _updateGroupTabIndex() {
     const radios = this._getAllRadios();
@@ -309,7 +270,6 @@ export class NysRadiogroup extends LitElement {
   /******************** Event Handlers ********************/
   // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
   private _handleRadioButtonChange(event: Event) {
-    console.log("CHANGE IS HERE");
     const customEvent = event as CustomEvent;
     const { name, value } = customEvent.detail;
 
@@ -379,7 +339,11 @@ export class NysRadiogroup extends LitElement {
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
       <div class="nys-radiogroup__content">
-        <fieldset class="nys-radiogroup" role="radiogroup">
+        <fieldset
+          class="nys-radiogroup"
+          role="radiogroup"
+          @keydown=${this._handleKeyDown}
+        >
           <legend class="sr-only">
             ${this.label}${this._slottedDescriptionText
               ? ` ${this._slottedDescriptionText}`

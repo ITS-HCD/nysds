@@ -186,7 +186,7 @@ export class NysCheckboxgroup extends LitElement {
       .join(", ");
   }
 
-      private async _handleInvalid(event: Event) {
+  private async _handleInvalid(event: Event) {
     event.preventDefault();
 
     this.showError = true;
