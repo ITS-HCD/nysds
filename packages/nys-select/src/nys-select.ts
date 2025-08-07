@@ -241,7 +241,7 @@ export class NysSelect extends LitElement {
     return html`
       <div class="nys-select">
         <nys-label
-          id=${this.id}
+          for=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
