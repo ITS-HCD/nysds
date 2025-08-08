@@ -4,5 +4,5 @@ figma.connect("<FIGMA_ACCORDION>", {
   props: {
     // TODO: Add props here
   },
-  example: (props) => html` <nys-accordion></nys-accordion> `,
+  example: () => html` <nys-accordion></nys-accordion> `,
 });

@@ -25,9 +25,11 @@
     "lit": "^3.2.1"
   },
   "dependencies": {
+    "@nysds/nys-button": "^1.6.0"
   },
   "devDependencies": {
     "lit": "^3.2.1",
+    "@nysds/nys-button": "^1.6.0",
     "typescript": "^5.7.2",
     "vite": "^6.3.4"
   },

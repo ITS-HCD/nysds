@@ -5,20 +5,9 @@ import "./nys-accordion";
 // Define the structure of the args used in the stories
 interface NysAccordionArgs {
   id: string;
-  name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  heading: string;
+  expanded: boolean;
+  bordered: boolean;
 }
 
 const meta: Meta<NysAccordionArgs> = {
@@ -26,7 +15,9 @@ const meta: Meta<NysAccordionArgs> = {
   component: "nys-accordion",
   argTypes: {
     id: { control: "text" },
-    name: { control: "text" },
+    heading: { control: "text" },
+    expanded: { control: "boolean", default: false },
+    bordered: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
@@ -44,10 +35,17 @@ type Story = StoryObj<NysAccordionArgs>;
 export const Basic: Story = {
   args: {
     id: "accordion1",
-    name: "accordion1",
+    heading: "accordion1",
+    expanded: false,
+    bordered: false,
   },
   render: (args) => html`
-    <nys-accordion .id=${args.id} .name=${args.name}></nys-accordion>
+    <nys-accordion
+      .id=${args.id}
+      .heading=${args.heading}
+      .expanded=${args.expanded}
+      .bordered=${args.bordered}
+    ></nys-accordion>
   `,
   parameters: {
     docs: {

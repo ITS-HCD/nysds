@@ -17,9 +17,11 @@ describe("nys-accordion", () => {
 
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysAccordion>(html`
-      <nys-accordion heading="My Title"></nys-accordion>
+      <nys-accordion heading="My Title" expanded bordered></nys-accordion>
     `);
     expect(el.heading).to.equal("My Title");
+    expect(el.expanded).to.be.true;
+    expect(el.bordered).to.be.true;
   });
 
   it("passes the a11y audit", async () => {
