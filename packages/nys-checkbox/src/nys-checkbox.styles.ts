@@ -295,13 +295,17 @@ export default css`
   }
 
   /* Hover + Checked */
+  .nys-checkbox__checkbox:hover:not(:disabled):checked {
+    border-color: var(--_nys-checkbox-checked-hover-color-border);
+    background-color: var(--_nys-checkbox-checked-hover-color-bg);
+  }
   :host([tile])
     .nys-checkbox:hover:has(.nys-checkbox__checkbox:not(:disabled):checked) {
     outline: solid var(--_nys-checkbox-tile-border-width)
       var(--_nys-checkbox-checked-tile-border-color);
   }
 
-  /* Pressed - only allow pressed on unchecked */
+  /* Pressed - not checked */
   .nys-checkbox__checkbox:active:not(:disabled):not(:checked) {
     background-color: var(--_nys-checkbox-pressed-color-bg);
     border-color: var(--_nys-checkbox-pressed-color-border);
@@ -314,6 +318,12 @@ export default css`
     background-color: var(--_nys-checkbox-pressed-tile-bg-color);
     outline: solid var(--_nys-checkbox-tile-border-width)
       var(--_nys-checkbox-pressed-tile-border-color);
+  }
+
+  /* Pressed + Checked */
+  .nys-checkbox__checkbox:active:not(:disabled):checked {
+    border-color: var(--_nys-checkbox-checked-pressed-color-border);
+    background-color: var(--_nys-checkbox-checked-pressed-color-bg);
   }
 
   /* Focused */

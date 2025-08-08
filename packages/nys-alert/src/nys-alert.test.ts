@@ -55,18 +55,17 @@ describe("nys-alert", () => {
     const el = await fixture<NysAlert>(
       html`<nys-alert type="danger"></nys-alert>`,
     );
-    const alertContainer = el.shadowRoot?.querySelector(
-      ".nys-alert__container",
-    );
-    expect(alertContainer?.getAttribute("role")).to.equal("alert");
+    const alertTextContainer =
+      el.shadowRoot?.querySelector(".nys-alert__texts");
+    expect(alertTextContainer?.getAttribute("role")).to.equal("alert");
 
     el.type = "success";
     await el.updateComplete;
-    expect(alertContainer?.getAttribute("role")).to.equal("status");
+    expect(alertTextContainer?.getAttribute("role")).to.equal("status");
 
     el.type = "info";
     await el.updateComplete;
-    expect(alertContainer?.getAttribute("role")).to.equal("region");
+    expect(alertTextContainer?.getAttribute("role")).to.equal("region");
   });
 
   it("should reflect Slot content", async () => {
