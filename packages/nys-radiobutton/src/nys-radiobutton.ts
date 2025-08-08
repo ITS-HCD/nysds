@@ -175,10 +175,8 @@ export class NysRadiobutton extends LitElement {
         />
 
         <span
-          tabindex="-1"
           class="nys-radiobutton__radio"
           @click="${this._callInputHandling}"
-          @keydown="${this._callInputHandling}"
         ></span>
 
         ${this.label &&
