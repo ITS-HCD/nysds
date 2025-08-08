@@ -158,6 +158,7 @@ export class NysRadiobutton extends LitElement {
     return html`
       <label class="nys-radiobutton">
         <input
+          class="sr-only"
           id="${this.id}"
           type="radio"
           name="${ifDefined(this.name ? this.name : undefined)}"
@@ -171,7 +172,6 @@ export class NysRadiobutton extends LitElement {
           @change="${this._handleChange}"
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
-          hidden
         />
 
         <span
