@@ -200,15 +200,19 @@ export class NysRadiogroup extends LitElement {
 
   private _updateGroupTabIndex() {
     const radios = this._getAllRadios();
-    const active = radios.find((radio) => radio.checked) || radios[0];
+    const active = radios.find((radio) => radio.checked) || radios[0]; // If none checked, make first radiobutton tabbable
 
     radios.forEach((radio) => {
-      // If none checked, make first radiobutton tabbable
-      radio.tabIndex = radio === active ? 0 : -1;
+      if (radio.disabled) {
+        radio.tabIndex = -1;
+      } else {
+        radio.tabIndex = radio === active ? 0 : -1;
+      }
 
       // Need to update ARIA state due to the new tabindex
-      radio.setAttribute("aria-checked", String(radio.checked));
-      radio.setAttribute("aria-required", String(this.required));
+      radio.setAttribute("aria-checked", radio.checked ? "true" : "false");
+      radio.setAttribute("aria-disabled", radio.disabled ? "true" : "false");
+      radio.setAttribute("aria-required", this.required ? "true" : "false");
     });
   }
 
@@ -220,6 +224,7 @@ export class NysRadiogroup extends LitElement {
       radio.setAttribute("role", "radio");
       radio.setAttribute("aria-checked", String(radio.checked));
       radio.setAttribute("aria-required", String(radio.required));
+      radio.setAttribute("aria-disabled", String(radio.disabled));
       radio.setAttribute("tabindex", "-1");
     });
   }
@@ -329,7 +334,7 @@ export class NysRadiogroup extends LitElement {
   }
 
   render() {
-    return html` <div>
+    return html`<div class="nys-radiogroup">
       <nys-label
         id=${this.id}
         label=${this.label}
@@ -339,11 +344,7 @@ export class NysRadiogroup extends LitElement {
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
       <div class="nys-radiogroup__content">
-        <fieldset
-          class="nys-radiogroup"
-          role="radiogroup"
-          @keydown=${this._handleKeyDown}
-        >
+        <fieldset role="radiogroup" @keydown=${this._handleKeyDown}>
           <legend class="sr-only">
             ${this.label}${this._slottedDescriptionText
               ? ` ${this._slottedDescriptionText}`

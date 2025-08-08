@@ -95,6 +95,8 @@ export class NysRadiobutton extends LitElement {
 
   /******************** Event Handlers ********************/
   private _emitChangeEvent() {
+    console.log("_emitChangeEvent");
+
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: {
@@ -110,6 +112,8 @@ export class NysRadiobutton extends LitElement {
 
   // Handle radiobutton change event & unselection of other options in group
   private _handleChange() {
+    console.log("_handleChange");
+
     if (!this.checked) {
       if (NysRadiobutton.buttonGroup[this.name]) {
         NysRadiobutton.buttonGroup[this.name].checked = false;
@@ -126,12 +130,30 @@ export class NysRadiobutton extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
+    console.log("_handleFocus");
+
     this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
+    console.log("_handleBlur");
     this.dispatchEvent(new Event("nys-blur"));
+  }
+
+  private _callInputHandling() {
+    if (this.disabled) return;
+
+    // Find the hidden input and trigger a click to toggle selection
+    const input = this.shadowRoot?.querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement;
+
+    if (input) {
+      input.click();
+      // Optionally focus the input for accessibility
+      input.focus();
+    }
   }
 
   render() {
@@ -152,8 +174,16 @@ export class NysRadiobutton extends LitElement {
           @change="${this._handleChange}"
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
-          tabindex="-1"
+          hidden
         />
+
+        <span
+          tabindex="-1"
+          class="nys-radiobutton__radio"
+          @click="${this._callInputHandling}"
+          @keydown="${this._callInputHandling}"
+        ></span>
+
         ${this.label &&
         html` <div class="nys-radiobutton__text">
           <label for=${this.id} class="nys-radiobutton__label"
