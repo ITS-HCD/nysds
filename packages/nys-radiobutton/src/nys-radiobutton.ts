@@ -150,6 +150,7 @@ export class NysRadiobutton extends LitElement {
     ) as HTMLInputElement;
 
     if (input) {
+      input.focus();
       input.click();
     }
   }
@@ -158,7 +159,6 @@ export class NysRadiobutton extends LitElement {
     return html`
       <label class="nys-radiobutton">
         <input
-          class="sr-only"
           id="${this.id}"
           type="radio"
           name="${ifDefined(this.name ? this.name : undefined)}"
@@ -172,21 +172,20 @@ export class NysRadiobutton extends LitElement {
           @change="${this._handleChange}"
           @focus="${this._handleFocus}"
           @blur="${this._handleBlur}"
+          hidden
         />
 
         <span
           class="nys-radiobutton__radio"
-          @click="${this._callInputHandling}"
+          @change="${this._callInputHandling}"
         ></span>
 
         ${this.label &&
         html` <div class="nys-radiobutton__text">
-          <label for=${this.id} class="nys-radiobutton__label"
-            >${this.label}</label
-          >
-          <label for=${this.id} class="nys-radiobutton__description">
+          <div class="nys-radiobutton__label">${this.label}</div>
+          <div class="nys-radiobutton__description">
             <slot name="description">${this.description}</slot>
-          </label>
+          </div>
         </div>`}
       </label>
     `;
