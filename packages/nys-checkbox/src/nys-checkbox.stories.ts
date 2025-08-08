@@ -194,10 +194,10 @@ export const Grouping: Story = {
         style="flex: 1;"
         label="Do you attest to the following:"
       >
-        <label slot="description"
-          >Description as a
-          <a href="https://www.ny.gov/" target="__blank">slot</a></label
-        >
+        <p slot="description">
+          Description as a
+          <a href="https://www.ny.gov/" target="__blank">slot</a>
+        </p>
         <nys-checkbox
           label="I have read the terms and conditions."
           id="terms-conditions"
@@ -244,7 +244,7 @@ export const Grouping: Story = {
   ></nys-checkbox>
 </nys-checkboxgroup>
 <nys-checkboxgroup label="Do you attest to the following:">
-  <label slot="description">Description as a <a href="https://www.ny.gov/" target="__blank">slot</a></label>
+  <p slot="description">Description as a <a href="https://www.ny.gov/" target="__blank">slot</a></p>
   <nys-checkbox
     label="I have read the terms and conditions."
     id="terms-conditions"
@@ -628,11 +628,11 @@ export const Slot: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
-      <label slot="description"
-        >${args.description}<a href="https://www.ny.gov/" target="__blank"
+      <p slot="description">
+        ${args.description}<a href="https://www.ny.gov/" target="__blank"
           >here</a
-        ></label
-      >
+        >
+      </p>
     </nys-checkbox>
   `,
   parameters: {
@@ -645,9 +645,9 @@ export const Slot: Story = {
   name="subscribe"
   value="email-updates"
 >
-  <label slot="description"> Read about previous updates
+  <p slot="description"> Read about previous updates
     <a href="https://www.ny.gov/" target="__blank">here</a>
-  </label>
+  </p>
 </nys-checkbox>
         `.trim(),
       },

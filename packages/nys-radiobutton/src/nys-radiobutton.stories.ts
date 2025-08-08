@@ -80,18 +80,20 @@ export const Basic: Story = {
       .optional=${args.optional}
     >
       <nys-radiobutton
+        .id=${args.id}
         .name=${args.name}
+        label=${args.label}
+        description=${args.description}
         .checked=${args.checked}
-        .label=${args.label}
-        .description=${args.description}
         .disabled=${args.disabled}
         .value=${args.value}
       ></nys-radiobutton>
       <nys-radiobutton
+        .id=${args.id}
         .name=${args.name}
+        label=${"Manhattan"}
+        description=${"New York City"}
         .checked=${false}
-        .label=${"Manhattan"}
-        .description=${"New York City"}
         .disabled=${args.disabled}
         .value=${"manhattan"}
       ></nys-radiobutton>
@@ -141,23 +143,26 @@ export const PartialEditableOptions: Story = {
       .tile=${args.tile}
     >
       <nys-radiobutton
+        .id=${args.id}
         .name=${args.name}
+        label=${args.label}
+        description=${args.description}
         .checked=${args.checked}
         .disabled=${args.disabled}
-        .label=${args.label}
-        .description=${args.description}
         .value=${args.value}
       ></nys-radiobutton>
       <nys-radiobutton
+        .id=${args.id}
         .name=${args.name}
-        .label=${"Sequoia"}
-        .description=${"Macbook Air"}
+        label=${"Sequoia"}
+        description=${"Macbook Air"}
         .value=${"mac"}
       ></nys-radiobutton>
       <nys-radiobutton
+        .id=${args.id}
         .name=${args.name}
+        label=${"Linux"}
         .disabled=${true}
-        .label=${"Linux"}
         .value=${"linux"}
       ></nys-radiobutton>
     </nys-radiogroup>
@@ -211,30 +216,30 @@ export const DisabledOptions: Story = {
       .tile=${args.tile}
     >
       <nys-radiobutton
-        .checked=${args.checked}
-        .disabled=${args.disabled}
-        .label=${args.label}
-        .description=${args.description}
         .id=${args.id}
         .name=${args.name}
+        label=${args.label}
+        description=${args.description}
+        .checked=${args.checked}
+        .disabled=${args.disabled}
         .value=${args.value}
       ></nys-radiobutton>
       <nys-radiobutton
-        .checked=${false}
-        .disabled=${args.disabled}
-        .label=${"Software Engineer 2"}
-        .description=${"1-3 years experience"}
         .id=${args.id}
         .name=${args.name}
+        label=${"Software Engineer 2"}
+        description=${"1-3 years experience"}
+        .checked=${false}
+        .disabled=${args.disabled}
         .value=${"eng-2"}
       ></nys-radiobutton>
       <nys-radiobutton
-        .checked=${false}
-        .disabled=${args.disabled}
-        .label=${"Software Engineer 3"}
-        .description=${"3-5 years experience"}
         .id=${args.id}
         .name=${args.name}
+        label=${"Software Engineer 3"}
+        description=${"3-5 years experience"}
+        .checked=${false}
+        .disabled=${args.disabled}
         .value=${"eng-3"}
       ></nys-radiobutton>
     </nys-radiogroup>
