@@ -12,18 +12,20 @@ export class NysStep extends LitElement {
   static styles = styles;
 
   private _handleActivate() {
-    if ((this.hasAttribute("previous") || this.current) && !this.selected) {
-      this.dispatchEvent(
-        new Event("nys-step-click", {
-          bubbles: true,
-          composed: true,
-        }),
-      );
-    }
+    // Dispatch event as cancelable so user can prevent navigation
+    const event = new Event("nys-step-click", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
 
-    // Default navigation behavior
-    if (this.href) {
-      window.location.href = this.href;
+    if ((this.hasAttribute("previous") || this.current) && !this.selected) {
+      this.dispatchEvent(event);
+
+      // Only navigate if event was not canceled
+      if (!event.defaultPrevented && this.href) {
+        window.location.href = this.href;
+      }
     }
   }
 
