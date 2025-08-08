@@ -20,6 +20,11 @@ export class NysStep extends LitElement {
         }),
       );
     }
+
+    // Default navigation behavior
+    if (this.href) {
+      window.location.href = this.href;
+    }
   }
 
   private _handleKeydown(e: KeyboardEvent) {
