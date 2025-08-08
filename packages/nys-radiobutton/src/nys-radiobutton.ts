@@ -151,8 +151,6 @@ export class NysRadiobutton extends LitElement {
 
     if (input) {
       input.click();
-      // Optionally focus the input for accessibility
-      input.focus();
     }
   }
 
@@ -161,7 +159,6 @@ export class NysRadiobutton extends LitElement {
       <label class="nys-radiobutton">
         <input
           id="${this.id}"
-          class="nys-radiobutton__radio"
           type="radio"
           name="${ifDefined(this.name ? this.name : undefined)}"
           .checked=${this.checked}
