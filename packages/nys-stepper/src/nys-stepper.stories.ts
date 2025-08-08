@@ -48,10 +48,6 @@ export const Basic: Story = {
         class="nys-desktop:nys-grid-col-3"
       >
         <nys-step
-          label="Visit its.ny.gov (external URL)"
-          href="https://www.its.ny.gov"
-        ></nys-step>
-        <nys-step
           label="Personal Details"
           href="/nys-stepper/personal.html"
         ></nys-step>
@@ -78,10 +74,30 @@ export const Basic: Story = {
           ></nys-button>
         </div>
       </nys-stepper>
-      <div class="nys-desktop:nys-grid-col-9" id="stepper-content">
+      <div class="nys-desktop:nys-grid-col-9" id="nys-stepper-content">
         Loading...
       </div>
     </div>
+    <script>
+      document.addEventListener("nys-step-click", async (e) => {
+        const href = e.detail?.href;
+        if (!href) return;
+
+        e.preventDefault();
+        try {
+          const res = await fetch(href);
+          if (!res.ok) throw new Error("Failed to fetch ", href);
+          const html = await res.text();
+
+          const container = document.querySelector("#nys-stepper-content");
+          if (container) {
+            container.innerHTML = html;
+          }
+        } catch (err) {
+          console.error("Error loading innerHTML:", err);
+        }
+      });
+    </script>
   `,
   parameters: {
     docs: {
@@ -94,10 +110,6 @@ export const Basic: Story = {
     label="Register for Design System Office Hours"
     class="nys-desktop:nys-grid-col-3"
   >
-    <nys-step
-      label="Visit its.ny.gov (external URL)"
-      href="https://www.its.ny.gov"
-    ></nys-step>
     <nys-step
       label="Personal Details"
       href="/nys-stepper/personal.html"

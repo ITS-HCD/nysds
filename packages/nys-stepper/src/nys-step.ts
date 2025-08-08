@@ -13,10 +13,11 @@ export class NysStep extends LitElement {
 
   private _handleActivate() {
     // Dispatch event as cancelable so user can prevent navigation
-    const event = new Event("nys-step-click", {
+    const event = new CustomEvent("nys-step-click", {
       bubbles: true,
       composed: true,
       cancelable: true,
+      detail: { href: this.href, label: this.label },
     });
 
     if ((this.hasAttribute("previous") || this.current) && !this.selected) {
