@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-accordion";
+import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysAccordionArgs {
@@ -45,7 +46,8 @@ export const Basic: Story = {
       .heading=${args.heading}
       .expanded=${args.expanded}
       .bordered=${args.bordered}
-    ></nys-accordion>
+      ><p>Hello World!</p>
+    </nys-accordion>
   `,
   parameters: {
     docs: {
