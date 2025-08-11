@@ -8,10 +8,16 @@ export class NysStep extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
   @property({ type: Boolean }) isCompactExpanded = false;
+  @property({ type: Function }) onClick?: (e: Event) => void;
 
   static styles = styles;
 
-  private _handleActivate() {
+  private _handleActivate(e: Event) {
+    // Run user-supplied onClick first (if present)
+    if (typeof this.onClick === "function") {
+      this.onClick(e);
+    }
+
     // Dispatch event as cancelable so user can prevent navigation
     const event = new CustomEvent("nys-step-click", {
       bubbles: true,
@@ -33,7 +39,7 @@ export class NysStep extends LitElement {
   private _handleKeydown(e: KeyboardEvent) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      this._handleActivate();
+      this._handleActivate(e);
     }
   }
 
