@@ -96,4 +96,11 @@ export default css`
       var(--nys-color-neutral-50, #ededed);
     border-radius: 0 0 var(--_nys-accordion-radius) var(--_nys-accordion-radius);
   }
+
+  /*** Accordion Group ***/
+  .nys-accordiongroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-space-100, 8px);
+  }
 `;

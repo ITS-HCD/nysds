@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
+import "./nys-accordiongroup";
 import "./nys-accordion";
 import "@nysds/nys-icon";
 
@@ -9,6 +10,7 @@ interface NysAccordionArgs {
   heading: string;
   expanded: boolean;
   bordered: boolean;
+  singleSelect: boolean;
 }
 
 const meta: Meta<NysAccordionArgs> = {
@@ -19,6 +21,7 @@ const meta: Meta<NysAccordionArgs> = {
     heading: { control: "text" },
     expanded: { control: "boolean", default: false },
     bordered: { control: "boolean", default: false },
+    singleSelect: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
@@ -31,12 +34,67 @@ const meta: Meta<NysAccordionArgs> = {
 export default meta;
 type Story = StoryObj<NysAccordionArgs>;
 
-// Define stories without using args
-
 export const Basic: Story = {
   args: {
     id: "accordion1",
-    heading: "accordion1",
+    heading: "Welcome to New York",
+    expanded: true,
+    bordered: false,
+    singleSelect: true,
+  },
+  render: (args) => html`
+    <nys-accordiongroup ?singleSelect=${args.singleSelect}>
+      <nys-accordion
+        .id=${args.id}
+        .heading=${args.heading}
+        .expanded=${args.expanded}
+        .bordered=${args.bordered}
+        ><p>
+          Learn about state programs, services, and resources available at
+          <a href="https://www.ny.gov" target="_blank"> ny.gov </a>
+        </p>
+      </nys-accordion>
+      <nys-accordion id="accordion1" heading="Liberty Ipsum: Bridges & Boroughs"
+        ><p>
+          Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
+          Park, consectetur adipiscing elit.
+        </p>
+      </nys-accordion>
+      <nys-accordion id="accordion3" heading="Hudson Ipsum: Riverfront Stories"
+        ><p>
+          From the banks of the Hudson to the peaks of the Adirondacks, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </nys-accordion>
+    </nys-accordiongroup>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-accordiongroup singleSelect>
+  <nys-accordion id="accordion1" heading="Welcome to New York">
+   <p>Learn about state programs, services, and resources available at
+      <a href="https://www.ny.gov" target="_blank">ny.gov</a>
+    </p>
+  </nys-accordion>
+  <nys-accordion id="accordion2" heading="Liberty Ipsum: Bridges & Boroughs">
+    <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
+  </nys-accordion>
+  <nys-accordion id="accordion3" heading="Hudson Ipsum: Riverfront Stories">
+    <p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </nys-accordion>
+</nys-accordiongroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const IndividualAccordion: Story = {
+  args: {
+    id: "accordion1",
+    heading: "Liberty Ipsum: Bridges & Boroughs",
     expanded: false,
     bordered: false,
   },
@@ -46,7 +104,10 @@ export const Basic: Story = {
       .heading=${args.heading}
       .expanded=${args.expanded}
       .bordered=${args.bordered}
-      ><p>Hello World!</p>
+      ><p>
+        Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park,
+        consectetur adipiscing elit.
+      </p>
     </nys-accordion>
   `,
   parameters: {
@@ -55,8 +116,10 @@ export const Basic: Story = {
         code: `
 <nys-accordion
   id="accordion1"
-  name="accordion1"
-></nys-accordion>`,
+  heading="Liberty Ipsum: Bridges & Boroughs"
+>
+  <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
+</nys-accordion>`,
         type: "auto",
       },
     },

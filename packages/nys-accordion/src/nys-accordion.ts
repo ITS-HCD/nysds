@@ -22,9 +22,20 @@ export class NysAccordion extends LitElement {
   }
 
   /******************** Functions ********************/
+  private _dispatchEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-toggle", {
+        detail: { id: this.id, heading: this.heading, expanded: this.expanded },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   private _handleExpand() {
     this.expanded = !this.expanded;
     this._updateHeight();
+    this._dispatchEvent();
   }
 
   private _handleKeydown(e: KeyboardEvent) {

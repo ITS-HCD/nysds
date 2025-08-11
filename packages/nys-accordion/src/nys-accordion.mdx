@@ -6,7 +6,7 @@ import * as NysAccordionStories from "./nys-accordion.stories";
 
 # Accordion
 
-The **`nys-accordion`** component is a reusable web component for use in New York State digital products.
+The **`nys-accordion`** component is a vertically stacked list of headers that can be clicked to reveal or hide associated content, helping to organize and condense information.
 
 If an id is not passed, a unique id will be generated.
 
@@ -29,26 +29,29 @@ If an id is not passed, a unique id will be generated.
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+- Use an accordion when you need to organize related information into expandable sections, reducing the need for users to scroll through long content.
+- Ideal for FAQs, application instructions, program eligibility requirements, or step-by-step guides where only one section may be needed at a time.
+- Helpful in mobile layouts to keep pages compact while still allowing access to full details.
 
 ### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+- Do not hide essential information, such as critical deadlines, eligibility criteria, or urgent alerts, inside collapsed panels — keep these visible by default.
+- If users need to compare details from multiple sections at once, consider using a table or side-by-side layout instead of an accordion.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - Use accordions for FAQs on state services, like DMV procedures or benefits information.
+      - Use to break up long program descriptions into manageable sections without overwhelming the reader.
+      - Label headings clearly so users understand the content before expanding.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - Don't hide time-sensitive deadlines or required steps in a collapsed section.
+      - Don't use vague or unclear headings that make it hard to know what is inside.
+      - Don't overuse accordions for content that is short enough to display fully on the page.
     </div>
   </div>
 </div>
@@ -57,27 +60,9 @@ If an id is not passed, a unique id will be generated.
 
 The `nys-accordion` component includes the following accessibility-focused features:
 
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-- TODO: Add accessibility features
+- Keyboard navigation (e.g. Tab to move between headers, Enter or Space to toggle).
+- Headers are large enough to interact with easily (minimum 44x44px).
 
-## Slots
-<table>
-    <thead>
-    <tr>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-component` or `nys-component`</td>
-        <td>none</td>
-    </tr>
-    </tbody>
-</table>
 
 ## Events
 
@@ -113,4 +98,4 @@ accordion.addEventListener("nys-blur", () => {
 
 This component automatically imports the following dependencies.
 
-- TODO: Add dependencies
+- `<nys-icon>`
