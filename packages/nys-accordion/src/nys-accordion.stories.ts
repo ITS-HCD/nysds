@@ -43,18 +43,20 @@ export const Basic: Story = {
     singleSelect: true,
   },
   render: (args) => html`
-    <nys-accordiongroup ?singleSelect=${args.singleSelect}>
+    <nys-accordiongroup
+      ?singleSelect=${args.singleSelect}
+      ?bordered=${args.bordered}
+    >
       <nys-accordion
         .id=${args.id}
         .heading=${args.heading}
         .expanded=${args.expanded}
-        .bordered=${args.bordered}
         ><p>
           Learn about state programs, services, and resources available at
           <a href="https://www.ny.gov" target="_blank"> ny.gov </a>
         </p>
       </nys-accordion>
-      <nys-accordion id="accordion1" heading="Liberty Ipsum: Bridges & Boroughs"
+      <nys-accordion id="accordion2" heading="Liberty Ipsum: Bridges & Boroughs"
         ><p>
           Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
           Park, consectetur adipiscing elit.

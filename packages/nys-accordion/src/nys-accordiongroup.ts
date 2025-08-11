@@ -4,12 +4,19 @@ import styles from "./nys-accordion.styles";
 
 export class NysAccordionGroup extends LitElement {
   @property({ type: Boolean }) singleSelect = false;
+  @property({ type: Boolean }) bordered = false;
 
   static styles = styles;
 
   /**************** Lifecycle Methods ****************/
   constructor() {
     super();
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has("bordered")) {
+      this._applyBordered();
+    }
   }
 
   /******************** Functions ********************/
@@ -37,6 +44,12 @@ export class NysAccordionGroup extends LitElement {
         }
       });
     }
+  }
+
+  private _applyBordered() {
+    this._getAccordions().forEach((accordion: any) => {
+      accordion.bordered = this.bordered;
+    });
   }
 
   render() {
