@@ -79,6 +79,30 @@ export const Basic: Story = {
       </div>
     </div>
     <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const stepper = document.querySelector("nys-stepper");
+
+        if (stepper?.updateComplete) {
+          await stepper.updateComplete; // Wait for Lit to finish rendering
+        }
+
+        const selectedStep = document.querySelector("nys-step[selected]");
+        if (selectedStep) {
+          const href = selectedStep.getAttribute("href");
+          if (href) {
+            try {
+              const res = await fetch(href);
+              if (!res.ok) throw new Error("Failed to load " + href);
+              const html = await res.text();
+              const container = document.querySelector("#nys-stepper-content");
+              if (container) container.innerHTML = html;
+            } catch (err) {
+              console.error("Error loading initial step content:", err);
+            }
+          }
+        }
+      });
+
       document.addEventListener("nys-step-click", async (e) => {
         const href = e.detail?.href;
         if (!href) return;
