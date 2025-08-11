@@ -204,7 +204,7 @@ export class NysButton extends LitElement {
                     </slot>`
                   : ""}
                 ${this.label && !this.circle
-                  ? html`<label class="nys-button__text">${this.label}</label>`
+                  ? html`<div class="nys-button__text">${this.label}</div>`
                   : ""}
                 ${this.suffixIcon && this.variant !== "text"
                   ? html`<slot name="suffix-icon">
@@ -255,7 +255,7 @@ export class NysButton extends LitElement {
                   </slot>`
                 : ""}
               ${this.label && !this.circle
-                ? html`<label class="nys-button__text">${this.label}</label>`
+                ? html`<div class="nys-button__text">${this.label}</div>`
                 : ""}
               ${this.suffixIcon && this.variant !== "text"
                 ? html`<slot name="suffix-icon">
