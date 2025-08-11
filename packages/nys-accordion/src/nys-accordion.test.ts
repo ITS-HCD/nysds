@@ -26,7 +26,7 @@ describe("nys-accordion", () => {
 
   it("passes the a11y audit", async () => {
     const el = await fixture(
-      html`<nys-accordion label="My Label"></nys-accordion>`,
+      html`<nys-accordion heading="My Label"></nys-accordion>`,
     );
     await expect(el).shadowDom.to.be.accessible();
   });

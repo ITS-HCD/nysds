@@ -26,6 +26,22 @@ If an id is not passed, a unique id will be generated.
 
 ## Options
 
+### Individual Accordion
+The `nys-accordion` is an individual component that toggles open or closed internally via the `expanded` prop.
+This prop is also available for developers to control the expanded state directly, without needing to wrap it in a `nys-accordiongroup`.
+<Canvas of={NysAccordionStories.IndividualAccordion} />
+
+### Accordion Group
+The `nys-accordiongroup` is a wrapper that provides a boolean prop called `singleSelect`.
+When `singleSelect` is set, only one accordion within the group can be open at a time.
+<Canvas of={NysAccordionStories.AccordionGroup} />
+
+
+### Bordered
+The `bordered` prop is available on both `nys-accordion` and `nys-accordiongroup`.
+When applied to the `nys-accordiongroup`, all accordions within the group will be bordered.
+<Canvas of={NysAccordionStories.Bordered} />
+
 ## Usage
 
 ### When to use this component
@@ -68,9 +84,13 @@ The `nys-accordion` component includes the following accessibility-focused featu
 
 The `nys-accordion` component emits the following events:
 
-1. `nys-click`: Emitted when the accordion is clicked.
-2. `nys-focus`: Emitted when the accordion receives focus.
-3. `nys-blur`: Emitted when the accordion loses focus.
+1. `nys-toggle`: Emitted when the accordion is clicked.
+
+**Event details** \
+The event includes a detail object with the following properties:
+- id (string): The id of the accordion.
+- heading (string): The accordion’s heading text.
+- expanded (boolean): true if the accordion is expanded, otherwise false.
 
 You can listen to these events using JavaScript:
 
@@ -78,19 +98,10 @@ You can listen to these events using JavaScript:
 // Select the accordion component
 const accordion = document.querySelector("nys-accordion");
 
-// Listen for the 'nys-click' event
-accordion.addEventListener("nys-click", () => {
-	console.log("Accordion clicked");
-});
-
-// Listen for the 'nys-focus' event
-accordion.addEventListener("nys-focus", () => {
-	console.log("Accordion is focused");
-});
-
-// Listen for the 'nys-blur' event
-accordion.addEventListener("nys-blur", () => {
-	console.log("Accordion lost focus");
+// Listen for the 'nys-toggle' event
+accordion.addEventListener("nys-toggle", () => {
+	console.log("Accordion toggled");
+	console.log("Accordion details:", event.detail);
 });
 ```
 
