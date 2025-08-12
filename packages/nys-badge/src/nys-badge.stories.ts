@@ -92,3 +92,59 @@ export const Basic: Story = {
     },
   },
 };
+
+export const Intent: Story = {
+  render: () => html`
+    <div class="nys-display-grid nys-grid-gap-sm">
+      <nys-badge label="Info" intent="info" prefixIcon></nys-badge>
+      <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+      <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+      <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        type: "auto",
+        code: `
+<nys-badge label="Info" intent="info" prefixIcon></nys-badge>
+<nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+<nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+<nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+`,
+      },
+    },
+  },
+};
+
+export const Icons: Story = {
+  render: () => html`
+    <div class="nys-display-grid nys-grid-gap-sm">
+      <nys-badge label="Default Info" intent="info" prefixIcon></nys-badge>
+      <nys-badge label="Default Info" intent="info" suffixIcon></nys-badge>
+      <nys-badge
+        label="Custom Info"
+        intent="info"
+        prefixIcon="check"
+      ></nys-badge>
+      <nys-badge
+        label="Custom Info"
+        intent="info"
+        suffixIcon="check"
+      ></nys-badge>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        type: "auto",
+        code: `
+<nys-badge label="Default Info" intent="info" prefixIcon></nys-badge>
+<nys-badge label="Default Info" intent="info" suffixIcon></nys-badge>
+<nys-badge label="Custom Info" intent="info" prefixIcon="check"></nys-badge>
+<nys-badge label="Custom Info" intent="info" suffixIcon="check"></nys-badge>
+`,
+      },
+    },
+  },
+};

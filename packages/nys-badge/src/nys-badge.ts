@@ -75,6 +75,20 @@ export class NysBadge extends LitElement {
 
   static styles = styles;
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    const attr = this.getAttribute("prefixicon");
+    if (attr !== null && this.prefixIcon === "") {
+      this.prefixIcon = attr;
+    }
+
+    const suffixAttr = this.getAttribute("suffixicon");
+    if (suffixAttr !== null && this.suffixIcon === "") {
+      this.suffixIcon = suffixAttr;
+    }
+  }
+
   // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
     info: "info",
