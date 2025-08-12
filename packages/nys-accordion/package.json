@@ -39,8 +39,7 @@
     "web-components",
     "lit",
     "nys",
-    "accordion",
-    "forms"
+    "accordion"
   ],
   "author": "New York State Design System Team",
   "license": "MIT"
