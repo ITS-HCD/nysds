@@ -24,7 +24,7 @@ export class NysAccordion extends LitElement {
   /******************** Functions ********************/
   private _dispatchEvent() {
     this.dispatchEvent(
-      new CustomEvent("nys-toggle", {
+      new CustomEvent("nys-accordionToggle", {
         detail: { id: this.id, heading: this.heading, expanded: this.expanded },
         bubbles: true,
         composed: true,
@@ -70,15 +70,13 @@ export class NysAccordion extends LitElement {
         @keydown=${this._handleKeydown}
       >
         <p class="nys-accordion__heading-title">${this.heading}</p>
-        <nys-icon
-          class="expand-icon"
-          name="chevron_down"
-          size="24"
-        ></nys-button>
+        <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
       </div>
       <div class="nys-accordion__content">
         <div class="nys-accordion__content-slot-container">
-          <slot></slot>
+          <div class="nys-accordion__content-slot-container-text">
+            <slot></slot>
+          </div>
         </div>
       </div>
     </div>`;

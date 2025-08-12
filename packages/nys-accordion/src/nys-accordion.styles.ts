@@ -78,6 +78,10 @@ export default css`
     background: var(--nys-color-ink-reverse, #fff);
   }
 
+  .nys-accordion__content-slot-container-text{
+    max-width: 528px;
+  }
+
   /*** Expanded Styling ***/
   .expand-icon {
     transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
