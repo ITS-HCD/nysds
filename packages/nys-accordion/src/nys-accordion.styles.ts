@@ -6,11 +6,23 @@ export default css`
 
     /* Global Accordion Styles */
     --_nys-accordion-width: fit-content;
-    --_nys-accordion-background: var(--nys-color-neutral-50, #ededed);
     --_nys-accordion-radius: var(--nys-radius-md, 4px);
     --_nys-accordion-padding: var(--nys-space-200, 16px)
       var(--nys-space-250, 20px);
     --_nys-accordion-gap: var(--nys-space-200, 16px);
+    --_nys-accordion-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-accordion-offset-focus: var(--nys-space-2px, 2px);
+    --_nys-accordion-color-focus: var(--nys-color-focus, #004dd1);
+
+    /* Header & Text container */
+    --_nys-accordion-heading-background: var(--nys-color-neutral-50, #ededed);
+    --_nys-accordion-heading-active-background: var(
+      --nys-color-neutral-100,
+      #d0d0ce
+    );
+    --_nys-accordion-content-background: var(--nys-color-ink-reverse, #fff);
+    --_nys-accordion-content-padding: var(--nys-space-200, 16px)
+      var(--local-xx-spacing-205, 20px);
 
     /* Typography */
     --_nys-accordion-font-size: var(--nys-type-size-ui-xl, 20px);
@@ -45,18 +57,35 @@ export default css`
     font-weight: var(--_nys-accordion-font-weight);
     line-height: var(--_nys-accordion-line-height);
     letter-spacing: var(--_nys-accordion-line-letterspacing);
+    display: flex;
   }
 
   .nys-accordion__heading {
+    all: unset;
+    flex: 1;
     display: flex;
     padding: var(--_nys-accordion-padding);
     align-items: center;
     gap: var(--_nys-accordion-gap);
     align-self: stretch;
     border-radius: var(--_nys-accordion-radius);
-    background: var(--_nys-accordion-background);
+    background: var(--_nys-accordion-heading-background);
     cursor: pointer;
+    transition: 0.05s all ease-in-out;
   }
+
+  .nys-accordion__heading:hover,
+  .nys-accordion__heading:focus {
+    border-radius: var(--_nys-accordion-radius);
+    background: var(--_nys-accordion-heading-active-background);
+  }
+
+  .nys-accordion__heading:focus {
+    outline-offset: var(--_nys-accordion-offset-focus);
+    outline: solid var(--_nys-accordion-width-focus)
+      var(--_nys-accordion-color-focus);
+  }
+
   .nys-accordion__heading .nys-accordion__heading-title {
     flex: 1;
   }
@@ -74,8 +103,8 @@ export default css`
     align-items: flex-start;
     gap: var(--nys-space-100, 8px);
     align-self: stretch;
-    padding: var(--nys-space-200, 16px) var(--local-xx-spacing-205, 20px);
-    background: var(--nys-color-ink-reverse, #fff);
+    padding: var(--_nys-accordion-content-padding);
+    background: var(--_nys-accordion-content-background);
   }
 
   .nys-accordion__content-slot-container-text {

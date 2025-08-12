@@ -62,17 +62,21 @@ export class NysAccordion extends LitElement {
   }
 
   render() {
+    const contentId = `${this.id}-content`;
+
     return html`<div class="nys-accordion">
-      <div
+      <button
         class="nys-accordion__heading"
-        tabindex="0"
+        type="button"
         @click=${this._handleExpand}
         @keydown=${this._handleKeydown}
+        aria-expanded=${this.expanded ? "true" : "false"}
+        aria-controls=${contentId}
       >
         <p class="nys-accordion__heading-title">${this.heading}</p>
         <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
       </div>
-      <div class="nys-accordion__content">
+      <div id=${contentId} class="nys-accordion__content" role="region" ?hidden=${!this.expanded}>
         <div class="nys-accordion__content-slot-container">
           <div class="nys-accordion__content-slot-container-text">
             <slot></slot>
