@@ -55,7 +55,7 @@ export class NysAccordionGroup extends LitElement {
   render() {
     return html`<div
       class="nys-accordiongroup"
-      @nys-toggle=${this._onAccordionToggle}
+      @nys-accordionToggle=${this._onAccordionToggle}
     >
       <slot></slot>
     </div>`;
