@@ -7,18 +7,11 @@ interface NysBadgeArgs {
   id: string;
   name: string;
   size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
+  status: string;
+  prefix: string;
   label: string;
   prefixIcon: string;
   suffixIcon: string;
-  disabled: boolean;
-  form: string;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
 }
 
 const meta: Meta<NysBadgeArgs> = {
@@ -27,6 +20,26 @@ const meta: Meta<NysBadgeArgs> = {
   argTypes: {
     id: { control: "text" },
     name: { control: "text" },
+    size: {
+      control: "select",
+      options: ["sm", "md"],
+      description: "Size of the badge",
+    },
+    status: {
+      control: "select",
+      options: ["info", "error", "success", "warning"],
+      description: "Status of the badge",
+    },
+    prefix: { control: "text", description: "Prefix text" },
+    prefixIcon: {
+      control: "text",
+      description: "Icon to display before the label",
+    },
+    suffixIcon: {
+      control: "text",
+      description: "Icon to display after the label",
+    },
+    label: { control: "text", description: "Label text" },
   },
   parameters: {
     docs: {
@@ -45,18 +58,25 @@ export const Basic: Story = {
   args: {
     id: "badge1",
     name: "badge1",
+    prefix: "Version",
+    label: "1.6.0",
+    prefixIcon: "check_circle",
   },
   render: (args) => html`
-    <nys-badge .id=${args.id} .name=${args.name}></nys-badge>
+    <nys-badge
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .size=${args.size}
+      .status=${args.status}
+      .prefix=${args.prefix}
+      .prefixIcon=${args.prefixIcon}
+      .suffixIcon=${args.suffixIcon}
+    ></nys-badge>
   `,
   parameters: {
     docs: {
       source: {
-        code: `
-<nys-badge
-  id="badge1"
-  name="badge1"
-></nys-badge>`,
         type: "auto",
       },
     },
