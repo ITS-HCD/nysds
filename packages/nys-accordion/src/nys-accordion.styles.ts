@@ -78,7 +78,7 @@ export default css`
     background: var(--nys-color-ink-reverse, #fff);
   }
 
-  .nys-accordion__content-slot-container-text{
+  .nys-accordion__content-slot-container-text {
     max-width: 528px;
   }
 
