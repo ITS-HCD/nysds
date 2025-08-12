@@ -61,6 +61,7 @@ export const Basic: Story = {
     prefix: "Version",
     label: "1.6.0",
     intent: "success",
+    prefixIcon: "",
   },
   render: (args) => html`
     <nys-badge
@@ -79,13 +80,14 @@ export const Basic: Story = {
       source: {
         type: "auto",
         code: `
-  <nys-badge
-    id="badge1"
-    name="badge1"
-    prefix="Version"
-    label="1.6.0"
-    intent="success"
-  </nys-badge>`,
+<nys-badge
+  id="badge1"
+  name="badge1"
+  prefix="Version"
+  label="1.6.0"
+  intent="success"
+  prefixIcon
+</nys-badge>`,
       },
     },
   },
