@@ -94,6 +94,12 @@ export default css`
     height: 0;
     overflow: hidden;
     transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    visibility: hidden;
+  }
+
+  .nys-accordion__content.expanded {
+    /* Accordion JS code takes care of setting the exact calculated height so we can open exact px height */
+    visibility: visible;
   }
 
   .nys-accordion__content-slot-container {

@@ -3,8 +3,8 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-accordion.styles";
 
 export class NysAccordiongroup extends LitElement {
-  @property({ type: Boolean }) singleSelect = false;
-  @property({ type: Boolean }) bordered = false;
+  @property({ type: Boolean, reflect: true }) singleSelect = false;
+  @property({ type: Boolean, reflect: true }) bordered = false;
 
   static styles = styles;
 

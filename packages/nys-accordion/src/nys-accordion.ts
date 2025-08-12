@@ -76,7 +76,7 @@ export class NysAccordion extends LitElement {
         <p class="nys-accordion__heading-title">${this.heading}</p>
         <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
       </div>
-      <div id=${contentId} class="nys-accordion__content" role="region" ?hidden=${!this.expanded}>
+      <div id=${contentId} class="nys-accordion__content ${this.expanded ? "expanded" : "collapsed"}" role="region">
         <div class="nys-accordion__content-slot-container">
           <div class="nys-accordion__content-slot-container-text">
             <slot></slot>
