@@ -60,7 +60,7 @@ export const Basic: Story = {
     name: "badge1",
     prefix: "Version",
     label: "1.6.0",
-    prefixIcon: "check_circle",
+    status: "success",
   },
   render: (args) => html`
     <nys-badge

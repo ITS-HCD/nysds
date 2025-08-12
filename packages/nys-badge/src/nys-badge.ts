@@ -40,27 +40,74 @@ export class NysBadge extends LitElement {
   }
   @property({ type: String }) prefix = "";
   @property({ type: String }) label = "";
-  @property({ type: String }) prefixIcon = "";
-  @property({ type: String }) suffixIcon = "";
+
+  // Icons (string or boolean)
+  private _prefixIcon: string | boolean = "";
+  @property({ type: String, attribute: "prefixicon" })
+  get prefixIcon(): string | boolean {
+    return this._prefixIcon;
+  }
+  set prefixIcon(value: string | boolean) {
+    if (value === "" || value === null) {
+      // boolean attribute without value → true
+      this._prefixIcon = true;
+    } else if (value === "false" || value === false) {
+      this._prefixIcon = "";
+    } else {
+      this._prefixIcon = value;
+    }
+  }
+
+  private _suffixIcon: string | boolean = "";
+  @property({ type: String, attribute: "suffixicon" })
+  get suffixIcon(): string | boolean {
+    return this._suffixIcon;
+  }
+  set suffixIcon(value: string | boolean) {
+    if (value === "" || value === null) {
+      this._suffixIcon = true;
+    } else if (value === "false" || value === false) {
+      this._suffixIcon = "";
+    } else {
+      this._suffixIcon = value;
+    }
+  }
 
   static styles = styles;
 
-  constructor() {
-    super();
+  // Map of default icons by status
+  private static readonly DEFAULT_ICONS: Record<string, string> = {
+    info: "info",
+    error: "emergency_home",
+    success: "check_circle",
+    warning: "warning",
+  };
+
+  private resolveIcon(icon: string | boolean): string | null {
+    if (icon === true) {
+      return NysBadge.DEFAULT_ICONS[this.status] ?? "info-circle";
+    }
+    if (typeof icon === "string" && icon.trim() !== "") {
+      return icon;
+    }
+    return null;
   }
 
   render() {
+    const prefixIconName = this.resolveIcon(this.prefixIcon);
+    const suffixIconName = this.resolveIcon(this.suffixIcon);
+
     return html`
       <div class="nys-badge">
-        ${this.prefixIcon
-          ? html` <nys-icon size="16" name=${this.prefixIcon}></nys-icon> `
+        ${prefixIconName
+          ? html`<nys-icon size="16" name=${prefixIconName}></nys-icon>`
           : ""}
         ${this.prefix
           ? html`<div class="nys-badge__prefix">${this.prefix}</div>`
           : ""}
         <div class="nys-badge__label">${this.label}</div>
-        ${this.suffixIcon
-          ? html` <nys-icon size="16" name=${this.suffixIcon}></nys-icon> `
+        ${suffixIconName
+          ? html`<nys-icon size="16" name=${suffixIconName}></nys-icon>`
           : ""}
       </div>
     `;

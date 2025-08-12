@@ -71,6 +71,7 @@ export default css`
     font-size: var(--_nys-badge-font-size);
     font-weight: var(--_nys-badge-font-weight);
     line-height: var(--_nys-badge-line-height);
+    --nys-icon-color: var(--_nys-badge-border-color);
   }
 
   .nys-badge__prefix {
