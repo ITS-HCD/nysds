@@ -74,8 +74,7 @@ export default css`
     transition: 0.05s all ease-in-out;
   }
 
-  .nys-accordion__heading:hover,
-  .nys-accordion__heading:focus {
+  .nys-accordion__heading:hover {
     border-radius: var(--_nys-accordion-radius);
     background: var(--_nys-accordion-heading-active-background);
   }
