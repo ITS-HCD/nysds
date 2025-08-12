@@ -2,7 +2,7 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-accordion.styles";
 
-export class NysAccordionGroup extends LitElement {
+export class NysAccordiongroup extends LitElement {
   @property({ type: Boolean }) singleSelect = false;
   @property({ type: Boolean }) bordered = false;
 
@@ -63,5 +63,5 @@ export class NysAccordionGroup extends LitElement {
 }
 
 if (!customElements.get("nys-accordiongroup")) {
-  customElements.define("nys-accordiongroup", NysAccordionGroup);
+  customElements.define("nys-accordiongroup", NysAccordiongroup);
 }
