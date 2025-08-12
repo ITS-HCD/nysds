@@ -40,20 +40,20 @@ export default css`
     --_nys-badge-line-height: var(--nys-font-lineheight-ui-xs, 20px);
   }
 
-  /* Status */
-  :host([status="info"]) {
+  /* Intent */
+  :host([intent="info"]) {
     --_nys-badge-background-color: var(--nys-color-info-weak, #e5effa);
     --_nys-badge-border-color: var(--nys-color-info-strong, #002971);
   }
-  :host([status="error"]) {
+  :host([intent="error"]) {
     --_nys-badge-background-color: var(--nys-color-error-weak, #f7eaea);
     --_nys-badge-border-color: var(--nys-color-error-strong, #721c1c);
   }
-  :host([status="success"]) {
+  :host([intent="success"]) {
     --_nys-badge-background-color: var(--nys-color-success-weak, #e8f1ea);
     --_nys-badge-border-color: var(--nys-color-success-strong, #0f3d18);
   }
-  :host([status="warning"]) {
+  :host([intent="warning"]) {
     --_nys-badge-background-color: var(--nys-color-warning-weak, #fefae5);
     --_nys-badge-border-color: var(--nys-color-warning-strong, #6a5700);
   }

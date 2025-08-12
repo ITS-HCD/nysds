@@ -19,23 +19,23 @@ export class NysBadge extends LitElement {
       ? (value as (typeof NysBadge.VALID_SIZES)[number])
       : "md";
   }
-  // status prop
-  private static readonly VALID_STATUS = [
+  // intent prop
+  private static readonly VALID_INTENT = [
     "info",
     "error",
     "success",
     "warning",
   ] as const;
-  private _status: (typeof NysBadge.VALID_STATUS)[number] = "info";
+  private _intent: (typeof NysBadge.VALID_INTENT)[number] = "info";
   @property({ reflect: true })
-  get status(): (typeof NysBadge.VALID_STATUS)[number] {
-    return this._status;
+  get intent(): (typeof NysBadge.VALID_INTENT)[number] {
+    return this._intent;
   }
-  set status(value: string) {
-    this._status = NysBadge.VALID_STATUS.includes(
-      value as (typeof NysBadge.VALID_STATUS)[number],
+  set intent(value: string) {
+    this._intent = NysBadge.VALID_INTENT.includes(
+      value as (typeof NysBadge.VALID_INTENT)[number],
     )
-      ? (value as (typeof NysBadge.VALID_STATUS)[number])
+      ? (value as (typeof NysBadge.VALID_INTENT)[number])
       : "info";
   }
   @property({ type: String }) prefix = "";
@@ -75,7 +75,7 @@ export class NysBadge extends LitElement {
 
   static styles = styles;
 
-  // Map of default icons by status
+  // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
     info: "info",
     error: "emergency_home",
@@ -85,7 +85,7 @@ export class NysBadge extends LitElement {
 
   private resolveIcon(icon: string | boolean): string | null {
     if (icon === true) {
-      return NysBadge.DEFAULT_ICONS[this.status] ?? "info-circle";
+      return NysBadge.DEFAULT_ICONS[this.intent] ?? "info-circle";
     }
     if (typeof icon === "string" && icon.trim() !== "") {
       return icon;

@@ -7,7 +7,7 @@ interface NysBadgeArgs {
   id: string;
   name: string;
   size: string;
-  status: string;
+  intent: string;
   prefix: string;
   label: string;
   prefixIcon: string;
@@ -25,10 +25,10 @@ const meta: Meta<NysBadgeArgs> = {
       options: ["sm", "md"],
       description: "Size of the badge",
     },
-    status: {
+    intent: {
       control: "select",
       options: ["info", "error", "success", "warning"],
-      description: "Status of the badge",
+      description: "Intent of the badge",
     },
     prefix: { control: "text", description: "Prefix text" },
     prefixIcon: {
@@ -60,7 +60,7 @@ export const Basic: Story = {
     name: "badge1",
     prefix: "Version",
     label: "1.6.0",
-    status: "success",
+    intent: "success",
   },
   render: (args) => html`
     <nys-badge
@@ -68,7 +68,7 @@ export const Basic: Story = {
       .name=${args.name}
       .label=${args.label}
       .size=${args.size}
-      .status=${args.status}
+      .intent=${args.intent}
       .prefix=${args.prefix}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
@@ -78,6 +78,14 @@ export const Basic: Story = {
     docs: {
       source: {
         type: "auto",
+        code: `
+  <nys-badge
+    id="badge1"
+    name="badge1"
+    prefix="Version"
+    label="1.6.0"
+    intent="success"
+  </nys-badge>`,
       },
     },
   },
