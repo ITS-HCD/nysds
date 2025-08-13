@@ -59,7 +59,8 @@ export default css`
   }
 
   .nys-badge {
-    display: inline-flex;
+    display: flex;
+    width: fit-content;
     align-items: center;
     justify-content: center;
     gap: var(--_nys-badge-gap);
