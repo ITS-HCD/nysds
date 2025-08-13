@@ -80,7 +80,7 @@ export default css`
     background: var(--_nys-accordion-heading-active-background);
   }
 
-  .nys-accordion__heading:focus {
+  .nys-accordion__heading:focus-visible {
     outline-offset: var(--_nys-accordion-offset-focus);
     outline: solid var(--_nys-accordion-width-focus)
       var(--_nys-accordion-color-focus);

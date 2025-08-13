@@ -12,6 +12,7 @@
       "styles": ["packages/styles/src"]
     },
     "documentUrlSubstitutions": {
+      "<FIGMA_ACCORDION>": "https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu/node-id=4469-1783",
       "<FIGMA_ALERT>": "https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8845",
       "<FIGMA_AVATAR>": "https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9063",
       "<FIGMA_BACKTOTOP>": "https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4303-1514",
