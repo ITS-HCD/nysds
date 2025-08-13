@@ -70,8 +70,7 @@ export default css`
     font-size: var(--_nys-select-font-size);
     padding: var(--_nys-select-padding);
     width: var(--_nys-select-width);
-    min-width: var(--_nys-select-width);
-    max-width: var(--_nys-select-width);
+    max-width: 100%;
     text-indent: 1px;
     text-overflow: "";
     background: var(--_nys-select-bg-color);
@@ -85,6 +84,7 @@ export default css`
     position: relative;
     display: inline-block;
     width: var(--_nys-select-width);
+    max-width: 100%;
   }
 
   .nys-select__icon {
