@@ -3,8 +3,8 @@ Welcome! Thank you for contributing to New York State's Design System (NYSDS).
 Your contributions are vital to our success, and we are glad you're here.
 
 This pull request (PR) template helps speed up reviews and merging into the public codebase.
-Please provide as much detail as possible to help us understand your changes.
-In other words: we love clear explanations!
+Please provide as much detail as possible to help us understand the changes you made.
+In other words, we love clear explanations!
 -->
 
 <!---
@@ -18,7 +18,7 @@ e.g. "NYSDS – Button: Update hover states"
 _Provide a summary that we can use for the changelog._
 
 <!--
-Write in past tense and include:
+Write in the past tense and include:
 - What was changed
 - Why was it changed
 - The benefit from the update
@@ -29,7 +29,7 @@ Write in past tense and include:
 _Indicate if this update is a breaking change with **one** of the following statements:_
 
 This is **not** a breaking change.  
-:warning: This is **potentially** a breaking change.  
+:warning: This is **potentially** a breaking change.
 :warning: This is a **breaking change**.
 
 <!--
@@ -52,7 +52,7 @@ https://github.com/its-hcd/nysds/issues/new/choose
 
 ## Related pull requests
 
-_If this PR depends on other PRs (e.g. documentation changes in another repo), list them here (with links)._
+_If this PR depends on other PRs (e.g., documentation changes in another repo), list them here (with links)._
 
 <!--
 For example:
@@ -169,7 +169,7 @@ include a list of the changed dependencies and version numbers.
 ## Before submitting this PR, confirm:
 - [ ] The code follows the NYSDS coding guidelines.
 - [ ] Accessibility checks are complete (see above).
-- [ ] Run `git pull origin [base branch]` to pull latest from base branch and resolved conflicts (our base branch is `develop`).
+- [ ] Run `git pull origin [base branch]` to pull the latest from the base branch and resolve conflicts (our base branch is `develop`).
 - [ ] Run your code through [HTML_CodeSniffer](http://squizlabs.github.io/HTML_CodeSniffer/) and make sure it’s error free.
 - [ ] Run `npm run test` and confirm that all tests pass.
 - [ ] Update relevant documentation.
