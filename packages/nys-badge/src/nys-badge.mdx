@@ -46,88 +46,40 @@ Badge can include a prefix, which is a short text that appears before the main l
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+- To display a small piece of information that is related to another element.
+- To draw attention to new, important content.
+- To indicate the status of an item, such as "new", "updated", or "beta".
+- To provide additional context or information about an item without cluttering the interface.
 
-### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+### When to consider something addEventListener
+- When the information is too complex to be conveyed in a small badge.
+- When the badge would not add significant value to the user experience.
+- When the badge would clutter the interface or distract from more important content.
+- As a link to another page or action, as badges are not interactive elements.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - To display a small piece of information that is related to another element.
+      - To draw attention to new, important content.
+      - To indicate the status of an item, such as "new", "updated", or "beta".
+      - To provide additional context or information about an item without cluttering the interface.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - When the information is too complex to be conveyed in a small badge.
+      - When the badge would not add significant value to the user experience.
+      - When the badge would clutter the interface or distract from more important content.
+      - As a link to another page or action, as badges are not interactive elements.
     </div>
   </div>
 </div>
-
-## Accessibility
-
-The `nys-badge` component includes the following accessibility-focused features:
-
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-
-## Slots
-<table>
-    <thead>
-    <tr>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-component` or `nys-component`</td>
-        <td>none</td>
-    </tr>
-    </tbody>
-</table>
-
-## Events
-
-The `nys-badge` component emits the following events:
-
-1. `nys-click`: Emitted when the badge is clicked.
-2. `nys-focus`: Emitted when the badge receives focus.
-3. `nys-blur`: Emitted when the badge loses focus.
-
-You can listen to these events using JavaScript:
-
-```js
-// Select the badge component
-const badge = document.querySelector("nys-badge");
-
-// Listen for the 'nys-click' event
-badge.addEventListener("nys-click", () => {
-	console.log("Badge clicked");
-});
-
-// Listen for the 'nys-focus' event
-badge.addEventListener("nys-focus", () => {
-	console.log("Badge is focused");
-});
-
-// Listen for the 'nys-blur' event
-badge.addEventListener("nys-blur", () => {
-	console.log("Badge lost focus");
-});
-```
 
 ## Dependencies
 
 This component automatically imports the following dependencies.
 
-- TODO: Add dependencies
+- `nys-icon`: For displaying icons within the badge.
