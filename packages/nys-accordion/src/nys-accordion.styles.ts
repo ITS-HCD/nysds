@@ -9,10 +9,10 @@ export default css`
     --_nys-accordion-radius: var(--nys-radius-md, 4px);
     --_nys-accordion-padding: var(--nys-space-200, 16px)
       var(--nys-space-250, 20px);
-    --_nys-accordion-gap: var(--nys-space-200, 16px);
     --_nys-accordion-width-focus: var(--nys-border-width-md, 2px);
     --_nys-accordion-offset-focus: var(--nys-space-2px, 2px);
     --_nys-accordion-color-focus: var(--nys-color-focus, #004dd1);
+    --_nys-accordion-gap: var(--nys-space-100, 8px);
 
     /* Header & Text container */
     --_nys-accordion-heading-background: var(--nys-color-neutral-50, #ededed);
@@ -20,6 +20,7 @@ export default css`
       --nys-color-neutral-100,
       #d0d0ce
     );
+    --_nys-accordion-heading-gap: var(--nys-space-200, 16px);
     --_nys-accordion-content-background: var(--nys-color-ink-reverse, #fff);
     --_nys-accordion-content-padding: var(--nys-space-200, 16px)
       var(--local-xx-spacing-205, 20px);
@@ -63,10 +64,10 @@ export default css`
   .nys-accordion__heading {
     all: unset;
     flex: 1;
+    gap: var(--_nys-accordion-heading-gap);
     display: flex;
     padding: var(--_nys-accordion-padding);
     align-items: center;
-    gap: var(--_nys-accordion-gap);
     align-self: stretch;
     border-radius: var(--_nys-accordion-radius);
     background: var(--_nys-accordion-heading-background);
@@ -106,7 +107,7 @@ export default css`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--nys-space-100, 8px);
+    gap: var(--_nys-accordion-gap);
     align-self: stretch;
     padding: var(--_nys-accordion-content-padding);
     background: var(--_nys-accordion-content-background);
@@ -139,6 +140,6 @@ export default css`
   .nys-accordiongroup {
     display: flex;
     flex-direction: column;
-    gap: var(--nys-space-100, 8px);
+    gap: var(--_nys-accordion-gap);
   }
 `;

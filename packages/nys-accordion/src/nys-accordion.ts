@@ -2,6 +2,8 @@ import { LitElement, html } from "lit";
 import { property, query } from "lit/decorators.js";
 import styles from "./nys-accordion.styles";
 
+let accordionIdCounter = 0; // Counter for generating unique IDs
+
 export class NysAccordion extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
@@ -15,6 +17,15 @@ export class NysAccordion extends LitElement {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    // Generate a unique ID if not provided
+    if (!this.id) {
+      this.id = this._generateUniqueId();
+    }
+  }
+
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("expanded")) {
       this._updateHeight();
@@ -22,6 +33,10 @@ export class NysAccordion extends LitElement {
   }
 
   /******************** Functions ********************/
+  private _generateUniqueId() {
+    return `nys-accordion-${Date.now()}-${accordionIdCounter++}`;
+  }
+
   private _dispatchEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-accordionToggle", {
