@@ -1,10 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-badge.js";
-import NysBadge from "../dist/nys-badge.js";
-
-// You may need to import other dependencies such as the component's tag name
-// For example:
-// import { NysTextinput } from "./nys-textinput";
+import { NysBadge } from "./nys-badge.js";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-badge", () => {
@@ -13,14 +9,20 @@ describe("nys-badge", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysBadge>(html`
-      <nys-badge label="My Label" required optional></nys-badge>
+      <nys-badge label="My Label" prefixIcon suffixIcon></nys-badge>
     `);
     expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
+    expect(el.prefixIcon).to.be.true;
+    expect(el.suffixIcon).to.be.true;
+  });
+
+  it("renders the prefix", async () => {
+    const el = await fixture(
+      html`<nys-badge prefix="prefix" label="label"></nys-badge>`,
+    );
+    expect(el.prefix).to.equal("prefix");
   });
 
   it("passes the a11y audit", async () => {
@@ -36,4 +38,4 @@ describe("nys-badge", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});
