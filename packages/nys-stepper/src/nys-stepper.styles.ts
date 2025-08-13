@@ -77,7 +77,7 @@ export default css`
     padding: var(--nys-space-150, 12px) var(--nys-space-400, 32px)
       var(--nys-space-400, 32px);
     overflow-y: scroll;
-    height: -webkit-fill-available;
+    height: -webkit-fit-content;
     height: -moz-available;
     scrollbar-width: none;
     background:
