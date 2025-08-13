@@ -18,6 +18,13 @@ describe("nys-badge", () => {
     expect(el.suffixIcon).to.be.true;
   });
 
+  it("can have custom icons", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="My Label" prefixIcon="check"></nys-badge>`,
+    );
+    expect(el.prefixIcon).to.equal("check");
+  });
+
   it("renders the prefix", async () => {
     const el = await fixture(
       html`<nys-badge prefix="prefix" label="label"></nys-badge>`,
