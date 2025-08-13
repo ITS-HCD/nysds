@@ -201,7 +201,7 @@ export default css`
     font-size: var(--_nys-stepper-font-size);
     font-weight: var(--_nys-stepper-font-weight);
     line-height: var(--_nys-stepper-line-height);
-    line-height: var(--nys-type-size-ui-md, 16px);
+    line-height: var(--nys-font-size-ui-md, 16px);
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;
