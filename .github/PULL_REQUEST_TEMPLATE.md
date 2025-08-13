@@ -123,8 +123,8 @@ Tested on:
 - [ ] Firefox
 - [ ] Safari
 - [ ] Edge
-- [ ] iOS Safari _(optional)_
-- [ ] Android Chrome _(optional)_
+- [ ] iOS Safari
+- [ ] Android Chrome
 
 ### Accessibility testing
 
@@ -139,14 +139,13 @@ _Indicate the accessibility checks you have completed:_
 ### Unit and integration tests
 
 - [ ] Unit tests updated/added
-- [ ] Integration tests updated/added
 
 ## Additional considerations
 
 _Anything else to call out? (performance, dependencies, migration notes, backward compatibility, security)_
 
 <!--
-Ask yourself:
+For NYSDS use only:
 - Is this change backward-compatible with existing components?
 - Does this change introduce new dependencies?
 
