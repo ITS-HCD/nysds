@@ -62,11 +62,11 @@ export default css`
     text-underline-position: from-font;
     color: var(--nys-color-text, #1b1b1b);
     text-overflow: ellipsis;
-    font-family: var(--nys-type-family-ui, "Proxima Nova");
-    font-size: var(--nys-type-size-ui-md, 16px);
+    font-family: var(--nys-font-family-ui, "Proxima Nova");
+    font-size: var(--nys-font-size-ui-md, 16px);
     font-style: normal;
     font-weight: 400;
-    line-height: var(--nys-type-size-ui-md, 16px);
+    line-height: var(--nys-font-size-ui-md, 16px);
     cursor: pointer;
     width: fit-content;
   }
