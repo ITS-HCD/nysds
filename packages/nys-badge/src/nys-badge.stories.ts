@@ -56,12 +56,7 @@ type Story = StoryObj<NysBadgeArgs>;
 
 export const Basic: Story = {
   args: {
-    id: "badge1",
-    name: "badge1",
-    prefix: "Version",
-    label: "1.6.0",
-    intent: "success",
-    prefixIcon: "",
+    label: "Basic badge",
   },
   render: (args) => html`
     <nys-badge
@@ -79,15 +74,7 @@ export const Basic: Story = {
     docs: {
       source: {
         type: "auto",
-        code: `
-<nys-badge
-  id="badge1"
-  name="badge1"
-  prefix="Version"
-  label="1.6.0"
-  intent="success"
-  prefixIcon
-</nys-badge>`,
+        code: `<nys-badge label="Basic badge"</nys-badge>`,
       },
     },
   },
@@ -96,7 +83,7 @@ export const Basic: Story = {
 export const Intent: Story = {
   render: () => html`
     <div class="nys-grid-row nys-grid-gap-1">
-      <nys-badge label="Info" intent="info" prefixIcon></nys-badge>
+      <nys-badge label="Info" prefixIcon></nys-badge>
       <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
       <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
       <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
@@ -108,7 +95,7 @@ export const Intent: Story = {
         type: "auto",
         code: `
 <div class="nys-grid-row nys-grid-gap-1">
-  <nys-badge label="Info" intent="info" prefixIcon></nys-badge>
+  <nys-badge label="Info" prefixIcon></nys-badge>
   <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
   <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
   <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
@@ -122,18 +109,10 @@ export const Intent: Story = {
 export const Icons: Story = {
   render: () => html`
     <div class="nys-grid-row nys-grid-gap-1">
-      <nys-badge label="Default Info" intent="info" prefixIcon></nys-badge>
-      <nys-badge label="Default Info" intent="info" prefixIcon></nys-badge>
-      <nys-badge
-        label="Custom Info"
-        intent="info"
-        suffixIcon="check"
-      ></nys-badge>
-      <nys-badge
-        label="Custom Info"
-        intent="info"
-        suffixIcon="check"
-      ></nys-badge>
+      <nys-badge label="Default info" prefixIcon></nys-badge>
+      <nys-badge label="Default info" suffixIcon></nys-badge>
+      <nys-badge label="Custom info" prefixIcon="check"></nys-badge>
+      <nys-badge label="Custom info" suffixIcon="check"></nys-badge>
     </div>
   `,
   parameters: {
@@ -142,10 +121,10 @@ export const Icons: Story = {
         type: "auto",
         code: `
 <div class="nys-grid-row nys-grid-gap-1">
-  <nys-badge label="Default Info" intent="info" prefixIcon></nys-badge>
-  <nys-badge label="Default Info" intent="info" suffixIcon></nys-badge>
-  <nys-badge label="Custom Info" intent="info" prefixIcon="check"></nys-badge>
-  <nys-badge label="Custom Info" intent="info" suffixIcon="check"></nys-badge>
+  <nys-badge label="Default info" prefixIcon></nys-badge>
+  <nys-badge label="Default info" suffixIcon></nys-badge>
+  <nys-badge label="Custom info" prefixIcon="check"></nys-badge>
+  <nys-badge label="Custom info" suffixIcon="check"></nys-badge>
 </div>
 `,
       },
