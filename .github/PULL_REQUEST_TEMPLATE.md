@@ -1,63 +1,63 @@
 <!---
 Welcome! Thank you for contributing to New York State's Design System (NYSDS).
-Your contributions are vital to our success and we are glad you're here.
+Your contributions are vital to our success, and we are glad you're here.
 
-This pull request (PR) template exists to help speed up the integration process.
-The Design System team reviews and approves each PR before we merge it into the public
-code base, so please provide as much detail as possible to help us understand your changes.
-On other words: we love clear explanations!
+This pull request (PR) template helps speed up reviews and merging into the public codebase.
+Please provide as much detail as possible to help us understand your changes.
+In other words: we love clear explanations!
 -->
 
 <!---
-Step 1 - Title this PR with the following format:
-NYSDS - [Component]: [Brief statement describing what this pull request solves]
-eg: "NYSDS - Button: Update hover states"
+Title format:
+NYSDS – [Component]: [Brief statement of what this PR solves]
+e.g. "NYSDS – Button: Update hover states"
 -->
 
 # Summary
 
-_Provide a brief summary of the changes that we can use in the changelog._
+_Provide a summary that we can use for the changelog._
 
 <!--
-A good summary is written in the past tense and includes:
+Write in past tense and include:
 - What was changed
-- Why it was changed
+- Why was it changed
 - The benefit from the update
 -->
 
 ## Breaking change
 
 _Indicate if this update is a breaking change with **one** of the following statements:_
+
 This is **not** a breaking change.  
 :warning: This is **potentially** a breaking change.  
 :warning: This is a **breaking change**.
 
 <!--
 Breaking changes can include:
-  - Changes to the JavaScript API of a component
-  - Changes to the HTML/markup required for a component
-  - Major design changes or significant style updates
+  - Changes to a component’s JavaScript API
+  - Changes to required HTML/markup
+  - Major design or significant style updates
 If applicable, explain the required actions users must take to adapt to the change.
 -->
 
 ## Related issues
 
-_Closes #_[issue_no]\_
+Closes #_[issue_no]_
 
 <!--
 Every pull request should resolve an open issue.
-If no issue exists, please create one so we can track the change.
-https://github.com/its-hcd/nysds/issues/new/choose.
+If no issue exists, please create one so we can track the changes at:
+https://github.com/its-hcd/nysds/issues/new/choose
 -->
 
 ## Related pull requests
 
-_If this PR depends on other PRs (e.g., documentation changes in another repo), list them here._
+_If this PR depends on other PRs (e.g. documentation changes in another repo), list them here (with links)._
 
 <!--
 For example:
 - If this PR requires an update to the Storybook documentation, list that PR.
-- If a change to the component library requires an update to the reference site, include the PR from the [NYSDS site repo](https://github.com/its-hcd/nysds-site).
+- If a change to the component library requires an update to the reference site, include a link to the PR for [NYSDS site repo](https://github.com/its-hcd/nysds-site).
 -->
 
 ## Preview link
@@ -70,7 +70,7 @@ This could include a deployed Storybook instance, staging environment, or Netlif
 
 ## Problem statement
 
-_Provide a clear and concise summary of the problem this PR solves._
+_What problem does this solve? Who is impacted? Why is it important?_
 
 <!--
 A successful problem statement conveys:
@@ -122,15 +122,18 @@ Tested on:
 - [ ] Chrome
 - [ ] Firefox
 - [ ] Safari
-- [ ] Edge/IE
+- [ ] Edge
+- [ ] iOS Safari _(optional)_
+- [ ] Android Chrome _(optional)_
 
 ### Accessibility testing
 
 _Indicate the accessibility checks you have completed:_
 
 - [ ] Screen reader testing
-- [ ] Keyboard navigation testing
+- [ ] Keyboard navigation
 - [ ] Color contrast checks
+- [ ] Axe/Lighthouse audit
 - [ ] Other: _[describe]_
 
 ### Unit and integration tests
@@ -140,14 +143,15 @@ _Indicate the accessibility checks you have completed:_
 
 ## Additional considerations
 
-_List any additional impacts, such as performance improvements or concerns, dependency updates, or backward compatibility issues._
+_Anything else to call out? (performance, dependencies, migration notes, backward compatibility, security)_
 
 <!--
-For example:
+Ask yourself:
 - Is this change backward-compatible with existing components?
 - Does this change introduce new dependencies?
--->
 
+If this PR updates dependencies, please include the table below.
+-->
 <!--
 ## Dependency updates
 | Dependency name              | Previous version | New version |
@@ -162,11 +166,11 @@ include a list of the changed dependencies and version numbers.
 -->
 
 <!--
-## Before submitting this PR, please:
-- [ ] Confirm he code follows the NYS Design System's coding style and conventions.
-- [ ] Confirm that accessibility checks have been completed.
-- [ ] Run `git pull origin [base branch]` to pull in the most recent updates from your base and check for merge conflicts. (Often, the base branch is `develop`).
+## Before submitting this PR, confirm:
+- [ ] The code follows the NYSDS coding guidelines.
+- [ ] Accessibility checks are complete (see above).
+- [ ] Run `git pull origin [base branch]` to pull latest from base branch and resolved conflicts (our base branch is `develop`).
 - [ ] Run your code through [HTML_CodeSniffer](http://squizlabs.github.io/HTML_CodeSniffer/) and make sure it’s error free.
-- [ ] Run `npm test` and confirm that all tests pass.
+- [ ] Run `npm run test` and confirm that all tests pass.
 - [ ] Update relevant documentation.
 -->
