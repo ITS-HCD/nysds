@@ -152,3 +152,52 @@ export const Icons: Story = {
     },
   },
 };
+
+export const Size: Story = {
+  render: () => html`
+    <div class="nys-grid-row nys-grid-gap-1">
+      <nys-badge label="Medium"></nys-badge>
+      <nys-badge label="Small" size="sm"></nys-badge>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        type: "auto",
+        code: `
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Medium"></nys-badge>
+  <nys-badge label="Small" size="sm"></nys-badge>
+</div>
+`,
+      },
+    },
+  },
+};
+
+export const Prefix: Story = {
+  render: () => html`
+    <div class="nys-grid-row nys-grid-gap-1">
+      <nys-badge prefix="Version" label="1.6.0"></nys-badge>
+      <nys-badge
+        prefixIcon
+        prefix="WCAG 2.2"
+        label="AA"
+        intent="success"
+      ></nys-badge>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        type: "auto",
+        code: `
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge prefix="Version" label="1.6.0"></nys-badge>
+  <nys-badge prefix="WCAG 2.2" label="AA" intent="success" prefixIcon></nys-badge>
+</div>
+`,
+      },
+    },
+  },
+};
