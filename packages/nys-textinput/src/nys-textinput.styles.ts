@@ -155,12 +155,13 @@ export default css`
     border-left: none;
   }
 
-  /* This container exist to mainly style the type="password" eye icon */
   .nys-textinput__container {
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
+    background-color: var(--_nys-textinput-background-color);
+    border-radius: var(--_nys-textinput-radius);
   }
 
   ::slotted(nys-button) {
