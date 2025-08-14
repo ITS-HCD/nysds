@@ -29,9 +29,11 @@ Width `full` will take up the full width of the parent container.\
 If an invalid option is assigned to `width`, it will be ignored and default to `full`.
 <Canvas of={NysTextinputStories.Width} />
 #### Different Input Types
-Note: Accepted types are: `text` `email` `number` `password` `search` `tel` `url`\
-Any other input defaults to `type="text"`
+Note: Accepted types are: `text` `email` `number` `password` `search` `tel` `url`. Any other input defaults to `type="text"`\
+Certain types will apply additional styling onto the input field. For `type="password"` the input will be automatically hidden.
+For `type="tel"` an input mask will appear to style the input properly.
 <Canvas of={NysTextinputStories.Password} />
+<Canvas of={NysTextinputStories.Telephone} />
 #### Values and Placeholders
 <Canvas of={NysTextinputStories.ValueAndPlaceholder} />
 #### Disabled and Readonly
@@ -77,7 +79,7 @@ Note: in order to display an error message, you must pass in `hasError` to the c
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="--var(nys-color-success)" /> Do
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
       - Use clear and concise labels to describe the input required.
       - Provide helper text to guide the user, but don’t rely on placeholders as a substitute for labels.
       - Validate input in real-time to catch errors early (e.g., invalid email formats).
@@ -86,7 +88,7 @@ Note: in order to display an error message, you must pass in `hasError` to the c
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="--var(nys-color-warning)" /> Don't
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
       - Use single-line text inputs for collecting long or detailed text responses (use a [textarea](?path=/docs/components-textarea--docs)).
       - Overwhelm users with too many single-line inputs; group similar fields when possible.
     </div>

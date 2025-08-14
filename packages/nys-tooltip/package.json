@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-tooltip",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "The Tooltip component from the NYS Design System.",
   "module": "dist/nys-tooltip.js",
   "types": "dist/index.d.ts",
@@ -24,8 +24,6 @@
   "peerDependencies": {
     "lit": "^3.2.1"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
@@ -43,4 +41,3 @@
   "author": "New York State Design System Team",
   "license": "MIT"
 }
-
