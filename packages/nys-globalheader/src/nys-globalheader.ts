@@ -52,8 +52,8 @@ export class NysGlobalHeader extends LitElement {
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          const cleanNode = node.cloneNode(true);
-          const cleanNodeMobile = node.cloneNode(true);
+          const cleanNode = node.cloneNode(true) as HTMLElement;
+          const cleanNodeMobile = node.cloneNode(true) as HTMLElement;
 
           // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
           const dangerousTags = ["script", "iframe", "object", "embed, img"];
@@ -62,12 +62,45 @@ export class NysGlobalHeader extends LitElement {
               .querySelectorAll(tag)
               .forEach((element) => element.remove());
           });
+
+          // Highlight active link
+          const currentUrl = this._normalizePath(window.location.pathname);
+          cleanNode.querySelectorAll("a").forEach((a) => {
+            const hrefAttr = a.getAttribute("href");
+            const linkPath = this._normalizePath(hrefAttr);
+            if (linkPath === currentUrl) {
+              const li = a.closest("li");
+              if (li) li.classList.add("active");
+            }
+          });
+          cleanNodeMobile.querySelectorAll("a").forEach((a) => {
+            const hrefAttr = a.getAttribute("href");
+            const linkPath = this._normalizePath(hrefAttr);
+            if (linkPath === currentUrl) {
+              const li = a.closest("li");
+              if (li) li.classList.add("active");
+            }
+          });
+
           container.appendChild(cleanNode);
           containerMobile.appendChild(cleanNodeMobile);
           node.remove(); // Remove from light DOM to avoid duplication
         }
       });
     }
+  }
+
+  // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
+  // This ensures consistent active-link behavior regardless of how hrefs are written.
+  private _normalizePath(path: string | null) {
+    if (!path) return;
+    if (!path.startsWith("/")) {
+      path = "/" + path;
+    }
+    if (path.length > 1 && path.endsWith("/")) {
+      path = path.slice(0, -1);
+    }
+    return path.toLowerCase();
   }
 
   private _toggleMobileMenu() {
