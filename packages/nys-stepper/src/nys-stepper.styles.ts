@@ -21,6 +21,7 @@ export default css`
         sans-serif
       )
     );
+    --nys-stepper-color-bg: var(--nys-color-surface-raised, #f6f6f6);
   }
 
   .nys-stepper {
@@ -31,9 +32,7 @@ export default css`
     display: flex;
     flex-direction: column;
     counter-reset: step;
-    background: var(--nys-color-surface-raised, #f6f6f6);
-    height: -webkit-fill-available;
-    height: 100%;
+    background: var(--nys-stepper-color-bg);
     max-width: 100%;
   }
 
