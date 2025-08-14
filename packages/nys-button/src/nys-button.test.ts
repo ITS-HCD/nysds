@@ -1,4 +1,5 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import sinon from "sinon";
 import { NysButton } from "./nys-button";
 import "../dist/nys-button.js";
 import "@nysds/nys-icon";
@@ -27,7 +28,7 @@ describe("nys-button", () => {
     expect(button.getAttribute("aria-label")).to.equal("Custom label");
   });
 
-  it('falls back to "button" if neither ariaLabel nor label is provided', async () => {
+  it('VO falls back to "button" if neither ariaLabel nor label is provided', async () => {
     const el = await fixture(html`<nys-button></nys-button>`);
     const button = el.shadowRoot?.querySelector("button")!;
     expect(button.getAttribute("aria-label")).to.equal("button");
@@ -117,7 +118,7 @@ describe("nys-button", () => {
     expect(suffixIcon).to.exist;
   });
 
-  it(" should allow for the button to be slotted in", async () => {
+  it(" should allow for the icon to be slotted in", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button suffixIcon="slotted" size="sm">
         <nys-icon slot="suffix-icon" size="2xl" name="visibility"></nys-icon>
@@ -147,6 +148,66 @@ describe("nys-button", () => {
     const blurEvent = await blurEventPromise;
     expect(blurEvent).to.exist;
   });
+
+  it("should handle Enter keydown", async () => {
+    const alertSpy = sinon.spy();
+    const originalAlert = window.alert;
+    window.alert = alertSpy; // intercept alert
+
+    const el = await fixture<NysButton>(
+      html`<nys-button
+        label="Keyboard click test"
+        onclick="alert('testing123')"
+      ></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+
+    // Trigger Enter key press
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(alertSpy).to.have.been.calledOnceWith("testing123");
+
+    // restore original alert
+    window.alert = originalAlert;
+  });
+
+  it("should handle Space keydown", async () => {
+    const alertSpy = sinon.spy();
+    const originalAlert = window.alert;
+    window.alert = alertSpy; // intercept alert
+
+    const el = await fixture<NysButton>(
+      html`<nys-button
+        label="Keyboard click test"
+        onclick="alert('testing123')"
+      ></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+
+    // Trigger Space key press
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Space",
+        code: "Space",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(alertSpy).to.have.been.calledOnceWith("testing123");
+
+    // restore original alert
+    window.alert = originalAlert;
+  });
+
+  
 
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
