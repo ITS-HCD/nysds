@@ -149,12 +149,14 @@ describe("nys-button", () => {
     button.focus();
     const focusEvent = await focusEventPromise;
     expect(focusEvent).to.exist;
+    expect(button.matches(":focus-visible")).to.be.true;
 
     // Blur event
     const blurEventPromise = oneEvent(el, "blur");
     button.blur();
     const blurEvent = await blurEventPromise;
     expect(blurEvent).to.exist;
+    expect(button.matches(":focus-visible")).to.be.false;
 
     // Should not focus when disabled
     button.disabled = true;
