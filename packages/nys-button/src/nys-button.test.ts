@@ -207,8 +207,6 @@ describe("nys-button", () => {
     window.alert = originalAlert;
   });
 
-  
-
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
     await expect(el).shadowDom.to.be.accessible();
