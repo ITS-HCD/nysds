@@ -157,7 +157,7 @@ export const Size: Story = {
 export const Prefix: Story = {
   render: () => html`
     <div class="nys-grid-row nys-grid-gap-1">
-      <nys-badge prefix="Version" label="1.6.0"></nys-badge>
+      <nys-badge prefix="Version" label="1.6.0" prefixIcon="code"></nys-badge>
       <nys-badge
         prefixIcon
         prefix="WCAG 2.2"
@@ -172,7 +172,7 @@ export const Prefix: Story = {
         type: "auto",
         code: `
 <div class="nys-grid-row nys-grid-gap-1">
-  <nys-badge prefix="Version" label="1.6.0"></nys-badge>
+  <nys-badge prefix="Version" label="1.6.0" prefixIcon="code"></nys-badge>
   <nys-badge prefix="WCAG 2.2" label="AA" intent="success" prefixIcon></nys-badge>
 </div>
 `,
