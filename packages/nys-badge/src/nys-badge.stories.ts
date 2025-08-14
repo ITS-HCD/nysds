@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-badge";
+import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysBadgeArgs {
@@ -74,7 +75,7 @@ export const Basic: Story = {
     docs: {
       source: {
         type: "auto",
-        code: `<nys-badge label="Basic badge"</nys-badge>`,
+        code: `<nys-badge label="Basic badge"></nys-badge>`,
       },
     },
   },
