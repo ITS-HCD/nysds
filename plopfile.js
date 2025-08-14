@@ -87,8 +87,10 @@ export default function (plop) {
       {
         type: "modify",
         path: "src/index.ts",
-        pattern: /(\];)/,
-        template: `\nexport * from "../packages/nys-{{componentName}}/src/index";`,
+        transform: (content, data) => {
+          const insertLine = `\nexport * from "../packages/nys-${data.componentName}/src/index";\n`;
+          return content.trimEnd() + insertLine;
+        },
       },
     ],
   });
