@@ -1,5 +1,4 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
-import sinon from "sinon";
 import { NysButton } from "./nys-button";
 import "../dist/nys-button.js";
 import "@nysds/nys-icon";
@@ -8,6 +7,15 @@ describe("nys-button", () => {
   it("should have default type as button", async () => {
     const el = await fixture<NysButton>(html`<nys-button></nys-button>`);
     expect(el?.type).to.equal("button");
+  });
+
+  it("should have role='button' for screen readers", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Accessible Button"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button, a")!;
+
+    expect(button.getAttribute("role")).to.equal("button");
   });
 
   it("should reflect 'label' prop", async () => {
@@ -147,22 +155,21 @@ describe("nys-button", () => {
     button.blur();
     const blurEvent = await blurEventPromise;
     expect(blurEvent).to.exist;
+
+    // Should not focus when disabled
+    button.disabled = true;
+    button.focus();
+    expect(document.activeElement).to.not.equal(button);
   });
 
-  it("should handle Enter keydown", async () => {
-    const alertSpy = sinon.spy();
-    const originalAlert = window.alert;
-    window.alert = alertSpy; // intercept alert
-
+  it("should activate on Enter for link variants", async () => {
     const el = await fixture<NysButton>(
-      html`<nys-button
-        label="Keyboard click test"
-        onclick="alert('testing123')"
-      ></nys-button>`,
+      html`<nys-button label="Keyboard Test Link" href="#"></nys-button>`,
     );
-    const button = el.shadowRoot?.querySelector("button")!;
+    const button = el.shadowRoot?.querySelector("a")!;
+    button.addEventListener("click", (e) => e.preventDefault());
 
-    // Trigger Enter key press
+    const linkEnterPromise = oneEvent(el, "click");
     button.dispatchEvent(
       new KeyboardEvent("keydown", {
         key: "Enter",
@@ -171,18 +178,21 @@ describe("nys-button", () => {
         composed: true,
       }),
     );
+    await linkEnterPromise;
 
-    expect(alertSpy).to.have.been.calledOnceWith("testing123");
-
-    // restore original alert
-    window.alert = originalAlert;
+    const linkSpacePromise = oneEvent(el, "click");
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
+        code: "Space",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await linkSpacePromise;
   });
 
-  it("should handle Space keydown", async () => {
-    const alertSpy = sinon.spy();
-    const originalAlert = window.alert;
-    window.alert = alertSpy; // intercept alert
-
+  it("should activate on Enter and Space for onClick buttons", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button
         label="Keyboard click test"
@@ -191,25 +201,27 @@ describe("nys-button", () => {
     );
     const button = el.shadowRoot?.querySelector("button")!;
 
-    // Trigger Space key press
+    const buttonClickPromise = oneEvent(el, "click");
     button.dispatchEvent(
       new KeyboardEvent("keydown", {
-        key: "Space",
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await buttonClickPromise;
+
+    const buttonSpacePromise = oneEvent(el, "click");
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
         code: "Space",
         bubbles: true,
         composed: true,
       }),
     );
-
-    expect(alertSpy).to.have.been.calledOnceWith("testing123");
-
-    // restore original alert
-    window.alert = originalAlert;
-  });
-
-  it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-avatar></nys-avatar>`);
-    await expect(el).shadowDom.to.be.accessible();
+    await buttonSpacePromise;
   });
 });
 

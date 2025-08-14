@@ -262,6 +262,7 @@ export class NysButton extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
+              role="button"
             >
               ${this.prefixIcon && this.variant !== "text"
                 ? html`<slot name="prefix-icon">
