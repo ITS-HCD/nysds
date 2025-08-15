@@ -1,7 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
-import "./nys-accordiongroup";
 import "./nys-accordion";
+import "./nys-accordionitem";
 import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
@@ -43,11 +43,11 @@ export const Basic: Story = {
     singleSelect: true,
   },
   render: (args) => html`
-    <nys-accordiongroup
+    <nys-accordion
       ?singleSelect=${args.singleSelect}
       ?bordered=${args.bordered}
     >
-      <nys-accordion
+      <nys-accordionitem
         .id=${args.id}
         .heading=${args.heading}
         .expanded=${args.expanded}
@@ -62,8 +62,8 @@ export const Basic: Story = {
           >
           <a href="https://www.ny.gov" target="_blank">Fill out application</a>
         </div>
-      </nys-accordion>
-      <nys-accordion
+      </nys-accordionitem>
+      <nys-accordionitem
         id="accordionId2"
         heading="How can I find out if I’m registered to vote?"
         ><p>
@@ -71,15 +71,15 @@ export const Basic: Story = {
           find out how to register through the National Association of
           Secretaries of State.
         </p>
-      </nys-accordion>
-    </nys-accordiongroup>
+      </nys-accordionitem>
+    </nys-accordion>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-accordiongroup singleSelect>
-  <nys-accordion id="accordionId1" heading="How do I renew my passport or apply for a new one?">
+<nys-accordion singleSelect>
+  <nys-accordionitem id="accordionId1" heading="How do I renew my passport or apply for a new one?">
     <p>
       You can apply for or renew a U.S. passport through the U.S. Department
       of State. Some renewals can be done by mail.
@@ -88,11 +88,11 @@ export const Basic: Story = {
       <a href="https://www.ny.gov" target="_blank">Check your registration</a>
       <a href="https://www.ny.gov" target="_blank">Fill out application</a>
     </div>
-  </nys-accordion>
-  <nys-accordion id="accordionId2" heading="How can I find out if I’m registered to vote?">
+  </nys-accordionitem>
+  <nys-accordionitem id="accordionId2" heading="How can I find out if I’m registered to vote?">
     <p>You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.</p>
-  </nys-accordion>
-</nys-accordiongroup>`,
+  </nys-accordionitem>
+</nys-accordion>`,
         type: "auto",
       },
     },
@@ -107,7 +107,7 @@ export const IndividualAccordion: Story = {
     bordered: false,
   },
   render: (args) => html`
-    <nys-accordion
+    <nys-accordionitem
       .id=${args.id}
       .heading=${args.heading}
       .expanded=${args.expanded}
@@ -116,26 +116,26 @@ export const IndividualAccordion: Story = {
         Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park,
         consectetur adipiscing elit.
       </p>
-    </nys-accordion>
+    </nys-accordionitem>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-accordion
+<nys-accordionitem
   id="individualAcc1"
   heading="Liberty Ipsum: Bridges & Boroughs"
   expanded
 >
   <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
-</nys-accordion>`,
+</nys-accordionitem>`,
         type: "auto",
       },
     },
   },
 };
 
-export const AccordionGroup: Story = {
+export const AccordionWrapper: Story = {
   args: {
     id: "accordion1",
     heading: "Welcome to New York",
@@ -144,11 +144,11 @@ export const AccordionGroup: Story = {
     singleSelect: true,
   },
   render: (args) => html`
-    <nys-accordiongroup
+    <nys-accordion
       ?singleSelect=${args.singleSelect}
       ?bordered=${args.bordered}
     >
-      <nys-accordion
+      <nys-accordionitem
         .id=${args.id}
         .heading=${args.heading}
         .expanded=${args.expanded}
@@ -156,38 +156,42 @@ export const AccordionGroup: Story = {
           Learn about state programs, services, and resources available at
           <a href="https://www.ny.gov" target="_blank"> ny.gov </a>
         </p>
-      </nys-accordion>
-      <nys-accordion id="accordion2" heading="Liberty Ipsum: Bridges & Boroughs"
+      </nys-accordionitem>
+      <nys-accordionitem
+        id="accordion2"
+        heading="Liberty Ipsum: Bridges & Boroughs"
         ><p>
           Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
           Park, consectetur adipiscing elit.
         </p>
-      </nys-accordion>
-      <nys-accordion id="accordion3" heading="Hudson Ipsum: Riverfront Stories"
+      </nys-accordionitem>
+      <nys-accordionitem
+        id="accordion3"
+        heading="Hudson Ipsum: Riverfront Stories"
         ><p>
           From the banks of the Hudson to the peaks of the Adirondacks, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
-      </nys-accordion>
-    </nys-accordiongroup>
+      </nys-accordionitem>
+    </nys-accordion>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-accordiongroup singleSelect>
-  <nys-accordion id="accordion1" heading="Welcome to New York">
+<nys-accordion singleSelect>
+  <nys-accordionitem id="accordion1" heading="Welcome to New York">
    <p>Learn about state programs, services, and resources available at
       <a href="https://www.ny.gov" target="_blank">ny.gov</a>
     </p>
-  </nys-accordion>
-  <nys-accordion id="accordion2" heading="Liberty Ipsum: Bridges & Boroughs">
+  </nys-accordionitem>
+  <nys-accordionitem id="accordion2" heading="Liberty Ipsum: Bridges & Boroughs">
     <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
-  </nys-accordion>
-  <nys-accordion id="accordion3" heading="Hudson Ipsum: Riverfront Stories">
+  </nys-accordionitem>
+  <nys-accordionitem id="accordion3" heading="Hudson Ipsum: Riverfront Stories">
     <p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-  </nys-accordion>
-</nys-accordiongroup>`,
+  </nys-accordionitem>
+</nys-accordion>`,
         type: "auto",
       },
     },
@@ -196,67 +200,67 @@ export const AccordionGroup: Story = {
 
 export const Bordered: Story = {
   args: {
-    heading: "I am an Individual Accordion",
+    heading: "I am an individual accordion",
     expanded: true,
     bordered: true,
     singleSelect: true,
   },
   render: (args) => html`
-    <nys-accordion
+    <nys-accordionitem
       .id=${args.id}
       .heading=${args.heading}
       .expanded=${args.expanded}
       bordered
     >
       <p>I love NY!</p>
-    </nys-accordion>
+    </nys-accordionitem>
     <br />
     <br />
-    <nys-accordiongroup
+    <nys-accordion
       ?singleSelect=${args.singleSelect}
       ?bordered=${args.bordered}
     >
-      <nys-accordion heading="We are a group" expanded
+      <nys-accordionitem heading="We are a group of accordions" expanded
         ><p>
           Stronger together! Learn more at
           <a href="https://www.ny.gov" target="_blank"> ny.gov </a>
         </p>
-      </nys-accordion>
-      <nys-accordion heading="Liberty Ipsum: Bridges & Boroughs"
+      </nys-accordionitem>
+      <nys-accordionitem heading="Liberty Ipsum: Bridges & Boroughs"
         ><p>
           Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
           Park, consectetur adipiscing elit.
         </p>
-      </nys-accordion>
-      <nys-accordion heading="Hudson Ipsum: Riverfront Stories"
+      </nys-accordionitem>
+      <nys-accordionitem heading="Hudson Ipsum: Riverfront Stories"
         ><p>
           From the banks of the Hudson to the peaks of the Adirondacks, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
-      </nys-accordion>
-    </nys-accordiongroup>
+      </nys-accordionitem>
+    </nys-accordion>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-accordion heading="I am an Individual Accordion" bordered>
+<nys-accordionitem heading="I am an individual accordion" bordered>
   <p>I love NY!</p>
-</nys-accordion>
+</nys-accordionitem>
 
-<nys-accordiongroup singleSelect bordered>
-  <nys-accordion heading="We are a group">
+<nys-accordion singleSelect bordered>
+  <nys-accordionitem heading="We are a group of accordions">
    <p>Stronger together! Learn more at
       <a href="https://www.ny.gov" target="_blank">ny.gov</a>
     </p>
-  </nys-accordion>
-  <nys-accordion heading="Liberty Ipsum: Bridges & Boroughs">
+  </nys-accordionitem>
+  <nys-accordionitem heading="Liberty Ipsum: Bridges & Boroughs">
     <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
-  </nys-accordion>
-  <nys-accordion heading="Hudson Ipsum: Riverfront Stories">
+  </nys-accordionitem>
+  <nys-accordionitem heading="Hudson Ipsum: Riverfront Stories">
     <p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-  </nys-accordion>
-</nys-accordiongroup>
+  </nys-accordionitem>
+</nys-accordion>
 `,
         type: "auto",
       },

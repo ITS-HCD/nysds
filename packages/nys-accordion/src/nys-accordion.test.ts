@@ -1,11 +1,11 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
 import "../dist/nys-accordion.js";
-import { NysAccordion } from "./nys-accordion";
+import { NysAccordionItem } from "./nys-accordionitem";
 
-describe("nys-accordion", () => {
+describe("nys-accordionitem", () => {
   it("renders the component", async () => {
-    const el = await fixture<NysAccordion>(
-      html`<nys-accordion heading="My Title"></nys-accordion>`,
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="My Title"></nys-accordionitem>`,
     );
     expect(el).to.exist;
     expect(el.expanded).to.be.false;
@@ -13,8 +13,8 @@ describe("nys-accordion", () => {
   });
 
   it("reflects attributes to properties", async () => {
-    const el = await fixture<NysAccordion>(html`
-      <nys-accordion heading="My Title" expanded bordered></nys-accordion>
+    const el = await fixture<NysAccordionItem>(html`
+      <nys-accordionitem heading="My Title" expanded bordered></nys-accordionitem>
     `);
     expect(el.heading).to.equal("My Title");
     expect(el.expanded).to.be.true;
@@ -22,10 +22,10 @@ describe("nys-accordion", () => {
   });
 
   it("renders slot content", async () => {
-    const el = await fixture<NysAccordion>(html`
-      <nys-accordion heading="Slot Test">
+    const el = await fixture<NysAccordionItem>(html`
+      <nys-accordionitem heading="Slot Test">
         <p>Slot content here</p>
-      </nys-accordion>
+      </nys-accordionitem>
     `);
     const slotContent = el.querySelector("p");
     expect(slotContent?.textContent).to.include("Slot content here");
@@ -33,18 +33,18 @@ describe("nys-accordion", () => {
 
   // Toggles open/close the component through the "expanded" prop
   it("toggles expanded state and emits nys-toggle when clicked", async () => {
-    const el = await fixture<NysAccordion>(
-      html`<nys-accordion heading="Toggle Test"></nys-accordion>`,
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Toggle Test"></nys-accordionitem>`,
     );
     const accordionHeader = el.shadowRoot?.querySelector(
-      ".nys-accordion__heading",
+      ".nys-accordionitem__heading",
     ) as HTMLElement;
 
     // Initial state: compress at start
     expect(el.expanded).to.be.false;
 
     // First click: expand the accordion
-    const openEventListener = oneEvent(el, "nys-accordionToggle");
+    const openEventListener = oneEvent(el, "nys-accordionitem-toggle");
     accordionHeader.click();
     const { detail } = await openEventListener;
 
@@ -55,7 +55,7 @@ describe("nys-accordion", () => {
     expect(el.expanded).to.be.true;
 
     // Second click: compress the accordion
-    const closeEventListener = oneEvent(el, "nys-accordionToggle");
+    const closeEventListener = oneEvent(el, "nys-accordionitem-toggle");
     accordionHeader.click();
     const { detail: closeDetail } = await closeEventListener;
 
@@ -68,7 +68,7 @@ describe("nys-accordion", () => {
 
   it("passes the a11y audit", async () => {
     const el = await fixture(
-      html`<nys-accordion heading="My Label"></nys-accordion>`,
+      html`<nys-accordionitem heading="My Label"></nys-accordionitem>`,
     );
     await expect(el).shadowDom.to.be.accessible();
   });

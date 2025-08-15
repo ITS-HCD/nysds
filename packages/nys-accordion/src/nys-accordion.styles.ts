@@ -86,7 +86,7 @@ export default css`
       var(--_nys-accordion-color-focus);
   }
 
-  .nys-accordionitem__heading .nys-accordion__heading-title {
+  .nys-accordionitem__heading .nys-accordionitem__heading-title {
     flex: 1;
   }
 
@@ -136,8 +136,8 @@ export default css`
     border-radius: 0 0 var(--_nys-accordion-radius) var(--_nys-accordion-radius);
   }
 
-  /*** Accordion Group ***/
-  .nys-accordiongroup {
+  /*** Accordion Wrapper ***/
+  .nys-accordion {
     display: flex;
     flex-direction: column;
     gap: var(--_nys-accordion-gap);

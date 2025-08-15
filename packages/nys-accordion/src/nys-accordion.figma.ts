@@ -1,13 +1,13 @@
 import figma, { html } from "@figma/code-connect/html";
 
-figma.connect("<FIGMA_ACCORDION>", {
+figma.connect("<FIGMA_ACCORDIONITEM>", {
   props: {
     heading: figma.string("Heading"),
     expanded: figma.boolean("Expanded"),
     bordered: figma.boolean("Bordered"),
   },
   example: (props) => html`
-    <nys-accordion
+    <nys-accordionitem
       heading="${props.heading}"
       expanded=${props.expanded}
       bordered=${props.bordered}
@@ -16,29 +16,34 @@ figma.connect("<FIGMA_ACCORDION>", {
         This is example accordion content. Customize the content inside the
         slot.
       </p>
-    </nys-accordion>
+    </nys-accordionitem>
   `,
 });
 
-figma.connect("<FIGMA_ACCORDIONGROUP>", {
+figma.connect("<FIGMA_ACCORDION>", {
   props: {
     singleSelect: figma.boolean("Single Select"),
     bordered: figma.boolean("Bordered"),
+    expanded: figma.boolean("Expanded"),
   },
   example: (props) => html`
-    <nys-accordiongroup
+    <nys-accordion
       singleSelect=${props.singleSelect}
       bordered=${props.bordered}
     >
-      <nys-accordion id="accordion1" heading="Accordion One" expanded>
+      <nys-accordionitem
+        id="accordion1"
+        heading="Accordion One"
+        ${props.expanded}
+      >
         <p>This is the content of accordion one.</p>
-      </nys-accordion>
-      <nys-accordion id="accordion2" heading="Accordion Two">
+      </nys-accordionitem>
+      <nys-accordionitem id="accordion2" heading="Accordion Two">
         <p>This is the content of accordion two.</p>
-      </nys-accordion>
-      <nys-accordion id="accordion3" heading="Accordion Three">
+      </nys-accordionitem>
+      <nys-accordionitem id="accordion3" heading="Accordion Three">
         <p>This is the content of accordion three.</p>
-      </nys-accordion>
-    </nys-accordiongroup>
+      </nys-accordionitem>
+    </nys-accordion>
   `,
 });

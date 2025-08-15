@@ -8,13 +8,9 @@ import "@nysds/nys-badge";
 
 # Accordion
 
-The **`nys-accordion`** component is a vertically stacked list of headers that can be clicked to reveal or hide associated content, helping to organize and condense information.
+The **`nys-accordion`** and **`nys-accordionitem`** components are vertically stacked list of headers that can be clicked to reveal or hide associated content, helping to organize and condense information.
 
 If an id is not passed, a unique id will be generated.
-
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
 
 <div class="nys-grid-row nys-grid-gap-1">
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
@@ -35,30 +31,31 @@ If an id is not passed, a unique id will be generated.
 ## Options
 
 ### Individual Accordion
-The `nys-accordion` is an individual component that toggles open or closed internally via the `expanded` prop.
-This prop is also available for developers to control the expanded state directly, without needing to wrap it in a `nys-accordiongroup`.
+The `nys-accordionitem` toggles open or closed via the `expanded` prop, which can be set manually. Wrapping it in a `nys-accordion` is optional since it is standalone.
+
+**Note:** If you place multiple `nys-accordionitem` components side by side, wrap them in a nys-accordion.
 <Canvas of={NysAccordionStories.IndividualAccordion} />
 
-### Accordion Group
-The `nys-accordiongroup` is a wrapper that provides a boolean prop called `singleSelect`.
-When `singleSelect` is set, only one accordion within the group can be open at a time.
-<Canvas of={NysAccordionStories.AccordionGroup} />
+### Accordion Wrapper
+The `nys-accordion` is a wrapper that holds a group of `nys-accordionitem` components. \
+When the `singleSelect` boolean property is set, only one `nys-accordionitem` in the wrapper can be open at a time.
+<Canvas of={NysAccordionStories.AccordionWrapper} />
 
 
 ### Bordered
-The `bordered` prop is available on both `nys-accordion` and `nys-accordiongroup`.
-When applied to the `nys-accordiongroup`, all accordions within the group will be bordered.
+The `bordered` prop is available on both `nys-accordion` and `nys-accordionitem`.
+When applied to the `nys-accordion`, all `nys-accordionitem` within the wrapper will be bordered.
 <Canvas of={NysAccordionStories.Bordered} />
 
 ## Usage
 
 ### When to use this component
 - Use an accordion when you need to organize related information into expandable sections, reducing the need for users to scroll through long content.
-- Ideal for FAQs, application instructions, program eligibility requirements, or step-by-step guides where only one section may be needed at a time.
+- Ideal for supplemental details like optional steps, extra instructions, or secondary eligibility notes—similar to FAQs.
 - Helpful in mobile layouts to keep pages compact while still allowing access to full details.
 
 ### When to consider something else
-- Do not hide essential information, such as critical deadlines, eligibility criteria, or urgent alerts, inside collapsed panels — keep these visible by default.
+- Do not hide essential, universal information such as critical deadlines, main eligibility criteria, or urgent alerts inside collapsed panels. Keep these visible by default!
 - If users need to compare details from multiple sections at once, consider using a table or side-by-side layout instead of an accordion.
 
 <div className="nys-grid-row nys-grid-gap-lg">
@@ -82,7 +79,7 @@ When applied to the `nys-accordiongroup`, all accordions within the group will b
 
 ## Accessibility
 
-The `nys-accordion` component includes the following accessibility-focused features:
+The `nys-accordionitem` component includes the following accessibility-focused features:
 
 - Keyboard navigation (e.g. Tab to move between headers, Enter or Space to toggle).
 - Headers are large enough to interact with easily (minimum 44x44px).
@@ -90,9 +87,9 @@ The `nys-accordion` component includes the following accessibility-focused featu
 
 ## Events
 
-The `nys-accordion` component emits the following events:
+The `nys-accordionitem` component emits the following events:
 
-1. `nys-accordionToggle`: Emitted when the accordion is clicked.
+1. `nys-accordionitem-toggle`: Emitted when the accordion is clicked.
 
 **Event details** \
 The event includes a detail object with the following properties:
@@ -104,7 +101,7 @@ You can listen to these events using JavaScript:
 
 ```js
 // Select the accordion component
-const accordion = document.querySelector("nys-accordion");
+const accordion = document.querySelector("nys-accordionitem");
 
 // Listen for the '"nys-accordionitem-toggle' event
 accordion.addEventListener("nys-accordionitem-toggle", () => {

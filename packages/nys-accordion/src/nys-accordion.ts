@@ -2,7 +2,14 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-accordion.styles";
 
-export class NysAccordiongroup extends LitElement {
+let accordionIdCounter = 0; // Counter for generating unique IDs
+
+/**
+ * The "nys-accordion" is the wrapper that groups individual accordion items within it.
+ * The items within is called "nys-accordionitem"
+ */
+export class NysAccordion extends LitElement {
+  @property({ type: String }) id = "";
   @property({ type: Boolean, reflect: true }) singleSelect = false;
   @property({ type: Boolean, reflect: true }) bordered = false;
 
@@ -13,6 +20,15 @@ export class NysAccordiongroup extends LitElement {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    // Generate a unique ID if not provided
+    if (!this.id) {
+      this.id = this._generateUniqueId();
+    }
+  }
+
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("bordered")) {
       this._applyBordered();
@@ -20,12 +36,16 @@ export class NysAccordiongroup extends LitElement {
   }
 
   /******************** Functions ********************/
+  private _generateUniqueId() {
+    return `nys-accordionitem-${Date.now()}-${accordionIdCounter++}`;
+  }
+
   private _getAccordions() {
     const slot = this.shadowRoot?.querySelector("slot");
     const assigned = slot?.assignedElements() || [];
 
     return assigned.filter(
-      (el) => el.tagName.toLowerCase() === "nys-accordion",
+      (el) => el.tagName.toLowerCase() === "nys-accordionitem",
     );
   }
 
@@ -54,14 +74,15 @@ export class NysAccordiongroup extends LitElement {
 
   render() {
     return html`<div
-      class="nys-accordiongroup"
-      @nys-accordionToggle=${this._onAccordionToggle}
+      id=${this.id}
+      class="nys-accordion"
+      @nys-accordionitem-toggle=${this._onAccordionToggle}
     >
       <slot></slot>
     </div>`;
   }
 }
 
-if (!customElements.get("nys-accordiongroup")) {
-  customElements.define("nys-accordiongroup", NysAccordiongroup);
+if (!customElements.get("nys-accordion")) {
+  customElements.define("nys-accordion", NysAccordion);
 }

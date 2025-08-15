@@ -2,7 +2,7 @@ import { LitElement, html } from "lit";
 import { property, query } from "lit/decorators.js";
 import styles from "./nys-accordion.styles";
 
-let accordionIdCounter = 0; // Counter for generating unique IDs
+let accordionItemIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAccordionItem extends LitElement {
   @property({ type: String }) id = "";
@@ -34,7 +34,7 @@ export class NysAccordionItem extends LitElement {
 
   /******************** Functions ********************/
   private _generateUniqueId() {
-    return `nys-accordionitem-${Date.now()}-${accordionIdCounter++}`;
+    return `nys-accordionitem-${Date.now()}-${accordionItemIdCounter++}`;
   }
 
   private _dispatchEvent() {
@@ -79,7 +79,7 @@ export class NysAccordionItem extends LitElement {
   render() {
     const contentId = `${this.id}-content`;
 
-    return html`<div class="nys-accordionitem">
+    return html`<div id=${this.id} class="nys-accordionitem">
       <button
         class="nys-accordionitem__heading"
         type="button"
