@@ -2,6 +2,7 @@ import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blo
 import { html } from 'lit';
 import * as NysUnavHeaderStories from './nys-unavheader.stories';
 import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysUnavHeaderStories} title="Components/UnavHeader/Documentation" />
 
@@ -12,11 +13,16 @@ The **`nys-unavheader`** component is a reusable web component for use in New Yo
 This component is built to comply with with the policy set forth by the [New York State Information
 Technology Standard ](https://its.ny.gov/system/files/documents/2025/02/nys-s16-001-nys-universal-web-navigation.pdf)
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-11902">View in Figma</a></p>
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-11902">View in Figma</a></p>
+</div>
 
 ***
 

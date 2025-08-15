@@ -1,6 +1,8 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysFileinputStories from "./nys-fileinput.stories";
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysFileinputStories} title="Components/Fileinput/Documentation" />
 
@@ -10,6 +12,7 @@ The **`nys-fileinput`** component is a reusable web component that allows users 
 
 If an id is not passed, a unique id will be generated.
 
+<<<<<<< HEAD
 <p className="pill pill--stable">Stable</p>
 
 <p className="pill pill--wcag">WCAG 2.2 AA</p>
@@ -17,6 +20,20 @@ If an id is not passed, a unique id will be generated.
 <p className="pill pill--uikit">
 	<a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4739-106" target="_blank">View in Figma</a>
 </p>
+=======
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu/branch/s6RRas2SHWImnD7PMgmWJ8/%F0%9F%92%A0-NYS-Design-System?node-id=4821-4576&m=dev" target="_blank">View in Figma</a>
+  </p>
+</div>
+>>>>>>> 6c7bd0d9f0d283e46395f2dc5f28a28abd3351b6
 
 ---
 
