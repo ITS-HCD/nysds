@@ -146,7 +146,7 @@ export class NysStepper extends LitElement {
   }
 
   updated() {
-    const steps = this.querySelectorAll<HTMLElement>("nys-step");
+    const steps = this.querySelectorAll<any>("nys-step");
 
     if (!this._stepsNumbered) {
       steps.forEach((step, index) => {
