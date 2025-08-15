@@ -129,8 +129,8 @@ export const Basic: Story = {
         code: `
  <div class="nys-grid-row">
   <nys-stepper
-    .id="stepper"
-    .name="stepper"
+    id="stepper"
+    name="stepper"
     label="Register for Design System Office Hours"
     class="nys-desktop:nys-grid-col-3"
   >
@@ -147,7 +147,7 @@ export const Basic: Story = {
       label="Usage Survey"
       current
       href="/nys-stepper/survey.html"
-      .onClick=${() => alert("This step also has a function called on it")}
+      onClick=${() => alert("This step also has a function called on it")}
     ></nys-step>
     <nys-step
       label="Newsletter Opt-In"
