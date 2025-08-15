@@ -124,9 +124,9 @@ export class NysStepper extends LitElement {
   private _updateCounter() {
     if (this.isCompactExpanded) {
       this.counterText = "Back to Form";
-      this.style.height = "-webkit-fill-available";
-      this.style.height = "-moz-available";
-      this.style.height = "stretch";
+      this.style.height = "-webkit-fit-content";
+      this.style.height = "-moz-fit-content";
+      this.style.height = "fit-content";
       return;
     } else {
       this.style.height = "auto";
