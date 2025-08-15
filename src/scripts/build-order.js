@@ -7,6 +7,7 @@ const packages = [
   { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-backtotop", path: "packages/nys-backtotop" },
+  { name: "nys-badge", path: "packages/nys-badge" },
   { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-fileinput", path: "packages/nys-fileinput" },

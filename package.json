@@ -26,6 +26,7 @@
     "build:umd": "tsc --emitDeclarationOnly && vite build --config vite.config.umd.js",
     "build:packages": "npm run lint:packages && node src/scripts/build-order.js",
     "build:all": "npm run clean:dist && npm run build:packages && npm run build && npm run build:umd",
+    "build:link": "npm run build:all && npm link",
     "lint": "eslint src/",
     "lint:packages": "eslint packages/**/*.{ts,js}",
     "lint:fix": "eslint src/ --fix",
