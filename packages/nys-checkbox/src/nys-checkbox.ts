@@ -243,6 +243,7 @@ export class NysCheckbox extends LitElement {
             aria-checked="${this.checked}"
             aria-disabled="${this.disabled ? "true" : "false"}"
             aria-required="${this.required}"
+            aria-describedby="group-info"
             @change="${this._handleChange}"
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
