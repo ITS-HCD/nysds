@@ -1,6 +1,8 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import { html } from 'lit';
 import * as NysTextinputStories from './nys-textinput.stories';
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysTextinputStories} title="Components/Textinput/Documentation" />
 
@@ -9,11 +11,16 @@ import * as NysTextinputStories from './nys-textinput.stories';
 
 The **`nys-textinput`** is a reusable web component for use in New York State digital products. It allows users to input data to be collected.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10587">View in Figma</a></p>
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge prefix="Version" label="1.6.0" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10587">View in Figma</a></p>
+</div>
 
 ***
 
