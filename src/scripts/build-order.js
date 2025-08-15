@@ -4,6 +4,7 @@ import { execSync } from "child_process";
 const packages = [
   { name: "styles", path: "packages/styles" },
   { name: "nys-backtotop", path: "packages/nys-backtotop" },
+  { name: "nys-badge", path: "packages/nys-badge" },
   { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-alert", path: "packages/nys-alert" },
