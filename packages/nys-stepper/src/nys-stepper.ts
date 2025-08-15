@@ -12,6 +12,7 @@ export class NysStepper extends LitElement {
   isCompactExpanded = false;
 
   static styles = styles;
+  private _stepsNumbered = false;
 
   constructor() {
     super();
@@ -146,6 +147,14 @@ export class NysStepper extends LitElement {
 
   updated() {
     const steps = this.querySelectorAll<HTMLElement>("nys-step");
+
+    if (!this._stepsNumbered) {
+      steps.forEach((step, index) => {
+        step.stepNumber = index + 1;
+      });
+      this._stepsNumbered = true;
+    }
+
     let foundCurrent = false;
     let selectedAssigned = false;
     let currentAssigned = false;

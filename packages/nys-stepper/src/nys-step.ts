@@ -9,6 +9,7 @@ export class NysStep extends LitElement {
   @property({ type: String }) href = "";
   @property({ type: Boolean }) isCompactExpanded = false;
   @property({ type: Function }) onClick?: (e: Event) => void;
+  @property({ type: Number }) stepNumber = 0;
 
   static styles = styles;
 
@@ -68,7 +69,9 @@ export class NysStep extends LitElement {
             this.hasAttribute("previous")
           )}
         >
-          <div class="nys-step__number" tabindex="-1" aria-hidden="true"></div>
+          <div class="nys-step__number" tabindex="-1" aria-hidden="true">
+            ${this.stepNumber}
+          </div>
           <div class="nys-step__content" tabindex="-1" aria-hidden="true">
             <div class="nys-step__label" tabindex="-1" aria-hidden="true">
               ${this.label}

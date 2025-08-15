@@ -157,6 +157,7 @@ export default css`
     align-items: center;
     justify-content: center;
     text-align: center;
+    color: var(--nys-color-text, #1b1b1b);
   }
 
   :host([previous]) .nys-step__number,
@@ -173,12 +174,6 @@ export default css`
     color: var(--nys-color-text-reverse, #fff);
     border-color: var(--nys-color-theme, #154973);
     outline: var(--nys-size-50, 4px) solid var(--nys-color-theme-weak, #cddde9);
-  }
-
-  .nys-step__number::before {
-    content: counter(step);
-    line-height: 1;
-    padding-top: var(--nys-size-2px, 2px);
   }
 
   /* Hide the line wrapper in the last step */
@@ -277,19 +272,18 @@ export default css`
       background-color: var(--nys-color-neutral-200, #bec0c1);
       height: var(--nys-size-100, 8px);
       width: 100%;
+      color: transparent;
     }
 
     :host([previous]) .nys-step__number,
     :host([current]) .nys-step__number {
       background-color: var(--nys-color-neutral-900, #1b1b1b);
+      color: transparent;
     }
 
     :host([selected]) .nys-step__number {
       background-color: var(--nys-color-theme-mid, #457aa5);
       outline: none;
-    }
-    .nys-step__number::before {
-      content: "";
     }
 
     .nys-step__content,
@@ -340,6 +334,7 @@ export default css`
       );
       width: var(--nys-space-300, 24px);
       height: var(--nys-space-300, 24px);
+      color: var(--nys-color-text, #1b1b1b);
     }
 
     :host([isCompactExpanded][previous]) .nys-step__number,
@@ -356,12 +351,6 @@ export default css`
       color: var(--nys-color-text-reverse, #fff);
       border-color: var(--nys-color-theme, #154973);
       outline: 4px solid var(--nys-color-theme-weak, #cddde9);
-    }
-
-    :host([isCompactExpanded]) .nys-step__number::before {
-      content: counter(step);
-      line-height: 1;
-      padding-top: 2px;
     }
 
     :host([isCompactExpanded]) .nys-step__contentwrapper {
