@@ -31,9 +31,9 @@ If an id is not passed, a unique id will be generated.
 ## Options
 
 ### Individual Accordion
-The `nys-accordionitem` toggles open or closed via the `expanded` prop, which can be set manually. Wrapping it in a `nys-accordion` is optional since it is standalone.
+The `nys-accordionitem` toggles open or closed via the `expanded` prop, which can be set manually. It must be wrapped in a `nys-accordion` for styling.
 
-**Note:** If you place multiple `nys-accordionitem` components side by side, wrap them in a nys-accordion.
+**Note:** Always wrap `nys-accordionitem` components in a `nys-accordion`.
 <Canvas of={NysAccordionStories.IndividualAccordion} />
 
 ### Accordion Wrapper
@@ -43,8 +43,7 @@ When the `singleSelect` boolean property is set, only one `nys-accordionitem` in
 
 
 ### Bordered
-The `bordered` prop is available on both `nys-accordion` and `nys-accordionitem`.
-When applied to the `nys-accordion`, all `nys-accordionitem` within the wrapper will be bordered.
+The `bordered` prop is available on `nys-accordion`. When set, all `nys-accordionitem` inside the wrapper will display borders.
 <Canvas of={NysAccordionStories.Bordered} />
 
 ## Usage

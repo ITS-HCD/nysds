@@ -105,30 +105,35 @@ export const IndividualAccordion: Story = {
     heading: "Liberty Ipsum: Bridges & Boroughs",
     expanded: true,
     bordered: false,
+    singleSelect: true,
   },
   render: (args) => html`
-    <nys-accordionitem
-      .id=${args.id}
-      .heading=${args.heading}
-      .expanded=${args.expanded}
-      .bordered=${args.bordered}
-      ><p>
-        Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park,
-        consectetur adipiscing elit.
-      </p>
-    </nys-accordionitem>
+    <nys-accordion>
+      <nys-accordionitem
+        .id=${args.id}
+        .heading=${args.heading}
+        .expanded=${args.expanded}
+        .bordered=${args.bordered}
+        ><p>
+          Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
+          Park, consectetur adipiscing elit.
+        </p>
+      </nys-accordionitem>
+    </nys-accordion>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-accordionitem
-  id="individualAcc1"
-  heading="Liberty Ipsum: Bridges & Boroughs"
-  expanded
->
-  <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
-</nys-accordionitem>`,
+<nys-accordion>        
+  <nys-accordionitem
+    id="individualAcc1"
+    heading="Liberty Ipsum: Bridges & Boroughs"
+    expanded
+  >
+    <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
+  </nys-accordionitem>
+<nys-accordion>`,
         type: "auto",
       },
     },
@@ -200,27 +205,20 @@ export const AccordionWrapper: Story = {
 
 export const Bordered: Story = {
   args: {
-    heading: "I am an individual accordion",
+    heading: "We are a group of accordions",
     expanded: true,
     bordered: true,
     singleSelect: true,
   },
   render: (args) => html`
-    <nys-accordionitem
-      .id=${args.id}
-      .heading=${args.heading}
-      .expanded=${args.expanded}
-      bordered
-    >
-      <p>I love NY!</p>
-    </nys-accordionitem>
-    <br />
-    <br />
     <nys-accordion
       ?singleSelect=${args.singleSelect}
       ?bordered=${args.bordered}
     >
-      <nys-accordionitem heading="We are a group of accordions" expanded
+      <nys-accordionitem
+        .id=${args.id}
+        .heading=${args.heading}
+        .expanded=${args.expanded}
         ><p>
           Stronger together! Learn more at
           <a href="https://www.ny.gov" target="_blank"> ny.gov </a>
@@ -244,10 +242,6 @@ export const Bordered: Story = {
     docs: {
       source: {
         code: `
-<nys-accordionitem heading="I am an individual accordion" bordered>
-  <p>I love NY!</p>
-</nys-accordionitem>
-
 <nys-accordion singleSelect bordered>
   <nys-accordionitem heading="We are a group of accordions">
    <p>Stronger together! Learn more at
