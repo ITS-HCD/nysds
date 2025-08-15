@@ -4,7 +4,7 @@ import styles from "./nys-accordion.styles";
 
 let accordionIdCounter = 0; // Counter for generating unique IDs
 
-export class NysAccordion extends LitElement {
+export class NysAccordionItem extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
@@ -34,12 +34,12 @@ export class NysAccordion extends LitElement {
 
   /******************** Functions ********************/
   private _generateUniqueId() {
-    return `nys-accordion-${Date.now()}-${accordionIdCounter++}`;
+    return `nys-accordionitem-${Date.now()}-${accordionIdCounter++}`;
   }
 
   private _dispatchEvent() {
     this.dispatchEvent(
-      new CustomEvent("nys-accordionToggle", {
+      new CustomEvent("nys-accordionitem-toggle", {
         detail: { id: this.id, heading: this.heading, expanded: this.expanded },
         bubbles: true,
         composed: true,
@@ -61,7 +61,7 @@ export class NysAccordion extends LitElement {
   }
 
   // Call this after first render and whenever expanded changes
-  @query(".nys-accordion__content") private _contentContainer!: HTMLElement;
+  @query(".nys-accordionitem__content") private _contentContainer!: HTMLElement;
   private _updateHeight() {
     if (!this._contentContainer) return;
 
@@ -79,21 +79,21 @@ export class NysAccordion extends LitElement {
   render() {
     const contentId = `${this.id}-content`;
 
-    return html`<div class="nys-accordion">
+    return html`<div class="nys-accordionitem">
       <button
-        class="nys-accordion__heading"
+        class="nys-accordionitem__heading"
         type="button"
         @click=${this._handleExpand}
         @keydown=${this._handleKeydown}
         aria-expanded=${this.expanded ? "true" : "false"}
         aria-controls=${contentId}
       >
-        <p class="nys-accordion__heading-title">${this.heading}</p>
+        <p class="nys-accordionitem__heading-title">${this.heading}</p>
         <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
       </div>
-      <div id=${contentId} class="nys-accordion__content ${this.expanded ? "expanded" : "collapsed"}" role="region">
-        <div class="nys-accordion__content-slot-container">
-          <div class="nys-accordion__content-slot-container-text">
+      <div id=${contentId} class="nys-accordionitem__content ${this.expanded ? "expanded" : "collapsed"}" role="region">
+        <div class="nys-accordionitem__content-slot-container">
+          <div class="nys-accordionitem__content-slot-container-text">
             <slot></slot>
           </div>
         </div>
@@ -102,6 +102,6 @@ export class NysAccordion extends LitElement {
   }
 }
 
-if (!customElements.get("nys-accordion")) {
-  customElements.define("nys-accordion", NysAccordion);
+if (!customElements.get("nys-accordionitem")) {
+  customElements.define("nys-accordionitem", NysAccordionItem);
 }

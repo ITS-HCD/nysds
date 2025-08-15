@@ -3,10 +3,11 @@ import { execSync } from "child_process";
 // Define the build order for your packages
 const packages = [
   { name: "styles", path: "packages/styles" },
+  { name: "nys-accordion", path: "packages/nys-accordion" },
+  { name: "nys-alert", path: "packages/nys-alert" },
+  { name: "nys-avatar", path: "packages/nys-avatar" },
   { name: "nys-backtotop", path: "packages/nys-backtotop" },
   { name: "nys-button", path: "packages/nys-button" },
-  { name: "nys-avatar", path: "packages/nys-avatar" },
-  { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-fileinput", path: "packages/nys-fileinput" },
   { name: "nys-errormessage", path: "packages/nys-errormessage" },
@@ -23,7 +24,6 @@ const packages = [
   { name: "nys-tooltip", path: "packages/nys-tooltip" },
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
-  { name: "nys-accordion", path: "packages/nys-accordion" },
 ];
 
 packages.forEach((pkg) => {

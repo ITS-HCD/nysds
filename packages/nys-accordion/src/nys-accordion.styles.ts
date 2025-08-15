@@ -52,7 +52,7 @@ export default css`
     margin: 0 !important;
   }
 
-  .nys-accordion {
+  .nys-accordionitem {
     font-family: var(--_nys-accordion-font-family);
     font-size: var(--_nys-accordion-font-size);
     font-weight: var(--_nys-accordion-font-weight);
@@ -61,7 +61,7 @@ export default css`
     display: flex;
   }
 
-  .nys-accordion__heading {
+  .nys-accordionitem__heading {
     all: unset;
     flex: 1;
     gap: var(--_nys-accordion-heading-gap);
@@ -75,35 +75,35 @@ export default css`
     transition: 0.05s all ease-in-out;
   }
 
-  .nys-accordion__heading:hover {
+  .nys-accordionitem__heading:hover {
     border-radius: var(--_nys-accordion-radius);
     background: var(--_nys-accordion-heading-active-background);
   }
 
-  .nys-accordion__heading:focus-visible {
+  .nys-accordionitem__heading:focus-visible {
     outline-offset: var(--_nys-accordion-offset-focus);
     outline: solid var(--_nys-accordion-width-focus)
       var(--_nys-accordion-color-focus);
   }
 
-  .nys-accordion__heading .nys-accordion__heading-title {
+  .nys-accordionitem__heading .nys-accordion__heading-title {
     flex: 1;
   }
 
   /*** Content layer ***/
-  .nys-accordion__content {
+  .nys-accordionitem__content {
     height: 0;
     overflow: hidden;
     transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     visibility: hidden;
   }
 
-  .nys-accordion__content.expanded {
+  .nys-accordionitem__content.expanded {
     /* Accordion JS code takes care of setting the exact calculated height so we can open exact px height */
     visibility: visible;
   }
 
-  .nys-accordion__content-slot-container {
+  .nys-accordionitem__content-slot-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -113,7 +113,7 @@ export default css`
     background: var(--_nys-accordion-content-background);
   }
 
-  .nys-accordion__content-slot-container-text {
+  .nys-accordionitem__content-slot-container-text {
     max-width: 528px;
   }
 
@@ -126,11 +126,11 @@ export default css`
   }
 
   /*** Bordered Styling ***/
-  :host([bordered][expanded]) .nys-accordion__heading {
+  :host([bordered][expanded]) .nys-accordionitem__heading {
     border-radius: var(--_nys-accordion-radius) var(--_nys-accordion-radius) 0 0;
   }
 
-  :host([bordered]) .nys-accordion__content-slot-container {
+  :host([bordered]) .nys-accordionitem__content-slot-container {
     border: var(--nys-border-width-md, 2px) solid
       var(--nys-color-neutral-50, #ededed);
     border-radius: 0 0 var(--_nys-accordion-radius) var(--_nys-accordion-radius);
