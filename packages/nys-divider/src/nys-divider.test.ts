@@ -18,6 +18,13 @@ describe("nys-divider", () => {
     expect(el.size).to.equal("md");
   });
 
+  it("reflects attributes to properties", async () => {
+    const el = await fixture<NysDivider>(html`
+      <nys-divider inverted></nys-divider>
+    `);
+    expect(el.inverted).to.be.true;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-divider></nys-divider>`);
     await expect(el).shadowDom.to.be.accessible();
