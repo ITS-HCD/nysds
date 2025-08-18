@@ -482,11 +482,7 @@ export const Circle: Story = {
     docs: {
       source: {
         code: `
-<nys-button
-  icon="close"
-  circle
-></nys-button>`,
-
+<nys-button circle icon="close"></nys-button>`,
         type: "auto",
       },
     },
