@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-accordion.styles";
+import "./nys-accordionitem";
 
 let accordionIdCounter = 0; // Counter for generating unique IDs
 
