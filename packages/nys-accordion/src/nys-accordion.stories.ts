@@ -36,7 +36,6 @@ type Story = StoryObj<NysAccordionArgs>;
 
 export const Basic: Story = {
   args: {
-    id: "accordionId1",
     heading: "How do I renew my passport or apply for a new one?",
     expanded: true,
     bordered: false,
@@ -79,7 +78,7 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-accordion singleSelect>
-  <nys-accordionitem id="accordionId1" heading="How do I renew my passport or apply for a new one?">
+  <nys-accordionitem expanded id="accordionId1" heading="How do I renew my passport or apply for a new one?">
     <p>
       You can apply for or renew a U.S. passport through the U.S. Department
       of State. Some renewals can be done by mail.
@@ -185,7 +184,7 @@ export const AccordionWrapper: Story = {
       source: {
         code: `
 <nys-accordion singleSelect>
-  <nys-accordionitem id="accordion1" heading="Welcome to New York">
+  <nys-accordionitem id="accordion1" heading="Welcome to New York" expanded>
    <p>Learn about state programs, services, and resources available at
       <a href="https://www.ny.gov" target="_blank">ny.gov</a>
     </p>
@@ -243,7 +242,7 @@ export const Bordered: Story = {
       source: {
         code: `
 <nys-accordion singleSelect bordered>
-  <nys-accordionitem heading="We are a group of accordions">
+  <nys-accordionitem heading="We are a group of accordions" expanded>
    <p>Stronger together! Learn more at
       <a href="https://www.ny.gov" target="_blank">ny.gov</a>
     </p>
