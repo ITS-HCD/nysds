@@ -29,4 +29,14 @@ export default css`
     background-color: var(--_nys-divider-color);
     flex: 1 0 0;
   }
+
+  /* Vertical */
+  :host([vertical]) {
+    height: 100%;
+  }
+
+  :host([vertical]) .nys-divider {
+    width: var(--_nys-divider-size);
+    height: 100%;
+  }
 `;

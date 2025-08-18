@@ -18,11 +18,18 @@ describe("nys-divider", () => {
     expect(el.size).to.equal("md");
   });
 
-  it("reflects attributes to properties", async () => {
+  it("reflects inverted property correctly", async () => {
     const el = await fixture<NysDivider>(html`
       <nys-divider inverted></nys-divider>
     `);
     expect(el.inverted).to.be.true;
+  });
+
+  it("reflects vertical property correctly", async () => {
+    const el = await fixture<NysDivider>(html`
+      <nys-divider vertical></nys-divider>
+    `);
+    expect(el.vertical).to.be.true;
   });
 
   it("passes the a11y audit", async () => {
