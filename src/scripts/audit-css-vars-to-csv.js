@@ -6,17 +6,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createObjectCsvWriter as createCsvWriter } from "csv-writer";
 
-// Handle __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Path to your packages directory
 const COMPONENTS_DIR = path.resolve(__dirname, "../../packages");
+const VAR_DECLARATION_REGEX = /(--[_a-zA-Z0-9-]+)\s*:\s*([^;]+);/g;
 
-// Regex to match CSS variable names
-const CSS_VAR_REGEX = /--[_a-zA-Z0-9-]+/g;
-
-// 🔍 Get all matching style files in nys-* packages
+// Collect all matching .styles.ts files
 function getAllStyleFiles(baseDir) {
   const packageDirs = fs.readdirSync(baseDir).filter(name =>
     name.startsWith("nys-") && fs.statSync(path.join(baseDir, name)).isDirectory()
@@ -37,39 +33,75 @@ function getAllStyleFiles(baseDir) {
   return files;
 }
 
-// 🧠 Get component name from file path
+// Extract var name and full value
+function extractVariables(content) {
+  const vars = [];
+  let match;
+  while ((match = VAR_DECLARATION_REGEX.exec(content)) !== null) {
+    vars.push({ name: match[1], value: match[2] });
+  }
+  return vars;
+}
+
+// Pull fallback tokens and raw values from var(...) chains
+function parseVarChain(value) {
+  const varCalls = [...value.matchAll(/var\(([^)]+)\)/g)];
+  const fallbackTokens = [];
+  let rawFallback = "";
+
+  varCalls.forEach(match => {
+    const parts = match[1].split(",").map(v => v.trim());
+    if (parts[0].startsWith("--")) fallbackTokens.push(parts[0]);
+    if (parts.length > 1 && !parts[1].startsWith("--")) rawFallback = parts[1];
+  });
+
+  return { fallbackTokens, rawFallback };
+}
+
 function getComponentName(filePath) {
   const match = filePath.match(/packages[\/\\](nys-[^\/\\]+)/);
   return match ? match[1] : "unknown";
 }
 
-// 📦 Extract CSS variables from file content
-function extractVarsFromContent(content) {
-  return content.match(CSS_VAR_REGEX) || [];
+function classifyVariable(privateVar, fallbackTokens) {
+  const expectedPublic = privateVar.replace(/^--_/, "--");
+  const index = fallbackTokens.indexOf(expectedPublic);
+
+  if (index !== -1 && fallbackTokens.length > index + 1) {
+    return {
+      category: "public",
+      fallback: fallbackTokens[index + 1]
+    };
+  }
+
+  return {
+    category: "private",
+    fallback: fallbackTokens[0] || ""
+  };
 }
 
-// 🏁 Main function
+// Run full audit
 async function runAudit() {
-  const allFiles = getAllStyleFiles(COMPONENTS_DIR);
+  const files = getAllStyleFiles(COMPONENTS_DIR);
   const rows = [];
 
-  for (const filePath of allFiles) {
+  for (const filePath of files) {
     const content = fs.readFileSync(filePath, "utf-8");
-    const vars = extractVarsFromContent(content);
     const component = getComponentName(filePath);
+    const vars = extractVariables(content);
 
-    for (const variable of vars) {
-      let category = "other";
-      if (variable.startsWith("--_nys-")) {
-        category = "pseudoPrivate";
-      } else if (variable.startsWith("--nys-")) {
-        category = "public";
-      }
+    for (const { name, value } of vars) {
+      if (!name.startsWith("--_nys-")) continue;
+
+      const { fallbackTokens, rawFallback } = parseVarChain(value);
+      const { category, fallback } = classifyVariable(name, fallbackTokens);
 
       rows.push({
         component,
         category,
-        css_variable: variable
+        css_variable: name,
+        fallback_value: fallback,
+        raw_fallback: rawFallback
       });
     }
   }
@@ -81,7 +113,9 @@ async function runAudit() {
     header: [
       { id: "component", title: "component" },
       { id: "category", title: "category" },
-      { id: "css_variable", title: "css_variable" }
+      { id: "css_variable", title: "css_variable" },
+      { id: "fallback_value", title: "fallback_value" },
+      { id: "raw_fallback", title: "raw_fallback" }
     ]
   });
 
