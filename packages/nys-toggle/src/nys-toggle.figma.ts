@@ -11,8 +11,9 @@ figma.connect("<FIGMA_TOGGLE>", {
       Yes: true,
       No: false,
     }),
-    disabled: figma.enum("State", {
-      Disabled: true,
+    disabled: figma.boolean("Disabled", {
+      true: true,
+      false: false,
     }),
     noIcon: figma.boolean("Icon", {
       // Invert the boolean

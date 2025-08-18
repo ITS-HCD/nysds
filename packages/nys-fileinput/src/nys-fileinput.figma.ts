@@ -19,7 +19,15 @@ figma.connect("<FIGMA_FILEINPUT>", {
       disabled: figma.boolean("Disabled"),
       multiple: figma.boolean("Multiple"),
       dropzone: figma.boolean("Dropzone"),
-      accept: figma.string("Accept types"),
+      accept: figma.enum("Accepted File Types/Accept", {
+        none: "",
+        Image: "image/*",
+        CSV: ".csv",
+        "Word Doc": ".doc,.docx",
+        Video: "video/*",
+        PDF: "application/pdf",
+        "All / Any": "*/*",
+      }),
       showError: figma.boolean("Error"),
     }),
     error: figma.nestedProps("Error", {
