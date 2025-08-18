@@ -188,9 +188,7 @@ export default css`
   }
 
   .nys-step__label {
-    overflow: hidden;
     color: var(--nys-color-text, #1b1b1b);
-    text-overflow: ellipsis;
     font-family: var(--_nys-stepper-font-family);
     font-size: var(--_nys-stepper-font-size);
     font-weight: var(--_nys-stepper-font-weight);
