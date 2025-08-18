@@ -6,7 +6,6 @@ import "./nys-divider";
 interface NysDividerArgs {
   size: string;
   inverted: boolean;
-  vertical: boolean;
 }
 
 const meta: Meta<NysDividerArgs> = {
@@ -15,7 +14,6 @@ const meta: Meta<NysDividerArgs> = {
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
     inverted: { control: "boolean" },
-    vertical: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -34,11 +32,7 @@ export const Basic: Story = {
   args: {},
   render: (args) => html`
     <div>sample content</div>
-    <nys-divider
-      .size=${args.size}
-      .inverted=${args.inverted}
-      .vertical=${args.vertical}
-    ></nys-divider>
+    <nys-divider .size=${args.size} .inverted=${args.inverted}></nys-divider>
     <div>sample content</div>
   `,
   parameters: {
@@ -52,31 +46,31 @@ export const Basic: Story = {
   },
 };
 
-export const Vertical: Story = {
-  args: { vertical: true },
-  render: (args) =>
-    html` <div style="display: flex; align-items: center; height: 50px;">
-      <div>sample vertical content</div>
-      <nys-divider
-        .size=${args.size}
-        .inverted=${args.inverted}
-        .vertical=${args.vertical}
-      ></nys-divider>
-      <div>sample vertical content</div>
-    </div>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<div
-  style="display: flex; align-items: center; height: 50px;"
->
-  <div>sample vertical content</div>
-  <nys-divider vertical></nys-divider>
-  <div>sample vertical content</div>
-  </div>`,
-        type: "auto",
-      },
-    },
-  },
-};
+// export const Vertical: Story = {
+//   args: { vertical: true },
+//   render: (args) =>
+//     html` <div style="display: flex; align-items: center; height: 50px;">
+//       <div>sample vertical content</div>
+//       <nys-divider
+//         .size=${args.size}
+//         .inverted=${args.inverted}
+//         .vertical=${args.vertical}
+//       ></nys-divider>
+//       <div>sample vertical content</div>
+//     </div>`,
+//   parameters: {
+//     docs: {
+//       source: {
+//         code: `
+// <div
+//   style="display: flex; align-items: center; height: 50px;"
+// >
+//   <div>sample vertical content</div>
+//   <nys-divider vertical></nys-divider>
+//   <div>sample vertical content</div>
+//   </div>`,
+//         type: "auto",
+//       },
+//     },
+//   },
+// };

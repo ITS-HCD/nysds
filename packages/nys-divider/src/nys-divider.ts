@@ -18,7 +18,7 @@ export class NysDivider extends LitElement {
       : "md";
   }
   @property({ type: Boolean, reflect: true }) inverted = false;
-  @property({ type: Boolean, reflect: true }) vertical = false;
+  // @property({ type: Boolean, reflect: true }) vertical = false;
 
   static styles = styles;
 

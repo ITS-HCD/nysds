@@ -31,6 +31,7 @@ export default css`
   }
 
   /* Vertical */
+  /*
   :host([vertical]) {
     height: 100%;
   }
@@ -39,4 +40,5 @@ export default css`
     width: var(--_nys-divider-size);
     height: 100%;
   }
+    */
 `;
