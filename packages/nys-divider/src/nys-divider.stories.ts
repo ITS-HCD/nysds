@@ -51,3 +51,26 @@ export const Basic: Story = {
     },
   },
 };
+
+export const Vertical: Story = {
+  args: {},
+  render: (args) =>
+    html` <div style="display: flex; align-items: center;">
+      <div>sample content</div>
+      <nys-divider
+        .size=${args.size}
+        .inverted=${args.inverted}
+        .vertical=${args.vertical}
+      ></nys-divider>
+      <div>sample content</div>
+    </div>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-divider></nys-divider>`,
+        type: "auto",
+      },
+    },
+  },
+};

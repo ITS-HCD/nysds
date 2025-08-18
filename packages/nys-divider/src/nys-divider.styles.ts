@@ -17,6 +17,11 @@ export default css`
     --_nys-divider-size: var(--nys-size-50, 4px);
   }
 
+  /* Inverted */
+  :host([inverted]) {
+    --_nys-divider-color: var(--nys-color-ink-reverse, #fff);
+  }
+
   .nys-divider {
     width: 100%;
     height: var(--_nys-divider-size);
