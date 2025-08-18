@@ -1,0 +1,123 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysDividerStories from "./nys-divider.stories";
+import "@nysds/nys-icon"
+import "@nysds/nys-badge"
+
+<Meta of={NysDividerStories} title="Components/Divider/Documentation" />
+
+# Divider
+
+The **`nys-divider`** component is a reusable web component for use in New York State digital products.
+
+If an id is not passed, a unique id will be generated.
+
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/TODO/add/url" target="_blank">View in Figma</a>
+  </p>
+</div>
+
+---
+
+<Canvas of={NysDividerStories.Basic} />
+
+<Controls />
+
+## Options
+
+## Usage
+
+### When to use this component
+- TODO: Add when to use this component
+- TODO: Add when to use this component
+
+### When to consider something else
+- TODO: Add when to consider something else
+- TODO: Add when to consider something else
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - TODO: Add when to use this component
+      - TODO: Add when to use this component
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - TODO: Add when to consider something else
+      - TODO: Add when to consider something else
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-divider` component includes the following accessibility-focused features:
+
+- TODO: Add accessibility features
+- TODO: Add accessibility features
+- TODO: Add accessibility features
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for either `nys-component` or `nys-component`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
+
+## Events
+
+The `nys-divider` component emits the following events:
+
+1. `nys-click`: Emitted when the divider is clicked.
+2. `nys-focus`: Emitted when the divider receives focus.
+3. `nys-blur`: Emitted when the divider loses focus.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the divider component
+const divider = document.querySelector("nys-divider");
+
+// Listen for the 'nys-click' event
+divider.addEventListener("nys-click", () => {
+	console.log("Divider clicked");
+});
+
+// Listen for the 'nys-focus' event
+divider.addEventListener("nys-focus", () => {
+	console.log("Divider is focused");
+});
+
+// Listen for the 'nys-blur' event
+divider.addEventListener("nys-blur", () => {
+	console.log("Divider lost focus");
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- TODO: Add dependencies
