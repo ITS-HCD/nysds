@@ -199,9 +199,8 @@ export default css`
     letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;
-    text-decoration-thickness: 7%; /* 1.12px */
+    text-decoration-thickness: var(7%, 1.12px);
     text-underline-offset: auto;
-    text-underline-position: from-font;
   }
 
   :host([current]) .nys-step__label,
