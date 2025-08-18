@@ -27,7 +27,7 @@ export class NysDivider extends LitElement {
   }
 
   render() {
-    return html`<div class="nys-divider"></div>`;
+    return html`<hr class="nys-divider" />`;
   }
 }
 
