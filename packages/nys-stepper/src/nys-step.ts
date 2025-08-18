@@ -52,13 +52,6 @@ export class NysStep extends LitElement {
         </div>
         <div
           class="nys-step__contentwrapper"
-          tabindex=${!(
-            this.selected ||
-            this.current ||
-            this.hasAttribute("previous")
-          )
-            ? "-1"
-            : "0"}
           @click=${this._handleActivate}
           @keydown=${this._handleKeydown}
           role="button"
@@ -73,7 +66,17 @@ export class NysStep extends LitElement {
             ${this.stepNumber}
           </div>
           <div class="nys-step__content" tabindex="-1" aria-hidden="true">
-            <div class="nys-step__label" tabindex="-1" aria-hidden="true">
+            <div
+              class="nys-step__label"
+              tabindex=${!(
+                this.selected ||
+                this.current ||
+                this.hasAttribute("previous")
+              )
+                ? "-1"
+                : "0"}
+              aria-hidden="true"
+            >
               ${this.label}
             </div>
           </div>
