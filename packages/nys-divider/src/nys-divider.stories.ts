@@ -46,6 +46,48 @@ export const Basic: Story = {
   },
 };
 
+export const Size: Story = {
+  render: () => html`
+    <div
+      style="display: flex; flex-direction: column; gap: var(--nys-space-200, 16px); padding: var(--nys-space-200, 16px);"
+    >
+      <nys-divider size="sm"></nys-divider>
+      <nys-divider></nys-divider>
+      <nys-divider size="lg"></nys-divider>
+    </div>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: ``,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  render: () => html`
+    <div
+      style="display: flex; flex-direction: column; gap: var(--nys-space-200, 16px); background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-200, 16px);"
+    >
+      <nys-divider inverted size="sm"></nys-divider>
+      <nys-divider inverted></nys-divider>
+      <nys-divider inverted size="lg"></nys-divider>
+    </div>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: ``,
+        type: "auto",
+      },
+    },
+  },
+};
+
 // export const Vertical: Story = {
 //   args: { vertical: true },
 //   render: (args) =>
