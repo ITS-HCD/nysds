@@ -3,8 +3,22 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-divider.styles";
 
 export class NysDivider extends LitElement {
-  @property({ type: String }) id = "";
-  @property({ type: String, reflect: true }) name = "";
+  // size
+  private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
+  private _size: (typeof NysDivider.VALID_SIZES)[number] = "md";
+  @property({ reflect: true })
+  get size(): (typeof NysDivider.VALID_SIZES)[number] {
+    return this._size;
+  }
+  set size(value: string) {
+    this._size = NysDivider.VALID_SIZES.includes(
+      value as (typeof NysDivider.VALID_SIZES)[number],
+    )
+      ? (value as (typeof NysDivider.VALID_SIZES)[number])
+      : "md";
+  }
+  @property({ type: Boolean }) inverted = false;
+  @property({ type: Boolean }) vertical = false;
 
   static styles = styles;
 

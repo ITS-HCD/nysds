@@ -4,29 +4,18 @@ import "./nys-divider";
 
 // Define the structure of the args used in the stories
 interface NysDividerArgs {
-  id: string;
-  name: string;
   size: string;
-  fullWidth: boolean;
-  variant: string;
   inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  vertical: boolean;
 }
 
 const meta: Meta<NysDividerArgs> = {
   title: "Components/Divider",
   component: "nys-divider",
   argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
+    size: { control: "select", options: ["sm", "md", "lg"] },
+    inverted: { control: "boolean" },
+    vertical: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -42,21 +31,21 @@ type Story = StoryObj<NysDividerArgs>;
 // Define stories without using args
 
 export const Basic: Story = {
-  args: {
-    id: "divider1",
-    name: "divider1",
-  },
+  args: {},
   render: (args) => html`
-    <nys-divider .id=${args.id} .name=${args.name}></nys-divider>
+    <div>sample content</div>
+    <nys-divider
+      .size=${args.size}
+      .inverted=${args.inverted}
+      .vertical=${args.vertical}
+    ></nys-divider>
+    <div>sample content</div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-divider
-  id="divider1"
-  name="divider1"
-></nys-divider>`,
+<nys-divider></nys-divider>`,
         type: "auto",
       },
     },
