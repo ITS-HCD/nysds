@@ -13,18 +13,13 @@ describe("nys-divider", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
-    const el = await fixture<NysDivider>(html`
-      <nys-divider label="My Label" required optional></nys-divider>
-    `);
-    expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
+    const el = await fixture<NysDivider>(html` <nys-divider></nys-divider> `);
+    expect(el.size).to.equal("md");
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-divider label="My Label"></nys-divider>`);
+    const el = await fixture(html`<nys-divider></nys-divider>`);
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -36,4 +31,4 @@ describe("nys-divider", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});
