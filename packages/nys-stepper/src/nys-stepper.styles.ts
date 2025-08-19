@@ -34,6 +34,7 @@ export default css`
     counter-reset: step;
     background: var(--nys-stepper-color-bg);
     max-width: 100%;
+    height: 100%;
   }
 
   .nys-stepper__header {
