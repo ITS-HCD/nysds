@@ -41,7 +41,7 @@ figma.connect("<FIGMA_FILEINPUT>", {
       description="${props.label.description}"
       ?required=${props.label.required}
       ?optional=${props.label.optional}
-      ?multiple=${props.input.multiple}
+      ${props.input.multiple}
       accept="${props.input.accept}"
       ?disabled=${props.input.disabled}
       ?dropzone=${props.input.dropzone}

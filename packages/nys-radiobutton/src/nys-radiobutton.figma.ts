@@ -156,6 +156,8 @@ figma.connect("<FIGMA_RADIOBUTTON>", {
         false: undefined,
       }),
     }),
+    checked: figma.boolean("Checked"),
+    disabled: figma.boolean("Disabled"),
   },
   example: (props) => html`
     <nys-radiobutton
@@ -163,6 +165,8 @@ figma.connect("<FIGMA_RADIOBUTTON>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
+      checked="${props.checked}"
+      disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
