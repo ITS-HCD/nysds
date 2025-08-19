@@ -1,6 +1,8 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysIconStories from "./nys-icon.stories";
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysIconStories} title="Components/Icon/Documentation" />
 
@@ -8,11 +10,16 @@ import * as NysIconStories from "./nys-icon.stories";
 
 The **`nys-icon`** component is a reusable web component for use in New York State digital products. It provides users with the ability to choose a specific svg icon to use.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9941">View in Figma</a></p>
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9941">View in Figma</a></p>
+</div>
 
 ***
 
@@ -31,6 +38,7 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> cancel  <nys-icon name="cancel"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> check  <nys-icon name="check"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> close  <nys-icon name="close"></nys-icon> </div>
+    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> code  <nys-icon name="code"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> download  <nys-icon name="download"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> download_done  <nys-icon name="download_done"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> drive_folder_upload  <nys-icon name="drive_folder_upload"></nys-icon> </div>

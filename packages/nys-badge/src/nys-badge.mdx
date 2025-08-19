@@ -1,0 +1,90 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysBadgeStories from "./nys-badge.stories";
+
+<Meta of={NysBadgeStories} title="Components/Badge/Documentation" />
+
+# Badge
+
+The **`nys-badge`** component is a reusable web component for use in New York State digital products.
+
+If an id is not passed, a unique id will be generated.
+
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+	  <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=5409-1651" target="_blank">View in Figma</a>
+</p>
+</div>
+
+---
+
+<Canvas of={NysBadgeStories.Basic} />
+
+<Controls />
+
+## Options
+
+### Intent
+Below are the available badge intents, each showcasing its unique style and purpose. The default intent is info.
+<Canvas of={NysBadgeStories.Intent} />
+
+### Icons
+Badge can include icons as either a prefix or suffix. The icons can be specified using the `prefixIcon` or `suffixIcon` attributes. Pass in the attribute as a boolean to use the default icon, or pass in a string to use a specific icon. Icons do not appear by default and must be explicitly specified.
+<Canvas of={NysBadgeStories.Icons} />
+
+### Size
+Badge is available in two sizes: medium and small. The size can be specified using the `size` attribute. The default size is medium.\
+**Note:** Do not mix sizes within a group of badges.
+<Canvas of={NysBadgeStories.Size} />
+
+### Prefix
+Badge can include a prefix, which is a short text that appears before the main label. The prefix can be specified using the `prefix` attribute.
+<Canvas of={NysBadgeStories.Prefix} />
+
+## Usage
+
+### When to use this component
+- To display a small piece of information that is related to another element.
+- To draw attention to new, important content.
+- To indicate the status of an item, such as "new", "updated", or "beta".
+- To provide additional context or information about an item without cluttering the interface.
+
+### When to consider something addEventListener
+- When the information is too complex to be conveyed in a small badge.
+- When the badge would not add significant value to the user experience.
+- When the badge would clutter the interface or distract from more important content.
+- As a link to another page or action, as badges are not interactive elements.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - To display a small piece of information that is related to another element.
+      - To draw attention to new, important content.
+      - To indicate the status of an item, such as "new", "updated", or "beta".
+      - To provide additional context or information about an item without cluttering the interface.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - When the information is too complex to be conveyed in a small badge.
+      - When the badge would not add significant value to the user experience.
+      - When the badge would clutter the interface or distract from more important content.
+      - As a link to another page or action, as badges are not interactive elements.
+    </div>
+  </div>
+</div>
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- `nys-icon`: For displaying icons within the badge.

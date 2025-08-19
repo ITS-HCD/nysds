@@ -96,6 +96,7 @@ export default css`
   .nys-textarea__textarea {
     color: var(--_nys-textarea-color);
     font-size: var(--_nys-textarea-size-ui-md);
+    font-family: var(--_nys-textarea-family-ui);
     border-radius: var(--_nys-textarea-radius);
     border: solid var(--_nys-textarea-color-border)
       var(--_nys-textarea-width-border);
