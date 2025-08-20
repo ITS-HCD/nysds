@@ -308,17 +308,11 @@ export default css`
   }
 
   /* Focused */
-  :host(:not([tile]):focus-visible),
+  :host:focus-visible,
   :host(.active-focus) {
     outline: solid var(--_nys-radiobutton-width-focus)
       var(--_nys-radiobutton-color-focus);
   }
-  :host([tile]) .nys-radiobutton:has(*:focus-visible) {
-    outline: solid var(--_nys-radiobutton-tile-border-width)
-      var(--_nys-radiobutton-color-focus) !important;
-    border-color: var(--_nys-radiobutton-color-focus) !important;
-  }
-
   /* Radiobutton Label Holder */
   .nys-radiobutton__text {
     line-height: var(--_nys-radiobutton-line-height);

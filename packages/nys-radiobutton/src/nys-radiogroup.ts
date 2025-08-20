@@ -320,7 +320,7 @@ export class NysRadiogroup extends LitElement {
           );
           if (firstInvalidElement === this) {
             firstRadio.focus();
-            firstRadio.classList.add("active-focus");
+            firstRadio.classList.add("active-focus"); // Needed to show focus outline; will be removed if user clicks to select
           }
         } else {
           // If not part of a form, simply focus.
