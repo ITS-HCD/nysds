@@ -18,6 +18,13 @@ describe("nys-badge", () => {
     expect(el.suffixIcon).to.be.true;
   });
 
+  it("default intent is neutral", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="My Label"></nys-badge>`,
+    );
+    expect(el.intent).to.equal("neutral");
+  });
+
   it("can have custom icons", async () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge label="My Label" prefixIcon="check"></nys-badge>`,
