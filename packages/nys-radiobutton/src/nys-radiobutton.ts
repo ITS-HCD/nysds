@@ -64,6 +64,16 @@ export class NysRadiobutton extends LitElement {
       }
       NysRadiobutton.buttonGroup[this.name] = this;
     }
+
+    this.addEventListener("focus", this._handleFocus);
+    this.addEventListener("blur", this._handleBlur);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    this.removeEventListener("focus", this._handleFocus);
+    this.removeEventListener("blur", this._handleBlur);
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -95,8 +105,6 @@ export class NysRadiobutton extends LitElement {
 
   /******************** Event Handlers ********************/
   private _emitChangeEvent() {
-    console.log("_emitChangeEvent");
-
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: {
@@ -112,7 +120,9 @@ export class NysRadiobutton extends LitElement {
 
   // Handle radiobutton change event & unselection of other options in group
   private _handleChange() {
-    console.log("_handleChange");
+    // Remove active-focus so the focus outline doesn't linger
+    // when the user selects a choice, since form focus is no longer needed
+    this.classList.remove("active-focus");
 
     if (!this.checked) {
       if (NysRadiobutton.buttonGroup[this.name]) {
@@ -130,14 +140,12 @@ export class NysRadiobutton extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    console.log("_handleFocus");
-
     this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
-    console.log("_handleBlur");
+    this.classList.remove("active-focus"); // removing this classList so the focus ring for handleInvalid() at radiogroup level will disappear
     this.dispatchEvent(new Event("nys-blur"));
   }
 
@@ -157,7 +165,7 @@ export class NysRadiobutton extends LitElement {
 
   render() {
     return html`
-      <label class="nys-radiobutton">
+      <label class="nys-radiobutton" for="${this.id}">
         <input
           id="${this.id}"
           type="radio"
@@ -170,14 +178,12 @@ export class NysRadiobutton extends LitElement {
           aria-disabled="${this.disabled ? "true" : "false"}"
           aria-required="${this.required ? "true" : "false"}"
           @change="${this._handleChange}"
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
           hidden
         />
 
         <span
           class="nys-radiobutton__radio"
-          @change="${this._callInputHandling}"
+          @click="${this._callInputHandling}"
         ></span>
 
         ${this.label &&

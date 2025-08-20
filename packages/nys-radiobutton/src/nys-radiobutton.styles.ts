@@ -308,7 +308,8 @@ export default css`
   }
 
   /* Focused */
-  :host(:not([tile])) input:focus-visible + .nys-radiobutton__radio {
+  :host(:not([tile]):focus-visible),
+  :host(.active-focus) {
     outline: solid var(--_nys-radiobutton-width-focus)
       var(--_nys-radiobutton-color-focus);
   }

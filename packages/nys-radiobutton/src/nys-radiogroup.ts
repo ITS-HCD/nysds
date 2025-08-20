@@ -140,6 +140,13 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  checkValidity() {
+    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
+    const valid =
+      !this.required || radioButtons.some((radio) => (radio as any).checked);
+    return valid;
+  }
+
   // Need to account for if radiogroup already have a radiobutton checked at initialization
   private _initializeCheckedRadioValue() {
     const checkedRadio = this.querySelector("nys-radiobutton[checked]");
@@ -189,7 +196,8 @@ export class NysRadiogroup extends LitElement {
       index = 0;
     }
 
-    // Let the target's input dispatch the clickEvent and call _handleRadioButtonChange() directly to make form integration work
+    // The target is the new radiobutton the user want to choose given the keydown type.
+    // We let the target's <input/> dispatch the clickEvent and call _handleRadioButtonChange() directly to make form integration work
     const target = radioBtns[index];
     const input = await target.getInputElement();
     input?.click();
@@ -294,40 +302,30 @@ export class NysRadiogroup extends LitElement {
       this.showError = true;
       this._manageRequire(); // Refresh validation message
 
-      const firstRadio = this.querySelector("nys-radiobutton");
-      const firstRadioInput = firstRadio
-        ? await (firstRadio as any).getInputElement()
-        : null;
+      const firstRadio = this.querySelector("nys-radiobutton") as any;
 
-      if (firstRadioInput) {
+      if (firstRadio) {
         // Focus only if this is the first invalid element (top-down approach)
         const form = this._internals.form;
         if (form) {
           const elements = Array.from(form.elements) as Array<
             HTMLElement & { checkValidity?: () => boolean }
           >;
-          // Find the first element in the form that is invalid
-          const firstInvalidElement = elements.find((element) => {
-            // If element is radiogroup, we need to go down one level to find the 1st radiobutton in the group
-            if (element.tagName.toLowerCase() === "nys-radiogroup") {
-              const firstRadio = element.querySelector("nys-radiobutton");
-              if (!(firstRadio as any).checkValidity()) {
-                return element;
-              }
-            } else {
-              return (
-                typeof element.checkValidity === "function" &&
-                !element.checkValidity()
-              );
-            }
-          });
 
+          // Find the first element in the form that is invalid
+          const firstInvalidElement = elements.find(
+            (element) =>
+              typeof element.checkValidity === "function" &&
+              !element.checkValidity(),
+          );
           if (firstInvalidElement === this) {
-            firstRadioInput.focus();
+            firstRadio.focus();
+            firstRadio.classList.add("active-focus");
           }
         } else {
           // If not part of a form, simply focus.
-          firstRadioInput.focus();
+          firstRadio.focus();
+          firstRadio.classList.add("active-focus");
         }
       }
     }
