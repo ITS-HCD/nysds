@@ -28,7 +28,7 @@ const meta: Meta<NysBadgeArgs> = {
     },
     intent: {
       control: "select",
-      options: ["info", "error", "success", "warning"],
+      options: ["neutral", "error", "success", "warning"],
       description: "Intent of the badge",
     },
     prefix: { control: "text", description: "Prefix text" },
@@ -84,7 +84,7 @@ export const Basic: Story = {
 export const Intent: Story = {
   render: () => html`
     <div class="nys-grid-row nys-grid-gap-1">
-      <nys-badge label="Info" prefixIcon></nys-badge>
+      <nys-badge label="Neutral" prefixIcon></nys-badge>
       <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
       <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
       <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
@@ -96,7 +96,7 @@ export const Intent: Story = {
         type: "auto",
         code: `
 <div class="nys-grid-row nys-grid-gap-1">
-  <nys-badge label="Info" prefixIcon></nys-badge>
+  <nys-badge label="Neutral" prefixIcon></nys-badge>
   <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
   <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
   <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
@@ -110,10 +110,10 @@ export const Intent: Story = {
 export const Icons: Story = {
   render: () => html`
     <div class="nys-grid-row nys-grid-gap-1">
-      <nys-badge label="Default info" prefixIcon></nys-badge>
-      <nys-badge label="Default info" suffixIcon></nys-badge>
-      <nys-badge label="Custom info" prefixIcon="check"></nys-badge>
-      <nys-badge label="Custom info" suffixIcon="check"></nys-badge>
+      <nys-badge label="Default neutral" prefixIcon></nys-badge>
+      <nys-badge label="Default neutral" suffixIcon></nys-badge>
+      <nys-badge label="Custom neutral" prefixIcon="check"></nys-badge>
+      <nys-badge label="Custom neutral" suffixIcon="check"></nys-badge>
     </div>
   `,
   parameters: {
@@ -122,10 +122,10 @@ export const Icons: Story = {
         type: "auto",
         code: `
 <div class="nys-grid-row nys-grid-gap-1">
-  <nys-badge label="Default info" prefixIcon></nys-badge>
-  <nys-badge label="Default info" suffixIcon></nys-badge>
-  <nys-badge label="Custom info" prefixIcon="check"></nys-badge>
-  <nys-badge label="Custom info" suffixIcon="check"></nys-badge>
+  <nys-badge label="Default neutral" prefixIcon></nys-badge>
+  <nys-badge label="Default neutral" suffixIcon></nys-badge>
+  <nys-badge label="Custom neutral" prefixIcon="check"></nys-badge>
+  <nys-badge label="Custom neutral" suffixIcon="check"></nys-badge>
 </div>
 `,
       },

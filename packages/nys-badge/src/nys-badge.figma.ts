@@ -3,11 +3,10 @@ import figma, { html } from "@figma/code-connect/html";
 figma.connect("<FIGMA_BADGE>", {
   props: {
     intent: figma.enum("Intent", {
-      "🔵 Info": "info",
+      "🔘 Neutral": "neutral",
       "🟢 Success": "success",
       "🟡 Warning": "warning",
       "🔴 Error": "error",
-      "🔘 Neutral": "neutral",
     }),
     size: figma.enum("Size", {
       sm: "sm",
