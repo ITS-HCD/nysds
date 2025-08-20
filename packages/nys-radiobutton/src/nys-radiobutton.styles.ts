@@ -236,55 +236,55 @@ export default css`
   }
 
   /* Checked */
-  input:not(:disabled):checked + .nys-radiobutton__radio {
+  input:not(:disabled):checked + .nys-radiobutton .nys-radiobutton__radio {
     background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" stroke="white" stroke-width="6"/></svg>');
     background-color: var(--_nys-radiobutton-checked-color-bg);
   }
   :host([tile])
     .nys-radiobutton:has(input:not(:disabled):checked)
-    + .nys-radiobutton__radio {
+    + .nys-radiobutton .nys-radiobutton__radio {
     border-color: var(--_nys-radiobutton-checked-tile-border-color);
     background-color: var(--_nys-radiobutton-checked-tile-bg-color);
   }
   :host([tile])
     .nys-radiobutton:has(input:not(:disabled):checked:hover)
-    + .nys-radiobutton__radio {
+    + .nys-radiobutton .nys-radiobutton__radio {
     cursor: default;
   }
 
   /* Checked + Disabled */
-  input:disabled:checked + .nys-radiobutton__radio {
+  input:disabled:checked + .nys-radiobutton .nys-radiobutton__radio {
     background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" stroke="white" stroke-width="6"/></svg>');
     border-color: var(--_nys-radiobutton-disabled-checked-color-border);
     background-color: var(--_nys-radiobutton-disabled-checked-color-bg);
   }
   :host([tile])
     .nys-radiobutton:has(input:disabled:checked)
-    + .nys-radiobutton__radio {
+    + .nys-radiobutton .nys-radiobutton__radio {
     border-color: var(--_nys-radiobutton-disabled-tile-border-color);
     background-color: var(--_nys-radiobutton-disabled-tile-bg-color);
   }
 
   /* Disabled */
-  input:disabled + .nys-radiobutton__radio {
+  input:disabled + .nys-radiobutton .nys-radiobutton__radio {
     background-color: var(--_nys-radiobutton-disabled-color-bg);
     border-color: var(--_nys-radiobutton-disabled-color-border);
     cursor: not-allowed;
   }
-  :host([tile]) .nys-radiobutton:has(input:disabled) + .nys-radiobutton__radio {
+  :host([tile]) .nys-radiobutton:has(input:disabled) + .nys-radiobutton .nys-radiobutton__radio {
     background-color: var(--_nys-radiobutton-disabled-color-bg);
     border-color: var(--_nys-radiobutton-disabled-color-border);
     cursor: not-allowed;
   }
 
   /* Hover - only allow hover on unchecked */
-  input:hover:not(:disabled):not(:checked) + .nys-radiobutton__radio {
+  input:hover:not(:disabled):not(:checked) + .nys-radiobutton .nys-radiobutton__radio {
     border-color: var(--_nys-radiobutton-hover-color-border);
     background-color: var(--_nys-radiobutton-hover-color-bg);
   }
   :host([tile])
     .nys-radiobutton:has(
-      input:hover:not(:disabled):not(:checked) + .nys-radiobutton__radio
+      input:hover:not(:disabled):not(:checked) + .nys-radiobutton .nys-radiobutton__radio
     ) {
     border-color: var(--_nys-radiobutton-hover-tile-border-color);
     background-color: var(--_nys-radiobutton-hover-tile-bg-color);
@@ -293,13 +293,13 @@ export default css`
   }
 
   /* Pressed - only allow pressed on unchecked */
-  input:active:not(:disabled):not(:checked) + .nys-radiobutton__radio {
+  input:active:not(:disabled):not(:checked) + .nys-radiobutton .nys-radiobutton__radio {
     border-color: var(--_nys-radiobutton-pressed-color-border);
     background-color: var(--_nys-radiobutton-pressed-color-bg);
   }
   :host([tile])
     .nys-radiobutton:has(
-      input:active:not(:disabled):not(:checked) + .nys-radiobutton__radio
+      input:active:not(:disabled):not(:checked) + .nys-radiobutton .nys-radiobutton__radio
     ) {
     border-color: var(--_nys-radiobutton-pressed-tile-border-color);
     background-color: var(--_nys-radiobutton-pressed-tile-bg-color);

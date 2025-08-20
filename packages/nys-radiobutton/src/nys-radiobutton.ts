@@ -67,6 +67,7 @@ export class NysRadiobutton extends LitElement {
 
     this.addEventListener("focus", this._handleFocus);
     this.addEventListener("blur", this._handleBlur);
+    this.addEventListener("click", this._handleChange);
   }
 
   disconnectedCallback() {
@@ -165,26 +166,24 @@ export class NysRadiobutton extends LitElement {
 
   render() {
     return html`
+      <input
+        id="${this.id}"
+        type="radio"
+        name="${ifDefined(this.name ? this.name : undefined)}"
+        .checked=${this.checked}
+        ?disabled=${this.disabled}
+        .value=${this.value}
+        ?required="${this.required}"
+        @change="${this._handleChange}"
+        hidden
+        aria-hidden="true"
+      />
+
       <label
         class="nys-radiobutton"
         for="${this.id}"
         @click="${this._callInputHandling}"
       >
-        <input
-          id="${this.id}"
-          type="radio"
-          name="${ifDefined(this.name ? this.name : undefined)}"
-          .checked=${this.checked}
-          ?disabled=${this.disabled}
-          .value=${this.value}
-          ?required="${this.required}"
-          aria-checked="${this.checked ? "true" : "false"}"
-          aria-disabled="${this.disabled ? "true" : "false"}"
-          aria-required="${this.required ? "true" : "false"}"
-          @change="${this._handleChange}"
-          hidden
-        />
-
         <span class="nys-radiobutton__radio"></span>
 
         ${this.label &&
