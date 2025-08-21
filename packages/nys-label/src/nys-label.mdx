@@ -2,6 +2,8 @@ import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blo
 import { html } from 'lit';
 import * as NysLabelStories from './nys-label.stories';
 import "@nysds/nys-alert";
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysLabelStories} title="Components/Select/Documentation" />
 
@@ -15,9 +17,15 @@ import "@nysds/nys-alert";
 
 The **`nys-label`** is a reusable web component for use in New York State digital products. It allows users to add a label to a form field. It can display description and optional/required flags.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+</div>
 
 ***
 

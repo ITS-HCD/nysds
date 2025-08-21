@@ -21,12 +21,12 @@ export class NysBadge extends LitElement {
   }
   // intent prop
   private static readonly VALID_INTENT = [
-    "info",
+    "neutral",
     "error",
     "success",
     "warning",
   ] as const;
-  private _intent: (typeof NysBadge.VALID_INTENT)[number] = "info";
+  private _intent: (typeof NysBadge.VALID_INTENT)[number] = "neutral";
   @property({ reflect: true })
   get intent(): (typeof NysBadge.VALID_INTENT)[number] {
     return this._intent;
@@ -36,7 +36,7 @@ export class NysBadge extends LitElement {
       value as (typeof NysBadge.VALID_INTENT)[number],
     )
       ? (value as (typeof NysBadge.VALID_INTENT)[number])
-      : "info";
+      : "neutral";
   }
   @property({ type: String }) prefix = "";
   @property({ type: String }) label = "";
@@ -91,7 +91,7 @@ export class NysBadge extends LitElement {
 
   // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
-    info: "info",
+    neutral: "info",
     error: "emergency_home",
     success: "check_circle",
     warning: "warning",
@@ -99,7 +99,7 @@ export class NysBadge extends LitElement {
 
   private resolveIcon(icon: string | boolean): string | null {
     if (icon === true) {
-      return NysBadge.DEFAULT_ICONS[this.intent] ?? "info-circle";
+      return NysBadge.DEFAULT_ICONS[this.intent] ?? "info";
     }
     if (typeof icon === "string" && icon.trim() !== "") {
       return icon;

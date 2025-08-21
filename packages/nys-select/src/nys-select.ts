@@ -80,7 +80,7 @@ export class NysSelect extends LitElement {
 
     if (!slot || !select) return;
 
-    // Clean up dynamically added options so we don't get duplicates
+    // Clean up any previously cloned <nys-option> so we don't get duplicates
     select
       .querySelectorAll("option:not([hidden])")
       .forEach((opt) => opt.remove());
@@ -241,7 +241,7 @@ export class NysSelect extends LitElement {
     return html`
       <div class="nys-select">
         <nys-label
-          id=${this.id}
+          for=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
