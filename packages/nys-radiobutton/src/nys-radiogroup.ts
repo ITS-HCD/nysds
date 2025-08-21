@@ -334,7 +334,7 @@ export class NysRadiogroup extends LitElement {
   render() {
     return html`<div class="nys-radiogroup">
       <nys-label
-        id=${this.id}
+        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
