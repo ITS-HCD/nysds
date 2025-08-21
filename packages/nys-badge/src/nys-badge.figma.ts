@@ -10,12 +10,12 @@ figma.connect("<FIGMA_BADGE>", {
     }),
     size: figma.enum("Size", {
       sm: "sm",
-      md: "sm",
+      md: "md",
     }),
-    prefixIcon: figma.boolean("Prefix Icon"),
-    suffixIcon: figma.boolean("Suffix Icon"),
-    prefix: figma.string("Prefix"),
-    label: figma.string("Label"),
+    prefixIcon: figma.string("Prefix Icon"),
+    suffixIcon: figma.string("Suffix Icon"),
+    prefix: figma.string("Prefix Label"),
+    label: figma.string("Prefix Label"),
   },
   example: (props) => html`
     <nys-badge
