@@ -32,7 +32,7 @@ describe("nys-badge", () => {
     expect(el.prefixIcon).to.equal("check");
   });
 
-  it("renders the prefix", async () => {
+  it("renders the prefixLabel", async () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge prefixLabel="prefix" label="label"></nys-badge>`,
     );
