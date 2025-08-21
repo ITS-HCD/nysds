@@ -38,7 +38,7 @@ export class NysBadge extends LitElement {
       ? (value as (typeof NysBadge.VALID_INTENT)[number])
       : "neutral";
   }
-  @property({ type: String }) prefix = "";
+  @property({ type: String }) prefixLabel = "";
   @property({ type: String }) label = "";
 
   // Icons (string or boolean)
@@ -116,8 +116,8 @@ export class NysBadge extends LitElement {
         ${prefixIconName
           ? html`<nys-icon size="16" name=${prefixIconName}></nys-icon>`
           : ""}
-        ${this.prefix
-          ? html`<div class="nys-badge__prefix">${this.prefix}</div>`
+        ${this.prefixLabel
+          ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
           : ""}
         <div class="nys-badge__label">${this.label}</div>
         ${suffixIconName
