@@ -66,7 +66,7 @@ export const Basic: Story = {
       .label=${args.label}
       .size=${args.size}
       .intent=${args.intent}
-      .prefix=${args.prefix}
+      .prefixLabel=${args.prefix}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
     ></nys-badge>
@@ -83,7 +83,7 @@ export const Basic: Story = {
 
 export const Intent: Story = {
   render: () => html`
-    <div className="nys-grid-row nys-grid-gap-1">
+    <div class="nys-grid-row nys-grid-gap-1">
       <nys-badge label="Neutral" prefixIcon></nys-badge>
       <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
       <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
@@ -95,7 +95,7 @@ export const Intent: Story = {
       source: {
         type: "auto",
         code: `
-<div className="nys-grid-row nys-grid-gap-1">
+<div class="nys-grid-row nys-grid-gap-1">
   <nys-badge label="Neutral" prefixIcon></nys-badge>
   <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
   <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
@@ -109,7 +109,7 @@ export const Intent: Story = {
 
 export const Icons: Story = {
   render: () => html`
-    <div className="nys-grid-row nys-grid-gap-1">
+    <div class="nys-grid-row nys-grid-gap-1">
       <nys-badge label="Default neutral" prefixIcon></nys-badge>
       <nys-badge label="Default neutral" suffixIcon></nys-badge>
       <nys-badge label="Custom neutral" prefixIcon="check"></nys-badge>
@@ -121,7 +121,7 @@ export const Icons: Story = {
       source: {
         type: "auto",
         code: `
-<div className="nys-grid-row nys-grid-gap-1">
+<div class="nys-grid-row nys-grid-gap-1">
   <nys-badge label="Default neutral" prefixIcon></nys-badge>
   <nys-badge label="Default neutral" suffixIcon></nys-badge>
   <nys-badge label="Custom neutral" prefixIcon="check"></nys-badge>
@@ -135,7 +135,7 @@ export const Icons: Story = {
 
 export const Size: Story = {
   render: () => html`
-    <div className="nys-grid-row nys-grid-gap-1">
+    <div class="nys-grid-row nys-grid-gap-1">
       <nys-badge label="Medium"></nys-badge>
       <nys-badge label="Small" size="sm"></nys-badge>
     </div>
@@ -145,7 +145,7 @@ export const Size: Story = {
       source: {
         type: "auto",
         code: `
-<div className="nys-grid-row nys-grid-gap-1">
+<div class="nys-grid-row nys-grid-gap-1">
   <nys-badge label="Medium"></nys-badge>
   <nys-badge label="Small" size="sm"></nys-badge>
 </div>
@@ -155,13 +155,13 @@ export const Size: Story = {
   },
 };
 
-export const Prefix: Story = {
+export const PrefixLabel: Story = {
   render: () => html`
-    <div className="nys-grid-row nys-grid-gap-1">
+    <div class="nys-grid-row nys-grid-gap-1">
       <nys-badge label="Stable" prefixIcon="code"></nys-badge>
       <nys-badge
         prefixIcon
-        prefix="WCAG 2.2"
+        prefixLabel="WCAG 2.2"
         label="AA"
         intent="success"
       ></nys-badge>
@@ -172,9 +172,9 @@ export const Prefix: Story = {
       source: {
         type: "auto",
         code: `
-<div className="nys-grid-row nys-grid-gap-1">
+<div class="nys-grid-row nys-grid-gap-1">
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
-  <nys-badge prefix="WCAG 2.2" label="AA" intent="success" prefixIcon></nys-badge>
+  <nys-badge prefixLabel="WCAG 2.2" label="AA" intent="success" prefixIcon></nys-badge>
 </div>
 `,
       },
