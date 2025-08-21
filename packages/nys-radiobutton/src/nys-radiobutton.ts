@@ -64,6 +64,17 @@ export class NysRadiobutton extends LitElement {
       }
       NysRadiobutton.buttonGroup[this.name] = this;
     }
+
+    this.addEventListener("focus", this._handleFocus);
+    this.addEventListener("blur", this._handleBlur);
+    this.addEventListener("click", this._handleChange);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+
+    this.removeEventListener("focus", this._handleFocus);
+    this.removeEventListener("blur", this._handleBlur);
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -79,8 +90,8 @@ export class NysRadiobutton extends LitElement {
       }
     }
   }
-  /******************** Function ********************/
 
+  /********************** Functions **********************/
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     // If the radiogroup is required but no radio is selected, return false.
@@ -110,6 +121,10 @@ export class NysRadiobutton extends LitElement {
 
   // Handle radiobutton change event & unselection of other options in group
   private _handleChange() {
+    // Remove active-focus so the focus outline doesn't linger
+    // when the user selects a choice, since form focus is no longer needed
+    this.classList.remove("active-focus");
+
     if (!this.checked) {
       if (NysRadiobutton.buttonGroup[this.name]) {
         NysRadiobutton.buttonGroup[this.name].checked = false;
@@ -131,54 +146,52 @@ export class NysRadiobutton extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
+    this.classList.remove("active-focus"); // removing this classList so the focus ring for handleInvalid() at radiogroup level will disappear
     this.dispatchEvent(new Event("nys-blur"));
   }
 
-  // Handle keydown for keyboard accessibility
-  private _handleKeydown(e: KeyboardEvent) {
-    if (e.code === "Space") {
-      e.preventDefault();
-      if (!this.disabled && !this.checked) {
-        if (NysRadiobutton.buttonGroup[this.name]) {
-          NysRadiobutton.buttonGroup[this.name].checked = false;
-          NysRadiobutton.buttonGroup[this.name].requestUpdate();
-        }
+  private _callInputHandling() {
+    if (this.disabled) return;
 
-        NysRadiobutton.buttonGroup[this.name] = this;
-        this.checked = true;
-        this._emitChangeEvent();
-      }
+    // Find the hidden input and trigger a click to toggle selection
+    const input = this.shadowRoot?.querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement;
+
+    if (input) {
+      input.focus();
+      input.click();
     }
   }
 
   render() {
     return html`
-      <label class="nys-radiobutton">
-        <input
-          id="${this.id}"
-          class="nys-radiobutton__radio"
-          type="radio"
-          name="${ifDefined(this.name ? this.name : undefined)}"
-          .checked=${this.checked}
-          ?disabled=${this.disabled}
-          .value=${this.value}
-          ?required="${this.required}"
-          aria-checked="${this.checked ? "true" : "false"}"
-          aria-disabled="${this.disabled ? "true" : "false"}"
-          aria-required="${this.required ? "true" : "false"}"
-          @change="${this._handleChange}"
-          @focus="${this._handleFocus}"
-          @blur="${this._handleBlur}"
-          @keydown="${this._handleKeydown}"
-        />
+      <input
+        id="${this.id}"
+        type="radio"
+        name="${ifDefined(this.name ? this.name : undefined)}"
+        .checked=${this.checked}
+        ?disabled=${this.disabled}
+        .value=${this.value}
+        ?required="${this.required}"
+        @change="${this._handleChange}"
+        hidden
+        aria-hidden="true"
+      />
+
+      <label
+        class="nys-radiobutton"
+        for="${this.id}"
+        @click="${this._callInputHandling}"
+      >
+        <span class="nys-radiobutton__radio"></span>
+
         ${this.label &&
         html` <div class="nys-radiobutton__text">
-          <label for=${this.id} class="nys-radiobutton__label"
-            >${this.label}</label
-          >
-          <label for=${this.id} class="nys-radiobutton__description">
+          <div class="nys-radiobutton__label">${this.label}</div>
+          <div class="nys-radiobutton__description">
             <slot name="description">${this.description}</slot>
-          </label>
+          </div>
         </div>`}
       </label>
     `;
