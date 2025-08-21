@@ -10,8 +10,8 @@ export default css`
     --_nys-badge-radius: var(--nys-radius-round, 1776px);
     --_nys-badge-padding: var(--nys-space-2-px, 2px) var(--nys-space-100, 8px);
     --_nys-badge-gap: var(--nys-space-50, 4px);
-    --_nys-badge-background-color: var(--nys-color-info-weak, #e5effa);
-    --_nys-badge-border-color: var(--nys-color-info-strong, #002971);
+    --_nys-badge-background-color: var(--nys-color-base-weak, #f6f6f6);
+    --_nys-badge-border-color: var(--nys-color-base, #62666a);
     --_nys-badge-border-width: var(--nys-border-width-sm, 1px);
 
     /* Typography */
@@ -41,9 +41,9 @@ export default css`
   }
 
   /* Intent */
-  :host([intent="info"]) {
-    --_nys-badge-background-color: var(--nys-color-info-weak, #e5effa);
-    --_nys-badge-border-color: var(--nys-color-info-strong, #002971);
+  :host([intent="neutral"]) {
+    --_nys-badge-background-color: var(--nys-color-base-weak, #f6f6f6);
+    --_nys-badge-border-color: var(--nys-color-base, #62666a);
   }
   :host([intent="error"]) {
     --_nys-badge-background-color: var(--nys-color-error-weak, #f7eaea);
