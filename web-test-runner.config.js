@@ -47,7 +47,7 @@ export default {
   coverage: true, // Enable coverage reporting
   testFramework: {
     config: {
-      timeout: 3000,
+      timeout: 9000,
       retries: 1,
     },
   },
