@@ -18,12 +18,13 @@ figma.connect("<FIGMA_BADGE>", {
     label: figma.string("Prefix Label"),
   },
   example: (props) => html`
+    <!-- For custom icons treat the property as a string. i.e: prefixIcon="check" -->
     <nys-badge
       label="${props.label}"
       intent="${props.intent}"
       size="${props.size}"
-      ?${props.prefixIcon}
-      ?${props.suffixIcon}
+      prefixIcon="${props.prefixIcon}"
+      suffixIcon="${props.suffixIcon}"
       prefixLabel="${props.prefixLabel}"
     ></nys-badge>
   `,
