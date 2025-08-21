@@ -5,6 +5,7 @@ figma.connect("<FIGMA_BUTTON>", {
     label: figma.string("Label Text"),
     size: figma.enum("Size", {
       sm: "sm",
+      md: "md",
       lg: "lg",
     }),
     variant: figma.enum("Variant", {
@@ -16,6 +17,7 @@ figma.connect("<FIGMA_BUTTON>", {
     disabled: figma.boolean("Disabled"),
     prefixIcon: figma.children("Prefix Icon"),
     suffixIcon: figma.children("Suffix Icon"),
+    ariaDescription: figma.string("Aria Description"),
     circle: figma.boolean("Circle"),
     icon: figma.children("Icon"),
   },
@@ -37,43 +39,7 @@ figma.connect("<FIGMA_BUTTON>", {
       ${props.suffixIcon}
       circle="${props.circle}"
       ${props.icon}
+      ariaDescription="${props.ariaDescription}"
     ></nys-button>
   `,
 });
-
-// figma.connect("https://www.figma.com/design/0ogYpymUPQQfhELthntNbt/%F0%9F%92%A0-NYSDS-%2F-Components?m=auto&node-id=2205-1627&t=hlgC7mfYt6d2hrE9-1", {
-//   props: { icon: figma.instance("shape") },
-//   example: (props) => html`${props.icon}`,
-// });
-
-// figma.connect("<FIGMA_ICON_FIXED>", {
-//   props: { icon: figma.instance("shape") },
-//   example: (props) => html`${props.icon}`,
-// });
-
-/*
-prefixIcon: figma.instance("Prefix Icon"),
-suffixIcon: figma.instance("Suffix Icon"),
-
-prefixIcon: figma.nestedProps("Prefix Icon", {
-  shape: figma.string("shape"),
-}),
-suffixIcon: figma.nestedProps("Suffix Icon", {
-  shape: figma.string("shape"),
-}),
-
-prefixIcon="${props.prefixIcon.shape}"
-suffixIcon="${props.suffixIcon.shape}"
-
-    prefixIcon: figma.boolean("Prefix Icon", {
-      true: figma.children("Prefix Icon"),
-      false: undefined,
-    }),
-    suffixIcon: figma.boolean("Suffix Icon", {
-      true: figma.children("Suffix Icon"),
-      false: undefined,
-    }),
-
-
-
-*/
