@@ -19,8 +19,6 @@ export default {
   files: ["packages/**/*.test.ts", "src/**/*.test.ts"],
   nodeResolve: true,
   filterBrowserLogs,
-  concurrentBrowsers: 3,
-  concurrency: 4,
   browsers: [
     playwrightLauncher({
       product: "chromium",
