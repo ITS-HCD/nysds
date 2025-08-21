@@ -14,7 +14,7 @@ figma.connect("<FIGMA_BADGE>", {
     }),
     prefixIcon: figma.string("Prefix Icon"),
     suffixIcon: figma.string("Suffix Icon"),
-    prefix: figma.string("Prefix Label"),
+    prefixLabel: figma.string("Prefix Label"),
     label: figma.string("Prefix Label"),
   },
   example: (props) => html`
@@ -22,9 +22,9 @@ figma.connect("<FIGMA_BADGE>", {
       label="${props.label}"
       intent="${props.intent}"
       size="${props.size}"
-      ?prefixIcon="${props.prefixIcon}"
-      ?suffixIcon="${props.suffixIcon}"
-      prefix="${props.prefix}"
+      ?${props.prefixIcon}
+      ?${props.suffixIcon}
+      prefixLabel="${props.prefixLabel}"
     ></nys-badge>
   `,
 });
