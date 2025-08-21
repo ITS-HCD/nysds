@@ -209,10 +209,12 @@ export class NysFileinput extends LitElement {
         );
         if (firstInvalidElement === this) {
           innerButton.focus();
+          innerButton.classList.add("active-focus"); // This class styling is found within <nys-button>
         }
       } else {
         // If not part of a form, simply focus.
         innerButton.focus();
+        innerButton.classList.add("active-focus"); // This class styling is found within <nys-button>
       }
     }
   }
