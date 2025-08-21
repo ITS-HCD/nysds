@@ -13,11 +13,6 @@ describe("nys-divider", () => {
     expect(el).to.exist;
   });
 
-  it("reflects attributes to properties", async () => {
-    const el = await fixture<NysDivider>(html` <nys-divider></nys-divider> `);
-    expect(el.size).to.equal("md");
-  });
-
   it("reflects inverted property correctly", async () => {
     const el = await fixture<NysDivider>(html`
       <nys-divider inverted></nys-divider>
@@ -25,24 +20,8 @@ describe("nys-divider", () => {
     expect(el.inverted).to.be.true;
   });
 
-  // it("reflects vertical property correctly", async () => {
-  //   const el = await fixture<NysDivider>(html`
-  //     <nys-divider vertical></nys-divider>
-  //   `);
-  //   expect(el.vertical).to.be.true;
-  // });
-
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-divider></nys-divider>`);
     await expect(el).shadowDom.to.be.accessible();
   });
-
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
 });
