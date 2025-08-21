@@ -13,8 +13,10 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
+  @property({ type: Boolean, reflect: true }) tile = false;
 
   @state() private selectedValue: string | null = null;
+  @state() private _slottedDescriptionText = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
 
@@ -32,7 +34,6 @@ export class NysRadiogroup extends LitElement {
       ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
       : "md";
   }
-  @property({ type: Boolean, reflect: true }) tile = false;
 
   static styles = styles;
   private _internals: ElementInternals;
@@ -61,15 +62,18 @@ export class NysRadiogroup extends LitElement {
     this.removeEventListener("invalid", this._handleInvalid);
   }
 
-  firstUpdated() {
-    // Ensure checked state is respected
+  async firstUpdated() {
     this._initializeCheckedRadioValue();
-    // This ensures our element always participates in the form
-    this._setValue();
-    this.setRadioButtonRequire();
+    this._setValue(); // This ensures our element always participates in the form
+    this._setRadioButtonRequire();
     this._updateRadioButtonsSize();
     this._updateRadioButtonsTile();
     this._updateRadioButtonsShowError();
+    this._getSlotDescriptionForAria();
+
+    await this.updateComplete;
+    this._initializeChildAttributes();
+    this._updateGroupTabIndex();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -103,8 +107,9 @@ export class NysRadiogroup extends LitElement {
     this._internals.setFormValue(this.selectedValue);
   }
 
-  // Updates the "require" attribute of the first radiobutton underneath a radiogroup to ensure requirement for all radiobutton under the same name/group
-  private setRadioButtonRequire() {
+  // Updates the "require" attribute of the first radiobutton underneath a radiogroup.
+  // This will make sure there's a requirement for all radiobutton under the same name/group
+  private _setRadioButtonRequire() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton, index) => {
       if (this.required && index === 0) {
@@ -135,6 +140,13 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  checkValidity() {
+    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
+    const valid =
+      !this.required || radioButtons.some((radio) => (radio as any).checked);
+    return valid;
+  }
+
   // Need to account for if radiogroup already have a radiobutton checked at initialization
   private _initializeCheckedRadioValue() {
     const checkedRadio = this.querySelector("nys-radiobutton[checked]");
@@ -144,7 +156,87 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  /********************** Core Keyboard & Click Logic **********************/
+  private _getAllRadios() {
+    return Array.from(this.querySelectorAll("nys-radiobutton")) as any[];
+  }
+
+  // Arrow / Space / Enter navigation at group level
+  private async _handleKeyDown(event: KeyboardEvent) {
+    const keys = [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      " ",
+      "Enter",
+    ];
+
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+
+    const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
+    const checkedRadio =
+      radioBtns.find((radio) => radio.checked) || radioBtns[0];
+
+    // Computing the new index based on the keydown event
+    const increment =
+      event.key === " " || event.key === "Enter"
+        ? 0
+        : ["ArrowUp", "ArrowLeft"].includes(event.key)
+          ? -1
+          : 1;
+
+    let index = radioBtns.indexOf(checkedRadio) + increment;
+    // Handles the wrap around ends if user is at first or last radiobutton
+    if (index < 0) {
+      index = radioBtns.length - 1;
+    }
+    if (index >= radioBtns.length) {
+      index = 0;
+    }
+
+    // The target is the new radiobutton the user want to choose given the keydown type.
+    // We let the target's <input/> dispatch the clickEvent and call _handleRadioButtonChange() directly to make form integration work
+    const target = radioBtns[index];
+    const input = await target.getInputElement();
+    input?.click();
+
+    this._updateGroupTabIndex();
+    target.focus();
+  }
+
+  private _updateGroupTabIndex() {
+    const radios = this._getAllRadios();
+    const active = radios.find((radio) => radio.checked) || radios[0]; // If none checked, make first radiobutton tabbable
+
+    radios.forEach((radio) => {
+      if (radio.disabled) {
+        radio.tabIndex = -1;
+      } else {
+        radio.tabIndex = radio === active ? 0 : -1;
+      }
+
+      // Need to update ARIA state due to the new tabindex
+      radio.setAttribute("aria-checked", radio.checked ? "true" : "false");
+      radio.setAttribute("aria-disabled", radio.disabled ? "true" : "false");
+      radio.setAttribute("aria-required", this.required ? "true" : "false");
+    });
+  }
+
   /********************** Functions **********************/
+  // Apply ARIA & initial tabindex to each child radio
+  private _initializeChildAttributes() {
+    const radios = this._getAllRadios();
+    radios.forEach((radio) => {
+      radio.setAttribute("role", "radio");
+      radio.setAttribute("aria-checked", String(radio.checked));
+      radio.setAttribute("aria-required", String(radio.required));
+      radio.setAttribute("aria-disabled", String(radio.disabled));
+      radio.setAttribute("tabindex", "-1");
+    });
+  }
+
   // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
   private _updateRadioButtonsSize() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
@@ -175,6 +267,20 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
+  // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
+  private _getSlotDescriptionForAria() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement;
+    const nodes = slot?.assignedNodes({ flatten: true }) || [];
+
+    this._slottedDescriptionText = nodes
+      .map((node) => node.textContent?.trim())
+      .filter(Boolean)
+      .join(", ");
+  }
+
+  /******************** Event Handlers ********************/
   // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
   private _handleRadioButtonChange(event: Event) {
     const customEvent = event as CustomEvent;
@@ -183,6 +289,9 @@ export class NysRadiogroup extends LitElement {
     this.name = name;
     this.selectedValue = value;
     this._internals.setFormValue(this.selectedValue);
+
+    // Accounts for tabindex & ARIA on every click/space select
+    this._updateGroupTabIndex();
   }
 
   private async _handleInvalid(event: Event) {
@@ -193,54 +302,39 @@ export class NysRadiogroup extends LitElement {
       this.showError = true;
       this._manageRequire(); // Refresh validation message
 
-      const firstRadio = this.querySelector("nys-radiobutton");
-      const firstRadioInput = firstRadio
-        ? await (firstRadio as any).getInputElement()
-        : null;
+      const firstRadio = this.querySelector("nys-radiobutton") as any;
 
-      if (firstRadioInput) {
+      if (firstRadio) {
         // Focus only if this is the first invalid element (top-down approach)
         const form = this._internals.form;
         if (form) {
           const elements = Array.from(form.elements) as Array<
             HTMLElement & { checkValidity?: () => boolean }
           >;
-          // Find the first element in the form that is invalid
-          const firstInvalidElement = elements.find((element) => {
-            // If element is radiogroup, we need to go down one level to find the 1st radiobutton in the group
-            if (element.tagName.toLowerCase() === "nys-radiogroup") {
-              const firstRadio = element.querySelector("nys-radiobutton");
-              if (!(firstRadio as any).checkValidity()) {
-                return element;
-              }
-            } else {
-              return (
-                typeof element.checkValidity === "function" &&
-                !element.checkValidity()
-              );
-            }
-          });
 
+          // Find the first element in the form that is invalid
+          const firstInvalidElement = elements.find(
+            (element) =>
+              typeof element.checkValidity === "function" &&
+              !element.checkValidity(),
+          );
           if (firstInvalidElement === this) {
-            firstRadioInput.focus();
+            firstRadio.focus();
+            firstRadio.classList.add("active-focus"); // Needed to show focus outline; will be removed if user clicks to select
           }
         } else {
           // If not part of a form, simply focus.
-          firstRadioInput.focus();
+          firstRadio.focus();
+          firstRadio.classList.add("active-focus");
         }
       }
     }
   }
 
   render() {
-    return html` <div
-      role="radiogroup"
-      class="nys-radiogroup"
-      aria-required="${this.required ? "true" : "false"}"
-      aria-invalid="${this.showError ? "true" : "false"}"
-    >
+    return html`<div class="nys-radiogroup">
       <nys-label
-        id=${this.id}
+        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -248,7 +342,16 @@ export class NysRadiogroup extends LitElement {
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
       <div class="nys-radiogroup__content">
-        <slot></slot>
+        <fieldset role="radiogroup" @keydown=${this._handleKeyDown}>
+          <legend class="sr-only">
+            ${this.label}${this._slottedDescriptionText
+              ? ` ${this._slottedDescriptionText}`
+              : this.description
+                ? ` ${this.description}`
+                : ""}
+          </legend>
+          <slot></slot>
+        </fieldset>
       </div>
       <nys-errormessage
         ?showError=${this.showError}

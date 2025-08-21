@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-label.styles";
 
 export class NysLabel extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String }) for = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) flag = "";

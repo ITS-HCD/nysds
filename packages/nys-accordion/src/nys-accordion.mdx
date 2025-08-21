@@ -1,0 +1,116 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysAccordionStories from "./nys-accordion.stories";
+import "@nysds/nys-icon";
+import "@nysds/nys-badge";
+
+<Meta of={NysAccordionStories} title="Components/Accordion/Documentation" />
+
+# Accordion
+
+The **`nys-accordion`** and **`nys-accordionitem`** components are vertically stacked list of headers that can be clicked to reveal or hide associated content, helping to organize and condense information.
+
+If an id is not passed, a unique id will be generated.
+
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4469-1783">View in Figma</a></p>
+</div>
+---
+
+<Canvas of={NysAccordionStories.Basic} />
+
+<Controls />
+
+## Options
+
+### Individual Accordion
+The `nys-accordionitem` toggles open or closed with the `expanded` prop. Add this prop to a `nys-accordionitem` to have it open by default when the component first renders.
+
+**Note:** Always wrap `nys-accordionitem` components in a `nys-accordion`.
+<Canvas of={NysAccordionStories.IndividualAccordion} />
+
+### Accordion Wrapper
+The `nys-accordion` is a wrapper that holds a group of `nys-accordionitem` components. \
+When the `singleSelect` boolean property is set, only one `nys-accordionitem` in the wrapper can be open at a time.
+<Canvas of={NysAccordionStories.AccordionWrapper} />
+
+
+### Bordered
+The `bordered` prop is available on `nys-accordion`. When set, all `nys-accordionitem` inside the wrapper will display borders.
+<Canvas of={NysAccordionStories.Bordered} />
+
+## Usage
+
+### When to use this component
+- Use an accordion when you need to organize related information into expandable sections, reducing the need for users to scroll through long content.
+- Ideal for supplemental details like optional steps, extra instructions, or secondary eligibility notes—similar to FAQs.
+- Helpful in mobile layouts to keep pages compact while still allowing access to full details.
+
+### When to consider something else
+- Do not hide essential, universal information such as critical deadlines, main eligibility criteria, or urgent alerts inside collapsed panels. Keep these visible by default!
+- If users need to compare details from multiple sections at once, consider using a table or side-by-side layout instead of an accordion.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - Use accordions for FAQs on state services, like DMV procedures or benefits information.
+      - Use to break up long program descriptions into manageable sections without overwhelming the reader.
+      - Label headings clearly so users understand the content before expanding.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - Don't hide time-sensitive deadlines or required steps in a collapsed section.
+      - Don't use vague or unclear headings that make it hard to know what is inside.
+      - Don't overuse accordions for content that is short enough to display fully on the page.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-accordionitem` component includes the following accessibility-focused features:
+
+- Keyboard navigation (e.g. Tab to move between headers, Enter or Space to toggle).
+- Headers are large enough to interact with easily (minimum 44x44px).
+
+
+## Events
+
+The `nys-accordionitem` component emits the following events:
+
+1. `nys-accordionitem-toggle`: Emitted when the accordion is clicked.
+
+**Event details** \
+The event includes a detail object with the following properties:
+- id (string): The id of the accordion.
+- heading (string): The accordion’s heading text.
+- expanded (boolean): true if the accordion is expanded, otherwise false.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the accordion component
+const accordion = document.querySelector("nys-accordionitem");
+
+// Listen for the '"nys-accordionitem-toggle' event
+accordion.addEventListener("nys-accordionitem-toggle", () => {
+	console.log("Accordion toggled");
+	console.log("Accordion details:", event.detail);
+});
+``` 
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- `<nys-icon>`
