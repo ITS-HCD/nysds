@@ -25,21 +25,21 @@ export default {
       product: "chromium",
       launchOptions: {
         headless: true, // Forces the browser to open in headless mode
-        // slowMo: 250, // Optional: slows down operations to make debugging easier
+        slowMo: 250, // Optional: slows down operations to make debugging easier
       },
     }),
     playwrightLauncher({
       product: "webkit",
       launchOptions: {
         headless: true, // Forces the browser to open in non-headless mode
-        // slowMo: 250, // Optional: slows down operations to make debugging easier
+        slowMo: 250, // Optional: slows down operations to make debugging easier
       },
     }),
     playwrightLauncher({
       product: "firefox",
       launchOptions: {
         headless: true, // Forces the browser to open in non-headless mode
-        // slowMo: 250, // Optional: slows down operations to make debugging easier
+        slowMo: 250, // Optional: slows down operations to make debugging easier
       },
     }),
   ],
