@@ -1,6 +1,8 @@
 import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import { html } from 'lit';
 import * as NysSelectStories from './nys-select.stories';
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysSelectStories} title="Components/Select/Documentation" />
 
@@ -8,11 +10,16 @@ import * as NysSelectStories from './nys-select.stories';
 
 The **`nys-select`** is a reusable web component for use in New York State digital products. It allows users to select data from a dropdown to be collected. It accepts the child element `nys-option` to define the options in the dropdown.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9877">View in Figma</a></p>
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefix="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9877">View in Figma</a></p>
+</div>
 
 ***
 

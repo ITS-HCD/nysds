@@ -3,10 +3,12 @@ import { execSync } from "child_process";
 // Define the build order for your packages
 const packages = [
   { name: "styles", path: "packages/styles" },
-  { name: "nys-backtotop", path: "packages/nys-backtotop" },
-  { name: "nys-button", path: "packages/nys-button" },
-  { name: "nys-avatar", path: "packages/nys-avatar" },
+  { name: "nys-accordion", path: "packages/nys-accordion" },
   { name: "nys-alert", path: "packages/nys-alert" },
+  { name: "nys-avatar", path: "packages/nys-avatar" },
+  { name: "nys-backtotop", path: "packages/nys-backtotop" },
+  { name: "nys-badge", path: "packages/nys-badge" },
+  { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
   { name: "nys-fileinput", path: "packages/nys-fileinput" },
   { name: "nys-errormessage", path: "packages/nys-errormessage" },

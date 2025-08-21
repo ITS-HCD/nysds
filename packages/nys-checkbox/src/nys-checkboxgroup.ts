@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-checkbox.styles";
 
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
@@ -14,6 +14,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @state() private _slottedDescriptionText = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
 
@@ -63,9 +64,10 @@ export class NysCheckboxgroup extends LitElement {
   firstUpdated() {
     // This ensures our checkboxes sets the value only once for formData (not within the individual checkboxes)
     this._setGroupExist();
-    this.updateCheckboxSize();
-    this.updateCheckboxTile();
-    this.updateCheckboxShowError();
+    this._updateCheckboxSize();
+    this._updateCheckboxTile();
+    this._updateCheckboxShowError();
+    this._getSlotDescriptionForAria();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -75,13 +77,13 @@ export class NysCheckboxgroup extends LitElement {
       }
     }
     if (changedProperties.has("size")) {
-      this.updateCheckboxSize();
+      this._updateCheckboxSize();
     }
     if (changedProperties.has("tile")) {
-      this.updateCheckboxTile();
+      this._updateCheckboxTile();
     }
     if (changedProperties.has("showError")) {
-      this.updateCheckboxShowError();
+      this._updateCheckboxShowError();
     }
   }
 
@@ -91,6 +93,97 @@ export class NysCheckboxgroup extends LitElement {
     checkboxes.forEach((checkbox: any) => {
       checkbox.groupExist = true;
     });
+  }
+
+  // Initial update on checkbox required attribute
+  private async _setupCheckboxRequired() {
+    const firstCheckbox = this.querySelector("nys-checkbox");
+    const message = this.errorMessage || "This field is required";
+
+    const firstCheckboxInput = firstCheckbox
+      ? await (firstCheckbox as any).getInputElement()
+      : null;
+
+    this._internals.setValidity(
+      { valueMissing: true },
+      message,
+      firstCheckboxInput ? firstCheckboxInput : this,
+    );
+  }
+
+  // Updates the required attribute of each checkbox in the group
+  private async _manageCheckboxRequired() {
+    if (this.required) {
+      const message = this.errorMessage || "Please select at least one option.";
+      const firstCheckbox = this.querySelector("nys-checkbox");
+      const firstCheckboxInput = firstCheckbox
+        ? await (firstCheckbox as any).getInputElement()
+        : null;
+
+      let atLeastOneChecked = false;
+      const checkboxes = this.querySelectorAll("nys-checkbox");
+      // Loop through each child checkbox to see if one is checked.
+      checkboxes.forEach((checkbox: any) => {
+        if (checkbox.checked) {
+          atLeastOneChecked = true;
+        }
+      });
+
+      if (atLeastOneChecked) {
+        this._internals.setValidity({});
+        this.showError = false;
+      } else {
+        this._internals.setValidity(
+          { valueMissing: true },
+          message,
+          firstCheckboxInput ? firstCheckboxInput : this,
+        );
+        this.showError = true;
+      }
+    }
+  }
+
+  // Updates the size of each checkbox in the group
+  private _updateCheckboxSize() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.setAttribute("size", this.size);
+    });
+  }
+
+  private _updateCheckboxTile() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (this.tile) {
+        checkbox.toggleAttribute("tile", true);
+      } else {
+        checkbox.removeAttribute("tile");
+      }
+    });
+  }
+
+  private _updateCheckboxShowError() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (this.showError) {
+        checkbox.setAttribute("showError", "");
+      } else {
+        checkbox.removeAttribute("showError");
+      }
+    });
+  }
+
+  // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
+  private _getSlotDescriptionForAria() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement;
+    const nodes = slot?.assignedNodes({ flatten: true }) || [];
+
+    this._slottedDescriptionText = nodes
+      .map((node) => node.textContent?.trim())
+      .filter(Boolean)
+      .join(", ");
   }
 
   private async _handleInvalid(event: Event) {
@@ -143,22 +236,7 @@ export class NysCheckboxgroup extends LitElement {
     }
   }
 
-  // Initial update on checkbox required attribute
-  private async _setupCheckboxRequired() {
-    const firstCheckbox = this.querySelector("nys-checkbox");
-    const message = this.errorMessage || "This field is required";
-
-    const firstCheckboxInput = firstCheckbox
-      ? await (firstCheckbox as any).getInputElement()
-      : null;
-
-    this._internals.setValidity(
-      { valueMissing: true },
-      message,
-      firstCheckboxInput ? firstCheckboxInput : this,
-    );
-  }
-
+  /******************** Event Handlers ********************/
   // Similar to how native forms handle multiple same-name fields, we group the selected values into a list for FormData.
   private _handleCheckboxChange(event: Event) {
     const customEvent = event as CustomEvent;
@@ -177,87 +255,36 @@ export class NysCheckboxgroup extends LitElement {
     this._manageCheckboxRequired();
   }
 
-  // Updates the required attribute of each checkbox in the group
-  private async _manageCheckboxRequired() {
-    if (this.required) {
-      const message = this.errorMessage || "Please select at least one option.";
-      const firstCheckbox = this.querySelector("nys-checkbox");
-      const firstCheckboxInput = firstCheckbox
-        ? await (firstCheckbox as any).getInputElement()
-        : null;
-
-      let atLeastOneChecked = false;
-      const checkboxes = this.querySelectorAll("nys-checkbox");
-      // Loop through each child checkbox to see if one is checked.
-      checkboxes.forEach((checkbox: any) => {
-        if (checkbox.checked) {
-          atLeastOneChecked = true;
-        }
-      });
-
-      if (atLeastOneChecked) {
-        this._internals.setValidity({});
-        this.showError = false;
-      } else {
-        this._internals.setValidity(
-          { valueMissing: true },
-          message,
-          firstCheckboxInput ? firstCheckboxInput : this,
-        );
-        this.showError = true;
-      }
-    }
-  }
-
-  // Updates the size of each checkbox in the group
-  private updateCheckboxSize() {
-    const checkboxes = this.querySelectorAll("nys-checkbox");
-    checkboxes.forEach((checkbox) => {
-      checkbox.setAttribute("size", this.size);
-    });
-  }
-
-  private updateCheckboxTile() {
-    const checkboxes = this.querySelectorAll("nys-checkbox");
-    checkboxes.forEach((checkbox) => {
-      if (this.tile) {
-        checkbox.toggleAttribute("tile", true);
-      } else {
-        checkbox.removeAttribute("tile");
-      }
-    });
-  }
-
-  private updateCheckboxShowError() {
-    const checkboxes = this.querySelectorAll("nys-checkbox");
-    checkboxes.forEach((checkbox) => {
-      if (this.showError) {
-        checkbox.setAttribute("showError", "");
-      } else {
-        checkbox.removeAttribute("showError");
-      }
-    });
-  }
-
   render() {
-    return html` <div class="nys-checkboxgroup" role="group">
-      <nys-label
-        for=${this.id}
-        label=${this.label}
-        description=${this.description}
-        flag=${this.required ? "required" : this.optional ? "optional" : ""}
-      >
-        <slot name="description" slot="description">${this.description}</slot>
-      </nys-label>
-      <div class="nys-checkboxgroup__content">
-        <slot></slot>
+    return html`
+      <div class="nys-checkboxgroup">
+        <nys-label
+          for=${this.id}
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+        >
+          <slot name="description" slot="description">${this.description}</slot>
+        </nys-label>
+        <div class="nys-checkboxgroup__content">
+          <fieldset>
+            <legend class="sr-only">
+              ${this.label}${this._slottedDescriptionText
+                ? ` ${this._slottedDescriptionText}`
+                : this.description
+                  ? ` ${this.description}`
+                  : ""}
+            </legend>
+            <slot></slot>
+          </fieldset>
+        </div>
+        <nys-errormessage
+          ?showError=${this.showError}
+          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          .showDivider=${!this.tile}
+        ></nys-errormessage>
       </div>
-      <nys-errormessage
-        ?showError=${this.showError}
-        errorMessage=${this._internals.validationMessage || this.errorMessage}
-        .showDivider=${!this.tile}
-      ></nys-errormessage>
-    </div>`;
+    `;
   }
 }
 

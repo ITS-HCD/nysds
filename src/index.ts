@@ -1,8 +1,10 @@
 // Import and re-export individual components
+export * from "../packages/nys-accordion/src/index";
 export * from "../packages/nys-alert/src/index";
 export * from "../packages/nys-avatar/src/index";
 export * from "../packages/nys-backtotop/src/index";
 export * from "../packages/nys-button/src/index";
+export * from "../packages/nys-badge/src/index";
 export * from "../packages/nys-checkbox/src/index";
 export * from "../packages/nys-errormessage/src/index";
 export * from "../packages/nys-fileinput/src/index";
