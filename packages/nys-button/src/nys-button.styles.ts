@@ -410,7 +410,9 @@ export default css`
     cursor: not-allowed;
   }
 
-  .nys-button:focus-visible {
+  /* The .active-focus comes from components that wants to focus on the <nys-button>'s inner native button (e.g. <nys-fileinput> for form validation) */
+  .nys-button:focus-visible,
+  .active-focus {
     outline-offset: var(--_nys-button-offset-focus);
     outline: solid var(--_nys-button-width-focus) var(--_nys-button-color-focus);
   }
