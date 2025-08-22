@@ -133,3 +133,40 @@ figma.connect("<FIGMA_RADIOGROUP>", {
         ></nys-radiobutton>
       </nys-radiogroup>`,
 });
+
+figma.connect("<FIGMA_RADIOBUTTON>", {
+  props: {
+    label: figma.nestedProps("Label", {
+      text: figma.string("Label"),
+      optional: figma.boolean("Optional"),
+      required: figma.boolean("Required"),
+      description: figma.boolean("Description", {
+        true: figma.string("↳ Description"),
+        false: undefined,
+      }),
+    }),
+    error: figma.nestedProps("_Error", {
+      message: figma.string("Error Message"),
+    }),
+    input: figma.nestedProps("Input", {
+      showError: figma.boolean("Error"),
+      radioText: figma.string("Radio Label"),
+      radioDescription: figma.boolean("Radio Description", {
+        true: figma.string("↳ Radio Description"),
+        false: undefined,
+      }),
+    }),
+    checked: figma.boolean("Checked"),
+    disabled: figma.boolean("Disabled"),
+  },
+  example: (props) => html`
+    <nys-radiobutton
+      label="${props.input.radioText}"
+      description="${props.input.radioDescription}"
+      value="${props.input.radioText}"
+      name="---REPLACE_NAME---"
+      checked="${props.checked}"
+      disabled="${props.disabled}"
+    ></nys-radiobutton>
+  `,
+});

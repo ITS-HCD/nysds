@@ -10,21 +10,22 @@ figma.connect("<FIGMA_BADGE>", {
     }),
     size: figma.enum("Size", {
       sm: "sm",
-      md: "sm",
+      md: "md",
     }),
-    prefixIcon: figma.boolean("Prefix Icon"),
-    suffixIcon: figma.boolean("Suffix Icon"),
-    prefix: figma.string("Prefix"),
-    label: figma.string("Label"),
+    prefixIcon: figma.string("Prefix Icon"),
+    suffixIcon: figma.string("Suffix Icon"),
+    prefixLabel: figma.string("Prefix Label"),
+    label: figma.string("Prefix Label"),
   },
   example: (props) => html`
+    <!-- For custom icons treat the property as a string. i.e: prefixIcon="check" -->
     <nys-badge
       label="${props.label}"
       intent="${props.intent}"
       size="${props.size}"
-      ?prefixIcon="${props.prefixIcon}"
-      ?suffixIcon="${props.suffixIcon}"
-      prefix="${props.prefix}"
+      prefixIcon="${props.prefixIcon}"
+      suffixIcon="${props.suffixIcon}"
+      prefixLabel="${props.prefixLabel}"
     ></nys-badge>
   `,
 });
