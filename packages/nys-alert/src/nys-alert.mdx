@@ -138,6 +138,12 @@ The `nys-alert` component emits the following events:
 
 1. `nys-alert-closed`: Fire when the alert is dismissed by the user (i.e. via a close button).
 
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the alert.
+- type (string): The alert’s type (e.g., "success", "error", "info").
+- label (string): The alert’s heading text.
+
 You can listen to these events using JavaScript:
 
 ```js
