@@ -6,20 +6,20 @@ export default css`
     --_nys-alert-border-width: var(--nys-border-width-lg, 4px);
     --_nys-alert-border-radius: var(--nys-radius-md, 4px);
     --_nys-alert-color: var(
-      --nys-color-text,
-      var(--nys-color-neutral-900, #1b1b1b)
+      --nys-alert-color,
+      var(--nys-color-text, var(--nys-color-neutral-900, #1b1b1b))
     );
     --_nys-alert-color--link: var(
-      --nys-color-link,
-      var(--nys-color-blue-600, #004dd1)
+      --nys-alert-color--link,
+      var(--nys-color-link, var(--nys-color-blue-600, #004dd1))
     );
     --_nys-alert-color--link--hover: var(
-      --nys-color-link-strong,
-      var(--nys-color-blue-700, #003ba1)
+      --nys-alert-color--link--hover,
+      var(--nys-color-link-strong, var(--nys-color-blue-700, #003ba1))
     );
     --_nys-alert-color--link--active: var(
-      --nys-color-link-strongest,
-      var(--nys-color-blue-800, #002971)
+      --nys-alert-color--link--active,
+      var(--nys-color-link-strongest, var(--nys-color-blue-800, #002971))
     );
     --_nys-alert-padding: var(--nys-space-250, 20px);
     --_nys-alert-font-family: var(
@@ -44,8 +44,8 @@ export default css`
 
     /* Border specifics */
     --_nys-alert-border-color: var(
-      --nys-color-base,
-      var(--nys-color-neutral-600, #62666a)
+      --nys-alert-border-color,
+      var(--nys-color-base, var(--nys-color-neutral-600, #62666a))
     );
 
     /* Background type specifics */
@@ -162,8 +162,8 @@ export default css`
   /* Alert Types */
   :host([type="info"]) {
     --_nys-alert-border-color: var(
-      --nys-color-info,
-      var(--nys-color-blue-600, #004dd1)
+      --nys-alert-border-color,
+      var(--nys-color-info, var(--nys-color-blue-600, #004dd1))
     );
     --_nys-alert-background-color: var(
       --nys-color-info-weak,
@@ -172,8 +172,8 @@ export default css`
   }
   :host([type="success"]) {
     --_nys-alert-border-color: var(
-      --nys-color-success,
-      var(--nys-color-green-600, #1e752e)
+      --nys-alert-border-color,
+      var(--nys-color-success, var(--nys-color-green-600, #1e752e))
     );
     --_nys-alert-background-color: var(
       --nys-color-success-weak,
@@ -182,8 +182,8 @@ export default css`
   }
   :host([type="warning"]) {
     --_nys-alert-border-color: var(
-      --nys-color-warning,
-      var(--nys-color-yellow-400, #face00)
+      --nys-alert-border-color,
+      var(--nys-color-warning, var(--nys-color-yellow-400, #face00))
     );
     --_nys-alert-background-color: var(
       --nys-color-warning-weak,
@@ -192,8 +192,8 @@ export default css`
   }
   :host([type="danger"]) {
     --_nys-alert-border-color: var(
-      --nys-color-danger,
-      var(--nys-color-red-600, #b52c2c)
+      --nys-alert-border-color,
+      var(--nys-color-danger, var(--nys-color-red-600, #b52c2c))
     );
     --_nys-alert-background-color: var(
       --nys-color-danger-weak,
@@ -202,28 +202,28 @@ export default css`
   }
   :host([type="emergency"]) {
     --_nys-alert-border-color: var(
-      --nys-color-emergency,
-      var(--nys-color-red-800, #721c1c)
+      --nys-alert-border-color,
+      var(--nys-color-emergency, var(--nys-color-red-800, #721c1c))
     );
     --_nys-alert-background-color: var(
       --nys-color-emergency,
       var(--nys-color-red-800, #721c1c)
     );
     --_nys-alert-color: var(
-      --nys-color-text-reverse,
-      var(--nys-color-white, #fff)
+      --nys-alert-color,
+      var(--nys-color-text-reverse, var(--nys-color-white, #fff))
     );
     --_nys-alert-color--link: var(
-      --nys-color-link-reverse-neutral,
-      var(--nys-color-white, #fff)
+      --nys-alert-color--link,
+      var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff))
     );
     --_nys-alert-color--link--hover: var(
-      --nys-color-link-reverse-neutral,
-      var(--nys-color-white, #fff)
+      --nys-alert-color--link--hover,
+      var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff))
     );
     --_nys-alert-color--link--active: var(
-      --nys-color-link-reverse-neutral,
-      var(--nys-color-white, #fff)
+      --nys-alert-color--link--active,
+      var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff))
     );
   }
   :host([type="emergency"]) a:hover {
