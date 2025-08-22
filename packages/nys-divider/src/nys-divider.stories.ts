@@ -45,7 +45,7 @@ export const Basic: Story = {
 export const Inverted: Story = {
   render: () => html`
     <div
-      style="display: flex; flex-direction: column; gap: var(--nys-space-200, 16px); background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);"
+      style="display: flex; flex-direction: column; background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);"
     >
       <div>sample content</div>
       <nys-divider inverted></nys-divider>
