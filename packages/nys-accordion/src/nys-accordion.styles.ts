@@ -6,6 +6,8 @@ export default css`
 
     /* Global Accordion Styles */
     --_nys-accordion-border-radius: var(--nys-radius-md, 4px);
+    --_nys-accordion-border-width: var(--nys-border-width-md, 2px);
+    --_nys-accordion-border-color: var(--nys-color-neutral-50, #ededed);
     --_nys-accordion-padding--x: var(--nys-space-250, 20px);
     --_nys-accordion-padding--y: var(--nys-space-200, 16px);
     --_nys-accordion-outline-width: var(--nys-border-width-md, 2px);
@@ -131,8 +133,8 @@ export default css`
   }
 
   :host([bordered]) .nys-accordionitem__content-slot-container {
-    border: var(--nys-border-width-md, 2px) solid
-      var(--nys-color-neutral-50, #ededed);
+    border: var(--_nys-accordion-border-width) solid
+      var(--_nys-accordion-border-color);
     border-radius: 0 0 var(--_nys-accordion-border-radius)
       var(--_nys-accordion-border-radius);
   }
