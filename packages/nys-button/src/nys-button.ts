@@ -145,6 +145,8 @@ export class NysButton extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
+    const button = this.shadowRoot?.querySelector(".nys-button");
+    button?.classList.remove("active-focus");
     this.dispatchEvent(new Event("nys-blur"));
   }
 
@@ -165,9 +167,20 @@ export class NysButton extends LitElement {
       e.key === " " ||
       e.key === "Enter"
     ) {
+      if (this.disabled) return;
+
       e.preventDefault();
-      if (!this.disabled) {
-        this._manageFormAction(e);
+
+      if (this.href) {
+        // Click the internal <a> so native navigation happens
+        const linkEl = this.renderRoot.querySelector(
+          "a.nys-button",
+        ) as HTMLAnchorElement;
+        if (linkEl) {
+          linkEl.click();
+        }
+      } else {
+        this.click(); // Normal button mode
       }
     }
   }
@@ -197,6 +210,9 @@ export class NysButton extends LitElement {
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
+                @keydown="${this._handleKeydown}"
+                role="button"
+                tabindex="${this.disabled ? -1 : 0}"
               >
                 ${this.prefixIcon && this.variant !== "text"
                   ? html`<slot name="prefix-icon">
@@ -248,6 +264,7 @@ export class NysButton extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
+              role="button"
             >
               ${this.prefixIcon && this.variant !== "text"
                 ? html`<slot name="prefix-icon">

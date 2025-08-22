@@ -1,6 +1,8 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysTooltipStories from "./nys-tooltip.stories";
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysTooltipStories} title="Components/Tooltip/Documentation" />
 
@@ -11,11 +13,18 @@ The **`nys-tooltip`** component is a reusable wrapper that displays a brief mess
 
 If an id is not passed, a unique id will be generated.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--uikit">
-	<a href="https://www.figma.com/design/TODO/add/url" target="_blank">View in Figma</a>
-</p>
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4298-1477" target="_blank">View in Figma</a>
+  </p>
+</div>
 
 ---
 

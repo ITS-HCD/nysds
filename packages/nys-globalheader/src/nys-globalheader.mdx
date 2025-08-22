@@ -2,6 +2,7 @@ import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blo
 import { html } from 'lit';
 import * as NysGlobalHeaderStories from './nys-globalheader.stories';
 import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysGlobalHeaderStories} title="Components/GlobalHeader/Documentation" />
 
@@ -9,11 +10,16 @@ import "@nysds/nys-icon";
 
 The **`nys-globalheader`** component is a reusable web component for use in New York State digital products. It helps provide users with consistent access to key features, branding, and primary navigation across all pages.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-11924">View in Figma</a></p>
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-11924">View in Figma</a></p>
+</div>
 
 ***
 

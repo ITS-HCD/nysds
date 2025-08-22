@@ -1,0 +1,47 @@
+{
+  "name": "@nysds/nys-badge",
+  "version": "1.7.0",
+  "description": "The Badge component from the NYS Design System.",
+  "module": "dist/nys-badge.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/nys-badge.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch"
+  },
+  "peerDependencies": {
+    "lit": "^3.2.1"
+  },
+  "dependencies": {
+    "@nysds/nys-icon": "^1.7.0"
+  },
+  "devDependencies": {
+    "lit": "^3.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.3.4"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "badge",
+    "forms"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}
+

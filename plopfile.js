@@ -19,7 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.6.0", //update this to the latest version when new release is made
+        default: "1.7.0", //update this to the latest version when new release is made
       },
     ],
     actions: [
@@ -83,6 +83,14 @@ export default function (plop) {
         path: "src/scripts/build-order.js",
         pattern: /(\];)/,
         template: `  { name: "nys-{{componentName}}", path: "packages/nys-{{componentName}}" },\n$1`,
+      },
+      {
+        type: "modify",
+        path: "src/index.ts",
+        transform: (content, data) => {
+          const insertLine = `\nexport * from "../packages/nys-${data.componentName}/src/index";\n`;
+          return content.trimEnd() + insertLine;
+        },
       },
     ],
   });

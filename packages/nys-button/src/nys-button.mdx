@@ -2,6 +2,8 @@ import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blo
 import { html } from "lit";
 import * as NysButtonStories from "./nys-button.stories";
 import "@nysds/nys-alert"
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysButtonStories} title="Components/Button/Documentation" />
 
@@ -16,13 +18,18 @@ When using the `<nys-button>`, use the `onClick` prop (in lit.dev it's `.onClick
 </nys-alert>
 <br/>
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit">
-	<a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8292">View in Figma</a>
-</p>
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8292">View in Figma</a>
+  </p>
+</div>
 
 ---
 

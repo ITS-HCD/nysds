@@ -1,6 +1,8 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysToggleStories from "./nys-toggle.stories";
+import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysToggleStories} title="Components/Toggle/Documentation" />
 
@@ -9,11 +11,16 @@ The **`nys-toggle`** component is a reusable web component for use in New York S
 
 If an id is not passed, a unique id will be generated.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9988">View in Figma</a></p>
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9988">View in Figma</a></p>
+</div>
 
 ***
 

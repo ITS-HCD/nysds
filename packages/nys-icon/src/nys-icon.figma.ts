@@ -21,11 +21,16 @@ figma.connect("<FIGMA_ICON>", {
       "5xl": "5xl",
     }),
     // name: figma.instance("shape"),
-    name: figma.instance("shape"),
+    name: figma.instance("Shape"),
+    ariaLabel: figma.string("Aria Label"),
   },
   example: (props) => html`
     <!-- Replace icon name with name="icon_name" attribute -->
-    <nys-icon ${props.name} size="${props.size}"> </nys-icon>
+    <nys-icon
+      name="${props.name}"
+      size="${props.size}"
+      ariaLabel="${props.ariaLabel}"
+    ></nys-icon>
   `,
 });
 

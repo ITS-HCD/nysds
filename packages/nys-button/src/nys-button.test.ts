@@ -9,6 +9,15 @@ describe("nys-button", () => {
     expect(el?.type).to.equal("button");
   });
 
+  it("should have role='button' for screen readers", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Accessible Button"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button, a")!;
+
+    expect(button.getAttribute("role")).to.equal("button");
+  });
+
   it("should reflect 'label' prop", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Click Me"></nys-button>`,
@@ -27,7 +36,7 @@ describe("nys-button", () => {
     expect(button.getAttribute("aria-label")).to.equal("Custom label");
   });
 
-  it('falls back to "button" if neither ariaLabel nor label is provided', async () => {
+  it('VO falls back to "button" if neither ariaLabel nor label is provided', async () => {
     const el = await fixture(html`<nys-button></nys-button>`);
     const button = el.shadowRoot?.querySelector("button")!;
     expect(button.getAttribute("aria-label")).to.equal("button");
@@ -117,7 +126,7 @@ describe("nys-button", () => {
     expect(suffixIcon).to.exist;
   });
 
-  it(" should allow for the button to be slotted in", async () => {
+  it(" should allow for the icon to be slotted in", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button suffixIcon="slotted" size="sm">
         <nys-icon slot="suffix-icon" size="2xl" name="visibility"></nys-icon>
@@ -140,17 +149,81 @@ describe("nys-button", () => {
     button.focus();
     const focusEvent = await focusEventPromise;
     expect(focusEvent).to.exist;
+    expect(button.matches(":focus-visible")).to.be.true;
 
     // Blur event
     const blurEventPromise = oneEvent(el, "blur");
     button.blur();
     const blurEvent = await blurEventPromise;
     expect(blurEvent).to.exist;
+    expect(button.matches(":focus-visible")).to.be.false;
+
+    // Should not focus when disabled
+    button.disabled = true;
+    button.focus();
+    expect(document.activeElement).to.not.equal(button);
   });
 
-  it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-avatar></nys-avatar>`);
-    await expect(el).shadowDom.to.be.accessible();
+  it("should activate on Enter for link variants", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Keyboard Test Link" href="#"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("a")!;
+    button.addEventListener("click", (e) => e.preventDefault());
+
+    const linkEnterPromise = oneEvent(el, "click");
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await linkEnterPromise;
+
+    const linkSpacePromise = oneEvent(el, "click");
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
+        code: "Space",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await linkSpacePromise;
+  });
+
+  it("should activate on Enter and Space for onClick buttons", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button
+        label="Keyboard click test"
+        onclick="alert('testing123')"
+      ></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+
+    const buttonClickPromise = oneEvent(el, "click");
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await buttonClickPromise;
+
+    const buttonSpacePromise = oneEvent(el, "click");
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
+        code: "Space",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await buttonSpacePromise;
   });
 });
 

@@ -2,6 +2,7 @@ import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blo
 import { html } from 'lit';
 import * as NysGlobalFooterStories from './nys-globalfooter.stories';
 import "@nysds/nys-icon";
+import '@nysds/nys-badge';
 
 <Meta of={NysGlobalFooterStories} title="Components/GlobalFooter/Documentation" />
 
@@ -9,11 +10,16 @@ import "@nysds/nys-icon";
 
 The **`nys-globalfooter`** component is a reusable web component for use in New York State digital products. It helps provide users with essential information, secondary navigation, legal links, and contact details across all pages.
 
-<p className="pill pill--stable">Stable</p>
-
-<p className="pill pill--wcag">WCAG 2.2 AA</p>
-
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4003-64216">View in Figma</a></p>
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4003-64216">View in Figma</a></p>
+</div>
 
 ***
 
