@@ -106,6 +106,11 @@ The `nys-textarea` component emits the following events:
 3. **`nys-blur`** – Fired when the input loses focus.
 4. **`nys-select`** – Fired when the user selects text within the textarea.
 
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the textarea.
+- value (string): The currently selected text.
+
 You can listen to these events using JavaScript:
 
 ```js
@@ -115,7 +120,8 @@ const textarea = document.querySelector('nys-textarea');
 
 // Listen for the 'nys-input' event
 textarea.addEventListener('nys-input', (event) => {
-  console.log('Text input changed:', event.detail.value);
+  const { id, value } = event.detail;
+  console.log(`Textarea (${id}) changed:`, value);
 });
 
 // Listen for the 'nys-focus' event
@@ -130,6 +136,7 @@ textarea.addEventListener('nys-blur', () => {
 
 // Listen for the 'nys-select' event
 textarea.addEventListener('nys-select', (event) => {
-  console.log('Text selected:', event.detail.value);
+  const { id, value } = event.detail;
+  console.log(`Textarea (${id}) selected text:`, value);
 });
 ```

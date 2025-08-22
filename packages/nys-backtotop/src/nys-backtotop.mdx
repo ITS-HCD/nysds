@@ -72,36 +72,6 @@ The `nys-backtotop` component includes the following accessibility-focused featu
 - Pressing `Enter` or `Space` activates the backtotop functionality
 - Visible only when the user scrolls down the page, ensuring it does not distract from the content
 
-## Events
-
-The `nys-backtotop` component emits the following events:
-
-1. `click`: Emitted when the backtotop is clicked.
-2. `focus`: Emitted when the backtotop receives focus.
-3. `blur`: Emitted when the backtotop loses focus.
-
-You can listen to these events using JavaScript:
-
-```js
-// Select the backtotop component
-const backtotop = document.querySelector("nys-backtotop");
-
-// Listen for the 'click' event
-backtotop.addEventListener("click", () => {
-	console.log("Backtotop clicked");
-});
-
-// Listen for the 'focus' event
-backtotop.addEventListener("focus", () => {
-	console.log("Backtotop is focused");
-});
-
-// Listen for the 'blur' event
-backtotop.addEventListener("blur", () => {
-	console.log("Backtotop lost focus");
-});
-```
-
 ## Dependencies
 
 This component automatically imports the following dependencies.

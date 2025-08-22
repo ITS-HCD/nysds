@@ -179,6 +179,7 @@ export class NysCheckbox extends LitElement {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: {
+          id: this.id,
           checked: this.checked,
           name: this.name,
           value: this.value,

@@ -124,6 +124,11 @@ The `nys-select` component emits the following events:
 2. **`nys-focus`**: Emitted when the select gains focus.
 3. **`nys-blur`**: Emitted when the select loses focus.
 
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the select.
+- value (string): The value of the selected option.
+
 You can listen for these events using the `addEventListener` method on the `nys-select` element.
 
 ```js
@@ -133,7 +138,8 @@ const select = document.querySelector('nys-select');
 
 //Listen for the 'nys-change' event
 select.addEventListener('nys-change', (event) => {
-  console.log('Select changed:', event.detail.value);
+  const { id, value } = event.detail;
+  console.log(`Select (${id}) changed to: ${value}`);
 });
 
 //Listen for the 'focus' event

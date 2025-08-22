@@ -194,7 +194,7 @@ export class NysTextarea extends LitElement {
 
     this.dispatchEvent(
       new CustomEvent("nys-input", {
-        detail: { value: this.value },
+        detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
       }),
@@ -233,7 +233,7 @@ export class NysTextarea extends LitElement {
     this.value = select.value;
     this.dispatchEvent(
       new CustomEvent("selectionchange", {
-        detail: { value: this.value },
+        detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
       }),

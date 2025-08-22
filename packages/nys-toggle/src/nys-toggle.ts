@@ -67,7 +67,7 @@ export class NysToggle extends LitElement {
   private _emitChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
-        detail: { checked: this.checked },
+        detail: { id: this.id, checked: this.checked },
         bubbles: true,
         composed: true,
       }),

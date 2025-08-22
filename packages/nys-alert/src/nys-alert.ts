@@ -126,7 +126,7 @@ export class NysAlert extends LitElement {
      */
     this.dispatchEvent(
       new CustomEvent("nys-alert-closed", {
-        detail: { type: this.type, label: this.heading },
+        detail: { id: this.id, type: this.type, label: this.heading },
         bubbles: true,
         composed: true,
       }),
