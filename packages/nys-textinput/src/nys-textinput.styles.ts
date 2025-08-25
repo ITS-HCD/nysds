@@ -166,25 +166,27 @@ export default css`
 
   ::slotted(nys-button) {
     --_nys-button-height: var(--_nys-textinput-height);
-    --_nys-button-radius-left: var(--_nys-textinput-radius);
-    --_nys-button-radius-right: var(--_nys-textinput-radius);
-    --_nys-button-color-bg-disabled: var(--_nys-textinput-disabled-color);
+    --_nys-button-border-radius--left: var(--_nys-textinput-radius);
+    --_nys-button-border-radius--right: var(--_nys-textinput-radius);
+    --_nys-button-background-color--disabled: var(
+      --_nys-textinput-disabled-color
+    );
     --_nys-button-color-border-disabled: var(
       --_nys-textinput-disabled-color-text
     );
     --_nys-button-color-text-disabled: var(
       --_nys-textinput-disabled-color-text
     );
-    --_nys-button-width-border: var(--_nys-textinput-width-border);
+    --_nys-button-border-width: var(--_nys-textinput-width-border);
     z-index: 1; /* to make sure the button outline renders on top of the input */
   }
 
   .nys-textinput__buttoncontainer.has-start-button ::slotted(nys-button) {
-    --_nys-button-radius-right: 0;
+    --_nys-button-border-radius--right: 0;
   }
 
   .nys-textinput__buttoncontainer.has-end-button ::slotted(nys-button) {
-    --_nys-button-radius-left: 0;
+    --_nys-button-border-radius--left: 0;
   }
 
   .eye-icon {
@@ -194,14 +196,18 @@ export default css`
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--_nys-textinput-icon-color);
-    --_nys-button-color-bg: var(--_nys-textinput-background-color);
-    --_nys-button-color-bg-hover: var(--_nys-textinput-background-color);
-    --_nys-button-color-bg-active: var(--_nys-textinput-background-color);
-    --_nys-button-offset-focus: calc(
-      var(--_nys-button-width-focus) * -1
+    --_nys-button-background-color: var(--_nys-textinput-background-color);
+    --_nys-button-background-color--hover: var(
+      --_nys-textinput-background-color
+    );
+    --_nys-button-background-color--active: var(
+      --_nys-textinput-background-color
+    );
+    --_nys-button-outline-focus: calc(
+      var(--_nys-button-outline-width) * -1
     ); /* Needs to be negative of the offset width */
-    --_nys-button-padding-y: var(--nys-space-50, 4px);
-    --_nys-button-padding-x: var(--nys-space-50, 4px);
+    --_nys-button-padding--y: var(--nys-space-50, 4px);
+    --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-height: var(--nys-size-300, 32px);
     --_nys-button-width: var(--nys-size-400, 32px);
   }

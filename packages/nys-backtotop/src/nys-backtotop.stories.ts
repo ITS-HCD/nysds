@@ -92,8 +92,8 @@ export const Left: Story = {
           position: fixed;
           bottom: 1rem;
           right: 1rem;
-          --_nys-button-radius-left: var(--nys-radius-round);
-          --_nys-button-radius-right: var(--nys-radius-round);
+          --_nys-button-border-radius--left: var(--nys-radius-round);
+          --_nys-button-border-radius--right: var(--nys-radius-round);
         }
       </style>
 

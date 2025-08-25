@@ -146,8 +146,8 @@ export default css`
   .nys-unavheader__iconbutton {
     --_nys-button-width: var(--nys-size-400, 32px);
     --_nys-button-height: var(--nys-size-400, 32px);
-    --_nys-button-padding-y: 0;
-    --_nys-button-padding-x: 0;
+    --_nys-button-padding--y: 0;
+    --_nys-button-padding--x: 0;
   }
 
   .nys-unavheader__search {
@@ -174,15 +174,15 @@ export default css`
 
     --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
     --_nys-button-radius: var(--nys-radius-md, 4px);
-    --_nys-button-padding-y: var(--nys-space-2px, 2px);
-    --_nys-button-padding-x: var(--nys-space-50, 4px);
-    --_nys-button-width-border: 0px;
+    --_nys-button-padding--y: var(--nys-space-2px, 2px);
+    --_nys-button-padding--x: var(--nys-space-50, 4px);
+    --_nys-button-border-width: 0px;
     --_nys-button-text-decoration: underline;
     --_nys-button-color-text: var(--nys-color-link, #004dd1);
     --_nys-button-color-text-hover: var(--nys-color-link-strong, #003ba1);
     --_nys-button-color-text-active: var(--nys-color-link-strongest, #002971);
-    --_nys-button-color-bg-hover: var(--nys-color-transparent, #ffffff00);
-    --_nys-button-color-bg-active: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-background-color--hover: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-background-color--active: var(--nys-color-transparent, #ffffff00);
 
     /* typography */
     --_nys-button-font-size: var(--nys-font-size-ui-xs, 12px);
@@ -277,8 +277,8 @@ export default css`
     }
 
     #nys-unavheader__know {
-      --_nys-button-padding-x: 0px;
-      --_nys-button-padding-y: 0px;
+      --_nys-button-padding--x: 0px;
+      --_nys-button-padding--y: 0px;
     }
 
     .nys-unavheader__officialmessage {
