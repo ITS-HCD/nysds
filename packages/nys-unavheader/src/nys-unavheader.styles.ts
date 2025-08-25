@@ -138,9 +138,9 @@ export default css`
 
   #nys-unavheader__translate,
   #nys-unavheader__searchbutton {
-    --_nys-button-color-text: var(--nys-color-state-blue-700, #154973);
-    --_nys-button-color-text-hover: var(--nys-color-state-blue-700, #154973);
-    --_nys-button-color-text-active: var(--nys-color-state-blue-700, #154973);
+    --_nys-button-color: var(--nys-color-state-blue-700, #154973);
+    --_nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
+    --_nys-button-color--active: var(--nys-color-state-blue-700, #154973);
   }
 
   .nys-unavheader__iconbutton {
@@ -178,11 +178,17 @@ export default css`
     --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-border-width: 0px;
     --_nys-button-text-decoration: underline;
-    --_nys-button-color-text: var(--nys-color-link, #004dd1);
-    --_nys-button-color-text-hover: var(--nys-color-link-strong, #003ba1);
-    --_nys-button-color-text-active: var(--nys-color-link-strongest, #002971);
-    --_nys-button-background-color--hover: var(--nys-color-transparent, #ffffff00);
-    --_nys-button-background-color--active: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-color: var(--nys-color-link, #004dd1);
+    --_nys-button-color--hover: var(--nys-color-link-strong, #003ba1);
+    --_nys-button-color--active: var(--nys-color-link-strongest, #002971);
+    --_nys-button-background-color--hover: var(
+      --nys-color-transparent,
+      #ffffff00
+    );
+    --_nys-button-background-color--active: var(
+      --nys-color-transparent,
+      #ffffff00
+    );
 
     /* typography */
     --_nys-button-font-size: var(--nys-font-size-ui-xs, 12px);

@@ -171,12 +171,10 @@ export default css`
     --_nys-button-background-color--disabled: var(
       --_nys-textinput-disabled-color
     );
-    --_nys-button-color-border-disabled: var(
+    --_nys-button-border-color--disabled: var(
       --_nys-textinput-disabled-color-text
     );
-    --_nys-button-color-text-disabled: var(
-      --_nys-textinput-disabled-color-text
-    );
+    --_nys-button-color--disabled: var(--_nys-textinput-disabled-color-text);
     --_nys-button-border-width: var(--_nys-textinput-width-border);
     z-index: 1; /* to make sure the button outline renders on top of the input */
   }
