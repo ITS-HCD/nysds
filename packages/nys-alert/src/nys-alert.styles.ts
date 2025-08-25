@@ -50,8 +50,8 @@ export default css`
 
     /* Background type specifics */
     --_nys-alert-background-color: var(
-      --nys-color-base-weak,
-      var(--nys-color-neutral-10, #f6f6f6)
+      --nys-alert-background-color,
+      var(--nys-color-base-weak, var(--nys-color-neutral-10, #f6f6f6))
     );
 
     /* Theme Icon */
@@ -166,8 +166,8 @@ export default css`
       var(--nys-color-info, var(--nys-color-blue-600, #004dd1))
     );
     --_nys-alert-background-color: var(
-      --nys-color-info-weak,
-      var(--nys-color-blue-50, #e5effa)
+      --nys-alert-background-color,
+      var(--nys-color-info-weak, var(--nys-color-blue-50, #e5effa))
     );
   }
   :host([type="success"]) {
@@ -176,8 +176,8 @@ export default css`
       var(--nys-color-success, var(--nys-color-green-600, #1e752e))
     );
     --_nys-alert-background-color: var(
-      --nys-color-success-weak,
-      var(--nys-color-green-50, #e8f1ea)
+      --nys-alert-background-color,
+      var(--nys-color-success-weak, var(--nys-color-green-50, #e8f1ea))
     );
   }
   :host([type="warning"]) {
@@ -186,8 +186,8 @@ export default css`
       var(--nys-color-warning, var(--nys-color-yellow-400, #face00))
     );
     --_nys-alert-background-color: var(
-      --nys-color-warning-weak,
-      var(--nys-color-yellow-50, #fefae5)
+      --nys-alert-background-color,
+      var(--nys-color-warning-weak, var(--nys-color-yellow-50, #fefae5))
     );
   }
   :host([type="danger"]) {
@@ -196,8 +196,8 @@ export default css`
       var(--nys-color-danger, var(--nys-color-red-600, #b52c2c))
     );
     --_nys-alert-background-color: var(
-      --nys-color-danger-weak,
-      var(--nys-color-red-50, #f7eaea)
+      --nys-alert-background-color,
+      var(--nys-color-danger-weak, var(--nys-color-red-50, #f7eaea))
     );
   }
   :host([type="emergency"]) {
@@ -206,8 +206,8 @@ export default css`
       var(--nys-color-emergency, var(--nys-color-red-800, #721c1c))
     );
     --_nys-alert-background-color: var(
-      --nys-color-emergency,
-      var(--nys-color-red-800, #721c1c)
+      --nys-alert-background-color,
+      var(--nys-color-emergency, var(--nys-color-red-800, #721c1c))
     );
     --_nys-alert-color: var(
       --nys-alert-color,
