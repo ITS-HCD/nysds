@@ -232,7 +232,7 @@ export class NysTextarea extends LitElement {
     const select = e.target as HTMLSelectElement;
     this.value = select.value;
     this.dispatchEvent(
-      new CustomEvent("selectionchange", {
+      new CustomEvent("nys-selectionchange", {
         detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
