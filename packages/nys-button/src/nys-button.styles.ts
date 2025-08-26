@@ -18,7 +18,10 @@ export default css`
     --_nys-button-outline-color: var(--nys-color-focus, #004dd1);
 
     /* Global Button Colors */
-    --_nys-button-background-color: var(--nys-color-theme, #154973);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-theme, #154973)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
@@ -103,7 +106,10 @@ export default css`
   /* Filled */
   :host([variant="filled"]) {
     /* Filled - Default */
-    --_nys-button-background-color: var(--nys-color-theme, #154973);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-theme, #154973)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
@@ -156,7 +162,10 @@ export default css`
   /* Outline */
   :host([variant="outline"]) {
     /* Outline - Default */
-    --_nys-button-background-color: var(--nys-color-surface, #ffffff);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-surface, #ffffff)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-theme, #154973)
@@ -211,7 +220,10 @@ export default css`
     --_nys-button-text-decoration: underline;
 
     /* Text - Default */
-    --_nys-button-background-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-link, #004dd1)
@@ -264,7 +276,10 @@ export default css`
   /* Ghost */
   :host([variant="ghost"]) {
     /* Ghost - Default */
-    --_nys-button-background-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-text, #1b1b1b)
@@ -319,7 +334,10 @@ export default css`
   /* Filled Inverted */
   :host([variant="filled"][inverted]) {
     /* Filled Inverted - Default */
-    --_nys-button-background-color: var(--nys-color-surface, #ffffff);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-surface, #ffffff)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-text, #1b1b1b)
@@ -369,7 +387,10 @@ export default css`
   /* Outline Inverted */
   :host([variant="outline"][inverted]) {
     /* Outline Inverted - Default */
-    --_nys-button-background-color: var(--nys-color-surface-reverse, #1b1b1b);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-surface-reverse, #1b1b1b)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
@@ -430,7 +451,10 @@ export default css`
     --_nys-button-text-decoration: underline;
 
     /* Text Inverted - Default */
-    --_nys-button-background-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-link-reverse, #a7a9ab)
@@ -486,7 +510,10 @@ export default css`
   /* Ghost Inverted */
   :host([variant="ghost"][inverted]) {
     /* Ghost Inverted - Default */
-    --_nys-button-background-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-background-color: var(
+      --nys-button-background-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
     --_nys-button-color: var(
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
