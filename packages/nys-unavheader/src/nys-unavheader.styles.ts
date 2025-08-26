@@ -3,18 +3,18 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Unav Header Styles */
-    --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
-    --_nys-unavheader-bg-color: var(
+    --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
+    --_nys-unavheader-background-color: var(
       --nys-color-surface,
       var(--nys-color-white, #ffffff)
     );
-    --_nys-unavheader-text-color: var(
+    --_nys-unavheader-color: var(
       --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
 
     /* Trustbar, Search Bar, and Language */
-    --_nys-unavheader-surface-raised-color: var(
+    --_nys-unavheader-background-color--section-raised: var(
       --nys-color-surface-raised,
       var(--nys-color-neutral-10, #f6f6f6)
     );
@@ -46,7 +46,7 @@ export default css`
   }
 
   .nys-unavheader__mainwrapper {
-    background-color: var(--_nys-unavheader-bg-color);
+    background-color: var(--_nys-unavheader-background-color);
     display: flex;
     justify-content: center;
   }
@@ -105,7 +105,7 @@ export default css`
     display: flex;
     justify-content: space-between;
     background-color: var(--nys-color-neutral-100, #d0d0ce);
-    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-gutter);
+    padding: var(--nys-space-100, 8px) var(--_nys-unavheader-padding--gutter);
     cursor: pointer;
   }
 
@@ -124,11 +124,11 @@ export default css`
 
   .nys-unavheader__left {
     order: 2;
-    padding-left: var(--_nys-unavheader-gutter);
+    padding-left: var(--_nys-unavheader-padding--gutter);
   }
   .nys-unavheader__right {
     order: 3;
-    padding-right: var(--_nys-unavheader-gutter);
+    padding-right: var(--_nys-unavheader-padding--gutter);
   }
 
   .nys-unavheader__trustbarwrapper {
@@ -164,7 +164,7 @@ export default css`
 
   #nys-unavheader__official {
     width: max-content;
-    color: var(--_nys-unavheader-text-color);
+    color: var(--_nys-unavheader-color);
   }
 
   #nys-unavheader__know {
@@ -222,16 +222,16 @@ export default css`
   }
 
   .nys-unavheader__searchdropdown.show {
-    background-color: var(--_nys-unavheader-surface-raised-color);
-    padding: var(--nys-space-250, 20px) var(--_nys-unavheader-gutter);
+    background-color: var(--_nys-unavheader-background-color--section-raised);
+    padding: var(--nys-space-250, 20px) var(--_nys-unavheader-padding--gutter);
   }
 
   .nys-unavheader__trustbar.show {
-    background-color: var(--_nys-unavheader-surface-raised-color);
-    color: var(--_nys-unavheader-text-color);
+    background-color: var(--_nys-unavheader-background-color--section-raised);
+    color: var(--_nys-unavheader-color);
     display: flex;
     justify-content: center;
-    padding: var(--nys-space-400, 32px) var(--_nys-unavheader-gutter);
+    padding: var(--nys-space-400, 32px) var(--_nys-unavheader-padding--gutter);
     margin: auto;
   }
 
@@ -259,7 +259,7 @@ export default css`
     min-width: 100%;
     width: max-content;
     z-index: 99999;
-    background-color: var(--_nys-unavheader-surface-raised-color);
+    background-color: var(--_nys-unavheader-background-color--section-raised);
     color: var(--nys-color-state-blue-700, #154973);
     margin-top: var(--nys-space-150, 12px);
     right: 0;
@@ -283,7 +283,7 @@ export default css`
   @media (min-width: 0) and (max-width: 479px) {
     /* Mobile (XS) */
     :host {
-      --_nys-unavheader-gutter: var(--nys-gutter-xs, 20px);
+      --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
     }
 
     #nys-unavheader__know {
@@ -305,7 +305,7 @@ export default css`
   @media (min-width: 480px) and (max-width: 767px) {
     /* Mobile Large (SM - Above 480px) */
     :host {
-      --_nys-unavheader-gutter: var(--nys-gutter-sm, 20px);
+      --_nys-unavheader-padding--gutter: var(--nys-gutter-sm, 20px);
     }
 
     .nys-unavheader--sm {
@@ -316,7 +316,7 @@ export default css`
   @media (min-width: 768px) and (max-width: 1023px) {
     /* Tablet (MD - Above 768px) */
     :host {
-      --_nys-unavheader-gutter: var(--nys-gutter-md, 32px);
+      --_nys-unavheader-padding--gutter: var(--nys-gutter-md, 32px);
     }
     .nys-unavheader__trustcontent {
       flex-direction: row;
@@ -336,7 +336,7 @@ export default css`
   @media (min-width: 1024px) and (max-width: 1279px) {
     /* Desktop (LG - Above 1024px) */
     :host {
-      --_nys-unavheader-gutter: var(--nys-gutter-lg, 32px);
+      --_nys-unavheader-padding--gutter: var(--nys-gutter-lg, 32px);
     }
     .nys-unavheader__languagelist.show {
       margin-top: var(--nys-space-100, 8px);
@@ -358,7 +358,7 @@ export default css`
   @media (min-width: 1280px) {
     /* Desktop Large (XL - Above 1280px) */
     :host {
-      --_nys-unavheader-gutter: var(--nys-gutter-xl, 64px);
+      --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);
     }
     .nys-unavheader__trustcontent {
       flex-direction: row;
