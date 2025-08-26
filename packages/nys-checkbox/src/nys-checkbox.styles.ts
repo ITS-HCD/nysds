@@ -61,7 +61,7 @@ export default css`
       --nys-color-theme-strong,
       #0e324f
     );
-    --_nys-checkbox-checked-hover-color-border: var(
+    --_nys-checkbox-border-color--checked--hover: var(
       --nys-color-theme-strong,
       #0e324f
     );
@@ -70,20 +70,20 @@ export default css`
       --nys-color-theme-stronger,
       #081b2b
     );
-    --_nys-checkbox-checked-pressed-color-border: var(
+    --_nys-checkbox-border-color--checked--active: var(
       --nys-color-theme-stronger,
       #081b2b
     );
     /* Disabled */
-    --_nys-checkbox-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
+    --_nys-checkbox-background-color--disabled: var(
+      --nys-color-ink-reverse,
+      #f0f0f0
+    );
     --_nys-checkbox-disabled-color-border: var(
       --nys-color-neutral-400,
       #757575
     );
-    --_nys-checkbox-disabled-color-text: var(
-      --nys-color-text-disabled,
-      #bec0c1
-    );
+    --_nys-checkbox-color--disabled: var(--nys-color-text-disabled, #bec0c1);
     /* Disabled Checked */
     --_nys-checkbox-disabled-checked-color-bg: var(
       --nys-color-neutral-100,
@@ -263,18 +263,18 @@ export default css`
 
   /* Disabled */
   .nys-checkbox__checkbox:disabled {
-    background-color: var(--_nys-checkbox-disabled-color-bg);
+    background-color: var(--_nys-checkbox-background-color--disabled);
     border-color: var(--_nys-checkbox-disabled-color-border);
     cursor: not-allowed;
   }
   .nys-checkbox__content:has(.nys-checkbox__checkbox:disabled)
     .nys-checkbox__text
     * {
-    color: var(--_nys-checkbox-disabled-color-text);
+    color: var(--_nys-checkbox-color--disabled);
     cursor: not-allowed;
   }
   :host([tile]) .nys-checkbox:has(.nys-checkbox__checkbox:disabled) {
-    background-color: var(--_nys-checkbox-disabled-color-bg);
+    background-color: var(--_nys-checkbox-background-color--disabled);
     border-color: var(--_nys-checkbox-disabled-color-border);
     cursor: not-allowed;
   }
@@ -296,7 +296,7 @@ export default css`
 
   /* Hover + Checked */
   .nys-checkbox__checkbox:hover:not(:disabled):checked {
-    border-color: var(--_nys-checkbox-checked-hover-color-border);
+    border-color: var(--_nys-checkbox-border-color--checked--hover);
     background-color: var(--_nys-checkbox-background-color--checked--hover);
   }
   :host([tile])
@@ -322,7 +322,7 @@ export default css`
 
   /* Pressed + Checked */
   .nys-checkbox__checkbox:active:not(:disabled):checked {
-    border-color: var(--_nys-checkbox-checked-pressed-color-border);
+    border-color: var(--_nys-checkbox-border-color--checked--active);
     background-color: var(--_nys-checkbox-background-color--checked--active);
   }
 
