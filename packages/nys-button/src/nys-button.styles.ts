@@ -23,7 +23,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
     );
-    --_nys-button-border-color: var(--nys-color-theme, #154973);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-theme, #154973)
+    );
 
     --_nys-button-background-color--hover: var(
       --nys-button-background-color--hover,
@@ -105,7 +108,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
     );
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
 
     /* Filled - Hover */
     --_nys-button-background-color--hover: var(
@@ -116,7 +122,10 @@ export default css`
       --nys-button-color--hover,
       var(--nys-color-text-reverse, #ffffff)
     );
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
 
     /* Filled - Pressed/Active */
     --_nys-button-background-color--active: var(
@@ -127,7 +136,10 @@ export default css`
       --nys-button-color--active,
       var(--nys-color-text-reverse, #ffffff)
     );
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
 
     /* Filled - Disabled */
     --_nys-button-background-color--disabled: var(
@@ -135,7 +147,10 @@ export default css`
       #f6f6f6
     );
     --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
   }
 
   /* Outline */
@@ -146,7 +161,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-theme, #154973)
     );
-    --_nys-button-border-color: var(--nys-color-theme, #154973);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-theme, #154973)
+    );
 
     /* Outline - Hover */
     --_nys-button-background-color--hover: var(
@@ -198,7 +216,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-link, #004dd1)
     );
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
 
     /* Text - Hover */
     --_nys-button-background-color--hover: var(
@@ -248,7 +269,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-text, #1b1b1b)
     );
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
 
     /* Ghost - Hover */
     --_nys-button-background-color--hover: var(
@@ -350,7 +374,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
     );
-    --_nys-button-border-color: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-ink-reverse, #ffffff)
+    );
 
     /* Outline Inverted - Hover */
     --_nys-button-background-color--hover: var(
@@ -408,7 +435,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-link-reverse, #a7a9ab)
     );
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
 
     /* Text Inverted - Hover */
     --_nys-button-background-color--hover: var(
@@ -461,7 +491,10 @@ export default css`
       --nys-button-color,
       var(--nys-color-text-reverse, #ffffff)
     );
-    --_nys-button-border-color: var(--nys-color-transparent, #ffffff00);
+    --_nys-button-border-color: var(
+      --nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00)
+    );
 
     /* Ghost Inverted - Hover */
     --_nys-button-background-color--hover: var(
