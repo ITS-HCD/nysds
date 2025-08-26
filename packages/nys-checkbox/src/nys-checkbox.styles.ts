@@ -79,17 +79,17 @@ export default css`
       --nys-color-ink-reverse,
       #f0f0f0
     );
-    --_nys-checkbox-disabled-color-border: var(
+    --_nys-checkbox-border-color--disabled: var(
       --nys-color-neutral-400,
       #757575
     );
     --_nys-checkbox-color--disabled: var(--nys-color-text-disabled, #bec0c1);
     /* Disabled Checked */
-    --_nys-checkbox-disabled-checked-color-bg: var(
+    --_nys-checkbox-background-color--checked--disabled: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
-    --_nys-checkbox-disabled-checked-color-border: var(
+    --_nys-checkbox-border-color--checked--disabled: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
@@ -253,8 +253,8 @@ export default css`
 
   /* Checked + Disabled */
   .nys-checkbox__checkbox:disabled:checked {
-    background-color: var(--_nys-checkbox-disabled-checked-color-bg);
-    border-color: var(--_nys-checkbox-disabled-checked-color-border);
+    background-color: var(--_nys-checkbox-background-color--checked--disabled);
+    border-color: var(--_nys-checkbox-border-color--checked--disabled);
   }
   :host([tile]) .nys-checkbox:has(.nys-checkbox__checkbox:disabled:checked) {
     border-color: var(--_nys-checkbox-disabled-tile-border-color);
@@ -264,7 +264,7 @@ export default css`
   /* Disabled */
   .nys-checkbox__checkbox:disabled {
     background-color: var(--_nys-checkbox-background-color--disabled);
-    border-color: var(--_nys-checkbox-disabled-color-border);
+    border-color: var(--_nys-checkbox-border-color--disabled);
     cursor: not-allowed;
   }
   .nys-checkbox__content:has(.nys-checkbox__checkbox:disabled)
@@ -275,7 +275,7 @@ export default css`
   }
   :host([tile]) .nys-checkbox:has(.nys-checkbox__checkbox:disabled) {
     background-color: var(--_nys-checkbox-background-color--disabled);
-    border-color: var(--_nys-checkbox-disabled-color-border);
+    border-color: var(--_nys-checkbox-border-color--disabled);
     cursor: not-allowed;
   }
 
