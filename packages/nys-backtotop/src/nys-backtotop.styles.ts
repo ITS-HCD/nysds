@@ -5,6 +5,7 @@ export default css`
   }
 
   .nys-backtotop {
+    /* These props ARE NOT publicly overridable */
     --_nys-button-border-radius--left: var(--nys-radius-round, 1776px);
     --_nys-button-border-radius--right: var(--nys-radius-round, 1776px);
     --_nys-button-padding--y: var(--nys-space-100, 8px);

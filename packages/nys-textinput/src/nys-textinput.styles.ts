@@ -165,6 +165,7 @@ export default css`
   }
 
   ::slotted(nys-button) {
+    /* These props ARE NOT publicly overridable */
     --_nys-button-height: var(--_nys-textinput-height);
     --_nys-button-border-radius--left: var(--_nys-textinput-radius);
     --_nys-button-border-radius--right: var(--_nys-textinput-radius);
@@ -194,13 +195,15 @@ export default css`
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--_nys-textinput-icon-color);
-    --_nys-button-background-color: var(--_nys-textinput-background-color);
-    --_nys-button-background-color--hover: var(
+    /* These props ARE publicly overridable */
+    --nys-button-background-color: var(--_nys-textinput-background-color);
+    --nys-button-background-color--hover: var(
       --_nys-textinput-background-color
     );
-    --_nys-button-background-color--active: var(
+    --nys-button-background-color--active: var(
       --_nys-textinput-background-color
     );
+    /* These props ARE NOT publicly overridable */
     --_nys-button-outline-focus: calc(
       var(--_nys-button-outline-width) * -1
     ); /* Needs to be negative of the offset width */

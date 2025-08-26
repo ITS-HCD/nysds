@@ -138,12 +138,14 @@ export default css`
 
   #nys-unavheader__translate,
   #nys-unavheader__searchbutton {
-    --_nys-button-color: var(--nys-color-state-blue-700, #154973);
-    --_nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
-    --_nys-button-color--active: var(--nys-color-state-blue-700, #154973);
+    /* These props ARE publicly overridable */
+    --nys-button-color: var(--nys-color-state-blue-700, #154973);
+    --nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
+    --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
   }
 
   .nys-unavheader__iconbutton {
+    /* These props ARE NOT publicly overridable */
     --_nys-button-width: var(--nys-size-400, 32px);
     --_nys-button-height: var(--nys-size-400, 32px);
     --_nys-button-padding--y: 0;
@@ -171,21 +173,23 @@ export default css`
     align-items: center;
     cursor: pointer;
     gap: var(--nys-space-50, 4px);
-
+    /* These props ARE NOT publicly overridable */
     --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
-    --_nys-button-radius: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
     --_nys-button-padding--y: var(--nys-space-2px, 2px);
     --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-border-width: 0px;
     --_nys-button-text-decoration: underline;
-    --_nys-button-color: var(--nys-color-link, #004dd1);
-    --_nys-button-color--hover: var(--nys-color-link-strong, #003ba1);
-    --_nys-button-color--active: var(--nys-color-link-strongest, #002971);
-    --_nys-button-background-color--hover: var(
+    /* These props ARE publicly overridable */
+    --nys-button-color: var(--nys-color-link, #004dd1);
+    --nys-button-color--hover: var(--nys-color-link-strong, #003ba1);
+    --nys-button-color--active: var(--nys-color-link-strongest, #002971);
+    --nys-button-background-color--hover: var(
       --nys-color-transparent,
       #ffffff00
     );
-    --_nys-button-background-color--active: var(
+    --nys-button-background-color--active: var(
       --nys-color-transparent,
       #ffffff00
     );
