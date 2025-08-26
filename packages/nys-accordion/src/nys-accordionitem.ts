@@ -29,7 +29,6 @@ export class NysAccordionItem extends LitElement {
   firstUpdated() {
     const slot = this.shadowRoot?.querySelector("slot");
 
-    console.log("HERE WE ARE");
     if (this.expanded && slot) {
       slot.addEventListener("slotchange", () => {
         this._updateHeight();
