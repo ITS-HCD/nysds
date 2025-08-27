@@ -4,7 +4,7 @@ export default css`
   :host {
     /* Global Tooltip Styles */
     --_nys-tooltip-color: var(--nys-color-text-reverse, #ffffff);
-    --_nys-tooltip-background: var(--nys-color-ink, #1b1b1b);
+    --_nys-tooltip-background-color: var(--nys-color-ink, #1b1b1b);
     --_nys-tooltip-border-radius: var(--nys-radius-md, 4px);
     --_nys-tooltip-font-family: var(
       --nys-font-family-ui,
@@ -18,8 +18,8 @@ export default css`
       )
     );
     --_nys-tooltip-font-size: var(--nys-type-size-ui-sm, 14px);
-    --_nys-tooltip-letterspacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
-    --_nys-tooltip-lineheight: var(--nys-font-lineheight-ui-sm, 24px);
+    --_nys-tooltip-letter-spacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
+    --_nys-tooltip-line-height: var(--nys-font-lineheight-ui-sm, 24px);
   }
 
   .nys-tooltip__main {
@@ -44,7 +44,7 @@ export default css`
     width: max-content;
     max-height: 120px;
     padding: var(--nys-space-50, 4px) var(--nys-space-100, 8px);
-    background: var(--_nys-tooltip-background);
+    background-color: var(--_nys-tooltip-background-color);
     border-radius: var(--_nys-tooltip-border-radius);
     cursor: auto;
     z-index: 1;
@@ -56,8 +56,8 @@ export default css`
     font-family: var(--_nys-tooltip-font-family);
     font-size: var(--_nys-tooltip-font-size);
     font-weight: 400;
-    line-height: var(--_nys-tooltip-lineheight);
-    letter-spacing: var(--_nys-tooltip-letterspacing);
+    line-height: var(--_nys-tooltip-line-height);
+    letter-spacing: var(--_nys-tooltip-letter-spacing);
     white-space: normal;
     word-break: break-word;
     overflow: hidden;
@@ -141,7 +141,7 @@ export default css`
 
   :host([inverted]) .nys-tooltip__content {
     --_nys-tooltip-color: var(--nys-color-text, #1b1b1b);
-    --_nys-tooltip-background: var(--nys-color-ink-reverse, #fff);
+    --_nys-tooltip-background-color: var(--nys-color-ink-reverse, #fff);
   }
 
   :host([inverted]) .nys-tooltip__arrow {
