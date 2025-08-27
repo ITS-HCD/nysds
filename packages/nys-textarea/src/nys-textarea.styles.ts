@@ -6,41 +6,40 @@ export default css`
 
     /* Global Text Input Styles */
     --_nys-textarea-width: 100%;
-    --_nys-textarea-radius: var(--nys-radius-md, 4px);
-    --_nys-textarea-width-border: var(--nys-border-width-sm, 1px);
-    --_nys-textarea-color-border: var(--nys-color-neutral-400, #909395);
+    --_nys-textarea-border-radius: var(--nys-radius-md, 4px);
+    --_nys-textarea-border-width: var(--nys-border-width-sm, 1px);
+    --_nys-textarea-border-color: var(--nys-color-neutral-400, #909395);
     --_nys-textarea-padding: var(--nys-space-100, 8px);
     --_nys-textarea-gap: var(--nys-space-50, 4px);
-    --_nys-textarea-color: var(
-      --nys-color-text,
-      var(--nys-color-neutral-900, #1b1b1b)
-    );
-    --_nys-textarea-placeholder-color: var(
+    --_nys-textarea-color: var(--nys-color-ink, #1b1b1b);
+    --_nys-textarea-color--placeholder: var(
       --nys-color-text-weaker,
       var(--nys-color-neutral-500, #797c7f)
     );
 
     /* Hovered */
-    --_nys-textarea-hover-color-outline: var(--nys-color-neutral-900, #1b1b1b);
-    --_nys-textarea-hover-width-outline: var(--nys-border-width-sm, 1px);
+    --_nys-textarea-outline-color--hover: var(--nys-color-neutral-900, #1b1b1b);
+    --_nys-textarea-outline-width: var(--nys-border-width-sm, 1px);
 
     /* Focused */
-    --_nys-textarea-focus-color-outline: var(--nys-color-focus, #004dd1);
-    --_nys-textarea-focus-width-outline: var(--nys-border-width-sm, 1px);
+    --_nys-textarea-outline-color--focus: var(--nys-color-focus, #004dd1);
 
     /* Disabled */
-    --_nys-textarea-disabled-bg-color: var(--nys-color-neutral-10, #f6f6f6);
-    --_nys-textarea-disabled-color-border: var(
+    --_nys-textarea-background-color--disabled: var(
+      --nys-color-neutral-10,
+      #f6f6f6
+    );
+    --_nys-textarea-border-color--disabled: var(
       --nys-color-neutral-200,
       #bec0c1
     );
-    --_nys-textarea-disabled-color-text: var(
+    --_nys-textarea-color--disabled: var(
       --nys-color-text-disabled,
       var(--nys-color-neutral-200, #bec0c1)
     );
 
     /* Global Font Styles */
-    --_nys-textarea-family-ui: var(
+    --_nys-textarea-font-family: var(
       --nys-font-family-ui,
       var(
         --nys-font-family-sans,
@@ -51,14 +50,13 @@ export default css`
         sans-serif
       )
     );
-    --_nys-textarea-size-ui-md: var(--nys-font-size-ui-md, 16px);
-    --_nys-textarea-weight-ui: var(--nys-font-weight-regular, 400);
-    --_nys-textarea-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-textarea-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-textarea-font-weight: var(--nys-font-weight-regular, 400);
+    --_nys-textarea-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --nys-textarea-letterspacing-ui: var(
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
     );
-    --_nys-textarea-color-ui: var(--nys-color-ink, #1b1b1b);
   }
 
   :host([width="sm"]) {
@@ -79,15 +77,15 @@ export default css`
   }
 
   :host([showError]) {
-    --_nys-textarea-color-border: var(--nys-color-danger, #b52c2c);
+    --_nys-textarea-border-color: var(--nys-color-danger, #b52c2c);
   }
 
   .nys-textarea {
-    font-weight: var(--_nys-textarea-weight-ui);
-    font-family: var(--_nys-textarea-family-ui);
-    line-height: var(--_nys-textarea-lineheight-ui);
+    font-weight: var(--_nys-textarea-font-weight);
+    font-family: var(--_nys-textarea-font-family);
+    line-height: var(--_nys-textarea-line-height);
     letter-spacing: var(--nys-textarea-letterspacing-ui);
-    color: var(--_nys-textarea-color-ui);
+    color: var(--_nys-textarea-color);
     gap: var(--_nys-textarea-gap);
     display: flex;
     flex-direction: column;
@@ -95,15 +93,14 @@ export default css`
 
   .nys-textarea__textarea {
     color: var(--_nys-textarea-color);
-    font-size: var(--_nys-textarea-size-ui-md);
-    font-family: var(--_nys-textarea-family-ui);
-    border-radius: var(--_nys-textarea-radius);
-    border: solid var(--_nys-textarea-color-border)
-      var(--_nys-textarea-width-border);
+    font-size: var(--_nys-textarea-font-size);
+    font-family: var(--_nys-textarea-font-family);
+    border-radius: var(--_nys-textarea-border-radius);
+    border: solid var(--_nys-textarea-border-color)
+      var(--_nys-textarea-border-width);
     padding: var(--_nys-textarea-padding);
     width: var(--_nys-textarea-width);
-    line-height: var(--_nys-textarea-lineheight-ui);
-    min-width: var(--_nys-textarea-width);
+    line-height: var(--_nys-textarea-line-height);
     max-width: var(--_nys-textarea-width);
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -111,7 +108,7 @@ export default css`
   }
 
   .nys-textarea__textarea::placeholder {
-    color: var(--_nys-textarea-placeholder-color);
+    color: var(--_nys-textarea-color--placeholder);
   }
 
   /* Resize */
@@ -121,25 +118,25 @@ export default css`
 
   /* Hovered */
   .nys-textarea__textarea:hover:not(:disabled):not(:focus) {
-    outline: solid var(--_nys-textarea-hover-width-outline)
-      var(--_nys-textarea-hover-color-outline);
-    border-color: var(--_nys-textarea-hover-color-outline);
+    outline: solid var(--_nys-textarea-outline-width)
+      var(--_nys-textarea-outline-color--hover);
+    border-color: var(--_nys-textarea-outline-color--hover);
   }
 
   /* Focused */
   .nys-textarea__textarea:focus {
-    outline: solid var(--_nys-textarea-focus-width-outline)
-      var(--_nys-textarea-focus-color-outline);
-    border-color: var(--_nys-textarea-focus-color-outline);
-    caret-color: var(--_nys-textarea-focus-color-outline);
+    outline: solid var(--_nys-textarea-outline-width)
+      var(--_nys-textarea-outline-color--focus);
+    border-color: var(--_nys-textarea-outline-color--focus);
+    caret-color: var(--_nys-textarea-outline-color--focus);
   }
 
   /* Disabled */
   .nys-textarea__textarea:disabled,
   .nys-textarea__textarea:disabled::placeholder {
-    background-color: var(--_nys-textarea-disabled-bg-color);
-    border-color: var(--_nys-textarea-disabled-color-border);
-    color: var(--_nys-textarea-disabled-color-text);
+    background-color: var(--_nys-textarea-background-color--disabled);
+    border-color: var(--_nys-textarea-border-color--disabled);
+    color: var(--_nys-textarea-color--disabled);
     cursor: not-allowed;
   }
 `;
