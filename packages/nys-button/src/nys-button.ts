@@ -145,6 +145,8 @@ export class NysButton extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
+    const button = this.shadowRoot?.querySelector(".nys-button");
+    button?.classList.remove("active-focus");
     this.dispatchEvent(new Event("nys-blur"));
   }
 

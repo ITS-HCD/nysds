@@ -144,7 +144,7 @@ export class NysFileinput extends LitElement {
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
       this._internals.ariaRequired = "false"; // Reset when valid
-      this._internals.setValidity({});
+      this._internals.setValidity({}, "", input);
     }
   }
 
@@ -209,10 +209,12 @@ export class NysFileinput extends LitElement {
         );
         if (firstInvalidElement === this) {
           innerButton.focus();
+          innerButton.classList.add("active-focus"); // This class styling is found within <nys-button>
         }
       } else {
         // If not part of a form, simply focus.
         innerButton.focus();
+        innerButton.classList.add("active-focus"); // This class styling is found within <nys-button>
       }
     }
   }
@@ -345,8 +347,6 @@ export class NysFileinput extends LitElement {
       this._saveSelectedFiles(file);
     });
 
-    input.value = "";
-
     this.requestUpdate();
     this._dispatchChangeEvent();
     this._handlePostFileSelectionFocus();
@@ -359,6 +359,14 @@ export class NysFileinput extends LitElement {
     this._selectedFiles = this._selectedFiles.filter(
       (existingFile) => existingFile.file.name !== filenameToRemove,
     );
+
+    if (this._selectedFiles.length === 0) {
+      const input = this.shadowRoot?.querySelector(
+        "input",
+      ) as HTMLInputElement | null;
+      if (input) input.value = "";
+    }
+
     this._setValue();
     this._validate();
 
@@ -440,8 +448,8 @@ export class NysFileinput extends LitElement {
         (!this.multiple && this._selectedFiles.length > 0)}
         aria-disabled="${this.disabled}"
         aria-hidden="true"
-        hidden
         @change=${this._handleFileChange}
+        hidden
       />
 
       ${!this.dropzone
