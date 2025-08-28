@@ -14,7 +14,9 @@ export class NysAvatar extends LitElement {
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";
   @property({ type: String }) icon = "";
-  @property({ type: String }) color = "#555";
+  @property({ type: String }) color = "";
+  @property({ type: Boolean, reflect: true }) interactive = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) lazy = false;
   private static readonly VALID_SHAPES = [
     "square",
@@ -75,6 +77,46 @@ export class NysAvatar extends LitElement {
     this._slotHasContent = assignedNodes.length > 0;
   }
 
+  // This function accounts for user set "color" prop and return the appropriate foreground contrast.
+  private getContrastForeground() {
+    /** Default NYSDS CSS vars for foreground.
+     * Contrast must return =>
+     * IF icon: "--nys-color-ink-reverse" or "--nys-color-ink"
+     * If initials: "--nys-color-text-reverse" or "--nys-color-text"
+     */
+    const fgIconDark = "var(--nys-color-ink, #000)";
+    const fgIconLight = "var(--nys-color-ink-reverse, #fff)";
+    const fgInitialDark = "var(--nys-color-text, #000)";
+    const fgInitialLight = "var(--nys-color-text-reverse, #fff)";
+
+    if (!this.color) return;
+
+    // Create a temporary element to compute luminance (this is in case user pass in "var(--nys-color-stuff)")
+    const div = document.createElement("div");
+    div.style.color = this.color;
+    document.body.appendChild(div);
+    const computedColor = getComputedStyle(div).color;
+    document.body.removeChild(div);
+
+    // Parse RGB
+    const match = computedColor.match(/\d+/g);
+    if (!match) return;
+
+    const r = Number(match[0]);
+    const g = Number(match[1]);
+    const b = Number(match[2]);
+
+    // Calculate relative luminance
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    const isDark = luminance < 0.5;
+    if (this.initials?.length > 0) {
+      return isDark ? fgInitialLight : fgInitialDark;
+    } else {
+      return isDark ? fgIconLight : fgIconDark;
+    }
+  }
+
   render() {
     return html`
       <label class="nys-avatar" id=${this.id}>
@@ -82,10 +124,12 @@ export class NysAvatar extends LitElement {
           <div
             part="nys-avatar"
             class="nys-avatar__component"
-            style="background-color: ${this.color?.length > 0
-              ? this.color
-              : "#555"};"
-            role=${ifDefined(this.image ? undefined : "img")}
+            style=${this.color
+              ? `--_nys-avatar-background: ${this.color}; color: ${this.getContrastForeground()}`
+              : ""}
+            role=${ifDefined(
+              this.interactive ? "button" : this.image ? undefined : "img",
+            )}
             aria-label=${ifDefined(
               this.image
                 ? undefined
@@ -93,6 +137,9 @@ export class NysAvatar extends LitElement {
                   ? this.ariaLabel
                   : "avatar",
             )}
+            tabindex=${this.interactive && !this.disabled
+              ? "0"
+              : ifDefined(undefined)}
           >
             ${this.image?.length > 0
               ? html`<img
