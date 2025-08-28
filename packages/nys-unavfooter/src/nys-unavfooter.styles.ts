@@ -22,8 +22,8 @@ export default css`
     --_nys-unavfooter-max-width: var(--nys-max-content-width, 1280px);
 
     /* Links */
-    --_nys-unavfooter-gap--x--link: var(--nys-space-250, 20px);
-    --_nys-unavfooter-gap--y--link: var(--nys-space-600, 48px);
+    --_nys-unavfooter-row-gap: var(--nys-space-250, 20px);
+    --_nys-unavfooter-column-gap: var(--nys-space-600, 48px);
     --_nys-unavfooter-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-unavfooter-letter-spacing: var(
       --nys-font-letterspacing-ui-md,
@@ -123,7 +123,7 @@ export default css`
   .nys-unavfooter__content ul {
     display: flex;
     justify-content: center;
-    gap: var(--_nys-unavfooter-gap--x--link) var(--_nys-unavfooter-gap--y--link);
+    gap: var(--_nys-unavfooter-row-gap) var(--_nys-unavfooter-column-gap);
     flex-wrap: wrap;
   }
 
@@ -138,7 +138,7 @@ export default css`
     }
     :host {
       --_nys-unavfooter-padding--gutter: var(--nys-gutter-lg, 32px);
-      --_nys-unavfooter-gap--y--link: var(--nys-space-600, 48px);
+      --_nys-unavfooter-column-gap: var(--nys-space-600, 48px);
       --_nys-unavfooter-gap-spacing: var(--nys-space-800, 64px);
     }
   }
