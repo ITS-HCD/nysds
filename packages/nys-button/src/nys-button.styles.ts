@@ -14,7 +14,7 @@ export default css`
     --_nys-button-gap: var(--nys-space-100, 8px);
     --_nys-button-border-width: var(--nys-border-width-md, 2px);
     --_nys-button-outline-width: var(--nys-border-width-md, 2px);
-    --_nys-button-outline-focus: var(--nys-space-2px, 2px);
+    --_nys-button-outline-offset: var(--nys-space-2px, 2px);
     --_nys-button-outline-color: var(--nys-color-focus, #004dd1);
 
     /* Global Button Colors */
@@ -648,7 +648,7 @@ export default css`
   }
 
   .nys-button:focus-visible {
-    outline-offset: var(--_nys-button-outline-focus);
+    outline-offset: var(--_nys-button-outline-offset);
     outline: solid var(--_nys-button-outline-width)
       var(--_nys-button-outline-color);
   }
