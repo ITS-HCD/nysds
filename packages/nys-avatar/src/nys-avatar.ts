@@ -18,29 +18,6 @@ export class NysAvatar extends LitElement {
   @property({ type: Boolean, reflect: true }) interactive = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) lazy = false;
-  private static readonly VALID_SHAPES = [
-    "square",
-    "rounded",
-    "circle",
-  ] as const;
-
-  // Private property to store the internal `shape` value, restricted to the valid types. Default is "circle".
-  private _shape: (typeof NysAvatar.VALID_SHAPES)[number] = "circle";
-
-  // Getter for the `shape` property.
-  @property({ reflect: true })
-  get shape(): (typeof NysAvatar.VALID_SHAPES)[number] {
-    return this._shape;
-  }
-  // Setter for the `shape` property.
-  set shape(value: string) {
-    this._shape = NysAvatar.VALID_SHAPES.includes(
-      value as (typeof NysAvatar.VALID_SHAPES)[number],
-    )
-      ? (value as (typeof NysAvatar.VALID_SHAPES)[number])
-      : "circle";
-    this.requestUpdate("shape");
-  }
   @state() private _slotHasContent = true;
 
   /******************** Functions ********************/

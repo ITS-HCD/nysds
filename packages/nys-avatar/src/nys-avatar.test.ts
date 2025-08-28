@@ -3,11 +3,6 @@ import { NysAvatar } from "./nys-avatar";
 import "../dist/nys-avatar.js";
 
 describe("nys-avatar", () => {
-  it("should have default shape as circle", async () => {
-    const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
-    expect(el?.shape).to.equal("circle");
-  });
-
   it("should have default color as #555", async () => {
     const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
 

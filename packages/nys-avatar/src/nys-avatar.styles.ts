@@ -9,6 +9,9 @@ export default css`
     --_nys-avatar-size: var(--nys-font-size-6xl, 36px);
     --_nys-avatar-color: var(--nys-color-theme, #154973);
     --_nys-avatar-background: var(--nys-color-theme-weaker, #46a4e7ff);
+    --_nys-avatar-color-focus: var(--nys-color-focus, #004dd1);
+    --_nys-avatar-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-avatar-outline-offset: var(--nys-space-2px, 2px);
   }
 
   .nys-avatar {
@@ -28,6 +31,7 @@ export default css`
     color: var(--_nys-avatar-color);
     background-color: var(--_nys-avatar-background);
     border: var(--_nys-avatar-border-size) solid var(--_nys-avatar-border-color);
+    outline-offset: var(--_nys-avatar-outline-offset);
     transition: all 0.15s ease-in-out;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -59,17 +63,8 @@ export default css`
     cursor: not-allowed;
   }
 
-  /* Shape */
-  :host([shape="square"]) {
-    --_nys-avatar-shape: var(--nys-radius-xs, var(--nys-space-1px, 1px));
-  }
-
-  :host([shape="rounded"]) {
-    --_nys-avatar-shape: var(--nys-radius-md, var(--nys-space-50, 4px));
-  }
-
-  :host([shape="circle"]) {
-    --_nys-avatar-shape: var(--nys-radius-round, 1776px);
+  :host([disabled]) .nys-avatar__component:focus-within {
+    outline: solid var(--_nys-avatar-width-focus) var(--_nys-avatar-color-focus);
   }
 
   div[part="nys-avatar__icon"] {

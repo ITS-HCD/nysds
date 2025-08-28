@@ -10,7 +10,6 @@ interface NysAvatarArgs {
   initials?: string;
   icon?: string;
   image?: string;
-  shape?: string;
   color?: string;
   lazy?: boolean;
   interactive?: boolean;
@@ -30,11 +29,6 @@ const meta: Meta<NysAvatarArgs> = {
       defaultValue: { summary: "account_circle" },
     },
     image: { control: "text", type: "string" },
-    shape: {
-      control: "select",
-      options: ["square", "rounded", "circle"],
-      type: "string",
-    },
     color: {
       control: "text",
       type: "string",
@@ -72,7 +66,6 @@ export const Basic: Story = {
       .initials=${args.initials}
       .icon=${args.icon}
       .image=${args.image}
-      .shape=${args.shape}
       .lazy=${args.lazy}
       .interactive=${args.interactive}
       .disabled=${args.disabled}
@@ -105,7 +98,6 @@ export const AvatarImage: Story = {
         .initials=${args.initials}
         .icon=${args.icon}
         image="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        .shape=${args.shape}
         .interactive=${args.interactive}
         .disabled=${args.disabled}
       >
@@ -115,7 +107,6 @@ export const AvatarImage: Story = {
         .initials=${args.initials}
         .icon=${args.icon}
         image="https://images.unsplash.com/photo-1523318840068-3e8c0f998509?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        .shape=${args.shape}
         ?lazy
         .interactive=${args.interactive}
         .disabled=${args.disabled}
@@ -155,7 +146,6 @@ export const AvatarInitials: Story = {
       .initials=${args.initials}
       .icon=${args.icon}
       .image=${args.image}
-      .shape=${args.shape}
       .lazy=${args.lazy}
       .interactive=${args.interactive}
       .disabled=${args.disabled}
@@ -190,7 +180,6 @@ export const AvatarIcon: Story = {
         .initials=${args.initials}
         .icon=${args.icon}
         .image=${args.image}
-        .shape=${args.shape}
         .lazy=${args.lazy}
         .interactive=${args.interactive}
         .disabled=${args.disabled}
@@ -201,7 +190,6 @@ export const AvatarIcon: Story = {
         .ariaLabel=${args.ariaLabel}
         .initials=${args.initials}
         .image=${args.image}
-        .shape=${args.shape}
         .lazy=${args.lazy}
         .interactive=${args.interactive}
         .disabled=${args.disabled}
@@ -253,7 +241,6 @@ export const AvatarInteractive: Story = {
         .initials=${args.initials}
         .icon=${args.icon}
         .image=${args.image}
-        .shape=${args.shape}
         .lazy=${args.lazy}
         .interactive=${args.interactive}
         .disabled=${args.disabled}
@@ -263,7 +250,6 @@ export const AvatarInteractive: Story = {
       <nys-avatar
         ariaLabel="NY"
         initials="NY"
-        .shape=${args.shape}
         .interactive=${args.interactive}
         .disabled=${args.disabled}
         .color=${args.color}
@@ -292,79 +278,6 @@ export const AvatarInteractive: Story = {
   },
 };
 
-// Story: Shapes
-export const AvatarShapes: Story = {
-  args: {
-    ariaLabel: "User avatar",
-    icon: "account_circle",
-    shape: "square",
-  },
-  render: (args) =>
-    html` <div style="display:flex; gap:5px;">
-      <nys-avatar
-        .ariaLabel=${args.ariaLabel}
-        .initials=${args.initials}
-        .icon=${args.icon}
-        .image=${args.image}
-        .shape=${args.shape}
-        .lazy=${args.lazy}
-        .interactive=${args.interactive}
-        .disabled=${args.disabled}
-        .color=${args.color}
-      >
-      </nys-avatar>
-      <nys-avatar
-        .ariaLabel=${args.ariaLabel}
-        .initials=${args.initials}
-        .icon=${args.icon}
-        .image=${args.image}
-        shape="rounded"
-        .lazy=${args.lazy}
-        .interactive=${args.interactive}
-        .disabled=${args.disabled}
-        .color=${args.color}
-      >
-      </nys-avatar>
-      <nys-avatar
-        .ariaLabel=${args.ariaLabel}
-        .initials=${args.initials}
-        .icon=${args.icon}
-        .image=${args.image}
-        shape="circle"
-        .lazy=${args.lazy}
-        .interactive=${args.interactive}
-        .disabled=${args.disabled}
-        .color=${args.color}
-      >
-      </nys-avatar>
-    </div>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<div style="display:flex; gap:5px;">
-<nys-avatar
-  ariaLabel="User avatar"
-  icon="account_circle"
-  shape="square"
-></nys-avatar>
-<nys-avatar
-  ariaLabel="User avatar"
-  icon="account_circle"
-  shape="rounded"
-></nys-avatar>
-<nys-avatar
-  ariaLabel="User avatar"
-  icon="account_circle"
-  shape="circle"
-></nys-avatar>
-</div>
-    `.trim(),
-      },
-    },
-  },
-};
-
 // Story: AvatarDisabled
 export const AvatarDisabled: Story = {
   args: {
@@ -377,7 +290,6 @@ export const AvatarDisabled: Story = {
       .initials=${args.initials}
       .icon=${args.icon}
       .image=${args.image}
-      .shape=${args.shape}
       .lazy=${args.lazy}
       .interactive=${args.interactive}
       .disabled=${args.disabled}
@@ -411,7 +323,6 @@ export const AvatarBgColor: Story = {
       .initials=${args.initials}
       .icon=${args.icon}
       .image=${args.image}
-      .shape=${args.shape}
       .lazy=${args.lazy}
       .interactive=${args.interactive}
       .disabled=${args.disabled}
