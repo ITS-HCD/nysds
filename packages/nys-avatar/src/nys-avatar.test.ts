@@ -3,15 +3,17 @@ import { NysAvatar } from "./nys-avatar";
 import "../dist/nys-avatar.js";
 
 describe("nys-avatar", () => {
-  it("should have default color as #555", async () => {
+  it("should have default color as #eff6fb", async () => {
     const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
 
     const avatarContainer = el?.shadowRoot?.querySelector(
       ".nys-avatar__component",
     );
-    expect(avatarContainer?.getAttribute("style")).to.include(
-      "background-color: #555",
-    );
+    const bgColor =
+      avatarContainer && getComputedStyle(avatarContainer).backgroundColor;
+
+    // Check against the expected RGB value of #EFF6FB
+    expect(bgColor).to.equal("rgb(239, 246, 251)");
   });
 
   it("should have icon as default", async () => {

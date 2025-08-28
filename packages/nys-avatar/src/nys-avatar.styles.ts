@@ -8,7 +8,7 @@ export default css`
     --_nys-avatar-border-size: var(--nys-border-width-sm, 1px);
     --_nys-avatar-size: var(--nys-font-size-6xl, 36px);
     --_nys-avatar-color: var(--nys-color-theme, #154973);
-    --_nys-avatar-background: var(--nys-color-theme-weaker, #46a4e7ff);
+    --_nys-avatar-background: var(--nys-color-theme-weaker, #eff6fb);
     --_nys-avatar-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-avatar-width-focus: var(--nys-border-width-md, 2px);
     --_nys-avatar-outline-offset: var(--nys-space-2px, 2px);

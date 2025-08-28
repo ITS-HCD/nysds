@@ -32,7 +32,7 @@ const meta: Meta<NysAvatarArgs> = {
     color: {
       control: "text",
       type: "string",
-      defaultValue: { summary: "#555" },
+      defaultValue: { summary: "#eff6fb" },
     },
     lazy: { control: "boolean", type: "boolean" },
     interactive: { control: "boolean", type: "boolean" },
