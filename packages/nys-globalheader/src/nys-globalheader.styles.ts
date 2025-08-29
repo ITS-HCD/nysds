@@ -3,7 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Header Styles */
-    --_nys-globalheader-text-color: var(
+    --_nys-globalheader-color: var(
       --nys-color-text-reverse,
       var(--nys-color-white, #ffffff)
     );
@@ -11,7 +11,7 @@ export default css`
       --nys-color-link-reverse-neutral,
       var(--nys-color-white, #fff)
     );
-    --_nys-globalheader-background: var(
+    --_nys-globalheader-background-color: var(
       --nys-color-theme,
       var(--nys-color-state-blue-700, #154973)
     );
@@ -103,7 +103,7 @@ export default css`
   }
 
   a {
-    color: var(--_nys-globalheader-link-color);
+    color: var(--_nys-globalheader-color);
     text-decoration: none;
     font-family: var(--_nys-globalheader-font-family);
     font-size: var(--_nys-globalheader-font-size-links);
@@ -117,8 +117,8 @@ export default css`
     display: flex;
     justify-content: center;
     padding: var(--_nys-globalheader-padding);
-    background-color: var(--_nys-globalheader-background);
-    color: var(--_nys-globalheader-text-color);
+    background-color: var(--_nys-globalheader-background-color);
+    color: var(--_nys-globalheader-color);
     width: 100%;
     min-height: 76px;
     box-sizing: border-box;
@@ -142,7 +142,7 @@ export default css`
   }
   .nys-globalheader__name {
     margin: 0;
-    color: var(--_nys-globalheader-text-color);
+    color: var(--_nys-globalheader-color);
     font-family: var(--_nys-globalheader-font-family-agency);
     font-size: var(--_nys-globalheader-font-size-main-name);
     font-style: normal;
@@ -213,7 +213,7 @@ export default css`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: var(--_nys-globalheader-background);
+    background-color: var(--_nys-globalheader-background-color);
     width: fit-content;
   }
   .nys-globalheader__content-mobile.close {
@@ -224,7 +224,7 @@ export default css`
     flex-direction: column;
   }
   .nys-globalheader__content-mobile ul li:first-child a {
-    border-top: 1px solid var(--_nys-globalheader-text-color);
+    border-top: 1px solid var(--_nys-globalheader-color);
   }
   .nys-globalheader__content-mobile ul li a {
     display: flex;
@@ -233,7 +233,7 @@ export default css`
     gap: 8px;
     align-self: stretch;
     border-bottom: 1px solid var(--_nys-globalheader-mobile-li-border-color);
-    background: var(--_nys-globalheader-background);
+    background-color: var(--_nys-globalheader-background-color);
   }
   .nys-globalheader__content-mobile ul li a:hover {
     background: var(--_nys-globalheader-mobile-li-hover-bg);
@@ -260,14 +260,14 @@ export default css`
     gap: 3px;
     width: 50px;
     height: 50px;
-    background-color: var(--_nys-globalheader-background);
+    background-color: var(--_nys-globalheader-background-color);
     border: none;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
-    color: var(--_nys-globalheader-text-color);
+    color: var(--_nys-globalheader-color);
   }
   .nys-globalheader__mobile-menu-button-text {
     font-size: var(--_nys-globalheader-mobile-btn-font-size);
