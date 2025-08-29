@@ -7,14 +7,14 @@ export default css`
     /* Global Text Input Styles */
     --_nys-textinput-width: 100%;
     --_nys-textinput-height: var(--nys-size-500, 40px);
-    --_nys-textinput-radius: var(--nys-radius-md, 4px);
-    --_nys-textinput-width-border: var(--nys-border-width-sm, 1px);
-    --_nys-textinput-color-border: var(--nys-color-neutral-400, #909395);
-    --_nys-textinput-text-color: var(
+    --_nys-textinput-border-radius: var(--nys-radius-md, 4px);
+    --_nys-textinput-border-width: var(--nys-border-width-sm, 1px);
+    --_nys-textinput-border-color: var(--nys-color-neutral-400, #909395);
+    --_nys-textinput-color: var(
       --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
-    --_nys-textinput-placeholder-color: var(
+    --_nys-textinput-color--placeholder: var(
       --nys-color-text-weaker,
       var(--nys-color-neutral-500, #797c7f)
     );
@@ -24,32 +24,37 @@ export default css`
       --nys-color-ink-reverse,
       var(--nys-color-white, #ffffff)
     );
-    --_nys-textinput-icon-color: var(
+    --_nys-textinput-color: var(
       --nys-color-ink,
       var(--nys-color-neutral-900, #1b1b1b)
     );
 
     /* Hovered */
-    --_nys-textinput-hover-color-outline: var(--nys-color-neutral-900, #1b1b1b);
-    --_nys-textinput-hover-width-outline: var(--nys-border-width-sm, 1px);
+    --_nys-textinput-outline-color--hover: var(
+      --nys-color-neutral-900,
+      #1b1b1b
+    );
+    --_nys-textinput-outline-width: var(--nys-border-width-sm, 1px);
 
     /* Focused */
-    --_nys-textinput-focus-color-outline: var(--nys-color-focus, #004dd1);
-    --_nys-textinput-focus-width-outline: var(--nys-border-width-sm, 1px);
+    --_nys-textinput-outline-color--focus: var(--nys-color-focus, #004dd1);
 
     /* Disabled */
-    --_nys-textinput-disabled-color: var(--nys-color-neutral-10, #f6f6f6);
-    --_nys-textinput-disabled-color-border: var(
+    --_nys-textinput-background-color--disabled: var(
+      --nys-color-neutral-10,
+      #f6f6f6
+    );
+    --_nys-textinput-border-color--disabled: var(
       --nys-color-neutral-200,
       #bec0c1
     );
-    --_nys-textinput-disabled-color-text: var(
+    --_nys-textinput-color--disabled: var(
       --nys-color-text-disabled,
       var(--nys-color-neutral-200, #bec0c1)
     );
 
     /* Global Font Styles */
-    --_nys-textinput-family-ui: var(
+    --_nys-textinput-font-family: var(
       --nys-font-family-ui,
       var(
         --nys-font-family-sans,
@@ -60,14 +65,13 @@ export default css`
         sans-serif
       )
     );
-    --_nys-textinput-size-ui-md: var(--nys-font-size-ui-md, 16px);
-    --_nys-textinput-weight-ui: var(--nys-font-weight-regular, 400);
-    --_nys-textinput-lineheight-ui: var(--nys-font-lineheight-ui-md, 24px);
-    --nys-textinput-letterspacing-ui: var(
+    --_nys-textinput-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-textinput-font-weight: var(--nys-font-weight-regular, 400);
+    --_nys-textinput-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-textinput-letter-spacing: var(
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
     );
-    --_nys-textinput-color-ui: var(--nys-color-ink, #1b1b1b);
   }
 
   :host([width="sm"]) {
@@ -88,15 +92,16 @@ export default css`
   }
 
   :host([showError]) {
-    --_nys-textinput-color-border: var(--nys-color-danger, #b52c2c);
+    --_nys-textinput-border-color: var(--nys-color-danger, #b52c2c);
   }
 
   .nys-textinput {
-    font-weight: var(--_nys-textinput-weight-ui);
-    font-family: var(--_nys-textinput-family-ui);
-    line-height: var(--_nys-textinput-lineheight-ui);
-    letter-spacing: var(--nys-textinput-letterspacing-ui);
-    color: var(--_nys-textinput-color-ui);
+    font-weight: var(--_nys-textinput-font-weight);
+    font-family: var(--_nys-textinput-font-family);
+    font-size: var(--_nys-textinput-font-size);
+    line-height: var(--_nys-textinput-line-height);
+    letter-spacing: var(--_nys-textinput-letter-spacing);
+    color: var(--_nys-textinput-color);
     gap: var(--_nys-textinput-gap);
     display: flex;
     flex-direction: column;
@@ -105,7 +110,7 @@ export default css`
   .nys-textinput__mask-overlay {
     position: absolute;
     margin: calc(
-      var(--_nys-textinput-padding) + var(--_nys-textinput-width-border)
+      var(--_nys-textinput-padding) + var(--_nys-textinput-border-width)
     );
     color: var(--nys-color-text-weaker, #797c7f);
     display: inline;
@@ -119,10 +124,13 @@ export default css`
   }
 
   .nys-textinput__input {
-    color: var(--_nys-textinput-text-color);
-    border-radius: var(--_nys-textinput-radius);
-    border: solid var(--_nys-textinput-color-border)
-      var(--_nys-textinput-width-border);
+    color: var(--_nys-textinput-color);
+    border-radius: var(--_nys-textinput-border-radius);
+    border: solid var(--_nys-textinput-border-color)
+      var(--_nys-textinput-border-width);
+    outline-color: transparent;
+    outline-width: var(--_nys-textinput-outline-width);
+    outline-style: solid;
     padding: var(--_nys-textinput-padding);
     width: 100%;
     height: var(--_nys-textinput-height);
@@ -134,7 +142,7 @@ export default css`
     font: inherit;
   }
   .nys-textinput__input::placeholder {
-    color: var(--_nys-textinput-placeholder-color);
+    color: var(--_nys-textinput-color--placeholder);
   }
 
   .nys-textinput__buttoncontainer {
@@ -161,22 +169,20 @@ export default css`
     align-items: center;
     width: 100%;
     background-color: var(--_nys-textinput-background-color);
-    border-radius: var(--_nys-textinput-radius);
+    border-radius: var(--_nys-textinput-border-radius);
   }
 
   ::slotted(nys-button) {
     /* These props ARE NOT publicly overridable */
     --_nys-button-height: var(--_nys-textinput-height);
-    --_nys-button-border-radius--left: var(--_nys-textinput-radius);
-    --_nys-button-border-radius--right: var(--_nys-textinput-radius);
+    --_nys-button-border-radius--left: var(--_nys-textinput-border-radius);
+    --_nys-button-border-radius--right: var(--_nys-textinput-border-radius);
     --_nys-button-background-color--disabled: var(
-      --_nys-textinput-disabled-color
+      --_nys-textinput-background-color--disabled
     );
-    --_nys-button-border-color--disabled: var(
-      --_nys-textinput-disabled-color-text
-    );
-    --_nys-button-color--disabled: var(--_nys-textinput-disabled-color-text);
-    --_nys-button-border-width: var(--_nys-textinput-width-border);
+    --_nys-button-border-color--disabled: var(--_nys-textinput-color--disabled);
+    --_nys-button-color--disabled: var(--_nys-textinput-color--disabled);
+    --_nys-button-border-width: var(--_nys-textinput-border-width);
     z-index: 1; /* to make sure the button outline renders on top of the input */
   }
 
@@ -194,7 +200,7 @@ export default css`
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: var(--_nys-textinput-icon-color);
+    color: var(--_nys-textinput-color--icon);
     /* These props ARE publicly overridable */
     --nys-button-background-color: var(--_nys-textinput-background-color);
     --nys-button-background-color--hover: var(
@@ -215,26 +221,24 @@ export default css`
 
   /* Hovered */
   .nys-textinput__input:hover:not(:disabled):not(:focus) {
-    outline: solid var(--_nys-textinput-hover-width-outline)
-      var(--_nys-textinput-hover-color-outline);
-    border-color: var(--_nys-textinput-hover-color-outline);
+    outline-color: var(--_nys-textinput-outline-color--hover);
+    border-color: var(--_nys-textinput-outline-color--hover);
   }
 
   /* Focused */
   .nys-textinput__input:focus {
-    outline: solid var(--_nys-textinput-focus-width-outline)
-      var(--_nys-textinput-focus-color-outline);
-    border-color: var(--_nys-textinput-focus-color-outline);
-    caret-color: var(--_nys-textinput-focus-color-outline);
+    outline-color: var(--_nys-textinput-outline-color--focus);
+    border-color: var(--_nys-textinput-outline-color--focus);
+    caret-color: var(--_nys-textinput-outline-color--focus);
   }
 
   /* Disabled */
   .nys-textinput__input:disabled,
   .nys-textinput__input:disabled::placeholder,
   .nys-textinput__input:disabled + .eye-icon {
-    background-color: var(--_nys-textinput-disabled-color);
-    border-color: var(--_nys-textinput-disabled-color-border);
-    color: var(--_nys-textinput-disabled-color-text);
+    background-color: var(--_nys-textinput-background-color--disabled);
+    border-color: var(--_nys-textinput-border-color--disabled);
+    color: var(--_nys-textinput-color--disabled);
     cursor: not-allowed;
   }
 `;
