@@ -21,7 +21,8 @@ export default css`
         sans-serif
       )
     );
-    --nys-stepper-color-bg: var(--nys-color-surface-raised, #f6f6f6);
+    --_nys-step-color: var(--nys-color-text, #1b1b1b);
+    --_nys-stepper-background-color: var(--nys-color-surface-raised, #f6f6f6);
   }
 
   .nys-stepper {
@@ -32,7 +33,7 @@ export default css`
     display: flex;
     flex-direction: column;
     counter-reset: step;
-    background: var(--nys-stepper-color-bg);
+    background-color: var(--_nys-stepper-background-color);
     max-width: 100%;
     height: 100%;
   }
@@ -165,13 +166,13 @@ export default css`
   :host([previous]) .nys-step__line,
   :host([current]) .nys-step__number,
   :host([current]) .nys-step__line {
-    background: var(--nys-color-theme-stronger, #081b2b);
+    background-color: var(--nys-color-theme-stronger, #081b2b);
     color: var(--nys-color-text-reverse, #fff);
     border-color: var(--nys-color-theme-stronger, #081b2b);
   }
 
   :host([selected]) .nys-step__number {
-    background: var(--nys-color-theme, #154973);
+    background-color: var(--nys-color-theme, #154973);
     color: var(--nys-color-text-reverse, #fff);
     border-color: var(--nys-color-theme, #154973);
     outline: var(--nys-size-50, 4px) solid var(--nys-color-theme-weak, #cddde9);
@@ -189,7 +190,7 @@ export default css`
   }
 
   .nys-step__label {
-    color: var(--nys-color-text, #1b1b1b);
+    color: var(--_nys-step-color);
     font-family: var(--_nys-stepper-font-family);
     font-size: var(--_nys-stepper-font-size);
     font-weight: var(--_nys-stepper-font-weight);
