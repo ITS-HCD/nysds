@@ -273,7 +273,6 @@ export default css`
     font-size: var(--_nys-globalheader-font-size--menu-btn);
     line-height: var(--_nys-globalheader-line-height--menu-btn);
     letter-spacing: var(--_nys-globalheader-letter-spacing--menu-btn);
-    border: red solid;
   }
 
   /* Breakpoints using NYSDS Guidelines (Menu Links) */
