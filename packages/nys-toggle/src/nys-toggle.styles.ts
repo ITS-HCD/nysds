@@ -6,18 +6,17 @@ export default css`
     --_nys-toggle-width: var(--nys-font-size-8xl, 44px);
     --_nys-toggle-height: var(--nys-size-300, 24px);
     --_nys-toggle-border-radius: var(--nys-radius-round, 1776px);
-    --_nys-toggle-width-border: var(--nys-border-width-md, 2px);
-    --_nys-toggle-slider-diameter: var(--nys-font-size-lg, 18px);
-    --_nys-toggle-slider-offset: calc(
-      (var(--_nys-toggle-height) - var(--_nys-toggle-slider-diameter)) / 2
+    --_nys-toggle-border-width: var(--nys-border-width-md, 2px);
+    --_nys-toggle-size--knob: var(--nys-font-size-lg, 18px);
+    --_nys-toggle-margin--knob: calc(
+      (var(--_nys-toggle-height) - var(--_nys-toggle-size--knob)) / 2
     );
-    --_nys-toggle-slider-checked-translate: calc(
-      var(--_nys-toggle-width) - var(--_nys-toggle-slider-diameter) - var(
-          --_nys-toggle-slider-offset
+    --_nys-toggle-transform--translateX: calc(
+      var(--_nys-toggle-width) - var(--_nys-toggle-size--knob) - var(
+          --_nys-toggle-margin--knob
         ) -
         2px
     );
-    --_nys-toggle-slider-round: var(--nys-radius-round, 1776px);
     /* space between toggle and it's label */
     --_nys-toggle-gap: var(--nys-space-150, 12px);
 
@@ -39,8 +38,8 @@ export default css`
     --_nys-toggle-transition-duration: 0.3s;
 
     /* Focus outline */
-    --_nys-toggle-border-focus-color: var(--nys-color-focus, #004dd1);
-    --_nys-toggle-border-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-toggle-outline-color: var(--nys-color-focus, #004dd1);
+    --_nys-toggle-outline-width: var(--nys-border-width-md, 2px);
 
     /* Slider colors */
     --_nys-toggle-color-base: var(--nys-color-neutral-500, #797c7f);
@@ -72,14 +71,6 @@ export default css`
     --_nys-toggle-disabled-color: var(
       --nys-color-text-weaker,
       var(--nys-color-neutral-500, #797c7f)
-    );
-    --_nys-toggle-icon-font-size-xs: var(
-      --nys-font-size-body-xs,
-      var(--nys-font-size-xs, 12px)
-    );
-    --_nys-toggle-icon-font-size-sm: var(
-      --nys-font-size-body-sm,
-      var(--nys-font-size-sm, 14px)
     );
   }
 
@@ -139,23 +130,23 @@ export default css`
     position: absolute;
     cursor: pointer;
     border-radius: var(--_nys-toggle-border-radius);
-    outline-offset: var(--_nys-toggle-width-border);
+    outline-offset: var(--_nys-toggle-border-width);
     width: var(--_nys-toggle-width);
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: var(--_nys-toggle-color-base);
+    display: flex;
+    align-items: center;
   }
 
   .knob {
     content: "";
-    position: absolute;
-    height: var(--_nys-toggle-slider-diameter);
-    width: var(--_nys-toggle-slider-diameter);
-    left: var(--_nys-toggle-slider-offset);
-    bottom: var(--_nys-toggle-slider-offset);
-    border-radius: var(--_nys-toggle-slider-round);
+    height: var(--_nys-toggle-size--knob);
+    width: var(--_nys-toggle-size--knob);
+    margin: var(--_nys-toggle-margin--knob);
+    border-radius: var(--nys-radius-round, 1776px);
     background-color: var(--_nys-toggle-color-ink-reverse, #fff);
     transition: all var(--_nys-toggle-transition-duration)
       cubic-bezier(0.27, 0.2, 0.25, 1.51);
@@ -193,8 +184,8 @@ export default css`
   /* Switch BG: Active */
   input:active:not(:disabled) + .slider {
     background-color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
-    outline: solid var(--_nys-toggle-border-width-focus)
-      var(--_nys-toggle-border-focus-color);
+    outline: solid var(--_nys-toggle-outline-width)
+      var(--_nys-toggle-outline-color);
   }
 
   /* Switch BG: Active + Checked */
@@ -204,13 +195,13 @@ export default css`
 
   /* Switch Outline: Focus */
   input:focus + .slider {
-    outline: solid var(--_nys-toggle-border-width-focus)
-      var(--_nys-toggle-border-focus-color);
+    outline: solid var(--_nys-toggle-outline-width)
+      var(--_nys-toggle-outline-color);
   }
 
   /* Switch Knob: Checked */
   input:checked + .slider .knob {
-    transform: translateX(var(--_nys-toggle-slider-checked-translate));
+    transform: translateX(var(--_nys-toggle-transform--translateX));
   }
 
   /* Icon Styling */
@@ -228,18 +219,18 @@ export default css`
     color: var(--_nys-toggle-color-theme-stronger, #081b2b);
   }
   :host([size="sm"]) .toggle-icon {
-    font-size: var(--_nys-toggle-icon-font-size-xs);
+    font-size: var(--nys-font-size-body-xs, 12px);
   }
   :host([size="md"]) .toggle-icon {
-    font-size: var(--_nys-toggle-icon-font-size-sm);
+    font-size: var(--nys-font-size-body-sm, 14px);
   }
   /* If 'cap' is not supported, account for the extra padding from svg due to nys-icon's 'display:inline' */
   @supports not (font-size: 1cap) {
     :host([size="sm"]) .toggle-icon {
-      font-size: var(--_nys-toggle-icon-font-size-xs);
+      font-size: var(--nys-font-size-body-xs, 12px);
     }
     :host([size="md"]) .toggle-icon {
-      font-size: calc(var(--_nys-toggle-icon-font-size-sm) - 1px);
+      font-size: calc(var(--nys-font-size-body-sm, 14px) - 1px);
     }
   }
 
@@ -259,7 +250,7 @@ export default css`
   :host([size="sm"]) {
     --_nys-toggle-width: var(--nys-toggle-font-size-6xl, 36px);
     --_nys-toggle-height: var(--nys-toggle-size-250, 20px);
-    --_nys-toggle-slider-diameter: var(--nys-toggle--font-size-md, 16px);
+    --_nys-toggle-size--knob: var(--nys-toggle--font-size-md, 16px);
     --_nys-toggle-icon-font-size: var(--nys-toggle-font-size-sm, 14px);
     --_nys-toggle-gap: var(--nys-space-100, 8px);
   }
@@ -267,7 +258,7 @@ export default css`
   :host([size="md"]) {
     --_nys-toggle-width: var(--nys-toggle-font-size-8xl, 44px);
     --_nys-toggle-height: var(--nys-toggle-size-300, 24px);
-    --_nys-toggle-slider-diameter: var(--nys-toggle-font-size-xl, 20px);
+    --_nys-toggle-size--knob: var(--nys-toggle-font-size-xl, 20px);
     --_nys-toggle-icon-font-size: var(--nys-toggle-font-size-md, 16px);
   }
 
