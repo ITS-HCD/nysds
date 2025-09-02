@@ -119,18 +119,18 @@ export default css`
     width: 100%;
     height: 6px;
     border-radius: var(--nys-radius-round, 1776px);
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
     overflow: hidden;
     appearance: none;
     border: none;
   }
   progress::-moz-progress-bar {
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
   }
   progress::-webkit-progress-value {
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
   }
   progress::-webkit-progress-bar {
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
   }
 `;
