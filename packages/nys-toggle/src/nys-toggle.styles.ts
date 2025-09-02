@@ -65,10 +65,7 @@ export default css`
       --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
-    --_nys-toggle-color--disabled: var(
-      --nys-color-text-weaker,
-      var(--nys-color-neutral-500, #797c7f)
-    );
+    --_nys-toggle-color--disabled: var(--nys-color-neutral-500, #797c7f);
   }
 
   /* Slotted styling (e.g. HTML <p> tags for descriptions) */
@@ -235,12 +232,12 @@ export default css`
   /* Switch BG: Disabled */
   input:disabled + .slider,
   input:disabled + .slider:hover {
-    background-color: var(--_nys-toggle-color-base-weak, #d0d0ce);
+    background-color: var(--_nys-toggle-background-color--disabled);
     cursor: not-allowed;
   }
   input:disabled + .slider .knob .toggle-icon,
   input:disabled:active + .slider .knob .toggle-icon {
-    color: var(--_nys-toggle-color-base-weak, #d0d0ce);
+    color: var(--_nys-toggle-background-color--disabled);
   }
 
   /* Sizes */
