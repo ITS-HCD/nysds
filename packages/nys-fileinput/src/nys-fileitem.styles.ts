@@ -8,7 +8,6 @@ export default css`
       var(--nys-space-200, 16px);
     --_nys-fileitem-items-background: var(--nys-color-ink-reverse, #fff);
     --_nys-fileitem-border-color: var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-fileitem-color--error: var(--nys-color-danger, #b52c2c);
 
     /* Typography */
     --_nys-fileitem-font-family: var(
@@ -93,7 +92,7 @@ export default css`
   }
 
   .file-item__error {
-    color: var(--_nys-fileitem-color--error);
+    color: var(--nys-color-danger, #b52c2c);
     text-overflow: ellipsis;
     font-weight: 700;
   }
@@ -129,7 +128,7 @@ export default css`
   }
 
   .file-icon[name="error"] {
-    color: var(--_nys-fileitem-color--error);
+    color: var(--nys-color-danger, #b52c2c);
   }
 
   @keyframes spin {
