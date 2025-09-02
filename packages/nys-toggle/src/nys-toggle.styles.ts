@@ -64,11 +64,11 @@ export default css`
     );
 
     /* Font sizes, color, and spacing for labels, descriptions, and icons */
-    --_nys-toggle-text-color: var(
+    --_nys-toggle-color: var(
       --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
-    --_nys-toggle-disabled-color: var(
+    --_nys-toggle-color--disabled: var(
       --nys-color-text-weaker,
       var(--nys-color-neutral-500, #797c7f)
     );
@@ -93,7 +93,7 @@ export default css`
 
   /* Label & description text container */
   .nys-toggle__text {
-    color: var(--_nys-toggle-text-color);
+    color: var(--_nys-toggle-color);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -104,7 +104,7 @@ export default css`
   }
 
   .nys-toggle__content:has(input:disabled) .nys-toggle__text * {
-    color: var(--_nys-toggle-disabled-color);
+    color: var(--_nys-toggle-color--disabled);
     cursor: not-allowed;
   }
 
@@ -248,18 +248,16 @@ export default css`
 
   /* Sizes */
   :host([size="sm"]) {
-    --_nys-toggle-width: var(--nys-toggle-font-size-6xl, 36px);
-    --_nys-toggle-height: var(--nys-toggle-size-250, 20px);
-    --_nys-toggle-size--knob: var(--nys-toggle--font-size-md, 16px);
-    --_nys-toggle-icon-font-size: var(--nys-toggle-font-size-sm, 14px);
+    --_nys-toggle-width: var(--nys-size-450, 36px);
+    --_nys-toggle-height: var(--nys-size-250, 20px);
+    --_nys-toggle-size--knob: var(--nys-size-200, 16px);
     --_nys-toggle-gap: var(--nys-space-100, 8px);
   }
 
   :host([size="md"]) {
-    --_nys-toggle-width: var(--nys-toggle-font-size-8xl, 44px);
-    --_nys-toggle-height: var(--nys-toggle-size-300, 24px);
-    --_nys-toggle-size--knob: var(--nys-toggle-font-size-xl, 20px);
-    --_nys-toggle-icon-font-size: var(--nys-toggle-font-size-md, 16px);
+    --_nys-toggle-width: var(--nys-size-550, 44px);
+    --_nys-toggle-height: var(--nys-size-300, 24px);
+    --_nys-toggle-size--knob: var(--nys-size-250, 20px);
   }
 
   @media (prefers-reduced-motion: reduce) {
