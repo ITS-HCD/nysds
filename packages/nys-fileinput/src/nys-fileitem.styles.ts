@@ -7,9 +7,8 @@ export default css`
     --_nys-fileitem-items-padding: var(--nys-space-100, 8px)
       var(--nys-space-200, 16px);
     --_nys-fileitem-items-background: var(--nys-color-ink-reverse, #fff);
-    --_nys-fileitem-items-border: var(--nys-border-width-sm, 1px) solid
-      var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-fileitem-error-color: var(--nys-color-danger, #b52c2c);
+    --_nys-fileitem-border-color: var(--nys-color-neutral-100, #d0d0ce);
+    --_nys-fileitem-color--error: var(--nys-color-danger, #b52c2c);
 
     /* Typography */
     --_nys-fileitem-font-family: var(
@@ -24,9 +23,12 @@ export default css`
       )
     );
     --_nys-fileitem-font-size: var(--nys-font-size-ui-md, 16px);
-    --_nys-fileitem-font-weight-400: var(--nys-font-weight-regular, 400);
+    --_nys-fileitem-font-weight: var(--nys-font-weight-regular, 400);
     --_nys-fileitem-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-fileitem-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    --_nys-fileitem-letter-spacing: var(
+      --nys-font-letterspacing-ui-md,
+      0.044px
+    );
 
     /* Progress Bar */
     --_nys-fileitem-progress-background: var(--nys-color-neutral-50, #ededed);
@@ -37,13 +39,14 @@ export default css`
   .file-item {
     position: relative;
     border-radius: var(--_nys-fileitem-items-radius);
-    border: var(--_nys-fileitem-items-border);
+    border-width: var(--nys-border-width-sm, 1px);
+    border-style: solid;
+    border-color: var(--_nys-fileitem-border-color);
     background: var(--_nys-fileitem-items-background);
   }
 
   .file-item.error {
-    --_nys-fileitem-items-border: var(--nys-border-width-sm, 1px) solid
-      var(--nys-color-danger, #b52c2c);
+    --_nys-fileitem-border-color: var(--nys-color-danger, #b52c2c);
   }
 
   .file-item__main {
@@ -64,9 +67,9 @@ export default css`
     font-family: var(--_nys-fileitem-font-family);
     font-size: var(--_nys-fileitem-font-size);
     font-style: normal;
-    font-weight: var(--_nys-fileitem-font-weight-400);
+    font-weight: var(--_nys-fileitem-font-weight);
     line-height: var(--_nys-fileitem-line-height);
-    letter-spacing: var(--_nys-fileitem-letterspacing);
+    letter-spacing: var(--_nys-fileitem-letter-spacing);
   }
 
   .file-item__info-name {
@@ -90,7 +93,7 @@ export default css`
   }
 
   .file-item__error {
-    color: var(--_nys-fileitem-error-color);
+    color: var(--_nys-fileitem-color--error);
     text-overflow: ellipsis;
     font-weight: 700;
   }
@@ -126,7 +129,7 @@ export default css`
   }
 
   .file-icon[name="error"] {
-    color: var(--_nys-fileitem-error-color);
+    color: var(--_nys-fileitem-color--error);
   }
 
   @keyframes spin {
