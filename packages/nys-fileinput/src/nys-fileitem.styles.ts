@@ -30,8 +30,14 @@ export default css`
     );
 
     /* Progress Bar */
-    --_nys-fileitem-progress-background: var(--nys-color-neutral-50, #ededed);
-    --_nys-fileitem-progress-fill-background: var(--nys-color-info, #004dd1);
+    --_nys-fileitem-background-color--progress: var(
+      --nys-color-neutral-50,
+      #ededed
+    );
+    --_nys-fileitem-background-color--progress--fill: var(
+      --nys-color-info,
+      #004dd1
+    );
   }
 
   /***** File List Item *****/
@@ -105,21 +111,21 @@ export default css`
     width: 100%;
     height: 6px;
     border-radius: var(--nys-radius-round, 1776px);
-    background: var(--_nys-fileitem-progress-fill-background);
+    background: var(--_nys-fileitem-background-color--progress--fill);
     overflow: hidden;
     appearance: none;
   }
   /* Track */
   progress::-moz-progress-bar {
-    background: var(--_nys-fileitem-progress-background);
+    background-color: var(--_nys-fileitem-background-color--progress);
   }
   /* Filled value (the blue bar) */
   progress::-webkit-progress-value {
-    background: var(--_nys-fileitem-progress-fill-background);
+    background-color: var(--_nys-fileitem-background-color--progress--fill);
   }
   /* Firefox */
   progress::-webkit-progress-bar {
-    background: var(--_nys-fileitem-progress-background);
+    background-color: var(--_nys-fileitem-background-color--progress);
   }
 
   /**** Icon ****/
