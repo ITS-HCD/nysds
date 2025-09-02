@@ -143,7 +143,6 @@ export class NysAvatar extends LitElement {
                         name=${this.icon?.length > 0
                           ? this.icon
                           : "account_circle"}
-                        size="xl"
                       ></nys-icon>
                     </div>`}
           </div>
