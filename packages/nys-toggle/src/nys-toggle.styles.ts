@@ -42,14 +42,20 @@ export default css`
     --_nys-toggle-outline-width: var(--nys-border-width-md, 2px);
 
     /* Slider colors */
-    --_nys-toggle-color-base: var(--nys-color-neutral-500, #797c7f);
+    --_nys-toggle-background-color: var(--nys-color-neutral-500, #797c7f);
     --_nys-toggle-background-color--disabled: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
     --_nys-toggle-background-color--checked: var(--nys-color-theme, #154973);
-    --_nys-toggle-color-neutral: var(--nys-color-neutral-600, #62666a);
-    --_nys-toggle-color-neutral-700: var(--nys-color-neutral-700, #4a4d4f);
+    --_nys-toggle-background-color--hover: var(
+      --nys-color-neutral-600,
+      #62666a
+    );
+    --_nys-toggle-background-color--active: var(
+      --nys-color-neutral-700,
+      #4a4d4f
+    );
     --_nys-toggle-background-color--checked--hover: var(
       --nys-color-theme-strong,
       #0e324f
@@ -130,7 +136,7 @@ export default css`
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--_nys-toggle-color-base);
+    background-color: var(--_nys-toggle-background-color);
     display: flex;
     align-items: center;
   }
@@ -157,7 +163,7 @@ export default css`
 
   /* Switch BG: Hover */
   .slider:hover {
-    background-color: var(--_nys-toggle-color-neutral);
+    background-color: var(--_nys-toggle-background-color--hover);
   }
 
   /* Switch BG: Hover + Checked */
@@ -167,7 +173,7 @@ export default css`
 
   /* Switch Icon color: Hover */
   .slider:hover .knob .toggle-icon {
-    color: var(--_nys-toggle-color-neutral);
+    color: var(--_nys-toggle-background-color--hover);
   }
 
   /* Switch Icon color: Hover + Checked */
@@ -177,7 +183,7 @@ export default css`
 
   /* Switch BG: Active */
   input:active:not(:disabled) + .slider {
-    background-color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
+    background-color: var(--_nys-toggle-background-color--active);
     outline: solid var(--_nys-toggle-outline-width)
       var(--_nys-toggle-outline-color);
   }
@@ -201,13 +207,13 @@ export default css`
   /* Icon Styling */
   .toggle-icon {
     position: absolute;
-    color: var(--_nys-toggle-color-base);
+    color: var(--_nys-toggle-background-color);
   }
   input:checked + .slider .knob .toggle-icon {
     color: var(--_nys-toggle-background-color--checked);
   }
   input:active + .slider .knob .toggle-icon {
-    color: var(--_nys-toggle-color-neutral-700);
+    color: var(--_nys-toggle-background-color--active);
   }
   input:active:checked + .slider .knob .toggle-icon {
     color: var(--_nys-toggle-background-color--checked--active);
