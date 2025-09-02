@@ -4,14 +4,9 @@ figma.connect("<FIGMA_ACCORDIONITEM>", {
   props: {
     heading: figma.string("Heading"),
     expanded: figma.boolean("Expanded"),
-    bordered: figma.boolean("Bordered"),
   },
   example: (props) => html`
-    <nys-accordionitem
-      heading="${props.heading}"
-      expanded=${props.expanded}
-      bordered=${props.bordered}
-    >
+    <nys-accordionitem heading="${props.heading}" expanded=${props.expanded}>
       <p>
         This is example accordion content. Customize the content inside the
         slot.
