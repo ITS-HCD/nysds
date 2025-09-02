@@ -3,10 +3,10 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global fileitem Styles */
-    --_nys-fileitem-items-radius: var(--nys-radius-md, 4px);
-    --_nys-fileitem-items-padding: var(--nys-space-100, 8px)
+    --_nys-fileitem-border-radius: var(--nys-radius-md, 4px);
+    --_nys-fileitem-padding: var(--nys-space-100, 8px)
       var(--nys-space-200, 16px);
-    --_nys-fileitem-items-background: var(--nys-color-ink-reverse, #fff);
+    --_nys-fileitem-background-color: var(--nys-color-ink-reverse, #fff);
     --_nys-fileitem-border-color: var(--nys-color-neutral-100, #d0d0ce);
 
     /* Typography */
@@ -37,11 +37,11 @@ export default css`
   /***** File List Item *****/
   .file-item {
     position: relative;
-    border-radius: var(--_nys-fileitem-items-radius);
+    border-radius: var(--_nys-fileitem-border-radius);
     border-width: var(--nys-border-width-sm, 1px);
     border-style: solid;
     border-color: var(--_nys-fileitem-border-color);
-    background: var(--_nys-fileitem-items-background);
+    background-color: var(--_nys-fileitem-background-color);
   }
 
   .file-item.error {
@@ -53,7 +53,7 @@ export default css`
     justify-items: center;
     align-items: center;
     gap: var(--_nys-fileinput-gap);
-    padding: var(--_nys-fileitem-items-padding);
+    padding: var(--_nys-fileitem-padding);
     height: 56px;
     box-sizing: border-box;
   }
