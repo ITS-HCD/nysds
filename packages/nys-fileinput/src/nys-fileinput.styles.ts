@@ -38,12 +38,9 @@ export default css`
       --nys-radius-lg,
       var(--nys-space-100, 8px)
     );
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
-      var(--nys-color-neutral-200, #bec0c1);
-    --_nys-fileinput-color--dropzone--disabled: var(
-      --nys-color-text-disabled,
-      #bec0c1
-    );
+    --_nys-fileinput-border-style: dashed;
+    --_nys-fileinput-border-color: var(--nys-color-neutral-200, #bec0c1);
+    --_nys-fileinput-border-width: var(--nys-border-width-sm, 1px);
   }
 
   .nys-fileinput {
@@ -80,37 +77,37 @@ export default css`
     gap: 12px;
     align-self: stretch;
     border-radius: var(--_nys-fileinput-border-radius--dropzone);
-    outline: var(--_nys-fileinput-dropzone-border);
+    outline: var(--_nys-fileinput-border-width)
+      var(--_nys-fileinput-border-style) var(--_nys-fileinput-border-color);
     background-color: var(--_nys-fileinput-background-color--dropzone);
     transition: all 60ms ease-in-out;
   }
 
   .nys-fileinput__dropzone:hover {
     cursor: pointer;
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-md, 2px) dashed
-      var(--nys-color-neutral-700, #4a4d4f);
+    --_nys-fileinput-border-width: var(--nys-border-width-md, 2px);
+    --_nys-fileinput-border-color: var(--nys-color-neutral-700, #4a4d4f);
   }
 
   .nys-fileinput__dropzone.drag-active {
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-md, 2px) solid
-      var(--nys-color-theme, #154973);
-    background-color: var(--_nys-fileinput-background-color--dropzone--active);
+    --_nys-fileinput-border-width: var(--nys-border-width-md, 2px);
+    --_nys-fileinput-border-color: var(--nys-color-theme, #154973);
+    --_nys-fileinput-border-style: solid;
   }
 
   .nys-fileinput__dropzone.error {
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-md, 1px) dashed
-      var(--nys-color-danger, #b52c2c);
+    --_nys-fileinput-border-color: var(--nys-color-danger, #b52c2c);
   }
 
   .nys-fileinput__dropzone.error:hover {
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 2px) dashed
-      var(--nys-color-emergency, #721c1c);
+    --_nys-fileinput-border-width: var(--nys-border-width-md, 2px);
+    --_nys-fileinput-border-color: var(--nys-color-emergency, #721c1c);
   }
 
   .nys-fileinput__dropzone.disabled {
     cursor: not-allowed;
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
-      var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-fileinput-border-color: var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-fileinput-border-width: var(--nys-border-width-sm, 1px);
     background-color: var(
       --_nys-fileinput-background-color--dropzone--disabled
     );
