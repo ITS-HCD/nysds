@@ -43,25 +43,22 @@ export default css`
 
     /* Slider colors */
     --_nys-toggle-color-base: var(--nys-color-neutral-500, #797c7f);
-    --_nys-toggle-color-base-weak: var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-toggle-color-theme: var(
-      --nys-color-theme,
-      var(--nys-color-state-blue-700, #154973)
+    --_nys-toggle-background-color--disabled: var(
+      --nys-color-neutral-100,
+      #d0d0ce
     );
+    --_nys-toggle-background-color--checked: var(--nys-color-theme, #154973);
     --_nys-toggle-color-neutral: var(--nys-color-neutral-600, #62666a);
     --_nys-toggle-color-neutral-700: var(--nys-color-neutral-700, #4a4d4f);
-    --_nys-toggle-color-theme-strong: var(
+    --_nys-toggle-background-color--checked--hover: var(
       --nys-color-theme-strong,
-      var(--nys-color-state-blue-800, #0e324f)
+      #0e324f
     );
-    --_nys-toggle-color-theme-stronger: var(
+    --_nys-toggle-background-color--checked--active: var(
       --nys-color-theme-stronger,
-      var(--nys-color-state-blue-900, #081b2b)
+      #081b2b
     );
-    --_nys-toggle-color-ink-reverse: var(
-      --nys-color-ink-reverse,
-      var(--nys-color-white, #fff)
-    );
+    --_nys-toggle-color-ink-reverse: var(--nys-color-ink-reverse, #fff);
 
     /* Font sizes, color, and spacing for labels, descriptions, and icons */
     --_nys-toggle-color: var(
@@ -147,7 +144,7 @@ export default css`
     width: var(--_nys-toggle-size--knob);
     margin: var(--_nys-toggle-margin--knob);
     border-radius: var(--nys-radius-round, 1776px);
-    background-color: var(--_nys-toggle-color-ink-reverse, #fff);
+    background-color: var(--_nys-toggle-color-ink-reverse);
     transition: all var(--_nys-toggle-transition-duration)
       cubic-bezier(0.27, 0.2, 0.25, 1.51);
     overflow: hidden;
@@ -158,27 +155,27 @@ export default css`
 
   /* Switch BG: Checked */
   input:checked + .slider {
-    background-color: var(--_nys-toggle-color-theme, #154973);
+    background-color: var(--_nys-toggle-background-color--checked);
   }
 
   /* Switch BG: Hover */
   .slider:hover {
-    background-color: var(--_nys-toggle-color-neutral, #62666a);
+    background-color: var(--_nys-toggle-color-neutral);
   }
 
   /* Switch BG: Hover + Checked */
   input:checked + .slider:hover {
-    background-color: var(--_nys-toggle-color-theme-strong, #0e324f);
+    background-color: var(--_nys-toggle-background-color--checked--hover);
   }
 
   /* Switch Icon color: Hover */
   .slider:hover .knob .toggle-icon {
-    color: var(--_nys-toggle-color-neutral, #62666a);
+    color: var(--_nys-toggle-color-neutral);
   }
 
   /* Switch Icon color: Hover + Checked */
   input:checked:not(:disabled) + .slider:hover .knob .toggle-icon {
-    color: var(--_nys-toggle-color-theme-strong, #0e324f);
+    color: var(--_nys-toggle-background-color--checked--hover);
   }
 
   /* Switch BG: Active */
@@ -190,7 +187,7 @@ export default css`
 
   /* Switch BG: Active + Checked */
   input:active:checked + .slider {
-    background-color: var(--_nys-toggle-color-theme-stronger, #081b2b);
+    background-color: var(--_nys-toggle-background-color--checked--active);
   }
 
   /* Switch Outline: Focus */
@@ -210,13 +207,13 @@ export default css`
     color: var(--_nys-toggle-color-base);
   }
   input:checked + .slider .knob .toggle-icon {
-    color: var(--_nys-toggle-color-theme, #154973);
+    color: var(--_nys-toggle-background-color--checked);
   }
   input:active + .slider .knob .toggle-icon {
-    color: var(--_nys-toggle-color-neutral-700, #4a4d4f);
+    color: var(--_nys-toggle-color-neutral-700);
   }
   input:active:checked + .slider .knob .toggle-icon {
-    color: var(--_nys-toggle-color-theme-stronger, #081b2b);
+    color: var(--_nys-toggle-background-color--checked--active);
   }
   :host([size="sm"]) .toggle-icon {
     font-size: var(--nys-font-size-body-xs, 12px);
