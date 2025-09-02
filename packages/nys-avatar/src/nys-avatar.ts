@@ -102,7 +102,7 @@ export class NysAvatar extends LitElement {
             part="nys-avatar"
             class="nys-avatar__component"
             style=${this.color
-              ? `--_nys-avatar-background: ${this.color}; color: ${this.getContrastForeground()}`
+              ? `--_nys-avatar-background-color: ${this.color}; color: ${this.getContrastForeground()}`
               : ""}
             role=${ifDefined(
               this.interactive ? "button" : this.image ? undefined : "img",
