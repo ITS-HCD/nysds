@@ -1,5 +1,6 @@
 import figma, { html } from "@figma/code-connect/html";
 
+// Bordered - No Slot - SingleSelect
 figma.connect("<FIGMA_ACCORDIONITEM1>", {
   props: {
     heading: figma.string("Heading"),
@@ -15,6 +16,7 @@ figma.connect("<FIGMA_ACCORDIONITEM1>", {
   `,
 });
 
+// No Bordered - No Slot - SingleSelect
 figma.connect("<FIGMA_ACCORDIONITEM2>", {
   props: {
     heading: figma.string("Heading"),
@@ -30,6 +32,7 @@ figma.connect("<FIGMA_ACCORDIONITEM2>", {
   `,
 });
 
+// Bordered - Slot - SingleSelect
 figma.connect("<FIGMA_ACCORDIONITEM3>", {
   props: {
     heading: figma.string("Heading"),
@@ -45,6 +48,7 @@ figma.connect("<FIGMA_ACCORDIONITEM3>", {
   `,
 });
 
+// No Bordered - Slot - SingleSelect
 figma.connect("<FIGMA_ACCORDIONITEM4>", {
   props: {
     heading: figma.string("Heading"),

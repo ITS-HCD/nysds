@@ -133,6 +133,7 @@ figma.connect("<FIGMA_RADIOGROUP>", {
       </nys-radiogroup>`,
 });
 
+// Radiobutton Medium
 figma.connect("<FIGMA_RADIOBUTTON1>", {
   props: {
     label: figma.nestedProps("Label", {
@@ -170,6 +171,7 @@ figma.connect("<FIGMA_RADIOBUTTON1>", {
   `,
 });
 
+// Radiobutton Small
 figma.connect("<FIGMA_RADIOBUTTON2>", {
   props: {
     label: figma.nestedProps("Label", {
@@ -207,6 +209,7 @@ figma.connect("<FIGMA_RADIOBUTTON2>", {
   `,
 });
 
+// Radiobutton Medium Tile
 figma.connect("<FIGMA_RADIOBUTTON3>", {
   props: {
     label: figma.nestedProps("Label", {
@@ -244,6 +247,7 @@ figma.connect("<FIGMA_RADIOBUTTON3>", {
   `,
 });
 
+// Radiobutton Small Tile
 figma.connect("<FIGMA_RADIOBUTTON4>", {
   props: {
     label: figma.nestedProps("Label", {
