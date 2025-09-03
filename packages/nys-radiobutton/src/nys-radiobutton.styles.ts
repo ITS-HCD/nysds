@@ -4,7 +4,7 @@ export default css`
   :host {
     /* Global Radiobutton Styles */
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
-    --_nys-radiobutton-radius: var(--nys-radius-md, 4px);
+    --_nys-radiobutton-border-radius: var(--nys-radius-md, 4px);
     --_nys-radiobutton-width-border: var(--nys-border-width-md, 2px);
     --_nys-radiobutton-color-focus: var(--nys-color-focus, #004dd1);
     --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
@@ -97,14 +97,14 @@ export default css`
   /* Small Variant */
   :host([size="sm"]) {
     --_nys-radiobutton-size: var(--nys-size-300, 24px);
-    --_nys-radiobutton-radius: var(--nys-radius-sm, 2px);
+    --_nys-radiobutton-border-radius: var(--nys-radius-sm, 2px);
     --_nys-radiogroup-gap: var(--nys-space-100, 8px);
     --_nys-radiobutton-gap: var(--nys-space-100, 8px);
   }
   /* Medium Variant */
   :host([size="md"]) {
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
-    --_nys-radiobutton-radius: var(--nys-radius-md, 4px);
+    --_nys-radiobutton-border-radius: var(--nys-radius-md, 4px);
     --_nys-radiogroup-gap: var(--nys-space-200, 16px);
     --_nys-radiobutton-gap: var(--nys-space-150, 12px);
   }
@@ -119,38 +119,38 @@ export default css`
     --_nys-radiobutton-tile-padding-x: var(--nys-space-250, 20px);
     --_nys-radiobutton-tile-padding-y: var(--nys-space-200, 16px);
     /* Hover */
-    --_nys-radiobutton-hover-tile-border-color: var(
+    --_nys-radiobutton-border-color--tile--hover: var(
       --nys-color-neutral-700,
       #4a4d4f
     );
-    --_nys-radiobutton-hover-tile-bg-color: var(
+    --_nys-radiobutton-background-color--tile--hover: var(
       --nys-color-ink-reverse,
       #ffffff
     );
     /* Pressed */
-    --_nys-radiobutton-pressed-tile-border-color: var(
+    --_nys-radiobutton-border-color--tile--active: var(
       --nys-color-neutral-900,
       #1b1b1b
     );
-    --_nys-radiobutton-pressed-tile-bg-color: var(
+    --_nys-radiobutton-background-color--tile--active: var(
       --nys-color-ink-reverse,
       #ffffff
     );
     /* Checked */
-    --_nys-radiobutton-checked-tile-border-color: var(
+    --_nys-radiobutton-border-color--tile--checked: var(
       --nys-color-theme-mid,
       #457aa5
     );
-    --_nys-radiobutton-checked-tile-bg-color: var(
+    --_nys-radiobutton-background-color--tile--checked: var(
       --nys-color-theme-faint,
       #f7fafd
     );
     /* Disabled */
-    --_nys-radiobutton-disabled-tile-bg-color: var(
+    --_nys-radiobutton-border-color--tile--disabled: var(
       --nys-color-ink-reverse,
       #f0f0f0
     );
-    --_nys-radiobutton-disabled-tile-border-color: var(
+    --_nys-radiobutton-background-color--tile--disabled: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
@@ -163,15 +163,15 @@ export default css`
 
   :host([tile][showError]) {
     --_nys-radiobutton-tile-border-color: var(--nys-color-danger, #b52c2c);
-    --_nys-radiobutton-hover-tile-border-color: var(
+    --_nys-radiobutton-border-color--tile--hover: var(
       --nys-color-danger,
       #b52c2c
     );
-    --_nys-radiobutton-pressed-tile-border-color: var(
+    --_nys-radiobutton-border-color--tile--active: var(
       --nys-color-danger,
       #b52c2c
     );
-    --_nys-radiobutton-checked-tile-border-color: var(
+    --_nys-radiobutton-border-color--tile--checked: var(
       --nys-color-danger,
       #b52c2c
     );
@@ -244,8 +244,8 @@ export default css`
     .nys-radiobutton:has(input:not(:disabled):checked)
     + .nys-radiobutton
     .nys-radiobutton__radio {
-    border-color: var(--_nys-radiobutton-checked-tile-border-color);
-    background-color: var(--_nys-radiobutton-checked-tile-bg-color);
+    border-color: var(--_nys-radiobutton-border-color--tile--checked);
+    background-color: var(--_nys-radiobutton-background-color--tile--checked);
   }
   :host([tile])
     .nys-radiobutton:has(input:not(:disabled):checked:hover)
@@ -264,8 +264,8 @@ export default css`
     .nys-radiobutton:has(input:disabled:checked)
     + .nys-radiobutton
     .nys-radiobutton__radio {
-    border-color: var(--_nys-radiobutton-disabled-tile-border-color);
-    background-color: var(--_nys-radiobutton-disabled-tile-bg-color);
+    border-color: var(--_nys-radiobutton-background-color--tile--disabled);
+    background-color: var(--_nys-radiobutton-border-color--tile--disabled);
   }
 
   /* Disabled */
@@ -296,10 +296,10 @@ export default css`
         + .nys-radiobutton
         .nys-radiobutton__radio
     ) {
-    border-color: var(--_nys-radiobutton-hover-tile-border-color);
-    background-color: var(--_nys-radiobutton-hover-tile-bg-color);
+    border-color: var(--_nys-radiobutton-border-color--tile--hover);
+    background-color: var(--_nys-radiobutton-background-color--tile--hover);
     outline: solid var(--_nys-radiobutton-tile-border-width)
-      var(--_nys-radiobutton-hover-tile-border-color);
+      var(--_nys-radiobutton-border-color--tile--hover);
   }
 
   /* Pressed - only allow pressed on unchecked */
@@ -315,10 +315,10 @@ export default css`
         + .nys-radiobutton
         .nys-radiobutton__radio
     ) {
-    border-color: var(--_nys-radiobutton-pressed-tile-border-color);
-    background-color: var(--_nys-radiobutton-pressed-tile-bg-color);
+    border-color: var(--_nys-radiobutton-border-color--tile--active);
+    background-color: var(--_nys-radiobutton-background-color--tile--active);
     outline: solid var(--_nys-radiobutton-tile-border-width)
-      var(--_nys-radiobutton-pressed-tile-border-color);
+      var(--_nys-radiobutton-border-color--tile--active);
   }
 
   /* Focused */
