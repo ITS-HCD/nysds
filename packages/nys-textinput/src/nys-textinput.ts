@@ -318,7 +318,7 @@ export class NysTextinput extends LitElement {
 
     this.dispatchEvent(
       new CustomEvent("nys-input", {
-        detail: { value: this.value },
+        detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
       }),
