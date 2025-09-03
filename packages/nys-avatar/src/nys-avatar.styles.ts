@@ -64,7 +64,8 @@ export default css`
   }
 
   :host([disabled]) .nys-avatar__component:focus-within {
-    outline: solid var(--_nys-avatar-outline-width) var(--_nys-avatar-outline-color);
+    outline: solid var(--_nys-avatar-outline-width)
+      var(--_nys-avatar-outline-color);
   }
 
   div[part="nys-avatar__icon"] {
