@@ -8,7 +8,7 @@ export class NysAccordionItem extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
-  @property({ type: Boolean, reflect: true }) bordered = false;
+  @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
 
   static styles = styles;
 
@@ -23,6 +23,16 @@ export class NysAccordionItem extends LitElement {
     // Generate a unique ID if not provided
     if (!this.id) {
       this.id = this._generateUniqueId();
+    }
+  }
+
+  firstUpdated() {
+    const slot = this.shadowRoot?.querySelector("slot");
+
+    if (this.expanded && slot) {
+      slot.addEventListener("slotchange", () => {
+        this._updateHeight();
+      });
     }
   }
 

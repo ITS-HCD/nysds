@@ -106,12 +106,14 @@ export const IndividualAccordion: Story = {
     singleSelect: true,
   },
   render: (args) => html`
-    <nys-accordion>
+    <nys-accordion
+      ?singleSelect=${args.singleSelect}
+      ?bordered=${args.bordered}
+    >
       <nys-accordionitem
         .id=${args.id}
         .heading=${args.heading}
         .expanded=${args.expanded}
-        .bordered=${args.bordered}
         ><p>
           Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
           Park, consectetur adipiscing elit.

@@ -5,10 +5,11 @@ export default css`
   }
 
   .nys-backtotop {
-    --_nys-button-radius-left: var(--nys-radius-round, 1776px);
-    --_nys-button-radius-right: var(--nys-radius-round, 1776px);
-    --_nys-button-padding-y: var(--nys-space-100, 8px);
-    --_nys-button-padding-x: var(--nys-space-200, 16px);
+    /* These props ARE NOT publicly overridable */
+    --_nys-button-border-radius--left: var(--nys-radius-round, 1776px);
+    --_nys-button-border-radius--right: var(--nys-radius-round, 1776px);
+    --_nys-button-padding--y: var(--nys-space-100, 8px);
+    --_nys-button-padding--x: var(--nys-space-200, 16px);
 
     position: fixed;
     bottom: 1rem;

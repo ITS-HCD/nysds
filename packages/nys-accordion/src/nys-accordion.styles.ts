@@ -5,31 +5,32 @@ export default css`
     /* Anything that can be overridden should be defined here */
 
     /* Global Accordion Styles */
-    --_nys-accordion-width: fit-content;
-    --_nys-accordion-radius: var(--nys-radius-md, 4px);
-    --_nys-accordion-padding: var(--nys-space-200, 16px)
-      var(--nys-space-250, 20px);
-    --_nys-accordion-width-focus: var(--nys-border-width-md, 2px);
-    --_nys-accordion-offset-focus: var(--nys-space-2px, 2px);
-    --_nys-accordion-color-focus: var(--nys-color-focus, #004dd1);
+    --_nys-accordion-border-radius: var(--nys-radius-md, 4px);
+    --_nys-accordion-border-width: var(--nys-border-width-md, 2px);
+    --_nys-accordion-border-color: var(--nys-color-neutral-50, #ededed);
+    --_nys-accordion-padding--x: var(--nys-space-250, 20px);
+    --_nys-accordion-padding--y: var(--nys-space-200, 16px);
+    --_nys-accordion-outline-width: var(--nys-border-width-md, 2px);
+    --_nys-accordion-outline-offset: var(--nys-space-2px, 2px);
+    --_nys-accordion-outline-color: var(--nys-color-focus, #004dd1);
     --_nys-accordion-gap: var(--nys-space-100, 8px);
 
     /* Header & Text container */
-    --_nys-accordion-heading-background: var(--nys-color-neutral-50, #ededed);
-    --_nys-accordion-heading-active-background: var(
+    --_nys-accordion-background-color: var(--nys-color-neutral-50, #ededed);
+    --_nys-accordion-background-color--hover: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
-    --_nys-accordion-heading-gap: var(--nys-space-200, 16px);
-    --_nys-accordion-content-background: var(--nys-color-ink-reverse, #fff);
-    --_nys-accordion-content-padding: var(--nys-space-200, 16px)
+    --_nys-accordionitem-gap: var(--nys-space-200, 16px);
+    --_nys-accordionitem-background-color: var(--nys-color-ink-reverse, #fff);
+    --_nys-accordionitem-padding: var(--nys-space-200, 16px)
       var(--local-xx-spacing-205, 20px);
 
     /* Typography */
     --_nys-accordion-font-size: var(--nys-type-size-ui-xl, 20px);
     --_nys-accordion-font-weight: var(--nys-font-weight-bold, 700);
     --_nys-accordion-line-height: var(--nys-font-lineheight-ui-xl, 28px);
-    --_nys-accordion-line-letterspacing: var(
+    --_nys-accordion-letter-spacing: var(
       --nys-font-letterspacing-ui-xl,
       0.017px
     );
@@ -57,33 +58,33 @@ export default css`
     font-size: var(--_nys-accordion-font-size);
     font-weight: var(--_nys-accordion-font-weight);
     line-height: var(--_nys-accordion-line-height);
-    letter-spacing: var(--_nys-accordion-line-letterspacing);
+    letter-spacing: var(--_nys-accordion-letter-spacing);
     display: flex;
   }
 
   .nys-accordionitem__heading {
     all: unset;
     flex: 1;
-    gap: var(--_nys-accordion-heading-gap);
+    gap: var(--_nys-accordionitem-gap);
     display: flex;
-    padding: var(--_nys-accordion-padding);
+    padding: var(--_nys-accordion-padding--y) var(--_nys-accordion-padding--x);
     align-items: center;
     align-self: stretch;
-    border-radius: var(--_nys-accordion-radius);
-    background: var(--_nys-accordion-heading-background);
+    border-radius: var(--_nys-accordion-border-radius);
+    background-color: var(--_nys-accordion-background-color);
     cursor: pointer;
     transition: 0.05s all ease-in-out;
   }
 
   .nys-accordionitem__heading:hover {
-    border-radius: var(--_nys-accordion-radius);
-    background: var(--_nys-accordion-heading-active-background);
+    border-radius: var(--_nys-accordion-border-radius);
+    background-color: var(--_nys-accordion-background-color--hover);
   }
 
   .nys-accordionitem__heading:focus-visible {
-    outline-offset: var(--_nys-accordion-offset-focus);
-    outline: solid var(--_nys-accordion-width-focus)
-      var(--_nys-accordion-color-focus);
+    outline-offset: var(--_nys-accordion-outline-offset);
+    outline: solid var(--_nys-accordion-outline-width)
+      var(--_nys-accordion-outline-color);
   }
 
   .nys-accordionitem__heading .nys-accordionitem__heading-title {
@@ -109,8 +110,8 @@ export default css`
     align-items: flex-start;
     gap: var(--_nys-accordion-gap);
     align-self: stretch;
-    padding: var(--_nys-accordion-content-padding);
-    background: var(--_nys-accordion-content-background);
+    padding: var(--_nys-accordionitem-padding);
+    background-color: var(--_nys-accordionitem-background-color);
   }
 
   .nys-accordionitem__content-slot-container-text {
@@ -127,13 +128,15 @@ export default css`
 
   /*** Bordered Styling ***/
   :host([bordered][expanded]) .nys-accordionitem__heading {
-    border-radius: var(--_nys-accordion-radius) var(--_nys-accordion-radius) 0 0;
+    border-radius: var(--_nys-accordion-border-radius)
+      var(--_nys-accordion-border-radius) 0 0;
   }
 
   :host([bordered]) .nys-accordionitem__content-slot-container {
-    border: var(--nys-border-width-md, 2px) solid
-      var(--nys-color-neutral-50, #ededed);
-    border-radius: 0 0 var(--_nys-accordion-radius) var(--_nys-accordion-radius);
+    border: var(--_nys-accordion-border-width) solid
+      var(--_nys-accordion-border-color);
+    border-radius: 0 0 var(--_nys-accordion-border-radius)
+      var(--_nys-accordion-border-radius);
   }
 
   /*** Accordion Wrapper ***/

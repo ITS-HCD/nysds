@@ -22,14 +22,25 @@ export default css`
     );
 
     /* Dropzone */
-    --_nys-fileinput-dropzone-background: var(--nys-color-ink-reverse, #fff);
-    --_nys-fileinput-dropzone-radius: var(
+    --_nys-fileinput-background-color--dropzone: var(
+      --nys-color-ink-reverse,
+      #fff
+    );
+    --_nys-fileinput-background-color--dropzone--disabled: var(
+      --nys-color-neutral-10,
+      #f6f6f6
+    );
+    --_nys-fileinput-background-color--dropzone--active: var(
+      --nys-color-theme-faint,
+      #f7fafd
+    );
+    --_nys-fileinput-border-radius--dropzone: var(
       --nys-radius-lg,
       var(--nys-space-100, 8px)
     );
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
-      var(--nys-color-neutral-200, #bec0c1);
-    --_nys-fileinput-dropzone-color: var(--nys-color-text-disabled, #bec0c1);
+    --_nys-fileinput-border-style: dashed;
+    --_nys-fileinput-border-color: var(--nys-color-neutral-200, #bec0c1);
+    --_nys-fileinput-border-width: var(--nys-border-width-sm, 1px);
   }
 
   .nys-fileinput {
@@ -57,7 +68,7 @@ export default css`
     gap: var(--_nys-fileinput-gap);
   }
 
-  /***** Dragzone *****/
+  /***** Dropzone *****/
   .nys-fileinput__dropzone {
     display: flex;
     padding: var(--nys-space-400, 32px) var(--nys-space-200, 16px);
@@ -65,40 +76,42 @@ export default css`
     align-items: center;
     gap: 12px;
     align-self: stretch;
-    border-radius: var(--_nys-fileinput-dropzone-radius);
-    outline: var(--_nys-fileinput-dropzone-border);
-    background: var(--_nys-fileinput-dropzone-background);
+    border-radius: var(--_nys-fileinput-border-radius--dropzone);
+    outline: var(--_nys-fileinput-border-width)
+      var(--_nys-fileinput-border-style) var(--_nys-fileinput-border-color);
+    background-color: var(--_nys-fileinput-background-color--dropzone);
     transition: all 60ms ease-in-out;
   }
 
   .nys-fileinput__dropzone:hover {
     cursor: pointer;
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-md, 2px) dashed
-      var(--nys-color-neutral-700, #4a4d4f);
+    --_nys-fileinput-border-width: var(--nys-border-width-md, 2px);
+    --_nys-fileinput-border-color: var(--nys-color-neutral-700, #4a4d4f);
   }
 
   .nys-fileinput__dropzone.drag-active {
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-md, 2px) solid
-      var(--nys-color-theme, #154973);
-    --_nys-fileinput-dropzone-background: var(--nys-color-theme-faint, #f7fafd);
+    --_nys-fileinput-border-width: var(--nys-border-width-md, 2px);
+    --_nys-fileinput-border-color: var(--nys-color-theme, #154973);
+    --_nys-fileinput-border-style: solid;
   }
 
   .nys-fileinput__dropzone.error {
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-md, 1px) dashed
-      var(--nys-color-danger, #b52c2c);
+    --_nys-fileinput-border-color: var(--nys-color-danger, #b52c2c);
   }
 
   .nys-fileinput__dropzone.error:hover {
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 2px) dashed
-      var(--nys-color-emergency, #721c1c);
+    --_nys-fileinput-border-width: var(--nys-border-width-md, 2px);
+    --_nys-fileinput-border-color: var(--nys-color-emergency, #721c1c);
   }
 
   .nys-fileinput__dropzone.disabled {
     cursor: not-allowed;
-    --_nys-fileinput-dropzone-border: var(--nys-border-width-sm, 1px) dashed
-      var(--nys-color-neutral-300, #a7a9ab);
-    --_nys-fileinput-dropzone-background: var(--nys-color-neutral-10, #f6f6f6);
-    color: var(--_nys-fileinput-dropzone-color);
+    --_nys-fileinput-border-color: var(--nys-color-neutral-300, #a7a9ab);
+    --_nys-fileinput-border-width: var(--nys-border-width-sm, 1px);
+    background-color: var(
+      --_nys-fileinput-background-color--dropzone--disabled
+    );
+    color: var(--_nys-fileinput-color--dropzone--disabled);
   }
 
   progress {
@@ -106,18 +119,18 @@ export default css`
     width: 100%;
     height: 6px;
     border-radius: var(--nys-radius-round, 1776px);
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
     overflow: hidden;
     appearance: none;
     border: none;
   }
   progress::-moz-progress-bar {
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
   }
   progress::-webkit-progress-value {
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
   }
   progress::-webkit-progress-bar {
-    background: var(--_nys-fileinput-progress-background);
+    background-color: var(--_nys-fileinput-progress-background);
   }
 `;
