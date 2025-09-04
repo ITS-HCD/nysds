@@ -19,6 +19,7 @@ export default {
   files: ["packages/**/*.test.ts", "src/**/*.test.ts"],
   nodeResolve: true,
   filterBrowserLogs,
+  browserStartTimeout: 60000,
   browsers: [
     playwrightLauncher({
       product: "chromium",
