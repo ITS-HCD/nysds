@@ -1,0 +1,145 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysStepperStories from "./nys-stepper.stories";
+
+<Meta of={NysStepperStories} title="Components/Stepper/Documentation" />
+
+# Stepper
+
+The **`nys-stepper`** component is a reusable component indicating to a user how many steps are in a process. It updates to reflect the user's progress through the form.
+
+If an id is not passed, a unique id will be generated.
+
+<div class="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+	  <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4897-5811" target="_blank">View in Figma</a>
+  </p>
+</div>
+
+
+---
+
+<Canvas of={NysStepperStories.Basic} />
+
+<Controls />
+
+## Stepper Options
+
+### Compact
+On small screens, the `nys-stepper` will render in a compact mode where the progress is indicated by bars rather than complete steps. You can expand to see the names of steps by clicking on "Step x of y"
+
+
+## Step Options
+
+### Label
+- Defines the label of a step:
+```
+<nys-step label="Personal Details">
+```
+
+### href and onClick
+Add a `href` if the content of the step is plain html:
+```
+<nys-step label="Personal Details" href="/nys-stepper/personal.html"></nys-step>
+```
+Add an `onClick` if the content of the step is retrieved from an API or a function needs to be called:
+```
+<nys-step label="Personal Details" .onClick=${() => alert("Personal Details need to be retrieved.")}></nys-step>
+```
+
+### Selected
+- Represents which step is being displayed to the user.
+- The `selected` step by default will match `current` step if `selected` is not defined.
+- `selected` cannot exist on a step later than the `current` step, if this is done by mistake it will correct to match `current`.
+
+### Current
+- Represents which step is the user is up to in the stepper's progress.
+- This is the last step the user is able to navigate to.
+- Users can go back and review past completed steps, therefor `current` and `selected` might not be the same at a given moment.
+- As the user completes steps, update the `current` flag to the next step, this needs to be done on the user side.
+- if `current` is not defined, the first step is marked by default.
+
+### Previous
+- This prop is automatically applied to all steps before the `current` step and is used to style the steps peoperly.
+- Do not add `previous` to a step on the implementation side.
+
+## Usage
+
+### When to use this component
+- Use a stepper for linear, ordered forms with more than 2 sections.
+
+### When to consider something else
+- If there are only 1 or 2 sections to a form do not use a stepper.
+- Forms that are nonlinear and can be completed in any order should not use a stepper.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - Use a stepper for linear, ordered forms with more than 2 sections.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - Do not use the stepper if there are only 1 or 2 sections to the form.
+      - Do not use the stepper for forms that are nonlinear and can be completed in any order.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-stepper` component includes the following accessibility-focused features:
+
+- Proper ARIA roles and attributes to ensure screen readers can interpret the steps correctly.
+- Keyboard navigation support, allowing users to iterate the steps using the keyboard.
+- Visual focus indicators to help users navigate the component.
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`actions`</td>
+        <td>Action buttons, must be of type `nys-button`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
+
+## Events
+
+The `nys-stepper` component emits the following events:
+
+1. `nys-step-click`: Emitted when a `nys-step` is clicked
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the stepper component
+const stepper = document.querySelector("nys-stepper");
+
+// Listen for the 'nys-step-click' event
+stepper.addEventListener("nys-step-click", () => {
+	console.log("nys-step clicked");
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+- `nys-button`

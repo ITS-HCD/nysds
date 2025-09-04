@@ -95,6 +95,11 @@ The `nys-{{componentName}}` component emits the following events:
 2. `nys-focus`: Emitted when the {{componentName}} receives focus.
 3. `nys-blur`: Emitted when the {{componentName}} loses focus.
 
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the {{componentName}}.
+- checked (boolean): Whether the {{componentName}} is currently checked.
+
 You can listen to these events using JavaScript:
 
 ```js
@@ -102,8 +107,9 @@ You can listen to these events using JavaScript:
 const {{componentName}} = document.querySelector("nys-{{componentName}}");
 
 // Listen for the 'nys-click' event
-{{componentName}}.addEventListener("nys-click", () => {
-	console.log("{{capitalize componentName}} clicked");
+{{componentName}}.addEventListener("nys-click", (event) => {
+  const {id, checked} = event.detail;
+	console.log("{{capitalize componentName}} (${id}) is clicked. Checked: ${checked}");
 });
 
 // Listen for the 'nys-focus' event

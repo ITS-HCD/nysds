@@ -110,13 +110,18 @@ The `nys-textinput` component includes the following accessibility-focused featu
 - Keyboard navigation support, allowing users to tab into the input using the keyboard.
 - Visual focus indicators to help users navigate the component.
 
- ## Events
+## Events
 
 The `nys-textinput` component emits the following events:
 
 1. **`nys-input`** – Fired when the input text changes.
 2. **`nys-focus`** – Fired when the input gains focus.
 3. **`nys-blur`** – Fired when the input loses focus.
+
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the text input.
+- value (string): The currently value of the input.
 
 You can listen to these events using JavaScript:
 
@@ -127,7 +132,8 @@ const textinput = document.querySelector('nys-textinput');
 
 // Listen for the 'nys-input' event
 textinput.addEventListener('nys-input', (event) => {
-  console.log('Text input changed:', event.detail.value);
+  const { id, value } = event.detail;
+  console.log(`Text input (${id}) changed:`, value);
 });
 
 // Listen for the 'nys-focus' event

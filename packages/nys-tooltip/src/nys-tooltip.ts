@@ -200,6 +200,7 @@ export class NysTooltip extends LitElement {
     }
   }
 
+  // Applies focus behavior to an otherwise non focus element (i.e. nys-icon is non focusable by default)
   private async _applyFocusBehavior(el: HTMLElement) {
     if (!this.focusable) return;
 

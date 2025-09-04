@@ -49,6 +49,8 @@ export class NysGlobalHeader extends LitElement {
       container.innerHTML = "";
       containerMobile.innerHTML = "";
 
+      const currentUrl = this._normalizePath(window.location.pathname);
+
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
@@ -64,11 +66,13 @@ export class NysGlobalHeader extends LitElement {
           });
 
           // Highlight active link
-          const currentUrl = this._normalizePath(window.location.pathname);
           cleanNode.querySelectorAll("a").forEach((a) => {
             const hrefAttr = a.getAttribute("href");
             const linkPath = this._normalizePath(hrefAttr);
-            if (linkPath === currentUrl) {
+
+            if (!linkPath) return;
+
+            if (currentUrl?.startsWith(linkPath)) {
               const li = a.closest("li");
               if (li) li.classList.add("active");
             }
@@ -76,7 +80,10 @@ export class NysGlobalHeader extends LitElement {
           cleanNodeMobile.querySelectorAll("a").forEach((a) => {
             const hrefAttr = a.getAttribute("href");
             const linkPath = this._normalizePath(hrefAttr);
-            if (linkPath === currentUrl) {
+
+            if (!linkPath) return;
+
+            if (currentUrl?.startsWith(linkPath)) {
               const li = a.closest("li");
               if (li) li.classList.add("active");
             }

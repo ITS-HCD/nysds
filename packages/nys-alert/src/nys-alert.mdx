@@ -46,7 +46,7 @@ Use the `text` prop for simple texts, or leverage the slot by simply putting HTM
 
 ### Dismissible
 Set a `dismissible` boolean property to add a close button in the top-right corner, allowing users to dismiss the alert.
-> Additionally, the **nys-alert-closed** custom event is dispatched when the alert is dismissed. Developers can implement their own event listeners to handle custom actions, such as saving the alert's state locally. This allows for features like remembering dismissed alerts across page reloads.
+> Additionally, the **nys-close** custom event is dispatched when the alert is dismissed. Developers can implement their own event listeners to handle custom actions, such as saving the alert's state locally. This allows for features like remembering dismissed alerts across page reloads.
 <Canvas of={NysAlertStories.Dismissible} />
 
 ### Duration
@@ -136,7 +136,13 @@ The `nys-alert` component includes the following accessibility-focused features:
 
 The `nys-alert` component emits the following events:
 
-1. `nys-alert-closed`: Fire when the alert is dismissed by the user (i.e. via a close button).
+1. `nys-close`: Fire when the alert is dismissed by the user (i.e. via a close button).
+
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the alert.
+- type (string): The alert’s type (e.g., "success", "error", "info").
+- label (string): The alert’s heading text.
 
 You can listen to these events using JavaScript:
 
@@ -144,12 +150,12 @@ You can listen to these events using JavaScript:
 // Select the alert component
 const alert = document.querySelector("nys-alert");
 
-// Listen for the 'nys-alert-closed' event
+// Listen for the 'nys-close' event
 /*
  * Consider persisting dismissal state (e.g., to localStorage or analytics)
  * This can be used to prevent the alert from appearing again
  */
-alert.addEventListener("nys-alert-closed", (event) => {
+alert.addEventListener("nys-close", (event) => {
   const { type, label } = event.detail;
   console.log(`Alert closed. Type: ${type}, Label: ${label}`);
 });
