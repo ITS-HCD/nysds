@@ -3,6 +3,9 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Avatar Styles */
+
+    --_nys-avatar-border-radius: var(--nys-radius-round, 1776px);
+    --_nys-avatar-size: var(--nys-avatar-size, var(--nys-font-size-6xl, 36px));
     --_nys-avatar-shape: var(--nys-radius-round, 1776px);
     --_nys-avatar-border-color: var(--nys-color-ink-reverse, #fff);
     --_nys-avatar-border-size: var(--nys-border-width-sm, 1px);
@@ -22,10 +25,11 @@ export default css`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: var(--_nys-avatar-shape);
-    width: var(--_nys-avatar-width);
-    height: var(--_nys-avatar-width);
-    font-size: var(--_nys-avatar-width);
+    border-radius: var(--_nys-avatar-border-radius);
+    width: var(--_nys-avatar-size);
+    height: var(--_nys-avatar-size);
+    font-size: var(--_nys-avatar-size);
+
     overflow: hidden;
     box-sizing: border-box;
     color: var(--_nys-avatar-color);
@@ -37,6 +41,7 @@ export default css`
     -moz-user-select: none;
     user-select: none;
   }
+
 
   /* Hover/Active states/Disabled */
   :host([interactive]) .nys-avatar__component:hover,

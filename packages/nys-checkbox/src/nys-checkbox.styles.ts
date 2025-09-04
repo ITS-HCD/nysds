@@ -6,10 +6,10 @@ export default css`
 
     /* Global Checkbox Styles */
     --_nys-checkbox-size: var(--nys-size-400, 32px);
-    --_nys-checkbox-radius: var(--nys-radius-md, 4px);
-    --_nys-checkbox-width-border: var(--nys-border-width-md, 2px);
-    --_nys-checkbox-color-focus: var(--nys-color-focus, #004dd1);
-    --_nys-checkbox-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-checkbox-border-radius: var(--nys-radius-md, 4px);
+    --_nys-checkbox-border-width: var(--nys-border-width-md, 2px);
+    --_nys-checkbox-outline-color: var(--nys-color-focus, #004dd1);
+    --_nys-checkbox-outline-width: var(--nys-border-width-md, 2px);
     --_nys-checkbox-outline-offset: var(--nys-space-2px, 2px);
     /* space between checkbox and it's label */
     --_nys-checkbox-gap: var(--nys-space-150, 12px);
@@ -29,8 +29,7 @@ export default css`
       )
     );
     --_nys-checkbox-font-size: var(--nys-font-size-ui-md, 16px);
-    --_nys-checkbox-font-weight-400: var(--nys-font-weight-regular, 400);
-    --_nys-checkbox-font-weight-600: var(--nys-font-weight-semibold, 600);
+    --_nys-checkbox-font-weight: var(--nys-font-weight-regular, 400);
     --_nys-checkbox-line-height: var(--nys-font-lineheight-ui-md, 24px);
 
     /* Global Checkbox Colors */
@@ -38,57 +37,59 @@ export default css`
       --nys-color-ink,
       var(--nys-color-neutral-900, #1b1b1b)
     );
-    --_nys-checkbox-required-color: var(
-      --nys-color-danger,
-      var(--nys-color-red-600, #b52c2c)
-    );
 
     /* Default (Empty) */
-    --_nys-checkbox-color-bg: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-checkbox-color-border: var(--nys-color-neutral-600, #62666a);
+    --_nys-checkbox-background-color: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-checkbox-border-color: var(--nys-color-neutral-600, #62666a);
     /* Empty + Hovered */
-    --_nys-checkbox-hover-color-bg: var(--nys-color-neutral-50, #ededed);
-    --_nys-checkbox-hover-color-border: var(--nys-color-ink, #1b1b1b);
+    --_nys-checkbox-background-color--hover: var(
+      --nys-color-neutral-50,
+      #ededed
+    );
+    --_nys-checkbox-border-color--hover: var(--nys-color-ink, #1b1b1b);
     /* Empty + Pressed */
-    --_nys-checkbox-pressed-color-bg: var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-checkbox-pressed-color-border: var(--nys-color-ink, #1b1b1b);
+    --_nys-checkbox-background-color--active: var(
+      --nys-color-neutral-100,
+      #d0d0ce
+    );
+    --_nys-checkbox-border-color--active: var(--nys-color-ink, #1b1b1b);
     /* Checked */
-    --_nys-checkbox-checked-color-bg: var(--nys-color-theme, #154973);
-    --_nys-checkbox-checked-color-border: var(--nys-color-theme, #154973);
+    --_nys-checkbox-background-color--checked: var(--nys-color-theme, #154973);
+    --_nys-checkbox-border-color--checked: var(--nys-color-theme, #154973);
     /* Checked + Hovered */
-    --_nys-checkbox-checked-hover-color-bg: var(
+    --_nys-checkbox-background-color--checked--hover: var(
       --nys-color-theme-strong,
       #0e324f
     );
-    --_nys-checkbox-checked-hover-color-border: var(
+    --_nys-checkbox-border-color--checked--hover: var(
       --nys-color-theme-strong,
       #0e324f
     );
     /* Checked + Pressed */
-    --_nys-checkbox-checked-pressed-color-bg: var(
+    --_nys-checkbox-background-color--checked--active: var(
       --nys-color-theme-stronger,
       #081b2b
     );
-    --_nys-checkbox-checked-pressed-color-border: var(
+    --_nys-checkbox-border-color--checked--active: var(
       --nys-color-theme-stronger,
       #081b2b
     );
     /* Disabled */
-    --_nys-checkbox-disabled-color-bg: var(--nys-color-ink-reverse, #f0f0f0);
-    --_nys-checkbox-disabled-color-border: var(
+    --_nys-checkbox-background-color--disabled: var(
+      --nys-color-ink-reverse,
+      #f0f0f0
+    );
+    --_nys-checkbox-border-color--disabled: var(
       --nys-color-neutral-400,
       #757575
     );
-    --_nys-checkbox-disabled-color-text: var(
-      --nys-color-text-disabled,
-      #bec0c1
-    );
+    --_nys-checkbox-color--disabled: var(--nys-color-text-disabled, #bec0c1);
     /* Disabled Checked */
-    --_nys-checkbox-disabled-checked-color-bg: var(
+    --_nys-checkbox-background-color--checked--disabled: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
-    --_nys-checkbox-disabled-checked-color-border: var(
+    --_nys-checkbox-border-color--checked--disabled: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
@@ -97,70 +98,81 @@ export default css`
   /* Small Variant */
   :host([size="sm"]) {
     --_nys-checkbox-size: var(--nys-size-300, 24px);
-    --_nys-checkbox-radius: var(--nys-radius-sm, 2px);
+    --_nys-checkbox-border-radius: var(--nys-radius-sm, 2px);
     --_nys-checkboxgroup-gap: var(--nys-space-100, 8px);
     --_nys-checkbox-gap: var(--nys-space-100, 8px);
   }
   /* Medium Variant */
   :host([size="md"]) {
     --_nys-checkbox-size: var(--nys-size-400, 32px);
-    --_nys-checkbox-radius: var(--nys-radius-md, 4px);
+    --_nys-checkbox-border-radius: var(--nys-radius-md, 4px);
   }
 
   /* Tile Variant */
   :host([tile]) {
-    --_nys-checkbox-font-weight-label: var(--nys-font-weight-semibold, 600);
-    --_nys-checkbox-tile-border-width: var(--nys-border-width-sm, 1px);
-    --_nys-checkbox-tile-border-radius: var(--nys-radius-md, 4px);
-    --_nys-checkbox-tile-border-color: var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-checkbox-tile-bg-color: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-checkbox-tile-padding-x: var(--nys-space-250, 20px);
-    --_nys-checkbox-tile-padding-y: var(--nys-space-200, 16px);
+    --_nys-checkbox-border-width--tile: var(--nys-border-width-sm, 1px);
+    --_nys-checkbox-border-radius--tile: var(--nys-radius-md, 4px);
+    --_nys-checkbox-border-color--tile: var(--nys-color-neutral-100, #d0d0ce);
+    --_nys-checkbox-background-color--tile: var(
+      --nys-color-ink-reverse,
+      #ffffff
+    );
+    --_nys-checkbox-padding--x--tile: var(--nys-space-250, 20px);
+    --_nys-checkbox-padding--y--tile: var(--nys-space-200, 16px);
     /* Hover */
-    --_nys-checkbox-hover-tile-border-color: var(
+    --_nys-checkbox-border-color--tile--hover: var(
       --nys-color-neutral-700,
       #4a4d4f
     );
-    --_nys-checkbox-hover-tile-bg-color: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-checkbox-background-color--tile--hover: var(
+      --nys-color-ink-reverse,
+      #ffffff
+    );
     /* Pressed */
-    --_nys-checkbox-pressed-tile-border-color: var(
+    --_nys-checkbox-border-color--tile--active: var(
       --nys-color-neutral-900,
       #1b1b1b
     );
-    --_nys-checkbox-pressed-tile-bg-color: var(
+    --_nys-checkbox-background-color--tile--active: var(
       --nys-color-ink-reverse,
       #ffffff
     );
     /* Checked */
-    --_nys-checkbox-checked-tile-border-color: var(
+    --_nys-checkbox-border-color--tile--checked: var(
       --nys-color-theme-mid,
       #457aa5
     );
-    --_nys-checkbox-checked-tile-bg-color: var(
+    --_nys-checkbox-background-color--tile--checked: var(
       --nys-color-theme-faint,
       #f7fafd
     );
     /* Disabled */
-    --_nys-checkbox-disabled-tile-bg-color: var(
+    --_nys-checkbox-background-color--tile--disabled: var(
       --nys-color-ink-reverse,
       #f0f0f0
     );
-    --_nys-checkbox-disabled-tile-border-color: var(
+    --_nys-checkbox-border-color--tile--disabled: var(
       --nys-color-neutral-100,
       #d0d0ce
     );
   }
 
   :host([tile][size="sm"]) {
-    --_nys-checkbox-tile-padding-x: var(--nys-space-200, 16px);
-    --_nys-checkbox-tile-padding-y: var(--nys-space-150, 12px);
+    --_nys-checkbox-padding--x--tile: var(--nys-space-200, 16px);
+    --_nys-checkbox-padding--y--tile: var(--nys-space-150, 12px);
   }
 
   :host([tile][showError]) {
-    --_nys-checkbox-tile-border-color: var(--nys-color-danger, #b52c2c);
-    --_nys-checkbox-hover-tile-border-color: var(--nys-color-danger, #b52c2c);
-    --_nys-checkbox-pressed-tile-border-color: var(--nys-color-danger, #b52c2c);
-    --_nys-checkbox-checked-tile-border-color: var(--nys-color-danger, #b52c2c);
+    --_nys-checkbox-border-color--tile: var(--nys-color-danger, #b52c2c);
+    --_nys-checkbox-border-color--tile--hover: var(--nys-color-danger, #b52c2c);
+    --_nys-checkbox-border-color--tile--active: var(
+      --nys-color-danger,
+      #b52c2c
+    );
+    --_nys-checkbox-border-color--tile--checked: var(
+      --nys-color-danger,
+      #b52c2c
+    );
   }
 
   #single-error-message {
@@ -189,12 +201,12 @@ export default css`
     line-height: var(--_nys-checkbox-line-height);
 
     /* Tile */
-    border-radius: var(--_nys-checkbox-tile-border-radius);
-    border: var(--_nys-checkbox-tile-border-width) solid
-      var(--_nys-checkbox-tile-border-color);
-    background: var(--_nys-checkbox-tile-bg-color);
-    padding: var(--_nys-checkbox-tile-padding-y)
-      var(--_nys-checkbox-tile-padding-x);
+    border-radius: var(--_nys-checkbox-border-radius--tile);
+    border: var(--_nys-checkbox-border-width--tile) solid
+      var(--_nys-checkbox-border-color--tile);
+    background: var(--_nys-checkbox-background-color--tile);
+    padding: var(--_nys-checkbox-padding--y--tile)
+      var(--_nys-checkbox-padding--x--tile);
     gap: var(--_nys-checkbox-gap);
   }
 
@@ -226,10 +238,10 @@ export default css`
     height: var(--_nys-checkbox-size);
     max-width: var(--_nys-checkbox-size);
     max-height: var(--_nys-checkbox-size);
-    border: solid var(--_nys-checkbox-width-border)
-      var(--_nys-checkbox-color-border);
-    background-color: var(--_nys-checkbox-color-bg);
-    border-radius: var(--_nys-checkbox-radius);
+    border: solid var(--_nys-checkbox-border-width)
+      var(--_nys-checkbox-border-color);
+    background-color: var(--_nys-checkbox-background-color);
+    border-radius: var(--_nys-checkbox-border-radius);
     outline-offset: var(--_nys-checkbox-outline-offset);
     outline: none;
   }
@@ -242,99 +254,99 @@ export default css`
 
   /* Checked */
   .nys-checkbox__checkbox:not(:disabled):checked {
-    background-color: var(--_nys-checkbox-checked-color-bg);
-    border-color: var(--_nys-checkbox-checked-color-border);
+    background-color: var(--_nys-checkbox-background-color--checked);
+    border-color: var(--_nys-checkbox-border-color--checked);
   }
   :host([tile])
     .nys-checkbox:has(.nys-checkbox__checkbox:not(:disabled):checked) {
-    border-color: var(--_nys-checkbox-checked-tile-border-color);
-    background-color: var(--_nys-checkbox-checked-tile-bg-color);
+    border-color: var(--_nys-checkbox-border-color--tile--checked);
+    background-color: var(--_nys-checkbox-background-color--tile--checked);
   }
 
   /* Checked + Disabled */
   .nys-checkbox__checkbox:disabled:checked {
-    background-color: var(--_nys-checkbox-disabled-checked-color-bg);
-    border-color: var(--_nys-checkbox-disabled-checked-color-border);
+    background-color: var(--_nys-checkbox-background-color--checked--disabled);
+    border-color: var(--_nys-checkbox-border-color--checked--disabled);
   }
   :host([tile]) .nys-checkbox:has(.nys-checkbox__checkbox:disabled:checked) {
-    border-color: var(--_nys-checkbox-disabled-tile-border-color);
-    background-color: var(--_nys-checkbox-disabled-tile-bg-color);
+    border-color: var(--_nys-checkbox-border-color--tile--disabled);
+    background-color: var(--_nys-checkbox-background-color--tile--disabled);
   }
 
   /* Disabled */
   .nys-checkbox__checkbox:disabled {
-    background-color: var(--_nys-checkbox-disabled-color-bg);
-    border-color: var(--_nys-checkbox-disabled-color-border);
+    background-color: var(--_nys-checkbox-background-color--disabled);
+    border-color: var(--_nys-checkbox-border-color--disabled);
     cursor: not-allowed;
   }
   .nys-checkbox__content:has(.nys-checkbox__checkbox:disabled)
     .nys-checkbox__text
     * {
-    color: var(--_nys-checkbox-disabled-color-text);
+    color: var(--_nys-checkbox-color--disabled);
     cursor: not-allowed;
   }
   :host([tile]) .nys-checkbox:has(.nys-checkbox__checkbox:disabled) {
-    background-color: var(--_nys-checkbox-disabled-color-bg);
-    border-color: var(--_nys-checkbox-disabled-color-border);
+    background-color: var(--_nys-checkbox-background-color--disabled);
+    border-color: var(--_nys-checkbox-border-color--disabled);
     cursor: not-allowed;
   }
 
   /* Hover - not checked */
   .nys-checkbox__checkbox:hover:not(:disabled):not(:checked) {
-    background-color: var(--_nys-checkbox-hover-color-bg);
-    border-color: var(--_nys-checkbox-hover-color-border);
+    background-color: var(--_nys-checkbox-background-color--hover);
+    border-color: var(--_nys-checkbox-border-color--hover);
   }
   :host([tile])
     .nys-checkbox:hover:has(
       .nys-checkbox__checkbox:not(:disabled):not(:checked)
     ) {
-    border-color: var(--_nys-checkbox-hover-tile-border-color);
-    background-color: var(--_nys-checkbox-hover-tile-bg-color);
-    outline: solid var(--_nys-checkbox-tile-border-width)
-      var(--_nys-checkbox-hover-tile-border-color);
+    border-color: var(--_nys-checkbox-border-color--tile--hover);
+    background-color: var(--_nys-checkbox-background-color--tile--hover);
+    outline: solid var(--_nys-checkbox-border-width--tile)
+      var(--_nys-checkbox-border-color--tile--hover);
   }
 
   /* Hover + Checked */
   .nys-checkbox__checkbox:hover:not(:disabled):checked {
-    border-color: var(--_nys-checkbox-checked-hover-color-border);
-    background-color: var(--_nys-checkbox-checked-hover-color-bg);
+    border-color: var(--_nys-checkbox-border-color--checked--hover);
+    background-color: var(--_nys-checkbox-background-color--checked--hover);
   }
   :host([tile])
     .nys-checkbox:hover:has(.nys-checkbox__checkbox:not(:disabled):checked) {
-    outline: solid var(--_nys-checkbox-tile-border-width)
-      var(--_nys-checkbox-checked-tile-border-color);
+    outline: solid var(--_nys-checkbox-border-width--tile)
+      var(--_nys-checkbox-border-color--tile--checked);
   }
 
   /* Pressed - not checked */
   .nys-checkbox__checkbox:active:not(:disabled):not(:checked) {
-    background-color: var(--_nys-checkbox-pressed-color-bg);
-    border-color: var(--_nys-checkbox-pressed-color-border);
+    background-color: var(--_nys-checkbox-background-color--active);
+    border-color: var(--_nys-checkbox-border-color--active);
   }
   :host([tile])
     .nys-checkbox:has(
       .nys-checkbox__checkbox:active:not(:disabled):not(:checked)
     ) {
-    border-color: var(--_nys-checkbox-pressed-tile-border-color);
-    background-color: var(--_nys-checkbox-pressed-tile-bg-color);
-    outline: solid var(--_nys-checkbox-tile-border-width)
-      var(--_nys-checkbox-pressed-tile-border-color);
+    border-color: var(--_nys-checkbox-border-color--tile--active);
+    background-color: var(--_nys-checkbox-background-color--tile--active);
+    outline: solid var(--_nys-checkbox-border-width--tile)
+      var(--_nys-checkbox-border-color--tile--active);
   }
 
   /* Pressed + Checked */
   .nys-checkbox__checkbox:active:not(:disabled):checked {
-    border-color: var(--_nys-checkbox-checked-pressed-color-border);
-    background-color: var(--_nys-checkbox-checked-pressed-color-bg);
+    border-color: var(--_nys-checkbox-border-color--checked--active);
+    background-color: var(--_nys-checkbox-background-color--checked--active);
   }
 
   /* Focused */
   :host(:not([tile])) .nys-checkbox__checkbox:focus {
-    outline: solid var(--_nys-checkbox-width-focus)
-      var(--_nys-checkbox-color-focus);
+    outline: solid var(--_nys-checkbox-outline-width)
+      var(--_nys-checkbox-outline-color);
   }
   :host([tile]) .nys-checkbox:has(*:focus) {
-    outline: solid var(--_nys-checkbox-tile-border-width)
-      var(--_nys-checkbox-color-focus) !important;
-    border-color: var(--_nys-checkbox-color-focus) !important;
+    outline: solid var(--_nys-checkbox-border-width--tile)
+      var(--_nys-checkbox-outline-color) !important;
+    border-color: var(--_nys-checkbox-outline-color) !important;
   }
 
   /* Checkbox Label Holder */
@@ -347,20 +359,20 @@ export default css`
 
   /* Label styling */
   .nys-checkbox__label {
-    font-weight: var(--_nys-checkbox-font-weight-400);
+    font-weight: var(--_nys-checkbox-font-weight);
     color: var(--nys-color-text, #1b1b1b);
   }
 
   /* Description styling */
   .nys-checkbox__description {
-    font-weight: var(--_nys-checkbox-font-weight-400);
+    font-weight: var(--_nys-checkbox-font-weight);
     font-style: italic;
     text-align: left;
   }
 
   /* Required */
   .nys-checkbox__required {
-    color: var(--_nys-checkbox-required-color);
+    color: var(--nys-color-danger, #b52c2c);
   }
 
   .nys-checkbox__requiredwrapper {
