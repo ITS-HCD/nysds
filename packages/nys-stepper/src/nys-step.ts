@@ -1,0 +1,91 @@
+import { LitElement, html } from "lit";
+import { property } from "lit/decorators.js";
+import styles from "./nys-stepper.styles";
+
+export class NysStep extends LitElement {
+  @property({ type: Boolean, reflect: true }) selected = false;
+  @property({ type: Boolean, reflect: true }) current = false;
+  @property({ type: String }) label = "";
+  @property({ type: String }) href = "";
+  @property({ type: Boolean }) isCompactExpanded = false;
+  @property({ type: Function }) onClick?: (e: Event) => void;
+  @property({ type: Number }) stepNumber = 0;
+
+  static styles = styles;
+
+  private _handleActivate(e: Event) {
+    // Run user-supplied onClick first (if present)
+    if (typeof this.onClick === "function") {
+      this.onClick(e);
+    }
+
+    // Dispatch event as cancelable so user can prevent navigation
+    const event = new CustomEvent("nys-step-click", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: { href: this.href, label: this.label },
+    });
+
+    if ((this.hasAttribute("previous") || this.current) && !this.selected) {
+      this.dispatchEvent(event);
+
+      // Only navigate if event was not canceled
+      if (!event.defaultPrevented && this.href) {
+        window.location.href = this.href;
+      }
+    }
+  }
+
+  private _handleKeydown(e: KeyboardEvent) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      this._handleActivate(e);
+    }
+  }
+
+  render() {
+    return html`
+      <div class="nys-step">
+        <div class="nys-step__linewrapper">
+          <div class="nys-step__line"></div>
+        </div>
+        <div
+          class="nys-step__contentwrapper"
+          @click=${this._handleActivate}
+          @keydown=${this._handleKeydown}
+          role="button"
+          aria-label="${this.label} Step"
+          ?disabled=${!(
+            this.selected ||
+            this.current ||
+            this.hasAttribute("previous")
+          )}
+        >
+          <div class="nys-step__number" tabindex="-1" aria-hidden="true">
+            ${this.stepNumber}
+          </div>
+          <div class="nys-step__content" tabindex="-1" aria-hidden="true">
+            <div
+              class="nys-step__label"
+              tabindex=${!(
+                this.selected ||
+                this.current ||
+                this.hasAttribute("previous")
+              )
+                ? "-1"
+                : "0"}
+              aria-hidden="true"
+            >
+              ${this.label}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+if (!customElements.get("nys-step")) {
+  customElements.define("nys-step", NysStep);
+}

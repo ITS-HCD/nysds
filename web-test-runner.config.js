@@ -1,5 +1,5 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
-import { playwrightLauncher } from "@web/test-runner-playwright";
+import { playwrightLauncher, devices } from "@web/test-runner-playwright";
 
 // Firefox declared the Lit is in DEV mode. this filters out that message to reduce the chatter in the testing logs
 const filteredLogs = [
@@ -19,6 +19,7 @@ export default {
   files: ["packages/**/*.test.ts", "src/**/*.test.ts"],
   nodeResolve: true,
   filterBrowserLogs,
+  browserStartTimeout: 60000,
   browsers: [
     playwrightLauncher({
       product: "chromium",
@@ -41,6 +42,24 @@ export default {
         slowMo: 250, // Optional: slows down operations to make debugging easier
       },
     }),
+    playwrightLauncher({
+      product: 'webkit', // Use WebKit for iOS simulation
+      createBrowserContext({ browser }) {
+        return browser.newContext({ ...devices['iPhone 14'] });
+      },
+    }),    
+    playwrightLauncher({
+      product: 'webkit', // Use WebKit for Android simulation
+      createBrowserContext({ browser }) {
+        return browser.newContext({ ...devices['Pixel 5'] });
+      },
+    }),    
+    playwrightLauncher({
+      product: 'webkit', // Use WebKit for Edge simulation
+      createBrowserContext({ browser }) {
+        return browser.newContext({ ...devices['Desktop Edge'], channel: 'msedge' });
+      },
+    }),    
   ],
   coverage: true, // Enable coverage reporting
   testFramework: {
