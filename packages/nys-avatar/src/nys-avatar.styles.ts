@@ -42,7 +42,6 @@ export default css`
     user-select: none;
   }
 
-
   /* Hover/Active states/Disabled */
   :host([interactive]) .nys-avatar__component:hover,
   :host([interactive]) .nys-avatar__component:active {
