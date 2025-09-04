@@ -26,6 +26,16 @@ export class NysAccordionItem extends LitElement {
     }
   }
 
+  firstUpdated() {
+    const slot = this.shadowRoot?.querySelector("slot");
+
+    if (this.expanded && slot) {
+      slot.addEventListener("slotchange", () => {
+        this._updateHeight();
+      });
+    }
+  }
+
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("expanded")) {
       this._updateHeight();

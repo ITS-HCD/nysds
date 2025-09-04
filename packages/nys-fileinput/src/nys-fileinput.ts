@@ -290,7 +290,7 @@ export class NysFileinput extends LitElement {
   private _dispatchChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
-        detail: { files: this._selectedFiles },
+        detail: { id: this.id, files: this._selectedFiles },
         bubbles: true,
         composed: true,
       }),
