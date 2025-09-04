@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-globalfooter",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "The Globalfooter component from the NYS Design System.",
   "module": "dist/nys-globalfooter.js",
   "types": "dist/index.d.ts",
