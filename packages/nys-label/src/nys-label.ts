@@ -7,22 +7,32 @@ export class NysLabel extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) flag = "";
+  @property({ type: String }) tooltip = "";
 
   static styles = styles;
 
   render() {
     return html`
       <div class="nys-label">
-        <label for=${this.id} class="nys-label__label"
-          >${this.label}
-          ${this.flag === "required"
-            ? html`<label class="nys-label__required">*</label>`
+        <div class="nys-label__tooltip-wrapper">
+          <label for=${this.for} class="nys-label__label"
+            >${this.label}
+            ${this.flag === "required"
+              ? html`<div class="nys-label__required">*</div>`
+              : ""}
+            ${this.flag === "optional"
+              ? html`<div class="nys-label__optional">(Optional)</div>`
+              : ""}</label
+          >
+          ${this.tooltip
+            ? html`<nys-tooltip text="${this.tooltip}" position="top" focusable>
+                <div class="nys-label__tooltip-icon">
+                  <nys-icon name="info" size="3xl"></nys-icon>
+                </div>
+              </nys-tooltip>`
             : ""}
-          ${this.flag === "optional"
-            ? html`<label class="nys-label__optional">(Optional)</label>`
-            : ""}</label
-        >
-        <label for=${this.id} class="nys-label__description">
+        </div>
+        <label for=${this.for} class="nys-label__description">
           <slot name="description">${this.description}</slot>
         </label>
       </div>

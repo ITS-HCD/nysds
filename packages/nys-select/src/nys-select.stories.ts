@@ -1,9 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-select";
+import "@nysds/nys-icon";
+import "@nysds/nys-tooltip";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysSelectArgs {
@@ -16,6 +17,7 @@ interface NysSelectArgs {
   required: boolean;
   optional: boolean;
   form: string;
+  tooltip: string;
   width: string;
   options: string;
   showError: boolean;
@@ -35,6 +37,7 @@ const meta: Meta<NysSelectArgs> = {
     required: { control: "boolean" },
     optional: { control: "boolean" },
     form: { control: "text" },
+    tooltip: { control: "text" },
     width: { control: "select", options: ["sm", "md", "lg", "full"] },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
@@ -56,6 +59,7 @@ export const Basic: Story = {
   args: {
     label: "Select your favorite borough",
     value: "",
+    tooltip: "",
     disabled: false,
     required: false,
     optional: false,
@@ -72,6 +76,7 @@ export const Basic: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -125,6 +130,7 @@ export const OptionsLabelSlot: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -169,6 +175,7 @@ export const DescriptionSlot: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -216,6 +223,7 @@ export const Disabled: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -261,6 +269,7 @@ export const Required: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -307,6 +316,7 @@ export const Width: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -357,6 +367,7 @@ export const ErrorMessage: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -407,6 +418,7 @@ export const Optional: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
+      .tooltip=${args.tooltip}
       .width=${args.width}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -424,6 +436,56 @@ export const Optional: Story = {
       source: {
         code: `
 <nys-select label="Select your favorite borough" optional>
+  <nys-option value="bronx" label="The Bronx"></nys-option>
+  <nys-option value="brooklyn" label="Brooklyn"></nys-option>
+  <nys-option value="manhattan" label="Manhattan"></nys-option>
+  <nys-option value="staten_island" label="Staten Island"></nys-option>
+  <nys-option value="queens" label="Queens"></nys-option>  
+</nys-select>`,
+
+        type: "auto",
+      },
+    },
+  },
+};
+
+
+export const Tooltip: Story = {
+  args: {
+    label: "Select your favorite borough",
+    value: "",
+    tooltip: "Choose the borough you identify with most",
+  },
+
+  render: (args) => html`
+    <nys-select
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .optional=${args.optional}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
+      .width=${args.width}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-option value="bronx" label="The Bronx"></nys-option>
+      <nys-option value="brooklyn" label="Brooklyn"></nys-option>
+      <nys-option value="manhattan" label="Manhattan"></nys-option>
+      <nys-option value="staten_island" label="Staten Island"></nys-option>
+      <nys-option value="queens" label="Queens"></nys-option>
+    </nys-select>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough" tooltip="Choose the borough you identify with most">
   <nys-option value="bronx" label="The Bronx"></nys-option>
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>

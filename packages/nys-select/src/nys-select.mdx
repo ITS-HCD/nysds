@@ -52,8 +52,12 @@ You can supply a description via our `description` prop for plain text or by emb
 
 #### Error Message
 In order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
-
 <Canvas of={NysSelectStories.ErrorMessage} />
+
+#### Tooltip
+Pass in the `tooltip` prop to display a tooltip as a hint for users. \
+**Note:** Don’t hide critical info in tooltips. Reserve them for optional help.
+<Canvas of={NysSelectStories.Tooltip} />
 
 ## Usage
 
