@@ -2,6 +2,7 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-fileinput";
 import "@nysds/nys-icon";
+import "@nysds/nys-tooltip";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
@@ -21,6 +22,8 @@ interface NysFileinputArgs {
   errorMessage?: string;
   showError?: boolean;
   dropzone?: boolean;
+  form?: string;
+  tooltip?: string;
 }
 
 const meta: Meta<NysFileinputArgs> = {
@@ -44,6 +47,8 @@ const meta: Meta<NysFileinputArgs> = {
     errorMessage: { control: "text" },
     showError: { control: "boolean" },
     dropzone: { control: "boolean" },
+    form: { control: "text" },
+    tooltip: { control: "text" },
   },
   parameters: {
     docs: {
@@ -72,6 +77,7 @@ export const Basic: Story = {
     errorMessage: "",
     showError: false,
     dropzone: false,
+    tooltip: "",
   },
   render: (args) => html`
     <nys-fileinput
@@ -88,6 +94,8 @@ export const Basic: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-fileinput>
   `,
   parameters: {
@@ -129,6 +137,8 @@ export const Dropzone: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-fileinput>
   `,
   parameters: {
@@ -170,6 +180,8 @@ export const Width: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-fileinput>
   `,
   parameters: {
@@ -211,6 +223,8 @@ export const Multiple: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-fileinput>
   `,
   parameters: {
@@ -255,6 +269,8 @@ export const Disabled: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-fileinput>
   `,
   parameters: {
@@ -287,7 +303,18 @@ export const DescriptionSlot: Story = {
       .id=${args.id}
       .name=${args.name}
       .label=${args.label}
+      .description=${args.description}
       .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     >
       <span slot="description">
         Learn more at
@@ -310,6 +337,46 @@ export const DescriptionSlot: Story = {
     <a href="https://www.ny.gov" target="_blank" rel="noopener">ny.gov</a>
   </span>
 </nys-fileinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Tooltip: Story = {
+  args: {
+    label: "Upload a file",
+    description: "Accepted file types: .jpg, .png, .pdf",
+    tooltip: "Maximum file size is 10MB",
+  },
+  render: (args) => html`
+    <nys-fileinput
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
+    ></nys-fileinput>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-fileinput
+  label="Upload a file"
+  description="Accepted file types: .jpg, .png, .pdf"
+  tooltip="Maximum file size is 10MB">
+></nys-fileinput>`,
         type: "auto",
       },
     },
