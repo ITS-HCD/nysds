@@ -14,6 +14,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: String, reflect: true }) form = "";
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";
@@ -91,6 +92,9 @@ export class NysRadiogroup extends LitElement {
     }
     if (changedProperties.has("showError")) {
       this._updateRadioButtonsShowError();
+    }
+    if (changedProperties.has("form")) {
+      this._updateRadioButtonsForm();
     }
   }
 
@@ -263,6 +267,17 @@ export class NysRadiogroup extends LitElement {
         radioButton.setAttribute("showError", "");
       } else {
         radioButton.removeAttribute("showError");
+      }
+    });
+  }
+
+  private _updateRadioButtonsForm() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.showError) {
+        radioButton.setAttribute("form", this.form);
+      } else {
+        radioButton.removeAttribute("form");
       }
     });
   }

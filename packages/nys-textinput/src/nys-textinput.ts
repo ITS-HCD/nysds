@@ -42,46 +42,12 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) form = "";
+  @property({ type: String, reflect: true }) form = "";
   @property({ type: String }) pattern = "";
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
-
-  // Ensure the "width" property is valid after updates
-  async updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has("width")) {
-      await Promise.resolve();
-      this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
-        ? this.width
-        : "full";
-    }
-
-    if (changedProperties.has("disabled")) {
-      this._validateButtonSlot("startButton");
-      this._validateButtonSlot("endButton");
-    }
-
-    if (changedProperties.has("type")) {
-      const mask = this._maskPatterns[this.type];
-      const input = this.shadowRoot?.querySelector("input");
-
-      if (input) {
-        if (mask) {
-          input.maxLength = mask.length;
-          this._updateOverlay(input.value, mask);
-        } else {
-          input.removeAttribute("maxLength");
-          const overlay = this.shadowRoot?.querySelector(
-            ".nys-textinput__mask-overlay",
-          );
-          if (overlay) overlay.textContent = "";
-        }
-      }
-    }
-  }
-
   @property({ type: Number }) step = null;
   @property({ type: Number }) min = null;
   @property({ type: Number }) max = null;
@@ -126,6 +92,39 @@ export class NysTextinput extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
+  }
+
+  // Ensure the "width" property is valid after updates
+  async updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("width")) {
+      await Promise.resolve();
+      this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
+        ? this.width
+        : "full";
+    }
+
+    if (changedProperties.has("disabled")) {
+      this._validateButtonSlot("startButton");
+      this._validateButtonSlot("endButton");
+    }
+
+    if (changedProperties.has("type")) {
+      const mask = this._maskPatterns[this.type];
+      const input = this.shadowRoot?.querySelector("input");
+
+      if (input) {
+        if (mask) {
+          input.maxLength = mask.length;
+          this._updateOverlay(input.value, mask);
+        } else {
+          input.removeAttribute("maxLength");
+          const overlay = this.shadowRoot?.querySelector(
+            ".nys-textinput__mask-overlay",
+          );
+          if (overlay) overlay.textContent = "";
+        }
+      }
+    }
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -434,7 +433,7 @@ export class NysTextinput extends LitElement {
               )}
               step=${ifDefined(this.step !== "" ? this.step : undefined)}
               max=${ifDefined(this.max !== "" ? this.max : undefined)}
-              form=${ifDefined(this.form ? this.form : undefined)}
+              form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"

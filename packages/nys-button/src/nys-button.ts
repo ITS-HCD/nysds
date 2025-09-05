@@ -50,7 +50,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) circle = false;
   @property({ type: String }) icon = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: String }) form = "";
+  @property({ type: String, reflect: true }) form = "";
   @property({ type: String }) value = "";
   @property({ type: String }) ariaDescription = "";
   // type
@@ -196,7 +196,6 @@ export class NysButton extends LitElement {
                 name=${ifDefined(this.name ? this.name : undefined)}
                 ?disabled=${this.disabled}
                 aria-disabled="${this.disabled ? "true" : "false"}"
-                form=${ifDefined(this.form ? this.form : undefined)}
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target=${this.target}
@@ -248,7 +247,7 @@ export class NysButton extends LitElement {
               id=${ifDefined(this.id)}
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
-              form=${ifDefined(this.form ? this.form : undefined)}
+              form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
               aria-label=${ifDefined(
