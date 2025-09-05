@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { NysOption } from "./nys-option";
 
 let selectIdCounter = 0; // Counter for generating unique IDs
@@ -14,8 +15,12 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
+<<<<<<< HEAD
   @property({ type: String }) form = "";
   @property({ type: String }) tooltip = "";
+=======
+  @property({ type: String, reflect: true }) form = "";
+>>>>>>> a0722a7cc7bd4bb66c3ce84fbf89c2ae998165ee
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
@@ -255,6 +260,7 @@ export class NysSelect extends LitElement {
             class="nys-select__select"
             name=${this.name}
             id=${this.id}
+            form=${ifDefined(this.form || undefined)}
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-disabled="${this.disabled}"
