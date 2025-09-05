@@ -72,9 +72,17 @@ export class NysGlobalHeader extends LitElement {
 
             if (!linkPath) return;
 
-            if (currentUrl?.startsWith(linkPath)) {
-              const li = a.closest("li");
-              if (li) li.classList.add("active");
+            if (linkPath === "/") {
+              // Only match if it's exactly the homepage
+              if (currentUrl === "/") {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
+            } else {
+              if (currentUrl?.startsWith(linkPath)) {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
             }
           });
           cleanNodeMobile.querySelectorAll("a").forEach((a) => {
@@ -83,9 +91,17 @@ export class NysGlobalHeader extends LitElement {
 
             if (!linkPath) return;
 
-            if (currentUrl?.startsWith(linkPath)) {
-              const li = a.closest("li");
-              if (li) li.classList.add("active");
+            if (linkPath === "/") {
+              // Only match if it's exactly the homepage
+              if (currentUrl === "/") {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
+            } else {
+              if (currentUrl?.startsWith(linkPath)) {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
             }
           });
 
