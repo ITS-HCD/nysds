@@ -15,6 +15,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: String, reflect: true }) form = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
 
@@ -175,6 +176,7 @@ export class NysRadiobutton extends LitElement {
         ?disabled=${this.disabled}
         .value=${this.value}
         ?required="${this.required}"
+        form=${ifDefined(this.form || undefined)}
         @change="${this._handleChange}"
         hidden
         aria-hidden="true"

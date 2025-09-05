@@ -1,5 +1,6 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { validateFileHeader } from "./validateFileHeader";
 import styles from "./nys-fileinput.styles";
 import "./nys-fileitem";
@@ -19,6 +20,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) multiple = false;
+  @property({ type: String }) form = "";
   @property({ type: String }) accept = ""; // e.g. "image/*,.pdf"
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
@@ -441,8 +443,9 @@ export class NysFileinput extends LitElement {
         tabindex="-1"
         type="file"
         name=${this.name}
-        ?multiple=${this.multiple}
         accept=${this.accept}
+        form=${ifDefined(this.form || undefined)}
+        ?multiple=${this.multiple}
         ?required=${this.required}
         ?disabled=${this.disabled ||
         (!this.multiple && this._selectedFiles.length > 0)}

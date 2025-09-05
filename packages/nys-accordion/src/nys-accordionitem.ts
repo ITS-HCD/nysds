@@ -29,6 +29,12 @@ export class NysAccordionItem extends LitElement {
   firstUpdated() {
     const slot = this.shadowRoot?.querySelector("slot");
 
+    /**
+     * When the accordion starts expanded but the slot is empty,
+     * _updateHeight runs too early and calculates height as 0.
+     * Listening for slotchange ensures we recalc after the slot’s
+     * content is rendered so the final height is correct.
+     */
     if (this.expanded && slot) {
       slot.addEventListener("slotchange", () => {
         this._updateHeight();
