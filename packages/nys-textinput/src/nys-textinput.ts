@@ -42,12 +42,8 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-<<<<<<< HEAD
-  @property({ type: String }) form = "";
-  @property({ type: String }) tooltip = "";
-=======
   @property({ type: String, reflect: true }) form = "";
->>>>>>> a0722a7cc7bd4bb66c3ce84fbf89c2ae998165ee
+  @property({ type: String }) tooltip = "";
   @property({ type: String }) pattern = "";
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
