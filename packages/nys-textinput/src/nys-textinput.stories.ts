@@ -21,13 +21,13 @@ interface NysTextinputArgs {
   required: boolean;
   optional: boolean;
   form: string;
+  tooltip: string;
   pattern: string;
   maxlength: string;
   width: string;
   step: string;
   min: string;
   max: string;
-  tooltip: string;
   showError: boolean;
   errorMessage: string;
 }

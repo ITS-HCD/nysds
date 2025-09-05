@@ -15,6 +15,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: String, reflect: true }) form = "";
+  @property({ type: String }) tooltip = "";
   @state() private _slottedDescriptionText = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
@@ -278,6 +279,7 @@ export class NysCheckboxgroup extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          tooltip=${this.tooltip}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>

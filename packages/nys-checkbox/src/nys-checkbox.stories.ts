@@ -1,9 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-checkbox";
+import "@nysds/nys-icon";
+import "@nysds/nys-tooltip";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {
@@ -20,6 +21,8 @@ interface NysCheckboxArgs {
   optional: boolean;
   showError: boolean;
   errorMessage: string;
+  form: string;
+  tooltip: string;
 }
 
 const meta: Meta<NysCheckboxArgs> = {
@@ -39,6 +42,8 @@ const meta: Meta<NysCheckboxArgs> = {
     value: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
+    form: { control: "text" },
+    tooltip: { control: "text" },
   },
   parameters: {
     docs: {
@@ -63,6 +68,7 @@ export const Basic: Story = {
     description: "",
     name: "landmarks",
     value: "adirondacks",
+    tooltip: "",
     showError: false,
     errorMessage: "",
     tile: false,
@@ -76,6 +82,8 @@ export const Basic: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -165,6 +173,8 @@ export const Grouping: Story = {
         .tile=${args.tile}
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
+        .form=${args.form}
+        .tooltip=${args.tooltip}
         .required=${args.required}
         .optional=${args.optional}
       >
@@ -290,6 +300,8 @@ export const Disabled: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-checkbox>
     <nys-checkbox
       checked
@@ -302,6 +314,8 @@ export const Disabled: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-checkbox>
   `,
   parameters: {
@@ -346,6 +360,8 @@ export const Size: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -434,6 +450,8 @@ export const Tile: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -532,6 +550,8 @@ export const Required: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     ></nys-checkbox>
   `,
   parameters: {
@@ -579,6 +599,8 @@ export const ErrorMessage: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
       .tile=${args.tile}
     ></nys-checkbox>
   `,
@@ -627,6 +649,8 @@ export const Slot: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
     >
       <p slot="description">
         ${args.description}<a href="https://www.ny.gov/" target="__blank"
@@ -676,6 +700,8 @@ export const Optional: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tooltip=${args.tooltip}
       .required=${args.required}
       .optional=${args.optional}
     >
@@ -746,6 +772,68 @@ export const Optional: Story = {
         `,
 
         type: "auto",
+      },
+    },
+  },
+};
+
+// Story: Tooltip
+export const Tooltip: Story = {
+  args: {
+    label: "Select NYS Services",
+    description: "Choose the services you want to access online.",
+    tooltip: "Select services to access their online applications.",
+  },
+  render: (args) => html`
+    <div style="display: flex; gap: 8px;">
+      <nys-checkboxgroup
+        style="flex: 1;"
+        label=${args.label}
+        description=${args.description}
+        size=${args.size}
+        .tile=${args.tile}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
+        .form=${args.form}
+        .tooltip=${args.tooltip}
+        .required=${args.required}
+        .optional=${args.optional}
+      >
+        <nys-checkbox
+          name="services"
+          value="driver_license_renewal"
+          label="Driver License Renewal"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="services"
+          value="vehicle_registration"
+          label="Vehicle Registration"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="services"
+          value="tax_assistance"
+          label="State Tax Assistance"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="services"
+          value="none"
+          label="None of the above"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkbox
+  disabled
+  label="Register for Early Voting"
+  description="This option is currently unavailable."
+  name="earlyVoting"
+  value="early-voting"
+></nys-checkbox>
+        `.trim(),
       },
     },
   },
