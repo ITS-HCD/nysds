@@ -780,7 +780,6 @@ export const Tooltip: Story = {
   label="Choose an NYS service"
   description="Select the service you want to complete online."
   tooltip="Select the service you want to access online."
-  size="md"
 >
   <nys-radiobutton
     name="service"
