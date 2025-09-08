@@ -16,7 +16,7 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) form = "";
+  @property({ type: String, reflect: true }) form = "";
   @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
@@ -194,7 +194,7 @@ export class NysTextarea extends LitElement {
 
     this.dispatchEvent(
       new CustomEvent("nys-input", {
-        detail: { value: this.value },
+        detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
       }),
@@ -232,8 +232,8 @@ export class NysTextarea extends LitElement {
     const select = e.target as HTMLSelectElement;
     this.value = select.value;
     this.dispatchEvent(
-      new CustomEvent("selectionchange", {
-        detail: { value: this.value },
+      new CustomEvent("nys-selectionchange", {
+        detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
       }),

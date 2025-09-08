@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/web-components-vite";
+import { MINIMAL_VIEWPORTS } from "storybook/viewport";
 
 import "./preview.css"; // Custom Storybook styles
 
@@ -83,6 +84,10 @@ const preview: Preview = {
       source: {
         type: "code",
       },
+      codePanel: true,
+    },
+    viewport: {
+      options: MINIMAL_VIEWPORTS,
     },
   },
 };

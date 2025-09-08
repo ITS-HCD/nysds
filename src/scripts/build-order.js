@@ -20,6 +20,7 @@ const packages = [
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
   { name: "nys-skipnav", path: "packages/nys-skipnav" },
+  { name: "nys-stepper", path: "packages/nys-stepper" },
   { name: "nys-textarea", path: "packages/nys-textarea" },
   { name: "nys-textinput", path: "packages/nys-textinput" },
   { name: "nys-toggle", path: "packages/nys-toggle" },

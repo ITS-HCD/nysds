@@ -49,6 +49,8 @@ export class NysGlobalHeader extends LitElement {
       container.innerHTML = "";
       containerMobile.innerHTML = "";
 
+      const currentUrl = this._normalizePath(window.location.pathname);
+
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
         if (node.nodeType === Node.ELEMENT_NODE) {
@@ -64,21 +66,42 @@ export class NysGlobalHeader extends LitElement {
           });
 
           // Highlight active link
-          const currentUrl = this._normalizePath(window.location.pathname);
           cleanNode.querySelectorAll("a").forEach((a) => {
             const hrefAttr = a.getAttribute("href");
             const linkPath = this._normalizePath(hrefAttr);
-            if (linkPath === currentUrl) {
-              const li = a.closest("li");
-              if (li) li.classList.add("active");
+
+            if (!linkPath) return;
+
+            if (linkPath === "/") {
+              // Only match if it's exactly the homepage
+              if (currentUrl === "/") {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
+            } else {
+              if (currentUrl?.startsWith(linkPath)) {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
             }
           });
           cleanNodeMobile.querySelectorAll("a").forEach((a) => {
             const hrefAttr = a.getAttribute("href");
             const linkPath = this._normalizePath(hrefAttr);
-            if (linkPath === currentUrl) {
-              const li = a.closest("li");
-              if (li) li.classList.add("active");
+
+            if (!linkPath) return;
+
+            if (linkPath === "/") {
+              // Only match if it's exactly the homepage
+              if (currentUrl === "/") {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
+            } else {
+              if (currentUrl?.startsWith(linkPath)) {
+                const li = a.closest("li");
+                if (li) li.classList.add("active");
+              }
             }
           });
 

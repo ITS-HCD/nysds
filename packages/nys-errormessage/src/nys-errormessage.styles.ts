@@ -20,15 +20,12 @@ export default css`
       --nys-font-letterspacing-ui-md,
       0.044px
     );
-    --_nys-errormessage-color: var(
-      --nys-color-danger,
-      var(--nys-color-red-600, #b52c2c)
-    );
+    --_nys-errormessage-color: var(--nys-color-danger, #b52c2c);
 
     /* Spacing */
     --_nys-errormessage-gap: var(--nys-space-100, 8px);
-    --_nys-errormessage-divider-gap: var(--nys-space-50, 4px);
-    --_nys-errormessage-divider-width: var(--nys-border-width-sm, 1px);
+    ---_nys-errormessage-padding--divider: var(--nys-space-50, 4px);
+    --_nys-errormessage-width--divider: var(--nys-border-width-sm, 1px);
 
     --_nys-errormessage-margin-top: 0;
   }
@@ -47,9 +44,9 @@ export default css`
   }
 
   .nys-errormessage[showDivider] {
-    padding-top: var(--_nys-errormessage-divider-gap);
-    margin-top: var(--_nys-errormessage-divider-gap);
-    border-top: var(--_nys-errormessage-divider-width) solid
+    padding-top: var(--_nys-errormessage-padding--divider);
+    margin-top: var(--_nys-errormessage-padding--divider);
+    border-top: var(--_nys-errormessage-width--divider) solid
       var(--_nys-errormessage-color);
   }
 `;

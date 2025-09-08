@@ -21,8 +21,8 @@ figma.connect("<FIGMA_TEXTINPUT>", {
     }),
     input: figma.nestedProps("Input", {
       disabled: figma.boolean("Disabled"),
-      value: figma.boolean("Show Input", {
-        true: figma.string("Input"),
+      value: figma.boolean("Value", {
+        true: figma.string("↳ Value"),
         false: undefined,
       }),
       placeholder: figma.boolean("Placeholder", {

@@ -5,7 +5,7 @@ import { NysBadge } from "./nys-badge.js";
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-badge", () => {
   it("renders the component", async () => {
-    const el = await fixture(html`<nys-badge></nys-badge>`);
+    const el = await fixture<NysBadge>(html`<nys-badge></nys-badge>`);
     expect(el).to.exist;
   });
 
@@ -32,15 +32,17 @@ describe("nys-badge", () => {
     expect(el.prefixIcon).to.equal("check");
   });
 
-  it("renders the prefix", async () => {
-    const el = await fixture(
-      html`<nys-badge prefix="prefix" label="label"></nys-badge>`,
+  it("renders the prefixLabel", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge prefixLabel="prefix" label="label"></nys-badge>`,
     );
-    expect(el.prefix).to.equal("prefix");
+    expect(el.prefixLabel).to.equal("prefix");
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-badge label="My Label"></nys-badge>`);
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="My Label"></nys-badge>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 

@@ -15,7 +15,7 @@ If an id is not passed, a unique id will be generated.
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
   <nys-badge
     prefixIcon
-    prefix="WCAG 2.2"
+    prefixLabel="WCAG 2.2"
     label="AA"
     intent="success"
   ></nys-badge>
@@ -121,6 +121,11 @@ The `<nys-toggle>` component emits the following events:
 2. **`nys-focus`** – Fired when the toggle gains focus.
 3. **`nys-blur`** – Fired when the toggle loses focus.
 
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the toggle.
+- checked (boolean): Whether the toggle is currently checked.
+
 You can listen to these events using JavaScript:
 
 ```js
@@ -130,7 +135,8 @@ You can listen to these events using JavaScript:
 
   // Listen for the 'nys-change' event
   toggle.addEventListener('nys-change', (event) => {
-    console.log('Checkbox changed:', event.detail.checked);
+    const { checked } = event.detail;
+    console.log('Toggle changed. Checked:', checked);
   });
 
   // Listen for the 'nys-focus' event

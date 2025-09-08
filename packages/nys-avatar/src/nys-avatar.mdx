@@ -16,7 +16,7 @@ If an id is not passed, a unique id will be generated.
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
   <nys-badge
     prefixIcon
-    prefix="WCAG 2.2"
+    prefixLabel="WCAG 2.2"
     label="AA"
     intent="success"
   ></nys-badge>
@@ -40,16 +40,20 @@ If an image is unavailable, you can set the `initials` attribute to display a pe
 <Canvas of={NysAvatarStories.AvatarInitials} />
 
 ### Custom Icons
-When no image or initials are set, an icon will be shown. The default avatar shows an icon called "account_circle", but you can customize this with any other name found in `nys-icon` using the `icon` prop or customize directly within `nys-avatar` with the icon slot.
+When no image or initials are set, an icon will be shown. The default avatar shows an icon called "account_circle", but you can customize this with any other name found in `<nys-icon>` using the `icon` prop or customize directly within `nys-avatar` with the icon slot.
 <Canvas of={NysAvatarStories.AvatarIcon} />
 
-### Shapes
-Avatars can be shaped using the shape attribute.
-<Canvas of={NysAvatarStories.AvatarShapes} />
+### Interactive
+Enable the `interactive` prop to apply interactive styling states and keyboard focus.
+<Canvas of={NysAvatarStories.AvatarInteractive} />
+
+### Disabled
+Use the `disabled` prop to prevent interaction and remove focusability.
+<Canvas of={NysAvatarStories.AvatarDisabled} />
 
 ### Background Color
 The background color of the Avatar can be customized using the color attribute. This attribute accepts any valid color value, including <a href="https://designsystem.ny.gov/foundations/design-tokens/" target="_blank" rel="noopener noreferrer">design tokens</a>, such as: `color="var(--nys-color-theme)"` \
-**Note:** When an image is provided, it will overlay and fully cover the background color.
+**Note:** When an image is provided, it will overlay and fully cover the background color. The inner foreground (icon or initials) automatically switches to #000 or #fff for contrast.
 <Canvas of={NysAvatarStories.AvatarBgColor} />
 
 ## Usage
@@ -67,7 +71,7 @@ The background color of the Avatar can be customized using the color attribute. 
       <div className="usage-card usage-card--do">
          ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
          - Use for clear, simple user or entity representation.
-         - Use appropriate shapes, sizes, and images to fit the overall page design.
+         - Use appropriate images, initials, and icons to fit the overall page design.
          - Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
       </div>
    </div>

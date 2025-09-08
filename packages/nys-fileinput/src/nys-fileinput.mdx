@@ -16,7 +16,7 @@ If an id is not passed, a unique id will be generated.
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
   <nys-badge
     prefixIcon
-    prefix="WCAG 2.2"
+    prefixLabel="WCAG 2.2"
     label="AA"
     intent="success"
   ></nys-badge>
@@ -118,6 +118,15 @@ The `nys-fileinput` component emits the following events:
 
 1. `nys-change`: Fired when files are selected or removed.
 
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the file input.
+- files (Array of file entries): A list of files with status and progress information.
+  - file (File): The raw File object.
+  - progress (number): Upload or processing progress (0–100).
+  - status ("pending" | "processing" | "done" | "error"): Current state of the file.
+  - errorMsg (string): Optional error message if status is "error".
+
 You can listen to these events using JavaScript:
 
 ```js
@@ -127,6 +136,13 @@ const fileinput = document.querySelector("nys-fileinput");
 // Listen for the 'nys-change' event
 fileinput.addEventListener("nys-change", (e) => {
   console.log("Files changed", e.detail.files);
+
+  // Getting more specific details about each file(s)
+  const { id, files } = event.detail;
+  console.log(`Fileinput (${id}) changed:`);
+    files.forEach(({ file, progress, status, errorMsg }) => {
+      console.log(`- ${file.name} (${status}, ${progress}%)`, errorMsg || "");
+  });
 });
 ```
 

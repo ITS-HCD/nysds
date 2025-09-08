@@ -125,8 +125,8 @@ export class NysAlert extends LitElement {
      * allows bubbling up so if developers wish to implement a local save to remember closed alerts.
      */
     this.dispatchEvent(
-      new CustomEvent("nys-alert-closed", {
-        detail: { type: this.type, label: this.heading },
+      new CustomEvent("nys-close", {
+        detail: { id: this.id, type: this.type, label: this.heading },
         bubbles: true,
         composed: true,
       }),

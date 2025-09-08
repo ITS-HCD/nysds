@@ -3,13 +3,11 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global fileitem Styles */
-    --_nys-fileitem-items-radius: var(--nys-radius-md, 4px);
-    --_nys-fileitem-items-padding: var(--nys-space-100, 8px)
+    --_nys-fileitem-border-radius: var(--nys-radius-md, 4px);
+    --_nys-fileitem-padding: var(--nys-space-100, 8px)
       var(--nys-space-200, 16px);
-    --_nys-fileitem-items-background: var(--nys-color-ink-reverse, #fff);
-    --_nys-fileitem-items-border: var(--nys-border-width-sm, 1px) solid
-      var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-fileitem-error-color: var(--nys-color-danger, #b52c2c);
+    --_nys-fileitem-background-color: var(--nys-color-ink-reverse, #fff);
+    --_nys-fileitem-border-color: var(--nys-color-neutral-100, #d0d0ce);
 
     /* Typography */
     --_nys-fileitem-font-family: var(
@@ -24,26 +22,36 @@ export default css`
       )
     );
     --_nys-fileitem-font-size: var(--nys-font-size-ui-md, 16px);
-    --_nys-fileitem-font-weight-400: var(--nys-font-weight-regular, 400);
+    --_nys-fileitem-font-weight: var(--nys-font-weight-regular, 400);
     --_nys-fileitem-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-fileitem-letterspacing: var(--nys-font-letterspacing-ui-md, 0.044px);
+    --_nys-fileitem-letter-spacing: var(
+      --nys-font-letterspacing-ui-md,
+      0.044px
+    );
 
     /* Progress Bar */
-    --_nys-fileitem-progress-background: var(--nys-color-neutral-50, #ededed);
-    --_nys-fileitem-progress-fill-background: var(--nys-color-info, #004dd1);
+    --_nys-fileitem-background-color--progress: var(
+      --nys-color-neutral-50,
+      #ededed
+    );
+    --_nys-fileitem-background-color--progress--fill: var(
+      --nys-color-info,
+      #004dd1
+    );
   }
 
   /***** File List Item *****/
   .file-item {
     position: relative;
-    border-radius: var(--_nys-fileitem-items-radius);
-    border: var(--_nys-fileitem-items-border);
-    background: var(--_nys-fileitem-items-background);
+    border-radius: var(--_nys-fileitem-border-radius);
+    border-width: var(--nys-border-width-sm, 1px);
+    border-style: solid;
+    border-color: var(--_nys-fileitem-border-color);
+    background-color: var(--_nys-fileitem-background-color);
   }
 
   .file-item.error {
-    --_nys-fileitem-items-border: var(--nys-border-width-sm, 1px) solid
-      var(--nys-color-danger, #b52c2c);
+    --_nys-fileitem-border-color: var(--nys-color-danger, #b52c2c);
   }
 
   .file-item__main {
@@ -51,7 +59,7 @@ export default css`
     justify-items: center;
     align-items: center;
     gap: var(--_nys-fileinput-gap);
-    padding: var(--_nys-fileitem-items-padding);
+    padding: var(--_nys-fileitem-padding);
     height: 56px;
     box-sizing: border-box;
   }
@@ -64,9 +72,9 @@ export default css`
     font-family: var(--_nys-fileitem-font-family);
     font-size: var(--_nys-fileitem-font-size);
     font-style: normal;
-    font-weight: var(--_nys-fileitem-font-weight-400);
+    font-weight: var(--_nys-fileitem-font-weight);
     line-height: var(--_nys-fileitem-line-height);
-    letter-spacing: var(--_nys-fileitem-letterspacing);
+    letter-spacing: var(--_nys-fileitem-letter-spacing);
   }
 
   .file-item__info-name {
@@ -90,7 +98,7 @@ export default css`
   }
 
   .file-item__error {
-    color: var(--_nys-fileitem-error-color);
+    color: var(--nys-color-danger, #b52c2c);
     text-overflow: ellipsis;
     font-weight: 700;
   }
@@ -103,21 +111,21 @@ export default css`
     width: 100%;
     height: 6px;
     border-radius: var(--nys-radius-round, 1776px);
-    background: var(--_nys-fileitem-progress-fill-background);
+    background: var(--_nys-fileitem-background-color--progress--fill);
     overflow: hidden;
     appearance: none;
   }
   /* Track */
   progress::-moz-progress-bar {
-    background: var(--_nys-fileitem-progress-background);
+    background-color: var(--_nys-fileitem-background-color--progress);
   }
   /* Filled value (the blue bar) */
   progress::-webkit-progress-value {
-    background: var(--_nys-fileitem-progress-fill-background);
+    background-color: var(--_nys-fileitem-background-color--progress--fill);
   }
   /* Firefox */
   progress::-webkit-progress-bar {
-    background: var(--_nys-fileitem-progress-background);
+    background-color: var(--_nys-fileitem-background-color--progress);
   }
 
   /**** Icon ****/
@@ -126,7 +134,7 @@ export default css`
   }
 
   .file-icon[name="error"] {
-    color: var(--_nys-fileitem-error-color);
+    color: var(--nys-color-danger, #b52c2c);
   }
 
   @keyframes spin {

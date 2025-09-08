@@ -18,7 +18,7 @@ The **`nys-radiobutton`** component is a reusable web component for use in New Y
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
   <nys-badge
     prefixIcon
-    prefix="WCAG 2.2"
+    prefixLabel="WCAG 2.2"
     label="AA"
     intent="success"
   ></nys-badge>
@@ -129,6 +129,13 @@ The `NysRadiobutton` component emits the following events:
 2. **`nys-focus`** – Fired when the radiobutton gains focus.
 3. **`nys-blur`** – Fired when the radiobutton loses focus.
 
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the radiobutton.
+- checked (boolean): Whether the radiobutton is selected.
+- name (string): The radiobutton group name.
+- value (string): The radiobutton’s value.
+
 You can listen to these events using JavaScript:
 
 ```js
@@ -138,7 +145,10 @@ You can listen to these events using JavaScript:
 
   // Listen for the 'nys-change' event
   radiobutton.addEventListener('nys-change', (event) => {
-    console.log('Radiobutton changed:', event.detail.checked);
+    const { id, checked, name, value } = event.detail;
+    console.log(
+      `Radiobutton (${id}) in group "${name}" is of ${value}, checked: ${checked}`
+    );
   });
 
   // Listen for the 'nys-focus' event

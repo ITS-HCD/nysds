@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.6.0",
+  "version": "1.8.0",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -42,7 +42,9 @@
     "storybook:cibuild": "storybook build",
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules",
     "clean:dist": "rm -rf dist && rm -rf packages/*/dist",
-    "clean:all": "npm run clean:dist && npm run clean:node"
+    "clean:all": "npm run clean:dist && npm run clean:node",
+    "code-connect": "dotenv -- npx figma connect publish"
+
   },
   "repository": {
     "type": "git",
@@ -72,6 +74,7 @@
     "@web/test-runner": "^0.19.0",
     "@web/test-runner-commands": "^0.9.0",
     "@web/test-runner-playwright": "^0.11.0",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9.10.0",
     "eslint-plugin-lit": "^1.15.0",
     "eslint-plugin-prettier": "^5.2.1",

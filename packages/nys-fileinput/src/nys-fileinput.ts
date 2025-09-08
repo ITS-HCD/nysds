@@ -1,5 +1,6 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { validateFileHeader } from "./validateFileHeader";
 import styles from "./nys-fileinput.styles";
 import "./nys-fileitem";
@@ -19,6 +20,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) multiple = false;
+  @property({ type: String }) form = "";
   @property({ type: String }) accept = ""; // e.g. "image/*,.pdf"
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
@@ -144,7 +146,7 @@ export class NysFileinput extends LitElement {
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
       this._internals.ariaRequired = "false"; // Reset when valid
-      this._internals.setValidity({});
+      this._internals.setValidity({}, "", input);
     }
   }
 
@@ -209,10 +211,12 @@ export class NysFileinput extends LitElement {
         );
         if (firstInvalidElement === this) {
           innerButton.focus();
+          innerButton.classList.add("active-focus"); // This class styling is found within <nys-button>
         }
       } else {
         // If not part of a form, simply focus.
         innerButton.focus();
+        innerButton.classList.add("active-focus"); // This class styling is found within <nys-button>
       }
     }
   }
@@ -288,7 +292,7 @@ export class NysFileinput extends LitElement {
   private _dispatchChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
-        detail: { files: this._selectedFiles },
+        detail: { id: this.id, files: this._selectedFiles },
         bubbles: true,
         composed: true,
       }),
@@ -345,8 +349,6 @@ export class NysFileinput extends LitElement {
       this._saveSelectedFiles(file);
     });
 
-    input.value = "";
-
     this.requestUpdate();
     this._dispatchChangeEvent();
     this._handlePostFileSelectionFocus();
@@ -359,6 +361,14 @@ export class NysFileinput extends LitElement {
     this._selectedFiles = this._selectedFiles.filter(
       (existingFile) => existingFile.file.name !== filenameToRemove,
     );
+
+    if (this._selectedFiles.length === 0) {
+      const input = this.shadowRoot?.querySelector(
+        "input",
+      ) as HTMLInputElement | null;
+      if (input) input.value = "";
+    }
+
     this._setValue();
     this._validate();
 
@@ -433,15 +443,16 @@ export class NysFileinput extends LitElement {
         tabindex="-1"
         type="file"
         name=${this.name}
-        ?multiple=${this.multiple}
         accept=${this.accept}
+        form=${ifDefined(this.form || undefined)}
+        ?multiple=${this.multiple}
         ?required=${this.required}
         ?disabled=${this.disabled ||
         (!this.multiple && this._selectedFiles.length > 0)}
         aria-disabled="${this.disabled}"
         aria-hidden="true"
-        hidden
         @change=${this._handleFileChange}
+        hidden
       />
 
       ${!this.dropzone

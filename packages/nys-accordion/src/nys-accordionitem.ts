@@ -8,7 +8,7 @@ export class NysAccordionItem extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
-  @property({ type: Boolean, reflect: true }) bordered = false;
+  @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
 
   static styles = styles;
 
@@ -23,6 +23,22 @@ export class NysAccordionItem extends LitElement {
     // Generate a unique ID if not provided
     if (!this.id) {
       this.id = this._generateUniqueId();
+    }
+  }
+
+  firstUpdated() {
+    const slot = this.shadowRoot?.querySelector("slot");
+
+    /**
+     * When the accordion starts expanded but the slot is empty,
+     * _updateHeight runs too early and calculates height as 0.
+     * Listening for slotchange ensures we recalc after the slot’s
+     * content is rendered so the final height is correct.
+     */
+    if (this.expanded && slot) {
+      slot.addEventListener("slotchange", () => {
+        this._updateHeight();
+      });
     }
   }
 
