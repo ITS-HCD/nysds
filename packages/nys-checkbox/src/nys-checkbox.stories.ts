@@ -826,13 +826,32 @@ export const Tooltip: Story = {
     docs: {
       source: {
         code: `
-<nys-checkbox
-  disabled
-  label="Register for Early Voting"
-  description="This option is currently unavailable."
-  name="earlyVoting"
-  value="early-voting"
-></nys-checkbox>
+<nys-checkboxgroup
+  label="Select NYS Services"
+  description="Choose the services you want to access online."
+  tooltip="Select services to access their online applications."
+>
+  <nys-checkbox
+    name="services"
+    value="driver_license_renewal"
+    label="Driver License Renewal"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="services"
+    value="vehicle_registration"
+    label="Vehicle Registration"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="services"
+    value="tax_assistance"
+    label="State Tax Assistance"
+  ></nys-checkbox>
+  <nys-checkbox
+    name="services"
+    value="none"
+    label="None of the above"
+  ></nys-checkbox>
+</nys-checkboxgroup>
         `.trim(),
       },
     },
