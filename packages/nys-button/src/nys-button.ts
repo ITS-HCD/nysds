@@ -67,7 +67,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ type: Function }) onClick: (event: Event) => void = () => {};
+  @property({ type: Function }) onClick: (event: Event) => void = () => { };
   @property({ type: String }) href = "";
   // target
   private static readonly VALID_TARGETS = [
@@ -180,7 +180,7 @@ export class NysButton extends LitElement {
           linkEl.click();
         }
       } else {
-        this.click(); // Normal button mode
+        this._handleClick(e);
       }
     }
   }
@@ -200,11 +200,11 @@ export class NysButton extends LitElement {
                 href=${this.href}
                 target=${this.target}
                 aria-label=${ifDefined(
-                  this.ariaLabel ||
-                    this.label ||
-                    (this.circle ? this.icon : null) ||
-                    "button",
-                )}
+          this.ariaLabel ||
+          this.label ||
+          (this.circle ? this.icon : null) ||
+          "button",
+        )}
                 aria-description=${ifDefined(this.ariaDescription || undefined)}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
@@ -214,30 +214,30 @@ export class NysButton extends LitElement {
                 tabindex="${this.disabled ? -1 : 0}"
               >
                 ${this.prefixIcon && this.variant !== "text"
-                  ? html`<slot name="prefix-icon">
+            ? html`<slot name="prefix-icon">
                       <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                     </slot>`
-                  : ""}
+            : ""}
                 ${this.label && !this.circle
-                  ? html`<div class="nys-button__text">${this.label}</div>`
-                  : ""}
+            ? html`<div class="nys-button__text">${this.label}</div>`
+            : ""}
                 ${this.suffixIcon && this.variant !== "text"
-                  ? html`<slot name="suffix-icon">
+            ? html`<slot name="suffix-icon">
                       <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                     </slot>`
-                  : ""}
+            : ""}
                 ${this.circle && this.icon
-                  ? html`<slot name="circle-icon"
+            ? html`<slot name="circle-icon"
                       ><nys-icon
                         size=${this.size === "sm"
-                          ? "24"
-                          : this.size === "lg"
-                            ? "40"
-                            : "32"}
+                ? "24"
+                : this.size === "lg"
+                  ? "40"
+                  : "32"}
                         name=${this.icon}
                       ></nys-icon
                     ></slot>`
-                  : ""}
+            : ""}
               </a>
             </div>
           `
@@ -251,13 +251,13 @@ export class NysButton extends LitElement {
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
               aria-label=${ifDefined(
-                this.ariaLabel ||
-                  this.label ||
-                  (this.circle ? this.icon : null) ||
-                  this.prefixIcon ||
-                  this.suffixIcon ||
-                  "button",
-              )}
+          this.ariaLabel ||
+          this.label ||
+          (this.circle ? this.icon : null) ||
+          this.prefixIcon ||
+          this.suffixIcon ||
+          "button",
+        )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
@@ -266,30 +266,30 @@ export class NysButton extends LitElement {
               role="button"
             >
               ${this.prefixIcon && this.variant !== "text"
-                ? html`<slot name="prefix-icon">
+            ? html`<slot name="prefix-icon">
                     <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                   </slot>`
-                : ""}
+            : ""}
               ${this.label && !this.circle
-                ? html`<div class="nys-button__text">${this.label}</div>`
-                : ""}
+            ? html`<div class="nys-button__text">${this.label}</div>`
+            : ""}
               ${this.suffixIcon && this.variant !== "text"
-                ? html`<slot name="suffix-icon">
+            ? html`<slot name="suffix-icon">
                     <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                   </slot>`
-                : ""}
+            : ""}
               ${this.circle && this.icon
-                ? html`<slot name="circle-icon">
+            ? html`<slot name="circle-icon">
                     <nys-icon
                       size=${this.size === "sm"
-                        ? "24"
-                        : this.size === "lg"
-                          ? "40"
-                          : "32"}
+                ? "24"
+                : this.size === "lg"
+                  ? "40"
+                  : "32"}
                       name=${this.icon}
                     ></nys-icon>
                   </slot>`
-                : ""}
+            : ""}
             </button>
           `}
     `;
