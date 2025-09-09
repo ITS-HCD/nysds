@@ -43,12 +43,13 @@ export const Basic: Story = {
 };
 
 export const Inverted: Story = {
-  render: () => html`
+  args: { inverted: true },
+  render: (args) => html`
     <div
       style="display: flex; flex-direction: column; background-color: var(--nys-color-ink, #1b1b1b); color: var(--nys-color-ink-reverse, #fff); padding: var(--nys-space-200, 16px);"
     >
       <div>sample content</div>
-      <nys-divider inverted></nys-divider>
+      <nys-divider .inverted=${args.inverted}></nys-divider>
       <div>sample content</div>
     </div>
   `,
