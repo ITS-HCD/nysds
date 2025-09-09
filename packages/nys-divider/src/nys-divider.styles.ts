@@ -7,7 +7,7 @@ export default css`
     /* Global Divider Styles */
     --_nys-divider-size: var(--nys-size-1px, 1px);
     --_nys-divider-color: var(--nys-color-neutral-200, #bec0c1);
-    --_nys-divider-width: 100%
+    --_nys-divider-width: 100%;
   }
   /* Inverted */
   :host([inverted]) {

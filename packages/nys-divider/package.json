@@ -24,8 +24,7 @@
   "peerDependencies": {
     "lit": "^3.2.1"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
@@ -37,10 +36,8 @@
     "web-components",
     "lit",
     "nys",
-    "divider",
-    "forms"
+    "divider"
   ],
   "author": "New York State Design System Team",
   "license": "MIT"
 }
-
