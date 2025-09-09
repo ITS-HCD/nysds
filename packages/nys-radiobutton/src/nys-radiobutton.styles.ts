@@ -44,13 +44,22 @@ export default css`
     --_nys-radiobutton-background-color: var(--nys-color-ink-reverse, #ffffff);
     --_nys-radiobutton-border-color: var(--nys-color-neutral-600, #62666a);
     /* Empty + Hovered */
-    --_nys-radiobutton-background-color--hover: var(--nys-color-neutral-50, #ededed);
+    --_nys-radiobutton-background-color--hover: var(
+      --nys-color-neutral-50,
+      #ededed
+    );
     --_nys-radiobutton-border-color--hover: var(--nys-color-ink, #1b1b1b);
     /* Empty + Pressed */
-    --_nys-radiobutton-background-color--active: var(--nys-color-neutral-100, #d0d0ce);
+    --_nys-radiobutton-background-color--active: var(
+      --nys-color-neutral-100,
+      #d0d0ce
+    );
     --_nys-radiobutton-border-color--active: var(--nys-color-ink, #1b1b1b);
     /* Checked */
-    --_nys-radiobutton-background-color--checked: var(--nys-color-theme, #154973);
+    --_nys-radiobutton-background-color--checked: var(
+      --nys-color-theme,
+      #154973
+    );
     /* Disabled */
     --_nys-radiobutton-background-color--disabled: var(
       --nys-color-ink-reverse,
