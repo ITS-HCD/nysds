@@ -17,7 +17,7 @@ interface NysButtonArgs {
   circle: boolean;
   icon: string;
   disabled: boolean;
-  form: string;
+  form: string | null;
   value: string;
   type: string;
   href: string;

@@ -14,7 +14,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";
@@ -275,7 +275,11 @@ export class NysRadiogroup extends LitElement {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       if (this.showError) {
-        radioButton.setAttribute("form", this.form);
+        if (this.form !== null) {
+          radioButton.setAttribute("form", this.form);
+        } else {
+          radioButton.removeAttribute("form");
+        }
       } else {
         radioButton.removeAttribute("form");
       }

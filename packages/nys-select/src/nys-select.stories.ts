@@ -15,7 +15,7 @@ interface NysSelectArgs {
   disabled: boolean;
   required: boolean;
   optional: boolean;
-  form: string;
+  form: string | null;
   width: string;
   options: string;
   showError: boolean;

@@ -15,7 +15,7 @@ interface NysRadiobuttonArgs {
   tile: boolean;
   disabled: boolean;
   value: string;
-  form: string;
+  form: string | null;
   required: boolean;
   optional: boolean;
   showError: boolean;
@@ -78,6 +78,7 @@ export const Basic: Story = {
       .errorMessage=${args.errorMessage}
       .required=${args.required}
       .optional=${args.optional}
+      .form=${args.form}
     >
       <nys-radiobutton
         .id=${args.id}
@@ -298,6 +299,7 @@ export const Required: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
+      .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -367,6 +369,7 @@ export const Size: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
+      .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -442,6 +445,7 @@ export const Tile: Story = {
       .errorMessage=${args.errorMessage}
       .required=${args.required}
       .optional=${args.optional}
+      .form=${args.form}
     >
       <nys-radiobutton
         .name=${args.name}
@@ -510,6 +514,7 @@ export const ErrorMessage: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
+      .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -654,6 +659,7 @@ export const Optional: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
+      .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >

@@ -50,7 +50,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) circle = false;
   @property({ type: String }) icon = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) value = "";
   @property({ type: String }) ariaDescription = "";
   // type

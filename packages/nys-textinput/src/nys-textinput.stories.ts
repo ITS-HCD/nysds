@@ -19,7 +19,7 @@ interface NysTextinputArgs {
   readonly: boolean;
   required: boolean;
   optional: boolean;
-  form: string;
+  form: string | null;
   pattern: string;
   maxlength: string;
   width: string;

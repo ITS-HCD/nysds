@@ -16,7 +16,7 @@ interface NysTextareaArgs {
   readonly: boolean;
   required: boolean;
   optional: boolean;
-  form: string;
+  form: string | null;
   maxlength: string;
   width: string;
   rows: string;
