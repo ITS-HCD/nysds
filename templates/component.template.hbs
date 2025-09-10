@@ -2,6 +2,8 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-{{componentName}}.styles";
 
+let componentIdCounter = 0; // Counter for generating unique IDs
+
 export class Nys{{capitalize componentName}} extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
@@ -11,6 +13,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: Boolean, reflect: true }) showError = false;
+  @property({ type: String }) errorMessage = "";
   @property({ type: String, reflect: true }) form = "";
   {{/if}}
 
@@ -27,9 +30,21 @@ export class Nys{{capitalize componentName}} extends LitElement {
     this._internals = this.attachInternals();
   }
 
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
+    }
+
+    {{#if formRelated}}
+    this.addEventListener("invalid", this._handleInvalid);
+    {{/if}}
+  }
+
   firstUpdated() {
     // This ensures our element always participates in the form
-    this._setValue();
+    this._setValue(this.value);
   }
   {{else}}
   /**************** Lifecycle Methods ****************/
@@ -40,19 +55,18 @@ export class Nys{{capitalize componentName}} extends LitElement {
 
   {{#if formRelated}}
   /***************** Form Integration *****************/
-  /** 
+  /**
   * Placeholder for form-related helper methods
   * Refer to existing form-related components for full integration. Only a subset of functions is included here!
   */
 
-  /** 
+  /**
    * Form helper methods:
    * - _setValue: set internal value and trigger validation
    * - _manageRequire: handle required state
    * - _validate: actively validate and show errors
    * - checkValidity: passive boolean check without UI
    */
-
 
   // Performs element validation
   private _setValue(value: any) {
@@ -80,26 +94,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
     }
   }
 
-  private _setValidityMessage(message: string = "") {
-    const input = this.shadowRoot?.querySelector("input");
-    if (!input) return;
-
-    // Toggle the HTML <div> tag error message
-    this.showError = message === (this.errorMessage || "custom error message.");
-
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
-    }
-
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
-  }
-
-  /** 
+  /**
    * Actively validates the component:
    * - Updates internal validity state
    * - Updates UI (e.g. showError)
@@ -114,7 +109,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /** 
+  /**
    * Passive check of validity:
    * - Returns true/false
    * - Does NOT update UI or show errors
@@ -142,7 +137,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
   private _handleInvalid(event: Event) {
     event.preventDefault();
     this._validate();
-    
+
     const innerInput = this.shadowRoot?.querySelector("input");
     if (innerInput) {
       innerInput.focus();

@@ -30,6 +30,8 @@ const packages = [
   { name: "nys-test", path: "packages/nys-test" },
   { name: "nys-test", path: "packages/nys-test" },
   { name: "nys-test", path: "packages/nys-test" },
+  { name: "nys-test", path: "packages/nys-test" },
+  { name: "nys-test", path: "packages/nys-test" },
 ];
 
 packages.forEach((pkg) => {

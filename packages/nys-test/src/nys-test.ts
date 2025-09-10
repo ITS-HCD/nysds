@@ -2,6 +2,8 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-test.styles";
 
+let componentIdCounter = 0; // Counter for generating unique IDs
+
 export class NysTest extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
@@ -10,6 +12,7 @@ export class NysTest extends LitElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: Boolean, reflect: true }) showError = false;
+  @property({ type: String }) errorMessage = "";
   @property({ type: String, reflect: true }) form = "";
 
   static styles = styles;
@@ -24,9 +27,19 @@ export class NysTest extends LitElement {
     this._internals = this.attachInternals();
   }
 
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-test-${Date.now()}-${componentIdCounter++}`;
+    }
+
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
   firstUpdated() {
     // This ensures our element always participates in the form
-    this._setValue();
+    this._setValue(this.value);
   }
 
   /***************** Form Integration *****************/
@@ -70,26 +83,7 @@ export class NysTest extends LitElement {
     }
   }
 
-  private _setValidityMessage(message: string = "") {
-    const input = this.shadowRoot?.querySelector("input");
-    if (!input) return;
-
-    // Toggle the HTML <div> tag error message
-    this.showError = message === (this.errorMessage || "custom error message.");
-
-    // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
-    }
-
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      input,
-    );
-  }
-
-  /** 
+  /**
    * Actively validates the component:
    * - Updates internal validity state
    * - Updates UI (e.g. showError)
