@@ -180,7 +180,7 @@ export class NysButton extends LitElement {
           linkEl.click();
         }
       } else {
-        this.click(); // Normal button mode
+        this._handleClick(e);
       }
     }
   }
