@@ -8,6 +8,7 @@ export class NysLabel extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: String }) flag = "";
   @property({ type: String }) tooltip = "";
+  @property({ type: Boolean, reflect: true }) tooltipInverted = false;
 
   static styles = styles;
 
@@ -25,7 +26,12 @@ export class NysLabel extends LitElement {
               : ""}</label
           >
           ${this.tooltip
-            ? html`<nys-tooltip text="${this.tooltip}" position="top" focusable>
+            ? html`<nys-tooltip
+                text="${this.tooltip}"
+                position="top"
+                focusable
+                inverted=${this.tooltipInverted}
+              >
                 <div class="nys-label__tooltip-icon">
                   <nys-icon name="info" size="3xl"></nys-icon>
                 </div>

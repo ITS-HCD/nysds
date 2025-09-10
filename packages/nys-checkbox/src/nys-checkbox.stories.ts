@@ -23,6 +23,7 @@ interface NysCheckboxArgs {
   errorMessage: string;
   form: string;
   tooltip: string;
+  tooltipInverted: boolean;
 }
 
 const meta: Meta<NysCheckboxArgs> = {
@@ -44,6 +45,7 @@ const meta: Meta<NysCheckboxArgs> = {
     errorMessage: { control: "text" },
     form: { control: "text" },
     tooltip: { control: "text" },
+    tooltipInverted: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -69,6 +71,7 @@ export const Basic: Story = {
     name: "landmarks",
     value: "adirondacks",
     tooltip: "",
+    tooltipInverted: false,
     showError: false,
     errorMessage: "",
     tile: false,
@@ -84,6 +87,7 @@ export const Basic: Story = {
       .errorMessage=${args.errorMessage}
       .form=${args.form}
       .tooltip=${args.tooltip}
+      .tooltipInverted=${args.tooltipInverted}
     >
       <nys-checkbox
         .checked=${args.checked}
