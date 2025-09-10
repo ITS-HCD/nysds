@@ -1,22 +1,19 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-{{componentName}}.styles";
+import styles from "./nys-test.styles";
 
-export class Nys{{capitalize componentName}} extends LitElement {
+export class NysTest extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  {{#if formRelated}}
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String, reflect: true }) form = "";
-  {{/if}}
 
   static styles = styles;
 
-  {{#if formRelated}}
   private _internals: ElementInternals;
 
   /**************** Lifecycle Methods ****************/
@@ -31,14 +28,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
   }
-  {{else}}
-  /**************** Lifecycle Methods ****************/
-  constructor() {
-    super();
-  }
-  {{/if}}
 
-  {{#if formRelated}}
   /***************** Form Integration *****************/
   /** 
   * Placeholder for form-related helper methods
@@ -149,7 +139,6 @@ export class Nys{{capitalize componentName}} extends LitElement {
     }
     this._setValidityMessage("This field is required.");
   }
-  {{/if}}
 
   /******************** Functions ********************/
   // Placeholder for generic functions (component-specific)
@@ -158,10 +147,10 @@ export class Nys{{capitalize componentName}} extends LitElement {
   // Placeholder for event handlers if needed
 
   render() {
-    return html`<div class="nys-{{componentName}}"></div>`;
+    return html`<div class="nys-test"></div>`;
   }
 }
 
-if (!customElements.get("nys-{{componentName}}")) {
-  customElements.define("nys-{{componentName}}", Nys{{capitalize componentName}});
+if (!customElements.get("nys-test")) {
+  customElements.define("nys-test", NysTest);
 }
