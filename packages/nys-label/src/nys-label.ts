@@ -30,7 +30,7 @@ export class NysLabel extends LitElement {
                 text="${this.tooltip}"
                 position="top"
                 focusable
-                inverted=${this.tooltipInverted}
+                ?inverted=${this.tooltipInverted}
               >
                 <div class="nys-label__tooltip-icon">
                   <nys-icon name="info" size="3xl"></nys-icon>
