@@ -14,7 +14,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
   @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   {{/if}}
 
   static styles = styles;
