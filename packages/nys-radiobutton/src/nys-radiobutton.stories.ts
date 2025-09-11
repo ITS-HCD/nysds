@@ -3,8 +3,6 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-radiobutton";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-icon";
-import "@nysds/nys-tooltip";
 
 // Define the structure of the args used in the stories
 interface NysRadiobuttonArgs {
@@ -19,7 +17,6 @@ interface NysRadiobuttonArgs {
   disabled: boolean;
   value: string;
   form: string;
-  tooltip: string;
   required: boolean;
   optional: boolean;
   showError: boolean;
@@ -40,7 +37,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
     disabled: { control: "boolean" },
     value: { control: "text" },
     form: { control: "text" },
-    tooltip: { control: "text" },
+
     required: { control: "boolean" },
     optional: { control: "boolean" },
     showError: { control: "boolean" },
@@ -66,7 +63,6 @@ export const Basic: Story = {
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
-    tooltip: "",
     tile: false,
     checked: false,
     disabled: false,
@@ -85,7 +81,6 @@ export const Basic: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
     >
       <nys-radiobutton
         .id=${args.id}
@@ -307,7 +302,6 @@ export const Required: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -378,7 +372,6 @@ export const Size: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -455,7 +448,6 @@ export const Tile: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
     >
       <nys-radiobutton
         .name=${args.name}
@@ -525,7 +517,6 @@ export const ErrorMessage: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -671,7 +662,6 @@ export const Optional: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
     >
@@ -718,83 +708,6 @@ export const Optional: Story = {
 </nys-radiogroup>
 `.trim(),
 
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Tooltip: Story = {
-  args: {
-    name: "service",
-    label: "Driver License Renewal",
-    value: "driver_license_renewal",
-    description: "Renew your NYS driver license online",
-    tooltip:
-      "Make sure you have your current license and proof of residency ready.",
-    tile: false,
-    checked: false,
-    disabled: false,
-    required: false,
-    optional: false,
-    showError: false,
-  },
-  render: (args) => html`
-    <nys-radiogroup
-      label="Choose an NYS service"
-      description="Select the service you want to complete online."
-      size=${args.size}
-      .tile=${args.tile}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .required=${args.required}
-      .optional=${args.optional}
-      .form=${args.form}
-      .tooltip=${args.tooltip}
-    >
-      <nys-radiobutton
-        .id=${args.id}
-        .name=${args.name}
-        label=${args.label}
-        description=${args.description}
-        .checked=${args.checked}
-        .disabled=${args.disabled}
-        .value=${args.value}
-      ></nys-radiobutton>
-      <nys-radiobutton
-        .id=${args.id}
-        .name=${args.name}
-        label="Vehicle Registration"
-        description="Renew or register your vehicle in NYS"
-        .checked=${false}
-        .disabled=${args.disabled}
-        .value="vehicle_registration"
-      ></nys-radiobutton>
-    </nys-radiogroup>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-radiogroup 
-  label="Choose an NYS service"
-  description="Select the service you want to complete online."
-  tooltip="Select the service you want to access online."
->
-  <nys-radiobutton
-    name="service"
-    label="Driver License Renewal"
-    description="Renew your NYS driver license online"
-    value="driver_license_renewal"
-  ></nys-radiobutton>
-  <nys-radiobutton
-    name="service"
-    label="Vehicle Registration"
-    description="Renew or register your vehicle in NYS"
-    value="vehicle_registration"
-  ></nys-radiobutton>
-</nys-radiogroup>
-`.trim(),
         type: "auto",
       },
     },

@@ -1,8 +1,8 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-label";
-import '@nysds/nys-icon';
-import '@nysds/nys-tooltip';
+import "@nysds/nys-icon";
+import "@nysds/nys-tooltip";
 
 // Define the structure of the args used in the stories
 interface NysLabelArgs {

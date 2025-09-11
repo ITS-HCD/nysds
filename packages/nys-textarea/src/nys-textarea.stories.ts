@@ -1,8 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-textarea";
-import "@nysds/nys-icon";
-import "@nysds/nys-tooltip";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 
@@ -23,7 +21,6 @@ interface NysTextareaArgs {
   width: string;
   rows: string;
   resize: string;
-  tooltip: string;
   showError: boolean;
   errorMessage: string;
 }
@@ -44,7 +41,7 @@ const meta: Meta<NysTextareaArgs> = {
     optional: { control: "boolean" },
     form: { control: "text" },
     maxlength: { control: "text" },
-    tooltip: { control: "text" },
+
     width: {
       control: "select",
       options: ["sm", "md", "lg", "full"],
@@ -72,7 +69,6 @@ export const Basic: Story = {
   args: {
     label: "Label",
     value: "",
-    tooltip: "",
     disabled: false,
     readonly: false,
     required: false,
@@ -92,7 +88,6 @@ export const Basic: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -126,7 +121,6 @@ export const Width: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -162,7 +156,6 @@ export const Rows: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -201,7 +194,6 @@ export const Resize: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -235,7 +227,6 @@ export const DescriptionSlot: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -255,7 +246,6 @@ export const DescriptionSlot: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -300,7 +290,6 @@ export const ValueAndPlaceholder: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -339,7 +328,6 @@ export const Disabled: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -375,7 +363,6 @@ export const Readonly: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -416,7 +403,6 @@ export const Maxlength: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -456,7 +442,6 @@ export const Required: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -494,7 +479,6 @@ export const ErrorMessage: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -537,7 +521,6 @@ export const Optional: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .maxlength=${args.maxlength}
       .width=${args.width}
       .rows=${args.rows}
@@ -555,43 +538,3 @@ export const Optional: Story = {
     },
   },
 };
-
-export const Tooltip: Story = {
-  args: {
-    label: "Label",
-    value: "",
-    tooltip: "Provide additional details if needed",
-  },
-
-  render: (args) =>
-    html` <nys-textarea
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      .form=${args.form}
-      .tooltip=${args.tooltip}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .rows=${args.rows}
-      .resize=${args.resize}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textarea>`,
-
-  parameters: {
-    docs: {
-      source: {
-        code: `<nys-textarea label="label" tooltip="Provide additional details if needed"></nys-textarea>`,
-        type: "auto",
-      },
-    },
-  },
-};
-

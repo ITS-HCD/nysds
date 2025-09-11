@@ -5,7 +5,6 @@ import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
 import "@nysds/nys-icon";
-import "@nysds/nys-tooltip";
 
 // Define the structure of the args used in the stories
 interface NysTextinputArgs {
@@ -21,7 +20,6 @@ interface NysTextinputArgs {
   required: boolean;
   optional: boolean;
   form: string;
-  tooltip: string;
   pattern: string;
   maxlength: string;
   width: string;
@@ -51,7 +49,7 @@ const meta: Meta<NysTextinputArgs> = {
     required: { control: "boolean" },
     optional: { control: "boolean" },
     form: { control: "text" },
-    tooltip: { control: "text" },
+
     pattern: { control: "text" },
     maxlength: { control: "text" },
     width: {
@@ -83,7 +81,6 @@ export const Basic: Story = {
     label: "Label",
     value: "",
     name: "myTextInputDemo",
-    tooltip: "",
     disabled: false,
     readonly: false,
     required: false,
@@ -104,7 +101,6 @@ export const Basic: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -146,7 +142,6 @@ export const Width: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -194,7 +189,6 @@ export const Password: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -242,7 +236,6 @@ export const SlottedButton: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -304,7 +297,6 @@ export const ValueAndPlaceholder: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -353,7 +345,6 @@ export const Disabled: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -397,7 +388,6 @@ export const Readonly: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -449,7 +439,6 @@ export const MaxMinAndStep: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -502,7 +491,6 @@ export const Maxlength: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -557,7 +545,6 @@ export const Pattern: Story = {
         .required=${args.required}
         .optional=${args.optional}
         .form=${args.form}
-        .tooltip=${args.tooltip}
         .pattern=${args.pattern}
         .maxlength=${args.maxlength}
         .width=${args.width}
@@ -608,7 +595,6 @@ export const Required: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -649,7 +635,6 @@ export const DescriptionSlot: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -672,7 +657,6 @@ export const DescriptionSlot: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -725,7 +709,6 @@ export const ErrorMessage: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -774,7 +757,6 @@ export const Optional: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -818,7 +800,6 @@ export const Telephone: Story = {
       .required=${args.required}
       .optional=${args.optional}
       .form=${args.form}
-      .tooltip=${args.tooltip}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -838,58 +819,6 @@ export const Telephone: Story = {
   name="myTextInputDemo"
   label="Phone Number"
   type="tel"
->
-</nys-textinput>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Tooltip: Story = {
-  args: {
-    label: "Phone Number",
-    value: "",
-    name: "myTextInputDemo",
-    type: "tel",
-    tooltip: "Include area code",
-  },
-
-  render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      .form=${args.form}
-      .tooltip=${args.tooltip}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
-  `,
-
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-textinput
-  name="myTextInputDemo"
-  label="Phone Number"
-  type="tel"
-  tooltip="Include area code"
 >
 </nys-textinput>`,
         type: "auto",
