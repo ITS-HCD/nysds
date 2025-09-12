@@ -31,6 +31,7 @@
     "lint:packages": "eslint packages/**/*.{ts,js}",
     "lint:fix": "eslint src/ --fix",
     "lint:fix:packages": "eslint packages/**/*.{ts,js} --fix",
+    "lit-analyze": "lit-analyzer 'packages/**/*.ts'",
     "release:dry-run": "NODE_ENV=production npm run build:all && NODE_ENV=production npm run test && node src/scripts/publish-dry-run.js",
     "release": "NODE_ENV=production npm run build:all && npm run test && npm publish --workspaces --access public && npm publish --access public",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
@@ -44,7 +45,6 @@
     "clean:dist": "rm -rf dist && rm -rf packages/*/dist",
     "clean:all": "npm run clean:dist && npm run clean:node",
     "code-connect": "dotenv -- npx figma connect publish"
-
   },
   "repository": {
     "type": "git",
@@ -58,7 +58,8 @@
   "homepage": "https://github.com/ITS-HCD/nysds/blob/main/README.md",
   "dependencies": {
     "@figma/code-connect": "^1.3.1",
-    "@floating-ui/dom": "^1.7.1"
+    "@floating-ui/dom": "^1.7.1",
+    "lit-analyzer": "^2.0.3"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.0",
