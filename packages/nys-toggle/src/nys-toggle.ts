@@ -12,7 +12,7 @@ export class NysToggle extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean }) noIcon = false;

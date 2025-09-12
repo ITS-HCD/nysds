@@ -16,7 +16,7 @@ interface NysRadiobuttonArgs {
   tile: boolean;
   disabled: boolean;
   value: string;
-  form: string;
+  form: string | null;
   required: boolean;
   optional: boolean;
   showError: boolean;
