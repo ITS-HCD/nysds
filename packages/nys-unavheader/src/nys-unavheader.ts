@@ -315,24 +315,28 @@ export class NysUnavHeader extends LitElement {
             ? "show"
             : "hide"}"
         >
-          <nys-textinput
-            class="nys-unavheader__search content"
-            id="nys-unavheader__searchbardropdown"
-            placeholder="Search"
-            type="search"
-            @focus="${this._handleSearchFocus}"
-            @blur="${this._handleSearchBlur}"
-            @keyup="${this._handleSearchKeyup}"
-          >
-            <nys-button
-              slot="endButton"
-              type="submit"
-              prefixIcon="search"
-              ariaLabel="Search Button"
-              .onClick="${() =>
-                this._handleSearchButton("nys-unavheader__searchbardropdown")}"
-            ></nys-button
-          ></nys-textinput>
+          <div class="content">
+            <nys-textinput
+              class="nys-unavheader__search content"
+              id="nys-unavheader__searchbardropdown"
+              placeholder="Search"
+              type="search"
+              @focus="${this._handleSearchFocus}"
+              @blur="${this._handleSearchBlur}"
+              @keyup="${this._handleSearchKeyup}"
+            >
+              <nys-button
+                slot="endButton"
+                type="submit"
+                prefixIcon="search"
+                ariaLabel="Search Button"
+                .onClick="${() =>
+                  this._handleSearchButton(
+                    "nys-unavheader__searchbardropdown",
+                  )}"
+              ></nys-button
+            ></nys-textinput>
+          </div>
         </div>
       </header>
     `;

@@ -36,22 +36,15 @@ export default css`
     );
   }
 
-  .nys-unavheader {
-    border: red solid;
-  }
-
   .nys-unavheader > * {
     padding: 0 var(--_nys-unavheader-padding--gutter);
   }
 
   .nys-unavheader__main {
-    border: orange solid;
+    background-color: var(--_nys-unavheader-background-color);
   }
 
   .nys-unavheader__main.wrapper > * {
-    border: lime solid;
-    max-width: 1280px;
-    margin: 0 auto;
     flex-wrap: wrap;
   }
 
@@ -62,8 +55,24 @@ export default css`
   }
 
   .nys-unavheader__officialmessage {
-    border: pink solid;
     background-color: var(--nys-color-neutral-100, #d0d0ce);
+  }
+  .nys-unavheader__officialmessage,
+  .nys-unavheader__officialmessage * {
+    cursor: pointer;
+  }
+  .nys-unavheader__officialmessage.inline,
+  .nys-unavheader__officialmessage.inline #nys-unavheader__official {
+    background-color: transparent;
+    cursor: default;
+  }
+
+  /*
+  .content -> small screens
+  inline -> large screens
+  */
+  .nys-unavheader__officialmessage > .content,
+  .nys-unavheader__officialmessage.inline {
     display: flex;
     align-items: center;
     gap: var(--nys-space-100, 8px);
@@ -83,15 +92,6 @@ export default css`
         sans-serif
       )
     );
-  }
-  .nys-unavheader__officialmessage,
-  .nys-unavheader__officialmessage * {
-    cursor: pointer;
-  }
-  .nys-unavheader__officialmessage.inline,
-  .nys-unavheader__officialmessage.inline #nys-unavheader__official {
-    background-color: transparent;
-    cursor: default;
   }
 
   a#nys-unavheader__logolink {
@@ -153,24 +153,19 @@ export default css`
   }*/
 
   .nys-unavheader__trustbar.wrapper {
-    border: cyan solid;
-    background: cyan;
+    background-color: var(--_nys-unavheader-background-color--section-raised);
     display: flex;
   }
   .nys-unavheader__messagewrapper {
-    border: magenta solid;
     display: flex;
     gap: var(--nys-space-400, 32px);
   }
 
   .nys-unavheader__trustbar.content {
-    border: blue solid;
     display: flex;
-    max-width: 1280px;
-    margin: 0 auto;
   }
+
   .nys-unavheader__trustcontentmessage {
-    border: lavender solid;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -184,9 +179,16 @@ export default css`
     line-height: var(--nys-typography-font-lineheight-ui-sm, 24px);
     letter-spacing: var(--nys-typography-font-letterspacing-ui-sm, 0.044px);
   }
-  .nys-unavheader__searchdropdown {
-    border: purple solid;
+  .nys-unavheader__searchdropdown.wrapper {
     background-color: var(--nys-color-neutral-100, #d0d0ce);
+  }
+
+  .nys-unavheader__trustbar.wrapper > .content,
+  .nys-unavheader__main.wrapper > .content,
+  .nys-unavheader__officialmessage > .content,
+  .nys-unavheader__searchdropdown.wrapper > .content {
+    max-width: 1280px;
+    margin: 0 auto;
   }
 
   .nys-unavheader__search {
