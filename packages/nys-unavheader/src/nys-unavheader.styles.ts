@@ -36,6 +36,11 @@ export default css`
     );
   }
 
+  .nys-unavheader {
+    display: flex;
+    flex-direction: column;
+  }
+
   .nys-unavheader > * {
     padding: 0 var(--_nys-unavheader-padding--gutter);
   }
