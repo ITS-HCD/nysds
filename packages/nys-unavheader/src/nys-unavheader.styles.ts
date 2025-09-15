@@ -44,18 +44,23 @@ export default css`
     padding: 0 var(--_nys-unavheader-padding--gutter);
   }
 
-  .nys-unavheader__mainwrapper {
+  .nys-unavheader__main {
     border: orange solid;
   }
-  .nys-unavheader__maincontent {
+
+  .nys-unavheader__main.wrapper > * {
     border: lime solid;
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1;
-    justify-content: space-between;
-    align-items: center;
     max-width: 1280px;
+    margin: 0 auto;
+    flex-wrap: wrap;
   }
+
+  .nys-unavheader__main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .nys-unavheader__officialmessage {
     border: pink solid;
     background-color: var(--nys-color-neutral-100, #d0d0ce);
@@ -143,21 +148,55 @@ export default css`
     );
   }
 
-  .nys-unavheader__trustbar {
+  /*.nys-unavheader__trustbar.wrapper {
+    display: none;
+  }*/
+
+  .nys-unavheader__trustbar.wrapper {
     border: cyan solid;
-    display: flex;
     background: cyan;
+    display: flex;
   }
-  .nys-unavheader__trustcontent {
+  .nys-unavheader__messagewrapper {
+    border: magenta solid;
+    display: flex;
+    gap: var(--nys-space-400, 32px);
+  }
+
+  .nys-unavheader__trustbar.content {
     border: blue solid;
     display: flex;
+    max-width: 1280px;
+    margin: 0 auto;
   }
   .nys-unavheader__trustcontentmessage {
     border: lavender solid;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-space-100, 8px);
+
+    /* UI/Small/Bold */
+    font-family: var(--nys-type-family-ui, "Proxima Nova");
+    font-size: var(--nys-type-size-ui-sm, 14px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--nys-typography-font-lineheight-ui-sm, 24px);
+    letter-spacing: var(--nys-typography-font-letterspacing-ui-sm, 0.044px);
   }
   .nys-unavheader__searchdropdown {
     border: purple solid;
+    background-color: var(--nys-color-neutral-100, #d0d0ce);
+  }
+
+  .nys-unavheader__search {
+    width: var(--nys-form-width-md, 200px);
+    transition: width 0.5s ease;
+  }
+
+  /* Grow size on focus */
+  .nys-unavheader__search:focus {
+    width: var(--nys-form-width-lg, 384px);
   }
 
   /* Breakpoints using NYSDS Grid Guidelines */
