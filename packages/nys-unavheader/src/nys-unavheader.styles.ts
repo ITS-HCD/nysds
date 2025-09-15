@@ -148,17 +148,18 @@ export default css`
     );
   }
 
-  /*.nys-unavheader__trustbar.wrapper {
+  .hide {
     display: none;
-  }*/
+  }
 
-  .nys-unavheader__trustbar.wrapper {
+  .nys-unavheader__trustbar.wrapper.show {
     background-color: var(--_nys-unavheader-background-color--section-raised);
     display: flex;
   }
   .nys-unavheader__messagewrapper {
     display: flex;
     gap: var(--nys-space-400, 32px);
+    padding: var(--nys-space-400, 32px) 0;
   }
 
   .nys-unavheader__trustbar.content {
