@@ -166,6 +166,7 @@ export class NysUnavHeader extends LitElement {
                 ></nys-icon>
               </nys-button>
             </div>
+            <div class="nys-unavheader__spacer"></div>
             ${!this.hideTranslate
               ? html`<div class="nys-unavheader__translatewrapper">
                       <nys-button
@@ -228,7 +229,6 @@ export class NysUnavHeader extends LitElement {
               : null}
             ${!this.hideSearch
               ? html`
-
                     <nys-button
                       variant="ghost"
                       circle
@@ -249,12 +249,12 @@ export class NysUnavHeader extends LitElement {
                       ></nys-icon>
                     </nys-button>
                   </div>
-
                   <nys-textinput
                     class="nys-unavheader__search"
                     id="nys-unavheader__searchbar"
                     placeholder="Search"
                     type="search"
+                    size="md"
                     @focus="${this._handleSearchFocus}"
                     @blur="${this._handleSearchBlur}"
                     @keyup="${this._handleSearchKeyup}"
@@ -317,7 +317,7 @@ export class NysUnavHeader extends LitElement {
         >
           <div class="content">
             <nys-textinput
-              class="nys-unavheader__search content"
+              class="nys-unavheader__search"
               id="nys-unavheader__searchbardropdown"
               placeholder="Search"
               type="search"

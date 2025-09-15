@@ -40,7 +40,7 @@ export default css`
     padding: 0 var(--_nys-unavheader-padding--gutter);
   }
 
-  .nys-unavheader__main {
+  .nys-unavheader__main.wrapper {
     background-color: var(--_nys-unavheader-background-color);
   }
 
@@ -48,17 +48,28 @@ export default css`
     flex-wrap: wrap;
   }
 
-  .nys-unavheader__main {
+  .nys-unavheader__main.content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--nys-space-300, 24px);
+    padding-top: var(--nys-space-50, 4px);
+    padding-bottom: var(--nys-space-50, 4px);
   }
 
-  .nys-unavheader__officialmessage {
-    background-color: var(--nys-color-neutral-100, #d0d0ce);
+  .nys-unavheader__spacer {
+    flex: 1;
+    border: solid tomato;
   }
-  .nys-unavheader__officialmessage,
-  .nys-unavheader__officialmessage * {
+
+  .nys-unavheader__officialmessage.wrapper {
+    background-color: var(--nys-color-neutral-100, #d0d0ce);
+    padding-top: var(--nys-space-100, 8px);
+    padding-bottom: var(--nys-space-100, 8px);
+  }
+  .nys-unavheader__officialmessage > .content,
+  .nys-unavheader__officialmessage > .content,
+  * {
     cursor: pointer;
   }
   .nys-unavheader__officialmessage.inline,
@@ -200,6 +211,7 @@ export default css`
   /* Grow size on focus */
   .nys-unavheader__search:focus {
     width: var(--nys-form-width-lg, 384px);
+    transition: width 0.5s ease;
   }
 
   /* Breakpoints using NYSDS Grid Guidelines */
@@ -208,12 +220,20 @@ export default css`
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
     }
+
+    .nys-unavheader__officialmessage.inline {
+      display: none;
+    }
   }
 
   @media (min-width: 480px) and (max-width: 767px) {
     /* Mobile Large (SM - Above 480px) */
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-sm, 20px);
+    }
+
+    .nys-unavheader__officialmessage.inline {
+      display: none;
     }
   }
 
@@ -222,6 +242,10 @@ export default css`
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-md, 32px);
     }
+
+    .nys-unavheader__officialmessage.wrapper {
+      display: none;
+    }
   }
 
   @media (min-width: 1024px) and (max-width: 1279px) {
@@ -229,12 +253,18 @@ export default css`
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-lg, 32px);
     }
+    .nys-unavheader__officialmessage.wrapper {
+      display: none;
+    }
   }
 
   @media (min-width: 1280px) {
     /* Desktop Large (XL - Above 1280px) */
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);
+    }
+    .nys-unavheader__officialmessage.wrapper {
+      display: none;
     }
   }
 `;
