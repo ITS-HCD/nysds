@@ -225,26 +225,23 @@ export class NysUnavHeader extends LitElement {
               : null}
             ${!this.hideSearch
               ? html`
-                    <nys-button
-                      variant="ghost"
-                      circle
-                      icon="search"
-                      ariaLabel=${
-                        this.searchDropdownVisible
-                          ? "Search expanded"
-                          : "Search collapsed"
-                      }
-                      id="nys-unavheader__searchbutton"
-                      class="nys-unavheader__iconbutton"
-                      .onClick="${() => this._toggleSearchDropdown()}"
-                    >
-                      <nys-icon
-                        slot="circle-icon"
-                        name="search"
-                        size="16"
-                      ></nys-icon>
-                    </nys-button>
-                  </div>
+                  <nys-button
+                    variant="ghost"
+                    circle
+                    icon="search"
+                    ariaLabel=${this.searchDropdownVisible
+                      ? "Search expanded"
+                      : "Search collapsed"}
+                    id="nys-unavheader__searchbutton"
+                    class="nys-unavheader__iconbutton"
+                    .onClick="${() => this._toggleSearchDropdown()}"
+                  >
+                    <nys-icon
+                      slot="circle-icon"
+                      name="search"
+                      size="16"
+                    ></nys-icon>
+                  </nys-button>
                   <nys-textinput
                     class="nys-unavheader__search"
                     id="nys-unavheader__searchbar"
@@ -262,8 +259,8 @@ export class NysUnavHeader extends LitElement {
                       ariaLabel="Search Button"
                       .onClick="${() =>
                         this._handleSearchButton("nys-unavheader__searchbar")}"
-                    ></nys-button
-                  ></nys-textinput>
+                    ></nys-button>
+                  </nys-textinput>
                 `
               : null}
           </div>
