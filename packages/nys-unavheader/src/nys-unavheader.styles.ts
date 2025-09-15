@@ -42,6 +42,7 @@ export default css`
 
   .nys-unavheader__main.wrapper {
     background-color: var(--_nys-unavheader-background-color);
+    height: 56px;
   }
 
   .nys-unavheader__main.wrapper > * {
@@ -53,8 +54,8 @@ export default css`
     align-items: center;
     justify-content: space-between;
     gap: var(--nys-space-300, 24px);
-    padding-top: var(--nys-space-50, 4px);
-    padding-bottom: var(--nys-space-50, 4px);
+    padding-top: var(--nys-space-100, 8px);
+    padding-bottom: var(--nys-space-100, 8px);
   }
 
   .nys-unavheader__spacer {
@@ -231,6 +232,37 @@ export default css`
     --_nys-button-padding--x: 0;
   }
 
+  .nys-unavheader__translatewrapper {
+    position: relative;
+  }
+
+  .nys-unavheader__languagelist.show {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    min-width: fit-content;
+    width: max-content;
+    z-index: 99999;
+    background-color: var(--_nys-unavheader-background-color--section-raised);
+    color: var(--nys-color-state-blue-700, #154973);
+    margin-top: var(--nys-space-150, 12px);
+    right: 0;
+  }
+
+  a.nys-unavheader__languagelink {
+    padding: var(--nys-space-200, 16px) var(--nys-space-250, 20px);
+    color: var(--nys-color-state-blue-700, #154973);
+    text-decoration: none;
+  }
+
+  a.nys-unavheader__languagelink:hover {
+    background-color: var(--nys-color-neutral-100, #d0d0ce);
+  }
+
+  a.nys-unavheader__languagelink:active {
+    background-color: var(--nys-color-neutral-200, #bec0c1);
+  }
+
   /* Breakpoints using NYSDS Grid Guidelines */
   @media (min-width: 0) and (max-width: 479px) {
     /* Mobile (XS) */
@@ -307,6 +339,10 @@ export default css`
     #nys-unavheader__searchbutton[circle] {
       display: none;
     }
+
+    .nys-unavheader__languagelist.show {
+      margin-top: var(--nys-space-2px, 2px);
+    }
   }
 
   @media (min-width: 1280px) {
@@ -321,6 +357,10 @@ export default css`
     #nys-unavheader__translate[circle],
     #nys-unavheader__searchbutton[circle] {
       display: none;
+    }
+
+    .nys-unavheader__languagelist.show {
+      margin-top: var(--nys-space-2px, 2px);
     }
   }
 `;

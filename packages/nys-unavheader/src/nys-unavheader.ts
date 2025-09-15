@@ -169,63 +169,59 @@ export class NysUnavHeader extends LitElement {
             <div class="nys-unavheader__spacer"></div>
             ${!this.hideTranslate
               ? html`<div class="nys-unavheader__translatewrapper">
-                      <nys-button
-                        variant="ghost"
-                        circle
-                        icon="slotted"
-                        ariaLabel=${
-                          this.languageVisible
+                  <nys-button
+                    variant="ghost"
+                    circle
+                    icon="slotted"
+                    ariaLabel=${this.languageVisible
+                      ? "Translate expanded"
+                      : "Translate collapsed"}
+                    id="nys-unavheader__translate"
+                    class="nys-unavheader__iconbutton"
+                    .onClick="${() => this._toggleLanguageList()}"
+                  >
+                    <nys-icon
+                      slot="circle-icon"
+                      name="language"
+                      size="16"
+                    ></nys-icon>
+                  </nys-button>
+
+                  ${!this.isSearchFocused
+                    ? html`
+                        <nys-button
+                          variant="ghost"
+                          label="Translate"
+                          size="sm"
+                          prefixIcon="language_filled"
+                          suffixIcon=${this.languageVisible
+                            ? "chevron_up"
+                            : "chevron_down"}
+                          ariaLabel=${this.languageVisible
                             ? "Translate expanded"
-                            : "Translate collapsed"
-                        }
-                        id="nys-unavheader__translate"
-                        class="nys-unavheader__iconbutton"
-                        .onClick="${() => this._toggleLanguageList()}"
-                      >
-                        <nys-icon
-                          slot="circle-icon"
-                          name="language"
-                          size="16"
-                        ></nys-icon>
-                      </nys-button>
-                    </div>
-                    ${
-                      !this.isSearchFocused
-                        ? html`
-                            <nys-button
-                              variant="ghost"
-                              label="Translate"
-                              size="sm"
-                              prefixIcon="language_filled"
-                              suffixIcon=${this.languageVisible
-                                ? "chevron_up"
-                                : "chevron_down"}
-                              ariaLabel=${this.languageVisible
-                                ? "Translate expanded"
-                                : "Translate collapsed"}
-                              id="nys-unavheader__translate"
-                              .onClick="${() => this._toggleLanguageList()}"
-                            ></nys-button>
-                          `
-                        : null
-                    }
-                    <div
-                      class="nys-unavheader__languagelist ${
-                        this.languageVisible ? "show" : "hide"
-                      }"
-                    >
-                      ${this.languages.map(
-                        ([label, code]) =>
-                          html`<a
-                            class="nys-unavheader__languagelink"
-                            target="_self"
-                            href="https://${code ? code + "." : ""}${window
-                              .location.hostname}"
-                            >${label}</a
-                          >`,
-                      )}
-                    </div>
-                  </div>`
+                            : "Translate collapsed"}
+                          id="nys-unavheader__translate"
+                          .onClick="${() => this._toggleLanguageList()}"
+                        ></nys-button>
+                      `
+                    : null}
+                  <div
+                    class="nys-unavheader__languagelist ${this.languageVisible
+                      ? "show"
+                      : "hide"}"
+                  >
+                    ${this.languages.map(
+                      ([label, code]) =>
+                        html`<a
+                          class="nys-unavheader__languagelink"
+                          target="_self"
+                          href="https://${code ? code + "." : ""}${window
+                            .location.hostname}"
+                          >${label}</a
+                        >`,
+                    )}
+                  </div>
+                </div>`
               : null}
             ${!this.hideSearch
               ? html`
