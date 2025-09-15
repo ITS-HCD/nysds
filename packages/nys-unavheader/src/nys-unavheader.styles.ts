@@ -166,11 +166,12 @@ export default css`
   .nys-unavheader__trustbar.wrapper.show {
     background-color: var(--_nys-unavheader-background-color--section-raised);
     display: flex;
+    padding-top: var(--nys-space-400, 32px);
+    padding-bottom: var(--nys-space-400, 32px);
   }
   .nys-unavheader__messagewrapper {
     display: flex;
     gap: var(--nys-space-400, 32px);
-    padding: var(--nys-space-400, 32px) 0;
   }
 
   .nys-unavheader__trustbar.content {
@@ -221,8 +222,22 @@ export default css`
       --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
     }
 
+    #nys-unavheader__know {
+      --_nys-button-padding--x: 0px;
+    }
+
+    .nys-unavheader__officialmessage > .content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0px;
+    }
+
     .nys-unavheader__officialmessage.inline {
       display: none;
+    }
+
+    .nys-unavheader__messagewrapper {
+      flex-direction: column;
     }
   }
 
