@@ -116,7 +116,7 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   // Updates the required attribute of each checkbox in the group
-  private async _manageCheckboxRequired() {
+  private async _manageRequire() {
     if (this.required) {
       const message = this.errorMessage || "Please select at least one option.";
       const firstCheckbox = this.querySelector("nys-checkbox");
@@ -209,7 +209,7 @@ export class NysCheckboxgroup extends LitElement {
     event.preventDefault();
 
     this.showError = true;
-    this._manageCheckboxRequired(); // Refresh validation message
+    this._manageRequire(); // Refresh validation message
 
     const firstCheckbox = this.querySelector("nys-checkbox");
     const firstCheckboxInput = firstCheckbox
@@ -271,7 +271,7 @@ export class NysCheckboxgroup extends LitElement {
 
     this._internals.setFormValue(selectedValues.join(", "));
 
-    this._manageCheckboxRequired();
+    this._manageRequire();
   }
 
   render() {

@@ -125,21 +125,37 @@ export class NysRadiogroup extends LitElement {
   private async _manageRequire() {
     const message = this.errorMessage || "Please select an option.";
 
-    const firstRadio = this.querySelector("nys-radiobutton");
-    const firstRadioInput = firstRadio
-      ? await (firstRadio as any).getInputElement()
-      : null;
+    // const firstRadio = this.querySelector("nys-radiobutton");
+    // const firstRadioInput = firstRadio
+    //   ? await (firstRadio as any).getInputElement()
+    //   : null;
 
-    if (firstRadioInput) {
+    // if (firstRadioInput) {
+    //   if (this.required && !this.selectedValue) {
+    //     this._internals.setValidity(
+    //       { valueMissing: true },
+    //       message,
+    //       firstRadioInput,
+    //     );
+    //   } else {
+    //     this.showError = false;
+    //     this._internals.setValidity({}, "", firstRadioInput);
+    //   }
+    // }
+
+    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
+    const firstRadio = radioButtons[0] as HTMLElement;
+
+    if (firstRadio) {
       if (this.required && !this.selectedValue) {
         this._internals.setValidity(
           { valueMissing: true },
           message,
-          firstRadioInput,
+          firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
-        this._internals.setValidity({}, "", firstRadioInput);
+        this._internals.setValidity({}, "", firstRadio);
       }
     }
   }
