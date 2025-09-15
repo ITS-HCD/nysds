@@ -19,6 +19,12 @@ export class NysGlobalHeader extends LitElement {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
     this._handleSlotChange(); // Initial check
+
+    this._listenLinkClicks();
+
+    // Listen for URL changes
+    window.addEventListener("popstate", () => this._handleSlotChange()); // normal history navigation
+    window.addEventListener("hashchange", () => this._handleSlotChange()); // hash routing
   }
 
   /******************** Functions ********************/
@@ -49,7 +55,9 @@ export class NysGlobalHeader extends LitElement {
       container.innerHTML = "";
       containerMobile.innerHTML = "";
 
-      const currentUrl = this._normalizePath(window.location.pathname);
+      const currentUrl = this._normalizePath(
+        window.location.pathname + window.location.hash,
+      );
 
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
@@ -79,7 +87,7 @@ export class NysGlobalHeader extends LitElement {
                 if (li) li.classList.add("active");
               }
             } else {
-              if (currentUrl?.startsWith(linkPath)) {
+              if (linkPath === currentUrl) {
                 const li = a.closest("li");
                 if (li) li.classList.add("active");
               }
@@ -98,7 +106,7 @@ export class NysGlobalHeader extends LitElement {
                 if (li) li.classList.add("active");
               }
             } else {
-              if (currentUrl?.startsWith(linkPath)) {
+              if (linkPath === currentUrl) {
                 const li = a.closest("li");
                 if (li) li.classList.add("active");
               }
@@ -117,17 +125,50 @@ export class NysGlobalHeader extends LitElement {
   // This ensures consistent active-link behavior regardless of how hrefs are written.
   private _normalizePath(path: string | null) {
     if (!path) return;
+
+    // Checks path always starts with "/"
     if (!path.startsWith("/")) {
       path = "/" + path;
     }
+
+    // Strip trailing slash except for root "/"
     if (path.length > 1 && path.endsWith("/")) {
       path = path.slice(0, -1);
     }
+
     return path.toLowerCase();
   }
 
   private _toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  /**
+   * Handles client-side navigation when links are clicked (no full page refresh).
+   */
+  // Ensures only the clicked link's <li> is marked active in both desktop and mobile menus.
+  private _listenLinkClicks() {
+    const containers = this.shadowRoot?.querySelectorAll(
+      ".nys-globalheader__content, .nys-globalheader__content-mobile",
+    );
+
+    containers?.forEach((container) => {
+      container?.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        const a = target.closest("a");
+
+        if (!a) return;
+
+        // Clear all existing active <li>
+        container
+          .querySelectorAll("li.active")
+          .forEach((li) => li.classList.remove("active"));
+
+        // Set active on the clicked link's <li>
+        const li = a.closest("li");
+        if (li) li.classList.add("active");
+      });
+    });
   }
 
   render() {
