@@ -18,13 +18,9 @@ export class NysGlobalHeader extends LitElement {
     // Check for slot content after rendering
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
-    this._handleSlotChange(); // Initial check
+    this._handleSlotChange(); // Initial listener for links base on new route refreshes
 
     this._listenLinkClicks();
-
-    // Listen for URL changes
-    window.addEventListener("popstate", () => this._handleSlotChange()); // normal history navigation
-    window.addEventListener("hashchange", () => this._handleSlotChange()); // hash routing
   }
 
   /******************** Functions ********************/
