@@ -215,6 +215,22 @@ export default css`
     transition: width 0.5s ease;
   }
 
+  #nys-unavheader__translate,
+  #nys-unavheader__searchbutton {
+    /* These props ARE publicly overridable */
+    --nys-button-color: var(--nys-color-state-blue-700, #154973);
+    --nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
+    --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
+  }
+
+  .nys-unavheader__iconbutton {
+    /* These props ARE NOT publicly overridable */
+    --_nys-button-width: var(--nys-size-400, 32px);
+    --_nys-button-height: var(--nys-size-400, 32px);
+    --_nys-button-padding--y: 0;
+    --_nys-button-padding--x: 0;
+  }
+
   /* Breakpoints using NYSDS Grid Guidelines */
   @media (min-width: 0) and (max-width: 479px) {
     /* Mobile (XS) */
@@ -239,6 +255,11 @@ export default css`
     .nys-unavheader__messagewrapper {
       flex-direction: column;
     }
+
+    #nys-unavheader__translate:not([circle]),
+    #nys-unavheader__searchbar {
+      display: none;
+    }
   }
 
   @media (min-width: 480px) and (max-width: 767px) {
@@ -248,6 +269,11 @@ export default css`
     }
 
     .nys-unavheader__officialmessage.inline {
+      display: none;
+    }
+
+    #nys-unavheader__translate:not([circle]),
+    #nys-unavheader__searchbar {
       display: none;
     }
   }
@@ -261,6 +287,11 @@ export default css`
     .nys-unavheader__officialmessage.wrapper {
       display: none;
     }
+
+    #nys-unavheader__translate:not([circle]),
+    #nys-unavheader__searchbar {
+      display: none;
+    }
   }
 
   @media (min-width: 1024px) and (max-width: 1279px) {
@@ -271,6 +302,11 @@ export default css`
     .nys-unavheader__officialmessage.wrapper {
       display: none;
     }
+
+    #nys-unavheader__translate[circle],
+    #nys-unavheader__searchbutton[circle] {
+      display: none;
+    }
   }
 
   @media (min-width: 1280px) {
@@ -279,6 +315,11 @@ export default css`
       --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);
     }
     .nys-unavheader__officialmessage.wrapper {
+      display: none;
+    }
+
+    #nys-unavheader__translate[circle],
+    #nys-unavheader__searchbutton[circle] {
       display: none;
     }
   }
