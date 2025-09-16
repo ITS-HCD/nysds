@@ -6,7 +6,24 @@ let componentIdCounter = 0; // Counter for generating unique IDs
 
 export class NysModal extends LitElement {
   @property({ type: String }) id = "";
-  @property({ type: String, reflect: true }) name = "";
+  @property({ type: String }) heading = "";
+  @property({ type: String }) subheading = "";
+  @property({ type: Boolean, reflect: true }) open = false;
+  @property({ type: Boolean, reflect: true }) dismissible = true;
+
+  private static readonly VALID_WIDTHS = ["sm", "md", "lg"] as const;
+  private _width: (typeof NysModal.VALID_WIDTHS)[number] = "md";
+  @property({ reflect: true })
+  get width(): (typeof NysModal.VALID_WIDTHS)[number] {
+    return this._width;
+  }
+  set width(value: string) {
+    this._width = NysModal.VALID_WIDTHS.includes(
+      value as (typeof NysModal.VALID_WIDTHS)[number],
+    )
+      ? (value as (typeof NysModal.VALID_WIDTHS)[number])
+      : "md";
+  }
 
   static styles = styles;
 
@@ -15,6 +32,12 @@ export class NysModal extends LitElement {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
+    }
+  }
 
   /******************** Functions ********************/
   // Placeholder for generic functions (component-specific)
@@ -23,7 +46,15 @@ export class NysModal extends LitElement {
   // Placeholder for event handlers if needed
 
   render() {
-    return html`<div class="nys-modal"></div>`;
+    return html`<div class="nys-modal">
+      <div class="nys-modal_header">${this.heading}</div>
+      <div class="nys-modal_body">
+        <slot name=""></slot>
+      </div>
+      <div class="nys-modal_footer">
+        <slot name="actions"></slot>
+      </div>
+    </div>`;
   }
 }
 
