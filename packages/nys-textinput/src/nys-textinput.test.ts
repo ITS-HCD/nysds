@@ -94,18 +94,18 @@ describe("nys-textinput", () => {
     );
   });
 
-  it("falls back to type text if invalid type is provided", async () => {
+  it("falls back to type text type is unset", async () => {
     const el = await fixture<NysTextinput>(
-      html`<nys-textinput type="invalid"></nys-textinput>`,
+      html`<nys-textinput></nys-textinput>`,
     );
     expect(el.type).to.equal("text");
     const input = el.shadowRoot?.querySelector("input");
     expect(input?.type).to.equal("text");
   });
 
-  it("falls back to width full if invalid width is set", async () => {
+  it("falls back to width full if width is unset", async () => {
     const el = await fixture<NysTextinput>(
-      html`<nys-textinput width="invalid"></nys-textinput>`,
+      html`<nys-textinput></nys-textinput>`,
     );
     await el.updateComplete;
     expect(el.width).to.equal("full");

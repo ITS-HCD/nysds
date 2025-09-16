@@ -17,7 +17,7 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: String, reflect: true }) form: string | null = null;
-  @property({ type: Number }) maxlength = null;
+  @property({ type: Number }) maxlength: number | null = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
@@ -265,9 +265,7 @@ export class NysTextarea extends LitElement {
           placeholder=${ifDefined(
             this.placeholder ? this.placeholder : undefined,
           )}
-          maxlength=${ifDefined(
-            this.maxlength !== "" ? this.maxlength : undefined,
-          )}
+          maxlength=${ifDefined(this.maxlength ?? undefined)}
           .rows=${this.rows}
           form=${ifDefined(this.form || undefined)}
           @input=${this._handleInput}
