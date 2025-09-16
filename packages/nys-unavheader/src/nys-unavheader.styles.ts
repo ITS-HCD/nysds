@@ -347,6 +347,10 @@ export default css`
       display: none;
     }
 
+    .nys-unavheader__searchdropdown.wrapper {
+      display: none;
+    }
+
     .nys-unavheader__languagelist.show {
       margin-top: var(--nys-space-100, 8px);
     }
@@ -367,6 +371,10 @@ export default css`
 
     #nys-unavheader__translate[circle],
     #nys-unavheader__searchbutton[circle] {
+      display: none;
+    }
+
+    .nys-unavheader__searchdropdown.wrapper {
       display: none;
     }
 
