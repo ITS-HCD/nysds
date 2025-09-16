@@ -18,7 +18,9 @@ export class NysGlobalHeader extends LitElement {
     // Check for slot content after rendering
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
-    this._handleSlotChange(); // Initial check
+    this._handleSlotChange(); // run once at startup
+
+    this._listenLinkClicks();
   }
 
   /******************** Functions ********************/
@@ -33,7 +35,7 @@ export class NysGlobalHeader extends LitElement {
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
-    // Update slotHasContent based on assigned elements
+    // Update slotHasContent for styling content
     this.slotHasContent = assignedNodes.length > 0;
 
     // Get the container to append the slotted elements
@@ -49,7 +51,9 @@ export class NysGlobalHeader extends LitElement {
       container.innerHTML = "";
       containerMobile.innerHTML = "";
 
-      const currentUrl = this._normalizePath(window.location.pathname);
+      const currentUrl = this._normalizePath(
+        window.location.pathname + window.location.hash,
+      );
 
       // Clone and append slotted elements into the shadow DOM container
       assignedNodes.forEach((node) => {
@@ -65,45 +69,46 @@ export class NysGlobalHeader extends LitElement {
               .forEach((element) => element.remove());
           });
 
-          // Highlight active link
-          cleanNode.querySelectorAll("a").forEach((a) => {
-            const hrefAttr = a.getAttribute("href");
-            const linkPath = this._normalizePath(hrefAttr);
+          /**
+           * Get all user slotted ahref links and for each link, determine the best matching link via the pattern of
+           * prioritize the link with the longest match.
+           * @param node
+           */
+          const highlightActiveLink = (node: HTMLElement) => {
+            const links = Array.from(node.querySelectorAll("a"));
 
-            if (!linkPath) return;
+            // Because we can only have one active link at all times, we
+            let bestMatch: { li: HTMLElement | null; length: number } = {
+              li: null,
+              length: 0,
+            };
 
-            if (linkPath === "/") {
-              // Only match if it's exactly the homepage
-              if (currentUrl === "/") {
-                const li = a.closest("li");
-                if (li) li.classList.add("active");
-              }
-            } else {
-              if (currentUrl?.startsWith(linkPath)) {
-                const li = a.closest("li");
-                if (li) li.classList.add("active");
-              }
-            }
-          });
-          cleanNodeMobile.querySelectorAll("a").forEach((a) => {
-            const hrefAttr = a.getAttribute("href");
-            const linkPath = this._normalizePath(hrefAttr);
+            links.forEach((a) => {
+              const hrefAttr = a.getAttribute("href");
+              const linkPath = this._normalizePath(hrefAttr);
 
-            if (!linkPath) return;
+              if (!linkPath) return;
 
-            if (linkPath === "/") {
-              // Only match if it's exactly the homepage
-              if (currentUrl === "/") {
-                const li = a.closest("li");
-                if (li) li.classList.add("active");
+              // Exact homepage match
+              if (linkPath === "/" && currentUrl === "/") {
+                bestMatch = { li: a.closest("li"), length: 1 };
+              } else if (
+                currentUrl?.startsWith(linkPath) &&
+                linkPath.length > bestMatch.length
+              ) {
+                bestMatch = { li: a.closest("li"), length: linkPath.length };
               }
-            } else {
-              if (currentUrl?.startsWith(linkPath)) {
-                const li = a.closest("li");
-                if (li) li.classList.add("active");
-              }
-            }
-          });
+
+              // Clear old actives
+              links.forEach((a) => a.closest("li")?.classList.remove("active"));
+
+              // Set the best matched link to active
+              bestMatch.li?.classList.add("active");
+            });
+          };
+
+          highlightActiveLink(cleanNode);
+          highlightActiveLink(cleanNodeMobile);
 
           container.appendChild(cleanNode);
           containerMobile.appendChild(cleanNodeMobile);
@@ -117,17 +122,50 @@ export class NysGlobalHeader extends LitElement {
   // This ensures consistent active-link behavior regardless of how hrefs are written.
   private _normalizePath(path: string | null) {
     if (!path) return;
+
+    // Checks path always starts with "/"
     if (!path.startsWith("/")) {
       path = "/" + path;
     }
+
+    // Strip trailing slash except for root "/"
     if (path.length > 1 && path.endsWith("/")) {
       path = path.slice(0, -1);
     }
+
     return path.toLowerCase();
   }
 
   private _toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  /**
+   * Handles client-side navigation when links are clicked (no full page refresh).
+   */
+  // Ensures only the clicked link's <li> is marked active in both desktop and mobile menus.
+  private _listenLinkClicks() {
+    const containers = this.shadowRoot?.querySelectorAll(
+      ".nys-globalheader__content, .nys-globalheader__content-mobile",
+    );
+
+    containers?.forEach((container) => {
+      container?.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        const a = target.closest("a");
+
+        if (!a) return;
+
+        // Clear all existing active <li>
+        container
+          .querySelectorAll("li.active")
+          .forEach((li) => li.classList.remove("active"));
+
+        // Set active on the clicked link's <li>
+        const li = a.closest("li");
+        if (li) li.classList.add("active");
+      });
+    });
   }
 
   render() {
