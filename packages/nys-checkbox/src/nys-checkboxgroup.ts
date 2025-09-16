@@ -121,17 +121,14 @@ export class NysCheckboxgroup extends LitElement {
       const message = this.errorMessage || "Please select at least one option.";
       const firstCheckbox = this.querySelector("nys-checkbox");
       const firstCheckboxInput = firstCheckbox
-        ? await (firstCheckbox as any).getInputElement()
+        ? await (firstCheckbox as any).getInputElement().catch(() => null)
         : null;
 
-      let atLeastOneChecked = false;
       const checkboxes = this.querySelectorAll("nys-checkbox");
       // Loop through each child checkbox to see if one is checked.
-      checkboxes.forEach((checkbox: any) => {
-        if (checkbox.checked) {
-          atLeastOneChecked = true;
-        }
-      });
+      const atLeastOneChecked = Array.from(checkboxes).some(
+        (checkbox: any) => checkbox.checked,
+      );
 
       if (atLeastOneChecked) {
         this._internals.setValidity({});
