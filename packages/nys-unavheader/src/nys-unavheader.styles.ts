@@ -60,7 +60,6 @@ export default css`
 
   .nys-unavheader__spacer {
     flex: 1;
-    border: solid tomato;
   }
 
   .nys-unavheader__officialmessage.wrapper {
