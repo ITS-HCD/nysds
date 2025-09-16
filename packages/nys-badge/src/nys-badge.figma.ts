@@ -23,7 +23,7 @@ figma.connect<BadgeProps>("<FIGMA_BADGE>", {
     }),
     prefixIcon: figma.string("Prefix Icon"),
     suffixIcon: figma.string("Suffix Icon"),
-    prefixLabel: figma.string("Prefix Label"),
+    prefixLabel: figma.string("↳ Prefix Label"),
     label: figma.string("Label"),
   },
   example: (props) => html`
