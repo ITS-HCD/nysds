@@ -330,7 +330,6 @@ export default css`
     }
 
     .nys-unavheader__trustbar.wrapper.show {
-      border: red solid;
       order: 2;
     }
   }
@@ -354,7 +353,6 @@ export default css`
     }
 
     .nys-unavheader__trustbar.wrapper.show {
-      border: green solid;
       order: 2;
     }
   }
@@ -378,7 +376,6 @@ export default css`
     }
 
     .nys-unavheader__trustbar.wrapper.show {
-      border: blue solid;
       order: 2;
     }
   }
