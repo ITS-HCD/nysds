@@ -194,7 +194,9 @@ export default css`
     letter-spacing: var(--nys-typography-font-letterspacing-ui-sm, 0.044px);
   }
   .nys-unavheader__searchdropdown.wrapper {
-    background-color: var(--nys-color-neutral-100, #d0d0ce);
+    background-color: var(--_nys-unavheader-background-color--section-raised);
+    padding-top: var(--nys-space-250, 20px);
+    padding-bottom: var(--nys-space-250, 20px);
   }
 
   .nys-unavheader__trustbar.wrapper > .content,

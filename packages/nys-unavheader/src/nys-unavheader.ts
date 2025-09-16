@@ -135,6 +135,43 @@ export class NysUnavHeader extends LitElement {
             </nys-button>
           </div>
         </div>
+        <div
+          class="nys-unavheader__trustbar wrapper ${this.trustbarVisible
+            ? "show"
+            : "hide"}"
+        >
+          <div class="nys-unavheader__trustbar content">
+            <div class="nys-unavheader__messagewrapper">
+              <div class="nys-unavheader__trustcontentmessage">
+                <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
+                <label><b>Official websites use ny.gov</b></label>
+                <label
+                  >A <b>ny.gov</b> website belongs to an official New York State
+                  government organization.</label
+                >
+              </div>
+              <div class="nys-unavheader__trustcontentmessage">
+                <nys-icon size="3xl" name="lock_filled"></nys-icon>
+                <label><b>Secure ny.gov websites use HTTPS</b></label>
+                <label
+                  >A <b>lock icon</b> or <b>https://</b> means you've safely
+                  connected to the ny.gov website. Share sensitive information
+                  only on official, secure websites.</label
+                >
+              </div>
+            </div>
+            <nys-button
+              id="nys-unavheader__closetrustbar"
+              class="nys-unavheader__iconbutton"
+              variant="ghost"
+              circle
+              icon="close"
+              size="sm"
+              ariaLabel="Close this notice"
+              .onClick="${() => this._toggleTrustbar()}"
+            ></nys-button>
+          </div>
+        </div>
         <div class="nys-unavheader__main wrapper" id="nys-universal-navigation">
           <div class="nys-unavheader__main content">
             <a
@@ -263,43 +300,6 @@ export class NysUnavHeader extends LitElement {
                   </nys-textinput>
                 `
               : null}
-          </div>
-        </div>
-        <div
-          class="nys-unavheader__trustbar wrapper ${this.trustbarVisible
-            ? "show"
-            : "hide"}"
-        >
-          <div class="nys-unavheader__trustbar content">
-            <div class="nys-unavheader__messagewrapper">
-              <div class="nys-unavheader__trustcontentmessage">
-                <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
-                <label><b>Official websites use ny.gov</b></label>
-                <label
-                  >A <b>ny.gov</b> website belongs to an official New York State
-                  government organization.</label
-                >
-              </div>
-              <div class="nys-unavheader__trustcontentmessage">
-                <nys-icon size="3xl" name="lock_filled"></nys-icon>
-                <label><b>Secure ny.gov websites use HTTPS</b></label>
-                <label
-                  >A <b>lock icon</b> or <b>https://</b> means you've safely
-                  connected to the ny.gov website. Share sensitive information
-                  only on official, secure websites.</label
-                >
-              </div>
-            </div>
-            <nys-button
-              id="nys-unavheader__closetrustbar"
-              class="nys-unavheader__iconbutton"
-              variant="ghost"
-              circle
-              icon="close"
-              size="sm"
-              ariaLabel="Close this notice"
-              .onClick="${() => this._toggleTrustbar()}"
-            ></nys-button>
           </div>
         </div>
         <div
