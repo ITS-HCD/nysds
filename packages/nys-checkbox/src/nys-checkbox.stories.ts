@@ -19,7 +19,7 @@ interface NysCheckboxArgs {
   optional: boolean;
   showError: boolean;
   errorMessage: string;
-  form: string;
+  form: string | null;
 }
 
 const meta: Meta<NysCheckboxArgs> = {

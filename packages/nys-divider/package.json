@@ -1,12 +1,12 @@
 {
-  "name": "@nysds/nys-errormessage",
+  "name": "@nysds/nys-divider",
   "version": "1.8.0",
-  "description": "The Errormessage component from the NYS Design System.",
-  "module": "dist/nys-errormessage.js",
+  "description": "The Divider component from the NYS Design System.",
+  "module": "dist/nys-divider.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-errormessage.js",
+      "import": "./dist/nys-divider.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -25,9 +25,7 @@
   "peerDependencies": {
     "lit": "^3.2.1"
   },
-  "dependencies": {
-    "@nysds/nys-icon": "^1.8.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
@@ -39,7 +37,7 @@
     "web-components",
     "lit",
     "nys",
-    "errormessage"
+    "divider"
   ],
   "author": "New York State Design System Team",
   "license": "MIT"

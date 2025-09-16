@@ -15,7 +15,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) _tooltip = "";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";

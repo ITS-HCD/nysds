@@ -15,7 +15,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) groupExist = false;

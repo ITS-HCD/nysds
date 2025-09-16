@@ -19,7 +19,8 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
-    "test:watch": "vite build && wtr --watch"
+    "test:watch": "vite build && wtr --watch",
+    "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "peerDependencies": {
     "lit": "^3.2.1"

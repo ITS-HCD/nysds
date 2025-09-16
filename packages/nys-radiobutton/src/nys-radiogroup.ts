@@ -14,8 +14,12 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+<<<<<<< HEAD
   @property({ type: String, reflect: true }) form = "";
   @property({ type: String }) _tooltip = "";
+=======
+  @property({ type: String, reflect: true }) form: string | null = null;
+>>>>>>> d2302d272cb1903c375813520d13583d553114e7
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";
@@ -126,21 +130,19 @@ export class NysRadiogroup extends LitElement {
   private async _manageRequire() {
     const message = this.errorMessage || "Please select an option.";
 
-    const firstRadio = this.querySelector("nys-radiobutton");
-    const firstRadioInput = firstRadio
-      ? await (firstRadio as any).getInputElement()
-      : null;
+    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
+    const firstRadio = radioButtons[0] as HTMLElement;
 
-    if (firstRadioInput) {
+    if (firstRadio) {
       if (this.required && !this.selectedValue) {
         this._internals.setValidity(
           { valueMissing: true },
           message,
-          firstRadioInput,
+          firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
-        this._internals.setValidity({}, "", firstRadioInput);
+        this._internals.setValidity({}, "", firstRadio);
       }
     }
   }
@@ -276,7 +278,11 @@ export class NysRadiogroup extends LitElement {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
       if (this.showError) {
-        radioButton.setAttribute("form", this.form);
+        if (this.form !== null) {
+          radioButton.setAttribute("form", this.form);
+        } else {
+          radioButton.removeAttribute("form");
+        }
       } else {
         radioButton.removeAttribute("form");
       }

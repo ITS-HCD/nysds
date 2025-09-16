@@ -42,16 +42,16 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) _tooltip = "";
   @property({ type: String }) pattern = "";
-  @property({ type: Number }) maxlength = null;
+  @property({ type: Number }) maxlength: number | null = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
-  @property({ type: Number }) step = null;
-  @property({ type: Number }) min = null;
-  @property({ type: Number }) max = null;
+  @property({ type: Number }) step: number | null = null;
+  @property({ type: Number }) min: number | null = null;
+  @property({ type: Number }) max: number | null = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @state() private showPassword = false;
@@ -403,7 +403,7 @@ export class NysTextinput extends LitElement {
         <div class="nys-textinput__buttoncontainer">
           <slot
             name="startButton"
-            @slotchange=${this._validateButtonSlot("startButton")}
+            @slotchange=${() => this._validateButtonSlot("startButton")}
           ></slot>
           <div class="nys-textinput__container">
             <span class="nys-textinput__mask-overlay"></span>
@@ -429,12 +429,12 @@ export class NysTextinput extends LitElement {
                 this.placeholder ? this.placeholder : undefined,
               )}
               pattern=${ifDefined(this.pattern ? this.pattern : undefined)}
-              min=${ifDefined(this.min !== "" ? this.min : undefined)}
+              min=${ifDefined(this.min !== null ? this.min : undefined)}
               maxlength=${ifDefined(
-                this.maxlength !== "" ? this.maxlength : undefined,
+                this.maxlength !== null ? this.maxlength : undefined,
               )}
-              step=${ifDefined(this.step !== "" ? this.step : undefined)}
-              max=${ifDefined(this.max !== "" ? this.max : undefined)}
+              step=${ifDefined(this.step !== null ? this.step : undefined)}
+              max=${ifDefined(this.max !== null ? this.max : undefined)}
               form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
               @focus="${this._handleFocus}"
@@ -461,7 +461,7 @@ export class NysTextinput extends LitElement {
           </div>
           <slot
             name="endButton"
-            @slotchange=${this._validateButtonSlot("endButton")}
+            @slotchange=${() => this._validateButtonSlot("endButton")}
           ></slot>
         </div>
         <nys-errormessage
