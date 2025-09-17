@@ -247,7 +247,7 @@ export class NysSelect extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          tooltip=${this._tooltip}
+          _tooltip=${this._tooltip}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
