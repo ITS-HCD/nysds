@@ -16,10 +16,10 @@ interface NysSelectArgs {
   required: boolean;
   optional: boolean;
   form: string | null;
-  width: string;
+  width: "sm" | "md" | "lg" | "full";
   options: string;
   showError: boolean;
-  errorMessage: String;
+  errorMessage: string;
 }
 
 const meta: Meta<NysSelectArgs> = {
@@ -93,7 +93,7 @@ export const Basic: Story = {
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>
   <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>      
+  <nys-option value="queens" label="Queens"></nys-option>
 </nys-select>`,
         type: "auto",
       },
@@ -103,17 +103,7 @@ export const Basic: Story = {
 
 export const OptionsLabelSlot: Story = {
   args: {
-    id: "",
-    name: "",
     label: "Select your favorite borough",
-    description: "",
-    value: "",
-    disabled: false,
-    required: false,
-    form: "",
-    width: "",
-    showError: false,
-    errorMessage: "",
   },
   render: (args) => html`
     <nys-select
@@ -146,7 +136,7 @@ export const OptionsLabelSlot: Story = {
   <nys-option value="brooklyn">Brooklyn</nys-option>
   <nys-option value="manhattan">Manhattan</nys-option>
   <nys-option value="staten_island">Staten Island</nys-option>
-  <nys-option value="queens">Queens</nys-option>   
+  <nys-option value="queens">Queens</nys-option>
 </nys-select>`,
         type: "auto",
       },
@@ -192,7 +182,7 @@ export const DescriptionSlot: Story = {
   <nys-option value="brooklyn">Brooklyn</nys-option>
   <nys-option value="manhattan">Manhattan</nys-option>
   <nys-option value="staten_island">Staten Island</nys-option>
-  <nys-option value="queens">Queens</nys-option>        
+  <nys-option value="queens">Queens</nys-option>
 </nys-select>`,
         type: "auto",
       },
@@ -237,7 +227,7 @@ export const Disabled: Story = {
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>
   <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <nys-option value="queens" label="Queens"></nys-option>
 </nys-select>`,
         type: "auto",
       },
@@ -282,7 +272,7 @@ export const Required: Story = {
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>
   <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <nys-option value="queens" label="Queens"></nys-option>
 </nys-select>`,
         type: "auto",
       },
@@ -323,7 +313,7 @@ export const Width: Story = {
     docs: {
       source: {
         code: `
-<nys-select 
+<nys-select
   label="Select your favorite borough"
   description="Valid widths are sm, md, lg, and full"
   width="xs"
@@ -332,7 +322,7 @@ export const Width: Story = {
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>
   <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <nys-option value="queens" label="Queens"></nys-option>
 </nys-select>`,
         type: "auto",
       },
@@ -373,7 +363,7 @@ export const ErrorMessage: Story = {
     docs: {
       source: {
         code: `
-<nys-select 
+<nys-select
   label="Select your favorite borough"
   errorMessage="This is an error message"
   showError
@@ -382,7 +372,7 @@ export const ErrorMessage: Story = {
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>
   <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <nys-option value="queens" label="Queens"></nys-option>
 </nys-select>`,
         type: "auto",
       },
@@ -429,7 +419,7 @@ export const Optional: Story = {
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>
   <nys-option value="staten_island" label="Staten Island"></nys-option>
-  <nys-option value="queens" label="Queens"></nys-option>  
+  <nys-option value="queens" label="Queens"></nys-option>
 </nys-select>`,
 
         type: "auto",

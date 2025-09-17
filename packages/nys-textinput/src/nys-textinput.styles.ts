@@ -116,9 +116,6 @@ export default css`
     display: inline;
     overflow: hidden;
     white-space: nowrap;
-    width: stretch;
-    width: -webkit-fill-available;
-    width: -moz-available;
     font: inherit;
     letter-spacing: normal;
   }

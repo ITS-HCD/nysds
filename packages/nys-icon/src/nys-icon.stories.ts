@@ -5,11 +5,27 @@ import "./nys-icon";
 // Define the structure of the args used in the stories
 interface NysIconArgs {
   name: string;
-  ariaLabel?: string;
-  color?: string;
-  rotate?: string;
-  flip?: string;
-  size?: string;
+  ariaLabel: string;
+  color: string;
+  rotate: string;
+  flip: string;
+  size:
+    | "2xs"
+    | "xs"
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "12"
+    | "16"
+    | "24"
+    | "32"
+    | "40"
+    | "48"
+    | "64";
 }
 
 const meta: Meta<NysIconArgs> = {

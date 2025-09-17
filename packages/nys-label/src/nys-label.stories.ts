@@ -10,7 +10,6 @@ interface NysLabelArgs {
   description: string;
   flag: "required" | "optional";
   tooltip?: string;
-
 }
 
 const meta: Meta<NysLabelArgs> = {

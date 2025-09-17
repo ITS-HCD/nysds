@@ -268,7 +268,7 @@ export class NysSelect extends LitElement {
             @blur="${this._handleBlur}"
             @change="${this._handleChange}"
           >
-            <option hidden disabled selected value></option>
+            <option hidden disabled selected value=""></option>
           </select>
           <slot
             @slotchange="${this._handleSlotChange}"
