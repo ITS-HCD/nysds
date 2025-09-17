@@ -49,22 +49,22 @@ export const Basic: Story = {
       >
         <nys-step
           label="Personal Details"
-          href="demo/nys-stepper/personal.html"
+          href="/nys-stepper/personal.html"
         ></nys-step>
         <nys-step
           label="Team Info"
           selected
-          href="demo/nys-stepper/team.html"
+          href="/nys-stepper/team.html"
         ></nys-step>
         <nys-step
           label="Usage Survey"
           current
-          href="demo/nys-stepper/survey.html"
+          href="/nys-stepper/survey.html"
           .onClick=${() => alert("This step also has a function called on it")}
         ></nys-step>
         <nys-step
           label="Newsletter Opt-In"
-          href="demo/nys-stepper/newsletter.html"
+          href="/nys-stepper/newsletter.html"
         ></nys-step>
         <div slot="actions">
           <nys-button
