@@ -46,12 +46,6 @@
 | 402  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
 | 403  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
 
-## ./packages/nys-alert/src/nys-alert.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 178  | 43     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"alert" \| "alertdialog" \| "button" \| "checkbox" \| "dialog" \| "gridcell" \| "link" \| "log" \| "marquee" \| "menuitem" \| "menuitemcheckbox" \| "menuitemradio" \| "option" \| "progressbar" \| "radio" \| "scrollbar" \| "searchbox" \| "slider" \| "spinbutton" \| "status" \| "switch" \| ... 89 more ...' |
-
 ## ./packages/nys-avatar/src/nys-avatar.stories.ts
 
 | Line | Column | Type    | Rule                               | Message                                          |
@@ -116,28 +110,6 @@
 | 328  | 8      | `error` | no-incompatible-type-binding       | Type 'boolean \| undefined' is not assignable to 'boolean' |
 | 329  | 8      | `error` | no-incompatible-type-binding       | Type 'string \| undefined' is not assignable to 'string' |
 
-## ./packages/nys-avatar/src/nys-avatar.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 117  | 13     | `error` | no-incompatible-type-binding | Type '"0" \| Symbol(undefined)' is not assignable to 'number' |
-
-## ./packages/nys-backtotop/src/nys-backtotop.styles.ts
-
-| Line | Column | Type    | Rule           | Message                   |
-|------|--------|---------|----------------|---------------------------|
-| 4    | 3      | warning | no-invalid-css | Do not use empty rulesets |
-
-## ./packages/nys-button/src/nys-button.figma.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 34   | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
-| 35   | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
-| 38   | 7      | `error` | no-incompatible-type-binding | Type '{ __tag: "HtmlTemplateString"; }' is not a Lit 2 directive' |
-| 39   | 7      | `error` | no-incompatible-type-binding | Type '{ __tag: "HtmlTemplateString"; }' is not a Lit 2 directive' |
-| 41   | 7      | `error` | no-incompatible-type-binding | Type '{ __tag: "HtmlTemplateString"; }' is not a Lit 2 directive' |
-
 ## ./packages/nys-button/src/nys-button.stories.ts
 
 | Line | Column | Type    | Rule                            | Message                                          |
@@ -145,97 +117,75 @@
 | 88   | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 90   | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 101  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 102  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 102  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 136  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 145  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 146  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 146  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 154  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 163  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 164  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 164  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 172  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 181  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 182  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 182  | 12     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 191  | 9      | `error` | no-boolean-in-attribute-binding | The 'fullwidth' attribute is of boolean type but you are not using a boolean binding. |
 | 192  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 201  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 202  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 202  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 210  | 9      | `error` | no-boolean-in-attribute-binding | The 'fullwidth' attribute is of boolean type but you are not using a boolean binding. |
 | 211  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 220  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 221  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 221  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 229  | 9      | `error` | no-boolean-in-attribute-binding | The 'fullwidth' attribute is of boolean type but you are not using a boolean binding. |
 | 230  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 239  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 240  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 240  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 302  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 311  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 312  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 312  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 319  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 329  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 330  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 330  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 337  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 347  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 348  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 348  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 355  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 365  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 366  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 366  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 418  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 419  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 428  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 429  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 429  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 464  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 465  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"text" \| "filled" \| "outline" \| "ghost"' |
 | 474  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 475  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 475  | 8      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 504  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 513  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 514  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 514  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 521  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 531  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 532  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 532  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 539  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 549  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 550  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 550  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 557  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 567  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 568  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 568  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 627  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 636  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 637  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 637  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 673  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 682  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 683  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 683  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 690  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 700  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 701  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 701  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 708  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 718  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 719  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
+| 719  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 | 726  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg"' |
 | 736  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"_self" \| "_blank" \| "_parent" \| "_top" \| "framename"' |
-| 737  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"button" \| "submit" \| "reset"' |
-
-## ./packages/nys-button/src/nys-button.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 70   | 21     | warning | no-incompatible-property-type | 'Function' is not a valid type for the default converter. |
-
-## ./packages/nys-checkbox/src/nys-checkbox.figma.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 30   | 7      | `error` | no-incompatible-type-binding  | Type 'string' is not assignable to '"sm" \| "md"' |
-| 191  | 9      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 192  | 9      | `error` | no-incompatible-type-binding  | Type 'string' is not assignable to '"sm" \| "md"' |
-| 218  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 226  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 234  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 242  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 250  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 258  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 266  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 274  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
+| 737  | 10     | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"submit" \| "reset" \| "button"' |
 
 ## ./packages/nys-checkbox/src/nys-checkbox.stories.ts
 
@@ -246,14 +196,6 @@
 | 351  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
 | 440  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
 | 686  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-
-## ./packages/nys-fileinput/src/nys-fileinput.figma.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 39   | 7      | `error` | no-incompatible-type-binding  | Type 'string' is not assignable to '"lg" \| "full"' |
-| 41   | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 44   | 7      | `error` | no-incompatible-type-binding  | Type 'boolean' is not a Lit 2 directive'         |
 
 ## ./packages/nys-fileinput/src/nys-fileinput.stories.ts
 
@@ -298,19 +240,6 @@
 | 288  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
 | 289  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
 | 290  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"lg" \| "full"' |
-
-## ./packages/nys-globalheader/src/nys-globalheader.styles.ts
-
-| Line | Column | Type    | Rule           | Message                       |
-|------|--------|---------|----------------|-------------------------------|
-| 150  | 5      | warning | no-invalid-css | Unknown property: 'text-wrap' |
-
-## ./packages/nys-icon/src/nys-icon.figma.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 30   | 7      | `error` | no-complex-attribute-binding | You are binding a non-primitive type '{ __tag: "HtmlTemplateString"; }'. This could result in binding the string "[object Object]". |
-| 31   | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"2xs" \| "xs" \| "sm" \| "md" \| "lg" \| "xl" \| "2xl" \| "3xl" \| "4xl" \| "12" \| "16" \| "24" \| "32" \| "40" \| "48" \| "64"' |
 
 ## ./packages/nys-icon/src/nys-icon.stories.ts
 
@@ -382,32 +311,6 @@
 | 125  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'string \| null' which can end up binding the string 'null'. |
 | 151  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'string \| null' which can end up binding the string 'null'. |
 
-## ./packages/nys-radiobutton/src/nys-radiobutton.figma.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 82   | 9      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 83   | 9      | `error` | no-incompatible-type-binding  | Type 'string' is not assignable to '"sm" \| "md"' |
-| 93   | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 99   | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 105  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 110  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 111  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 112  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 116  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 117  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 118  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 122  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 123  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 124  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 128  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 129  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 130  | 11     | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 165  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 203  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 241  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 279  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-
 ## ./packages/nys-radiobutton/src/nys-radiobutton.stories.ts
 
 | Line | Column | Type    | Rule                         | Message                                          |
@@ -421,13 +324,6 @@
 | 513  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
 | 582  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
 | 658  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-
-## ./packages/nys-select/src/nys-select.figma.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 35   | 9      | `error` | no-incompatible-type-binding  | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 37   | 9      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
 
 ## ./packages/nys-select/src/nys-select.stories.ts
 
@@ -450,271 +346,8 @@
 | 410  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
 | 412  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'string'      |
 
-## ./packages/nys-select/src/nys-select.ts
-
-| Line | Column | Type    | Rule                         | Message                                   |
-|------|--------|---------|------------------------------|-------------------------------------------|
-| 269  | 46     | `error` | no-incompatible-type-binding | Type 'true' is not assignable to 'string' |
-
-## ./packages/nys-stepper/src/nys-step.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 11   | 21     | warning | no-incompatible-property-type | 'Function' is not a valid type for the default converter. |
-
-## ./packages/nys-stepper/src/nys-stepper.styles.ts
-
-| Line | Column | Type    | Rule           | Message                   |
-|------|--------|---------|----------------|---------------------------|
-| 305  | 5      | warning | no-invalid-css | Do not use empty rulesets |
-
-## ./packages/nys-textarea/src/nys-textarea.figma.ts
-
-| Line | Column | Type    | Rule                            | Message                                          |
-|------|--------|---------|---------------------------------|--------------------------------------------------|
-| 45   | 9      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 49   | 9      | `error` | no-nullable-attribute-binding   | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 50   | 9      | `error` | no-nullable-attribute-binding   | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 51   | 9      | `error` | no-nullable-attribute-binding   | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 52   | 9      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to 'number'      |
-| 54   | 9      | `error` | no-boolean-in-attribute-binding | The value being assigned is a boolean type, but you are not using a boolean binding. |
-
-## ./packages/nys-textarea/src/nys-textarea.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 90   | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 91   | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 92   | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 93   | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 123  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 124  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 125  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 126  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 158  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 159  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 160  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 161  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 196  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 197  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 198  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 199  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 229  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 230  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 231  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 232  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 248  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 249  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 250  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 251  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 292  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 293  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 294  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 295  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 330  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 331  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 332  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 333  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 365  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 366  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 367  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 368  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 405  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 406  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 407  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 408  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 444  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 445  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 446  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 447  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 481  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 482  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 483  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 484  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-| 523  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 524  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 525  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number'      |
-| 526  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"none" \| "vertical"' |
-
-## ./packages/nys-textinput/src/nys-textinput.figma.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 45   | 9      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 46   | 9      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 47   | 9      | `error` | no-nullable-attribute-binding | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-
-## ./packages/nys-textinput/src/nys-textinput.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 93   | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 104  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 105  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 106  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 107  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 108  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 134  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 145  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 146  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 147  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 148  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 149  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 181  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 192  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 193  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 194  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 195  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 196  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 228  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 239  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 240  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 241  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 242  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 243  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 289  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 300  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 301  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 302  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 303  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 304  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 338  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 348  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 349  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 350  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 351  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 352  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 381  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 391  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 392  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 393  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 394  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 395  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 431  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 442  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 443  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 444  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 445  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 446  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 483  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 494  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 495  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 496  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 497  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 498  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 537  | 10     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 548  | 10     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 549  | 10     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 550  | 10     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 551  | 10     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 552  | 10     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 587  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 598  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 599  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 600  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 601  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 602  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 627  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 638  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 639  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 640  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 641  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 642  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 650  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 660  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 661  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 662  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 663  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 664  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 701  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 712  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 713  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 714  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 715  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 716  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 749  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 760  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 761  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 762  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 763  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 764  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 792  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"number" \| "text" \| "search" \| "email" \| "password" \| "tel" \| "url"' |
-| 803  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 804  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md" \| "lg" \| "full"' |
-| 805  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 806  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-| 807  | 8      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to 'number \| null' |
-
-## ./packages/nys-textinput/src/nys-textinput.styles.ts
-
-| Line | Column | Type    | Rule           | Message                                          |
-|------|--------|---------|----------------|--------------------------------------------------|
-| 119  | 5      | warning | no-invalid-css | Property is ignored due to the display. With 'display: inline', the width, height, margin-top, margin-bottom, and float properties have no effect. |
-| 120  | 5      | warning | no-invalid-css | Property is ignored due to the display. With 'display: inline', the width, height, margin-top, margin-bottom, and float properties have no effect. |
-| 121  | 5      | warning | no-invalid-css | Property is ignored due to the display. With 'display: inline', the width, height, margin-top, margin-bottom, and float properties have no effect. |
-
-## ./packages/nys-toggle/src/nys-toggle.figma.ts
-
-| Line | Column | Type    | Rule                            | Message                                          |
-|------|--------|---------|---------------------------------|--------------------------------------------------|
-| 32   | 9      | `error` | no-incompatible-type-binding    | Type 'string' is not assignable to '"sm" \| "md"' |
-| 33   | 9      | `error` | no-nullable-attribute-binding   | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 34   | 9      | `error` | no-nullable-attribute-binding   | This attribute binds the type 'ValueOf\<Record\<"true" \| "false", string \| undefined\>\>' which can end up binding the string 'undefined'. |
-| 35   | 9      | `error` | no-boolean-in-attribute-binding | The value being assigned is a boolean type, but you are not using a boolean binding. |
-
-## ./packages/nys-toggle/src/nys-toggle.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 58   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 62   | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 64   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-| 92   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 96   | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 98   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-| 128  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 132  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 134  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-| 165  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 169  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 171  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-| 201  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 205  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 207  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-| 225  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 227  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-| 269  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 280  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 324  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 328  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 330  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-| 360  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 364  | 8      | `error` | no-incompatible-type-binding | Type 'boolean \| undefined' is not assignable to 'boolean' |
-| 366  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"sm" \| "md"' |
-
-## ./packages/nys-tooltip/src/nys-tooltip.figma.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 18   | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"right" \| "top" \| "bottom" \| "left" \| null' |
-
-## ./packages/nys-tooltip/src/nys-tooltip.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 54   | 9      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"right" \| "top" \| "bottom" \| "left" \| null' |
-| 90   | 11     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"right" \| "top" \| "bottom" \| "left" \| null' |
-| 133  | 11     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"right" \| "top" \| "bottom" \| "left" \| null' |
-| 178  | 11     | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"right" \| "top" \| "bottom" \| "left" \| null' |
-
-## ./packages/nys-unavheader/src/nys-unavheader.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 13   | 21     | warning | no-incompatible-property-type | `@property` type should be 'Array' instead of 'String' |
-
 ## Summary
 
 | Files analyzed | Files with problems | Problems | Errors | Warnings |
 |----------------|---------------------|----------|--------|----------|
-| 254            | 33                  | 549      | 540    | 9        |
+| 24             | 9                   | 302      | 302    | 0        |
