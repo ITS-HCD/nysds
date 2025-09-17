@@ -181,14 +181,12 @@ export class NysRadiobutton extends LitElement {
         hidden
         aria-hidden="true"
       />
-
       <label
         class="nys-radiobutton"
         for="${this.id}"
         @click="${this._callInputHandling}"
       >
         <span class="nys-radiobutton__radio"></span>
-
         ${this.label &&
         html` <div class="nys-radiobutton__text">
           <div class="nys-radiobutton__label">${this.label}</div>
