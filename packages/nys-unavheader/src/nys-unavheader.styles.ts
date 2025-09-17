@@ -275,7 +275,9 @@ export default css`
 
     #nys-unavheader__know {
       --_nys-button-padding--x: 0px;
+      --_nys-button-padding--y: 0px;
     }
+
 
     .nys-unavheader__officialmessage > .content {
       flex-direction: column;
