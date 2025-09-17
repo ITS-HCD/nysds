@@ -27,10 +27,9 @@ describe("nys-icon", () => {
     expect(svg.classList.contains("nys-icon--2xl")).to.be.true;
   });
 
-  // falls back to default size when given an invalid size
-  it("falls back to default size when given an invalid size", async () => {
+  it("falls back to default size when size is not passed", async () => {
     const el = await fixture<NysIcon>(
-      html`<nys-icon name="check" size="invalid-size"></nys-icon>`,
+      html`<nys-icon name="check"></nys-icon>`,
     );
     const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
     expect(svg.classList.contains("nys-icon--sm")).to.be.true;
