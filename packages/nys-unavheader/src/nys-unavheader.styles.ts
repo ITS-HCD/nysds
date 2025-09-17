@@ -307,6 +307,10 @@ export default css`
       display: none;
     }
 
+    .nys-unavheader__messagewrapper {
+      flex-direction: column;
+    }
+
     #nys-unavheader__translate:not([circle]),
     #nys-unavheader__searchbar {
       display: none;
