@@ -14,12 +14,8 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
-<<<<<<< HEAD
-  @property({ type: String, reflect: true }) form = "";
   @property({ type: String }) _tooltip = "";
-=======
   @property({ type: String, reflect: true }) form: string | null = null;
->>>>>>> d2302d272cb1903c375813520d13583d553114e7
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";

@@ -14,8 +14,9 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
-  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) _tooltip = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
+
   @state() private _slottedDescriptionText = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
