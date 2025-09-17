@@ -25,6 +25,10 @@
   "peerDependencies": {
     "lit": "^3.2.1"
   },
+  "dependencies": {
+    "@nysds/nys-icon": "^1.8.0",
+    "@nysds/nys-tooltip": "^1.8.0"
+  },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",

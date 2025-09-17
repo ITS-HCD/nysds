@@ -1,9 +1,9 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-select";
+import "@nysds/nys-icon";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysSelectArgs {
@@ -35,6 +35,7 @@ const meta: Meta<NysSelectArgs> = {
     required: { control: "boolean" },
     optional: { control: "boolean" },
     form: { control: "text" },
+
     width: { control: "select", options: ["sm", "md", "lg", "full"] },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },

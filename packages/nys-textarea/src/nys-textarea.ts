@@ -16,8 +16,9 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
+  @property({ type: String }) _tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
-  @property({ type: Number }) maxlength: number | null = null;
+  @property({ type: Number }) maxlength = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
@@ -248,6 +249,7 @@ export class NysTextarea extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          _tooltip=${this._tooltip}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>

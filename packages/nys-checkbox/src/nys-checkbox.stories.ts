@@ -3,7 +3,6 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-checkbox";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {

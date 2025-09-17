@@ -41,6 +41,7 @@ const meta: Meta<NysTextareaArgs> = {
     optional: { control: "boolean" },
     form: { control: "text" },
     maxlength: { control: "text" },
+
     width: {
       control: "select",
       options: ["sm", "md", "lg", "full"],
