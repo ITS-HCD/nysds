@@ -1,51 +1,4 @@
 
-## ./packages/nys-alert/src/nys-alert.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 65   | 8      | `error` | no-incompatible-type-binding | Type 'number \| undefined' is not assignable to 'number' |
-| 66   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 68   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 69   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 70   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 71   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 140  | 8      | `error` | no-incompatible-type-binding | Type 'number \| undefined' is not assignable to 'number' |
-| 141  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 143  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 144  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 145  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 146  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 177  | 8      | `error` | no-incompatible-type-binding | Type 'number \| undefined' is not assignable to 'number' |
-| 178  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 180  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 181  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 182  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 183  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 218  | 8      | `error` | no-incompatible-type-binding | Type 'number \| undefined' is not assignable to 'number' |
-| 219  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 221  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 222  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 223  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 224  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 316  | 8      | `error` | no-incompatible-type-binding | Type 'number \| undefined' is not assignable to 'number' |
-| 317  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 319  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 320  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 321  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 322  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 355  | 8      | `error` | no-incompatible-type-binding | Type 'number \| undefined' is not assignable to 'number' |
-| 356  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 358  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 359  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 360  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 361  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 397  | 8      | `error` | no-incompatible-type-binding | Type 'number \| undefined' is not assignable to 'number' |
-| 398  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 400  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 401  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 402  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 403  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-
 ## ./packages/nys-avatar/src/nys-avatar.stories.ts
 
 | Line | Column | Type    | Rule                               | Message                                          |
@@ -350,4 +303,4 @@
 
 | Files analyzed | Files with problems | Problems | Errors | Warnings |
 |----------------|---------------------|----------|--------|----------|
-| 24             | 9                   | 302      | 302    | 0        |
+| 24             | 8                   | 260      | 260    | 0        |
