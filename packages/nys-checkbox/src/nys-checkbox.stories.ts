@@ -12,7 +12,7 @@ interface NysCheckboxArgs {
   checked: boolean;
   label: string;
   description: string;
-  size: string;
+  size: "sm" | "md";
   tile: boolean;
   disabled: boolean;
   value: string;

@@ -8,19 +8,19 @@ import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysFileinputArgs {
-  id?: string;
-  name?: string;
-  label?: string;
-  description?: string;
-  width?: string;
-  multiple?: boolean;
-  accept?: string;
-  required?: boolean;
+  id: string;
+  name: string;
+  label: string;
+  description: string;
+  width: "lg" | "full";
+  multiple: boolean;
+  accept: string;
+  required: boolean;
   optional: boolean;
-  disabled?: boolean;
-  errorMessage?: string;
-  showError?: boolean;
-  dropzone?: boolean;
+  disabled: boolean;
+  errorMessage: string;
+  showError: boolean;
+  dropzone: boolean;
 }
 
 const meta: Meta<NysFileinputArgs> = {

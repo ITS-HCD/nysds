@@ -1,58 +1,4 @@
 
-## ./packages/nys-checkbox/src/nys-checkbox.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 77   | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 167  | 9      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 351  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 440  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 686  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-
-## ./packages/nys-fileinput/src/nys-fileinput.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 78   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string \| string' |
-| 79   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 80   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 81   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 82   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"lg" \| "full"' |
-| 84   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 88   | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 119  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string \| string' |
-| 120  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 121  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 122  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 123  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"lg" \| "full"' |
-| 125  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 129  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 160  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string \| string' |
-| 161  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 162  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 163  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 164  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"lg" \| "full"' |
-| 166  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 170  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 201  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string \| string' |
-| 202  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 203  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 204  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 205  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"lg" \| "full"' |
-| 207  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 211  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 245  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string \| string' |
-| 246  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 247  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 248  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 249  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"lg" \| "full"' |
-| 251  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 255  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 287  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string \| string' |
-| 288  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 289  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to 'string' |
-| 290  | 8      | `error` | no-incompatible-type-binding | Type 'string \| undefined' is not assignable to '"lg" \| "full"' |
-
 ## ./packages/nys-icon/src/nys-icon.stories.ts
 
 | Line | Column | Type    | Rule                          | Message                                          |
@@ -162,4 +108,4 @@
 
 | Files analyzed | Files with problems | Problems | Errors | Warnings |
 |----------------|---------------------|----------|--------|----------|
-| 24             | 6                   | 129      | 129    | 0        |
+| 24             | 4                   | 85       | 85     | 0        |
