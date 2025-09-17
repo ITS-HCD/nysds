@@ -28,21 +28,23 @@ export default css`
     );
   }
 
-  /* CSS & Slot resets */
+  /*** CSS & Slot resets ***/
   ::slotted(p) {
     margin: 0;
   }
-  h2, p {
+  h2,
+  p {
     flex: 1;
-    margin: 0
+    margin: 0;
   }
 
-  /* Base */
+  /*** Base ***/
   .nys-modal {
     display: flex;
     flex-direction: column;
     width: var(--_nys-modal-width);
     min-width: var(--_nys-modal-min-width);
+    max-height: 70vh;
     border-radius: var(--_nys-modal-radius);
     border: var(--_nys-modal-border);
     font-family: var(--_nys-modal-font-family);
@@ -52,7 +54,7 @@ export default css`
     background: var(--nys-color-surface, #fff);
   }
 
-  /* Modal Header */
+  /*** Modal Header ***/
   .nys-modal_header {
     display: flex;
     padding: var(--nys-space-300, 24px);
@@ -67,10 +69,10 @@ export default css`
     width: 100%;
   }
 
-  /* Modal Body */
+  /*** Modal Body ***/
   .nys-modal_body {
     display: flex;
-    height: 182px;
+    max-height: 182px;
     padding: var(--nys-space-300, 24px);
     flex-direction: column;
     align-items: flex-start;
@@ -78,13 +80,21 @@ export default css`
     overflow: auto;
   }
 
-  /* Modal Footer (i.e. where the button slot is) */
+  .nys-modal_body.hidden {
+    display: none;
+  }
+
+  /*** Modal Footer (i.e. where the button slot is) ***/
   .nys-modal_footer ::slotted(*) {
     display: flex;
     padding: var(--nys-space-300, 24px);
     justify-content: center;
     align-items: center;
     gap: var(--nys-space-250, 20px);
+  }
+
+  .nys-modal_footer.hidden ::slotted(*) {
+    display: none;
   }
 
   @media (min-width: 400px) {

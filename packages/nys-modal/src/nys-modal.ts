@@ -1,5 +1,5 @@
 import { LitElement, html } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import styles from "./nys-modal.styles";
 
 let componentIdCounter = 0; // Counter for generating unique IDs
@@ -25,6 +25,10 @@ export class NysModal extends LitElement {
       : "md";
   }
 
+  // Track slot content state
+  @state() private hasBodySlots = false;
+  @state() private hasActionSlots = false;
+
   static styles = styles;
 
   /**************** Lifecycle Methods ****************/
@@ -39,8 +43,37 @@ export class NysModal extends LitElement {
     }
   }
 
+  firstUpdated() {
+    this._handleBodySlotChange();
+    this._handleActionSlotChange();
+  }
+
   /******************** Functions ********************/
-  // Placeholder for generic functions (component-specific)
+  private async _handleBodySlotChange() {
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    console.log("SLOT", slot);
+    if (!slot) return;
+    this.hasBodySlots = slot
+      .assignedNodes({ flatten: true })
+      .some(
+        (node) =>
+          node.nodeType === Node.ELEMENT_NODE || node.textContent?.trim(),
+      );
+  }
+
+  private async _handleActionSlotChange() {
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>(
+      'slot[name="actions"]',
+    );
+    console.log("SLOT2", slot);
+    if (!slot) return;
+    this.hasActionSlots = slot
+      .assignedNodes({ flatten: true })
+      .some(
+        (node) =>
+          node.nodeType === Node.ELEMENT_NODE || node.textContent?.trim(),
+      );
+  }
 
   /****************** Event Handlers ******************/
   // Placeholder for event handlers if needed
@@ -54,11 +87,13 @@ export class NysModal extends LitElement {
         </div>
         <p>${this.subheading}</p>
       </div>
-      <div class="nys-modal_body">
-        <slot></slot>
+
+      <div class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}">
+        <slot @slotchange=${this._handleBodySlotChange}></slot>
       </div>
-      <div class="nys-modal_footer">
-        <slot name="actions"></slot>
+
+      <div class="nys-modal_footer ${!this.hasActionSlots ? "hidden" : ""}">
+        <slot name="actions" @slotchange=${this._handleActionSlotChange}></slot>
       </div>
     </div>`;
   }
