@@ -11,7 +11,7 @@ interface NysRadiobuttonArgs {
   checked: boolean;
   label: string;
   description: string;
-  size: string;
+  size: "sm" | "md";
   tile: boolean;
   disabled: boolean;
   value: string;
@@ -104,7 +104,7 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup 
+<nys-radiogroup
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
   size="md"
@@ -173,7 +173,7 @@ export const PartialEditableOptions: Story = {
       source: {
         code: `
 <nys-radiogroup label="Choose your preferred work operating system.">
-  <nys-radiobutton 
+  <nys-radiobutton
     name="op-system"
     label="Windows 11"
     description="HP Elitebook"
@@ -326,7 +326,7 @@ export const Required: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup 
+<nys-radiogroup
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
   required
@@ -469,7 +469,7 @@ export const Tile: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup 
+<nys-radiogroup
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
   size="md"
@@ -541,7 +541,7 @@ export const ErrorMessage: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup 
+<nys-radiogroup
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
   required
@@ -631,7 +631,7 @@ export const Slot: Story = {
     label="Manhattan"
     value="manhattan"
   >
-    <label slot="description"> New York City <a href="https://www.ny.gov/" target="__blank">(slot)</a></label>      
+    <label slot="description"> New York City <a href="https://www.ny.gov/" target="__blank">(slot)</a></label>
   </nys-radiobutton>
 </nys-radiogroup>
 `.trim(),
@@ -686,7 +686,7 @@ export const Optional: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup 
+<nys-radiogroup
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
   optional

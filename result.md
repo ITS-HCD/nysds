@@ -1,18 +1,4 @@
 
-## ./packages/nys-radiobutton/src/nys-radiobutton.stories.ts
-
-| Line | Column | Type    | Rule                         | Message                                          |
-|------|--------|---------|------------------------------|--------------------------------------------------|
-| 75   | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 143  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 216  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 298  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 368  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 442  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 513  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 582  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-| 658  | 7      | `error` | no-incompatible-type-binding | Type 'string' is not assignable to '"sm" \| "md"' |
-
 ## ./packages/nys-select/src/nys-select.stories.ts
 
 | Line | Column | Type    | Rule                         | Message                                          |
@@ -38,4 +24,4 @@
 
 | Files analyzed | Files with problems | Problems | Errors | Warnings |
 |----------------|---------------------|----------|--------|----------|
-| 24             | 2                   | 25       | 25     | 0        |
+| 24             | 1                   | 16       | 16     | 0        |
