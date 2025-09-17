@@ -1,24 +1,15 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-modal";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysModalArgs {
   id: string;
-  name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string | null;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  heading: string;
+  subheading: string;
+  open: boolean;
+  dismissible: boolean;
 }
 
 const meta: Meta<NysModalArgs> = {
@@ -26,7 +17,10 @@ const meta: Meta<NysModalArgs> = {
   component: "nys-modal",
   argTypes: {
     id: { control: "text" },
-    name: { control: "text" },
+    heading: { control: "text" },
+    subheading: { control: "text" },
+    open: { control: "boolean", default: false },
+    dismissible: { control: "boolean", default: true },
   },
   parameters: {
     docs: {
@@ -44,10 +38,38 @@ type Story = StoryObj<NysModalArgs>;
 export const Basic: Story = {
   args: {
     id: "modal1",
-    name: "modal1",
+    heading: "Lorem ipsum dolor sit amet",
+    subheading: "subtext",
+    open: true,
+    dismissible: true,
   },
   render: (args) => html`
-    <nys-modal .id=${args.id} .name=${args.name}></nys-modal>
+    <nys-modal
+      .id=${args.id}
+      .heading=${args.heading}
+      .subheading=${args.subheading}
+      .open=${args.open}
+      .dismissible=${args.dismissible}
+    >
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu  fugiat nulla pariatur. Excepteur sint occae
+        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+        id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incidid
+      </p>
+      <div slot="actions">
+        <nys-button
+          label="Cancel"
+          variant="outline"
+          onClick="closeModal()"
+        ></nys-button>
+        <nys-button label="Confirm" onClick="saveChanges()"></nys-button>
+      </div>
+    </nys-modal>
   `,
   parameters: {
     docs: {
@@ -56,7 +78,9 @@ export const Basic: Story = {
 <nys-modal
   id="modal1"
   name="modal1"
-></nys-modal>`,
+>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu  fugiat nulla pariatur. Excepteur sint occae cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid
+</nys-modal>`,
         type: "auto",
       },
     },

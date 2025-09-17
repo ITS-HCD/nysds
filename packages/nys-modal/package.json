@@ -25,6 +25,7 @@
     "lit": "^3.2.1"
   },
   "dependencies": {
+    "@nysds/nys-button": "^1.8.0"
   },
   "devDependencies": {
     "lit": "^3.2.1",

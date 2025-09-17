@@ -47,9 +47,15 @@ export class NysModal extends LitElement {
 
   render() {
     return html`<div class="nys-modal">
-      <div class="nys-modal_header">${this.heading}</div>
+      <div class="nys-modal_header">
+        <div class="nys-modal_header-inner">
+          <h2>${this.heading}</h2>
+          <nys-button circle icon="close" variant="ghost"></nys-button>
+        </div>
+        <p>${this.subheading}</p>
+      </div>
       <div class="nys-modal_body">
-        <slot name=""></slot>
+        <slot></slot>
       </div>
       <div class="nys-modal_footer">
         <slot name="actions"></slot>
