@@ -278,11 +278,16 @@ export default css`
       --_nys-button-padding--y: 0px;
     }
 
-
     .nys-unavheader__officialmessage > .content {
       flex-direction: column;
       align-items: flex-start;
       gap: 0px;
+      line-height: 16px;
+    }
+
+    .nys-unavheader__officialmessage.wrapper {
+      padding-top: var(--nys-space-2px, 2px);
+      padding-bottom: var(--nys-space-2px, 2px);
     }
 
     .nys-unavheader__officialmessage.inline {
