@@ -31,7 +31,7 @@
     "lint:packages": "eslint packages/**/*.{ts,js}",
     "lint:fix": "eslint src/ --fix",
     "lint:fix:packages": "eslint packages/**/*.{ts,js} --fix",
-    "lit-analyze": "lit-analyzer 'packages/**/*.ts'",
+    "lit-analyze": "lit-analyzer 'packages/**/*.styles.ts'",
     "release:dry-run": "NODE_ENV=production npm run build:all && NODE_ENV=production npm run test && node src/scripts/publish-dry-run.js",
     "release": "NODE_ENV=production npm run build:all && npm run test && npm publish --workspaces --access public && npm publish --access public",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
