@@ -127,7 +127,7 @@ export class NysRadiobutton extends LitElement {
     // when the user selects a choice, since form focus is no longer needed
     this.classList.remove("active-focus");
 
-    if (!this.checked) {
+    if (!this.checked && !this.disabled) {
       if (NysRadiobutton.buttonGroup[this.name]) {
         NysRadiobutton.buttonGroup[this.name].checked = false;
         NysRadiobutton.buttonGroup[this.name].requestUpdate();
