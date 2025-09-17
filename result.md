@@ -1,10 +1,4 @@
 
-## ./packages/nys-accordion/src/nys-accordionitem.ts
-
-| Line | Column | Type    | Rule            | Message                |
-|------|--------|---------|-----------------|------------------------|
-| 99   | 8      | warning | no-unclosed-tag | This tag isn't closed. |
-
 ## ./packages/nys-alert/src/nys-alert.stories.ts
 
 | Line | Column | Type    | Rule                         | Message                                          |
@@ -723,4 +717,4 @@
 
 | Files analyzed | Files with problems | Problems | Errors | Warnings |
 |----------------|---------------------|----------|--------|----------|
-| 254            | 34                  | 550      | 540    | 10       |
+| 254            | 33                  | 549      | 540    | 9        |
