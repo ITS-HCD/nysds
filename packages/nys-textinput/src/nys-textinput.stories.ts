@@ -49,6 +49,7 @@ const meta: Meta<NysTextinputArgs> = {
     required: { control: "boolean" },
     optional: { control: "boolean" },
     form: { control: "text" },
+
     pattern: { control: "text" },
     maxlength: { control: "text" },
     width: {
