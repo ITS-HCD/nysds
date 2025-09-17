@@ -1,12 +1,15 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-label";
+import "@nysds/nys-icon";
+import "@nysds/nys-tooltip";
 
 // Define the structure of the args used in the stories
 interface NysLabelArgs {
   label: string;
   description: string;
   flag: string | null;
+  tooltip?: string;
 }
 
 const meta: Meta<NysLabelArgs> = {
@@ -22,6 +25,7 @@ const meta: Meta<NysLabelArgs> = {
       options: [null, "required", "optional"],
       defaultValue: { summary: `null` },
     },
+    tooltip: { control: { type: "text" } },
   },
   parameters: {
     docs: {
@@ -40,6 +44,7 @@ export const Basic: Story = {
   args: {
     label: "This is a basic nys-label",
     description: "",
+    tooltip: "",
     flag: null,
   },
   render: (args) =>
@@ -47,6 +52,7 @@ export const Basic: Story = {
       label=${args.label}
       description=${args.description}
       flag=${args.flag}
+      tooltip=${args.tooltip}
     ></nys-label>`,
   parameters: {
     docs: {
@@ -69,6 +75,7 @@ export const Description: Story = {
       label=${args.label}
       description=${args.description}
       flag=${args.flag}
+      tooltip=${args.tooltip}
     ></nys-label>`,
   parameters: {
     docs: {
@@ -91,7 +98,11 @@ export const DescriptionSlot: Story = {
     flag: null,
   },
   render: (args) =>
-    html`<nys-label label=${args.label} flag=${args.flag}>
+    html`<nys-label
+      label=${args.label}
+      flag=${args.flag}
+      tooltip=${args.tooltip}
+    >
       <label slot="description"
         >${args.description}
         <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a"
@@ -123,6 +134,7 @@ export const Required: Story = {
       label=${args.label}
       description=${args.description}
       flag=${args.flag}
+      tooltip=${args.tooltip}
     ></nys-label>`,
   parameters: {
     docs: {
@@ -149,6 +161,7 @@ export const Optional: Story = {
       label=${args.label}
       description=${args.description}
       flag=${args.flag}
+      tooltip=${args.tooltip}
     ></nys-label>`,
   parameters: {
     docs: {
@@ -157,6 +170,33 @@ export const Optional: Story = {
   <nys-label 
       label="This form is optional"
       flag="optional"
+  ></nys-label>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Tooltip: Story = {
+  args: {
+    label: "This label has a tooltip",
+    description: "",
+    tooltip: "Helpful tooltip text",
+  },
+  render: (args) =>
+    html`<nys-label
+      label=${args.label}
+      description=${args.description}
+      flag=${args.flag}
+      tooltip=${args.tooltip}
+    ></nys-label>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+  <nys-label 
+      label="This label has a tooltip"
+      tooltip="Helpful tooltip text"
   ></nys-label>`,
         type: "auto",
       },

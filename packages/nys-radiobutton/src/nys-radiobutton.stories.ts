@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-radiobutton";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+
 // Define the structure of the args used in the stories
 interface NysRadiobuttonArgs {
   //radiobutton
@@ -36,6 +37,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
     disabled: { control: "boolean" },
     value: { control: "text" },
     form: { control: "text" },
+
     required: { control: "boolean" },
     optional: { control: "boolean" },
     showError: { control: "boolean" },

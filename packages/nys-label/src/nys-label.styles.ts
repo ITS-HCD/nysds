@@ -33,7 +33,7 @@ export default css`
     --nys-optional-font-color: var(--nys-color-text-weak, #4a4d4f);
 
     /* Spacing */
-    --_nys-label-gap: var(--nys-space-2px, 2px);
+    --_nys-label-gap: var(--nys-space-4px, 4px);
   }
 
   .nys-label {
@@ -46,12 +46,9 @@ export default css`
     letter-spacing: var(--_nys-label-letter-spacing);
   }
 
-  .nys-label__labelwrapper {
+  .nys-label__label {
     display: flex;
     gap: var(--_nys-label-gap);
-  }
-
-  .nys-label__label {
     text-align: left;
     font-weight: var(--_nys-label-font-weight);
     color: var(--_nys-label-color);
@@ -72,5 +69,14 @@ export default css`
   .nys-label__optional {
     font-weight: var(--nys-optional-font-weight);
     color: var(--nys-optional-font-color);
+  }
+
+  .nys-label__tooltip-wrapper {
+    display: flex;
+    gap: 5px;
+  }
+
+  .nys-label__tooltip-icon {
+    margin-top: -2px;
   }
 `;

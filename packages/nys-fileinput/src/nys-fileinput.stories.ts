@@ -21,6 +21,7 @@ interface NysFileinputArgs {
   errorMessage?: string;
   showError?: boolean;
   dropzone?: boolean;
+  form?: string;
 }
 
 const meta: Meta<NysFileinputArgs> = {
@@ -44,6 +45,7 @@ const meta: Meta<NysFileinputArgs> = {
     errorMessage: { control: "text" },
     showError: { control: "boolean" },
     dropzone: { control: "boolean" },
+    form: { control: "text" },
   },
   parameters: {
     docs: {
@@ -88,6 +90,7 @@ export const Basic: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
     ></nys-fileinput>
   `,
   parameters: {
@@ -129,6 +132,7 @@ export const Dropzone: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
     ></nys-fileinput>
   `,
   parameters: {
@@ -170,6 +174,7 @@ export const Width: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
     ></nys-fileinput>
   `,
   parameters: {
@@ -211,6 +216,7 @@ export const Multiple: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
     ></nys-fileinput>
   `,
   parameters: {
@@ -255,6 +261,7 @@ export const Disabled: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
+      .form=${args.form}
     ></nys-fileinput>
   `,
   parameters: {
@@ -287,7 +294,17 @@ export const DescriptionSlot: Story = {
       .id=${args.id}
       .name=${args.name}
       .label=${args.label}
+      .description=${args.description}
       .width=${args.width}
+      ?multiple=${args.multiple}
+      .accept=${args.accept}
+      ?required=${args.required}
+      ?optional=${args.optional}
+      ?disabled=${args.disabled}
+      .errorMessage=${args.errorMessage}
+      ?showError=${args.showError}
+      ?dropzone=${args.dropzone}
+      .form=${args.form}
     >
       <span slot="description">
         Learn more at
