@@ -207,15 +207,15 @@ export default css`
   }
 
   .nys-unavheader__search {
-    width: var(--nys-form-width-md, 200px);
-    transition: width 0.5s ease;
+    max-width: var(--nys-form-width-md, 200px);
+    transition: max-width 0.5s ease;
     --_nys-textinput-gap: 0px;
   }
 
   /* Grow size on focus */
   .nys-unavheader__search:focus {
     width: var(--nys-form-width-lg, 384px);
-    transition: width 0.5s ease;
+    max-width: var(--nys-form-width-lg, 384px);
   }
 
   #nys-unavheader__translate,

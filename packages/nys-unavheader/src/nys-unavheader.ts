@@ -284,7 +284,6 @@ export class NysUnavHeader extends LitElement {
                     id="nys-unavheader__searchbar"
                     placeholder="Search"
                     type="search"
-                    size="md"
                     @focus="${this._handleSearchFocus}"
                     @blur="${this._handleSearchBlur}"
                     @keyup="${this._handleSearchKeyup}"
