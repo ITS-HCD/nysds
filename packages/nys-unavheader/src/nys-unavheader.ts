@@ -111,7 +111,7 @@ export class NysUnavHeader extends LitElement {
   render() {
     return html`
       <header class="nys-unavheader">
-        <div class="nys-unavheader__officialmessage wrapper">
+        <div class="nys-unavheader__trustbar wrapper">
           <div class="content">
             <label id="nys-unavheader__official"
               >An official website of New York State</label
@@ -136,11 +136,11 @@ export class NysUnavHeader extends LitElement {
           </div>
         </div>
         <div
-          class="nys-unavheader__trustbar wrapper ${this.trustbarVisible
+          class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
             ? "show"
             : "hide"}"
         >
-          <div class="nys-unavheader__trustbar content">
+          <div class="nys-unavheader__trustpanel content">
             <div class="nys-unavheader__messagewrapper">
               <div class="nys-unavheader__trustcontentmessage">
                 <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
@@ -181,7 +181,7 @@ export class NysUnavHeader extends LitElement {
             >
               <div class="nys-unavheader__logo">${this._getNysLogo()}</div></a
             >
-            <div class="nys-unavheader__officialmessage inline">
+            <div class="nys-unavheader__trustbar inline">
               <label id="nys-unavheader__official"
                 >An official website of New York State</label
               >

@@ -62,18 +62,18 @@ export default css`
     flex: 1;
   }
 
-  .nys-unavheader__officialmessage.wrapper {
+  .nys-unavheader__trustbar.wrapper {
     background-color: var(--nys-color-neutral-100, #d0d0ce);
     padding-top: var(--nys-space-100, 8px);
     padding-bottom: var(--nys-space-100, 8px);
   }
-  .nys-unavheader__officialmessage > .content,
-  .nys-unavheader__officialmessage > .content,
+  .nys-unavheader__trustbar > .content,
+  .nys-unavheader__trustbar > .content,
   * {
     cursor: pointer;
   }
-  .nys-unavheader__officialmessage.inline,
-  .nys-unavheader__officialmessage.inline #nys-unavheader__official {
+  .nys-unavheader__trustbar.inline,
+  .nys-unavheader__trustbar.inline #nys-unavheader__official {
     background-color: transparent;
     cursor: default;
   }
@@ -82,8 +82,8 @@ export default css`
   .content -> small screens
   inline -> large screens
   */
-  .nys-unavheader__officialmessage > .content,
-  .nys-unavheader__officialmessage.inline {
+  .nys-unavheader__trustbar > .content,
+  .nys-unavheader__trustbar.inline {
     display: flex;
     align-items: center;
     gap: var(--nys-space-100, 8px);
@@ -163,7 +163,7 @@ export default css`
     display: none;
   }
 
-  .nys-unavheader__trustbar.wrapper.show {
+  .nys-unavheader__trustpanel.wrapper.show {
     background-color: var(--_nys-unavheader-background-color--section-raised);
     display: flex;
     padding-top: var(--nys-space-400, 32px);
@@ -174,7 +174,7 @@ export default css`
     gap: var(--nys-space-400, 32px);
   }
 
-  .nys-unavheader__trustbar.content {
+  .nys-unavheader__trustpanel.content {
     display: flex;
   }
 
@@ -198,9 +198,9 @@ export default css`
     padding-bottom: var(--nys-space-250, 20px);
   }
 
-  .nys-unavheader__trustbar.wrapper > .content,
+  .nys-unavheader__trustpanel.wrapper > .content,
   .nys-unavheader__main.wrapper > .content,
-  .nys-unavheader__officialmessage > .content,
+  .nys-unavheader__trustbar > .content,
   .nys-unavheader__searchdropdown.wrapper > .content {
     max-width: 1280px;
     margin: 0 auto;
@@ -278,19 +278,19 @@ export default css`
       --_nys-button-padding--y: 0px;
     }
 
-    .nys-unavheader__officialmessage > .content {
+    .nys-unavheader__trustbar > .content {
       flex-direction: column;
       align-items: flex-start;
       gap: 0px;
       line-height: 16px;
     }
 
-    .nys-unavheader__officialmessage.wrapper {
+    .nys-unavheader__trustbar.wrapper {
       padding-top: var(--nys-space-2px, 2px);
       padding-bottom: var(--nys-space-2px, 2px);
     }
 
-    .nys-unavheader__officialmessage.inline {
+    .nys-unavheader__trustbar.inline {
       display: none;
     }
 
@@ -310,7 +310,7 @@ export default css`
       --_nys-unavheader-padding--gutter: var(--nys-gutter-sm, 20px);
     }
 
-    .nys-unavheader__officialmessage.inline {
+    .nys-unavheader__trustbar.inline {
       display: none;
     }
 
@@ -330,7 +330,7 @@ export default css`
       --_nys-unavheader-padding--gutter: var(--nys-gutter-md, 32px);
     }
 
-    .nys-unavheader__officialmessage.wrapper {
+    .nys-unavheader__trustbar.wrapper {
       display: none;
     }
 
@@ -339,7 +339,7 @@ export default css`
       display: none;
     }
 
-    .nys-unavheader__trustbar.wrapper.show {
+    .nys-unavheader__trustpanel.wrapper.show {
       order: 2;
     }
   }
@@ -349,7 +349,7 @@ export default css`
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-lg, 32px);
     }
-    .nys-unavheader__officialmessage.wrapper {
+    .nys-unavheader__trustbar.wrapper {
       display: none;
     }
 
@@ -366,7 +366,7 @@ export default css`
       margin-top: var(--nys-space-100, 8px);
     }
 
-    .nys-unavheader__trustbar.wrapper.show {
+    .nys-unavheader__trustpanel.wrapper.show {
       order: 2;
     }
   }
@@ -376,7 +376,7 @@ export default css`
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);
     }
-    .nys-unavheader__officialmessage.wrapper {
+    .nys-unavheader__trustbar.wrapper {
       display: none;
     }
 
@@ -393,7 +393,7 @@ export default css`
       margin-top: var(--nys-space-100, 8px);
     }
 
-    .nys-unavheader__trustbar.wrapper.show {
+    .nys-unavheader__trustpanel.wrapper.show {
       order: 2;
     }
   }
