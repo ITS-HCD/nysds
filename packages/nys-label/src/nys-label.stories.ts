@@ -6,7 +6,7 @@ import "./nys-label";
 interface NysLabelArgs {
   label: string;
   description: string;
-  flag: string | null;
+  flag: string;
 }
 
 const meta: Meta<NysLabelArgs> = {
@@ -40,7 +40,6 @@ export const Basic: Story = {
   args: {
     label: "This is a basic nys-label",
     description: "",
-    flag: null,
   },
   render: (args) =>
     html`<nys-label
@@ -62,7 +61,6 @@ export const Description: Story = {
   args: {
     label: "This is a basic nys-label",
     description: "This is a description",
-    flag: null,
   },
   render: (args) =>
     html`<nys-label
@@ -74,7 +72,7 @@ export const Description: Story = {
     docs: {
       source: {
         code: `
-<nys-label 
+<nys-label
     label="This is a basic nys-label"
     description="This is a description"
 ></nys-label>`,
@@ -88,7 +86,6 @@ export const DescriptionSlot: Story = {
   args: {
     label: "This is a basic nys-label",
     description: "This is a slot description",
-    flag: null,
   },
   render: (args) =>
     html`<nys-label label=${args.label} flag=${args.flag}>
@@ -104,7 +101,7 @@ export const DescriptionSlot: Story = {
       source: {
         code: `
 <nys-label label="This is a basic nys-label">
-  <label slot="description">This is a slot description</label>    
+  <label slot="description">This is a slot description</label>
 </nys-label>`,
         type: "auto",
       },
@@ -128,7 +125,7 @@ export const Required: Story = {
     docs: {
       source: {
         code: `
-<nys-label 
+<nys-label
     label="This form is required"
     flag="required"
 ></nys-label>`,
@@ -154,7 +151,7 @@ export const Optional: Story = {
     docs: {
       source: {
         code: `
-  <nys-label 
+  <nys-label
       label="This form is optional"
       flag="optional"
   ></nys-label>`,

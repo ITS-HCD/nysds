@@ -1,14 +1,4 @@
 
-## ./packages/nys-label/src/nys-label.stories.ts
-
-| Line | Column | Type    | Rule                          | Message                                          |
-|------|--------|---------|-------------------------------|--------------------------------------------------|
-| 49   | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'string \| null' which can end up binding the string 'null'. |
-| 71   | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'string \| null' which can end up binding the string 'null'. |
-| 94   | 41     | `error` | no-nullable-attribute-binding | This attribute binds the type 'string \| null' which can end up binding the string 'null'. |
-| 125  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'string \| null' which can end up binding the string 'null'. |
-| 151  | 7      | `error` | no-nullable-attribute-binding | This attribute binds the type 'string \| null' which can end up binding the string 'null'. |
-
 ## ./packages/nys-radiobutton/src/nys-radiobutton.stories.ts
 
 | Line | Column | Type    | Rule                         | Message                                          |
@@ -48,4 +38,4 @@
 
 | Files analyzed | Files with problems | Problems | Errors | Warnings |
 |----------------|---------------------|----------|--------|----------|
-| 24             | 3                   | 30       | 30     | 0        |
+| 24             | 2                   | 25       | 25     | 0        |
