@@ -17,10 +17,10 @@ interface NysTextareaArgs {
   required: boolean;
   optional: boolean;
   form: string | null;
-  maxlength: string;
-  width: string;
-  rows: string;
-  resize: string;
+  maxlength: number | null;
+  width: "sm" | "md" | "lg" | "full";
+  rows: number;
+  resize: "vertical" | "none";
   showError: boolean;
   errorMessage: string;
 }
@@ -141,7 +141,7 @@ export const Width: Story = {
 };
 
 export const Rows: Story = {
-  args: { label: "This textarea renders with 6 rows", value: "", rows: "6" },
+  args: { label: "This textarea renders with 6 rows", value: "", rows: 6 },
   render: (args) => html`
     <nys-textarea
       .id=${args.id}
@@ -177,7 +177,7 @@ export const Resize: Story = {
   args: {
     label: "This textarea is not resizable",
     value: "",
-    rows: "6",
+    rows: 6,
     resize: "none",
   },
   render: (args) => html`
@@ -301,7 +301,7 @@ export const ValueAndPlaceholder: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea 
+<nys-textarea
   label="Beginning Value Example"
   value="beginning value"
   placeholder="placeholder">
@@ -387,7 +387,7 @@ export const Maxlength: Story = {
     label: "Max Length",
     description: "You cannot type more than 10 characters in the below field",
     value: "",
-    maxlength: "10",
+    maxlength: 10,
   },
   render: (args) => html`
     <nys-textarea
@@ -416,7 +416,7 @@ export const Maxlength: Story = {
         code: `
 <nys-textarea
   label="Max Length"
-  description="You cannot type more than 10 characters in the below field" 
+  description="You cannot type more than 10 characters in the below field"
   maxlength="10">
 </nys-textarea>
         `,
@@ -489,7 +489,7 @@ export const ErrorMessage: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea 
+<nys-textarea
   label="label"
   showError
   errorMessage="A clear and concise error message.">
