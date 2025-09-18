@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-tooltip",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "The Tooltip component from the NYS Design System.",
   "module": "dist/nys-tooltip.js",
   "types": "dist/index.d.ts",
