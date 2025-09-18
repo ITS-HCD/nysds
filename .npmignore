@@ -2,6 +2,9 @@
 !dist/
 !src/
 
+# Don't publish nys-stepper demo files
+dist/nys-stepper/
+
 # Don't publish development and environment files
 .github/
 .vscode/
