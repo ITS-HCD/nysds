@@ -204,7 +204,7 @@ export class NysSelect extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent("change", {
+      new CustomEvent("nys-change", {
         detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
