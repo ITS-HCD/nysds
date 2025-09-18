@@ -14,6 +14,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: String }) _tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private selectedValue: string | null = null;
@@ -355,6 +356,7 @@ export class NysRadiogroup extends LitElement {
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
+        _tooltip=${this._tooltip}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>

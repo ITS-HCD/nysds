@@ -95,7 +95,8 @@ export class NysAccordionItem extends LitElement {
   render() {
     const contentId = `${this.id}-content`;
 
-    return html`<div id=${this.id} class="nys-accordionitem">
+    return html`
+    <div id=${this.id} class="nys-accordionitem">
       <button
         class="nys-accordionitem__heading"
         type="button"
@@ -106,6 +107,7 @@ export class NysAccordionItem extends LitElement {
       >
         <p class="nys-accordionitem__heading-title">${this.heading}</p>
         <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
+      </button>
       </div>
       <div id=${contentId} class="nys-accordionitem__content ${this.expanded ? "expanded" : "collapsed"}" role="region">
         <div class="nys-accordionitem__content-slot-container">
