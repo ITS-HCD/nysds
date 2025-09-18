@@ -28,10 +28,6 @@ export default css`
     );
     --_nys-radiobutton-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-radiobutton-font-weight--label: var(--nys-font-weight-regular, 400);
-    --_nys-radiobutton-font-weight--description: var(
-      --nys-font-weight-regular,
-      400
-    );
     --_nys-radiobutton-line-height: var(--nys-font-lineheight-ui-md, 24px);
 
     /* Global Radio Button Colors */
@@ -255,6 +251,7 @@ export default css`
       --_nys-radiobutton-background-color--checked--disabled
     );
   }
+
   :host([tile])
     .nys-radiobutton:has(input:disabled:checked)
     + .nys-radiobutton
@@ -327,40 +324,20 @@ export default css`
     outline: solid var(--_nys-radiobutton-outline-width)
       var(--_nys-radiobutton-outline-color);
   }
-  /* Radiobutton Label Holder */
-  .nys-radiobutton__text {
-    line-height: var(--_nys-radiobutton-line-height);
+
+  .nys-radiobutton > nys-label {
+    --_nys-label-font-weight: var(--_nys-radiobutton-font-weight--label);
     display: flex;
-    flex-direction: column;
+    padding-inline-start: var(--_nys-radiobutton-gap);
   }
 
-  /* Label styling */
-  .nys-radiobutton__label {
-    font-weight: var(--_nys-radiobutton-font-weight--label);
-    color: var(--_nys-radiobutton-color);
+  :host([tile]) .nys-radiobutton > nys-label {
+    --_nys-description-font-style: normal;
   }
 
-  /* Description styling */
-  .nys-radiobutton__description {
-    font-weight: var(--_nys-radiobutton-font-weight--description);
-    font-style: italic;
-    text-align: left;
-  }
-  :host([tile]) .nys-radiobutton__description {
-    font-style: normal;
-  }
-
-  /* gap between radio and it's label */
-  .nys-radiobutton__label,
-  .nys-radiobutton__description {
-    margin-inline-start: var(--_nys-radiobutton-gap);
-  }
-
-  /* Disabled label */
-  input:disabled + span + .nys-radiobutton__text .nys-radiobutton__label,
-  input:disabled + span + .nys-radiobutton__text .nys-radiobutton__description {
-    color: var(--_nys-radiobutton-color--disabled);
+  input:disabled + .nys-radiobutton {
     cursor: not-allowed;
+    --_nys-label-cursor: not-allowed;
   }
 
   /* Screen readers ONLY */
