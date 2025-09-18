@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-radiobutton",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "The Radiobutton component from the NYS Design System.",
   "module": "dist/nys-radiobutton.js",
   "types": "dist/index.d.ts",
@@ -26,8 +26,8 @@
     "lit": "^3.2.1"
   },
   "dependencies": {
-    "@nysds/nys-label": "^1.9.0",
-    "@nysds/nys-errormessage": "^1.9.0"
+    "@nysds/nys-label": "^1.9.1",
+    "@nysds/nys-errormessage": "^1.9.1"
   },
   "devDependencies": {
     "lit": "^3.2.1",
