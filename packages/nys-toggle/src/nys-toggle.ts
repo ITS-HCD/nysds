@@ -10,11 +10,12 @@ export class NysToggle extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: String }) label = "";
+  @property({ type: String }) description = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean }) noIcon = false;
-  @property({ type: String }) label = "";
-  @property({ type: String }) description = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
@@ -34,7 +35,6 @@ export class NysToggle extends LitElement {
       ? (value as (typeof NysToggle.VALID_SIZES)[number])
       : "md";
   }
-  @property({ type: String }) form = "";
 
   static styles = styles;
   private _internals: ElementInternals;
@@ -114,7 +114,7 @@ export class NysToggle extends LitElement {
               type="checkbox"
               name="${ifDefined(this.name ? this.name : undefined)}"
               .value=${this.value}
-              form=${this.form}
+              form=${ifDefined(this.form || undefined)}
               .checked=${this.checked}
               ?disabled=${this.disabled}
               role="switch"

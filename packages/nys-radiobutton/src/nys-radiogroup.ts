@@ -14,6 +14,8 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: String }) _tooltip = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";
@@ -92,6 +94,9 @@ export class NysRadiogroup extends LitElement {
     if (changedProperties.has("showError")) {
       this._updateRadioButtonsShowError();
     }
+    if (changedProperties.has("form")) {
+      this._updateRadioButtonsForm();
+    }
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -121,21 +126,19 @@ export class NysRadiogroup extends LitElement {
   private async _manageRequire() {
     const message = this.errorMessage || "Please select an option.";
 
-    const firstRadio = this.querySelector("nys-radiobutton");
-    const firstRadioInput = firstRadio
-      ? await (firstRadio as any).getInputElement()
-      : null;
+    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
+    const firstRadio = radioButtons[0] as HTMLElement;
 
-    if (firstRadioInput) {
+    if (firstRadio) {
       if (this.required && !this.selectedValue) {
         this._internals.setValidity(
           { valueMissing: true },
           message,
-          firstRadioInput,
+          firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
-        this._internals.setValidity({}, "", firstRadioInput);
+        this._internals.setValidity({}, "", firstRadio);
       }
     }
   }
@@ -267,6 +270,21 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
+  private _updateRadioButtonsForm() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.showError) {
+        if (this.form !== null) {
+          radioButton.setAttribute("form", this.form);
+        } else {
+          radioButton.removeAttribute("form");
+        }
+      } else {
+        radioButton.removeAttribute("form");
+      }
+    });
+  }
+
   // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
   private _getSlotDescriptionForAria() {
     const slot = this.shadowRoot?.querySelector(
@@ -338,6 +356,7 @@ export class NysRadiogroup extends LitElement {
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
+        _tooltip=${this._tooltip}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>

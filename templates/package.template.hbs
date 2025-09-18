@@ -19,7 +19,8 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
-    "test:watch": "vite build && wtr --watch"
+    "test:watch": "vite build && wtr --watch",
+    "lit-analyze": "lit-analyzer '*.ts'",
   },
   "peerDependencies": {
     "lit": "^3.2.1"
@@ -29,7 +30,7 @@
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.3.4"
+    "vite": "^6.3.6"
   },
   "keywords": [
     "new-york-state",

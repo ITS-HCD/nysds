@@ -15,6 +15,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
 
@@ -126,7 +127,7 @@ export class NysRadiobutton extends LitElement {
     // when the user selects a choice, since form focus is no longer needed
     this.classList.remove("active-focus");
 
-    if (!this.checked) {
+    if (!this.checked && !this.disabled) {
       if (NysRadiobutton.buttonGroup[this.name]) {
         NysRadiobutton.buttonGroup[this.name].checked = false;
         NysRadiobutton.buttonGroup[this.name].requestUpdate();
@@ -175,18 +176,17 @@ export class NysRadiobutton extends LitElement {
         ?disabled=${this.disabled}
         .value=${this.value}
         ?required="${this.required}"
+        form=${ifDefined(this.form || undefined)}
         @change="${this._handleChange}"
         hidden
         aria-hidden="true"
       />
-
       <label
         class="nys-radiobutton"
         for="${this.id}"
         @click="${this._callInputHandling}"
       >
         <span class="nys-radiobutton__radio"></span>
-
         ${this.label &&
         html` <div class="nys-radiobutton__text">
           <div class="nys-radiobutton__label">${this.label}</div>

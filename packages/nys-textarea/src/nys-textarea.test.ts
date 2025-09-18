@@ -20,7 +20,7 @@ describe("nys-textarea", () => {
     expect(el.readonly).to.equal(false);
     expect(el.required).to.equal(false);
     expect(el.optional).to.equal(false);
-    expect(el.form).to.equal("");
+    expect(el.form).to.equal(null);
     expect(el.maxlength).to.equal(null);
     expect(el.width).to.equal("full");
     expect(el.rows).to.equal(4);

@@ -29,6 +29,12 @@ export class NysAccordionItem extends LitElement {
   firstUpdated() {
     const slot = this.shadowRoot?.querySelector("slot");
 
+    /**
+     * When the accordion starts expanded but the slot is empty,
+     * _updateHeight runs too early and calculates height as 0.
+     * Listening for slotchange ensures we recalc after the slot’s
+     * content is rendered so the final height is correct.
+     */
     if (this.expanded && slot) {
       slot.addEventListener("slotchange", () => {
         this._updateHeight();
@@ -89,7 +95,8 @@ export class NysAccordionItem extends LitElement {
   render() {
     const contentId = `${this.id}-content`;
 
-    return html`<div id=${this.id} class="nys-accordionitem">
+    return html`
+    <div id=${this.id} class="nys-accordionitem">
       <button
         class="nys-accordionitem__heading"
         type="button"
@@ -100,6 +107,7 @@ export class NysAccordionItem extends LitElement {
       >
         <p class="nys-accordionitem__heading-title">${this.heading}</p>
         <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
+      </button>
       </div>
       <div id=${contentId} class="nys-accordionitem__content ${this.expanded ? "expanded" : "collapsed"}" role="region">
         <div class="nys-accordionitem__content-slot-container">

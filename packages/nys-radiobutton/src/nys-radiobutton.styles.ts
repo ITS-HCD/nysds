@@ -5,9 +5,9 @@ export default css`
     /* Global Radiobutton Styles */
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
     --_nys-radiobutton-border-radius: var(--nys-radius-md, 4px);
-    --_nys-radiobutton-width-border: var(--nys-border-width-md, 2px);
-    --_nys-radiobutton-color-focus: var(--nys-color-focus, #004dd1);
-    --_nys-radiobutton-width-focus: var(--nys-border-width-md, 2px);
+    --_nys-radiobutton-border-width: var(--nys-border-width-md, 2px);
+    --_nys-radiobutton-outline-color: var(--nys-color-focus, #004dd1);
+    --_nys-radiobutton-outline-width: var(--nys-border-width-md, 2px);
     --_nys-radiobutton-outline-offset: var(--nys-space-2px, 2px);
     /* space between radio and it's label */
     --_nys-radiobutton-gap: var(--nys-space-150, 12px);
@@ -27,8 +27,8 @@ export default css`
       )
     );
     --_nys-radiobutton-font-size: var(--nys-font-size-ui-md, 16px);
-    --_nys-radiobutton-font-weight-label: var(--nys-font-weight-regular, 400);
-    --_nys-radiobutton-font-weight-description: var(
+    --_nys-radiobutton-font-weight--label: var(--nys-font-weight-regular, 400);
+    --_nys-radiobutton-font-weight--description: var(
       --nys-font-weight-regular,
       400
     );
@@ -36,25 +36,30 @@ export default css`
 
     /* Global Radio Button Colors */
     --_nys-radiobutton-color: var(
-      --nys-color-ink,
-      var(--nys-color-neutral-900, #1b1b1b)
-    );
-    --_nys-radiobutton-color-text: var(
       --nys-color-text,
       var(--nys-color-neutral-900, #1b1b1b)
     );
 
     /* Default (Empty) */
-    --_nys-radiobutton-color-bg: var(--nys-color-ink-reverse, #ffffff);
-    --_nys-radiobutton-color-border: var(--nys-color-neutral-600, #62666a);
+    --_nys-radiobutton-background-color: var(--nys-color-ink-reverse, #ffffff);
+    --_nys-radiobutton-border-color: var(--nys-color-neutral-600, #62666a);
     /* Empty + Hovered */
-    --_nys-radiobutton-hover-color-bg: var(--nys-color-neutral-50, #ededed);
-    --_nys-radiobutton-hover-color-border: var(--nys-color-ink, #1b1b1b);
+    --_nys-radiobutton-background-color--hover: var(
+      --nys-color-neutral-50,
+      #ededed
+    );
+    --_nys-radiobutton-border-color--hover: var(--nys-color-ink, #1b1b1b);
     /* Empty + Pressed */
-    --_nys-radiobutton-pressed-color-bg: var(--nys-color-neutral-100, #d0d0ce);
-    --_nys-radiobutton-pressed-color-border: var(--nys-color-ink, #1b1b1b);
+    --_nys-radiobutton-background-color--active: var(
+      --nys-color-neutral-100,
+      #d0d0ce
+    );
+    --_nys-radiobutton-border-color--active: var(--nys-color-ink, #1b1b1b);
     /* Checked */
-    --_nys-radiobutton-checked-color-bg: var(--nys-color-theme, #154973);
+    --_nys-radiobutton-background-color--checked: var(
+      --nys-color-theme,
+      #154973
+    );
     /* Disabled */
     --_nys-radiobutton-background-color--disabled: var(
       --nys-color-ink-reverse,
@@ -93,7 +98,7 @@ export default css`
 
   /* Tile Variant */
   :host([tile]) {
-    --_nys-radiobutton-font-weight-label: var(--nys-font-weight-semibold, 600);
+    --_nys-radiobutton-font-weight--label: var(--nys-font-weight-semibold, 600);
     --_nys-radiobutton-border-width--tile: var(--nys-border-width-sm, 1px);
     --_nys-radiobutton-border-radius--tile: var(--nys-radius-md, 4px);
     --_nys-radiobutton-border-color--tile: var(
@@ -204,9 +209,9 @@ export default css`
     min-height: var(--_nys-radiobutton-size);
     max-width: var(--_nys-radiobutton-size);
     max-height: var(--_nys-radiobutton-size);
-    border: solid var(--_nys-radiobutton-width-border)
-      var(--_nys-radiobutton-color-border);
-    background-color: var(--_nys-radiobutton-color-bg);
+    border: solid var(--_nys-radiobutton-border-width)
+      var(--_nys-radiobutton-border-color);
+    background-color: var(--_nys-radiobutton-background-color);
     border-radius: 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -226,7 +231,7 @@ export default css`
   /* Checked */
   input:not(:disabled):checked + .nys-radiobutton .nys-radiobutton__radio {
     background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" stroke="white" stroke-width="6"/></svg>');
-    background-color: var(--_nys-radiobutton-checked-color-bg);
+    background-color: var(--_nys-radiobutton-background-color--checked);
   }
   :host([tile])
     .nys-radiobutton:has(input:not(:disabled):checked)
@@ -259,6 +264,11 @@ export default css`
   }
 
   /* Disabled */
+  input:disabled + .nys-radiobutton,
+  input:disabled + .nys-radiobutton * {
+    cursor: not-allowed;
+  }
+
   input:disabled + .nys-radiobutton .nys-radiobutton__radio {
     background-color: var(--_nys-radiobutton-background-color--disabled);
     border-color: var(--_nys-radiobutton-border-color--disabled);
@@ -277,8 +287,8 @@ export default css`
   input:hover:not(:disabled):not(:checked)
     + .nys-radiobutton
     .nys-radiobutton__radio {
-    border-color: var(--_nys-radiobutton-hover-color-border);
-    background-color: var(--_nys-radiobutton-hover-color-bg);
+    border-color: var(--_nys-radiobutton-border-color--hover);
+    background-color: var(--_nys-radiobutton-background-color--hover);
   }
   :host([tile])
     .nys-radiobutton:has(
@@ -296,8 +306,8 @@ export default css`
   input:active:not(:disabled):not(:checked)
     + .nys-radiobutton
     .nys-radiobutton__radio {
-    border-color: var(--_nys-radiobutton-pressed-color-border);
-    background-color: var(--_nys-radiobutton-pressed-color-bg);
+    border-color: var(--_nys-radiobutton-border-color--active);
+    background-color: var(--_nys-radiobutton-background-color--active);
   }
   :host([tile])
     .nys-radiobutton:has(
@@ -314,8 +324,8 @@ export default css`
   /* Focused */
   :host:focus-visible,
   :host(.active-focus) {
-    outline: solid var(--_nys-radiobutton-width-focus)
-      var(--_nys-radiobutton-color-focus);
+    outline: solid var(--_nys-radiobutton-outline-width)
+      var(--_nys-radiobutton-outline-color);
   }
   /* Radiobutton Label Holder */
   .nys-radiobutton__text {
@@ -326,13 +336,13 @@ export default css`
 
   /* Label styling */
   .nys-radiobutton__label {
-    font-weight: var(--_nys-radiobutton-font-weight-label);
-    color: var(--_nys-radiobutton-color-text);
+    font-weight: var(--_nys-radiobutton-font-weight--label);
+    color: var(--_nys-radiobutton-color);
   }
 
   /* Description styling */
   .nys-radiobutton__description {
-    font-weight: var(--_nys-radiobutton-font-weight-description);
+    font-weight: var(--_nys-radiobutton-font-weight--description);
     font-style: italic;
     text-align: left;
   }

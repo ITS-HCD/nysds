@@ -92,6 +92,9 @@ export class NysTooltip extends LitElement {
     if (changedProps.has("text")) {
       this._passAria(firstEl);
     }
+    if (changedProps.has("focusable")) {
+      this._applyFocusBehavior(firstEl);
+    }
   }
 
   /******************** Event Handlers ********************/

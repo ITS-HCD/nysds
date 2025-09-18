@@ -3,7 +3,6 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-checkbox";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {
@@ -12,7 +11,7 @@ interface NysCheckboxArgs {
   checked: boolean;
   label: string;
   description: string;
-  size: string;
+  size: "sm" | "md";
   tile: boolean;
   disabled: boolean;
   value: string;
@@ -20,6 +19,7 @@ interface NysCheckboxArgs {
   optional: boolean;
   showError: boolean;
   errorMessage: string;
+  form: string | null;
 }
 
 const meta: Meta<NysCheckboxArgs> = {
@@ -39,6 +39,7 @@ const meta: Meta<NysCheckboxArgs> = {
     value: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
+    form: { control: "text" },
   },
   parameters: {
     docs: {
@@ -76,6 +77,7 @@ export const Basic: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -165,6 +167,7 @@ export const Grouping: Story = {
         .tile=${args.tile}
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
+        .form=${args.form}
         .required=${args.required}
         .optional=${args.optional}
       >
@@ -290,6 +293,7 @@ export const Disabled: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     ></nys-checkbox>
     <nys-checkbox
       checked
@@ -302,6 +306,7 @@ export const Disabled: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     ></nys-checkbox>
   `,
   parameters: {
@@ -346,6 +351,7 @@ export const Size: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -434,6 +440,7 @@ export const Tile: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -532,6 +539,7 @@ export const Required: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     ></nys-checkbox>
   `,
   parameters: {
@@ -579,6 +587,7 @@ export const ErrorMessage: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
       .tile=${args.tile}
     ></nys-checkbox>
   `,
@@ -627,6 +636,7 @@ export const Slot: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     >
       <p slot="description">
         ${args.description}<a href="https://www.ny.gov/" target="__blank"
@@ -676,6 +686,7 @@ export const Optional: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
       .required=${args.required}
       .optional=${args.optional}
     >

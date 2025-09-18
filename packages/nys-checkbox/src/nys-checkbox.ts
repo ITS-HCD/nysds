@@ -15,6 +15,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) groupExist = false;
@@ -241,6 +242,7 @@ export class NysCheckbox extends LitElement {
             ?disabled=${this.disabled}
             .value=${this.value}
             ?required="${this.required}"
+            form=${ifDefined(this.form || undefined)}
             aria-checked="${this.checked}"
             aria-disabled="${this.disabled ? "true" : "false"}"
             aria-required="${this.required}"

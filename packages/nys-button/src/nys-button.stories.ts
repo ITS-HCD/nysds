@@ -7,9 +7,9 @@ import "@nysds/nys-icon";
 interface NysButtonArgs {
   id: string;
   name: string;
-  size: string;
+  size: "sm" | "md" | "lg";
   fullWidth: boolean;
-  variant: string;
+  variant: "text" | "filled" | "outline" | "ghost";
   inverted: boolean;
   label: string;
   prefixIcon: string;
@@ -17,11 +17,11 @@ interface NysButtonArgs {
   circle: boolean;
   icon: string;
   disabled: boolean;
-  form: string;
+  form: string | null;
   value: string;
-  type: string;
+  type: "submit" | "reset" | "button";
   href: string;
-  target: string;
+  target: "_self" | "_blank" | "_parent" | "_top" | "framename";
   ariaLabel: string;
   ariaDescription: string;
   onClick: () => void;
@@ -188,7 +188,7 @@ export const Size: Story = {
         .id=${args.id}
         .name=${args.name}
         size="sm"
-        fullWidth="true"
+        .fullWidth=${true}
         .variant=${args.variant}
         .inverted=${args.inverted}
         label="Small Full"
@@ -207,7 +207,7 @@ export const Size: Story = {
         .id=${args.id}
         .name=${args.name}
         size="md"
-        fullWidth="true"
+        .fullWidth=${true}
         .variant=${args.variant}
         .inverted=${args.inverted}
         label="Medium Full"
@@ -226,7 +226,7 @@ export const Size: Story = {
         .id=${args.id}
         .name=${args.name}
         size="lg"
-        fullWidth="true"
+        .fullWidth=${true}
         .variant=${args.variant}
         .inverted=${args.inverted}
         label="Large Full"

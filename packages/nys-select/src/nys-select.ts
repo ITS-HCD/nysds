@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-select.styles";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { NysOption } from "./nys-option";
 
 let selectIdCounter = 0; // Counter for generating unique IDs
@@ -14,7 +15,8 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) form = "";
+  @property({ type: String }) _tooltip = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
@@ -245,6 +247,7 @@ export class NysSelect extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          _tooltip=${this._tooltip}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
@@ -253,6 +256,7 @@ export class NysSelect extends LitElement {
             class="nys-select__select"
             name=${this.name}
             id=${this.id}
+            form=${ifDefined(this.form || undefined)}
             ?disabled=${this.disabled}
             ?required=${this.required}
             aria-disabled="${this.disabled}"
@@ -264,7 +268,7 @@ export class NysSelect extends LitElement {
             @blur="${this._handleBlur}"
             @change="${this._handleChange}"
           >
-            <option hidden disabled selected value></option>
+            <option hidden disabled selected value=""></option>
           </select>
           <slot
             @slotchange="${this._handleSlotChange}"
