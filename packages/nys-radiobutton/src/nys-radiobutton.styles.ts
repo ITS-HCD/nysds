@@ -264,6 +264,11 @@ export default css`
   }
 
   /* Disabled */
+  input:disabled + .nys-radiobutton,
+  input:disabled + .nys-radiobutton * {
+    cursor: not-allowed;
+  }
+
   input:disabled + .nys-radiobutton .nys-radiobutton__radio {
     background-color: var(--_nys-radiobutton-background-color--disabled);
     border-color: var(--_nys-radiobutton-border-color--disabled);

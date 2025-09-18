@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-avatar",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "The Avatar component from the NYS Design System.",
   "module": "dist/nys-avatar.js",
   "exports": {
@@ -25,12 +25,12 @@
     "lit": "^3.2.1"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.8.0"
+    "@nysds/nys-icon": "^1.9.0"
   },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.3.4"
+    "vite": "^6.3.6"
   },
   "keywords": [
     "new-york-state",

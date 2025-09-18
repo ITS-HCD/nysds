@@ -1,9 +1,6 @@
 import { css } from "lit";
 
 export default css`
-  :host {
-  }
-
   .nys-backtotop {
     /* These props ARE NOT publicly overridable */
     --_nys-button-border-radius--left: var(--nys-radius-round, 1776px);
