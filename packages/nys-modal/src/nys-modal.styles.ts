@@ -29,9 +29,14 @@ export default css`
   }
 
   /*** CSS & Slot resets ***/
+  * {
+    box-sizing: border-box;
+  }
+
   ::slotted(p) {
     margin: 0;
   }
+
   h2,
   p {
     flex: 1;
