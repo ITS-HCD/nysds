@@ -89,7 +89,9 @@ export class NysModal extends LitElement {
       </div>
 
       <div class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}">
-        <slot @slotchange=${this._handleBodySlotChange}></slot>
+        <div class="nys-modal_body-inner">
+          <slot @slotchange=${this._handleBodySlotChange}></slot>
+        </div>
       </div>
 
       <div class="nys-modal_footer ${!this.hasActionSlots ? "hidden" : ""}">

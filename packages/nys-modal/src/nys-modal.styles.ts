@@ -82,6 +82,9 @@ export default css`
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+
+  .nys-modal_body-inner {
     overflow: auto;
   }
 
@@ -92,10 +95,12 @@ export default css`
   /*** Modal Footer (i.e. where the button slot is) ***/
   .nys-modal_footer ::slotted(*) {
     display: flex;
-    padding: var(--nys-space-300, 24px);
-    justify-content: center;
+    padding: var(--nys-space-200, 16px) var(--nys-space-300, 24px)
+      var(--nys-space-300, 24px) var(--nys-space-300, 24px);
+    justify-content: flex-end;
     align-items: center;
     gap: var(--nys-space-250, 20px);
+    align-self: stretch;
   }
 
   .nys-modal_footer.hidden ::slotted(*) {
