@@ -185,13 +185,14 @@ export class NysRadiobutton extends LitElement {
         class="nys-radiobutton"
         for="${this.id}"
         @click="${this._callInputHandling}"
+        aria-label=${this.label}
       >
         <span class="nys-radiobutton__radio"></span>
         ${this.label &&
         html`<nys-label
           for=${this.id}
           label=${this.label}
-          description=${this.description}
+          description=${ifDefined(this.description || undefined)}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label> `}

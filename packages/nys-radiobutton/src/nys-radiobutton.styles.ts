@@ -335,9 +335,13 @@ export default css`
     --_nys-description-font-style: normal;
   }
 
-  input:disabled + .nys-radiobutton {
+  input:disabled + .nys-radiobutton > nys-label,
+  input:disabled + .nys-radiobutton > nys-label * {
     cursor: not-allowed;
     --_nys-label-cursor: not-allowed;
+    --_nys-label-color: var(--_nys-radiobutton-color--disabled);
+    --_nys-description-color: var(--_nys-radiobutton-color--disabled);
+    color: var(--_nys-radiobutton-color--disabled);
   }
 
   /* Screen readers ONLY */
