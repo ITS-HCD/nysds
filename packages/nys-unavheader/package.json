@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-unavheader",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "The Unavheader component from the NYS Design System.",
   "module": "dist/nys-unavheader.js",
   "types": "dist/index.d.ts",
@@ -26,9 +26,9 @@
     "lit": "^3.2.1"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.9.0",
-    "@nysds/nys-button": "^1.9.0",
-    "@nysds/nys-textinput": "^1.9.0"
+    "@nysds/nys-icon": "^1.9.1",
+    "@nysds/nys-button": "^1.9.1",
+    "@nysds/nys-textinput": "^1.9.1"
   },
   "devDependencies": {
     "lit": "^3.2.1",
