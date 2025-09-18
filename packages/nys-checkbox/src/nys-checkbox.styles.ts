@@ -279,11 +279,11 @@ export default css`
     border-color: var(--_nys-checkbox-border-color--disabled);
     cursor: not-allowed;
   }
-  .nys-checkbox__content:has(.nys-checkbox__checkbox:disabled)
-    .nys-checkbox__text
-    * {
+  .nys-checkbox:has(.nys-checkbox__checkbox:disabled) * {
     color: var(--_nys-checkbox-color--disabled);
     cursor: not-allowed;
+    --_nys-label-cursor: not-allowed;
+    --_nys-label-color: var(--_nys-checkbox-color--disabled);
   }
   :host([tile]) .nys-checkbox:has(.nys-checkbox__checkbox:disabled) {
     background-color: var(--_nys-checkbox-background-color--disabled);
@@ -349,25 +349,12 @@ export default css`
     border-color: var(--_nys-checkbox-outline-color) !important;
   }
 
-  /* Checkbox Label Holder */
-  .nys-checkbox__text {
-    display: flex;
-    flex-direction: column;
-    margin: auto 0; /* Center text if single line label */
-    align-items: flex-start;
+  :host(:not([tile])) .nys-checkbox > nys-label {
+    --_nys-label-font-weight: var(--_nys-checkbox-font-weight);
   }
 
-  /* Label styling */
-  .nys-checkbox__label {
-    font-weight: var(--_nys-checkbox-font-weight);
-    color: var(--nys-color-text, #1b1b1b);
-  }
-
-  /* Description styling */
-  .nys-checkbox__description {
-    font-weight: var(--_nys-checkbox-font-weight);
-    font-style: italic;
-    text-align: left;
+  :host([tile]) .nys-checkbox > nys-label {
+    --_nys-description-font-style: normal;
   }
 
   /* Required */

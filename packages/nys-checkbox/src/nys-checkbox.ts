@@ -266,17 +266,18 @@ export class NysCheckbox extends LitElement {
             : ""}
         </div>
         ${this.label &&
-        html` <div class="nys-checkbox__text">
-          <div class="nys-checkbox__requiredwrapper">
-            <div class="nys-checkbox__label">${this.label}</div>
-            ${this.required
-              ? html`<div class="nys-checkbox__required">*</div>`
-              : ""}
-          </div>
-          <div class="nys-checkbox__description">
-            <slot name="description">${this.description}</slot>
-          </div>
-        </div>`}
+        html`
+          <nys-label
+            for=${this.id}
+            label=${this.label}
+            description=${ifDefined(this.description ?? undefined)}
+            flag=${ifDefined(this.required ? "required" : undefined)}
+          >
+            <slot name="description" slot="description"
+              >${this.description}</slot
+            >
+          </nys-label>
+        `}
       </label>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage
