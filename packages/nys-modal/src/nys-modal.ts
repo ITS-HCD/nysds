@@ -51,7 +51,6 @@ export class NysModal extends LitElement {
   /******************** Functions ********************/
   private async _handleBodySlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
-    console.log("SLOT", slot);
     if (!slot) return;
     this.hasBodySlots = slot
       .assignedNodes({ flatten: true })
@@ -65,7 +64,6 @@ export class NysModal extends LitElement {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>(
       'slot[name="actions"]',
     );
-    console.log("SLOT2", slot);
     if (!slot) return;
     this.hasActionSlots = slot
       .assignedNodes({ flatten: true })
@@ -75,29 +73,55 @@ export class NysModal extends LitElement {
       );
   }
 
+  private closeModal() {
+    this.open = false;
+
+    this.dispatchEvent(
+      new CustomEvent("nys-close", {
+        detail: { id: this.id },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   /****************** Event Handlers ******************/
   // Placeholder for event handlers if needed
 
   render() {
-    return html`<div class="nys-modal">
-      <div class="nys-modal_header">
-        <div class="nys-modal_header-inner">
-          <h2>${this.heading}</h2>
-          <nys-button circle icon="close" variant="ghost"></nys-button>
-        </div>
-        <p>${this.subheading}</p>
-      </div>
+    return this.open
+      ? html`<div class="nys-modal-overlay">
+          <div class="nys-modal">
+            <div class="nys-modal_header">
+              <div class="nys-modal_header-inner">
+                <h2>${this.heading}</h2>
+                <nys-button
+                  circle
+                  icon="close"
+                  variant="ghost"
+                  .onClick=${() => this.closeModal()}
+                ></nys-button>
+              </div>
+              ${this.subheading ? html`<p>${this.subheading}</p>` : ""}
+            </div>
 
-      <div class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}">
-        <div class="nys-modal_body-inner">
-          <slot @slotchange=${this._handleBodySlotChange}></slot>
-        </div>
-      </div>
+            <div class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}">
+              <div class="nys-modal_body-inner">
+                <slot @slotchange=${this._handleBodySlotChange}></slot>
+              </div>
+            </div>
 
-      <div class="nys-modal_footer ${!this.hasActionSlots ? "hidden" : ""}">
-        <slot name="actions" @slotchange=${this._handleActionSlotChange}></slot>
-      </div>
-    </div>`;
+            <div
+              class="nys-modal_footer ${!this.hasActionSlots ? "hidden" : ""}"
+            >
+              <slot
+                name="actions"
+                @slotchange=${this._handleActionSlotChange}
+              ></slot>
+            </div>
+          </div>
+        </div>`
+      : "";
   }
 }
 

@@ -43,6 +43,20 @@ export default css`
     margin: 0;
   }
 
+  /*** Modal Overlay (black transparent background) ***/
+  .nys-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    background: var(--nys-color-black-transparent-700, rgba(27, 27, 27, 0.7));
+  }
+
   /*** Base ***/
   .nys-modal {
     display: flex;
@@ -57,6 +71,8 @@ export default css`
     font-weight: var(--_nys-modal-font-weight);
     line-height: var(--_nys-modal-line-height);
     background: var(--nys-color-surface, #fff);
+    position: relative;
+    z-index: 10000;
   }
 
   /*** Modal Header ***/

@@ -40,37 +40,68 @@ export const Basic: Story = {
     id: "modal1",
     heading: "Lorem ipsum dolor sit amet",
     subheading: "subtext",
-    open: true,
+    open: false,
     dismissible: true,
   },
-  render: (args) => html`
-    <nys-modal
-      .id=${args.id}
-      .heading=${args.heading}
-      .subheading=${args.subheading}
-      .open=${args.open}
-      .dismissible=${args.dismissible}
-    >
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu  fugiat nulla pariatur. Excepteur sint occae
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-        id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incidid
-      </p>
-      <div slot="actions">
+  render: (args) => {
+    const showModal = () => {
+      const modal = document.querySelector(".modal1") as any;
+      if (modal) {
+        modal.open = true;
+      }
+    };
+
+    const closeModal = () => {
+      const modal = document.querySelector(".modal1") as any;
+      if (modal) {
+        modal.open = false;
+      }
+    };
+
+    const saveChanges = () => {
+      alert("Mock Alert: Changes saved!");
+      closeModal();
+    };
+
+    return html`
+      <div style="padding: 100px 0;">
         <nys-button
-          label="Cancel"
-          variant="outline"
-          onClick="closeModal()"
+          label="Open Modal"
+          .onClick=${() => showModal()}
         ></nys-button>
-        <nys-button label="Confirm" onClick="saveChanges()"></nys-button>
+        <nys-modal
+          class="modal1"
+          .id=${args.id}
+          .heading=${args.heading}
+          .subheading=${args.subheading}
+          .open=${args.open}
+          .dismissible=${args.dismissible}
+        >
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu  fugiat nulla
+            pariatur. Excepteur sint occae cupidatat non proident, sunt in culpa
+            qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor
+            sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid
+          </p>
+          <div slot="actions">
+            <nys-button
+              label="Cancel"
+              variant="outline"
+              .onClick=${() => closeModal()}
+            ></nys-button>
+            <nys-button
+              label="Confirm"
+              .onClick=${() => saveChanges()}
+            ></nys-button>
+          </div>
+        </nys-modal>
       </div>
-    </nys-modal>
-  `,
+    `;
+  },
   parameters: {
     docs: {
       source: {
