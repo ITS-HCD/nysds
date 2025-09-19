@@ -14,6 +14,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: String }) _tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private selectedValue: string | null = null;
@@ -125,21 +126,19 @@ export class NysRadiogroup extends LitElement {
   private async _manageRequire() {
     const message = this.errorMessage || "Please select an option.";
 
-    const firstRadio = this.querySelector("nys-radiobutton");
-    const firstRadioInput = firstRadio
-      ? await (firstRadio as any).getInputElement()
-      : null;
+    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
+    const firstRadio = radioButtons[0] as HTMLElement;
 
-    if (firstRadioInput) {
+    if (firstRadio) {
       if (this.required && !this.selectedValue) {
         this._internals.setValidity(
           { valueMissing: true },
           message,
-          firstRadioInput,
+          firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
-        this._internals.setValidity({}, "", firstRadioInput);
+        this._internals.setValidity({}, "", firstRadio);
       }
     }
   }
@@ -357,6 +356,7 @@ export class NysRadiogroup extends LitElement {
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
+        _tooltip=${this._tooltip}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>

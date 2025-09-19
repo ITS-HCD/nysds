@@ -37,9 +37,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
       this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
     }
 
-    {{#if formRelated}}
     this.addEventListener("invalid", this._handleInvalid);
-    {{/if}}
   }
 
   firstUpdated() {
@@ -50,6 +48,14 @@ export class Nys{{capitalize componentName}} extends LitElement {
   /**************** Lifecycle Methods ****************/
   constructor() {
     super();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
+    }
   }
   {{/if}}
 

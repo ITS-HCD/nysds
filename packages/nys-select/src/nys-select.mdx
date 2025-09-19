@@ -27,32 +27,31 @@ The **`nys-select`** is a reusable web component for use in New York State digit
 
 <Controls />
 
-### Variants
+## Options
 The `nys-option` can have the label set as either the label property or the inner text of the component. The rendered code will show the label as a property if set as inner text.
 <Canvas of={NysSelectStories.OptionsLabelSlot} />
-#### Disabled
+### Disabled
 <Canvas of={NysSelectStories.Disabled} />
-#### Required
+### Required
 <Canvas of={NysSelectStories.Required} />
-#### Optional
+### Optional
 Adding the `optional` prop will add an optional flag to the input.
 <Canvas of={NysSelectStories.Optional} />
-#### Width
+### Width
 The following width options are available:
 - `sm` (Small): 88px, ideal for compact layouts.
 - `md` (Medium): 200px, ideal for balanced designs.
 - `lg` (Large): 384px, suitable for displaying longer content.
 - `full` (Full Width): default size. Expands to fill the available space.
 <Canvas of={NysSelectStories.Width} />
-#### Description Slot
+### Description Slot
 You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization.
 
 <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> You must use `slot="description"` on your embedded HTML for it to work properly. </div>
 <Canvas of={NysSelectStories.DescriptionSlot} />
 
-#### Error Message
+### Error Message
 In order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
-
 <Canvas of={NysSelectStories.ErrorMessage} />
 
 ## Usage

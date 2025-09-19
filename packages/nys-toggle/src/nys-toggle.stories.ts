@@ -9,11 +9,11 @@ interface NysToggleArgs {
   name: string;
   checked: boolean;
   value: string;
-  disabled?: boolean;
-  noIcon?: boolean;
+  disabled: boolean;
+  noIcon: boolean;
   label: string;
-  description?: string;
-  size?: string;
+  description: string;
+  size: "sm" | "md";
 }
 
 const meta: Meta<NysToggleArgs> = {
@@ -232,7 +232,7 @@ export const HelpTexts: Story = {
     docs: {
       source: {
         code: `
-<nys-toggle 
+<nys-toggle
   label="Toggle Switch"
   name="toggle-switch"
   value="access"
@@ -241,7 +241,7 @@ export const HelpTexts: Story = {
 </nys-toggle>
 <br/>
 <br/>
-<nys-toggle 
+<nys-toggle
   label="Toggle Switch"
   description="This description was passed in as a property"
   name="toggle-switch"

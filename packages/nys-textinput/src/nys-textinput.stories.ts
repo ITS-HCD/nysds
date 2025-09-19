@@ -10,7 +10,7 @@ import "@nysds/nys-icon";
 interface NysTextinputArgs {
   id: string;
   name: string;
-  type: string;
+  type: "number" | "text" | "email" | "password" | "search" | "tel" | "url";
   label: string;
   description: string;
   placeholder: string;
@@ -21,11 +21,11 @@ interface NysTextinputArgs {
   optional: boolean;
   form: string | null;
   pattern: string;
-  maxlength: string;
-  width: string;
-  step: string;
-  min: string;
-  max: string;
+  maxlength: number | null;
+  width: "sm" | "md" | "lg" | "full";
+  step: number | null;
+  min: number | null;
+  max: number | null;
   showError: boolean;
   errorMessage: string;
 }
@@ -49,6 +49,7 @@ const meta: Meta<NysTextinputArgs> = {
     required: { control: "boolean" },
     optional: { control: "boolean" },
     form: { control: "text" },
+
     pattern: { control: "text" },
     maxlength: { control: "text" },
     width: {
@@ -420,9 +421,9 @@ export const MaxMinAndStep: Story = {
     label: "Max/Min Example",
     description: "Must be between 0 and 100",
     type: "number",
-    min: "0",
-    max: "100",
-    step: "10",
+    min: 0,
+    max: 100,
+    step: 10,
   },
   render: (args) => html`
     <nys-textinput
@@ -473,7 +474,7 @@ export const Maxlength: Story = {
     name: "myTextInput6",
     label: "Max Length",
     description: "You cannot type more than 10 characters in the below field",
-    maxlength: "10",
+    maxlength: 10,
     value: "",
   },
   render: (args) => html`
@@ -523,7 +524,7 @@ export const Pattern: Story = {
     placeholder: "N00000000",
     label: "Please enter your Employee number",
     description: "include the N prefix",
-    maxlength: "9",
+    maxlength: 9,
     pattern: "N[0-9]{8}",
     id: "nID",
     value: "",
