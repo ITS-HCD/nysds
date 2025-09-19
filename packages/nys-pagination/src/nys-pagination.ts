@@ -33,14 +33,14 @@ export class NysPagination extends LitElement {
         <nys-button
           label=${String(i)}
           variant=${this.currentPage === i ? "filled" : "outline"}
-          @click=${() => this.handlePageClick(i)}
+          .onClick="${() => this._handlePageClick(i)}"
         ></nys-button>
       `);
     }
     return buttons;
   }
   /****************** Event Handlers ******************/
-  private handlePageClick(page: number) {
+  private _handlePageClick(page: number) {
     this.currentPage = page;
     this.dispatchEvent(
       new CustomEvent("page-change", {
@@ -53,19 +53,29 @@ export class NysPagination extends LitElement {
 
   render() {
     return html`<div class="nys-pagination">
-      <nys-button
-        id="previous"
-        label="Previous"
-        prefixIcon="chevron_left"
-        variant="outline"
-      ></nys-button>
+      ${this.currentPage > 1
+        ? html`
+            <nys-button
+              id="previous"
+              label="Previous"
+              prefixIcon="chevron_left"
+              variant="outline"
+              .onClick="${() => this._handlePageClick(this.currentPage - 1)}"
+            ></nys-button>
+          `
+        : null}
       ${this.renderPageButtons()}
-      <nys-button
-        id="next"
-        label="Next"
-        suffixIcon="chevron_right"
-        variant="outline"
-      ></nys-button>
+      ${this.currentPage < this.totalPages
+        ? html`
+            <nys-button
+              id="next"
+              label="Next"
+              suffixIcon="chevron_right"
+              variant="outline"
+              .onClick="${() => this._handlePageClick(this.currentPage + 1)}"
+            ></nys-button>
+          `
+        : null}
     </div>`;
   }
 }
