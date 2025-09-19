@@ -6,7 +6,7 @@ export default css`
 
     /* Global Pagination Styles */
     --_nys-pagination-width: fit-content;
-    --_nys-pagination-height: var(--nys-size-600, 48px);
+    --_nys-pagination-height: var(--nys-size-500, 40px);
     --_nys-pagination-radius: var(--nys-radius-xl, 12px);
     --_nys-pagination-padding: var(--nys-space-100, 8px);
     --_nys-pagination-gap: var(--nys-space-100, 8px);
@@ -41,5 +41,28 @@ export default css`
     font-size: var(--_nys-pagination-font-size);
     font-weight: var(--_nys-pagination-font-weight);
     line-height: var(--_nys-pagination-line-height);
+  }
+
+  nys-button {
+    --_nys-button-height: var(--_nys-pagination-height);
+    --nys-button-border-color: var(--nys-color-neutral-200, #bec0c1);
+    --nys-button-color: var(--nys-color-link, #004dd1);
+    --_nys-button-padding--x: var(--nys-space-200, 16px);
+  }
+
+  nys-button#previous,
+  nys-button#next {
+    --nys-button-color: var(--nys-color-text, ##1b1b1b);
+    --_nys-button-padding--x: var(--nys-space-150, 12px);
+  }
+
+  nys-button#spacer {
+    --nys-button-border-color: transparent;
+    --nys-button-border-color--hover: transparent;
+    --nys-button-border-color--active: transparent;
+    --nys-button-background-color: transparent;
+    --nys-button-background-color--hover: transparent;
+    --nys-button-background-color--active: transparent;
+    --nys-button-color: var(--nys-color-text, ##1b1b1b);
   }
 `;

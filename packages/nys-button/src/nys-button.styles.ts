@@ -575,6 +575,7 @@ export default css`
   .nys-button {
     width: var(--_nys-button-width);
     min-height: var(--_nys-button-height);
+    height: var(--_nys-button-height);
     /* set every corner individually */
     border-top-left-radius: var(--_nys-button-border-radius--left);
     border-bottom-left-radius: var(--_nys-button-border-radius--left);

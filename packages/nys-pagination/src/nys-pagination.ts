@@ -23,7 +23,6 @@ export class NysPagination extends LitElement {
     }
   }
 
-
   /******************** Functions ********************/
   // Placeholder for generic functions (component-specific)
 
@@ -31,7 +30,25 @@ export class NysPagination extends LitElement {
   // Placeholder for event handlers if needed
 
   render() {
-    return html`<div class="nys-pagination"></div>`;
+    return html`<div class="nys-pagination">
+      <nys-button
+        id="previous"
+        label="Previous"
+        prefixIcon="chevron_left"
+        variant="outline"
+      ></nys-button>
+      <nys-button label="1" variant="outline"></nys-button>
+      <nys-button label="2" variant="outline"></nys-button>
+      <nys-button label="3" variant="outline"></nys-button>
+      <nys-button id="spacer" label="..." variant="ghost"></nys-button>
+      <nys-button label="10" variant="outline"></nys-button>
+      <nys-button
+        id="next"
+        label="Next"
+        suffixIcon="chevron_right"
+        variant="outline"
+      ></nys-button>
+    </div>`;
   }
 }
 
