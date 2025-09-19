@@ -45,19 +45,43 @@ export default css`
 
   nys-button {
     --_nys-button-height: var(--_nys-pagination-height);
+    --_nys-button-border-width: var(--nys-border-width-sm, 1px);
+    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
+    --_nys-button-padding--x: var(--nys-space-200, 16px);
+  }
+
+  nys-button[variant="outline"] {
     --nys-button-background-color: var(--nys-color-ink-reverse, #fff);
     --nys-button-background-color--hover: var(--nys-color-neutral-10, #f6f6f6);
     --nys-button-background-color--active: var(--nys-color-neutral-50, #ededed);
     --nys-button-border-color: var(--nys-color-neutral-200, #bec0c1);
     --nys-button-border-color--hover: var(--nys-color-neutral-600, #62666a);
     --nys-button-border-color--active: var(--nys-color-neutral-900, #1b1b1b);
-    --_nys-button-border-width: var(--nys-border-width-sm, 1px);
-    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
-    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
     --nys-button-color: var(--nys-color-link, #004dd1);
     --nys-button-color--hover: var(--nys-color-link, #004dd1);
     --nys-button-color--active: var(--nys-color-link, #004dd1);
-    --_nys-button-padding--x: var(--nys-space-200, 16px);
+  }
+
+  nys-button[variant="filled"] {
+    --nys-button-background-color: var(--nys-color-link, #004dd1);
+    --nys-button-background-color--hover: var(
+      --nys-color-link-strong,
+      ##003ba1
+    );
+    --nys-button-background-color--active: var(
+      --nys-color-link-strongest,
+      ##002971
+    );
+    --nys-button-border-color: var(--nys-color-link, #004dd1);
+    --nys-button-border-color--hover: var(--nys-color-link-strong, ##003ba1);
+    --nys-button-border-color--active: var(
+      --nys-color-link-strongest,
+      ##002971
+    );
+    --nys-button-color: var(--nys-color-ink-reverse, #fff);
+    --nys-button-color--hover: var(--nys-color-ink-reverse, #fff);
+    --nys-button-color--active: var(--nys-color-ink-reverse, #fff);
   }
 
   nys-button#previous,

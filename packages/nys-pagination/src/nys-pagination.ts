@@ -7,6 +7,8 @@ let componentIdCounter = 0; // Counter for generating unique IDs
 export class NysPagination extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
+  @property({ type: Number }) currentPage = 4;
+  @property({ type: Number }) totalPages = 6;
 
   static styles = styles;
 
@@ -24,10 +26,30 @@ export class NysPagination extends LitElement {
   }
 
   /******************** Functions ********************/
-  // Placeholder for generic functions (component-specific)
-
+  private renderPageButtons() {
+    const buttons = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      buttons.push(html`
+        <nys-button
+          label=${String(i)}
+          variant=${this.currentPage === i ? "filled" : "outline"}
+          @click=${() => this.handlePageClick(i)}
+        ></nys-button>
+      `);
+    }
+    return buttons;
+  }
   /****************** Event Handlers ******************/
-  // Placeholder for event handlers if needed
+  private handlePageClick(page: number) {
+    this.currentPage = page;
+    this.dispatchEvent(
+      new CustomEvent("page-change", {
+        detail: { page },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
 
   render() {
     return html`<div class="nys-pagination">
@@ -37,11 +59,7 @@ export class NysPagination extends LitElement {
         prefixIcon="chevron_left"
         variant="outline"
       ></nys-button>
-      <nys-button label="1" variant="outline"></nys-button>
-      <nys-button label="2" variant="outline"></nys-button>
-      <nys-button label="3" variant="outline"></nys-button>
-      <nys-button id="spacer" label="..." variant="ghost"></nys-button>
-      <nys-button label="10" variant="outline"></nys-button>
+      ${this.renderPageButtons()}
       <nys-button
         id="next"
         label="Next"
