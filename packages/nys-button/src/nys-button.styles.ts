@@ -596,7 +596,7 @@ export default css`
     color: var(--_nys-button-color);
     border: solid var(--_nys-button-border-width)
       var(--_nys-button-border-color);
-    cursor: pointer;
+    cursor: var(--_nys-button-cursor, pointer);
   }
 
   :host([circle]) .nys-button {
@@ -641,7 +641,7 @@ export default css`
   }
 
   .nys-button * {
-    cursor: pointer;
+    cursor: var(--_nys-button-cursor, pointer);
   }
 
   .nys-button:disabled * {

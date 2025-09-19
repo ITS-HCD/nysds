@@ -64,5 +64,6 @@ export default css`
     --nys-button-background-color--hover: transparent;
     --nys-button-background-color--active: transparent;
     --nys-button-color: var(--nys-color-text, ##1b1b1b);
+    --_nys-button-cursor: default;
   }
 `;
