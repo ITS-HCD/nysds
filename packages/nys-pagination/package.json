@@ -1,12 +1,12 @@
 {
-  "name": "@nysds/nys-{{componentName}}",
-  "version": "{{versionNumber}}",
-  "description": "The {{capitalize componentName}} component from the NYS Design System.",
-  "module": "dist/nys-{{componentName}}.js",
+  "name": "@nysds/nys-pagination",
+  "version": "1.9.1",
+  "description": "The Pagination component from the NYS Design System.",
+  "module": "dist/nys-pagination.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/nys-{{componentName}}.js",
+      "import": "./dist/nys-pagination.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -38,7 +38,7 @@
     "web-components",
     "lit",
     "nys",
-    "{{componentName}}",
+    "pagination",
     "forms"
   ],
   "author": "New York State Design System Team",
