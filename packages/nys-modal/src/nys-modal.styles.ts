@@ -129,10 +129,10 @@ export default css`
   /*** Modal Footer (i.e. where the button slot is) ***/
   .nys-modal_footer ::slotted(*) {
     display: flex;
+    flex-direction: column;
     padding: var(--nys-space-200, 16px) var(--nys-space-300, 24px)
       var(--nys-space-300, 24px) var(--nys-space-300, 24px);
-    justify-content: flex-end;
-    align-items: center;
+    justify-content: center;
     gap: var(--nys-space-250, 20px);
     align-self: stretch;
   }
@@ -143,7 +143,9 @@ export default css`
 
   @media (min-width: 400px) {
     .nys-modal_footer ::slotted(*) {
+      flex-direction: row;
       justify-content: flex-end;
+      align-items: center;
     }
   }
 `;

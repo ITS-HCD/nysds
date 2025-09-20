@@ -25,6 +25,8 @@ export class NysModal extends LitElement {
       : "md";
   }
 
+  private _actionButtonSlot: HTMLSlotElement | null = null;
+
   // Track slot content state
   @state() private hasBodySlots = false;
   @state() private hasActionSlots = false;
@@ -41,6 +43,7 @@ export class NysModal extends LitElement {
     if (!this.id) {
       this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
     }
+    window.addEventListener("resize", () => this._updateSlottedButtonWidth());
   }
 
   firstUpdated() {
@@ -49,6 +52,7 @@ export class NysModal extends LitElement {
   }
 
   updated(changeProps: Map<string, any>) {
+    // Hide main body's scroll bar if modal is open/active
     if (changeProps.has("open")) {
       if (this.open) {
         document.body.style.overflow = "hidden";
@@ -59,6 +63,7 @@ export class NysModal extends LitElement {
   }
 
   /******************** Functions ********************/
+  // Determines whether we hide the body slot container based on if user put in stuff in slots
   private async _handleBodySlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) return;
@@ -70,6 +75,7 @@ export class NysModal extends LitElement {
       );
   }
 
+  // Determines whether we hide the action buttons slot container based on if user put in action buttons
   private async _handleActionSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>(
       'slot[name="actions"]',
@@ -81,9 +87,14 @@ export class NysModal extends LitElement {
         (node) =>
           node.nodeType === Node.ELEMENT_NODE || node.textContent?.trim(),
       );
+
+    // Cached the action button slot container so we can use it continuously for _updateSlottedButtonWidth() during screen resize
+    this._actionButtonSlot = slot;
+    // Update button widths immediately
+    this._updateSlottedButtonWidth();
   }
 
-  private closeModal() {
+  private _closeModal() {
     this.open = false;
 
     this.dispatchEvent(
@@ -93,6 +104,23 @@ export class NysModal extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  // Design has it that the slotted action buttons should be fullWidth and display:column direction for mobile view.
+  // Therefore, we need to account for mobile size and screen resizes
+  private _updateSlottedButtonWidth() {
+    if (!this._actionButtonSlot) return; // use the cached variable
+    const isMobile = window.innerWidth <= 400;
+
+    this._actionButtonSlot.assignedElements().forEach((el) => {
+      el.querySelectorAll("nys-button").forEach((btn) => {
+        if (isMobile) {
+          btn?.setAttribute("fullWidth", "");
+        } else {
+          btn?.removeAttribute("fullWidth");
+        }
+      });
+    });
   }
 
   /****************** Event Handlers ******************/
@@ -109,7 +137,7 @@ export class NysModal extends LitElement {
                   circle
                   icon="close"
                   variant="ghost"
-                  .onClick=${() => this.closeModal()}
+                  .onClick=${() => this._closeModal()}
                 ></nys-button>
               </div>
               ${this.subheading ? html`<p>${this.subheading}</p>` : ""}
