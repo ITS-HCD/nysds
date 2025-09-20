@@ -48,6 +48,16 @@ export class NysModal extends LitElement {
     this._handleActionSlotChange();
   }
 
+  updated(changeProps: Map<string, any>) {
+    if (changeProps.has("open")) {
+      if (this.open) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
+    }
+  }
+
   /******************** Functions ********************/
   private async _handleBodySlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
