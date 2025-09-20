@@ -108,6 +108,24 @@ export default css`
     display: none;
   }
 
+  /* Scrollbar styling */
+  .nys-modal_body-inner::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .nys-modal_body-inner::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .nys-modal_body-inner::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-default, rgba(0, 0, 0, 0.23));
+    border-radius: 100px;
+  }
+
+  .nys-modal_body-inner::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover, rgba(0, 0, 0, 0.5));
+  }
+
   /*** Modal Footer (i.e. where the button slot is) ***/
   .nys-modal_footer ::slotted(*) {
     display: flex;
