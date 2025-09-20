@@ -46,6 +46,11 @@ export class NysModal extends LitElement {
     window.addEventListener("resize", () => this._updateSlottedButtonWidth());
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._restoreBodyScroll(); // make sure scroll is restored when modal is removed
+  }
+
   firstUpdated() {
     this._handleBodySlotChange();
     this._handleActionSlotChange();
@@ -54,13 +59,13 @@ export class NysModal extends LitElement {
   updated(changeProps: Map<string, any>) {
     // Hide main body's scroll bar if modal is open/active
     if (changeProps.has("open")) {
-      if (this.open) {
-        document.body.style.overflow = "hidden";
-      } else {
-        document.body.style.overflow = "";
-      }
+      document.body.style.overflow = this.open ? "hidden" : "";
     }
   }
+
+  private _restoreBodyScroll = () => {
+    document.body.style.overflow = "";
+  };
 
   /******************** Functions ********************/
   // Determines whether we hide the body slot container based on if user put in stuff in slots
