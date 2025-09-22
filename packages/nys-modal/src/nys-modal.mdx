@@ -46,8 +46,10 @@ If an id is not passed, a unique id will be generated.
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+- Confirmations (e.g., "Are you sure you want to delete this?")
+- Forms (e.g., login, signup, feedback forms)
+- Alerts and notifications
+- Displaying additional information without leaving the page
 
 ### When to consider something else
 - TODO: Add when to consider something else
@@ -74,9 +76,12 @@ If an id is not passed, a unique id will be generated.
 
 The `nys-modal` component includes the following accessibility-focused features:
 
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-- TODO: Add accessibility features
+- Trap focus inside the modal so keyboard users can’t tab to background content.
+- Return focus to the triggering element when the modal closes.
+- Support keyboard interaction — allow Esc to close the modal.
+- Announce the modal to screen readers using role="dialog" or role="alertdialog" and aria-modal="true".
+- Give the modal a descriptive title (aria-labelledby or heading element).
+- Prevent background scroll so users don’t lose context.
 
 ## Slots
 <table>
