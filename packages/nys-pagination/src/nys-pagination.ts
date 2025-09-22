@@ -1,4 +1,4 @@
-import { LitElement, html } from "lit";
+import { LitElement, TemplateResult, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-pagination.styles";
 
@@ -8,7 +8,7 @@ export class NysPagination extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Number }) currentPage = 4;
-  @property({ type: Number }) totalPages = 6;
+  @property({ type: Number }) totalPages = 10;
 
   static styles = styles;
 
@@ -27,18 +27,69 @@ export class NysPagination extends LitElement {
 
   /******************** Functions ********************/
   private renderPageButtons() {
-    const buttons = [];
-    for (let i = 1; i <= this.totalPages; i++) {
+    const buttons: TemplateResult[] = [];
+
+    const addPageButton = (page: number) => {
       buttons.push(html`
         <nys-button
-          label=${String(i)}
-          variant=${this.currentPage === i ? "filled" : "outline"}
-          .onClick="${() => this._handlePageClick(i)}"
+          label=${String(page)}
+          variant=${this.currentPage === page ? "filled" : "outline"}
+          .onClick="${() => this._handlePageClick(page)}"
         ></nys-button>
       `);
+    };
+
+    const addSpacer = () => {
+      buttons.push(
+        html`<nys-button
+          label="..."
+          class="spacer"
+          tabindex="-1"
+        ></nys-button>`,
+      );
+    };
+
+    const firstPage = 1;
+    const lastPage = this.totalPages;
+    const prev = this.currentPage - 1;
+    const next = this.currentPage + 1;
+
+    // Always show first page
+    addPageButton(firstPage);
+
+    // Add spacer if current is beyond 3
+    if (this.currentPage > 3) {
+      addSpacer();
     }
+
+    // Show previous if greater than first
+    if (prev > firstPage) {
+      addPageButton(prev);
+    }
+
+    // Show current (only if not first/last, since they’re already handled)
+    if (this.currentPage !== firstPage && this.currentPage !== lastPage) {
+      addPageButton(this.currentPage);
+    }
+
+    // Show next if less than last
+    if (next < lastPage) {
+      addPageButton(next);
+    }
+
+    // Add spacer if current is at least 3 away from last
+    if (this.currentPage < lastPage - 2) {
+      addSpacer();
+    }
+
+    // Always show last page if there’s more than one
+    if (lastPage > firstPage) {
+      addPageButton(lastPage);
+    }
+
     return buttons;
   }
+
   /****************** Event Handlers ******************/
   private _handlePageClick(page: number) {
     this.currentPage = page;

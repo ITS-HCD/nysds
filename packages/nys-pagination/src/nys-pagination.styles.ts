@@ -90,7 +90,7 @@ export default css`
     --_nys-button-padding--x: var(--nys-space-150, 12px);
   }
 
-  nys-button#spacer {
+  nys-button.spacer {
     --nys-button-border-color: transparent;
     --nys-button-border-color--hover: transparent;
     --nys-button-border-color--active: transparent;
@@ -98,6 +98,9 @@ export default css`
     --nys-button-background-color--hover: transparent;
     --nys-button-background-color--active: transparent;
     --nys-button-color: var(--nys-color-text, ##1b1b1b);
+    --nys-button-color--hover: var(--nys-color-text, ##1b1b1b);
+    --nys-button-color--active: var(--nys-color-text, ##1b1b1b);
+    --_nys-button-padding--x: var(--nys-space-100, 8px);
     --_nys-button-cursor: default;
   }
 `;
