@@ -103,4 +103,12 @@ export default css`
     --_nys-button-padding--x: var(--nys-space-100, 8px);
     --_nys-button-cursor: default;
   }
+
+  @media (min-width: 0) and (max-width: 479px) {
+    /* Mobile (XS) */
+    nys-button#prev-page,
+    nys-button#next-page {
+      display: none;
+    }
+  }
 `;

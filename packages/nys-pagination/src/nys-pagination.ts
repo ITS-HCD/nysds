@@ -1,6 +1,7 @@
 import { LitElement, TemplateResult, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-pagination.styles";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 let componentIdCounter = 0; // Counter for generating unique IDs
 
@@ -29,10 +30,11 @@ export class NysPagination extends LitElement {
   private renderPageButtons() {
     const buttons: TemplateResult[] = [];
 
-    const addPageButton = (page: number) => {
+    const addPageButton = (page: number, id?: string) => {
       buttons.push(html`
         <nys-button
           label=${String(page)}
+          id=${ifDefined(id)}
           variant=${this.currentPage === page ? "filled" : "outline"}
           .onClick="${() => this._handlePageClick(page)}"
         ></nys-button>
@@ -64,17 +66,17 @@ export class NysPagination extends LitElement {
 
     // Show previous if greater than first
     if (prev > firstPage) {
-      addPageButton(prev);
+      addPageButton(prev, "prev-page");
     }
 
     // Show current (only if not first/last, since they’re already handled)
     if (this.currentPage !== firstPage && this.currentPage !== lastPage) {
-      addPageButton(this.currentPage);
+      addPageButton(this.currentPage, "current-page");
     }
 
     // Show next if less than last
     if (next < lastPage) {
-      addPageButton(next);
+      addPageButton(next, "next-page");
     }
 
     // Add spacer if current is at least 3 away from last
@@ -82,7 +84,6 @@ export class NysPagination extends LitElement {
       addSpacer();
     }
 
-    // Always show last page if there’s more than one
     if (lastPage > firstPage) {
       addPageButton(lastPage);
     }
