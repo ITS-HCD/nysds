@@ -1,6 +1,7 @@
 import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysModalStories from "./nys-modal.stories";
+import "@nysds/nys-alert";
 import "@nysds/nys-icon"
 import "@nysds/nys-badge"
 
@@ -8,7 +9,16 @@ import "@nysds/nys-badge"
 
 # Modal
 
-The **`nys-modal`** component is a reusable web component for use in New York State digital products.
+<nys-alert
+  type="warning"
+  heading="Modal display limited in Storybook">
+   This modal works correctly in real applications.  
+  In Storybook, it cannot cover the full screen because the parent container uses a
+  <code>transform</code> style (see class <code>css-je1az9</code>), which prevents it
+  from escaping the container.
+</nys-alert>
+
+The **`nys-modal`** component is a reusable web component that appears on top of a web page or application and requires the user to interact with it before they can return to the main content.
 
 If an id is not passed, a unique id will be generated.
 
