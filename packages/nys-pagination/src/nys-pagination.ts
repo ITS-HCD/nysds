@@ -114,6 +114,12 @@ export class NysPagination extends LitElement {
               variant="outline"
               .onClick="${() => this._handlePageClick(this.currentPage - 1)}"
             ></nys-button>
+            <nys-button
+              id="previous--mobile"
+              prefixIcon="chevron_left"
+              variant="outline"
+              .onClick="${() => this._handlePageClick(this.currentPage - 1)}"
+            ></nys-button>
           `
         : null}
       ${this.renderPageButtons()}
@@ -122,6 +128,12 @@ export class NysPagination extends LitElement {
             <nys-button
               id="next"
               label="Next"
+              suffixIcon="chevron_right"
+              variant="outline"
+              .onClick="${() => this._handlePageClick(this.currentPage + 1)}"
+            ></nys-button>
+            <nys-button
+              id="next--mobile"
               suffixIcon="chevron_right"
               variant="outline"
               .onClick="${() => this._handlePageClick(this.currentPage + 1)}"

@@ -85,9 +85,16 @@ export default css`
   }
 
   nys-button#previous,
-  nys-button#next {
+  nys-button#next,
+  nys-button#previous--mobile,
+  nys-button#next--mobile {
     --nys-button-color: var(--nys-color-text, ##1b1b1b);
     --_nys-button-padding--x: var(--nys-space-150, 12px);
+  }
+
+  nys-button#previous--mobile,
+  nys-button#next--mobile {
+    display: none;
   }
 
   nys-button.spacer {
@@ -108,6 +115,16 @@ export default css`
     /* Mobile (XS) */
     nys-button#prev-page,
     nys-button#next-page {
+      display: none;
+    }
+
+    nys-button#previous--mobile,
+    nys-button#next--mobile {
+      display: block;
+    }
+
+    nys-button#previous,
+    nys-button#next {
       display: none;
     }
   }
