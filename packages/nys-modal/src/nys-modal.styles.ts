@@ -63,7 +63,7 @@ export default css`
     flex-direction: column;
     width: var(--_nys-modal-width);
     min-width: var(--_nys-modal-min-width);
-    max-height: 70vh;
+    max-height: 90vh;
     border-radius: var(--_nys-modal-radius);
     border: var(--_nys-modal-border);
     font-family: var(--_nys-modal-font-family);
@@ -142,6 +142,9 @@ export default css`
   }
 
   @media (min-width: 400px) {
+    .nys-modal {
+      max-height: 70vh;
+    }
     .nys-modal_footer ::slotted(*) {
       flex-direction: row;
       justify-content: flex-end;

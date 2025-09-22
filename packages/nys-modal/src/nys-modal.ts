@@ -25,9 +25,9 @@ export class NysModal extends LitElement {
       : "md";
   }
 
-  private _actionButtonSlot: HTMLSlotElement | null = null;
+  private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
 
-  // Track slot content state
+  // Track slot contents to control what HTML is rendered
   @state() private hasBodySlots = false;
   @state() private hasActionSlots = false;
 
@@ -44,11 +44,13 @@ export class NysModal extends LitElement {
       this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
     }
     window.addEventListener("resize", () => this._updateSlottedButtonWidth());
+    window.addEventListener("keydown", (e) => this._handleKeydown(e));
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this._restoreBodyScroll(); // make sure scroll is restored when modal is removed
+    window.removeEventListener("keydown", (e) => this._handleKeydown(e));
   }
 
   firstUpdated() {
@@ -60,6 +62,7 @@ export class NysModal extends LitElement {
     // Hide main body's scroll bar if modal is open/active
     if (changeProps.has("open")) {
       document.body.style.overflow = this.open ? "hidden" : "";
+      this._dispatchOpenEvent();
     }
   }
 
@@ -99,18 +102,6 @@ export class NysModal extends LitElement {
     this._updateSlottedButtonWidth();
   }
 
-  private _closeModal() {
-    this.open = false;
-
-    this.dispatchEvent(
-      new CustomEvent("nys-close", {
-        detail: { id: this.id },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
-
   // Design has it that the slotted action buttons should be fullWidth and display:column direction for mobile view.
   // Therefore, we need to account for mobile size and screen resizes
   private _updateSlottedButtonWidth() {
@@ -128,13 +119,50 @@ export class NysModal extends LitElement {
     });
   }
 
+  private _dispatchOpenEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-open", {
+        detail: { id: this.id },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   /****************** Event Handlers ******************/
-  // Placeholder for event handlers if needed
+  private _handleKeydown(e: KeyboardEvent) {
+    if (!this.open) return;
+
+    if (e.key === "Escape" && this.dismissible) {
+      e.preventDefault();
+      this._closeModal();
+    }
+
+    // trap user "tab" focus to be within the modal only
+    if (e.key === "Tab") {
+      const modal = this.shadowRoot?.querySelector(".nys-modal");
+
+      if (modal) {
+      }
+    }
+  }
+
+  private _closeModal() {
+    this.open = false;
+
+    this.dispatchEvent(
+      new CustomEvent("nys-close", {
+        detail: { id: this.id },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
 
   render() {
     return this.open
       ? html`<div class="nys-modal-overlay">
-          <div class="nys-modal">
+          <div class="nys-modal" role="dialog" aria-modal="true" tabindex="-1">
             <div class="nys-modal_header">
               <div class="nys-modal_header-inner">
                 <h2>${this.heading}</h2>

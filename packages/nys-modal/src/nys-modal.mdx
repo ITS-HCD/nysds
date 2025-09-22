@@ -52,22 +52,23 @@ If an id is not passed, a unique id will be generated.
 - Displaying additional information without leaving the page
 
 ### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+- Inline status messages, use a banner or `nys-alert`
+- Quick hints for form-related components (e.g. text inputs) use a tooltip or `nys-tooltip`
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - Use for actions that need confirmation
+      - Keep content short and focused
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - Don’t overload with long forms or flows
+      - Don’t show trivial info
+      - Don’t stack multiple modals
     </div>
   </div>
 </div>
@@ -80,7 +81,6 @@ The `nys-modal` component includes the following accessibility-focused features:
 - Return focus to the triggering element when the modal closes.
 - Support keyboard interaction — allow Esc to close the modal.
 - Announce the modal to screen readers using role="dialog" or role="alertdialog" and aria-modal="true".
-- Give the modal a descriptive title (aria-labelledby or heading element).
 - Prevent background scroll so users don’t lose context.
 
 ## Slots
@@ -94,8 +94,8 @@ The `nys-modal` component includes the following accessibility-focused features:
     </thead>
     <tbody>
     <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-component` or `nys-component`</td>
+        <td>`actions`</td>
+        <td>Place action buttons such as `nys-button` for confirm, cancel, or other choices</td>
         <td>none</td>
     </tr>
     </tbody>
@@ -105,14 +105,15 @@ The `nys-modal` component includes the following accessibility-focused features:
 
 The `nys-modal` component emits the following events:
 
-1. `nys-click`: Emitted when the modal is clicked.
-2. `nys-focus`: Emitted when the modal receives focus.
-3. `nys-blur`: Emitted when the modal loses focus.
+1. `nys-open`: Emitted when the modal is opened.
+2. `nys-close`: Emitted when the modal is closed.
 
 **Event details** \
-The event’s `detail` object includes:
+The `nys-open` event’s `detail` object includes:
 - id (string): The id of the modal.
-- checked (boolean): Whether the modal is currently checked.
+
+The `nys-close` event’s `detail` object includes:
+- id (string): The id of the modal.
 
 You can listen to these events using JavaScript:
 
@@ -120,20 +121,16 @@ You can listen to these events using JavaScript:
 // Select the modal component
 const modal = document.querySelector("nys-modal");
 
-// Listen for the 'nys-click' event
-modal.addEventListener("nys-click", (event) => {
-  const {id, checked} = event.detail;
-	console.log("Modal (${id}) is clicked. Checked: ${checked}");
+// Listen for the 'nys-open' event
+modal.addEventListener("nys-open", (event) => {
+  const { id } = event.detail;
+  console.log(`Modal (${id}) is opened`);
 });
 
-// Listen for the 'nys-focus' event
-modal.addEventListener("nys-focus", () => {
-	console.log("Modal is focused");
-});
-
-// Listen for the 'nys-blur' event
-modal.addEventListener("nys-blur", () => {
-	console.log("Modal lost focus");
+// Listen for the 'nys-close' event
+modal.addEventListener("nys-close", (event) => {
+  const { id, reason } = event.detail;
+  console.log(`Modal (${id}) is closed.`);
 });
 ```
 
@@ -141,4 +138,4 @@ modal.addEventListener("nys-blur", () => {
 
 This component automatically imports the following dependencies.
 
-- TODO: Add dependencies
+- `nys-button`
