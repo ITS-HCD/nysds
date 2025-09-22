@@ -127,5 +127,9 @@ export default css`
     nys-button#next {
       display: none;
     }
+
+    nys-button.spacer {
+      --_nys-button-padding--x: var(--nys-space-50, 4px);
+    }
   }
 `;
