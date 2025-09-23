@@ -13,27 +13,62 @@ describe("nys-pagination", () => {
     expect(el).to.exist;
   });
 
+  it("has correct default values", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination></nys-pagination>`,
+    );
+    expect(el.currentPage).to.equal(1);
+    expect(el.totalPages).to.equal(1);
+  });
 
-  it("reflects attributes to properties", async () => {
-    const el = await fixture<NysPagination>(html`
-      <nys-pagination label="My Label" required optional></nys-pagination>
-    `);
-    expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
+  it("has correct passed in values", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="4" totalPages="10"></nys-pagination>`,
+    );
+    expect(el.currentPage).to.equal(4);
+    expect(el.totalPages).to.equal(10);
+  });
+
+  it("clamps currentPage between 1 and totalPages", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination totalPages="5"></nys-pagination>`,
+    );
+    el.currentPage = -10;
+    await el.updateComplete;
+    expect(el.currentPage).to.equal(1);
+
+    el.currentPage = 999;
+    await el.updateComplete;
+    expect(el.currentPage).to.equal(5);
+  });
+
+  it("hides Previous button on first page", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="1" totalPages="5"></nys-pagination>`,
+    );
+    const prev = el.shadowRoot!.querySelector("#previous");
+    expect(prev).to.be.null;
+  });
+
+  it("hides Next button on last page", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="5" totalPages="5"></nys-pagination>`,
+    );
+    const next = el.shadowRoot!.querySelector("#next");
+    expect(next).to.be.null;
+  });
+
+  it("renders page buttons with current page filled", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="2" totalPages="3"></nys-pagination>`,
+    );
+    const btns = el.shadowRoot!.querySelectorAll("nys-button");
+    expect(Array.from(btns).some((b) => b.getAttribute("variant") === "filled"))
+      .to.be.true;
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-pagination label="My Label"></nys-pagination>`);
+    const el = await fixture(html`<nys-pagination></nys-pagination>`);
     await expect(el).shadowDom.to.be.accessible();
   });
-
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
-})
+});
