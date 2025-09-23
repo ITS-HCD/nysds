@@ -60,15 +60,16 @@ The prop `totalPages` takes in the number of total pages to view.
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - Use when content would be better to be spread across multiple pages.
+      - When there is too much content to display all at once.
+      - For tables and search results.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - If the displayed collection can fit on less than 3 or 4 pages, consider displaying all items at once and using a scroll.
+      - For interactive pages or collecting information, instead consider the `<nys-stepper>`
     </div>
   </div>
 </div>
@@ -77,9 +78,8 @@ The prop `totalPages` takes in the number of total pages to view.
 
 The `nys-pagination` component includes the following accessibility-focused features:
 
-- TODO: Add accessibility features
-- TODO: Add accessibility features
-- TODO: Add accessibility features
+- All pagination buttons are reachable and operable via keyboard (Tab, Enter, Space).
+- Provide a clear, visible focus indicator for buttons so users can see where they are.
 
 ## Events
 
