@@ -33,15 +33,28 @@ If an id is not passed, a unique id will be generated.
 
 ## Options
 
+The `<nys-pagination>` component automatically renders in a condesed format on small screens.
+
+### Current Page
+
+The prop `currentPage` takes in the page number you are currently on. This value cannot be larger than the value of `totalPages`. If a value larger than `totalPages` is passed in, it will return the last available page.
+
+### Total Pages
+
+The prop `totalPages` takes in the number of total pages to view.
+
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+
+- When displaying large data sets or search results that would be overwhelming to display all at once
+- When users need control and orientation to navigate to a specific part of the content, such as page 5 of search results
+- When performance and load times matter, since pagination lets you fetch and render smaller chunks of data instead of everything at once.
 
 ### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+
+- If the collection is shorter than 3 - 4 screen lengths, it's better to display all items at once rather than using pagination.
+- When you need to show progress through a series of tasks that must be completed in order (such as an onboarding process) use the `<nys-stepper>` component.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
