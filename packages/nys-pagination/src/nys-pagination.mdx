@@ -100,20 +100,9 @@ You can listen to these events using JavaScript:
 // Select the pagination component
 const pagination = document.querySelector("nys-pagination");
 
-// Listen for the 'nys-click' event
-pagination.addEventListener("nys-click", (event) => {
-  const {id, checked} = event.detail;
-	console.log("Pagination (${id}) is clicked. Checked: ${checked}");
-});
-
-// Listen for the 'nys-focus' event
-pagination.addEventListener("nys-focus", () => {
-	console.log("Pagination is focused");
-});
-
-// Listen for the 'nys-blur' event
-pagination.addEventListener("nys-blur", () => {
-	console.log("Pagination lost focus");
+// Listen for the 'nys-change' event
+pagination.addEventListener("nys-change", (event) => {
+	console.log("Pagination is changed to page ${event.detail.page}");
 });
 ```
 
