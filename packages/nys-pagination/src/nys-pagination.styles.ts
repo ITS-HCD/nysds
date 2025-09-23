@@ -105,7 +105,7 @@ export default css`
     --nys-button-color: var(--nys-color-text, ##1b1b1b);
     --nys-button-color--hover: var(--nys-color-text, ##1b1b1b);
     --nys-button-color--active: var(--nys-color-text, ##1b1b1b);
-    --_nys-button-padding--x: var(--nys-space-100, 8px);
+    --_nys-button-padding--x: var(--nys-space-1px, 1px);
     --_nys-button-cursor: default;
   }
 
@@ -124,10 +124,6 @@ export default css`
     nys-button#previous,
     nys-button#next {
       display: none;
-    }
-
-    nys-button.spacer {
-      --_nys-button-padding--x: 0;
     }
   }
 `;
