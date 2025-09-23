@@ -41,12 +41,28 @@ export const Basic: Story = {
     totalPages: 10,
   },
   render: (args) => html`
-    <nys-pagination
-      .id=${args.id}
-      .name=${args.name}
-      .currentPage=${args.currentPage}
-      .totalPages=${args.totalPages}
-    ></nys-pagination>
+    <div class="pagination-wrapper">
+      <p id="page-text">Displaying content of page ${args.currentPage}</p>
+      <nys-pagination
+        .id=${args.id}
+        .name=${args.name}
+        .currentPage=${args.currentPage}
+        .totalPages=${args.totalPages}
+        @nys-change=${(e: CustomEvent) => {
+          const p = document.getElementById("page-text");
+          if (p) {
+            p.textContent = "Displaying content of page " + e.detail.page;
+          }
+        }}
+      ></nys-pagination>
+    </div>
+    <style>
+      .pagination-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
   `,
   parameters: {
     docs: {

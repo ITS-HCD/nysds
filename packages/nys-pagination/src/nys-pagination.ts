@@ -48,7 +48,7 @@ export class NysPagination extends LitElement {
           label=${String(page)}
           id=${ifDefined(id)}
           variant=${this.currentPage === page ? "filled" : "outline"}
-          .onClick="${() => this._handlePageClick(page)}"
+          @nys-click="${() => this._handlePageClick(page)}"
         ></nys-button>
       `);
     };
@@ -106,10 +106,10 @@ export class NysPagination extends LitElement {
 
   /****************** Event Handlers ******************/
   private _handlePageClick(page: number) {
-    this.currentPage = page;
+    this.currentPage = this._clampPage(page);
     this.dispatchEvent(
-      new CustomEvent("page-change", {
-        detail: { page },
+      new CustomEvent("nys-change", {
+        detail: { page: this.currentPage },
         bubbles: true,
         composed: true,
       }),
@@ -125,13 +125,13 @@ export class NysPagination extends LitElement {
               label="Previous"
               prefixIcon="chevron_left"
               variant="outline"
-              .onClick="${() => this._handlePageClick(this.currentPage - 1)}"
+              @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
             ></nys-button>
             <nys-button
               id="previous--mobile"
               prefixIcon="chevron_left"
               variant="outline"
-              .onClick="${() => this._handlePageClick(this.currentPage - 1)}"
+              @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
             ></nys-button>
           `
         : null}
@@ -143,13 +143,13 @@ export class NysPagination extends LitElement {
               label="Next"
               suffixIcon="chevron_right"
               variant="outline"
-              .onClick="${() => this._handlePageClick(this.currentPage + 1)}"
+              @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
             ></nys-button>
             <nys-button
               id="next--mobile"
               suffixIcon="chevron_right"
               variant="outline"
-              .onClick="${() => this._handlePageClick(this.currentPage + 1)}"
+              @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
             ></nys-button>
           `
         : null}

@@ -109,8 +109,8 @@ export default css`
     --_nys-button-cursor: default;
   }
 
-  @media (min-width: 0) and (max-width: 479px) {
-    /* Mobile (XS) */
+  @media (min-width: 0) and (max-width: 767px) {
+    /* Mobile (XS) and Mobile Large (SM) */
     nys-button#prev-page,
     nys-button#next-page {
       display: none;
