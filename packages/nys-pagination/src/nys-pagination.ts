@@ -18,6 +18,12 @@ export class NysPagination extends LitElement {
     super();
   }
 
+  updated(changedProps: Map<string, unknown>) {
+    super.updated(changedProps);
+    // Clamp currentPage whenever it or totalPages changes
+    this.currentPage = this._clampPage(this.currentPage);
+  }
+
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
@@ -27,6 +33,12 @@ export class NysPagination extends LitElement {
   }
 
   /******************** Functions ********************/
+  private _clampPage(page: number): number {
+    if (page < 1) return 1;
+    if (page > this.totalPages) return this.totalPages;
+    return page;
+  }
+
   private renderPageButtons() {
     const buttons: TemplateResult[] = [];
 
@@ -50,9 +62,6 @@ export class NysPagination extends LitElement {
         ></nys-button>`,
       );
     };
-
-    // make sure that current page is not larger than total
-    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
 
     const firstPage = 1;
     const lastPage = this.totalPages;
