@@ -8,7 +8,6 @@ export default css`
     --_nys-pagination-width: fit-content;
     --_nys-pagination-height: var(--nys-size-500, 40px);
     --_nys-pagination-radius: var(--nys-radius-xl, 12px);
-    --_nys-pagination-padding: var(--nys-space-100, 8px);
     --_nys-pagination-gap: var(--nys-space-100, 8px);
 
     /* Typography */
@@ -32,7 +31,6 @@ export default css`
     width: var(--_nys-pagination-width);
     height: var(--_nys-pagination-height);
     border-radius: var(--_nys-pagination-radius);
-    padding: var(--_nys-pagination-padding);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,7 +127,7 @@ export default css`
     }
 
     nys-button.spacer {
-      --_nys-button-padding--x: var(--nys-space-50, 4px);
+      --_nys-button-padding--x: 0;
     }
   }
 `;
