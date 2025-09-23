@@ -59,31 +59,32 @@ export class NysPagination extends LitElement {
     // Always show first page
     addPageButton(firstPage);
 
-    // Add spacer if current is beyond 3
-    if (this.currentPage > 3) {
+    // Spacer if there's a gap between first and current/prev
+    if (this.currentPage > 2) {
       addSpacer();
     }
 
-    // Show previous if greater than first
+    // Show prev neighbor (desktop; can be hidden via CSS at mobile)
     if (prev > firstPage) {
       addPageButton(prev, "prev-page");
     }
 
-    // Show current (only if not first/last, since they’re already handled)
+    // Show current (only if not first/last, since they’re already rendered)
     if (this.currentPage !== firstPage && this.currentPage !== lastPage) {
       addPageButton(this.currentPage, "current-page");
     }
 
-    // Show next if less than last
+    // Show next neighbor (desktop; can be hidden via CSS at mobile)
     if (next < lastPage) {
       addPageButton(next, "next-page");
     }
 
-    // Add spacer if current is at least 3 away from last
-    if (this.currentPage < lastPage - 2) {
+    // Spacer if there's a gap between current/next and last
+    if (this.currentPage < lastPage - 1) {
       addSpacer();
     }
 
+    // Always show last page if more than one
     if (lastPage > firstPage) {
       addPageButton(lastPage);
     }
