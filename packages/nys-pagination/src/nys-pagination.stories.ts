@@ -7,19 +7,8 @@ import "@nysds/nys-button";
 interface NysPaginationArgs {
   id: string;
   name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string | null;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  currentPage: number;
+  totalPages: number;
 }
 
 const meta: Meta<NysPaginationArgs> = {
@@ -28,6 +17,8 @@ const meta: Meta<NysPaginationArgs> = {
   argTypes: {
     id: { control: "text" },
     name: { control: "text" },
+    currentPage: { control: "number" },
+    totalPages: { control: "number" },
   },
   parameters: {
     docs: {
@@ -46,9 +37,16 @@ export const Basic: Story = {
   args: {
     id: "pagination1",
     name: "pagination1",
+    currentPage: 4,
+    totalPages: 10,
   },
   render: (args) => html`
-    <nys-pagination .id=${args.id} .name=${args.name}></nys-pagination>
+    <nys-pagination
+      .id=${args.id}
+      .name=${args.name}
+      .currentPage=${args.currentPage}
+      .totalPages=${args.totalPages}
+    ></nys-pagination>
   `,
   parameters: {
     docs: {
@@ -57,6 +55,8 @@ export const Basic: Story = {
 <nys-pagination
   id="pagination1"
   name="pagination1"
+  currentPage=4
+  totalPages=10
 ></nys-pagination>`,
         type: "auto",
       },
