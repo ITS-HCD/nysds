@@ -8,8 +8,8 @@ let componentIdCounter = 0; // Counter for generating unique IDs
 export class NysPagination extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  @property({ type: Number }) currentPage = 4;
-  @property({ type: Number }) totalPages = 10;
+  @property({ type: Number }) currentPage = 1;
+  @property({ type: Number }) totalPages = 1;
 
   static styles = styles;
 
@@ -50,6 +50,9 @@ export class NysPagination extends LitElement {
         ></nys-button>`,
       );
     };
+
+    // make sure that current page is not larger than total
+    if (this.currentPage > this.totalPages) this.currentPage = this.totalPages;
 
     const firstPage = 1;
     const lastPage = this.totalPages;
