@@ -96,7 +96,6 @@ export class NysModal extends LitElement {
   }
 
   private _restorePrevFocused() {
-    console.log("this is prev focus", this._prevFocusedElement);
     this._prevFocusedElement?.focus();
     this._prevFocusedElement = null;
   }
@@ -211,50 +210,36 @@ export class NysModal extends LitElement {
         }
       }
 
-      // Now handle focus trapping
-      console.log("we are focusableElements: ", focusableElements);
-
-      // Shift tabs the activeElement must be within the focusableElements and within modal
-
       if (focusableElements.length > 0) {
         // Laying out the starting (i.e. dismiss btn) and ending elements for looping focus elements
         const firstFocusableEl = focusableElements[0];
         const lastFocusableEl = focusableElements[focusableElements.length - 1];
         let active = document.activeElement as HTMLElement | null;
-        // If activeElement is inside shadow DOM of a nys-button, normalize to the host
-if (active && active.getRootNode() !== document) {
-  const root = (active.getRootNode() as ShadowRoot).host;
-  if (root instanceof HTMLElement) active = root;
-}
+        let activeIndex = focusableElements.indexOf(active as HTMLElement);
 
-        // Consider the modal host or base shadow root container (not the button active container) as "outside"
-        const activeIsOutside =
-          !focusableElements.includes(active as HTMLElement) || active === this;
-
+        /**
+         * Move focus backward when Shift+Tab is pressed.
+         * Focus goes to the previous element in focusableElements.
+         * If currently at the first element, wrap around to the last element.
+         * For <nys-button>, focus the internal button. For other elements, focus directly.
+         */
         if (e.shiftKey) {
-          // Shift + Tab (we go straight to last focusable element when we are already on the first)
-          if (active === firstFocusableEl) {
-            e.preventDefault();
-            console.log("WE IN", document.activeElement === firstFocusableEl);
-            if (lastFocusableEl.tagName.toLowerCase() === "nys-button") {
-              console.log("lastFocusableEl", lastFocusableEl);
-              const innerBtn = await (
-                lastFocusableEl as any
-              ).getButtonElement();
-              if (innerBtn) innerBtn.focus();
-            } else {
-              lastFocusableEl.focus();
-            }
+          e.preventDefault();
+
+          let prevIndex = activeIndex - 1;
+          if (prevIndex < 0) {
+            prevIndex = focusableElements.length - 1; // wrap back to lastFocusableEl
           }
-          if (activeIsOutside) {
-            // Restart focus to the dismiss button
-            e.preventDefault();
-            if (firstFocusableEl.tagName.toLowerCase() === "nys-button") {
-              const innerBtn = await (
-                firstFocusableEl as any
-              ).getButtonElement();
-              if (innerBtn) innerBtn.focus();
-            }
+
+          const prevElement = focusableElements[prevIndex];
+          const isNysButton =
+            focusableElements[prevIndex].tagName.toLowerCase() === "nys-button";
+
+          if (isNysButton) {
+            const innerBtn = await (prevElement as any).getButtonElement();
+            innerBtn?.focus();
+          } else {
+            prevElement.focus();
           }
         } else {
           // Tab (go back to first focusable element if we're at last)
@@ -264,7 +249,7 @@ if (active && active.getRootNode() !== document) {
               const innerBtn = await (
                 firstFocusableEl as any
               ).getButtonElement();
-              if (innerBtn) innerBtn.focus();
+              innerBtn?.focus();
             } else {
               firstFocusableEl.focus();
             }
