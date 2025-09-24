@@ -70,7 +70,7 @@ Buttons (`<nys-button>`) placed in the `actions` slot can update this property t
 <Canvas of={NysModalStories.ActionButtonSlot} />
 
 ### Mandatory Action 
-If the modal requires users to take action and shouldn’t be dismissible, use the `mandatory` prop.
+A forced action modal requires users to make a choice before continuing. Set the `mandatory` prop, which turn off the dismissible button.
 <Canvas of={NysModalStories.MandatoryAction} />
 
 ## Usage
@@ -92,14 +92,16 @@ If the modal requires users to take action and shouldn’t be dismissible, use t
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
       - Use for actions that need confirmation.
       - Keep content short and focused.
+      - Use the `mandatory` prop to disable the dismiss button when the user must make a critical decision or acknowledge essential information.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Don’t overload with long forms or flows.
+      - Don’t overload with long forms or texts.
       - Don’t show trivial info.
       - Don’t stack multiple modals.
+      - Don’t force a mandatory modal unnecessarily.
     </div>
   </div>
 </div>
