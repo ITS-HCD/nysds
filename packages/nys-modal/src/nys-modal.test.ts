@@ -2,11 +2,6 @@ import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-modal.js";
 import { NysModal } from "./nys-modal.js";
 
-// You may need to import other dependencies such as the component's tag name
-// For example:
-// import { NysTextinput } from "./nys-textinput";
-
-// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-modal", () => {
   it("renders the component", async () => {
     const el = await fixture(html`<nys-modal></nys-modal>`);
