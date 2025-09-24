@@ -9,7 +9,7 @@ export class NysModal extends LitElement {
   @property({ type: String }) heading = "";
   @property({ type: String }) subheading = "";
   @property({ type: Boolean, reflect: true }) open = false;
-  @property({ type: Boolean, reflect: true }) dismissible = true;
+  @property({ type: Boolean, reflect: true }) mandatory = false;
 
   private static readonly VALID_WIDTHS = ["sm", "md", "lg"] as const;
   private _width: (typeof NysModal.VALID_WIDTHS)[number] = "md";
@@ -69,7 +69,6 @@ export class NysModal extends LitElement {
         this._savePrevFocused();
         this._focusOnModal();
       } else {
-        console.log("there");
         this._restorePrevFocused();
         this._restoreBodyScroll();
         this._dispatchCloseEvent();
@@ -183,7 +182,7 @@ export class NysModal extends LitElement {
     if (!this.open) return;
 
     /** Exit the modal for "escape" key **/
-    if (e.key === "Escape" && this.dismissible) {
+    if (e.key === "Escape" && !this.mandatory) {
       e.preventDefault();
       this._closeModal();
     }
@@ -281,12 +280,14 @@ export class NysModal extends LitElement {
             <div class="nys-modal_header">
               <div class="nys-modal_header-inner">
                 <h2>${this.heading}</h2>
-                <nys-button
-                  circle
-                  icon="close"
-                  variant="ghost"
-                  .onClick=${() => this._closeModal()}
-                ></nys-button>
+                ${!this.mandatory
+                  ? html`<nys-button
+                      circle
+                      icon="close"
+                      variant="ghost"
+                      .onClick=${() => this._closeModal()}
+                    ></nys-button>`
+                  : ""}
               </div>
               ${this.subheading ? html`<p>${this.subheading}</p>` : ""}
             </div>

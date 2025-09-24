@@ -9,15 +9,6 @@ import "@nysds/nys-badge"
 
 # Modal
 
-<nys-alert
-  type="warning"
-  heading="Modal display limited in Storybook">
-   This modal works correctly in real applications.  
-  In Storybook, it cannot cover the full screen because the parent container uses a
-  <code>transform</code> style (see class <code>css-je1az9</code>), which prevents it
-  from escaping the container.
-</nys-alert>
-
 The **`nys-modal`** component is a reusable web component that appears on top of a web page or application and requires the user to interact with it before they can return to the main content.
 
 If an id is not passed, a unique id will be generated.
@@ -43,6 +34,40 @@ If an id is not passed, a unique id will be generated.
 
 ## Options
 
+<nys-alert
+  type="danger"
+  heading="Modal display limited in Storybook">
+   This modal works correctly in real applications.  
+  In Storybook, it cannot cover the full screen because the parent container uses a
+  <code>transform</code> style (see class <code>css-je1az9</code>), which prevents it
+  from escaping the container.
+
+  ‼️ YOU MUST CLOSE OUT OF THE MODAL IN ORDER TO RE-ACCESS THE SCROLLBAR 🔥
+</nys-alert>
+<br/>
+
+### Scrolling Behavior
+Avoid content-heavy modals. If content is too long, use a dedicated page or Stepper. Scrollable modals should be concise. The modal grows with content; when it exceeds the limit, only the body scrolls while header and footer stay fixed. 
+
+**Important:** `<nys-modal>` blocks page scrolling to keep focus within the modal.
+
+### Adding basic slots
+Use the default slot to add content such as text, links, or other elements inside the modal.
+
+**Note:** The `heading` is required for the modal title, while `subheading` is optional for extra context or instructions.
+<Canvas of={NysModalStories.BasicSlot} />
+
+### Adding action buttons
+Set the modal’s visibility using the `open` property on `<nys-modal>`.
+Buttons (`<nys-button>`) placed in the `actions` slot can update this property to close the modal or confirm an action.
+
+**Note:** Make sure to add your event handler logic to set `modal.open = false` (to close) or perform any other action before closing.
+<Canvas of={NysModalStories.ButtonSlot} />
+
+### Mandatory Action 
+If the modal requires users to take action and shouldn’t be dismissible, use the `mandatory` prop.
+<Canvas of={NysModalStories.MandatoryAction} />
+
 ## Usage
 
 ### When to use this component
@@ -52,23 +77,24 @@ If an id is not passed, a unique id will be generated.
 - Displaying additional information without leaving the page
 
 ### When to consider something else
-- Inline status messages, use a banner or `nys-alert`
+- Content-heavy modals should generally be avoided
+- For inline status messages, use a banner or `nys-alert`
 - Quick hints for form-related components (e.g. text inputs) use a tooltip or `nys-tooltip`
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use for actions that need confirmation
-      - Keep content short and focused
+      - Use for actions that need confirmation.
+      - Keep content short and focused.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Don’t overload with long forms or flows
-      - Don’t show trivial info
-      - Don’t stack multiple modals
+      - Don’t overload with long forms or flows.
+      - Don’t show trivial info.
+      - Don’t stack multiple modals.
     </div>
   </div>
 </div>

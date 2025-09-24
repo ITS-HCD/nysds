@@ -61,9 +61,9 @@ export default css`
   .nys-modal {
     display: flex;
     flex-direction: column;
+    margin: 20px;
     width: var(--_nys-modal-width);
     min-width: var(--_nys-modal-min-width);
-    max-height: 90vh;
     border-radius: var(--_nys-modal-radius);
     border: var(--_nys-modal-border);
     font-family: var(--_nys-modal-font-family);
@@ -93,8 +93,8 @@ export default css`
   /*** Modal Body ***/
   .nys-modal_body {
     display: flex;
-    max-height: 182px;
-    padding: var(--nys-space-300, 24px);
+    padding: var(--nys-space-100, 8px) var(--nys-space-300, 24px)
+      var(--nys-space-300, 24px);
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
@@ -102,6 +102,8 @@ export default css`
 
   .nys-modal_body-inner {
     overflow: auto;
+    width: 100%;
+    max-height: 90vh;
   }
 
   .nys-modal_body.hidden {
@@ -142,7 +144,7 @@ export default css`
   }
 
   @media (min-width: 400px) {
-    .nys-modal {
+    .nys-modal_body-inner {
       max-height: 70vh;
     }
     .nys-modal_footer ::slotted(*) {
