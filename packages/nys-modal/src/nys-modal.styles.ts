@@ -147,7 +147,7 @@ export default css`
   /*** Modal Footer (i.e. where the button slot is) ***/
   .nys-modal_footer ::slotted(*) {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     padding: var(--_nys-modal-footer-padding);
     justify-content: center;
     gap: var(--_nys-modal-footer-gap);
