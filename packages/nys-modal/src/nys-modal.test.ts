@@ -13,18 +13,24 @@ describe("nys-modal", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysModal>(html`
-      <nys-modal label="My Label" required optional></nys-modal>
+      <nys-modal
+        heading="Update Available"
+        subheading="Please confirm"
+        mandatory
+      ></nys-modal>
     `);
-    expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
+
+    expect(el.heading).to.equal("Update Available");
+    expect(el.subheading).to.equal("Please confirm");
+    expect(el.mandatory).to.be.true;
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-modal label="My Label"></nys-modal>`);
+    const el = await fixture(
+      html`<nys-modal heading="Update Available"></nys-modal>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -36,4 +42,4 @@ describe("nys-modal", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

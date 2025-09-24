@@ -17,6 +17,7 @@ const packages = [
   { name: "nys-globalfooter", path: "packages/nys-globalfooter" },
   { name: "nys-icon", path: "packages/nys-icon" },
   { name: "nys-label", path: "packages/nys-label" },
+  { name: "nys-modal", path: "packages/nys-modal" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
   { name: "nys-skipnav", path: "packages/nys-skipnav" },
@@ -27,7 +28,6 @@ const packages = [
   { name: "nys-tooltip", path: "packages/nys-tooltip" },
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
-  { name: "nys-modal", path: "packages/nys-modal" },
 ];
 
 packages.forEach((pkg) => {
