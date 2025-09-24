@@ -95,8 +95,18 @@ export class NysModal extends LitElement {
     modal?.focus();
   }
 
-  private _restorePrevFocused() {
-    this._prevFocusedElement?.focus();
+  private async _restorePrevFocused() {
+    const prev = this._prevFocusedElement;
+
+    if (prev && prev.tagName.toLowerCase() === "nys-button") {
+      const innerBtn = await (prev as any).getButtonElement();
+      if (innerBtn) {
+        innerBtn.focus();
+        return;
+      }
+    } else {
+      this._prevFocusedElement?.focus();
+    }
     this._prevFocusedElement = null;
   }
 
