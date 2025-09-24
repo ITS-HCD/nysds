@@ -8,6 +8,11 @@ import "@nysds/nys-badge"
 <Meta of={NysModalStories} title="Components/Modal/Documentation" />
 
 # Modal
+<nys-alert
+  type="warning"
+  heading="Modal display limited in Storybook">
+  YOU MUST <strong>CLOSE OUT OF THE MODAL</strong> IN ORDER TO RE-ACCESS THE SCROLLBAR 
+</nys-alert>
 
 The **`nys-modal`** component is a reusable web component that appears on top of a web page or application and requires the user to interact with it before they can return to the main content.
 
@@ -42,7 +47,7 @@ If an id is not passed, a unique id will be generated.
   <code>transform</code> style (see class <code>css-je1az9</code>), which prevents it
   from escaping the container.
 
-  ‼️ YOU MUST CLOSE OUT OF THE MODAL IN ORDER TO RE-ACCESS THE SCROLLBAR 🔥
+  ‼️ YOU MUST <strong>CLOSE OUT OF THE MODAL</strong> IN ORDER TO RE-ACCESS THE SCROLLBAR
 </nys-alert>
 <br/>
 
@@ -62,7 +67,7 @@ Set the modal’s visibility using the `open` property on `<nys-modal>`.
 Buttons (`<nys-button>`) placed in the `actions` slot can update this property to close the modal or confirm an action.
 
 **Note:** Make sure to add your event handler logic to set `modal.open = false` (to close) or perform any other action before closing.
-<Canvas of={NysModalStories.ButtonSlot} />
+<Canvas of={NysModalStories.ActionButtonSlot} />
 
 ### Mandatory Action 
 If the modal requires users to take action and shouldn’t be dismissible, use the `mandatory` prop.

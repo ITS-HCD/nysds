@@ -103,7 +103,7 @@ export default css`
   .nys-modal_body-inner {
     overflow: auto;
     width: 100%;
-    max-height: 90vh;
+    max-height: 45vh;
   }
 
   .nys-modal_body.hidden {
@@ -145,7 +145,7 @@ export default css`
 
   @media (min-width: 400px) {
     .nys-modal_body-inner {
-      max-height: 70vh;
+      max-height: 25vh;
     }
     .nys-modal_footer ::slotted(*) {
       flex-direction: row;

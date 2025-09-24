@@ -126,7 +126,7 @@ export const Basic: Story = {
   </p>
   <div slot="actions">
     <nys-button label="Not now" variant="text" onClick={your logic here}></nys-button>
-    <nys-button label="Update" onClick={your logic here></nys-button>
+    <nys-button label="Update" onClick={your logic here}></nys-button>
   </div>
 </nys-modal>`,
         type: "auto",
@@ -138,13 +138,13 @@ export const Basic: Story = {
 // BasicSlot
 export const BasicSlot: Story = {
   args: {
-    id: "modalHeaderSub",
+    id: "modal2",
     heading: "System Maintenance Notice",
     subheading: "Scheduled downtime will occur this weekend.",
   },
   render: (args) => {
     const showModal = () => {
-      const modal = document.querySelector(".modalHeaderSub") as any;
+      const modal = document.querySelector(".modal2") as any;
       if (modal) {
         modal.open = true;
       }
@@ -163,7 +163,7 @@ export const BasicSlot: Story = {
           .onClick=${() => showModal()}
         ></nys-button>
         <nys-modal
-          class="modalHeaderSub"
+          class="modal2"
           .id=${args.id}
           .heading=${args.heading}
           .subheading=${args.subheading}
@@ -188,7 +188,7 @@ export const BasicSlot: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-modal id="modalHeaderSub" heading="System Maintenance Notice" subheading="Scheduled downtime will occur this weekend.">
+        code: `<nys-modal id="modal2" heading="System Maintenance Notice" subheading="Scheduled downtime will occur this weekend.">
   <p>
     Please be advised that the system will be unavailable for maintenance
     from 10 PM Friday to 6 AM Saturday. Ensure you save your work and
@@ -203,7 +203,7 @@ export const BasicSlot: Story = {
 };
 
 // Button slot
-export const ButtonSlot: Story = {
+export const ActionButtonSlot: Story = {
   args: {
     id: "modal3",
     heading: "Update password?",
@@ -285,11 +285,13 @@ export const ButtonSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-modal
-  id="modal3"
-  name="modal3"
->
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu  fugiat nulla pariatur. Excepteur sint occae cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incidid
+<nys-modal id="modal3" heading="Update password?">
+  <nys-textinput label="Username" name="username" type="text" width="full"></nys-textinput>
+  <nys-textinput label="Password" name="password" type="password" width="full"></nys-textinput>
+  <div slot="actions">
+    <nys-button label="Not now" variant="outline"></nys-button>
+    <nys-button label="Update"></nys-button>
+  </div>
 </nys-modal>`,
         type: "auto",
       },
@@ -359,16 +361,12 @@ export const MandatoryAction: Story = {
         code: `
 <nys-modal
   id="modal4"
-  heading="Modal without dismiss"
-  subheading="The close button is disabled in this example."
+  heading="Your session has expired."
+  subheading="You will need to login again in order to continue."
   mandatory
 >
-  <p>
-    Your current password has expired. For your security, you must update your password before accessing the system.
-  </p>
   <div slot="actions">
-    <nys-button label="Not now" variant="outline"></nys-button>
-    <nys-button label="Update"></nys-button>
+    <nys-button label="Login"></nys-button>
   </div>
 </nys-modal>`,
         type: "auto",
