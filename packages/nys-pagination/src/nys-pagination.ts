@@ -117,6 +117,11 @@ export class NysPagination extends LitElement {
   }
 
   render() {
+    // If only one page, render nothing
+    if (this.totalPages <= 1) {
+      return null;
+    }
+
     return html`<div class="nys-pagination">
       ${this.currentPage > 1
         ? html`
