@@ -2,14 +2,32 @@ import { css } from "lit";
 
 export default css`
   :host {
-    /* Anything that can be overridden should be defined here */
-
     /* Global Modal Styles */
     --_nys-modal-width: 480px;
     --_nys-modal-min-width: 320px;
     --_nys-modal-radius: var(--nys-radius-lg, 8px);
     --_nys-modal-border: 1px solid var(--nys-color-neutral-200, #bec0c1);
-    --_nys-modal-gap: var(--nys-space-100, 8px);
+    --_nys-modal-background: var(--nys-color-surface, #fff);
+
+    /* Modal Overlay */
+    --_nys-modal-overlay-background: var(
+      --nys-color-black-transparent-700,
+      rgba(27, 27, 27, 0.7)
+    );
+
+    /* Modal Header */
+    --_nys-modal-header-gap: var(--nys-space-150, 12px);
+    --_nys-modal-header-padding: var(--nys-space-300, 24px);
+
+    /* Modal Body */
+    --_nys-modal-body-padding: var(--nys-space-100, 8px)
+      var(--nys-space-300, 24px) var(--nys-space-300, 24px);
+
+    /* Modal Footer */
+    --_nys-modal-footer-padding: var(--nys-space-200, 16px)
+      var(--nys-space-300, 24px) var(--nys-space-300, 24px)
+      var(--nys-space-300, 24px);
+    --_nys-modal-footer-gap: var(--nys-space-250, 20px);
 
     /* Typography */
     --_nys-modal-font-size: var(--nys-font-size-ui-md, 16px);
@@ -54,7 +72,7 @@ export default css`
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    background: var(--nys-color-black-transparent-700, rgba(27, 27, 27, 0.7));
+    background: var(--_nys-modal-overlay-background);
   }
 
   /*** Base ***/
@@ -70,7 +88,7 @@ export default css`
     font-size: var(--_nys-modal-font-size);
     font-weight: var(--_nys-modal-font-weight);
     line-height: var(--_nys-modal-line-height);
-    background: var(--nys-color-surface, #fff);
+    background: var(--_nys-modal-background);
     position: relative;
     z-index: 10000;
   }
@@ -78,10 +96,10 @@ export default css`
   /*** Modal Header ***/
   .nys-modal_header {
     display: flex;
-    padding: var(--nys-space-300, 24px);
+    padding: var(--_nys-modal-header-padding);
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--nys-space-150, 12px);
+    gap: var(--_nys-modal-header-gap);
   }
 
   .nys-modal_header-inner {
@@ -93,11 +111,9 @@ export default css`
   /*** Modal Body ***/
   .nys-modal_body {
     display: flex;
-    padding: var(--nys-space-100, 8px) var(--nys-space-300, 24px)
-      var(--nys-space-300, 24px);
+    padding: var(--_nys-modal-body-padding);
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
   }
 
   .nys-modal_body-inner {
@@ -132,10 +148,9 @@ export default css`
   .nys-modal_footer ::slotted(*) {
     display: flex;
     flex-direction: column;
-    padding: var(--nys-space-200, 16px) var(--nys-space-300, 24px)
-      var(--nys-space-300, 24px) var(--nys-space-300, 24px);
+    padding: var(--_nys-modal-footer-padding);
     justify-content: center;
-    gap: var(--nys-space-250, 20px);
+    gap: var(--_nys-modal-footer-gap);
     align-self: stretch;
   }
 
