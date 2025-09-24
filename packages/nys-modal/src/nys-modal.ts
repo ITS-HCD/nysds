@@ -26,6 +26,7 @@ export class NysModal extends LitElement {
   }
 
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
+  private _prevFocusedElement: HTMLElement | null = null;
 
   // Track slot contents to control what HTML is rendered
   @state() private hasBodySlots = false;
@@ -58,20 +59,49 @@ export class NysModal extends LitElement {
     this._handleActionSlotChange();
   }
 
-  updated(changeProps: Map<string, any>) {
+  async updated(changeProps: Map<string, any>) {
     // Hide main body's scroll bar if modal is open/active
     if (changeProps.has("open")) {
-      document.body.style.overflow = this.open ? "hidden" : "";
-      this._dispatchOpenEvent();
+      if (this.open) {
+        this._hideBodyScroll();
+        this._dispatchOpenEvent();
+        await this.updateComplete;
+        this._savePrevFocused();
+        this._focusOnModal();
+      } else {
+        console.log("there");
+        this._restorePrevFocused();
+        this._restoreBodyScroll();
+        this._dispatchCloseEvent();
+      }
     }
   }
 
-  private _restoreBodyScroll = () => {
-    document.body.style.overflow = "";
-  };
-
   /******************** Functions ********************/
-  // Determines whether we hide the body slot container based on if user put in stuff in slots
+  private _hideBodyScroll() {
+    document.body.style.overflow = this.open ? "hidden" : "";
+  }
+
+  private _restoreBodyScroll() {
+    document.body.style.overflow = "";
+  }
+
+  private _savePrevFocused() {
+    this._prevFocusedElement = document.activeElement as HTMLElement;
+  }
+
+  private _focusOnModal() {
+    const modal = this.shadowRoot?.querySelector<HTMLElement>(".nys-modal");
+    modal?.focus();
+  }
+
+  private _restorePrevFocused() {
+    console.log("this is prev focus", this._prevFocusedElement);
+    this._prevFocusedElement?.focus();
+    this._prevFocusedElement = null;
+  }
+
+  // Check if the slot contains stuff (aka user add texts & action buttons), and render visibility accordingly
   private async _handleBodySlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) return;
@@ -129,27 +159,7 @@ export class NysModal extends LitElement {
     );
   }
 
-  /****************** Event Handlers ******************/
-  private _handleKeydown(e: KeyboardEvent) {
-    if (!this.open) return;
-
-    if (e.key === "Escape" && this.dismissible) {
-      e.preventDefault();
-      this._closeModal();
-    }
-
-    // trap user "tab" focus to be within the modal only
-    if (e.key === "Tab") {
-      const modal = this.shadowRoot?.querySelector(".nys-modal");
-
-      if (modal) {
-      }
-    }
-  }
-
-  private _closeModal() {
-    this.open = false;
-
+  private _dispatchCloseEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-close", {
         detail: { id: this.id },
@@ -157,6 +167,116 @@ export class NysModal extends LitElement {
         composed: true,
       }),
     );
+  }
+
+  /****************** Event Handlers ******************/
+  private async _handleKeydown(e: KeyboardEvent) {
+    if (!this.open) return;
+
+    /** Exit the modal for "escape" key **/
+    if (e.key === "Escape" && this.dismissible) {
+      e.preventDefault();
+      this._closeModal();
+    }
+
+    /** Trap focus to be within the modal only **/
+    if (e.key === "Tab") {
+      const modal = this.shadowRoot?.querySelector(".nys-modal");
+      if (!modal) return;
+
+      // Gather all elements from slots + dismissible btn
+      const knownFocusableElements =
+        'a[href], area[href], button:not([disabled]), details, iframe, object, input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [contentEditable="true"], [tabindex]:not([tabindex^="-"])';
+      const focusableElements: HTMLElement[] = [];
+      const dismissBtn = modal.querySelector("nys-button") as HTMLElement;
+
+      if (dismissBtn) {
+        focusableElements.push(dismissBtn);
+      }
+
+      // Gather from slot elements to store the focusable elements for trapping
+      const slotElements = Array.from(modal.querySelectorAll("slot"));
+      for (const slot of slotElements) {
+        const assigned = slot.assignedElements({ flatten: true });
+        for (const el of assigned) {
+          if (el instanceof HTMLElement && el.matches(knownFocusableElements)) {
+            focusableElements.push(el);
+          }
+          // also account for the action slot container that has nys-buttons
+          el.querySelectorAll<HTMLElement>("nys-button").forEach(
+            (actionBtn) => {
+              focusableElements.push(actionBtn);
+            },
+          );
+        }
+      }
+
+      // Now handle focus trapping
+      console.log("we are focusableElements: ", focusableElements);
+
+      // Shift tabs the activeElement must be within the focusableElements and within modal
+
+      if (focusableElements.length > 0) {
+        // Laying out the starting (i.e. dismiss btn) and ending elements for looping focus elements
+        const firstFocusableEl = focusableElements[0];
+        const lastFocusableEl = focusableElements[focusableElements.length - 1];
+        let active = document.activeElement as HTMLElement | null;
+        // If activeElement is inside shadow DOM of a nys-button, normalize to the host
+if (active && active.getRootNode() !== document) {
+  const root = (active.getRootNode() as ShadowRoot).host;
+  if (root instanceof HTMLElement) active = root;
+}
+
+        // Consider the modal host or base shadow root container (not the button active container) as "outside"
+        const activeIsOutside =
+          !focusableElements.includes(active as HTMLElement) || active === this;
+
+        if (e.shiftKey) {
+          // Shift + Tab (we go straight to last focusable element when we are already on the first)
+          if (active === firstFocusableEl) {
+            e.preventDefault();
+            console.log("WE IN", document.activeElement === firstFocusableEl);
+            if (lastFocusableEl.tagName.toLowerCase() === "nys-button") {
+              console.log("lastFocusableEl", lastFocusableEl);
+              const innerBtn = await (
+                lastFocusableEl as any
+              ).getButtonElement();
+              if (innerBtn) innerBtn.focus();
+            } else {
+              lastFocusableEl.focus();
+            }
+          }
+          if (activeIsOutside) {
+            // Restart focus to the dismiss button
+            e.preventDefault();
+            if (firstFocusableEl.tagName.toLowerCase() === "nys-button") {
+              const innerBtn = await (
+                firstFocusableEl as any
+              ).getButtonElement();
+              if (innerBtn) innerBtn.focus();
+            }
+          }
+        } else {
+          // Tab (go back to first focusable element if we're at last)
+          if (active === lastFocusableEl) {
+            e.preventDefault();
+            if (firstFocusableEl.tagName.toLowerCase() === "nys-button") {
+              const innerBtn = await (
+                firstFocusableEl as any
+              ).getButtonElement();
+              if (innerBtn) innerBtn.focus();
+            } else {
+              firstFocusableEl.focus();
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private _closeModal() {
+    this.open = false;
+    this._dispatchCloseEvent();
   }
 
   render() {
