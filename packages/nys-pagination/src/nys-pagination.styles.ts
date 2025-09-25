@@ -109,11 +109,19 @@ export default css`
     --_nys-button-cursor: default;
   }
 
+  :host([currentPage="3"]) nys-button#first-spacer {
+    display: none;
+  }
+
   @media (min-width: 0) and (max-width: 767px) {
     /* Mobile (XS) and Mobile Large (SM) */
     nys-button#prev-page,
     nys-button#next-page {
       display: none;
+    }
+
+    :host([currentPage="3"]) nys-button#first-spacer {
+      display: block;
     }
 
     /* Swap to icon only previous and next buttons */
