@@ -111,7 +111,10 @@ export class NysUnavHeader extends LitElement {
   render() {
     return html`
       <header class="nys-unavheader">
-        <div class="nys-unavheader__trustbar wrapper">
+        <div
+          class="nys-unavheader__trustbar wrapper"
+          @click="${this._toggleTrustbar}"
+        >
           <div class="content">
             <label id="nys-unavheader__official"
               >An official website of New York State</label
