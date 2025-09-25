@@ -8,8 +8,8 @@ let componentIdCounter = 0; // Counter for generating unique IDs
 export class NysPagination extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  @property({ type: Number }) currentPage = 1;
-  @property({ type: Number }) totalPages = 1;
+  @property({ type: Number, reflect: true }) currentPage = 1;
+  @property({ type: Number, reflect: true }) totalPages = 1;
 
   static styles = styles;
 
@@ -53,12 +53,13 @@ export class NysPagination extends LitElement {
       `);
     };
 
-    const addSpacer = () => {
+    const addSpacer = (id: string) => {
       buttons.push(
         html`<nys-button
           label="..."
           class="spacer"
           tabindex="-1"
+          id=${id}
         ></nys-button>`,
       );
     };
@@ -73,7 +74,7 @@ export class NysPagination extends LitElement {
 
     // Spacer if there's a gap between first and current/prev
     if (this.currentPage > 2) {
-      addSpacer();
+      addSpacer("first-spacer");
     }
 
     // Show prev neighbor (desktop; can be hidden via CSS at mobile)
@@ -93,7 +94,7 @@ export class NysPagination extends LitElement {
 
     // Spacer if there's a gap between current/next and last
     if (this.currentPage < lastPage - 1) {
-      addSpacer();
+      addSpacer("last-spacer");
     }
 
     // Always show last page if more than one
