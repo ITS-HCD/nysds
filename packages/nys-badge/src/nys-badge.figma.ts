@@ -23,17 +23,19 @@ figma.connect<BadgeProps>("<FIGMA_BADGE>", {
     }),
     prefixIcon: figma.string("Prefix Icon"),
     suffixIcon: figma.string("Suffix Icon"),
-    prefixLabel: figma.string("↳ Prefix Label"),
+    prefixLabel: figma.boolean("Prefix Label", {
+      true: figma.string("↳ Prefix Label"),
+      false: undefined,
+    }),
     label: figma.string("Label"),
   },
-  example: (props) => html`
-    <nys-badge
+  example: (props) =>
+    html` <nys-badge
       label=${props.label}
       intent=${props.intent}
       size=${props.size}
       prefixIcon=${props.prefixIcon}
       suffixIcon=${props.suffixIcon}
       prefixLabel=${props.prefixLabel}
-    ></nys-badge>
-  `,
+    ></nys-badge>`,
 });

@@ -540,6 +540,7 @@ export const Required: Story = {
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
       .form=${args.form}
+      .tile=${args.tile}
     ></nys-checkbox>
   `,
   parameters: {
