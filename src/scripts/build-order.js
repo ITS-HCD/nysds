@@ -18,6 +18,7 @@ const packages = [
   { name: "nys-icon", path: "packages/nys-icon" },
   { name: "nys-label", path: "packages/nys-label" },
   { name: "nys-modal", path: "packages/nys-modal" },
+  { name: "nys-pagination", path: "packages/nys-pagination" },
   { name: "nys-radiobutton", path: "packages/nys-radiobutton" },
   { name: "nys-select", path: "packages/nys-select" },
   { name: "nys-skipnav", path: "packages/nys-skipnav" },
