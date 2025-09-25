@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-divider",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "The Divider component from the NYS Design System.",
   "module": "dist/nys-divider.js",
   "types": "dist/index.d.ts",
