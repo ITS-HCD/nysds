@@ -575,6 +575,7 @@ export default css`
   .nys-button {
     width: var(--_nys-button-width);
     min-height: var(--_nys-button-height);
+    height: var(--_nys-button-height);
     /* set every corner individually */
     border-top-left-radius: var(--_nys-button-border-radius--left);
     border-bottom-left-radius: var(--_nys-button-border-radius--left);
@@ -595,7 +596,7 @@ export default css`
     color: var(--_nys-button-color);
     border: solid var(--_nys-button-border-width)
       var(--_nys-button-border-color);
-    cursor: pointer;
+    cursor: var(--_nys-button-cursor, pointer);
   }
 
   :host([circle]) .nys-button {
@@ -640,7 +641,7 @@ export default css`
   }
 
   .nys-button * {
-    cursor: pointer;
+    cursor: var(--_nys-button-cursor, pointer);
   }
 
   .nys-button:disabled * {
