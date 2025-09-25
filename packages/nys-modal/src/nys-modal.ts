@@ -276,7 +276,13 @@ export class NysModal extends LitElement {
   render() {
     return this.open
       ? html`<div class="nys-modal-overlay">
-          <div class="nys-modal" role="dialog" aria-modal="true" tabindex="-1">
+          <div
+            id=${this.id}
+            class="nys-modal"
+            role="dialog"
+            aria-modal="true"
+            tabindex="-1"
+          >
             <div class="nys-modal_header">
               <div class="nys-modal_header-inner">
                 <h2>${this.heading}</h2>
