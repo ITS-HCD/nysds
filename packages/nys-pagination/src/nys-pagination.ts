@@ -10,8 +10,7 @@ export class NysPagination extends LitElement {
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Number, reflect: true }) currentPage = 1;
   @property({ type: Number, reflect: true }) totalPages = 1;
-  @property({ type: Number, reflect: true, attribute: "_two-before-last" })
-  _twoBeforeLast = 1;
+  @property({ type: Boolean, reflect: true }) _twoBeforeLast = false;
 
   static styles = styles;
 
@@ -24,7 +23,7 @@ export class NysPagination extends LitElement {
     super.updated(changedProps);
     // Clamp currentPage whenever it or totalPages changes
     this.currentPage = this._clampPage(this.currentPage);
-    this._twoBeforeLast = this.totalPages - 2;
+    this._twoBeforeLast = this.currentPage === this.totalPages - 2;
   }
 
   // Generate a unique ID if one is not provided

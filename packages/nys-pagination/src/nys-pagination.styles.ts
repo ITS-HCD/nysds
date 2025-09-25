@@ -109,18 +109,23 @@ export default css`
     --_nys-button-cursor: default;
   }
 
-  :host([currentPage="3"]) nys-button#first-spacer {
+  :host([currentPage="3"]) nys-button#first-spacer,
+  :host([_twoBeforeLast]) nys-button#last-spacer {
     display: none;
   }
 
   @media (min-width: 0) and (max-width: 767px) {
     /* Mobile (XS) and Mobile Large (SM) */
+
+    /* Hide 1 less and more than currentPage */
     nys-button#prev-page,
     nys-button#next-page {
       display: none;
     }
 
-    :host([currentPage="3"]) nys-button#first-spacer {
+    /* Show spacer instead of 1 less and more than currentPage*/
+    :host([currentPage="3"]) nys-button#first-spacer,
+    :host([_twoBeforeLast]) nys-button#last-spacer {
       display: block;
     }
 
