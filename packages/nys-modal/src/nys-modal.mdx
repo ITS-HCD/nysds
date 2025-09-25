@@ -65,10 +65,10 @@ Use the default slot to add content such as text, links, or other elements insid
 <Canvas of={NysModalStories.BasicSlot} />
 
 ### Adding action buttons
-Set the modal’s visibility using the `open` property on `<nys-modal>`.
-Buttons (`<nys-button>`) placed in the `actions` slot can update this property to close the modal or confirm an action.
+Set the modal’s visibility using the `open` (boolean) property on `<nys-modal>`.
+Buttons (i.e. `<nys-button>`) placed in the `actions` slot can update this property to close the modal or confirm an action.
 
-**Note:** Make sure to add your event handler logic to set `modal.open = false` (to close) or perform any other action before closing.
+**Tip:** By convention, the secondary/cancel button is usually placed first, followed by the primary/confirm button. This helps maintain consistent UX and accessibility patterns.
 <Canvas of={NysModalStories.ActionButtonSlot} />
 
 ### Mandatory Action 
