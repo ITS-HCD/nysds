@@ -116,11 +116,11 @@ export default css`
       display: none;
     }
 
+    /* Swap to icon only previous and next buttons */
     nys-button#previous--mobile,
     nys-button#next--mobile {
       display: block;
     }
-
     nys-button#previous,
     nys-button#next {
       display: none;
