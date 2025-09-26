@@ -180,7 +180,7 @@ export class NysModal extends LitElement {
   }
 
   private _getAriaDescribedBy() {
-    // Handling what aria-describedby needs to announce given if subheading/slot context exists
+    // Handling what aria-describedby needs to announce in VO based on if the subheading or slot contents exists
     const ariaDescriptions: string[] = [];
     if (this.subheading) {
       ariaDescriptions.push(`${this.id}-subheading`);

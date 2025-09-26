@@ -5,29 +5,30 @@ export default css`
     /* Global Modal Styles */
     --_nys-modal-width: 480px;
     --_nys-modal-min-width: 320px;
-    --_nys-modal-radius: var(--nys-radius-lg, 8px);
-    --_nys-modal-border: 1px solid var(--nys-color-neutral-200, #bec0c1);
+    --_nys-modal-border-radius: var(--nys-radius-lg, 8px);
+    --_nys-modal-border-color: var(--nys-color-neutral-200, #bec0c1);
+    --_nys-modal-border-width: 1px;
     --_nys-modal-background: var(--nys-color-surface, #fff);
 
     /* Modal Overlay */
-    --_nys-modal-overlay-background: var(
+    --_nys-modal-background-color--overlay: var(
       --nys-color-black-transparent-700,
       rgba(27, 27, 27, 0.7)
     );
 
     /* Modal Header */
-    --_nys-modal-header-gap: var(--nys-space-150, 12px);
-    --_nys-modal-header-padding: var(--nys-space-300, 24px);
+    --_nys-modal-gap--header: var(--nys-space-150, 12px);
+    --_nys-modal-padding--header: var(--nys-space-300, 24px);
 
     /* Modal Body */
-    --_nys-modal-body-padding: var(--nys-space-100, 8px)
+    --_nys-modal-padding--body: var(--nys-space-100, 8px)
       var(--nys-space-300, 24px) var(--nys-space-300, 24px);
 
     /* Modal Footer */
-    --_nys-modal-footer-padding: var(--nys-space-200, 16px)
+    --_nys-modal-padding--footer: var(--nys-space-200, 16px)
       var(--nys-space-300, 24px) var(--nys-space-300, 24px)
       var(--nys-space-300, 24px);
-    --_nys-modal-footer-gap: var(--nys-space-250, 20px);
+    --_nys-modal-gap--footer: var(--nys-space-250, 20px);
 
     /* Typography */
     --_nys-modal-font-size: var(--nys-font-size-ui-md, 16px);
@@ -72,7 +73,7 @@ export default css`
     align-items: center;
     justify-content: center;
     z-index: 1000;
-    background: var(--_nys-modal-overlay-background);
+    background: var(--_nys-modal-background-color--overlay);
   }
 
   /*** Base ***/
@@ -82,8 +83,8 @@ export default css`
     margin: 20px;
     width: var(--_nys-modal-width);
     min-width: var(--_nys-modal-min-width);
-    border-radius: var(--_nys-modal-radius);
-    border: var(--_nys-modal-border);
+    border-radius: var(--_nys-modal-border-radius);
+    border: var(--_nys-modal-border-width) solid var(--_nys-modal-border-color);
     font-family: var(--_nys-modal-font-family);
     font-size: var(--_nys-modal-font-size);
     font-weight: var(--_nys-modal-font-weight);
@@ -96,10 +97,10 @@ export default css`
   /*** Modal Header ***/
   .nys-modal_header {
     display: flex;
-    padding: var(--_nys-modal-header-padding);
+    padding: var(--_nys-modal-padding--header);
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--_nys-modal-header-gap);
+    gap: var(--_nys-modal-gap--header);
   }
 
   .nys-modal_header-inner {
@@ -111,7 +112,7 @@ export default css`
   /*** Modal Body ***/
   .nys-modal_body {
     display: flex;
-    padding: var(--_nys-modal-body-padding);
+    padding: var(--_nys-modal-padding--body);
     flex-direction: column;
     align-items: flex-start;
   }
@@ -148,9 +149,9 @@ export default css`
   .nys-modal_footer ::slotted(*) {
     display: flex;
     flex-direction: column-reverse;
-    padding: var(--_nys-modal-footer-padding);
+    padding: var(--_nys-modal-padding--footer);
     justify-content: center;
-    gap: var(--_nys-modal-footer-gap);
+    gap: var(--_nys-modal-gap--footer);
     align-self: stretch;
   }
 
