@@ -66,7 +66,7 @@ Use the default slot to add content such as text, links, or other elements insid
 
 ### Adding action buttons
 Set the modal’s visibility using the `open` (boolean) property on `<nys-modal>`.
-Buttons (i.e. `<nys-button>`) placed in the `actions` slot can update this property to close the modal or confirm an action.
+Buttons (recommended `<nys-button>`) placed in the `actions` slot can update the `open` property to close the modal or confirm an action.
 
 **Tip:** By convention, the secondary/cancel button is usually placed first, followed by the primary/confirm button. This helps maintain consistent UX and accessibility patterns.
 <Canvas of={NysModalStories.ActionButtonSlot} />
@@ -86,7 +86,7 @@ A forced action modal requires users to make a choice before continuing. Set the
 ### When to consider something else
 - Content-heavy modals should generally be avoided
 - For inline status messages, use a banner or `nys-alert`
-- Quick hints for form-related components (e.g. text inputs) use a tooltip or `nys-tooltip`
+- Quick hints for form-related components (e.g., text inputs) use a tooltip or `nys-tooltip`
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">

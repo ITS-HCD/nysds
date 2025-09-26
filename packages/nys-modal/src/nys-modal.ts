@@ -68,10 +68,12 @@ export class NysModal extends LitElement {
         await this.updateComplete;
         this._savePrevFocused();
         this._focusOnModal();
+        this._updateDismissAria();
       } else {
         this._restorePrevFocused();
         this._restoreBodyScroll();
         this._dispatchCloseEvent();
+        this._updateDismissAria();
       }
     }
   }
@@ -177,6 +179,37 @@ export class NysModal extends LitElement {
     );
   }
 
+  private _getAriaDescribedBy() {
+    // Handling what aria-describedby needs to announce given if subheading/slot context exists
+    const ariaDescriptions: string[] = [];
+    if (this.subheading) {
+      ariaDescriptions.push(`${this.id}-subheading`);
+    }
+    if (this.hasBodySlots) {
+      ariaDescriptions.push(`${this.id}-desc`);
+    }
+    return ariaDescriptions.join(" ");
+  }
+
+  /**
+   * This exist to prevent the VO for dismiss button from announcing itself between the heading & subheading/slot content.
+   * We add the "Close this window" ariaLabel after the initial VO is done
+   */
+  private _updateDismissAria() {
+    const dismissBtn = this.shadowRoot?.querySelector("nys-button");
+    if (!dismissBtn) return;
+
+    // Hide from VO initially
+    dismissBtn.setAttribute("ariaLabel", " ");
+
+    if (this.open) {
+      // After focus is moved into modal, update label
+      setTimeout(() => {
+        dismissBtn.setAttribute("ariaLabel", "Close this window");
+      }, 100);
+    }
+  }
+
   /****************** Event Handlers ******************/
   private async _handleKeydown(e: KeyboardEvent) {
     if (!this.open) return;
@@ -275,17 +308,18 @@ export class NysModal extends LitElement {
 
   render() {
     return this.open
-      ? html`<div class="nys-modal-overlay">
-          <div
-            id=${this.id}
-            class="nys-modal"
-            role="dialog"
-            aria-modal="true"
-            tabindex="-1"
-          >
+      ? html`<div
+          id=${this.id}
+          class="nys-modal-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="${this.id}-heading"
+          aria-describedby="${this._getAriaDescribedBy()}"
+        >
+          <div class="nys-modal" tabindex="-1">
             <div class="nys-modal_header">
               <div class="nys-modal_header-inner">
-                <h2>${this.heading}</h2>
+                <h2 id="${this.id}-heading">${this.heading}</h2>
                 ${!this.mandatory
                   ? html`<nys-button
                       circle
@@ -295,10 +329,15 @@ export class NysModal extends LitElement {
                     ></nys-button>`
                   : ""}
               </div>
-              ${this.subheading ? html`<p>${this.subheading}</p>` : ""}
+              ${this.subheading
+                ? html`<p id="${this.id}-subheading">${this.subheading}</p>`
+                : ""}
             </div>
 
-            <div class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}">
+            <div
+              id="${this.id}-desc"
+              class="nys-modal_body ${!this.hasBodySlots ? "hidden" : ""}"
+            >
               <div class="nys-modal_body-inner">
                 <slot @slotchange=${this._handleBodySlotChange}></slot>
               </div>
