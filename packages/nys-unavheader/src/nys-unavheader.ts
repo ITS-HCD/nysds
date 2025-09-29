@@ -145,7 +145,10 @@ export class NysUnavHeader extends LitElement {
         >
           <div class="nys-unavheader__trustpanel content">
             <div class="nys-unavheader__messagewrapper">
-              <div class="nys-unavheader__trustcontentmessage">
+              <div
+                class="nys-unavheader__trustcontentmessage"
+                id="trust_official"
+              >
                 <nys-icon size="3xl" name="account_balance_filled"></nys-icon>
                 <label><b>Official websites use ny.gov</b></label>
                 <label
@@ -153,7 +156,10 @@ export class NysUnavHeader extends LitElement {
                   government organization.</label
                 >
               </div>
-              <div class="nys-unavheader__trustcontentmessage">
+              <div
+                class="nys-unavheader__trustcontentmessage"
+                id="trust_secure"
+              >
                 <nys-icon size="3xl" name="lock_filled"></nys-icon>
                 <label><b>Secure ny.gov websites use HTTPS</b></label>
                 <label
@@ -191,6 +197,7 @@ export class NysUnavHeader extends LitElement {
               <nys-button
                 id="nys-unavheader__know"
                 label="Here's how you know"
+                aria-controls="trust_official"
                 ariaLabel=${this.trustbarVisible
                   ? "Here's how you know expanded"
                   : "Here's how you know collapsed"}

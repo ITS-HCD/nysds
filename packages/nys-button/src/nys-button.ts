@@ -45,6 +45,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) inverted = false; //used on dark text
   @property({ type: String }) label = "";
   @property({ type: String }) ariaLabel = "";
+  @property({ type: String }) ariaControls = "";
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
   @property({ type: Boolean, reflect: true }) circle = false;
@@ -250,6 +251,7 @@ export class NysButton extends LitElement {
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
+              aria-controls=${ifDefined(this.ariaControls || undefined)}
               aria-label=${ifDefined(
                 this.ariaLabel ||
                   this.label ||
