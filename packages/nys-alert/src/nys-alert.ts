@@ -23,6 +23,7 @@ export class NysAlert extends LitElement {
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;
 
+  // --- Valid Alert Types --- //
   private static readonly VALID_TYPES = [
     "base",
     "info",
@@ -44,6 +45,19 @@ export class NysAlert extends LitElement {
     )
       ? (value as (typeof NysAlert.VALID_TYPES)[number])
       : "base";
+  }
+
+  // --- Valid Language Directions --- //
+  private static readonly VALID_DIR = ["ltr", "rtl", "auto"] as const;
+  private _dir: (typeof NysAlert.VALID_DIR)[number] = "auto";
+
+  set dir(value: "ltr" | "rtl" | "auto") {
+    this._dir = NysAlert.VALID_DIR.includes(value as any) ? value : "auto";
+  }
+
+  @property({ reflect: true })
+  get dir() {
+    return this._dir;
   }
 
   // Aria attributes based on the type
@@ -175,7 +189,7 @@ export class NysAlert extends LitElement {
                 label="${this.type} icon"
               ></nys-icon>
             </div>
-            <div class="nys-alert__texts" role=${role}>
+            <div class="nys-alert__texts" role=${role} dir=${this.dir}>
               <p class="nys-alert__header">${this.heading}</p>
               ${this._slotHasContent
                 ? html`<slot></slot>`
