@@ -159,7 +159,7 @@ export default css`
     display: none;
   }
 
-  @media (min-width: 400px) {
+  @media (min-width: 480px) {
     .nys-modal_body-inner {
       max-height: 25vh;
     }

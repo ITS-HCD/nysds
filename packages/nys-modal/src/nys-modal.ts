@@ -27,6 +27,7 @@ export class NysModal extends LitElement {
 
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
   private _prevFocusedElement: HTMLElement | null = null;
+  private _originalBodyOverflow: string | null = null;
 
   // Track slot contents to control what HTML is rendered
   @state() private hasBodySlots = false;
@@ -80,11 +81,17 @@ export class NysModal extends LitElement {
 
   /******************** Functions ********************/
   private _hideBodyScroll() {
-    document.body.style.overflow = this.open ? "hidden" : "";
+    if (this._originalBodyOverflow === null) {
+      this._originalBodyOverflow = document.body.style.overflow;
+    }
+    document.body.style.overflow = "hidden";
   }
 
   private _restoreBodyScroll() {
-    document.body.style.overflow = "";
+    if (this._originalBodyOverflow !== null) {
+      document.body.style.overflow = this._originalBodyOverflow;
+      this._originalBodyOverflow = null;
+    }
   }
 
   private _savePrevFocused() {
@@ -146,7 +153,7 @@ export class NysModal extends LitElement {
   // Therefore, we need to account for mobile size and screen resizes
   private _updateSlottedButtonWidth() {
     if (!this._actionButtonSlot) return; // use the cached variable
-    const isMobile = window.innerWidth <= 400;
+    const isMobile = window.innerWidth <= 480;
 
     this._actionButtonSlot.assignedElements().forEach((el) => {
       el.querySelectorAll("nys-button").forEach((btn) => {
