@@ -87,6 +87,8 @@ export default css`
   nys-button#previous--mobile,
   nys-button#next--mobile {
     --nys-button-color: var(--nys-color-text, ##1b1b1b);
+    --nys-button-color--hover: var(--nys-color-text, ##1b1b1b);
+    --nys-button-color--active: var(--nys-color-text, ##1b1b1b);
     --_nys-button-padding--x: var(--nys-space-150, 12px);
   }
 
