@@ -232,4 +232,9 @@ export default css`
   :host([type="emergency"]) a:active {
     text-decoration-thickness: 3px;
   }
+
+  /* RTL mode */
+  .nys-alert__container.rtl {
+    text-align: right;
+  }
 `;

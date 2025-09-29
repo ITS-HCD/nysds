@@ -47,17 +47,14 @@ export class NysAlert extends LitElement {
       : "base";
   }
 
-  // --- Valid Language Directions --- //
-  private static readonly VALID_DIR = ["ltr", "rtl", "auto"] as const;
-  private _dir: (typeof NysAlert.VALID_DIR)[number] = "auto";
-
-  set dir(value: "ltr" | "rtl" | "auto") {
-    this._dir = NysAlert.VALID_DIR.includes(value as any) ? value : "auto";
-  }
-
-  @property({ reflect: true })
-  get dir() {
-    return this._dir;
+  // --- Language Direction --- //
+  private _getDir() {
+    return (
+      this.closest("[dir]")?.getAttribute("dir") ||
+      document.getElementsByTagName("html")[0].getAttribute("dir") ||
+      document.documentElement.dir ||
+      "ltr"
+    );
   }
 
   // Aria attributes based on the type
@@ -174,8 +171,8 @@ export class NysAlert extends LitElement {
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container ${this._slotHasContent ||
-            this.text?.trim().length > 0
+            class="nys-alert__container ${this._getDir()} ${this
+              ._slotHasContent || this.text?.trim().length > 0
               ? ""
               : "nys-alert--centered"}"
             aria-label=${ifDefined(
@@ -189,7 +186,7 @@ export class NysAlert extends LitElement {
                 label="${this.type} icon"
               ></nys-icon>
             </div>
-            <div class="nys-alert__texts" role=${role} dir=${this.dir}>
+            <div class="nys-alert__texts" role=${role}>
               <p class="nys-alert__header">${this.heading}</p>
               ${this._slotHasContent
                 ? html`<slot></slot>`
