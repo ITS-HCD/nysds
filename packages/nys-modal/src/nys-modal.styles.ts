@@ -21,16 +21,8 @@ export default css`
 
     /* Modal Header */
     --_nys-modal-gap--header: var(--nys-space-100, 8px);
-    --_nys-modal-padding--header: var(--nys-space-300, 24px);
-
-    /* Modal Body */
-    --_nys-modal-padding--body: var(--nys-space-100, 8px)
-      var(--nys-space-300, 24px) var(--nys-space-300, 24px);
 
     /* Modal Footer */
-    --_nys-modal-padding--footer: var(--nys-space-200, 16px)
-      var(--nys-space-300, 24px) var(--nys-space-300, 24px)
-      var(--nys-space-300, 24px);
     --_nys-modal-gap--footer: var(--nys-space-250, 20px);
 
     /* Typography */
