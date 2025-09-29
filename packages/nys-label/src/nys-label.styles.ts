@@ -67,11 +67,13 @@ export default css`
   }
 
   .nys-label__required {
+    display: contents;
     font-weight: var(--_nys-label-font-weight);
     color: var(--_nys-required-font-color);
   }
 
   .nys-label__optional {
+    display: contents;
     font-weight: var(--_nys-optional-font-weight);
     color: var(--_nys-optional-font-color);
   }
