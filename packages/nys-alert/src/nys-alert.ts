@@ -47,16 +47,6 @@ export class NysAlert extends LitElement {
       : "base";
   }
 
-  // --- Language Direction --- //
-  private _getDir() {
-    return (
-      this.closest("[dir]")?.getAttribute("dir") ||
-      document.getElementsByTagName("html")[0].getAttribute("dir") ||
-      document.documentElement.dir ||
-      "ltr"
-    );
-  }
-
   // Aria attributes based on the type
   get ariaAttributes() {
     const ariaRole =
@@ -171,8 +161,8 @@ export class NysAlert extends LitElement {
       ${!this._alertClosed
         ? html` <div
             id=${this.id}
-            class="nys-alert__container ${this._getDir()} ${this
-              ._slotHasContent || this.text?.trim().length > 0
+            class="nys-alert__container ${this._slotHasContent ||
+            this.text?.trim().length > 0
               ? ""
               : "nys-alert--centered"}"
             aria-label=${ifDefined(
