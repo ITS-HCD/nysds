@@ -128,7 +128,16 @@ export class NysUnavHeader extends LitElement {
               variant="ghost"
               size="sm"
               suffixIcon="slotted"
-              .onClick="${() => this._toggleTrustbar()}"
+              @keydown="${(e: KeyboardEvent) => {
+                if (
+                  e.code === "Enter" ||
+                  e.code === "Space" ||
+                  e.key === "Enter" ||
+                  e.key === " "
+                ) {
+                  this._toggleTrustbar();
+                }
+              }}"
             >
               <nys-icon
                 slot="suffix-icon"
@@ -195,9 +204,8 @@ export class NysUnavHeader extends LitElement {
                 >An official website of New York State</label
               >
               <nys-button
-                id="nys-unavheader__know"
+                id="nys-unavheader__know--inline"
                 label="Here's how you know"
-                aria-controls="trust_official"
                 ariaLabel=${this.trustbarVisible
                   ? "Here's how you know expanded"
                   : "Here's how you know collapsed"}

@@ -67,9 +67,8 @@ export default css`
     padding-top: var(--nys-space-100, 8px);
     padding-bottom: var(--nys-space-100, 8px);
   }
-  .nys-unavheader__trustbar > .content,
-  .nys-unavheader__trustbar > .content,
-  * {
+  .nys-unavheader__trustbar.wrapper > .content,
+  .nys-unavheader__trustbar.wrapper > .content * {
     cursor: pointer;
   }
   .nys-unavheader__trustbar.inline,
@@ -80,7 +79,7 @@ export default css`
 
   /*
   .content -> small screens
-  inline -> large screens
+  .inline -> large screens
   */
   .nys-unavheader__trustbar > .content,
   .nys-unavheader__trustbar.inline {
@@ -115,7 +114,8 @@ export default css`
     width: auto;
   }
 
-  #nys-unavheader__know {
+  #nys-unavheader__know,
+  #nys-unavheader--inline {
     width: max-content;
     display: flex;
     align-items: center;
