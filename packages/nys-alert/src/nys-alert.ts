@@ -23,6 +23,7 @@ export class NysAlert extends LitElement {
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;
 
+  // --- Valid Alert Types --- //
   private static readonly VALID_TYPES = [
     "base",
     "info",
