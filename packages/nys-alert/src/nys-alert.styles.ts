@@ -77,7 +77,6 @@ export default css`
     line-height: var(--_nys-alert-line-height);
     letter-spacing: var(--_nys-alert-letter-spacing);
     gap: var(--_nys-alert-gap--icon);
-    text-align: left;
   }
 
   p {
@@ -231,10 +230,5 @@ export default css`
   }
   :host([type="emergency"]) a:active {
     text-decoration-thickness: 3px;
-  }
-
-  /* RTL mode */
-  .nys-alert__container.rtl {
-    text-align: right;
   }
 `;
