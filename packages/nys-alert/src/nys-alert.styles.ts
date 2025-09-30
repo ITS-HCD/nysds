@@ -158,6 +158,11 @@ export default css`
     flex-wrap: wrap;
   }
 
+  /* Dismiss Button */
+  #dismiss-btn {
+    margin-top: -10px;
+  }
+
   /* Alert Types */
   :host([type="info"]) {
     --_nys-alert-border-color: var(
