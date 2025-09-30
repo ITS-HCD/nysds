@@ -115,7 +115,7 @@ export default css`
   }
 
   #nys-unavheader__know,
-  #nys-unavheader--inline {
+  #nys-unavheader__know--inline {
     width: max-content;
     display: flex;
     align-items: center;
