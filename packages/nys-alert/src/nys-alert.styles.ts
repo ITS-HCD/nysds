@@ -160,7 +160,7 @@ export default css`
 
   /* Dismiss Button */
   #dismiss-btn {
-    margin-top: -10px;
+    margin-top: -8px;
   }
 
   /* Alert Types */
