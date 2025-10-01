@@ -8,7 +8,7 @@ export default css`
     --_nys-modal-border-radius: var(--nys-radius-lg, 8px);
     --_nys-modal-border-color: var(--nys-color-neutral-200, #bec0c1);
     --_nys-modal-border-width: 1px;
-    --_nys-modal-background: var(--nys-color-surface, #fff);
+    --_nys-modal-background-color: var(--nys-color-surface, #fff);
     --_nys-modal-margin: var(--nys-space-250, 20px);
     --_nys-modal-padding: var(--nys-space-300, 24px);
     --_nys-modal-gap: var(--nys-space-200, 16px);
@@ -87,7 +87,7 @@ export default css`
     font-family: var(--_nys-modal-font-family);
     font-size: var(--_nys-modal-font-size);
     line-height: var(--_nys-modal-line-height);
-    background: var(--_nys-modal-background);
+    background: var(--_nys-modal-background-color);
     position: relative;
     z-index: 10000;
   }
@@ -126,24 +126,6 @@ export default css`
 
   .nys-modal_body.hidden {
     display: none;
-  }
-
-  /* Scrollbar styling */
-  .nys-modal_body-inner::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .nys-modal_body-inner::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .nys-modal_body-inner::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-default, rgba(0, 0, 0, 0.23));
-    border-radius: 100px;
-  }
-
-  .nys-modal_body-inner::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-hover, rgba(0, 0, 0, 0.5));
   }
 
   /*** Modal Footer (i.e. where the button slot is) ***/
