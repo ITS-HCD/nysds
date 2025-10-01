@@ -151,6 +151,7 @@ export class NysUnavHeader extends LitElement {
           class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
             ? "show"
             : "hide"}"
+          aria-expanded="${this.trustbarVisible}"
         >
           <div class="nys-unavheader__trustpanel content">
             <div class="nys-unavheader__messagewrapper">
@@ -206,6 +207,7 @@ export class NysUnavHeader extends LitElement {
               <nys-button
                 id="nys-unavheader__know--inline"
                 label="Here's how you know"
+                aria-controls="trust_official"
                 ariaLabel=${this.trustbarVisible
                   ? "Here's how you know expanded"
                   : "Here's how you know collapsed"}
