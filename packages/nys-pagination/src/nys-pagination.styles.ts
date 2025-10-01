@@ -57,8 +57,8 @@ export default css`
     --nys-button-border-color--hover: var(--nys-color-neutral-600, #62666a);
     --nys-button-border-color--active: var(--nys-color-neutral-900, #1b1b1b);
     --nys-button-color: var(--nys-color-link, #004dd1);
-    --nys-button-color--hover: var(--nys-color-link, #004dd1);
-    --nys-button-color--active: var(--nys-color-link, #004dd1);
+    --nys-button-color--hover: var(--nys-color-link-strong, #003ba1);
+    --nys-button-color--active: var(--nys-color-link-strong, #003ba1);
   }
 
   nys-button[variant="filled"] {
