@@ -81,7 +81,6 @@ export default css`
   }
   slot[name="description"] {
     font-style: italic;
-    text-align: left;
     display: flex;
   }
 
