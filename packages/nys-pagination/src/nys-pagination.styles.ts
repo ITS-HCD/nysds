@@ -44,8 +44,8 @@ export default css`
   nys-button {
     --_nys-button-height: var(--_nys-pagination-height);
     --_nys-button-border-width: var(--nys-border-width-sm, 1px);
-    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
-    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--start: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--end: var(--nys-radius-md, 4px);
     --_nys-button-padding--x: var(--nys-space-200, 16px);
   }
 

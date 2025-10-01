@@ -175,8 +175,8 @@ export default css`
     gap: var(--nys-space-50, 4px);
     /* These props ARE NOT publicly overridable */
     --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
-    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
-    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--start: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--end: var(--nys-radius-md, 4px);
     --_nys-button-padding--y: var(--nys-space-2px, 2px);
     --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-border-width: 0px;

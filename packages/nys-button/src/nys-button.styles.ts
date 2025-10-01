@@ -7,8 +7,8 @@ export default css`
     /* Global Button Styles */
     --_nys-button-width: fit-content;
     --_nys-button-height: var(--nys-size-600, 48px);
-    --_nys-button-border-radius--left: var(--nys-radius-xl, 12px);
-    --_nys-button-border-radius--right: var(--nys-radius-xl, 12px);
+    --_nys-button-border-radius--start: var(--nys-radius-xl, 12px);
+    --_nys-button-border-radius--end: var(--nys-radius-xl, 12px);
     --_nys-button-padding--y: var(--nys-space-150, 12px);
     --_nys-button-padding--x: var(--nys-space-250, 20px);
     --_nys-button-gap: var(--nys-space-100, 8px);
@@ -212,8 +212,8 @@ export default css`
   /* Text */
   :host([variant="text"]) {
     --_nys-button-height: fit-content;
-    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
-    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--start: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--end: var(--nys-radius-md, 4px);
     --_nys-button-padding--y: var(--nys-space-2px, 2px);
     --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-border-width: 0px;
@@ -443,8 +443,8 @@ export default css`
   /* Text Inverted */
   :host([variant="text"][inverted]) {
     --_nys-button-height: fit-content;
-    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
-    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--start: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--end: var(--nys-radius-md, 4px);
     --_nys-button-padding--y: var(--nys-space-2px, 2px);
     --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-border-width: 0px;
@@ -566,8 +566,8 @@ export default css`
   /* Circle */
   :host([circle]) {
     --_nys-button-width: var(--_nys-button-height);
-    --_nys-button-border-radius--left: var(--nys-radius-round, 1776px);
-    --_nys-button-border-radius--right: var(--nys-radius-round, 1776px);
+    --_nys-button-border-radius--start: var(--nys-radius-round, 1776px);
+    --_nys-button-border-radius--end: var(--nys-radius-round, 1776px);
     --_nys-button-padding--y: 0;
     --_nys-button-padding--x: 0;
   }
@@ -577,10 +577,10 @@ export default css`
     min-height: var(--_nys-button-height);
     height: var(--_nys-button-height);
     /* set every corner individually */
-    border-top-left-radius: var(--_nys-button-border-radius--left);
-    border-bottom-left-radius: var(--_nys-button-border-radius--left);
-    border-top-right-radius: var(--_nys-button-border-radius--right);
-    border-bottom-right-radius: var(--_nys-button-border-radius--right);
+    border-start-start-radius: var(--_nys-button-border-radius--start);
+    border-end-start-radius: var(--_nys-button-border-radius--start);
+    border-start-end-radius: var(--_nys-button-border-radius--end);
+    border-end-end-radius: var(--_nys-button-border-radius--end);
     padding: var(--_nys-button-padding--y) var(--_nys-button-padding--x);
     display: flex;
     align-items: center;
