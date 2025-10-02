@@ -86,4 +86,14 @@ export default css`
   .nys-label__tooltip-icon {
     margin-top: -2px;
   }
+
+  .nys-label.invert .nys-label__label,
+  .nys-label.invert .nys-label__description,
+  .nys-label.invert .nys-label__optional {
+    color: var(--nys-color-text-inverse, #fff);
+  }
+
+  .nys-label.invert .nys-label__tooltip-icon {
+    color: var(--nys-color-ink-inverse, #fff);
+  }
 `;
