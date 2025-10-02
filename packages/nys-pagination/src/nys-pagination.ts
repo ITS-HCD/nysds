@@ -48,6 +48,7 @@ export class NysPagination extends LitElement {
       buttons.push(html`
         <nys-button
           label=${String(page)}
+          ariaLabel="Page ${page}"
           id=${ifDefined(id)}
           variant=${this.currentPage === page ? "filled" : "outline"}
           @nys-click="${() => this._handlePageClick(page)}"
@@ -138,6 +139,7 @@ export class NysPagination extends LitElement {
             <nys-button
               id="previous--mobile"
               prefixIcon="chevron_left"
+              ariaLabel="Previous Page"
               variant="outline"
               @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
             ></nys-button>
@@ -156,6 +158,7 @@ export class NysPagination extends LitElement {
             <nys-button
               id="next--mobile"
               suffixIcon="chevron_right"
+              ariaLabel="Next Page"
               variant="outline"
               @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
             ></nys-button>
