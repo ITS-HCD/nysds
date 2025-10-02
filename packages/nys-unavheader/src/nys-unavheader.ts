@@ -48,23 +48,21 @@ export class NysUnavHeader extends LitElement {
       this.languageVisible = false;
       this.searchDropdownVisible = false;
 
-      if (this.trustbarVisible) {
-        // Move focus to the close button when expanded
-        this.updateComplete.then(() => {
-          const closeBtn = this.shadowRoot?.getElementById(
-            "nys-unavheader__closetrustbar",
-          );
-          closeBtn?.focus();
-        });
-      } else {
-        // Move focus back to "how you know" on collapse
-        this.updateComplete.then(() => {
-          const inlineKnowBtn = this.shadowRoot?.getElementById(
-            "nys-unavheader__know--inline",
-          );
-          inlineKnowBtn?.focus();
-        });
-      }
+      // Move focus to the close button when expanded
+      this.updateComplete.then(() => {
+        const closeBtn = this.shadowRoot?.getElementById(
+          "nys-unavheader__closetrustbar",
+        );
+        closeBtn?.focus();
+      });
+    } else {
+      // Move focus back to "how you know" on collapse
+      this.updateComplete.then(() => {
+        const inlineKnowBtn = this.shadowRoot?.getElementById(
+          "nys-unavheader__know--inline",
+        );
+        inlineKnowBtn?.focus();
+      });
     }
   }
 
@@ -172,6 +170,16 @@ export class NysUnavHeader extends LitElement {
           aria-expanded="${this.trustbarVisible}"
         >
           <div class="nys-unavheader__trustpanel content">
+            <nys-button
+              id="nys-unavheader__closetrustbar"
+              class="nys-unavheader__iconbutton"
+              variant="ghost"
+              circle
+              icon="close"
+              size="sm"
+              ariaLabel="Close this notice"
+              .onClick="${() => this._toggleTrustbar()}"
+            ></nys-button>
             <div class="nys-unavheader__messagewrapper">
               <div
                 class="nys-unavheader__trustcontentmessage"
@@ -197,16 +205,6 @@ export class NysUnavHeader extends LitElement {
                 >
               </div>
             </div>
-            <nys-button
-              id="nys-unavheader__closetrustbar"
-              class="nys-unavheader__iconbutton"
-              variant="ghost"
-              circle
-              icon="close"
-              size="sm"
-              ariaLabel="Close this notice"
-              .onClick="${() => this._toggleTrustbar()}"
-            ></nys-button>
           </div>
         </div>
         <div class="nys-unavheader__main wrapper" id="nys-universal-navigation">
@@ -224,7 +222,7 @@ export class NysUnavHeader extends LitElement {
               >
               <nys-button
                 id="nys-unavheader__know--inline"
-                label="Here's how you know"
+                label="Here's how you know inline test"
                 ariaControls="trust_official"
                 ariaLabel=${this.trustbarVisible
                   ? "Here's how you know expanded"

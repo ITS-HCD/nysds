@@ -176,6 +176,7 @@ export default css`
 
   .nys-unavheader__trustpanel.content {
     display: flex;
+    flex-direction: row-reverse;
   }
 
   .nys-unavheader__trustcontentmessage {
