@@ -19,18 +19,19 @@ export default css`
     --_nys-label-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-label-letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
     --_nys-label-color: var(--nys-color-text, #1b1b1b);
+    --_nys-label-cursor: normal;
 
     /* Description */
-    --nys-description-font-weight: var(--nys-font-weight-regular, 400);
-    --nys-description-font-style: italic;
-    --nys-description-font-color: var(--nys-color-text, #1b1b1b);
+    --_nys-description-font-weight: var(--nys-font-weight-regular, 400);
+    --_nys-description-font-style: italic;
+    --_nys-description-font-color: var(--nys-color-text, #1b1b1b);
 
     /* Required Flag */
-    --nys-required-font-color: var(--nys-color-danger, #b52c2c);
+    --_nys-required-font-color: var(--nys-color-danger, #b52c2c);
 
     /* Optional Flag */
-    --nys-optional-font-weight: var(--nys-font-weight-regular, 400);
-    --nys-optional-font-color: var(--nys-color-text-weak, #4a4d4f);
+    --_nys-optional-font-weight: var(--nys-font-weight-regular, 400);
+    --_nys-optional-font-color: var(--nys-color-text-weak, #4a4d4f);
 
     /* Spacing */
     --_nys-label-gap: var(--nys-space-4px, 4px);
@@ -46,6 +47,10 @@ export default css`
     letter-spacing: var(--_nys-label-letter-spacing);
   }
 
+  .nys-label * {
+    cursor: var(--_nys-label-cursor);
+  }
+
   .nys-label__label {
     display: flex;
     gap: var(--_nys-label-gap);
@@ -56,19 +61,21 @@ export default css`
 
   .nys-label__description {
     text-align: left;
-    font-weight: var(--nys-description-font-weight);
-    font-style: var(--nys-description-font-style);
-    color: var(--nys-description-font-color);
+    font-weight: var(--_nys-description-font-weight);
+    font-style: var(--_nys-description-font-style);
+    color: var(--_nys-description-font-color);
   }
 
   .nys-label__required {
+    display: contents;
     font-weight: var(--_nys-label-font-weight);
-    color: var(--nys-required-font-color);
+    color: var(--_nys-required-font-color);
   }
 
   .nys-label__optional {
-    font-weight: var(--nys-optional-font-weight);
-    color: var(--nys-optional-font-color);
+    display: contents;
+    font-weight: var(--_nys-optional-font-weight);
+    color: var(--_nys-optional-font-color);
   }
 
   .nys-label__tooltip-wrapper {

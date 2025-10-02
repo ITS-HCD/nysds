@@ -1,0 +1,115 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysPaginationStories from "./nys-pagination.stories";
+import "@nysds/nys-icon"
+import "@nysds/nys-badge"
+
+<Meta of={NysPaginationStories} title="Components/Pagination/Documentation" />
+
+# Pagination
+
+The **`nys-pagination`** component is a reusable web component for use in New York State digital products.
+
+If an id is not passed, a unique id will be generated.
+
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=10600-10347" target="_blank">View in Figma</a>
+  </p>
+</div>
+
+---
+
+<Canvas of={NysPaginationStories.Basic} />
+
+<Controls />
+
+## Options
+
+The `<nys-pagination>` component automatically renders in a condensed format on small screens.
+
+Note: If  `totalPages` is 1 then the `<nys-pagination>` component will not be visible.
+
+### Current Page
+
+The prop `currentPage` takes in the page number you are currently on. This value cannot be larger than the value of `totalPages`. If a value larger than `totalPages` is passed in, it will return the last available page.
+
+### Total Pages
+
+The prop `totalPages` takes in the number of total pages to view.
+
+## Usage
+
+### When to use this component
+
+- When displaying large data sets or search results that would be overwhelming to display all at once
+- When users need control and orientation to navigate to a specific part of the content, such as page 5 of search results
+- When performance and load times matter, since pagination lets you fetch and render smaller chunks of data instead of everything at once.
+
+### When to consider something else
+
+- If the collection is shorter than 3 - 4 screen lengths, it's better to display all items at once rather than using pagination.
+- When you need to show progress through a series of tasks that must be completed in order (such as an onboarding process) use the `<nys-stepper>` component.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - Use when content would be better to be spread across multiple pages.
+      - When there is too much content to display all at once.
+      - For tables and search results.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - If the displayed collection can fit on less than 3 or 4 pages, consider displaying all items at once and using a scroll.
+      - For interactive pages or collecting information, instead consider the `<nys-stepper>`
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-pagination` component includes the following accessibility-focused features:
+
+- All pagination buttons are reachable and operable via keyboard (Tab, Enter, Space).
+- Provide a clear, visible focus indicator for buttons so users can see where they are.
+
+## Events
+
+The `nys-pagination` component emits the following events:
+
+1. `nys-click`: Emitted when the pagination is clicked.
+2. `nys-focus`: Emitted when the pagination receives focus.
+3. `nys-blur`: Emitted when the pagination loses focus.
+
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the pagination.
+- checked (boolean): Whether the pagination is currently checked.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the pagination component
+const pagination = document.querySelector("nys-pagination");
+
+// Listen for the 'nys-change' event
+pagination.addEventListener("nys-change", (event) => {
+	console.log("Pagination is changed to page ${event.detail.page}");
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- `<nys-button>`
