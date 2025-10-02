@@ -163,10 +163,9 @@ export class NysPagination extends LitElement {
         : null}
     </div>`;
   }
-}
-
   /****************** 🪡 for 1.10.0 ******************/
   /****************** designsystem@its.ny.gov ********/
+}
 
 if (!customElements.get("nys-pagination")) {
   customElements.define("nys-pagination", NysPagination);
