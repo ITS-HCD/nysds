@@ -47,6 +47,24 @@ export class NysUnavHeader extends LitElement {
     if (this.trustbarVisible) {
       this.languageVisible = false;
       this.searchDropdownVisible = false;
+
+      if (this.trustbarVisible) {
+        // Move focus to the close button when expanded
+        this.updateComplete.then(() => {
+          const closeBtn = this.shadowRoot?.getElementById(
+            "nys-unavheader__closetrustbar",
+          );
+          closeBtn?.focus();
+        });
+      } else {
+        // Move focus back to "how you know" on collapse
+        this.updateComplete.then(() => {
+          const inlineKnowBtn = this.shadowRoot?.getElementById(
+            "nys-unavheader__know--inline",
+          );
+          inlineKnowBtn?.focus();
+        });
+      }
     }
   }
 
@@ -207,7 +225,7 @@ export class NysUnavHeader extends LitElement {
               <nys-button
                 id="nys-unavheader__know--inline"
                 label="Here's how you know"
-                aria-controls="trust_official"
+                ariaControls="trust_official"
                 ariaLabel=${this.trustbarVisible
                   ? "Here's how you know expanded"
                   : "Here's how you know collapsed"}

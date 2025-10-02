@@ -186,6 +186,20 @@ export class NysButton extends LitElement {
     }
   }
 
+  /******************** Public Methods ********************/
+  public focus(options?: FocusOptions) {
+    const innerEl = this.renderRoot.querySelector(
+      this.href ? "a.nys-button" : "button.nys-button",
+    ) as HTMLElement | null;
+
+    if (innerEl) {
+      innerEl.focus(options);
+    } else {
+      // fallback: focus host
+      super.focus(options);
+    }
+  }
+
   render() {
     return html`
       ${this.href
@@ -261,6 +275,7 @@ export class NysButton extends LitElement {
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
+              onclick="${this.onClick}"
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
