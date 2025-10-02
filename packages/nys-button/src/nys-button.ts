@@ -186,7 +186,7 @@ export class NysButton extends LitElement {
     ) {
       if (this.disabled) return;
 
-      //e.preventDefault();
+      e.preventDefault();
 
       if (this.href) {
         // Click the internal <a> so native navigation happens
