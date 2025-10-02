@@ -90,6 +90,23 @@ export class NysButton extends LitElement {
       : "_self";
   }
 
+  public async getButtonElement(): Promise<HTMLElement | null> {
+    await this.updateComplete; // Wait for the component to finish rendering
+
+    // if it's a link button
+    const linkEl =
+      this.shadowRoot?.querySelector<HTMLAnchorElement>("a.nys-button") || null;
+    if (linkEl) return linkEl;
+
+    // Otherwise return the native button
+    const btnEl =
+      this.shadowRoot?.querySelector<HTMLButtonElement>("button.nys-button") ||
+      null;
+    if (btnEl) return btnEl;
+
+    return null;
+  }
+
   static styles = styles;
   private _internals: ElementInternals;
 
