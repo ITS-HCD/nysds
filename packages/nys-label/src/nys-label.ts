@@ -7,7 +7,7 @@ export class NysLabel extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) flag = "";
-  @property({ type: Boolean, reflect: true }) tooltipInverted = false;
+  @property({ type: Boolean, reflect: true }) invert = false;
   @property({ type: String })
   get tooltip() {
     return this._tooltip;
@@ -21,9 +21,11 @@ export class NysLabel extends LitElement {
 
   render() {
     return html`
-      <div class="nys-label">
+      <div class="nys-label ${this.invert ? "invert" : ""}">
         <div class="nys-label__tooltip-wrapper">
-          <label for=${this.for} class="nys-label__label"
+          <label
+            for=${this.for}
+            class="nys-label__label"
             >${this.label}
             ${this.flag === "required"
               ? html`<div class="nys-label__required">*</div>`
@@ -37,7 +39,7 @@ export class NysLabel extends LitElement {
                 text="${this._tooltip}"
                 position="top"
                 focusable
-                ?inverted=${this.tooltipInverted}
+                ?inverted=${this.invert}
               >
                 <div class="nys-label__tooltip-icon">
                   <nys-icon name="info" size="3xl"></nys-icon>
@@ -45,7 +47,10 @@ export class NysLabel extends LitElement {
               </nys-tooltip>`
             : ""}
         </div>
-        <label for=${this.for} class="nys-label__description">
+        <label
+          for=${this.for}
+          class="nys-label__description"
+        >
           <slot name="description">${this.description}</slot>
         </label>
       </div>
