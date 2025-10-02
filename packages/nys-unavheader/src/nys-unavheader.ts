@@ -222,7 +222,7 @@ export class NysUnavHeader extends LitElement {
               >
               <nys-button
                 id="nys-unavheader__know--inline"
-                label="Here's how you know inline test"
+                label="Here's how you know"
                 ariaControls="trust_official"
                 ariaLabel=${this.trustbarVisible
                   ? "Here's how you know expanded"
