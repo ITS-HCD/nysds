@@ -72,6 +72,7 @@ export class NysCheckbox extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this._manageRequire();
+    this._manageLabelClick();
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -175,6 +176,15 @@ export class NysCheckbox extends LitElement {
     }
   }
 
+  private _manageLabelClick = () => {
+    const labelEl = this.shadowRoot?.querySelector("nys-label");
+    const inputEl = this.shadowRoot?.querySelector("input");
+
+    if (labelEl && inputEl) {
+      labelEl.addEventListener("click", () => inputEl.click());
+    }
+  };
+
   /******************** Event Handlers ********************/
   private _emitChangeEvent() {
     this.dispatchEvent(
@@ -251,6 +261,7 @@ export class NysCheckbox extends LitElement {
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
             @keydown="${this._handleKeydown}"
+            aria-label="${this.label}"
           />
           ${this.checked
             ? html`<nys-icon
