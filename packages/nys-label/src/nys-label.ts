@@ -23,9 +23,7 @@ export class NysLabel extends LitElement {
     return html`
       <div class="nys-label ${this.invert ? "invert" : ""}">
         <div class="nys-label__tooltip-wrapper">
-          <label
-            for=${this.for}
-            class="nys-label__label"
+          <label for=${this.for} class="nys-label__label"
             >${this.label}
             ${this.flag === "required"
               ? html`<div class="nys-label__required">*</div>`
@@ -47,10 +45,7 @@ export class NysLabel extends LitElement {
               </nys-tooltip>`
             : ""}
         </div>
-        <label
-          for=${this.for}
-          class="nys-label__description"
-        >
+        <label for=${this.for} class="nys-label__description">
           <slot name="description">${this.description}</slot>
         </label>
       </div>
