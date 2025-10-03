@@ -1,7 +1,8 @@
 /* Include the selective CSS reset  */
 @import "./core/reset.css";
 
-@import "./nysds.css"; /* Include core styles */
+@import "./nysds.css";
+/* Include core styles */
 
 /* Include Design Tokens (variables for colors, spacing, typography) */
 @import "./core/typography.css";
@@ -9,6 +10,7 @@
 /* NYSDS: Full Style Library */
 @import "./utilities/layout-grid.css";
 @import "./utilities/display.css";
+@import "./utilities/elevation.css";
 @import "./utilities/float.css";
 @import "./utilities/opacity.css";
 @import "./utilities/flex.css";
