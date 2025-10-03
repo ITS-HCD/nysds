@@ -15,6 +15,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: String }) _tooltip = "";
+  @property({ type: Boolean, reflect: true }) invert = false;
   @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private selectedValue: string | null = null;
@@ -90,6 +91,9 @@ export class NysRadiogroup extends LitElement {
     }
     if (changedProperties.has("tile")) {
       this._updateRadioButtonsTile();
+    }
+    if (changedProperties.has("invert")) {
+      this._updateRadioButtonsInvert();
     }
     if (changedProperties.has("showError")) {
       this._updateRadioButtonsShowError();
@@ -259,6 +263,17 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
+  private _updateRadioButtonsInvert() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.invert) {
+        radioButton.toggleAttribute("invert", true);
+      } else {
+        radioButton.removeAttribute("invert");
+      }
+    });
+  }
+
   private _updateRadioButtonsShowError() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
@@ -357,6 +372,7 @@ export class NysRadiogroup extends LitElement {
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
         _tooltip=${this._tooltip}
+        ?invert=${this.invert}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>

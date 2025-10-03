@@ -15,6 +15,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: Boolean, reflect: true }) invert = false;
   @property({ type: String, reflect: true }) form: string | null = null;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
@@ -193,6 +194,7 @@ export class NysRadiobutton extends LitElement {
           for=${this.id}
           label=${this.label}
           description=${ifDefined(this.description || undefined)}
+          ?invert=${this.invert}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label> `}

@@ -19,6 +19,7 @@ interface NysTextinputArgs {
   readonly: boolean;
   required: boolean;
   optional: boolean;
+  invert: boolean;
   form: string | null;
   pattern: string;
   maxlength: number | null;
@@ -48,6 +49,7 @@ const meta: Meta<NysTextinputArgs> = {
     readonly: { control: "boolean" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
+    invert: { control: "boolean" },
     form: { control: "text" },
 
     pattern: { control: "text" },
@@ -86,6 +88,7 @@ export const Basic: Story = {
     required: false,
     optional: false,
     showError: false,
+    invert: false,
   },
   render: (args) => html`
     <nys-textinput
@@ -100,6 +103,7 @@ export const Basic: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -141,6 +145,7 @@ export const Width: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -188,6 +193,7 @@ export const Password: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -235,6 +241,7 @@ export const SlottedButton: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -296,6 +303,7 @@ export const ValueAndPlaceholder: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -344,6 +352,7 @@ export const Disabled: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -387,6 +396,7 @@ export const Readonly: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -438,6 +448,7 @@ export const MaxMinAndStep: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -490,6 +501,7 @@ export const Maxlength: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -544,6 +556,7 @@ export const Pattern: Story = {
         .readonly=${args.readonly}
         .required=${args.required}
         .optional=${args.optional}
+        ?invert=${args.invert}
         .form=${args.form}
         .pattern=${args.pattern}
         .maxlength=${args.maxlength}
@@ -594,6 +607,7 @@ export const Required: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -634,6 +648,7 @@ export const DescriptionSlot: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -656,6 +671,7 @@ export const DescriptionSlot: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -708,6 +724,7 @@ export const ErrorMessage: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -756,6 +773,7 @@ export const Optional: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -799,6 +817,7 @@ export const Telephone: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?invert=${args.invert}
       .form=${args.form}
       .pattern=${args.pattern}
       .maxlength=${args.maxlength}
@@ -821,6 +840,58 @@ export const Telephone: Story = {
   type="tel"
 >
 </nys-textinput>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Invert: Story = {
+  args: {
+    label: "Label",
+    description: "Prop: description",
+    value: "",
+    invert: true,
+  },
+  render: (args) => html`
+    <div
+      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
+    >
+      <nys-textinput
+        .id=${args.id}
+        name="descriptionProp"
+        .type=${args.type}
+        .label=${args.label}
+        .description=${args.description}
+        .placeholder=${args.placeholder}
+        .value=${args.value}
+        .disabled=${args.disabled}
+        .readonly=${args.readonly}
+        .required=${args.required}
+        .optional=${args.optional}
+        ?invert=${args.invert}
+        .form=${args.form}
+        .pattern=${args.pattern}
+        .maxlength=${args.maxlength}
+        .width=${args.width}
+        .step=${args.step}
+        .min=${args.min}
+        .max=${args.max}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
+      ></nys-textinput>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textinput
+  name="descriptionProp"
+  label="Label"
+  description="Slot: description"
+  invert
+></nys-textinput>`,
         type: "auto",
       },
     },

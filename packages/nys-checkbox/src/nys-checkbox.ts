@@ -20,6 +20,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) groupExist = false;
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: Boolean, reflect: true }) invert = false;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
 
@@ -283,6 +284,7 @@ export class NysCheckbox extends LitElement {
             label=${this.label}
             description=${ifDefined(this.description ?? undefined)}
             flag=${ifDefined(this.required ? "required" : undefined)}
+            ?invert=${this.invert}
           >
             <slot name="description" slot="description"
               >${this.description}</slot
