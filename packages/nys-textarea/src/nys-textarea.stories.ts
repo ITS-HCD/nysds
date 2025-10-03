@@ -587,10 +587,7 @@ export const Invert: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea label="Label" description="Prop: description"></nys-textarea>
-<nys-textarea label="Label">
-  <label slot="description">Slot: description</label>
-</nys-textarea>
+<nys-textarea label="Label" description="Prop: description" invert></nys-textarea>
         `,
         type: "auto",
       },
