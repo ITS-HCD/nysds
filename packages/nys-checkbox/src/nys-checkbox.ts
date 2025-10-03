@@ -241,7 +241,7 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <div class="nys-checkbox">
+      <label class="nys-checkbox">
         <div class="nys-checkbox__checkboxwrapper">
           <input
             id="${this.id}"
@@ -289,7 +289,7 @@ export class NysCheckbox extends LitElement {
             >
           </nys-label>
         `}
-      </div>
+      </label>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage
             id="single-error-message"
