@@ -72,6 +72,7 @@ export class NysCheckbox extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this._manageRequire();
+    this._manageLabelClick();
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -175,6 +176,15 @@ export class NysCheckbox extends LitElement {
     }
   }
 
+  private _manageLabelClick = () => {
+    const labelEl = this.shadowRoot?.querySelector("nys-label");
+    const inputEl = this.shadowRoot?.querySelector("input");
+
+    if (labelEl && inputEl) {
+      labelEl.addEventListener("click", () => inputEl.click());
+    }
+  };
+
   /******************** Event Handlers ********************/
   private _emitChangeEvent() {
     this.dispatchEvent(
@@ -231,7 +241,7 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <label class="nys-checkbox">
+      <div class="nys-checkbox">
         <div class="nys-checkbox__checkboxwrapper">
           <input
             id="${this.id}"
@@ -267,6 +277,7 @@ export class NysCheckbox extends LitElement {
         </div>
         ${this.label &&
         html`
+          <label for=${this.id} class="sr-only">${this.label}</label>
           <nys-label
             for=${this.id}
             label=${this.label}
@@ -278,7 +289,7 @@ export class NysCheckbox extends LitElement {
             >
           </nys-label>
         `}
-      </label>
+      </div>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage
             id="single-error-message"
