@@ -125,8 +125,8 @@ export const Basic: Story = {
     Cuomo consequat.
   </p>
   <div slot="actions">
-    <nys-button label="Not now" variant="text" onClick="{your logic here}"</nys-button>
-    <nys-button label="Update" onClick="{your logic here}"></nys-button>
+    <nys-button label="Not now" variant="text" onClick={your logic here}></nys-button>
+    <nys-button label="Update" onClick={your logic here}></nys-button>
   </div>
 </nys-modal>`,
         type: "auto",

@@ -92,13 +92,6 @@ export default function (plop) {
       },
       {
         type: "modify",
-        path: "packages/styles/src/nysds.css",
-        pattern:
-          /(\/\* Hide unstyled components until they are fully loaded \*\/)/,
-        template: `$1\nnys-{{componentName}}:not(:defined),`,
-      },
-      {
-        type: "modify",
         path: "src/index.ts",
         transform: (content, data) => {
           const insertLine = `\nexport * from "../packages/nys-${data.componentName}/src/index";\n`;

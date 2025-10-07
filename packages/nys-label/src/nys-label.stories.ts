@@ -9,8 +9,7 @@ interface NysLabelArgs {
   label: string;
   description: string;
   flag: "required" | "optional";
-  tooltip: string;
-  invert: boolean;
+  tooltip?: string;
 }
 
 const meta: Meta<NysLabelArgs> = {
@@ -27,7 +26,6 @@ const meta: Meta<NysLabelArgs> = {
       defaultValue: { summary: `null` },
     },
     tooltip: { control: { type: "text" } },
-    invert: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -47,7 +45,6 @@ export const Basic: Story = {
     label: "This is a basic nys-label",
     description: "",
     tooltip: "",
-    invert: false,
   },
   render: (args) =>
     html`<nys-label
@@ -55,7 +52,6 @@ export const Basic: Story = {
       description=${args.description}
       flag=${args.flag}
       tooltip=${args.tooltip}
-      ?invert=${args.invert}
     ></nys-label>`,
   parameters: {
     docs: {
