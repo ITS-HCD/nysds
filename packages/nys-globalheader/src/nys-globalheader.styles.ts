@@ -63,8 +63,9 @@ export default css`
       --nys-size-2px,
       2px
     );
-    --_nys-globalheader-link-padding: var(--nys-space-300, 24px)
+    --_nys-globalheader-padding--link: var(--nys-space-300, 24px)
       var(--nys-space-200, 16px);
+    --_nys-globalheader-font-size--link: var(--nys-type-size-ui-lg, 18px);
 
     /* Mobile Menu */
     --_nys-globalheader-font-size--menu-btn: var(--nys-type-size-ui-xs, 12px);
@@ -87,7 +88,8 @@ export default css`
     );
   }
 
-  /* Slotted content (menu links) basic resets */
+  /* ******************************************************* */
+  /*** Slotted content (menu links) basic resets ***/
   ul {
     list-style-type: none;
     padding: 0;
@@ -101,7 +103,8 @@ export default css`
     box-sizing: border-box;
   }
 
-  a {
+  a,
+  button {
     color: var(--_nys-globalheader-color);
     text-decoration: none;
     font-family: var(--_nys-globalheader-font-family--menu);
@@ -109,6 +112,8 @@ export default css`
     font-weight: 400;
     line-height: var(--_nys-globalheader-line-height--menu);
     letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
+    font-size: var(--_nys-globalheader-font-size--link);
+    cursor: pointer;
   }
 
   .nys-globalheader {
@@ -122,7 +127,7 @@ export default css`
     box-sizing: border-box;
   }
 
-  /* Main container */
+  /*** Main container ***/
   .nys-globalheader__main-container {
     display: flex;
     gap: var(--_nys-globalheader-gap);
@@ -159,20 +164,22 @@ export default css`
     font-size: var(--_nys-globalheader-font-size--heading);
   }
 
-  /* Slotted content */
+  /*** Slotted content + SubLinks styling ***/
   .nys-globalheader__content {
     display: none;
     font-family: var(--_nys-globalheader-font-family--menu);
   }
 
   .nys-globalheader__content ul {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
   }
 
-  .nys-globalheader__content ul a:hover {
+  .nys-globalheader__content ul a:hover,
+  ul li > button:hover {
     text-decoration: underline;
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;
@@ -186,8 +193,37 @@ export default css`
       --_nys-globalheader-text-decoration-thickness--menu
     );
   }
+  /* SubLinks button + dropdown */
+  .nys-globalheader__content ul li > button,
+  .nys-globalheader__content-mobile ul li > button {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .nys-globalheader__content ul li > button + ul {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--_nys-globalheader-background-color);
+    top: 100%;
+    left: 0;
+    white-space: nowrap;
+    z-index: 100;
+  }
+  .nys-globalheader__content ul li > button + ul li {
+    padding: 0;
+    width: 100%;
+  }
+  .nys-globalheader__content ul li > button + ul li:first-child a {
+    border-top: 1px solid var(--_nys-globalheader-color);
+  }
+  .nys-globalheader__content ul li > button + ul li a {
+    padding: 24px;
+    width: 100%;
+    border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
+  }
 
-  /* Active Links */
+  /*** Active Links ***/
   .nys-globalheader__content li.active a,
   .nys-globalheader__content-mobile li.active a {
     font-weight: 700;
@@ -206,7 +242,7 @@ export default css`
     text-decoration: none;
   }
 
-  /* Mobile Menu */
+  /*** Mobile Menu ***/
   .nys-globalheader__content-mobile {
     position: absolute;
     z-index: 10;
@@ -223,10 +259,12 @@ export default css`
     display: flex;
     flex-direction: column;
   }
-  .nys-globalheader__content-mobile ul li:first-child a {
+  .nys-globalheader__content-mobile > ul > li:first-child > a,
+  .nys-globalheader__content-mobile > ul > li:first-child > button {
     border-top: 1px solid var(--_nys-globalheader-color);
   }
-  .nys-globalheader__content-mobile ul li a {
+  .nys-globalheader__content-mobile ul li a, 
+  .nys-globalheader__content-mobile ul li button {
     display: flex;
     padding: 24px;
     align-items: center;
@@ -235,10 +273,13 @@ export default css`
     border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
     background-color: var(--_nys-globalheader-background-color);
   }
-  .nys-globalheader__content-mobile ul li a:hover {
+  /* For both mobile & desktop, the subLinks are the same as the mobile dropdown */
+  .nys-globalheader__content-mobile ul li > a:hover,
+  .nys-globalheader__content ul li > button + ul li a:hover {
     background-color: var(--_nys-globalheader-background-color--menu--hover);
   }
-  .nys-globalheader__content-mobile ul li a:active {
+  .nys-globalheader__content-mobile ul li > a:active,
+  .nys-globalheader__content ul li > button + ul li a:active {
     background-color: var(--_nys-globalheader-background-color--menu--active);
   }
   .nys-globalheader__name-container-link {
@@ -274,8 +315,14 @@ export default css`
     line-height: var(--_nys-globalheader-line-height--menu-btn);
     letter-spacing: var(--_nys-globalheader-letter-spacing--menu-btn);
   }
+  /* Mobile Menu (SubLinks button + dropdown) */
+  .nys-globalheader__content-mobile ul li button {
+    width: 100%;
+    text-align: left;
+    background-color: var(--_nys-globalheader-background-color);
+  }
 
-  /* Breakpoints using NYSDS Guidelines (Menu Links) */
+  /*** Breakpoints using NYSDS Guidelines (Menu Links) ***/
   /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=1170-340 */
   @media (min-width: 1024px) {
     /* Desktop (MD - Above 1024px) */
@@ -292,7 +339,7 @@ export default css`
     li {
       display: flex;
       align-items: center;
-      padding: var(--_nys-globalheader-link-padding);
+      padding: var(--_nys-globalheader-padding--link);
     }
     :host {
       --_nys-globalheader-gap: var(--nys-space-500, 40px);

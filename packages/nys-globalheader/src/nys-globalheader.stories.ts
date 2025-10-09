@@ -86,7 +86,7 @@ export const OnlyAgencyName: Story = {
   },
 };
 
-// Story: Without Application Name
+// Story: Without Agency Name
 export const OnlyAppName: Story = {
   args: {
     appName: "NYS Employee Portal",
@@ -112,7 +112,6 @@ export const OnlyAppName: Story = {
   },
 };
 
-// Story: Without Application Name
 export const WithBothNames: Story = {
   args: {
     appName: "Unemployment Insurance Benefits",
@@ -139,7 +138,6 @@ export const WithBothNames: Story = {
   },
 };
 
-// Story: Without Application Name
 export const WithLinks: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
@@ -173,6 +171,93 @@ export const WithLinks: Story = {
     <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
     <li><a href="https://its.ny.gov/about-us">About Us</a></li>
   </ul>
+</nys-globalheader>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WithSubLinks: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+  },
+  render: (args) => html`
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+    >
+      <ul>
+        <li>
+          <button type="button">Services</button>
+          <ul>
+            <li><a href="https://its.ny.gov/web-services">Web Services</a></li>
+            <li>
+              <a href="https://its.ny.gov/cloud-services">Cloud Services</a>
+            </li>
+            <li>
+              <a href="https://its.ny.gov/network-services">Network Services</a>
+            </li>
+          </ul>
+        </li>
+        <!-- <li>
+          <button type="button">Help Center</button>
+          <ul>
+            <li>
+              <a href="https://its.ny.gov/help-desk">Help Desk Support</a>
+            </li>
+            <li><a href="https://its.ny.gov/faqs">FAQs</a></li>
+          </ul>
+        </li>
+        <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+        <li>
+          <button type="button">Policies and Laws</button>
+          <ul>
+            <li>
+              <a href="https://its.ny.gov/policy-library">Policy Library</a>
+            </li>
+            <li><a href="https://its.ny.gov/standards">Standards</a></li>
+          </ul>
+        </li>
+        <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+        <li><a href="https://its.ny.gov/about-us">About Us</a></li> -->
+      </ul>
+    </nys-globalheader>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader agencyName="Office of Information Technology Services">
+<ul>
+  <li>
+    <button type="button">Services</button>
+    <ul>
+      <li><a href="https://its.ny.gov/web-services">Web Services</a></li>
+      <li><a href="https://its.ny.gov/cloud-services">Cloud Services</a></li>
+      <li><a href="https://its.ny.gov/network-services">Network Services</a></li>
+    </ul>
+  </li>
+  <li>
+    <button type="button">Help Center</button>
+    <ul>
+      <li><a href="https://its.ny.gov/help-desk">Help Desk Support</a></li>
+      <li><a href="https://its.ny.gov/faqs">FAQs</a></li>
+    </ul>
+  </li>
+  <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
+  <li>
+    <button type="button">Policies and Laws</button>
+    <ul>
+      <li><a href="https://its.ny.gov/policy-library">Policy Library</a></li>
+      <li><a href="https://its.ny.gov/standards">Standards</a></li>
+    </ul>
+  </li>
+  <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
+  <li><a href="https://its.ny.gov/about-us">About Us</a></li>
+</ul>
 </nys-globalheader>
 `.trim(),
         type: "auto",
