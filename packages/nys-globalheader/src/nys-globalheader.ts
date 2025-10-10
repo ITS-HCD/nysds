@@ -21,7 +21,6 @@ export class NysGlobalHeader extends LitElement {
     this._handleSlotChange(); // run once at startup
 
     this._activateLinkOnClick();
-    this._enableDropdownMenus();
   }
 
   /******************** Functions ********************/
@@ -71,8 +70,9 @@ export class NysGlobalHeader extends LitElement {
         node.remove(); // Remove from light DOM to avoid duplication
       }
     });
+    this._enableDropdownMenus();
   }
-  
+
   /** Removes all children from containers */
   private _clearContainers(...containers: (Element | null)[]) {
     containers.forEach((container) => {
@@ -175,24 +175,64 @@ export class NysGlobalHeader extends LitElement {
     );
 
     containers?.forEach((container) => {
+      this._addDropdownIcons(container);
+
       container?.addEventListener("click", (event) => {
         const target = event.target as HTMLElement;
         const button = target.closest("button");
 
         if (!button) return;
 
-        if (button.closest("li")?.classList.contains("active")) {
-          button.closest("li")?.classList.remove("active");
-        } else {
-          // Clear all existing active <li> buttons  and dropdowns
-          container
-            .querySelectorAll("li.active")
-            .forEach((li) => li.classList.remove("active"));
+        const li = button.closest("li");
+        const isActive = li?.classList.contains("active");
+        const isMobile = container.classList.contains(
+          "nys-globalheader__content-mobile",
+        );
 
-          // CSS will take care of showing the subLink container based on active button
-          button.closest("li")?.classList.add("active");
+        // Toggle active state
+        container
+          .querySelectorAll("li.active")
+          .forEach((li) => li.classList.remove("active"));
+        if (!isActive) li?.classList.add("active");
+
+        this._resetDropdownIcons(container, isMobile);
+
+        // Update chevron direction
+        const icon = li?.querySelector("nys-icon");
+        if (isMobile) {
+          icon?.setAttribute(
+            "name",
+            isActive ? "chevron_right" : "chevron_left",
+          );
+        } else {
+          icon?.setAttribute("name", isActive ? "chevron_down" : "chevron_up");
         }
       });
+    });
+  }
+
+  private _addDropdownIcons(container: Element) {
+    const isMobile = container.classList.contains(
+      "nys-globalheader__content-mobile",
+    );
+    const buttons = container.querySelectorAll("li > button");
+
+    buttons.forEach((button) => {
+      const icon = document.createElement("nys-icon");
+      icon.setAttribute("name", isMobile ? "chevron_right" : "chevron_down");
+      icon.setAttribute("size", "20");
+      icon.classList.add("nys-globalheader__dropdown-icon");
+      button.appendChild(icon);
+    });
+  }
+
+  private _resetDropdownIcons(container: Element, isMobile: Boolean) {
+    const buttons = container.querySelectorAll("li > button");
+    buttons.forEach((btn) => {
+      const icon = btn.querySelector("nys-icon");
+      if (icon) {
+        icon.setAttribute("name", isMobile ? "chevron_right" : "chevron_down");
+      }
     });
   }
 

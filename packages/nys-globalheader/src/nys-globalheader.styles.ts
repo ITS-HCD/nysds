@@ -247,9 +247,9 @@ export default css`
   .nys-globalheader__content li.active > a {
     margin-bottom: calc(-1 * var(--nys-space-100, 8px));
   }
-  .nys-globalheader__content-mobile li.active a {
+  .nys-globalheader__content-mobile li.active > a,
+  .nys-globalheader__content-mobile li.active button {
     border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
-    border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
   }
   .nys-globalheader__content ul li.active a:hover {
     text-decoration: none;
@@ -333,6 +333,11 @@ export default css`
     width: 100%;
     text-align: left;
     background-color: var(--_nys-globalheader-background-color);
+  }
+
+  /* SubLink button's chevron icon */
+  .nys-globalheader__dropdown-icon {
+    margin-left: 5px;
   }
 
   /*** Breakpoints using NYSDS Guidelines (Menu Links) ***/
