@@ -208,6 +208,25 @@ export class NysGlobalHeader extends LitElement {
           icon?.setAttribute("name", isActive ? "chevron_down" : "chevron_up");
         }
       });
+
+      // QoL: closes dropdowns when clicking outside
+      document.addEventListener("click", (event) => {
+        const target = event.target as Node;
+        const isInside =
+          this.contains(target) || this.shadowRoot?.contains(target);
+
+        if (!isInside) {
+          containers?.forEach((container) => {
+            container
+              .querySelectorAll("li.active")
+              .forEach((li) => li.classList.remove("active"));
+            const isMobile = container.classList.contains(
+              "nys-globalheader__content-mobile",
+            );
+            this._resetDropdownIcons(container, isMobile);
+          });
+        }
+      });
     });
   }
 
