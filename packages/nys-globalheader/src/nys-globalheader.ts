@@ -25,7 +25,10 @@ export class NysGlobalHeader extends LitElement {
   }
 
   /******************** Functions ********************/
-  // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
+  /**
+   * Handles when the slot content changes and rebuilds
+   * the global header's desktop and mobile menus.
+   */
   private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) return;
@@ -36,87 +39,78 @@ export class NysGlobalHeader extends LitElement {
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
-    // Update slotHasContent for styling content
     this.slotHasContent = assignedNodes.length > 0;
 
-    // Get the container to append the slotted elements
     const container = this.shadowRoot?.querySelector(
       ".nys-globalheader__content",
     );
     const containerMobile = this.shadowRoot?.querySelector(
       ".nys-globalheader__content-mobile",
     );
+    if (!container || !containerMobile) return;
 
-    if (container && containerMobile) {
-      // Clear existing children in the container
-      container.innerHTML = "";
-      containerMobile.innerHTML = "";
+    this._clearContainers(container, containerMobile);
 
-      const currentUrl = this._normalizePath(
-        window.location.pathname + window.location.hash,
-      );
+    const currentUrl = this._normalizePath(
+      window.location.pathname + window.location.hash,
+    );
 
-      // Clone and append slotted elements into the shadow DOM container
-      assignedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const cleanNode = node.cloneNode(true) as HTMLElement;
-          const cleanNodeMobile = node.cloneNode(true) as HTMLElement;
+    if (!currentUrl) return;
 
-          // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
-          const dangerousTags = ["script", "iframe", "object", "embed, img"];
-          dangerousTags.forEach((tag) => {
-            (cleanNode as Element)
-              .querySelectorAll(tag)
-              .forEach((element) => element.remove());
-          });
+    // Clone and append slotted elements into the shadow DOM container
+    assignedNodes.forEach((node) => {
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const cleanNode = node.cloneNode(true) as HTMLElement;
+        const cleanNodeMobile = node.cloneNode(true) as HTMLElement;
 
-          /**
-           * Get all user slotted ahref links and for each link, determine the best matching link via the pattern of
-           * prioritize the link with the longest match.
-           * @param node
-           */
-          const highlightActiveLink = (node: HTMLElement) => {
-            const links = Array.from(node.querySelectorAll("a"));
+        this._highlightActiveLink(cleanNode, currentUrl);
+        this._highlightActiveLink(cleanNodeMobile, currentUrl);
 
-            // Because we can only have one active link at all times, we
-            let bestMatch: { li: HTMLElement | null; length: number } = {
-              li: null,
-              length: 0,
-            };
+        container.appendChild(cleanNode);
+        containerMobile.appendChild(cleanNodeMobile);
+        node.remove(); // Remove from light DOM to avoid duplication
+      }
+    });
+  }
+  
+  /** Removes all children from containers */
+  private _clearContainers(...containers: (Element | null)[]) {
+    containers.forEach((container) => {
+      if (container) container.innerHTML = "";
+    });
+  }
 
-            links.forEach((a) => {
-              const hrefAttr = a.getAttribute("href");
-              const linkPath = this._normalizePath(hrefAttr);
+  /**
+   * Highlights the most relevant link based on the current URL.
+   * Uses the "longest prefix match" rule.
+   */
+  private _highlightActiveLink(node: HTMLElement, currentUrl: string) {
+    const links = Array.from(node.querySelectorAll("a"));
+    let bestMatch: { li: HTMLElement | null; length: number } = {
+      li: null,
+      length: 0,
+    };
 
-              if (!linkPath) return;
+    links.forEach((a) => {
+      const href = a.getAttribute("href");
+      const linkPath = this._normalizePath(href);
+      if (!linkPath) return;
 
-              // Exact homepage match
-              if (linkPath === "/" && currentUrl === "/") {
-                bestMatch = { li: a.closest("li"), length: 1 };
-              } else if (
-                currentUrl?.startsWith(linkPath) &&
-                linkPath.length > bestMatch.length
-              ) {
-                bestMatch = { li: a.closest("li"), length: linkPath.length };
-              }
+      if (linkPath === "/" && currentUrl === "/") {
+        bestMatch = { li: a.closest("li"), length: 1 };
+      } else if (
+        currentUrl.startsWith(linkPath) &&
+        linkPath.length > bestMatch.length
+      ) {
+        bestMatch = { li: a.closest("li"), length: linkPath.length };
+      }
+    });
 
-              // Clear old actives
-              links.forEach((a) => a.closest("li")?.classList.remove("active"));
+    // Clear all old actives
+    links.forEach((a) => a.closest("li")?.classList.remove("active"));
 
-              // Set the best matched link to active
-              bestMatch.li?.classList.add("active");
-            });
-          };
-
-          highlightActiveLink(cleanNode);
-          highlightActiveLink(cleanNodeMobile);
-
-          container.appendChild(cleanNode);
-          containerMobile.appendChild(cleanNodeMobile);
-          node.remove(); // Remove from light DOM to avoid duplication
-        }
-      });
-    }
+    // Set best match
+    bestMatch.li?.classList.add("active");
   }
 
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
