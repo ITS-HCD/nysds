@@ -20,7 +20,8 @@ export class NysGlobalHeader extends LitElement {
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
     this._handleSlotChange(); // run once at startup
 
-    this._listenLinkClicks();
+    this._activateLinkOnClick();
+    this._enableDropdownMenus();
   }
 
   /******************** Functions ********************/
@@ -141,10 +142,11 @@ export class NysGlobalHeader extends LitElement {
   }
 
   /**
-   * Handles client-side navigation when links are clicked (no full page refresh).
+   * Sets up client-side link click handling to prevent full page reloads.
+   * Ensures that only the clicked link's <li> is marked as active in both
+   * desktop and mobile navigation menus.
    */
-  // Ensures only the clicked link's <li> is marked active in both desktop and mobile menus.
-  private _listenLinkClicks() {
+  private _activateLinkOnClick() {
     const containers = this.shadowRoot?.querySelectorAll(
       ".nys-globalheader__content, .nys-globalheader__content-mobile",
     );
@@ -163,7 +165,39 @@ export class NysGlobalHeader extends LitElement {
 
         // Set active on the clicked link's <li>
         const li = a.closest("li");
-        if (li) li.classList.add("active");
+        if (li) {
+          li.classList.add("active");
+        }
+      });
+    });
+  }
+
+  /**
+   * Handles dropdown button toggling for submenus
+   */
+  private _enableDropdownMenus() {
+    const containers = this.shadowRoot?.querySelectorAll(
+      ".nys-globalheader__content, .nys-globalheader__content-mobile",
+    );
+
+    containers?.forEach((container) => {
+      container?.addEventListener("click", (event) => {
+        const target = event.target as HTMLElement;
+        const button = target.closest("button");
+
+        if (!button) return;
+
+        if (button.closest("li")?.classList.contains("active")) {
+          button.closest("li")?.classList.remove("active");
+        } else {
+          // Clear all existing active <li> buttons  and dropdowns
+          container
+            .querySelectorAll("li.active")
+            .forEach((li) => li.classList.remove("active"));
+
+          // CSS will take care of showing the subLink container based on active button
+          button.closest("li")?.classList.add("active");
+        }
       });
     });
   }

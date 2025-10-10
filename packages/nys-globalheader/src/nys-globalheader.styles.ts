@@ -55,6 +55,7 @@ export default css`
       --nys-font-lineheight-ui-md,
       24px
     );
+    /*--_nys-globalheader-line-height--menu: var(--nys-font-lineheight-xl, 31px);*/
     --_nys-globalheader-letter-spacing--menu: var(
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
@@ -100,6 +101,7 @@ export default css`
     display: block;
     margin: 0;
     padding: 0;
+    position: relative;
     box-sizing: border-box;
   }
 
@@ -110,10 +112,12 @@ export default css`
     font-family: var(--_nys-globalheader-font-family--menu);
     font-style: normal;
     font-weight: 400;
-    line-height: var(--_nys-globalheader-line-height--menu);
     letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
     font-size: var(--_nys-globalheader-font-size--link);
     cursor: pointer;
+  }
+  a {
+    line-height: var(--_nys-globalheader-line-height--menu);
   }
 
   .nys-globalheader {
@@ -171,7 +175,6 @@ export default css`
   }
 
   .nys-globalheader__content ul {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -194,6 +197,10 @@ export default css`
     );
   }
   /* SubLinks button + dropdown */
+  .nys-globalheader__content ul ul,
+  .nys-globalheader__content-mobile ul ul {
+    display: none;
+  }
   .nys-globalheader__content ul li > button,
   .nys-globalheader__content-mobile ul li > button {
     background: none;
@@ -202,17 +209,18 @@ export default css`
   }
   .nys-globalheader__content ul li > button + ul {
     position: absolute;
-    display: flex;
     flex-direction: column;
     background-color: var(--_nys-globalheader-background-color);
     top: 100%;
     left: 0;
     white-space: nowrap;
-    z-index: 100;
+    min-width: 200px;
+    z-index: 400;
   }
   .nys-globalheader__content ul li > button + ul li {
     padding: 0;
     width: 100%;
+    display: flex;
   }
   .nys-globalheader__content ul li > button + ul li:first-child a {
     border-top: 1px solid var(--_nys-globalheader-color);
@@ -223,15 +231,20 @@ export default css`
     border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
   }
 
-  /*** Active Links ***/
-  .nys-globalheader__content li.active a,
-  .nys-globalheader__content-mobile li.active a {
+  /*** Active Links + SubLinks ***/
+  .nys-globalheader__content li.active button + ul,
+  .nys-globalheader__content-mobile li.active button + ul {
+    display: flex;
+  }
+  .nys-globalheader__content li.active > a,
+  .nys-globalheader__content-mobile li.active > a {
     font-weight: 700;
   }
   .nys-globalheader__content li.active {
-    border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
+    /*border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);*/
+    box-shadow: inset 0 -8px 0 var(--nys-color-theme-weak, #cddde9);
   }
-  .nys-globalheader__content li.active a {
+  .nys-globalheader__content li.active > a {
     margin-bottom: calc(-1 * var(--nys-space-100, 8px));
   }
   .nys-globalheader__content-mobile li.active a {
@@ -263,7 +276,7 @@ export default css`
   .nys-globalheader__content-mobile > ul > li:first-child > button {
     border-top: 1px solid var(--_nys-globalheader-color);
   }
-  .nys-globalheader__content-mobile ul li a, 
+  .nys-globalheader__content-mobile ul li a,
   .nys-globalheader__content-mobile ul li button {
     display: flex;
     padding: 24px;
@@ -337,8 +350,7 @@ export default css`
       display: none;
     }
     li {
-      display: flex;
-      align-items: center;
+      display: block;
       padding: var(--_nys-globalheader-padding--link);
     }
     :host {

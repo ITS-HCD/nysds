@@ -202,7 +202,7 @@ export const WithSubLinks: Story = {
             </li>
           </ul>
         </li>
-        <!-- <li>
+        <li>
           <button type="button">Help Center</button>
           <ul>
             <li>
@@ -222,7 +222,7 @@ export const WithSubLinks: Story = {
           </ul>
         </li>
         <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
-        <li><a href="https://its.ny.gov/about-us">About Us</a></li> -->
+        <li><a href="https://its.ny.gov/about-us">About Us</a></li>
       </ul>
     </nys-globalheader>
   `,
