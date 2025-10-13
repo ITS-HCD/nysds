@@ -170,12 +170,22 @@ export class NysGlobalHeader extends LitElement {
 
         if (!a) return;
 
+        const li = a.closest("li");
+        if (!li) return;
+
+        // Skip any link inside a submenu (nested ul)
+        const isSubLink = li.closest("ul")?.closest("li") !== null;
+        if (isSubLink) return;
+
+        // Determine if it's a dropdown parent (has submenu)
+        const hasSubmenu = li.querySelector(":scope > ul") !== null;
+
         // Clear all existing active <li>
         this._resetAllMenuItems();
 
-        // Set active on the clicked link's <li>
-        const li = a.closest("li");
-        if (li) {
+        if (hasSubmenu) {
+          li.classList.add("open");
+        } else {
           li.classList.add("active");
         }
 
@@ -207,16 +217,16 @@ export class NysGlobalHeader extends LitElement {
         if (!button) return;
 
         const li = button.closest("li");
-        const isActive = li?.classList.contains("active");
+        const isActive = li?.classList.contains("open");
         const isMobile = container.classList.contains(
           "nys-globalheader__content-mobile",
         );
 
         // Toggle active state
         container
-          .querySelectorAll("li.active")
-          .forEach((li) => li.classList.remove("active"));
-        if (!isActive) li?.classList.add("active");
+          .querySelectorAll("li.open")
+          .forEach((li) => li.classList.remove("open"));
+        if (!isActive) li?.classList.add("open");
 
         this._resetDropdownIcons(container, isMobile);
 
@@ -277,9 +287,13 @@ export class NysGlobalHeader extends LitElement {
     );
 
     containers?.forEach((container: Element) => {
-      container
-        .querySelectorAll("li.active")
-        .forEach((li) => li.classList.remove("active"));
+      container.querySelectorAll("li.open > ul").forEach((submenu) => {
+        const parentLi = submenu.closest("li");
+        if (parentLi) parentLi.classList.remove("open");
+      });
+      container.querySelectorAll("li.active").forEach((li) => {
+        li.classList.remove("active");
+      });
       const isMobile = container.classList.contains(
         "nys-globalheader__content-mobile",
       );
