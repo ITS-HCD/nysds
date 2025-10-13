@@ -48,7 +48,7 @@ export class NysGlobalHeader extends LitElement {
     );
     if (!container || !containerMobile) return;
 
-    this._clearContainers(container, containerMobile);
+    this._resetMenuContainers(container, containerMobile);
 
     const currentUrl = this._normalizePath(
       window.location.pathname + window.location.hash,
@@ -73,8 +73,7 @@ export class NysGlobalHeader extends LitElement {
     this._enableDropdownMenus();
   }
 
-  /** Removes all children from containers */
-  private _clearContainers(...containers: (Element | null)[]) {
+  private _resetMenuContainers(...containers: (Element | null)[]) {
     containers.forEach((container) => {
       if (container) container.innerHTML = "";
     });
@@ -131,8 +130,23 @@ export class NysGlobalHeader extends LitElement {
     return path.toLowerCase();
   }
 
-  private _toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  private _toggleMobileMenu(closeMenu =  false) {
+    if (closeMenu) {
+      this.isMobileMenuOpen = false;
+    } else {
+      this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    }
+    this._resetMobileMenu();
+  }
+
+  private _resetMobileMenu() {
+    const container = this.shadowRoot?.querySelector(
+      ".nys-globalheader__content-mobile",
+    );
+
+    container
+      ?.querySelectorAll(":scope > ul > li")
+      .forEach((li: Element) => li.classList.remove("hidden"));
   }
 
   /**
@@ -161,6 +175,13 @@ export class NysGlobalHeader extends LitElement {
         const li = a.closest("li");
         if (li) {
           li.classList.add("active");
+        }
+
+        const isMobile = container.classList.contains(
+          "nys-globalheader__content-mobile",
+        );
+        if (isMobile) {
+          this._toggleMobileMenu(true); // explicitly close menu
         }
       });
     });
@@ -207,26 +228,62 @@ export class NysGlobalHeader extends LitElement {
         } else {
           icon?.setAttribute("name", isActive ? "chevron_down" : "chevron_up");
         }
-      });
 
-      // QoL: closes dropdowns when clicking outside
-      document.addEventListener("click", (event) => {
-        const target = event.target as Node;
-        const isInside =
-          this.contains(target) || this.shadowRoot?.contains(target);
-
-        if (!isInside) {
-          containers?.forEach((container) => {
-            container
-              .querySelectorAll("li.active")
-              .forEach((li) => li.classList.remove("active"));
-            const isMobile = container.classList.contains(
-              "nys-globalheader__content-mobile",
-            );
-            this._resetDropdownIcons(container, isMobile);
-          });
-        }
+        const newIsActive = !isActive;
+        this.toggleMobileSubLinkVisibility(
+          container,
+          li,
+          isMobile,
+          newIsActive,
+        );
       });
+    });
+
+    this.handleOutsideClicks(containers);
+  }
+
+  private toggleMobileSubLinkVisibility(
+    container: any,
+    targetLi: HTMLLIElement | null,
+    isMobile: Boolean,
+    isActive: boolean | undefined,
+  ) {
+    if (isMobile) {
+      const topLevelLis = container.querySelectorAll(":scope > ul > li");
+
+      if (!isActive) {
+        topLevelLis.forEach((li: HTMLElement) => li.classList.remove("hidden"));
+      } else {
+        topLevelLis.forEach((li: HTMLElement) => {
+          li.classList.toggle("hidden", li !== targetLi);
+        });
+      }
+    } else {
+      container
+        .querySelectorAll(":scope > ul > li")
+        .forEach((li: Element) => li.classList.remove("hidden"));
+    }
+  }
+
+  private handleOutsideClicks(containers: any) {
+    // QoL: closes dropdowns when clicking outside
+    document.addEventListener("click", (event) => {
+      const target = event.target as Node;
+      const isInside =
+        this.contains(target) || this.shadowRoot?.contains(target);
+
+      if (!isInside) {
+        this.isMobileMenuOpen = false;
+        containers?.forEach((container: Element) => {
+          container
+            .querySelectorAll("li.active")
+            .forEach((li) => li.classList.remove("active"));
+          const isMobile = container.classList.contains(
+            "nys-globalheader__content-mobile",
+          );
+          this._resetDropdownIcons(container, isMobile);
+        });
+      }
     });
   }
 
@@ -263,7 +320,7 @@ export class NysGlobalHeader extends LitElement {
             ? html` <div class="nys-globalheader__button-container">
                 <button
                   class="nys-globalheader__mobile-menu-button"
-                  @click="${this._toggleMobileMenu}"
+                  @click="${() => this._toggleMobileMenu()}"
                 >
                   <nys-icon
                     name="${this.isMobileMenuOpen ? "close" : "menu"}"

@@ -300,6 +300,9 @@ export default css`
     flex-direction: column;
     justify-content: center;
   }
+  .nys-globalheader__content-mobile li.hidden {
+    display: none;
+  }
   /* Mobile Menu (OPEN/CLOSE Button Container) */
   .nys-globalheader__button-container {
     display: flex;
