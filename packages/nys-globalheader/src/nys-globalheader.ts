@@ -130,13 +130,17 @@ export class NysGlobalHeader extends LitElement {
     return path.toLowerCase();
   }
 
-  private _toggleMobileMenu(closeMenu =  false) {
+  private _toggleMobileMenu(closeMenu = false) {
     if (closeMenu) {
       this.isMobileMenuOpen = false;
     } else {
       this.isMobileMenuOpen = !this.isMobileMenuOpen;
+      if (this.isMobileMenuOpen) {
+        this._resetMobileMenu();
+      } else {
+        this._resetAllMenuItems();
+      }
     }
-    this._resetMobileMenu();
   }
 
   private _resetMobileMenu() {
@@ -167,9 +171,7 @@ export class NysGlobalHeader extends LitElement {
         if (!a) return;
 
         // Clear all existing active <li>
-        container
-          .querySelectorAll("li.active")
-          .forEach((li) => li.classList.remove("active"));
+        this._resetAllMenuItems();
 
         // Set active on the clicked link's <li>
         const li = a.closest("li");
@@ -218,18 +220,9 @@ export class NysGlobalHeader extends LitElement {
 
         this._resetDropdownIcons(container, isMobile);
 
-        // Update chevron direction
-        const icon = li?.querySelector("nys-icon");
-        if (isMobile) {
-          icon?.setAttribute(
-            "name",
-            isActive ? "chevron_right" : "chevron_left",
-          );
-        } else {
-          icon?.setAttribute("name", isActive ? "chevron_down" : "chevron_up");
-        }
-
         const newIsActive = !isActive;
+        this._updateActiveMenuIcon(li, isMobile, newIsActive);
+
         this.toggleMobileSubLinkVisibility(
           container,
           li,
@@ -239,7 +232,7 @@ export class NysGlobalHeader extends LitElement {
       });
     });
 
-    this.handleOutsideClicks(containers);
+    this.handleOutsideClicks();
   }
 
   private toggleMobileSubLinkVisibility(
@@ -265,7 +258,7 @@ export class NysGlobalHeader extends LitElement {
     }
   }
 
-  private handleOutsideClicks(containers: any) {
+  private handleOutsideClicks() {
     // QoL: closes dropdowns when clicking outside
     document.addEventListener("click", (event) => {
       const target = event.target as Node;
@@ -273,18 +266,27 @@ export class NysGlobalHeader extends LitElement {
         this.contains(target) || this.shadowRoot?.contains(target);
 
       if (!isInside) {
-        this.isMobileMenuOpen = false;
-        containers?.forEach((container: Element) => {
-          container
-            .querySelectorAll("li.active")
-            .forEach((li) => li.classList.remove("active"));
-          const isMobile = container.classList.contains(
-            "nys-globalheader__content-mobile",
-          );
-          this._resetDropdownIcons(container, isMobile);
-        });
+        this._resetAllMenuItems();
       }
     });
+  }
+
+  private _resetAllMenuItems() {
+    const containers = this.shadowRoot?.querySelectorAll(
+      ".nys-globalheader__content, .nys-globalheader__content-mobile",
+    );
+
+    containers?.forEach((container: Element) => {
+      container
+        .querySelectorAll("li.active")
+        .forEach((li) => li.classList.remove("active"));
+      const isMobile = container.classList.contains(
+        "nys-globalheader__content-mobile",
+      );
+      this._resetDropdownIcons(container, isMobile);
+    });
+
+    this.isMobileMenuOpen = false;
   }
 
   private _addDropdownIcons(container: Element) {
@@ -310,6 +312,19 @@ export class NysGlobalHeader extends LitElement {
         icon.setAttribute("name", isMobile ? "chevron_right" : "chevron_down");
       }
     });
+  }
+
+  private _updateActiveMenuIcon(
+    li: HTMLElement | null,
+    isMobile: boolean,
+    isActive: boolean,
+  ) {
+    const icon = li?.querySelector("nys-icon");
+    if (isMobile) {
+      icon?.setAttribute("name", isActive ? "chevron_left" : "chevron_right");
+    } else {
+      icon?.setAttribute("name", isActive ? "chevron_up" : "chevron_down");
+    }
   }
 
   render() {
