@@ -222,7 +222,8 @@ export default css`
     width: 100%;
     display: flex;
   }
-  .nys-globalheader__content ul li > button + ul li:first-child a, .nys-globalheader__content-mobile ul li.active button {
+  .nys-globalheader__content ul li > button + ul li:first-child a,
+  .nys-globalheader__content-mobile ul li.open button {
     border-top: 1px solid var(--_nys-globalheader-color);
   }
   .nys-globalheader__content ul li > button + ul li a {
@@ -247,8 +248,7 @@ export default css`
   .nys-globalheader__content li.active > a {
     margin-bottom: calc(-1 * var(--nys-space-100, 8px));
   }
-  .nys-globalheader__content-mobile li.active > a,
-  .nys-globalheader__content-mobile li.open button {
+  .nys-globalheader__content-mobile li.active > a {
     border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
   }
   .nys-globalheader__content ul li.active a:hover {
