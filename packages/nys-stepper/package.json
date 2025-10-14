@@ -26,8 +26,6 @@
     "lit": "^3.2.1",
     "@nysds/nys-button": "^1.10.0"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
@@ -46,4 +44,3 @@
   "author": "New York State Design System Team",
   "license": "MIT"
 }
-
