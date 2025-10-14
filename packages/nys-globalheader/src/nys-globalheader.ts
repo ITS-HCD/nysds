@@ -290,7 +290,11 @@ export class NysGlobalHeader extends LitElement {
         if (parentLi) parentLi.classList.remove("open");
       });
 
-      // Only remove 'active' from active items if user didn't click a submenu button or sub-link
+      /**
+       * Only remove the 'active' class from top-level links if skipActiveReset is false.
+       * This prevents clearing active states when clicking a submenu button or sub-link,
+       * allowing the same route link to remain highlighted.
+       */
       if (!skipActiveReset) {
         container.querySelectorAll("li.active").forEach((li) => {
           li.classList.remove("active");
@@ -315,7 +319,7 @@ export class NysGlobalHeader extends LitElement {
     buttons.forEach((button) => {
       const icon = document.createElement("nys-icon");
       icon.setAttribute("name", isMobile ? "chevron_right" : "chevron_down");
-      icon.setAttribute("size", "20");
+      icon.setAttribute("size", "16");
       icon.classList.add("nys-globalheader__dropdown-icon");
       button.appendChild(icon);
     });

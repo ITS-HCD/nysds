@@ -119,6 +119,10 @@ export default css`
   a {
     line-height: var(--_nys-globalheader-line-height--menu);
   }
+  button {
+    display: flex;
+    align-items: center
+  }
 
   .nys-globalheader {
     display: flex;
@@ -340,7 +344,7 @@ export default css`
 
   /* SubLink button's chevron icon */
   .nys-globalheader__dropdown-icon {
-    margin-left: 5px;
+    margin-left: auto;
   }
 
   /*** Breakpoints using NYSDS Guidelines (Menu Links) ***/
@@ -360,6 +364,9 @@ export default css`
     li {
       display: block;
       padding: var(--_nys-globalheader-padding--link);
+    }
+    .nys-globalheader__dropdown-icon {
+      margin-left: 5px;
     }
     :host {
       --_nys-globalheader-gap: var(--nys-space-500, 40px);
