@@ -25,7 +25,6 @@
   "peerDependencies": {
     "lit": "^3.2.1"
   },
-  "dependencies": {},
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
