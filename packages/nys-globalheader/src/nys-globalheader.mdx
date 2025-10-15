@@ -47,6 +47,8 @@ Use the prop `homepageLink` to link your `agencyName` to your homepage.
 ## With Menu Links
 For public-facing content sites, the Global Header can include menu links. To add them, place an unordered list (`<ul>`) inside the `nys-globalheader` slot. Each list item (`<li>`) should contain an anchor (`<a href="">`) linking to the desired destination.
 
+See the example code snippet in the preview below for proper structure and formatting.
+
 <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon>
   Applications using the Global Header typically do not include links in the application or agency name to avoid distractions and keep users on task. However, public-facing sites may include links, often within a collapsed menu for better navigation.
 </div>
@@ -54,6 +56,15 @@ For public-facing content sites, the Global Header can include menu links. To ad
 <Canvas of={NysGlobalHeaderStories.WithLinks} />
 
 ## With Menu SubLinks
+To include submenus, structure the slot content with nested unordered lists (`<ul>`).
+Each top-level item (`<li>`) should contain either a link (`<a>`) or a button (`<button type="button">`) followed by a nested `<ul>` for its sublinks.
+
+See the example code snippet in the preview below for proper structure and formatting.
+
+**Guidelines:**
+- Use `<ul>`/`<li>` for all menu levels.
+- Only top-level items use `<button>` to toggle submenus.
+- Submenus contain only `<a>` links.
 <Canvas of={NysGlobalHeaderStories.WithSubLinks} />
 
 

@@ -138,7 +138,8 @@ export class NysGlobalHeader extends LitElement {
       if (this.isMobileMenuOpen) {
         this._resetMobileMenu();
       } else {
-        this._resetAllMenuItems();
+        const skipActiveReset = true;
+        this._resetAllMenuItems(skipActiveReset);
       }
     }
   }

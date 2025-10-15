@@ -211,17 +211,6 @@ export const WithSubLinks: Story = {
             <li><a href="https://its.ny.gov/faqs">FAQs</a></li>
           </ul>
         </li>
-        <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-        <li>
-          <button type="button">Policies and Laws</button>
-          <ul>
-            <li>
-              <a href="https://its.ny.gov/policy-library">Policy Library</a>
-            </li>
-            <li><a href="https://its.ny.gov/standards">Standards</a></li>
-          </ul>
-        </li>
-        <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
         <li><a href="https://its.ny.gov/about-us">About Us</a></li>
       </ul>
     </nys-globalheader>
@@ -248,14 +237,6 @@ export const WithSubLinks: Story = {
     </ul>
   </li>
   <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-  <li>
-    <button type="button">Policies and Laws</button>
-    <ul>
-      <li><a href="https://its.ny.gov/policy-library">Policy Library</a></li>
-      <li><a href="https://its.ny.gov/standards">Standards</a></li>
-    </ul>
-  </li>
-  <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
   <li><a href="https://its.ny.gov/about-us">About Us</a></li>
 </ul>
 </nys-globalheader>
