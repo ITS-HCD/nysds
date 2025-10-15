@@ -350,12 +350,17 @@ export class NysGlobalHeader extends LitElement {
 
   render() {
     return html`
-      <header class="nys-globalheader">
+      <nav class="nys-globalheader" role="navigation">
         <div class="nys-globalheader__main-container">
           ${this.slotHasContent
             ? html` <div class="nys-globalheader__button-container">
                 <button
                   class="nys-globalheader__mobile-menu-button"
+                  aria-controls="mobile-menu"
+                  aria-expanded="${this.isMobileMenuOpen ? "true" : "false"}"
+                  aria-label="${this.isMobileMenuOpen
+                    ? "Close main menu"
+                    : "Open main menu"}"
                   @click="${() => this._toggleMobileMenu()}"
                 >
                   <nys-icon
@@ -424,8 +429,9 @@ export class NysGlobalHeader extends LitElement {
               </div>`
             : ""}
         </div>
-      </header>
+      </nav>
       <div
+        id="mobile-menu"
         class="nys-globalheader__content-mobile ${this.isMobileMenuOpen
           ? ""
           : "close"}"
