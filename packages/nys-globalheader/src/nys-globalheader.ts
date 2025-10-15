@@ -205,6 +205,7 @@ export class NysGlobalHeader extends LitElement {
     );
 
     containers?.forEach((container) => {
+      this._addAccessibilityRoles(container);
       this._addDropdownIcons(container);
 
       container?.addEventListener("click", (event) => {
@@ -219,7 +220,7 @@ export class NysGlobalHeader extends LitElement {
           "nys-globalheader__content-mobile",
         );
 
-        // Toggle active state
+        // Toggle open state
         container
           .querySelectorAll("li.open")
           .forEach((li) => li.classList.remove("open"));
@@ -228,8 +229,9 @@ export class NysGlobalHeader extends LitElement {
         this._resetDropdownIcons(container, isMobile);
 
         const newIsActive = !isActive;
-        this._updateActiveMenuIcon(li, isMobile, newIsActive);
 
+        button.setAttribute("aria-expanded", newIsActive.toString());
+        this._updateActiveMenuIcon(li, isMobile, newIsActive);
         this.toggleMobileSubLinkVisibility(
           container,
           li,
@@ -240,6 +242,13 @@ export class NysGlobalHeader extends LitElement {
     });
 
     this.handleOutsideClicks();
+  }
+
+  private _addAccessibilityRoles(container: any) {
+    const allButtons = container.querySelectorAll("button");
+    allButtons.forEach((button: any) => {
+      button.setAttribute("aria-expanded", "false");
+    });
   }
 
   private toggleMobileSubLinkVisibility(

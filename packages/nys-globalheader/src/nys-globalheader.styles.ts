@@ -121,7 +121,7 @@ export default css`
   }
   button {
     display: flex;
-    align-items: center
+    align-items: center;
   }
 
   .nys-globalheader {
@@ -215,6 +215,7 @@ export default css`
     position: absolute;
     flex-direction: column;
     background-color: var(--_nys-globalheader-background-color);
+    margin-top: 3px;
     top: 100%;
     left: 0;
     white-space: nowrap;
