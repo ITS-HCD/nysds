@@ -293,7 +293,8 @@ export default css`
   }
   /* For both mobile & desktop, the subLinks are the same as the mobile dropdown */
   .nys-globalheader__content-mobile ul li > a:hover,
-  .nys-globalheader__content ul li > button + ul li a:hover {
+  .nys-globalheader__content ul li > button + ul li a:hover,
+  .nys-globalheader__content-mobile ul li > button:hover {
     background-color: var(--_nys-globalheader-background-color--menu--hover);
   }
   .nys-globalheader__content-mobile ul li > a:active,
@@ -345,8 +346,20 @@ export default css`
 
   /* SubLink button's chevron icon */
   .nys-globalheader__dropdown-icon {
+    margin-top: -3px;
     margin-left: auto;
   }
+  .nys-globalheader__content-mobile li.open > button {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+  .nys-globalheader__content-mobile
+    li.open
+    > button
+    .nys-globalheader__dropdown-icon {
+    margin: -3px 0 0;
+ }
 
   /*** Breakpoints using NYSDS Guidelines (Menu Links) ***/
   /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=1170-340 */
