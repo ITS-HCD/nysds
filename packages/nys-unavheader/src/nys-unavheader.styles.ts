@@ -277,6 +277,7 @@ export default css`
     #nys-unavheader__know {
       --_nys-button-padding--x: 0px;
       --_nys-button-padding--y: 0px;
+      --_nys-button-height: var(--nys-space-200, 16px);
     }
 
     .nys-unavheader__trustbar > .content {
@@ -287,8 +288,8 @@ export default css`
     }
 
     .nys-unavheader__trustbar.wrapper {
-      padding-top: var(--nys-space-2px, 2px);
-      padding-bottom: var(--nys-space-2px, 2px);
+      padding-top: var(--nys-space-50, 4px);
+      padding-bottom: var(--nys-space-50, 4px);
     }
 
     .nys-unavheader__trustbar.inline {
