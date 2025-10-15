@@ -64,8 +64,7 @@ export default css`
       --nys-size-2px,
       2px
     );
-    --_nys-globalheader-padding--link: var(--nys-space-300, 24px)
-      var(--nys-space-200, 16px);
+    --_nys-globalheader-padding--link: var(--nys-space-300, 24px);
     --_nys-globalheader-font-size--link: var(--nys-type-size-ui-lg, 18px);
 
     /* Mobile Menu */
@@ -116,12 +115,20 @@ export default css`
     font-size: var(--_nys-globalheader-font-size--link);
     cursor: pointer;
   }
+
   a {
+    display: block;
     line-height: var(--_nys-globalheader-line-height--menu);
   }
+
   button {
     display: flex;
     align-items: center;
+  }
+
+  ul li a,
+  ul li button {
+    padding: var(--_nys-globalheader-padding--link);
   }
 
   .nys-globalheader {
@@ -209,7 +216,6 @@ export default css`
   .nys-globalheader__content-mobile ul li > button {
     background: none;
     border: none;
-    padding: 0;
   }
   .nys-globalheader__content ul li > button + ul {
     position: absolute;
@@ -232,7 +238,6 @@ export default css`
     border-top: 1px solid var(--_nys-globalheader-color);
   }
   .nys-globalheader__content ul li > button + ul li a {
-    padding: 24px;
     width: 100%;
     border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
   }
@@ -250,9 +255,7 @@ export default css`
     /*border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);*/
     box-shadow: inset 0 -8px 0 var(--nys-color-theme-weak, #cddde9);
   }
-  .nys-globalheader__content li.active > a {
-    margin-bottom: calc(-1 * var(--nys-space-100, 8px));
-  }
+
   .nys-globalheader__content-mobile li.active > a {
     border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
   }
@@ -284,7 +287,6 @@ export default css`
   .nys-globalheader__content-mobile ul li a,
   .nys-globalheader__content-mobile ul li button {
     display: flex;
-    padding: 24px;
     align-items: center;
     gap: 8px;
     align-self: stretch;
@@ -359,7 +361,7 @@ export default css`
     > button
     .nys-globalheader__dropdown-icon {
     margin: -3px 0 0;
- }
+  }
 
   /*** Breakpoints using NYSDS Guidelines (Menu Links) ***/
   /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=1170-340 */
@@ -375,10 +377,6 @@ export default css`
     .nys-globalheader__button-container {
       display: none;
     }
-    li {
-      display: block;
-      padding: var(--_nys-globalheader-padding--link);
-    }
     .nys-globalheader__dropdown-icon {
       margin-left: 5px;
     }
@@ -386,6 +384,8 @@ export default css`
       --_nys-globalheader-gap: var(--nys-space-500, 40px);
       --_nys-globalheader-padding: var(--nys-space-50, 4px)
         var(--nys-size-400, 32px) 0;
+      --_nys-globalheader-padding--link: var(--nys-space-300, 24px)
+        var(--nys-space-200, 16px);
     }
   }
 
