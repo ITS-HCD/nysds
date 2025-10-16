@@ -42,20 +42,20 @@ describe("nys-pagination", () => {
     expect(el.currentPage).to.equal(5);
   });
 
-  it("hides Previous button on first page", async () => {
+  it("disables Previous button on first page", async () => {
     const el = await fixture<NysPagination>(
       html`<nys-pagination currentPage="1" totalPages="5"></nys-pagination>`,
     );
     const prev = el.shadowRoot!.querySelector("#previous");
-    expect(prev).to.be.null;
+    expect(prev).to.have.attribute("disabled");
   });
 
-  it("hides Next button on last page", async () => {
+  it("disables Next button on last page", async () => {
     const el = await fixture<NysPagination>(
       html`<nys-pagination currentPage="5" totalPages="5"></nys-pagination>`,
     );
     const next = el.shadowRoot!.querySelector("#next");
-    expect(next).to.be.null;
+    expect(next).to.have.attribute("disabled");
   });
 
   it("renders page buttons with current page filled", async () => {
