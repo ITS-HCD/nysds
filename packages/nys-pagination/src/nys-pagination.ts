@@ -162,7 +162,7 @@ export class NysPagination extends LitElement {
       ></nys-button>
     </div>`;
   }
-  /****************** 🪡 for 1.10.1 ******************/
+  /****************** 🪡 in the Haystack Release ******/
   /****************** designsystem@its.ny.gov ********/
 }
 
