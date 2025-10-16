@@ -127,46 +127,42 @@ export class NysPagination extends LitElement {
     }
 
     return html`<div class="nys-pagination">
-      ${this.currentPage > 1
-        ? html`
-            <nys-button
-              id="previous"
-              label="Previous"
-              prefixIcon="chevron_left"
-              variant="outline"
-              @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
-            ></nys-button>
-            <nys-button
-              id="previous--mobile"
-              prefixIcon="chevron_left"
-              ariaLabel="Previous Page"
-              variant="outline"
-              @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
-            ></nys-button>
-          `
-        : null}
+      <nys-button
+        id="previous"
+        label="Previous"
+        prefixIcon="chevron_left"
+        variant="outline"
+        ?disabled=${this.currentPage === 1}
+        @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
+      ></nys-button>
+      <nys-button
+        id="previous--mobile"
+        prefixIcon="chevron_left"
+        ariaLabel="Previous Page"
+        variant="outline"
+        ?disabled=${this.currentPage === 1}
+        @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
+      ></nys-button>
       ${this.renderPageButtons()}
-      ${this.currentPage < this.totalPages
-        ? html`
-            <nys-button
-              id="next"
-              label="Next"
-              suffixIcon="chevron_right"
-              variant="outline"
-              @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
-            ></nys-button>
-            <nys-button
-              id="next--mobile"
-              suffixIcon="chevron_right"
-              ariaLabel="Next Page"
-              variant="outline"
-              @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
-            ></nys-button>
-          `
-        : null}
+      <nys-button
+        id="next"
+        label="Next"
+        suffixIcon="chevron_right"
+        variant="outline"
+        ?disabled=${this.currentPage === this.totalPages}
+        @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
+      ></nys-button>
+      <nys-button
+        id="next--mobile"
+        suffixIcon="chevron_right"
+        ariaLabel="Next Page"
+        variant="outline"
+        ?disabled=${this.currentPage === this.totalPages}
+        @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
+      ></nys-button>
     </div>`;
   }
-  /****************** 🪡 for 1.10.0 ******************/
+  /****************** 🪡 in the Haystack Release ******/
   /****************** designsystem@its.ny.gov ********/
 }
 

@@ -30,6 +30,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) dropzone = false;
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
+  @property({ type: Boolean, reflect: true }) invert = false;
 
   static styles = styles;
 
@@ -436,6 +437,7 @@ export class NysFileinput extends LitElement {
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
         _tooltip=${this._tooltip}
+        ?invert=${this.invert}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
