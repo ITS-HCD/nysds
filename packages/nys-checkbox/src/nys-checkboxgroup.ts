@@ -15,7 +15,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: String }) _tooltip = "";
-  @property({ type: Boolean, reflect: true }) invert = false;
+  @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private _slottedDescriptionText = "";
@@ -86,7 +86,7 @@ export class NysCheckboxgroup extends LitElement {
     if (changedProperties.has("tile")) {
       this._updateCheckboxTile();
     }
-    if (changedProperties.has("invert")) {
+    if (changedProperties.has("inverted")) {
       this._updateCheckboxInvert();
     }
     if (changedProperties.has("showError")) {
@@ -172,10 +172,10 @@ export class NysCheckboxgroup extends LitElement {
   private _updateCheckboxInvert() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox) => {
-      if (this.invert) {
-        checkbox.toggleAttribute("invert", true);
+      if (this.inverted) {
+        checkbox.toggleAttribute("inverted", true);
       } else {
-        checkbox.removeAttribute("invert");
+        checkbox.removeAttribute("inverted");
       }
     });
   }
@@ -297,7 +297,7 @@ export class NysCheckboxgroup extends LitElement {
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           tooltip=${this._tooltip}
-          ?invert=${this.invert}
+          ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>

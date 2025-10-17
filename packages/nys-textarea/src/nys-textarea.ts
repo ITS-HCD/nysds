@@ -17,9 +17,9 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
   @property({ type: String }) _tooltip = "";
-  @property({ type: Boolean, reflect: true }) invert = false;
+  @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
-  @property({ type: Number }) maxlength = null;
+  @property({ type: Number }) maxlength: number | null = null;
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
   @property({ reflect: true })
   width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
@@ -251,7 +251,7 @@ export class NysTextarea extends LitElement {
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           _tooltip=${this._tooltip}
-          ?invert=${this.invert}
+          ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
