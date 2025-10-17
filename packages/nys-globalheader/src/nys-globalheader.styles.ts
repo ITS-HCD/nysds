@@ -251,13 +251,17 @@ export default css`
   .nys-globalheader__content-mobile li.active > a {
     font-weight: 700;
   }
-  .nys-globalheader__content li.active {
-    /*border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);*/
+  /* Top-level active item */
+  .nys-globalheader__content > ul > li.active {
     box-shadow: inset 0 -8px 0 var(--nys-color-theme-weak, #cddde9);
+  }
+  /* Submenu active item */
+  .nys-globalheader__content li > ul > li.active > a {
+    box-shadow: inset 8px 0 0 var(--nys-color-theme-weak, #cddde9);
   }
 
   .nys-globalheader__content-mobile li.active > a {
-    border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
+    box-shadow: inset 8px 0 0 var(--nys-color-theme-weak, #cddde9);
   }
   .nys-globalheader__content ul li.active a:hover {
     text-decoration: none;

@@ -174,16 +174,16 @@ export class NysGlobalHeader extends LitElement {
         const li = a.closest("li");
         if (!li) return;
 
-        const isSubLink = li.closest("ul")?.closest("li") !== null;
+        // const isSubLink = li.closest("ul")?.closest("li") !== null;
         const isParentSubmenu = li.querySelector(":scope > ul") !== null;
 
-        // Clear all existing active <li> but we also need to not remove active if we just clicked a sublink or parent submenu
-        const skipActiveReset = isSubLink || isParentSubmenu;
+        // We also need to not remove active from prev active link if we just clicked the parent submenu
+        const skipActiveReset = isParentSubmenu;
         this._resetAllMenuItems(skipActiveReset);
 
         if (isParentSubmenu) {
           li.classList.add("open");
-        } else if (!isSubLink) {
+        } else {
           li.classList.add("active");
         }
 
