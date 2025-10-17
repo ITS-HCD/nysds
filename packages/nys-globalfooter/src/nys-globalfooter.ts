@@ -67,7 +67,7 @@ export class NysGlobalFooter extends LitElement {
         }
       });
     }
-  }
+  } 
 
   render() {
     return html`

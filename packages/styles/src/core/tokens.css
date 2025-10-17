@@ -93,6 +93,7 @@
   /* --- Font Size (by role) --- */
 
   /* Body */
+  --nys-font-size-body-lg: var(--nys-font-size-lg);
   --nys-font-size-body-md: var(--nys-font-size-md);
   --nys-font-size-body-sm: var(--nys-font-size-sm);
   --nys-font-size-body-xs: var(--nys-font-size-xs);
@@ -129,6 +130,7 @@
   --nys-font-lineheight-body-xs: 20px;
   --nys-font-lineheight-body-sm: 24px;
   --nys-font-lineheight-body-md: 24px;
+  --nys-font-lineheight-body-lg: 28px;
 
   /* UI */
   --nys-font-lineheight-ui-xs: 20px;
