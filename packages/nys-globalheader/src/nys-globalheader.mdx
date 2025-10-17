@@ -56,14 +56,14 @@ See the example code snippet in the preview below for proper structure and forma
 <Canvas of={NysGlobalHeaderStories.WithLinks} />
 
 ## With Menu SubLinks
-To include submenus, structure the slot content with nested unordered lists (`<ul>`).
-Each top-level item (`<li>`) should contain either a link (`<a>`) or a button (`<button type="button">`) followed by a nested `<ul>` for its sublinks.
+To add dropdown submenus, use nested unordered lists (`<ul>`).
+Each top-level item (`<li>`) should include either a link (`<a>`) or a button (`<button type="button">`) followed by a nested `<ul>` for sublinks.
 
 See the example code snippet in the preview below for proper structure and formatting.
 
 **Guidelines:**
 - Use `<ul>`/`<li>` for all menu levels.
-- Only top-level items use `<button>` to toggle submenus.
+- Use `<button>` only for top-level items with submenus.
 - Submenus contain only `<a>` links.
 <Canvas of={NysGlobalHeaderStories.WithSubLinks} />
 
