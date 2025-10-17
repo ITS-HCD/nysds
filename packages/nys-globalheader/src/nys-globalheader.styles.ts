@@ -55,6 +55,7 @@ export default css`
       --nys-font-lineheight-ui-md,
       24px
     );
+    /*--_nys-globalheader-line-height--menu: var(--nys-font-lineheight-xl, 31px);*/
     --_nys-globalheader-letter-spacing--menu: var(
       --nys-font-letterspacing-ui-md,
       var(--nys-font-letterspacing-400, 0.044px)
@@ -63,8 +64,8 @@ export default css`
       --nys-size-2px,
       2px
     );
-    --_nys-globalheader-link-padding: var(--nys-space-300, 24px)
-      var(--nys-space-200, 16px);
+    --_nys-globalheader-padding--link: var(--nys-space-300, 24px);
+    --_nys-globalheader-font-size--link: var(--nys-type-size-ui-lg, 18px);
 
     /* Mobile Menu */
     --_nys-globalheader-font-size--menu-btn: var(--nys-type-size-ui-xs, 12px);
@@ -87,7 +88,8 @@ export default css`
     );
   }
 
-  /* Slotted content (menu links) basic resets */
+  /* ******************************************************* */
+  /*** Slotted content (menu links) basic resets ***/
   ul {
     list-style-type: none;
     padding: 0;
@@ -98,17 +100,35 @@ export default css`
     display: block;
     margin: 0;
     padding: 0;
+    position: relative;
     box-sizing: border-box;
   }
 
-  a {
+  a,
+  button {
     color: var(--_nys-globalheader-color);
     text-decoration: none;
     font-family: var(--_nys-globalheader-font-family--menu);
     font-style: normal;
     font-weight: 400;
-    line-height: var(--_nys-globalheader-line-height--menu);
     letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
+    font-size: var(--_nys-globalheader-font-size--link);
+    cursor: pointer;
+  }
+
+  a {
+    display: block;
+    line-height: var(--_nys-globalheader-line-height--menu);
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+  }
+
+  ul li a,
+  ul li button {
+    padding: var(--_nys-globalheader-padding--link);
   }
 
   .nys-globalheader {
@@ -122,7 +142,7 @@ export default css`
     box-sizing: border-box;
   }
 
-  /* Main container */
+  /*** Main container ***/
   .nys-globalheader__main-container {
     display: flex;
     gap: var(--_nys-globalheader-gap);
@@ -159,7 +179,7 @@ export default css`
     font-size: var(--_nys-globalheader-font-size--heading);
   }
 
-  /* Slotted content */
+  /*** Slotted content + SubLinks styling ***/
   .nys-globalheader__content {
     display: none;
     font-family: var(--_nys-globalheader-font-family--menu);
@@ -172,7 +192,8 @@ export default css`
     flex-wrap: wrap;
   }
 
-  .nys-globalheader__content ul a:hover {
+  .nys-globalheader__content ul a:hover,
+  ul li > button:hover {
     text-decoration: underline;
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;
@@ -186,27 +207,67 @@ export default css`
       --_nys-globalheader-text-decoration-thickness--menu
     );
   }
+  /* SubLinks button + dropdown */
+  .nys-globalheader__content ul ul,
+  .nys-globalheader__content-mobile ul ul {
+    display: none;
+  }
+  .nys-globalheader__content ul li > button,
+  .nys-globalheader__content-mobile ul li > button {
+    background: none;
+    border: none;
+  }
+  .nys-globalheader__content ul li > button + ul {
+    position: absolute;
+    flex-direction: column;
+    background-color: var(--_nys-globalheader-background-color);
+    margin-top: 3px;
+    top: 100%;
+    left: 0;
+    white-space: nowrap;
+    min-width: 200px;
+    z-index: 400;
+  }
+  .nys-globalheader__content ul li > button + ul li {
+    padding: 0;
+    width: 100%;
+    display: flex;
+  }
+  .nys-globalheader__content ul li > button + ul li:first-child a,
+  .nys-globalheader__content-mobile ul li.open button {
+    border-top: 1px solid var(--_nys-globalheader-color);
+  }
+  .nys-globalheader__content ul li > button + ul li a {
+    width: 100%;
+    border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
+  }
 
-  /* Active Links */
-  .nys-globalheader__content li.active a,
-  .nys-globalheader__content-mobile li.active a {
+  /*** Active Links + SubLinks ***/
+  .nys-globalheader__content li.open button + ul,
+  .nys-globalheader__content-mobile li.open button + ul {
+    display: flex;
+  }
+  .nys-globalheader__content li.active > a,
+  .nys-globalheader__content-mobile li.active > a {
     font-weight: 700;
   }
-  .nys-globalheader__content li.active {
-    border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
+  /* Top-level active item */
+  .nys-globalheader__content > ul > li.active {
+    box-shadow: inset 0 -8px 0 var(--nys-color-theme-weak, #cddde9);
   }
-  .nys-globalheader__content li.active a {
-    margin-bottom: calc(-1 * var(--nys-space-100, 8px));
+  /* Submenu active item */
+  .nys-globalheader__content li > ul > li.active > a {
+    box-shadow: inset 8px 0 0 var(--nys-color-theme-weak, #cddde9);
   }
-  .nys-globalheader__content-mobile li.active a {
-    border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
-    border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
+
+  .nys-globalheader__content-mobile li.active > a {
+    box-shadow: inset 8px 0 0 var(--nys-color-theme-weak, #cddde9);
   }
   .nys-globalheader__content ul li.active a:hover {
     text-decoration: none;
   }
 
-  /* Mobile Menu */
+  /*** Mobile Menu ***/
   .nys-globalheader__content-mobile {
     position: absolute;
     z-index: 10;
@@ -223,28 +284,36 @@ export default css`
     display: flex;
     flex-direction: column;
   }
-  .nys-globalheader__content-mobile ul li:first-child a {
+  .nys-globalheader__content-mobile > ul > li:first-child > a,
+  .nys-globalheader__content-mobile > ul > li:first-child > button {
     border-top: 1px solid var(--_nys-globalheader-color);
   }
-  .nys-globalheader__content-mobile ul li a {
+  .nys-globalheader__content-mobile ul li a,
+  .nys-globalheader__content-mobile ul li button {
     display: flex;
-    padding: 24px;
     align-items: center;
     gap: 8px;
     align-self: stretch;
     border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
     background-color: var(--_nys-globalheader-background-color);
   }
-  .nys-globalheader__content-mobile ul li a:hover {
+  /* For both mobile & desktop, the subLinks are the same as the mobile dropdown */
+  .nys-globalheader__content-mobile ul li > a:hover,
+  .nys-globalheader__content ul li > button + ul li a:hover,
+  .nys-globalheader__content-mobile ul li > button:hover {
     background-color: var(--_nys-globalheader-background-color--menu--hover);
   }
-  .nys-globalheader__content-mobile ul li a:active {
+  .nys-globalheader__content-mobile ul li > a:active,
+  .nys-globalheader__content ul li > button + ul li a:active {
     background-color: var(--_nys-globalheader-background-color--menu--active);
   }
   .nys-globalheader__name-container-link {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  .nys-globalheader__content-mobile li.hidden {
+    display: none;
   }
   /* Mobile Menu (OPEN/CLOSE Button Container) */
   .nys-globalheader__button-container {
@@ -274,8 +343,31 @@ export default css`
     line-height: var(--_nys-globalheader-line-height--menu-btn);
     letter-spacing: var(--_nys-globalheader-letter-spacing--menu-btn);
   }
+  /* Mobile Menu (SubLinks button + dropdown) */
+  .nys-globalheader__content-mobile ul li button {
+    width: 100%;
+    text-align: left;
+    background-color: var(--_nys-globalheader-background-color);
+  }
 
-  /* Breakpoints using NYSDS Guidelines (Menu Links) */
+  /* SubLink button's chevron icon */
+  .nys-globalheader__dropdown-icon {
+    margin-top: -3px;
+    margin-left: auto;
+  }
+  .nys-globalheader__content-mobile li.open > button {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+  .nys-globalheader__content-mobile
+    li.open
+    > button
+    .nys-globalheader__dropdown-icon {
+    margin: -3px 0 0;
+  }
+
+  /*** Breakpoints using NYSDS Guidelines (Menu Links) ***/
   /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=1170-340 */
   @media (min-width: 1024px) {
     /* Desktop (MD - Above 1024px) */
@@ -289,15 +381,15 @@ export default css`
     .nys-globalheader__button-container {
       display: none;
     }
-    li {
-      display: flex;
-      align-items: center;
-      padding: var(--_nys-globalheader-link-padding);
+    .nys-globalheader__dropdown-icon {
+      margin-left: 5px;
     }
     :host {
       --_nys-globalheader-gap: var(--nys-space-500, 40px);
       --_nys-globalheader-padding: var(--nys-space-50, 4px)
         var(--nys-size-400, 32px) 0;
+      --_nys-globalheader-padding--link: var(--nys-space-300, 24px)
+        var(--nys-space-200, 16px);
     }
   }
 
