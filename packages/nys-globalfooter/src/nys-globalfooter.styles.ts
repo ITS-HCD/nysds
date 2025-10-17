@@ -153,13 +153,18 @@ export default css`
   }
 
   /** Column Menus **/
-  .nys-globalfooter__content ul li:has(span + ul) {
-    flex: 1 0 205px;
+  .nys-globalfooter__content ul li:has(span ~ ul) {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--nys-space-300, 24px);
+    /* gap: var(--nys-space-300, 24px); */
   }
 
+  .nys-globalfooter__content ul:has(li > span ~ ul) {
+    --_nys-globalfooter-column-gap: var(--nys-space-500, 40px);
+  }
+
+  /*
   .nys-globalfooter__content ul li > span::after {
     content: "";
     display: block;
@@ -167,12 +172,17 @@ export default css`
     width: 100%;
     background: var(--_nys-globalfooter-background--divider);
     margin-top: var(--_nys-globalfooter-margin--divider);
-  }
+  }*/
 
-  .nys-globalfooter__content ul li > span + ul {
+  .nys-globalfooter__content ul li > span ~ ul {
     display: flex;
     flex-direction: column;
     gap: var(--nys-space-200, 16px);
+  }
+
+  .divider {
+    margin-top: var(--_nys-globalfooter-margin--divider);
+    margin-bottom: var(--nys-space-300, 24px);
   }
 
   /* Breakpoints using NYSDS Guidelines (Menu Links) */
@@ -180,6 +190,9 @@ export default css`
     /* Tablet (MD - Above 768px) */
     .nys-globalfooter__content ul {
       flex-direction: row;
+    }
+    .nys-globalfooter__content ul li:has(span ~ ul) {
+      flex: 1 0 205px;
     }
     :host {
       --_nys-globalfooter-padding--gutter: var(--nys-gutter-lg, 32px);

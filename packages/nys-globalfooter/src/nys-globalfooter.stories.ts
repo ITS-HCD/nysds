@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalfooter";
+import "@nysds/nys-divider";
 
 // Define the structure of the args used in the stories
 interface NysGlobalFooterArgs {
