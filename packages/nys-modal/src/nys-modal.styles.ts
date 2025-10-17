@@ -37,6 +37,10 @@ export default css`
     --_nys-modal-font-weight--header: var(--nys-font-weight-bold, 700);
     --_nys-modal-font-weight--subheader: var(--nys-font-weight-semibold, 600);
     --_nys-modal-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-modal-line-height--subheader: var(
+      --nys-font-lineheight-body-lg,
+      28px
+    );
     --_nys-modal-font-family: var(
       --nys-font-family-ui,
       var(
@@ -110,6 +114,7 @@ export default css`
   .nys-modal_header p {
     font-size: var(--_nys-modal-font-size--subheader);
     font-weight: var(--_nys-modal-font-weight--subheader);
+    line-height: var(--_nys-modal-line-height--subheader);
   }
 
   .nys-modal_header-inner {
