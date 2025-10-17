@@ -143,7 +143,9 @@ export const WithColumnLinks: Story = {
           <span>Resources</span>
           <ul>
             <li><a href="https://its.ny.gov/resources">Developer Tools</a></li>
-            <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+            <li>
+              <a href="https://its.ny.gov/accessibility">Accessibility</a>
+            </li>
             <li><a href="https://its.ny.gov/privacy">Privacy</a></li>
           </ul>
         </li>
