@@ -14,7 +14,7 @@ interface NysToggleArgs {
   label: string;
   description: string;
   size: "sm" | "md";
-  invert: boolean;
+  inverted: boolean;
 }
 
 const meta: Meta<NysToggleArgs> = {
@@ -28,7 +28,7 @@ const meta: Meta<NysToggleArgs> = {
     disabled: { control: "boolean" },
     noIcon: { control: "boolean" },
     size: { control: "select", options: ["sm", "md"] },
-    invert: { control: "boolean" },
+    inverted: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -53,7 +53,7 @@ export const Basic: Story = {
     checked: false,
     disabled: false,
     noIcon: false,
-    invert: false,
+    inverted: false,
   },
   render: (args) =>
     html` <nys-toggle
@@ -65,7 +65,7 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     ></nys-toggle>`,
   parameters: {
     docs: {
@@ -100,7 +100,7 @@ export const Checked: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
     </nys-toggle>`,
   parameters: {
@@ -137,7 +137,7 @@ export const UncheckedDisabled: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
     </nys-toggle>`,
   parameters: {
@@ -175,7 +175,7 @@ export const CheckedDisabled: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
     </nys-toggle>`,
   parameters: {
@@ -212,7 +212,7 @@ export const HelpTexts: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
       <p slot="description">
         This slot is called 'description' (<a
@@ -233,7 +233,7 @@ export const HelpTexts: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
     </nys-toggle>
   `,
@@ -338,7 +338,7 @@ export const NoIcons: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
     </nys-toggle>`,
   parameters: {
@@ -375,7 +375,7 @@ export const Labels: Story = {
       .disabled=${args.disabled}
       ?noIcon=${args.noIcon}
       .size=${args.size}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
     </nys-toggle>`,
   parameters: {
@@ -394,12 +394,12 @@ export const Labels: Story = {
   },
 };
 
-export const Invert: Story = {
+export const Inverted: Story = {
   args: {
     label: "Toggle Switch",
     name: "toggle-switch",
     value: "access",
-    invert: true,
+    inverted: true,
   },
   render: (args) => html`
     <div
@@ -414,7 +414,7 @@ export const Invert: Story = {
         .disabled=${args.disabled}
         ?noIcon=${args.noIcon}
         .size=${args.size}
-        ?invert=${args.invert}
+        ?inverted=${args.inverted}
       >
       </nys-toggle>
     </div>
@@ -428,7 +428,7 @@ export const Invert: Story = {
   description="This description was passed in as a property"
   name="toggle-switch"
   value="access"
-  invert>
+  inverted>
 </nys-toggle>
         `.trim(),
       },
