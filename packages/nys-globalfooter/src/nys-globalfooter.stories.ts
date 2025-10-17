@@ -120,3 +120,66 @@ export const WithMenuLinks: Story = {
   },
 };
 
+// Story: With Column Links
+export const WithColumnLinks: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+  },
+  render: (args) => html`
+    <nys-globalfooter
+      .agencyName=${args.agencyName}
+      .homepageLink=${args.homepageLink}
+    >
+      <ul>
+        <li>
+          <span>About</span>
+          <ul>
+            <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+            <li><a href="https://its.ny.gov/contact-us">Contact</a></li>
+            <li><a href="https://its.ny.gov/policies">Policies</a></li>
+          </ul>
+        </li>
+        <li>
+          <span>Resources</span>
+          <ul>
+            <li><a href="https://its.ny.gov/resources">Developer Tools</a></li>
+            <li>
+              <a href="https://its.ny.gov/accessibility">Accessibility</a>
+            </li>
+            <li><a href="https://its.ny.gov/privacy">Privacy</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nys-globalfooter>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalfooter agencyName="Office of Information Technology Services">
+  <ul>
+    <li>
+      <span>About</span>
+      <ul>
+        <li><a href="https://its.ny.gov/about-us">About ITS</a></li>
+        <li><a href="https://its.ny.gov/contact-us">Contact</a></li>
+        <li><a href="https://its.ny.gov/policies">Policies</a></li>
+      </ul>
+    </li>
+    <li>
+      <span>Resources</span>
+      <ul>
+        <li><a href="https://its.ny.gov/resources">Developer Tools</a></li>
+        <li><a href="https://its.ny.gov/accessibility">Accessibility</a></li>
+        <li><a href="https://its.ny.gov/privacy">Privacy</a></li>
+      </ul>
+    </li>
+  </ul>
+</nys-globalfooter>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+

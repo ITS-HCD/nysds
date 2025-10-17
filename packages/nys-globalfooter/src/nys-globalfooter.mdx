@@ -33,11 +33,22 @@ Use the prop `homepageLink` to link your `agencyName` to your homepage.
 <Canvas of={NysGlobalFooterStories.WithoutMenuLinks} />
 
 ## With Links
-To add menu links, place an unordered list (`<ul>`) inside the `nys-globalfooter` slot. \
-The (`<ul>`) will act as grouping for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
+Start by adding an unordered list (`<ul>`) inside the `<nys-globalfooter>` slot. \
+The (`<ul>`) serves as a container for each list item (`<li>`), which should contain an anchor (`<a href="">`) linking to the desired destination.
 
 <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon name="info" size="xl"></nys-icon> Minimize the number of links to keep users focused and avoid distractions </div>
 <Canvas of={NysGlobalFooterStories.WithMenuLinks} />
+
+## With Column Links
+Start by adding an unordered list (`<ul>`) inside the `<nys-globalfooter>` slot. \
+To group related links into columns, give each column a parent list item (`<li>`) containing a heading (`<span>`) followed by a nested list (`<ul>`) of link items. \
+Finally, include anchor tags (`<a href="">`) within each link item to point to the desired destination.
+
+<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  
+  <nys-icon name="info" size="xl"></nys-icon>  
+  See the example below for the proper column structure and recommended hierarchy.  
+</div>
+<Canvas of={NysGlobalFooterStories.WithColumnLinks} />
 
 ## Usage
 

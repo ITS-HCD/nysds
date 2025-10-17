@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -8,7 +8,7 @@
   ],
   "files": [
     "dist/",
-    "!dist/nys-stepper/"
+    "!nys-stepper/"
   ],
   "main": "dist/nysds.js",
   "module": "dist/nysds.es.js",
@@ -31,8 +31,8 @@
     "lint": "eslint src/ packages/**/*.{ts,js}",
     "lint:fix": "eslint src/ packages/**/*.{ts,js} --fix",
     "lit-analyze": "lit-analyzer 'packages/**/*.ts'",
-    "release:dry-run": "NODE_ENV=production npm run build:all && NODE_ENV=production npm run test && node src/scripts/publish-dry-run.js",
     "release": "NODE_ENV=production npm run build:all && npm run test && npm publish --workspaces --access public && npm publish --access public",
+    "release:dry-run": "NODE_ENV=production npm run build:all && NODE_ENV=production npm run test && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
     "test": "wtr --node-resolve",
     "test:build": "npm run build:all && wtr --node-resolve",
