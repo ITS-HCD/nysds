@@ -16,6 +16,7 @@ export class NysToggle extends LitElement {
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean }) noIcon = false;
+  @property({ type: Boolean, reflect: true }) invert = false;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
@@ -137,7 +138,7 @@ export class NysToggle extends LitElement {
               </div>
             </span>
           </div>
-          <div class="nys-toggle__text">
+          <div class="nys-toggle__text ${this.invert ? "invert" : ""}">
             <div class="nys-toggle__label">${this.label}</div>
             <slot name="description">${this.description}</slot>
           </div>
