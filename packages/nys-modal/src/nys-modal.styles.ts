@@ -4,7 +4,6 @@ export default css`
   :host {
     /* Global Modal Styles */
     --_nys-modal-width: 439px;
-    --_nys-modal-min-width: 320px;
     --_nys-modal-border-radius: var(--nys-radius-lg, 8px);
     --_nys-modal-border-color: var(--nys-color-neutral-200, #bec0c1);
     --_nys-modal-border-width: 1px;
@@ -92,7 +91,6 @@ export default css`
     padding: var(--_nys-modal-padding);
     gap: var(--_nys-modal-gap);
     width: var(--_nys-modal-width);
-    min-width: var(--_nys-modal-min-width);
     border-radius: var(--_nys-modal-border-radius);
     border: var(--_nys-modal-border-width) solid var(--_nys-modal-border-color);
     font-family: var(--_nys-modal-font-family);
