@@ -164,16 +164,6 @@ export default css`
     --_nys-globalfooter-column-gap: var(--nys-space-500, 40px);
   }
 
-  /*
-  .nys-globalfooter__content ul li > span::after {
-    content: "";
-    display: block;
-    height: 1px;
-    width: 100%;
-    background: var(--_nys-globalfooter-background--divider);
-    margin-top: var(--_nys-globalfooter-margin--divider);
-  }*/
-
   .nys-globalfooter__content ul li > span ~ ul {
     display: flex;
     flex-direction: column;
