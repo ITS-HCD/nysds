@@ -157,7 +157,6 @@ export default css`
     flex: 1;
     display: flex;
     flex-direction: column;
-    /* gap: var(--nys-space-300, 24px); */
   }
 
   .nys-globalfooter__content ul:has(li > span ~ ul) {
