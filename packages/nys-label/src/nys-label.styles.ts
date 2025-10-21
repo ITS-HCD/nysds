@@ -90,10 +90,10 @@ export default css`
   .nys-label.invert .nys-label__label,
   .nys-label.invert .nys-label__description,
   .nys-label.invert .nys-label__optional {
-    color: var(--nys-color-text-inverse, #fff);
+    color: var(--nys-color-text-reverse, #fff);
   }
 
   .nys-label.invert .nys-label__tooltip-icon {
-    color: var(--nys-color-ink-inverse, #fff);
+    color: var(--nys-color-ink-reverse, #fff);
   }
 `;

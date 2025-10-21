@@ -21,7 +21,7 @@ interface NysFileinputArgs {
   errorMessage: string;
   showError: boolean;
   dropzone: boolean;
-  invert: boolean;
+  inverted: boolean;
   form: string;
 }
 
@@ -46,7 +46,7 @@ const meta: Meta<NysFileinputArgs> = {
     errorMessage: { control: "text" },
     showError: { control: "boolean" },
     dropzone: { control: "boolean" },
-    invert: { control: "boolean" },
+    inverted: { control: "boolean" },
     form: { control: "text" },
   },
   parameters: {
@@ -76,7 +76,7 @@ export const Basic: Story = {
     errorMessage: "",
     showError: false,
     dropzone: false,
-    invert: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-fileinput
@@ -93,7 +93,7 @@ export const Basic: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     ></nys-fileinput>
   `,
@@ -136,7 +136,7 @@ export const Dropzone: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     ></nys-fileinput>
   `,
@@ -179,7 +179,7 @@ export const Width: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     ></nys-fileinput>
   `,
@@ -222,7 +222,7 @@ export const Multiple: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     ></nys-fileinput>
   `,
@@ -268,7 +268,7 @@ export const Disabled: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     ></nys-fileinput>
   `,
@@ -296,7 +296,7 @@ export const DescriptionSlot: Story = {
     name: "fileinput-slot",
     label: "Upload a file",
     width: "full",
-    invert: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-fileinput
@@ -313,7 +313,7 @@ export const DescriptionSlot: Story = {
       .errorMessage=${args.errorMessage}
       ?showError=${args.showError}
       ?dropzone=${args.dropzone}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     >
       <span slot="description">
@@ -343,7 +343,7 @@ export const DescriptionSlot: Story = {
   },
 };
 
-export const Invert: Story = {
+export const Inverted: Story = {
   args: {
     id: "fileinput1",
     name: "fileinput1",
@@ -357,7 +357,7 @@ export const Invert: Story = {
     errorMessage: "",
     showError: false,
     dropzone: false,
-    invert: true,
+    inverted: true,
   },
   render: (args) => html`
     <div
@@ -377,7 +377,7 @@ export const Invert: Story = {
         .errorMessage=${args.errorMessage}
         ?showError=${args.showError}
         ?dropzone=${args.dropzone}
-        ?invert=${args.invert}
+        ?inverted=${args.inverted}
         .form=${args.form}
       ></nys-fileinput>
     </div>
@@ -392,7 +392,7 @@ export const Invert: Story = {
   label="Upload a file"
   description="Accepted file types: .jpg, .png, .pdf"
   accept="image/png, image/jpeg, .pdf"
-  invert
+  inverted
 ></nys-fileinput>`,
         type: "auto",
       },

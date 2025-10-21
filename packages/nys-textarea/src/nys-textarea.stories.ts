@@ -16,7 +16,7 @@ interface NysTextareaArgs {
   readonly: boolean;
   required: boolean;
   optional: boolean;
-  invert: boolean;
+  inverted: boolean;
   form: string | null;
   maxlength: number | null;
   width: "sm" | "md" | "lg" | "full";
@@ -40,7 +40,7 @@ const meta: Meta<NysTextareaArgs> = {
     readonly: { control: "boolean" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
-    invert: { control: "boolean" },
+    inverted: { control: "boolean" },
     form: { control: "text" },
     maxlength: { control: "text" },
 
@@ -76,7 +76,7 @@ export const Basic: Story = {
     required: false,
     optional: false,
     showError: false,
-    invert: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-textarea
@@ -90,7 +90,7 @@ export const Basic: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -124,7 +124,7 @@ export const Width: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -160,7 +160,7 @@ export const Rows: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -199,7 +199,7 @@ export const Resize: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -233,7 +233,7 @@ export const DescriptionSlot: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -253,7 +253,7 @@ export const DescriptionSlot: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -298,7 +298,7 @@ export const ValueAndPlaceholder: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -337,7 +337,7 @@ export const Disabled: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -373,7 +373,7 @@ export const Readonly: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -414,7 +414,7 @@ export const Maxlength: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -454,7 +454,7 @@ export const Required: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -492,7 +492,7 @@ export const ErrorMessage: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -535,7 +535,7 @@ export const Optional: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -555,8 +555,13 @@ export const Optional: Story = {
   },
 };
 
-export const Invert: Story = {
-  args: { label: "Label", description: "description", value: "", invert: true },
+export const Inverted: Story = {
+  args: {
+    label: "Label",
+    description: "description",
+    value: "",
+    inverted: true,
+  },
   render: (args) => html`
     <div
       style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
@@ -572,7 +577,7 @@ export const Invert: Story = {
         .readonly=${args.readonly}
         .required=${args.required}
         .optional=${args.optional}
-        ?invert=${args.invert}
+        ?inverted=${args.inverted}
         .form=${args.form}
         .maxlength=${args.maxlength}
         .width=${args.width}
@@ -587,7 +592,7 @@ export const Invert: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea label="Label" description="Prop: description" invert></nys-textarea>
+<nys-textarea label="Label" description="Prop: description" inverted></nys-textarea>
         `,
         type: "auto",
       },
