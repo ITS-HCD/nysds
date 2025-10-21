@@ -258,8 +258,7 @@
   --nys-radius-lg: var(--nys-space-100);
   --nys-radius-xl: var(--nys-space-150);
   --nys-radius-xxl: var(--nys-space-200);
-  --nys-radius-round: 1776px;
-  /* Ever upward! */
+  --nys-radius-round: 1776px; /* Ever upward! */
 
   /* ===================== SHADOW/ELEVATION TOKENS ======================= */
 
@@ -476,64 +475,27 @@
   /* ================ PRIMITIVE TYPOGRAPHY TOKENS ===================== */
 
   /* --- Font Family --- */
-  --nys-font-family-sans: Proxima Nova,
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif,
-    Apple Color Emoji,
-    Segoe UI Emoji,
-    Segoe UI Symbol;
-  --nys-font-family-serif: Noto Serif,
-    Georgia,
-    Cambria,
-    Times New Roman,
-    Times,
-    serif;
-  --nys-font-family-alt: Oswald,
-    Arial,
-    sans-serif;
-  --nys-font-family-monospace: Roboto Mono Web,
-    Bitstream Vera Sans Mono,
-    Consolas,
-    Courier,
-    monospace;
-  --nys-font-family-agency: D Sari,
-    Arial,
-    sans-serif;
+  --nys-font-family-sans: Proxima Nova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --nys-font-family-serif: Noto Serif, Georgia, Cambria, Times New Roman, Times, serif;
+  --nys-font-family-alt: Oswald, Arial, sans-serif;
+  --nys-font-family-monospace: Roboto Mono Web, Bitstream Vera Sans Mono, Consolas, Courier, monospace;
+  --nys-font-family-agency: D Sari, Arial, sans-serif;
 
   /* --- Font Size --- */
-  --nys-font-size-2xs: 0.625rem;
-  /* 10px */
-  --nys-font-size-xs: 0.75rem;
-  /* 12px */
-  --nys-font-size-sm: 0.875rem;
-  /* 14px */
-  --nys-font-size-md: 1rem;
-  /* 16px */
-  --nys-font-size-lg: 1.125rem;
-  /* 18px */
-  --nys-font-size-xl: 1.25rem;
-  /* 20px */
-  --nys-font-size-2xl: 1.375rem;
-  /* 22px */
-  --nys-font-size-3xl: 1.5rem;
-  /* 24px */
-  --nys-font-size-4xl: 1.75rem;
-  /* 28px */
-  --nys-font-size-5xl: 2rem;
-  /* 32px */
-  --nys-font-size-6xl: 2.25rem;
-  /* 36px */
-  --nys-font-size-7xl: 2.5rem;
-  /* 40px */
-  --nys-font-size-8xl: 2.75rem;
-  /* 44px */
-  --nys-font-size-9xl: 3.125rem;
-  /* 50px */
+  --nys-font-size-2xs: 0.625rem; /* 10px */
+  --nys-font-size-xs: 0.75rem; /* 12px */
+  --nys-font-size-sm: 0.875rem; /* 14px */
+  --nys-font-size-md: 1rem; /* 16px */
+  --nys-font-size-lg: 1.125rem; /* 18px */
+  --nys-font-size-xl: 1.25rem; /* 20px */
+  --nys-font-size-2xl: 1.375rem; /* 22px */
+  --nys-font-size-3xl: 1.5rem; /* 24px */
+  --nys-font-size-4xl: 1.75rem; /* 28px */
+  --nys-font-size-5xl: 2rem; /* 32px */
+  --nys-font-size-6xl: 2.25rem; /* 36px */
+  --nys-font-size-7xl: 2.5rem; /* 40px */
+  --nys-font-size-8xl: 2.75rem; /* 44px */
+  --nys-font-size-9xl: 3.125rem; /* 50px */
 
   /* --- Font Weight --- */
   --nys-font-weight-thin: 100;
@@ -558,22 +520,13 @@
   --nys-font-lineheight-4xl: 57px;
 
   /* --- Letter Spacing --- */
-  --nys-font-letterspacing-negative-200: -0.02rem;
-  /* -0.32px */
-  --nys-font-letterspacing-negative-100: -0.01rem;
-  /* -0.16px */
-  --nys-font-letterspacing-0: 0rem;
-  /* 0px */
-  --nys-font-letterspacing-100: 0.001rem;
-  /* 0.013px */
-  --nys-font-letterspacing-200: 0.001rem;
-  /* 0.017px */
-  --nys-font-letterspacing-300: 0.002rem;
-  /* 0.027px */
-  --nys-font-letterspacing-400: 0.003rem;
-  /* 0.044px */
-  --nys-font-letterspacing-500: 0.003rem;
-  /* 0.050px */
-  --nys-font-letterspacing-600: 0.004rem;
-  /* 0.057px */
+  --nys-font-letterspacing-negative-200: -0.02rem; /* -0.32px */
+  --nys-font-letterspacing-negative-100: -0.01rem; /* -0.16px */
+  --nys-font-letterspacing-0: 0rem; /* 0px */
+  --nys-font-letterspacing-100: 0.001rem; /* 0.013px */
+  --nys-font-letterspacing-200: 0.001rem; /* 0.017px */
+  --nys-font-letterspacing-300: 0.002rem; /* 0.027px */
+  --nys-font-letterspacing-400: 0.003rem; /* 0.044px */
+  --nys-font-letterspacing-500: 0.003rem; /* 0.050px */
+  --nys-font-letterspacing-600: 0.004rem; /* 0.057px */
 }
