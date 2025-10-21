@@ -66,6 +66,13 @@ export class NysGlobalFooter extends LitElement {
           node.remove(); // Remove from light DOM to avoid duplication
         }
       });
+
+      const spans = container.querySelectorAll("span");
+      spans.forEach((span) => {
+        const divider = document.createElement("nys-divider");
+        divider.classList.add("divider");
+        span.insertAdjacentElement("afterend", divider);
+      });
     }
   }
 
