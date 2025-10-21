@@ -9,6 +9,7 @@ export class NysTooltip extends LitElement {
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) focusable = false;
+  @property({ type: String }) for = "";
 
   // Track if tooltip is active (hovered or focused)
   @state()
@@ -63,6 +64,8 @@ export class NysTooltip extends LitElement {
     window.removeEventListener("keydown", this._handleEscapeKey);
   }
 
+  // ‼️ REMOVE for new reformation
+  // ⭐️ Rework this logic to query the "for" prop and see if the component is a button|icon OR accepted form-related component
   private get _firstAssignedEl(): HTMLElement | undefined {
     const slot = this.shadowRoot?.querySelector("slot");
     return slot?.assignedElements({ flatten: true })[0] as
@@ -71,11 +74,13 @@ export class NysTooltip extends LitElement {
   }
 
   firstUpdated() {
+    // ‼️ REMOVE for new reformation || rework so it queries first and give _firstAssignedEl the "for" prop
     const slot = this.shadowRoot?.querySelector("slot");
     if (slot) {
       slot.addEventListener("slotchange", () => {
         const firstEl = this._firstAssignedEl;
         if (firstEl) {
+          // ⭐️ Rework this logic to query the "for" prop and see if the component is a button|icon OR accepted form-related component
           this._applyFocusBehavior(firstEl);
         }
       });

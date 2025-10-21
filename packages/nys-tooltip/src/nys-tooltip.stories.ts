@@ -74,6 +74,39 @@ export const Basic: Story = {
   },
 };
 
+export const Test: Story = {
+  args: {
+    text: "I am a tooltip.",
+    focusable: false,
+    inverted: false,
+  },
+  render: (args) => html`
+    <br />
+    <div style="display: flex; justify-content: left;">
+      <nys-tooltip
+        id=${args.id}
+        text=${args.text}
+        position=${args.position}
+        ?inverted=${args.inverted}
+        ?focusable=${args.focusable}
+      >
+      </nys-tooltip>
+      <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+<nys-button id="my-button" label="Hover Me"></nys-button>
+`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Focusable: Story = {
   args: {
     text: "I am a tooltip.",
