@@ -66,24 +66,29 @@ export class NysTooltip extends LitElement {
 
   // ‼️ REMOVE for new reformation
   // ⭐️ Rework this logic to query the "for" prop and see if the component is a button|icon OR accepted form-related component
-  private get _firstAssignedEl(): HTMLElement | undefined {
-    const slot = this.shadowRoot?.querySelector("slot");
-    return slot?.assignedElements({ flatten: true })[0] as
-      | HTMLElement
-      | undefined;
-  }
+  // private get _firstAssignedEl(): HTMLElement | undefined {
+  //   const slot = this.shadowRoot?.querySelector("slot");
+  //   return slot?.assignedElements({ flatten: true })[0] as
+  //     | HTMLElement
+  //     | undefined;
+  // }
 
   firstUpdated() {
     // ‼️ REMOVE for new reformation || rework so it queries first and give _firstAssignedEl the "for" prop
-    const slot = this.shadowRoot?.querySelector("slot");
-    if (slot) {
-      slot.addEventListener("slotchange", () => {
-        const firstEl = this._firstAssignedEl;
-        if (firstEl) {
-          // ⭐️ Rework this logic to query the "for" prop and see if the component is a button|icon OR accepted form-related component
-          this._applyFocusBehavior(firstEl);
-        }
-      });
+    // const slot = this.shadowRoot?.querySelector("slot");
+    // if (slot) {
+    //   slot.addEventListener("slotchange", () => {
+    //     const firstEl = this._firstAssignedEl;
+    //     if (firstEl) {
+    //       // ⭐️ Rework this logic to query the "for" prop and see if the component is a button|icon OR accepted form-related component
+    //       this._applyFocusBehavior(firstEl);
+    //     }
+    //   });
+    // }
+
+    const htmlElement = this._getReferenceElement();
+    if (htmlElement) {
+      this._applyFocusBehavior(htmlElement);
     }
   }
 
@@ -188,6 +193,11 @@ export class NysTooltip extends LitElement {
   };
 
   /******************** Functions ********************/
+  private _getReferenceElement(): HTMLElement | null {
+    const htmlElement = document.getElementById(this.for);
+    return htmlElement;
+  }
+
   // We need to pass `ariaLabel` or `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
   private _passAria(el: HTMLElement) {
     const tagName = el.tagName.toLowerCase();
@@ -389,7 +399,7 @@ export class NysTooltip extends LitElement {
           @focusout=${this._handleBlurOrMouseLeave}
         >
           <span class="nys-tooltip__trigger">
-            <slot></slot>
+            ${this._getReferenceElement}
           </span>
         </div>
         ${this.text?.trim()
