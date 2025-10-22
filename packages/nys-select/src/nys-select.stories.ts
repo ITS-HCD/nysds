@@ -15,7 +15,7 @@ interface NysSelectArgs {
   disabled: boolean;
   required: boolean;
   optional: boolean;
-  invert: boolean;
+  inverted: boolean;
   width: "sm" | "md" | "lg" | "full";
   options: string;
   showError: boolean;
@@ -36,7 +36,7 @@ const meta: Meta<NysSelectArgs> = {
     required: { control: "boolean" },
     optional: { control: "boolean" },
     form: { control: "text" },
-    invert: { control: "boolean" },
+    inverted: { control: "boolean" },
     width: { control: "select", options: ["sm", "md", "lg", "full"] },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
@@ -62,7 +62,7 @@ export const Basic: Story = {
     required: false,
     optional: false,
     showError: false,
-    invert: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-select
@@ -74,7 +74,7 @@ export const Basic: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -112,7 +112,7 @@ export const DefaultValue: Story = {
     required: false,
     optional: false,
     showError: false,
-    invert: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-select
@@ -124,7 +124,7 @@ export const DefaultValue: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -168,7 +168,7 @@ export const OptionsLabelSlot: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -214,7 +214,7 @@ export const Disabled: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -260,7 +260,7 @@ export const Required: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -307,7 +307,7 @@ export const Optional: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -356,7 +356,7 @@ export const Width: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -405,7 +405,7 @@ export const DescriptionSlot: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -454,7 +454,7 @@ export const ErrorMessage: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .width=${args.width}
       .showError=${args.showError}
@@ -488,11 +488,11 @@ export const ErrorMessage: Story = {
   },
 };
 
-export const Invert: Story = {
+export const Inverted: Story = {
   args: {
     label: "Select your favorite borough",
     value: "",
-    invert: true,
+    inverted: true,
   },
   render: (args) => html`
     <div
@@ -507,7 +507,7 @@ export const Invert: Story = {
         .disabled=${args.disabled}
         .required=${args.required}
         .optional=${args.optional}
-        ?invert=${args.invert}
+        ?inverted=${args.inverted}
         .form=${args.form}
         .width=${args.width}
         .showError=${args.showError}
@@ -525,7 +525,7 @@ export const Invert: Story = {
     docs: {
       source: {
         code: `
-<nys-select label="Select your favorite borough" invert>
+<nys-select label="Select your favorite borough" inverted>
   <nys-option value="bronx" label="The Bronx"></nys-option>
   <nys-option value="brooklyn" label="Brooklyn"></nys-option>
   <nys-option value="manhattan" label="Manhattan"></nys-option>
