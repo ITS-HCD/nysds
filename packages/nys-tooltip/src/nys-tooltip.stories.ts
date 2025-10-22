@@ -8,6 +8,7 @@ import "@nysds/nys-icon";
 interface NysTooltipArgs {
   id: string;
   text: string;
+  for: string;
   inverted: boolean;
   focusable: boolean;
   position: "top" | "bottom" | "left" | "right";
@@ -19,7 +20,7 @@ const meta: Meta<NysTooltipArgs> = {
   argTypes: {
     id: { control: "text" },
     text: { control: "text" },
-    inverted: { control: "boolean" },
+    for: { control: "text" },
     focusable: { control: "boolean" },
     position: {
       control: "select",
@@ -44,6 +45,7 @@ export const Basic: Story = {
     text: "I am a tooltip.",
     focusable: false,
     inverted: false,
+    for: "button1",
   },
   render: (args) => html`
     <br />
@@ -79,19 +81,34 @@ export const Test: Story = {
     text: "I am a tooltip.",
     focusable: false,
     inverted: false,
+    for: "my-button",
   },
   render: (args) => html`
     <br />
-    <div style="display: flex; justify-content: left;">
+    <div style="display: flex; justify-content: left; flex-direction: column">
+      <nys-button id="my-button" name="my-button" label="Hover Me"></nys-button>
+
+      <p>Random p tag here</p>
+      <br />
       <nys-tooltip
         id=${args.id}
         text=${args.text}
+        for=${args.for}
         position=${args.position}
         ?inverted=${args.inverted}
         ?focusable=${args.focusable}
       >
       </nys-tooltip>
-      <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
+
+      <nys-icon id="my-icon" name="info" size="3xl"></nys-icon>
+      <nys-tooltip
+        text="I AM ICON TOOLTIP"
+        for="my-icon"
+        position=${args.position}
+        ?inverted=${args.inverted}
+        focusable
+      >
+      </nys-tooltip>
     </div>
   `,
   parameters: {
@@ -99,7 +116,18 @@ export const Test: Story = {
       source: {
         code: `
 <nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+
+      <p>Random p tag here</p>
+      <br />
 <nys-button id="my-button" label="Hover Me"></nys-button>
+      <nys-icon id="my-icon" name="info" size="3xl"></nys-icon>
+
+      <nys-tooltip
+        text="I AM ICON TOOLTIP"
+        for="my-icon"
+        focusable
+      >
+      </nys-tooltip>
 `,
         type: "auto",
       },
