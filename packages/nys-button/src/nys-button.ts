@@ -68,7 +68,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ type: Function }) onClick: (event: Event) => void = () => {};
+  @property({attribute: false}) onClick: (event: Event) => void = () => {};
   @property({ type: String }) href = "";
   // target
   private static readonly VALID_TARGETS = [
@@ -198,7 +198,8 @@ export class NysButton extends LitElement {
           linkEl.click();
         }
       } else {
-        this._handleClick(e);
+        this.click();
+        this.dispatchEvent(new Event("nys-click"));
       }
     }
   }
