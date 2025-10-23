@@ -68,7 +68,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({attribute: false}) onClick: (event: Event) => void = () => {};
+  @property({ attribute: false }) onClick: (event: Event) => void = () => {};
   @property({ type: String }) href = "";
   // target
   private static readonly VALID_TARGETS = [
@@ -134,8 +134,11 @@ export class NysButton extends LitElement {
   }
 
   private _manageFormAction(event: Event) {
+    console.log("_ManageFormAction triggered");
+    console.log("onclick func is: ", this.onClick);
     // If an onClick function is provided, call it
     if (typeof this.onClick === "function") {
+      console.log("Calling onClick function");
       this.onClick(event);
     }
 
@@ -169,16 +172,21 @@ export class NysButton extends LitElement {
   }
 
   private _handleClick(event: Event) {
+    console.log("_HandleClick triggered");
     if (this.disabled) {
+      console.log("Button is disabled");
       event.preventDefault();
       return;
     }
+    console.log("Button is enabled, managing form action");
     this._manageFormAction(event);
+    console.log("Dispatching nys-click event");
     this.dispatchEvent(new Event("nys-click"));
   }
 
   // Handle keydown for keyboard accessibility
   private _handleKeydown(e: KeyboardEvent) {
+    console.log("_HandleKeydown pressed", e.key, e.code);
     if (
       e.code === "Space" ||
       e.code === "Enter" ||
@@ -198,8 +206,8 @@ export class NysButton extends LitElement {
           linkEl.click();
         }
       } else {
-        this.click();
-        this.dispatchEvent(new Event("nys-click"));
+        console.log("Triggering _handleClick in keydown");
+        this._handleClick(e);
       }
     }
   }
