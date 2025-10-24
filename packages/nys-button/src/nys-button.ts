@@ -133,13 +133,13 @@ export class NysButton extends LitElement {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
 
-  private _manageFormAction(event: Event) {
+  private _manageFormAction() {
     console.log("_ManageFormAction triggered");
     console.log("onclick func is: ", this.onClick);
     // If an onClick function is provided, call it
     if (typeof this.onClick === "function") {
       console.log("Calling onClick function");
-      this.onClick(event);
+      this.click();
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
@@ -179,7 +179,7 @@ export class NysButton extends LitElement {
       return;
     }
     console.log("Button is enabled, managing form action");
-    this._manageFormAction(event);
+    this._manageFormAction();
     console.log("Dispatching nys-click event");
     this.dispatchEvent(new Event("nys-click"));
   }
