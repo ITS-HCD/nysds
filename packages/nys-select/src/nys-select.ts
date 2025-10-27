@@ -84,13 +84,15 @@ export class NysSelect extends LitElement {
     if (!slot || !select) return;
 
     // Clean up any previously cloned <nys-option> so we don't get duplicates
-    select
-      .querySelectorAll("option:not([hidden])")
-      .forEach((opt) => opt.remove());
+    // but keep any native <option> elements provided directly in the slot
+    Array.from(select.children).forEach((child) => {
+      if (!(child as HTMLElement).hasAttribute("data-native")) {
+        child.remove();
+      }
+    });
 
     const assignedElements = slot.assignedElements({ flatten: true });
 
-    // Clone and append slotted elements
     assignedElements.forEach((node) => {
       if (node instanceof NysOption) {
         const optionElement = document.createElement("option");
@@ -100,6 +102,10 @@ export class NysSelect extends LitElement {
         optionElement.disabled = node.disabled;
         optionElement.selected = node.selected;
         select.appendChild(optionElement);
+      } else if (node.tagName === "OPTION") {
+        const optionClone = node.cloneNode(true) as HTMLOptionElement;
+        optionClone.setAttribute("data-native", "true"); // mark to not delete next time
+        select.appendChild(optionClone);
       }
     });
   }
