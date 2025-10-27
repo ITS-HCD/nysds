@@ -154,6 +154,68 @@ export const DefaultValue: Story = {
   },
 };
 
+export const OptionGroup: Story = {
+  args: {
+    label: "Which New York State service are you contacting us about?",
+    description:
+      "This is for demo purposes and the list might not be exhaustive.",
+  },
+  render: (args) =>
+    html`<nys-select
+      .id=${args.id}
+      .name=${args.name}
+      .label=${args.label}
+      .description=${args.description}
+      .value=${args.value}
+      .disabled=${args.disabled}
+      .required=${args.required}
+      .optional=${args.optional}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+      .width=${args.width}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <option disabled selected></option>
+      <optgroup label="Transportation Services">
+        <option value="mta">MTA / Public Transit</option>
+        <option value="dmv">Department of Motor Vehicles (DMV)</option>
+        <option value="highway">Highway Maintenance</option>
+      </optgroup>
+
+      <optgroup label="Health & Human Services">
+        <option value="medicaid">Medicaid / Health Insurance</option>
+        <option value="mental-health">Mental Health Support</option>
+        <option value="child-family">Child and Family Services</option>
+      </optgroup>
+
+      <optgroup label="Public Safety">
+        <option value="state-police">State Police</option>
+        <option value="emergency-management">Emergency Management</option>
+        <option value="fire-safety">Fire Safety</option>
+      </optgroup>
+
+      <optgroup label="Environment & Energy">
+        <option value="environmental-conservation">
+          Environmental Conservation
+        </option>
+        <option value="clean-energy">Clean Energy Programs</option>
+        <option value="waste-management">Waste Management</option>
+      </optgroup>
+    </nys-select>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select your favorite borough">
+
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const OptionsLabelSlot: Story = {
   args: {
     label: "Select your favorite borough",
