@@ -77,7 +77,6 @@ export default css`
     line-height: var(--_nys-alert-line-height);
     letter-spacing: var(--_nys-alert-letter-spacing);
     gap: var(--_nys-alert-gap--icon);
-    text-align: left;
   }
 
   p {
@@ -157,6 +156,11 @@ export default css`
     display: flex;
     gap: var(--_nys-alert-gap--actions);
     flex-wrap: wrap;
+  }
+
+  /* Dismiss Button */
+  #dismiss-btn {
+    margin-top: -8px;
   }
 
   /* Alert Types */

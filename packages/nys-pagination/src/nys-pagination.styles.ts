@@ -44,8 +44,8 @@ export default css`
   nys-button {
     --_nys-button-height: var(--_nys-pagination-height);
     --_nys-button-border-width: var(--nys-border-width-sm, 1px);
-    --_nys-button-border-radius--left: var(--nys-radius-md, 4px);
-    --_nys-button-border-radius--right: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--start: var(--nys-radius-md, 4px);
+    --_nys-button-border-radius--end: var(--nys-radius-md, 4px);
     --_nys-button-padding--x: var(--nys-space-200, 16px);
   }
 
@@ -57,8 +57,8 @@ export default css`
     --nys-button-border-color--hover: var(--nys-color-neutral-600, #62666a);
     --nys-button-border-color--active: var(--nys-color-neutral-900, #1b1b1b);
     --nys-button-color: var(--nys-color-link, #004dd1);
-    --nys-button-color--hover: var(--nys-color-link, #004dd1);
-    --nys-button-color--active: var(--nys-color-link, #004dd1);
+    --nys-button-color--hover: var(--nys-color-link-strong, #003ba1);
+    --nys-button-color--active: var(--nys-color-link-strong, #003ba1);
   }
 
   nys-button[variant="filled"] {
@@ -87,6 +87,8 @@ export default css`
   nys-button#previous--mobile,
   nys-button#next--mobile {
     --nys-button-color: var(--nys-color-text, ##1b1b1b);
+    --nys-button-color--hover: var(--nys-color-text, ##1b1b1b);
+    --nys-button-color--active: var(--nys-color-text, ##1b1b1b);
     --_nys-button-padding--x: var(--nys-space-150, 12px);
   }
 

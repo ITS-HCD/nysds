@@ -45,6 +45,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) inverted = false; //used on dark text
   @property({ type: String }) label = "";
   @property({ type: String }) ariaLabel = "";
+  @property({ type: String }) ariaControls = "";
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) suffixIcon = "";
   @property({ type: Boolean, reflect: true }) circle = false;
@@ -67,7 +68,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ type: Function }) onClick: (event: Event) => void = () => {};
+  @property({ attribute: false }) onClick: (event: Event) => void = () => {};
   @property({ type: String }) href = "";
   // target
   private static readonly VALID_TARGETS = [
@@ -88,6 +89,23 @@ export class NysButton extends LitElement {
     )
       ? (value as (typeof NysButton.VALID_TARGETS)[number])
       : "_self";
+  }
+
+  public async getButtonElement(): Promise<HTMLElement | null> {
+    await this.updateComplete; // Wait for the component to finish rendering
+
+    // if it's a link button
+    const linkEl =
+      this.shadowRoot?.querySelector<HTMLAnchorElement>("a.nys-button") || null;
+    if (linkEl) return linkEl;
+
+    // Otherwise return the native button
+    const btnEl =
+      this.shadowRoot?.querySelector<HTMLButtonElement>("button.nys-button") ||
+      null;
+    if (btnEl) return btnEl;
+
+    return null;
   }
 
   static styles = styles;
@@ -115,10 +133,10 @@ export class NysButton extends LitElement {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
 
-  private _manageFormAction(event: Event) {
+  private _manageFormAction() {
     // If an onClick function is provided, call it
     if (typeof this.onClick === "function") {
-      this.onClick(event);
+      this.click();
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
@@ -155,7 +173,7 @@ export class NysButton extends LitElement {
       event.preventDefault();
       return;
     }
-    this._manageFormAction(event);
+    this._manageFormAction();
     this.dispatchEvent(new Event("nys-click"));
   }
 
@@ -182,6 +200,20 @@ export class NysButton extends LitElement {
       } else {
         this._handleClick(e);
       }
+    }
+  }
+
+  /******************** Public Methods ********************/
+  public focus(options?: FocusOptions) {
+    const innerEl = this.renderRoot.querySelector(
+      this.href ? "a.nys-button" : "button.nys-button",
+    ) as HTMLElement | null;
+
+    if (innerEl) {
+      innerEl.focus(options);
+    } else {
+      // fallback: focus host
+      super.focus(options);
     }
   }
 
@@ -250,6 +282,7 @@ export class NysButton extends LitElement {
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
+              aria-controls=${ifDefined(this.ariaControls || undefined)}
               aria-label=${ifDefined(
                 this.ariaLabel ||
                   this.label ||
@@ -259,6 +292,7 @@ export class NysButton extends LitElement {
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
+              onclick="${this.onClick}"
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"

@@ -169,9 +169,9 @@ describe("nys-button", () => {
       html`<nys-button label="Keyboard Test Link" href="#"></nys-button>`,
     );
     const button = el.shadowRoot?.querySelector("a")!;
-    button.addEventListener("click", (e) => e.preventDefault());
+    button.addEventListener("nys-click", (e) => e.preventDefault());
 
-    const linkEnterPromise = oneEvent(el, "click");
+    const linkEnterPromise = oneEvent(el, "nys-click");
     button.dispatchEvent(
       new KeyboardEvent("keydown", {
         key: "Enter",

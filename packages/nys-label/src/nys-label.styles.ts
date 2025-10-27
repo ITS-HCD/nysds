@@ -67,11 +67,13 @@ export default css`
   }
 
   .nys-label__required {
+    display: contents;
     font-weight: var(--_nys-label-font-weight);
     color: var(--_nys-required-font-color);
   }
 
   .nys-label__optional {
+    display: contents;
     font-weight: var(--_nys-optional-font-weight);
     color: var(--_nys-optional-font-color);
   }
@@ -83,5 +85,15 @@ export default css`
 
   .nys-label__tooltip-icon {
     margin-top: -2px;
+  }
+
+  .nys-label.invert .nys-label__label,
+  .nys-label.invert .nys-label__description,
+  .nys-label.invert .nys-label__optional {
+    color: var(--nys-color-text-reverse, #fff);
+  }
+
+  .nys-label.invert .nys-label__tooltip-icon {
+    color: var(--nys-color-ink-reverse, #fff);
   }
 `;

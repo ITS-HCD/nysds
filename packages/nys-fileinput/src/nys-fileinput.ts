@@ -20,7 +20,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) multiple = false;
-  @property({ type: String, reflect: true }) form = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) _tooltip = "";
   @property({ type: String }) accept = ""; // e.g. "image/*,.pdf"
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -30,6 +30,7 @@ export class NysFileinput extends LitElement {
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) dropzone = false;
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
+  @property({ type: Boolean, reflect: true }) inverted = false;
 
   static styles = styles;
 
@@ -436,6 +437,7 @@ export class NysFileinput extends LitElement {
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
         _tooltip=${this._tooltip}
+        ?inverted=${this.inverted}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>

@@ -15,6 +15,7 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: String }) _tooltip = "";
+  @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private _slottedDescriptionText = "";
@@ -84,6 +85,9 @@ export class NysCheckboxgroup extends LitElement {
     }
     if (changedProperties.has("tile")) {
       this._updateCheckboxTile();
+    }
+    if (changedProperties.has("inverted")) {
+      this._updateCheckboxInvert();
     }
     if (changedProperties.has("showError")) {
       this._updateCheckboxShowError();
@@ -161,6 +165,17 @@ export class NysCheckboxgroup extends LitElement {
         checkbox.toggleAttribute("tile", true);
       } else {
         checkbox.removeAttribute("tile");
+      }
+    });
+  }
+
+  private _updateCheckboxInvert() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (this.inverted) {
+        checkbox.toggleAttribute("inverted", true);
+      } else {
+        checkbox.removeAttribute("inverted");
       }
     });
   }
@@ -282,6 +297,7 @@ export class NysCheckboxgroup extends LitElement {
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           tooltip=${this._tooltip}
+          ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>

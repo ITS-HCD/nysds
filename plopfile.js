@@ -19,7 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.9.1", //update this to the latest version when new release is made
+        default: "1.10.1", //update this to the latest version when new release is made
       },
       {
         type: "confirm",
@@ -89,6 +89,13 @@ export default function (plop) {
         path: "src/scripts/build-order.js",
         pattern: /(\];)/,
         template: `  { name: "nys-{{componentName}}", path: "packages/nys-{{componentName}}" },\n$1`,
+      },
+      {
+        type: "modify",
+        path: "packages/styles/src/nysds.css",
+        pattern:
+          /(\/\* Hide unstyled components until they are fully loaded \*\/)/,
+        template: `$1\nnys-{{componentName}}:not(:defined),`,
       },
       {
         type: "modify",

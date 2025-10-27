@@ -1,0 +1,46 @@
+{
+  "name": "@nysds/nys-modal",
+  "version": "1.10.1",
+  "description": "The Modal component from the NYS Design System.",
+  "module": "dist/nys-modal.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/nys-modal.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch"
+  },
+  "peerDependencies": {
+    "lit": "^3.2.1"
+  },
+  "dependencies": {
+    "@nysds/nys-button": "^1.10.1"
+  },
+  "devDependencies": {
+    "lit": "^3.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.3.6"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "modal",
+    "forms"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}

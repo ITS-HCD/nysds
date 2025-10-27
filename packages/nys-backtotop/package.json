@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-backtotop",
-  "version": "1.9.1",
+  "version": "1.10.1",
   "description": "The Back To Top component from the NYS Design System.",
   "module": "dist/nys-backtotop.js",
   "types": "dist/index.d.ts",
@@ -26,8 +26,8 @@
     "lit": "^3.2.1"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.9.1",
-    "@nysds/nys-button": "^1.9.1"
+    "@nysds/nys-icon": "^1.10.1",
+    "@nysds/nys-button": "^1.10.1"
   },
   "devDependencies": {
     "lit": "^3.2.1",
