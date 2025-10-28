@@ -21,7 +21,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "md";
+  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "full";
 
   // Getter and setter for the `width` property.
   @property({ reflect: true })
