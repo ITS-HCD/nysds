@@ -21,7 +21,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "md";
+  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "full";
 
   // Getter and setter for the `width` property.
   @property({ reflect: true })
@@ -83,15 +83,17 @@ export class NysSelect extends LitElement {
 
     if (!slot || !select) return;
 
-    // Clean up any previously cloned <nys-option> so we don't get duplicates
-    select
-      .querySelectorAll("option:not([hidden])")
-      .forEach((opt) => opt.remove());
+    // Clean up any previously cloned <option> or <optgroup> elements so we don't get duplicates
+    Array.from(select.children).forEach((child) => {
+      if (!(child as HTMLElement).hasAttribute("data-native")) {
+        child.remove();
+      }
+    });
 
     const assignedElements = slot.assignedElements({ flatten: true });
 
-    // Clone and append slotted elements
     assignedElements.forEach((node) => {
+      // ---- Handle <nys-option> ----
       if (node instanceof NysOption) {
         const optionElement = document.createElement("option");
         optionElement.value = node.value;
@@ -100,9 +102,46 @@ export class NysSelect extends LitElement {
         optionElement.disabled = node.disabled;
         optionElement.selected = node.selected;
         select.appendChild(optionElement);
+        return;
+      }
+
+      // ---- Handle native <option> ----
+      if (node.tagName === "OPTION") {
+        const optionClone = node.cloneNode(true) as HTMLOptionElement;
+        optionClone.setAttribute("data-native", "true");
+        select.appendChild(optionClone);
+        return;
+      }
+
+      // ---- Handle <optgroup> ----
+      if (node.tagName === "OPTGROUP") {
+        const groupClone = document.createElement("optgroup");
+        groupClone.label = (node as HTMLOptGroupElement).label;
+        if ((node as HTMLOptGroupElement).disabled) {
+          groupClone.disabled = true;
+        }
+
+        // iterate children inside optgroup (could be nys-option or native option)
+        Array.from(node.children).forEach((child) => {
+          if (child instanceof NysOption) {
+            const option = document.createElement("option");
+            option.value = child.value;
+            option.textContent = child.label || child.textContent?.trim() || "";
+            option.disabled = child.disabled;
+            option.selected = child.selected;
+            groupClone.appendChild(option);
+          } else if (child.tagName === "OPTION") {
+            const optionClone = child.cloneNode(true) as HTMLOptionElement;
+            groupClone.appendChild(optionClone);
+          }
+        });
+
+        select.appendChild(groupClone);
+        return;
       }
     });
   }
+
   /********************** Form Integration **********************/
   private _setValue() {
     this._internals.setFormValue(this.value);
