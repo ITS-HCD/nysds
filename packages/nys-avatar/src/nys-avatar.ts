@@ -9,7 +9,7 @@ export class NysAvatar extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";

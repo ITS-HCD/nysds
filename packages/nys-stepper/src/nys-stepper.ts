@@ -4,7 +4,7 @@ import styles from "./nys-stepper.styles";
 import "./nys-step";
 
 export class NysStepper extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) counterText = "initial";

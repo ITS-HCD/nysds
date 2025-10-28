@@ -15,7 +15,7 @@ interface FileWithProgress {
 }
 
 export class NysFileinput extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";

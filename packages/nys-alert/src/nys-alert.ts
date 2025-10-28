@@ -9,7 +9,7 @@ export class NysAlert extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
   @property({ type: Boolean, reflect: true }) dismissible = false;

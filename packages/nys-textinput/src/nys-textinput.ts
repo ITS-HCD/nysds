@@ -6,7 +6,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   private static readonly VALID_TYPES = [
     "email",

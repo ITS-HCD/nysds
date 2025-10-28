@@ -6,7 +6,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextarea extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";

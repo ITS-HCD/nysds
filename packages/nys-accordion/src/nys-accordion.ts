@@ -10,7 +10,7 @@ let accordionIdCounter = 0; // Counter for generating unique IDs
  * The items within is called "nys-accordionitem"
  */
 export class NysAccordion extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: Boolean, reflect: true }) singleSelect = false;
   @property({ type: Boolean, reflect: true }) bordered = false;
 

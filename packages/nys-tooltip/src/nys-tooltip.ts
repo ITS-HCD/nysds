@@ -5,7 +5,7 @@ import styles from "./nys-tooltip.styles";
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTooltip extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) focusable = false;
@@ -187,10 +187,10 @@ export class NysTooltip extends LitElement {
           if (tooltip) this._shiftTooltipIntoViewport(tooltip);
         });
       } else {
-        // this.autoPositionTooltip(); ⁉️⁉️⁉️⁉️
+        this.autoPositionTooltip();
       }
     } else {
-      // this.autoPositionTooltip(); ⁉️⁉️⁉️⁉️⁉️⁉️
+      this.autoPositionTooltip();
     }
   };
 
@@ -210,8 +210,25 @@ export class NysTooltip extends LitElement {
 
   /******************** Functions ********************/
   private _getReferenceElement(): HTMLElement | null {
-    const htmlElement = document.getElementById(this.for);
-    return htmlElement;
+    const targetId = this.for;
+    if (!targetId) return null;
+
+    let htmlElement = document.getElementById(targetId);
+    if (htmlElement) return htmlElement;
+
+    // If regular id lookup is not found, assume target is a web component & search all shadow roots
+    const findInShadows = (root: ParentNode): HTMLElement | null => {
+      for (const el of Array.from(root.querySelectorAll("*"))) {
+        const shadowElement = el.shadowRoot;
+        if (shadowElement) {
+          const found = shadowElement.getElementById(targetId);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    return findInShadows(document);
   }
 
   // We need to pass `ariaLabel` or `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
@@ -366,7 +383,6 @@ export class NysTooltip extends LitElement {
 
     if (!tooltip) return;
 
-    console.log("_positionStartingBase")
     tooltip.style.top = "0px";
     tooltip.style.left = "0px";
   }
@@ -440,7 +456,6 @@ export class NysTooltip extends LitElement {
 
   // Storybook live code preview has a parent container that contains transform, which sets a new coordinate system. I reverse this to not interfere with tooltip calculation.
   private applyInverseTransform() {
-    console.log("HERE");
     document.querySelectorAll('div[scale="1"]').forEach((el) => {
       (el as HTMLElement).style.transform = "none";
     });
@@ -472,7 +487,7 @@ export class NysTooltip extends LitElement {
     // this._resetTooltipPositioningStyles(tooltip); 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
     // Tooltip is past the viewport edge, shift it inwards
-    console.log("overflowLEFTRight", overflowLeft, overflowRight)
+    console.log("overflowLEFTRight", overflowLeft, overflowRight);
     if (overflowLeft) {
       tooltip.style.left = "0px";
       tooltip.style.transform = "none";

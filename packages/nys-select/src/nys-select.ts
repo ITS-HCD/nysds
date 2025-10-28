@@ -7,7 +7,7 @@ import { NysOption } from "./nys-option";
 let selectIdCounter = 0; // Counter for generating unique IDs
 
 export class NysSelect extends LitElement {
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";

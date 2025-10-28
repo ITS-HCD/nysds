@@ -12,7 +12,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
