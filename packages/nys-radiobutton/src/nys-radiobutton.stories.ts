@@ -19,7 +19,7 @@ interface NysRadiobuttonArgs {
   form: string | null;
   required: boolean;
   optional: boolean;
-  invert: boolean;
+  inverted: boolean;
   showError: boolean;
   errorMessage: string;
 }
@@ -40,7 +40,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
     form: { control: "text" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
-    invert: { control: "boolean" },
+    inverted: { control: "boolean" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
   },
@@ -70,7 +70,7 @@ export const Basic: Story = {
     required: false,
     optional: false,
     showError: false,
-    invert: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-radiogroup
@@ -82,7 +82,7 @@ export const Basic: Story = {
       .errorMessage=${args.errorMessage}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     >
       <nys-radiobutton
@@ -147,7 +147,7 @@ export const PartialEditableOptions: Story = {
       label="Choose your preferred work operating system."
       size=${args.size}
       .tile=${args.tile}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
       <nys-radiobutton
         .id=${args.id}
@@ -221,7 +221,7 @@ export const DisabledOptions: Story = {
       description="Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor."
       size=${args.size}
       .tile=${args.tile}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
       <nys-radiobutton
         .id=${args.id}
@@ -306,7 +306,7 @@ export const Required: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -377,7 +377,7 @@ export const Size: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -454,7 +454,7 @@ export const Tile: Story = {
       .errorMessage=${args.errorMessage}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
     >
       <nys-radiobutton
@@ -524,7 +524,7 @@ export const ErrorMessage: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -594,7 +594,7 @@ export const Slot: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
     >
       <label slot="description">
         This is the location you use for your in office days.
@@ -671,7 +671,7 @@ export const Optional: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?invert=${args.invert}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -725,13 +725,13 @@ export const Optional: Story = {
   },
 };
 
-export const Invert: Story = {
+export const Inverted: Story = {
   args: {
     name: "office",
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
-    invert: true,
+    inverted: true,
   },
   render: (args) => html`
     <div
@@ -743,7 +743,7 @@ export const Invert: Story = {
         .tile=${args.tile}
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
-        ?invert=${args.invert}
+        ?inverted=${args.inverted}
       >
         <label slot="description">
           This is the location you use for your in office days.
@@ -776,7 +776,7 @@ export const Invert: Story = {
     docs: {
       source: {
         code: `
-<nys-radiogroup label="What is your primary work location?" invert>
+<nys-radiogroup label="What is your primary work location?" inverted>
   <label slot="description">
     This is the location you use for your in office days.
     <a href="https://www.ny.gov/" target="__blank">(slot)</a></label

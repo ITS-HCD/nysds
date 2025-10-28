@@ -25,6 +25,9 @@
   "peerDependencies": {
     "lit": "^3.2.1"
   },
+    "dependencies": {
+    "@nysds/nys-divider": "^1.10.1"
+  },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
