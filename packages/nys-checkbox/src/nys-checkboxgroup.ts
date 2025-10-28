@@ -5,7 +5,7 @@ import styles from "./nys-checkbox.styles";
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 
 export class NysCheckboxgroup extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;

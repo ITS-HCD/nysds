@@ -7,7 +7,7 @@ let toggleIdCounter = 0; // Counter for generating unique IDs
 
 export class NysToggle extends LitElement {
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: String }) label = "";
