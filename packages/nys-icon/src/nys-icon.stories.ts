@@ -10,7 +10,6 @@ interface NysIconArgs {
   rotate: string;
   flip: string;
   size:
-    | "2xs"
     | "xs"
     | "sm"
     | "md"
@@ -19,13 +18,16 @@ interface NysIconArgs {
     | "2xl"
     | "3xl"
     | "4xl"
+    | "5xl"
     | "12"
+    | "14"
     | "16"
+    | "18"
+    | "20"
     | "24"
-    | "32"
-    | "40"
-    | "48"
-    | "64";
+    | "30"
+    | "36"
+    | "48";
 }
 
 const meta: Meta<NysIconArgs> = {
@@ -43,7 +45,6 @@ const meta: Meta<NysIconArgs> = {
     size: {
       control: "select",
       options: [
-        "2xs",
         "xs",
         "sm",
         "md",
@@ -194,7 +195,7 @@ export const InheritSize: Story = {
     </div>
     <div
       class="parent-container"
-      style="font-size: 1.5rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;"
+      style="font-size: 1.5rem !important; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;"
     >
       <p>
         The nearest parent container's font-size is set to 1.5rem
@@ -210,7 +211,7 @@ export const InheritSize: Story = {
     </div>
     <div
       class="parent-container"
-      style="font-size: 2rem; display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;"
+      style="font-size: 2rem !important; display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;"
     >
       <p>
         The nearest parent container's font-size is set to 2rem
