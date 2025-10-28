@@ -96,6 +96,7 @@ export class NysTooltip extends LitElement {
     const ref = this._getReferenceElement();
     if (!ref) return;
 
+    this.applyInverseTransform(); // 💩💩💩💩💩💩💩💩💩 DELETE WHEN FINISH WITH EVERYTHING
     this._applyFocusBehavior(ref);
     this._passAria(ref);
 
@@ -111,6 +112,8 @@ export class NysTooltip extends LitElement {
     const ref = this._getReferenceElement();
     if (!ref) return;
 
+    this._positionStartingBase();
+
     // Accounts for tooltip's text change (for code editor changes & VO)
     if (changedProps.has("text")) {
       this._passAria(ref);
@@ -125,7 +128,6 @@ export class NysTooltip extends LitElement {
   private _showTooltip = () => {
     this._active = true;
     this._addScrollListeners();
-
     // Try to honor user's original preference first
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
@@ -148,6 +150,7 @@ export class NysTooltip extends LitElement {
   private _handleBlurOrMouseLeave = () => {
     this._active = false;
     this._removeScrollListeners();
+    this._positionStartingBase();
 
     const tooltip = this.shadowRoot?.querySelector(
       ".nys-tooltip__content",
@@ -184,10 +187,10 @@ export class NysTooltip extends LitElement {
           if (tooltip) this._shiftTooltipIntoViewport(tooltip);
         });
       } else {
-        this.autoPositionTooltip();
+        // this.autoPositionTooltip(); ⁉️⁉️⁉️⁉️
       }
     } else {
-      this.autoPositionTooltip();
+      // this.autoPositionTooltip(); ⁉️⁉️⁉️⁉️⁉️⁉️
     }
   };
 
@@ -233,6 +236,8 @@ export class NysTooltip extends LitElement {
 
   // Applies focus behavior to an otherwise non focus element (i.e. nys-icon is non focusable by default)
   private async _applyFocusBehavior(el: HTMLElement) {
+    el.style.cursor = "pointer";
+
     if (!this.focusable) return;
 
     const tagName = el.tagName.toLowerCase();
@@ -243,7 +248,6 @@ export class NysTooltip extends LitElement {
       const svg = el.shadowRoot?.querySelector("svg");
       if (svg) {
         svg.setAttribute("tabindex", "0");
-        el.style.cursor = "pointer";
       }
     } else {
       el.setAttribute("tabindex", "0");
@@ -260,7 +264,7 @@ export class NysTooltip extends LitElement {
 
     if (!ref || !tooltip || position == null) return;
 
-    const triggerRect = ref.getBoundingClientRect();
+    const refRect = ref.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
 
     // Define some margin buffer between tooltip and trigger (to avoid touching the edges too tightly)
@@ -268,10 +272,10 @@ export class NysTooltip extends LitElement {
 
     // Available space on each side relative to trigger rect and viewport
     const spaceAvailable = {
-      top: triggerRect.top - margin,
-      left: triggerRect.left - margin,
-      bottom: window.innerHeight - triggerRect.bottom - margin,
-      right: window.innerWidth - triggerRect.right - margin,
+      top: refRect.top - margin,
+      left: refRect.left - margin,
+      bottom: window.innerHeight - refRect.bottom - margin,
+      right: window.innerWidth - refRect.right - margin,
     };
 
     // Check if tooltip fits on each side (compare available space vs tooltip size)
@@ -294,14 +298,14 @@ export class NysTooltip extends LitElement {
 
     if (!ref || !tooltip) return;
 
-    const triggerRect = ref.getBoundingClientRect();
+    const refRect = ref.getBoundingClientRect();
     const margin = 8;
 
     const spaceAvailable = {
-      top: triggerRect.top - margin,
-      left: triggerRect.left - margin,
-      bottom: window.innerHeight - triggerRect.bottom - margin,
-      right: window.innerWidth - triggerRect.right - margin,
+      top: refRect.top - margin,
+      left: refRect.left - margin,
+      bottom: window.innerHeight - refRect.bottom - margin,
+      right: window.innerWidth - refRect.right - margin,
     };
 
     // Default tryOrder for auto mode
@@ -332,6 +336,7 @@ export class NysTooltip extends LitElement {
       if (this._doesPositionFit(pos)) {
         this._setInternalPosition(pos);
         await this.updateComplete;
+        this._positionTooltipElement(ref, tooltip, pos);
         this._shiftTooltipIntoViewport(tooltip);
         return;
       }
@@ -353,19 +358,51 @@ export class NysTooltip extends LitElement {
     this._shiftTooltipIntoViewport(tooltip);
   }
 
+  // ⚠️
+  private _positionStartingBase() {
+    const tooltip = this.shadowRoot?.querySelector(
+      ".nys-tooltip__content",
+    ) as HTMLElement;
+
+    if (!tooltip) return;
+
+    console.log("_positionStartingBase")
+    tooltip.style.top = "0px";
+    tooltip.style.left = "0px";
+  }
+
+  // private _positionOverlayReference() {
+  //   const ref = this._getReferenceElement();
+  //   const tooltip = this.shadowRoot?.querySelector(
+  //     ".nys-tooltip__content",
+  //   ) as HTMLElement;
+
+  //   if (!ref || !tooltip) return;
+
+  //   const refRect = ref.getBoundingClientRect();
+
+  //   // tooltip.style.position = "fixed";
+  //   tooltip.style.top = `${refRect.top}px`;
+  //   tooltip.style.left = `${refRect.left}px`;
+  //   tooltip.style.transform = "none";
+  // }
+
+  // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
+  // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
+  // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
   private _positionTooltipElement(
     ref: HTMLElement,
     tooltip: HTMLElement,
-    position: typeof this._position,
+    bestPosition: typeof this._position,
   ) {
-    const margin = 8;
     const refRect = ref.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
+    const margin = 8;
 
-    let top = 0,
-      left = 0;
+    let top = 0;
+    let left = 0;
 
-    switch (position) {
+    switch (bestPosition) {
       case "top":
         top = refRect.top - tooltipRect.height - margin;
         left = refRect.left + refRect.width / 2 - tooltipRect.width / 2;
@@ -382,14 +419,37 @@ export class NysTooltip extends LitElement {
         top = refRect.top + refRect.height / 2 - tooltipRect.height / 2;
         left = refRect.right + margin;
         break;
+      default:
+        // Default to top
+        top = refRect.top - tooltipRect.height - margin;
+        left = refRect.left + refRect.width / 2 - tooltipRect.width / 2;
+        break;
     }
 
-    tooltip.style.position = "fixed";
-    tooltip.style.top = `${Math.round(top)}px`;
-    tooltip.style.left = `${Math.round(left)}px`;
+    //this._positionOverlayReference();
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+
+    console.log(`Tooltip positioned at: ${bestPosition}`, {
+      top,
+      left,
+      refRect,
+      tooltipRect,
+    });
+  }
+
+  // Storybook live code preview has a parent container that contains transform, which sets a new coordinate system. I reverse this to not interfere with tooltip calculation.
+  private applyInverseTransform() {
+    console.log("HERE");
+    document.querySelectorAll('div[scale="1"]').forEach((el) => {
+      (el as HTMLElement).style.transform = "none";
+    });
   }
 
   // Sets flag to distinguish to position's setter that we are updating "position" prop internally
+  // 💩
+  // 💩
+  // 💩 this is kaput now due to the new change
   private _setInternalPosition(bestPosition: typeof this._position) {
     this._internallyUpdatingPosition = true;
     this.position = bestPosition;
@@ -409,9 +469,10 @@ export class NysTooltip extends LitElement {
     const overflowLeft = tooltipRect.left < 0;
     const overflowRight = tooltipRect.right > window.innerWidth;
 
-    this._resetTooltipPositioningStyles(tooltip);
+    // this._resetTooltipPositioningStyles(tooltip); 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
     // Tooltip is past the viewport edge, shift it inwards
+    console.log("overflowLEFTRight", overflowLeft, overflowRight)
     if (overflowLeft) {
       tooltip.style.left = "0px";
       tooltip.style.transform = "none";
@@ -442,17 +503,17 @@ export class NysTooltip extends LitElement {
   render() {
     return html`
       <div class="nys-tooltip__main">
-        <div
+        <!-- <div
           class="nys-tooltip__wrapper"
           @mouseenter=${this._showTooltip}
           @mouseleave=${this._handleBlurOrMouseLeave}
           @focusin=${this._showTooltip}
           @focusout=${this._handleBlurOrMouseLeave}
         >
-          <!-- <span class="nys-tooltip__trigger">
+           <span class="nys-tooltip__trigger">
             <slot></slot>
-          </span> -->
-        </div>
+          </span> 
+        </div>-->
         ${this.text?.trim()
           ? html`<div
               id=${this.id}

@@ -21,25 +21,29 @@ export default css`
     --_nys-tooltip-letter-spacing: var(--nys-font-letterspacing-ui-sm, 0.044px);
     --_nys-tooltip-line-height: var(--nys-font-lineheight-ui-sm, 24px);
   }
-
+  /*
   .nys-tooltip__main {
     position: relative;
     width: fit-content;
-  }
+  }*/
 
+  /*
   .nys-tooltip__wrapper {
     width: fit-content;
     display: flex;
     cursor: pointer;
-  }
+  }*/
 
+  /*
   .nys-tooltip__trigger {
     display: flex;
-  }
+  }*/
 
   .nys-tooltip__content {
-    position: absolute;
-    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    /*display: none;*/
     max-width: 400px;
     width: max-content;
     max-height: 120px;
@@ -82,12 +86,13 @@ export default css`
 
   /* ===================== POSITIONING ===================== */
   /* Top */
+  /*
   :host([position="top"]) .nys-tooltip__content {
     bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 10px;
-  }
+  }*/
 
   :host([position="top"]) .nys-tooltip__arrow {
     top: 100%;
@@ -96,12 +101,13 @@ export default css`
   }
 
   /* Bottom */
+  /*
   :host([position="bottom"]) .nys-tooltip__content {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
     margin-top: 10px;
-  }
+  }*/
 
   :host([position="bottom"]) .nys-tooltip__arrow {
     bottom: 100%;
@@ -110,13 +116,14 @@ export default css`
   }
 
   /* Left */
+  /*
   :host([position="left"]) .nys-tooltip__content {
     left: auto;
     right: 100%;
     top: 50%;
     transform: translateY(-50%);
     margin-right: 10px;
-  }
+  }*/
 
   :host([position="left"]) .nys-tooltip__arrow {
     left: 100%;
@@ -125,12 +132,13 @@ export default css`
     margin-left: -4px;
   }
   /* Right */
+  /*
   :host([position="right"]) .nys-tooltip__content {
     left: 100%;
     top: 50%;
     transform: translateY(-50%);
     margin-left: 10px;
-  }
+  } */
 
   :host([position="right"]) .nys-tooltip__arrow {
     right: 100%;
