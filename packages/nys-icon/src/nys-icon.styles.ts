@@ -88,17 +88,17 @@ export default css`
     width: 1.5rem;
     height: 1.5rem;
   }
-  .nys-icon--30 {
-    width: 1.875;
-    height: 1.875;
+  .nys-icon--32 {
+    width: 2rem;
+    height: 2rem;
   }
-  .nys-icon--36 {
+  .nys-icon--40 {
     width: 2.5rem;
     height: 2.5rem;
   }
-  .nys-icon--48 {
-    width: 3rem;
-    height: 3rem;
+  .nys-icon--50 {
+    width: 3.125rem;
+    height: 3.125rem;
   }
 
   /* Flipping Icons */
