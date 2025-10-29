@@ -36,12 +36,12 @@ figma.connect("<FIGMA_FILEINPUT>", {
   },
   example: (props) => html`
     <nys-fileinput
-      width="${props.width}"
+      width="${props.width as any}"
       label="${props.label.text}"
-      description="${props.label.description}"
+      description="${props.label.description as any}"
       ?required=${props.label.required}
       ?optional=${props.label.optional}
-      ${props.input.multiple}
+      ${props.input.multiple as any}
       accept="${props.input.accept}"
       ?disabled=${props.input.disabled}
       ?dropzone=${props.input.dropzone}
