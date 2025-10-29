@@ -79,55 +79,55 @@ figma.connect("<FIGMA_RADIOGROUP>", {
 -->
       <nys-radiogroup
         label="${props.label.text}"
-        description="${props.label.description}"
-        size="${props.size}"
-        required="${props.label.required}"
-        optional="${props.label.optional}"
-        showError="${props.input.showError}"
+        description="${props.label.description as any}"
+        size="${props.size as any}"
+        ?required="${props.label.required}"
+        ?optional="${props.label.optional}"
+        ?showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
-        tile="${props.tile}"
+        ?tile="${props.tile}"
       >
         <nys-radiobutton
           label="${props.input.radio1text}"
-          description="${props.input.radio1description}"
+          description="${props.input.radio1description as any}"
           value="${props.input.radio1text}"
           name="---REPLACE_THIS---"
         ></nys-radiobutton>
         <nys-radiobutton
           label="${props.input.radio2text}"
-          description="${props.input.radio2description}"
+          description="${props.input.radio2description as any}"
           value="${props.input.radio2text}"
           name="---REPLACE_THIS---"
         ></nys-radiobutton>
         <nys-radiobutton
           label="${props.input.radio3text}"
-          description="${props.input.radio3description}"
+          description="${props.input.radio3description as any}"
           value="${props.input.radio3text}"
           name="---REPLACE_THIS---"
         ></nys-radiobutton>
         <nys-radiobutton
-          label="${props.input.radio4text}"
-          description="${props.input.radio4description}"
-          value="${props.input.radio4text}"
+          label="${props.input.radio4text as any}"
+          description="${props.input.radio4description as any}"
+          value="${props.input.radio4text as any}"
           name="---REPLACE_THIS---"
         ></nys-radiobutton>
         <nys-radiobutton
-          label="${props.input.radio5text}"
-          description="${props.input.radio5description}"
-          value="${props.input.radio5text}"
+          label="${props.input.radio5text as any}"
+          description="${props.input.radio5description as any}"
+          value="${props.input.radio5text as any}"
           name="---REPLACE_THIS---"
         ></nys-radiobutton>
         <nys-radiobutton
-          label="${props.input.radio6text}"
-          description="${props.input.radio6description}"
-          value="${props.input.radio6text}"
+          label="${props.input.radio6text as any}"
+          description="${props.input.radio6description as any}"
+          value="${props.input.radio6text as any}"
           name="---REPLACE_THIS---"
         ></nys-radiobutton>
         <nys-radiobutton
-          label="${props.input.radio7text}"
-          description="${props.input.radio7description}"
-          value="${props.input.radio7text}"
+          label="${props.input.radio7text as any}"
+          description="${props.input.radio7description as any}"
+          value="${props.input.radio7text as any}"
           name="---REPLACE_THIS---"
         ></nys-radiobutton>
       </nys-radiogroup>`,
@@ -162,11 +162,11 @@ figma.connect("<FIGMA_RADIOBUTTON1>", {
   example: (props) => html`
     <nys-radiobutton
       label="${props.input.radioText}"
-      description="${props.input.radioDescription}"
+      description="${props.input.radioDescription as any}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked }"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -200,11 +200,11 @@ figma.connect("<FIGMA_RADIOBUTTON2>", {
   example: (props) => html`
     <nys-radiobutton
       label="${props.input.radioText}"
-      description="${props.input.radioDescription}"
+      description="${props.input.radioDescription as any}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked}"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -238,11 +238,11 @@ figma.connect("<FIGMA_RADIOBUTTON3>", {
   example: (props) => html`
     <nys-radiobutton
       label="${props.input.radioText}"
-      description="${props.input.radioDescription}"
+      description="${props.input.radioDescription as any}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked}"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -276,11 +276,11 @@ figma.connect("<FIGMA_RADIOBUTTON4>", {
   example: (props) => html`
     <nys-radiobutton
       label="${props.input.radioText}"
-      description="${props.input.radioDescription}"
+      description="${props.input.radioDescription as any}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked}"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
