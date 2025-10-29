@@ -29,12 +29,12 @@ figma.connect("<FIGMA_TOGGLE>", {
   example: (props) =>
     html` <!-- Update 'name' and 'value' attributes -->
       <nys-toggle
-        size="${props.size}"
-        label="${props.label}"
-        description="${props.description}"
-        noIcon="${props.noIcon}"
-        disabled="${props.disabled}"
-        checked="${props.checked}"
+        size="${props.size as any}"
+        label="${props.label as any}"
+        description="${props.description as any}"
+        ?noIcon="${props.noIcon}"
+        ?disabled="${props.disabled}"
+        ?checked="${props.checked}"
         name="---REPLACE_THIS---"
         value="---REPLACE_THIS---"
       >

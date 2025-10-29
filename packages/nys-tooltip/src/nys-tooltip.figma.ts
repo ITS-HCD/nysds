@@ -14,8 +14,8 @@ figma.connect("<FIGMA_TOOLTIP>", {
   example: (props) => html`
     <nys-tooltip
       text="${props.text}"
-      inverted="${props.inverted}"
-      position="${props.position}"
+      ?inverted="${props.inverted}"
+      position="${props.position as any}"
     ></nys-tooltip>
   `,
 });
