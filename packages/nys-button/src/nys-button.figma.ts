@@ -31,14 +31,14 @@ figma.connect("<FIGMA_BUTTON>", {
 -->
     <nys-button
       label="${props.label}"
-      size="${props.size}"
-      variant="${props.variant}"
-      inverted="${props.inverted}"
-      disabled="${props.disabled}"
-      ${props.prefixIcon}
-      ${props.suffixIcon}
-      circle="${props.circle}"
-      ${props.icon}
+      size="${props.size as any}"
+      variant="${props.variant as any}"
+      ?inverted="${props.inverted}"
+      ?disabled="${props.disabled}"
+      ${props.prefixIcon as any}
+      ${props.suffixIcon as any}
+      ?circle="${props.circle}"
+      ${props.icon as any}
       ariaDescription="${props.ariaDescription}"
     ></nys-button>
   `,
