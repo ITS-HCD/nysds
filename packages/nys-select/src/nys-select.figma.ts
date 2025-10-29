@@ -32,13 +32,13 @@ figma.connect("<FIGMA_SELECT>", {
   - Add <nys-option> elements as needed
 -->
       <nys-select
-        width="${props.width}"
+        width="${props.width as any}"
         label="${props.label.text}"
-        description="${props.label.description}"
-        required="${props.label.required}"
-        optional="${props.label.optional}"
-        disabled="${props.input.disabled}"
-        showError="${props.input.showError}"
+        description="${props.label.description as any}"
+        ?required="${props.label.required}"
+        ?optional="${props.label.optional}"
+        ?disabled="${props.input.disabled}"
+        ?showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="(REPLACE)"
       >
