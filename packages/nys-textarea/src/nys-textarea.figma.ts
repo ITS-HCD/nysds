@@ -42,17 +42,17 @@ figma.connect("<FIGMA_TEXTAREA>", {
   example: (props) =>
     html`<!-- Update 'name' attribute -->
       <nys-textarea
-        width="${props.width}"
+        width="${props.width as any}"
         label="${props.label.text}"
-        required="${props.label.required}"
-        optional="${props.label.optional}"
-        description="${props.label.description}"
-        value="${props.input.value}"
-        placeholder="${props.input.placeholder}"
-        rows="${props.input.rows}"
-        disabled="${props.input.disabled}"
-        resize="${props.input.resize}"
-        showError="${props.input.showError}"
+        ?required="${props.label.required}"
+        ?optional="${props.label.optional}"
+        description="${props.label.description as any}"
+        value="${props.input.value as any}"
+        placeholder="${props.input.placeholder as any}"
+        rows="${props.input.rows as any}"
+        ?disabled="${props.input.disabled}"
+        resize="${props.input.resize as any}"
+        ?showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
       ></nys-textarea>`,
