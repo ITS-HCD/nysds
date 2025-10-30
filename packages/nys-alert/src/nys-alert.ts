@@ -92,12 +92,10 @@ export class NysAlert extends LitElement {
   firstUpdated() {
     this._checkSlotContent();
 
-    const passwordBtn = this.shadowRoot?.querySelector("nys-button#dismiss-btn");
-    if (passwordBtn) {
-      passwordBtn.addEventListener("nys-click", () => {
-
+    const dismissBtn = this.shadowRoot?.querySelector("nys-button#dismiss-btn");
+    if (dismissBtn) {
+      dismissBtn.addEventListener("nys-click", () => {
           this._closeAlert();
-
       });
     }
   }
