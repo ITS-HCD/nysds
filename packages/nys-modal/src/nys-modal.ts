@@ -59,7 +59,7 @@ export class NysModal extends LitElement {
     this._handleBodySlotChange();
     this._handleActionSlotChange();
 
-    const closeTrustBtn = this.shadowRoot?.querySelector("nys-button#dismiss-modal");
+    const closeTrustBtn = this.shadowRoot?.getElementById("dismiss-modal");
     if (closeTrustBtn) {
       closeTrustBtn.addEventListener("nys-click", () => {
         this._closeModal();

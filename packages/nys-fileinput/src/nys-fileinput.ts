@@ -100,21 +100,6 @@ export class NysFileinput extends LitElement {
     }
 
     this.addEventListener("invalid", this._handleInvalid);
-
-    const chooseFileBtn = this.shadowRoot?.querySelector("nys-button#choose-files-btn");
-    if (chooseFileBtn) {
-      chooseFileBtn.addEventListener("nys-click", () => {
-        this._openFileDialog();
-      });
-    }
-
-    const chooseFileDragBtn = this.shadowRoot?.querySelector("nys-button#choose-files-btn-drag");
-    if (chooseFileDragBtn) {
-      chooseFileDragBtn.addEventListener("nys-click", (e: Event) => {
-        e.stopPropagation();
-        this._openFileDialog();
-      });
-    }
   }
 
   disconnectedCallback() {
@@ -125,6 +110,7 @@ export class NysFileinput extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
+    this._addButtonEventListener();
   }
 
   /********************** Form Integration **********************/
@@ -239,7 +225,25 @@ export class NysFileinput extends LitElement {
   }
 
   /******************** Functions ********************/
+  private _addButtonEventListener() {
+    const chooseFileBtn = this.shadowRoot?.getElementById("choose-files-btn");
+    if (chooseFileBtn) {
+      console.log("HELLO");
+      chooseFileBtn.addEventListener("nys-click", () => {
+        this._openFileDialog();
+      });
+    }
 
+    const chooseFileDragBtn = this.shadowRoot?.getElementById(
+      "choose-files-btn-drag",
+    );
+    if (chooseFileDragBtn) {
+      chooseFileDragBtn.addEventListener("nys-click", (e: Event) => {
+        e.stopPropagation();
+        this._openFileDialog();
+      });
+    }
+  }
   // Store the files to be displayed
   private async _saveSelectedFiles(file: File) {
     const isDuplicate = this._selectedFiles.some(

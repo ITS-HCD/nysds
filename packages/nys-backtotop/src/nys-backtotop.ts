@@ -35,7 +35,7 @@ export class NysBacktotop extends LitElement {
   }
 
   firstUpdated() {
-    const topBtn = this.shadowRoot?.querySelector("nys-button#nys-backtotop");
+    const topBtn = this.shadowRoot?.getElementById("nys-backtotop");
     if (topBtn) {
       topBtn.addEventListener("nys-click", () => {
         this._scrollToTop();

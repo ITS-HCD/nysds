@@ -125,48 +125,62 @@ export class NysUnavHeader extends LitElement {
   }
 
   firstUpdated() {
-    const closeTrustBtn = this.shadowRoot?.querySelector("nys-button#nys-unavheader__closetrustbar");
+    const closeTrustBtn = this.shadowRoot?.getElementById(
+      "nys-unavheader__closetrustbar",
+    );
     if (closeTrustBtn) {
       closeTrustBtn.addEventListener("nys-click", () => {
         this._toggleTrustbar();
       });
     }
 
-    const deskTrustBtn = this.shadowRoot?.querySelector("nys-button#nys-unavheader__know--inline");
+    const deskTrustBtn = this.shadowRoot?.getElementById(
+      "nys-unavheader__know--inline",
+    );
     if (deskTrustBtn) {
       deskTrustBtn.addEventListener("nys-click", () => {
         this._toggleTrustbar();
       });
     }
 
-    const deskLangBtn = this.shadowRoot?.querySelector("nys-button#nys-unavheader__translate--desktop");
+    const deskLangBtn = this.shadowRoot?.getElementById(
+      "nys-unavheader__translate--desktop",
+    );
     if (deskLangBtn) {
       deskLangBtn.addEventListener("nys-click", () => {
         this._toggleLanguageList();
       });
     }
-    const mobileLangBtn = this.shadowRoot?.querySelector("nys-button#nys-unavheader__translate--mobile");
+    const mobileLangBtn = this.shadowRoot?.getElementById(
+      "nys-unavheader__translate--mobile",
+    );
     if (mobileLangBtn) {
       mobileLangBtn.addEventListener("nys-click", () => {
         this._toggleLanguageList();
       });
     }
 
-    const searchBtn = this.shadowRoot?.querySelector("nys-button#nys-unavheader__searchbutton");
+    const searchBtn = this.shadowRoot?.querySelector(
+      "nys-button#nys-unavheader__searchbutton",
+    );
     if (searchBtn) {
       searchBtn.addEventListener("nys-click", () => {
         this._toggleSearchDropdown();
       });
     }
 
-    const searchbarBtn = this.shadowRoot?.querySelector("nys-button#nys-unavheader__searchbar--button");
+    const searchbarBtn = this.shadowRoot?.querySelector(
+      "nys-button#nys-unavheader__searchbar--button",
+    );
     if (searchbarBtn) {
       searchbarBtn.addEventListener("nys-click", () => {
         this._handleSearchButton("nys-unavheader__searchbar");
       });
     }
 
-    const searchbardropdownBtn = this.shadowRoot?.querySelector("nys-button#nys-unavheader__searchbardropdown--button");
+    const searchbardropdownBtn = this.shadowRoot?.querySelector(
+      "nys-button#nys-unavheader__searchbardropdown--button",
+    );
     if (searchbardropdownBtn) {
       searchbardropdownBtn.addEventListener("nys-click", () => {
         this._handleSearchButton("nys-unavheader__searchbardropdown");
@@ -370,7 +384,7 @@ export class NysUnavHeader extends LitElement {
                     @keyup="${this._handleSearchKeyup}"
                   >
                     <nys-button
-                    id="nys-unavheader__searchbar--button"
+                      id="nys-unavheader__searchbar--button"
                       slot="endButton"
                       type="submit"
                       prefixIcon="search"

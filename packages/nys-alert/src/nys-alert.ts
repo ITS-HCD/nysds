@@ -92,10 +92,10 @@ export class NysAlert extends LitElement {
   firstUpdated() {
     this._checkSlotContent();
 
-    const dismissBtn = this.shadowRoot?.querySelector("nys-button#dismiss-btn");
+    const dismissBtn = this.shadowRoot?.getElementById("dismiss-btn");
     if (dismissBtn) {
       dismissBtn.addEventListener("nys-click", () => {
-          this._closeAlert();
+        this._closeAlert();
       });
     }
   }

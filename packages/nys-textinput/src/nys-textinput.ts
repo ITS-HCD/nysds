@@ -95,7 +95,7 @@ export class NysTextinput extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
 
-    const passwordBtn = this.shadowRoot?.querySelector("nys-button#password-toggle");
+    const passwordBtn = this.shadowRoot?.getElementById("password-toggle");
     if (passwordBtn) {
       passwordBtn.addEventListener("nys-click", () => {
         if (!this.disabled) {
