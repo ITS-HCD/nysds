@@ -500,6 +500,7 @@ export class NysFileinput extends LitElement {
                       e.stopPropagation();
                       this._openFileDialog();
                     }}
+                    @click=${(e: Event) => e.stopPropagation()}
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}
