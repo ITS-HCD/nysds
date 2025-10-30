@@ -309,7 +309,6 @@ export class NysModal extends LitElement {
   }
 
   private _closeModal() {
-    console.log("CLOSIUNG");
     this.open = false;
     this._dispatchCloseEvent();
   }

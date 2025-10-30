@@ -110,7 +110,6 @@ export class NysFileinput extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-    this._addButtonEventListener();
   }
 
   /********************** Form Integration **********************/
@@ -225,24 +224,7 @@ export class NysFileinput extends LitElement {
   }
 
   /******************** Functions ********************/
-  private _addButtonEventListener() {
-    const chooseFileBtn = this.shadowRoot?.getElementById("choose-files-btn");
-    if (chooseFileBtn) {
-      chooseFileBtn.addEventListener("nys-click", () => {
-        this._openFileDialog();
-      });
-    }
 
-    const chooseFileDragBtn = this.shadowRoot?.getElementById(
-      "choose-files-btn-drag",
-    );
-    if (chooseFileDragBtn) {
-      chooseFileDragBtn.addEventListener("nys-click", (e: Event) => {
-        e.stopPropagation();
-        this._openFileDialog();
-      });
-    }
-  }
   // Store the files to be displayed
   private async _saveSelectedFiles(file: File) {
     const isDuplicate = this._selectedFiles.some(
@@ -487,6 +469,7 @@ export class NysFileinput extends LitElement {
             ariaDescription=${this._buttonAriaDescription}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
+            @nys-click=${this._openFileDialog}
           ></nys-button>`
         : html`<div
             class="nys-fileinput__dropzone
@@ -513,6 +496,10 @@ export class NysFileinput extends LitElement {
                     ariaLabel=${this._buttonAriaLabel}
                     ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
+                    @nys-click=${(e: Event) => {
+                      e.stopPropagation();
+                      this._openFileDialog();
+                    }}
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}

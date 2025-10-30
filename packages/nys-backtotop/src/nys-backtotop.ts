@@ -34,15 +34,6 @@ export class NysBacktotop extends LitElement {
     super.disconnectedCallback();
   }
 
-  firstUpdated() {
-    const topBtn = this.shadowRoot?.getElementById("nys-backtotop");
-    if (topBtn) {
-      topBtn.addEventListener("nys-click", () => {
-        this._scrollToTop();
-      });
-    }
-  }
-
   private _handleScroll() {
     // If visible was explicitly set by user, don't override it
     if (this.forceVisible) return;
@@ -79,6 +70,7 @@ export class NysBacktotop extends LitElement {
       size="sm"
       class="${classes}"
       ?circle=${this.isMobile}
+      @nys-click=${this._scrollToTop}
     ></nys-button>`;
   }
 }

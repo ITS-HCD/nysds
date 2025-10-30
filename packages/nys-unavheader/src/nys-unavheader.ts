@@ -124,70 +124,6 @@ export class NysUnavHeader extends LitElement {
     super.disconnectedCallback();
   }
 
-  firstUpdated() {
-    const closeTrustBtn = this.shadowRoot?.getElementById(
-      "nys-unavheader__closetrustbar",
-    );
-    if (closeTrustBtn) {
-      closeTrustBtn.addEventListener("nys-click", () => {
-        this._toggleTrustbar();
-      });
-    }
-
-    const deskTrustBtn = this.shadowRoot?.getElementById(
-      "nys-unavheader__know--inline",
-    );
-    if (deskTrustBtn) {
-      deskTrustBtn.addEventListener("nys-click", () => {
-        this._toggleTrustbar();
-      });
-    }
-
-    const deskLangBtn = this.shadowRoot?.getElementById(
-      "nys-unavheader__translate--desktop",
-    );
-    if (deskLangBtn) {
-      deskLangBtn.addEventListener("nys-click", () => {
-        this._toggleLanguageList();
-      });
-    }
-    const mobileLangBtn = this.shadowRoot?.getElementById(
-      "nys-unavheader__translate--mobile",
-    );
-    if (mobileLangBtn) {
-      mobileLangBtn.addEventListener("nys-click", () => {
-        this._toggleLanguageList();
-      });
-    }
-
-    const searchBtn = this.shadowRoot?.querySelector(
-      "nys-button#nys-unavheader__searchbutton",
-    );
-    if (searchBtn) {
-      searchBtn.addEventListener("nys-click", () => {
-        this._toggleSearchDropdown();
-      });
-    }
-
-    const searchbarBtn = this.shadowRoot?.querySelector(
-      "nys-button#nys-unavheader__searchbar--button",
-    );
-    if (searchbarBtn) {
-      searchbarBtn.addEventListener("nys-click", () => {
-        this._handleSearchButton("nys-unavheader__searchbar");
-      });
-    }
-
-    const searchbardropdownBtn = this.shadowRoot?.querySelector(
-      "nys-button#nys-unavheader__searchbardropdown--button",
-    );
-    if (searchbardropdownBtn) {
-      searchbardropdownBtn.addEventListener("nys-click", () => {
-        this._handleSearchButton("nys-unavheader__searchbardropdown");
-      });
-    }
-  }
-
   render() {
     return html`
       <header class="nys-unavheader">
@@ -242,6 +178,7 @@ export class NysUnavHeader extends LitElement {
               icon="close"
               size="sm"
               ariaLabel="Close this notice"
+              @nys-click="${this._toggleTrustbar}"
             ></nys-button>
             <div class="nys-unavheader__messagewrapper">
               <div
@@ -293,6 +230,7 @@ export class NysUnavHeader extends LitElement {
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
+                @nys-click="${this._toggleTrustbar}"
               >
                 <nys-icon
                   slot="suffix-icon"
@@ -313,6 +251,7 @@ export class NysUnavHeader extends LitElement {
                       : "Translate collapsed"}
                     id="nys-unavheader__translate--mobile"
                     class="nys-unavheader__iconbutton"
+                    @nys-click=${this._toggleLanguageList}
                   >
                     <nys-icon
                       slot="circle-icon"
@@ -335,6 +274,7 @@ export class NysUnavHeader extends LitElement {
                             ? "Translate expanded"
                             : "Translate collapsed"}
                           id="nys-unavheader__translate--desktop"
+                          @nys-click="${this._toggleLanguageList}"
                         ></nys-button>
                       `
                     : null}
@@ -367,6 +307,7 @@ export class NysUnavHeader extends LitElement {
                       : "Search collapsed"}
                     id="nys-unavheader__searchbutton"
                     class="nys-unavheader__iconbutton"
+                    @nys-click=${this._toggleSearchDropdown}
                   >
                     <nys-icon
                       slot="circle-icon"
@@ -389,6 +330,9 @@ export class NysUnavHeader extends LitElement {
                       type="submit"
                       prefixIcon="search"
                       ariaLabel="Search Button"
+                      @nys-click=${() => {
+                        this._handleSearchButton("nys-unavheader__searchbar");
+                      }}
                     ></nys-button>
                   </nys-textinput>
                 `
@@ -417,6 +361,9 @@ export class NysUnavHeader extends LitElement {
                 type="submit"
                 prefixIcon="search"
                 ariaLabel="Search Button"
+                @nys-click=${() => {
+                  this._handleSearchButton("nys-unavheader__searchbardropdown");
+                }}
               ></nys-button
             ></nys-textinput>
           </div>

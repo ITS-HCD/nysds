@@ -94,15 +94,6 @@ export class NysTextinput extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-
-    const passwordBtn = this.shadowRoot?.getElementById("password-toggle");
-    if (passwordBtn) {
-      passwordBtn.addEventListener("nys-click", () => {
-        if (!this.disabled) {
-          this._togglePasswordVisibility();
-        }
-      });
-    }
   }
 
   // Ensure the "width" property is valid after updates
@@ -255,7 +246,6 @@ export class NysTextinput extends LitElement {
   }
 
   private _togglePasswordVisibility() {
-    console.log("Toggling password visibility");
     this.showPassword = !this.showPassword;
   }
 
@@ -460,6 +450,8 @@ export class NysTextinput extends LitElement {
                   ariaLabel="password toggle"
                   variant="ghost"
                   size="sm"
+                  @nys-click=${() =>
+                    !this.disabled && this._togglePasswordVisibility()}
                 >
                   <nys-icon
                     slot="suffix-icon"
