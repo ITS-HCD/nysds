@@ -58,6 +58,13 @@ export class NysModal extends LitElement {
   firstUpdated() {
     this._handleBodySlotChange();
     this._handleActionSlotChange();
+
+    const closeTrustBtn = this.shadowRoot?.querySelector("nys-button#dismiss-modal");
+    if (closeTrustBtn) {
+      closeTrustBtn.addEventListener("nys-click", () => {
+        this._closeModal();
+      });
+    }
   }
 
   async updated(changeProps: Map<string, any>) {
@@ -329,10 +336,10 @@ export class NysModal extends LitElement {
                 <h2 id="${this.id}-heading">${this.heading}</h2>
                 ${!this.mandatory
                   ? html`<nys-button
+                      id="dismiss-modal"
                       circle
                       icon="close"
                       variant="ghost"
-                      .onClick=${() => this._closeModal()}
                     ></nys-button>`
                   : ""}
               </div>
