@@ -58,13 +58,6 @@ export class NysModal extends LitElement {
   firstUpdated() {
     this._handleBodySlotChange();
     this._handleActionSlotChange();
-
-    const closeTrustBtn = this.shadowRoot?.getElementById("dismiss-modal");
-    if (closeTrustBtn) {
-      closeTrustBtn.addEventListener("nys-click", () => {
-        this._closeModal();
-      });
-    }
   }
 
   async updated(changeProps: Map<string, any>) {
@@ -316,6 +309,7 @@ export class NysModal extends LitElement {
   }
 
   private _closeModal() {
+    console.log("CLOSIUNG");
     this.open = false;
     this._dispatchCloseEvent();
   }
@@ -340,6 +334,7 @@ export class NysModal extends LitElement {
                       circle
                       icon="close"
                       variant="ghost"
+                      @nys-click=${this._closeModal}
                     ></nys-button>`
                   : ""}
               </div>

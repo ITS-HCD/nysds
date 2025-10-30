@@ -228,7 +228,6 @@ export class NysFileinput extends LitElement {
   private _addButtonEventListener() {
     const chooseFileBtn = this.shadowRoot?.getElementById("choose-files-btn");
     if (chooseFileBtn) {
-      console.log("HELLO");
       chooseFileBtn.addEventListener("nys-click", () => {
         this._openFileDialog();
       });
