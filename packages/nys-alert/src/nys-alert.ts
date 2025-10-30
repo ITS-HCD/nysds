@@ -91,6 +91,15 @@ export class NysAlert extends LitElement {
 
   firstUpdated() {
     this._checkSlotContent();
+
+    const passwordBtn = this.shadowRoot?.querySelector("nys-button#dismiss-btn");
+    if (passwordBtn) {
+      passwordBtn.addEventListener("nys-click", () => {
+
+          this._closeAlert();
+
+      });
+    }
   }
 
   /******************** Functions ********************/
@@ -213,7 +222,6 @@ export class NysAlert extends LitElement {
                   size="sm"
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="${this.heading}, alert, Close"
-                  .onClick=${() => this._closeAlert()}
                 ></nys-button>`
               : ""}
           </div>`
