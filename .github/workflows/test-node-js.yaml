@@ -5,7 +5,7 @@ name: Test Build with Node.js
 
 on:
   pull_request:
-    types: [opened, edited, synchronized]
+    types: [opened, edited, synchronize]
     branches:
       - 'develop'
       - 'main'
