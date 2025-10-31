@@ -136,7 +136,7 @@ export class NysButton extends LitElement {
   private _manageFormAction() {
     // If an onClick function is provided, call it
     if (typeof this.onClick === "function") {
-      this.click();
+      this.onClick(new Event("click")); // Call user-provided onClick function with a fake click event
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
@@ -292,7 +292,6 @@ export class NysButton extends LitElement {
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
-              onclick="${this.onClick}"
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
