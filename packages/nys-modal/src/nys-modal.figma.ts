@@ -21,7 +21,7 @@ figma.connect("<FIGMA_MODAL>", {
     html` <nys-modal
       heading=${props.modalHeader.heading}
       subheading=${props.modalHeader.subheading}
-      open=${true}
+      ?open=${true}
     >
       <div slot="body">
         <!-- Example modal content -->

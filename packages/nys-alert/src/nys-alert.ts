@@ -48,7 +48,10 @@ export class NysAlert extends LitElement {
   }
 
   // Aria attributes based on the type
-  get ariaAttributes() {
+  get ariaAttributes(): {
+    role: "alert" | "status" | "region";
+    ariaLabel: string;
+  } {
     const ariaRole =
       this.type === "danger" || this.type === "emergency"
         ? "alert"
