@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-errormessage",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "description": "The Errormessage component from the NYS Design System.",
   "module": "dist/nys-errormessage.js",
   "types": "dist/index.d.ts",
@@ -23,12 +23,12 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.10.1"
+    "@nysds/nys-icon": "^1.11.0"
   },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^7.1.11"
+    "vite": "^7.1.2"
   },
   "keywords": [
     "new-york-state",

@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-skipnav",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "description": "The Skipnav component from the NYS Design System.",
   "module": "dist/nys-skipnav.js",
   "types": "dist/index.d.ts",
@@ -25,7 +25,7 @@
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^7.1.11"
+    "vite": "^7.1.2"
   },
   "keywords": [
     "new-york-state",
