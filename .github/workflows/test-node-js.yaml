@@ -6,7 +6,7 @@ name: Test Build with Node.js
 on:
   pull_request:
     types:
-      - opened
+      - [opened, edited, synchronized]
     branches:
       - 'develop'
       - 'main'
@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ['24.x', '22.x']
+        node-version: ['24.x']
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
