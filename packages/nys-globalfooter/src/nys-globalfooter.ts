@@ -74,7 +74,7 @@ export class NysGlobalFooter extends LitElement {
         span.insertAdjacentElement("afterend", divider);
       });
     }
-  }
+  } 
 
   render() {
     return html`

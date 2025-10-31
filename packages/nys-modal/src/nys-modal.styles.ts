@@ -3,8 +3,7 @@ import { css } from "lit";
 export default css`
   :host {
     /* Global Modal Styles */
-    --_nys-modal-width: 480px;
-    --_nys-modal-min-width: 320px;
+    --_nys-modal-width: 439px;
     --_nys-modal-border-radius: var(--nys-radius-lg, 8px);
     --_nys-modal-border-color: var(--nys-color-neutral-200, #bec0c1);
     --_nys-modal-border-width: 1px;
@@ -26,10 +25,21 @@ export default css`
     --_nys-modal-gap--footer: var(--nys-space-250, 20px);
 
     /* Typography */
-    --_nys-modal-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-modal-font-size: var(
+      --nys-font-size-body-md,
+      var(--nys-font-size-md, 16px)
+    );
+    --_nys-modal-font-size--subheader: var(
+      --nys-font-size-body-lg,
+      var(--nys-font-size-lg, 18px)
+    );
     --_nys-modal-font-weight--header: var(--nys-font-weight-bold, 700);
-    --_nys-modal-font-weight--subheader: var(--nys-font-weight-regular, 400);
+    --_nys-modal-font-weight--subheader: var(--nys-font-weight-semibold, 600);
     --_nys-modal-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-modal-line-height--subheader: var(
+      --nys-font-lineheight-body-lg,
+      28px
+    );
     --_nys-modal-font-family: var(
       --nys-font-family-ui,
       var(
@@ -81,7 +91,6 @@ export default css`
     padding: var(--_nys-modal-padding);
     gap: var(--_nys-modal-gap);
     width: var(--_nys-modal-width);
-    min-width: var(--_nys-modal-min-width);
     border-radius: var(--_nys-modal-border-radius);
     border: var(--_nys-modal-border-width) solid var(--_nys-modal-border-color);
     font-family: var(--_nys-modal-font-family);
@@ -101,7 +110,9 @@ export default css`
   }
 
   .nys-modal_header p {
+    font-size: var(--_nys-modal-font-size--subheader);
     font-weight: var(--_nys-modal-font-weight--subheader);
+    line-height: var(--_nys-modal-line-height--subheader);
   }
 
   .nys-modal_header-inner {
@@ -141,6 +152,7 @@ export default css`
     display: none;
   }
 
+  /* Mobile Large */
   @media (min-width: 480px) {
     .nys-modal_body-inner {
       max-height: 25vh;
@@ -149,6 +161,30 @@ export default css`
       flex-direction: row;
       justify-content: flex-end;
       align-items: center;
+    }
+    .nys-modal {
+      --_nys-modal-width: 439px;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 768px) {
+    .nys-modal {
+      --_nys-modal-width: 600px;
+    }
+  }
+
+  /* Desktop */
+  @media (min-width: 1024px) {
+    .nys-modal {
+      --_nys-modal-width: 752px;
+    }
+  }
+
+  /* Desktop Large */
+  @media (min-width: 1280px) {
+    .nys-modal {
+      --_nys-modal-width: 840px;
     }
   }
 `;
