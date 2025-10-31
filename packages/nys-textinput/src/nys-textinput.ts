@@ -52,7 +52,7 @@ export class NysTextinput extends LitElement {
   @property({ type: Number }) step: number | null = null;
   @property({ type: Number }) min: number | null = null;
   @property({ type: Number }) max: number | null = null;
-  @property({ type: Boolean, reflect: true }) invert = false;
+  @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @state() private showPassword = false;
@@ -398,7 +398,7 @@ export class NysTextinput extends LitElement {
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           _tooltip=${this._tooltip}
-          ?invert=${this.invert}
+          ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
@@ -448,10 +448,10 @@ export class NysTextinput extends LitElement {
                   id="password-toggle"
                   suffixIcon="slotted"
                   ariaLabel="password toggle"
-                  .onClick=${() =>
-                    !this.disabled && this._togglePasswordVisibility()}
                   variant="ghost"
                   size="sm"
+                  @nys-click=${() =>
+                    !this.disabled && this._togglePasswordVisibility()}
                 >
                   <nys-icon
                     slot="suffix-icon"

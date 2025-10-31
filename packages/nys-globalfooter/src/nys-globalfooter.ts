@@ -66,6 +66,13 @@ export class NysGlobalFooter extends LitElement {
           node.remove(); // Remove from light DOM to avoid duplication
         }
       });
+
+      const spans = container.querySelectorAll("span");
+      spans.forEach((span) => {
+        const divider = document.createElement("nys-divider");
+        divider.classList.add("divider");
+        span.insertAdjacentElement("afterend", divider);
+      });
     }
   }
 
@@ -74,9 +81,9 @@ export class NysGlobalFooter extends LitElement {
       <footer class="nys-globalfooter">
         <div class="nys-globalfooter__main-container">
           ${!this.homepageLink?.trim()
-            ? html`<p class="nys-globalfooter__name">${this.agencyName}</p>`
+            ? html`<h2 class="nys-globalfooter__name">${this.agencyName}</h2>`
             : html`<a href=${this.homepageLink?.trim()}>
-                <p class="nys-globalfooter__name">${this.agencyName}</p>
+                <h2 class="nys-globalfooter__name">${this.agencyName}</h2>
               </a>`}
           ${this.slotHasContent
             ? html`<div class="nys-globalfooter__content">

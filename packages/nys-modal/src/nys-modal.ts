@@ -329,10 +329,11 @@ export class NysModal extends LitElement {
                 <h2 id="${this.id}-heading">${this.heading}</h2>
                 ${!this.mandatory
                   ? html`<nys-button
+                      id="dismiss-modal"
                       circle
                       icon="close"
                       variant="ghost"
-                      .onClick=${() => this._closeModal()}
+                      @nys-click=${this._closeModal}
                     ></nys-button>`
                   : ""}
               </div>

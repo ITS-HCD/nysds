@@ -277,7 +277,7 @@ export const Duration: Story = {
         <nys-button
           id="show-alert"
           label="Show Alert"
-          .onClick=${() => showAlert()}
+          @click=${showAlert}
         ></nys-button>
         <div class="alert-container"></div>
       </div>

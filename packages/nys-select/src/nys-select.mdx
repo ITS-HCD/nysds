@@ -3,6 +3,7 @@ import { html } from 'lit';
 import * as NysSelectStories from './nys-select.stories';
 import "@nysds/nys-icon";
 import '@nysds/nys-badge';
+import '@nysds/nys-alert';
 
 <Meta of={NysSelectStories} title="Components/Select/Documentation" />
 
@@ -28,11 +29,16 @@ The **`nys-select`** is a reusable web component for use in New York State digit
 <Controls />
 
 ## Options
-The `nys-option` can have the label set as either the label property or the inner text of the component. The rendered code will show the label as a property if set as inner text.
-<Canvas of={NysSelectStories.OptionsLabelSlot} />
+<nys-alert type="warning">
+<p>The `<nys-option>` component will be deprecated with the 2.0 release of the New York State Design System.</p>
+<p>Use the native `<option>` tag for the options in the `<nys-select>` component.</p>
+</nys-alert>
 ### Default Value
 You can set a default value by adding the `selected` attribute to the desired `<nys-option>`.
 <Canvas of={NysSelectStories.DefaultValue} />
+### Option Group
+You can separate the options by using the `<optgroup>` tag.
+<Canvas of={NysSelectStories.OptionGroup} />
 ### Disabled
 <Canvas of={NysSelectStories.Disabled} />
 ### Required
@@ -57,9 +63,9 @@ You can supply a description via our `description` prop for plain text or by emb
 In order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
 <Canvas of={NysSelectStories.ErrorMessage} />
 
-## Invert
-Set the `invert` when the component is on a dark background.
-<Canvas of={NysSelectStories.Invert} />
+## Inverted
+Set the `inverted` when the component is on a dark background.
+<Canvas of={NysSelectStories.Inverted} />
 
 ## Usage
 
@@ -75,13 +81,14 @@ Set the `invert` when the component is on a dark background.
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
       - Use the `nys-select` component when you need the user to select a single item from a list
-      - Use the `nys-option` component to define the options in the dropdown
+      - Use the native `option` to define the options in the dropdown
+      - use the native `optgroup` to group options in the dropdown
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Use the native `<option>` element in the `nys-select` component
+      - Use the custom `<nys-option>` element in the `nys-select` component. This will be deprecated with the 2.0 release
       - Use `<nys-select multiple>` as an input for users to select multiple items from a dropdown. Consider a [checkbox group](?path=/docs/components-checkbox--docs) instead. More guidance from the <a className="usage-link" target="_blank" href="https://designsystem.digital.gov/components/select/#when-to-consider-something-else">US Web Design System</a>.
     </div>
   </div>
