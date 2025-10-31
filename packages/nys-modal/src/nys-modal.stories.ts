@@ -74,10 +74,7 @@ export const Basic: Story = {
 
     return html`
       <div id="modal-wrapper1">
-        <nys-button
-          label="Open Modal"
-          .onClick=${() => showModal()}
-        ></nys-button>
+        <nys-button label="Open Modal" @nys-click=${showModal}></nys-button>
         <nys-modal
           class="modal1"
           .id=${args.id}
@@ -97,12 +94,9 @@ export const Basic: Story = {
             <nys-button
               label="Not now"
               variant="text"
-              .onClick=${() => closeModal()}
+              @nys-click=${closeModal}
             ></nys-button>
-            <nys-button
-              label="Update"
-              .onClick=${() => closeModal()}
-            ></nys-button>
+            <nys-button label="Update" @nys-click=${closeModal}></nys-button>
           </div>
         </nys-modal>
       </div>
@@ -158,10 +152,7 @@ export const BasicSlot: Story = {
 
     return html`
       <div id="modal-wrapper2">
-        <nys-button
-          label="Open Modal"
-          .onClick=${() => showModal()}
-        ></nys-button>
+        <nys-button label="Open Modal" @nys-click=${showModal}></nys-button>
         <nys-modal
           class="modal2"
           .id=${args.id}
@@ -242,10 +233,7 @@ export const ActionButtonSlot: Story = {
 
     return html`
       <div id="modal-wrapper3">
-        <nys-button
-          label="Open Modal"
-          .onClick=${() => showModal()}
-        ></nys-button>
+        <nys-button label="Open Modal" @nys-click=${showModal}></nys-button>
         <nys-modal
           class="modal3"
           .id=${args.id}
@@ -270,12 +258,9 @@ export const ActionButtonSlot: Story = {
             <nys-button
               label="Not now"
               variant="outline"
-              .onClick=${() => closeModal()}
+              @nys-click=${closeModal}
             ></nys-button>
-            <nys-button
-              label="Update"
-              .onClick=${() => saveChanges()}
-            ></nys-button>
+            <nys-button label="Update" @nys-click=${saveChanges}></nys-button>
           </div>
         </nys-modal>
       </div>
@@ -336,10 +321,7 @@ export const MandatoryAction: Story = {
 
     return html`
       <div id="modal-wrapper4">
-        <nys-button
-          label="Open Modal"
-          .onClick=${() => showModal()}
-        ></nys-button>
+        <nys-button label="Open Modal" @nys-click=${showModal}></nys-button>
         <nys-modal
           class="modal4"
           .id=${args.id}
@@ -349,7 +331,7 @@ export const MandatoryAction: Story = {
           .mandatory=${args.mandatory}
         >
           <div slot="actions">
-            <nys-button label="Login" .onClick=${() => logIn()}></nys-button>
+            <nys-button label="Login" @nys-click=${logIn}></nys-button>
           </div>
         </nys-modal>
       </div>

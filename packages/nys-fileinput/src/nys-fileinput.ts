@@ -461,7 +461,7 @@ export class NysFileinput extends LitElement {
 
       ${!this.dropzone
         ? html`<nys-button
-            id=${this.id}
+            id="choose-files-btn"
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
@@ -469,7 +469,7 @@ export class NysFileinput extends LitElement {
             ariaDescription=${this._buttonAriaDescription}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
-            .onClick=${() => this._openFileDialog()}
+            @nys-click=${this._openFileDialog}
           ></nys-button>`
         : html`<div
             class="nys-fileinput__dropzone
@@ -489,17 +489,18 @@ export class NysFileinput extends LitElement {
             ${this._dragActive
               ? html`<p>Drop file to upload</p>`
               : html` <nys-button
-                    id=${this.id}
+                    id="choose-files-btn-drag"
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
                     ariaLabel=${this._buttonAriaLabel}
                     ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
-                    .onClick=${(e: Event) => {
+                    @nys-click=${(e: Event) => {
                       e.stopPropagation();
                       this._openFileDialog();
                     }}
+                    @click=${(e: Event) => e.stopPropagation()}
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}

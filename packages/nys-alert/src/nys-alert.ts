@@ -216,7 +216,7 @@ export class NysAlert extends LitElement {
                   size="sm"
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="${this.heading}, alert, Close"
-                  .onClick=${() => this._closeAlert()}
+                  @nys-click=${this._closeAlert}
                 ></nys-button>`
               : ""}
           </div>`

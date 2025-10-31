@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-icon",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "description": "The Icon component from the NYS Design System.",
   "module": "dist/nys-icon.js",
   "types": "dist/index.d.ts",
@@ -22,13 +22,10 @@
   "files": [
     "dist/"
   ],
-  "peerDependencies": {
-    "lit": "^3.2.1"
-  },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.3.6"
+    "vite": "^7.1.2"
   },
   "keywords": [
     "new-york-state",
