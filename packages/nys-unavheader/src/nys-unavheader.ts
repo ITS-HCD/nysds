@@ -266,7 +266,7 @@ export class NysUnavHeader extends LitElement {
                           variant="ghost"
                           label="Translate"
                           size="sm"
-                          prefixIcon="language_filled"
+                          prefixIcon="language"
                           suffixIcon=${this.languageVisible
                             ? "chevron_up"
                             : "chevron_down"}
