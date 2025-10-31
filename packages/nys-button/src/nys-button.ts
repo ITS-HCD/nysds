@@ -68,7 +68,7 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ type: Function }) onClick: (event: Event) => void = () => {};
+  @property({ attribute: false }) onClick: (event: Event) => void = () => {};
   @property({ type: String }) href = "";
   // target
   private static readonly VALID_TARGETS = [
@@ -133,10 +133,10 @@ export class NysButton extends LitElement {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
 
-  private _manageFormAction(event: Event) {
+  private _manageFormAction() {
     // If an onClick function is provided, call it
     if (typeof this.onClick === "function") {
-      this.onClick(event);
+      this.click();
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
@@ -173,7 +173,7 @@ export class NysButton extends LitElement {
       event.preventDefault();
       return;
     }
-    this._manageFormAction(event);
+    this._manageFormAction();
     this.dispatchEvent(new Event("nys-click"));
   }
 
