@@ -27,7 +27,7 @@ figma.connect("<FIGMA_CHECKBOX>", {
   2. Update 'value' attribute to change data sent via forms 
 -->
     <nys-checkbox
-      size="${props.size as any}"
+      size="${props.size}"
       label="${props.label}"
       description="${props.description}"
       ?checked="${props.checked}"
@@ -188,8 +188,8 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
 -->
       <nys-checkboxgroup
         label="${props.label.text}"
-        description="${props.label.description as any}"
-        size="${props.size as any}"
+        description="${props.label.description}"
+        size="${props.size}"
         ?required="${props.label.required}"
         ?optional="${props.label.optional}"
         ?showError="${props.input.showError}"
@@ -215,7 +215,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_3.text}"
-          description="${props.checkbox_3.description as any}"
+          description="${props.checkbox_3.description}"
           ?checked="${props.checkbox_3.checked}"
           ?disabled="${props.checkbox_3.disabled}"
           value="${props.checkbox_3.text}"
@@ -223,7 +223,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_4.text}"
-          description="${props.checkbox_4.description as any}"
+          description="${props.checkbox_4.description}"
           ?checked="${props.checkbox_4.checked}"
           ?disabled="${props.checkbox_4.disabled}"
           value="${props.checkbox_4.text}"
@@ -231,7 +231,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_5.text}"
-          description="${props.checkbox_5.description as any}"
+          description="${props.checkbox_5.description}"
           ?checked="${props.checkbox_5.checked}"
           ?disabled="${props.checkbox_5.disabled}"
           value="${props.checkbox_5.text}"
@@ -239,7 +239,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_6.text}"
-          description="${props.checkbox_6.description as any}"
+          description="${props.checkbox_6.description}"
           ?checked="${props.checkbox_6.checked}"
           ?disabled="${props.checkbox_6.disabled}"
           value="${props.checkbox_6.text}"
@@ -247,7 +247,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_7.text}"
-          description="${props.checkbox_7.description as any}"
+          description="${props.checkbox_7.description}"
           ?checked="${props.checkbox_7.checked}"
           ?disabled="${props.checkbox_7.disabled}"
           value="${props.checkbox_7.text}"
@@ -255,7 +255,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_8.text}"
-          description="${props.checkbox_8.description as any}"
+          description="${props.checkbox_8.description}"
           ?checked="${props.checkbox_8.checked}"
           ?disabled="${props.checkbox_8.disabled}"
           value="${props.checkbox_8.text}"
@@ -263,7 +263,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_9.text}"
-          description="${props.checkbox_9.description as any}"
+          description="${props.checkbox_9.description}"
           ?checked="${props.checkbox_9.checked}"
           ?disabled="${props.checkbox_9.disabled}"
           value="${props.checkbox_9.text}"
@@ -271,7 +271,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
         ></nys-checkbox>
         <nys-checkbox
           label="${props.checkbox_10.text}"
-          description="${props.checkbox_10.description as any}"
+          description="${props.checkbox_10.description}"
           ?checked="${props.checkbox_10.checked}"
           ?disabled="${props.checkbox_10.disabled}"
           value="${props.checkbox_10.text}"

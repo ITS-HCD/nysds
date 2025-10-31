@@ -29,7 +29,7 @@ figma.connect("<FIGMA_ICON>", {
     <!-- Replace icon name with name="icon_name" attribute -->
     <nys-icon
       name='<!-- Update the name attribute to match the icon (e.g. name="account_circle") -->'
-      size="${props.size as any}"
+      size="${props.size}"
       ariaLabel="${props.ariaLabel}"
     ></nys-icon>
   `,

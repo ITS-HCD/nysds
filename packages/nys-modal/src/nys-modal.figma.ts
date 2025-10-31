@@ -20,7 +20,7 @@ figma.connect("<FIGMA_MODAL>", {
   example: (props) =>
     html` <nys-modal
       heading=${props.modalHeader.heading}
-      subheading=${props.modalHeader.subheading as any}
+      subheading=${props.modalHeader.subheading}
       ?open=${true}
     >
       <div slot="body">
