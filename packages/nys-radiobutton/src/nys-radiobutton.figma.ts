@@ -165,7 +165,7 @@ figma.connect("<FIGMA_RADIOBUTTON1>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      ?checked="${props.checked }"
+      ?checked="${props.checked}"
       ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
