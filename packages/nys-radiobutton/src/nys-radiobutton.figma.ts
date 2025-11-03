@@ -81,12 +81,12 @@ figma.connect("<FIGMA_RADIOGROUP>", {
         label="${props.label.text}"
         description="${props.label.description}"
         size="${props.size}"
-        required="${props.label.required}"
-        optional="${props.label.optional}"
-        showError="${props.input.showError}"
+        ?required="${props.label.required}"
+        ?optional="${props.label.optional}"
+        ?showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
-        tile="${props.tile}"
+        ?tile="${props.tile}"
       >
         <nys-radiobutton
           label="${props.input.radio1text}"
@@ -165,8 +165,8 @@ figma.connect("<FIGMA_RADIOBUTTON1>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked}"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -203,8 +203,8 @@ figma.connect("<FIGMA_RADIOBUTTON2>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked}"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -241,8 +241,8 @@ figma.connect("<FIGMA_RADIOBUTTON3>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked}"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -279,8 +279,8 @@ figma.connect("<FIGMA_RADIOBUTTON4>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      checked="${props.checked}"
-      disabled="${props.disabled}"
+      ?checked="${props.checked}"
+      ?disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
