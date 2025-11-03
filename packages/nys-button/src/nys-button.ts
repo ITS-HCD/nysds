@@ -136,7 +136,9 @@ export class NysButton extends LitElement {
 
   private _manageFormAction() {
     // If an onClick function is provided, call it
+    console.log("_manageFormAction", this.onClick);
     if (typeof this.onClick === "function" && this.onClick !== null) {
+      console.log("Executing onClick prop");
       this.onClick(new Event("click")); // Call user-provided onClick function with a fake click event
     }
 
@@ -174,6 +176,7 @@ export class NysButton extends LitElement {
       event.preventDefault();
       return;
     }
+    console.log("Clicking once");
     this._manageFormAction();
     this.dispatchEvent(new Event("nys-click"));
   }
@@ -199,8 +202,23 @@ export class NysButton extends LitElement {
           linkEl.click();
         }
       } else {
+        this._handleAnyAttributeFunction();
         this._handleClick(e);
       }
+    }
+  }
+
+  /**
+   * Vanilla JS & Native HTML keydown solution:
+   * The <nys-button onClick="doFunction();"></nys-button> onClick is an attribute here.
+   * Thus, we call it here. Otherwise, at this point, this.onClick is null as it isn't props, but a string attribute
+   * In vanilla HTML/JS, clicking with execute the attribute function, BUT now with keydown, hence this solution.
+   */
+  private _handleAnyAttributeFunction() {
+    const onClickAttr = this.getAttribute("onClick");
+    if (onClickAttr) {
+      const callFunc = new Function("return " + onClickAttr);
+      callFunc();
     }
   }
 
