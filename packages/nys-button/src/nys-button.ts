@@ -68,7 +68,8 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ attribute: false }) onClick: (event: Event) => void = () => {};
+  @property({ attribute: false }) onClick: ((event: Event) => void) | null =
+    null;
   @property({ type: String }) href = "";
   // target
   private static readonly VALID_TARGETS = [
@@ -135,7 +136,7 @@ export class NysButton extends LitElement {
 
   private _manageFormAction() {
     // If an onClick function is provided, call it
-    if (typeof this.onClick === "function") {
+    if (typeof this.onClick === "function" && this.onClick !== null) {
       this.onClick(new Event("click")); // Call user-provided onClick function with a fake click event
     }
 
