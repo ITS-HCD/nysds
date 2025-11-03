@@ -42,8 +42,6 @@ export class NysUnavHeader extends LitElement {
   }
 
   private _toggleTrustbar(clickID?: string) {
-    if (clickID) console.log("Toggling trustbar: ", clickID);
-    else console.log("Toggling trustbar: no id");
     this.trustbarVisible = !this.trustbarVisible;
 
     if (this.trustbarVisible) {
@@ -141,7 +139,7 @@ export class NysUnavHeader extends LitElement {
             // ignore click if comes from keyboard event to prevent double toggling
             if (isKeyboardClick) return;
 
-            this._toggleTrustbar("another test");
+            this._toggleTrustbar();
           }}"
         >
           <div class="content">
@@ -150,7 +148,7 @@ export class NysUnavHeader extends LitElement {
             >
             <nys-button
               id="nys-unavheader__know"
-              label="Here's how you know test"
+              label="Here's how you know"
               ariaLabel=${this.trustbarVisible
                 ? "Here's how you know expanded"
                 : "Here's how you know collapsed"}
@@ -166,7 +164,7 @@ export class NysUnavHeader extends LitElement {
                 ) {
                   e.preventDefault();
                   e.stopPropagation();
-                  this._toggleTrustbar("testing keyboard");
+                  this._toggleTrustbar();
                 }
               }}"
             >
