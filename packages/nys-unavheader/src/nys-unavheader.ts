@@ -134,11 +134,12 @@ export class NysUnavHeader extends LitElement {
         <div
           class="nys-unavheader__trustbar wrapper"
           @click="${(e: MouseEvent) => {
-            // Ignore clicks originating inside the button
             const target = e.target as HTMLElement;
-            if (target.closest("nys-button")) {
-              return;
-            }
+            const isKeyboardClick =
+              e.detail === 0 && target.closest("nys-button");
+
+            // ignore click if comes from keyboard event to prevent double toggling
+            if (isKeyboardClick) return;
 
             this._toggleTrustbar("another test");
           }}"
