@@ -8,7 +8,7 @@ export class NysStep extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
   @property({ type: Boolean }) isCompactExpanded = false;
-  @property({ type: Function }) onClick?: (e: Event) => void;
+  @property({ attribute: false }) onClick?: (e: Event) => void;
   @property({ type: Number }) stepNumber = 0;
 
   static styles = styles;
