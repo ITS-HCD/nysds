@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -30,7 +30,7 @@
     "build:link": "npm run build:all && npm link",
     "lint": "eslint src/ packages/**/*.{ts,js}",
     "lint:fix": "eslint src/ packages/**/*.{ts,js} --fix",
-    "lit-analyze": "lit-analyzer 'packages/**/*.ts'",
+    "lit-analyze": "lit-analyzer $(find ./packages -name '*.ts' ! -name '*.figma.*')",
     "release": "NODE_ENV=production npm run build:all && npm run test && npm publish --workspaces --access public && npm publish --access public",
     "release:dry-run": "NODE_ENV=production npm run build:all && NODE_ENV=production npm run test && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
