@@ -301,7 +301,7 @@ export default css`
       flex-direction: column;
     }
 
-    #nys-unavheader__translate:not([circle]),
+    #nys-unavheader__translate--desktop,
     #nys-unavheader__searchbar {
       display: none;
     }

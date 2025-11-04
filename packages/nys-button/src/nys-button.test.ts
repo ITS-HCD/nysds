@@ -68,7 +68,7 @@ describe("nys-button", () => {
 
   it("should trigger click event only once", async () => {
     const el = await fixture<NysButton>(
-      html`<nys-button label="Disabled"></nys-button>`,
+      html`<nys-button label="Button"></nys-button>`,
     );
     const button = el.shadowRoot?.querySelector("button")!;
 
