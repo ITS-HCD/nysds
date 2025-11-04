@@ -47,24 +47,22 @@ export class NysUnavHeader extends LitElement {
     if (this.trustbarVisible) {
       this.languageVisible = false;
       this.searchDropdownVisible = false;
+    }
 
-      // Move focus to the close button when expanded, if triggered by inline button or no id
-      if (clickID === "nys-unavheader__know--inline" || !clickID)
-        this.updateComplete.then(() => {
-          const closeBtn = this.shadowRoot?.getElementById(
-            "nys-unavheader__closetrustbar",
-          );
-          closeBtn?.focus();
-        });
-    } else {
-      // Move focus back to "how you know" on collapse, if triggered by inline button or no id
-      if (clickID === "nys-unavheader__know--inline" || !clickID)
-        this.updateComplete.then(() => {
-          const inlineKnowBtn = this.shadowRoot?.getElementById(
-            "nys-unavheader__know--inline",
-          );
-          inlineKnowBtn?.focus();
-        });
+    if (clickID === "no focus") return;
+
+    const shouldMoveFocus =
+      clickID === "nys-unavheader__know--inline" || !clickID;
+
+    if (shouldMoveFocus) {
+      const targetId = this.trustbarVisible
+        ? "nys-unavheader__closetrustbar"
+        : "nys-unavheader__know--inline";
+
+      this.updateComplete.then(() => {
+        const target = this.shadowRoot?.getElementById(targetId);
+        target?.focus();
+      });
     }
   }
 
@@ -133,13 +131,12 @@ export class NysUnavHeader extends LitElement {
           class="nys-unavheader__trustbar wrapper"
           @click="${(e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            const isKeyboardClick =
-              e.detail === 0 && target.closest("nys-button");
 
-            // ignore click if comes from keyboard event to prevent double toggling
-            if (isKeyboardClick) return;
+            // Ignore clicks that originated within a nys-button
+            if (target.closest("nys-button")) return;
 
-            this._toggleTrustbar();
+            // Only handle direct wrapper clicks (outside of buttons)
+            this._toggleTrustbar("no focus");
           }}"
         >
           <div class="content">
@@ -155,17 +152,10 @@ export class NysUnavHeader extends LitElement {
               variant="ghost"
               size="sm"
               suffixIcon="slotted"
-              @keydown="${(e: KeyboardEvent) => {
-                if (
-                  e.code === "Enter" ||
-                  e.code === "Space" ||
-                  e.key === "Enter" ||
-                  e.key === " "
-                ) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  this._toggleTrustbar();
-                }
+              @nys-click="${(e: CustomEvent) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this._toggleTrustbar("nys-unavheader__know");
               }}"
             >
               <nys-icon
