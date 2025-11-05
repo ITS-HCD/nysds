@@ -496,12 +496,6 @@ export class NysFileinput extends LitElement {
                     ariaLabel=${this._buttonAriaLabel}
                     ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
-                    @nys-click=${(e: Event) => {
-                      e.stopPropagation();
-                      this._openFileDialog();
-                    }}
-                    @click=${(e: Event) => e.stopPropagation()}
-                    @keydown=${(e: Event) => e.stopPropagation()}
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}
