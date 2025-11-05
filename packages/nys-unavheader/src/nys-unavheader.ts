@@ -41,27 +41,27 @@ export class NysUnavHeader extends LitElement {
     return svgElement;
   }
 
-  private _toggleTrustbar() {
+  private _toggleTrustbar(clickID?: string) {
     this.trustbarVisible = !this.trustbarVisible;
 
     if (this.trustbarVisible) {
       this.languageVisible = false;
       this.searchDropdownVisible = false;
+    }
 
-      // Move focus to the close button when expanded
+    if (clickID === "no focus") return;
+
+    const shouldMoveFocus =
+      clickID === "nys-unavheader__know--inline" || !clickID;
+
+    if (shouldMoveFocus) {
+      const targetId = this.trustbarVisible
+        ? "nys-unavheader__closetrustbar"
+        : "nys-unavheader__know--inline";
+
       this.updateComplete.then(() => {
-        const closeBtn = this.shadowRoot?.getElementById(
-          "nys-unavheader__closetrustbar",
-        );
-        closeBtn?.focus();
-      });
-    } else {
-      // Move focus back to "how you know" on collapse
-      this.updateComplete.then(() => {
-        const inlineKnowBtn = this.shadowRoot?.getElementById(
-          "nys-unavheader__know--inline",
-        );
-        inlineKnowBtn?.focus();
+        const target = this.shadowRoot?.getElementById(targetId);
+        target?.focus();
       });
     }
   }
@@ -129,7 +129,15 @@ export class NysUnavHeader extends LitElement {
       <header class="nys-unavheader">
         <div
           class="nys-unavheader__trustbar wrapper"
-          @click="${this._toggleTrustbar}"
+          @click="${(e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+
+            // Ignore clicks that originated within a nys-button
+            if (target.closest("nys-button")) return;
+
+            // Only handle direct wrapper clicks (outside of buttons)
+            this._toggleTrustbar("no focus");
+          }}"
         >
           <div class="content">
             <label id="nys-unavheader__official"
@@ -144,15 +152,10 @@ export class NysUnavHeader extends LitElement {
               variant="ghost"
               size="sm"
               suffixIcon="slotted"
-              @keydown="${(e: KeyboardEvent) => {
-                if (
-                  e.code === "Enter" ||
-                  e.code === "Space" ||
-                  e.key === "Enter" ||
-                  e.key === " "
-                ) {
-                  this._toggleTrustbar();
-                }
+              @nys-click="${(e: CustomEvent) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this._toggleTrustbar("nys-unavheader__know");
               }}"
             >
               <nys-icon
@@ -178,7 +181,8 @@ export class NysUnavHeader extends LitElement {
               icon="close"
               size="sm"
               ariaLabel="Close this notice"
-              @nys-click="${this._toggleTrustbar}"
+              @nys-click="${() =>
+                this._toggleTrustbar("nys-unavheader__know--inline")}"
             ></nys-button>
             <div class="nys-unavheader__messagewrapper">
               <div
@@ -230,7 +234,8 @@ export class NysUnavHeader extends LitElement {
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
-                @nys-click="${this._toggleTrustbar}"
+                @nys-click="${() =>
+                  this._toggleTrustbar("nys-unavheader__know--inline")}"
               >
                 <nys-icon
                   slot="suffix-icon"
