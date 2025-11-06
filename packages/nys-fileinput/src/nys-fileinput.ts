@@ -476,11 +476,17 @@ export class NysFileinput extends LitElement {
             ${this._dragActive ? "drag-active" : ""}
             ${this._isDropDisabled ? "disabled" : ""}
             ${this.showError && !this._isDropDisabled ? "error" : ""}"
-            @click=${this._isDropDisabled ? null : this._openFileDialog}
-            @keydown=${(e: KeyboardEvent) =>
-              !this._isDropDisabled &&
-              (e.key === "Enter" || e.key === " ") &&
-              this._openFileDialog()}
+            @click=${this._isDropDisabled
+              ? null
+              : (e: MouseEvent) => {
+                  const target = e.target as HTMLElement;
+
+                  // Ignore clicks that originated within a nys-button
+                  if (target.closest("nys-button")) return;
+
+                  // Only handle direct wrapper clicks (outside of buttons)
+                  this._openFileDialog();
+                }}
             @dragover=${this._isDropDisabled ? null : this._onDragOver}
             @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
             @drop=${this._isDropDisabled ? null : this._onDrop}
@@ -496,11 +502,11 @@ export class NysFileinput extends LitElement {
                     ariaLabel=${this._buttonAriaLabel}
                     ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
-                    @nys-click=${(e: Event) => {
+                    @nys-click="${(e: CustomEvent) => {
+                      e.preventDefault();
                       e.stopPropagation();
                       this._openFileDialog();
-                    }}
-                    @click=${(e: Event) => e.stopPropagation()}
+                    }}"
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}
