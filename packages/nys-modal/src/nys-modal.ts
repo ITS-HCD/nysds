@@ -55,11 +55,6 @@ export class NysModal extends LitElement {
     window.removeEventListener("keydown", (e) => this._handleKeydown(e));
   }
 
-  // firstUpdated() {
-  //   this._handleBodySlotChange();
-  //   this._handleActionSlotChange();
-  // }
-
   async updated(changeProps: Map<string, any>) {
     // Hide main body's scroll bar if modal is open/active
     if (changeProps.has("open")) {
