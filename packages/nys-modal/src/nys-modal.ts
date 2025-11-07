@@ -102,7 +102,10 @@ export class NysModal extends LitElement {
     const prev = this._prevFocusedElement;
 
     if (prev && prev.tagName.toLowerCase() === "nys-button") {
-      const innerBtn = await (prev as any).getButtonElement();
+      const nysButton = prev as HTMLElement & {
+        getButtonElement: () => Promise<HTMLButtonElement>;
+      };
+      const innerBtn = await nysButton.getButtonElement();
       if (innerBtn) {
         innerBtn.focus();
         return;
@@ -237,7 +240,7 @@ export class NysModal extends LitElement {
         focusableElements.push(dismissBtn);
       }
 
-      // Gather from slot elements to store the focusable elements for trapping
+      // Gather from slot elements to store the focusable elements in focusableElements for focus trapping
       const slotElements = Array.from(modal.querySelectorAll("slot"));
       for (const slot of slotElements) {
         const assigned = slot.assignedElements({ flatten: true });
@@ -279,8 +282,13 @@ export class NysModal extends LitElement {
           const isNysButton =
             focusableElements[prevIndex].tagName.toLowerCase() === "nys-button";
 
+          // When users slot in "nys-button", we have to call focus for the native button within its shadowDOM.
+          // Hence the condition statement below
           if (isNysButton) {
-            const innerBtn = await (prevElement as any).getButtonElement();
+            const nysButton = prevElement as HTMLElement & {
+              getButtonElement: () => Promise<HTMLButtonElement>;
+            };
+            const innerBtn = await nysButton.getButtonElement();
             innerBtn?.focus();
           } else {
             prevElement.focus();
@@ -290,9 +298,10 @@ export class NysModal extends LitElement {
           if (active === lastFocusableEl) {
             e.preventDefault();
             if (firstFocusableEl.tagName.toLowerCase() === "nys-button") {
-              const innerBtn = await (
-                firstFocusableEl as any
-              ).getButtonElement();
+              const nysButton = firstFocusableEl as HTMLElement & {
+                getButtonElement: () => Promise<HTMLButtonElement>;
+              };
+              const innerBtn = await nysButton.getButtonElement();
               innerBtn?.focus();
             } else {
               firstFocusableEl.focus();
