@@ -66,6 +66,7 @@ export class NysRadiogroup extends LitElement {
   }
 
   async firstUpdated() {
+    await this.updateComplete;
     this._initializeCheckedRadioValue();
     this._setValue(); // This ensures our element always participates in the form
     this._setRadioButtonRequire();
@@ -74,7 +75,6 @@ export class NysRadiogroup extends LitElement {
     this._updateRadioButtonsShowError();
     this._getSlotDescriptionForAria();
 
-    await this.updateComplete;
     this._initializeChildAttributes();
     this._updateGroupTabIndex();
   }
