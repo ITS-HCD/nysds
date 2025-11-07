@@ -2,7 +2,7 @@
 
 ### Copyright ownership of Works created by New York state employees
 
-This repository contains both the original design for Google Material Icons (the “Work”, as defined in Section 1 of the Apache 2.0 License) and modifications made by the New York State (NYS). This repository combines the Work and these New York State (NYS) modifications, which is a “Modified Version” of Material Icons.
+This repository contains both the original design for Google Material Icons (the “Work”, as defined in Section 1 of the Apache 2.0 License) and modifications made by the New York State (NYS). This repository combines the Work and these New York State (NYS) modifications, which is a “Modified Version” of Material Icons. These icons available to incorporate into your products under the [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
 
 As a work of the New York State Government, the software modifications made by NYS are not subject to copyright within the United States. Additionally, NYS waives copyright and related rights in its software modifications worldwide through the CC0 1.0 Universal Public Domain Dedication (<https://creativecommons.org/publicdomain/zero/1.0/>).
 
