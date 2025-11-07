@@ -40,13 +40,13 @@ figma.connect("<FIGMA_TEXTINPUT>", {
       <nys-textinput
         width="${props.width}"
         label="${props.label.text}"
-        ?required="${props.label.required}"
-        ?optional="${props.label.optional}"
+        required="${props.label.required}"
+        optional="${props.label.optional}"
         description="${props.label.description}"
         value="${props.input.value}"
         placeholder="${props.input.placeholder}"
-        ?disabled="${props.input.disabled}"
-        ?showError="${props.input.showError}"
+        disabled="${props.input.disabled}"
+        showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
       ></nys-textinput>`,

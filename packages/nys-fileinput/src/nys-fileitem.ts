@@ -81,7 +81,7 @@ export class NysFileItem extends LitElement {
             ariaLabel="close button"
             size="sm"
             variant="ghost"
-            @nys-click=${this._handleRemove}
+            .onClick=${() => this._handleRemove()}
             ariaLabel="Remove file: ${this.filename}"
           ></nys-button>
         </div>

@@ -7,13 +7,13 @@ import "@nysds/nys-icon";
 interface NysAvatarArgs {
   id: string;
   ariaLabel: string;
-  initials: string;
-  icon: string;
-  image: string;
-  color: string;
-  lazy: boolean;
-  interactive: boolean;
-  disabled: boolean;
+  initials?: string;
+  icon?: string;
+  image?: string;
+  color?: string;
+  lazy?: boolean;
+  interactive?: boolean;
+  disabled?: boolean;
 }
 
 const meta: Meta<NysAvatarArgs> = {
@@ -107,7 +107,7 @@ export const AvatarImage: Story = {
         .initials=${args.initials}
         .icon=${args.icon}
         image="https://images.unsplash.com/photo-1523318840068-3e8c0f998509?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        .lazy=${args.lazy}
+        ?lazy
         .interactive=${args.interactive}
         .disabled=${args.disabled}
       >

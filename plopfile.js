@@ -19,13 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.11.1", //update this to the latest version when new release is made
-      },
-      {
-        type: "confirm",
-        name: "formRelated",
-        message: "Is this a form-related component?",
-        default: false,
+        default: "1.8.0", //update this to the latest version when new release is made
       },
     ],
     actions: [
@@ -89,13 +83,6 @@ export default function (plop) {
         path: "src/scripts/build-order.js",
         pattern: /(\];)/,
         template: `  { name: "nys-{{componentName}}", path: "packages/nys-{{componentName}}" },\n$1`,
-      },
-      {
-        type: "modify",
-        path: "packages/styles/src/nysds.css",
-        pattern:
-          /(\/\* Hide unstyled components until they are fully loaded \*\/)/,
-        template: `$1\nnys-{{componentName}}:not(:defined),`,
       },
       {
         type: "modify",

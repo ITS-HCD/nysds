@@ -147,7 +147,7 @@ export default css`
     font-weight: var(--_nys-globalheader-font-weight);
     line-height: var(--_nys-globalheader-line-height);
     letter-spacing: var(--_nys-globalheader-letter-spacing);
-    overflow-wrap: break-word; /* note: we use this bc text-wrap: wrap; is not a standard CSS property (yet). */
+    text-wrap: wrap;
   }
 
   .nys-globalheader__agencyName {

@@ -28,53 +28,50 @@ The **`nys-textinput`** is a reusable web component for use in New York State di
 
 <Controls />
 
-## Options
+### Variants
 
-### Width
+#### Width
 If no width is provided, the `nys-textinput` will default to `full`. Supported widths are `sm`, `md`, `lg`, and `full`.\
 Width `full` will take up the full width of the parent container.\
 If an invalid option is assigned to `width`, it will be ignored and default to `full`.
 <Canvas of={NysTextinputStories.Width} />
-### Different Input Types
+#### Different Input Types
 Note: Accepted types are: `text` `email` `number` `password` `search` `tel` `url`. Any other input defaults to `type="text"`\
 Certain types will apply additional styling onto the input field. For `type="password"` the input will be automatically hidden.
 For `type="tel"` an input mask will appear to style the input properly.
 <Canvas of={NysTextinputStories.Password} />
 <Canvas of={NysTextinputStories.Telephone} />
-### Values and Placeholders
+#### Values and Placeholders
 <Canvas of={NysTextinputStories.ValueAndPlaceholder} />
-### Disabled and Readonly
+#### Disabled and Readonly
 <Canvas of={NysTextinputStories.Disabled} />
 <Canvas of={NysTextinputStories.Readonly} />
-### Max Min and Step
+#### Max Min and Step
 Note: `max` `min` `step` only apply when `type="number"`
 <Canvas of={NysTextinputStories.MaxMinAndStep} />
-### Maxlength
+#### Maxlength
 <Canvas of={NysTextinputStories.Maxlength} />
-### Pattern
+#### Pattern
 Note: Takes in valid regex
 <Canvas of={NysTextinputStories.Pattern} />
-### Required
+#### Required
 <Canvas of={NysTextinputStories.Required} />
-### Optional
+#### Optional
 Adding the `optional` prop will add an optional flag to the input.
 <Canvas of={NysTextinputStories.Optional} />
-### Description Slot
+#### Description Slot
 You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization.
 <Canvas of={NysTextinputStories.DescriptionSlot} />
-### Slotted Button
+#### Slotted Button
 Note: You can add a button to the input by adding a `slot="startButton"` or `slot="endButton"`.
 This will add a button to the left or right of the input respectively.\
 Use a `<nys-button>` for the slotted button. Do not use both `startButton` and `endButton` on the same input.\
 The slotted button will automatically be `size="sm"` and `variant="filled"` and support the disabled state of the input.\
 Use `width="lg"` or `width="full"` on `<nys-textinput>` to give users enough space to enter text when a button is present.
 <Canvas of={NysTextinputStories.SlottedButton} />
-### Error Message
+#### Error Message
 Note: in order to display an error message, you must pass in `hasError` to the component. Setting `errorMessage` does not display the message by default.
 <Canvas of={NysTextinputStories.ErrorMessage} />
-## Inverted
-Set the `inverted` when the component is on a dark background.
-<Canvas of={NysTextinputStories.Inverted} />
 
 ## Usage
 

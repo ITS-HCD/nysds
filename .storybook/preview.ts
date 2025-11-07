@@ -19,7 +19,7 @@ const loadTheme = (() => {
     themeLink.href =
       theme === "default"
         ? "" // Set to empty or a default stylesheet if needed
-        : `./assets/css/nysds-theme-${theme}.min.css`;
+        : `./assets/css/themes/${theme}.css`;
   };
 })();
 

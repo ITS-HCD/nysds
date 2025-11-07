@@ -69,8 +69,8 @@ export class NysBacktotop extends LitElement {
       label="Back to top"
       size="sm"
       class="${classes}"
+      .onClick=${this._scrollToTop}
       ?circle=${this.isMobile}
-      @nys-click=${this._scrollToTop}
     ></nys-button>`;
   }
 }

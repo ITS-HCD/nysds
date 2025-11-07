@@ -2,17 +2,14 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_ICON>", {
   props: {
-    // name: figma.instance("Shape"),
     size: figma.enum("Size", {
       "12": "12",
-      "14": "14",
-      "16": "16",
-      "18": "18",
-      "20": "20",
       "24": "24",
       "32": "32",
       "40": "40",
-      "50": "50",
+      "48": "48",
+      "64": "64",
+      "2xs": "2xs",
       xs: "xs",
       sm: "sm",
       md: "md",
@@ -23,12 +20,14 @@ figma.connect("<FIGMA_ICON>", {
       "4xl": "4xl",
       "5xl": "5xl",
     }),
+    // name: figma.instance("shape"),
+    name: figma.instance("Shape"),
     ariaLabel: figma.string("Aria Label"),
   },
   example: (props) => html`
     <!-- Replace icon name with name="icon_name" attribute -->
     <nys-icon
-      name='<!-- Update the name attribute to match the icon (e.g. name="account_circle") -->'
+      name="${props.name}"
       size="${props.size}"
       ariaLabel="${props.ariaLabel}"
     ></nys-icon>

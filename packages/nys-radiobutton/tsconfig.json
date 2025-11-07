@@ -9,7 +9,6 @@
 	  "**/*.stories.ts",
 	  "**/*.styles.ts",
 	  "**/*.test.ts",
-	  "**/*.figma.ts",
 	  "packages",
 	  "node_modules", 
 	  "dist"

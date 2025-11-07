@@ -31,37 +31,34 @@ The **`nys-radiobutton`** component is a reusable web component for use in New Y
 
 <Controls />
 
-## Options
+### Variants
 ⚠️ Important: Wrap radio buttons with `nys-radiogroup` to ensure they function as a single form control.
 
-### Partial Editable Options
+#### Partial Editable Options
 <Canvas of={NysRadiobuttonStories.PartialEditableOptions} />
-### Disabled Options
+#### Disabled Options
 <Canvas of={NysRadiobuttonStories.DisabledOptions} />
-### Required
+#### Required
 <Canvas of={NysRadiobuttonStories.Required} />
-### Optional
+#### Optional
 Adding the `optional` prop will add an optional flag to the input.
 <Canvas of={NysRadiobuttonStories.Optional} />
-### Size
+#### Size
 Set the `size` prop of the **`nys-radiogroup`** to have all **`nys-radiobutton`** be the same size. Our current sizes are:
 - `sm`: Set to 24px in width and height
 - `md`: The default size. Set to 32px in width and height.
 <Canvas of={NysRadiobuttonStories.Size} />
-### Tile
+#### Tile
 The `tile` prop will change the styling of the radio button to a tile. This is useful when you want a larger clickable area for the user.\
 Note: The `tile` prop is applied  to the `nys-radiogroup` component, not the `nys-radiobutton`. All `nys-radiobutton` in the `nys-radiogroup` will be set to tile.
 <Canvas of={NysRadiobuttonStories.Tile} />
-### Error Message
+#### Error Message
 Note: in order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
 <Canvas of={NysRadiobuttonStories.ErrorMessage} />
-### Slots
+#### Slots
 When the description requires more complexity than a simple `string` value, use the `slot="description"` to hold the text. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`\
 Note: Both `nys-radiobutton` and `nys-radiogroup` support the description slot.
 <Canvas of={NysRadiobuttonStories.Slot} />
-## Inverted
-Set the `inverted` on `<nys-radiogroup>` when the component is on a dark background.
-<Canvas of={NysRadiobuttonStories.Inverted} />
 
 ## Usage
 

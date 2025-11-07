@@ -64,7 +64,6 @@ export default css`
   .nys-select__select {
     color: var(--_nys-select-color);
     font-weight: var(--_nys-select-font-weight);
-    font-family: var(--_nys-select-font-family);
     border-radius: var(--_nys-select-border-radius);
     border: solid var(--_nys-select-border-width)
       var(--_nys-select-border-color);

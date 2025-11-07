@@ -302,6 +302,9 @@ export default css`
       display: flex;
     }
 
+    :host([isCompactExpanded]) .nys-stepper {
+    }
+
     :host([isCompactExpanded]) .nys-stepper__header {
       padding-bottom: var(--nys-space-250, 20px);
     }

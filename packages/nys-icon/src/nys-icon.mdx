@@ -51,7 +51,6 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> more_vert  <nys-icon name="more_vert"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> open_in_new  <nys-icon name="open_in_new"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> print  <nys-icon name="print"></nys-icon> </div>
-    - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> phone_in_talk  <nys-icon name="phone_in_talk"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> progress_activity  <nys-icon name="progress_activity"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> publish  <nys-icon name="publish"></nys-icon> </div>
     - <div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}> search  <nys-icon name="search"></nys-icon> </div>
@@ -141,28 +140,26 @@ You can scale icons either relatively (based on the parent element’s font size
 
 #### Relative Sizing
 To scale an icon relative to the inherited font size, pass a size variant like size=[variant name] as a prop. The values will scale based on the current font size of the parent element.
-- `xs` (extra small): 75% of parent font size
-- `sm` (small): 87.5% of parent font size
-- `md` (medium): 100% of parent font size - **Default**
-- `lg` (large): 112.5% of parent font size
-- `xl` (extra large): 125% of parent font size
-- `2xl` (double extra large): 150% of parent font size
-- `3xl` (triple extra large): 187.5% of parent font size
-- `4xl` (quadruple extra large): 225% of parent font size
-- `5xl` (quintuple extra large): 300% of parent font size
+- `2xs` (extra-extra small): 75% of parent font size
+- `xs` (extra small): 87.5% of parent font size
+- `sm` (small): 100% of parent font size - **Default**
+- `md` (medium): 112.5% of parent font size
+- `lg` (large): 125% of parent font size
+- `xl` (extra large): 150% of parent font size
+- `2xl` (double extra large): 187.5% of parent font size
+- `3xl` (triple extra large): 225% of parent font size
+- `4xl` (quadruple extra large): 300% of parent font size
 
 #### Literal Sizing
 For fixed, predefined sizes, you can use literal sizes. These sizes are defined in rem units, which provide fixed scaling options.
 
 - `12`: 0.75rem = 12px
-- `14`: 0.875rem = 14px
 - `16`: 1rem = 16px
-- `18`: 1.125rem = 18px
-- `20`: 1.25rem = 20px
 - `24`: 1.5rem = 24px
 - `32`: 2rem = 32px
 - `40`: 2.5rem = 40px
-- `50`: 3.125rem = 50px
+- `48`: 3rem = 48px
+- `64`: 4rem = 64px
 
 <Canvas of={NysIconStories.CustomSize} />
 

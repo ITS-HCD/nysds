@@ -260,12 +260,6 @@
   --nys-radius-xxl: var(--nys-space-200);
   --nys-radius-round: 1776px; /* Ever upward! */
 
-  /* ===================== SHADOW/ELEVATION TOKENS ======================= */
-
-  --nys-shadow-raised: 0 4px 6px -1px var(--nys-color-black-transparent-100), 0 4px 6px -1px var(--nys-color-black-transparent-50);
-  --nys-shadow-overlay: 0 25px 50px -12px var(--nys-color-black-transparent-300);
-
-
   /* ===================== PRIMITIVE COLOR RAMPS ====================== */
 
   /* === Primitive Ramps - Global Colors === */

@@ -114,9 +114,9 @@ export class NysAvatar extends LitElement {
                   ? this.ariaLabel
                   : "avatar",
             )}
-            tabindex=${ifDefined(
-              this.interactive && !this.disabled ? 0 : undefined,
-            )}
+            tabindex=${this.interactive && !this.disabled
+              ? "0"
+              : ifDefined(undefined)}
           >
             ${this.image?.length > 0
               ? html`<img

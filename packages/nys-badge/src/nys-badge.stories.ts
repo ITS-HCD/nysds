@@ -7,9 +7,9 @@ import "@nysds/nys-icon";
 interface NysBadgeArgs {
   id: string;
   name: string;
-  size: "sm" | "md";
-  intent: "neutral" | "error" | "success" | "warning";
-  prefixLabel: string;
+  size: string;
+  intent: string;
+  prefix: string;
   label: string;
   prefixIcon: string;
   suffixIcon: string;
@@ -31,7 +31,7 @@ const meta: Meta<NysBadgeArgs> = {
       options: ["neutral", "error", "success", "warning"],
       description: "Intent of the badge",
     },
-    prefixLabel: { control: "text", description: "Prefix text" },
+    prefix: { control: "text", description: "Prefix text" },
     prefixIcon: {
       control: "text",
       description: "Icon to display before the label",
@@ -66,7 +66,7 @@ export const Basic: Story = {
       .label=${args.label}
       .size=${args.size}
       .intent=${args.intent}
-      .prefixLabel=${args.prefixLabel}
+      .prefixLabel=${args.prefix}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
     ></nys-badge>

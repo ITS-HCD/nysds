@@ -29,40 +29,36 @@ The **`nys-checkbox`** component is a reusable web component for use in New York
 
 <Controls />
 
-## Options
-### Checkbox Grouping
+### Variants
+#### Checkbox Grouping
 ⚠️ Important: While optional, you may find wrapping checkboxes with **`nys-checkboxgroup`** helpful for multiple selections with the same checkbox name. This ensures they function as a single form control visually & in validation.
 - When using **`nys-checkboxgroup`**, you can add `errorMessage` and `required` at the group level instead of on individual `nys-checkbox`.
 - For grouping to work correctly, all `nys-checkbox` elements within the same **`nys-checkboxgroup`** must have the same name attribute. This allows the form to recognize them as a related set of options.
 <Canvas of={NysCheckboxStories.Grouping} />
 
-### Disabled
+#### Disabled
 <Canvas of={NysCheckboxStories.Disabled} />
 #### Size
 Set the `size` prop of the **`nys-checkboxgroup`** to have all **`nys-checkbox`** be the same size. Our current sizes are:
 - `sm`: Set to 24px in width and height
 - `md`: The default size. Set to 32px in width and height.
 <Canvas of={NysCheckboxStories.Size} />
-### Tile
+#### Tile
 The `tile` prop will change the styling of the checkbox to a tile. This is useful when you want a larger clickable area for the user.\
 - The `tile` prop can be applied to the `nys-checkboxgroup` or the `nys-checkbox` component. If applied to the `nys-checkboxgroup`, all checkboxes will be displayed as tiles. If applied to the `nys-checkbox`, only that checkbox will be displayed as a tile.
 - Do not use the `tile` prop on a checkbox if it is inside a `nys-checkboxgroup`. All checkboxes in a group should be the same size and style.
 <Canvas of={NysCheckboxStories.Tile} />
-### Required
+#### Required
 <Canvas of={NysCheckboxStories.Required} />
-### Optional
+#### Optional
 Adding the `optional` prop will add an optional flag to the input.
 <Canvas of={NysCheckboxStories.Optional} />
-### Error Message
+#### Error Message
 The error message will appear **ONLY** when the `showError` attribute is set to `true`. Setting `errorMessage` will not display the error message by default.
 <Canvas of={NysCheckboxStories.ErrorMessage} />
-### Slots
+#### Slots
 When the description requires more complexity than a simple `string` value,  add your HTML content directly within the component as slot content, rather than setting a `description` prop. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`
 <Canvas of={NysCheckboxStories.Slot} />
-## Inverted
-Set the `inverted` when the component is on a dark background. \
-You can set `inverted` on `nys-checkboxgroup` to apply it to all checkboxes, or on a single `nys-checkbox` if only one needs it.
-<Canvas of={NysCheckboxStories.Inverted} />
 
 ## Usage
 

@@ -10,7 +10,7 @@ interface NysTooltipArgs {
   text: string;
   inverted: boolean;
   focusable: boolean;
-  position: "top" | "bottom" | "left" | "right";
+  position: string;
 }
 
 const meta: Meta<NysTooltipArgs> = {

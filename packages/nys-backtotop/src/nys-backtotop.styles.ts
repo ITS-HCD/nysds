@@ -1,10 +1,13 @@
 import { css } from "lit";
 
 export default css`
+  :host {
+  }
+
   .nys-backtotop {
     /* These props ARE NOT publicly overridable */
-    --_nys-button-border-radius--start: var(--nys-radius-round, 1776px);
-    --_nys-button-border-radius--end: var(--nys-radius-round, 1776px);
+    --_nys-button-border-radius--left: var(--nys-radius-round, 1776px);
+    --_nys-button-border-radius--right: var(--nys-radius-round, 1776px);
     --_nys-button-padding--y: var(--nys-space-100, 8px);
     --_nys-button-padding--x: var(--nys-space-200, 16px);
 

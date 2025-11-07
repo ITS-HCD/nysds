@@ -66,24 +66,6 @@ describe("nys-button", () => {
     expect(icon).to.exist;
   });
 
-  it("should trigger click event only once", async () => {
-    const el = await fixture<NysButton>(
-      html`<nys-button label="Button"></nys-button>`,
-    );
-    const button = el.shadowRoot?.querySelector("button")!;
-
-    let clickCount = 0;
-
-    el.addEventListener("click", () => {
-      clickCount++;
-    });
-
-    button.click();
-    await el.updateComplete;
-
-    expect(clickCount).to.equal(1);
-  });
-
   it("should reflect disabled and prevent click", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Disabled" disabled></nys-button>`,
@@ -187,9 +169,9 @@ describe("nys-button", () => {
       html`<nys-button label="Keyboard Test Link" href="#"></nys-button>`,
     );
     const button = el.shadowRoot?.querySelector("a")!;
-    button.addEventListener("nys-click", (e) => e.preventDefault());
+    button.addEventListener("click", (e) => e.preventDefault());
 
-    const linkEnterPromise = oneEvent(el, "nys-click");
+    const linkEnterPromise = oneEvent(el, "click");
     button.dispatchEvent(
       new KeyboardEvent("keydown", {
         key: "Enter",
@@ -221,8 +203,7 @@ describe("nys-button", () => {
     );
     const button = el.shadowRoot?.querySelector("button")!;
 
-    // Test Enter key
-    const buttonEnterPromise = oneEvent(el, "nys-click");
+    const buttonClickPromise = oneEvent(el, "click");
     button.dispatchEvent(
       new KeyboardEvent("keydown", {
         key: "Enter",
@@ -231,12 +212,9 @@ describe("nys-button", () => {
         composed: true,
       }),
     );
-    const enterEvent = await buttonEnterPromise;
-    expect(enterEvent).to.be.instanceOf(Event);
-    expect(enterEvent.type).to.equal("nys-click");
+    await buttonClickPromise;
 
-    // Test Space key
-    const buttonSpacePromise = oneEvent(el, "nys-click");
+    const buttonSpacePromise = oneEvent(el, "click");
     button.dispatchEvent(
       new KeyboardEvent("keydown", {
         key: " ",
@@ -245,9 +223,7 @@ describe("nys-button", () => {
         composed: true,
       }),
     );
-    const spaceEvent = await buttonSpacePromise;
-    expect(spaceEvent).to.be.instanceOf(Event);
-    expect(spaceEvent.type).to.equal("nys-click");
+    await buttonSpacePromise;
   });
 });
 
@@ -265,22 +241,66 @@ describe("<nys-button> form integration", () => {
     expect(el.type).to.equal("button");
   });
 
-  const types: Array<"submit" | "reset" | "button"> = [
-    "submit",
-    "reset",
-    "button",
-  ];
+  it("renders label and respects 'type' prop", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Click Me" type="submit"></nys-button>`,
+    );
 
-  types.forEach((type) => {
-    it("renders label and respects 'type' prop", async () => {
-      const el = await fixture<NysButton>(
-        html`<nys-button label="Click Me" type="${type}"></nys-button>`,
-      );
+    expect(el.type).to.equal("submit");
+    const button = el.shadowRoot?.querySelector("button");
+    expect(button?.getAttribute("type")).to.equal("submit");
+  });
 
-      expect(el.type).to.equal(type);
-      const button = el.shadowRoot?.querySelector("button");
-      expect(button?.getAttribute("type")).to.equal(type);
+  it("triggers form submission when type='submit'", async () => {
+    const formSubmit = new Promise<Event>((resolve) => {
+      const submitHandler = (e: Event) => {
+        e.preventDefault(); // prevent actual navigation
+        resolve(e);
+      };
+
+      document.body.addEventListener("submit", submitHandler);
     });
+
+    const el = await fixture(html`
+      <form id="test-form">
+        <nys-button label="Submit" type="submit"></nys-button>
+      </form>
+    `);
+
+    const button = el.querySelector("nys-button")!;
+    const innerButton = button.shadowRoot?.querySelector("button")!;
+    innerButton.click();
+
+    const event = await formSubmit;
+    expect(event).to.exist;
+    expect(event.type).to.equal("submit");
+  });
+
+  it("triggers form reset when type='reset'", async () => {
+    const resetHandler = oneEvent(document, "reset");
+
+    const el = await fixture(html`
+      <form id="test-form">
+        <input name="field" value="original" />
+        <nys-button label="Reset" type="reset"></nys-button>
+      </form>
+    `);
+
+    const form = el as HTMLFormElement;
+    const input = form.querySelector("input")!;
+    input.value = "changed";
+
+    const button = form
+      .querySelector("nys-button")!
+      .shadowRoot!.querySelector("button")!;
+    button.click();
+
+    const event = await resetHandler;
+    expect(event).to.exist;
+    expect(event.type).to.equal("reset");
+
+    // The form resets the input
+    expect(input.value).to.equal("original");
   });
 });
 

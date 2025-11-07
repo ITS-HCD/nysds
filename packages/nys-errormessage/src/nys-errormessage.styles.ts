@@ -24,7 +24,7 @@ export default css`
 
     /* Spacing */
     --_nys-errormessage-gap: var(--nys-space-100, 8px);
-    --_nys-errormessage-padding--divider: var(--nys-space-50, 4px);
+    ---_nys-errormessage-padding--divider: var(--nys-space-50, 4px);
     --_nys-errormessage-width--divider: var(--nys-border-width-sm, 1px);
 
     --_nys-errormessage-margin-top: 0;

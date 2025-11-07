@@ -23,7 +23,6 @@ export class NysAlert extends LitElement {
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;
 
-  // --- Valid Alert Types --- //
   private static readonly VALID_TYPES = [
     "base",
     "info",
@@ -48,10 +47,7 @@ export class NysAlert extends LitElement {
   }
 
   // Aria attributes based on the type
-  get ariaAttributes(): {
-    role: "alert" | "status" | "region";
-    ariaLabel: string;
-  } {
+  get ariaAttributes() {
     const ariaRole =
       this.type === "danger" || this.type === "emergency"
         ? "alert"
@@ -216,7 +212,7 @@ export class NysAlert extends LitElement {
                   size="sm"
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="${this.heading}, alert, Close"
-                  @nys-click=${this._closeAlert}
+                  .onClick=${() => this._closeAlert()}
                 ></nys-button>`
               : ""}
           </div>`
