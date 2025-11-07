@@ -325,6 +325,7 @@ export class NysSelect extends LitElement {
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
         ></nys-errormessage>
+        <p>Theres is error: ${this.showError}</p>
       </div>
     `;
   }
