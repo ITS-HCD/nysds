@@ -16,11 +16,12 @@ interface NysTextareaArgs {
   readonly: boolean;
   required: boolean;
   optional: boolean;
-  form: string;
-  maxlength: string;
-  width: string;
-  rows: string;
-  resize: string;
+  inverted: boolean;
+  form: string | null;
+  maxlength: number | null;
+  width: "sm" | "md" | "lg" | "full";
+  rows: number;
+  resize: "vertical" | "none";
   showError: boolean;
   errorMessage: string;
 }
@@ -39,8 +40,10 @@ const meta: Meta<NysTextareaArgs> = {
     readonly: { control: "boolean" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
+    inverted: { control: "boolean" },
     form: { control: "text" },
     maxlength: { control: "text" },
+
     width: {
       control: "select",
       options: ["sm", "md", "lg", "full"],
@@ -73,6 +76,7 @@ export const Basic: Story = {
     required: false,
     optional: false,
     showError: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-textarea
@@ -86,6 +90,7 @@ export const Basic: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -119,6 +124,7 @@ export const Width: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -141,7 +147,7 @@ export const Width: Story = {
 };
 
 export const Rows: Story = {
-  args: { label: "This textarea renders with 6 rows", value: "", rows: "6" },
+  args: { label: "This textarea renders with 6 rows", value: "", rows: 6 },
   render: (args) => html`
     <nys-textarea
       .id=${args.id}
@@ -154,6 +160,7 @@ export const Rows: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -177,7 +184,7 @@ export const Resize: Story = {
   args: {
     label: "This textarea is not resizable",
     value: "",
-    rows: "6",
+    rows: 6,
     resize: "none",
   },
   render: (args) => html`
@@ -192,6 +199,7 @@ export const Resize: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -225,6 +233,7 @@ export const DescriptionSlot: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -244,6 +253,7 @@ export const DescriptionSlot: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -288,6 +298,7 @@ export const ValueAndPlaceholder: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -301,7 +312,7 @@ export const ValueAndPlaceholder: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea 
+<nys-textarea
   label="Beginning Value Example"
   value="beginning value"
   placeholder="placeholder">
@@ -326,6 +337,7 @@ export const Disabled: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -361,6 +373,7 @@ export const Readonly: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -387,7 +400,7 @@ export const Maxlength: Story = {
     label: "Max Length",
     description: "You cannot type more than 10 characters in the below field",
     value: "",
-    maxlength: "10",
+    maxlength: 10,
   },
   render: (args) => html`
     <nys-textarea
@@ -401,6 +414,7 @@ export const Maxlength: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -416,7 +430,7 @@ export const Maxlength: Story = {
         code: `
 <nys-textarea
   label="Max Length"
-  description="You cannot type more than 10 characters in the below field" 
+  description="You cannot type more than 10 characters in the below field"
   maxlength="10">
 </nys-textarea>
         `,
@@ -440,6 +454,7 @@ export const Required: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -477,6 +492,7 @@ export const ErrorMessage: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -489,7 +505,7 @@ export const ErrorMessage: Story = {
     docs: {
       source: {
         code: `
-<nys-textarea 
+<nys-textarea
   label="label"
   showError
   errorMessage="A clear and concise error message.">
@@ -519,6 +535,7 @@ export const Optional: Story = {
       .readonly=${args.readonly}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .form=${args.form}
       .maxlength=${args.maxlength}
       .width=${args.width}
@@ -532,6 +549,51 @@ export const Optional: Story = {
     docs: {
       source: {
         code: `<nys-textarea optional label="label"></nys-textarea>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  args: {
+    label: "Label",
+    description: "description",
+    value: "",
+    inverted: true,
+  },
+  render: (args) => html`
+    <div
+      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
+    >
+      <nys-textarea
+        .id=${args.id}
+        .name=${args.name}
+        .label=${args.label}
+        .description=${"Prop: " + args.description}
+        .placeholder=${args.placeholder}
+        .value=${args.value}
+        .disabled=${args.disabled}
+        .readonly=${args.readonly}
+        .required=${args.required}
+        .optional=${args.optional}
+        ?inverted=${args.inverted}
+        .form=${args.form}
+        .maxlength=${args.maxlength}
+        .width=${args.width}
+        .rows=${args.rows}
+        .resize=${args.resize}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
+      ></nys-textarea>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-textarea label="Label" description="Prop: description" inverted></nys-textarea>
+        `,
         type: "auto",
       },
     },

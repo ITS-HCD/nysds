@@ -13,7 +13,7 @@ describe("nys-icon", () => {
 
     const svg = el.shadowRoot?.querySelector("svg");
     expect(svg).to.exist;
-    expect(svg?.classList.contains("nys-icon--sm")).to.be.true;
+    expect(svg?.classList.contains("nys-icon--md")).to.be.true;
     expect(svg?.classList.contains("nys-icon--flip-")).to.be.false;
     expect(svg?.style.color).to.equal("currentcolor"); // Default color
     expect(svg?.style.rotate).to.equal("0deg");
@@ -27,13 +27,10 @@ describe("nys-icon", () => {
     expect(svg.classList.contains("nys-icon--2xl")).to.be.true;
   });
 
-  // falls back to default size when given an invalid size
-  it("falls back to default size when given an invalid size", async () => {
-    const el = await fixture<NysIcon>(
-      html`<nys-icon name="check" size="invalid-size"></nys-icon>`,
-    );
+  it("falls back to default size when size is not passed", async () => {
+    const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
     const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
-    expect(svg.classList.contains("nys-icon--sm")).to.be.true;
+    expect(svg.classList.contains("nys-icon--md")).to.be.true;
   });
 
   it("applies color styles", async () => {

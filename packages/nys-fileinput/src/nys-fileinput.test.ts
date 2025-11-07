@@ -62,7 +62,12 @@ describe("nys-fileinput", () => {
     input.click = () => (clicked = true);
 
     const button = el.shadowRoot?.querySelector("nys-button") as any;
-    button?.onClick?.();
+    button.dispatchEvent(
+      new CustomEvent("nys-click", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
 
     expect(clicked).to.be.true;
   });

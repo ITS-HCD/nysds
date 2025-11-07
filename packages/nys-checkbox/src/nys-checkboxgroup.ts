@@ -14,6 +14,10 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: String }) _tooltip = "";
+  @property({ type: Boolean, reflect: true }) inverted = false;
+  @property({ type: String, reflect: true }) form: string | null = null;
+
   @state() private _slottedDescriptionText = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
@@ -82,8 +86,14 @@ export class NysCheckboxgroup extends LitElement {
     if (changedProperties.has("tile")) {
       this._updateCheckboxTile();
     }
+    if (changedProperties.has("inverted")) {
+      this._updateCheckboxInvert();
+    }
     if (changedProperties.has("showError")) {
       this._updateCheckboxShowError();
+    }
+    if (changedProperties.has("form")) {
+      this._updateCheckboxForm();
     }
   }
 
@@ -112,22 +122,19 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   // Updates the required attribute of each checkbox in the group
-  private async _manageCheckboxRequired() {
+  private async _manageRequire() {
     if (this.required) {
       const message = this.errorMessage || "Please select at least one option.";
       const firstCheckbox = this.querySelector("nys-checkbox");
       const firstCheckboxInput = firstCheckbox
-        ? await (firstCheckbox as any).getInputElement()
+        ? await (firstCheckbox as any).getInputElement().catch(() => null)
         : null;
 
-      let atLeastOneChecked = false;
       const checkboxes = this.querySelectorAll("nys-checkbox");
       // Loop through each child checkbox to see if one is checked.
-      checkboxes.forEach((checkbox: any) => {
-        if (checkbox.checked) {
-          atLeastOneChecked = true;
-        }
-      });
+      const atLeastOneChecked = Array.from(checkboxes).some(
+        (checkbox: any) => checkbox.checked,
+      );
 
       if (atLeastOneChecked) {
         this._internals.setValidity({});
@@ -162,6 +169,17 @@ export class NysCheckboxgroup extends LitElement {
     });
   }
 
+  private _updateCheckboxInvert() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (this.inverted) {
+        checkbox.toggleAttribute("inverted", true);
+      } else {
+        checkbox.removeAttribute("inverted");
+      }
+    });
+  }
+
   private _updateCheckboxShowError() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox) => {
@@ -169,6 +187,21 @@ export class NysCheckboxgroup extends LitElement {
         checkbox.setAttribute("showError", "");
       } else {
         checkbox.removeAttribute("showError");
+      }
+    });
+  }
+
+  private _updateCheckboxForm() {
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox) => {
+      if (this.showError) {
+        if (this.form !== null) {
+          checkbox.setAttribute("form", this.form);
+        } else {
+          checkbox.removeAttribute("form");
+        }
+      } else {
+        checkbox.removeAttribute("form");
       }
     });
   }
@@ -190,7 +223,7 @@ export class NysCheckboxgroup extends LitElement {
     event.preventDefault();
 
     this.showError = true;
-    this._manageCheckboxRequired(); // Refresh validation message
+    this._manageRequire(); // Refresh validation message
 
     const firstCheckbox = this.querySelector("nys-checkbox");
     const firstCheckboxInput = firstCheckbox
@@ -252,7 +285,7 @@ export class NysCheckboxgroup extends LitElement {
 
     this._internals.setFormValue(selectedValues.join(", "));
 
-    this._manageCheckboxRequired();
+    this._manageRequire();
   }
 
   render() {
@@ -263,6 +296,8 @@ export class NysCheckboxgroup extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          tooltip=${this._tooltip}
+          ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>

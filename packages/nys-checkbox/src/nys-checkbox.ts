@@ -15,10 +15,12 @@ export class NysCheckbox extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean }) groupExist = false;
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: Boolean, reflect: true }) inverted = false;
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
 
@@ -71,6 +73,7 @@ export class NysCheckbox extends LitElement {
     // This ensures our element always participates in the form
     this._setValue();
     this._manageRequire();
+    this._manageLabelClick();
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -174,6 +177,15 @@ export class NysCheckbox extends LitElement {
     }
   }
 
+  private _manageLabelClick = () => {
+    const labelEl = this.shadowRoot?.querySelector("nys-label");
+    const inputEl = this.shadowRoot?.querySelector("input");
+
+    if (labelEl && inputEl) {
+      labelEl.addEventListener("click", () => inputEl.click());
+    }
+  };
+
   /******************** Event Handlers ********************/
   private _emitChangeEvent() {
     this.dispatchEvent(
@@ -241,6 +253,7 @@ export class NysCheckbox extends LitElement {
             ?disabled=${this.disabled}
             .value=${this.value}
             ?required="${this.required}"
+            form=${ifDefined(this.form || undefined)}
             aria-checked="${this.checked}"
             aria-disabled="${this.disabled ? "true" : "false"}"
             aria-required="${this.required}"
@@ -249,6 +262,7 @@ export class NysCheckbox extends LitElement {
             @focus="${this._handleFocus}"
             @blur="${this._handleBlur}"
             @keydown="${this._handleKeydown}"
+            aria-label="${this.label}"
           />
           ${this.checked
             ? html`<nys-icon
@@ -264,17 +278,19 @@ export class NysCheckbox extends LitElement {
             : ""}
         </div>
         ${this.label &&
-        html` <div class="nys-checkbox__text">
-          <div class="nys-checkbox__requiredwrapper">
-            <div class="nys-checkbox__label">${this.label}</div>
-            ${this.required
-              ? html`<div class="nys-checkbox__required">*</div>`
-              : ""}
-          </div>
-          <div class="nys-checkbox__description">
-            <slot name="description">${this.description}</slot>
-          </div>
-        </div>`}
+        html`
+          <nys-label
+            for=${this.id}
+            label=${this.label}
+            description=${ifDefined(this.description ?? undefined)}
+            flag=${ifDefined(this.required ? "required" : undefined)}
+            ?inverted=${this.inverted}
+          >
+            <slot name="description" slot="description"
+              >${this.description}</slot
+            >
+          </nys-label>
+        `}
       </label>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage

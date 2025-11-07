@@ -23,7 +23,7 @@ it("toggles trustbar visibility when clicking the top trustbar", async () => {
     html`<nys-unavheader></nys-unavheader>`,
   );
   const trustbarToggle = el.shadowRoot?.querySelector(
-    ".nys-unavheader__toptrustbar",
+    ".nys-unavheader__trustbar.wrapper",
   )!;
   expect(el.trustbarVisible).to.be.false;
 

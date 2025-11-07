@@ -2,15 +2,161 @@ import { LitElement, html } from "lit";
 import { property } from "lit/decorators.js";
 import styles from "./nys-{{componentName}}.styles";
 
+let componentIdCounter = 0; // Counter for generating unique IDs
+
 export class Nys{{capitalize componentName}} extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
+  {{#if formRelated}}
+  @property({ type: String }) value = "";
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) optional = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
+  @property({ type: String }) errorMessage = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
+  {{/if}}
 
   static styles = styles;
 
+  {{#if formRelated}}
+  private _internals: ElementInternals;
+
+  /**************** Lifecycle Methods ****************/
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
+    }
+
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue(this.value);
+  }
+  {{else}}
+  /**************** Lifecycle Methods ****************/
   constructor() {
     super();
   }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
+    }
+  }
+  {{/if}}
+
+  {{#if formRelated}}
+  /***************** Form Integration *****************/
+  /**
+  * Placeholder for form-related helper methods
+  * Refer to existing form-related components for full integration. Only a subset of functions is included here!
+  */
+
+  /**
+   * Form helper methods:
+   * - _setValue: set internal value and trigger validation
+   * - _manageRequire: handle required state
+   * - _validate: actively validate and show errors
+   * - checkValidity: passive boolean check without UI
+   */
+
+  // Performs element validation
+  private _setValue(value: any) {
+    // ...
+    this.value = value;
+    this._internals.setFormValue(value);
+
+    this._manageRequire(); // Check validation when value is set
+  }
+
+  // Called to internally set the initial internalElement required flag.
+  private _manageRequire() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    const message = this.errorMessage || "This field is required.";
+    const isInvalid = this.required && !this.value;
+
+    if (isInvalid) {
+      this._internals.ariaRequired = "true";
+      this._internals.setValidity({ valueMissing: true }, message, input);
+    } else {
+      this._internals.ariaRequired = "false";
+      this._internals.setValidity({});
+    }
+  }
+
+  /**
+   * Actively validates the component:
+   * - Updates internal validity state
+   * - Updates UI (e.g. showError)
+   * - Called on blur/change or form submission
+   */
+  private _validate() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    const message = input.validationMessage;
+    this._manageRequire(); // check required
+    this._setValidityMessage(message);
+  }
+
+  /**
+   * Passive check of validity:
+   * - Returns true/false
+   * - Does NOT update UI or show errors
+   * - Used in form submission checks
+   */
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
+  // Sets custom validity message
+  private _setValidityMessage(message: string = "") {
+    if (!this._internals) return;
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      input
+    );
+  }
+
+  // Handles native 'invalid' events
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
+    this._validate();
+
+    const innerInput = this.shadowRoot?.querySelector("input");
+    if (innerInput) {
+      innerInput.focus();
+    }
+    this._setValidityMessage("This field is required.");
+  }
+  {{/if}}
+
+  /******************** Functions ********************/
+  // Placeholder for generic functions (component-specific)
+
+  /****************** Event Handlers ******************/
+  // Placeholder for event handlers if needed
 
   render() {
     return html`<div class="nys-{{componentName}}"></div>`;

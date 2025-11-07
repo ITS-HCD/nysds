@@ -1,13 +1,13 @@
 /*!
-   * ▒█▄░▒█ ▒█░░▒█ ▒█▀▀▀█ ▒█▀▀▄ ▒█▀▀▀█ 
-   * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
+   * ▒█▄░▒█ ▒█░░▒█ ▒█▀▀▀█ ▒█▀▀▄ ▒█▀▀▀█
+   * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄
    * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
-   * 
+   *
    * Core Styles
    * Part of the New York State Design System (NYSDS)
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
-   * Version: 1.8.0
+   * Version: 1.11.1
 */
 
 
@@ -15,23 +15,32 @@
 @import "./core/tokens.css";
 
 /* Hide unstyled components until they are fully loaded */
+nys-accordion:not(:defined),
 nys-alert:not(:defined),
 nys-avatar:not(:defined),
+nys-backtotop:not(:defined),
+nys-badge:not(:defined),
 nys-button:not(:defined),
 nys-checkbox:not(:defined),
 nys-checkboxgroup:not(:defined),
-nys-globalheader:not(:defined),
+nys-divider:not(:defined),
+nys-errormessage:not(:defined),
+nys-fileinput:not(:defined),
 nys-globalfooter:not(:defined),
+nys-globalheader:not(:defined),
 nys-icon:not(:defined),
+nys-label:not(:defined),
+nys-modal:not(:defined),
 nys-radiobutton:not(:defined),
 nys-radiogroup:not(:defined),
 nys-select:not(:defined),
+nys-skipnav:not(:defined),
+nys-stepper:not(:defined),
 nys-textarea:not(:defined),
 nys-textinput:not(:defined),
 nys-toggle:not(:defined),
-nys-errormessage:not(:defined),
-nys-label:not(:defined),
+nys-tooltip:not(:defined),
 nys-unavheader:not(:defined),
 nys-unavfooter:not(:defined) {
-   visibility: hidden;
+  visibility: hidden;
 }

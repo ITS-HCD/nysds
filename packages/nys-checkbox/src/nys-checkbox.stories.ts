@@ -3,7 +3,6 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-checkbox";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {
@@ -12,14 +11,16 @@ interface NysCheckboxArgs {
   checked: boolean;
   label: string;
   description: string;
-  size: string;
+  size: "sm" | "md";
   tile: boolean;
   disabled: boolean;
   value: string;
   required: boolean;
   optional: boolean;
+  inverted: boolean;
   showError: boolean;
   errorMessage: string;
+  form: string | null;
 }
 
 const meta: Meta<NysCheckboxArgs> = {
@@ -36,9 +37,11 @@ const meta: Meta<NysCheckboxArgs> = {
     disabled: { control: "boolean" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
+    inverted: { control: "boolean" },
     value: { control: "text" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
+    form: { control: "text" },
   },
   parameters: {
     docs: {
@@ -67,6 +70,7 @@ export const Basic: Story = {
     errorMessage: "",
     tile: false,
     optional: false,
+    inverted: false,
   },
   render: (args) => html`
     <nys-checkboxgroup
@@ -74,8 +78,10 @@ export const Basic: Story = {
       description="Choose from the options below"
       size=${args.size}
       .tile=${args.tile}
+      ?inverted=${args.inverted}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -163,8 +169,10 @@ export const Grouping: Story = {
         description=${args.description}
         size=${args.size}
         .tile=${args.tile}
+        ?inverted=${args.inverted}
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
+        .form=${args.form}
         .required=${args.required}
         .optional=${args.optional}
       >
@@ -284,24 +292,28 @@ export const Disabled: Story = {
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     ></nys-checkbox>
     <nys-checkbox
       checked
       .disabled=${args.disabled}
       .required=${args.required}
       .optional=${args.optional}
+      ?inverted=${args.inverted}
       .label=${args.label}
       .description=${args.description}
       .name=${args.name}
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     ></nys-checkbox>
   `,
   parameters: {
@@ -344,8 +356,10 @@ export const Size: Story = {
       description="Choose from the options below"
       size=${args.size}
       .tile=${args.tile}
+      ?inverted=${args.inverted}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -432,8 +446,10 @@ export const Tile: Story = {
       description="Choose from the options below"
       size=${args.size}
       .tile=${args.tile}
+      ?inverted=${args.inverted}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
     >
       <nys-checkbox
         .checked=${args.checked}
@@ -532,6 +548,9 @@ export const Required: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      .tile=${args.tile}
+      ?inverted=${args.inverted}
     ></nys-checkbox>
   `,
   parameters: {
@@ -579,7 +598,9 @@ export const ErrorMessage: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
       .tile=${args.tile}
+      ?inverted=${args.inverted}
     ></nys-checkbox>
   `,
   parameters: {
@@ -627,6 +648,8 @@ export const Slot: Story = {
       .value=${args.value}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
+      ?inverted=${args.inverted}
     >
       <p slot="description">
         ${args.description}<a href="https://www.ny.gov/" target="__blank"
@@ -674,8 +697,10 @@ export const Optional: Story = {
       description="Choose from the options below"
       size=${args.size}
       .tile=${args.tile}
+      ?inverted=${args.inverted}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
+      .form=${args.form}
       .required=${args.required}
       .optional=${args.optional}
     >
@@ -745,6 +770,108 @@ export const Optional: Story = {
 
         `,
 
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  args: {
+    checked: true,
+    disabled: false,
+    required: false,
+    label: "Adirondacks",
+    description: "",
+    name: "landmarks",
+    value: "adirondacks",
+    showError: false,
+    errorMessage: "",
+    tile: false,
+    optional: false,
+    inverted: true,
+  },
+  render: (args) => html`
+    <div
+      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
+    >
+      <nys-checkboxgroup
+        label="Select your favorite New York landmarks"
+        description="Choose from the options below"
+        size=${args.size}
+        .tile=${args.tile}
+        ?inverted=${args.inverted}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
+        .form=${args.form}
+      >
+        <nys-checkbox
+          .checked=${args.checked}
+          .disabled=${args.disabled}
+          .required=${args.required}
+          .optional=${args.optional}
+          .label=${args.label}
+          .description=${args.description}
+          .name=${args.name}
+          .value=${args.value}
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="finger-lakes"
+          label="Finger Lakes"
+          checked
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="catskills"
+          label="Catskills"
+          checked
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara-falls"
+          label="Niagara Falls"
+          checked
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="coney-island"
+          label="Coney Island"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="mount-greylock"
+          label="Mount Greylock"
+          description="This is disabled because it's not in New York."
+          disabled
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Select your favorite New York landmarks"
+  description="Choose from the options below"
+  inverted
+>
+  <nys-checkbox
+    label="Adirondacks"
+    name="landmarks"
+    value="adirondacks"
+    errorMessage="You must select this box to continue"
+    checked
+  ></nys-checkbox>
+  <nys-checkbox name="landmarks" value="finger-lakes" label="Finger Lakes" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="catskills" label="Catskills" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara-falls" label="Niagara Falls" checked></nys-checkbox>
+  <nys-checkbox name="landmarks" value="coney-island" label="Coney Island"></nys-checkbox>
+  <nys-checkbox label="Mount Greylock" description="This is disabled because it's not in New York." disabled></nys-checkbox>
+</nys-checkboxgroup>
+
+        `,
         type: "auto",
       },
     },

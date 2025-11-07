@@ -5,11 +5,29 @@ import "./nys-icon";
 // Define the structure of the args used in the stories
 interface NysIconArgs {
   name: string;
-  ariaLabel?: string;
-  color?: string;
-  rotate?: string;
-  flip?: string;
-  size?: string;
+  ariaLabel: string;
+  color: string;
+  rotate: string;
+  flip: string;
+  size:
+    | "xs"
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "12"
+    | "14"
+    | "16"
+    | "18"
+    | "20"
+    | "24"
+    | "32"
+    | "40"
+    | "50";
 }
 
 const meta: Meta<NysIconArgs> = {
@@ -27,7 +45,6 @@ const meta: Meta<NysIconArgs> = {
     size: {
       control: "select",
       options: [
-        "2xs",
         "xs",
         "sm",
         "md",
@@ -36,13 +53,16 @@ const meta: Meta<NysIconArgs> = {
         "2xl",
         "3xl",
         "4xl",
+        "5xl",
         "12",
+        "14",
         "16",
+        "18",
+        "20",
         "24",
         "32",
         "40",
-        "48",
-        "64",
+        "50",
       ],
     },
   },
@@ -64,7 +84,7 @@ type Story = StoryObj<NysIconArgs>;
 export const Basic: Story = {
   args: {
     name: "social_youtube",
-    size: "3xl",
+    size: "4xl",
     color: "#b2071d",
   },
   render: (args) =>
@@ -83,7 +103,7 @@ export const Basic: Story = {
         code: `
   <nys-icon
   name="social_youtube"
-  size="3xl"
+  size="4xl"
   color="#1ca1ba"
   ></nys-icon>
         `.trim(),
@@ -178,7 +198,7 @@ export const InheritSize: Story = {
     </div>
     <div
       class="parent-container"
-      style="font-size: 1.5rem; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;"
+      style="font-size: 1.5rem !important; display:flex; align-items: center; border: 2px solid black; border-bottom:none; padding: 5px 20px;"
     >
       <p>
         The nearest parent container's font-size is set to 1.5rem
@@ -194,7 +214,7 @@ export const InheritSize: Story = {
     </div>
     <div
       class="parent-container"
-      style="font-size: 2rem; display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;"
+      style="font-size: 2rem !important; display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;"
     >
       <p>
         The nearest parent container's font-size is set to 2rem
@@ -245,7 +265,7 @@ export const CustomSize: Story = {
   args: {
     ariaLabel: "Search icon",
     name: "search",
-    size: "3xl",
+    size: "4xl",
   },
 
   render: (args) => html`
@@ -274,7 +294,7 @@ export const CustomSize: Story = {
       class="parent-container"
       style="font-size: var(--parent-font-size, 16px);  display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;"
     >
-      <p>
+      <p style="display:flex; align-items: center; gap: 5px;">
         The font-size of the parent container is dynamically controlled.
         <nys-icon
           .ariaLabel=${args.ariaLabel}
@@ -293,11 +313,11 @@ export const CustomSize: Story = {
       source: {
         code: `
   <div class="parent-container" style="font-size: var(--parent-font-size, 16px);  display:flex; align-items: center; border: 2px solid black; padding: 5px 20px;">
-    <p> The font-size of the parent container is dynamically controlled.
+    <p style="display:flex; align-items: center; gap: 5px;"> The font-size of the parent container is dynamically controlled.
       <nys-icon
       ariaLabel="Search icon"
       name="search"
-      size="3xl"
+      size="4xl"
       ></nys-icon>
     </p>
   </div>
@@ -312,14 +332,14 @@ export const ColorInheritance: Story = {
   args: {
     ariaLabel: "Upload file icon",
     name: "upload_file",
-    size: "2xl",
+    size: "3xl",
   },
   render: (args) => html`
     <div
-      class="parent"
+      class="parent-container"
       style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;"
     >
-      <p style="display:flex; align-items: center;">
+      <p class="nys-display-flex nys-flex-align-center" style="gap: 5px;">
         The color of the nearest parent container is set to DarkBlue.&nbsp;
         <nys-icon
           .ariaLabel=${args.ariaLabel}
@@ -338,12 +358,12 @@ export const ColorInheritance: Story = {
       source: {
         code: `
   <div class="parent-container" style="color:DarkBlue; border: 2px solid black; padding: 5px 20px;">
-    <p style="display:flex; align-items: center;">
+    <p style="display:flex; align-items: center; gap: 5px;">
       The color of the nearest parent container is set to DarkBlue.
       <nys-icon
         ariaLabel="Upload file icon"
         name="upload_file"
-        size="2xl"
+        size="3xl"
       ></nys-icon>
     </p>
   </div>
@@ -359,7 +379,7 @@ export const ColorChange: Story = {
     ariaLabel: "Upload file icon",
     name: "upload_file",
     color: "#db117d",
-    size: "2xl",
+    size: "3xl",
   },
   render: (args) => html`
     <div
@@ -391,7 +411,7 @@ export const ColorChange: Story = {
         ariaLabel="Upload file icon"
         name="upload_file"
         color="#db117d"
-        size="2xl"
+        size="3xl"
       ></nys-icon>
     </p>
   </div>
@@ -407,7 +427,7 @@ export const Rotate: Story = {
     ariaLabel: "Warning icon",
     name: "warning",
     rotate: "20",
-    size: "2xl",
+    size: "3xl",
   },
   render: (args) => html`
     <nys-icon
@@ -427,7 +447,7 @@ export const Rotate: Story = {
   ariaLabel="Warning icon"
   name="warning"
   rotate="20"
-  size="2xl"
+  size="3xl"
   ></nys-icon>
         `.trim(),
       },
@@ -440,7 +460,7 @@ export const Flip: Story = {
   args: {
     ariaLabel: "Arrow back icon",
     name: "arrow_back",
-    size: "2xl",
+    size: "3xl",
     flip: "horizontal",
   },
   render: (args) => html`
@@ -461,7 +481,7 @@ export const Flip: Story = {
   ariaLabel="Arrow back icon"
   name="arrow_back"
   flip="horizontal"
-  size="2xl"
+  size="3xl"
   ></nys-icon>
         `.trim(),
       },

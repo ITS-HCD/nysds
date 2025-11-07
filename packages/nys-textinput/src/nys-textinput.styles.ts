@@ -116,9 +116,6 @@ export default css`
     display: inline;
     overflow: hidden;
     white-space: nowrap;
-    width: stretch;
-    width: -webkit-fill-available;
-    width: -moz-available;
     font: inherit;
     letter-spacing: normal;
   }
@@ -152,15 +149,15 @@ export default css`
   }
 
   .nys-textinput__buttoncontainer.has-end-button .nys-textinput__input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none;
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-inline-end: none;
   }
 
   .nys-textinput__buttoncontainer.has-start-button .nys-textinput__input {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left: none;
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-inline-start: none;
   }
 
   .nys-textinput__container {
@@ -175,8 +172,8 @@ export default css`
   ::slotted(nys-button) {
     /* These props ARE NOT publicly overridable */
     --_nys-button-height: var(--_nys-textinput-height);
-    --_nys-button-border-radius--left: var(--_nys-textinput-border-radius);
-    --_nys-button-border-radius--right: var(--_nys-textinput-border-radius);
+    --_nys-button-border-radius--start: var(--_nys-textinput-border-radius);
+    --_nys-button-border-radius--end: var(--_nys-textinput-border-radius);
     --_nys-button-background-color--disabled: var(
       --_nys-textinput-background-color--disabled
     );
@@ -187,11 +184,11 @@ export default css`
   }
 
   .nys-textinput__buttoncontainer.has-start-button ::slotted(nys-button) {
-    --_nys-button-border-radius--right: 0;
+    --_nys-button-border-radius--end: 0;
   }
 
   .nys-textinput__buttoncontainer.has-end-button ::slotted(nys-button) {
-    --_nys-button-border-radius--left: 0;
+    --_nys-button-border-radius--start: 0;
   }
 
   .eye-icon {

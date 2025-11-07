@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
+import type { NysRadiobutton } from "./nys-radiobutton";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
@@ -14,6 +15,9 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: String }) _tooltip = "";
+  @property({ type: Boolean, reflect: true }) inverted = false;
+  @property({ type: String, reflect: true }) form: string | null = null;
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";
@@ -89,8 +93,14 @@ export class NysRadiogroup extends LitElement {
     if (changedProperties.has("tile")) {
       this._updateRadioButtonsTile();
     }
+    if (changedProperties.has("inverted")) {
+      this._updateRadioButtonsInvert();
+    }
     if (changedProperties.has("showError")) {
       this._updateRadioButtonsShowError();
+    }
+    if (changedProperties.has("form")) {
+      this._updateRadioButtonsForm();
     }
   }
 
@@ -98,7 +108,7 @@ export class NysRadiogroup extends LitElement {
   formResetCallback() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
-      (radioButton as any).formResetUpdate();
+      (radioButton as NysRadiobutton).formResetUpdate();
     });
   }
 
@@ -121,21 +131,19 @@ export class NysRadiogroup extends LitElement {
   private async _manageRequire() {
     const message = this.errorMessage || "Please select an option.";
 
-    const firstRadio = this.querySelector("nys-radiobutton");
-    const firstRadioInput = firstRadio
-      ? await (firstRadio as any).getInputElement()
-      : null;
+    const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
+    const firstRadio = radioButtons[0] as HTMLElement;
 
-    if (firstRadioInput) {
+    if (firstRadio) {
       if (this.required && !this.selectedValue) {
         this._internals.setValidity(
           { valueMissing: true },
           message,
-          firstRadioInput,
+          firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
-        this._internals.setValidity({}, "", firstRadioInput);
+        this._internals.setValidity({}, "", firstRadio);
       }
     }
   }
@@ -143,7 +151,8 @@ export class NysRadiogroup extends LitElement {
   checkValidity() {
     const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
     const valid =
-      !this.required || radioButtons.some((radio) => (radio as any).checked);
+      !this.required ||
+      radioButtons.some((radio) => (radio as NysRadiobutton).checked);
     return valid;
   }
 
@@ -158,7 +167,9 @@ export class NysRadiogroup extends LitElement {
 
   /********************** Core Keyboard & Click Logic **********************/
   private _getAllRadios() {
-    return Array.from(this.querySelectorAll("nys-radiobutton")) as any[];
+    return Array.from(
+      this.querySelectorAll("nys-radiobutton"),
+    ) as NysRadiobutton[];
   }
 
   // Arrow / Space / Enter navigation at group level
@@ -256,6 +267,17 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
+  private _updateRadioButtonsInvert() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.inverted) {
+        radioButton.toggleAttribute("inverted", true);
+      } else {
+        radioButton.removeAttribute("inverted");
+      }
+    });
+  }
+
   private _updateRadioButtonsShowError() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
@@ -263,6 +285,21 @@ export class NysRadiogroup extends LitElement {
         radioButton.setAttribute("showError", "");
       } else {
         radioButton.removeAttribute("showError");
+      }
+    });
+  }
+
+  private _updateRadioButtonsForm() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      if (this.showError) {
+        if (this.form !== null) {
+          radioButton.setAttribute("form", this.form);
+        } else {
+          radioButton.removeAttribute("form");
+        }
+      } else {
+        radioButton.removeAttribute("form");
       }
     });
   }
@@ -302,7 +339,9 @@ export class NysRadiogroup extends LitElement {
       this.showError = true;
       this._manageRequire(); // Refresh validation message
 
-      const firstRadio = this.querySelector("nys-radiobutton") as any;
+      const firstRadio = this.querySelector(
+        "nys-radiobutton",
+      ) as NysRadiobutton;
 
       if (firstRadio) {
         // Focus only if this is the first invalid element (top-down approach)
@@ -338,6 +377,8 @@ export class NysRadiogroup extends LitElement {
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
+        _tooltip=${this._tooltip}
+        ?inverted=${this.inverted}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>

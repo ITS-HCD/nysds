@@ -260,6 +260,11 @@ export default css`
     --_nys-toggle-size--knob: var(--nys-size-250, 20px);
   }
 
+  /* Text Invert */
+  .nys-toggle__text.invert {
+    --_nys-toggle-color: var(--nys-color-text-reverse, #fff);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     :host {
       --toggle-transition-duration: 0s; /* Disable animation */

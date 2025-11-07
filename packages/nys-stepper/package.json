@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-stepper",
-  "version": "1.8.0",
+  "version": "1.11.1",
   "description": "The Stepper component from the NYS Design System.",
   "module": "dist/nys-stepper.js",
   "types": "dist/index.d.ts",
@@ -19,19 +19,14 @@
     "build": "tsc --emitDeclarationOnly && vite build",
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
-    "test:watch": "vite build && wtr --watch"
-  },
-  "peerDependencies": {
-    "lit": "^3.2.1",
-    "@nysds/nys-button": "^1.8.0"
-  },
-  "dependencies": {
+    "test:watch": "vite build && wtr --watch",
+    "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.3.4",
-    "@nysds/nys-button": "^1.8.0"
+    "vite": "^7.1.2",
+    "@nysds/nys-button": "^1.11.1"
   },
   "keywords": [
     "new-york-state",
@@ -45,4 +40,3 @@
   "author": "New York State Design System Team",
   "license": "MIT"
 }
-

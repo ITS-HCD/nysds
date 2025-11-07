@@ -9,13 +9,13 @@ interface NysAlertArgs {
   type: string;
   heading: string;
   text: string;
-  duration?: number;
-  icon?: string;
-  dismissible?: boolean;
-  primaryAction?: string;
-  secondaryAction?: string;
-  primaryLabel?: string;
-  secondaryLabel?: string;
+  duration: number;
+  icon: string;
+  dismissible: boolean;
+  primaryAction: string;
+  secondaryAction: string;
+  primaryLabel: string;
+  secondaryLabel: string;
 }
 
 const meta: Meta<NysAlertArgs> = {
@@ -277,7 +277,7 @@ export const Duration: Story = {
         <nys-button
           id="show-alert"
           label="Show Alert"
-          .onClick=${() => showAlert()}
+          @click=${showAlert}
         ></nys-button>
         <div class="alert-container"></div>
       </div>
