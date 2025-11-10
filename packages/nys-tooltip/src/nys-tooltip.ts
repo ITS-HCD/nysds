@@ -132,19 +132,17 @@ export class NysTooltip extends LitElement {
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
         this.position = this._originalUserPosition;
+        console.log("HERE position", this.position);
         // Check if current tooltip position overflows to edge of screen
         this.updateComplete.then(() => {
-          const tooltip = this.shadowRoot?.querySelector(
-            ".nys-tooltip__content",
-          ) as HTMLElement;
-          if (tooltip) this._shiftTooltipIntoViewport(tooltip);
+          this._userPositionTooltip();
         });
         return;
       }
     }
 
     // Otherwise fall back to auto logic
-    this.autoPositionTooltip();
+    this._autoPositionTooltip();
   };
 
   private _handleBlurOrMouseLeave = () => {
@@ -187,10 +185,10 @@ export class NysTooltip extends LitElement {
           if (tooltip) this._shiftTooltipIntoViewport(tooltip);
         });
       } else {
-        this.autoPositionTooltip();
+        this._autoPositionTooltip();
       }
     } else {
-      this.autoPositionTooltip();
+      this._autoPositionTooltip();
     }
   };
 
@@ -306,8 +304,19 @@ export class NysTooltip extends LitElement {
     return fits[position];
   }
 
+  private _userPositionTooltip() {
+    const tooltip = this.shadowRoot?.querySelector(
+      ".nys-tooltip__content",
+    ) as HTMLElement;
+    const ref = this._getReferenceElement();
+    if (tooltip && ref) {
+      this._positionTooltipElement(ref, tooltip, this.position);
+      this._shiftTooltipIntoViewport(tooltip);
+    }
+  }
+
   // Calculates the best placement based on available space (flips placement if it doesn't fit)
-  private async autoPositionTooltip() {
+  private async _autoPositionTooltip() {
     const ref = this._getReferenceElement();
     const tooltip = this.shadowRoot?.querySelector(
       ".nys-tooltip__content",
