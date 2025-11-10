@@ -917,7 +917,7 @@ export const hiddentokens = [
     else if (token.type === "shadow") {
       return `
         .swatch-${token.name.replace("--", "")} {
-          border-radius: --nys-radius-lg;
+          border-radius: var(--nys-radius-lg);
           background: var(--nys-color-surface);
           box-shadow: var(${token.name});
           border: none;

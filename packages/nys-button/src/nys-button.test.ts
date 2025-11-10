@@ -66,6 +66,24 @@ describe("nys-button", () => {
     expect(icon).to.exist;
   });
 
+  it("should trigger click event only once", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Button"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+
+    let clickCount = 0;
+
+    el.addEventListener("click", () => {
+      clickCount++;
+    });
+
+    button.click();
+    await el.updateComplete;
+
+    expect(clickCount).to.equal(1);
+  });
+
   it("should reflect disabled and prevent click", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Disabled" disabled></nys-button>`,

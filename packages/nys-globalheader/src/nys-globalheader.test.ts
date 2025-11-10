@@ -70,7 +70,7 @@ describe("nys-globalheader", () => {
             alert("hello!");
           </script>
           <iframe src="https://malicious.example"></iframe>
-          <img src="x" onerror="alert('hello!')" />
+          <img src="data:," onerror="alert('hello!')" />
           <ul class="safe">
             <li><a href="https://its.ny.gov/services">Services</a></li>
             <li><a href="https://its.ny.gov/about-us">About Us</a></li>

@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-modal",
-  "version": "1.10.1",
+  "version": "1.11.1",
   "description": "The Modal component from the NYS Design System.",
   "module": "dist/nys-modal.js",
   "types": "dist/index.d.ts",
@@ -21,16 +21,13 @@
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch"
   },
-  "peerDependencies": {
-    "lit": "^3.2.1"
-  },
   "dependencies": {
-    "@nysds/nys-button": "^1.10.1"
+    "@nysds/nys-button": "^1.11.1"
   },
   "devDependencies": {
     "lit": "^3.2.1",
     "typescript": "^5.7.2",
-    "vite": "^6.3.6"
+    "vite": "^7.1.2"
   },
   "keywords": [
     "new-york-state",

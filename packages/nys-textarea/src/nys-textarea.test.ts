@@ -45,8 +45,10 @@ describe("nys-textarea", () => {
     const label = el.shadowRoot?.querySelector("nys-label");
     expect(label?.getAttribute("for")).to.equal("quote");
 
-    const textarea = el.shadowRoot?.querySelector(".nys-textarea__textarea");
-    expect(textarea?.textContent).to.equal(
+    const textarea = el.shadowRoot?.querySelector<HTMLTextAreaElement>(
+      ".nys-textarea__textarea",
+    );
+    expect(textarea?.value).to.equal(
       "Majorities, of course, start with minorities.",
     );
   });

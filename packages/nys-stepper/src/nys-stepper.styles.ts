@@ -154,7 +154,11 @@ export default css`
       rgba(255, 255, 255, 0.9)
     );
     width: var(--nys-size-300, 24px);
+    min-width: var(--nys-size-300, 24px);
+    max-width: var(--nys-size-300, 24px);
     height: var(--nys-size-300, 24px);
+    min-height: var(--nys-size-300, 24px);
+    max-height: var(--nys-size-300, 24px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -270,7 +274,11 @@ export default css`
       border: none;
       background-color: var(--nys-color-neutral-200, #bec0c1);
       height: var(--nys-size-100, 8px);
+      min-height: var(--nys-size-100, 8px);
+      max-height: var(--nys-size-100, 8px);
       width: 100%;
+      min-width: 100%;
+      max-width: 100%;
       color: transparent;
     }
 
@@ -329,7 +337,11 @@ export default css`
         rgba(255, 255, 255, 0.9)
       );
       width: var(--nys-space-300, 24px);
+      min-width: var(--nys-space-300, 24px);
+      max-width: var(--nys-space-300, 24px);
       height: var(--nys-space-300, 24px);
+      min-height: var(--nys-space-300, 24px);
+      max-height: var(--nys-space-300, 24px);
       color: var(--nys-color-text, #1b1b1b);
     }
 

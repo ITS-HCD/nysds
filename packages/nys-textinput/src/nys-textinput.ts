@@ -448,10 +448,10 @@ export class NysTextinput extends LitElement {
                   id="password-toggle"
                   suffixIcon="slotted"
                   ariaLabel="password toggle"
-                  .onClick=${() =>
-                    !this.disabled && this._togglePasswordVisibility()}
                   variant="ghost"
                   size="sm"
+                  @nys-click=${() =>
+                    !this.disabled && this._togglePasswordVisibility()}
                 >
                   <nys-icon
                     slot="suffix-icon"

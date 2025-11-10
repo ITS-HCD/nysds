@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit";
 import { property, state } from "lit/decorators.js";
 import styles from "./nys-radiobutton.styles";
+import type { NysRadiobutton } from "./nys-radiobutton";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
@@ -66,6 +67,7 @@ export class NysRadiogroup extends LitElement {
   }
 
   async firstUpdated() {
+    await this.updateComplete;
     this._initializeCheckedRadioValue();
     this._setValue(); // This ensures our element always participates in the form
     this._setRadioButtonRequire();
@@ -74,7 +76,6 @@ export class NysRadiogroup extends LitElement {
     this._updateRadioButtonsShowError();
     this._getSlotDescriptionForAria();
 
-    await this.updateComplete;
     this._initializeChildAttributes();
     this._updateGroupTabIndex();
   }
@@ -107,7 +108,7 @@ export class NysRadiogroup extends LitElement {
   formResetCallback() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
-      (radioButton as any).formResetUpdate();
+      (radioButton as NysRadiobutton).formResetUpdate();
     });
   }
 
@@ -150,7 +151,8 @@ export class NysRadiogroup extends LitElement {
   checkValidity() {
     const radioButtons = Array.from(this.querySelectorAll("nys-radiobutton"));
     const valid =
-      !this.required || radioButtons.some((radio) => (radio as any).checked);
+      !this.required ||
+      radioButtons.some((radio) => (radio as NysRadiobutton).checked);
     return valid;
   }
 
@@ -165,7 +167,9 @@ export class NysRadiogroup extends LitElement {
 
   /********************** Core Keyboard & Click Logic **********************/
   private _getAllRadios() {
-    return Array.from(this.querySelectorAll("nys-radiobutton")) as any[];
+    return Array.from(
+      this.querySelectorAll("nys-radiobutton"),
+    ) as NysRadiobutton[];
   }
 
   // Arrow / Space / Enter navigation at group level
@@ -335,7 +339,9 @@ export class NysRadiogroup extends LitElement {
       this.showError = true;
       this._manageRequire(); // Refresh validation message
 
-      const firstRadio = this.querySelector("nys-radiobutton") as any;
+      const firstRadio = this.querySelector(
+        "nys-radiobutton",
+      ) as NysRadiobutton;
 
       if (firstRadio) {
         // Focus only if this is the first invalid element (top-down approach)

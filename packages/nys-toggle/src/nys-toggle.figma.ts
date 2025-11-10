@@ -32,9 +32,9 @@ figma.connect("<FIGMA_TOGGLE>", {
         size="${props.size}"
         label="${props.label}"
         description="${props.description}"
-        noIcon="${props.noIcon}"
-        disabled="${props.disabled}"
-        checked="${props.checked}"
+        ?noIcon="${props.noIcon}"
+        ?disabled="${props.disabled}"
+        ?checked="${props.checked}"
         name="---REPLACE_THIS---"
         value="---REPLACE_THIS---"
       >
