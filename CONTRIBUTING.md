@@ -8,7 +8,7 @@ NYSDS is for everyone. It an open source project that accepts contributions from
 
 New York State's Design System team is committed to building a safe, welcoming, harassment-free culture for everyone. Our team is a part of the Human-Centered Design Team within the Office of Information Technology Services (ITS).
 
-We encourage you to read this project’s Contribution Guide (you are here), its [LICENSE](https://github.com/uswds/uswds/blob/develop/LICENSE.md) and its [README](https://github.com/uswds/uswds/blob/develop/README.md). If you have questions, send us an [email](mailto:designsystem@its.ny.gov).
+We encourage you to read this project’s Contribution Guide (you are here), its [LICENSE](https://github.com/uswds/uswds/blob/develop/LICENSE.md) and its [README](https://github.com/ITS-HCD/nysds/blob/main/README.md). If you have questions, send us an [email](mailto:designsystem@its.ny.gov).
 
 ## How you can contribute
 
