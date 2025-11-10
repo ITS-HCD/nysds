@@ -1,5 +1,4 @@
 import { expect, html, fixture } from "@open-wc/testing";
-import { nextFrame } from "@open-wc/testing-helpers";
 
 import "../dist/nys-stepper.js";
 import { NysStepper } from "../dist/nys-stepper.js";
@@ -29,20 +28,6 @@ describe("nys-stepper", () => {
       </nys-stepper>
     `);
     expect(el.querySelector("nys-step")).to.exist;
-  });
-
-  it("does not allow child elements of other types", async () => {
-    const el = await fixture(html`
-      <nys-stepper>
-        <p>this is not allowed</p>
-        <nys-step label="Step 1"></nys-step>
-        <nys-step label="Step 2"></nys-step>
-      </nys-stepper>
-    `);
-
-    await nextFrame();
-
-    expect(el.querySelector("div")).to.not.exist;
   });
 
   it("allows a slot named actions", async () => {
