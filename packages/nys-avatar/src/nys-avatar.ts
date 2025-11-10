@@ -18,7 +18,7 @@ export class NysAvatar extends LitElement {
   @property({ type: Boolean, reflect: true }) interactive = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) lazy = false;
-  @state() private _slotHasContent = true;
+  @state() private _slotHasContent = false;
 
   /******************** Functions ********************/
   // Generate a unique ID if one is not provided
@@ -29,11 +29,7 @@ export class NysAvatar extends LitElement {
     }
   }
 
-  firstUpdated() {
-    this._checkSlotContent();
-  }
-
-  private async _checkSlotContent() {
+  private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) {
       this._slotHasContent = false;
@@ -133,18 +129,17 @@ export class NysAvatar extends LitElement {
                     aria-hidden="true"
                     >${this.initials}</span
                   >`
-                : this._slotHasContent
-                  ? html`<div part="nys-avatar__icon">
-                      <slot></slot>
-                    </div>`
-                  : html`<div part="nys-avatar__icon">
-                      <nys-icon
-                        label="nys-avatar__icon"
-                        name=${this.icon?.length > 0
-                          ? this.icon
-                          : "account_circle"}
-                      ></nys-icon>
-                    </div>`}
+                : html`<div part="nys-avatar__icon">
+                    <slot @slotchange=${this._handleSlotChange}></slot>
+                    ${!this._slotHasContent
+                      ? html`<nys-icon
+                          label="nys-avatar__icon"
+                          name=${this.icon?.length > 0
+                            ? this.icon
+                            : "account_circle"}
+                        ></nys-icon>`
+                      : null}
+                  </div>`}
           </div>
         </div>
       </label>

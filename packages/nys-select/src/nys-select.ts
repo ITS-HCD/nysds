@@ -309,7 +309,7 @@ export class NysSelect extends LitElement {
             @blur="${this._handleBlur}"
             @change="${this._handleChange}"
           >
-            <option hidden disabled selected value=""></option>
+            <option data-native hidden disabled selected value=""></option>
           </select>
           <slot
             @slotchange="${this._handleSlotChange}"
@@ -325,6 +325,7 @@ export class NysSelect extends LitElement {
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
         ></nys-errormessage>
+        <p>Theres is error: ${this.showError}</p>
       </div>
     `;
   }
