@@ -498,7 +498,7 @@ export class NysTooltip extends LitElement {
     // Tooltip is past the viewport edge, shift it inwards
     console.log("overflowLEFTRight", overflowLeft, overflowRight);
     if (overflowLeft) {
-      tooltip.style.left = "0px";
+      tooltip.style.left = "10px"; // I can set this to 0px but I decide to give some margin to the left
       tooltip.style.transform = "none";
     } else if (overflowRight) {
       tooltip.style.right = "0px";
