@@ -9,8 +9,12 @@ export default css`
     --_nys-button-height: var(--nys-size-600, 48px);
     --_nys-button-border-radius--start: var(--nys-radius-xl, 12px);
     --_nys-button-border-radius--end: var(--nys-radius-xl, 12px);
-    --_nys-button-padding--y: calc(var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
-    --_nys-button-padding--x: calc(var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
+    --_nys-button-padding--y: calc(
+      var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
+    --_nys-button-padding--x: calc(
+      var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
     --_nys-button-gap: var(--nys-space-100, 8px);
     --_nys-button-border-width: var(--nys-border-width-md, 2px);
     --_nys-button-outline-width: var(--nys-border-width-md, 2px);
@@ -84,18 +88,30 @@ export default css`
   /* Sizes */
   :host([size="sm"]) {
     --_nys-button-height: var(--nys-size-500, 40px);
-    --_nys-button-padding--y: calc(var(--nys-space-100, 8px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
-    --_nys-button-padding--x: calc(var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
+    --_nys-button-padding--y: calc(
+      var(--nys-space-100, 8px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
+    --_nys-button-padding--x: calc(
+      var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
   }
   :host([size="md"]) {
     --_nys-button-height: var(--nys-size-600, 48px);
-    --_nys-button-padding--y: calc(var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
-    --_nys-button-padding--x: calc(var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
+    --_nys-button-padding--y: calc(
+      var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
+    --_nys-button-padding--x: calc(
+      var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
   }
   :host([size="lg"]) {
     --_nys-button-height: var(--nys-size-700, 56px);
-    --_nys-button-padding--y: calc(var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
-    --_nys-button-padding--x: calc(var(--nys-space-300, 24px) - var(--nys-border-width-md, 2px)); /* remove calc when SASS'd */
+    --_nys-button-padding--y: calc(
+      var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
+    --_nys-button-padding--x: calc(
+      var(--nys-space-300, 24px) - var(--nys-border-width-md, 2px)
+    ); /* remove calc when SASS'd */
   }
   :host([fullWidth]) {
     --_nys-button-width: 100%;
