@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-badge.styles";
 
 export class NysBadge extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   //size prop
   private static readonly VALID_SIZES = ["sm", "md"] as const;

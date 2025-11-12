@@ -6,7 +6,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysButton extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   // size
   private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
@@ -240,7 +240,6 @@ export class NysButton extends LitElement {
             <div class="nys-button__linkwrapper">
               <a
                 class="nys-button"
-                id=${ifDefined(this.id)}
                 name=${ifDefined(this.name ? this.name : undefined)}
                 ?disabled=${this.disabled}
                 aria-disabled="${this.disabled ? "true" : "false"}"
@@ -292,7 +291,6 @@ export class NysButton extends LitElement {
         : html`
             <button
               class="nys-button"
-              id=${ifDefined(this.id)}
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
               form=${ifDefined(this.form || undefined)}

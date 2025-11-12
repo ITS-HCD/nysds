@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-skipnav.styles";
 
 export class NysSkipnav extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) href = "";
   // @property({ type: Boolean }) demoVisible = false; // For demo purposes only
 
@@ -52,7 +52,6 @@ export class NysSkipnav extends LitElement {
     return html`
       <div class="nys-skipnav">
         <a
-          id=${this.id}
           href=${this.href ? this.href : "#main-content"}
           tabindex="0"
           class="nys-skipnav__link"

@@ -12,7 +12,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: String, reflect: true }) form: string | null = null;
@@ -245,7 +245,7 @@ export class NysCheckbox extends LitElement {
       <label class="nys-checkbox">
         <div class="nys-checkbox__checkboxwrapper">
           <input
-            id="${this.id}"
+            id=${this.id + "--label"}
             class="nys-checkbox__checkbox"
             type="checkbox"
             name="${ifDefined(this.name ? this.name : undefined)}"
@@ -266,7 +266,6 @@ export class NysCheckbox extends LitElement {
           />
           ${this.checked
             ? html`<nys-icon
-                for="${this.id}"
                 name="check"
                 size="${this.size === "md"
                   ? "4xl"
@@ -280,7 +279,7 @@ export class NysCheckbox extends LitElement {
         ${this.label &&
         html`
           <nys-label
-            for=${this.id}
+            for=${this.id + "--label"}
             label=${this.label}
             description=${ifDefined(this.description ?? undefined)}
             flag=${ifDefined(this.required ? "required" : undefined)}

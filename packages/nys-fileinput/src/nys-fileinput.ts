@@ -15,7 +15,7 @@ interface FileWithProgress {
 }
 
 export class NysFileinput extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -432,7 +432,6 @@ export class NysFileinput extends LitElement {
       @nys-fileRemove=${this._handleFileRemove}
     >
       <nys-label
-        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}

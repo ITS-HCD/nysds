@@ -7,7 +7,7 @@ import { NysOption } from "./nys-option";
 let selectIdCounter = 0; // Counter for generating unique IDs
 
 export class NysSelect extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -283,7 +283,7 @@ export class NysSelect extends LitElement {
     return html`
       <div class="nys-select">
         <nys-label
-          for=${this.id}
+          for=${this.id + "--label"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -296,7 +296,7 @@ export class NysSelect extends LitElement {
           <select
             class="nys-select__select"
             name=${this.name}
-            id=${this.id}
+            id=${this.id + "--label"}
             form=${ifDefined(this.form || undefined)}
             ?disabled=${this.disabled}
             ?required=${this.required}
