@@ -182,25 +182,27 @@ export class NysTooltip extends LitElement {
   }
 
   private _handleScrollOrResize = () => {
-    if (!this._active) return;
+    // console.log("_handleScrollOrResize, is _active?", this._active)
+    // if (!this._active) return;
 
-    if (this._userHasSetPosition && this._originalUserPosition) {
-      if (this._doesPositionFit(this._originalUserPosition)) {
-        this._setInternalPosition(this._originalUserPosition);
+    // if (this._userHasSetPosition && this._originalUserPosition) {
+    //   if (this._doesPositionFit(this._originalUserPosition)) {
+    //     this._setInternalPosition(this._originalUserPosition);
 
-        // Check if current tooltip position overflows to edge of screen
-        this.updateComplete.then(() => {
-          const tooltip = this.shadowRoot?.querySelector(
-            ".nys-tooltip__content",
-          ) as HTMLElement;
-          if (tooltip) this._shiftTooltipIntoViewport(tooltip);
-        });
-      } else {
-        this._autoPositionTooltip();
-      }
-    } else {
-      this._autoPositionTooltip();
-    }
+    //     // Check if current tooltip position overflows to edge of screen
+    //     this.updateComplete.then(() => {
+    //       const tooltip = this.shadowRoot?.querySelector(
+    //         ".nys-tooltip__content",
+    //       ) as HTMLElement;
+    //       if (tooltip) this._shiftTooltipIntoViewport(tooltip);
+    //     });
+    //   } else {
+    //     this._autoPositionTooltip();
+    //   }
+    // } else {
+    //   this._autoPositionTooltip();
+    // }
+    this._showTooltip();
   };
 
   private _handleEscapeKey = (e: KeyboardEvent) => {
@@ -552,17 +554,6 @@ export class NysTooltip extends LitElement {
   render() {
     return html`
       <div class="nys-tooltip__main">
-        <!-- <div
-          class="nys-tooltip__wrapper"
-          @mouseenter=${this._showTooltip}
-          @mouseleave=${this._handleBlurOrMouseLeave}
-          @focusin=${this._showTooltip}
-          @focusout=${this._handleBlurOrMouseLeave}
-        >
-           <span class="nys-tooltip__trigger">
-            <slot></slot>
-          </span> 
-        </div>-->
         ${this.text?.trim()
           ? html`<div
               id=${this.id}
