@@ -41,13 +41,11 @@ export class NysLabel extends LitElement {
                   for="tooltip-icon-${this.for}"
                 >
                 </nys-tooltip>
-                <div class="nys-label__tooltip-icon">
-                  <nys-icon
-                    id="tooltip-icon-${this.for}"
-                    name="info"
-                    size="3xl"
-                  ></nys-icon>
-                </div>`
+                <nys-icon
+                  id="tooltip-icon-${this.for}"
+                  name="info"
+                  size="3xl"
+                ></nys-icon> `
             : ""}
         </div>
         <label for=${this.for} class="nys-label__description">

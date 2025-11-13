@@ -129,6 +129,7 @@ export class NysTooltip extends LitElement {
       this._applyTooltipPropToFormComponent(ref);
     }
     if (changedProps.has("focusable")) {
+      console.log("WHY IS IT here>????", ref);
       this._applyFocusBehavior(ref);
     }
   }
@@ -284,9 +285,8 @@ export class NysTooltip extends LitElement {
 
   // Applies focus behavior to an otherwise non focus element (i.e. nys-icon is non focusable by default)
   private async _applyFocusBehavior(el: HTMLElement) {
-    el.style.cursor = "pointer";
-
     if (!this.focusable) return;
+    el.style.cursor = "pointer";
 
     const tagName = el.tagName.toLowerCase();
     if (tagName === "nys-icon") {
