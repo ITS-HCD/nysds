@@ -245,7 +245,7 @@ export class NysCheckbox extends LitElement {
       <label class="nys-checkbox">
         <div class="nys-checkbox__checkboxwrapper">
           <input
-            id=${this.id + "--label"}
+            id=${this.id + "--native"}
             class="nys-checkbox__checkbox"
             type="checkbox"
             name="${ifDefined(this.name ? this.name : undefined)}"
@@ -279,7 +279,7 @@ export class NysCheckbox extends LitElement {
         ${this.label &&
         html`
           <nys-label
-            for=${this.id + "--label"}
+            for=${this.id + "--native"}
             label=${this.label}
             description=${ifDefined(this.description ?? undefined)}
             flag=${ifDefined(this.required ? "required" : undefined)}

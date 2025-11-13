@@ -246,7 +246,7 @@ export class NysTextarea extends LitElement {
     return html`
       <label class="nys-textarea">
         <nys-label
-          for=${this.id + "--label"}
+          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -258,7 +258,7 @@ export class NysTextarea extends LitElement {
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
-          id=${this.id + "--label"}
+          id=${this.id + "--native"}
           .value=${this.value}
           ?disabled=${this.disabled}
           ?required=${this.required}
