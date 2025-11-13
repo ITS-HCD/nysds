@@ -34,15 +34,20 @@ export class NysLabel extends LitElement {
           >
           ${this._tooltip
             ? html`<nys-tooltip
-                text="${this._tooltip}"
-                position="top"
-                focusable
-                ?inverted=${this.inverted}
-              >
+                  text="${this._tooltip}"
+                  position="top"
+                  focusable
+                  ?inverted=${this.inverted}
+                  for="tooltip-icon-${this.for}"
+                >
+                </nys-tooltip>
                 <div class="nys-label__tooltip-icon">
-                  <nys-icon name="info" size="4xl"></nys-icon>
-                </div>
-              </nys-tooltip>`
+                  <nys-icon
+                    id="tooltip-icon-${this.for}"
+                    name="info"
+                    size="3xl"
+                  ></nys-icon>
+                </div>`
             : ""}
         </div>
         <label for=${this.for} class="nys-label__description">

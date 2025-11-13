@@ -1,6 +1,6 @@
 import figma, { html } from "@figma/code-connect/html";
 
-figma.connect("<FIGMA_TOOLTIP>", {
+figma.connect("<FIGMAtooltip>", {
   props: {
     text: figma.string("Text"),
     inverted: figma.boolean("Inverted"),

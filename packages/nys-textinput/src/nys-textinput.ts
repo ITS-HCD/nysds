@@ -6,7 +6,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   private static readonly VALID_TYPES = [
     "email",
@@ -42,7 +42,7 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) pattern = "";
   @property({ type: Number }) maxlength: number | null = null;
@@ -397,7 +397,7 @@ export class NysTextinput extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          _tooltip=${this._tooltip}
+          tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>

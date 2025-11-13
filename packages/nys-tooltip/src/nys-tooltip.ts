@@ -97,13 +97,22 @@ export class NysTooltip extends LitElement {
     if (!ref) return;
 
     this.applyInverseTransform(); // 💩💩💩💩💩💩💩💩💩 DELETE WHEN FINISH WITH EVERYTHING
-    this._applyFocusBehavior(ref);
+    // this._applyFocusBehavior(ref);
     this._passAria(ref);
+    this._applyTooltipPropToFormComponent(ref);
 
-    ref.addEventListener("mouseenter", this._showTooltip);
-    ref.addEventListener("mouseleave", this._handleBlurOrMouseLeave);
-    ref.addEventListener("focusin", this._showTooltip);
-    ref.addEventListener("focusout", this._handleBlurOrMouseLeave);
+    console.log("ref.tagName.toLowerCase()", ref.tagName.toLowerCase());
+    if (
+      ref.tagName.toLowerCase() === "nys-button" ||
+      ref.tagName.toLowerCase() === "nys-icon"
+    ) {
+      console.log("HERE");
+      this._applyFocusBehavior(ref);
+      ref.addEventListener("mouseenter", this._showTooltip);
+      ref.addEventListener("mouseleave", this._handleBlurOrMouseLeave);
+      ref.addEventListener("focusin", this._showTooltip);
+      ref.addEventListener("focusout", this._handleBlurOrMouseLeave);
+    }
   }
 
   updated(changedProps: Map<string, unknown>) {
@@ -117,6 +126,7 @@ export class NysTooltip extends LitElement {
     // Accounts for tooltip's text change (for code editor changes & VO)
     if (changedProps.has("text")) {
       this._passAria(ref);
+      this._applyTooltipPropToFormComponent(ref);
     }
     if (changedProps.has("focusable")) {
       this._applyFocusBehavior(ref);
@@ -126,13 +136,13 @@ export class NysTooltip extends LitElement {
   /******************** Event Handlers ********************/
   // When we show the tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _showTooltip = () => {
+    console.log("_showTooltip!!!!");
     this._active = true;
     this._addScrollListeners();
     // Try to honor user's original preference first
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
         this.position = this._originalUserPosition;
-        console.log("HERE position", this.position);
         // Check if current tooltip position overflows to edge of screen
         this.updateComplete.then(() => {
           this._userPositionTooltip();
@@ -207,20 +217,24 @@ export class NysTooltip extends LitElement {
   };
 
   /******************** Functions ********************/
-  private _getReferenceElement(): HTMLElement | null {
+  private _getReferenceElement() {
     const targetId = this.for;
     if (!targetId) return null;
 
+    // lightDOM search
     let htmlElement = document.getElementById(targetId);
     if (htmlElement) return htmlElement;
 
-    // If regular id lookup is not found, assume target is a web component & search all shadow roots
+    // Search recursively through shadow DOMs (e.g. for nys-label within other component's shadowDOM)
     const findInShadows = (root: ParentNode): HTMLElement | null => {
       for (const el of Array.from(root.querySelectorAll("*"))) {
         const shadowElement = el.shadowRoot;
         if (shadowElement) {
           const found = shadowElement.getElementById(targetId);
           if (found) return found;
+
+          const deeper = findInShadows(shadowElement);
+          if (deeper) return deeper;
         }
       }
       return null;
@@ -246,6 +260,25 @@ export class NysTooltip extends LitElement {
         // For other components like nys-button, use ariaDescription
         el.setAttribute("ariaDescription", this.text);
       }
+    }
+  }
+
+  /**
+   * In React, the reference element found is often the native HTML element within the nys-component.
+   * Therefore, this function accounts for the closest NYS component ancestor that supports a tooltip prop.
+   */
+  private _applyTooltipPropToFormComponent(ref: HTMLElement) {
+    const tagName = ref.tagName.toLowerCase();
+    if (!tagName.startsWith("nys-")) return;
+
+    if (tagName === "nys-button" || tagName === "nys-icon") {
+      // Already handled elsewhere in this component; we just ensure we attach listeners
+      this._applyFocusBehavior(ref);
+      return;
+    }
+
+    if ("tooltip" in ref) {
+      ref.tooltip = this.text;
     }
   }
 
@@ -454,13 +487,6 @@ export class NysTooltip extends LitElement {
     //this._positionOverlayReference();
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
-
-    console.log(`Tooltip positioned at: ${bestPosition}`, {
-      top,
-      left,
-      refRect,
-      tooltipRect,
-    });
   }
 
   // Storybook live code preview has a parent container that contains transform, which sets a new coordinate system. I reverse this to not interfere with tooltip calculation.
@@ -496,7 +522,6 @@ export class NysTooltip extends LitElement {
     // this._resetTooltipPositioningStyles(tooltip); 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
     // Tooltip is past the viewport edge, shift it inwards
-    console.log("overflowLEFTRight", overflowLeft, overflowRight);
     if (overflowLeft) {
       tooltip.style.left = "10px"; // I can set this to 0px but I decide to give some margin to the left
       tooltip.style.transform = "none";
