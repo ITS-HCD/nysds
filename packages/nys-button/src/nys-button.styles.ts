@@ -2,7 +2,10 @@ import { css } from "lit";
 
 export default css`
   :host {
-    /* Anything that can be overridden should be defined here */
+    /* Need to match the width of the nys-button to the internal HTML button */
+    display: block;
+    width: fit-content;
+    height: fit-content;
 
     /* Global Button Styles */
     --_nys-button-width: fit-content;
