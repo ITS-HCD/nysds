@@ -106,7 +106,6 @@ export class NysTooltip extends LitElement {
       ref.tagName.toLowerCase() === "nys-button" ||
       ref.tagName.toLowerCase() === "nys-icon"
     ) {
-      console.log("HERE");
       this._applyFocusBehavior(ref);
       ref.addEventListener("mouseenter", this._showTooltip);
       ref.addEventListener("mouseleave", this._handleBlurOrMouseLeave);
@@ -129,15 +128,16 @@ export class NysTooltip extends LitElement {
       this._applyTooltipPropToFormComponent(ref);
     }
     if (changedProps.has("focusable")) {
-      console.log("WHY IS IT here>????", ref);
-      this._applyFocusBehavior(ref);
+      const tag = ref.tagName.toLowerCase();
+      if (tag === "nys-button" || tag === "nys-icon") {
+        this._applyFocusBehavior(ref);
+      }
     }
   }
 
   /******************** Event Handlers ********************/
   // When we show the tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _showTooltip = () => {
-    console.log("_showTooltip!!!!");
     this._active = true;
     this._addScrollListeners();
     // Try to honor user's original preference first
