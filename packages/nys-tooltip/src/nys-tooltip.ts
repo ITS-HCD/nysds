@@ -5,7 +5,7 @@ import styles from "./nys-tooltip.styles";
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTooltip extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) focusable = false;
@@ -97,11 +97,8 @@ export class NysTooltip extends LitElement {
     if (!ref) return;
 
     this.applyInverseTransform(); // 💩💩💩💩💩💩💩💩💩 DELETE WHEN FINISH WITH EVERYTHING
-    // this._applyFocusBehavior(ref);
-    this._passAria(ref);
     this._applyTooltipPropToFormComponent(ref);
 
-    console.log("ref.tagName.toLowerCase()", ref.tagName.toLowerCase());
     if (
       ref.tagName.toLowerCase() === "nys-button" ||
       ref.tagName.toLowerCase() === "nys-icon"
@@ -124,7 +121,6 @@ export class NysTooltip extends LitElement {
 
     // Accounts for tooltip's text change (for code editor changes & VO)
     if (changedProps.has("text")) {
-      this._passAria(ref);
       this._applyTooltipPropToFormComponent(ref);
     }
     if (changedProps.has("focusable")) {
@@ -247,22 +243,27 @@ export class NysTooltip extends LitElement {
   }
 
   // We need to pass `ariaLabel` or `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
-  private _passAria(el: HTMLElement) {
+  private async _passAria(el: HTMLElement) {
     const tagName = el.tagName.toLowerCase();
 
-    if (tagName.startsWith("nys-")) {
-      if (tagName === "nys-icon") {
-        // For nys-icon, use ariaLabel instead
-        const existingLabel = el.getAttribute("ariaLabel") || "";
-        const mergedLabel = existingLabel
-          ? `${existingLabel}, ${this.text}`
-          : this.text;
+    if (tagName === "nys-icon") {
+      // For nys-icon, use ariaLabel instead
+      const existingLabel = el.getAttribute("ariaLabel") || "";
+      console.log("existingLabel", existingLabel)
+      // const mergedLabel = existingLabel
+      //   ? `${existingLabel}, ${this.text}`
+      //   : this.text;
+      const mergedLabel = this.text;
 
-        el.setAttribute("ariaLabel", mergedLabel);
-      } else {
-        // For other components like nys-button, use ariaDescription
-        el.setAttribute("ariaDescription", this.text);
-      }
+      el.setAttribute("ariaLabel", mergedLabel);
+    } else if (tagName === "nys-button") {
+      // For other components like nys-button, use ariaDescription
+      el.setAttribute("ariaDescription", this.text);
+
+      // el.setAttribute("aria-labelledby", this.id);
+
+      // const button = await (el as any).getButtonElement();
+      // button.setAttribute("aria-describedby", this.id);
     }
   }
 
@@ -277,6 +278,7 @@ export class NysTooltip extends LitElement {
     if (tagName === "nys-button" || tagName === "nys-icon") {
       // Already handled elsewhere in this component; we just ensure we attach listeners
       this._applyFocusBehavior(ref);
+      this._passAria(ref);
       return;
     }
 
@@ -561,6 +563,9 @@ export class NysTooltip extends LitElement {
               role="tooltip"
               aria-hidden=${!this._active}
               ?active=${this._active}
+              style="visibility: ${this._active
+                ? "visible"
+                : "hidden"}; opacity: ${this._active ? "1" : "0"};"
             >
               <div class="nys-tooltip__inner">${this.text}</div>
               <span class="nys-tooltip__arrow"></span>

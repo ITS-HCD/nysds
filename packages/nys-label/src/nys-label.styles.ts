@@ -80,7 +80,7 @@ export default css`
 
   .nys-label__tooltip-wrapper {
     display: flex;
-    gap: 5px;
+    gap: 2px;
     align-items: center;
   }
 
