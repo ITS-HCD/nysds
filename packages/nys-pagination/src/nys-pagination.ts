@@ -19,11 +19,18 @@ export class NysPagination extends LitElement {
     super();
   }
 
-  updated(changedProps: Map<string, unknown>) {
-    super.updated(changedProps);
-    // Clamp currentPage whenever it or totalPages changes
-    this.currentPage = this._clampPage(this.currentPage);
-    this._twoBeforeLast = this.currentPage === this.totalPages - 2;
+  willUpdate(changedProps: Map<string, unknown>) {
+    if (changedProps.has("currentPage") || changedProps.has("totalPages")) {
+      const clamped = this._clampPage(this.currentPage);
+      if (clamped !== this.currentPage) {
+        this.currentPage = clamped;
+      }
+
+      const twoBefore = this.currentPage === this.totalPages - 2;
+      if (twoBefore !== this._twoBeforeLast) {
+        this._twoBeforeLast = twoBefore;
+      }
+    }
   }
 
   // Generate a unique ID if one is not provided

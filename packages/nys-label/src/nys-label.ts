@@ -40,7 +40,7 @@ export class NysLabel extends LitElement {
                 ?inverted=${this.inverted}
               >
                 <div class="nys-label__tooltip-icon">
-                  <nys-icon name="info" size="3xl"></nys-icon>
+                  <nys-icon name="info" size="4xl"></nys-icon>
                 </div>
               </nys-tooltip>`
             : ""}

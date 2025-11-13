@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-fileinput",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "description": "The Fileinput component from the NYS Design System.",
   "module": "dist/nys-fileinput.js",
   "types": "dist/index.d.ts",
@@ -23,10 +23,10 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.11.1",
-    "@nysds/nys-button": "^1.11.1",
-    "@nysds/nys-label": "^1.11.1",
-    "@nysds/nys-errormessage": "^1.11.1"
+    "@nysds/nys-icon": "^1.11.2",
+    "@nysds/nys-button": "^1.11.2",
+    "@nysds/nys-label": "^1.11.2",
+    "@nysds/nys-errormessage": "^1.11.2"
   },
   "devDependencies": {
     "lit": "^3.2.1",

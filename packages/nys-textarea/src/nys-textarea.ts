@@ -259,6 +259,7 @@ export class NysTextarea extends LitElement {
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
           id=${this.id}
+          .value=${this.value}
           ?disabled=${this.disabled}
           ?required=${this.required}
           ?readonly=${this.readonly}
@@ -277,9 +278,7 @@ export class NysTextarea extends LitElement {
           @blur="${this._handleBlur}"
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
-        >
-${this.value}</textarea
-        >
+        ></textarea>
         <nys-errormessage
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
