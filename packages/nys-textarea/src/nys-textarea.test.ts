@@ -43,7 +43,7 @@ describe("nys-textarea", () => {
     );
 
     const label = el.shadowRoot?.querySelector("nys-label");
-    expect(label?.getAttribute("for")).to.equal("quote");
+    expect(label?.getAttribute("for")).to.equal("quote--label");
 
     const textarea = el.shadowRoot?.querySelector<HTMLTextAreaElement>(
       ".nys-textarea__textarea",
