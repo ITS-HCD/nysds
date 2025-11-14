@@ -55,7 +55,7 @@
   "bugs": {
     "url": "https://github.com/ITS-HCD/nysds/issues"
   },
-  "homepage": "https://github.com/ITS-HCD/nysds/blob/main/README.md",
+  "homepage": "https://designsystem.ny.gov/",
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
     "@custom-elements-manifest/analyzer": "^0.11.0",
@@ -69,6 +69,7 @@
     "@types/mocha": "^10.0.10",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
+    "@wc-toolkit/wctools": "^0.0.9",
     "@web/dev-server-esbuild": "^1.0.4",
     "@web/test-runner": "^0.20.2",
     "@web/test-runner-commands": "^0.9.0",
@@ -86,6 +87,7 @@
     "plop": "^4.0.4",
     "rollup-plugin-esbuild-minify": "^1.3.0",
     "rollup-plugin-visualizer": "^6.0.5",
+    "rollup-plugin-minify-template-literals": "^1.1.7",
     "sass": "^1.94.0",
     "sinon": "^21.0.0",
     "storybook": "10.0.0",
@@ -103,7 +105,5 @@
   },
   "customElements": "dist/custom-elements.json",
   "dependencies": {
-    "@wc-toolkit/wctools": "^0.0.9",
-    "rollup-plugin-minify-template-literals": "^1.1.7"
   }
 }
