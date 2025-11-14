@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.11.1",
+  "version": "1.11.2",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [

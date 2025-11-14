@@ -8,7 +8,7 @@ const shouldAnalyze = process.env.ANALYZE === "true";
 
 const banner = `
 /*!
-   * New York State Design System (v1.11.1)
+   * New York State Design System (v1.11.2)
    * Description: A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
