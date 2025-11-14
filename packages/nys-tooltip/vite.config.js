@@ -27,10 +27,7 @@ export default defineConfig(({ mode }) => ({
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
       external: ["lit"], // Externalize Lit for ES build
-      plugins: [
-        minify(),
-        minifyTemplateLiterals(),
-      ],
+      plugins: [minify(), minifyTemplateLiterals()],
       output: {
         compact: true,
         banner: mode === "production" ? banner : undefined, // Add banner only in production
