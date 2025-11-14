@@ -119,6 +119,10 @@ describe("nys-textinput", () => {
   });
 
   it("validates startButton slot and removes extra non-nys-button nodes", async () => {
+    // Temporarily silence console.warn for this test
+    const originalWarn = console.warn;
+    console.warn = () => {}; // no-op
+
     const el = await fixture<NysTextinput>(html`
       <nys-textinput>
         <div slot="startButton">invalid</div>
@@ -135,6 +139,9 @@ describe("nys-textinput", () => {
       ".nys-textinput__buttoncontainer",
     );
     expect(container?.classList.contains("has-start-button")).to.be.true;
+
+    // Restore console.warn after the test
+    console.warn = originalWarn;
   });
 
   it("sets custom validity message and showError flag", async () => {

@@ -68,7 +68,8 @@ export class NysButton extends LitElement {
       ? (value as (typeof NysButton.VALID_TYPES)[number])
       : "button";
   }
-  @property({ attribute: false }) onClick: (event: Event) => void = () => {};
+  @property({ attribute: false }) onClick: ((event: Event) => void) | null =
+    null;
   @property({ type: String }) href = "";
   // target
   private static readonly VALID_TARGETS = [
@@ -135,8 +136,8 @@ export class NysButton extends LitElement {
 
   private _manageFormAction() {
     // If an onClick function is provided, call it
-    if (typeof this.onClick === "function") {
-      this.click();
+    if (typeof this.onClick === "function" && this.onClick !== null) {
+      this.onClick(new Event("click")); // Call user-provided onClick function with a fake click event
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
@@ -198,8 +199,23 @@ export class NysButton extends LitElement {
           linkEl.click();
         }
       } else {
+        this._handleAnyAttributeFunction();
         this._handleClick(e);
       }
+    }
+  }
+
+  /**
+   * Vanilla JS & Native HTML keydown solution:
+   * The <nys-button onClick="doFunction();"></nys-button> onClick is an attribute here.
+   * Thus, we call it here. Otherwise, at this point, this.onClick is null as it isn't props, but a string attribute
+   * In vanilla HTML/JS, clicking with execute the attribute function, BUT now with keydown, hence this solution.
+   */
+  private _handleAnyAttributeFunction() {
+    const onClickAttr = this.getAttribute("onClick");
+    if (onClickAttr) {
+      const callFunc = new Function("return " + onClickAttr);
+      callFunc();
     }
   }
 
@@ -292,7 +308,6 @@ export class NysButton extends LitElement {
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
-              onclick="${this.onClick}"
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"

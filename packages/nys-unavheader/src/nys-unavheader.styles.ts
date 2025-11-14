@@ -219,7 +219,8 @@ export default css`
     max-width: var(--nys-form-width-lg, 384px);
   }
 
-  #nys-unavheader__translate,
+  #nys-unavheader__translate--desktop,
+  #nys-unavheader__translate--mobile,
   #nys-unavheader__searchbutton {
     /* These props ARE publicly overridable */
     --nys-button-color: var(--nys-color-state-blue-700, #154973);
@@ -300,7 +301,7 @@ export default css`
       flex-direction: column;
     }
 
-    #nys-unavheader__translate:not([circle]),
+    #nys-unavheader__translate--desktop,
     #nys-unavheader__searchbar {
       display: none;
     }
@@ -320,7 +321,7 @@ export default css`
       flex-direction: column;
     }
 
-    #nys-unavheader__translate:not([circle]),
+    #nys-unavheader__translate--desktop,
     #nys-unavheader__searchbar {
       display: none;
     }
@@ -336,7 +337,7 @@ export default css`
       display: none;
     }
 
-    #nys-unavheader__translate:not([circle]),
+    #nys-unavheader__translate--desktop,
     #nys-unavheader__searchbar {
       display: none;
     }
@@ -355,7 +356,7 @@ export default css`
       display: none;
     }
 
-    #nys-unavheader__translate[circle],
+    #nys-unavheader__translate--mobile,
     #nys-unavheader__searchbutton[circle] {
       display: none;
     }
@@ -382,7 +383,7 @@ export default css`
       display: none;
     }
 
-    #nys-unavheader__translate[circle],
+    #nys-unavheader__translate--mobile,
     #nys-unavheader__searchbutton[circle] {
       display: none;
     }

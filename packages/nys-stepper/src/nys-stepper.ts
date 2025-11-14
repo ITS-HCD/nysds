@@ -123,29 +123,34 @@ export class NysStepper extends LitElement {
   };
 
   private _updateCounter() {
+    let newCounterText: string;
+
     if (this.isCompactExpanded) {
-      this.counterText = "Back to Form";
+      newCounterText = "Back to Form";
       this.style.height = "-webkit-fit-content";
       this.style.height = "-moz-fit-content";
       this.style.height = "fit-content";
-      return;
     } else {
       this.style.height = "auto";
+
+      const steps = this.querySelectorAll<HTMLElement>("nys-step");
+      const selectedIndex = Array.from(steps).findIndex((step) =>
+        step.hasAttribute("selected"),
+      );
+      const totalSteps = steps.length;
+
+      newCounterText =
+        selectedIndex >= 0
+          ? `Step ${selectedIndex + 1} of ${totalSteps}`
+          : `Step 1 of ${totalSteps}`;
     }
 
-    const steps = this.querySelectorAll<HTMLElement>("nys-step");
-    const selectedIndex = Array.from(steps).findIndex((step) =>
-      step.hasAttribute("selected"),
-    );
-    const totalSteps = steps.length;
-
-    this.counterText =
-      selectedIndex >= 0
-        ? `Step ${selectedIndex + 1} of ${totalSteps}`
-        : `Step 1 of ${totalSteps}`;
+    if (newCounterText !== this.counterText) {
+      this.counterText = newCounterText;
+    }
   }
 
-  updated() {
+  willUpdate() {
     const steps = this.querySelectorAll<any>("nys-step");
 
     if (!this._stepsNumbered) {
@@ -196,7 +201,7 @@ export class NysStepper extends LitElement {
       }
 
       // Handle compact expanded
-      if (this.hasAttribute("isCompactExpanded")) {
+      if (this.isCompactExpanded) {
         step.setAttribute("isCompactExpanded", "");
       } else {
         step.removeAttribute("isCompactExpanded");

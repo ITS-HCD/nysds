@@ -102,7 +102,7 @@ export const Basic: Story = {
       .type=${args.type}
       .ariaLabel=${args.ariaLabel}
       .ariaDescription=${args.ariaDescription}
-      .onClick=${() => alert("Button clicked")}
+      @nys-click=${() => alert("Button clicked")}
     ></nys-button>
   `,
   parameters: {
@@ -113,6 +113,7 @@ export const Basic: Story = {
   id="button1"
   name="button1"
   label="Click Me"
+  onClick="doClickFunction()"
 ></nys-button>`,
         type: "auto",
       },

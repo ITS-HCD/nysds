@@ -33,8 +33,8 @@ figma.connect("<FIGMA_BUTTON>", {
       label="${props.label}"
       size="${props.size}"
       variant="${props.variant}"
-      inverted="${props.inverted}"
-      disabled="${props.disabled}"
+      ?inverted="${props.inverted}"
+      ?disabled="${props.disabled}"
       ${props.prefixIcon}
       ${props.suffixIcon}
       circle="${props.circle}"

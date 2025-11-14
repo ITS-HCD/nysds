@@ -13,7 +13,6 @@ export class NysIcon extends LitElement {
   static styles = styles;
 
   private static readonly VALID_TYPES = [
-    "2xs",
     "xs",
     "sm",
     "md",
@@ -22,17 +21,20 @@ export class NysIcon extends LitElement {
     "2xl",
     "3xl",
     "4xl",
+    "5xl",
     "12",
+    "14",
     "16",
+    "18",
+    "20",
     "24",
     "32",
     "40",
-    "48",
-    "64",
+    "50",
   ] as const;
 
   // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
-  private _size: (typeof NysIcon.VALID_TYPES)[number] = "sm";
+  private _size: (typeof NysIcon.VALID_TYPES)[number] = "md";
 
   // Getter and setter for the `size` property.
   @property({ reflect: true })
@@ -46,7 +48,7 @@ export class NysIcon extends LitElement {
       value as (typeof NysIcon.VALID_TYPES)[number],
     )
       ? (value as (typeof NysIcon.VALID_TYPES)[number])
-      : "sm";
+      : "md";
   }
 
   private getIcon(): SVGElement | null {

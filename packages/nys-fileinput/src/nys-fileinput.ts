@@ -461,7 +461,7 @@ export class NysFileinput extends LitElement {
 
       ${!this.dropzone
         ? html`<nys-button
-            id=${this.id}
+            id="choose-files-btn"
             name="file-btn"
             label=${this.multiple ? "Choose files" : "Choose file"}
             variant="outline"
@@ -469,18 +469,24 @@ export class NysFileinput extends LitElement {
             ariaDescription=${this._buttonAriaDescription}
             ?disabled=${this.disabled ||
             (!this.multiple && this._selectedFiles.length > 0)}
-            .onClick=${() => this._openFileDialog()}
+            @nys-click=${this._openFileDialog}
           ></nys-button>`
         : html`<div
             class="nys-fileinput__dropzone
             ${this._dragActive ? "drag-active" : ""}
             ${this._isDropDisabled ? "disabled" : ""}
             ${this.showError && !this._isDropDisabled ? "error" : ""}"
-            @click=${this._isDropDisabled ? null : this._openFileDialog}
-            @keydown=${(e: KeyboardEvent) =>
-              !this._isDropDisabled &&
-              (e.key === "Enter" || e.key === " ") &&
-              this._openFileDialog()}
+            @click=${this._isDropDisabled
+              ? null
+              : (e: MouseEvent) => {
+                  const target = e.target as HTMLElement;
+
+                  // Ignore clicks that originated within a nys-button
+                  if (target.closest("nys-button")) return;
+
+                  // Only handle direct wrapper clicks (outside of buttons)
+                  this._openFileDialog();
+                }}
             @dragover=${this._isDropDisabled ? null : this._onDragOver}
             @dragleave=${this._isDropDisabled ? null : this._onDragLeave}
             @drop=${this._isDropDisabled ? null : this._onDrop}
@@ -489,17 +495,18 @@ export class NysFileinput extends LitElement {
             ${this._dragActive
               ? html`<p>Drop file to upload</p>`
               : html` <nys-button
-                    id=${this.id}
+                    id="choose-files-btn-drag"
                     name="file-btn"
                     label=${this.multiple ? "Choose files" : "Choose file"}
                     variant="outline"
                     ariaLabel=${this._buttonAriaLabel}
                     ariaDescription=${this._buttonAriaDescription}
                     ?disabled=${this._isDropDisabled}
-                    .onClick=${(e: Event) => {
+                    @nys-click="${(e: CustomEvent) => {
+                      e.preventDefault();
                       e.stopPropagation();
                       this._openFileDialog();
-                    }}
+                    }}"
                   ></nys-button>
                   <p>or drag here</p>`}
           </div>`}
