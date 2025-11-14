@@ -5,7 +5,7 @@ import styles from "./nys-modal.styles";
 let componentIdCounter = 0; // Counter for generating unique IDs
 
 export class NysModal extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) subheading = "";
   @property({ type: Boolean, reflect: true }) open = false;
@@ -320,7 +320,6 @@ export class NysModal extends LitElement {
   render() {
     return this.open
       ? html`<div
-          id=${this.id}
           class="nys-modal-overlay"
           role="dialog"
           aria-modal="true"
