@@ -2,7 +2,6 @@ import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blo
 import { html } from "lit";
 import * as NysTooltipStories from "./nys-tooltip.stories";
 import "@nysds/nys-icon";
-import "@nysds/nys-textinput";
 import '@nysds/nys-badge';
 
 <Meta of={NysTooltipStories} title="Components/Tooltip/Documentation" />
@@ -47,12 +46,19 @@ The `<nys-tooltip>` works with the following NYS components that provide a focus
 - `<nys-fileinput>` (as a hint icon)
 
 These components are either:
-- a form related web component
+- a form-related web component.
 - standard components used for tooltips (i.e., `nys-icon` and `nys-button`).
 
 ---
 
 ## Options
+
+### Linking a Tooltip to an Element 💡
+To attach a `nys-tooltip` to a support NYSDS component, set the tooltip’s `for` attribute to the target component's `id`. Both values must match:
+```
+<nys-tooltip for="btn1" text="More details"></nys-tooltip>
+<nys-button id="btn1" label="Submit"></nys-button>
+```
 
 ### Focusable
 Use the `focusable` prop to make non-focusable slotted elements (i.e. `<nys-icon>`) accessible via keyboard focus.
@@ -71,8 +77,9 @@ Valid positions are:
 - `left`
 <Canvas of={NysTooltipStories.Position} />
 
-### FormElement
-Setting tooltip on a NYS form related web component will render it as a helpful hint icon next to the component's label 
+### Hints for Form-Related Components
+When a tooltip is added to an NYS form component, it appears as a hint icon next to the label. \
+Tooltip positioning is automatic (top/auto), so you don’t need to set a position prop.
 <Canvas of={NysTooltipStories.FormElement} />
 
 ### Inverted
@@ -82,7 +89,7 @@ Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the
 ## Usage
 
 ### When to use this component
-- Use this component to wrap interactive or visual elements like `nys-icon` or `nys-button` to provide additional information or context.
+- Use this component to wrap interactive or visual elements like `nys-icon`, `nys-button`, or the listed form-related NYSDS components to provide additional information or context.
 
 ### When to consider something else
 - When the information is critical for understanding or completing a task. Use inline text instead.

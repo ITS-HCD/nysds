@@ -1,9 +1,10 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-tooltip";
+import "@nysds/nys-textinput";
+import "@nysds/nys-label";
 import "@nysds/nys-button";
 import "@nysds/nys-icon";
-import "@nysds/nys-textinput";
 
 // Define the structure of the args used in the stories
 interface NysTooltipArgs {
@@ -46,11 +47,11 @@ export const Basic: Story = {
     text: "I am a tooltip.",
     focusable: false,
     inverted: false,
-    for: "button1",
+    for: "my-button",
   },
   render: (args) => html`
     <br />
-    <div style="display: flex; justify-content: left;">
+    <div style="display: flex; justify-content: center;">
       <nys-tooltip
         id=${args.id}
         for=${args.for}
@@ -60,15 +61,15 @@ export const Basic: Story = {
         ?focusable=${args.focusable}
       >
       </nys-tooltip>
-      <nys-button id="button1" name="button1" label="Hover Me"></nys-button>
+      <nys-button id="my-button" label="Hover Me"></nys-button>
     </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-tooltip for=button1" text="I am a tooltip."></nys-tooltip>
-<nys-button id="button1" name="button1" label="Hover Me"></nys-button>
+<nys-tooltip for="my-button" text="I am a tooltip."></nys-tooltip>
+<nys-button id="my-button" label="Hover Me"></nys-button>
 `,
         type: "auto",
       },
@@ -172,12 +173,11 @@ export const FormElement: Story = {
   args: {
     for: "my-textinput",
     text: "I am a tooltip.",
-    position: "right",
     focusable: true,
   },
   render: (args) => html`
     <br />
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: left;">
       <div style="display: flex; gap: 5px">
         <nys-tooltip
           id=${args.id}
@@ -188,7 +188,13 @@ export const FormElement: Story = {
           ?focusable=${args.focusable}
         >
         </nys-tooltip>
-        <nys-textinput id="my-textinput" name='fullName' label="Full name" description='Enter your full legal name' required></nys-textinput>
+        <nys-textinput
+          id="my-textinput"
+          name="fullName"
+          label="Full name"
+          description="Enter your full legal name"
+          required
+        ></nys-textinput>
       </div>
     </div>
   `,
@@ -197,14 +203,7 @@ export const FormElement: Story = {
       source: {
         code: `
 <div style="display: flex; gap: 5px">
-  <p>Hover over the icon</p>
-  <nys-tooltip
-    for="my-textinput"
-    text="I am a tooltip."
-    position="right"
-    focusable
-  >
-  </nys-tooltip>
+  <nys-tooltip for="my-textinput" text="I am a tooltip."></nys-tooltip>
   <nys-textinput id="my-textinput" name='fullName' label="Full name" description='Enter your full legal name' required></nys-textinput>
 </div>
 `,
