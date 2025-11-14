@@ -2,14 +2,14 @@ import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blo
 import { html } from "lit";
 import * as NysTooltipStories from "./nys-tooltip.stories";
 import "@nysds/nys-icon";
+import "@nysds/nys-textinput";
 import '@nysds/nys-badge';
 
 <Meta of={NysTooltipStories} title="Components/Tooltip/Documentation" />
 
 # Tooltip
 
-The **`nys-tooltip`** component is a reusable wrapper that displays a brief message when a user hovers over or focuses on its wrapped element, offering additional information or context.
-> Unlike tooltip props found on form components, the `nys-tooltip` is a standalone wrapper, you must wrap the element you want to enhance manually.
+The **`nys-tooltip`** component is a wrapper used to provide short, supplemental information when users hover, focus, or keyboard-navigate to the wrapped element.
 
 If an id is not passed, a unique id will be generated.
 
@@ -34,21 +34,25 @@ If an id is not passed, a unique id will be generated.
 
 ---
 
-## Best Practices for Wrapping Elements
+## Supported Components
 
-### Use only`nys-components` like `nys-icon` and `nys-button`
-**Note:** Don’t hide critical info in tooltips. Reserve them for optional help.
+The `<nys-tooltip>` works with the following NYS components that provide a focusable or interactive surface:
+- `<nys-button>`
+- `<nys-icon>`
+- `<nys-textinput>` (as a hint icon)
+- `<nys-textarea>` (as a hint icon)
+- `<nys-select>` (as a hint icon)
+- `<nys-checkbox>` (as a hint icon)
+- `<nys-radiogroup>` (as a hint icon)
+- `<nys-fileinput>` (as a hint icon)
 
-The `nys-tooltip` is meant to wrap a single visual or interactive element. It works best with `nys-icon` or `nys-button`
-- Keyboard and screen reader support is built in
-- Layout and spacing are predictable
-- Tooltip positioning works reliably
+These components are either:
+- a form related web component
+- standard components used for tooltips (i.e., `nys-icon` and `nys-button`).
 
 ---
 
 ## Options
-### TESTING
-<Canvas of={NysTooltipStories.Test} />
 
 ### Focusable
 Use the `focusable` prop to make non-focusable slotted elements (i.e. `<nys-icon>`) accessible via keyboard focus.
@@ -66,6 +70,10 @@ Valid positions are:
 - `right`
 - `left`
 <Canvas of={NysTooltipStories.Position} />
+
+### FormElement
+Setting tooltip on a NYS form related web component will render it as a helpful hint icon next to the component's label 
+<Canvas of={NysTooltipStories.FormElement} />
 
 ### Inverted
 Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the tooltip. Use this prop when the tooltip is on a dark background.

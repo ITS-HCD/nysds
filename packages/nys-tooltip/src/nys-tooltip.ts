@@ -253,12 +253,11 @@ export class NysTooltip extends LitElement {
       // const mergedLabel = existingLabel
       //   ? `${existingLabel}, ${this.text}`
       //   : this.text;
-      const mergedLabel = this.text;
 
-      el.setAttribute("ariaLabel", mergedLabel);
+      el.setAttribute("ariaLabel", `Hint: ${this.text}`);
     } else if (tagName === "nys-button") {
       // For other components like nys-button, use ariaDescription
-      el.setAttribute("ariaDescription", this.text);
+      el.setAttribute("ariaDescription", `, Hint: ${this.text}`);
 
       // el.setAttribute("aria-labelledby", this.id);
 
