@@ -1,5 +1,7 @@
 import { defineConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
+import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
+import { minify } from 'rollup-plugin-esbuild-minify';
 
 const shouldAnalyze = process.env.ANALYZE === "true";
 
@@ -25,12 +27,15 @@ export default defineConfig({
     rollupOptions: {
       external: [], // Bundle all dependencies including Lit
       output: {
+        compact: true,
         banner,
         globals: {
           lit: "Lit", // Ensure compatibility with global Lit
         },
       },
       plugins: [
+        minifyTemplateLiterals(),
+        minify(),
         shouldAnalyze && visualizer({ filename: "dist/stats-umd.html", open: true }),
       ].filter(Boolean),
     },

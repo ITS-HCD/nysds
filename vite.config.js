@@ -1,5 +1,8 @@
 import { defineConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
+import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
+import { minify } from 'rollup-plugin-esbuild-minify';
+
 
 const shouldAnalyze = process.env.ANALYZE === "true";
 
@@ -26,6 +29,7 @@ export default defineConfig({
       external,
       output: [
         {
+          compact: true,
           format: "es",
           banner,
           dir: "dist",
@@ -36,6 +40,8 @@ export default defineConfig({
         },
       ],
       plugins: [
+        minifyTemplateLiterals(),
+        minify(),
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
       ].filter(Boolean),
