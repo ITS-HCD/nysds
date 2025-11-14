@@ -1,6 +1,6 @@
 # Welcome!
 
-We’re glad you’re thinking about contributing to New York State's Design System (NYSDS). Here are a few things you should know before you get started.
+We're glad you’re thinking about contributing to New York State's Design System (NYSDS). Here are a few things you should know before you get started.
 
 NYSDS is for everyone. It an open source project that accepts contributions from our community members. Your contributions help make the Design System better for everyone that uses it.
 
@@ -8,7 +8,7 @@ NYSDS is for everyone. It an open source project that accepts contributions from
 
 New York State's Design System team is committed to building a safe, welcoming, harassment-free culture for everyone. Our team is a part of the Human-Centered Design Team within the Office of Information Technology Services (ITS).
 
-We encourage you to read this project’s Contribution Guide (you are here), its [LICENSE](https://github.com/uswds/uswds/blob/develop/LICENSE.md) and its [README](https://github.com/ITS-HCD/nysds/blob/main/README.md). If you have questions, send us an [email](mailto:designsystem@its.ny.gov).
+We encourage you to read this project's Contribution Guide (you are here), its [LICENSE](https://github.com/ITS-HCD/nysds/blob/main/LICENSE.md) and its [README](https://github.com/ITS-HCD/nysds/blob/main/README.md). If you have questions, send us an [email](mailto:designsystem@its.ny.gov).
 
 ## How you can contribute
 
@@ -22,17 +22,13 @@ Before submitting a contribution, you’ll just need to create a GitHub account 
 
 ### Submitting bugs and issues
 
-> [!NOTE] TODO: Develop a process for submitting bugs and issue using the general structure below.
-
-- Check the backlog to see if your bug has already been reported <!--Link to issue queue in GitHub-->
+- Check [the backlog](https://github.com/ITS-HCD/nysds/issues) to see if your bug has already been reported
 - Document how to reproduce the bug
-- Submit an issue using the issues page <!--Link to issue queue in GitHub-->
+- Submit an issue using the [issues page](https://github.com/ITS-HCD/nysds/issues)
 
 ### Proposing feature requests or enhancements
 
-> [!NOTE] TODO: Develop a process for proposing feature requests using the general structure below. <!-- link to discussion page-->
-
-- Check the backlog of current feature requests
+- Check the [backlog of current feature requests](https://github.com/ITS-HCD/nysds/discussions)
 - Submit an issue
 
 ### Submitting pull requests
@@ -45,7 +41,7 @@ Before submitting a contribution, you’ll just need to create a GitHub account 
 
 ## How we prioritize
 
-Once you’ve submitted a contribution, we'll triage it based on the following considerations:
+Once you've submitted a contribution, we'll triage it based on the following considerations:
 
 1. **Size:** Can we accomplish this in a sprint or will this take longer?
 2. **Severity:** What type of functionality is impacted? Is there a workaround?
@@ -60,4 +56,4 @@ You can stay up to date on the status of your contributions through [GitHub emai
 
 ## Licenses and attribution
 
-> [!NOTE] TODO: Link to License.MD file in repo
+> For complete attribution and licensing information for parts of the project that are and are not in the public domain, see the [LICENSE](https://github.com/ITS-HCD/nysds/blob/main/LICENSE.md).
