@@ -1,4 +1,6 @@
 import { defineConfig } from "vite";
+import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
+import { minify } from "rollup-plugin-esbuild-minify";
 
 // Banner to put at the top of the generated files
 const banner = `
@@ -25,7 +27,12 @@ export default defineConfig(({ mode }) => ({
     sourcemap: true, // Enable sourcemaps
     rollupOptions: {
       external: ["lit"], // Externalize Lit for ES build
+      plugins: [
+        minify(),
+        minifyTemplateLiterals(),
+      ],
       output: {
+        compact: true,
         banner: mode === "production" ? banner : undefined, // Add banner only in production
         globals: {
           lit: "Lit",

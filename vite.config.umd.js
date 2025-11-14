@@ -34,8 +34,8 @@ export default defineConfig({
         },
       },
       plugins: [
-        minifyTemplateLiterals(),
         minify(),
+        minifyTemplateLiterals(),
         shouldAnalyze && visualizer({ filename: "dist/stats-umd.html", open: true }),
       ].filter(Boolean),
     },

@@ -40,8 +40,8 @@ export default defineConfig({
         },
       ],
       plugins: [
-        minifyTemplateLiterals(),
         minify(),
+        minifyTemplateLiterals(),
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
       ].filter(Boolean),
