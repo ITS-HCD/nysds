@@ -56,7 +56,7 @@ describe("nys-select", () => {
         <optgroup label="Group 1">
           <option value="a">A</option>
           <option value="b">B</option>
-          <nys-option value="c" label="C"></nys-option>
+          <option value="c" label="C"></option>
         </optgroup>
       </nys-select>
     `);
@@ -81,6 +81,36 @@ describe("nys-select", () => {
     select.dispatchEvent(new Event("blur"));
     await el.updateComplete;
     const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
+    expect(errorMessage?.hasAttribute("showError")).to.be.true;
+  });
+
+  it("shows error message when required select is submitted without a value", async () => {
+    const el = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-select required>
+          <option value="">Select an option</option>
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+        </nys-select>
+      </form>
+    `);
+
+    const select = el.querySelector<NysSelect>("nys-select")!;
+    const errorMessage = select.shadowRoot?.querySelector("nys-errormessage");
+
+    expect(errorMessage?.hasAttribute("showError")).to.be.false; //before submit
+
+    select.dispatchEvent(new Event("blur"));
+    await select.updateComplete;
+    // prevent actual navigation
+    el.addEventListener("submit", (e) => e.preventDefault());
+
+    // submit the form
+    el.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+    await select.updateComplete;
+
+    // check if error message appears after submit
     expect(errorMessage?.hasAttribute("showError")).to.be.true;
   });
 
