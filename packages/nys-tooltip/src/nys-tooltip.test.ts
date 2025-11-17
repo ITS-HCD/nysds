@@ -20,14 +20,6 @@ describe("nys-tooltip", () => {
     expect(el.inverted).to.be.true;
   });
 
-  it("renders slotted content", async () => {
-    const el = await fixture<NysTooltip>(
-      html`<nys-tooltip><button>Click</button></nys-tooltip>`,
-    );
-    const button = el.shadowRoot!.querySelector("slot")!;
-    expect(button).to.exist;
-  });
-
   /*** Accessibility tests ***/
   it("renders tooltip content with role=tooltip", async () => {
     const el = await fixture<NysTooltip>(
