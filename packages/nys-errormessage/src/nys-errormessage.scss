@@ -1,6 +1,3 @@
-import { css } from "lit";
-
-export default css`
   :host {
     --_nys-errormessage-font-family: var(
       --nys-font-family-ui,
@@ -49,4 +46,3 @@ export default css`
     border-top: var(--_nys-errormessage-width--divider) solid
       var(--_nys-errormessage-color);
   }
-`;

@@ -1,6 +1,4 @@
-import { css } from "lit";
 
-export default css`
   :host {
     /* Global Radiobutton Styles */
     --_nys-radiobutton-size: var(--nys-size-400, 32px);
@@ -359,4 +357,4 @@ export default css`
     overflow: hidden;
     border: 0;
   }
-`;
+

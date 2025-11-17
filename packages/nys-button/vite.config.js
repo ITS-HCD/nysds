@@ -1,13 +1,13 @@
-import { defineConfig } from "vite";
+import { mergeConfig } from "vite";
+import { defaultConfig } from "../../vite.config.js";
 
 // Banner to put at the top of the generated files
 const banner = `
 /*!
-   * 
-   * ▒█▄░▒█ ▒█░░▒█ ▒█▀▀▀█ ▒█▀▀▄ ▒█▀▀▀█ 
-   * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
-   * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
-   * 
+   * █▄  █  █   █  █▀▀▀█  █▀▀▄  █▀▀▀█
+   * █ █ █  █▄▄▄█  ▀▀▀▄▄  █  █  ▀▀▀▄▄
+   * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
+   *
    * Button Component
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
@@ -15,24 +15,16 @@ const banner = `
 */
 `;
 
-export default defineConfig(({ mode }) => ({
+const overrideConfig = {
   build: {
     lib: {
-      entry: ["src/index.ts"], // Simplified entry point
-      fileName: "nys-button", // Output file name
-      formats: ["es"], // ES build only
+      fileName: () => "nys-button.js",
     },
-    emptyOutDir: false,
-    sourcemap: true, // Enable sourcemaps
+    emptyOutDir: true, // Since we're building both ES and UMD formats
     rollupOptions: {
-      // External deps declared manually (should match peerDependencies)
-      external: ["lit", "@nysds/nys-icon"],
-      output: {
-        banner: mode === "production" ? banner : undefined, // Add banner only in production
-        globals: {
-          lit: "Lit",
-        },
-      },
+      output: [{ banner }],
     },
   },
-}));
+};
+
+export default mergeConfig(defaultConfig, overrideConfig);

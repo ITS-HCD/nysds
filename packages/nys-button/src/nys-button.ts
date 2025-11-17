@@ -1,11 +1,14 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-button.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-button.scss?inline";
 
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysButton extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   // size
@@ -109,7 +112,6 @@ export class NysButton extends LitElement {
     return null;
   }
 
-  static styles = styles;
   private _internals: ElementInternals;
 
   /**************** Lifecycle Methods ****************/

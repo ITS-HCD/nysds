@@ -1,9 +1,12 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-stepper.styles";
 import "./nys-step";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from './nys-stepper.scss?inline';
 
 export class NysStepper extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
@@ -11,7 +14,6 @@ export class NysStepper extends LitElement {
   @property({ type: Boolean, reflect: true })
   isCompactExpanded = false;
 
-  static styles = styles;
   private _stepsNumbered = false;
 
   constructor() {

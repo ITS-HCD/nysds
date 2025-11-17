@@ -1,10 +1,13 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-checkbox.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-checkbox.scss?inline";
 
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 
 export class NysCheckboxgroup extends LitElement {
+  static styles = unsafeCSS(styles);
+  
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Boolean, reflect: true }) required = false;
@@ -37,7 +40,7 @@ export class NysCheckboxgroup extends LitElement {
       : "md";
   }
 
-  static styles = styles;
+
 
   private _internals: ElementInternals;
 

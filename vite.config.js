@@ -1,8 +1,7 @@
-import { defineConfig } from "vite";
+import { mergeConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
-import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
-import { minify } from 'rollup-plugin-esbuild-minify';
-
+// import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
+// import { minify } from 'rollup-plugin-esbuild-minify';
 
 const shouldAnalyze = process.env.ANALYZE === "true";
 
@@ -15,13 +14,27 @@ const banner = `
  */
 `;
 
+const overrideConfig = {};
+
 // Externalize Lit and all NYSDS internal packages
 const external = (id) => id === "lit" || id.startsWith("lit/");
 
-export default defineConfig({
+export const defaultConfig = {
+  css: {
+    postcss: null,
+    preprocessorOptions: {
+      scss: {
+        additionalData:
+        `@use "../../../src/scss/global-variables.scss" as *;
+         @use "../../../src/scss/mixins.scss" as *;
+        `,
+      },
+    },
+  },
   build: {
     lib: {
       entry: ["./src/index.ts"],
+      fileName: () => "nysds.es.js",
     },
     sourcemap: true,
     emptyOutDir: false, // Since we're building both ES and UMD formats
@@ -33,18 +46,19 @@ export default defineConfig({
           format: "es",
           banner,
           dir: "dist",
-          entryFileNames: "nysds.es.js",
           globals: {
             lit: "Lit",
           },
         },
       ],
       plugins: [
-        minify(),
-        minifyTemplateLiterals(),
+        // minify(),
+        // minifyTemplateLiterals(),
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
       ].filter(Boolean),
     },
   },
-});
+};
+
+export default mergeConfig(defaultConfig, overrideConfig);

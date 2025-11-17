@@ -1,16 +1,18 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, query } from "lit/decorators.js";
-import styles from "./nys-accordion.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from './nys-accordion.scss?inline';
 
 let accordionItemIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAccordionItem extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
   @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
 
-  static styles = styles;
 
   /**************** Lifecycle Methods ****************/
   constructor() {

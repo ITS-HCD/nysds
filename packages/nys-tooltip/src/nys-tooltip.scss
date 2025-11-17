@@ -1,6 +1,3 @@
-import { css } from "lit";
-
-export default css`
   :host {
     /* Global Tooltip Styles */
     --_nys-tooltip-color: var(--nys-color-text-reverse, #ffffff);
@@ -64,6 +61,7 @@ export default css`
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 4;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
   }
 
@@ -156,4 +154,3 @@ export default css`
       ); /* 2rem = 32px = 16px margin on each side */
     }
   }
-`;

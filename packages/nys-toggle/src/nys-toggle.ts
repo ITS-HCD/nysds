@@ -1,12 +1,14 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import styles from "./nys-toggle.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from './nys-toggle.scss?inline';
 
 let toggleIdCounter = 0; // Counter for generating unique IDs
 
 export class NysToggle extends LitElement {
-  /********************** Properties **********************/
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
@@ -37,7 +39,6 @@ export class NysToggle extends LitElement {
       : "md";
   }
 
-  static styles = styles;
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/

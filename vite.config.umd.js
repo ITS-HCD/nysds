@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
-import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
-import { minify } from 'rollup-plugin-esbuild-minify';
+// import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
+// import { minify } from 'rollup-plugin-esbuild-minify';
 
 const shouldAnalyze = process.env.ANALYZE === "true";
 
@@ -15,6 +15,16 @@ const banner = `
 `;
 
 export default defineConfig({
+  css: {
+    postcss: null,
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "../../../src/scss/global-variables.scss" as *;
+                         @use "../../../src/scss/mixins.scss" as *;
+                         `,
+      },
+    },
+  },
   build: {
     lib: {
       entry: ["./src/index.ts"],
@@ -34,9 +44,10 @@ export default defineConfig({
         },
       },
       plugins: [
-        minify(),
-        minifyTemplateLiterals(),
-        shouldAnalyze && visualizer({ filename: "dist/stats-umd.html", open: true }),
+        // minify(),
+        // minifyTemplateLiterals(),
+        shouldAnalyze &&
+          visualizer({ filename: "dist/stats-umd.html", open: true }),
       ].filter(Boolean),
     },
   },

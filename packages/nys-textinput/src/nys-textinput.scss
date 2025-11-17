@@ -1,6 +1,3 @@
-import { css } from "lit";
-
-export default css`
   :host {
     /* Anything that can be overridden should be defined here */
 
@@ -238,4 +235,3 @@ export default css`
     color: var(--_nys-textinput-color--disabled);
     cursor: not-allowed;
   }
-`;

@@ -1,8 +1,11 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-stepper.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from './nys-stepper.scss?inline';
 
 export class NysStep extends LitElement {
+  static styles = unsafeCSS(styles);
+  
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) current = false;
   @property({ type: String }) label = "";
@@ -10,8 +13,6 @@ export class NysStep extends LitElement {
   @property({ type: Boolean }) isCompactExpanded = false;
   @property({ attribute: false }) onClick?: (e: Event) => void;
   @property({ type: Number }) stepNumber = 0;
-
-  static styles = styles;
 
   private _handleActivate(e: Event) {
     // Run user-supplied onClick first (if present)

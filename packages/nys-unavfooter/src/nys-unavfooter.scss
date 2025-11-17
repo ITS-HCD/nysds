@@ -1,6 +1,4 @@
-import { css } from "lit";
 
-export default css`
   :host {
     /* Global Footer Styles */
     --_nys-unavfooter-color: var(
@@ -149,4 +147,3 @@ export default css`
       --_nys-unavfooter-padding--gutter: var(--nys-gutter-xl, 64px);
     }
   }
-`;
