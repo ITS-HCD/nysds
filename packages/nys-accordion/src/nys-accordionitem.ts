@@ -5,7 +5,7 @@ import styles from "./nys-accordion.styles";
 let accordionItemIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAccordionItem extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
   @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
@@ -96,7 +96,7 @@ export class NysAccordionItem extends LitElement {
     const contentId = `${this.id}-content`;
 
     return html`
-    <div id=${this.id} class="nys-accordionitem">
+    <div class="nys-accordionitem">
       <button
         class="nys-accordionitem__heading"
         type="button"

@@ -393,7 +393,7 @@ export class NysTextinput extends LitElement {
     return html`
       <div class="nys-textinput">
         <nys-label
-          for=${this.id}
+          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -417,7 +417,7 @@ export class NysTextinput extends LitElement {
                   : "password"
                 : this.type}
               name=${this.name}
-              id=${this.id}
+              id=${this.id + "--native"}
               ?disabled=${this.disabled}
               ?required=${this.required}
               ?readonly=${this.readonly}

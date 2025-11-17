@@ -240,7 +240,6 @@ export class NysButton extends LitElement {
             <div class="nys-button__linkwrapper">
               <a
                 class="nys-button"
-                id=${ifDefined(this.id)}
                 name=${ifDefined(this.name ? this.name : undefined)}
                 ?disabled=${this.disabled}
                 aria-disabled="${this.disabled ? "true" : "false"}"
@@ -292,7 +291,6 @@ export class NysButton extends LitElement {
         : html`
             <button
               class="nys-button"
-              id=${ifDefined(this.id)}
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
               form=${ifDefined(this.form || undefined)}

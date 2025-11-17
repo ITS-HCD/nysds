@@ -9,7 +9,7 @@ export class NysAvatar extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";
@@ -92,7 +92,7 @@ export class NysAvatar extends LitElement {
 
   render() {
     return html`
-      <label class="nys-avatar" id=${this.id}>
+      <div class="nys-avatar">
         <div class="nys-avatar__content">
           <div
             part="nys-avatar"
@@ -142,7 +142,7 @@ export class NysAvatar extends LitElement {
                   </div>`}
           </div>
         </div>
-      </label>
+      </div>
     `;
   }
 }

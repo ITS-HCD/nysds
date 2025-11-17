@@ -6,7 +6,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 let componentIdCounter = 0; // Counter for generating unique IDs
 
 export class NysPagination extends LitElement {
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Number, reflect: true }) currentPage = 1;
   @property({ type: Number, reflect: true }) totalPages = 1;

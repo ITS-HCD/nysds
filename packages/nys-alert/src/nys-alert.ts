@@ -9,7 +9,7 @@ export class NysAlert extends LitElement {
   static styles = styles;
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
   @property({ type: Boolean, reflect: true }) dismissible = false;
@@ -163,7 +163,6 @@ export class NysAlert extends LitElement {
     return html`
       ${!this._alertClosed
         ? html` <div
-            id=${this.id}
             class="nys-alert__container ${this._slotHasContent ||
             this.text?.trim().length > 0
               ? ""
