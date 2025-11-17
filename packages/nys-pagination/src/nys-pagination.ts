@@ -20,6 +20,8 @@ export class NysPagination extends LitElement {
   }
 
   willUpdate(changedProps: Map<string, unknown>) {
+    if (this.totalPages < 1) this.totalPages = 1; //ensure totalPages is at least 1
+
     if (changedProps.has("currentPage") || changedProps.has("totalPages")) {
       const clamped = this._clampPage(this.currentPage);
       if (clamped !== this.currentPage) {
