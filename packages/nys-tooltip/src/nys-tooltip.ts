@@ -23,7 +23,7 @@ export class NysTooltip extends LitElement {
 
   static styles = styles;
 
-  /********************* Position Logic *********************/
+  /*************************************** Position Logic ***************************************/
   private _position: "top" | "bottom" | "left" | "right" | null = null;
 
   @property({ type: String, reflect: true })
@@ -43,7 +43,7 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  /**************** Lifecycle Methods ****************/
+  /*************************************** Lifecycle Methods ***************************************/
   constructor() {
     super();
   }
@@ -71,32 +71,12 @@ export class NysTooltip extends LitElement {
     window.removeEventListener("keydown", this._handleEscapeKey);
   }
 
-  // ‼️ REMOVE for new reformation
-  // ⭐️ Rework this logic to query the "for" prop and see if the component is a button|icon OR accepted form-related component
-  // private get _firstAssignedEl(): HTMLElement | undefined {
-  //   const slot = this.shadowRoot?.querySelector("slot");
-  //   return slot?.assignedElements({ flatten: true })[0] as
-  //     | HTMLElement
-  //     | undefined;
-  // }
-
   async firstUpdated() {
-    // ‼️ REMOVE for new reformation || rework so it queries first and give _firstAssignedEl the "for" prop
-    // const slot = this.shadowRoot?.querySelector("slot");
-    // if (slot) {
-    //   slot.addEventListener("slotchange", () => {
-    //     const firstEl = this._firstAssignedEl;
-    //     if (firstEl) {
-    //       // ⭐️ Rework this logic to query the "for" prop and see if the component is a button|icon OR accepted form-related component
-    //       this._applyFocusBehavior(firstEl);
-    //     }
-    //   });
-    // }
     await this.updateComplete;
     const ref = this._getReferenceElement();
     if (!ref) return;
 
-    this.applyInverseTransform(); // 💩💩💩💩💩💩💩💩💩 DELETE WHEN FINISH WITH EVERYTHING
+    this.applyInverseTransform();
     this._applyTooltipPropToFormComponent(ref);
 
     if (
@@ -131,11 +111,12 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  /*************************************** Event Handlers ***************************************/
   // When we show the tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _showTooltip = () => {
     this._active = true;
     this._addScrollListeners();
+
     // Try to honor user's original preference first
     if (this._userHasSetPosition && this._originalUserPosition) {
       if (this._doesPositionFit(this._originalUserPosition)) {
@@ -178,26 +159,8 @@ export class NysTooltip extends LitElement {
   }
 
   private _handleScrollOrResize = () => {
-    // console.log("_handleScrollOrResize, is _active?", this._active)
-    // if (!this._active) return;
+    if (!this._active) return;
 
-    // if (this._userHasSetPosition && this._originalUserPosition) {
-    //   if (this._doesPositionFit(this._originalUserPosition)) {
-    //     this._setInternalPosition(this._originalUserPosition);
-
-    //     // Check if current tooltip position overflows to edge of screen
-    //     this.updateComplete.then(() => {
-    //       const tooltip = this.shadowRoot?.querySelector(
-    //         ".nys-tooltip__content",
-    //       ) as HTMLElement;
-    //       if (tooltip) this._shiftTooltipIntoViewport(tooltip);
-    //     });
-    //   } else {
-    //     this._autoPositionTooltip();
-    //   }
-    // } else {
-    //   this._autoPositionTooltip();
-    // }
     this._showTooltip();
   };
 
@@ -215,7 +178,7 @@ export class NysTooltip extends LitElement {
     }
   };
 
-  /******************** Functions ********************/
+  /*************************************** Functions ***************************************/
   private _getReferenceElement() {
     const targetId = this.for;
     if (!targetId) return null;
@@ -249,20 +212,12 @@ export class NysTooltip extends LitElement {
     if (tagName === "nys-icon") {
       // For nys-icon, use ariaLabel instead
       const existingLabel = el.getAttribute("ariaLabel") || "";
-      console.log("existingLabel", existingLabel)
-      // const mergedLabel = existingLabel
-      //   ? `${existingLabel}, ${this.text}`
-      //   : this.text;
+      console.log("existingLabel", existingLabel);
 
       el.setAttribute("ariaLabel", `Hint: ${this.text}`);
     } else if (tagName === "nys-button") {
       // For other components like nys-button, use ariaDescription
       el.setAttribute("ariaDescription", `, Hint: ${this.text}`);
-
-      // el.setAttribute("aria-labelledby", this.id);
-
-      // const button = await (el as any).getButtonElement();
-      // button.setAttribute("aria-describedby", this.id);
     }
   }
 
@@ -420,7 +375,6 @@ export class NysTooltip extends LitElement {
     this._shiftTooltipIntoViewport(tooltip);
   }
 
-  // ⚠️
   private _positionStartingBase() {
     const tooltip = this.shadowRoot?.querySelector(
       ".nys-tooltip__content",
@@ -432,22 +386,6 @@ export class NysTooltip extends LitElement {
     tooltip.style.left = "0px";
   }
 
-  // private _positionOverlayReference() {
-  //   const ref = this._getReferenceElement();
-  //   const tooltip = this.shadowRoot?.querySelector(
-  //     ".nys-tooltip__content",
-  //   ) as HTMLElement;
-
-  //   if (!ref || !tooltip) return;
-
-  //   const refRect = ref.getBoundingClientRect();
-
-  //   // tooltip.style.position = "fixed";
-  //   tooltip.style.top = `${refRect.top}px`;
-  //   tooltip.style.left = `${refRect.left}px`;
-  //   tooltip.style.transform = "none";
-  // }
-
   // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
   // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
   // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
@@ -457,6 +395,7 @@ export class NysTooltip extends LitElement {
     bestPosition: typeof this._position,
   ) {
     const refRect = ref.getBoundingClientRect();
+    // const refRect = this._getViewportRect(ref);
     const tooltipRect = tooltip.getBoundingClientRect();
     const margin = 8;
 
@@ -487,12 +426,12 @@ export class NysTooltip extends LitElement {
         break;
     }
 
-    //this._positionOverlayReference();
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
   }
 
-  // Storybook live code preview has a parent container that contains transform, which sets a new coordinate system. I reverse this to not interfere with tooltip calculation.
+  // Storybook live code preview has a parent container that contains transform, which sets a new coordinate system. 
+  // I reverse this to not interfere with tooltip calculation.
   private applyInverseTransform() {
     document.querySelectorAll('div[scale="1"]').forEach((el) => {
       (el as HTMLElement).style.transform = "none";
@@ -522,11 +461,9 @@ export class NysTooltip extends LitElement {
     const overflowLeft = tooltipRect.left < 0;
     const overflowRight = tooltipRect.right > window.innerWidth;
 
-    // this._resetTooltipPositioningStyles(tooltip); 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
     // Tooltip is past the viewport edge, shift it inwards
     if (overflowLeft) {
-      tooltip.style.left = "10px"; // I can set this to 0px but I decide to give some margin to the left
+      tooltip.style.left = "10px";
       tooltip.style.transform = "none";
     } else if (overflowRight) {
       tooltip.style.right = "0px";
