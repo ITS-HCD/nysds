@@ -8,7 +8,7 @@ import '@nysds/nys-badge';
 
 # Tooltip
 
-The **`nys-tooltip`** component is a wrapper used to provide short, supplemental information when users hover, focus, or keyboard-navigate to the wrapped element.
+The **`nys-tooltip`** component is used to provide short, supplemental information when users hover, focus, or keyboard-navigate to the linked component (more info on linking with `for` prop below).
 
 If an id is not passed, a unique id will be generated.
 
@@ -38,12 +38,12 @@ If an id is not passed, a unique id will be generated.
 The `<nys-tooltip>` works with the following NYS components that provide a focusable or interactive surface:
 - `<nys-button>`
 - `<nys-icon>`
-- `<nys-textinput>` (as a hint icon)
-- `<nys-textarea>` (as a hint icon)
-- `<nys-select>` (as a hint icon)
-- `<nys-checkbox>` (as a hint icon)
-- `<nys-radiogroup>` (as a hint icon)
-- `<nys-fileinput>` (as a hint icon)
+- `<nys-textinput>` (appears as a hint icon)
+- `<nys-textarea>` (appears as a hint icon)
+- `<nys-select>` (appears as a hint icon)
+- `<nys-checkbox>` (appears as a hint icon)
+- `<nys-radiogroup>` (appears as a hint icon)
+- `<nys-fileinput>` (appears as a hint icon)
 
 These components are either:
 - a form-related web component.
@@ -53,8 +53,8 @@ These components are either:
 
 ## Options
 
-### Linking a Tooltip to an Element 💡
-To attach a `nys-tooltip` to a support NYSDS component, set the tooltip’s `for` attribute to the target component's `id`. Both values must match:
+### Linking Tooltip to an Component 🔗
+To attach a `nys-tooltip` to a support NYSDS component, set the tooltip’s `for` attribute to the target component's `id`. Both values MUST match:
 ```
 <nys-tooltip for="btn1" text="More details"></nys-tooltip>
 <nys-button id="btn1" label="Submit"></nys-button>

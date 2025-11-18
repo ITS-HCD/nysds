@@ -386,19 +386,16 @@ export class NysTooltip extends LitElement {
     tooltip.style.left = "0px";
   }
 
-  // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
-  // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
-  // ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️
   private _positionTooltipElement(
     ref: HTMLElement,
     tooltip: HTMLElement,
     bestPosition: typeof this._position,
   ) {
     const refRect = ref.getBoundingClientRect();
-    // const refRect = this._getViewportRect(ref);
     const tooltipRect = tooltip.getBoundingClientRect();
     const margin = 8;
 
+    console.log(bestPosition);
     let top = 0;
     let left = 0;
 
@@ -430,18 +427,14 @@ export class NysTooltip extends LitElement {
     tooltip.style.left = `${left}px`;
   }
 
-  // Storybook live code preview has a parent container that contains transform, which sets a new coordinate system. 
-  // I reverse this to not interfere with tooltip calculation.
+  // Like storybook, some user's parent container may contain transform styling, which sets a new coordinate system.
+  // This function reverse any container of that scale to not interfere with tooltip calculation.
   private applyInverseTransform() {
     document.querySelectorAll('div[scale="1"]').forEach((el) => {
       (el as HTMLElement).style.transform = "none";
     });
   }
 
-  // Sets flag to distinguish to position's setter that we are updating "position" prop internally
-  // 💩
-  // 💩
-  // 💩 this is kaput now due to the new change
   private _setInternalPosition(bestPosition: typeof this._position) {
     this._internallyUpdatingPosition = true;
     this.position = bestPosition;
