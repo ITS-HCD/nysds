@@ -38,7 +38,30 @@ export default {
   plugins: [
     // customElementReactWrapperPlugin(reactOpts), // disabling until we get around to testing the react wrappers
     // customElementVsCodePlugin(vscodeOpts) // disabling because it generates the same file differently each time causing merge conflicts
-  ],
+    {
+      name: "nysds-sorter",
+      packageLinkPhase({ customElementsManifest }) {
+        // Sort top-level modules
+        customElementsManifest.modules.sort((a, b) =>
+          a.path.localeCompare(b.path)
+        );
+
+        for (const mod of customElementsManifest.modules) {
+          if (mod.declarations) {
+            mod.declarations.sort((a, b) =>
+              (a.name || "").localeCompare(b.name || "")
+            );
+          }
+
+          if (mod.exports) {
+            mod.exports.sort((a, b) =>
+              (a.name || "").localeCompare(b.name || "")
+            );
+          }
+        }
+      }
+    }
+],
   /**
    * Resolution options when using `dependencies: true`
    * For detailed information about each option, please refer to the [oxc-resolver documentation](https://github.com/oxc-project/oxc-resolver?tab=readme-ov-file#options).
