@@ -103,5 +103,5 @@
   "overrides": {
     "storybook": "$storybook"
   },
-  "customElements": "dist/custom-elements.json"
+  "customElements": "custom-elements.json"
 }
