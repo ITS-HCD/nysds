@@ -9,7 +9,7 @@ let radiogroupIdCounter = 0; // Counter for generating unique IDs
 export class NysRadiogroup extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = ""; // while not use by users, this prop is needed for internalElement form logic
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
@@ -375,7 +375,6 @@ export class NysRadiogroup extends LitElement {
   render() {
     return html`<div class="nys-radiogroup">
       <nys-label
-        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}

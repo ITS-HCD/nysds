@@ -9,7 +9,7 @@ let toggleIdCounter = 0; // Counter for generating unique IDs
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: String }) label = "";
@@ -112,7 +112,6 @@ export class NysToggle extends LitElement {
         <div class="nys-toggle__content">
           <div class="nys-toggle__toggle">
             <input
-              id="${this.id}"
               type="checkbox"
               name="${ifDefined(this.name ? this.name : undefined)}"
               .value=${this.value}

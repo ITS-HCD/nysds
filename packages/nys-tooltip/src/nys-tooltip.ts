@@ -8,7 +8,7 @@ let tooltipIdCounter = 0; // Counter for generating unique IDs
 export class NysTooltip extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) focusable = false;

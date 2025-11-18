@@ -9,7 +9,7 @@ let componentIdCounter = 0; // Counter for generating unique IDs
 export class NysPagination extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Number, reflect: true }) currentPage = 1;
   @property({ type: Number, reflect: true }) totalPages = 1;
@@ -21,6 +21,8 @@ export class NysPagination extends LitElement {
   }
 
   willUpdate(changedProps: Map<string, unknown>) {
+    if (this.totalPages < 1) this.totalPages = 1; //ensure totalPages is at least 1
+
     if (changedProps.has("currentPage") || changedProps.has("totalPages")) {
       const clamped = this._clampPage(this.currentPage);
       if (clamped !== this.currentPage) {

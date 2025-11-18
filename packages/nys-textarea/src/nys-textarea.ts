@@ -9,7 +9,7 @@ let textareaIdCounter = 0; // Counter for generating unique IDs
 export class NysTextarea extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -247,7 +247,7 @@ export class NysTextarea extends LitElement {
     return html`
       <label class="nys-textarea">
         <nys-label
-          for=${this.id}
+          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -259,7 +259,7 @@ export class NysTextarea extends LitElement {
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
-          id=${this.id}
+          id=${this.id + "--native"}
           .value=${this.value}
           ?disabled=${this.disabled}
           ?required=${this.required}

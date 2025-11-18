@@ -13,7 +13,7 @@ let accordionIdCounter = 0; // Counter for generating unique IDs
 export class NysAccordion extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: Boolean, reflect: true }) singleSelect = false;
   @property({ type: Boolean, reflect: true }) bordered = false;
 
@@ -76,7 +76,6 @@ export class NysAccordion extends LitElement {
 
   render() {
     return html`<div
-      id=${this.id}
       class="nys-accordion"
       @nys-accordionitem-toggle=${this._onAccordionToggle}
     >

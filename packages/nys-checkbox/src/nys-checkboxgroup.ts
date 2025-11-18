@@ -8,7 +8,7 @@ let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 export class NysCheckboxgroup extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
@@ -293,7 +293,7 @@ export class NysCheckboxgroup extends LitElement {
     return html`
       <div class="nys-checkboxgroup">
         <nys-label
-          for=${this.id}
+          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}

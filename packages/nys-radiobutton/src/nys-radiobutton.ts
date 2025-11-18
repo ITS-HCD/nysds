@@ -15,7 +15,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
@@ -171,7 +171,6 @@ export class NysRadiobutton extends LitElement {
   render() {
     return html`
       <input
-        id="${this.id}"
         type="radio"
         name="${ifDefined(this.name ? this.name : undefined)}"
         .checked=${this.checked}
@@ -183,23 +182,21 @@ export class NysRadiobutton extends LitElement {
         hidden
         aria-hidden="true"
       />
-      <label
+      <div
         class="nys-radiobutton"
-        for="${this.id}"
         @click="${this._callInputHandling}"
         aria-label=${this.label}
       >
         <span class="nys-radiobutton__radio"></span>
         ${this.label &&
         html`<nys-label
-          for=${this.id}
           label=${this.label}
           description=${ifDefined(this.description || undefined)}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label> `}
-      </label>
+      </div>
     `;
   }
 }
