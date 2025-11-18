@@ -21,6 +21,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) groupExist = false;
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) inverted = false;
+  @property({ type: String }) tooltip = "";
   private static readonly VALID_SIZES = ["sm", "md"] as const;
   private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
 
@@ -279,6 +280,7 @@ export class NysCheckbox extends LitElement {
         ${this.label &&
         html`
           <nys-label
+            tooltip=${this.tooltip}
             for=${this.id + "--native"}
             label=${this.label}
             description=${ifDefined(this.description ?? undefined)}
