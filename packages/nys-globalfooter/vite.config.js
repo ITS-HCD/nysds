@@ -5,7 +5,7 @@ import { defaultConfig } from "../../vite.config.js";
 const banner = `
 /*!
    * █▄  █  █   █  █▀▀▀█  █▀▀▄  █▀▀▀█
-   * █ █ █  █▄▄▄█  ▀▀▀▄▄  █  █  ▀▀▀▄▄
+   * █ █ █  █▄▄▄█  ▀▀▀▄▄  █   █ ▀▀▀▄▄
    * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
    *
    * Global Footer Component

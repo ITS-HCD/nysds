@@ -5,7 +5,7 @@ import { defaultConfig } from "../../vite.config.js";
 const banner = `
 /*!
    * █▄  █  █   █  █▀▀▀█  █▀▀▄  █▀▀▀█
-   * █ █ █  █▄▄▄█  ▀▀▀▄▄  █  █  ▀▀▀▄▄
+   * █ █ █  █▄▄▄█  ▀▀▀▄▄  █   █ ▀▀▀▄▄
    * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
    *
    * Unav Header Component
