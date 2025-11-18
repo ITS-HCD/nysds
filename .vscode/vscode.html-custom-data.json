@@ -24,47 +24,6 @@
       "references": []
     },
     {
-      "name": "nys-badge",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "name", "values": [] },
-        {
-          "name": "size",
-          "values": [{ "name": "(typeof NysBadge.VALID_SIZES)[number]" }]
-        },
-        {
-          "name": "intent",
-          "values": [{ "name": "(typeof NysBadge.VALID_INTENT)[number]" }]
-        },
-        { "name": "prefixLabel", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "prefixicon", "values": [] },
-        { "name": "suffixicon", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-avatar",
-      "description": "\n---\n",
-      "attributes": [
-        {
-          "name": "id",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "ariaLabel", "values": [] },
-        { "name": "image", "values": [] },
-        { "name": "initials", "values": [] },
-        { "name": "icon", "values": [] },
-        { "name": "color", "values": [] },
-        { "name": "interactive", "values": [] },
-        { "name": "disabled", "values": [] },
-        { "name": "lazy", "values": [] }
-      ],
-      "references": []
-    },
-    {
       "name": "nys-alert",
       "description": "\n---\n\n\n### **Events:**\n - **nys-close**",
       "attributes": [
@@ -87,50 +46,23 @@
       "references": []
     },
     {
-      "name": "nys-button",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-focus**\n- **nys-blur**\n- **nys-click**\n\n### **Methods:**\n - **focus(options: _FocusOptions_)** - ****************** Public Methods *******************",
+      "name": "nys-badge",
+      "description": "\n---\n",
       "attributes": [
         { "name": "id", "values": [] },
         { "name": "name", "values": [] },
         {
           "name": "size",
-          "values": [{ "name": "(typeof NysButton.VALID_SIZES)[number]" }]
+          "values": [{ "name": "(typeof NysBadge.VALID_SIZES)[number]" }]
         },
-        { "name": "fullWidth", "values": [] },
         {
-          "name": "variant",
-          "values": [{ "name": "(typeof NysButton.VALID_VARIANTS)[number]" }]
+          "name": "intent",
+          "values": [{ "name": "(typeof NysBadge.VALID_INTENT)[number]" }]
         },
-        { "name": "inverted", "values": [] },
+        { "name": "prefixLabel", "values": [] },
         { "name": "label", "values": [] },
-        { "name": "ariaLabel", "values": [] },
-        { "name": "ariaControls", "values": [] },
-        { "name": "prefixIcon", "values": [] },
-        { "name": "suffixIcon", "values": [] },
-        { "name": "circle", "values": [] },
-        { "name": "icon", "values": [] },
-        { "name": "disabled", "values": [] },
-        { "name": "form", "values": [] },
-        { "name": "value", "values": [] },
-        { "name": "ariaDescription", "values": [] },
-        {
-          "name": "type",
-          "values": [{ "name": "(typeof NysButton.VALID_TYPES)[number]" }]
-        },
-        { "name": "href", "values": [] },
-        {
-          "name": "target",
-          "values": [{ "name": "(typeof NysButton.VALID_TARGETS)[number]" }]
-        }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-backtotop",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "position", "values": [] },
-        { "name": "visible", "values": [] }
+        { "name": "prefixicon", "values": [] },
+        { "name": "suffixicon", "values": [] }
       ],
       "references": []
     },
@@ -191,72 +123,61 @@
       "references": []
     },
     {
-      "name": "nys-globalheader",
+      "name": "nys-avatar",
       "description": "\n---\n",
       "attributes": [
         {
-          "name": "appName",
+          "name": "id",
           "description": "******************** Properties *********************",
           "values": []
         },
-        { "name": "agencyName", "values": [] },
-        { "name": "homepageLink", "values": [] }
+        { "name": "ariaLabel", "values": [] },
+        { "name": "image", "values": [] },
+        { "name": "initials", "values": [] },
+        { "name": "icon", "values": [] },
+        { "name": "color", "values": [] },
+        { "name": "interactive", "values": [] },
+        { "name": "disabled", "values": [] },
+        { "name": "lazy", "values": [] }
       ],
       "references": []
     },
     {
-      "name": "nys-globalfooter",
-      "description": "\n---\n",
-      "attributes": [
-        {
-          "name": "agencyName",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "homepageLink", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-fileinput",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-change**",
+      "name": "nys-button",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-focus**\n- **nys-blur**\n- **nys-click**\n\n### **Methods:**\n - **focus(options: _FocusOptions_)** - ****************** Public Methods *******************",
       "attributes": [
         { "name": "id", "values": [] },
         { "name": "name", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "description", "values": [] },
-        { "name": "multiple", "values": [] },
-        { "name": "form", "values": [] },
-        { "name": "_tooltip", "values": [] },
-        { "name": "accept", "values": [] },
-        { "name": "disabled", "values": [] },
-        { "name": "required", "values": [] },
-        { "name": "optional", "values": [] },
-        { "name": "showError", "values": [] },
-        { "name": "errorMessage", "values": [] },
-        { "name": "dropzone", "values": [] },
-        { "name": "width", "values": [{ "name": "lg" }, { "name": "full" }] },
-        { "name": "inverted", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-fileitem",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-fileRemove**",
-      "attributes": [
-        { "name": "filename", "values": [] },
         {
-          "name": "status",
-          "values": [
-            { "name": "" },
-            { "name": "pending" },
-            { "name": "processing" },
-            { "name": "done" },
-            { "name": "error" }
-          ]
+          "name": "size",
+          "values": [{ "name": "(typeof NysButton.VALID_SIZES)[number]" }]
         },
-        { "name": "progress", "values": [] },
-        { "name": "errorMessage", "values": [] }
+        { "name": "fullWidth", "values": [] },
+        {
+          "name": "variant",
+          "values": [{ "name": "(typeof NysButton.VALID_VARIANTS)[number]" }]
+        },
+        { "name": "inverted", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "ariaLabel", "values": [] },
+        { "name": "ariaControls", "values": [] },
+        { "name": "prefixIcon", "values": [] },
+        { "name": "suffixIcon", "values": [] },
+        { "name": "circle", "values": [] },
+        { "name": "icon", "values": [] },
+        { "name": "disabled", "values": [] },
+        { "name": "form", "values": [] },
+        { "name": "value", "values": [] },
+        { "name": "ariaDescription", "values": [] },
+        {
+          "name": "type",
+          "values": [{ "name": "(typeof NysButton.VALID_TYPES)[number]" }]
+        },
+        { "name": "href", "values": [] },
+        {
+          "name": "target",
+          "values": [{ "name": "(typeof NysButton.VALID_TARGETS)[number]" }]
+        }
       ],
       "references": []
     },
@@ -300,18 +221,117 @@
       "references": []
     },
     {
-      "name": "nys-modal",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-open**\n- **nys-close**",
+      "name": "nys-globalheader",
+      "description": "\n---\n",
+      "attributes": [
+        {
+          "name": "appName",
+          "description": "******************** Properties *********************",
+          "values": []
+        },
+        { "name": "agencyName", "values": [] },
+        { "name": "homepageLink", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-globalfooter",
+      "description": "\n---\n",
+      "attributes": [
+        {
+          "name": "agencyName",
+          "description": "******************** Properties *********************",
+          "values": []
+        },
+        { "name": "homepageLink", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-backtotop",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "position", "values": [] },
+        { "name": "visible", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-option",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "disabled", "values": [] },
+        { "name": "selected", "values": [] },
+        { "name": "value", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "hidden", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-select",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-change**\n- **nys-focus**\n- **nys-blur**\n\n### **Methods:**\n - **checkValidity(): _boolean_** - ******************** Functions *********************",
       "attributes": [
         { "name": "id", "values": [] },
-        { "name": "heading", "values": [] },
-        { "name": "subheading", "values": [] },
-        { "name": "open", "values": [] },
-        { "name": "mandatory", "values": [] },
+        { "name": "name", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "description", "values": [] },
+        { "name": "value", "values": [] },
+        { "name": "disabled", "values": [] },
+        { "name": "required", "values": [] },
+        { "name": "optional", "values": [] },
+        { "name": "_tooltip", "values": [] },
+        { "name": "form", "values": [] },
+        { "name": "inverted", "values": [] },
+        { "name": "showError", "values": [] },
+        { "name": "errorMessage", "values": [] },
         {
           "name": "width",
-          "values": [{ "name": "(typeof NysModal.VALID_WIDTHS)[number]" }]
+          "values": [{ "name": "(typeof NysSelect.VALID_WIDTHS)[number]" }]
         }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-fileinput",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-change**",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "name", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "description", "values": [] },
+        { "name": "multiple", "values": [] },
+        { "name": "form", "values": [] },
+        { "name": "_tooltip", "values": [] },
+        { "name": "accept", "values": [] },
+        { "name": "disabled", "values": [] },
+        { "name": "required", "values": [] },
+        { "name": "optional", "values": [] },
+        { "name": "showError", "values": [] },
+        { "name": "errorMessage", "values": [] },
+        { "name": "dropzone", "values": [] },
+        { "name": "width", "values": [{ "name": "lg" }, { "name": "full" }] },
+        { "name": "inverted", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-fileitem",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-fileRemove**",
+      "attributes": [
+        { "name": "filename", "values": [] },
+        {
+          "name": "status",
+          "values": [
+            { "name": "" },
+            { "name": "pending" },
+            { "name": "processing" },
+            { "name": "done" },
+            { "name": "error" }
+          ]
+        },
+        { "name": "progress", "values": [] },
+        { "name": "errorMessage", "values": [] }
       ],
       "references": []
     },
@@ -361,75 +381,18 @@
       "references": []
     },
     {
-      "name": "nys-option",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "disabled", "values": [] },
-        { "name": "selected", "values": [] },
-        { "name": "value", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "hidden", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-select",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-change**\n- **nys-focus**\n- **nys-blur**\n\n### **Methods:**\n - **checkValidity(): _boolean_** - ******************** Functions *********************",
+      "name": "nys-modal",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-open**\n- **nys-close**",
       "attributes": [
         { "name": "id", "values": [] },
-        { "name": "name", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "description", "values": [] },
-        { "name": "value", "values": [] },
-        { "name": "disabled", "values": [] },
-        { "name": "required", "values": [] },
-        { "name": "optional", "values": [] },
-        { "name": "_tooltip", "values": [] },
-        { "name": "form", "values": [] },
-        { "name": "inverted", "values": [] },
-        { "name": "showError", "values": [] },
-        { "name": "errorMessage", "values": [] },
+        { "name": "heading", "values": [] },
+        { "name": "subheading", "values": [] },
+        { "name": "open", "values": [] },
+        { "name": "mandatory", "values": [] },
         {
           "name": "width",
-          "values": [{ "name": "(typeof NysSelect.VALID_WIDTHS)[number]" }]
+          "values": [{ "name": "(typeof NysModal.VALID_WIDTHS)[number]" }]
         }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-pagination",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-change**",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "name", "values": [] },
-        { "name": "currentPage", "values": [] },
-        { "name": "totalPages", "values": [] },
-        { "name": "_twoBeforeLast", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-step",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "selected", "values": [] },
-        { "name": "current", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "href", "values": [] },
-        { "name": "isCompactExpanded", "values": [] },
-        { "name": "stepNumber", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-stepper",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "name", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "counterText", "values": [] },
-        { "name": "isCompactExpanded", "values": [] }
       ],
       "references": []
     },
@@ -462,6 +425,18 @@
         },
         { "name": "showError", "values": [] },
         { "name": "errorMessage", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-pagination",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-change**",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "name", "values": [] },
+        { "name": "currentPage", "values": [] },
+        { "name": "totalPages", "values": [] },
+        { "name": "_twoBeforeLast", "values": [] }
       ],
       "references": []
     },
@@ -501,6 +476,37 @@
       "references": []
     },
     {
+      "name": "nys-step",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "selected", "values": [] },
+        { "name": "current", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "href", "values": [] },
+        { "name": "isCompactExpanded", "values": [] },
+        { "name": "stepNumber", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-stepper",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "name", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "counterText", "values": [] },
+        { "name": "isCompactExpanded", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-unavfooter",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
       "name": "nys-toggle",
       "description": "\n---\n\n\n### **Events:**\n - **nys-change**\n- **nys-focus**\n- **nys-blur**",
       "attributes": [
@@ -519,21 +525,6 @@
           "values": [{ "name": "(typeof NysToggle.VALID_SIZES)[number]" }]
         }
       ],
-      "references": []
-    },
-    {
-      "name": "nys-skipnav",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "href", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-unavfooter",
-      "description": "\n---\n",
-      "attributes": [],
       "references": []
     },
     {
@@ -562,6 +553,15 @@
         { "name": "inverted", "values": [] },
         { "name": "focusable", "values": [] },
         { "name": "position", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-skipnav",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "href", "values": [] }
       ],
       "references": []
     }
