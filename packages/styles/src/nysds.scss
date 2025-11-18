@@ -12,7 +12,7 @@
 
 
 /* Include Design Tokens (variables for colors, spacing, typography) */
-@import "./core/tokens.css";
+@use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
 nys-accordion:not(:defined),
