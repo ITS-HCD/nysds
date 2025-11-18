@@ -40,6 +40,7 @@ export class NysSelect extends LitElement {
 
   static styles = styles;
 
+  private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
@@ -57,6 +58,8 @@ export class NysSelect extends LitElement {
     if (!this.id) {
       this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
     }
+
+    this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -152,7 +155,7 @@ export class NysSelect extends LitElement {
     const select = this.shadowRoot?.querySelector("select");
     if (!select) return;
 
-    const message = this.errorMessage || "Please select an option.";
+    const message = this.errorMessage || "This field is required.";
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
@@ -171,16 +174,16 @@ export class NysSelect extends LitElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
+
     // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
+    if (this._originalErrorMessage?.trim() && message !== "") {
+      this.errorMessage = this._originalErrorMessage;
+    } else {
+      this.errorMessage = message;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      select,
-    );
+    const validityState = message ? { customError: true } : {};
+    this._internals.setValidity(validityState, this.errorMessage, select);
   }
 
   private _validate() {
@@ -323,7 +326,7 @@ export class NysSelect extends LitElement {
         </div>
         <nys-errormessage
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.errorMessage}
         ></nys-errormessage>
       </div>
     `;
