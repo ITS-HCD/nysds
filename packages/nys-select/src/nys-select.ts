@@ -110,8 +110,13 @@ export class NysSelect extends LitElement {
 
       // ---- Handle native <option> ----
       if (node.tagName === "OPTION") {
-        const optionClone = node.cloneNode(true) as HTMLOptionElement;
+        const original = node as HTMLOptionElement;
+        const optionClone = original.cloneNode(true) as HTMLOptionElement;
+
         optionClone.setAttribute("data-native", "true");
+        optionClone.disabled = original.disabled;
+        optionClone.selected = original.selected;
+
         select.appendChild(optionClone);
         return;
       }
