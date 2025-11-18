@@ -1,11 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-badge.scss?inline';
+import styles from "./nys-badge.scss?inline";
 
 export class NysBadge extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   //size prop

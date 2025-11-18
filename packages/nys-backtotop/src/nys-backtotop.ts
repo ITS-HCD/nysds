@@ -1,8 +1,7 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-backtotop.scss?inline';
-
+import styles from "./nys-backtotop.scss?inline";
 
 export class NysBacktotop extends LitElement {
   static styles = unsafeCSS(styles);

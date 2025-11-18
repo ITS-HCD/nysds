@@ -3,7 +3,7 @@ import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "./nys-radiogroup";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-radiobutton.scss?inline';
+import styles from "./nys-radiobutton.scss?inline";
 
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 

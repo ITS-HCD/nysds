@@ -5,7 +5,7 @@ import styles from "./nys-divider.scss?inline";
 
 export class NysDivider extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: Boolean, reflect: true }) inverted = false;
 
   constructor() {

@@ -31,7 +31,7 @@
     "lint": "eslint src/ packages/**/*.{ts,js}",
     "lint:fix": "eslint src/ packages/**/*.{ts,js} --fix",
     "lit-analyze": "lit-analyzer $(find ./packages -name '*.ts' ! -name '*.figma.*')",
-    "release": "NODE_ENV=production npm run build:all && npm run test && npm publish --workspaces --access public && npm publish --access public",
+    "release": "NODE_ENV=production npm run build:all && NODE_ENV=production npm run test && npm run cem && NODE_ENV=production npm publish --workspaces --access public && NODE_ENV=production npm publish --access public",
     "release:dry-run": "NODE_ENV=production npm run build:all && NODE_ENV=production npm run test && npm run cem && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
     "test": "npx playwright install && wtr --node-resolve",

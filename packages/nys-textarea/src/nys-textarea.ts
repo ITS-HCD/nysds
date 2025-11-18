@@ -2,13 +2,13 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-textarea.scss?inline';
+import styles from "./nys-textarea.scss?inline";
 
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextarea extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";

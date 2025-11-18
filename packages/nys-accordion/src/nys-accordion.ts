@@ -2,7 +2,7 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import "./nys-accordionitem";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-accordion.scss?inline';
+import styles from "./nys-accordion.scss?inline";
 
 let accordionIdCounter = 0; // Counter for generating unique IDs
 
@@ -16,7 +16,6 @@ export class NysAccordion extends LitElement {
   @property({ type: String }) id = "";
   @property({ type: Boolean, reflect: true }) singleSelect = false;
   @property({ type: Boolean, reflect: true }) bordered = false;
-
 
   /**************** Lifecycle Methods ****************/
   constructor() {

@@ -1,11 +1,11 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-stepper.scss?inline';
+import styles from "./nys-stepper.scss?inline";
 
 export class NysStep extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) current = false;
   @property({ type: String }) label = "";

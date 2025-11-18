@@ -2,11 +2,11 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-unavheader.scss?inline';
+import styles from "./nys-unavheader.scss?inline";
 
 export class NysUnavHeader extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: Boolean }) trustbarVisible = false;
   @property({ type: Boolean }) searchDropdownVisible = false;
   @property({ type: Boolean }) languageVisible = false;

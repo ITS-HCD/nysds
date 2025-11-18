@@ -2,13 +2,13 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-textinput.scss?inline';
+import styles from "./nys-textinput.scss?inline";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: String }) id = "";
   @property({ type: String, reflect: true }) name = "";
   private static readonly VALID_TYPES = [

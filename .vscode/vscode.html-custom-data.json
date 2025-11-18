@@ -24,6 +24,27 @@
       "references": []
     },
     {
+      "name": "nys-badge",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "name", "values": [] },
+        {
+          "name": "size",
+          "values": [{ "name": "(typeof NysBadge.VALID_SIZES)[number]" }]
+        },
+        {
+          "name": "intent",
+          "values": [{ "name": "(typeof NysBadge.VALID_INTENT)[number]" }]
+        },
+        { "name": "prefixLabel", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "prefixicon", "values": [] },
+        { "name": "suffixicon", "values": [] }
+      ],
+      "references": []
+    },
+    {
       "name": "nys-avatar",
       "description": "\n---\n",
       "attributes": [
@@ -62,15 +83,6 @@
         { "name": "primaryLabel", "values": [] },
         { "name": "secondaryLabel", "values": [] },
         { "name": "type", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-backtotop",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "position", "values": [] },
-        { "name": "visible", "values": [] }
       ],
       "references": []
     },
@@ -114,23 +126,11 @@
       "references": []
     },
     {
-      "name": "nys-badge",
+      "name": "nys-backtotop",
       "description": "\n---\n",
       "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "name", "values": [] },
-        {
-          "name": "size",
-          "values": [{ "name": "(typeof NysBadge.VALID_SIZES)[number]" }]
-        },
-        {
-          "name": "intent",
-          "values": [{ "name": "(typeof NysBadge.VALID_INTENT)[number]" }]
-        },
-        { "name": "prefixLabel", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "prefixicon", "values": [] },
-        { "name": "suffixicon", "values": [] }
+        { "name": "position", "values": [] },
+        { "name": "visible", "values": [] }
       ],
       "references": []
     },
@@ -191,12 +191,16 @@
       "references": []
     },
     {
-      "name": "nys-errormessage",
+      "name": "nys-globalheader",
       "description": "\n---\n",
       "attributes": [
-        { "name": "showError", "values": [] },
-        { "name": "errorMessage", "values": [] },
-        { "name": "showDivider", "values": [] }
+        {
+          "name": "appName",
+          "description": "******************** Properties *********************",
+          "values": []
+        },
+        { "name": "agencyName", "values": [] },
+        { "name": "homepageLink", "values": [] }
       ],
       "references": []
     },
@@ -257,6 +261,16 @@
       "references": []
     },
     {
+      "name": "nys-errormessage",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "showError", "values": [] },
+        { "name": "errorMessage", "values": [] },
+        { "name": "showDivider", "values": [] }
+      ],
+      "references": []
+    },
+    {
       "name": "nys-icon",
       "description": "\n---\n",
       "attributes": [
@@ -268,36 +282,6 @@
         {
           "name": "size",
           "values": [{ "name": "(typeof NysIcon.VALID_TYPES)[number]" }]
-        }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-globalheader",
-      "description": "\n---\n",
-      "attributes": [
-        {
-          "name": "appName",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "agencyName", "values": [] },
-        { "name": "homepageLink", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-modal",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-open**\n- **nys-close**",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "heading", "values": [] },
-        { "name": "subheading", "values": [] },
-        { "name": "open", "values": [] },
-        { "name": "mandatory", "values": [] },
-        {
-          "name": "width",
-          "values": [{ "name": "(typeof NysModal.VALID_WIDTHS)[number]" }]
         }
       ],
       "references": []
@@ -316,14 +300,18 @@
       "references": []
     },
     {
-      "name": "nys-pagination",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-change**",
+      "name": "nys-modal",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-open**\n- **nys-close**",
       "attributes": [
         { "name": "id", "values": [] },
-        { "name": "name", "values": [] },
-        { "name": "currentPage", "values": [] },
-        { "name": "totalPages", "values": [] },
-        { "name": "_twoBeforeLast", "values": [] }
+        { "name": "heading", "values": [] },
+        { "name": "subheading", "values": [] },
+        { "name": "open", "values": [] },
+        { "name": "mandatory", "values": [] },
+        {
+          "name": "width",
+          "values": [{ "name": "(typeof NysModal.VALID_WIDTHS)[number]" }]
+        }
       ],
       "references": []
     },
@@ -409,11 +397,14 @@
       "references": []
     },
     {
-      "name": "nys-skipnav",
-      "description": "\n---\n",
+      "name": "nys-pagination",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-change**",
       "attributes": [
         { "name": "id", "values": [] },
-        { "name": "href", "values": [] }
+        { "name": "name", "values": [] },
+        { "name": "currentPage", "values": [] },
+        { "name": "totalPages", "values": [] },
+        { "name": "_twoBeforeLast", "values": [] }
       ],
       "references": []
     },
@@ -475,37 +466,6 @@
       "references": []
     },
     {
-      "name": "nys-toggle",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-change**\n- **nys-focus**\n- **nys-blur**",
-      "attributes": [
-        {
-          "name": "id",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "name", "values": [] },
-        { "name": "value", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "description", "values": [] },
-        { "name": "form", "values": [] },
-        { "name": "checked", "values": [] },
-        { "name": "disabled", "values": [] },
-        { "name": "noIcon", "values": [] },
-        { "name": "inverted", "values": [] },
-        {
-          "name": "size",
-          "values": [{ "name": "(typeof NysToggle.VALID_SIZES)[number]" }]
-        }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-unavfooter",
-      "description": "\n---\n",
-      "attributes": [],
-      "references": []
-    },
-    {
       "name": "nys-textinput",
       "description": "\n---\n\n\n### **Events:**\n - **nys-input**\n- **nys-focus**\n- **nys-blur**\n\n### **Methods:**\n - **checkValidity(): _boolean_** - ******************** Functions *********************",
       "attributes": [
@@ -541,15 +501,39 @@
       "references": []
     },
     {
-      "name": "nys-tooltip",
+      "name": "nys-toggle",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-change**\n- **nys-focus**\n- **nys-blur**",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "name", "values": [] },
+        { "name": "value", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "description", "values": [] },
+        { "name": "form", "values": [] },
+        { "name": "checked", "values": [] },
+        { "name": "disabled", "values": [] },
+        { "name": "noIcon", "values": [] },
+        { "name": "inverted", "values": [] },
+        {
+          "name": "size",
+          "values": [{ "name": "(typeof NysToggle.VALID_SIZES)[number]" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-skipnav",
       "description": "\n---\n",
       "attributes": [
         { "name": "id", "values": [] },
-        { "name": "text", "values": [] },
-        { "name": "inverted", "values": [] },
-        { "name": "focusable", "values": [] },
-        { "name": "position", "values": [] }
+        { "name": "href", "values": [] }
       ],
+      "references": []
+    },
+    {
+      "name": "nys-unavfooter",
+      "description": "\n---\n",
+      "attributes": [],
       "references": []
     },
     {
@@ -566,6 +550,18 @@
           "name": "languages",
           "values": [{ "name": "[string" }, { "name": "string][]" }]
         }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-tooltip",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "text", "values": [] },
+        { "name": "inverted", "values": [] },
+        { "name": "focusable", "values": [] },
+        { "name": "position", "values": [] }
       ],
       "references": []
     }

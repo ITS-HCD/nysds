@@ -2,7 +2,7 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-toggle.scss?inline';
+import styles from "./nys-toggle.scss?inline";
 
 let toggleIdCounter = 0; // Counter for generating unique IDs
 

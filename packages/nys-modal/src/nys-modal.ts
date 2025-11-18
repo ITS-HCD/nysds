@@ -7,7 +7,7 @@ let componentIdCounter = 0; // Counter for generating unique IDs
 
 export class NysModal extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: String }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) subheading = "";

@@ -1,7 +1,7 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-unavfooter.scss?inline';
+import styles from "./nys-unavfooter.scss?inline";
 
 export class NysUnavFooter extends LitElement {
   static styles = unsafeCSS(styles);

@@ -3,7 +3,6 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalfooter.scss?inline";
 
-
 export class NysGlobalFooter extends LitElement {
   static styles = unsafeCSS(styles);
 

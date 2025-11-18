@@ -3,10 +3,9 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileitem.scss?inline";
 
-
 export class NysFileItem extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   @property({ type: String }) filename = "";
   @property({ type: String }) status:
     | "pending"

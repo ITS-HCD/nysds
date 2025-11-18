@@ -2,8 +2,7 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import type { NysRadiobutton } from "./nys-radiobutton";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from './nys-radiobutton.scss?inline';
-
+import styles from "./nys-radiobutton.scss?inline";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
