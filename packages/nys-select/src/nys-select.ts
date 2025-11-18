@@ -148,6 +148,14 @@ export class NysSelect extends LitElement {
         return;
       }
     });
+
+    // ---- sync initial selected state into component value ----
+    const selectedOption = Array.from(select.options).find((o) => o.selected);
+
+    if (selectedOption) {
+      this.value = selectedOption.value;
+      this._internals.setFormValue(this.value);
+    }
   }
 
   /********************** Form Integration **********************/
@@ -246,9 +254,16 @@ export class NysSelect extends LitElement {
     this.value = select.value;
     this._internals.setFormValue(this.value);
 
-    // Field is invalid after unfocused, validate aggressively on each change (e.g. Eager mode: a combination of aggressive and lazy.)
+    // Clear error immediately if value is now valid
+    if (this.required && this.value) {
+      this.showError = false;
+      this.errorMessage = "";
+      this._internals.setValidity({});
+    }
+
+    // Validate aggressively if the user has already interacted
     if (this._hasUserInteracted) {
-      this._validate(); // Validate immediately if an error was found before
+      this._validate();
     }
 
     this.dispatchEvent(
