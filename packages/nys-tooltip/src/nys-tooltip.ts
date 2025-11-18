@@ -20,6 +20,8 @@ export class NysTooltip extends LitElement {
   private _originalUserPosition: typeof this._position | null = null;
   // Internal flag to prevent dynamic positioning when not needed
   private _internallyUpdatingPosition = false;
+  // Flag for hiding the timeout
+  private _hideTimeout: number | null = null;
 
   static styles = styles;
 
@@ -62,11 +64,16 @@ export class NysTooltip extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     const ref = this._getReferenceElement();
-    if (ref) {
+    const tooltip = this.shadowRoot?.querySelector(".nys-tooltip__content");
+
+    if (ref && tooltip) {
       ref.removeEventListener("mouseenter", this._showTooltip);
+      ref.removeEventListener("mouseenter", this._cancelFadeOut);
       ref.removeEventListener("mouseleave", this._handleBlurOrMouseLeave);
       ref.removeEventListener("focusin", this._showTooltip);
       ref.removeEventListener("focusout", this._handleBlurOrMouseLeave);
+      tooltip.removeEventListener("mouseenter", this._cancelFadeOut);
+      tooltip.removeEventListener("mouseleave", this._handleBlurOrMouseLeave);
     }
     window.removeEventListener("keydown", this._handleEscapeKey);
   }
@@ -74,7 +81,9 @@ export class NysTooltip extends LitElement {
   async firstUpdated() {
     await this.updateComplete;
     const ref = this._getReferenceElement();
-    if (!ref) return;
+    const tooltip = this.shadowRoot?.querySelector(".nys-tooltip__content");
+
+    if (!ref || !tooltip) return;
 
     this.applyInverseTransform();
     this._applyTooltipPropToFormComponent(ref);
@@ -85,9 +94,12 @@ export class NysTooltip extends LitElement {
     ) {
       this._applyFocusBehavior(ref);
       ref.addEventListener("mouseenter", this._showTooltip);
+      ref.addEventListener("mouseenter", this._cancelFadeOut);
       ref.addEventListener("mouseleave", this._handleBlurOrMouseLeave);
       ref.addEventListener("focusin", this._showTooltip);
       ref.addEventListener("focusout", this._handleBlurOrMouseLeave);
+      tooltip.addEventListener("mouseenter", this._cancelFadeOut);
+      tooltip.addEventListener("mouseleave", this._handleBlurOrMouseLeave);
     }
   }
 
@@ -112,7 +124,8 @@ export class NysTooltip extends LitElement {
   }
 
   /*************************************** Event Handlers ***************************************/
-  // When we show the tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
+  // When we show the tooltip, check if user has set position to give it preference it space allows.
+  // Otherwise dynamically position tooltip.
   private _showTooltip = () => {
     this._active = true;
     this._addScrollListeners();
@@ -134,18 +147,51 @@ export class NysTooltip extends LitElement {
   };
 
   private _handleBlurOrMouseLeave = () => {
-    this._active = false;
-    this._removeScrollListeners();
-    this._positionStartingBase();
-
+    const ref = this._getReferenceElement();
     const tooltip = this.shadowRoot?.querySelector(
       ".nys-tooltip__content",
     ) as HTMLElement;
 
-    if (tooltip) {
-      this._resetTooltipPositioningStyles(tooltip);
-    }
+    if (!ref || !tooltip) return;
+
+    // Pointer being inside either the tooltip or the attached component should cancel any fade out.
+    if (this._isPointerInside(ref, tooltip)) return;
+    console.log(this._isPointerInside(ref, tooltip))
+
+    this._triggerFadeOut(tooltip);
   };
+
+private _triggerFadeOut(tooltip: HTMLElement) {
+  if (this._hideTimeout) return;
+  if (!tooltip) return;
+
+  tooltip.classList.add("fade-out");
+
+  this._hideTimeout = window.setTimeout(() => {
+    this._active = false;
+    this._removeScrollListeners();
+    this._positionStartingBase();
+    this._resetTooltipPositioningStyles(tooltip);
+
+    tooltip.classList.remove("fade-out");
+    this._hideTimeout = null;
+  }, 200);
+}
+
+
+private _cancelFadeOut = () => {
+  const tooltip = this.shadowRoot?.querySelector(".nys-tooltip__content") as HTMLElement;
+  if (!tooltip) return;
+
+  if (this._hideTimeout) {
+    clearTimeout(this._hideTimeout);
+    this._hideTimeout = null;
+  }
+
+  tooltip.classList.remove("fade-out");
+  this._active = true;
+};
+
 
   // Listen to window scroll so a focus tooltip can auto position even when user move across the page
   private _addScrollListeners() {
@@ -211,9 +257,6 @@ export class NysTooltip extends LitElement {
 
     if (tagName === "nys-icon") {
       // For nys-icon, use ariaLabel instead
-      const existingLabel = el.getAttribute("ariaLabel") || "";
-      console.log("existingLabel", existingLabel);
-
       el.setAttribute("ariaLabel", `Hint: ${this.text}`);
     } else if (tagName === "nys-button") {
       // For other components like nys-button, use ariaDescription
@@ -395,7 +438,6 @@ export class NysTooltip extends LitElement {
     const tooltipRect = tooltip.getBoundingClientRect();
     const margin = 8;
 
-    console.log(bestPosition);
     let top = 0;
     let left = 0;
 
@@ -433,6 +475,10 @@ export class NysTooltip extends LitElement {
     document.querySelectorAll('div[scale="1"]').forEach((el) => {
       (el as HTMLElement).style.transform = "none";
     });
+  }
+
+  private _isPointerInside(ref: Element, tooltip: Element) {
+    return ref.matches(":hover") || tooltip.matches(":hover");
   }
 
   private _setInternalPosition(bestPosition: typeof this._position) {
@@ -492,9 +538,7 @@ export class NysTooltip extends LitElement {
               role="tooltip"
               aria-hidden=${!this._active}
               ?active=${this._active}
-              style="visibility: ${this._active
-                ? "visible"
-                : "hidden"}; opacity: ${this._active ? "1" : "0"};"
+              style="visibility: ${this._active ? "visible" : "hidden"}; "
             >
               <div class="nys-tooltip__inner">${this.text}</div>
               <span class="nys-tooltip__arrow"></span>

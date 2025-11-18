@@ -66,6 +66,11 @@ export default css`
     display: block;
   }
 
+  .fade-out {
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
   /* ===================== POSITIONING ===================== */
   /* Top */
   :host([position="top"]) .nys-tooltip__arrow {
