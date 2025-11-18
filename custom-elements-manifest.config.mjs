@@ -37,7 +37,6 @@ export default {
   /** Provide custom plugins */
   plugins: [
     // customElementReactWrapperPlugin(reactOpts), // disabling until we get around to testing the react wrappers
-    customElementVsCodePlugin(vscodeOpts), // disabling because it generates the same file differently each time causing merge conflicts
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
@@ -60,7 +59,9 @@ export default {
           }
         }
       }
-    }
+    },
+        customElementVsCodePlugin(vscodeOpts), // disabling because it generates the same file differently each time causing merge conflicts
+
 ],
   /**
    * Resolution options when using `dependencies: true`

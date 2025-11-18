@@ -3,6 +3,69 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "nys-accordion",
+      "description": "The \"nys-accordion\" is the wrapper that groups individual accordion items within it.\nThe items within is called \"nys-accordionitem\"\n---\n",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "singleSelect", "values": [] },
+        { "name": "bordered", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-accordionitem",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-accordionitem-toggle**",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "heading", "values": [] },
+        { "name": "expanded", "values": [] },
+        { "name": "bordered", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-alert",
+      "description": "\n---\n\n\n### **Events:**\n - **nys-close**",
+      "attributes": [
+        {
+          "name": "id",
+          "description": "******************** Properties *********************",
+          "values": []
+        },
+        { "name": "heading", "values": [] },
+        { "name": "icon", "values": [] },
+        { "name": "dismissible", "values": [] },
+        { "name": "duration", "values": [] },
+        { "name": "text", "values": [] },
+        { "name": "primaryAction", "values": [] },
+        { "name": "secondaryAction", "values": [] },
+        { "name": "primaryLabel", "values": [] },
+        { "name": "secondaryLabel", "values": [] },
+        { "name": "type", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-avatar",
+      "description": "\n---\n",
+      "attributes": [
+        {
+          "name": "id",
+          "description": "******************** Properties *********************",
+          "values": []
+        },
+        { "name": "ariaLabel", "values": [] },
+        { "name": "image", "values": [] },
+        { "name": "initials", "values": [] },
+        { "name": "icon", "values": [] },
+        { "name": "color", "values": [] },
+        { "name": "interactive", "values": [] },
+        { "name": "disabled", "values": [] },
+        { "name": "lazy", "values": [] }
+      ],
+      "references": []
+    },
+    {
       "name": "nys-backtotop",
       "description": "\n---\n",
       "attributes": [
@@ -29,69 +92,6 @@
         { "name": "label", "values": [] },
         { "name": "prefixicon", "values": [] },
         { "name": "suffixicon", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-accordion",
-      "description": "The \"nys-accordion\" is the wrapper that groups individual accordion items within it.\nThe items within is called \"nys-accordionitem\"\n---\n",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "singleSelect", "values": [] },
-        { "name": "bordered", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-accordionitem",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-accordionitem-toggle**",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "heading", "values": [] },
-        { "name": "expanded", "values": [] },
-        { "name": "bordered", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-avatar",
-      "description": "\n---\n",
-      "attributes": [
-        {
-          "name": "id",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "ariaLabel", "values": [] },
-        { "name": "image", "values": [] },
-        { "name": "initials", "values": [] },
-        { "name": "icon", "values": [] },
-        { "name": "color", "values": [] },
-        { "name": "interactive", "values": [] },
-        { "name": "disabled", "values": [] },
-        { "name": "lazy", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-alert",
-      "description": "\n---\n\n\n### **Events:**\n - **nys-close**",
-      "attributes": [
-        {
-          "name": "id",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "heading", "values": [] },
-        { "name": "icon", "values": [] },
-        { "name": "dismissible", "values": [] },
-        { "name": "duration", "values": [] },
-        { "name": "text", "values": [] },
-        { "name": "primaryAction", "values": [] },
-        { "name": "secondaryAction", "values": [] },
-        { "name": "primaryLabel", "values": [] },
-        { "name": "secondaryLabel", "values": [] },
-        { "name": "type", "values": [] }
       ],
       "references": []
     },
@@ -201,48 +201,6 @@
       "references": []
     },
     {
-      "name": "nys-globalfooter",
-      "description": "\n---\n",
-      "attributes": [
-        {
-          "name": "agencyName",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "homepageLink", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-label",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "for", "values": [] },
-        { "name": "label", "values": [] },
-        { "name": "description", "values": [] },
-        { "name": "flag", "values": [] },
-        { "name": "inverted", "values": [] },
-        { "name": "tooltip", "values": [] }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-icon",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "name", "values": [] },
-        { "name": "ariaLabel", "values": [] },
-        { "name": "rotate", "values": [] },
-        { "name": "flip", "values": [] },
-        { "name": "color", "values": [] },
-        {
-          "name": "size",
-          "values": [{ "name": "(typeof NysIcon.VALID_TYPES)[number]" }]
-        }
-      ],
-      "references": []
-    },
-    {
       "name": "nys-fileinput",
       "description": "\n---\n\n\n### **Events:**\n - **nys-change**",
       "attributes": [
@@ -282,6 +240,62 @@
         },
         { "name": "progress", "values": [] },
         { "name": "errorMessage", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-globalfooter",
+      "description": "\n---\n",
+      "attributes": [
+        {
+          "name": "agencyName",
+          "description": "******************** Properties *********************",
+          "values": []
+        },
+        { "name": "homepageLink", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-globalheader",
+      "description": "\n---\n",
+      "attributes": [
+        {
+          "name": "appName",
+          "description": "******************** Properties *********************",
+          "values": []
+        },
+        { "name": "agencyName", "values": [] },
+        { "name": "homepageLink", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-icon",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "name", "values": [] },
+        { "name": "ariaLabel", "values": [] },
+        { "name": "rotate", "values": [] },
+        { "name": "flip", "values": [] },
+        { "name": "color", "values": [] },
+        {
+          "name": "size",
+          "values": [{ "name": "(typeof NysIcon.VALID_TYPES)[number]" }]
+        }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-label",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "for", "values": [] },
+        { "name": "label", "values": [] },
+        { "name": "description", "values": [] },
+        { "name": "flag", "values": [] },
+        { "name": "inverted", "values": [] },
+        { "name": "tooltip", "values": [] }
       ],
       "references": []
     },
@@ -391,20 +405,6 @@
           "name": "width",
           "values": [{ "name": "(typeof NysSelect.VALID_WIDTHS)[number]" }]
         }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-globalheader",
-      "description": "\n---\n",
-      "attributes": [
-        {
-          "name": "appName",
-          "description": "******************** Properties *********************",
-          "values": []
-        },
-        { "name": "agencyName", "values": [] },
-        { "name": "homepageLink", "values": [] }
       ],
       "references": []
     },
@@ -531,6 +531,24 @@
       "references": []
     },
     {
+      "name": "nys-tooltip",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "text", "values": [] },
+        { "name": "inverted", "values": [] },
+        { "name": "focusable", "values": [] },
+        { "name": "position", "values": [] }
+      ],
+      "references": []
+    },
+    {
+      "name": "nys-unavfooter",
+      "description": "\n---\n",
+      "attributes": [],
+      "references": []
+    },
+    {
       "name": "nys-unavheader",
       "description": "\n---\n",
       "attributes": [
@@ -544,24 +562,6 @@
           "name": "languages",
           "values": [{ "name": "[string" }, { "name": "string][]" }]
         }
-      ],
-      "references": []
-    },
-    {
-      "name": "nys-unavfooter",
-      "description": "\n---\n",
-      "attributes": [],
-      "references": []
-    },
-    {
-      "name": "nys-tooltip",
-      "description": "\n---\n",
-      "attributes": [
-        { "name": "id", "values": [] },
-        { "name": "text", "values": [] },
-        { "name": "inverted", "values": [] },
-        { "name": "focusable", "values": [] },
-        { "name": "position", "values": [] }
       ],
       "references": []
     }
