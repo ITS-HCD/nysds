@@ -26,7 +26,7 @@
     "build": "npm run lint && tsc --emitDeclarationOnly && vite build",
     "build:umd": "tsc --emitDeclarationOnly && vite build --config vite.config.umd.js",
     "build:packages": "npm run lint && node src/scripts/build-order.js",
-    "build:all": "npm run clean:dist && NODE_ENV=production npm run build:packages && NODE_ENV=production npm run build && NODE_ENV=production npm run build:umd",
+    "build:all": "npm run clean:dist && NODE_ENV=production npm run build:packages && NODE_ENV=production npm run build && NODE_ENV=production npm run build:umd && npm run cem",
     "build:link": "npm run build:all && npm link",
     "lint": "eslint src/ packages/**/*.{ts,js}",
     "lint:fix": "eslint src/ packages/**/*.{ts,js} --fix",
@@ -103,5 +103,5 @@
   "overrides": {
     "storybook": "$storybook"
   },
-  "customElements": "custom-elements.json"
+  "customElements": "dist/custom-elements.json"
 }
