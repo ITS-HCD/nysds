@@ -1,12 +1,13 @@
-import { defineConfig } from "vite";
+import { mergeConfig } from "vite";
+import { defaultConfig } from "../../vite.config.js";
 
 // Banner to put at the top of the generated files
 const banner = `
 /*!
-   * ▒█▄░▒█ ▒█░░▒█ ▒█▀▀▀█ ▒█▀▀▄ ▒█▀▀▀█ 
-   * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
-   * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
-   * 
+   * █▄  █  █   █  █▀▀▀█  █▀▀▄  █▀▀▀█
+   * █ █ █  █▄▄▄█  ▀▀▀▄▄  █   █ ▀▀▀▄▄
+   * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
+   *
    * Modal Component
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
@@ -14,23 +15,16 @@ const banner = `
 */
 `;
 
-export default defineConfig(({ mode }) => ({
+const overrideConfig = {
   build: {
     lib: {
-      entry: ["src/index.ts"], // Simplified entry point
-      fileName: "nys-modal", // Output file name
-      formats: ["es"], // ES build only
+      fileName: () => "nys-modal.js",
     },
-    emptyOutDir: false,
-    sourcemap: true, // Enable sourcemaps
+    emptyOutDir: true, // Since we're building both ES and UMD formats
     rollupOptions: {
-      external: ["lit"], // Externalize Lit for ES build
-      output: {
-        banner: mode === "production" ? banner : undefined, // Add banner only in production
-        globals: {
-          lit: "Lit",
-        },
-      },
+      output: [{ banner }],
     },
   },
-}));
+};
+
+export default mergeConfig(defaultConfig, overrideConfig);

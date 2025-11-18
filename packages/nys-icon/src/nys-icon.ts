@@ -1,16 +1,17 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
-import styles from "./nys-icon.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-icon.scss?inline";
 
 export class NysIcon extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) flip = "";
   @property({ type: String }) color = "";
-
-  static styles = styles;
 
   private static readonly VALID_TYPES = [
     "xs",

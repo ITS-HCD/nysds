@@ -1,43 +1,30 @@
-import { defineConfig } from "vite";
+import { mergeConfig } from "vite";
+import { defaultConfig } from "../../vite.config.js";
 
 // Banner to put at the top of the generated files
 const banner = `
 /*!
-   * 
-   * ▒█▄░▒█ ▒█░░▒█ ▒█▀▀▀█ ▒█▀▀▄ ▒█▀▀▀█ 
-   * ▒█▒█▒█ ▒█▄▄▄█ ░▀▀▀▄▄ ▒█░▒█ ░▀▀▀▄▄ 
-   * ▒█░░▀█ ░░▒█░░ ▒█▄▄▄█ ▒█▄▄▀ ▒█▄▄▄█
-   * 
-   * Universal Navigation Header Component
+   * █▄  █  █   █  █▀▀▀█  █▀▀▄  █▀▀▀█
+   * █ █ █  █▄▄▄█  ▀▀▀▄▄  █   █ ▀▀▀▄▄
+   * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
+   *
+   * Unav Header Component
    * Part of the New York State Design System
-   * A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
 */
 `;
 
-export default defineConfig(({ mode }) => ({
+const overrideConfig = {
   build: {
     lib: {
-      entry: ["src/index.ts"], // Simplified entry point
-      fileName: "nys-unavheader", // Output file name
-      formats: ["es"], // ES build only
+      fileName: () => "nys-unavheader.js",
     },
-    emptyOutDir: false,
-    sourcemap: true, // Enable sourcemaps
+    emptyOutDir: true, // Since we're building both ES and UMD formats
     rollupOptions: {
-      external: [
-        "lit",
-        "@nysds/nys-icon",
-        "@nysds/nys-button",
-        "@nysds/nys-textinput",
-      ],
-      output: {
-        banner: mode === "production" ? banner : undefined, // Add banner only in production
-        globals: {
-          lit: "Lit",
-        },
-      },
+      output: [{ banner }],
     },
   },
-}));
+};
+
+export default mergeConfig(defaultConfig, overrideConfig);

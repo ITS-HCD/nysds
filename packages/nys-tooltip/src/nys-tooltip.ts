@@ -1,10 +1,13 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-tooltip.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-tooltip.scss?inline";
 
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTooltip extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
@@ -19,8 +22,6 @@ export class NysTooltip extends LitElement {
   private _originalUserPosition: typeof this._position | null = null;
   // Internal flag to prevent dynamic positioning when not needed
   private _internallyUpdatingPosition = false;
-
-  static styles = styles;
 
   /********************* Position Logic *********************/
   private _position: "top" | "bottom" | "left" | "right" | null = null;

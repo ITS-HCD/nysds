@@ -7,18 +7,18 @@ export default defineConfig({
     rollupOptions: {
       input: {
         // NYSDS Bundles: Using @import to create style bundles
-        nysds: "./src/nysds.css", // Main core styles
-        "nysds-full": "./src/nysds-full.css", // Core + utilities
+        nysds: "./src/nysds.scss", // Main core styles
+        "nysds-full": "./src/nysds-full.scss", // Core + utilities
         // Themes
-        "nysds-theme-admin": "./src/themes/admin.css",
-        "nysds-theme-business": "./src/themes/business.css",
-        "nysds-theme-environment": "./src/themes/environment.css",
-        "nysds-theme-health": "./src/themes/health.css",
-        "nysds-theme-local": "./src/themes/local.css",
-        "nysds-theme-safety": "./src/themes/safety.css",
-        "nysds-theme-transportation": "./src/themes/transportation.css",
+        "nysds-theme-admin": "./src/themes/admin.scss",
+        "nysds-theme-business": "./src/themes/business.scss",
+        "nysds-theme-environment": "./src/themes/environment.scss",
+        "nysds-theme-health": "./src/themes/health.scss",
+        "nysds-theme-local": "./src/themes/local.scss",
+        "nysds-theme-safety": "./src/themes/safety.scss",
+        "nysds-theme-transportation": "./src/themes/transportation.scss",
         // Typography
-        "nysds-typography": "./src/core/typography.css",
+        "nysds-typography": "./src/core/typography.scss",
       },
       output: {
         assetFileNames: "[name].min.css",

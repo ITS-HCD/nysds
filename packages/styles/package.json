@@ -28,7 +28,7 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "vite": "^7.1.2"
+    "vite": "^7.1.12"
   },
   "keywords": [
     "new-york-state",

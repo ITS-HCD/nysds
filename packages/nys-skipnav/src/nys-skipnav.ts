@@ -1,13 +1,14 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-skipnav.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-skipnav.scss?inline";
 
 export class NysSkipnav extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) href = "";
   // @property({ type: Boolean }) demoVisible = false; // For demo purposes only
-
-  static styles = styles;
 
   constructor() {
     super();

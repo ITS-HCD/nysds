@@ -1,8 +1,11 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-fileitem.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-fileitem.scss?inline";
 
 export class NysFileItem extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) filename = "";
   @property({ type: String }) status:
     | "pending"
@@ -11,8 +14,6 @@ export class NysFileItem extends LitElement {
     | "error" = "pending";
   @property({ type: Number }) progress = 0;
   @property({ type: String }) errorMessage = "";
-
-  static styles = styles;
 
   private _handleRemove() {
     this.dispatchEvent(

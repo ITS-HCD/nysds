@@ -1,12 +1,15 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import styles from "./nys-radiobutton.styles"; // Assuming styles are in a separate file
 import "./nys-radiogroup";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-radiobutton.scss?inline";
 
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiobutton extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
@@ -47,8 +50,6 @@ export class NysRadiobutton extends LitElement {
   }
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
-
-  static styles = styles;
 
   /********************** Lifecycle updates **********************/
   // Generate a unique ID if one is not provided
