@@ -1,15 +1,15 @@
 // import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
-// import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
+import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 
 // const reactOpts = {
 //   /** Output directory to write the React wrappers to - default is the root of the project */
 //   outdir: "dist/react-wrappers",
 // };
 
-// const vscodeOpts = {
-//   /** Output directory to write the React wrappers to - default is the root of the project */
-//   outdir: ".vscode",
-// };
+const vscodeOpts = {
+  /** Output directory to write the React wrappers to - default is the root of the project */
+  outdir: ".vscode",
+};
 
 export default {
   /** Globs to analyze */
@@ -37,7 +37,7 @@ export default {
   /** Provide custom plugins */
   plugins: [
     // customElementReactWrapperPlugin(reactOpts), // disabling until we get around to testing the react wrappers
-    // customElementVsCodePlugin(vscodeOpts) // disabling because it generates the same file differently each time causing merge conflicts
+    customElementVsCodePlugin(vscodeOpts), // disabling because it generates the same file differently each time causing merge conflicts
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
