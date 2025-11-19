@@ -317,8 +317,8 @@ export class NysSelect extends LitElement {
             style="display: none;"
           ></slot>
           <nys-icon
-            name="chevron_down"
-            size="xl"
+            name="expand_all"
+            size="2xl"
             class="nys-select__icon"
           ></nys-icon>
         </div>
