@@ -69,6 +69,15 @@ export class NysSelect extends LitElement {
   }
 
   firstUpdated() {
+    //read in slotted options
+    const slot = this.shadowRoot?.querySelector(
+      'slot:not([name="description"])',
+    ) as HTMLSlotElement | null;
+
+    if (slot) {
+      this._handleSlotChange();
+    }
+
     // This ensures our element always participates in the form
     this._setValue();
   }
@@ -160,6 +169,17 @@ export class NysSelect extends LitElement {
 
   /********************** Form Integration **********************/
   private _setValue() {
+    // // set value to the option that is selected by default
+    // const select = this.shadowRoot?.querySelector("select");
+    // if (!select) return;
+
+    // // for each option, see if it's selected
+    // Array.from(select.options).forEach((option) => {
+    //   if (option.selected) {
+    //     this.value = option.value;
+    //   }
+    // });
+
     this._internals.setFormValue(this.value);
     this._manageRequire(); // Check validation when value is set
   }
@@ -332,12 +352,9 @@ export class NysSelect extends LitElement {
             @blur="${this._handleBlur}"
             @change="${this._handleChange}"
           >
-            <option data-native hidden disabled selected value=""></option>
+            <option data-native hidden disabled value=""></option>
           </select>
-          <slot
-            @slotchange="${this._handleSlotChange}"
-            style="display: none;"
-          ></slot>
+          <slot style="display: none;"></slot>
           <nys-icon
             name="chevron_down"
             size="xl"
