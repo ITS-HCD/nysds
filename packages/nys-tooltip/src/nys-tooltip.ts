@@ -156,42 +156,42 @@ export class NysTooltip extends LitElement {
 
     // Pointer being inside either the tooltip or the attached component should cancel any fade out.
     if (this._isPointerInside(ref, tooltip)) return;
-    console.log(this._isPointerInside(ref, tooltip))
+    console.log(this._isPointerInside(ref, tooltip));
 
     this._triggerFadeOut(tooltip);
   };
 
-private _triggerFadeOut(tooltip: HTMLElement) {
-  if (this._hideTimeout) return;
-  if (!tooltip) return;
+  private _triggerFadeOut(tooltip: HTMLElement) {
+    if (this._hideTimeout) return;
+    if (!tooltip) return;
 
-  tooltip.classList.add("fade-out");
+    tooltip.classList.add("fade-out");
 
-  this._hideTimeout = window.setTimeout(() => {
-    this._active = false;
-    this._removeScrollListeners();
-    this._positionStartingBase();
-    this._resetTooltipPositioningStyles(tooltip);
+    this._hideTimeout = window.setTimeout(() => {
+      this._active = false;
+      this._removeScrollListeners();
+      this._positionStartingBase();
+      this._resetTooltipPositioningStyles(tooltip);
 
-    tooltip.classList.remove("fade-out");
-    this._hideTimeout = null;
-  }, 200);
-}
-
-
-private _cancelFadeOut = () => {
-  const tooltip = this.shadowRoot?.querySelector(".nys-tooltip__content") as HTMLElement;
-  if (!tooltip) return;
-
-  if (this._hideTimeout) {
-    clearTimeout(this._hideTimeout);
-    this._hideTimeout = null;
+      tooltip.classList.remove("fade-out");
+      this._hideTimeout = null;
+    }, 200);
   }
 
-  tooltip.classList.remove("fade-out");
-  this._active = true;
-};
+  private _cancelFadeOut = () => {
+    const tooltip = this.shadowRoot?.querySelector(
+      ".nys-tooltip__content",
+    ) as HTMLElement;
+    if (!tooltip) return;
 
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+      this._hideTimeout = null;
+    }
+
+    tooltip.classList.remove("fade-out");
+    this._active = true;
+  };
 
   // Listen to window scroll so a focus tooltip can auto position even when user move across the page
   private _addScrollListeners() {
