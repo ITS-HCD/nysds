@@ -1,10 +1,13 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-modal.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-modal.scss?inline";
 
 let componentIdCounter = 0; // Counter for generating unique IDs
 
 export class NysModal extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) subheading = "";
@@ -32,8 +35,6 @@ export class NysModal extends LitElement {
   // Track slot contents to control what HTML is rendered
   @state() private hasBodySlots = false;
   @state() private hasActionSlots = false;
-
-  static styles = styles;
 
   /**************** Lifecycle Methods ****************/
   constructor() {
