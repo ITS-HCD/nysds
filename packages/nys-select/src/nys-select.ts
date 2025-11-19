@@ -160,7 +160,7 @@ export class NysSelect extends LitElement {
       }
     });
 
-    // ---- sync initial selected state into component value ----
+    // Sync initial selected state into component value
     const selectedOption = Array.from(select.options).find((o) => o.selected);
 
     if (selectedOption) {
