@@ -56,7 +56,7 @@ describe("nys-select", () => {
         <optgroup label="Group 1">
           <option value="a">A</option>
           <option value="b">B</option>
-          <option value="c" label="C"></option>
+          <nys-option value="c" label="C"></nys-option>
         </optgroup>
       </nys-select>
     `);
