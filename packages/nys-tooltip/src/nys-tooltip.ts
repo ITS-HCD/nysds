@@ -26,13 +26,7 @@ export class NysTooltip extends LitElement {
   // Flag for hiding the timeout
   private _hideTimeout: number | null = null;
 
-<<<<<<< HEAD
-  static styles = styles;
-
-  /*************************************** Position Logic ***************************************/
-=======
   /********************* Position Logic *********************/
->>>>>>> 64d95dc7f1ca3f95119094b5dbdc2d0dd71b0ff1
   private _position: "top" | "bottom" | "left" | "right" | null = null;
 
   @property({ type: String, reflect: true })
