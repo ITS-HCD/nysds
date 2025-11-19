@@ -1,10 +1,13 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-tooltip.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-tooltip.scss?inline";
 
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTooltip extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
@@ -23,9 +26,13 @@ export class NysTooltip extends LitElement {
   // Flag for hiding the timeout
   private _hideTimeout: number | null = null;
 
+<<<<<<< HEAD
   static styles = styles;
 
   /*************************************** Position Logic ***************************************/
+=======
+  /********************* Position Logic *********************/
+>>>>>>> 64d95dc7f1ca3f95119094b5dbdc2d0dd71b0ff1
   private _position: "top" | "bottom" | "left" | "right" | null = null;
 
   @property({ type: String, reflect: true })

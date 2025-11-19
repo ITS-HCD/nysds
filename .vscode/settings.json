@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
     "radiobutton"
-  ]
+  ],
+  "html.customData": [".vscode/vscode.html-custom-data.json"],
+  "css.customData": [".vscode/vscode.css-custom-data.json"]
 }

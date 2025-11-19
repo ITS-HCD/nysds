@@ -1,8 +1,11 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-label.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-label.scss?inline";
 
 export class NysLabel extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) for = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -16,8 +19,6 @@ export class NysLabel extends LitElement {
     this._tooltip = value;
   }
   private _tooltip: string = "";
-
-  static styles = styles;
 
   render() {
     return html`

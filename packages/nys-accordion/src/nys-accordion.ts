@@ -1,7 +1,8 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-accordion.styles";
 import "./nys-accordionitem";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-accordion.scss?inline";
 
 let accordionIdCounter = 0; // Counter for generating unique IDs
 
@@ -10,11 +11,11 @@ let accordionIdCounter = 0; // Counter for generating unique IDs
  * The items within is called "nys-accordionitem"
  */
 export class NysAccordion extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String, reflect: true }) id = "";
   @property({ type: Boolean, reflect: true }) singleSelect = false;
   @property({ type: Boolean, reflect: true }) bordered = false;
-
-  static styles = styles;
 
   /**************** Lifecycle Methods ****************/
   constructor() {

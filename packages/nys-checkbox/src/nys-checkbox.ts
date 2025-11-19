@@ -1,12 +1,15 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import styles from "./nys-checkbox.styles";
 import "./nys-checkboxgroup";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-checkbox.scss?inline";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
 export class NysCheckbox extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
@@ -45,7 +48,6 @@ export class NysCheckbox extends LitElement {
     return this.shadowRoot?.querySelector("input") || null;
   }
 
-  static styles = styles;
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
