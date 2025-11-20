@@ -2,15 +2,13 @@
     /* Anything that can be overridden should be defined here */
 
     /* Global Table Styles */
-    --_nys-table-width: fit-content;
-    --_nys-table-height: var(--nys-size-600, 48px);
+    --_nys-table-width: 100%;
     --_nys-table-radius: var(--nys-radius-xl, 12px);
     --_nys-table-padding: var(--nys-space-100, 8px);
-    --_nys-table-gap: var(--nys-space-100, 8px);
 
     /* Typography */
     --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
-    --_nys-table-font-weight: var(--nys-font-weight-semibold, 600);
+    --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
     --_nys-table-line-height: var(--nys-font-lineheight-ui-md, 24px);
     --_nys-table-font-family: var(
       --nys-font-family-ui,
@@ -27,15 +25,15 @@
 
   .nys-table {
     width: var(--_nys-table-width);
-    height: var(--_nys-table-height);
     border-radius: var(--_nys-table-radius);
-    padding: var(--_nys-table-padding);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--_nys-table-gap);
     font-family: var(--_nys-table-font-family);
     font-size: var(--_nys-table-font-size);
     font-weight: var(--_nys-table-font-weight);
     line-height: var(--_nys-table-line-height);
+  }
+
+  tr {
+    text-align: left;
+    padding: var(--_nys-table-padding);
+    border: 1px solid red;
   }
