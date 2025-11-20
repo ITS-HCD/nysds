@@ -12,7 +12,6 @@ interface NysTooltipArgs {
   text: string;
   for: string;
   inverted: boolean;
-  focusable: boolean;
   position: "top" | "bottom" | "left" | "right";
 }
 
@@ -23,7 +22,6 @@ const meta: Meta<NysTooltipArgs> = {
     id: { control: "text" },
     text: { control: "text" },
     for: { control: "text" },
-    focusable: { control: "boolean" },
     position: {
       control: "select",
       options: ["top", "bottom", "left", "right"],
@@ -45,7 +43,6 @@ type Story = StoryObj<NysTooltipArgs>;
 export const Basic: Story = {
   args: {
     text: "I am a tooltip.",
-    focusable: false,
     inverted: false,
     for: "my-button",
   },
@@ -58,7 +55,6 @@ export const Basic: Story = {
         text=${args.text}
         position=${args.position}
         ?inverted=${args.inverted}
-        ?focusable=${args.focusable}
       >
       </nys-tooltip>
       <nys-button id="my-button" label="Hover Me"></nys-button>
@@ -77,57 +73,11 @@ export const Basic: Story = {
   },
 };
 
-export const Focusable: Story = {
-  args: {
-    for: "my-icon",
-    text: "I am a tooltip.",
-    focusable: true,
-  },
-  render: (args) => html`
-    <br />
-    <div style="display: flex; justify-content: center;">
-      <div style="display: flex; gap: 5px">
-        <p>Hover over the icon</p>
-        <nys-tooltip
-          id=${args.id}
-          for=${args.for}
-          text=${args.text}
-          position=${args.position}
-          ?inverted=${args.inverted}
-          ?focusable=${args.focusable}
-        >
-        </nys-tooltip>
-        <nys-icon id="my-icon" name="info" size="3xl"></nys-icon>
-      </div>
-    </div>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<div style="display: flex; gap: 5px">
-  <p>Hover over the icon</p>
-  <nys-tooltip
-    for="my-icon"
-    text="I am a tooltip."
-    focusable
-  >
-  </nys-tooltip>
-  <nys-icon id="my-icon" name="info" size="3xl"></nys-icon>
-</div>
-`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const Position: Story = {
   args: {
     for: "my-icon2",
     text: "I am a tooltip.",
     position: "right",
-    focusable: true,
   },
   render: (args) => html`
     <br />
@@ -140,7 +90,6 @@ export const Position: Story = {
           text=${args.text}
           position=${args.position}
           ?inverted=${args.inverted}
-          ?focusable=${args.focusable}
         >
         </nys-tooltip>
         <nys-icon id="my-icon2" name="info" size="3xl"></nys-icon>
@@ -157,7 +106,6 @@ export const Position: Story = {
     for="my-icon2"
     text="I am a tooltip."
     position="right"
-    focusable
   >
   </nys-tooltip>
   <nys-icon id="my-icon2" name="info" size="3xl"></nys-icon>
@@ -173,7 +121,6 @@ export const FormElement: Story = {
   args: {
     for: "my-textinput",
     text: "I am a tooltip.",
-    focusable: true,
   },
   render: (args) => html`
     <br />
@@ -185,7 +132,6 @@ export const FormElement: Story = {
           text=${args.text}
           position=${args.position}
           ?inverted=${args.inverted}
-          ?focusable=${args.focusable}
         >
         </nys-tooltip>
         <nys-textinput
@@ -218,7 +164,6 @@ export const Inverted: Story = {
     for: "my-tooltip3",
     text: "I am a tooltip.",
     inverted: true,
-    focusable: true,
   },
   render: (args) => html`
     <div
@@ -232,7 +177,6 @@ export const Inverted: Story = {
           text=${args.text}
           position=${args.position}
           ?inverted=${args.inverted}
-          ?focusable=${args.focusable}
         >
         </nys-tooltip>
         <nys-icon id="my-tooltip3" name="info" size="3xl"></nys-icon>
@@ -249,7 +193,6 @@ export const Inverted: Story = {
     for="my-tooltip3"
     text="I am a tooltip."
     inverted
-    focusable
   >
   </nys-tooltip>
   <nys-icon id="my-tooltip3" name="info" size="3xl"></nys-icon>

@@ -538,7 +538,6 @@
         { "name": "id", "values": [] },
         { "name": "text", "values": [] },
         { "name": "inverted", "values": [] },
-        { "name": "focusable", "values": [] },
         { "name": "for", "values": [] },
         { "name": "position", "values": [] }
       ],

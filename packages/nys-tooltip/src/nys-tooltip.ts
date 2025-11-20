@@ -11,7 +11,6 @@ export class NysTooltip extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) text = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
-  @property({ type: Boolean, reflect: true }) focusable = false;
   @property({ type: String }) for = "";
 
   // Track if tooltip is active (hovered or focused)
@@ -116,12 +115,6 @@ export class NysTooltip extends LitElement {
     if (changedProps.has("text")) {
       this._applyTooltipPropToFormComponent(ref);
     }
-    if (changedProps.has("focusable")) {
-      const tag = ref.tagName.toLowerCase();
-      if (tag === "nys-button" || tag === "nys-icon") {
-        this._applyFocusBehavior(ref);
-      }
-    }
   }
 
   /*************************************** Event Handlers ***************************************/
@@ -153,18 +146,14 @@ export class NysTooltip extends LitElement {
       ".nys-tooltip__content",
     ) as HTMLElement;
 
+    if (ref === document.activeElement) return;
     if (!ref || !tooltip) return;
-
-    // Pointer being inside either the tooltip or the attached component should cancel any fade out.
-    if (this._isPointerInside(ref, tooltip)) return;
-    console.log(this._isPointerInside(ref, tooltip));
 
     this._triggerFadeOut(tooltip);
   };
 
   private _triggerFadeOut(tooltip: HTMLElement) {
-    if (this._hideTimeout) return;
-    if (!tooltip) return;
+    if (!tooltip || this._hideTimeout) return;
 
     tooltip.classList.add("fade-out");
 
@@ -183,7 +172,18 @@ export class NysTooltip extends LitElement {
     const tooltip = this.shadowRoot?.querySelector(
       ".nys-tooltip__content",
     ) as HTMLElement;
-    if (!tooltip) return;
+    const ref = this._getReferenceElement();
+
+    if (!tooltip || !ref) return;
+
+    const isPointerInsideTooltip = tooltip.matches(":hover");
+    const isPointerInsideRef = ref.matches(":hover");
+
+    const isTouched = document.activeElement === ref;
+
+    if (!isPointerInsideTooltip && !isPointerInsideRef && !isTouched) {
+      return;
+    }
 
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout);
@@ -206,7 +206,7 @@ export class NysTooltip extends LitElement {
   }
 
   private _handleScrollOrResize = () => {
-    if (!this._active) return;
+    if (!this._active || this._hideTimeout) return;
 
     this._showTooltip();
   };
@@ -287,10 +287,9 @@ export class NysTooltip extends LitElement {
 
   // Applies focus behavior to an otherwise non focus element (i.e. nys-icon is non focusable by default)
   private async _applyFocusBehavior(el: HTMLElement) {
-    if (!this.focusable) return;
     el.style.cursor = "pointer";
-
     const tagName = el.tagName.toLowerCase();
+
     if (tagName === "nys-icon") {
       if ("updateComplete" in el) {
         await (el as any).updateComplete;
@@ -299,8 +298,6 @@ export class NysTooltip extends LitElement {
       if (svg) {
         svg.setAttribute("tabindex", "0");
       }
-    } else {
-      el.setAttribute("tabindex", "0");
     }
   }
 
@@ -478,10 +475,6 @@ export class NysTooltip extends LitElement {
     });
   }
 
-  private _isPointerInside(ref: Element, tooltip: Element) {
-    return ref.matches(":hover") || tooltip.matches(":hover");
-  }
-
   private _setInternalPosition(bestPosition: typeof this._position) {
     this._internallyUpdatingPosition = true;
     this.position = bestPosition;
@@ -526,7 +519,9 @@ export class NysTooltip extends LitElement {
   private _resetTooltipPositioningStyles(tooltip: HTMLElement) {
     tooltip.style.left = "";
     tooltip.style.right = "";
+    tooltip.style.top = "";
     tooltip.style.transform = "";
+    tooltip.style.removeProperty("--arrow-offset-x");
   }
 
   render() {
@@ -537,7 +532,9 @@ export class NysTooltip extends LitElement {
               id=${this.id}
               class="nys-tooltip__content"
               role="tooltip"
-              aria-hidden=${!this._active}
+              aria-hidden=${this._active && !this._hideTimeout
+                ? "false"
+                : "true"}
               ?active=${this._active}
               style="visibility: ${this._active ? "visible" : "hidden"}; "
             >
