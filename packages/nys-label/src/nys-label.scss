@@ -77,11 +77,8 @@
 
   .nys-label__tooltip-wrapper {
     display: flex;
-    gap: 5px;
-  }
-
-  .nys-label__tooltip-icon {
-    margin-top: -2px;
+    gap: 2px;
+    align-items: center;
   }
 
   .nys-label.invert .nys-label__label,
