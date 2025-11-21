@@ -41,6 +41,8 @@ export class NysSelect extends LitElement {
       : "full";
   }
 
+  private _originalErrorMessage = "";
+
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
@@ -58,6 +60,8 @@ export class NysSelect extends LitElement {
     if (!this.id) {
       this.id = `nys-select-${Date.now()}-${selectIdCounter++}`;
     }
+
+    this._originalErrorMessage = this.errorMessage ?? "";
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -67,6 +71,15 @@ export class NysSelect extends LitElement {
   }
 
   firstUpdated() {
+    //read in slotted options
+    const slot = this.shadowRoot?.querySelector(
+      'slot:not([name="description"])',
+    ) as HTMLSlotElement | null;
+
+    if (slot) {
+      this._handleSlotChange();
+    }
+
     // This ensures our element always participates in the form
     this._setValue();
   }
@@ -108,8 +121,13 @@ export class NysSelect extends LitElement {
 
       // ---- Handle native <option> ----
       if (node.tagName === "OPTION") {
-        const optionClone = node.cloneNode(true) as HTMLOptionElement;
+        const original = node as HTMLOptionElement;
+        const optionClone = original.cloneNode(true) as HTMLOptionElement;
+
         optionClone.setAttribute("data-native", "true");
+        optionClone.disabled = original.disabled;
+        optionClone.selected = original.selected;
+
         select.appendChild(optionClone);
         return;
       }
@@ -141,10 +159,29 @@ export class NysSelect extends LitElement {
         return;
       }
     });
+
+    // Sync initial selected state into component value
+    const selectedOption = Array.from(select.options).find((o) => o.selected);
+
+    if (selectedOption) {
+      this.value = selectedOption.value;
+      this._internals.setFormValue(this.value);
+    }
   }
 
   /********************** Form Integration **********************/
   private _setValue() {
+    // // set value to the option that is selected by default
+    // const select = this.shadowRoot?.querySelector("select");
+    // if (!select) return;
+
+    // // for each option, see if it's selected
+    // Array.from(select.options).forEach((option) => {
+    //   if (option.selected) {
+    //     this.value = option.value;
+    //   }
+    // });
+
     this._internals.setFormValue(this.value);
     this._manageRequire(); // Check validation when value is set
   }
@@ -153,7 +190,7 @@ export class NysSelect extends LitElement {
     const select = this.shadowRoot?.querySelector("select");
     if (!select) return;
 
-    const message = this.errorMessage || "Please select an option.";
+    const message = this.errorMessage || "This field is required.";
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
@@ -172,16 +209,16 @@ export class NysSelect extends LitElement {
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
+
     // If user sets errorMessage, this will always override the native validation message
-    if (this.errorMessage?.trim() && message !== "") {
-      message = this.errorMessage;
+    if (this._originalErrorMessage?.trim() && message !== "") {
+      this.errorMessage = this._originalErrorMessage;
+    } else {
+      this.errorMessage = message;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      select,
-    );
+    const validityState = message ? { customError: true } : {};
+    this._internals.setValidity(validityState, this.errorMessage, select);
   }
 
   private _validate() {
@@ -239,9 +276,16 @@ export class NysSelect extends LitElement {
     this.value = select.value;
     this._internals.setFormValue(this.value);
 
-    // Field is invalid after unfocused, validate aggressively on each change (e.g. Eager mode: a combination of aggressive and lazy.)
+    // Clear error immediately if value is now valid
+    if (this.required && this.value) {
+      this.showError = false;
+      this.errorMessage = "";
+      this._internals.setValidity({});
+    }
+
+    // Validate aggressively if the user has already interacted
     if (this._hasUserInteracted) {
-      this._validate(); // Validate immediately if an error was found before
+      this._validate();
     }
 
     this.dispatchEvent(
@@ -310,21 +354,18 @@ export class NysSelect extends LitElement {
             @blur="${this._handleBlur}"
             @change="${this._handleChange}"
           >
-            <option data-native hidden disabled selected value=""></option>
+            <option data-native hidden disabled value=""></option>
           </select>
-          <slot
-            @slotchange="${this._handleSlotChange}"
-            style="display: none;"
-          ></slot>
+          <slot style="display: none;"></slot>
           <nys-icon
-            name="chevron_down"
-            size="xl"
+            name="expand_all"
+            size="2xl"
             class="nys-select__icon"
           ></nys-icon>
         </div>
         <nys-errormessage
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.errorMessage}
         ></nys-errormessage>
       </div>
     `;
