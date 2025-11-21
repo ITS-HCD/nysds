@@ -13,7 +13,6 @@ describe("nys-table", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysTable>(html`
       <nys-table label="My Label" required optional></nys-table>
@@ -36,4 +35,4 @@ describe("nys-table", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

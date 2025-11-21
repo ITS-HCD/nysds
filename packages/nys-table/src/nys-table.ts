@@ -26,7 +26,7 @@ export class NysTable extends LitElement {
 
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
-      'slot',
+      "slot",
     ) as HTMLSlotElement | null;
     const table = this.shadowRoot?.querySelector("table");
 
@@ -34,8 +34,7 @@ export class NysTable extends LitElement {
 
     const assignedElements = slot.assignedElements({ flatten: true });
 
-     assignedElements.forEach((node) => {
-
+    assignedElements.forEach((node) => {
       // ---- Handle native <tr> ----
       if (node.tagName === "TR") {
         const trClone = node.cloneNode(true) as HTMLTableRowElement;
@@ -120,8 +119,7 @@ export class NysTable extends LitElement {
   render() {
     return html` <div class="nys-table">
       <table class="nys-table__table"></table>
-      <slot @slotchange=${this._handleSlotChange} style="display: none">
-      </slot>
+      <slot @slotchange=${this._handleSlotChange} style="display: none"> </slot>
     </div>`;
   }
 }
