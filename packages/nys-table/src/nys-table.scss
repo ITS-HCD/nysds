@@ -27,15 +27,3 @@
     font-weight: var(--_nys-table-font-weight);
     line-height: var(--_nys-table-line-height);
   }
-
-
-  //slotted row style
-  ::slotted(table) {
-    border: 1px solid red;
-    width: var(--_nys-table-width);
-    border-radius: var(--_nys-table-radius);
-    font-family: var(--_nys-table-font-family);
-    font-size: var(--_nys-table-font-size);
-    font-weight: var(--_nys-table-font-weight);
-    line-height: var(--_nys-table-line-height);
-  }

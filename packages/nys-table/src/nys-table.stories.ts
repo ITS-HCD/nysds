@@ -49,6 +49,9 @@ export const Basic: Story = {
   render: (args) => html`
     <nys-table .id=${args.id} .name=${args.name}>
       <table>
+        <caption>
+          New York State High Peaks and Popular Hikes
+        </caption>
         <tr>
           <th>Mountain</th>
           <th>Peak Height (ft)</th>
