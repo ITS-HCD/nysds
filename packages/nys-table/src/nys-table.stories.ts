@@ -48,47 +48,12 @@ export const Basic: Story = {
   },
   render: (args) => html`
     <nys-table .id=${args.id} .name=${args.name}>
-      <tr>
-        <th>Mountain</th>
-        <th>Peak Height (ft)</th>
-        <th>Hike Name</th>
-      </tr>
-      <tr>
-        <td>Marcy</td>
-        <td>5,344</td>
-        <td>Van Hoevenberg Trail</td>
-      </tr>
-      <tr>
-        <td>Algonquin</td>
-        <td>5,114</td>
-        <td>Northeast Trail</td>
-      </tr>
-      <tr>
-        <td>Haystack</td>
-        <td>4,960</td>
-        <td>Johns Brook Trail</td>
-      </tr>
-      <tr>
-        <td>Skylight</td>
-        <td>4,926</td>
-        <td>Lake Tear Trail</td>
-      </tr>
-      <tr>
-        <td>Whiteface</td>
-        <td>4,867</td>
-        <td>Whiteface Mountain Trail</td>
-      </tr>
-    </nys-table>
-    ----- test -----
-    <nys-table id="table2" name="table2">
-      <thead>
+      <table>
         <tr>
           <th>Mountain</th>
-          <th>Height</th>
-          <th>Trail</th>
+          <th>Peak Height (ft)</th>
+          <th>Hike Name</th>
         </tr>
-      </thead>
-      <tbody>
         <tr>
           <td>Marcy</td>
           <td>5,344</td>
@@ -99,7 +64,22 @@ export const Basic: Story = {
           <td>5,114</td>
           <td>Northeast Trail</td>
         </tr>
-      </tbody>
+        <tr>
+          <td>Haystack</td>
+          <td>4,960</td>
+          <td>Johns Brook Trail</td>
+        </tr>
+        <tr>
+          <td>Skylight</td>
+          <td>4,926</td>
+          <td>Lake Tear Trail</td>
+        </tr>
+        <tr>
+          <td>Whiteface</td>
+          <td>4,867</td>
+          <td>Whiteface Mountain Trail</td>
+        </tr>
+      </table>
     </nys-table>
   `,
   parameters: {
