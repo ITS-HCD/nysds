@@ -1,0 +1,11 @@
+<div class="usa-navbar">
+  {% include "@components/usa-site-title/src/usa-site-title.twig" with {
+    'site_title': '<Project title>'
+    }
+  %}
+  {% if nav %}
+    <button type="button" class="usa-menu-btn">
+      {{ nav.menu.label | default('Menu') }}
+    </button>
+  {% endif %}
+</div>

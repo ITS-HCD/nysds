@@ -1,0 +1,34 @@
+/*
+========================================
+vertical-align
+----------------------------------------
+usage:
+  .text-[key]
+----------------------------------------
+output:
+  vertical-align: [value];
+----------------------------------------
+example:
+  .text-top {
+    vertical-align: top;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-vertical-align: (
+  vertical-align: (
+    base: "text",
+    modifiers: null,
+    values: map-collect(
+        get-palettes($vertical-align-palettes),
+        $vertical-align-manual-values
+      ),
+    settings: $vertical-align-settings-complete,
+    property: "vertical-align",
+    type: "utility",
+  ),
+);

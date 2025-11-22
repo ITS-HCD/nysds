@@ -1,0 +1,16 @@
+{# Shared text for Alert and Site alert. #}
+{% set text = "Lorem ipsum dolor sit amet sed do eiusmod." %}
+
+{% include '@components/usa-banner/src/usa-banner.twig' %}
+
+{% for alert in alerts %}
+  <h3>{{ alert.header }}</h3>
+  {% include '@components/usa-alert/src/usa-alert.twig' with alert %}
+{% endfor %}
+
+{% for siteAlert in siteAlerts %}
+  <h3>{{ siteAlert.header }}</h3>
+  {% include '@components/usa-site-alert/src/usa-site-alert.twig' with siteAlert %}
+{% endfor %}
+
+{% include '@components/usa-footer/src/usa-footer.twig' with footer %}

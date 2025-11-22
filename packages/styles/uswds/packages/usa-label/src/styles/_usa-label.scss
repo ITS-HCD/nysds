@@ -1,0 +1,14 @@
+@use "uswds-core" as *;
+
+.usa-label {
+  @include add-label-styles;
+}
+
+.usa-label--error {
+  font-weight: font-weight("bold");
+  margin-top: 0;
+}
+
+.usa-label--required {
+  color: color("error-dark");
+}

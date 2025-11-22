@@ -1,0 +1,11 @@
+@use "uswds-core" as *;
+
+.usa-legend {
+  @include add-label-styles;
+}
+
+.usa-legend--large {
+  font-size: font-size($theme-form-font-family, "xl");
+  font-weight: font-weight("bold");
+  margin-top: units(2);
+}

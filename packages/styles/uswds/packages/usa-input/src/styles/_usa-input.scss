@@ -1,0 +1,34 @@
+@use "uswds-core" as *;
+
+.usa-input {
+  @extend %block-input-general;
+  @extend %block-input-styles;
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    @include u-disabled;
+    @include u-disabled-high-contrast-border;
+    // Fix for Safari
+    -webkit-text-fill-color: color("disabled-dark");
+  }
+}
+
+// Create input max width utility classes
+@each $name, $width in $system-input-widths {
+  .usa-input--#{$name},
+  .usa-form .usa-input--#{$name} {
+    max-width: #{$width};
+  }
+}
+
+.usa-input--error {
+  @include u-border($theme-input-state-border-width, "error-dark");
+  padding-top: calc(#{units(1)} - #{units($theme-input-state-border-width)});
+  padding-bottom: calc(#{units(1)} - #{units($theme-input-state-border-width)});
+}
+
+.usa-input--success {
+  @include u-border($theme-input-state-border-width, "success");
+  padding-top: calc(#{units(1)} - #{units($theme-input-state-border-width)});
+  padding-bottom: calc(#{units(1)} - #{units($theme-input-state-border-width)});
+}

@@ -1,0 +1,9 @@
+*.woff*
+*.svg
+*.ttf
+*.png
+*.ico
+*.gif
+*.md
+*.twig
+src/patterns/stylesheets/lib/

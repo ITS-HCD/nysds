@@ -15,7 +15,7 @@ export default {
   /** Globs to analyze */
   globs: ["**/packages/**/*.ts"],
   /** Globs to exclude */
-  exclude: ["**/packages/**/*figma.ts", "**/packages/**/*stories.ts", "**/packages/**/*logo.ts", "**/packages/**/*library.ts"],
+  exclude: ["**/packages/**/*figma.ts", "**/packages/**/*stories.ts", "**/packages/**/*logo.ts", "**/packages/**/*library.ts", "**/packages/styles/**"],
   /** Directory to output CEM to */
   outdir: "./dist",
   /** Run in dev mode, provides extra logging */

@@ -1,0 +1,35 @@
+/*
+========================================
+outline
+----------------------------------------
+sets width and style:solid
+----------------------------------------
+usage:
+  .outline-[modifier]
+----------------------------------------
+output:
+  outline: [modifier] solid;
+----------------------------------------
+example:
+  .outline-2px {
+    outline: 2px solid;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-outline: (
+  outline: (
+    base: "outline",
+    modifiers: null,
+    values: map-collect(get-palettes($outline-palettes), $outline-manual-values),
+    settings: $outline-settings-complete,
+    valuePrepend: null,
+    valueAppend: " solid",
+    property: "outline",
+    type: "utility",
+  ),
+);
