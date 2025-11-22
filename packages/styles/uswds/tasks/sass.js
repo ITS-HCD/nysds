@@ -16,7 +16,7 @@ module.exports = {
     const pluginsProcess = [discardComments(), autoprefixer()];
     const pluginsMinify = [csso({ forceMediaMerge: false })];
 
-    return src("src/stylesheets/nysds.scss")
+    return src("src/stylesheets/uswds.scss")
       .pipe(sourcemaps.init({ largeFile: true }))
       .pipe(
         sass({

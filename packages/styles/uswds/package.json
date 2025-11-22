@@ -64,7 +64,6 @@
     "lint:js": "ESLINT_USE_FLAT_CONFIG=true eslint --config='eslint.config.mjs' packages/**/**/*.js ",
     "lint:sass": "gulp lintSass",
     "mocha": "mocha",
-    "prepare": "npm run build",
     "preversion": "npm test",
     "release": "gulp release",
     "federalist": "npm run build && npm run build:storybook",
