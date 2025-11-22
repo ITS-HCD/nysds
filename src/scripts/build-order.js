@@ -33,11 +33,11 @@ const packages = [
 
 packages.forEach((pkg) => {
   console.log(`🔵 Building ${pkg.name}...`);
-  // if ( pkg.name === "styles" ) {
-  //   console.log("STYLES PACKAGE DETECTED");
-  //   execSync(`cd ${pkg.path} && npm run build`, { stdio: "inherit" });
-  // } else {
-      try {
+  if (pkg.name === "styles") {
+    console.log("STYLES PACKAGE DETECTED");
+    execSync(`cd ${pkg.path} && npm run build`, { stdio: "inherit" });
+  } else {
+    try {
       // Navigate to the package directory and run the build script
       execSync(`cd ${pkg.path} && npm run build`, { stdio: "inherit" });
       console.log(`✅ ${pkg.name} built successfully.`);
@@ -47,5 +47,5 @@ packages.forEach((pkg) => {
       console.log(`====================================`);
       process.exit(1); // Exit the script if a build fails
     }
-  // }
+  }
 });

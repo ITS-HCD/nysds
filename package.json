@@ -40,7 +40,7 @@
     "storybook:build:all": "NODE_ENV=production npm run build:all && npm run storybook",
     "build-storybook": "npm run build:packages && storybook build",
     "storybook:cibuild": "storybook build",
-    "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules",
+    "clean:node": "rm -rf node_modules && rm -rf packages/**/*/node_modules",
     "clean:dist": "rm -rf dist && rm -rf packages/*/dist",
     "clean:all": "npm run clean:dist && npm run clean:node",
     "code-connect": "dotenv -- npx figma connect publish",
