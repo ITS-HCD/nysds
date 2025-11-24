@@ -1,9 +1,0 @@
-@use "uswds-core/src/styles/mixins/general/media-link" as *;
-
-img {
-  max-width: 100%;
-}
-
-.usa-media-link {
-  @include media-link;
-}
