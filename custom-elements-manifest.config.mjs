@@ -7,7 +7,7 @@ import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 // };
 
 const vscodeOpts = {
-  /** Output directory to write the React wrappers to - default is the root of the project */
+  /** Output directory to write the vscode intellisense wrappers to - default is the .vscode/ folder */
   outdir: ".vscode",
 };
 
