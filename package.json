@@ -44,8 +44,7 @@
     "clean:dist": "rm -rf dist && rm -rf packages/*/dist && rm -rf packages/**/*/dist",
     "clean:all": "npm run clean:dist && npm run clean:node",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config 'custom-elements-manifest.config.mjs'",
-    "prepare": "cd packages/styles/uswds && npm install"
+    "cem": "npx cem analyze --config 'custom-elements-manifest.config.mjs'"
   },
   "repository": {
     "type": "git",

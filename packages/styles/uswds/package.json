@@ -58,7 +58,7 @@
     "config": "src/utils/test/.mocharc.json"
   },
   "scripts": {
-    "build": "gulp",
+    "build": "vite build",
     "build:web-components": "vite build --config='./vite.config.banner.cdn.js'",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:js": "ESLINT_USE_FLAT_CONFIG=true eslint --config='eslint.config.mjs' packages/**/**/*.js ",
