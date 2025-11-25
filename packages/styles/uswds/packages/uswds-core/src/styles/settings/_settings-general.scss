@@ -55,8 +55,8 @@ $theme-namespace-complete: map.deep-merge(
       output: true,
     ),
     "utility": (
-      namespace: "u-",
-      output: false,
+      namespace: "nys-",
+      output: true,
     ),
   ),
   $theme-namespace
