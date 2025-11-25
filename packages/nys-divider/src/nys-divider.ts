@@ -1,11 +1,12 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-divider.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-divider.scss?inline";
 
 export class NysDivider extends LitElement {
-  @property({ type: Boolean, reflect: true }) inverted = false;
+  static styles = unsafeCSS(styles);
 
-  static styles = styles;
+  @property({ type: Boolean, reflect: true }) inverted = false;
 
   constructor() {
     super();

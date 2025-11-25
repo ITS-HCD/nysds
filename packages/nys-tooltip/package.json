@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-tooltip",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "The Tooltip component from the NYS Design System.",
   "module": "dist/nys-tooltip.js",
   "types": "dist/index.d.ts",
@@ -23,9 +23,9 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "devDependencies": {
-    "lit": "^3.2.1",
-    "typescript": "^5.7.2",
-    "vite": "^7.1.2"
+    "lit": "^3.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
   },
   "keywords": [
     "new-york-state",

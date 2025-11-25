@@ -1,12 +1,15 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-textarea.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-textarea.scss?inline";
 
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextarea extends LitElement {
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -56,8 +59,6 @@ export class NysTextarea extends LitElement {
       this.rows = this.rows ?? 4;
     }
   }
-
-  static styles = styles;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
@@ -246,7 +247,7 @@ export class NysTextarea extends LitElement {
     return html`
       <label class="nys-textarea">
         <nys-label
-          for=${this.id}
+          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -258,7 +259,7 @@ export class NysTextarea extends LitElement {
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
-          id=${this.id}
+          id=${this.id + "--native"}
           .value=${this.value}
           ?disabled=${this.disabled}
           ?required=${this.required}

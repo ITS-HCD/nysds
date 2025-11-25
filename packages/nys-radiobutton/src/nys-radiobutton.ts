@@ -1,18 +1,21 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import styles from "./nys-radiobutton.styles"; // Assuming styles are in a separate file
 import "./nys-radiogroup";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-radiobutton.scss?inline";
 
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiobutton extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
@@ -47,8 +50,6 @@ export class NysRadiobutton extends LitElement {
   }
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
-
-  static styles = styles;
 
   /********************** Lifecycle updates **********************/
   // Generate a unique ID if one is not provided
@@ -170,7 +171,6 @@ export class NysRadiobutton extends LitElement {
   render() {
     return html`
       <input
-        id="${this.id}"
         type="radio"
         name="${ifDefined(this.name ? this.name : undefined)}"
         .checked=${this.checked}
@@ -182,23 +182,21 @@ export class NysRadiobutton extends LitElement {
         hidden
         aria-hidden="true"
       />
-      <label
+      <div
         class="nys-radiobutton"
-        for="${this.id}"
         @click="${this._callInputHandling}"
         aria-label=${this.label}
       >
         <span class="nys-radiobutton__radio"></span>
         ${this.label &&
         html`<nys-label
-          for=${this.id}
           label=${this.label}
           description=${ifDefined(this.description || undefined)}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label> `}
-      </label>
+      </div>
     `;
   }
 }

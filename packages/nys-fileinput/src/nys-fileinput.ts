@@ -1,9 +1,10 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { validateFileHeader } from "./validateFileHeader";
-import styles from "./nys-fileinput.styles";
 import "./nys-fileitem";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-fileinput.scss?inline";
 
 let fileinputIdCounter = 0; // Counter for generating unique IDs
 
@@ -15,7 +16,9 @@ interface FileWithProgress {
 }
 
 export class NysFileinput extends LitElement {
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -31,8 +34,6 @@ export class NysFileinput extends LitElement {
   @property({ type: Boolean }) dropzone = false;
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
   @property({ type: Boolean, reflect: true }) inverted = false;
-
-  static styles = styles;
 
   private _selectedFiles: FileWithProgress[] = [];
   private _dragActive = false;
@@ -432,7 +433,6 @@ export class NysFileinput extends LitElement {
       @nys-fileRemove=${this._handleFileRemove}
     >
       <nys-label
-        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}

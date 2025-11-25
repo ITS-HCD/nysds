@@ -1,15 +1,16 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-avatar.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-avatar.scss?inline";
 
 let avatarIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAvatar extends LitElement {
-  static styles = styles;
+  static styles = unsafeCSS(styles);
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";
@@ -92,7 +93,7 @@ export class NysAvatar extends LitElement {
 
   render() {
     return html`
-      <label class="nys-avatar" id=${this.id}>
+      <div class="nys-avatar">
         <div class="nys-avatar__content">
           <div
             part="nys-avatar"
@@ -142,7 +143,7 @@ export class NysAvatar extends LitElement {
                   </div>`}
           </div>
         </div>
-      </label>
+      </div>
     `;
   }
 }

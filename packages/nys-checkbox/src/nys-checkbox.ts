@@ -1,18 +1,21 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import styles from "./nys-checkbox.styles";
 import "./nys-checkboxgroup";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-checkbox.scss?inline";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
 export class NysCheckbox extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: String, reflect: true }) form: string | null = null;
@@ -44,7 +47,6 @@ export class NysCheckbox extends LitElement {
     return this.shadowRoot?.querySelector("input") || null;
   }
 
-  static styles = styles;
   private _internals: ElementInternals;
 
   /********************** Lifecycle updates **********************/
@@ -245,7 +247,7 @@ export class NysCheckbox extends LitElement {
       <label class="nys-checkbox">
         <div class="nys-checkbox__checkboxwrapper">
           <input
-            id="${this.id}"
+            id=${this.id + "--native"}
             class="nys-checkbox__checkbox"
             type="checkbox"
             name="${ifDefined(this.name ? this.name : undefined)}"
@@ -266,7 +268,6 @@ export class NysCheckbox extends LitElement {
           />
           ${this.checked
             ? html`<nys-icon
-                for="${this.id}"
                 name="check"
                 size="${this.size === "md"
                   ? "4xl"
@@ -280,7 +281,7 @@ export class NysCheckbox extends LitElement {
         ${this.label &&
         html`
           <nys-label
-            for=${this.id}
+            for=${this.id + "--native"}
             label=${this.label}
             description=${ifDefined(this.description ?? undefined)}
             flag=${ifDefined(this.required ? "required" : undefined)}

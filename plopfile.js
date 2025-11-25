@@ -19,7 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.11.2", //update this to the latest version when new release is made
+        default: "1.11.3", //update this to the latest version when new release is made
       },
       {
         type: "confirm",
@@ -51,7 +51,7 @@ export default function (plop) {
       },
       {
         type: "add",
-        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.styles.ts",
+        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.scss",
         templateFile: "templates/styles.template.hbs",
       },
       {
@@ -92,7 +92,7 @@ export default function (plop) {
       },
       {
         type: "modify",
-        path: "packages/styles/src/nysds.css",
+        path: "packages/styles/src/nysds.scss",
         pattern:
           /(\/\* Hide unstyled components until they are fully loaded \*\/)/,
         template: `$1\nnys-{{componentName}}:not(:defined),`,

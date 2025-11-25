@@ -16,7 +16,7 @@ figma.connect("<FIGMA_RADIOGROUP>", {
       }),
     }),
     tile: figma.boolean("Tile"),
-    error: figma.nestedProps("_Error", {
+    error: figma.nestedProps("NYS Error {Subcomponent}", {
       message: figma.string("Error Message"),
     }),
     input: figma.nestedProps("Input", {
@@ -81,12 +81,12 @@ figma.connect("<FIGMA_RADIOGROUP>", {
         label="${props.label.text}"
         description="${props.label.description}"
         size="${props.size}"
-        ?required="${props.label.required}"
-        ?optional="${props.label.optional}"
-        ?showError="${props.input.showError}"
+        required="${props.label.required}"
+        optional="${props.label.optional}"
+        showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
-        ?tile="${props.tile}"
+        tile="${props.tile}"
       >
         <nys-radiobutton
           label="${props.input.radio1text}"
@@ -136,37 +136,28 @@ figma.connect("<FIGMA_RADIOGROUP>", {
 // Radiobutton Medium
 figma.connect("<FIGMA_RADIOBUTTON1>", {
   props: {
-    label: figma.nestedProps("Label", {
-      text: figma.string("Label"),
-      optional: figma.boolean("Optional"),
-      required: figma.boolean("Required"),
-      description: figma.boolean("Description", {
-        true: figma.string("↳ Description"),
-        false: undefined,
-      }),
+    label: figma.boolean("Label", {
+      true: figma.string("↳ Label"),
+      false: undefined,
     }),
-    error: figma.nestedProps("_Error", {
-      message: figma.string("Error Message"),
-    }),
-    input: figma.nestedProps("Input", {
-      showError: figma.boolean("Error"),
-      radioText: figma.string("Radio Label"),
-      radioDescription: figma.boolean("Radio Description", {
-        true: figma.string("↳ Radio Description"),
-        false: undefined,
-      }),
+    // description: figma.boolean("Description", {
+    //   true: figma.string("↳ Description"),
+    //   false: undefined,
+    // }),
+    description: figma.nestedProps("Description", {
+      text: figma.string("Text"),
     }),
     checked: figma.boolean("Checked"),
     disabled: figma.boolean("Disabled"),
   },
   example: (props) => html`
     <nys-radiobutton
-      label="${props.input.radioText}"
-      description="${props.input.radioDescription}"
-      value="${props.input.radioText}"
+      label="${props.label}"
+      description="${props.description.text}"
+      value="---REPLACE_VALUE---"
       name="---REPLACE_NAME---"
-      ?checked="${props.checked}"
-      ?disabled="${props.disabled}"
+      checked="${props.checked}"
+      disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -183,9 +174,6 @@ figma.connect("<FIGMA_RADIOBUTTON2>", {
         false: undefined,
       }),
     }),
-    error: figma.nestedProps("_Error", {
-      message: figma.string("Error Message"),
-    }),
     input: figma.nestedProps("Input", {
       showError: figma.boolean("Error"),
       radioText: figma.string("Radio Label"),
@@ -203,8 +191,8 @@ figma.connect("<FIGMA_RADIOBUTTON2>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      ?checked="${props.checked}"
-      ?disabled="${props.disabled}"
+      checked="${props.checked}"
+      disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -221,9 +209,6 @@ figma.connect("<FIGMA_RADIOBUTTON3>", {
         false: undefined,
       }),
     }),
-    error: figma.nestedProps("_Error", {
-      message: figma.string("Error Message"),
-    }),
     input: figma.nestedProps("Input", {
       showError: figma.boolean("Error"),
       radioText: figma.string("Radio Label"),
@@ -241,8 +226,8 @@ figma.connect("<FIGMA_RADIOBUTTON3>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      ?checked="${props.checked}"
-      ?disabled="${props.disabled}"
+      checked="${props.checked}"
+      disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });
@@ -259,9 +244,6 @@ figma.connect("<FIGMA_RADIOBUTTON4>", {
         false: undefined,
       }),
     }),
-    error: figma.nestedProps("_Error", {
-      message: figma.string("Error Message"),
-    }),
     input: figma.nestedProps("Input", {
       showError: figma.boolean("Error"),
       radioText: figma.string("Radio Label"),
@@ -279,8 +261,8 @@ figma.connect("<FIGMA_RADIOBUTTON4>", {
       description="${props.input.radioDescription}"
       value="${props.input.radioText}"
       name="---REPLACE_NAME---"
-      ?checked="${props.checked}"
-      ?disabled="${props.disabled}"
+      checked="${props.checked}"
+      disabled="${props.disabled}"
     ></nys-radiobutton>
   `,
 });

@@ -42,6 +42,13 @@ describe("nys-pagination", () => {
     expect(el.currentPage).to.equal(5);
   });
 
+  it("ensures totalPages is at least 1", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination totalPages="0" currentPage="1"></nys-pagination>`,
+    );
+    expect(el.totalPages).to.equal(1);
+  });
+
   it("disables Previous button on first page", async () => {
     const el = await fixture<NysPagination>(
       html`<nys-pagination currentPage="1" totalPages="5"></nys-pagination>`,

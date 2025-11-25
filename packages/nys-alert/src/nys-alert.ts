@@ -1,15 +1,16 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-alert.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-alert.scss?inline";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAlert extends LitElement {
-  static styles = styles;
+  static styles = unsafeCSS(styles);
 
   /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
   @property({ type: Boolean, reflect: true }) dismissible = false;
@@ -163,7 +164,6 @@ export class NysAlert extends LitElement {
     return html`
       ${!this._alertClosed
         ? html` <div
-            id=${this.id}
             class="nys-alert__container ${this._slotHasContent ||
             this.text?.trim().length > 0
               ? ""
