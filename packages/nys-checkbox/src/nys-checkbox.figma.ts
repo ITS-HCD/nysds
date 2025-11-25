@@ -78,7 +78,7 @@ figma.connect("<FIGMA_CHECKBOXGROUP>", {
       // description: figma.boolean("Description", {
       //   true: figma.string("↳ Description"),
       // }),
-            text: figma.string("↳ Label"),
+      text: figma.string("↳ Label"),
       description: figma.boolean("Multiline | Description", {
         true: figma.boolean("Description", {
           true: figma.string("↳ Description"),

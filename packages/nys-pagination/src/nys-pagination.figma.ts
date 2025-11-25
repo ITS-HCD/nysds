@@ -6,10 +6,12 @@ figma.connect("<FIGMA_PAGINATION>", {
     // Therefore, we hardcode the props to match the consistency of the design.
   },
   example: () => html`
-  <nys-pagination 
-    id="pagination"
-    name="pagination"
-    currentPage="4"
-    totalPages="10">
-  </nys-pagination> `,
+    <nys-pagination
+      id="pagination"
+      name="pagination"
+      currentPage="4"
+      totalPages="10"
+    >
+    </nys-pagination>
+  `,
 });
