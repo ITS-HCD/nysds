@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import { NodePackageImporter } from 'sass';
 
 // Vite build config specifically for compiling the project's Sass
 // - entry: `src/stylesheets/uswds.scss`
