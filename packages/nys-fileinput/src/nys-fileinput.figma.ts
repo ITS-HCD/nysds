@@ -42,7 +42,7 @@ figma.connect("<FIGMA_FILEINPUT>", {
       ?required=${props.label.required}
       ?optional=${props.label.optional}
       ?multiple=${props.input.multiple}
-      accept="(REPLACE_WITH_ACCEPTED_FILE_TYPES_JUST_LIKE_NATIVE)"
+      accept="(REPLACE_WITH_NATIVE_ACCEPTED_FILE_TYPES)"
       ?disabled=${props.input.disabled}
       ?dropzone=${props.input.dropzone}
       ?showError=${props.input.showError}
