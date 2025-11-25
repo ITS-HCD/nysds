@@ -17,20 +17,6 @@
     "government",
     "websites"
   ],
-  "files": [
-    ".storybook",
-    "dist",
-    "packages",
-    "src",
-    "tasks",
-    ".browserslistrc",
-    "CONTRIBUTING.md",
-    "gulpfile.js",
-    "webpack.twig.config.js",
-    "vite.config.js",
-    "vite.config.banner.cdn.js",
-    "vite.config.components.js"
-  ],
   "module": "./dist/js/uswds.min.js",
   "exports": {
     "./core/*": "./packages/uswds-core/src/styles/*",
@@ -58,32 +44,7 @@
     "config": "src/utils/test/.mocharc.json"
   },
   "scripts": {
-    "build": "vite build",
-    "build:web-components": "vite build --config='./vite.config.banner.cdn.js'",
-    "lint": "npm run lint:js && npm run lint:sass",
-    "lint:js": "ESLINT_USE_FLAT_CONFIG=true eslint --config='eslint.config.mjs' packages/**/**/*.js ",
-    "lint:sass": "gulp lintSass",
-    "mocha": "mocha",
-    "preversion": "npm test",
-    "release": "gulp release",
-    "federalist": "npm run build && npm run build:storybook",
-    "start": "npm run start:storybook",
-    "test": "snyk test && npm run lint && gulp typecheck && gulp test",
-    "test:ci": "npm run lint && gulp test && npm run test:a11y && npm run build:html",
-    "test:a11y": "build-storybook && axe-storybook",
-    "test:sass": "gulp sassTests",
-    "test:unit": "gulp unitTests",
-    "version": "gulp release",
-    "watch": "gulp watch",
-    "fix:icons": "npx svgo --folder ./packages/usa-icon/src/img/uswds-icons -q && npx svgo --folder ./packages/usa-icon/src/img/usa-icons-bg -q",
-    "prettier": "npm run prettier:html && npm run prettier:js && npm run prettier:sass",
-    "prettier:check": "npx prettier -c ./packages/**/*.{scss,js}",
-    "prettier:html": "npx prettier --write './html-templates/**/**/*.html' --ignore-path=.prettierignore",
-    "prettier:js": "npx prettier --write './packages/**/**/*.js' --ignore-path=.prettierignore",
-    "prettier:sass": "npx prettier --write './packages/**/**/*.scss' --ignore-path=.prettierignore",
-    "start:storybook": "start-storybook -p 6006",
-    "build:storybook": "build-storybook -o _site",
-    "build:html": "webpack build --config ./webpack.twig.config.js && npm run prettier:html"
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -117,47 +78,5 @@
   "bugs": {
     "url": "https://github.com/uswds/uswds/issues"
   },
-  "homepage": "https://github.com/uswds/uswds#readme",
-  "dependencies": {
-    "lit": "^3.2.1"
-  },
-  "devDependencies": {
-    "@18f/identity-stylelint-config": "4.1.0",
-    "autoprefixer": "10.4.20",
-    "browserify": "17.0.1",
-    "cross-spawn": "7.0.6",
-    "css-loader": "6.8.1",
-    "del": "6.0.0",
-    "fancy-log": "2.0.0",
-    "file-loader": "6.2.0",
-    "gulp": "4.0.2",
-    "gulp-mocha": "9.0.0",
-    "gulp-postcss": "9.0.1",
-    "gulp-rename": "2.0.0",
-    "gulp-replace": "1.1.4",
-    "gulp-sass": "6.0.0",
-    "gulp-sourcemaps": "3.0.0",
-    "lodash.merge": "4.6.2",
-    "merge-stream": "2.0.0",
-    "mq-polyfill": "1.1.8",
-    "postcss": "8.5.2",
-    "postcss-csso": "6.0.1",
-    "postcss-discard-comments": "6.0.2",
-    "postcss-import": "15.1.0",
-    "postcss-loader": "7.3.3",
-    "postcss-preset-env": "9.6.0",
-    "prettier": "3.4.2",
-    "sass": "^1.89.0",
-    "sass-embedded": "^1.83.4",
-    "sass-loader": "16.0.4",
-    "sass-true": "6.0.1",
-    "style-loader": "3.3.3",
-    "stylelint": "16.12.0"
-  },
-  "optionalDependencies": {
-    "sass-embedded-linux-x64": "^1.89.0"
-  },
-  "overrides": {
-    "nwsapi": "2.2.13"
-  }
+  "homepage": "https://github.com/uswds/uswds#readme"
 }
