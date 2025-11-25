@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-stepper",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "The Stepper component from the NYS Design System.",
   "module": "dist/nys-stepper.js",
   "types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
     "lit": "^3.3.1",
     "typescript": "^5.9.3",
     "vite": "^7.1.12",
-    "@nysds/nys-button": "^1.11.2"
+    "@nysds/nys-button": "^1.11.3"
   },
   "keywords": [
     "new-york-state",
