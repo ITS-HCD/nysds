@@ -22,7 +22,7 @@ export default defineConfig({
         },
       },
     },
-    // produce expanded CSS here; users can run a second build or a postcss step to minify
+    // produce expanded CSS here for diagnostics; we run a second build step to minify with bundling nysds
     minify: false,
   },
   css: {
