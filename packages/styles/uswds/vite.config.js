@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
-import path from 'path';
+import { defineConfig } from "vite";
+import path from "path";
 
 // Vite build config specifically for compiling the project's Sass
 // - entry: `src/stylesheets/uswds.scss`
@@ -8,29 +8,29 @@ import path from 'path';
 export default defineConfig({
   root: __dirname,
   build: {
-    outDir: 'dist',
+    outDir: "dist",
     emptyOutDir: true,
     sourcemap: true,
     rollupOptions: {
-      input: path.resolve(__dirname, 'src/stylesheets/uswds.scss'),
+      input: path.resolve(__dirname, "src/stylesheets/uswds.scss"),
       output: {
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
-            return 'css/[name][extname]';
+          if (assetInfo.name && assetInfo.name.endsWith(".css")) {
+            return "css/[name][extname]";
           }
-          return 'assets/[name][extname]';
+          return "assets/[name][extname]";
         },
       },
     },
     // produce expanded CSS here; users can run a second build or a postcss step to minify
     minify: false,
   },
-css: {
+  css: {
     preprocessorOptions: {
       scss: {
-        api: 'modern-compiler',
-        loadPaths: ['./packages'],
-      }
-    }
-  },    
+        api: "modern-compiler",
+        loadPaths: ["./packages"],
+      },
+    },
+  },
 });
