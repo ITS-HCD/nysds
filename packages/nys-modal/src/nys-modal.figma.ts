@@ -2,38 +2,41 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_MODAL>", {
   props: {
-    modalHeader: figma.nestedProps("_Modal Header", {
-      heading: figma.string("Header"),
-      subheading: figma.boolean("Show subheader", {
-        true: figma.string("Subhead"),
+    mandatory: figma.boolean("Mandatory"),
+    modalHeader: figma.nestedProps("Modal Header", {
+      heading: figma.string("Heading"),
+      subheading: figma.boolean("Subheading", {
+        true: figma.string("↳ Subheading"),
         false: undefined,
       }),
     }),
 
-    modalContent: figma.nestedProps("_Modal Content", {}),
+    modalBody: figma.boolean("Body", {
+      true: html`<div slot="body"><p>Modal content goes here</p></div>`,
+      false: undefined,
+    }),
 
-    modalFooter: figma.nestedProps("_Modal Footer", {
-      primaryButton: figma.boolean("Show Primary Button"),
-      secondaryButton: figma.boolean("Show Secondary Button"),
+    modalFooter: figma.nestedProps("Modal Footer (Mobile)", {
+      primaryButton: figma.boolean("Primary Button", {
+        true: html`<nys-button label="Confirm"></nys-button>`,
+        false: undefined,
+      }),
+      secondaryButton: figma.boolean("Secondary Button", {
+        true: html`<nys-button label="Cancel" variant="outline"></nys-button>`,
+        false: undefined,
+      }),
     }),
   },
   example: (props) =>
     html` <nys-modal
       heading=${props.modalHeader.heading}
       subheading=${props.modalHeader.subheading}
-      ?open=${true}
+      open
+      ?mandatory=${props.mandatory}
     >
-      <div slot="body">
-        <!-- Example modal content -->
-        ${props.modalContent ? html`<p>Modal content goes here</p>` : ""}
-      </div>
+      ${props.modalBody}
       <div slot="actions">
-        ${props.modalFooter.primaryButton
-          ? html`<nys-button label="Confirm"></nys-button>`
-          : ""}
-        ${props.modalFooter.secondaryButton
-          ? html`<nys-button label="Cancel" variant="outline"></nys-button>`
-          : ""}
+        ${props.modalFooter.primaryButton} ${props.modalFooter.secondaryButton}
       </div>
     </nys-modal>`,
 });
