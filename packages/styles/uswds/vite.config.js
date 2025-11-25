@@ -9,7 +9,7 @@ export default defineConfig({
   root: __dirname,
   build: {
     outDir: 'dist',
-    emptyOutDir: false,
+    emptyOutDir: true,
     sourcemap: true,
     rollupOptions: {
       input: path.resolve(__dirname, 'src/stylesheets/uswds.scss'),
