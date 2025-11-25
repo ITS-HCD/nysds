@@ -56,7 +56,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) value = "";
-  @property({ type: String }) ariaDescription = "";
+  @property({ type: String, reflect: true }) ariaDescription = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
   private _type: (typeof NysButton.VALID_TYPES)[number] = "button";

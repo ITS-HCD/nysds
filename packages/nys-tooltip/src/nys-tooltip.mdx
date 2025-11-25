@@ -8,8 +8,7 @@ import '@nysds/nys-badge';
 
 # Tooltip
 
-The **`nys-tooltip`** component is a reusable wrapper that displays a brief message when a user hovers over or focuses on its wrapped element, offering additional information or context.
-> Unlike tooltip props found on form components, the `nys-tooltip` is a standalone wrapper, you must wrap the element you want to enhance manually.
+The **`nys-tooltip`** component is used to provide short, supplemental information when users hover, focus, or keyboard-navigate to the linked component (more info on linking with `for` prop below).
 
 If an id is not passed, a unique id will be generated.
 
@@ -34,22 +33,35 @@ If an id is not passed, a unique id will be generated.
 
 ---
 
-## Best Practices for Wrapping Elements
+## Supported Components
 
-### Use only`nys-components` like `nys-icon` and `nys-button`
-**Note:** Don’t hide critical info in tooltips. Reserve them for optional help.
+The `<nys-tooltip>` supports the following NYS components:
+- `<nys-button>`
+- `<nys-icon>`
+- `<nys-textinput>` (appears as a hint icon)
+- `<nys-textarea>` (appears as a hint icon)
+- `<nys-select>` (appears as a hint icon)
+- `<nys-checkboxgroup>` (appears as a hint icon)
+- `<nys-checkbox>` (appears as a hint icon)
+- `<nys-radiogroup>` (appears as a hint icon)
+- `<nys-fileinput>` (appears as a hint icon)
 
-The `nys-tooltip` is meant to wrap a single visual or interactive element. It works best with `nys-icon` or `nys-button`
-- Keyboard and screen reader support is built in
-- Layout and spacing are predictable
-- Tooltip positioning works reliably
+These components are either:
+- a form-related web component.
+- standard components used for tooltips (i.e., `nys-icon` and `nys-button`).
+
+To attach `<nys-tooltip>` to a NYS component, see the section below.
 
 ---
 
 ## Options
-### Focusable
-Use the `focusable` prop to make non-focusable slotted elements (i.e. `<nys-icon>`) accessible via keyboard focus.
-<Canvas of={NysTooltipStories.Focusable} />
+
+### Linking Tooltip to an Component 🔗
+To attach a `nys-tooltip` to a support NYSDS component, set the tooltip’s `for` attribute to the target component's `id`. Both values MUST match:
+```
+<nys-tooltip for="btn1" text="More details"></nys-tooltip>
+<nys-button id="btn1" label="Submit"></nys-button>
+```
 
 ### Position
 Use the `position` prop to control where the direction where the tooltip will appear.
@@ -64,6 +76,11 @@ Valid positions are:
 - `left`
 <Canvas of={NysTooltipStories.Position} />
 
+### Hints for Form-Related Components
+When a tooltip is added to an NYS form component, it appears as a hint icon next to the label. \
+Tooltip positioning is automatic (top/auto), so you don’t need to set a position prop.
+<Canvas of={NysTooltipStories.FormElement} />
+
 ### Inverted
 Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the tooltip. Use this prop when the tooltip is on a dark background.
 <Canvas of={NysTooltipStories.Inverted} />
@@ -71,7 +88,7 @@ Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the
 ## Usage
 
 ### When to use this component
-- Use this component to wrap interactive or visual elements like `nys-icon` or `nys-button` to provide additional information or context.
+- Use this component to wrap interactive or visual elements like `nys-icon`, `nys-button`, or the listed form-related NYSDS components to provide additional information or context.
 
 ### When to consider something else
 - When the information is critical for understanding or completing a task. Use inline text instead.
