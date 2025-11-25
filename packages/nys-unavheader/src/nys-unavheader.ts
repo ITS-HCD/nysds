@@ -177,7 +177,7 @@ export class NysUnavHeader extends LitElement {
               circle
               icon="close"
               size="sm"
-              aria-label="Close this notice"
+              ariaLabel="Close this notice"
               aria-expanded="${this.trustbarVisible}"
               @nys-click="${() =>
                 this._toggleTrustbar("nys-unavheader__know--inline")}"
@@ -247,7 +247,7 @@ export class NysUnavHeader extends LitElement {
                     variant="ghost"
                     circle
                     icon="slotted"
-                    aria-label="Translate"
+                    ariaLabel="Translate"
                     aria-expanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
                     class="nys-unavheader__iconbutton"
@@ -299,7 +299,7 @@ export class NysUnavHeader extends LitElement {
                     variant="ghost"
                     circle
                     icon="search"
-                    aria-label="Search"
+                    ariaLabel="Search"
                     aria-expanded="${this.searchDropdownVisible}"
                     id="nys-unavheader__searchbutton"
                     class="nys-unavheader__iconbutton"
@@ -325,7 +325,7 @@ export class NysUnavHeader extends LitElement {
                       slot="endButton"
                       type="submit"
                       prefixIcon="search"
-                      aria-label="Search"
+                      ariaLabel="Search"
                       @nys-click=${() => {
                         this._handleSearchButton("nys-unavheader__searchbar");
                       }}
@@ -356,7 +356,7 @@ export class NysUnavHeader extends LitElement {
                 slot="endButton"
                 type="submit"
                 prefixIcon="search"
-                aria-label="Search"
+                ariaLabel="Search"
                 @nys-click=${() => {
                   this._handleSearchButton("nys-unavheader__searchbardropdown");
                 }}
