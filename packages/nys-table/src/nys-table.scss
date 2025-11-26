@@ -21,9 +21,25 @@
 
   .nys-table {
     width: var(--_nys-table-width);
-    border-radius: var(--_nys-table-radius);
     font-family: var(--_nys-table-font-family);
     font-size: var(--_nys-table-font-size);
     font-weight: var(--_nys-table-font-weight);
     line-height: var(--_nys-table-line-height);
+    border-collapse: collapse;
+  }
+
+  ::slotted(table) {
+    border: pink solid;
+  }
+
+  ::slotted(caption) {
+    border: solid green;
+  }
+
+  ::slotted(tr) {
+    border: solid blue;
+  }
+
+  ::slotted(tr:nth-child(even)) {
+    background: #f2f2f2;
   }
