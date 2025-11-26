@@ -56,7 +56,7 @@ export class NysButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) value = "";
-  @property({ type: String, reflect: true }) ariaDescription = "";
+  @property({ type: String }) ariaDescription = "";
   // type
   private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
   private _type: (typeof NysButton.VALID_TYPES)[number] = "button";
@@ -129,6 +129,21 @@ export class NysButton extends LitElement {
     if (!this.id) {
       this.id = this._generateUniqueId();
     }
+  }
+
+  updated() {
+    const name =
+      this.ariaLabel ||
+      this.label ||
+      (this.circle ? this.icon : null) ||
+      this.prefixIcon ||
+      this.suffixIcon ||
+      "button";
+
+    this._internals.ariaLabel = name;
+    this._internals.ariaDescription = this.ariaDescription || null;
+
+    this._internals.role = "button";
   }
 
   /******************** Functions ********************/
@@ -248,18 +263,10 @@ export class NysButton extends LitElement {
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target=${this.target}
-                aria-label=${ifDefined(
-                  this.ariaLabel ||
-                    this.label ||
-                    (this.circle ? this.icon : null) ||
-                    "button",
-                )}
-                aria-description=${ifDefined(this.ariaDescription || undefined)}
                 @click=${this._handleClick}
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
-                role="button"
                 tabindex="${this.disabled ? -1 : 0}"
               >
                 ${this.prefixIcon && this.variant !== "text"
@@ -299,20 +306,10 @@ export class NysButton extends LitElement {
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
               aria-controls=${ifDefined(this.ariaControls || undefined)}
-              aria-label=${ifDefined(
-                this.ariaLabel ||
-                  this.label ||
-                  (this.circle ? this.icon : null) ||
-                  this.prefixIcon ||
-                  this.suffixIcon ||
-                  "button",
-              )}
-              aria-description=${ifDefined(this.ariaDescription || undefined)}
               @click=${this._handleClick}
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
-              role="button"
             >
               ${this.prefixIcon && this.variant !== "text"
                 ? html`<slot name="prefix-icon">
