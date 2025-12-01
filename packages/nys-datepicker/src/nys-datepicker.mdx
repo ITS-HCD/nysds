@@ -1,0 +1,129 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysDatepickerStories from "./nys-datepicker.stories";
+import "@nysds/nys-icon"
+import "@nysds/nys-badge"
+
+<Meta of={NysDatepickerStories} title="Components/Datepicker/Documentation" />
+
+# Datepicker
+
+The **`nys-datepicker`** component is a reusable web component for use in New York State digital products.
+
+If an id is not passed, a unique id will be generated.
+
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=TODO" target="_blank">View in Figma</a>
+  </p>
+</div>
+
+---
+
+<Canvas of={NysDatepickerStories.Basic} />
+
+<Controls />
+
+## Options
+
+## Usage
+
+### When to use this component
+- TODO: Add when to use this component
+- TODO: Add when to use this component
+
+### When to consider something else
+- TODO: Add when to consider something else
+- TODO: Add when to consider something else
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - TODO: Add when to use this component
+      - TODO: Add when to use this component
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - TODO: Add when to consider something else
+      - TODO: Add when to consider something else
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-datepicker` component includes the following accessibility-focused features:
+
+- TODO: Add accessibility features
+- TODO: Add accessibility features
+- TODO: Add accessibility features
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`description`</td>
+        <td>Description text for either `nys-component` or `nys-component`</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
+
+## Events
+
+The `nys-datepicker` component emits the following events:
+
+1. `nys-click`: Emitted when the datepicker is clicked.
+2. `nys-focus`: Emitted when the datepicker receives focus.
+3. `nys-blur`: Emitted when the datepicker loses focus.
+
+**Event details** \
+The event’s `detail` object includes:
+- id (string): The id of the datepicker.
+- checked (boolean): Whether the datepicker is currently checked.
+
+You can listen to these events using JavaScript:
+
+```js
+// Select the datepicker component
+const datepicker = document.querySelector("nys-datepicker");
+
+// Listen for the 'nys-click' event
+datepicker.addEventListener("nys-click", (event) => {
+  const {id, checked} = event.detail;
+	console.log("Datepicker (${id}) is clicked. Checked: ${checked}");
+});
+
+// Listen for the 'nys-focus' event
+datepicker.addEventListener("nys-focus", () => {
+	console.log("Datepicker is focused");
+});
+
+// Listen for the 'nys-blur' event
+datepicker.addEventListener("nys-blur", () => {
+	console.log("Datepicker lost focus");
+});
+```
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- TODO: Add dependencies
