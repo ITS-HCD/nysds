@@ -28,18 +28,14 @@
     border-collapse: collapse;
   }
 
-  ::slotted(table) {
+  table {
     border: pink solid;
   }
 
-  ::slotted(caption) {
+  caption {
     border: solid green;
   }
 
-  ::slotted(tr) {
-    border: solid blue;
-  }
-
-  ::slotted(tr:nth-child(even)) {
-    background: #f2f2f2;
+  tr {
+    background: purple;
   }
