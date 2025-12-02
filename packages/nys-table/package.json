@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-table",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "The Table component from the NYS Design System.",
   "module": "dist/nys-table.js",
   "types": "dist/index.d.ts",
