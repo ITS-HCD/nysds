@@ -56,10 +56,53 @@ export class NysTable extends LitElement {
     assigned.forEach((node) => {
       if (node.tagName === "TABLE") {
         const table = node.cloneNode(true) as HTMLTableElement;
+        this._normalizeTable(table);
         wrapper.appendChild(table);
         return;
       }
     });
+  }
+
+  _normalizeTable(table: HTMLTableElement) {
+    const hasThead = table.querySelector("thead");
+    const hasTbody = table.querySelector("tbody");
+
+    if (hasThead && hasTbody) return;
+
+    // Pull caption first
+    const caption = table.querySelector(
+      "caption",
+    ) as HTMLTableCaptionElement | null;
+
+    // Collect all rows
+    const rows = Array.from(table.querySelectorAll("tr"));
+    if (rows.length === 0) return;
+
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+
+    // Find first row containing th
+    const headerRowIndex = rows.findIndex((r) => r.querySelector("th"));
+
+    if (headerRowIndex === -1) {
+      rows.forEach((r) => tbody.appendChild(r));
+    } else {
+      thead.appendChild(rows[headerRowIndex]);
+      rows.forEach((r, i) => {
+        if (i !== headerRowIndex) tbody.appendChild(r);
+      });
+    }
+
+    // Wipe original table content
+    table.innerHTML = "";
+
+    // Insert caption first if it existed
+    if (caption) {
+      table.appendChild(caption);
+    }
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
   }
 
   /****************** Event Handlers ******************/
