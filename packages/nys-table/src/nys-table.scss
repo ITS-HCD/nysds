@@ -1,58 +1,50 @@
-  :host {
-    /* Anything that can be overridden should be defined here */
+:host {
+  --_nys-table-width: 100%;
+  --_nys-table-radius: var(--nys-radius-xl, 12px);
+  --_nys-table-padding: var(--nys-space-100, 8px);
 
-    /* Global Table Styles */
-    --_nys-table-width: 100%;
-    --_nys-table-radius: var(--nys-radius-xl, 12px);
-    --_nys-table-padding: var(--nys-space-100, 8px);
+  --_nys-table-font-family: var(--nys-font-family-ui,
+      var(--nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif));
+  --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
+  --_nys-table-line-height: var(--nys-font-lineheight-ui-md, 24px);
 
-    /* Typography */
-    --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
-    --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
-    --_nys-table-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --_nys-table-font-family: var(--nys-font-family-ui,
-        var(--nys-font-family-sans,
-          "Proxima Nova",
-          "Helvetica Neue",
-          "Helvetica",
-          "Arial",
-          sans-serif));
+  --_nys-table-padding--caption: var(--nys-space-400, 32px) var(--nys-space-200, 16px);
+  --_nys-table-font-size--caption: var(--nys-font-size-h2, 16px);
+  --_nys-table-padding--cell: var(--nys-space-250, 20px) var(--nys-space-200, 16px);
+}
 
-    /* Specific Table Element Padding */
-    --_nys-table-padding--caption: var(--nys-space-400, 32px) var(--nys-space-200, 16px);
-    --_nys-table-font-size--caption: var(--nys-font-size-h2, 16px);
-    --_nys-table-padding--cell: var(--nys-space-250, 20px) var(--nys-space-200, 16px);
-  }
+.nys-table {
+  width: var(--_nys-table-width);
+  font:
+    var(--_nys-table-font-weight) var(--_nys-table-font-size) / var(--_nys-table-line-height) var(--_nys-table-font-family);
 
-  .nys-table {
+  border: solid red;
+
+  table {
     width: var(--_nys-table-width);
-    font-family: var(--_nys-table-font-family);
-    font-size: var(--_nys-table-font-size);
-    font-weight: var(--_nys-table-font-weight);
-    line-height: var(--_nys-table-line-height);
-    border: solid red;
-  }
-
-  .nys-table table {
     border-collapse: collapse;
-    width: var(--_nys-table-width);
     border: solid green;
   }
 
-  .nys-table caption {
-    text-align: start;
+  caption {
     padding: var(--_nys-table-padding--caption);
-
     font-size: var(--_nys-table-font-size--caption);
+    text-align: start;
     border: solid blue;
   }
 
-  // style padding of cells (header and regular)
-  .nys-table th,
-  .nys-table td {
+  th,
+  td {
     padding: var(--_nys-table-padding--cell);
   }
+}
 
-  :host([striped]) .nys-table tbody tr:nth-child(even) {
-    background-color: var(--nys-color-neutral-10, #F6F6F6);
-  }
+:host([striped]) .nys-table tbody tr:nth-child(even) {
+  background-color: var(--nys-color-neutral-10, #f6f6f6);
+}

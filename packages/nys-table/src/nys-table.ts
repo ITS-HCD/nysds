@@ -11,8 +11,8 @@ export class NysTable extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Boolean, reflect: true }) striped = false;
-  @property({ type: Boolean }) sortable = false;
-  @property({ type: String }) download = "";
+  @property({ type: Boolean, reflect: true }) sortable = false;
+  @property({ type: String, reflect: true }) download = "";
 
   //@state() private _sortColumn: string | null = null;
   //@state() private _sortDirection: "asc" | "desc" | "none" = "none";
@@ -57,6 +57,9 @@ export class NysTable extends LitElement {
       if (node.tagName === "TABLE") {
         const table = node.cloneNode(true) as HTMLTableElement;
         this._normalizeTable(table);
+        if (this.sortable) {
+          this._addSortIcons(table);
+        }
         wrapper.appendChild(table);
         return;
       }
@@ -103,6 +106,23 @@ export class NysTable extends LitElement {
 
     table.appendChild(thead);
     table.appendChild(tbody);
+  }
+
+  _addSortIcons(table: HTMLTableElement) {
+    const ths = Array.from(table.querySelectorAll("thead th"));
+    if (ths.length === 0) return;
+
+    ths.forEach((th) => {
+      // Prevent duplicates on slotchange or re-render
+      if (th.querySelector("nys-icon[part='sort-indicator']")) return;
+
+      const icon = document.createElement("nys-icon");
+      icon.setAttribute("part", "sort-indicator");
+      icon.setAttribute("name", "height");
+      icon.setAttribute("size", "24");
+
+      th.appendChild(icon);
+    });
   }
 
   /****************** Event Handlers ******************/
