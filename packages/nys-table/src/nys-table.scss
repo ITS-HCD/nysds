@@ -14,9 +14,11 @@
   --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
   --_nys-table-line-height: var(--nys-font-lineheight-ui-md, 24px);
 
-  --_nys-table-padding--caption: var(--nys-space-400, 32px) var(--nys-space-200, 16px);
-  --_nys-table-font-size--caption: var(--nys-font-size-h2, 16px);
-  --_nys-table-padding--cell: var(--nys-space-250, 20px) var(--nys-space-200, 16px);
+  --_nys-table-padding--caption: var(--nys-space-250, 20px) var(--nys-space-150, 12px);
+  --_nys-table-font-size--caption: var(--nys-font-size-ui-lg, 18px);
+  --_nys-table-font-weight--caption: var(--nys-font-weight-bold, 700);
+
+  --_nys-table-padding--cell: var(--nys-space-150, 12px) var(--nys-space-150, 12px);
 }
 
 .nys-table {
@@ -35,6 +37,7 @@
   caption {
     padding: var(--_nys-table-padding--caption);
     font-size: var(--_nys-table-font-size--caption);
+    font-weight: var(--_nys-table-font-weight--caption);
     text-align: start;
     border: solid blue;
   }
