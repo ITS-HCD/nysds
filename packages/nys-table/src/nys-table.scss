@@ -48,6 +48,12 @@
     border: solid orange;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    p {
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 

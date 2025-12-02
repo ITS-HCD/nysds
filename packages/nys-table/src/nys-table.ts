@@ -90,7 +90,23 @@ export class NysTable extends LitElement {
     if (headerRowIndex === -1) {
       rows.forEach((r) => tbody.appendChild(r));
     } else {
-      thead.appendChild(rows[headerRowIndex]);
+      const headerRow = rows[headerRowIndex];
+
+      // Wrap text nodes in <p> for each <th>
+      headerRow.querySelectorAll("th").forEach((th) => {
+        // Only wrap text nodes, leave icons or other children
+        Array.from(th.childNodes).forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+            const p = document.createElement("p");
+            p.textContent = node.textContent;
+            th.replaceChild(p, node);
+          }
+        });
+      });
+
+      thead.appendChild(headerRow);
+
+      // Move remaining rows to tbody
       rows.forEach((r, i) => {
         if (i !== headerRowIndex) tbody.appendChild(r);
       });
@@ -100,9 +116,7 @@ export class NysTable extends LitElement {
     table.innerHTML = "";
 
     // Insert caption first if it existed
-    if (caption) {
-      table.appendChild(caption);
-    }
+    if (caption) table.appendChild(caption);
 
     table.appendChild(thead);
     table.appendChild(tbody);
@@ -116,12 +130,16 @@ export class NysTable extends LitElement {
       // Prevent duplicates on slotchange or re-render
       if (th.querySelector("nys-icon[part='sort-indicator']")) return;
 
-      const icon = document.createElement("nys-icon");
-      icon.setAttribute("part", "sort-indicator");
-      icon.setAttribute("name", "height");
-      icon.setAttribute("size", "24");
+      // Wrap existing text nodes in <p> if not already wrapped
+      let p = th.querySelector("p");
+      if (p) {
+        const icon = document.createElement("nys-icon");
+        icon.setAttribute("part", "sort-indicator");
+        icon.setAttribute("name", "height");
+        icon.setAttribute("size", "24");
 
-      th.appendChild(icon);
+        p.appendChild(icon);
+      }
     });
   }
 
