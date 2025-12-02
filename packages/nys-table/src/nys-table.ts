@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
 
@@ -10,6 +10,12 @@ export class NysTable extends LitElement {
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
+  @property({ type: Boolean }) striped = false;
+  @property({ type: Boolean }) sortable = false;
+  @property({ type: String }) download = "";
+
+  @state() private _sortColumn: string | null = null;
+  @state() private _sortDirection: "asc" | "desc" | "none" = "none";
 
   /**************** Lifecycle Methods ****************/
   constructor() {
@@ -48,29 +54,11 @@ export class NysTable extends LitElement {
     const assigned = slot.assignedElements({ flatten: true });
 
     assigned.forEach((node) => {
-      // If the dev already passed <table>, use it directly
       if (node.tagName === "TABLE") {
         const table = node.cloneNode(true) as HTMLTableElement;
         wrapper.appendChild(table);
         return;
       }
-
-      // If they passed rows without a table, build one
-      if (
-        node.tagName === "TR" ||
-        node.tagName === "THEAD" ||
-        node.tagName === "TBODY"
-      ) {
-        let table = wrapper.querySelector("table");
-        if (!table) {
-          table = document.createElement("table");
-          wrapper.appendChild(table);
-        }
-        table.appendChild(node.cloneNode(true));
-        return;
-      }
-
-      // Everything else is ignored for now
     });
   }
 
