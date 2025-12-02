@@ -20,6 +20,8 @@
 
     /* Specific Table Element Padding */
     --_nys-table-padding--caption: var(--nys-space-400, 32px) var(--nys-space-200, 16px);
+    --_nys-table-font-size--caption: var(--nys-font-size-h2, 16px);
+    --_nys-table-padding--cell: var(--nys-space-250, 20px) var(--nys-space-200, 16px);
   }
 
   .nys-table {
@@ -41,12 +43,14 @@
     text-align: start;
     padding: var(--_nys-table-padding--caption);
 
-    /* Heading/Heading 2/Bold */
-    font-family: var(--nys-type-family-heading, "Proxima Nova");
-    font-size: var(--nys-type-size-heading-h2, 28px);
-    font-style: normal;
-    font-weight: 700;
+    font-size: var(--_nys-table-font-size--caption);
     border: solid blue;
+  }
+
+  // style padding of cells (header and regular)
+  .nys-table th,
+  .nys-table td {
+    padding: var(--_nys-table-padding--cell);
   }
 
   :host([striped]) .nys-table tbody tr:nth-child(even) {
