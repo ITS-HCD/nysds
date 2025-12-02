@@ -43,6 +43,12 @@
   td {
     padding: var(--_nys-table-padding--cell);
   }
+
+  th {
+    border: solid orange;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 :host([striped]) .nys-table tbody tr:nth-child(even) {
