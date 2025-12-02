@@ -6,19 +6,9 @@ import "./nys-table";
 interface NysTableArgs {
   id: string;
   name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string | null;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  striped: boolean;
+  sortable: boolean;
+  download: string;
 }
 
 const meta: Meta<NysTableArgs> = {
@@ -27,6 +17,9 @@ const meta: Meta<NysTableArgs> = {
   argTypes: {
     id: { control: "text" },
     name: { control: "text" },
+    striped: { control: "boolean" },
+    sortable: { control: "boolean" },
+    download: { control: "text" },
   },
   parameters: {
     docs: {
@@ -45,9 +38,18 @@ export const Basic: Story = {
   args: {
     id: "table1",
     name: "table1",
+    striped: false,
+    sortable: false,
+    download: "",
   },
   render: (args) => html`
-    <nys-table .id=${args.id} .name=${args.name}>
+    <nys-table
+      .id=${args.id}
+      .name=${args.name}
+      .striped=${args.striped}
+      .sortable=${args.sortable}
+      .download=${args.download}
+    >
       <table>
         <caption>
           New York State High Peaks and Popular Hikes

@@ -447,7 +447,10 @@
       "description": "\n---\n",
       "attributes": [
         { "name": "id", "values": [] },
-        { "name": "name", "values": [] }
+        { "name": "name", "values": [] },
+        { "name": "striped", "values": [] },
+        { "name": "sortable", "values": [] },
+        { "name": "download", "values": [] }
       ],
       "references": []
     },

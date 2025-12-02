@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
 
@@ -10,12 +10,12 @@ export class NysTable extends LitElement {
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  @property({ type: Boolean }) striped = false;
+  @property({ type: Boolean, reflect: true }) striped = false;
   @property({ type: Boolean }) sortable = false;
   @property({ type: String }) download = "";
 
-  @state() private _sortColumn: string | null = null;
-  @state() private _sortDirection: "asc" | "desc" | "none" = "none";
+  //@state() private _sortColumn: string | null = null;
+  //@state() private _sortDirection: "asc" | "desc" | "none" = "none";
 
   /**************** Lifecycle Methods ****************/
   constructor() {

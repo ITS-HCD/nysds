@@ -25,6 +25,12 @@
     font-size: var(--_nys-table-font-size);
     font-weight: var(--_nys-table-font-weight);
     line-height: var(--_nys-table-line-height);
+  }
+
+  .nys-table table {
     border-collapse: collapse;
   }
 
+  :host([striped]) .nys-table tbody tr:nth-child(odd) {
+    background-color: var(--nys-color-neutral-100, #f2f2f2);
+  }
