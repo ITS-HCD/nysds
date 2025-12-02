@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-accordion",
-  "version": "1.11.3",
+  "version": "1.11.4",
   "description": "The Accordion component from the NYS Design System.",
   "module": "dist/nys-accordion.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.11.3"
+    "@nysds/nys-icon": "^1.11.4"
   },
   "devDependencies": {
     "lit": "^3.3.1",
