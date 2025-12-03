@@ -60,6 +60,9 @@ export class NysTable extends LitElement {
         if (this.sortable) {
           this._addSortIcons(table);
         }
+        if (this.download) {
+          this._injectDownloadButton(table);
+        }
         wrapper.appendChild(table);
         return;
       }
@@ -141,6 +144,30 @@ export class NysTable extends LitElement {
         p.appendChild(icon);
       }
     });
+  }
+
+  _injectDownloadButton(table: HTMLTableElement) {
+    const caption = table.querySelector("caption");
+
+    const container = document.createElement("div");
+    container.className = "caption-row";
+
+    if (caption) {
+      // Move caption into the container
+      caption.replaceWith(container);
+      container.appendChild(caption);
+    } else {
+      // Insert container before thead if no caption exists
+      const thead = table.querySelector("thead");
+      table.insertBefore(container, thead);
+    }
+
+    const btn = document.createElement("nys-button");
+    btn.setAttribute("variant", "secondary");
+    btn.setAttribute("size", "sm");
+    btn.textContent = this.download;
+
+    container.appendChild(btn);
   }
 
   /****************** Event Handlers ******************/
