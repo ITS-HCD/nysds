@@ -20,23 +20,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-  private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysRadiobutton.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_SIZES. If not, default to "md".
-    this._size = NysRadiobutton.VALID_SIZES.includes(
-      value as (typeof NysRadiobutton.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysRadiobutton.VALID_SIZES)[number])
-      : "md";
-  }
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
   @property({ type: Boolean, reflect: true }) tile = false;
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
