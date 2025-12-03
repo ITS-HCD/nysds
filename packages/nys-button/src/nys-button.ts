@@ -8,6 +8,10 @@ let buttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions: ShadowRootInit = {
+    mode: "open",
+    delegatesFocus: true,
+  };
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
@@ -268,6 +272,13 @@ export class NysButton extends LitElement {
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
                 tabindex="${this.disabled ? -1 : 0}"
+                aria-label=${ifDefined(
+                  this.ariaLabel ||
+                    this.label ||
+                    (this.circle ? this.icon : null) ||
+                    "button",
+                )}
+                aria-description=${ifDefined(this.ariaDescription || undefined)}
               >
                 ${this.prefixIcon && this.variant !== "text"
                   ? html`<slot name="prefix-icon">
@@ -310,6 +321,19 @@ export class NysButton extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
+              tabindex="${this.disabled ? -1 : 0}"
+              title=""
+              title=${this.title}
+              aria-label=${ifDefined(
+                this.ariaLabel ||
+                  this.label ||
+                  (this.circle ? this.icon : null) ||
+                  this.prefixIcon ||
+                  this.suffixIcon ||
+                  "button",
+              )}
+              aria-description=${ifDefined(this.ariaDescription || undefined)}
+              role="button"
             >
               ${this.prefixIcon && this.variant !== "text"
                 ? html`<slot name="prefix-icon">
@@ -338,6 +362,8 @@ export class NysButton extends LitElement {
                 : ""}
             </button>
           `}
+          <div id="vo-desc" aria-live="polite" class="sr-only"></div>
+
     `;
   }
 }
