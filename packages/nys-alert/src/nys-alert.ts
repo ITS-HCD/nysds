@@ -20,33 +20,10 @@ export class NysAlert extends LitElement {
   @property({ type: String }) secondaryAction = "";
   @property({ type: String }) primaryLabel = "Learn more";
   @property({ type: String }) secondaryLabel = "Dismiss";
+  @property({ type: String, reflect: true }) type: "base" | "info" | "success" | "warning" | "danger" | "emergency" = "base";
 
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;
-
-  // --- Valid Alert Types --- //
-  private static readonly VALID_TYPES = [
-    "base",
-    "info",
-    "success",
-    "warning",
-    "danger",
-    "emergency",
-  ] as const;
-  private _type: (typeof NysAlert.VALID_TYPES)[number] = "base";
-
-  @property({ reflect: true })
-  get type() {
-    return this._type;
-  }
-
-  set type(value: string) {
-    this._type = NysAlert.VALID_TYPES.includes(
-      value as (typeof NysAlert.VALID_TYPES)[number],
-    )
-      ? (value as (typeof NysAlert.VALID_TYPES)[number])
-      : "base";
-  }
 
   // Aria attributes based on the type
   get ariaAttributes(): {
