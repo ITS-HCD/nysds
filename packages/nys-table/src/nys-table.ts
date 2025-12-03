@@ -163,9 +163,10 @@ export class NysTable extends LitElement {
     }
 
     const btn = document.createElement("nys-button");
-    btn.setAttribute("variant", "secondary");
+    btn.setAttribute("variant", "outline");
     btn.setAttribute("size", "sm");
-    btn.textContent = this.download;
+    btn.setAttribute("prefixIcon", "download");
+    btn.setAttribute("label", "Download");
 
     container.appendChild(btn);
   }
