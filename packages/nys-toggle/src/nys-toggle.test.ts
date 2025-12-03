@@ -14,12 +14,9 @@ describe("nys-toggle", () => {
     `);
     expect(el.label).to.equal("My Label");
     expect(el.checked).to.be.true;
-  }
-  );
+  });
   it("passes the a11y audit", async () => {
-    const el = await fixture(
-      html`<nys-toggle label="My Label"></nys-toggle>`,
-    );
+    const el = await fixture(html`<nys-toggle label="My Label"></nys-toggle>`);
     await expect(el).shadowDom.to.be.accessible();
   });
 

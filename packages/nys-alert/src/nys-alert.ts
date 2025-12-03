@@ -20,7 +20,13 @@ export class NysAlert extends LitElement {
   @property({ type: String }) secondaryAction = "";
   @property({ type: String }) primaryLabel = "Learn more";
   @property({ type: String }) secondaryLabel = "Dismiss";
-  @property({ type: String, reflect: true }) type: "base" | "info" | "success" | "warning" | "danger" | "emergency" = "base";
+  @property({ type: String, reflect: true }) type:
+    | "base"
+    | "info"
+    | "success"
+    | "warning"
+    | "danger"
+    | "emergency" = "base";
 
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;

@@ -9,7 +9,11 @@ export class NysBadge extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
-  @property({ type: String, reflect: true }) intent: "neutral" | "error" | "success" | "warning" = "neutral";
+  @property({ type: String, reflect: true }) intent:
+    | "neutral"
+    | "error"
+    | "success"
+    | "warning" = "neutral";
   @property({ type: String }) prefixLabel = "";
   @property({ type: String }) label = "";
 
