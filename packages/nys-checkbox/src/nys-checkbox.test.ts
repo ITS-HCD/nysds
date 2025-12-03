@@ -1,6 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-checkbox.js";
-import { NysCheckbox } from "../dist/nys-checkbox.js";
+import { NysCheckbox } from "./nys-checkbox";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-checkbox", () => {
