@@ -23,23 +23,11 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "full";
-
-  // Getter and setter for the `width` property.
-  @property({ reflect: true })
-  get width(): (typeof NysSelect.VALID_WIDTHS)[number] {
-    return this._width;
-  }
-
-  set width(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
-    this._width = NysSelect.VALID_WIDTHS.includes(
-      value as (typeof NysSelect.VALID_WIDTHS)[number],
-    )
-      ? (value as (typeof NysSelect.VALID_WIDTHS)[number])
-      : "full";
-  }
+  @property({ type: String, reflect: true }) width:
+    | "sm"
+    | "md"
+    | "lg"
+    | "full" = "full";
 
   private _originalErrorMessage = "";
 
