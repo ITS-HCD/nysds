@@ -29,6 +29,10 @@ figma.connect("<FIGMA_TEXTINPUT>", {
         true: figma.string("↳ Placeholder"),
         false: undefined,
       }),
+      /**
+       * Due to code connect limitation with nested instance within a nested instance,
+       * We can work around this with targeting the first level within "input" prop as usual, but putting the inner nested "error" prop outside of this key/value pair
+       */
       showError: figma.boolean("Error"),
     }),
     error: figma.nestedProps("Error", {
@@ -40,13 +44,13 @@ figma.connect("<FIGMA_TEXTINPUT>", {
       <nys-textinput
         width="${props.width}"
         label="${props.label.text}"
-        ?required="${props.label.required}"
-        ?optional="${props.label.optional}"
+        required="${props.label.required}"
+        optional="${props.label.optional}"
         description="${props.label.description}"
         value="${props.input.value}"
         placeholder="${props.input.placeholder}"
-        ?disabled="${props.input.disabled}"
-        ?showError="${props.input.showError}"
+        disabled="${props.input.disabled}"
+        showError="${props.input.showError}"
         errorMessage="${props.error.message}"
         name="---REPLACE_THIS---"
       ></nys-textinput>`,

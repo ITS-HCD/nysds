@@ -21,26 +21,10 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) tooltip = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-  private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysRadiogroup.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
-    this._size = NysRadiogroup.VALID_SIZES.includes(
-      value as (typeof NysRadiogroup.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
-      : "md";
-  }
 
   private _internals: ElementInternals;
 
