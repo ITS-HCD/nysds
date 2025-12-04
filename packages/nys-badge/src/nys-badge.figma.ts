@@ -1,15 +1,6 @@
 import figma, { html } from "@figma/code-connect/html";
 
-type BadgeProps = {
-  intent: "neutral" | "error" | "success" | "warning";
-  size: "sm" | "md";
-  prefixIcon: string;
-  suffixIcon: string;
-  prefixLabel: string;
-  label: string;
-};
-
-figma.connect<BadgeProps>("<FIGMA_BADGE>", {
+figma.connect("<FIGMA_BADGE>", {
   props: {
     intent: figma.enum("Intent", {
       "🔘 Neutral": "neutral",
@@ -21,9 +12,12 @@ figma.connect<BadgeProps>("<FIGMA_BADGE>", {
       sm: "sm",
       md: "md",
     }),
-    prefixIcon: figma.string("Prefix Icon"),
-    suffixIcon: figma.string("Suffix Icon"),
-    prefixLabel: figma.string("↳ Prefix Label"),
+    prefixIcon: figma.boolean("Prefix Icon"),
+    suffixIcon: figma.boolean("Suffix Icon"),
+    prefixLabel: figma.boolean("Prefix Label", {
+      true: figma.string("↳ Prefix Label"),
+      false: undefined,
+    }),
     label: figma.string("Label"),
   },
   example: (props) => html`

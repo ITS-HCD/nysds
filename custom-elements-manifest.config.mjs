@@ -8,7 +8,7 @@ import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 
 const vscodeOpts = {
   /** Output directory to write the React wrappers to - default is the root of the project */
-  outdir: ".vscode",
+  outdir: "./dist/.vscode",
 };
 
 export default {
@@ -60,7 +60,7 @@ export default {
         }
       }
     },
-        customElementVsCodePlugin(vscodeOpts), // disabling because it generates the same file differently each time causing merge conflicts
+    customElementVsCodePlugin(vscodeOpts), // disabling because it generates the same file differently each time causing merge conflicts
 
 ],
   /**
