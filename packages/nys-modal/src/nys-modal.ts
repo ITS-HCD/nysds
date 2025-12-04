@@ -13,20 +13,7 @@ export class NysModal extends LitElement {
   @property({ type: String }) subheading = "";
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: Boolean, reflect: true }) mandatory = false;
-
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg"] as const;
-  private _width: (typeof NysModal.VALID_WIDTHS)[number] = "md";
-  @property({ reflect: true })
-  get width(): (typeof NysModal.VALID_WIDTHS)[number] {
-    return this._width;
-  }
-  set width(value: string) {
-    this._width = NysModal.VALID_WIDTHS.includes(
-      value as (typeof NysModal.VALID_WIDTHS)[number],
-    )
-      ? (value as (typeof NysModal.VALID_WIDTHS)[number])
-      : "md";
-  }
+  @property({ type: String, reflect: true }) width: "sm" | "md" | "lg" = "md";
 
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
   private _prevFocusedElement: HTMLElement | null = null;

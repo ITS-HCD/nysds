@@ -19,25 +19,7 @@ export class NysToggle extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean }) noIcon = false;
   @property({ type: Boolean, reflect: true }) inverted = false;
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-
-  // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
-  private _size: (typeof NysToggle.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysToggle.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_SIZES. If not, default to "md".
-    this._size = NysToggle.VALID_SIZES.includes(
-      value as (typeof NysToggle.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysToggle.VALID_SIZES)[number])
-      : "md";
-  }
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   private _internals: ElementInternals;
 
