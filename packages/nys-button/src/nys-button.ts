@@ -147,6 +147,12 @@ export class NysButton extends LitElement {
     this._internals.ariaLabel = name;
     this._internals.ariaDescription = this.ariaDescription || null;
 
+    // if (this.ariaDescription) {
+    //   this.setAttribute("aria-description", this.ariaDescription);
+    // } else {
+    //   this.removeAttribute("aria-description");
+    // }
+
     this._internals.role = "button";
   }
 
@@ -253,6 +259,13 @@ export class NysButton extends LitElement {
       super.focus(options);
     }
   }
+//   public focus(options?: FocusOptions) {
+//     this.getButtonElement().then(btn => {
+//       if (btn) btn.focus(options);
+//       else super.focus(options);
+//     });
+// }
+
 
   render() {
     return html`
@@ -322,8 +335,6 @@ export class NysButton extends LitElement {
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
               tabindex="${this.disabled ? -1 : 0}"
-              title=""
-              title=${this.title}
               aria-label=${ifDefined(
                 this.ariaLabel ||
                   this.label ||
@@ -362,8 +373,6 @@ export class NysButton extends LitElement {
                 : ""}
             </button>
           `}
-          <div id="vo-desc" aria-live="polite" class="sr-only"></div>
-
     `;
   }
 }
