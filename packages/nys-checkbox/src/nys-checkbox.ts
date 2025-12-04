@@ -25,6 +25,11 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String }) tooltip = "";
+<<<<<<< HEAD
+=======
+  // Getter and setter for the `size` property.
+  @property({ reflect: true })
+>>>>>>> 495495d05d1b9f20eb4cb269b2c71c6080372cbf
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
