@@ -8,10 +8,6 @@ let buttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
-  static shadowRootOptions: ShadowRootInit = {
-    mode: "open",
-    delegatesFocus: true,
-  };
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
@@ -82,27 +78,6 @@ export class NysButton extends LitElement {
     if (!this.id) {
       this.id = this._generateUniqueId();
     }
-  }
-
-  updated() {
-    const name =
-      this.ariaLabel ||
-      this.label ||
-      (this.circle ? this.icon : null) ||
-      this.prefixIcon ||
-      this.suffixIcon ||
-      "button";
-
-    this._internals.ariaLabel = name;
-    this._internals.ariaDescription = this.ariaDescription || null;
-
-    // if (this.ariaDescription) {
-    //   this.setAttribute("aria-description", this.ariaDescription);
-    // } else {
-    //   this.removeAttribute("aria-description");
-    // }
-
-    this._internals.role = "button";
   }
 
   /******************** Functions ********************/
@@ -208,13 +183,6 @@ export class NysButton extends LitElement {
       super.focus(options);
     }
   }
-//   public focus(options?: FocusOptions) {
-//     this.getButtonElement().then(btn => {
-//       if (btn) btn.focus(options);
-//       else super.focus(options);
-//     });
-// }
-
 
   render() {
     return html`
