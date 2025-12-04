@@ -3,35 +3,38 @@
   --_nys-table-radius: var(--nys-radius-xl, 12px);
   --_nys-table-padding: var(--nys-space-100, 8px);
 
-  --_nys-table-font-family: var(--nys-font-family-ui,
-      var(--nys-font-family-sans,
-        "Proxima Nova",
-        "Helvetica Neue",
-        Helvetica,
-        Arial,
-        sans-serif));
+  --_nys-table-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      Helvetica,
+      Arial,
+      sans-serif
+    )
+  );
   --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
   --_nys-table-line-height: var(--nys-font-lineheight-ui-md, 24px);
 
-  --_nys-table-padding--caption: var(--nys-space-250, 20px) var(--nys-space-150, 12px);
+  --_nys-table-padding--caption: var(--nys-space-250, 20px)
+    var(--nys-space-150, 12px);
   --_nys-table-font-size--caption: var(--nys-font-size-ui-lg, 18px);
   --_nys-table-font-weight--caption: var(--nys-font-weight-bold, 700);
 
-  --_nys-table-padding--cell: var(--nys-space-150, 12px) var(--nys-space-150, 12px);
+  --_nys-table-padding--cell: var(--nys-space-150, 12px)
+    var(--nys-space-150, 12px);
 }
 
 .nys-table {
   width: var(--_nys-table-width);
-  font:
-    var(--_nys-table-font-weight) var(--_nys-table-font-size) / var(--_nys-table-line-height) var(--_nys-table-font-family);
-
-  border: solid red;
+  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) /
+    var(--_nys-table-line-height) var(--_nys-table-font-family);
 
   table {
     width: var(--_nys-table-width);
     border-collapse: collapse;
-    border: solid green;
   }
 
   caption {
@@ -39,16 +42,19 @@
     font-size: var(--_nys-table-font-size--caption);
     font-weight: var(--_nys-table-font-weight--caption);
     text-align: start;
-    border: solid blue;
-  }
 
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
   th,
   td {
     padding: var(--_nys-table-padding--cell);
   }
 
   th {
-    border: solid orange;
     overflow: hidden;
     text-overflow: ellipsis;
 

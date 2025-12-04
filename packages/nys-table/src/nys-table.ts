@@ -147,29 +147,37 @@ export class NysTable extends LitElement {
   }
 
   _injectDownloadButton(table: HTMLTableElement) {
-    const caption = table.querySelector("caption");
+  let caption = table.querySelector("caption");
 
-    const container = document.createElement("div");
-    container.className = "caption-row";
+  // If there's no caption, create one and put it in the correct position
+  if (!caption) {
+    caption = document.createElement("caption");
+    table.insertBefore(caption, table.firstChild);
+  }
 
-    if (caption) {
-      // Move caption into the container
-      caption.replaceWith(container);
-      container.appendChild(caption);
-    } else {
-      // Insert container before thead if no caption exists
-      const thead = table.querySelector("thead");
-      table.insertBefore(container, thead);
+  // Wrap the caption contents in a flex container
+  let container = caption.querySelector(".caption-row");
+  if (!container) {
+    container = document.createElement("div");
+
+    // Move existing caption contents into the container
+    while (caption.firstChild) {
+      container.appendChild(caption.firstChild);
     }
 
-    const btn = document.createElement("nys-button");
-    btn.setAttribute("variant", "outline");
-    btn.setAttribute("size", "sm");
-    btn.setAttribute("prefixIcon", "download");
-    btn.setAttribute("label", "Download");
-
-    container.appendChild(btn);
+    caption.appendChild(container);
   }
+
+  // Add the download button
+  const btn = document.createElement("nys-button");
+  btn.setAttribute("variant", "outline");
+  btn.setAttribute("size", "sm");
+  btn.setAttribute("prefixIcon", "download");
+  btn.setAttribute("label", "Download");
+
+  container.appendChild(btn);
+}
+
 
   /****************** Event Handlers ******************/
   // Placeholder for event handlers if needed
