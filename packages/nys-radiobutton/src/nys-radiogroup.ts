@@ -18,7 +18,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
@@ -359,10 +359,11 @@ export class NysRadiogroup extends LitElement {
   render() {
     return html`<div class="nys-radiogroup">
       <nys-label
+        for=${this.id + "--native"}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
-        _tooltip=${this._tooltip}
+        tooltip=${this.tooltip}
         ?inverted=${this.inverted}
       >
         <slot name="description" slot="description">${this.description}</slot>
