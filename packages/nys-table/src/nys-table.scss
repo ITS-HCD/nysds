@@ -2,37 +2,34 @@
   --_nys-table-width: 100%;
   --_nys-table-radius: var(--nys-radius-xl, 12px);
   --_nys-table-padding: var(--nys-space-100, 8px);
-  --_nys-table-border-color: var(--nys-color-neutral-300);
-  --_nys-table-font-family: var(
-    --nys-font-family-ui,
-    var(
-      --nys-font-family-sans,
-      "Proxima Nova",
-      "Helvetica Neue",
-      Helvetica,
-      Arial,
-      sans-serif
-    )
-  );
+  --_nys-table-border-color: transparent;
+  --_nys-table-font-family: var(--nys-font-family-ui,
+      var(--nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif));
   --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
-  --_nys-table-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-table-line-height: 16px;
 
-  --_nys-table-padding--caption: var(--nys-space-250, 20px)
-    var(--nys-space-150, 12px);
+  --_nys-table-padding--caption: var(--nys-space-250, 20px) var(--nys-space-150, 12px);
   --_nys-table-font-size--caption: var(--nys-font-size-ui-lg, 18px);
   --_nys-table-font-weight--caption: var(--nys-font-weight-bold, 700);
 
-  --_nys-table-padding--cell: var(--nys-space-150, 12px)
-    var(--nys-space-150, 12px);
+  --_nys-table-padding--cell: var(--nys-space-200, 16px) var(--nys-space-150, 12px);
   --_nys-table-background-color: var(--nys-color-ink-reverse, #fff);
   --_nys-table-background-color--striped: var(--nys-color-neutral-10, #f6f6f6);
 }
 
+:host([bordered]) {
+  --_nys-table-border-color: var(--nys-color-neutral-100, #D0D0CE);
+}
+
 .nys-table {
   width: var(--_nys-table-width);
-  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) /
-    var(--_nys-table-line-height) var(--_nys-table-font-family);
+  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) / var(--_nys-table-line-height) var(--_nys-table-font-family);
 
   table {
     width: var(--_nys-table-width);
@@ -51,9 +48,11 @@
       align-items: center;
     }
   }
+
   th,
   td {
     padding: var(--_nys-table-padding--cell);
+    border: 1px solid var(--_nys-table-border-color);
   }
 
   th {
@@ -64,6 +63,7 @@
       margin: 0;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
   }
 }

@@ -7,6 +7,7 @@ interface NysTableArgs {
   id: string;
   name: string;
   striped: boolean;
+  bordered: boolean;
   sortable: boolean;
   download: string;
 }
@@ -18,6 +19,7 @@ const meta: Meta<NysTableArgs> = {
     id: { control: "text" },
     name: { control: "text" },
     striped: { control: "boolean" },
+    bordered: { control: "boolean" },
     sortable: { control: "boolean" },
     download: { control: "text" },
   },
@@ -38,15 +40,17 @@ export const Basic: Story = {
   args: {
     id: "table1",
     name: "table1",
-    striped: false,
-    sortable: false,
-    download: "",
+    striped: true,
+    bordered: true,
+    sortable: true,
+    download: "test.csv",
   },
   render: (args) => html`
     <nys-table
       .id=${args.id}
       .name=${args.name}
       .striped=${args.striped}
+      .bordered=${args.bordered}
       .sortable=${args.sortable}
       .download=${args.download}
     >

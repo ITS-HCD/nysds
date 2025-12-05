@@ -12,6 +12,7 @@ export class NysTable extends LitElement {
   @property({ type: String, reflect: true }) name = "";
   @property({ type: Boolean, reflect: true }) striped = false;
   @property({ type: Boolean, reflect: true }) sortable = false;
+  @property({ type: Boolean, reflect: true }) bordered = false;
   @property({ type: String, reflect: true }) download = "";
 
   //@state() private _sortColumn: string | null = null;
@@ -174,6 +175,7 @@ export class NysTable extends LitElement {
     btn.setAttribute("size", "sm");
     btn.setAttribute("prefixIcon", "download");
     btn.setAttribute("label", "Download");
+    //btn.onclick = () => this.tableToCSV();
 
     container.appendChild(btn);
   }
