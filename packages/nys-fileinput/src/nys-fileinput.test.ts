@@ -8,7 +8,7 @@ import "@nysds/nys-button";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-fileinput", () => {
-  /*** Basic tests ***/
+  // Basic tests
   it("renders the component", async () => {
     const el = await fixture(html`<nys-fileinput></nys-fileinput>`);
     expect(el).to.exist;
@@ -48,7 +48,7 @@ describe("nys-fileinput", () => {
     expect(button?.hasAttribute("disabled")).to.be.true;
   });
 
-  /*** Functionality tests ***/
+  // Functionality tests
   it("opens file dialog when button onClick is called", async () => {
     const el = await fixture<NysFileinput>(
       html`<nys-fileinput></nys-fileinput>`,
@@ -94,7 +94,7 @@ describe("nys-fileinput", () => {
     expect(event.detail.files[0].file.name).to.equal("hello.txt");
   });
 
-  /*** Adding Files tests ***/
+  // Adding Files tests
   it("adds file to _selectedFiles and updates form value", async () => {
     const el = await fixture<NysFileinput>(
       html`<nys-fileinput></nys-fileinput>`,
@@ -151,7 +151,7 @@ describe("nys-fileinput", () => {
     expect(button?.hasAttribute("disabled")).to.be.true;
   });
 
-  /*** Slot tests ***/
+  // Slot tests
   it("renders description slot if provided", async () => {
     const el = await fixture<NysFileinput>(html`
       <nys-fileinput label="Test Label">
@@ -163,7 +163,7 @@ describe("nys-fileinput", () => {
     expect(label?.querySelector("slot[name=description]")).to.exist;
   });
 
-  /*** Error tests ***/
+  // Error tests
   it("shows error when required but no file selected", async () => {
     const el = await fixture<NysFileinput>(
       html`<nys-fileinput required></nys-fileinput>`,

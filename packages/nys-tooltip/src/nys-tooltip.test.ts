@@ -28,7 +28,7 @@ describe("nys-tooltip", () => {
     expect(button).to.exist;
   });
 
-  /*** Accessibility tests ***/
+  // Accessibility Tests
   it("renders tooltip content with role=tooltip", async () => {
     const el = await fixture<NysTooltip>(
       html`<nys-tooltip text="Info"></nys-tooltip>`,

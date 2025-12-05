@@ -142,7 +142,7 @@ describe("nys-textarea", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the <textarea> element is correctly associated with a label:
  * - Verify that the label is properly read by screen readers when the <textarea> is focused.

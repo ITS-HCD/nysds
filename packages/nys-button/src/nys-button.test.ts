@@ -238,7 +238,7 @@ describe("nys-button", () => {
   });
 });
 
-/*** CORE tests ***/
+// CORE tests
 /*
  * ENSURE FORM INTEGRATION (TYPE SUBMIT/RESET):
  * - Default button type is "button"
@@ -271,7 +271,7 @@ describe("<nys-button> form integration", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * ENSURE KEYBOARD SUPPORT:
  * - Buttons should be focusable and operable using the keyboard (e.g. Enter, Space)

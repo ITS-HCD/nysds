@@ -85,7 +85,7 @@ export class NysFileinput extends LitElement {
 
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -113,7 +113,7 @@ export class NysFileinput extends LitElement {
     this._setValue();
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     // for multiple file uploads, we upload File object as an array
     if (this.multiple) {
@@ -224,7 +224,7 @@ export class NysFileinput extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
 
   // Store the files to be displayed
   private async _saveSelectedFiles(file: File) {
@@ -340,7 +340,7 @@ export class NysFileinput extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Access the selected files & add new files to the internal list via the hidden <input type="file">
   private _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;

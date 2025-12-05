@@ -23,7 +23,7 @@ export class NysTooltip extends LitElement {
   // Internal flag to prevent dynamic positioning when not needed
   private _internallyUpdatingPosition = false;
 
-  /********************* Position Logic *********************/
+  // Position Logic
   private _position: "top" | "bottom" | "left" | "right" | null = null;
 
   @property({ type: String, reflect: true })
@@ -43,7 +43,7 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -98,7 +98,7 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // When toggling tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _handleTooltipEnter = () => {
     this._active = true;
@@ -183,7 +183,7 @@ export class NysTooltip extends LitElement {
     }
   };
 
-  /******************** Functions ********************/
+  // Functions
   // We need to pass `ariaLabel` or `ariaDescription` to the nys-components so they can announce both their label and the tooltip's text
   private _passAria(el: HTMLElement) {
     const tagName = el.tagName.toLowerCase();

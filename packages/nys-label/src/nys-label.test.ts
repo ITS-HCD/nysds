@@ -1,4 +1,4 @@
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the for attribute in the <label> element correctly references the id.
  */

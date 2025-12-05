@@ -53,11 +53,10 @@ export class NysAvatar extends LitElement {
 
   // This function accounts for user set "color" prop and return the appropriate foreground contrast.
   private getContrastForeground() {
-    /** Default NYSDS CSS vars for foreground.
-     * Contrast must return =>
-     * IF icon: "--nys-color-ink-reverse" or "--nys-color-ink"
-     * If initials: "--nys-color-text-reverse" or "--nys-color-text"
-     */
+    // Default NYSDS CSS vars for foreground.
+    // Contrast must return =>
+    // IF icon: "--nys-color-ink-reverse" or "--nys-color-ink"
+    // If initials: "--nys-color-text-reverse" or "--nys-color-text"
     const fgIconDark = "var(--nys-color-ink, #000)";
     const fgIconLight = "var(--nys-color-ink-reverse, #fff)";
     const fgInitialDark = "var(--nys-color-text, #000)";
