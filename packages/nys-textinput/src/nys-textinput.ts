@@ -11,32 +11,14 @@ export class NysTextinput extends LitElement {
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  private static readonly VALID_TYPES = [
-    "email",
-    "number",
-    "password",
-    "search",
-    "tel",
-    "text",
-    "url",
-  ] as const;
-
-  // Use `typeof` to dynamically infer the allowed types
-  private _type: (typeof NysTextinput.VALID_TYPES)[number] = "text";
-
-  // Getter and setter for the `type` property
-  @property({ reflect: true })
-  get type(): (typeof NysTextinput.VALID_TYPES)[number] {
-    return this._type;
-  }
-
-  set type(value: string) {
-    this._type = NysTextinput.VALID_TYPES.includes(
-      value as (typeof NysTextinput.VALID_TYPES)[number],
-    )
-      ? (value as (typeof NysTextinput.VALID_TYPES)[number])
-      : "text";
-  }
+  @property({ type: String, reflect: true }) type:
+    | "email"
+    | "number"
+    | "password"
+    | "search"
+    | "tel"
+    | "text"
+    | "url" = "text";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
@@ -45,13 +27,15 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) pattern = "";
   @property({ type: Number }) maxlength: number | null = null;
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  @property({ reflect: true })
-  width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
+  @property({ type: String, reflect: true }) width:
+    | "sm"
+    | "md"
+    | "lg"
+    | "full" = "full";
   @property({ type: Number }) step: number | null = null;
   @property({ type: Number }) min: number | null = null;
   @property({ type: Number }) max: number | null = null;
@@ -99,13 +83,6 @@ export class NysTextinput extends LitElement {
 
   // Ensure the "width" property is valid after updates
   async updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has("width")) {
-      await Promise.resolve();
-      this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
-        ? this.width
-        : "full";
-    }
-
     if (changedProperties.has("disabled")) {
       this._validateButtonSlot("startButton");
       this._validateButtonSlot("endButton");
@@ -398,7 +375,7 @@ export class NysTextinput extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          _tooltip=${this._tooltip}
+          tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>

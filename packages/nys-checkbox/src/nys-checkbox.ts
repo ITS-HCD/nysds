@@ -24,23 +24,8 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) groupExist = false;
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) inverted = false;
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-  private _size: (typeof NysCheckbox.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysCheckbox.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_SIZES. If not, default to "md".
-    this._size = NysCheckbox.VALID_SIZES.includes(
-      value as (typeof NysCheckbox.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysCheckbox.VALID_SIZES)[number])
-      : "md";
-  }
+  @property({ type: String }) tooltip = "";
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
@@ -273,7 +258,7 @@ export class NysCheckbox extends LitElement {
                   ? "4xl"
                   : this.size === "sm"
                     ? "2xl"
-                    : "xl"}"
+                    : "4xl"}"
                 class="nys-checkbox__icon"
               ></nys-icon>`
             : ""}
@@ -281,6 +266,7 @@ export class NysCheckbox extends LitElement {
         ${this.label &&
         html`
           <nys-label
+            tooltip=${this.tooltip}
             for=${this.id + "--native"}
             label=${this.label}
             description=${ifDefined(this.description ?? undefined)}
