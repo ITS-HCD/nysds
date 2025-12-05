@@ -23,38 +23,19 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Number }) maxlength: number | null = null;
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  @property({ reflect: true })
-  width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
+  @property({ type: String, reflect: true }) width:
+    | "sm"
+    | "md"
+    | "lg"
+    | "full" = "full";
   @property({ type: Number }) rows = 4;
-  private static readonly VALID_RESIZE = ["vertical", "none"] as const;
-
-  // Use `typeof` to dynamically infer the allowed types
-  private _resize: (typeof NysTextarea.VALID_RESIZE)[number] = "vertical";
-
-  // Getter and setter for the `resize` property
-  @property({ reflect: true })
-  get resize(): (typeof NysTextarea.VALID_RESIZE)[number] {
-    return this._resize;
-  }
-
-  set resize(value: string) {
-    this._resize = NysTextarea.VALID_RESIZE.includes(
-      value as (typeof NysTextarea.VALID_RESIZE)[number],
-    )
-      ? (value as (typeof NysTextarea.VALID_RESIZE)[number])
-      : "vertical";
-  }
+  @property({ type: String, reflect: true }) resize: "vertical" | "none" =
+    "vertical";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
   async updated(changedProperties: Map<string | number | symbol, unknown>) {
     await Promise.resolve();
-    if (changedProperties.has("width")) {
-      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
-        ? this.width
-        : "full";
-    }
     if (changedProperties.has("rows")) {
       this.rows = this.rows ?? 4;
     }

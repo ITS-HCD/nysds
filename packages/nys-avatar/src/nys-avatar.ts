@@ -9,7 +9,7 @@ let avatarIdCounter = 0; // Counter for generating unique IDs
 export class NysAvatar extends LitElement {
   static styles = unsafeCSS(styles);
 
-  /********************** Properties **********************/
+  // Properties
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) image = "";
@@ -21,7 +21,7 @@ export class NysAvatar extends LitElement {
   @property({ type: Boolean, reflect: true }) lazy = false;
   @state() private _slotHasContent = false;
 
-  /******************** Functions ********************/
+  // Functions 
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();

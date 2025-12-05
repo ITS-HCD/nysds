@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-unavfooter",
-  "version": "1.11.2",
+  "version": "1.11.4",
   "description": "The Unavfooter component from the NYS Design System.",
   "module": "dist/nys-unavfooter.js",
   "types": "dist/index.d.ts",

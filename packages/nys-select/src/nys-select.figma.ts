@@ -7,6 +7,7 @@ figma.connect("<FIGMA_SELECT>", {
       sm: "sm",
       md: "md",
       lg: "lg",
+      full: "full",
     }),
     label: figma.nestedProps("Label", {
       text: figma.string("Label"),
@@ -19,7 +20,14 @@ figma.connect("<FIGMA_SELECT>", {
     }),
     input: figma.nestedProps("Input", {
       disabled: figma.boolean("Disabled"),
-      value: figma.string("Input"),
+      value: figma.boolean("Value", {
+        true: figma.string("↳ Value"),
+        false: undefined,
+      }),
+      /**
+       * Due to code connect limitation with nested instance within a nested instance,
+       * We can work around this with targeting the first level within "input" prop as usual, but putting the inner nested "error" prop outside of this key/value pair
+       */
       showError: figma.boolean("Error"),
     }),
     error: figma.nestedProps("Error", {
@@ -42,10 +50,8 @@ figma.connect("<FIGMA_SELECT>", {
         errorMessage="${props.error.message}"
         name="(REPLACE)"
       >
-        <nys-option value="${props.input.value}"
-          >${props.input.value}</nys-option
-        >
-        <nys-option value="value_REPLACE">Option 2 {REPLACE}</nys-option>
-        <nys-option value="value_REPLACE">Option 3 {REPLACE}</nys-option>
+        <option value="---REPLACE_VALUE---">${props.input.value}</option>
+        <option value="---REPLACE_VALUE---">Option 2 {REPLACE}</option>
+        <option value="---REPLACE_VALUE---">Option 3 {REPLACE}</option>
       </nys-select>`,
 });
