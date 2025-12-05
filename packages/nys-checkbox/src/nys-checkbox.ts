@@ -33,7 +33,7 @@ export class NysCheckbox extends LitElement {
 
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -67,7 +67,7 @@ export class NysCheckbox extends LitElement {
     this.checked = false;
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     if (!this.groupExist) {
       this._internals.setFormValue(this.checked ? this.value : null);
@@ -120,7 +120,7 @@ export class NysCheckbox extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     // If the radiogroup is required but no radio is selected, return false.
@@ -172,7 +172,7 @@ export class NysCheckbox extends LitElement {
     }
   };
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   private _emitChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {

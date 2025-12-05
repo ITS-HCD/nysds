@@ -21,7 +21,7 @@ export class NysAvatar extends LitElement {
   @property({ type: Boolean, reflect: true }) lazy = false;
   @state() private _slotHasContent = false;
 
-  // Functions 
+  // Functions
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();

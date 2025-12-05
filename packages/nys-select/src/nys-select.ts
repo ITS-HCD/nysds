@@ -34,7 +34,7 @@ export class NysSelect extends LitElement {
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -157,7 +157,7 @@ export class NysSelect extends LitElement {
     }
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     // // set value to the option that is selected by default
     // const select = this.shadowRoot?.querySelector("select");
@@ -220,7 +220,7 @@ export class NysSelect extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const select = this.shadowRoot?.querySelector("select");
@@ -257,7 +257,7 @@ export class NysSelect extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle change event to bubble up selected value
   private _handleChange(e: Event) {
     const select = e.target as HTMLSelectElement;

@@ -52,7 +52,7 @@ export class NysTextinput extends LitElement {
     tel: "(___) ___-____",
   };
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -112,7 +112,7 @@ export class NysTextinput extends LitElement {
     this.value = "";
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.value);
     this._manageRequire(); // Update validation
@@ -187,7 +187,7 @@ export class NysTextinput extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
@@ -274,7 +274,7 @@ export class NysTextinput extends LitElement {
     return result;
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;

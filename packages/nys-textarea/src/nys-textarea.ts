@@ -44,7 +44,7 @@ export class NysTextarea extends LitElement {
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -76,7 +76,7 @@ export class NysTextarea extends LitElement {
     this.value = "";
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.value);
     this._manageRequire();
@@ -128,7 +128,7 @@ export class NysTextarea extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const textarea = this.shadowRoot?.querySelector("textarea");
@@ -164,7 +164,7 @@ export class NysTextarea extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const textarea = event.target as HTMLInputElement;

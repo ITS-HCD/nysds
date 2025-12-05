@@ -8,7 +8,7 @@ let alertIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAlert extends LitElement {
   static styles = unsafeCSS(styles);
-  
+
   // Properties
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
