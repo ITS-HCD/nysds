@@ -299,7 +299,7 @@ $flex-settings: () !default;
 $flex-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
@@ -312,7 +312,7 @@ $flex-direction-settings: () !default;
 $flex-direction-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
@@ -325,7 +325,7 @@ $flex-wrap-settings: () !default;
 $flex-wrap-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
@@ -338,7 +338,7 @@ $float-settings: () !default;
 $float-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
@@ -559,7 +559,7 @@ $opacity-settings: () !default;
 $opacity-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
@@ -650,7 +650,7 @@ $position-settings: () !default;
 $position-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
@@ -806,7 +806,7 @@ $z-index-settings: () !default;
 $z-index-settings-complete: map.merge(
   (
     output: true,
-    responsive: false,
+    responsive: true,
     active: false,
     focus: false,
     hover: false,
