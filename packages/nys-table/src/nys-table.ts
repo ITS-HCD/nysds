@@ -147,37 +147,36 @@ export class NysTable extends LitElement {
   }
 
   _injectDownloadButton(table: HTMLTableElement) {
-  let caption = table.querySelector("caption");
+    let caption = table.querySelector("caption");
 
-  // If there's no caption, create one and put it in the correct position
-  if (!caption) {
-    caption = document.createElement("caption");
-    table.insertBefore(caption, table.firstChild);
-  }
-
-  // Wrap the caption contents in a flex container
-  let container = caption.querySelector(".caption-row");
-  if (!container) {
-    container = document.createElement("div");
-
-    // Move existing caption contents into the container
-    while (caption.firstChild) {
-      container.appendChild(caption.firstChild);
+    // If there's no caption, create one and put it in the correct position
+    if (!caption) {
+      caption = document.createElement("caption");
+      table.insertBefore(caption, table.firstChild);
     }
 
-    caption.appendChild(container);
+    // Wrap the caption contents in a flex container
+    let container = caption.querySelector(".caption-row");
+    if (!container) {
+      container = document.createElement("div");
+
+      // Move existing caption contents into the container
+      while (caption.firstChild) {
+        container.appendChild(caption.firstChild);
+      }
+
+      caption.appendChild(container);
+    }
+
+    // Add the download button
+    const btn = document.createElement("nys-button");
+    btn.setAttribute("variant", "outline");
+    btn.setAttribute("size", "sm");
+    btn.setAttribute("prefixIcon", "download");
+    btn.setAttribute("label", "Download");
+
+    container.appendChild(btn);
   }
-
-  // Add the download button
-  const btn = document.createElement("nys-button");
-  btn.setAttribute("variant", "outline");
-  btn.setAttribute("size", "sm");
-  btn.setAttribute("prefixIcon", "download");
-  btn.setAttribute("label", "Download");
-
-  container.appendChild(btn);
-}
-
 
   /****************** Event Handlers ******************/
   // Placeholder for event handlers if needed
