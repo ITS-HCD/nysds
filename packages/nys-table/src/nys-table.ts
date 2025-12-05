@@ -185,10 +185,10 @@ export class NysTable extends LitElement {
     console.log("container:", container);
     if (!container) return;
 
-    const table = container.querySelector("table");
+    const table = container.querySelector("table") as HTMLTableElement | null;
     if (!table) return;
 
-    let csv_data = [];
+    const csv_data: string[] = [];
 
     const rows = table.querySelectorAll("tr");
     rows.forEach((row) => {
@@ -202,7 +202,7 @@ export class NysTable extends LitElement {
     this.downloadCSVFile(csvString);
   }
 
-  downloadCSVFile(csv_data) {
+  downloadCSVFile(csv_data: string) {
     let CSVFile = new Blob([csv_data], { type: "text/csv" });
 
     let temp_link = document.createElement("a");
