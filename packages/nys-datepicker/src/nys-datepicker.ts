@@ -59,11 +59,6 @@ export class NysDatepicker extends LitElement {
 
   /***************** Form Integration *****************/
   /**
-   * Placeholder for form-related helper methods
-   * Refer to existing form-related components for full integration. Only a subset of functions is included here!
-   */
-
-  /**
    * Form helper methods:
    * - _setValue: set internal value and trigger validation
    * - _manageRequire: handle required state
@@ -149,14 +144,45 @@ export class NysDatepicker extends LitElement {
   }
 
   /******************** Functions ********************/
-  // Placeholder for generic functions (component-specific)
+  private _handleButtonClick() {
+    const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
+    dateInput?.classList.toggle("active");
+  }
+
+  // private _handleContainerKeyDown(event: KeyboardEvent) {
+  //   const container = this.shadowRoot?.querySelector(
+  //     ".nys-datepicker--container",
+  //   );
+  //   const dateInput = this.shadowRoot?.getElementById("nys-datepicker--input");
+
+  //   if (event.key === "Tab" && !event.shiftKey) {
+  //     container?.classList.add("active");
+  //     dateInput?.focus();
+  //   }
+  // }
 
   /****************** Event Handlers ******************/
   // Placeholder for event handlers if needed
 
   render() {
-    return html`<div class="nys-datepicker">
-      <wc-datepicker></wc-datepicker>
+    return html` <div class="nys-datepicker--container">
+      <nys-label
+        for=${this.id + "--native"}
+        label=${this.label}
+        description=${this.description}
+        flag=${this.required ? "required" : this.optional ? "optional" : ""}
+        _tooltip=${this._tooltip}
+        ?inverted=${this.inverted}
+      ></nys-label>
+      <div class="nys-datepicker--input-container">
+        <input id="nys-datepicker--input" type="date" max="9999-12-31" />
+        <button id="calendar-button" @click=${this._handleButtonClick}>
+          <nys-icon name="calendar_month" size="24"></nys-icon>
+        </button>
+      </div>
+      <div class="wc-datepicker--container">
+        <wc-datepicker></wc-datepicker>
+      </div>
     </div>`;
   }
 }
