@@ -35,15 +35,19 @@ If an id is not passed, a unique id will be generated.
 ## Options
 
 ### Striped
+Adding the `striped` property can improve readability by visually grouping row content with alternating background colors.
 <Canvas of={NysTableStories.Striped} />
 
 ### Bordered
+Adding the `bordered` property can improve readability by adding a line between cells.
 <Canvas of={NysTableStories.Bordered} />
 
 ### Sortable
+Adding the `sortable` property allows for the table to be reordered in accending or decending order.
 <Canvas of={NysTableStories.Sortable} />
 
 ### Downloadable
+Adding the `download` property adds a button which downloads the data that is being displayed. The `download` property takes in a string that points to the dataset. It does not parse and download the content in the `nys-table`.
 <Canvas of={NysTableStories.Downloadable} />
 
 ## Usage
