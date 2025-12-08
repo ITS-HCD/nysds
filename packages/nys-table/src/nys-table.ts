@@ -141,6 +141,7 @@ export class NysTable extends LitElement {
         icon.setAttribute("part", "sort-indicator");
         icon.setAttribute("name", "height");
         icon.setAttribute("size", "24");
+        icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
         p.appendChild(icon);
       }
 
@@ -160,16 +161,19 @@ export class NysTable extends LitElement {
         switch (this._sortDirection) {
           case "asc":
             icon.setAttribute("name", "straight");
+            icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
             (icon as HTMLElement).style.transform = "rotate(0deg)";
             break;
           case "desc":
             icon.setAttribute("name", "straight");
+            icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
             (icon as HTMLElement).style.transform = "rotate(180deg)";
             break;
         }
       } else {
         // Reset for all other columns
         icon.setAttribute("name", "height");
+        icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
       }
     });
   }
