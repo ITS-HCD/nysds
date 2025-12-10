@@ -28,7 +28,7 @@ export class NysRadiogroup extends LitElement {
 
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -98,7 +98,7 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.selectedValue);
   }
@@ -151,7 +151,7 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
-  /********************** Core Keyboard & Click Logic **********************/
+  // Core Keyboard & Click Logic
   private _getAllRadios() {
     return Array.from(
       this.querySelectorAll("nys-radiobutton"),
@@ -221,7 +221,7 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
-  /********************** Functions **********************/
+  // Functions
   // Apply ARIA & initial tabindex to each child radio
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
@@ -303,7 +303,7 @@ export class NysRadiogroup extends LitElement {
       .join(", ");
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
   private _handleRadioButtonChange(event: Event) {
     const customEvent = event as CustomEvent;

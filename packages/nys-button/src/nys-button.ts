@@ -63,7 +63,7 @@ export class NysButton extends LitElement {
 
   private _internals: ElementInternals;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -80,7 +80,7 @@ export class NysButton extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _generateUniqueId() {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
@@ -107,7 +107,7 @@ export class NysButton extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle focus event
   private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
@@ -170,7 +170,7 @@ export class NysButton extends LitElement {
     }
   }
 
-  /******************** Public Methods ********************/
+  // Public Methods
   public focus(options?: FocusOptions) {
     const innerEl = this.renderRoot.querySelector(
       this.href ? "a.nys-button" : "button.nys-button",

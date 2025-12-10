@@ -25,7 +25,7 @@ export class NysTooltip extends LitElement {
   // Flag for hiding the timeout
   private _hideTimeout: number | null = null;
 
-  /********************* Position Logic *********************/
+  // Position Logic
   private _position: "top" | "bottom" | "left" | "right" | null = null;
 
   @property({ type: String, reflect: true })
@@ -45,7 +45,7 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  /*************************************** Lifecycle Methods ***************************************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -117,9 +117,8 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  /*************************************** Event Handlers ***************************************/
-  // When we show the tooltip, check if user has set position to give it preference it space allows.
-  // Otherwise dynamically position tooltip.
+  // Event Handlers
+  // When toggling tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _showTooltip = () => {
     this._active = true;
     this._addScrollListeners();
@@ -225,7 +224,7 @@ export class NysTooltip extends LitElement {
     }
   };
 
-  /*************************************** Functions ***************************************/
+  // Functions
   private _getReferenceElement() {
     const targetId = this.for;
     if (!targetId) return null;

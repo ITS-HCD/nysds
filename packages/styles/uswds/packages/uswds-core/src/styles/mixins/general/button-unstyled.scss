@@ -1,0 +1,71 @@
+@use "../../settings" as *;
+@use "../../functions" as *;
+@use "../../mixins/utilities" as *;
+@use "../typography/typeset" as *;
+
+///
+/// Removes button styles and adds link styles.
+/// Includes hover, active, disabled, and focus states for accessibility.
+///
+/// @example
+/// .my-unstyled-button {
+///   @include button-unstyled;
+/// }
+///
+@mixin button-unstyled {
+  @include typeset-link;
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: font-weight("normal");
+  justify-content: normal;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  width: auto;
+
+  &:hover,
+  &.usa-button--hover,
+  &:disabled:hover,
+  &[aria-disabled="true"]:hover,
+  &:disabled.usa-button--hover,
+  &[aria-disabled="true"].usa-button--hover,
+  &:active,
+  &.usa-button--active,
+  &:disabled:active,
+  &[aria-disabled="true"]:active,
+  &:disabled.usa-button--active,
+  &[aria-disabled="true"].usa-button--active,
+  &:disabled:focus,
+  &[aria-disabled="true"]:focus,
+  &:disabled.usa-focus,
+  &[aria-disabled="true"].usa-focus,
+  &:disabled,
+  &[aria-disabled="true"],
+  &.usa-button--disabled {
+    background-color: transparent;
+    box-shadow: none;
+    text-decoration: underline;
+  }
+
+  &.usa-button--hover {
+    color: color($theme-link-hover-color);
+  }
+
+  &.usa-button--active {
+    color: color($theme-link-active-color);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"],
+  &:disabled:hover,
+  &[aria-disabled="true"]:hover,
+  &[aria-disabled="true"]:focus {
+    color: color("disabled");
+
+    @media (forced-colors: active) {
+      color: color(GrayText);
+    }
+  }
+}

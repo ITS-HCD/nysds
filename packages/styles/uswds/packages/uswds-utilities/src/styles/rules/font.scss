@@ -1,0 +1,31 @@
+/*
+========================================
+font-size
+----------------------------------------
+usage:
+  .font-[key]-[key]
+----------------------------------------
+output:
+  font-size: [value];
+----------------------------------------
+example:
+  .font-sans-md {
+    font-size: 1.13rem;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-font: (
+  font: (
+    base: "font",
+    modifiers: null,
+    values: map-collect(get-palettes($font-palettes), $font-manual-values),
+    settings: $font-settings-complete,
+    property: "font-size",
+    type: "utility",
+  ),
+);
