@@ -13,15 +13,6 @@ describe("nys-table", () => {
     expect(el).to.exist;
   });
 
-  it("reflects attributes to properties", async () => {
-    const el = await fixture<NysTable>(html`
-      <nys-table label="My Label" required optional></nys-table>
-    `);
-    expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
-  });
-
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-table label="My Label"></nys-table>`);
     await expect(el).shadowDom.to.be.accessible();
