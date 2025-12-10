@@ -43,7 +43,9 @@ describe("nys-table", () => {
     const el = await fixture<NysTable>(html`
       <nys-table>
         <table>
-          <caption>Sample Table</caption>
+          <caption>
+            Sample Table
+          </caption>
           <tr>
             <th>Header 1</th>
             <th>Header 2</th>
@@ -63,7 +65,7 @@ describe("nys-table", () => {
     const tbody = table?.querySelector("tbody");
     expect(tbody).to.exist;
     const caption = table?.querySelector("caption");
-    expect(caption?.textContent).to.equal("Sample Table");
+    expect(caption?.textContent.trim()).to.equal("Sample Table");
     const headerCells = thead?.querySelectorAll("th");
     expect(headerCells?.length).to.equal(2);
     const bodyRows = tbody?.querySelectorAll("tr");
@@ -72,7 +74,7 @@ describe("nys-table", () => {
 
   it("injects a download button when download attribute is set", async () => {
     const el = await fixture<NysTable>(html`
-      <nys-table id='test-table' download="data.csv">
+      <nys-table id="test-table" download="data.csv">
         <table></table>
       </nys-table>
     `);
@@ -99,10 +101,64 @@ describe("nys-table", () => {
         </table>
       </nys-table>
     `);
-    const table = el.shadowRoot?.querySelector("table");;
+    const table = el.shadowRoot?.querySelector("table");
     const firstTh = table?.querySelector("th");
     const sortIcons = firstTh?.querySelectorAll("nys-icon");
     expect(sortIcons?.length).to.be.greaterThan(0);
+  });
+
+  it("sorts the table when a sortable header is clicked", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <th>col 1</th>
+          <th>col 2</th>
+          <tr>
+            <td>B</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>3</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+    const table = el.shadowRoot?.querySelector("table");
+    const firstTh = table?.querySelector("th");
+    expect(firstTh).to.exist;
+
+    // Initial order check
+    let firstRowFirstCell = table
+      ?.querySelectorAll("tbody tr")[0]
+      .querySelectorAll("td")[0];
+    expect(firstRowFirstCell?.textContent).to.equal("B");
+
+    // Click to sort ascending
+    firstTh?.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    firstRowFirstCell = table
+      ?.querySelectorAll("tbody tr")[0]
+      .querySelectorAll("td")[0];
+    expect(firstRowFirstCell?.textContent).to.equal("A");
+
+    // Click to sort descending
+    firstTh?.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    firstRowFirstCell = table
+      ?.querySelectorAll("tbody tr")[0]
+      .querySelectorAll("td")[0];
+    expect(firstRowFirstCell?.textContent).to.equal("C");
   });
 
   it("passes the a11y audit", async () => {
