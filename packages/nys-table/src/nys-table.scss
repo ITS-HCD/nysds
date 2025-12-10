@@ -72,3 +72,7 @@
 :host([striped]) .nys-table tbody tr:nth-child(odd) {
   background-color: var(--_nys-table-background-color--striped);
 }
+
+:host([sortable]) .nys-table th {
+  cursor: pointer;
+}
