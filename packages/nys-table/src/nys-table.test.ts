@@ -70,17 +70,43 @@ describe("nys-table", () => {
     expect(bodyRows?.length).to.equal(1);
   });
 
+  it("injects a download button when download attribute is set", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table id='test-table' download="data.csv">
+        <table></table>
+      </nys-table>
+    `);
+    const button = el.shadowRoot?.getElementById("test-table-download-button");
+    expect(button).to.exist;
+    expect(el.download).to.equal("data.csv");
+  });
+
+  // adds sort icons to sortable tables
+  it("adds sort icons to sortable tables", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <th>col 1</th>
+          <th>col 2</th>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+          </tr>
+          <tr>
+            <td>data 3</td>
+            <td>data 4</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+    const table = el.shadowRoot?.querySelector("table");;
+    const firstTh = table?.querySelector("th");
+    const sortIcons = firstTh?.querySelectorAll("nys-icon");
+    expect(sortIcons?.length).to.be.greaterThan(0);
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-table label="My Label"></nys-table>`);
     await expect(el).shadowDom.to.be.accessible();
   });
-
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
 });

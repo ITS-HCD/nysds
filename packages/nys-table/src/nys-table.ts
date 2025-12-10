@@ -274,6 +274,7 @@ export class NysTable extends LitElement {
     btn.setAttribute("size", "sm");
     btn.setAttribute("prefixIcon", "download");
     btn.setAttribute("label", "Download");
+    btn.setAttribute("id", `${this.id}-download-button`);
     btn.onclick = () => this.downloadFile();
 
     container.appendChild(btn);
