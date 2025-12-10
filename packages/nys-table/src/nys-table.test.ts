@@ -30,11 +30,44 @@ describe("nys-table", () => {
     expect(el.sortable).to.be.true;
     expect(el.bordered).to.be.true;
     expect(el.download).to.equal("data.csv");
+    const caption = el.shadowRoot?.querySelector("caption");
+    expect(caption).to.be.null;
   });
 
   it("generates a unique ID if none is provided", async () => {
     const el = await fixture<NysTable>(html`<nys-table></nys-table>`);
     expect(el.id).to.match(/^nys-table-\d+-\d+$/);
+  });
+
+  it("normalizes a slotted table", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table>
+        <table>
+          <caption>Sample Table</caption>
+          <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+          </tr>
+          <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    const table = el.shadowRoot?.querySelector("table");
+    expect(table).to.exist;
+    const thead = table?.querySelector("thead");
+    expect(thead).to.exist;
+    const tbody = table?.querySelector("tbody");
+    expect(tbody).to.exist;
+    const caption = table?.querySelector("caption");
+    expect(caption?.textContent).to.equal("Sample Table");
+    const headerCells = thead?.querySelectorAll("th");
+    expect(headerCells?.length).to.equal(2);
+    const bodyRows = tbody?.querySelectorAll("tr");
+    expect(bodyRows?.length).to.equal(1);
   });
 
   it("passes the a11y audit", async () => {
