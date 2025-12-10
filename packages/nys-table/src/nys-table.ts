@@ -175,6 +175,13 @@ export class NysTable extends LitElement {
         icon.setAttribute("name", "height");
         icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
       }
+
+      // Styling for sorted column
+      if (index === this._sortColumn) {
+        th.classList.add("nys-table__sortedcolumn");
+      } else {
+        th.classList.remove("nys-table__sortedcolumn");
+      }
     });
   }
 
@@ -222,6 +229,21 @@ export class NysTable extends LitElement {
 
     // Re-append sorted rows
     rows.forEach((r) => tbody.appendChild(r));
+    this._updateSortedColumnStyles(table);
+  }
+
+  _updateSortedColumnStyles(table: HTMLTableElement) {
+    const rows = table.querySelectorAll("tbody tr");
+
+    rows.forEach((row) => {
+      Array.from(row.children).forEach((cell, index) => {
+        if (index === this._sortColumn) {
+          cell.classList.add("nys-table__sortedcolumn");
+        } else {
+          cell.classList.remove("nys-table__sortedcolumn");
+        }
+      });
+    });
   }
 
   _injectDownloadButton(table: HTMLTableElement) {
