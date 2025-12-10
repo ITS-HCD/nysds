@@ -13,6 +13,30 @@ describe("nys-table", () => {
     expect(el).to.exist;
   });
 
+  it("reflects attributes to properties", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table
+        id="table1"
+        name="My Table"
+        striped
+        sortable
+        bordered
+        download="data.csv"
+      ></nys-table>
+    `);
+    expect(el.id).to.equal("table1");
+    expect(el.name).to.equal("My Table");
+    expect(el.striped).to.be.true;
+    expect(el.sortable).to.be.true;
+    expect(el.bordered).to.be.true;
+    expect(el.download).to.equal("data.csv");
+  });
+
+  it("generates a unique ID if none is provided", async () => {
+    const el = await fixture<NysTable>(html`<nys-table></nys-table>`);
+    expect(el.id).to.match(/^nys-table-\d+-\d+$/);
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-table label="My Label"></nys-table>`);
     await expect(el).shadowDom.to.be.accessible();
