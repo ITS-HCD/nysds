@@ -10,7 +10,6 @@
  /* Include USWDS Grid and Utility styles */
 @use "../uswds/dist/css/uswds.css";
 
-
 /* OLD NYSDS: Full Style Library */
 // @use "./utilities/layout-grid";
 // @use "./utilities/display";
@@ -18,5 +17,5 @@
 // @use "./utilities/opacity";
 // @use "./utilities/flex";
 // @use "./utilities/zindex";
-// @use "./utilities/padding";
-// @use "./utilities/margin";
+@use "./utilities/padding";
+@use "./utilities/margin";
