@@ -27,7 +27,9 @@
   "devDependencies": {
     "lit": "^3.3.1",
     "typescript": "^5.9.3",
-    "vite": "^7.1.12"
+    "vite": "^7.1.12",
+    "@nysds/nys-button": "^1.11.4",
+    "@nysds/nys-icon": "^1.11.4"
   },
   "keywords": [
     "new-york-state",
