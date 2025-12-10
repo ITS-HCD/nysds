@@ -2,11 +2,6 @@ import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-table.js";
 import { NysTable } from "./nys-table.js";
 
-// You may need to import other dependencies such as the component's tag name
-// For example:
-// import { NysTextinput } from "./nys-textinput";
-
-// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-table", () => {
   it("renders the component", async () => {
     const el = await fixture(html`<nys-table></nys-table>`);
@@ -83,7 +78,6 @@ describe("nys-table", () => {
     expect(el.download).to.equal("data.csv");
   });
 
-  // adds sort icons to sortable tables
   it("adds sort icons to sortable tables", async () => {
     const el = await fixture<NysTable>(html`
       <nys-table sortable>
