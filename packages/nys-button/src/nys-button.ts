@@ -197,6 +197,11 @@ export class NysButton extends LitElement {
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target=${this.target}
+                @click=${this._handleClick}
+                @focus="${this._handleFocus}"
+                @blur="${this._handleBlur}"
+                @keydown="${this._handleKeydown}"
+                tabindex="${this.disabled ? -1 : 0}"
                 aria-label=${ifDefined(
                   this.ariaLabel ||
                     this.label ||
@@ -204,12 +209,6 @@ export class NysButton extends LitElement {
                     "button",
                 )}
                 aria-description=${ifDefined(this.ariaDescription || undefined)}
-                @click=${this._handleClick}
-                @focus="${this._handleFocus}"
-                @blur="${this._handleBlur}"
-                @keydown="${this._handleKeydown}"
-                role="button"
-                tabindex="${this.disabled ? -1 : 0}"
               >
                 ${this.prefixIcon && this.variant !== "text"
                   ? html`<slot name="prefix-icon">
@@ -248,6 +247,11 @@ export class NysButton extends LitElement {
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
               aria-controls=${ifDefined(this.ariaControls || undefined)}
+              @click=${this._handleClick}
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+              @keydown="${this._handleKeydown}"
+              tabindex="${this.disabled ? -1 : 0}"
               aria-label=${ifDefined(
                 this.ariaLabel ||
                   this.label ||
@@ -257,10 +261,6 @@ export class NysButton extends LitElement {
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
-              @click=${this._handleClick}
-              @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
-              @keydown="${this._handleKeydown}"
               role="button"
             >
               ${this.prefixIcon && this.variant !== "text"

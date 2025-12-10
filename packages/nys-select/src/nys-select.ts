@@ -18,7 +18,7 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) showError = false;
@@ -320,7 +320,7 @@ export class NysSelect extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          _tooltip=${this._tooltip}
+          tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>

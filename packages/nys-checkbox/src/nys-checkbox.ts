@@ -24,6 +24,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: Boolean }) groupExist = false;
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) inverted = false;
+  @property({ type: String }) tooltip = "";
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
@@ -257,7 +258,7 @@ export class NysCheckbox extends LitElement {
                   ? "4xl"
                   : this.size === "sm"
                     ? "2xl"
-                    : "xl"}"
+                    : "4xl"}"
                 class="nys-checkbox__icon"
               ></nys-icon>`
             : ""}
@@ -265,6 +266,7 @@ export class NysCheckbox extends LitElement {
         ${this.label &&
         html`
           <nys-label
+            tooltip=${this.tooltip}
             for=${this.id + "--native"}
             label=${this.label}
             description=${ifDefined(this.description ?? undefined)}
