@@ -78,20 +78,27 @@
   }
 
   th.nys-table__sortedcolumn {
-    background-color: var(--nys-color-theme-weak,#cddde9);
+    background-color: var(--nys-color-theme-weak, #cddde9);
   }
 
   td.nys-table__sortedcolumn {
-    background-color:  var(--nys-color-theme-faint,#f7fafd);
+    position: relative;
+    z-index: 0;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: var(--nys-color-theme);
+      opacity: 0.1;
+      pointer-events: none;
+      z-index: -1;
+    }
   }
 }
 
 :host([striped]) .nys-table tbody tr:nth-child(odd) {
   background-color: var(--_nys-table-background-color--striped);
-
-  td.nys-table__sortedcolumn {
-   background-color: var(--nys-color-theme-weaker,#eff6fb);
-  }
 }
 
 :host([sortable]) .nys-table th {
