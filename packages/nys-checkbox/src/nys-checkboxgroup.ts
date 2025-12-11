@@ -26,7 +26,7 @@ export class NysCheckboxgroup extends LitElement {
 
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -82,7 +82,7 @@ export class NysCheckboxgroup extends LitElement {
     }
   }
 
-  /********************** Functions **********************/
+  // Functions
   private _setGroupExist() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox: any) => {
@@ -254,7 +254,7 @@ export class NysCheckboxgroup extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Similar to how native forms handle multiple same-name fields, we group the selected values into a list for FormData.
   private _handleCheckboxChange(event: Event) {
     const customEvent = event as CustomEvent;

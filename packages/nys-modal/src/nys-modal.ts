@@ -23,7 +23,7 @@ export class NysModal extends LitElement {
   @state() private hasBodySlots = false;
   @state() private hasActionSlots = false;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -62,7 +62,7 @@ export class NysModal extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _hideBodyScroll() {
     if (this._originalBodyOverflow === null) {
       this._originalBodyOverflow = document.body.style.overflow;
@@ -203,17 +203,17 @@ export class NysModal extends LitElement {
     }
   }
 
-  /****************** Event Handlers ******************/
+  // Event Handlers
   private async _handleKeydown(e: KeyboardEvent) {
     if (!this.open) return;
 
-    /** Exit the modal for "escape" key **/
+    // Exit the modal for "escape" key
     if (e.key === "Escape" && !this.mandatory) {
       e.preventDefault();
       this._closeModal();
     }
 
-    /** Trap focus to be within the modal only **/
+    // Trap focus to be within the modal only
     if (e.key === "Tab") {
       const modal = this.shadowRoot?.querySelector(".nys-modal");
       if (!modal) return;

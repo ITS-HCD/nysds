@@ -20,7 +20,7 @@ describe("nys-tooltip", () => {
     expect(el.inverted).to.be.true;
   });
 
-  /*** Accessibility tests ***/
+  // Accessibility tests
   it("renders tooltip content with role=tooltip", async () => {
     const el = await fixture<NysTooltip>(
       html`<nys-tooltip text="Info"></nys-tooltip>`,

@@ -13,7 +13,7 @@ export class NysAccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true }) expanded = false;
   @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -49,7 +49,7 @@ export class NysAccordionItem extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _generateUniqueId() {
     return `nys-accordionitem-${Date.now()}-${accordionItemIdCounter++}`;
   }

@@ -9,7 +9,7 @@ let alertIdCounter = 0; // Counter for generating unique IDs
 export class NysAlert extends LitElement {
   static styles = unsafeCSS(styles);
 
-  /********************** Properties **********************/
+  // Properties
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
@@ -49,8 +49,7 @@ export class NysAlert extends LitElement {
     return { role: ariaRole, ariaLabel };
   }
 
-  /**************** Lifecycle Methods ****************/
-
+  // Lifecycle Methods
   private _timeoutId: any = null;
 
   // For alerts that have durations, we set a timer to close them.
@@ -80,7 +79,7 @@ export class NysAlert extends LitElement {
     this._checkSlotContent();
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }

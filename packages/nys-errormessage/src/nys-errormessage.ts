@@ -11,7 +11,7 @@ export class NysErrorMessage extends LitElement {
   @property({ type: Boolean, reflect: true }) showDivider = false;
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {

@@ -1,0 +1,31 @@
+/*
+========================================
+width
+----------------------------------------
+usage:
+  .width-[key]
+----------------------------------------
+output:
+  width: [value];
+----------------------------------------
+example:
+  .width-2 {
+    width: 1rem;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-width: (
+  width: (
+    base: "width",
+    modifiers: null,
+    values: map-collect(get-palettes($width-palettes), $width-manual-values),
+    settings: $width-settings-complete,
+    property: "width",
+    type: "utility",
+  ),
+);

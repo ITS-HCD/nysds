@@ -123,7 +123,7 @@ describe("nys-alert", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the role attribute is set properly for the alert based on its type:
  * - "danger" and "emergency" should have role="alert"

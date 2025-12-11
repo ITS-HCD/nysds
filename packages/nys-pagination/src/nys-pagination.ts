@@ -15,7 +15,7 @@ export class NysPagination extends LitElement {
   @property({ type: Number, reflect: true }) totalPages = 1;
   @property({ type: Boolean, reflect: true }) _twoBeforeLast = false;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -44,7 +44,7 @@ export class NysPagination extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _clampPage(page: number): number {
     if (page < 1) return 1;
     if (page > this.totalPages) return this.totalPages;
@@ -118,7 +118,7 @@ export class NysPagination extends LitElement {
     return buttons;
   }
 
-  /****************** Event Handlers ******************/
+  // Event Handlers
   private _handlePageClick(page: number) {
     this.currentPage = this._clampPage(page);
     this.dispatchEvent(

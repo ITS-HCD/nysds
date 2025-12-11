@@ -71,7 +71,7 @@ export default {
   plugins: [
     esbuildPlugin({
       ts: true,
-      target: "es2020",
+      target: "es2021",
       decorators: true, // Enable decorator support
     }),
   ],
