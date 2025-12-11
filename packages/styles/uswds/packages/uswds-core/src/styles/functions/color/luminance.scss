@@ -1,0 +1,54 @@
+/// luminance()
+///
+/// Returns the luminance of `$color` as a float (between 0 and 1)
+/// 1 is pure white, 0 is pure black
+///
+/// @param {Color} $color - Color
+/// @return {Number} number - A number between 0 and 1.
+/// @link http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef Reference
+
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+
+@use "../math/pow" as *;
+@use "../../variables/luminance-values" as *;
+
+@function luminance($color) {
+  $lum: (
+      list.nth(
+          $luminance-color-component-values,
+          color.channel($color, "red", $space: rgb) + 1
+        ) *
+        0.2126
+    ) +
+    (
+      list.nth(
+          $luminance-color-component-values,
+          color.channel($color, "green", $space: rgb) + 1
+        ) *
+        0.7152
+    ) +
+    (
+      list.nth(
+          $luminance-color-component-values,
+          color.channel($color, "blue", $space: rgb) + 1
+        ) *
+        0.0722
+    );
+
+  @return math.div(math.round($lum * 1000), 1000);
+}
+
+// @debug luminance(#fa0000);
+// @return 0.203
+
+// @debug luminance(#face00);
+// @return 0.645
+
+// @debug luminance(#000);
+// @return 0
+
+// @debug luminance(#fff);
+// @return 1;

@@ -17,7 +17,7 @@ export class NysAccordion extends LitElement {
   @property({ type: Boolean, reflect: true }) singleSelect = false;
   @property({ type: Boolean, reflect: true }) bordered = false;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -37,7 +37,7 @@ export class NysAccordion extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _generateUniqueId() {
     return `nys-accordionitem-${Date.now()}-${accordionIdCounter++}`;
   }

@@ -1,0 +1,34 @@
+/*
+========================================
+box-shadow
+----------------------------------------
+usage:
+  .shadow-[key]
+----------------------------------------
+output:
+  box-shadow: [value];
+----------------------------------------
+example:
+  .shadow-1 {
+    box-shadow: 0 1px 0.25rem 0 rgba(0, 0, 0, 0.1);
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-box-shadow: (
+  box-shadow: (
+    base: "shadow",
+    modifiers: null,
+    values: map-collect(
+        get-palettes($box-shadow-palettes),
+        $box-shadow-manual-values
+      ),
+    settings: $box-shadow-settings-complete,
+    property: "box-shadow",
+    type: "utility",
+  ),
+);

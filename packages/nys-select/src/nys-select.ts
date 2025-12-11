@@ -18,35 +18,23 @@ export class NysSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  private _width: (typeof NysSelect.VALID_WIDTHS)[number] = "full";
-
-  // Getter and setter for the `width` property.
-  @property({ reflect: true })
-  get width(): (typeof NysSelect.VALID_WIDTHS)[number] {
-    return this._width;
-  }
-
-  set width(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
-    this._width = NysSelect.VALID_WIDTHS.includes(
-      value as (typeof NysSelect.VALID_WIDTHS)[number],
-    )
-      ? (value as (typeof NysSelect.VALID_WIDTHS)[number])
-      : "full";
-  }
+  @property({ type: String, reflect: true }) width:
+    | "sm"
+    | "md"
+    | "lg"
+    | "full" = "full";
 
   private _originalErrorMessage = "";
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -169,7 +157,7 @@ export class NysSelect extends LitElement {
     }
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     // // set value to the option that is selected by default
     // const select = this.shadowRoot?.querySelector("select");
@@ -232,7 +220,7 @@ export class NysSelect extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const select = this.shadowRoot?.querySelector("select");
@@ -269,7 +257,7 @@ export class NysSelect extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle change event to bubble up selected value
   private _handleChange(e: Event) {
     const select = e.target as HTMLSelectElement;
@@ -332,7 +320,7 @@ export class NysSelect extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          _tooltip=${this._tooltip}
+          tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>

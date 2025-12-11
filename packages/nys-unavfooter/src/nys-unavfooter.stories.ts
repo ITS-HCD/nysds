@@ -16,7 +16,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-/******************************** STORIES ********************************/
+// Stories
 // Define stories without using args
 
 // Story: Basic

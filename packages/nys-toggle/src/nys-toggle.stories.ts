@@ -41,7 +41,7 @@ const meta: Meta<NysToggleArgs> = {
 export default meta;
 type Story = StoryObj<NysToggleArgs>;
 
-/******************************** STORIES ********************************/
+// Stories
 // Define stories without using args
 
 // Story: Basic

@@ -1,0 +1,34 @@
+/*
+========================================
+max-width
+----------------------------------------
+usage:
+  .maxw-[key]
+----------------------------------------
+output:
+  max-width: [value];
+----------------------------------------
+example:
+  .maxw-desktop {
+    max-width: 64rem;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-max-width: (
+  max-width: (
+    base: "maxw",
+    modifiers: null,
+    values: map-collect(
+        get-palettes($max-width-palettes),
+        $max-width-manual-values
+      ),
+    settings: $max-width-settings-complete,
+    property: "max-width",
+    type: "utility",
+  ),
+);

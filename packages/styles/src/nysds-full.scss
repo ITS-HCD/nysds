@@ -1,18 +1,21 @@
 /* Include the selective CSS reset  */
 @use "./core/reset";
 
- /* Include core styles */
+/* Include Design Tokens (variables for colors, spacing, typography) */
 @use "./nysds";
 
-/* Include Design Tokens (variables for colors, spacing, typography) */
+/* Include core typography styles */
 @use "./core/typography";
 
-/* NYSDS: Full Style Library */
-@use "./utilities/layout-grid";
-@use "./utilities/display";
-@use "./utilities/float";
-@use "./utilities/opacity";
-@use "./utilities/flex";
-@use "./utilities/zindex";
+ /* Include USWDS Grid and Utility styles */
+@use "../uswds/dist/css/uswds.css";
+
+/* OLD NYSDS: Full Style Library */
+// @use "./utilities/layout-grid";
+// @use "./utilities/display";
+// @use "./utilities/float";
+// @use "./utilities/opacity";
+// @use "./utilities/flex";
+// @use "./utilities/zindex";
 @use "./utilities/padding";
 @use "./utilities/margin";

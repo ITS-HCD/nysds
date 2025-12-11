@@ -22,7 +22,7 @@ export class NysSkipnav extends LitElement {
     }
   }
 
-  /**************** Event Handlers ****************/
+  // Event Handlers
   private _handleFocus() {
     const linkElement = this.shadowRoot?.querySelector(".nys-skipnav__link");
 

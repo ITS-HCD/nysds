@@ -20,21 +20,28 @@ describe("nys-tooltip", () => {
     expect(el.inverted).to.be.true;
   });
 
-  it("renders slotted content", async () => {
-    const el = await fixture<NysTooltip>(
-      html`<nys-tooltip><button>Click</button></nys-tooltip>`,
-    );
-    const button = el.shadowRoot!.querySelector("slot")!;
-    expect(button).to.exist;
-  });
-
-  /*** Accessibility tests ***/
+  // Accessibility tests
   it("renders tooltip content with role=tooltip", async () => {
     const el = await fixture<NysTooltip>(
       html`<nys-tooltip text="Info"></nys-tooltip>`,
     );
     const tooltip = el.shadowRoot?.querySelector('[role="tooltip"]');
     expect(tooltip).to.exist;
+  });
+
+  it("links tooltip to nys-icon and passes tooltip text to the icon", async () => {
+    const el = await fixture(html`
+      <div>
+        <nys-icon id="my-icon"></nys-icon>
+        <nys-tooltip for="my-icon" text="Hello World"></nys-tooltip>
+      </div>
+    `);
+
+    const icon = el.querySelector("nys-icon") as HTMLElement;
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+
+    expect(tooltip.for).to.equal("my-icon");
+    expect(icon.getAttribute("ariaLabel")).to.equal("Hint: Hello World");
   });
 
   it("passes the a11y audit", async () => {

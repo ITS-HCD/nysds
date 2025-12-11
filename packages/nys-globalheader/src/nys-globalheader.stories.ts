@@ -29,7 +29,7 @@ const meta: Meta<NysGlobalHeaderArgs> = {
 export default meta;
 type Story = StoryObj<NysGlobalHeaderArgs>;
 
-/******************************** STORIES ********************************/
+// Stories
 // Define stories without using args
 
 // Story: Basic

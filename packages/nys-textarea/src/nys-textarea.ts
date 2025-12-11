@@ -19,42 +19,23 @@ export class NysTextarea extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: Number }) maxlength: number | null = null;
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  @property({ reflect: true })
-  width: (typeof NysTextarea.VALID_WIDTHS)[number] = "full";
+  @property({ type: String, reflect: true }) width:
+    | "sm"
+    | "md"
+    | "lg"
+    | "full" = "full";
   @property({ type: Number }) rows = 4;
-  private static readonly VALID_RESIZE = ["vertical", "none"] as const;
-
-  // Use `typeof` to dynamically infer the allowed types
-  private _resize: (typeof NysTextarea.VALID_RESIZE)[number] = "vertical";
-
-  // Getter and setter for the `resize` property
-  @property({ reflect: true })
-  get resize(): (typeof NysTextarea.VALID_RESIZE)[number] {
-    return this._resize;
-  }
-
-  set resize(value: string) {
-    this._resize = NysTextarea.VALID_RESIZE.includes(
-      value as (typeof NysTextarea.VALID_RESIZE)[number],
-    )
-      ? (value as (typeof NysTextarea.VALID_RESIZE)[number])
-      : "vertical";
-  }
+  @property({ type: String, reflect: true }) resize: "vertical" | "none" =
+    "vertical";
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
 
   async updated(changedProperties: Map<string | number | symbol, unknown>) {
     await Promise.resolve();
-    if (changedProperties.has("width")) {
-      this.width = NysTextarea.VALID_WIDTHS.includes(this.width)
-        ? this.width
-        : "full";
-    }
     if (changedProperties.has("rows")) {
       this.rows = this.rows ?? 4;
     }
@@ -63,7 +44,7 @@ export class NysTextarea extends LitElement {
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -95,7 +76,7 @@ export class NysTextarea extends LitElement {
     this.value = "";
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.value);
     this._manageRequire();
@@ -147,7 +128,7 @@ export class NysTextarea extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const textarea = this.shadowRoot?.querySelector("textarea");
@@ -183,7 +164,7 @@ export class NysTextarea extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const textarea = event.target as HTMLInputElement;
@@ -251,7 +232,7 @@ export class NysTextarea extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          _tooltip=${this._tooltip}
+          tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>

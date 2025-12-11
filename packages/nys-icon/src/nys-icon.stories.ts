@@ -77,7 +77,7 @@ const meta: Meta<NysIconArgs> = {
 export default meta;
 type Story = StoryObj<NysIconArgs>;
 
-/******************************** STORIES ********************************/
+// Stories
 // Define stories without using args
 
 // Story: Basic
