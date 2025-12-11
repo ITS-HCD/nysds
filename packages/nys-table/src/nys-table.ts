@@ -145,6 +145,10 @@ export class NysTable extends LitElement {
         p.appendChild(icon);
       }
 
+      th.setAttribute("tabindex", "0");
+      th.setAttribute("role", "columnheader");
+      th.setAttribute("aria-sort", "none");
+
       // Add click event
       th.addEventListener("click", () => this._onSortClick(index, table));
     });
@@ -158,29 +162,27 @@ export class NysTable extends LitElement {
       if (!icon) return;
 
       if (index === this._sortColumn) {
+        th.classList.add("nys-table__sortedcolumn");
         switch (this._sortDirection) {
           case "asc":
             icon.setAttribute("name", "straight");
             icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
             (icon as HTMLElement).style.transform = "rotate(0deg)";
+            th.setAttribute("aria-sort", "ascending");
             break;
           case "desc":
             icon.setAttribute("name", "straight");
             icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
             (icon as HTMLElement).style.transform = "rotate(180deg)";
+            th.setAttribute("aria-sort", "descending");
             break;
         }
       } else {
         // Reset for all other columns
+        th.classList.remove("nys-table__sortedcolumn");
         icon.setAttribute("name", "height");
         icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
-      }
-
-      // Styling for sorted column
-      if (index === this._sortColumn) {
-        th.classList.add("nys-table__sortedcolumn");
-      } else {
-        th.classList.remove("nys-table__sortedcolumn");
+        th.setAttribute("aria-sort", "none");
       }
     });
   }
