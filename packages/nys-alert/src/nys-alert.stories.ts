@@ -6,7 +6,7 @@ import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysAlertArgs {
-  type: string;
+  type: "base" | "info" | "warning" | "success" | "danger" | "emergency";
   heading: string;
   text: string;
   duration: number;
@@ -91,22 +91,70 @@ export const Basic: Story = {
 // Story: AllAlerts
 export const AllAlerts: Story = {
   render: () => html`
-    ${["base", "info", "success", "warning", "danger", "emergency"].map(
-      (type) =>
-        html`<nys-alert
-            .type=${type}
-            .heading=${type.charAt(0).toUpperCase() + type.slice(1) + " Status"}
-            .text="This is an example of ${type == "info" || type == "emergency"
-              ? `an ${type}`
-              : `a ${type}`} alert."
-            dismissible
-            primaryLabel="{primaryAction}"
-            secondaryLabel="{secondaryAction}"
-            primaryAction="https://www.ny.gov/"
-            secondaryAction="https://www.ny.gov/"
-          ></nys-alert>
-          <br />`,
-    )}
+    <div
+      style="display: flex; flex-direction: column; gap: var(--nys-space-200)"
+    >
+      <nys-alert
+        type="base"
+        heading="Default status"
+        text="This is an example of an neutral base alert."
+        dismissible
+        primaryLabel="{primaryAction}"
+        secondaryLabel="{secondaryAction}"
+        primaryAction="https://www.ny.gov/"
+        secondaryAction="https://www.ny.gov/"
+      ></nys-alert>
+      <nys-alert
+        type="info"
+        heading="Info status"
+        text="This is an example of an info alert."
+        dismissible
+        primaryLabel="{primaryAction}"
+        secondaryLabel="{secondaryAction}"
+        primaryAction="https://www.ny.gov/"
+        secondaryAction="https://www.ny.gov/"
+      ></nys-alert>
+      <nys-alert
+        type="success"
+        heading="Success status"
+        text="This is an example of a success alert."
+        dismissible
+        primaryLabel="{primaryAction}"
+        secondaryLabel="{secondaryAction}"
+        primaryAction="https://www.ny.gov/"
+        secondaryAction="https://www.ny.gov/"
+      ></nys-alert>
+      <nys-alert
+        type="warning"
+        heading="Warning status"
+        text="This is an example of a warning alert."
+        dismissible
+        primaryLabel="{primaryAction}"
+        secondaryLabel="{secondaryAction}"
+        primaryAction="https://www.ny.gov/"
+        secondaryAction="https://www.ny.gov/"
+      ></nys-alert>
+      <nys-alert
+        type="danger"
+        heading="Danger status"
+        text="This is an example of a danger alert."
+        dismissible
+        primaryLabel="{primaryAction}"
+        secondaryLabel="{secondaryAction}"
+        primaryAction="https://www.ny.gov/"
+        secondaryAction="https://www.ny.gov/"
+      ></nys-alert>
+      <nys-alert
+        type="emergency"
+        heading="Emergency status"
+        text="This is an example of an emergency alert."
+        dismissible
+        primaryLabel="{primaryAction}"
+        secondaryLabel="{secondaryAction}"
+        primaryAction="https://www.ny.gov/"
+        secondaryAction="https://www.ny.gov/"
+      ></nys-alert>
+    </div>
   `,
   parameters: {
     docs: {
