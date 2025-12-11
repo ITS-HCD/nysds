@@ -89,7 +89,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background-color: var(--nys-color-theme);
+      background-color: var(--nys-color-theme, #154973);
       opacity: 0.1;
       pointer-events: none;
       z-index: -1;
