@@ -8,7 +8,7 @@ export default [
     ignores: ["**/*.js"],
   },
   {
-    files: ["src/","packages/**/*.ts"],
+    files: ["src/**/*.ts","packages/**/*.ts"],
     ignores: [
       "**/*.js",
       "node_modules/**",
