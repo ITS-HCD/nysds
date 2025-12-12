@@ -145,10 +145,6 @@ export class NysTable extends LitElement {
         p.appendChild(icon);
       }
 
-      th.setAttribute("tabindex", "0");
-      th.setAttribute("role", "columnheader");
-      th.setAttribute("aria-sort", "none");
-
       // Add click event
       th.addEventListener("click", () => this._onSortClick(index, table));
     });
@@ -182,7 +178,7 @@ export class NysTable extends LitElement {
         th.classList.remove("nys-table__sortedcolumn");
         icon.setAttribute("name", "height");
         icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
-        th.setAttribute("aria-sort", "none");
+        th.removeAttribute("aria-sort");
       }
     });
   }
