@@ -101,7 +101,7 @@ describe("nys-table", () => {
     expect(sortIcons?.length).to.be.greaterThan(0);
   });
 
-  it("sorts the table when a sortable header is clicked", async () => {
+  it("sorts the table when a sortable header button is clicked", async () => {
     const el = await fixture<NysTable>(html`
       <nys-table sortable>
         <table>
@@ -123,8 +123,8 @@ describe("nys-table", () => {
       </nys-table>
     `);
     const table = el.shadowRoot?.querySelector("table");
-    const firstTh = table?.querySelector("th");
-    expect(firstTh).to.exist;
+    const firstButton = table?.querySelector("th nys-button");
+    expect(firstButton).to.exist;
 
     // Initial order check
     let firstRowFirstCell = table
@@ -133,8 +133,8 @@ describe("nys-table", () => {
     expect(firstRowFirstCell?.textContent).to.equal("B");
 
     // Click to sort ascending
-    firstTh?.dispatchEvent(
-      new MouseEvent("click", { bubbles: true, composed: true }),
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
     );
     await el.updateComplete;
 
@@ -144,8 +144,8 @@ describe("nys-table", () => {
     expect(firstRowFirstCell?.textContent).to.equal("A");
 
     // Click to sort descending
-    firstTh?.dispatchEvent(
-      new MouseEvent("click", { bubbles: true, composed: true }),
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
     );
     await el.updateComplete;
 

@@ -4,28 +4,23 @@
   --_nys-table-padding: var(--nys-space-100, 8px);
   --_nys-table-border-color: transparent;
   --_nys-table-border-width: 0;
-  --_nys-table-font-family: var(
-    --nys-font-family-ui,
-    var(
-      --nys-font-family-sans,
-      "Proxima Nova",
-      "Helvetica Neue",
-      Helvetica,
-      Arial,
-      sans-serif
-    )
-  );
+  --_nys-table-font-family: var(--nys-font-family-ui,
+      var(--nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        Helvetica,
+        Arial,
+        sans-serif));
   --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
   --_nys-table-line-height: 16px;
 
-  --_nys-table-padding--caption: var(--nys-space-250, 20px)
-    var(--nys-space-150, 12px);
+  --_nys-table-padding--caption: var(--nys-space-250, 20px) var(--nys-space-150, 12px);
   --_nys-table-font-size--caption: var(--nys-font-size-ui-lg, 18px);
   --_nys-table-font-weight--caption: var(--nys-font-weight-bold, 700);
 
-  --_nys-table-padding--cell: var(--nys-space-200, 16px)
-    var(--nys-space-150, 12px);
+  --_nys-table-padding--cell--x: var(--nys-space-150, 12px);
+  --_nys-table-padding--cell--y: var(--nys-space-200, 16px);
   --_nys-table-background-color: var(--nys-color-ink-reverse, #fff);
   --_nys-table-background-color--striped: var(--nys-color-neutral-10, #f6f6f6);
 }
@@ -37,8 +32,7 @@
 
 .nys-table {
   width: var(--_nys-table-width);
-  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) /
-    var(--_nys-table-line-height) var(--_nys-table-font-family);
+  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) / var(--_nys-table-line-height) var(--_nys-table-font-family);
 
   table {
     width: var(--_nys-table-width);
@@ -58,22 +52,35 @@
     }
   }
 
-  th,
   td {
-    padding: var(--_nys-table-padding--cell);
+    padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
     border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
   }
 
   th {
+    border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
+
+    &:has(nys-button) {
+      padding: 0;
+    }
 
     p {
       margin: 0;
-      display: flex;
+    }
+
+    nys-button {
+      margin: 0;
+      width: auto;
       justify-content: space-between;
-      align-items: center;
-      height: var(--_nys-table-line-height);
+
+      --_nys-button-border-width: 0;
+      --_nys-button-border-radius--start: 0;
+      --_nys-button-border-radius--end: 0;
+      --_nys-button-padding--x: var(--_nys-table-padding--cell--x);
+      --_nys-button-justify-content: space-between;
     }
   }
 

@@ -132,21 +132,36 @@ export class NysTable extends LitElement {
 
     ths.forEach((th, index) => {
       // Prevent duplicates on slotchange or re-render
-      if (th.querySelector("nys-icon[part='sort-indicator']")) return;
+      if (th.querySelector("nys-button[part='sort-button']")) return;
 
-      // Wrap existing text nodes in <p> if not already wrapped
-      let p = th.querySelector("p");
-      if (p) {
-        const icon = document.createElement("nys-icon");
-        icon.setAttribute("part", "sort-indicator");
-        icon.setAttribute("name", "height");
-        icon.setAttribute("size", "24");
-        icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
-        p.appendChild(icon);
-      }
+      // Get existing text content
+      const label = th.textContent?.trim();
+      if (!label) return;
 
-      // Add click event
-      th.addEventListener("click", () => this._onSortClick(index, table));
+      // Clear existing content
+      th.textContent = "";
+
+      const button = document.createElement("nys-button");
+      button.setAttribute("part", "sort-button");
+      button.setAttribute("variant", "ghost");
+      button.setAttribute("label", label);
+      button.setAttribute("suffixIcon", "slotted");
+      button.setAttribute("fullWidth", "true");
+
+      const icon = document.createElement("nys-icon");
+      icon.setAttribute("slot", "suffix-icon");
+      icon.setAttribute("name", "height");
+      icon.setAttribute("size", "24");
+      icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
+
+      button.appendChild(icon);
+
+      button.addEventListener("nys-click", (e) => {
+        e.stopPropagation();
+        this._onSortClick(index, table);
+      });
+
+      th.appendChild(button);
     });
   }
 
@@ -154,8 +169,12 @@ export class NysTable extends LitElement {
     const ths = table.querySelectorAll("thead th");
 
     ths.forEach((th, index) => {
-      const icon = th.querySelector("nys-icon[part='sort-indicator']");
-      if (!icon) return;
+      const button = th.querySelector("nys-button[part='sort-button']");
+      const icon = button?.querySelector(
+        "nys-icon[slot='suffix-icon']",
+      ) as HTMLElement | null;
+
+      if (!button || !icon) return;
 
       if (index === this._sortColumn) {
         th.classList.add("nys-table__sortedcolumn");
@@ -163,13 +182,13 @@ export class NysTable extends LitElement {
           case "asc":
             icon.setAttribute("name", "straight");
             icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
-            (icon as HTMLElement).style.transform = "rotate(0deg)";
+            icon.style.transform = "rotate(0deg)";
             th.setAttribute("aria-sort", "ascending");
             break;
           case "desc":
             icon.setAttribute("name", "straight");
             icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
-            (icon as HTMLElement).style.transform = "rotate(180deg)";
+            icon.style.transform = "rotate(180deg)";
             th.setAttribute("aria-sort", "descending");
             break;
         }
@@ -178,6 +197,7 @@ export class NysTable extends LitElement {
         th.classList.remove("nys-table__sortedcolumn");
         icon.setAttribute("name", "height");
         icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
+        icon.style.transform = "";
         th.removeAttribute("aria-sort");
       }
     });
