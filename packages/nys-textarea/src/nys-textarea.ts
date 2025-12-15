@@ -243,7 +243,7 @@ export class NysTextarea extends LitElement {
           id=${this.id + "--native"}
           .value=${this.value}
           ?disabled=${this.disabled}
-          ?required=${this.required}
+          ?required=${this.required && !this.readonly}
           ?readonly=${this.readonly}
           aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
           aria-required=${ifDefined(this.required ? "true" : undefined)}

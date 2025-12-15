@@ -78,6 +78,17 @@ describe("nys-textarea", () => {
     expect(textarea?.hasAttribute("readonly")).to.be.true;
   });
 
+  it("ignores required if readonly is also set", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea required readonly></nys-textarea>`,
+    );
+
+    const textarea = el.shadowRoot?.querySelector("textarea");
+
+    expect(textarea?.hasAttribute("readonly")).to.be.true;
+    expect(textarea?.hasAttribute("required")).to.be.false;
+  });
+
   it("sets the correct number of rows on the textarea", async () => {
     const el = await fixture<NysTextarea>(html`
       <nys-textarea rows="6"></nys-textarea>

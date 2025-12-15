@@ -44,6 +44,17 @@ describe("nys-textinput", () => {
     expect(label?.getAttribute("flag")).to.equal("required");
   });
 
+  it("ignores required if readonly is also set", async () => {
+    const el = await fixture(
+      html`<nys-textinput required readonly></nys-textinput>`,
+    );
+
+    const textinput = el.shadowRoot?.querySelector("input");
+
+    expect(textinput?.hasAttribute("readonly")).to.be.true;
+    expect(textinput?.hasAttribute("required")).to.be.false;
+  });
+
   it("displays a toggle password icon that changes visibility when property type is password", async () => {
     const el = await fixture<NysTextinput>(
       html`<nys-textinput type="password"></nys-textinput>`,
