@@ -197,7 +197,6 @@ export class NysDatepicker extends LitElement {
             ></nys-button>
           </div>
         </wc-datepicker>
-        
       </div>
     </div>`;
   }
