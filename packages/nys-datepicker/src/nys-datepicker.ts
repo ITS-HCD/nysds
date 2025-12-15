@@ -181,7 +181,12 @@ export class NysDatepicker extends LitElement {
         </button>
       </div>
       <div class="wc-datepicker--container">
-        <wc-datepicker></wc-datepicker>
+        <wc-datepicker>
+          <nys-button
+            label="Click Me"
+            onClick="doClickFunction()"
+          ></nys-button>
+        </wc-datepicker>
       </div>
     </div>`;
   }
