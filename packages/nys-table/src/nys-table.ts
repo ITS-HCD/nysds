@@ -152,7 +152,7 @@ export class NysTable extends LitElement {
       icon.setAttribute("slot", "suffix-icon");
       icon.setAttribute("name", "height");
       icon.setAttribute("size", "24");
-      icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
+      icon.setAttribute("color", "var(--nys-color-text-weak, #4a4d4f)");
 
       button.appendChild(icon);
 
@@ -196,7 +196,7 @@ export class NysTable extends LitElement {
         // Reset for all other columns
         th.classList.remove("nys-table__sortedcolumn");
         icon.setAttribute("name", "height");
-        icon.setAttribute("color", "var(--nys-color-text-weaker, #797C7F)");
+        icon.setAttribute("color", "var(--nys-color-text-weak, #4a4d4f)");
         icon.style.transform = "";
         th.removeAttribute("aria-sort");
       }
