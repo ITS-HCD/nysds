@@ -181,7 +181,23 @@ export class NysDatepicker extends LitElement {
         </button>
       </div>
       <div class="wc-datepicker--container">
-        <wc-datepicker></wc-datepicker>
+        <wc-datepicker>
+          <div class="wc-datepicker--button-container">
+            <nys-button
+              label="Today"
+              fullWidth
+              variant="outline"
+              ariaDescription="{ariaDescription}"
+            ></nys-button>
+            <nys-button
+              label="Clear"
+              fullWidth
+              variant="outline"
+              ariaDescription="{ariaDescription}"
+            ></nys-button>
+          </div>
+        </wc-datepicker>
+        
       </div>
     </div>`;
   }

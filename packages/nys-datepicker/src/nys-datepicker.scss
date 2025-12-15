@@ -45,11 +45,11 @@
   font-size: var(--_nys-datepicker-font-size);
   font-weight: var(--_nys-datepicker-font-weight);
   line-height: var(--_nys-datepicker-line-height);
-  width: 384px;
+  width: 382px;
 
   .nys-datepicker--input-container {
     position: relative;
-    width: 100%;
+    width: var(--nys-form-width-md, 200px);
     display: flex;
     #nys-datepicker--input {
       flex: 1;
@@ -112,15 +112,25 @@
 
   .wc-datepicker--container {
     display: flex;
-    justify-content: flex-end;
   }
 }
 
 /**************** WC STYLINGS ****************/
 wc-datepicker {
   display: none;
+  padding: var(--nys-space-200, 16px);
+  border-radius: var(--nys-radius-md, 4px);
+  border: var(--nys-border-width-sm, 1px) solid
+    var(--nys-color-neutral-100, #d0d0ce);
+  background: var(--nys-color-surface, #fff);
+  box-shadow:
+    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
+    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
+  color: var(--nys-color-text, #1b1b1b);
+  background-color: #fff;
   &.active {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column-reverse;
   }
 }
 
@@ -129,7 +139,6 @@ wc-datepicker *,
 wc-datepicker *:before,
 wc-datepicker *:after {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -138,15 +147,15 @@ wc-datepicker *:after {
   width: min-content;
   min-width: 17rem;
   max-width: 24rem;
-  border-radius: var(--nys-radius-md, 4px);
-  border: var(--nys-border-width-sm, 1px) solid
-    var(--nys-color-neutral-100, #d0d0ce);
-  background: var(--nys-color-surface, #fff);
-  box-shadow:
-    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
-    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
-  color: var(--nys-color-text, #1B1B1B);
-  background-color: #fff;
+  // border-radius: var(--nys-radius-md, 4px);
+  // border: var(--nys-border-width-sm, 1px) solid
+  //   var(--nys-color-neutral-100, #d0d0ce);
+  // background: var(--nys-color-surface, #fff);
+  // box-shadow:
+  //   0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
+  //   0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
+  // color: var(--nys-color-text, #1b1b1b);
+  // background-color: #fff;
   font-family: var(--nys-type-family-ui, "Proxima Nova");
   font-size: var(--nys-type-size-ui-md, 16px);
   font-style: normal;
@@ -188,7 +197,6 @@ wc-datepicker *:after {
 
 .wc-datepicker__header {
   display: flex;
-  padding: 0.75rem;
   align-items: center;
   gap: 0.5rem;
 }
@@ -242,11 +250,11 @@ wc-datepicker *:after {
   cursor: pointer;
 }
 
-.wc-datepicker__body {
-  padding-right: 0.75rem;
-  padding-bottom: 0.75rem;
-  padding-left: 0.75rem;
-}
+// .wc-datepicker__body {
+//   padding-right: 0.75rem;
+//   padding-bottom: 0.75rem;
+//   padding-left: 0.75rem;
+// }
 
 .wc-datepicker__calendar {
   width: 100%;
@@ -354,4 +362,12 @@ wc-datepicker *:after {
   font: inherit;
   line-height: 1;
   cursor: pointer;
+}
+
+.wc-datepicker--button-container {
+  display: flex;
+  padding-top: var(--nys-space-150, 12px);
+  align-items: flex-end;
+  gap: var(--nys-space-200, 16px);
+  align-self: stretch;
 }
