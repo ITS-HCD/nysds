@@ -3,19 +3,19 @@ import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 
 // const reactOpts = {
 //   /** Output directory to write the React wrappers to - default is the root of the project */
-//   outdir: "dist/react-wrappers",
+//   outdir: "./dist/react-wrappers",
 // };
 
 const vscodeOpts = {
   /** Output directory to write the React wrappers to - default is the root of the project */
-  outdir: ".vscode",
+  outdir: "./dist/.vscode",
 };
 
 export default {
   /** Globs to analyze */
   globs: ["**/packages/**/*.ts"],
   /** Globs to exclude */
-  exclude: ["**/packages/**/*figma.ts", "**/packages/**/*stories.ts", "**/packages/**/*logo.ts", "**/packages/**/*library.ts"],
+  exclude: ["**/packages/**/*figma.ts", "**/packages/**/*stories.ts", "**/packages/**/*logo.ts", "**/packages/**/*library.ts", "**/packages/styles/**"],
   /** Directory to output CEM to */
   outdir: "./dist",
   /** Run in dev mode, provides extra logging */
@@ -60,7 +60,7 @@ export default {
         }
       }
     },
-        customElementVsCodePlugin(vscodeOpts), // disabling because it generates the same file differently each time causing merge conflicts
+    customElementVsCodePlugin(vscodeOpts),
 
 ],
   /**

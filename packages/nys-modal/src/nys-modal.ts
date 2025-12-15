@@ -13,20 +13,7 @@ export class NysModal extends LitElement {
   @property({ type: String }) subheading = "";
   @property({ type: Boolean, reflect: true }) open = false;
   @property({ type: Boolean, reflect: true }) mandatory = false;
-
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg"] as const;
-  private _width: (typeof NysModal.VALID_WIDTHS)[number] = "md";
-  @property({ reflect: true })
-  get width(): (typeof NysModal.VALID_WIDTHS)[number] {
-    return this._width;
-  }
-  set width(value: string) {
-    this._width = NysModal.VALID_WIDTHS.includes(
-      value as (typeof NysModal.VALID_WIDTHS)[number],
-    )
-      ? (value as (typeof NysModal.VALID_WIDTHS)[number])
-      : "md";
-  }
+  @property({ type: String, reflect: true }) width: "sm" | "md" | "lg" = "md";
 
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
   private _prevFocusedElement: HTMLElement | null = null;
@@ -36,7 +23,7 @@ export class NysModal extends LitElement {
   @state() private hasBodySlots = false;
   @state() private hasActionSlots = false;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -75,7 +62,7 @@ export class NysModal extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _hideBodyScroll() {
     if (this._originalBodyOverflow === null) {
       this._originalBodyOverflow = document.body.style.overflow;
@@ -216,17 +203,17 @@ export class NysModal extends LitElement {
     }
   }
 
-  /****************** Event Handlers ******************/
+  // Event Handlers
   private async _handleKeydown(e: KeyboardEvent) {
     if (!this.open) return;
 
-    /** Exit the modal for "escape" key **/
+    // Exit the modal for "escape" key
     if (e.key === "Escape" && !this.mandatory) {
       e.preventDefault();
       this._closeModal();
     }
 
-    /** Trap focus to be within the modal only **/
+    // Trap focus to be within the modal only
     if (e.key === "Tab") {
       const modal = this.shadowRoot?.querySelector(".nys-modal");
       if (!modal) return;

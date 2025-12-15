@@ -75,7 +75,7 @@ describe("nys-avatar", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * ENSURE ALT TEXT:
  * - For initial avatars, include the person's full name as descriptive alt text if the person's full name is not shown next to the avatar

@@ -58,7 +58,7 @@ describe("nys-icon", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the <nys-icon> component's aria is set correctly:
  * - role is set to "img" on the <svg> element.

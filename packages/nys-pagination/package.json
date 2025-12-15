@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-pagination",
-  "version": "1.11.2",
+  "version": "1.12.0",
   "description": "The Pagination component from the NYS Design System.",
   "module": "dist/nys-pagination.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
     "lit-analyze": "lit-analyzer '*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-button": "^1.11.2"
+    "@nysds/nys-button": "^1.12.0"
   },
   "devDependencies": {
     "lit": "^3.3.1",

@@ -1,0 +1,38 @@
+/*
+========================================
+font-weight
+----------------------------------------
+usage:
+  .text-[key]
+----------------------------------------
+output:
+  font-weight: [value];
+----------------------------------------
+example:
+  .text-bold {
+    font-weight: 700;
+  }
+
+  .text-light{
+    font-weight: 300;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-font-weight: (
+  font-weight: (
+    base: "text",
+    modifiers: null,
+    values: map-collect(
+        get-palettes($font-weight-palettes),
+        $font-weight-manual-values
+      ),
+    settings: $font-weight-settings-complete,
+    property: "font-weight",
+    type: "utility",
+  ),
+);

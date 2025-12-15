@@ -1,0 +1,34 @@
+/*
+========================================
+min-height
+----------------------------------------
+usage:
+  .minh-[key]
+----------------------------------------
+output:
+  min-height: [value];
+----------------------------------------
+example:
+  .minh-card {
+    min-height: 10rem;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-min-height: (
+  min-height: (
+    base: "minh",
+    modifiers: null,
+    values: map-collect(
+        get-palettes($min-height-palettes),
+        $min-height-manual-values
+      ),
+    settings: $min-height-settings-complete,
+    property: "min-height",
+    type: "utility",
+  ),
+);

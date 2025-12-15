@@ -209,7 +209,7 @@ describe("nys-textinput", () => {
   });
 });
 
-/*** Test Plan for TDD ***/
+// Test Plan for TDD
 /*
  * NOTE TO SELF: Need further input from Mo on the idea of building out components
  * and best practice to develop tests as we go (from his experience working with TDD).
@@ -224,7 +224,7 @@ describe("nys-textinput", () => {
 // Check error message display if invalid prop is passed ✅
 // Passes a11y audit ✅
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the <textinput> element is correctly associated with a label:
  * - Verify that the label is properly read by screen readers when the <textarea> is focused.

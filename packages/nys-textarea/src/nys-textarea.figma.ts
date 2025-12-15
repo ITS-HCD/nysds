@@ -20,8 +20,8 @@ figma.connect("<FIGMA_TEXTAREA>", {
     input: figma.nestedProps("Input", {
       disabled: figma.boolean("Disabled"),
       resize: figma.boolean("Resizable"),
-      value: figma.boolean("Input", {
-        true: figma.string("↳ Input"),
+      value: figma.boolean("Value", {
+        true: figma.string("↳ Value"),
         false: undefined,
       }),
       placeholder: figma.boolean("Placeholder", {
@@ -33,6 +33,10 @@ figma.connect("<FIGMA_TEXTAREA>", {
         // "4": "4", // Default
         "6": "6",
       }),
+      /**
+       * Due to code connect limitation with nested instance within a nested instance,
+       * We can work around this with targeting the first level within "input" prop as usual, but putting the inner nested "error" prop outside of this key/value pair
+       */
       showError: figma.boolean("Error"),
     }),
     error: figma.nestedProps("Error", {

@@ -1,6 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-radiobutton.js";
-import { NysRadiogroup } from "../dist/nys-radiogroup.js";
+import { NysRadiogroup } from "./nys-radiogroup";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-radiobutton", () => {

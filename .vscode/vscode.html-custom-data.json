@@ -152,6 +152,7 @@
         { "name": "groupExist", "values": [] },
         { "name": "tile", "values": [] },
         { "name": "inverted", "values": [] },
+        { "name": "tooltip", "values": [] },
         {
           "name": "size",
           "values": [{ "name": "(typeof NysCheckbox.VALID_SIZES)[number]" }]
@@ -172,7 +173,7 @@
         { "name": "label", "values": [] },
         { "name": "description", "values": [] },
         { "name": "tile", "values": [] },
-        { "name": "_tooltip", "values": [] },
+        { "name": "tooltip", "values": [] },
         { "name": "inverted", "values": [] },
         { "name": "form", "values": [] },
         {
@@ -210,7 +211,7 @@
         { "name": "description", "values": [] },
         { "name": "multiple", "values": [] },
         { "name": "form", "values": [] },
-        { "name": "_tooltip", "values": [] },
+        { "name": "tooltip", "values": [] },
         { "name": "accept", "values": [] },
         { "name": "disabled", "values": [] },
         { "name": "required", "values": [] },
@@ -362,7 +363,7 @@
         { "name": "label", "values": [] },
         { "name": "description", "values": [] },
         { "name": "tile", "values": [] },
-        { "name": "_tooltip", "values": [] },
+        { "name": "tooltip", "values": [] },
         { "name": "inverted", "values": [] },
         { "name": "form", "values": [] },
         {
@@ -396,7 +397,7 @@
         { "name": "disabled", "values": [] },
         { "name": "required", "values": [] },
         { "name": "optional", "values": [] },
-        { "name": "_tooltip", "values": [] },
+        { "name": "tooltip", "values": [] },
         { "name": "form", "values": [] },
         { "name": "inverted", "values": [] },
         { "name": "showError", "values": [] },
@@ -456,7 +457,7 @@
         { "name": "readonly", "values": [] },
         { "name": "required", "values": [] },
         { "name": "optional", "values": [] },
-        { "name": "_tooltip", "values": [] },
+        { "name": "tooltip", "values": [] },
         { "name": "inverted", "values": [] },
         { "name": "form", "values": [] },
         { "name": "maxlength", "values": [] },
@@ -492,7 +493,7 @@
         { "name": "readonly", "values": [] },
         { "name": "required", "values": [] },
         { "name": "optional", "values": [] },
-        { "name": "_tooltip", "values": [] },
+        { "name": "tooltip", "values": [] },
         { "name": "form", "values": [] },
         { "name": "pattern", "values": [] },
         { "name": "maxlength", "values": [] },
@@ -537,7 +538,7 @@
         { "name": "id", "values": [] },
         { "name": "text", "values": [] },
         { "name": "inverted", "values": [] },
-        { "name": "focusable", "values": [] },
+        { "name": "for", "values": [] },
         { "name": "position", "values": [] }
       ],
       "references": []

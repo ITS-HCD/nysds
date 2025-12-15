@@ -8,12 +8,12 @@ let accordionItemIdCounter = 0; // Counter for generating unique IDs
 export class NysAccordionItem extends LitElement {
   static styles = unsafeCSS(styles);
 
-  @property({ type: String, reflect: true  }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
   @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -49,7 +49,7 @@ export class NysAccordionItem extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _generateUniqueId() {
     return `nys-accordionitem-${Date.now()}-${accordionItemIdCounter++}`;
   }

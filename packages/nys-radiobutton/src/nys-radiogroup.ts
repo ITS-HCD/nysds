@@ -18,33 +18,17 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   @state() private selectedValue: string | null = null;
   @state() private _slottedDescriptionText = "";
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-  private _size: (typeof NysRadiogroup.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysRadiogroup.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "full".
-    this._size = NysRadiogroup.VALID_SIZES.includes(
-      value as (typeof NysRadiogroup.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysRadiogroup.VALID_SIZES)[number])
-      : "md";
-  }
 
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -114,7 +98,7 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.selectedValue);
   }
@@ -167,7 +151,7 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
-  /********************** Core Keyboard & Click Logic **********************/
+  // Core Keyboard & Click Logic
   private _getAllRadios() {
     return Array.from(
       this.querySelectorAll("nys-radiobutton"),
@@ -237,7 +221,7 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
-  /********************** Functions **********************/
+  // Functions
   // Apply ARIA & initial tabindex to each child radio
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
@@ -319,7 +303,7 @@ export class NysRadiogroup extends LitElement {
       .join(", ");
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
   private _handleRadioButtonChange(event: Event) {
     const customEvent = event as CustomEvent;
@@ -375,10 +359,11 @@ export class NysRadiogroup extends LitElement {
   render() {
     return html`<div class="nys-radiogroup">
       <nys-label
+        for=${this.id + "--native"}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
-        _tooltip=${this._tooltip}
+        tooltip=${this.tooltip}
         ?inverted=${this.inverted}
       >
         <slot name="description" slot="description">${this.description}</slot>

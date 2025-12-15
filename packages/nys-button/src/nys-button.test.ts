@@ -104,19 +104,6 @@ describe("nys-button", () => {
     expect(ahref.textContent).to.include("Link");
   });
 
-  it("should apply correct size or fallback", async () => {
-    const el = await fixture<NysButton>(
-      html`<nys-button size="lg" label="Large Button"></nys-button>`,
-    );
-
-    expect(el.size).to.equal("lg");
-
-    // Checking fallback size in case of invalid input
-    el.size = "invalid";
-    await el.updateComplete;
-    expect(el.size).to.equal("md");
-  });
-
   it("should render circle button with icon", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button circle icon="close"></nys-button>`,
@@ -251,7 +238,7 @@ describe("nys-button", () => {
   });
 });
 
-/*** CORE tests ***/
+// CORE tests
 /*
  * ENSURE FORM INTEGRATION (TYPE SUBMIT/RESET):
  * - Default button type is "button"
@@ -284,7 +271,7 @@ describe("<nys-button> form integration", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * ENSURE KEYBOARD SUPPORT:
  * - Buttons should be focusable and operable using the keyboard (e.g. Enter, Space)

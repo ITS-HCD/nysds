@@ -147,9 +147,6 @@ export class NysUnavHeader extends LitElement {
             <nys-button
               id="nys-unavheader__know"
               label="Here's how you know"
-              ariaLabel=${this.trustbarVisible
-                ? "Here's how you know expanded"
-                : "Here's how you know collapsed"}
               variant="ghost"
               size="sm"
               suffixIcon="slotted"
@@ -171,7 +168,6 @@ export class NysUnavHeader extends LitElement {
           class="nys-unavheader__trustpanel wrapper ${this.trustbarVisible
             ? "show"
             : "hide"}"
-          aria-expanded="${this.trustbarVisible}"
         >
           <div class="nys-unavheader__trustpanel content">
             <nys-button
@@ -182,6 +178,7 @@ export class NysUnavHeader extends LitElement {
               icon="close"
               size="sm"
               ariaLabel="Close this notice"
+              aria-expanded="${this.trustbarVisible}"
               @nys-click="${() =>
                 this._toggleTrustbar("nys-unavheader__know--inline")}"
             ></nys-button>
@@ -228,10 +225,8 @@ export class NysUnavHeader extends LitElement {
               <nys-button
                 id="nys-unavheader__know--inline"
                 label="Here's how you know"
-                ariaControls="trust_official"
-                ariaLabel=${this.trustbarVisible
-                  ? "Here's how you know expanded"
-                  : "Here's how you know collapsed"}
+                aria-controls="nys-unavheader__closetrustbar"
+                aria-expanded="${this.trustbarVisible}"
                 variant="ghost"
                 size="sm"
                 suffixIcon="slotted"
@@ -252,9 +247,8 @@ export class NysUnavHeader extends LitElement {
                     variant="ghost"
                     circle
                     icon="slotted"
-                    ariaLabel=${this.languageVisible
-                      ? "Translate expanded"
-                      : "Translate collapsed"}
+                    ariaLabel="Translate"
+                    aria-expanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
                     class="nys-unavheader__iconbutton"
                     @nys-click=${this._toggleLanguageList}
@@ -265,20 +259,17 @@ export class NysUnavHeader extends LitElement {
                       size="16"
                     ></nys-icon>
                   </nys-button>
-
                   ${!this.isSearchFocused
                     ? html`
                         <nys-button
                           variant="ghost"
                           label="Translate"
+                          aria-expanded="${this.languageVisible}"
                           size="sm"
                           prefixIcon="language"
                           suffixIcon=${this.languageVisible
                             ? "chevron_up"
                             : "chevron_down"}
-                          ariaLabel=${this.languageVisible
-                            ? "Translate expanded"
-                            : "Translate collapsed"}
                           id="nys-unavheader__translate--desktop"
                           @nys-click="${this._toggleLanguageList}"
                         ></nys-button>
@@ -308,9 +299,8 @@ export class NysUnavHeader extends LitElement {
                     variant="ghost"
                     circle
                     icon="search"
-                    ariaLabel=${this.searchDropdownVisible
-                      ? "Search expanded"
-                      : "Search collapsed"}
+                    ariaLabel="Search"
+                    aria-expanded="${this.searchDropdownVisible}"
                     id="nys-unavheader__searchbutton"
                     class="nys-unavheader__iconbutton"
                     @nys-click=${this._toggleSearchDropdown}
@@ -335,7 +325,7 @@ export class NysUnavHeader extends LitElement {
                       slot="endButton"
                       type="submit"
                       prefixIcon="search"
-                      ariaLabel="Search Button"
+                      ariaLabel="Search"
                       @nys-click=${() => {
                         this._handleSearchButton("nys-unavheader__searchbar");
                       }}
@@ -366,7 +356,7 @@ export class NysUnavHeader extends LitElement {
                 slot="endButton"
                 type="submit"
                 prefixIcon="search"
-                ariaLabel="Search Button"
+                ariaLabel="Search"
                 @nys-click=${() => {
                   this._handleSearchButton("nys-unavheader__searchbardropdown");
                 }}

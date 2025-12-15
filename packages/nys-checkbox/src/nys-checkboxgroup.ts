@@ -17,32 +17,16 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean, reflect: true }) tile = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   @state() private _slottedDescriptionText = "";
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-  private _size: (typeof NysCheckboxgroup.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysCheckboxgroup.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_WIDTHS. If not, default to "md".
-    this._size = NysCheckboxgroup.VALID_SIZES.includes(
-      value as (typeof NysCheckboxgroup.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysCheckboxgroup.VALID_SIZES)[number])
-      : "md";
-  }
 
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -98,7 +82,7 @@ export class NysCheckboxgroup extends LitElement {
     }
   }
 
-  /********************** Functions **********************/
+  // Functions
   private _setGroupExist() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox: any) => {
@@ -270,7 +254,7 @@ export class NysCheckboxgroup extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Similar to how native forms handle multiple same-name fields, we group the selected values into a list for FormData.
   private _handleCheckboxChange(event: Event) {
     const customEvent = event as CustomEvent;
@@ -297,7 +281,7 @@ export class NysCheckboxgroup extends LitElement {
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          tooltip=${this._tooltip}
+          tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
