@@ -318,8 +318,9 @@ text-decoration-line: underline;
 .wc-datepicker__date--selected > *,
 .wc-datepicker__date--selected:hover > * {
   color: #fff;
+  border-radius: var(--nys-radius-lg);
   background-color: var(--_nys-datepicker--select-theme);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .wc-datepicker__date--disabled {

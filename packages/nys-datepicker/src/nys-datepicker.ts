@@ -24,6 +24,7 @@ export class NysDatepicker extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: String, reflect: true }) form: string | null = null;
+  @property({ type: String }) tooltip = "";
 
   @property({ type: String }) type = "date";
   @property({ type: String }) label = "";
@@ -31,7 +32,7 @@ export class NysDatepicker extends LitElement {
   @property({ type: String }) placeholder = "";
   @property({ type: String }) min = "";
   @property({ type: String }) max = "";
-
+  @property({ type: Boolean, reflect: true }) inverted = false;
   private _internals: ElementInternals;
 
   /**************** Lifecycle Methods ****************/
@@ -171,7 +172,7 @@ export class NysDatepicker extends LitElement {
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
-        _tooltip=${this._tooltip}
+        tooltip=${this.tooltip}
         ?inverted=${this.inverted}
       ></nys-label>
       <div class="nys-datepicker--input-container">
@@ -185,12 +186,14 @@ export class NysDatepicker extends LitElement {
           <div class="wc-datepicker--button-container">
             <nys-button
               label="Today"
+              size="sm"
               fullWidth
               variant="outline"
               ariaDescription="{ariaDescription}"
             ></nys-button>
             <nys-button
               label="Clear"
+              size="sm"
               fullWidth
               variant="outline"
               ariaDescription="{ariaDescription}"
