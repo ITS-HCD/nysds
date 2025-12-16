@@ -214,13 +214,13 @@
   }
 
   /* Hovered */
-  .nys-textinput__input:hover:not(:disabled):not(:focus) {
+  .nys-textinput__input:hover:not(:disabled):not(:focus):not([readonly]) {
     outline-color: var(--_nys-textinput-outline-color--hover);
     border-color: var(--_nys-textinput-outline-color--hover);
   }
 
   /* Focused */
-  .nys-textinput__input:focus {
+  .nys-textinput__input:focus:not([readonly]) {
     outline-color: var(--_nys-textinput-outline-color--focus);
     border-color: var(--_nys-textinput-outline-color--focus);
     caret-color: var(--_nys-textinput-outline-color--focus);

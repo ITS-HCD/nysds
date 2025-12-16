@@ -9,10 +9,8 @@
     --_nys-textarea-padding: var(--nys-space-100, 8px);
     --_nys-textarea-gap: var(--nys-space-50, 4px);
     --_nys-textarea-color: var(--nys-color-ink, #1b1b1b);
-    --_nys-textarea-color--placeholder: var(
-      --nys-color-text-weaker,
-      var(--nys-color-neutral-500, #797c7f)
-    );
+    --_nys-textarea-color--placeholder: var(--nys-color-text-weaker,
+        var(--nys-color-neutral-500, #797c7f));
 
     /* Hovered */
     --_nys-textarea-outline-color--hover: var(--nys-color-neutral-900, #1b1b1b);
@@ -22,38 +20,26 @@
     --_nys-textarea-outline-color--focus: var(--nys-color-focus, #004dd1);
 
     /* Disabled */
-    --_nys-textarea-background-color--disabled: var(
-      --nys-color-neutral-10,
-      #f6f6f6
-    );
-    --_nys-textarea-border-color--disabled: var(
-      --nys-color-neutral-200,
-      #bec0c1
-    );
-    --_nys-textarea-color--disabled: var(
-      --nys-color-text-disabled,
-      var(--nys-color-neutral-200, #bec0c1)
-    );
+    --_nys-textarea-background-color--disabled: var(--nys-color-neutral-10,
+        #f6f6f6);
+    --_nys-textarea-border-color--disabled: var(--nys-color-neutral-200,
+        #bec0c1);
+    --_nys-textarea-color--disabled: var(--nys-color-text-disabled,
+        var(--nys-color-neutral-200, #bec0c1));
 
     /* Global Font Styles */
-    --_nys-textarea-font-family: var(
-      --nys-font-family-ui,
-      var(
-        --nys-font-family-sans,
-        "Proxima Nova",
-        "Helvetica Neue",
-        "Helvetica",
-        "Arial",
-        sans-serif
-      )
-    );
+    --_nys-textarea-font-family: var(--nys-font-family-ui,
+        var(--nys-font-family-sans,
+          "Proxima Nova",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          sans-serif));
     --_nys-textarea-font-size: var(--nys-font-size-ui-md, 16px);
     --_nys-textarea-font-weight: var(--nys-font-weight-regular, 400);
     --_nys-textarea-line-height: var(--nys-font-lineheight-ui-md, 24px);
-    --nys-textarea-letterspacing-ui: var(
-      --nys-font-letterspacing-ui-md,
-      var(--nys-font-letterspacing-400, 0.044px)
-    );
+    --nys-textarea-letterspacing-ui: var(--nys-font-letterspacing-ui-md,
+        var(--nys-font-letterspacing-400, 0.044px));
   }
 
   :host([width="sm"]) {
@@ -93,8 +79,7 @@
     font-size: var(--_nys-textarea-font-size);
     font-family: var(--_nys-textarea-font-family);
     border-radius: var(--_nys-textarea-border-radius);
-    border: solid var(--_nys-textarea-border-color)
-      var(--_nys-textarea-border-width);
+    border: solid var(--_nys-textarea-border-color) var(--_nys-textarea-border-width);
     padding: var(--_nys-textarea-padding);
     width: var(--_nys-textarea-width);
     line-height: var(--_nys-textarea-line-height);
@@ -114,16 +99,14 @@
   }
 
   /* Hovered */
-  .nys-textarea__textarea:hover:not(:disabled):not(:focus) {
-    outline: solid var(--_nys-textarea-outline-width)
-      var(--_nys-textarea-outline-color--hover);
+  .nys-textarea__textarea:hover:not(:disabled):not(:focus):not([readonly]) {
+    outline: solid var(--_nys-textarea-outline-width) var(--_nys-textarea-outline-color--hover);
     border-color: var(--_nys-textarea-outline-color--hover);
   }
 
   /* Focused */
-  .nys-textarea__textarea:focus {
-    outline: solid var(--_nys-textarea-outline-width)
-      var(--_nys-textarea-outline-color--focus);
+  .nys-textarea__textarea:focus:not([readonly]) {
+    outline: solid var(--_nys-textarea-outline-width) var(--_nys-textarea-outline-color--focus);
     border-color: var(--_nys-textarea-outline-color--focus);
     caret-color: var(--_nys-textarea-outline-color--focus);
   }
