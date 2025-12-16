@@ -105,6 +105,14 @@ export class NysTextinput extends LitElement {
         }
       }
     }
+    if (
+      changedProperties.has("readonly") ||
+      changedProperties.has("required")
+    ) {
+      const input = this.shadowRoot?.querySelector("input");
+
+      if (input) input.required = this.required && !this.readonly;
+    }
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -374,7 +382,11 @@ export class NysTextinput extends LitElement {
           for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
-          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          flag=${this.required && !this.readonly
+            ? "required"
+            : this.optional
+              ? "optional"
+              : ""}
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
@@ -397,7 +409,7 @@ export class NysTextinput extends LitElement {
               name=${this.name}
               id=${this.id + "--native"}
               ?disabled=${this.disabled}
-              ?required=${this.required}
+              ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
