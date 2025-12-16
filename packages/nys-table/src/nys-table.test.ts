@@ -155,6 +155,61 @@ describe("nys-table", () => {
     expect(firstRowFirstCell?.textContent).to.equal("C");
   });
 
+  it("appends the sortable comment to the caption", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <caption>
+            Sample Table
+          </caption>
+          <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+          </tr>
+          <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    const table = el.shadowRoot?.querySelector("table");
+    const caption = table?.querySelector("caption");
+    const commentSpan = caption?.querySelector("span");
+
+    expect(commentSpan).to.exist;
+    expect(commentSpan?.textContent).to.equal(
+      "Column headers with buttons are sortable.",
+    );
+  });
+
+  it("creates the sortable comment if no caption", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+          </tr>
+          <tr>
+            <td>Data 1</td>
+            <td>Data 2</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    const table = el.shadowRoot?.querySelector("table");
+    const caption = table?.querySelector("caption");
+    const commentSpan = caption?.querySelector("span");
+
+    expect(commentSpan).to.exist;
+    expect(commentSpan?.textContent).to.equal(
+      "Column headers with buttons are sortable.",
+    );
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-table label="My Label"></nys-table>`);
     await expect(el).shadowDom.to.be.accessible();

@@ -75,7 +75,7 @@ export class NysTable extends LitElement {
     if (hasThead && hasTbody) return;
 
     // Pull caption first
-    const caption = table.querySelector(
+    let caption = table.querySelector(
       "caption",
     ) as HTMLTableCaptionElement | null;
 
@@ -117,7 +117,19 @@ export class NysTable extends LitElement {
     // Wipe original table content
     table.innerHTML = "";
 
-    // Insert caption first if it existed
+    // Handle caption and sortable message
+    if (this.sortable) {
+      if (!caption) {
+        caption = document.createElement("caption");
+      }
+
+      const srOnly = document.createElement("span");
+      srOnly.style.display = "none";
+      srOnly.textContent = "Column headers with buttons are sortable.";
+
+      caption.appendChild(srOnly);
+    }
+
     if (caption) table.appendChild(caption);
 
     table.appendChild(thead);
