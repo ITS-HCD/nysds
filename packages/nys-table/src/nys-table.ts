@@ -35,8 +35,6 @@ export class NysTable extends LitElement {
   // Placeholder for generic functions (component-specific)
 
   firstUpdated() {
-    this._handleSlotChange();
-
     const slot = this.shadowRoot?.querySelector("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
   }
