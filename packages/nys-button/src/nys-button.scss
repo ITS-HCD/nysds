@@ -109,7 +109,6 @@
     ); /* remove calc when SASS'd */
   }
   :host([fullWidth]) {
-    width: 100%;
     --_nys-button-width: 100%;
   }
 
