@@ -80,6 +80,44 @@ describe("nys-checkbox", () => {
     expect(el.checked).to.be.false;
   });
 
+  it("toggles checked state when Space key is pressed on input", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="Toggle me"></nys-checkbox>`,
+    );
+
+    const input = await el.getInputElement();
+    expect(el.checked).to.be.false;
+
+    input!.dispatchEvent(
+      new KeyboardEvent("keydown", { code: "Space", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.checked).to.be.true;
+
+    input!.dispatchEvent(
+      new KeyboardEvent("keydown", { code: "Space", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.checked).to.be.false;
+  });
+
+  it("does not toggle when disabled and Space is pressed", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox disabled></nys-checkbox>`,
+    );
+
+    const input = await el.getInputElement();
+
+    input!.dispatchEvent(
+      new KeyboardEvent("keydown", { code: "Space", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.checked).to.be.false;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-checkbox label="My Label"></nys-checkbox>`,
