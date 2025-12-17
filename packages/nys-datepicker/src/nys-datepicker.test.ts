@@ -13,7 +13,6 @@ describe("nys-datepicker", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysDatepicker>(html`
       <nys-datepicker label="My Label" required optional></nys-datepicker>
@@ -24,7 +23,9 @@ describe("nys-datepicker", () => {
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-datepicker label="My Label"></nys-datepicker>`);
+    const el = await fixture(
+      html`<nys-datepicker label="My Label"></nys-datepicker>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -36,4 +37,4 @@ describe("nys-datepicker", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

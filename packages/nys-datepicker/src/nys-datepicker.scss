@@ -121,6 +121,11 @@
 
   .wc-datepicker--container {
     display: flex;
+    width: fit-content;
+
+    * {
+      flex: 1;
+    }
   }
 }
 
