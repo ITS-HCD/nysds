@@ -69,6 +69,40 @@ describe("nys-avatar", () => {
     expect(icon).to.not.exist;
   });
 
+  it("computes a light foreground color when color prop is dark", async () => {
+    const el = await fixture<NysAvatar>(html`
+      <nys-avatar initials="NY" color="#154973"></nys-avatar>
+    `);
+
+    const avatar = el.shadowRoot?.querySelector(
+      ".nys-avatar__component",
+    ) as HTMLElement;
+    const initials = el.shadowRoot?.querySelector(
+      ".nys-avatar__initials",
+    ) as HTMLElement;
+
+    const computedColor = getComputedStyle(initials).color;
+
+    expect(computedColor).to.equal("rgb(255, 255, 255)");
+  });
+
+  it("computes a dark foreground color when color prop is light", async () => {
+    const el = await fixture<NysAvatar>(html`
+      <nys-avatar initials="NY" color="#cddde9"></nys-avatar>
+    `);
+
+    const avatar = el.shadowRoot?.querySelector(
+      ".nys-avatar__component",
+    ) as HTMLElement;
+    const initials = el.shadowRoot?.querySelector(
+      ".nys-avatar__initials",
+    ) as HTMLElement;
+
+    const computedColor = getComputedStyle(initials).color;
+
+    expect(computedColor).to.equal("rgb(0, 0, 0)");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
     await expect(el).shadowDom.to.be.accessible();
