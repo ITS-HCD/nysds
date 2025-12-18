@@ -124,7 +124,7 @@ export class NysTable extends LitElement {
       }
 
       const srOnly = document.createElement("span");
-      srOnly.style.display = "none";
+      srOnly.setAttribute("class", "sr-only");
       srOnly.textContent = "Column headers with buttons are sortable.";
 
       caption.appendChild(srOnly);

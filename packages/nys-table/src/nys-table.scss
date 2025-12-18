@@ -4,18 +4,23 @@
   --_nys-table-padding: var(--nys-space-100, 8px);
   --_nys-table-border-color: transparent;
   --_nys-table-border-width: 0;
-  --_nys-table-font-family: var(--nys-font-family-ui,
-      var(--nys-font-family-sans,
-        "Proxima Nova",
-        "Helvetica Neue",
-        Helvetica,
-        Arial,
-        sans-serif));
+  --_nys-table-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      Helvetica,
+      Arial,
+      sans-serif
+    )
+  );
   --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
   --_nys-table-line-height: 16px;
 
-  --_nys-table-padding--caption: var(--nys-space-250, 20px) var(--nys-space-150, 12px);
+  --_nys-table-padding--caption: var(--nys-space-250, 20px)
+    var(--nys-space-150, 12px);
   --_nys-table-font-size--caption: var(--nys-font-size-ui-lg, 18px);
   --_nys-table-font-weight--caption: var(--nys-font-weight-bold, 700);
 
@@ -32,7 +37,8 @@
 
 .nys-table {
   width: var(--_nys-table-width);
-  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) / var(--_nys-table-line-height) var(--_nys-table-font-family);
+  font: var(--_nys-table-font-weight) var(--_nys-table-font-size) /
+    var(--_nys-table-line-height) var(--_nys-table-font-family);
 
   table {
     width: var(--_nys-table-width);
@@ -53,7 +59,8 @@
   }
 
   td {
-    padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
+    padding: var(--_nys-table-padding--cell--y)
+      var(--_nys-table-padding--cell--x);
     border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
   }
 
@@ -61,7 +68,8 @@
     border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
+    padding: var(--_nys-table-padding--cell--y)
+      var(--_nys-table-padding--cell--x);
 
     &:has(nys-button) {
       padding: 0;
@@ -110,4 +118,18 @@
 
 :host([sortable]) .nys-table th {
   cursor: pointer;
+}
+
+.sr-only {
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 1px !important;
+  white-space: nowrap !important;
 }
