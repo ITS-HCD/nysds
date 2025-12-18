@@ -129,7 +129,12 @@ describe("nys-button", () => {
       "nys-icon[name='arrow-right']",
     );
     expect(prefixIcon).to.exist;
+    expect(prefixIcon!.getAttribute("name")).to.equal("arrow-left");
+    expect(prefixIcon!.getAttribute("size")).to.equal("16");
+
     expect(suffixIcon).to.exist;
+    expect(suffixIcon!.getAttribute("name")).to.equal("arrow-right");
+    expect(suffixIcon!.getAttribute("size")).to.equal("16");
   });
 
   it(" should allow for the icon to be slotted in", async () => {
