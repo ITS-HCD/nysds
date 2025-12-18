@@ -198,7 +198,13 @@ describe("nys-fileinput dropzone", () => {
       html`<nys-fileinput dropzone></nys-fileinput>`,
     );
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
-    dropzone.dispatchEvent(new DragEvent("dragover", { bubbles: true }));
+    dropzone.dispatchEvent(
+      new DragEvent("dragover", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+      }),
+    );
     await el.updateComplete;
 
     expect(el["_dragActive"]).to.be.true;
@@ -211,7 +217,13 @@ describe("nys-fileinput dropzone", () => {
     );
     el["_dragActive"] = true;
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
-    dropzone.dispatchEvent(new DragEvent("dragleave", { bubbles: true }));
+    dropzone.dispatchEvent(
+      new DragEvent("dragleave", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+      }),
+    );
     await el.updateComplete;
 
     expect(el["_dragActive"]).to.be.false;
@@ -231,7 +243,11 @@ describe("nys-fileinput dropzone", () => {
     dt.items.add(file2);
 
     dropzone.dispatchEvent(
-      new DragEvent("drop", { dataTransfer: dt, bubbles: true }),
+      new DragEvent("drop", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: dt,
+      }),
     );
     await el.updateComplete;
 
@@ -253,7 +269,11 @@ describe("nys-fileinput dropzone", () => {
     dt.items.add(file2);
 
     dropzone.dispatchEvent(
-      new DragEvent("drop", { dataTransfer: dt, bubbles: true }),
+      new DragEvent("drop", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: dt,
+      }),
     );
     await el.updateComplete;
 
@@ -272,7 +292,11 @@ describe("nys-fileinput dropzone", () => {
     dt.items.add(file);
 
     dropzone.dispatchEvent(
-      new DragEvent("drop", { dataTransfer: dt, bubbles: true }),
+      new DragEvent("drop", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: dt,
+      }),
     );
     await el.updateComplete;
 
