@@ -103,6 +103,37 @@ describe("nys-avatar", () => {
     expect(computedColor).to.equal("rgb(0, 0, 0)");
   });
 
+  it("updates internal slot state when slot content is added or removed", async () => {
+    const el = await fixture<NysAvatar>(html` <nys-avatar></nys-avatar> `);
+
+    // Initially, default icon should be rendered
+    let icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.exist;
+
+    // Add slotted content
+    const slottedEl = document.createElement("span");
+    slottedEl.textContent = "X";
+    el.appendChild(slottedEl);
+
+    // Wait for slotchange handling
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r));
+
+    // Default icon should be removed when slot has content
+    icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.not.exist;
+
+    // Remove slotted content
+    el.removeChild(slottedEl);
+
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r));
+
+    // Default icon should return
+    icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.exist;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
     await expect(el).shadowDom.to.be.accessible();
