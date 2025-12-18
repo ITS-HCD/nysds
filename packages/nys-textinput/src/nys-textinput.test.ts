@@ -220,30 +220,30 @@ describe("nys-textinput", () => {
   });
 
   it("should dispatch focus and blur events", async () => {
-      const el = await fixture<NysTextinput>(
-        html`<nys-textinput label="FocusMe"></nys-textinput>`,
-      );
-      const textinput = el.shadowRoot?.querySelector("input")!;
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput label="FocusMe"></nys-textinput>`,
+    );
+    const textinput = el.shadowRoot?.querySelector("input")!;
 
-      // Focus event
-      const focusEventPromise = oneEvent(el, "focus");
-      textinput.focus();
-      const focusEvent = await focusEventPromise;
-      expect(focusEvent).to.exist;
-      expect(textinput.matches(":focus-visible")).to.be.true;
+    // Focus event
+    const focusEventPromise = oneEvent(el, "focus");
+    textinput.focus();
+    const focusEvent = await focusEventPromise;
+    expect(focusEvent).to.exist;
+    expect(textinput.matches(":focus-visible")).to.be.true;
 
-      // Blur event
-      const blurEventPromise = oneEvent(el, "blur");
-      textinput.blur();
-      const blurEvent = await blurEventPromise;
-      expect(blurEvent).to.exist;
-      expect(textinput.matches(":focus-visible")).to.be.false;
+    // Blur event
+    const blurEventPromise = oneEvent(el, "blur");
+    textinput.blur();
+    const blurEvent = await blurEventPromise;
+    expect(blurEvent).to.exist;
+    expect(textinput.matches(":focus-visible")).to.be.false;
 
-      // Should not focus when disabled
-      textinput.disabled = true;
-      textinput.focus();
-      expect(document.activeElement).to.not.equal(textinput);
-    });
+    // Should not focus when disabled
+    textinput.disabled = true;
+    textinput.focus();
+    expect(document.activeElement).to.not.equal(textinput);
+  });
 });
 
 // Test Plan for TDD

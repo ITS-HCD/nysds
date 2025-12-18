@@ -74,9 +74,6 @@ describe("nys-avatar", () => {
       <nys-avatar initials="NY" color="#154973"></nys-avatar>
     `);
 
-    const avatar = el.shadowRoot?.querySelector(
-      ".nys-avatar__component",
-    ) as HTMLElement;
     const initials = el.shadowRoot?.querySelector(
       ".nys-avatar__initials",
     ) as HTMLElement;
@@ -91,9 +88,6 @@ describe("nys-avatar", () => {
       <nys-avatar initials="NY" color="#cddde9"></nys-avatar>
     `);
 
-    const avatar = el.shadowRoot?.querySelector(
-      ".nys-avatar__component",
-    ) as HTMLElement;
     const initials = el.shadowRoot?.querySelector(
       ".nys-avatar__initials",
     ) as HTMLElement;
@@ -139,14 +133,3 @@ describe("nys-avatar", () => {
     await expect(el).shadowDom.to.be.accessible();
   });
 });
-
-// Accessibility Tests
-/*
- * ENSURE ALT TEXT:
- * - For initial avatars, include the person's full name as descriptive alt text if the person's full name is not shown next to the avatar
- * - For photo avatars, include the person's full name as descriptive alt text if the person's full name is not shown next to the avatar
- * An ariaLabel property to provide accessible text for screen readers (or default fallback text "avatar")
- */
-
-/* ACCESSIBILITY INSIGHT TOOL (Feedback) */
-// "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"

@@ -187,7 +187,7 @@ describe("nys-fileinput", () => {
 describe("nys-fileinput dropzone", () => {
   it("renders dropzone when dropzone=true", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput dropzone></nys-fileinput>`
+      html`<nys-fileinput dropzone></nys-fileinput>`,
     );
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone");
     expect(dropzone).to.exist;
@@ -195,7 +195,7 @@ describe("nys-fileinput dropzone", () => {
 
   it("sets _dragActive to true on dragover", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput dropzone></nys-fileinput>`
+      html`<nys-fileinput dropzone></nys-fileinput>`,
     );
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
     dropzone.dispatchEvent(new DragEvent("dragover", { bubbles: true }));
@@ -207,7 +207,7 @@ describe("nys-fileinput dropzone", () => {
 
   it("resets _dragActive to false on dragleave", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput dropzone></nys-fileinput>`
+      html`<nys-fileinput dropzone></nys-fileinput>`,
     );
     el["_dragActive"] = true;
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
@@ -220,7 +220,7 @@ describe("nys-fileinput dropzone", () => {
 
   it("adds files on drop event when multiple=true", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput dropzone multiple></nys-fileinput>`
+      html`<nys-fileinput dropzone multiple></nys-fileinput>`,
     );
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
 
@@ -230,7 +230,9 @@ describe("nys-fileinput dropzone", () => {
     dt.items.add(file1);
     dt.items.add(file2);
 
-    dropzone.dispatchEvent(new DragEvent("drop", { dataTransfer: dt, bubbles: true }));
+    dropzone.dispatchEvent(
+      new DragEvent("drop", { dataTransfer: dt, bubbles: true }),
+    );
     await el.updateComplete;
 
     expect(el["_selectedFiles"].length).to.equal(2);
@@ -240,7 +242,7 @@ describe("nys-fileinput dropzone", () => {
 
   it("adds only one file on drop when multiple=false", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput dropzone></nys-fileinput>`
+      html`<nys-fileinput dropzone></nys-fileinput>`,
     );
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
 
@@ -250,7 +252,9 @@ describe("nys-fileinput dropzone", () => {
     dt.items.add(file1);
     dt.items.add(file2);
 
-    dropzone.dispatchEvent(new DragEvent("drop", { dataTransfer: dt, bubbles: true }));
+    dropzone.dispatchEvent(
+      new DragEvent("drop", { dataTransfer: dt, bubbles: true }),
+    );
     await el.updateComplete;
 
     expect(el["_selectedFiles"].length).to.equal(1);
@@ -259,7 +263,7 @@ describe("nys-fileinput dropzone", () => {
 
   it("does not allow drop if disabled", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput dropzone disabled multiple></nys-fileinput>`
+      html`<nys-fileinput dropzone disabled multiple></nys-fileinput>`,
     );
     const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
 
@@ -267,7 +271,9 @@ describe("nys-fileinput dropzone", () => {
     const dt = new DataTransfer();
     dt.items.add(file);
 
-    dropzone.dispatchEvent(new DragEvent("drop", { dataTransfer: dt, bubbles: true }));
+    dropzone.dispatchEvent(
+      new DragEvent("drop", { dataTransfer: dt, bubbles: true }),
+    );
     await el.updateComplete;
 
     expect(el["_selectedFiles"].length).to.equal(0);
@@ -275,17 +281,21 @@ describe("nys-fileinput dropzone", () => {
 
   it("opens file dialog when dropzone button clicked", async () => {
     const el = await fixture<NysFileinput>(
-      html`<nys-fileinput dropzone></nys-fileinput>`
+      html`<nys-fileinput dropzone></nys-fileinput>`,
     );
     const dropzoneButton = el.shadowRoot?.querySelector(
-      '#choose-files-btn-drag'
+      "#choose-files-btn-drag",
     ) as HTMLElement;
-    const input = el.shadowRoot?.querySelector(".hidden-file-input") as HTMLInputElement;
+    const input = el.shadowRoot?.querySelector(
+      ".hidden-file-input",
+    ) as HTMLInputElement;
 
     let clicked = false;
     input.click = () => (clicked = true);
 
-    dropzoneButton.dispatchEvent(new CustomEvent("nys-click", { bubbles: true, composed: true }));
+    dropzoneButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
     expect(clicked).to.be.true;
   });
 });
