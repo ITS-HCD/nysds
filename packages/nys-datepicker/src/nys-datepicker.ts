@@ -18,6 +18,8 @@ export class NysDatepicker extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
+  @property({ type: Boolean }) showTodayButton = false;
+  @property({ type: Boolean }) showClearButton = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
@@ -56,6 +58,9 @@ export class NysDatepicker extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue(this.value);
+    setTimeout(() => this._replaceButtonSVG(), 0);
+    setTimeout(() => this._addMonthDropdownIcon(), 0);
+    setTimeout(() => this._handleDateChange(), 0);
   }
 
   /***************** Form Integration *****************/
@@ -68,12 +73,30 @@ export class NysDatepicker extends LitElement {
    */
 
   // Performs element validation
-  private _setValue(value: any) {
-    // ...
-    this.value = value;
-    this._internals.setFormValue(value);
+  private _setValue(value: Date | string | undefined) {
+    if (!value) {
+      this.value = "";
+      this._internals.setFormValue("");
+      return;
+    }
 
-    this._manageRequire(); // Check validation when value is set
+    const date = value instanceof Date ? value : this._parseLocalDate(value);
+
+    const yyyyMmDd = [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    this.value = yyyyMmDd;
+    this._internals.setFormValue(yyyyMmDd);
+
+    // const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    // if (datepicker) {
+    //   datepicker.value = date;
+    // }
+
+    // this._manageRequire();
   }
 
   // Called to internally set the initial internalElement required flag.
@@ -145,10 +168,6 @@ export class NysDatepicker extends LitElement {
   }
 
   /******************** Functions ********************/
-  private _handleButtonClick() {
-    const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
-    dateInput?.classList.toggle("active");
-  }
 
   // private _handleContainerKeyDown(event: KeyboardEvent) {
   //   const container = this.shadowRoot?.querySelector(
@@ -161,9 +180,83 @@ export class NysDatepicker extends LitElement {
   //     dateInput?.focus();
   //   }
   // }
+  private _replaceButtonSVG() {
+    const datePicker = this.shadowRoot?.querySelector("wc-datepicker");
+    if (!datePicker) return;
+
+    const nextBtn = datePicker.querySelector(
+      ".wc-datepicker__next-month-button",
+    ) as HTMLButtonElement;
+
+    const prevBtn = datePicker.querySelector(
+      ".wc-datepicker__previous-month-button",
+    ) as HTMLButtonElement;
+
+    if (!nextBtn || !prevBtn) return;
+    prevBtn.innerHTML = `
+    <nys-icon name="arrow_back" size="18"></nys-icon>
+  `;
+    nextBtn.innerHTML = `
+    <nys-icon name="arrow_forward" size="18"></nys-icon>
+  `;
+  }
+
+  private _addMonthDropdownIcon() {
+    const datePicker = this.shadowRoot?.querySelector("wc-datepicker");
+    if (!datePicker) return;
+
+    const select = datePicker.querySelector(
+      ".wc-datepicker__month-select",
+    ) as HTMLSelectElement;
+
+    if (select && !select.parentElement?.classList.contains("month-wrapper")) {
+      const wrapper = document.createElement("span");
+      wrapper.className = "month-wrapper";
+      select.parentNode?.insertBefore(wrapper, select);
+      wrapper.appendChild(select);
+
+      const icon = document.createElement("nys-icon");
+      icon.setAttribute("name", "chevron_down");
+      icon.setAttribute("id", "wc-month-dropdown-icon");
+      icon.setAttribute("size", "20");
+      wrapper.appendChild(icon);
+    }
+  }
+
+  // Creates a Date at local midnight to avoid UTC timezone shifting
+  private _parseLocalDate(dateString: string) {
+    const [year, month, day] = dateString.split("-").map(Number);
+    // month is 0-indexed
+    return new Date(year, month - 1, day);
+  }
 
   /****************** Event Handlers ******************/
-  // Placeholder for event handlers if needed
+  private _handleButtonClick() {
+    if (!this.disabled) {
+      const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
+      dateInput?.classList.toggle("active");
+    }
+  }
+
+  private _handleDateChange() {
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    if (!datepicker) return;
+
+    datepicker.addEventListener("selectDate", (event: Event) => {
+      const dateString = (event as CustomEvent).detail; // format: YYYY-MM-DD
+      const dateValue = this._parseLocalDate(dateString);
+      this._setValue(dateValue);
+    });
+  }
+
+  private _handleTodayClick() {
+    if (this.disabled) return;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
+    // const iso = today.toISOString().split("T")[0];
+    this._setValue(today);
+  }
 
   render() {
     return html` <div class="nys-datepicker--container">
@@ -175,30 +268,62 @@ export class NysDatepicker extends LitElement {
         tooltip=${this.tooltip}
         ?inverted=${this.inverted}
       ></nys-label>
-      <div class="nys-datepicker--input-container">
-        <input id="nys-datepicker--input" type="date" max="9999-12-31" />
-        <button id="calendar-button" @click=${this._handleButtonClick}>
+      <div
+        class="nys-datepicker--input-container ${this.disabled
+          ? "disabled"
+          : ""}"
+      >
+        <input
+          id="nys-datepicker--input"
+          type="date"
+          max="9999-12-31"
+          placeholder="mm/dd/yyyy"
+          ?disabled=${this.disabled}
+        />
+        <button
+          id="calendar-button"
+          @click=${this._handleButtonClick}
+          tabindex=${this.disabled ? "-1" : "0"}
+          ?disabled=${this.disabled}
+        >
           <nys-icon name="calendar_month" size="24"></nys-icon>
         </button>
       </div>
       <div class="wc-datepicker--container">
-        <wc-datepicker>
-          <div class="wc-datepicker--button-container">
-            <nys-button
-              label="Today"
-              size="sm"
-              fullWidth
-              variant="outline"
-              ariaDescription="{ariaDescription}"
-            ></nys-button>
-            <nys-button
-              label="Clear"
-              size="sm"
-              fullWidth
-              variant="outline"
-              ariaDescription="{ariaDescription}"
-            ></nys-button>
-          </div>
+        <wc-datepicker
+          .value=${this.value ? this._parseLocalDate(this.value) : undefined}
+          ?disabled=${this.disabled}
+        >
+          ${this.showTodayButton || this.showClearButton
+            ? html`
+                <div class="wc-datepicker--button-container">
+                  ${this.showTodayButton
+                    ? html`
+                        <nys-button
+                          label="Today"
+                          size="sm"
+                          fullWidth
+                          variant="outline"
+                          ?disabled=${this.disabled}
+                          @click=${this._handleTodayClick}
+                        ></nys-button>
+                      `
+                    : null}
+                  ${this.showClearButton
+                    ? html`
+                        <nys-button
+                          label="Clear"
+                          size="sm"
+                          fullWidth
+                          variant="outline"
+                          ?disabled=${this.disabled}
+                          @click=${this._handleClearClick}
+                        ></nys-button>
+                      `
+                    : null}
+                </div>
+              `
+            : null}
         </wc-datepicker>
       </div>
     </div>`;

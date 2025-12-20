@@ -7,6 +7,11 @@
   --_nys-datepicker-radius: var(--nys-radius-xl, 12px);
   --_nys-datepicker-padding: var(--nys-space-100, 8px);
   --_nys-datepicker-gap: var(--nys-space-100, 8px);
+  --_nys-datepicker-color: var(
+    --nys-color-text,
+    var(--nys-color-neutral-900, #1b1b1b)
+  );
+  --_nys-datepicker-color-disabled: var(--nys-color-neutral-200, #bec0c1);
 
   /* Focus/Hover state */
   --_nys-datepicker-outline-color--focus: var(--nys-color-focus, #004dd1);
@@ -27,23 +32,44 @@
     )
   );
 
-  /* WC Styling Change */
-  --_nys-datepicker--date-hover-color: var(--nys-color-theme, #154973);
+  /*** WC Styling Change ***/
+  --_nys-datepicker--date-hover-color: var(--nys-color-text);
   --_nys-datepicker--date-default-color: var(--nys-color-text);
-  --_nys-datepicker--date-selected-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-datepicker--date-selected-color: var(--nys-color-info, #004dd1);
   --_nys-datepicker--date-disabled-color: var(
     --nys-color-text-disabled,
     #bec0c1
   );
+  /* Focus / Hover/ Active|Pressed */
   --_nys-datepicker--date-focus-ring-color: var(--nys-color-link, #004dd1);
-  --_nys-datepicker--date-hover-background-color: var(
-    --nys-color-theme-weaker,
-    #eff6fb
+  --_nys-datepicker--date-hover-background-color: var(--nys-color-neutral-50, #EDEDED);
+  --_nys-datepicker--date-pressed-background-color: var(--nys-color-neutral-100, #D0D0CE);
+  /* Color Choices */
+  --_nys-datepicker--date-selected-theme: var(--nys-color-info-weak, #e5effa);
+  --_nys-datepicker--date-background: var(--nys-color-ink-reverse, #fff);
+  --_nys-datepicker--navigation-hover-background: var(
+    --nys-color-neutral-10,
+    #f6f6f6
   );
-  --_nys-datepicker--date-selected-theme: var(--nys-color-theme, #154973);
-  --_nys-datepicker--date-background-color: var(--nys-color-ink-reverse, #fff);
-  --_nys-datepicker--button-border: var(--nys-border-width-sm, 1px) solid
+  --_nys-datepicker--navigation-pressed-background: var(
+    --nys-color-neutral-50,
+    #ededed
+  );
+  --_nys-datepicker--navigation-disabled-background: var(
+    --nys-color-neutral-10,
+    #f6f6f6
+  );
+  --_nys-datepicker--navigation-border: var(--nys-border-width-sm, 1px) solid
     var(--nys-color-neutral-400, #909395);
+  --_nys-datepicker--navigation-hover-border: var(--nys-border-width-sm, 1px)
+    solid var(--nys-color-neutral-900, #1b1b1b);
+  --_nys-datepicker--navigation-pressed-border: var(--nys-border-width-sm, 1px)
+    solid var(--nys-color-neutral-900, #1b1b1b);
+  --_nys-datepicker--navigation-disabled-border: var(--nys-border-width-sm, 1px)
+    solid var(--nys-color-neutral-200, #bec0c1);
+  --_nys-datepicker--navigation-box-shadow-border: inset 0 0 0 1px
+    var(--nys-color-neutral-900, #1b1b1b);
+  --_nys-datepicker__month-select-width: var(--nys-select-form-width-sm, 88px);
 }
 
 .nys-datepicker--container {
@@ -60,7 +86,17 @@
     position: relative;
     width: var(--nys-form-width-md, 200px);
     display: flex;
+    cursor: pointer;
+
+    &.disabled {
+      #calendar-button {
+        cursor: not-allowed;
+        color: var(--_nys-datepicker--date-disabled-color);
+      }
+    }
+
     #nys-datepicker--input {
+      cursor: text;
       flex: 1;
       height: 24px;
       outline-color: transparent;
@@ -72,10 +108,16 @@
       background: var(--nys-color-ink-reverse, #fff);
       padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
         var(--nys-space-100, 8px) var(--nys-space-150, 12px);
-      color: var(--nys-color-text-weaker, #797c7f);
+      color: var(--_nys-datepicker-color);
+
       &:focus {
         outline-color: var(--_nys-datepicker-outline-color--focus);
         border-color: var(--_nys-datepicker-outline-color--focus);
+      }
+      &:disabled {
+        border: var(--_nys-datepicker--navigation-disabled-border);
+        cursor: not-allowed;
+        color: var(--nys-color-text-weaker, #797c7f);
       }
     }
 
@@ -112,7 +154,7 @@
         border-color: var(--nys-color-gray-100, #d0d0ce);
         background: var(--nys-color-gray-100, #d0d0ce);
       }
-      &:focus:not(:active) {
+      &:focus:not(:active):not(:disabled) {
         outline-color: var(--_nys-datepicker-outline-color--focus);
         border-color: var(--_nys-datepicker-outline-color--focus);
       }
@@ -168,7 +210,7 @@ wc-datepicker {
   &--disabled {
     *:disabled {
       opacity: 0.5;
-      cursor: default;
+      cursor: not-allowed;
     }
 
     .wc-datepicker__weekday {
@@ -176,14 +218,16 @@ wc-datepicker {
     }
 
     .wc-datepicker__date {
-      cursor: default;
+      cursor: not-allowed;
       opacity: 0.5;
 
-      &:focus {
+      &:focus:not(.wc-datepicker__date--selected) {
         outline: none;
+        border-color: var(--nys-color-neutral-200, #bec0c1);
+        box-shadow: none;
       }
 
-      &:hover {
+      &:hover:not(.wc-datepicker__date--selected) {
         background-color: transparent;
       }
 
@@ -196,38 +240,109 @@ wc-datepicker {
         background-color: var(--_nys-datepicker--date-selected-theme);
       }
     }
+    #wc-month-dropdown-icon {
+      color: var(--_nys-datepicker--date-disabled-color);
+    }
   }
 
   &__header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--nys-space-50, 4px);
   }
 
   &__current-month {
     display: flex;
     flex-grow: 1;
-    gap: 0.5rem;
+    gap: var(--nys-space-50, 4px);
   }
 
   &__month-select,
   &__year-select {
     display: flex;
+    align-items: center;
     font-size: var(--nys-type-size-ui-md, 16px);
     font-family: var(--nys-type-family-ui, "Proxima Nova");
     padding: var(--nys-space-100, 8px) var(--nys-space-150, 12px);
-    align-items: center;
+    border: var(--_nys-datepicker--navigation-border);
     border-radius: 0.25rem;
-    color: #111;
-    background-color: var(--_nys-datepicker--date-background-color);
-    border: var(--_nys-datepicker--button-border);
+    color: var(--_nys-datepicker-color);
+    background-color: var(--_nys-datepicker--date-background);
     line-height: var(--nys-font-lineheight-ui-md, 24px);
+
+    // &:hover:not(:disabled) {
+    //   background-color: var(--_nys-datepicker--navigation-hover-background);
+    //   border: var(--_nys-datepicker--navigation-hover-border);
+    // }
+
+    // &:active:not(:disabled),
+    // &[aria-pressed="true"] {
+    //   background-color: var(--_nys-datepicker--navigation-pressed-background);
+    //   border: var(--_nys-datepicker--navigation-pressed-border);
+    // }
+
+    // &:disabled,
+    // &[aria-disabled="true"] {
+    //   background-color: var(--_nys-datepicker--navigation-disabled-background);
+    //   border: var(--_nys-datepicker--navigation-disabled-border);
+    //   color: var(--_nys-datepicker-color-disabled);
+    // }
+
+    // &:focus-visible {
+    //   outline: 2px solid var(--nys-color-focus, #005fcc);
+    //   outline-offset: 2px;
+    // }
+
+    &:hover:not(:disabled) {
+      border: var(--_nys-datepicker--navigation-hover-border);
+      background-color: var(--_nys-datepicker--navigation-hover-background);
+      box-shadow: inset 0 0 0 1px var(--nys-color-neutral-900, #1b1b1b);
+    }
+
+    &:active:not(:disabled),
+    &[aria-pressed="true"] {
+      border: var(--_nys-datepicker--navigation-pressed-border);
+      background-color: var(--_nys-datepicker--navigation-pressed-background);
+      box-shadow: inset 0 0 0 1px var(--nys-color-neutral-900, #1b1b1b);
+    }
+
+    &:disabled,
+    &[aria-disabled="true"] {
+      border: var(--_nys-datepicker--navigation-disabled-border);
+      background-color: var(--_nys-datepicker--navigation-disabled-background);
+      color: var(--_nys-datepicker-color-disabled);
+    }
+
+    // &:focus-visible {
+    //   outline: 2px solid var(--nys-color-focus, #005fcc);
+    //   outline-offset: 2px;
+    // }
+  }
+
+  .month-wrapper {
+    position: relative;
+    width: 135px;
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+
+    #wc-month-dropdown-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
   }
 
   &__month-select {
+    width: var(--_nys-datepicker__month-select-width);
+    max-width: 100%;
     flex-grow: 1;
     cursor: pointer;
     appearance: none;
+    text-overflow: ellipsis;
+    padding-right: var(--nys-space-400, 32px);
     > * {
       width: 91px;
       height: 24px;
@@ -235,6 +350,9 @@ wc-datepicker {
   }
 
   &__year-select {
+    border: var(--_nys-datepicker--navigation-border);
+    border-radius: 0.25rem;
+    padding-right: var(--nys-space-50, 4px);
     max-width: 5rem;
   }
 
@@ -245,15 +363,40 @@ wc-datepicker {
     display: inline-flex;
     width: 40px;
     max-width: 40px;
-    max-height: 40px;
+    max-height: 42px;
     padding: var(--nys-space-150, 12px);
     justify-content: center;
     align-items: center;
+    border: var(--_nys-datepicker--navigation-border);
     border-radius: 0.25rem;
-    color: #111;
-    background-color: var(--_nys-datepicker--date-background-color);
-    border: var(--_nys-datepicker--button-border);
+    color: var(--_nys-datepicker--date-default-color);
+    background-color: var(--_nys-datepicker--date-background);
     cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background-color: var(--_nys-datepicker--navigation-hover-background);
+      box-shadow: var(--_nys-datepicker--navigation-box-shadow-border);
+      border: var(--_nys-datepicker--navigation-hover-border);
+    }
+
+    &:active:not(:disabled),
+    &[aria-pressed="true"] {
+      background-color: var(--_nys-datepicker--navigation-pressed-background);
+      box-shadow: var(--_nys-datepicker--navigation-box-shadow-border);
+      border: var(--_nys-datepicker--navigation-pressed-border);
+    }
+
+    &:disabled,
+    &[aria-disabled="true"] {
+      background-color: var(--_nys-datepicker--navigation-disabled-background);
+      border: var(--_nys-datepicker--navigation-disabled-border);
+      color: var(--_nys-datepicker-color-disabled);
+    }
+
+    // &:focus-visible {
+    //   outline: 2px solid var(--nys-color-focus, #005fcc);
+    //   outline-offset: 2px;
+    // }
   }
 
   &__calendar {
@@ -294,9 +437,14 @@ wc-datepicker {
       box-shadow: inset 0 0 0 2px var(--_nys-datepicker--date-focus-ring-color);
     }
 
-    &:hover:not(.wc-datepicker__date--selected) {
+    &:hover:not(.wc-datepicker__date--selected):not(:active) {
       color: var(--_nys-datepicker--date-hover-color);
       background-color: var(--_nys-datepicker--date-hover-background-color);
+    }
+
+    &:active {
+      color: var(--_nys-datepicker--date-hover-color);
+      background-color: var(--_nys-datepicker--date-pressed-background-color);
     }
 
     > * {
@@ -310,10 +458,10 @@ wc-datepicker {
 
     &--today {
       font-weight: 600;
-      color: var(--_nys-datepicker--date-selected-theme);
-      text-decoration-line: underline;
+      color: var(--_nys-datepicker--date-selected-color);
       > * {
         font-style: normal;
+        text-decoration-line: underline;
       }
     }
 
@@ -325,7 +473,9 @@ wc-datepicker {
       text-decoration-line: none;
       background-color: var(--_nys-datepicker--date-selected-theme);
       color: var(--_nys-datepicker--date-selected-color);
-      font-weight: 600;
+      > * {
+        font-weight: 600;
+      }
     }
 
     &--disabled {
@@ -337,7 +487,7 @@ wc-datepicker {
       }
     }
     &.wc-datepicker__date--overflowing {
-      color: var(--nys-color-text-disabled, #BEC0C1);
+      color: var(--nys-color-text-disabled, #bec0c1);
     }
   }
 
@@ -479,8 +629,8 @@ wc-datepicker {
 //   align-items: center;
 //   border-radius: 0.25rem;
 //   color: #111;
-//   background-color: var(--_nys-datepicker--date-background-color);
-//   border: var(--_nys-datepicker--button-border);
+//   background-color: var(--_nys-datepicker--date-background);
+//   border: var(--_nys-datepicker--navigation-border);
 //   // font: inherit;
 //   line-height: var(--nys-font-lineheight-ui-md, 24px);
 // }
@@ -509,8 +659,8 @@ wc-datepicker {
 //   align-items: center;
 //   border-radius: 0.25rem;
 //   color: #111;
-//   background-color: var(--_nys-datepicker--date-background-color);
-//   border: var(--_nys-datepicker--button-border);
+//   background-color: var(--_nys-datepicker--date-background);
+//   border: var(--_nys-datepicker--navigation-border);
 //   cursor: pointer;
 // }
 
