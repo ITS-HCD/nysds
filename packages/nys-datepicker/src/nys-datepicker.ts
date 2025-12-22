@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-datepicker.scss?inline";
 
@@ -61,6 +61,7 @@ export class NysDatepicker extends LitElement {
     setTimeout(() => this._replaceButtonSVG(), 0);
     setTimeout(() => this._addMonthDropdownIcon(), 0);
     setTimeout(() => this._handleDateChange(), 0);
+    setTimeout(() => this._onDocumentClick(), 0);
   }
 
   /***************** Form Integration *****************/
@@ -91,12 +92,12 @@ export class NysDatepicker extends LitElement {
     this.value = yyyyMmDd;
     this._internals.setFormValue(yyyyMmDd);
 
-    // const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
-    // if (datepicker) {
-    //   datepicker.value = date;
-    // }
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    if (datepicker) {
+      datepicker.value = date;
+    }
 
-    // this._manageRequire();
+    this._manageRequire();
   }
 
   // Called to internally set the initial internalElement required flag.
@@ -169,17 +170,10 @@ export class NysDatepicker extends LitElement {
 
   /******************** Functions ********************/
 
-  // private _handleContainerKeyDown(event: KeyboardEvent) {
-  //   const container = this.shadowRoot?.querySelector(
-  //     ".nys-datepicker--container",
-  //   );
-  //   const dateInput = this.shadowRoot?.getElementById("nys-datepicker--input");
-
-  //   if (event.key === "Tab" && !event.shiftKey) {
-  //     container?.classList.add("active");
-  //     dateInput?.focus();
-  //   }
-  // }
+  /**
+   * Replaces the default wc-datepicker month navigation buttons
+   * with NYS icon components for previous and next month.
+   */
   private _replaceButtonSVG() {
     const datePicker = this.shadowRoot?.querySelector("wc-datepicker");
     if (!datePicker) return;
@@ -231,10 +225,42 @@ export class NysDatepicker extends LitElement {
   }
 
   /****************** Event Handlers ******************/
-  private _handleButtonClick() {
+  private _onDocumentClick() {
+    const onClick = (event: MouseEvent) => {
+      const path = event.composedPath();
+
+      const input = this.shadowRoot?.querySelector(
+        ".nys-datepicker--input-container",
+      );
+      const container = this.shadowRoot?.querySelector(
+        ".wc-datepicker--container",
+      );
+      const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+
+      const clickedInside =
+        (input && path.includes(input)) ||
+        (container && path.includes(container)) ||
+        (datepicker && path.includes(datepicker));
+
+      if (!clickedInside) {
+        datepicker?.classList.remove("active");
+      }
+    };
+
+    document.addEventListener("click", onClick);
+  }
+
+  private _toggleDatepicker() {
     if (!this.disabled) {
       const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
       dateInput?.classList.toggle("active");
+    }
+  }
+
+  private _openDatepicker() {
+    if (!this.disabled) {
+      const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
+      dateInput?.classList.add("active");
     }
   }
 
@@ -279,18 +305,21 @@ export class NysDatepicker extends LitElement {
           max="9999-12-31"
           placeholder="mm/dd/yyyy"
           ?disabled=${this.disabled}
+          @click=${this._openDatepicker}
         />
         <button
           id="calendar-button"
-          @click=${this._handleButtonClick}
+          @click=${this._toggleDatepicker}
           tabindex=${this.disabled ? "-1" : "0"}
           ?disabled=${this.disabled}
         >
           <nys-icon name="calendar_month" size="24"></nys-icon>
         </button>
       </div>
+
       <div class="wc-datepicker--container">
         <wc-datepicker
+          class="${this._calendarOpen ? "active" : ""}"
           .value=${this.value ? this._parseLocalDate(this.value) : undefined}
           ?disabled=${this.disabled}
         >

@@ -42,8 +42,14 @@
   );
   /* Focus / Hover/ Active|Pressed */
   --_nys-datepicker--date-focus-ring-color: var(--nys-color-link, #004dd1);
-  --_nys-datepicker--date-hover-background-color: var(--nys-color-neutral-50, #EDEDED);
-  --_nys-datepicker--date-pressed-background-color: var(--nys-color-neutral-100, #D0D0CE);
+  --_nys-datepicker--date-hover-background-color: var(
+    --nys-color-neutral-50,
+    #ededed
+  );
+  --_nys-datepicker--date-pressed-background-color: var(
+    --nys-color-neutral-100,
+    #d0d0ce
+  );
   /* Color Choices */
   --_nys-datepicker--date-selected-theme: var(--nys-color-info-weak, #e5effa);
   --_nys-datepicker--date-background: var(--nys-color-ink-reverse, #fff);
@@ -87,7 +93,7 @@
     width: var(--nys-form-width-md, 200px);
     display: flex;
     cursor: pointer;
-
+    
     &.disabled {
       #calendar-button {
         cursor: not-allowed;
