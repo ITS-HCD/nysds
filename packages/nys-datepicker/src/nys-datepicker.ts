@@ -58,6 +58,8 @@ export class NysDatepicker extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue(this.value);
+
+    // setTimeout is needed because the wc-datepicker needs to be rendered in first for the logics to work
     setTimeout(() => this._replaceButtonSVG(), 0);
     setTimeout(() => this._addMonthDropdownIcon(), 0);
     setTimeout(() => this._handleDateChange(), 0);
@@ -282,6 +284,13 @@ export class NysDatepicker extends LitElement {
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
     // const iso = today.toISOString().split("T")[0];
     this._setValue(today);
+  }
+
+  private _handleClearClick() {
+    if (this.disabled) return;
+
+    this.value = "";
+    this._internals.setFormValue("");
   }
 
   render() {

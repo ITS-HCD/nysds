@@ -227,7 +227,7 @@ wc-datepicker {
       cursor: not-allowed;
       opacity: 0.5;
 
-      &:focus:not(.wc-datepicker__date--selected) {
+      &:focus {
         outline: none;
         border-color: var(--nys-color-neutral-200, #bec0c1);
         box-shadow: none;
@@ -439,7 +439,7 @@ wc-datepicker {
       outline: none;
     }
 
-    &:focus:not(.wc-datepicker__date--selected) {
+    &:focus {
       box-shadow: inset 0 0 0 2px var(--_nys-datepicker--date-focus-ring-color);
     }
 
