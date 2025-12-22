@@ -2,7 +2,6 @@ import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-backtotop.js";
 import { NysBacktotop } from "./nys-backtotop.js";
 
-// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-backtotop", () => {
   it("renders the component", async () => {
     const el = await fixture<NysBacktotop>(
@@ -32,17 +31,37 @@ describe("nys-backtotop", () => {
     expect(el.visible).to.be.false;
   });
 
+  it("becomes visible after scrolling past the threshold", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+
+    // Stub viewport + document height
+    Object.defineProperty(window, "innerHeight", {
+      value: 1000,
+      configurable: true,
+    });
+
+    Object.defineProperty(document.documentElement, "scrollHeight", {
+      value: 5000, // >= innerHeight * 4
+      configurable: true,
+    });
+
+    // Simulate scroll position beyond threshold (innerHeight * 1.5)
+    Object.defineProperty(window, "scrollY", {
+      value: 2000,
+      configurable: true,
+    });
+
+    // Trigger scroll handler
+    window.dispatchEvent(new Event("scroll"));
+    await el.updateComplete;
+
+    expect(el.visible).to.be.true;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
     await expect(el).shadowDom.to.be.accessible();
   });
-
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
 });

@@ -6,7 +6,6 @@ import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
 
-// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-fileinput", () => {
   // Basic tests
   it("renders the component", async () => {
@@ -182,5 +181,145 @@ describe("nys-fileinput", () => {
       html`<nys-fileinput label="My Label"></nys-fileinput>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+});
+
+describe("nys-fileinput dropzone", () => {
+  it("renders dropzone when dropzone=true", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput dropzone></nys-fileinput>`,
+    );
+    const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone");
+    expect(dropzone).to.exist;
+  });
+
+  it("sets _dragActive to true on dragover", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput dropzone></nys-fileinput>`,
+    );
+    const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
+    dropzone.dispatchEvent(
+      new DragEvent("dragover", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el["_dragActive"]).to.be.true;
+    expect(dropzone.classList.contains("drag-active")).to.be.true;
+  });
+
+  it("resets _dragActive to false on dragleave", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput dropzone></nys-fileinput>`,
+    );
+    el["_dragActive"] = true;
+    const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
+    dropzone.dispatchEvent(
+      new DragEvent("dragleave", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: new DataTransfer(),
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el["_dragActive"]).to.be.false;
+    expect(dropzone.classList.contains("drag-active")).to.be.false;
+  });
+
+  it("adds files on drop event when multiple=true", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput dropzone multiple></nys-fileinput>`,
+    );
+    const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
+
+    const file1 = new File(["file1"], "file1.txt", { type: "text/plain" });
+    const file2 = new File(["file2"], "file2.txt", { type: "text/plain" });
+    const dt = new DataTransfer();
+    dt.items.add(file1);
+    dt.items.add(file2);
+
+    dropzone.dispatchEvent(
+      new DragEvent("drop", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: dt,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el["_selectedFiles"].length).to.equal(2);
+    expect(el["_selectedFiles"][0].file.name).to.equal("file1.txt");
+    expect(el["_selectedFiles"][1].file.name).to.equal("file2.txt");
+  });
+
+  it("adds only one file on drop when multiple=false", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput dropzone></nys-fileinput>`,
+    );
+    const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
+
+    const file1 = new File(["file1"], "file1.txt", { type: "text/plain" });
+    const file2 = new File(["file2"], "file2.txt", { type: "text/plain" });
+    const dt = new DataTransfer();
+    dt.items.add(file1);
+    dt.items.add(file2);
+
+    dropzone.dispatchEvent(
+      new DragEvent("drop", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: dt,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el["_selectedFiles"].length).to.equal(1);
+    expect(el["_selectedFiles"][0].file.name).to.equal("file1.txt");
+  });
+
+  it("does not allow drop if disabled", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput dropzone disabled multiple></nys-fileinput>`,
+    );
+    const dropzone = el.shadowRoot?.querySelector(".nys-fileinput__dropzone")!;
+
+    const file = new File(["file1"], "file1.txt", { type: "text/plain" });
+    const dt = new DataTransfer();
+    dt.items.add(file);
+
+    dropzone.dispatchEvent(
+      new DragEvent("drop", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: dt,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el["_selectedFiles"].length).to.equal(0);
+  });
+
+  it("opens file dialog when dropzone button clicked", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput dropzone></nys-fileinput>`,
+    );
+    const dropzoneButton = el.shadowRoot?.querySelector(
+      "#choose-files-btn-drag",
+    ) as HTMLElement;
+    const input = el.shadowRoot?.querySelector(
+      ".hidden-file-input",
+    ) as HTMLInputElement;
+
+    let clicked = false;
+    input.click = () => (clicked = true);
+
+    dropzoneButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    expect(clicked).to.be.true;
   });
 });

@@ -70,6 +70,54 @@ describe("nys-accordionitem", () => {
     expect(el.expanded).to.be.false;
   });
 
+  it("toggles expanded state and emits nys-toggle on keyboard (Enter/Space)", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Toggle Test"></nys-accordionitem>`,
+    );
+    const accordionHeader = el.shadowRoot?.querySelector(
+      ".nys-accordionitem__heading",
+    ) as HTMLElement;
+
+    // Initial state: collapsed
+    expect(el.expanded).to.be.false;
+
+    // Press Enter to expand
+    const enterEventListener = oneEvent(el, "nys-accordionitem-toggle");
+    accordionHeader.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    const { detail } = await enterEventListener;
+
+    expect(detail).to.include({
+      heading: "Toggle Test",
+      expanded: true,
+    });
+    expect(el.expanded).to.be.true;
+
+    // Press Space to collapse
+    const spaceEventListener = oneEvent(el, "nys-accordionitem-toggle");
+    accordionHeader.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: " ",
+        code: "Space",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    const { detail: spaceDetail } = await spaceEventListener;
+
+    expect(spaceDetail).to.include({
+      heading: "Toggle Test",
+      expanded: false,
+    });
+    expect(el.expanded).to.be.false;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-accordionitem heading="My Label"></nys-accordionitem>`,
