@@ -75,7 +75,7 @@
     solid var(--nys-color-neutral-200, #bec0c1);
   --_nys-datepicker--navigation-box-shadow-border: inset 0 0 0 1px
     var(--nys-color-neutral-900, #1b1b1b);
-  --_nys-datepicker__month-select-width: var(--nys-select-form-width-sm, 88px);
+  // --_nys-datepicker__month-select-width: var(--nys-select-form-width-sm, 88px);
 }
 
 .nys-datepicker--container {
@@ -342,7 +342,7 @@ wc-datepicker {
   }
 
   &__month-select {
-    width: var(--_nys-datepicker__month-select-width);
+    width: 100%;
     max-width: 100%;
     flex-grow: 1;
     cursor: pointer;

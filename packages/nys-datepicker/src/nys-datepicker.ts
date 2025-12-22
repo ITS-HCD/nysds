@@ -291,6 +291,23 @@ export class NysDatepicker extends LitElement {
 
     this.value = "";
     this._internals.setFormValue("");
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.value = "";
+    }
+  }
+
+  private _handleInputChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input) return;
+
+    // Parse the input value (format: YYYY-MM-DD)
+    const dateValue = input.value
+      ? this._parseLocalDate(input.value)
+      : undefined;
+
+    // Update component value and form internals
+    this._setValue(dateValue);
   }
 
   render() {
@@ -313,8 +330,10 @@ export class NysDatepicker extends LitElement {
           type="date"
           max="9999-12-31"
           placeholder="mm/dd/yyyy"
+          .value=${this.value || ""}
           ?disabled=${this.disabled}
           @click=${this._openDatepicker}
+          @input=${this._handleInputChange}
         />
         <button
           id="calendar-button"
