@@ -206,7 +206,11 @@ export class NysModal extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private async _handleKeydown(e: KeyboardEvent) {
     if (!this.open) return;
 

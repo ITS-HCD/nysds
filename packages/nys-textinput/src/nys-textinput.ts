@@ -288,7 +288,11 @@ export class NysTextinput extends LitElement {
     return result;
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;

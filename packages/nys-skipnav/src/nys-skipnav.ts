@@ -8,7 +8,6 @@ export class NysSkipnav extends LitElement {
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) href = "";
-  // @property({ type: Boolean }) demoVisible = false; // For demo purposes only
 
   constructor() {
     super();
@@ -22,7 +21,11 @@ export class NysSkipnav extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _handleFocus() {
     const linkElement = this.shadowRoot?.querySelector(".nys-skipnav__link");
 

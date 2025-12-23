@@ -97,7 +97,11 @@ export class NysRadiobutton extends LitElement {
     return input ? input.checkValidity() : true;
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _emitChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {

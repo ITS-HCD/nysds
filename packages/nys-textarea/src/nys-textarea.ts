@@ -178,7 +178,11 @@ export class NysTextarea extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const textarea = event.target as HTMLInputElement;

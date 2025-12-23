@@ -15,6 +15,10 @@ interface FileWithProgress {
   errorMsg?: string;
 }
 
+/**
+ * `<nys-fileinput>` allows file selection and upload with support for
+ * multiple files, drag-and-drop, progress tracking, validation, and form integration.
+ */
 export class NysFileinput extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -89,6 +93,7 @@ export class NysFileinput extends LitElement {
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -346,7 +351,11 @@ export class NysFileinput extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // Access the selected files & add new files to the internal list via the hidden <input type="file">
   private _handleFileChange(e: Event) {
     const input = e.target as HTMLInputElement;

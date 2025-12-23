@@ -117,7 +117,11 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // When toggling tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _showTooltip = () => {
     this._active = true;

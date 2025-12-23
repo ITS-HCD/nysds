@@ -121,7 +121,11 @@ export class NysPagination extends LitElement {
     return buttons;
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _handlePageClick(page: number) {
     this.currentPage = this._clampPage(page);
     this.dispatchEvent(

@@ -263,7 +263,11 @@ export class NysSelect extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // Handle change event to bubble up selected value
   private _handleChange(e: Event) {
     const select = e.target as HTMLSelectElement;
