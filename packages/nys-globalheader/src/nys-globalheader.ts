@@ -3,20 +3,26 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalheader.scss?inline";
 
+/**
+ * `<nys-globalheader>` renders a New York State–style global header.
+ * Supports an optional app name, agency name, homepage link, and slotted navigation elements.
+ * Highlights active links based on current URL and handles a mobile menu toggle.
+ */
 export class NysGlobalHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
-  // Properties
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
   @property({ type: String }) homepageLink = "";
   @state() private slotHasContent = true;
   @state() private isMobileMenuOpen = false;
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle Methods
+   * --------------------------------------------------------------------------
+   */
 
   firstUpdated() {
-    // Check for slot content after rendering
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
     this._handleSlotChange(); // run once at startup
@@ -28,6 +34,7 @@ export class NysGlobalHeader extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
@@ -144,10 +151,7 @@ export class NysGlobalHeader extends LitElement {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  /**
-   * Handles client-side navigation when links are clicked (no full page refresh).
-   */
-  // Ensures only the clicked link's <li> is marked active in both desktop and mobile menus.
+  // Listens for click events on links to mark them active
   private _listenLinkClicks() {
     const containers = this.shadowRoot?.querySelectorAll(
       ".nys-globalheader__content, .nys-globalheader__content-mobile",
@@ -156,9 +160,9 @@ export class NysGlobalHeader extends LitElement {
     containers?.forEach((container) => {
       container?.addEventListener("click", (event) => {
         const target = event.target as HTMLElement;
-        const a = target.closest("a");
+        const ahref = target.closest("a");
 
-        if (!a) return;
+        if (!ahref) return;
 
         // Clear all existing active <li>
         container

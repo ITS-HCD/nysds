@@ -3,15 +3,22 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalfooter.scss?inline";
 
+/**
+ * `<nys-globalfooter>` renders a New York State–style global footer.
+ * Supports an agency name, optional homepage link, and slotted content.
+ * Slotted elements are sanitized and inserted into the shadow DOM with automatic layout handling.
+ */
 export class NysGlobalFooter extends LitElement {
   static styles = unsafeCSS(styles);
 
-  // Properties
   @property({ type: String }) agencyName = "";
   @property({ type: String }) homepageLink = "";
   @state() private slotHasContent = true;
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle Methods
+   * --------------------------------------------------------------------------
+   */
 
   firstUpdated() {
     // Check for slot content after rendering
@@ -24,6 +31,7 @@ export class NysGlobalFooter extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
@@ -35,7 +43,6 @@ export class NysGlobalFooter extends LitElement {
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
-    // Update slotHasContent based on assigned elements
     this.slotHasContent = assignedNodes.length > 0;
 
     // Determine layout based on content structure
@@ -51,7 +58,6 @@ export class NysGlobalFooter extends LitElement {
       container.classList.toggle("columns", hasMultipleGroups);
       container.classList.toggle("small", !hasMultipleGroups);
 
-      // Clear existing children in the container
       container.innerHTML = "";
 
       // Clone and append slotted elements into the shadow DOM container
