@@ -3,6 +3,10 @@ import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavfooter.scss?inline";
 
+/**
+ * `NysUnavFooter` is a custom footer component for NYS websites.
+ * It displays the NYS logo linking to the official site and a set of key navigation links.
+ */
 export class NysUnavFooter extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -10,6 +14,7 @@ export class NysUnavFooter extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
   private _getNysLogo() {
     if (!nysLogo) return null;
 

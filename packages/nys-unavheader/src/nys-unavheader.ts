@@ -4,6 +4,14 @@ import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavheader.scss?inline";
 
+/**
+ * `NysUnavHeader` is a custom universal header for NYS websites.
+ * Features include:
+ * - Trust bar with official site info
+ * - NYS logo linking to homepage
+ * - Search bar with dropdown behavior
+ * - Language translation dropdown
+ */
 export class NysUnavHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
