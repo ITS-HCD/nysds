@@ -52,7 +52,10 @@ export class NysTextinput extends LitElement {
     tel: "(___) ___-____",
   };
 
-  // Lifecycle updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -195,7 +198,10 @@ export class NysTextinput extends LitElement {
     this._setValidityMessage(message);
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");

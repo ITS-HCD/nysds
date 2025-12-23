@@ -224,7 +224,10 @@ export class NysTooltip extends LitElement {
     }
   };
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   private _getReferenceElement() {
     const targetId = this.for;
     if (!targetId) return null;

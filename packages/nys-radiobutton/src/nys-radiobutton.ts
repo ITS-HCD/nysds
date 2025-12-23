@@ -35,7 +35,10 @@ export class NysRadiobutton extends LitElement {
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
-  // Lifecycle updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
@@ -78,7 +81,10 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     // If the radiogroup is required but no radio is selected, return false.

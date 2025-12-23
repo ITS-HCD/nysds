@@ -85,7 +85,10 @@ export class NysFileinput extends LitElement {
 
   private _internals: ElementInternals;
 
-  // Lifecycle Updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -224,7 +227,10 @@ export class NysFileinput extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
 
   // Store the files to be displayed
   private async _saveSelectedFiles(file: File) {

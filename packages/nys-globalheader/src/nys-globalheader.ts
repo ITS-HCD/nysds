@@ -24,7 +24,10 @@ export class NysGlobalHeader extends LitElement {
     this._listenLinkClicks();
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");

@@ -7,6 +7,11 @@ import styles from "./nys-checkbox.scss?inline";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `<nys-checkbox>` is a form-associated, accessible checkbox component.
+ * Supports validation, labels, error messages, and keyboard interaction.
+ * Can exist independently or inside a `<nys-checkboxgroup>`.
+ */
 export class NysCheckbox extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -34,7 +39,11 @@ export class NysCheckbox extends LitElement {
 
   private _internals: ElementInternals;
 
-  // Lifecycle updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -63,12 +72,11 @@ export class NysCheckbox extends LitElement {
     this._manageLabelClick();
   }
 
-  // This callback is automatically called when the parent form is reset.
-  formResetCallback() {
-    this.checked = false;
-  }
+  /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
 
-  // Form Integration
   private _setValue() {
     if (!this.groupExist) {
       this._internals.setFormValue(this.checked ? this.value : null);
@@ -121,7 +129,16 @@ export class NysCheckbox extends LitElement {
     this._setValidityMessage(message);
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
+  // Called automatically when the parent form is reset
+  formResetCallback() {
+    this.checked = false;
+  }
+
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     // If the radiogroup is required but no radio is selected, return false.
@@ -173,7 +190,11 @@ export class NysCheckbox extends LitElement {
     }
   };
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _emitChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
@@ -200,17 +221,14 @@ export class NysCheckbox extends LitElement {
     this._emitChangeEvent();
   }
 
-  // Handle focus event
   private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
   }
 
-  // Handle blur event
   private _handleBlur() {
     this.dispatchEvent(new Event("nys-blur"));
   }
 
-  // Handle keydown for keyboard accessibility
   private async _handleKeydown(e: KeyboardEvent) {
     if (e.code === "Space") {
       e.preventDefault();

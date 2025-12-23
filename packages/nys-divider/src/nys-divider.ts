@@ -3,6 +3,10 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-divider.scss?inline";
 
+/**
+ * `<nys-divider>` renders a horizontal rule `<hr>` element with optional styling.
+ * Can be inverted for dark backgrounds.
+ */
 export class NysDivider extends LitElement {
   static styles = unsafeCSS(styles);
 

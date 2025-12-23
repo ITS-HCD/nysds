@@ -44,7 +44,10 @@ export class NysPagination extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   private _clampPage(page: number): number {
     if (page < 1) return 1;
     if (page > this.totalPages) return this.totalPages;

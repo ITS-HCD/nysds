@@ -6,7 +6,10 @@ import styles from "./nys-unavfooter.scss?inline";
 export class NysUnavFooter extends LitElement {
   static styles = unsafeCSS(styles);
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   private _getNysLogo() {
     if (!nysLogo) return null;
 

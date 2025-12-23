@@ -52,7 +52,10 @@ export class NysTextarea extends LitElement {
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
-  // Lifecycle updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -136,7 +139,10 @@ export class NysTextarea extends LitElement {
     this._setValidityMessage(message);
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const textarea = this.shadowRoot?.querySelector("textarea");

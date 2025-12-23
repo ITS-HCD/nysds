@@ -28,7 +28,10 @@ export class NysRadiogroup extends LitElement {
 
   private _internals: ElementInternals;
 
-  // Lifecycle Updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -221,7 +224,10 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   // Apply ARIA & initial tabindex to each child radio
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();

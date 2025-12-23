@@ -62,7 +62,10 @@ export class NysModal extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   private _hideBodyScroll() {
     if (this._originalBodyOverflow === null) {
       this._originalBodyOverflow = document.body.style.overflow;
