@@ -121,7 +121,10 @@ export class NysFileinput extends LitElement {
     this._setValue();
   }
 
-  // Form Integration
+    /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
   private _setValue() {
     // for multiple file uploads, we upload File object as an array
     if (this.multiple) {

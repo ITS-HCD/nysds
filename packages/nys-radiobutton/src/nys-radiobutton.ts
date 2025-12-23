@@ -7,6 +7,12 @@ import styles from "./nys-radiobutton.scss?inline";
 
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysRadiobutton` is a single radio button component designed for use in
+ * `nys-radiogroup`. Supports labels, descriptions, inverted styling, tile layout,
+ * and size variations. Handles internal grouping to ensure only one button in a group
+ * is checked at a time and dispatches `nys-change` events on selection.
+ */
 export class NysRadiobutton extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -39,7 +45,6 @@ export class NysRadiobutton extends LitElement {
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
-  // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -85,7 +90,7 @@ export class NysRadiobutton extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
-  
+
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     // If the radiogroup is required but no radio is selected, return false.

@@ -45,7 +45,6 @@ export class NysPagination extends LitElement {
     }
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {

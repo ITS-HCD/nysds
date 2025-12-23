@@ -129,15 +129,15 @@ export class NysCheckbox extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /**
-   * Functions
-   * --------------------------------------------------------------------------
-   */
-
   // Called automatically when the parent form is reset
   formResetCallback() {
     this.checked = false;
   }
+
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
 
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {

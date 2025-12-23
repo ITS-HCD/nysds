@@ -6,6 +6,11 @@ import styles from "./nys-radiobutton.scss?inline";
 
 let radiogroupIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysRadiogroup` manages a group of
+ * `<nys-radiobutton>` elements. It enforces single selection, handles
+ * keyboard navigation, accessibility, and form integration with validation.
+ */
 export class NysRadiogroup extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -32,6 +37,7 @@ export class NysRadiogroup extends LitElement {
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -93,15 +99,11 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
-  // This callback is automatically called when the parent form is reset.
-  formResetCallback() {
-    const radioButtons = this.querySelectorAll("nys-radiobutton");
-    radioButtons.forEach((radioButton) => {
-      (radioButton as NysRadiobutton).formResetUpdate();
-    });
-  }
+  /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
 
-  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.selectedValue);
   }
@@ -224,10 +226,19 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      (radioButton as NysRadiobutton).formResetUpdate();
+    });
+  }
+
   /**
    * Functions
    * --------------------------------------------------------------------------
    */
+
   // Apply ARIA & initial tabindex to each child radio
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
