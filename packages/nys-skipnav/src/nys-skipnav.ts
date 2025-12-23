@@ -3,6 +3,11 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-skipnav.scss?inline";
 
+/**
+ * `NysSkipnav` is an accessible skip navigation link that allows users
+ * to jump directly to the main content of a page, improving keyboard
+ * and screen reader navigation.
+ */
 export class NysSkipnav extends LitElement {
   static styles = unsafeCSS(styles);
 
