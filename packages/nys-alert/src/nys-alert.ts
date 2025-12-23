@@ -199,6 +199,11 @@ export class NysAlert extends LitElement {
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="${this.heading}, alert, Close"
                   @nys-click=${this._closeAlert}
+                  style=${ifDefined(
+                    this.type === "emergency"
+                      ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
+                      : undefined,
+                  )}
                 ></nys-button>`
               : ""}
           </div>`
