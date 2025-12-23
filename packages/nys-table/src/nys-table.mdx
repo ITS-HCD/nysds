@@ -1,0 +1,161 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysTableStories from "./nys-table.stories";
+import "@nysds/nys-icon";
+import "@nysds/nys-badge";
+import "@nysds/nys-button";
+
+<Meta of={NysTableStories} title="Components/Table/Documentation" />
+
+# Table
+
+The **`nys-table`** component is a reusable web component for use in New York State digital products.
+
+If an id is not passed, a unique id will be generated.
+
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=13670-31069"
+      target="_blank"
+      >View in Figma</a>
+  </p>
+</div>
+
+---
+
+<Canvas of={NysTableStories.Basic} />
+
+<Controls />
+
+## Options
+
+### Striped
+
+Adding the `striped` property can improve readability by visually grouping row content with alternating background colors.
+
+<Canvas of={NysTableStories.Striped} />
+
+### Bordered
+
+Adding the `bordered` property can improve readability by adding a line between cells.
+
+<Canvas of={NysTableStories.Bordered} />
+
+### Sortable
+
+Adding the `sortable` property allows for the table to be reordered in ascending or descending order.
+
+<Canvas of={NysTableStories.Sortable} />
+
+### Downloadable
+
+Adding the `download` property adds a button which downloads the data that is being displayed. The `download` property takes in a string that points to the dataset. It does not parse and download the content in the `nys-table`.
+
+<Canvas of={NysTableStories.Downloadable} />
+
+## Usage
+
+### When to use this component
+
+- Displaying tabular data. When you need to display tabular information, such as statistical data.
+- Displaying directories. When listing locations or resources that have similarly structured content for many items.
+
+### When to consider something else
+
+- Non-tabular data. Depending on the type of content, consider using other presentation formats, such as definition lists or hierarchical lists.
+- Dashboards and other layouts. Don't use tables in place of a layout grid. Table content should follow a consistent structure using headers and logical columns and rows.
+- Long-form content. Table cell content should be brief and scannable. If you find yourself drafting multiple bullet points or paragraphs within a single table cell, the content is likely better off under conventional page headers or in an accordion.
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - Use for displaying tabular data.
+      - Use for displaying directories.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - Use for non-tabular data.
+      - Use for dashboards and other layouts.
+      - Use for long-form content.
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-table` component includes the following accessibility-focused features:
+
+- Proper use of `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, and `<td>` elements to ensure semantic structure.
+- Support for keyboard navigation, allowing users to navigate through table rows and cells using the keyboard.
+
+## Slots
+
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>`caption`</td>
+        <td>The caption for the table</td>
+        <td>none</td>
+    </tr>
+    <tr>
+        <td>`thead`</td>
+        <td>The table header row</td>
+        <td>none</td>
+    </tr>
+    <tr>
+        <td>`tbody`</td>
+        <td>The table body rows</td>
+        <td>none</td>
+    </tr>
+    <tr>
+        <td>`tfoot`</td>
+        <td>The table footer row</td>
+        <td>none</td>
+    </tr>
+    <tr>
+        <td>`th`</td>
+        <td>Header cell</td>
+        <td>none</td>
+    </tr>
+    <tr>
+        <td>`tr`</td>
+        <td>Table row</td>
+        <td>none</td>
+    </tr>
+    <tr>
+        <td>`td`</td>
+        <td>Data cell</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+
+</table>
+
+## Events
+
+The `nys-table` component does not emit any custom events.
+
+## Dependencies
+
+This component automatically imports the following dependencies.
+
+- `nys-icon`
+- `nys-button`
