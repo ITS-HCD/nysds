@@ -170,7 +170,7 @@ export class NysGlobalHeader extends LitElement {
           .forEach((li) => li.classList.remove("active"));
 
         // Set active on the clicked link's <li>
-        const li = a.closest("li");
+        const li = ahref.closest("li");
         if (li) li.classList.add("active");
       });
     });
