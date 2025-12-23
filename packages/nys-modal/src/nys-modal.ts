@@ -5,6 +5,11 @@ import styles from "./nys-modal.scss?inline";
 
 let componentIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysModal` is a fully accessible modal dialog component.
+ * It supports headings, subheadings, body content, and action buttons.
+ * Handles focus trapping, keyboard navigation, and body scroll management.
+ */
 export class NysModal extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -23,7 +28,11 @@ export class NysModal extends LitElement {
   @state() private hasBodySlots = false;
   @state() private hasActionSlots = false;
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle Methods
+   * --------------------------------------------------------------------------
+   */
+
   constructor() {
     super();
   }
@@ -66,6 +75,7 @@ export class NysModal extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
   private _hideBodyScroll() {
     if (this._originalBodyOverflow === null) {
       this._originalBodyOverflow = document.body.style.overflow;
