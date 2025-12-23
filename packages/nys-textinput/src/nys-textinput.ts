@@ -6,6 +6,12 @@ import styles from "./nys-textinput.scss?inline";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysTextinput` is a form-enabled text input component that supports
+ * validation, masking (like phone numbers), password visibility toggling,
+ * accessibility, and live error messaging. Integrates with forms via ElementInternals
+ * and emits custom events on user interaction.
+ */
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -122,6 +128,7 @@ export class NysTextinput extends LitElement {
    * Form Integration
    * --------------------------------------------------------------------------
    */
+
   private _setValue() {
     this._internals.setFormValue(this.value);
     this._manageRequire(); // Update validation
@@ -205,6 +212,7 @@ export class NysTextinput extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");

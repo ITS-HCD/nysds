@@ -6,6 +6,11 @@ import styles from "./nys-textarea.scss?inline";
 
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysTextarea` is a form-enabled textarea component that supports
+ * validation, accessibility, and live error messaging. It integrates
+ * with forms via ElementInternals and emits custom events on user interaction.
+ */
 export class NysTextarea extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -56,6 +61,7 @@ export class NysTextarea extends LitElement {
    * Lifecycle methods
    * --------------------------------------------------------------------------
    */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -86,6 +92,7 @@ export class NysTextarea extends LitElement {
    * Form Integration
    * --------------------------------------------------------------------------
    */
+
   private _setValue() {
     this._internals.setFormValue(this.value);
     this._manageRequire();
@@ -146,6 +153,7 @@ export class NysTextarea extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const textarea = this.shadowRoot?.querySelector("textarea");
