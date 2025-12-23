@@ -121,7 +121,7 @@ export class NysFileinput extends LitElement {
     this._setValue();
   }
 
-    /**
+  /**
    * Form Integration
    * --------------------------------------------------------------------------
    */
