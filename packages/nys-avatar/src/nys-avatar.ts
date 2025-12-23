@@ -6,10 +6,18 @@ import styles from "./nys-avatar.scss?inline";
 
 let avatarIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `<nys-avatar>` displays a user avatar which can be an image, initials, or icon.
+ *
+ * Features:
+ * - Supports interactive avatars with button role
+ * - Automatic contrast calculation for initials or icons based on background color
+ * - Lazy loading for images
+ * - Fallback to icon when no image or initials are provided
+ */
 export class NysAvatar extends LitElement {
   static styles = unsafeCSS(styles);
 
-  // Properties
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) image = "";
@@ -21,8 +29,11 @@ export class NysAvatar extends LitElement {
   @property({ type: Boolean, reflect: true }) lazy = false;
   @state() private _slotHasContent = false;
 
-  // Functions
-  // Generate a unique ID if one is not provided
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -37,7 +48,6 @@ export class NysAvatar extends LitElement {
       return;
     }
 
-    // Wait a tick to ensure slot assignment settled
     await Promise.resolve();
 
     const assignedNodes = slot
@@ -51,7 +61,17 @@ export class NysAvatar extends LitElement {
     this._slotHasContent = assignedNodes.length > 0;
   }
 
-  // This function accounts for user set "color" prop and return the appropriate foreground contrast.
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
+  /**
+   * Computes the appropriate foreground color (icon or initials)
+   * based on the avatar's background color for sufficient contrast.
+   *
+   * @returns CSS color string for foreground
+   */
   private getContrastForeground() {
     // Default NYSDS CSS vars for foreground.
     // Contrast must return =>
