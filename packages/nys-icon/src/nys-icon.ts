@@ -4,6 +4,10 @@ import iconLibrary from "./nys-icon.library";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-icon.scss?inline";
 
+/**
+ * `NysIcon` is a versatile web component for rendering SVG icons from a centralized library.
+ * It supports accessibility attributes, size classes, rotation, color, and flipping.
+ */
 export class NysIcon extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -32,6 +36,11 @@ export class NysIcon extends LitElement {
     | "40"
     | "50" = "md";
 
+  /**
+   * Retrieves the SVG element for the given icon name and applies
+   * accessibility, rotation, flip, color, and size classes.
+   * @returns SVGElement | null
+   */
   private getIcon(): SVGElement | null {
     const iconSVG = iconLibrary[this.name];
 
