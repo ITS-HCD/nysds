@@ -146,6 +146,13 @@ export class Nys{{capitalize componentName}} extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage?.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
     this._internals.setValidity(
       message ? { customError: true } : {},
       message,
