@@ -4,6 +4,14 @@ import nysLogo from "./nys-unav.logo";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-unavheader.scss?inline";
 
+/**
+ * `NysUnavHeader` is a custom universal header for NYS websites.
+ * Features include:
+ * - Trust bar with official site info
+ * - NYS logo linking to homepage
+ * - Search bar with dropdown behavior
+ * - Language translation dropdown
+ */
 export class NysUnavHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -30,6 +38,24 @@ export class NysUnavHeader extends LitElement {
     ["Français", "fr"],
     ["اردو", "ur"],
   ];
+
+  /**
+   * Lifecycle Methods
+   * --------------------------------------------------------------------------
+   */
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+  }
+
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
 
   private _getNysLogo() {
     if (!nysLogo) return null;
@@ -115,14 +141,6 @@ export class NysUnavHeader extends LitElement {
 
   private _handleSearch(searchValue: string) {
     window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${searchValue}+inurl:${window.location.hostname}&site=default_collection`;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
   }
 
   render() {

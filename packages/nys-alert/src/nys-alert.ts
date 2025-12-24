@@ -79,7 +79,10 @@ export class NysAlert extends LitElement {
     this._checkSlotContent();
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }

@@ -7,8 +7,12 @@ import styles from "./nys-accordion.scss?inline";
 let accordionIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * The "nys-accordion" is the wrapper that groups individual accordion items within it.
- * The items within is called "nys-accordionitem"
+ * `<nys-accordion>` groups one or more `<nys-accordionitem>` components.
+ *
+ * Responsibilities:
+ * - Manages single-select behavior across accordion items
+ * - Propagates shared visual state such as `bordered`
+ * - Coordinates expand and collapse behavior between items
  */
 export class NysAccordion extends LitElement {
   static styles = unsafeCSS(styles);
@@ -17,7 +21,11 @@ export class NysAccordion extends LitElement {
   @property({ type: Boolean, reflect: true }) singleSelect = false;
   @property({ type: Boolean, reflect: true }) bordered = false;
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   constructor() {
     super();
   }
@@ -37,12 +45,16 @@ export class NysAccordion extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
   private _generateUniqueId() {
     return `nys-accordionitem-${Date.now()}-${accordionIdCounter++}`;
   }
 
-  private _getAccordions() {
+  private _getAccordionItems() {
     const slot = this.shadowRoot?.querySelector("slot");
     const assigned = slot?.assignedElements() || [];
 
@@ -60,7 +72,7 @@ export class NysAccordion extends LitElement {
     // All accordions that don't match the selected accordion's id is unexpanded.
     // If id match, it is up to the individual accordion to handle the expand logic
     if (accordionIsExpanded) {
-      this._getAccordions().forEach((accordion: any) => {
+      this._getAccordionItems().forEach((accordion: any) => {
         if (accordion.id !== accordionId && accordion.expanded) {
           accordion.expanded = false;
         }
@@ -69,7 +81,7 @@ export class NysAccordion extends LitElement {
   }
 
   private _applyBordered() {
-    this._getAccordions().forEach((accordion: any) => {
+    this._getAccordionItems().forEach((accordion: any) => {
       accordion.bordered = this.bordered;
     });
   }

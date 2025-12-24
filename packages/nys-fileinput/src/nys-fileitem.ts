@@ -3,6 +3,10 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileitem.scss?inline";
 
+/**
+ * `<nys-fileitem>` displays an individual file in a file input component.
+ * It shows the file name, upload status, progress bar, and error messages.
+ */
 export class NysFileItem extends LitElement {
   static styles = unsafeCSS(styles);
 

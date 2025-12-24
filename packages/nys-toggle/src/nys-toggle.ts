@@ -6,6 +6,11 @@ import styles from "./nys-toggle.scss?inline";
 
 let toggleIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysToggle` is a form-associated toggle switch component that supports
+ * labels, descriptions, inverted styles, size variants, and custom events.
+ * It integrates with forms via ElementInternals and handles keyboard interaction.
+ */
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -23,7 +28,11 @@ export class NysToggle extends LitElement {
 
   private _internals: ElementInternals;
 
-  // Lifecycle Updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -39,7 +48,11 @@ export class NysToggle extends LitElement {
     }
   }
 
-  // Form Integration
+  /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
+
   // Update the internals whenever `checked` or `value` changes.
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("checked") || changedProperties.has("value")) {
@@ -47,7 +60,11 @@ export class NysToggle extends LitElement {
     }
   }
 
-  //Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _emitChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
@@ -81,9 +98,6 @@ export class NysToggle extends LitElement {
       // Manually toggle the checked state
       this.checked = !this.checked;
 
-      /* Dispatch a custom event for the toggle action:
-       * allows bubbling up so if developers wish to use the toggle state info.
-       */
       this._emitChangeEvent();
     }
   }

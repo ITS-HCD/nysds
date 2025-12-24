@@ -3,6 +3,15 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-backtotop.scss?inline";
 
+/**
+ * `<nys-backtotop>` renders a button that scrolls the page to the top.
+ *
+ * Behavior:
+ * - Automatically appears after scrolling past 1.5 viewport heights
+ *   if page height is at least 4 screens tall.
+ * - Adapts its style for mobile screens (circle button on narrow screens).
+ * - Can be explicitly made visible via `visible` attribute.
+ */
 export class NysBacktotop extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -13,6 +22,11 @@ export class NysBacktotop extends LitElement {
   @state() private forceVisible = false;
 
   private mediaQuery: MediaQueryList;
+
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
 
   constructor() {
     super();
@@ -34,6 +48,11 @@ export class NysBacktotop extends LitElement {
     this.mediaQuery.removeEventListener("change", this._handleResize);
     super.disconnectedCallback();
   }
+
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
 
   private _handleScroll() {
     // If visible was explicitly set by user, don't override it

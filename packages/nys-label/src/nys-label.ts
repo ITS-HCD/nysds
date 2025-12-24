@@ -3,6 +3,11 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-label.scss?inline";
 
+/**
+ * THIS IS A PRIVATE COMPONENT!
+ * `NysLabel` is a component for rendering form labels with optional
+ * descriptions, flags (required/optional), and tooltips.
+ */
 export class NysLabel extends LitElement {
   static styles = unsafeCSS(styles);
 
