@@ -1,5 +1,7 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-datepicker.scss?inline";
 
@@ -34,10 +36,15 @@ export class NysDatepicker extends LitElement {
   @property({ type: String }) placeholder = "";
   @property({ type: String }) min = "";
   @property({ type: String }) max = "";
+  @property({ type: String }) startDate = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   private _internals: ElementInternals;
 
-  /**************** Lifecycle Methods ****************/
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -66,7 +73,11 @@ export class NysDatepicker extends LitElement {
     setTimeout(() => this._onDocumentClick(), 0);
   }
 
-  /***************** Form Integration *****************/
+  /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
+
   /**
    * Form helper methods:
    * - _setValue: set internal value and trigger validation
@@ -109,6 +120,7 @@ export class NysDatepicker extends LitElement {
 
     const message = this.errorMessage || "This field is required.";
     const isInvalid = this.required && !this.value;
+    console.log("THE VALUE", this.value, isInvalid);
 
     if (isInvalid) {
       this._internals.ariaRequired = "true";
@@ -151,6 +163,13 @@ export class NysDatepicker extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage?.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
     this._internals.setValidity(
       message ? { customError: true } : {},
       message,
@@ -170,7 +189,10 @@ export class NysDatepicker extends LitElement {
     this._setValidityMessage("This field is required.");
   }
 
-  /******************** Functions ********************/
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
 
   /**
    * Replaces the default wc-datepicker month navigation buttons
@@ -226,7 +248,21 @@ export class NysDatepicker extends LitElement {
     return new Date(year, month - 1, day);
   }
 
-  /****************** Event Handlers ******************/
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
+  // Handle blur event
+  private _handleBlur() {
+    // if (!this._hasUserInteracted) {
+    //   this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
+    // }
+
+    this._validate();
+    this.dispatchEvent(new Event("nys-blur"));
+  }
+
   private _onDocumentClick() {
     const onClick = (event: MouseEvent) => {
       const path = event.composedPath();
@@ -301,89 +337,100 @@ export class NysDatepicker extends LitElement {
     const input = event.target as HTMLInputElement;
     if (!input) return;
 
-    // Parse the input value (format: YYYY-MM-DD)
-    const dateValue = input.value
-      ? this._parseLocalDate(input.value)
-      : undefined;
+    const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
+    const match = dateRegex.exec(input.value);
+    if (!match) return;
 
-    // Update component value and form internals
-    this._setValue(dateValue);
+    const year = Number(match[1]);
+
+    // Due to how autocomplete happens for typing in the 1st digit of the datepicker YYYY (i.e. 0002)
+    // We reject any partial / nonsense years (like 0002, 0190, etc)
+    if (year < 1000) return;
+
+    this._setValue(this._parseLocalDate(input.value));
   }
 
   render() {
     return html` <div class="nys-datepicker--container">
-      <nys-label
-        for=${this.id + "--native"}
-        label=${this.label}
-        description=${this.description}
-        flag=${this.required ? "required" : this.optional ? "optional" : ""}
-        tooltip=${this.tooltip}
-        ?inverted=${this.inverted}
-      ></nys-label>
-      <div
-        class="nys-datepicker--input-container ${this.disabled
-          ? "disabled"
-          : ""}"
-      >
-        <input
-          id="nys-datepicker--input"
-          type="date"
-          max="9999-12-31"
-          placeholder="mm/dd/yyyy"
-          .value=${this.value || ""}
-          ?disabled=${this.disabled}
-          @click=${this._openDatepicker}
-          @input=${this._handleInputChange}
-        />
-        <button
-          id="calendar-button"
-          @click=${this._toggleDatepicker}
-          tabindex=${this.disabled ? "-1" : "0"}
-          ?disabled=${this.disabled}
+        <nys-label
+          for=${this.id + "--native"}
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          tooltip=${this.tooltip}
+          ?inverted=${this.inverted}
+        ></nys-label>
+        <div
+          class="nys-datepicker--input-container ${this.disabled
+            ? "disabled"
+            : ""}"
         >
-          <nys-icon name="calendar_month" size="24"></nys-icon>
-        </button>
-      </div>
+          <input
+            id="nys-datepicker--input"
+            type="date"
+            max="9999-12-31"
+            ?required=${this.required}
+            .value=${this.value || ""}
+            .min=${this.min || ""}
+            .max=${this.max || ""}
+            ?disabled=${this.disabled}
+            @click=${this._openDatepicker}
+            @input=${this._handleInputChange}
+            @blur=${this._handleBlur}
+          />
+          <button
+            id="calendar-button"
+            @click=${this._toggleDatepicker}
+            tabindex=${this.disabled ? "-1" : "0"}
+            ?disabled=${this.disabled}
+          >
+            <nys-icon name="calendar_month" size="24"></nys-icon>
+          </button>
+        </div>
 
-      <div class="wc-datepicker--container">
-        <wc-datepicker
-          class="${this._calendarOpen ? "active" : ""}"
-          .value=${this.value ? this._parseLocalDate(this.value) : undefined}
-          ?disabled=${this.disabled}
-        >
-          ${this.showTodayButton || this.showClearButton
-            ? html`
-                <div class="wc-datepicker--button-container">
-                  ${this.showTodayButton
-                    ? html`
-                        <nys-button
-                          label="Today"
-                          size="sm"
-                          fullWidth
-                          variant="outline"
-                          ?disabled=${this.disabled}
-                          @click=${this._handleTodayClick}
-                        ></nys-button>
-                      `
-                    : null}
-                  ${this.showClearButton
-                    ? html`
-                        <nys-button
-                          label="Clear"
-                          size="sm"
-                          fullWidth
-                          variant="outline"
-                          ?disabled=${this.disabled}
-                          @click=${this._handleClearClick}
-                        ></nys-button>
-                      `
-                    : null}
-                </div>
-              `
-            : null}
-        </wc-datepicker>
+        <div class="wc-datepicker--container">
+          <wc-datepicker
+            .value=${this.value ? this._parseLocalDate(this.value) : undefined}
+            ?disabled=${this.disabled}
+            start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
+          >
+            ${this.showTodayButton || this.showClearButton
+              ? html`
+                  <div class="wc-datepicker--button-container">
+                    ${this.showTodayButton
+                      ? html`
+                          <nys-button
+                            label="Today"
+                            size="sm"
+                            fullWidth
+                            variant="outline"
+                            ?disabled=${this.disabled}
+                            @click=${this._handleTodayClick}
+                          ></nys-button>
+                        `
+                      : null}
+                    ${this.showClearButton
+                      ? html`
+                          <nys-button
+                            label="Clear"
+                            size="sm"
+                            fullWidth
+                            variant="outline"
+                            ?disabled=${this.disabled}
+                            @click=${this._handleClearClick}
+                          ></nys-button>
+                        `
+                      : null}
+                  </div>
+                `
+              : null}
+          </wc-datepicker>
+        </div>
       </div>
-    </div>`;
+      <nys-errormessage
+        ?showError=${this.showError}
+        errorMessage=${this._internals.validationMessage || this.errorMessage}
+      ></nys-errormessage>`;
   }
 }
 

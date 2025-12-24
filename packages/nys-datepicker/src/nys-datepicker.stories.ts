@@ -24,6 +24,7 @@ interface NysDatepickerArgs {
   placeholder: string;
   min: string;
   max: string;
+  startDate: string;
   showTodayButton: boolean;
   showClearButton: boolean;
 }
@@ -48,6 +49,7 @@ const meta: Meta<NysDatepickerArgs> = {
     placeholder: { control: "text" },
     min: { control: "text" },
     max: { control: "text" },
+    startDate: { control: "text" },
     showTodayButton: { control: "boolean" },
     showClearButton: { control: "boolean" },
   },
@@ -81,6 +83,7 @@ export const Basic: Story = {
     placeholder: "",
     min: "",
     max: "",
+    startDate: "",
     showTodayButton: true,
     showClearButton: true,
   },
