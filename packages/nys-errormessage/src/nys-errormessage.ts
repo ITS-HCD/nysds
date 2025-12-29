@@ -3,6 +3,11 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-errormessage.scss?inline";
 
+/**
+ * THIS IS A PRIVATE COMPONENT!
+ * `<nys-errormessage>` displays an error message for form elements.
+ * Can optionally show a divider and supports native form validation messages.
+ */
 export class NysErrorMessage extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -11,7 +16,11 @@ export class NysErrorMessage extends LitElement {
   @property({ type: Boolean, reflect: true }) showDivider = false;
   private _internals: ElementInternals;
 
-  // Lifecycle Updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -21,7 +30,11 @@ export class NysErrorMessage extends LitElement {
 
   render() {
     return html`${this.showError
-      ? html`<div class="nys-errormessage" ?showDivider=${this.showDivider}>
+      ? html`<div
+          class="nys-errormessage"
+          ?showDivider=${this.showDivider}
+          role="alert"
+        >
           <nys-icon name="error" size="2xl"></nys-icon>
           ${this._internals.validationMessage || this.errorMessage}
         </div>`
