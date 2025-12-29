@@ -1,39 +1,24 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-textinput.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-textinput.scss?inline";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
 export class NysTextinput extends LitElement {
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  private static readonly VALID_TYPES = [
-    "email",
-    "number",
-    "password",
-    "search",
-    "tel",
-    "text",
-    "url",
-  ] as const;
-
-  // Use `typeof` to dynamically infer the allowed types
-  private _type: (typeof NysTextinput.VALID_TYPES)[number] = "text";
-
-  // Getter and setter for the `type` property
-  @property({ reflect: true })
-  get type(): (typeof NysTextinput.VALID_TYPES)[number] {
-    return this._type;
-  }
-
-  set type(value: string) {
-    this._type = NysTextinput.VALID_TYPES.includes(
-      value as (typeof NysTextinput.VALID_TYPES)[number],
-    )
-      ? (value as (typeof NysTextinput.VALID_TYPES)[number])
-      : "text";
-  }
+  @property({ type: String, reflect: true }) type:
+    | "email"
+    | "number"
+    | "password"
+    | "search"
+    | "tel"
+    | "text"
+    | "url" = "text";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
   @property({ type: String }) placeholder = "";
@@ -42,13 +27,15 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) readonly = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
-  @property({ type: String }) _tooltip = "";
+  @property({ type: String }) tooltip = "";
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) pattern = "";
   @property({ type: Number }) maxlength: number | null = null;
-  private static readonly VALID_WIDTHS = ["sm", "md", "lg", "full"] as const;
-  @property({ reflect: true })
-  width: (typeof NysTextinput.VALID_WIDTHS)[number] = "full";
+  @property({ type: String, reflect: true }) width:
+    | "sm"
+    | "md"
+    | "lg"
+    | "full" = "full";
   @property({ type: Number }) step: number | null = null;
   @property({ type: Number }) min: number | null = null;
   @property({ type: Number }) max: number | null = null;
@@ -56,8 +43,6 @@ export class NysTextinput extends LitElement {
   @property({ type: Boolean, reflect: true }) showError = false;
   @property({ type: String }) errorMessage = "";
   @state() private showPassword = false;
-
-  static styles = styles;
 
   private _originalErrorMessage = "";
   private _hasUserInteracted = false; // need this flag for "eager mode"
@@ -67,7 +52,7 @@ export class NysTextinput extends LitElement {
     tel: "(___) ___-____",
   };
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -98,13 +83,6 @@ export class NysTextinput extends LitElement {
 
   // Ensure the "width" property is valid after updates
   async updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has("width")) {
-      await Promise.resolve();
-      this.width = NysTextinput.VALID_WIDTHS.includes(this.width)
-        ? this.width
-        : "full";
-    }
-
     if (changedProperties.has("disabled")) {
       this._validateButtonSlot("startButton");
       this._validateButtonSlot("endButton");
@@ -127,6 +105,14 @@ export class NysTextinput extends LitElement {
         }
       }
     }
+    if (
+      changedProperties.has("readonly") ||
+      changedProperties.has("required")
+    ) {
+      const input = this.shadowRoot?.querySelector("input");
+
+      if (input) input.required = this.required && !this.readonly;
+    }
   }
 
   // This callback is automatically called when the parent form is reset.
@@ -134,7 +120,7 @@ export class NysTextinput extends LitElement {
     this.value = "";
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.value);
     this._manageRequire(); // Update validation
@@ -209,7 +195,7 @@ export class NysTextinput extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
@@ -296,7 +282,7 @@ export class NysTextinput extends LitElement {
     return result;
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -393,11 +379,15 @@ export class NysTextinput extends LitElement {
     return html`
       <div class="nys-textinput">
         <nys-label
-          for=${this.id}
+          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
-          flag=${this.required ? "required" : this.optional ? "optional" : ""}
-          _tooltip=${this._tooltip}
+          flag=${this.required && !this.readonly
+            ? "required"
+            : this.optional
+              ? "optional"
+              : ""}
+          tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
@@ -417,9 +407,9 @@ export class NysTextinput extends LitElement {
                   : "password"
                 : this.type}
               name=${this.name}
-              id=${this.id}
+              id=${this.id + "--native"}
               ?disabled=${this.disabled}
-              ?required=${this.required}
+              ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"

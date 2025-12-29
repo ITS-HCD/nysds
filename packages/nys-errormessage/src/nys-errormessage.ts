@@ -1,16 +1,17 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-errormessage.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-errormessage.scss?inline";
 
 export class NysErrorMessage extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: Boolean }) showError = false;
   @property({ type: String }) errorMessage = "";
   @property({ type: Boolean, reflect: true }) showDivider = false;
   private _internals: ElementInternals;
 
-  static styles = styles;
-
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {

@@ -53,6 +53,25 @@ it("toggles language list when 'nys-click' event dispatched on translate button"
   expect(langList?.classList.contains("show")).to.be.false;
 });
 
+it("toggles search dropdown when 'nys-click' event dispatched on search button", async () => {
+  const el = await fixture<NysUnavHeader>(
+    html`<nys-unavheader></nys-unavheader>`,
+  );
+  el.searchDropdownVisible = true;
+  await el.updateComplete;
+  const searchDrop = el.shadowRoot?.querySelector(
+    ".nys-unavheader__searchdropdown",
+  );
+  expect(searchDrop).to.exist;
+  expect(searchDrop?.classList.contains("show")).to.be.true;
+  expect(searchDrop?.classList.contains("hide")).to.be.false;
+
+  el.searchDropdownVisible = false;
+  await el.updateComplete;
+  expect(searchDrop?.classList.contains("hide")).to.be.true;
+  expect(searchDrop?.classList.contains("show")).to.be.false;
+});
+
 it("passes the a11y audit", async () => {
   const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
   await expect(el).shadowDom.to.be.accessible();

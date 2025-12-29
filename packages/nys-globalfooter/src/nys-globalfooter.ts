@@ -1,16 +1,17 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-globalfooter.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-globalfooter.scss?inline";
 
 export class NysGlobalFooter extends LitElement {
-  static styles = styles;
+  static styles = unsafeCSS(styles);
 
-  /********************** Properties **********************/
+  // Properties
   @property({ type: String }) agencyName = "";
   @property({ type: String }) homepageLink = "";
   @state() private slotHasContent = true;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
 
   firstUpdated() {
     // Check for slot content after rendering
@@ -19,7 +20,7 @@ export class NysGlobalFooter extends LitElement {
     this._handleSlotChange(); // Initial check
   }
 
-  /******************** Functions ********************/
+  // Functions
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private async _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");

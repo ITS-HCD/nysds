@@ -91,6 +91,7 @@ describe("nys-button", () => {
 
     const button = el.shadowRoot?.querySelector("button")!;
     expect(button.disabled).to.be.true;
+    expect(button.getAttribute("tabindex")).to.equal("-1");
   });
 
   it("should render as <a> when href is provided", async () => {
@@ -102,19 +103,6 @@ describe("nys-button", () => {
     expect(ahref).to.exist;
     expect(ahref.getAttribute("href")).to.equal("https://example.com");
     expect(ahref.textContent).to.include("Link");
-  });
-
-  it("should apply correct size or fallback", async () => {
-    const el = await fixture<NysButton>(
-      html`<nys-button size="lg" label="Large Button"></nys-button>`,
-    );
-
-    expect(el.size).to.equal("lg");
-
-    // Checking fallback size in case of invalid input
-    el.size = "invalid";
-    await el.updateComplete;
-    expect(el.size).to.equal("md");
   });
 
   it("should render circle button with icon", async () => {
@@ -141,7 +129,12 @@ describe("nys-button", () => {
       "nys-icon[name='arrow-right']",
     );
     expect(prefixIcon).to.exist;
+    expect(prefixIcon!.getAttribute("name")).to.equal("arrow-left");
+    expect(prefixIcon!.getAttribute("size")).to.equal("16");
+
     expect(suffixIcon).to.exist;
+    expect(suffixIcon!.getAttribute("name")).to.equal("arrow-right");
+    expect(suffixIcon!.getAttribute("size")).to.equal("16");
   });
 
   it(" should allow for the icon to be slotted in", async () => {
@@ -180,6 +173,42 @@ describe("nys-button", () => {
     button.disabled = true;
     button.focus();
     expect(document.activeElement).to.not.equal(button);
+  });
+
+  it("dispatches nys-click exactly once per interaction", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Once"></nys-button>`,
+    );
+
+    let count = 0;
+    el.addEventListener("nys-click", () => count++);
+
+    const button = el.shadowRoot!.querySelector("button")!;
+    button.click();
+    await el.updateComplete;
+
+    expect(count).to.equal(1);
+  });
+
+  it("does not dispatch nys-click when disabled via keyboard", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Disabled" disabled></nys-button>`,
+    );
+
+    let fired = false;
+    el.addEventListener("nys-click", () => (fired = true));
+
+    const button = el.shadowRoot!.querySelector("button")!;
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+    expect(fired).to.be.false;
   });
 
   it("should activate on Enter for link variants", async () => {
@@ -251,7 +280,7 @@ describe("nys-button", () => {
   });
 });
 
-/*** CORE tests ***/
+// CORE tests
 /*
  * ENSURE FORM INTEGRATION (TYPE SUBMIT/RESET):
  * - Default button type is "button"
@@ -284,7 +313,7 @@ describe("<nys-button> form integration", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * ENSURE KEYBOARD SUPPORT:
  * - Buttons should be focusable and operable using the keyboard (e.g. Enter, Space)

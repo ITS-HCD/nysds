@@ -27,7 +27,7 @@ const meta: Meta<NysGlobalFooterArgs> = {
 export default meta;
 type Story = StoryObj<NysGlobalFooterArgs>;
 
-/******************************** STORIES ********************************/
+// Stories
 // Define stories without using args
 
 // Story: Basic

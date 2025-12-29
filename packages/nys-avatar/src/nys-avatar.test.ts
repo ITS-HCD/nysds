@@ -69,19 +69,67 @@ describe("nys-avatar", () => {
     expect(icon).to.not.exist;
   });
 
+  it("computes a light foreground color when color prop is dark", async () => {
+    const el = await fixture<NysAvatar>(html`
+      <nys-avatar initials="NY" color="#154973"></nys-avatar>
+    `);
+
+    const initials = el.shadowRoot?.querySelector(
+      ".nys-avatar__initials",
+    ) as HTMLElement;
+
+    const computedColor = getComputedStyle(initials).color;
+
+    expect(computedColor).to.equal("rgb(255, 255, 255)");
+  });
+
+  it("computes a dark foreground color when color prop is light", async () => {
+    const el = await fixture<NysAvatar>(html`
+      <nys-avatar initials="NY" color="#cddde9"></nys-avatar>
+    `);
+
+    const initials = el.shadowRoot?.querySelector(
+      ".nys-avatar__initials",
+    ) as HTMLElement;
+
+    const computedColor = getComputedStyle(initials).color;
+
+    expect(computedColor).to.equal("rgb(0, 0, 0)");
+  });
+
+  it("updates internal slot state when slot content is added or removed", async () => {
+    const el = await fixture<NysAvatar>(html` <nys-avatar></nys-avatar> `);
+
+    // Initially, default icon should be rendered
+    let icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.exist;
+
+    // Add slotted content
+    const slottedEl = document.createElement("span");
+    slottedEl.textContent = "X";
+    el.appendChild(slottedEl);
+
+    // Wait for slotchange handling
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r));
+
+    // Default icon should be removed when slot has content
+    icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.not.exist;
+
+    // Remove slotted content
+    el.removeChild(slottedEl);
+
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r));
+
+    // Default icon should return
+    icon = el.shadowRoot?.querySelector("nys-icon");
+    expect(icon).to.exist;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
     await expect(el).shadowDom.to.be.accessible();
   });
 });
-
-/*** Accessibility tests ***/
-/*
- * ENSURE ALT TEXT:
- * - For initial avatars, include the person's full name as descriptive alt text if the person's full name is not shown next to the avatar
- * - For photo avatars, include the person's full name as descriptive alt text if the person's full name is not shown next to the avatar
- * An ariaLabel property to provide accessible text for screen readers (or default fallback text "avatar")
- */
-
-/* ACCESSIBILITY INSIGHT TOOL (Feedback) */
-// "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds"

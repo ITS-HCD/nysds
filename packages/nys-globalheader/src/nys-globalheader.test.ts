@@ -94,7 +94,7 @@ describe("nys-globalheader", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 describe("nys-globalheader", () => {
   it("should handle mobile responsiveness", async () => {
     const el = await fixture<NysGlobalHeader>(html`

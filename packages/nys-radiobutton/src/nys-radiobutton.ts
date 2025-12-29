@@ -1,39 +1,26 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import styles from "./nys-radiobutton.styles"; // Assuming styles are in a separate file
 import "./nys-radiogroup";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-radiobutton.scss?inline";
 
 let radiobuttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysRadiobutton extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: Boolean, reflect: true }) checked = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) id = "";
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
   @property({ type: String, reflect: true }) form: string | null = null;
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-  private _size: (typeof NysRadiobutton.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysRadiobutton.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_SIZES. If not, default to "md".
-    this._size = NysRadiobutton.VALID_SIZES.includes(
-      value as (typeof NysRadiobutton.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysRadiobutton.VALID_SIZES)[number])
-      : "md";
-  }
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
   @property({ type: Boolean, reflect: true }) tile = false;
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
@@ -48,9 +35,7 @@ export class NysRadiobutton extends LitElement {
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
-  static styles = styles;
-
-  /********************** Lifecycle updates **********************/
+  // Lifecycle updates
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
@@ -93,7 +78,7 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
-  /********************** Functions **********************/
+  // Functions
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     // If the radiogroup is required but no radio is selected, return false.
@@ -106,7 +91,7 @@ export class NysRadiobutton extends LitElement {
     return input ? input.checkValidity() : true;
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   private _emitChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
@@ -170,7 +155,6 @@ export class NysRadiobutton extends LitElement {
   render() {
     return html`
       <input
-        id="${this.id}"
         type="radio"
         name="${ifDefined(this.name ? this.name : undefined)}"
         .checked=${this.checked}
@@ -182,23 +166,21 @@ export class NysRadiobutton extends LitElement {
         hidden
         aria-hidden="true"
       />
-      <label
+      <div
         class="nys-radiobutton"
-        for="${this.id}"
         @click="${this._callInputHandling}"
         aria-label=${this.label}
       >
         <span class="nys-radiobutton__radio"></span>
         ${this.label &&
         html`<nys-label
-          for=${this.id}
           label=${this.label}
           description=${ifDefined(this.description || undefined)}
           ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label> `}
-      </label>
+      </div>
     `;
   }
 }

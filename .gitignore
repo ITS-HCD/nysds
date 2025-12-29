@@ -28,9 +28,7 @@ _site/
 
 # Ignore VSCode directories
 *.code-workspace
-./vscode
 .vscode-test
-.vscode/
 
 # Ignore logs
 logs

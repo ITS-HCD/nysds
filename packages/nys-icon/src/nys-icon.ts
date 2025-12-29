@@ -1,55 +1,36 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import iconLibrary from "./nys-icon.library";
-import styles from "./nys-icon.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-icon.scss?inline";
 
 export class NysIcon extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) rotate = "0";
   @property({ type: String }) flip = "";
   @property({ type: String }) color = "";
-
-  static styles = styles;
-
-  private static readonly VALID_TYPES = [
-    "xs",
-    "sm",
-    "md",
-    "lg",
-    "xl",
-    "2xl",
-    "3xl",
-    "4xl",
-    "5xl",
-    "12",
-    "14",
-    "16",
-    "18",
-    "20",
-    "24",
-    "32",
-    "40",
-    "50",
-  ] as const;
-
-  // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
-  private _size: (typeof NysIcon.VALID_TYPES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysIcon.VALID_TYPES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_TYPES. If not, default to "md".
-    this._size = NysIcon.VALID_TYPES.includes(
-      value as (typeof NysIcon.VALID_TYPES)[number],
-    )
-      ? (value as (typeof NysIcon.VALID_TYPES)[number])
-      : "md";
-  }
+  @property({ type: String }) size:
+    | "xs"
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "12"
+    | "14"
+    | "16"
+    | "18"
+    | "20"
+    | "24"
+    | "32"
+    | "40"
+    | "50" = "md";
 
   private getIcon(): SVGElement | null {
     const iconSVG = iconLibrary[this.name];

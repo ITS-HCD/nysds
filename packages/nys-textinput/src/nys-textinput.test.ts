@@ -1,4 +1,4 @@
-import { expect, html, fixture } from "@open-wc/testing";
+import { expect, html, fixture, oneEvent } from "@open-wc/testing";
 import { NysTextinput } from "./nys-textinput";
 import "../dist/nys-textinput.js";
 import "@nysds/nys-label";
@@ -42,6 +42,17 @@ describe("nys-textinput", () => {
 
     const label = el.shadowRoot?.querySelector("nys-label");
     expect(label?.getAttribute("flag")).to.equal("required");
+  });
+
+  it("ignores required if readonly is also set", async () => {
+    const el = await fixture(
+      html`<nys-textinput required readonly></nys-textinput>`,
+    );
+
+    const textinput = el.shadowRoot?.querySelector("input");
+
+    expect(textinput?.hasAttribute("readonly")).to.be.true;
+    expect(textinput?.hasAttribute("required")).to.be.false;
   });
 
   it("displays a toggle password icon that changes visibility when property type is password", async () => {
@@ -207,9 +218,35 @@ describe("nys-textinput", () => {
 
     expect(input.value).to.equal("(123) 456");
   });
+
+  it("should dispatch focus and blur events", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput label="FocusMe"></nys-textinput>`,
+    );
+    const textinput = el.shadowRoot?.querySelector("input")!;
+
+    // Focus event
+    const focusEventPromise = oneEvent(el, "focus");
+    textinput.focus();
+    const focusEvent = await focusEventPromise;
+    expect(focusEvent).to.exist;
+    expect(textinput.matches(":focus-visible")).to.be.true;
+
+    // Blur event
+    const blurEventPromise = oneEvent(el, "blur");
+    textinput.blur();
+    const blurEvent = await blurEventPromise;
+    expect(blurEvent).to.exist;
+    expect(textinput.matches(":focus-visible")).to.be.false;
+
+    // Should not focus when disabled
+    textinput.disabled = true;
+    textinput.focus();
+    expect(document.activeElement).to.not.equal(textinput);
+  });
 });
 
-/*** Test Plan for TDD ***/
+// Test Plan for TDD
 /*
  * NOTE TO SELF: Need further input from Mo on the idea of building out components
  * and best practice to develop tests as we go (from his experience working with TDD).
@@ -224,7 +261,7 @@ describe("nys-textinput", () => {
 // Check error message display if invalid prop is passed ✅
 // Passes a11y audit ✅
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the <textinput> element is correctly associated with a label:
  * - Verify that the label is properly read by screen readers when the <textarea> is focused.

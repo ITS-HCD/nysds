@@ -19,7 +19,7 @@ figma.connect("<FIGMA_FILEINPUT>", {
       disabled: figma.boolean("Disabled"),
       multiple: figma.boolean("Multiple"),
       dropzone: figma.boolean("Dropzone"),
-      accept: figma.enum("Accepted File Types/Accept", {
+      accept: figma.enum("Accepted File Types", {
         none: "",
         Image: "image/*",
         CSV: ".csv",
@@ -41,8 +41,8 @@ figma.connect("<FIGMA_FILEINPUT>", {
       description="${props.label.description}"
       ?required=${props.label.required}
       ?optional=${props.label.optional}
-      ${props.input.multiple}
-      accept="${props.input.accept}"
+      ?multiple=${props.input.multiple}
+      accept="(REPLACE_WITH_NATIVE_ACCEPTED_FILE_TYPES)"
       ?disabled=${props.input.disabled}
       ?dropzone=${props.input.dropzone}
       ?showError=${props.input.showError}

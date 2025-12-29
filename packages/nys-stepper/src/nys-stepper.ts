@@ -1,17 +1,19 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-stepper.styles";
 import "./nys-step";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-stepper.scss?inline";
 
 export class NysStepper extends LitElement {
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) counterText = "initial";
   @property({ type: Boolean, reflect: true })
   isCompactExpanded = false;
 
-  static styles = styles;
   private _stepsNumbered = false;
 
   constructor() {
@@ -241,7 +243,7 @@ export class NysStepper extends LitElement {
 
   render() {
     return html`
-      <div class="nys-stepper" id=${this.id} name=${this.name}>
+      <div class="nys-stepper" name=${this.name}>
         <div class="nys-stepper__header">
           <slot name="actions" @slotchange=${this._validateButtonSlot}></slot>
           <div class="nys-stepper__headertext">

@@ -1,13 +1,15 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import styles from "./nys-toggle.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-toggle.scss?inline";
 
 let toggleIdCounter = 0; // Counter for generating unique IDs
 
 export class NysToggle extends LitElement {
-  /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
   @property({ type: String }) label = "";
@@ -17,30 +19,11 @@ export class NysToggle extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean }) noIcon = false;
   @property({ type: Boolean, reflect: true }) inverted = false;
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
-  // Private property to store the internal `size` value, restricted to the valid types. Default is "md".
-  private _size: (typeof NysToggle.VALID_SIZES)[number] = "md";
-
-  // Getter and setter for the `size` property.
-  @property({ reflect: true })
-  get size(): (typeof NysToggle.VALID_SIZES)[number] {
-    return this._size;
-  }
-
-  set size(value: string) {
-    // Check if the provided value is in VALID_SIZES. If not, default to "md".
-    this._size = NysToggle.VALID_SIZES.includes(
-      value as (typeof NysToggle.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysToggle.VALID_SIZES)[number])
-      : "md";
-  }
-
-  static styles = styles;
   private _internals: ElementInternals;
 
-  /********************** Lifecycle updates **********************/
+  // Lifecycle Updates
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -56,7 +39,7 @@ export class NysToggle extends LitElement {
     }
   }
 
-  /********************** Form Integration **********************/
+  // Form Integration
   // Update the internals whenever `checked` or `value` changes.
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("checked") || changedProperties.has("value")) {
@@ -64,7 +47,7 @@ export class NysToggle extends LitElement {
     }
   }
 
-  /********************** Event Handlers **********************/
+  //Event Handlers
   private _emitChangeEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-change", {
@@ -111,7 +94,6 @@ export class NysToggle extends LitElement {
         <div class="nys-toggle__content">
           <div class="nys-toggle__toggle">
             <input
-              id="${this.id}"
               type="checkbox"
               name="${ifDefined(this.name ? this.name : undefined)}"
               .value=${this.value}

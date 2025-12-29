@@ -1,0 +1,31 @@
+/*
+========================================
+height
+----------------------------------------
+usage:
+  .height-[key]
+----------------------------------------
+output:
+  height: [value];
+----------------------------------------
+example:
+  .height-6 {
+    height: 3rem;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+@use "uswds-core/src/styles/functions" as *;
+@use "../functions/" as *;
+
+$u-height: (
+  height: (
+    base: "height",
+    modifiers: null,
+    values: map-collect(get-palettes($height-palettes), $height-manual-values),
+    settings: $height-settings-complete,
+    property: "height",
+    type: "utility",
+  ),
+);

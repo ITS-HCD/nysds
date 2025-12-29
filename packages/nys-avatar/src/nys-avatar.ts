@@ -1,15 +1,16 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-avatar.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-avatar.scss?inline";
 
 let avatarIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAvatar extends LitElement {
-  static styles = styles;
+  static styles = unsafeCSS(styles);
 
-  /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  // Properties
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String }) image = "";
   @property({ type: String }) initials = "";
@@ -20,7 +21,7 @@ export class NysAvatar extends LitElement {
   @property({ type: Boolean, reflect: true }) lazy = false;
   @state() private _slotHasContent = false;
 
-  /******************** Functions ********************/
+  // Functions
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
@@ -52,11 +53,10 @@ export class NysAvatar extends LitElement {
 
   // This function accounts for user set "color" prop and return the appropriate foreground contrast.
   private getContrastForeground() {
-    /** Default NYSDS CSS vars for foreground.
-     * Contrast must return =>
-     * IF icon: "--nys-color-ink-reverse" or "--nys-color-ink"
-     * If initials: "--nys-color-text-reverse" or "--nys-color-text"
-     */
+    // Default NYSDS CSS vars for foreground.
+    // Contrast must return =>
+    // IF icon: "--nys-color-ink-reverse" or "--nys-color-ink"
+    // If initials: "--nys-color-text-reverse" or "--nys-color-text"
     const fgIconDark = "var(--nys-color-ink, #000)";
     const fgIconLight = "var(--nys-color-ink-reverse, #fff)";
     const fgInitialDark = "var(--nys-color-text, #000)";
@@ -92,7 +92,7 @@ export class NysAvatar extends LitElement {
 
   render() {
     return html`
-      <label class="nys-avatar" id=${this.id}>
+      <div class="nys-avatar">
         <div class="nys-avatar__content">
           <div
             part="nys-avatar"
@@ -142,7 +142,7 @@ export class NysAvatar extends LitElement {
                   </div>`}
           </div>
         </div>
-      </label>
+      </div>
     `;
   }
 }

@@ -1,47 +1,23 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-button.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-button.scss?inline";
 
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
 export class NysButton extends LitElement {
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  // size
-  private static readonly VALID_SIZES = ["sm", "md", "lg"] as const;
-  private _size: (typeof NysButton.VALID_SIZES)[number] = "md";
-  @property({ reflect: true })
-  get size(): (typeof NysButton.VALID_SIZES)[number] {
-    return this._size;
-  }
-  set size(value: string) {
-    this._size = NysButton.VALID_SIZES.includes(
-      value as (typeof NysButton.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysButton.VALID_SIZES)[number])
-      : "md";
-  }
+  @property({ type: String, reflect: true }) size: "sm" | "md" | "lg" = "md";
   @property({ type: Boolean, reflect: true }) fullWidth = false;
-  // variant
-  private static readonly VALID_VARIANTS = [
-    "filled",
-    "outline",
-    "ghost",
-    "text",
-  ] as const;
-  private _variant: (typeof NysButton.VALID_VARIANTS)[number] = "filled";
-  @property({ reflect: true })
-  get variant(): (typeof NysButton.VALID_VARIANTS)[number] {
-    return this._variant;
-  }
-  set variant(value: string) {
-    this._variant = NysButton.VALID_VARIANTS.includes(
-      value as (typeof NysButton.VALID_VARIANTS)[number],
-    )
-      ? (value as (typeof NysButton.VALID_VARIANTS)[number])
-      : "filled";
-  }
+  @property({ type: String, reflect: true }) variant:
+    | "filled"
+    | "outline"
+    | "ghost"
+    | "text" = "filled";
   @property({ type: Boolean, reflect: true }) inverted = false; //used on dark text
   @property({ type: String }) label = "";
   @property({ type: String }) ariaLabel = "";
@@ -54,43 +30,19 @@ export class NysButton extends LitElement {
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String }) value = "";
   @property({ type: String }) ariaDescription = "";
-  // type
-  private static readonly VALID_TYPES = ["submit", "reset", "button"] as const;
-  private _type: (typeof NysButton.VALID_TYPES)[number] = "button";
-  @property({ reflect: true })
-  get type(): (typeof NysButton.VALID_TYPES)[number] {
-    return this._type;
-  }
-  set type(value: string) {
-    this._type = NysButton.VALID_TYPES.includes(
-      value as (typeof NysButton.VALID_TYPES)[number],
-    )
-      ? (value as (typeof NysButton.VALID_TYPES)[number])
-      : "button";
-  }
+  @property({ type: String, reflect: true }) type:
+    | "submit"
+    | "reset"
+    | "button" = "button";
   @property({ attribute: false }) onClick: ((event: Event) => void) | null =
     null;
   @property({ type: String }) href = "";
-  // target
-  private static readonly VALID_TARGETS = [
-    "_self",
-    "_blank",
-    "_parent",
-    "_top",
-    "framename",
-  ] as const;
-  private _target: (typeof NysButton.VALID_TARGETS)[number] = "_self";
-  @property({ reflect: true })
-  get target(): (typeof NysButton.VALID_TARGETS)[number] {
-    return this._target;
-  }
-  set target(value: string) {
-    this._target = NysButton.VALID_TARGETS.includes(
-      value as (typeof NysButton.VALID_TARGETS)[number],
-    )
-      ? (value as (typeof NysButton.VALID_TARGETS)[number])
-      : "_self";
-  }
+  @property({ type: String, reflect: true }) target:
+    | "_self"
+    | "_blank"
+    | "_parent"
+    | "_top"
+    | "framename" = "_self";
 
   public async getButtonElement(): Promise<HTMLElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
@@ -109,10 +61,9 @@ export class NysButton extends LitElement {
     return null;
   }
 
-  static styles = styles;
   private _internals: ElementInternals;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -129,7 +80,7 @@ export class NysButton extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _generateUniqueId() {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
@@ -156,7 +107,7 @@ export class NysButton extends LitElement {
     }
   }
 
-  /******************** Event Handlers ********************/
+  // Event Handlers
   // Handle focus event
   private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
@@ -219,7 +170,7 @@ export class NysButton extends LitElement {
     }
   }
 
-  /******************** Public Methods ********************/
+  // Public Methods
   public focus(options?: FocusOptions) {
     const innerEl = this.renderRoot.querySelector(
       this.href ? "a.nys-button" : "button.nys-button",
@@ -240,13 +191,17 @@ export class NysButton extends LitElement {
             <div class="nys-button__linkwrapper">
               <a
                 class="nys-button"
-                id=${ifDefined(this.id)}
                 name=${ifDefined(this.name ? this.name : undefined)}
                 ?disabled=${this.disabled}
                 aria-disabled="${this.disabled ? "true" : "false"}"
                 value=${ifDefined(this.value ? this.value : undefined)}
                 href=${this.href}
                 target=${this.target}
+                @click=${this._handleClick}
+                @focus="${this._handleFocus}"
+                @blur="${this._handleBlur}"
+                @keydown="${this._handleKeydown}"
+                tabindex="${this.disabled ? -1 : 0}"
                 aria-label=${ifDefined(
                   this.ariaLabel ||
                     this.label ||
@@ -254,12 +209,6 @@ export class NysButton extends LitElement {
                     "button",
                 )}
                 aria-description=${ifDefined(this.ariaDescription || undefined)}
-                @click=${this._handleClick}
-                @focus="${this._handleFocus}"
-                @blur="${this._handleBlur}"
-                @keydown="${this._handleKeydown}"
-                role="button"
-                tabindex="${this.disabled ? -1 : 0}"
               >
                 ${this.prefixIcon && this.variant !== "text"
                   ? html`<slot name="prefix-icon">
@@ -292,13 +241,17 @@ export class NysButton extends LitElement {
         : html`
             <button
               class="nys-button"
-              id=${ifDefined(this.id)}
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
               aria-controls=${ifDefined(this.ariaControls || undefined)}
+              @click=${this._handleClick}
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+              @keydown="${this._handleKeydown}"
+              tabindex="${this.disabled ? -1 : 0}"
               aria-label=${ifDefined(
                 this.ariaLabel ||
                   this.label ||
@@ -308,10 +261,6 @@ export class NysButton extends LitElement {
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
-              @click=${this._handleClick}
-              @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
-              @keydown="${this._handleKeydown}"
               role="button"
             >
               ${this.prefixIcon && this.variant !== "text"

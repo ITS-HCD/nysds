@@ -1,8 +1,11 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-label.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-label.scss?inline";
 
 export class NysLabel extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) for = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
@@ -16,8 +19,6 @@ export class NysLabel extends LitElement {
     this._tooltip = value;
   }
   private _tooltip: string = "";
-
-  static styles = styles;
 
   render() {
     return html`
@@ -34,15 +35,18 @@ export class NysLabel extends LitElement {
           >
           ${this._tooltip
             ? html`<nys-tooltip
-                text="${this._tooltip}"
-                position="top"
-                focusable
-                ?inverted=${this.inverted}
-              >
-                <div class="nys-label__tooltip-icon">
-                  <nys-icon name="info" size="4xl"></nys-icon>
-                </div>
-              </nys-tooltip>`
+                  text="${this._tooltip}"
+                  position="top"
+                  focusable
+                  ?inverted=${this.inverted}
+                  for="tooltip-icon-${this.for}"
+                >
+                </nys-tooltip>
+                <nys-icon
+                  id="tooltip-icon-${this.for}"
+                  name="info"
+                  size="3xl"
+                ></nys-icon> `
             : ""}
         </div>
         <label for=${this.for} class="nys-label__description">

@@ -1,0 +1,46 @@
+/*
+========================================
+LIST RESET
+----------------------------------------
+usage:
+  .add-list-reset
+----------------------------------------
+output:
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-left: 0;
+  list-style: none;
+----------------------------------------
+example:
+  .add-list-reset {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+----------------------------------------
+*/
+
+@use "uswds-core/src/styles/settings" as *;
+
+$add-list-reset: (
+  add-list-reset: (
+    base: "add-list",
+    modifiers: null,
+    values: (
+      reset: (
+        slug: "reset",
+        isReadable: true,
+        content: "none",
+        extend: (
+          "margin-bottom": "0",
+          "margin-top": "0",
+          "padding-left": "0",
+        ),
+      ),
+    ),
+    settings: $add-list-reset-settings-complete,
+    property: "list-style",
+    type: "object",
+  ),
+);

@@ -51,6 +51,29 @@ describe("nys-alert", () => {
     expect(alertContainer).to.not.exist;
   });
 
+  it("auto-dismisses after duration", async () => {
+    const el = await fixture<NysAlert>(html`
+      <nys-alert
+        type="info"
+        heading="Duration 1sec"
+        duration="1000"
+        text="Auto-dismiss after 1 second"
+      ></nys-alert>
+    `);
+
+    // Initially, the alert container should exist
+    let alertContainer = el.shadowRoot?.querySelector(".nys-alert__container");
+    expect(alertContainer).to.exist;
+
+    // Wait for duration to pass
+    await new Promise((resolve) => setTimeout(resolve, 1100));
+    await el.updateComplete;
+
+    // Alert container should be gone
+    alertContainer = el.shadowRoot?.querySelector(".nys-alert__container");
+    expect(alertContainer).to.not.exist;
+  });
+
   it("should have correct role attribute based on type", async () => {
     const el = await fixture<NysAlert>(
       html`<nys-alert type="danger"></nys-alert>`,
@@ -123,7 +146,7 @@ describe("nys-alert", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the role attribute is set properly for the alert based on its type:
  * - "danger" and "emergency" should have role="alert"

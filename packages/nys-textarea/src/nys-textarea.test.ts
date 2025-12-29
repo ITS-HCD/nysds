@@ -43,7 +43,7 @@ describe("nys-textarea", () => {
     );
 
     const label = el.shadowRoot?.querySelector("nys-label");
-    expect(label?.getAttribute("for")).to.equal("quote");
+    expect(label?.getAttribute("for")).to.equal("quote--native");
 
     const textarea = el.shadowRoot?.querySelector<HTMLTextAreaElement>(
       ".nys-textarea__textarea",
@@ -76,6 +76,17 @@ describe("nys-textarea", () => {
     const textarea = el.shadowRoot?.querySelector("textarea");
 
     expect(textarea?.hasAttribute("readonly")).to.be.true;
+  });
+
+  it("ignores required if readonly is also set", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea required readonly></nys-textarea>`,
+    );
+
+    const textarea = el.shadowRoot?.querySelector("textarea");
+
+    expect(textarea?.hasAttribute("readonly")).to.be.true;
+    expect(textarea?.hasAttribute("required")).to.be.false;
   });
 
   it("sets the correct number of rows on the textarea", async () => {
@@ -142,7 +153,7 @@ describe("nys-textarea", () => {
   });
 });
 
-/*** Accessibility tests ***/
+// Accessibility Tests
 /*
  * Ensure that the <textarea> element is correctly associated with a label:
  * - Verify that the label is properly read by screen readers when the <textarea> is focused.

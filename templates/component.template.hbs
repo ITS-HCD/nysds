@@ -1,11 +1,15 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-{{componentName}}.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-{{componentName}}.scss?inline";
+
 
 let componentIdCounter = 0; // Counter for generating unique IDs
 
 export class Nys{{capitalize componentName}} extends LitElement {
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   {{#if formRelated}}
   @property({ type: String }) value = "";
@@ -17,12 +21,11 @@ export class Nys{{capitalize componentName}} extends LitElement {
   @property({ type: String, reflect: true }) form: string | null = null;
   {{/if}}
 
-  static styles = styles;
 
   {{#if formRelated}}
   private _internals: ElementInternals;
 
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -45,7 +48,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
     this._setValue(this.value);
   }
   {{else}}
-  /**************** Lifecycle Methods ****************/
+  // Lifecycle Methods
   constructor() {
     super();
   }
@@ -60,7 +63,7 @@ export class Nys{{capitalize componentName}} extends LitElement {
   {{/if}}
 
   {{#if formRelated}}
-  /***************** Form Integration *****************/
+  // Form Integration
   /**
   * Placeholder for form-related helper methods
   * Refer to existing form-related components for full integration. Only a subset of functions is included here!
@@ -152,10 +155,10 @@ export class Nys{{capitalize componentName}} extends LitElement {
   }
   {{/if}}
 
-  /******************** Functions ********************/
+  // Functions
   // Placeholder for generic functions (component-specific)
 
-  /****************** Event Handlers ******************/
+  // Event Handlers
   // Placeholder for event handlers if needed
 
   render() {

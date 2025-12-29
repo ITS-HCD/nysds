@@ -1,12 +1,13 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-backtotop.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-backtotop.scss?inline";
 
 export class NysBacktotop extends LitElement {
+  static styles = unsafeCSS(styles);
+
   @property({ type: String }) position = "right";
   @property({ type: Boolean, reflect: true }) visible = false;
-
-  static styles = styles;
 
   @state() private isMobile = false;
   @state() private forceVisible = false;

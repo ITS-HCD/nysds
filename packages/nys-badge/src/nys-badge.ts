@@ -1,43 +1,19 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import styles from "./nys-badge.styles";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-badge.scss?inline";
 
 export class NysBadge extends LitElement {
-  @property({ type: String }) id = "";
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  //size prop
-  private static readonly VALID_SIZES = ["sm", "md"] as const;
-  private _size: (typeof NysBadge.VALID_SIZES)[number] = "md";
-  @property({ reflect: true })
-  get size(): (typeof NysBadge.VALID_SIZES)[number] {
-    return this._size;
-  }
-  set size(value: string) {
-    this._size = NysBadge.VALID_SIZES.includes(
-      value as (typeof NysBadge.VALID_SIZES)[number],
-    )
-      ? (value as (typeof NysBadge.VALID_SIZES)[number])
-      : "md";
-  }
-  // intent prop
-  private static readonly VALID_INTENT = [
-    "neutral",
-    "error",
-    "success",
-    "warning",
-  ] as const;
-  private _intent: (typeof NysBadge.VALID_INTENT)[number] = "neutral";
-  @property({ reflect: true })
-  get intent(): (typeof NysBadge.VALID_INTENT)[number] {
-    return this._intent;
-  }
-  set intent(value: string) {
-    this._intent = NysBadge.VALID_INTENT.includes(
-      value as (typeof NysBadge.VALID_INTENT)[number],
-    )
-      ? (value as (typeof NysBadge.VALID_INTENT)[number])
-      : "neutral";
-  }
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
+  @property({ type: String, reflect: true }) intent:
+    | "neutral"
+    | "error"
+    | "success"
+    | "warning" = "neutral";
   @property({ type: String }) prefixLabel = "";
   @property({ type: String }) label = "";
 
@@ -72,8 +48,6 @@ export class NysBadge extends LitElement {
       this._suffixIcon = value;
     }
   }
-
-  static styles = styles;
 
   connectedCallback() {
     super.connectedCallback();

@@ -1,15 +1,16 @@
-import { LitElement, html } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
-import styles from "./nys-alert.styles";
 import { ifDefined } from "lit/directives/if-defined.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-alert.scss?inline";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 
 export class NysAlert extends LitElement {
-  static styles = styles;
+  static styles = unsafeCSS(styles);
 
-  /********************** Properties **********************/
-  @property({ type: String }) id = "";
+  // Properties
+  @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) heading = "";
   @property({ type: String }) icon = "";
   @property({ type: Boolean, reflect: true }) dismissible = false;
@@ -19,33 +20,16 @@ export class NysAlert extends LitElement {
   @property({ type: String }) secondaryAction = "";
   @property({ type: String }) primaryLabel = "Learn more";
   @property({ type: String }) secondaryLabel = "Dismiss";
+  @property({ type: String, reflect: true }) type:
+    | "base"
+    | "info"
+    | "success"
+    | "warning"
+    | "danger"
+    | "emergency" = "base";
 
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;
-
-  // --- Valid Alert Types --- //
-  private static readonly VALID_TYPES = [
-    "base",
-    "info",
-    "success",
-    "warning",
-    "danger",
-    "emergency",
-  ] as const;
-  private _type: (typeof NysAlert.VALID_TYPES)[number] = "base";
-
-  @property({ reflect: true })
-  get type() {
-    return this._type;
-  }
-
-  set type(value: string) {
-    this._type = NysAlert.VALID_TYPES.includes(
-      value as (typeof NysAlert.VALID_TYPES)[number],
-    )
-      ? (value as (typeof NysAlert.VALID_TYPES)[number])
-      : "base";
-  }
 
   // Aria attributes based on the type
   get ariaAttributes(): {
@@ -65,8 +49,7 @@ export class NysAlert extends LitElement {
     return { role: ariaRole, ariaLabel };
   }
 
-  /**************** Lifecycle Methods ****************/
-
+  // Lifecycle Methods
   private _timeoutId: any = null;
 
   // For alerts that have durations, we set a timer to close them.
@@ -96,7 +79,7 @@ export class NysAlert extends LitElement {
     this._checkSlotContent();
   }
 
-  /******************** Functions ********************/
+  // Functions
   private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }
@@ -163,7 +146,6 @@ export class NysAlert extends LitElement {
     return html`
       ${!this._alertClosed
         ? html` <div
-            id=${this.id}
             class="nys-alert__container ${this._slotHasContent ||
             this.text?.trim().length > 0
               ? ""
