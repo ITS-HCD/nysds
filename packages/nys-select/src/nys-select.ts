@@ -7,6 +7,12 @@ import styles from "./nys-select.scss?inline";
 
 let selectIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysSelect` is a custom select/dropdown component built for Lit.
+ * Supports slotted <nys-option> elements, native <option> and <optgroup>,
+ * integrates with forms via ElementInternals, and manages validation
+ * and error messaging.
+ */
 export class NysSelect extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -34,7 +40,11 @@ export class NysSelect extends LitElement {
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
-  // Lifecycle updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -70,11 +80,6 @@ export class NysSelect extends LitElement {
 
     // This ensures our element always participates in the form
     this._setValue();
-  }
-
-  // This callback is automatically called when the parent form is reset.
-  formResetCallback() {
-    this.value = "";
   }
 
   private _handleSlotChange() {
@@ -157,7 +162,11 @@ export class NysSelect extends LitElement {
     }
   }
 
-  // Form Integration
+  /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
+
   private _setValue() {
     // // set value to the option that is selected by default
     // const select = this.shadowRoot?.querySelector("select");
@@ -220,7 +229,15 @@ export class NysSelect extends LitElement {
     this._setValidityMessage(message);
   }
 
-  // Functions
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
+  }
+
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const select = this.shadowRoot?.querySelector("select");
@@ -257,7 +274,11 @@ export class NysSelect extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // Handle change event to bubble up selected value
   private _handleChange(e: Event) {
     const select = e.target as HTMLSelectElement;

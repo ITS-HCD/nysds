@@ -5,6 +5,11 @@ import styles from "./nys-tooltip.scss?inline";
 
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysTooltip` is a custom tooltip component for NYS design system components.
+ * It supports dynamic positioning, user-preferred placement, keyboard interaction,
+ * screen-reader accessibility, and viewport overflow handling.
+ */
 export class NysTooltip extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -45,7 +50,11 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle Methods
+   * --------------------------------------------------------------------------
+   */
+
   constructor() {
     super();
   }
@@ -117,7 +126,11 @@ export class NysTooltip extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // When toggling tooltip, check if user has set position to give it preference it space allows. Otherwise dynamically position tooltip.
   private _showTooltip = () => {
     this._active = true;
@@ -224,7 +237,11 @@ export class NysTooltip extends LitElement {
     }
   };
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
   private _getReferenceElement() {
     const targetId = this.for;
     if (!targetId) return null;

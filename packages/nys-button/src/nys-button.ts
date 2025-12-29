@@ -6,6 +6,11 @@ import styles from "./nys-button.scss?inline";
 
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `<nys-button>` is a button component that supports multiple
+ * styles (variants), sizes, icons, circle mode, and can act as a native
+ * button or a link. It is form-associated and supports keyboard accessibility.
+ */
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -63,7 +68,11 @@ export class NysButton extends LitElement {
 
   private _internals: ElementInternals;
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -80,7 +89,11 @@ export class NysButton extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
   private _generateUniqueId() {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
@@ -107,13 +120,15 @@ export class NysButton extends LitElement {
     }
   }
 
-  // Event Handlers
-  // Handle focus event
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
   }
 
-  // Handle blur event
   private _handleBlur() {
     const button = this.shadowRoot?.querySelector(".nys-button");
     button?.classList.remove("active-focus");
@@ -129,7 +144,6 @@ export class NysButton extends LitElement {
     this.dispatchEvent(new Event("nys-click"));
   }
 
-  // Handle keydown for keyboard accessibility
   private _handleKeydown(e: KeyboardEvent) {
     if (
       e.code === "Space" ||

@@ -3,6 +3,11 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-badge.scss?inline";
 
+/**
+ * `<nys-badge>` displays a badge element with optional prefix/suffix icons
+ * and labels. The badge can convey an intent (neutral, error, success, warning)
+ * which affects default icons and styling.
+ */
 export class NysBadge extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -49,6 +54,11 @@ export class NysBadge extends LitElement {
     }
   }
 
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -63,6 +73,11 @@ export class NysBadge extends LitElement {
     }
   }
 
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
   // Map of default icons by intent
   private static readonly DEFAULT_ICONS: Record<string, string> = {
     neutral: "info",
@@ -71,6 +86,11 @@ export class NysBadge extends LitElement {
     warning: "warning",
   };
 
+  /**
+   * Resolves which icon should be rendered.
+   * @param icon The icon property value (string or boolean)
+   * @returns Icon name or null if no icon should be rendered
+   */
   private resolveIcon(icon: string | boolean): string | null {
     if (icon === true) {
       return NysBadge.DEFAULT_ICONS[this.intent] ?? "info";

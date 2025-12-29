@@ -109,7 +109,6 @@ export class NysAlert extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
-
   private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }

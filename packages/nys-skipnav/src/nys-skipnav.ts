@@ -3,12 +3,16 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-skipnav.scss?inline";
 
+/**
+ * `NysSkipnav` is an accessible skip navigation link that allows users
+ * to jump directly to the main content of a page, improving keyboard
+ * and screen reader navigation.
+ */
 export class NysSkipnav extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) href = "";
-  // @property({ type: Boolean }) demoVisible = false; // For demo purposes only
 
   constructor() {
     super();
@@ -22,7 +26,11 @@ export class NysSkipnav extends LitElement {
     }
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _handleFocus() {
     const linkElement = this.shadowRoot?.querySelector(".nys-skipnav__link");
 
