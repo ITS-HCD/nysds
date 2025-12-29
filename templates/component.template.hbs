@@ -167,7 +167,26 @@ export class Nys{{capitalize componentName}} extends LitElement {
 
     const innerInput = this.shadowRoot?.querySelector("input");
     if (innerInput) {
-      innerInput.focus();
+
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          innerInput.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        innerInput.focus();
+      }
     }
     this._setValidityMessage("This field is required.");
   }
