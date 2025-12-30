@@ -153,15 +153,7 @@ export class NysDatepicker extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    this._manageRequire(); // check required
-
-    // input.checkValidity();
-
-    // Check the wc-datepicker's internal value (which is a Date) rather than this.value (which is a string)
-    // if (this._internals.validity.valid) {
-    //   this.showError = false;
-    //   return;
-    // }
+    this._manageRequire();
 
     const message = input.validationMessage;
     this._setValidityMessage(message);
@@ -351,6 +343,8 @@ export class NysDatepicker extends LitElement {
       const dateValue = this._parseLocalDate(dateString);
       this._setValue(dateValue);
       this._validate();
+
+      datepicker.classList.remove("active");
     });
   }
 
