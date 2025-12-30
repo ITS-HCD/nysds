@@ -11,6 +11,7 @@ interface NysDatepickerArgs {
   id: string;
   name: string;
   value?: Date | string | undefined;
+  width: "md" | "lg" | "full";
   disabled: boolean;
   required: boolean;
   optional: boolean;
@@ -33,6 +34,10 @@ const meta: Meta<NysDatepickerArgs> = {
     id: { control: "text" },
     name: { control: "text" },
     value: { control: "text" },
+    width: {
+      control: "select",
+      options: ["md", "lg", "full"],
+    },
     disabled: { control: "boolean" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
@@ -65,6 +70,7 @@ export const Basic: Story = {
     id: "datepicker1",
     name: "datepicker1",
     value: undefined,
+    width: "md",
     disabled: false,
     required: false,
     optional: false,
@@ -84,6 +90,7 @@ export const Basic: Story = {
         id=${args.id}
         name=${args.name}
         .value=${args.value}
+        width=${args.width}
         ?disabled=${args.disabled}
         ?required=${args.required}
         ?optional=${args.optional}
@@ -114,6 +121,16 @@ export const Basic: Story = {
       },
     },
   },
+};
+
+export const WidthVariants: Story = {
+  render: () => html`
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <nys-datepicker label="Medium width" width="md"></nys-datepicker>
+      <nys-datepicker label="Large width" width="lg"></nys-datepicker>
+      <nys-datepicker label="Full width" width="full"></nys-datepicker>
+    </div>
+  `,
 };
 
 export const WithCustomStartDate: Story = {

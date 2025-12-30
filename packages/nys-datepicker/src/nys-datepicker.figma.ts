@@ -2,7 +2,13 @@ import figma, { html } from "@figma/code-connect/html";
 
 figma.connect("<FIGMA_DATEPICKER>", {
   props: {
-    // TODO: Add props here
+    width: figma.enum("Width", {
+      md: "md",
+      lg: "lg",
+      full: "full",
+    }),
   },
-  example: () => html` <nys-datepicker></nys-datepicker> `,
+  example: (props) => html`
+    <nys-datepicker width=${props.width}></nys-datepicker>
+  `,
 });

@@ -19,6 +19,7 @@ export class NysDatepicker extends LitElement {
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
+  @property({ type: String, reflect: true }) width: "md" | "lg" | "full" = "md";
   @property({ type: Boolean }) hideTodayButton = false;
   @property({ type: Boolean }) hideClearButton = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -482,6 +483,7 @@ export class NysDatepicker extends LitElement {
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
             @keydown=${this._handleInputKeydown}
+            readonly
           />
           <button
             id="calendar-button"
