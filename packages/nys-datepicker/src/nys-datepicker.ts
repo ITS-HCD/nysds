@@ -193,6 +193,7 @@ export class NysDatepicker extends LitElement {
   // Handles native 'invalid' events
   private _handleInvalid(event: Event) {
     event.preventDefault();
+    this._hasUserInteracted = true; // Start aggressive mode due to form submission
     this._validate();
 
     const innerInput = this.shadowRoot?.querySelector("input");
@@ -217,7 +218,6 @@ export class NysDatepicker extends LitElement {
         innerInput.focus();
       }
     }
-    // this._setValidityMessage("This field is required.");
   }
 
   /**
@@ -284,7 +284,15 @@ export class NysDatepicker extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  // Handle blur event
+  private _handleInputKeydown(event: KeyboardEvent) {
+    if (this.disabled) return;
+
+    if (event.key == " " || event.code == "Space") {
+      event.preventDefault();
+      this._openDatepicker();
+    }
+  }
+
   private _handleBlur() {
     if (!this._hasUserInteracted) {
       this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
@@ -353,7 +361,6 @@ export class NysDatepicker extends LitElement {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
-    // const iso = today.toISOString().split("T")[0];
     this._setValue(today);
   }
 
@@ -365,6 +372,10 @@ export class NysDatepicker extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (input) {
       input.value = "";
+    }
+
+    if (this._hasUserInteracted) {
+      this._validate();
     }
   }
 
@@ -437,6 +448,7 @@ export class NysDatepicker extends LitElement {
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
+            @keydown=${this._handleInputKeydown}
           />
           <button
             id="calendar-button"
