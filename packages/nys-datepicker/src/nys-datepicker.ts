@@ -40,7 +40,7 @@ export class NysDatepicker extends LitElement {
     type: Object,
     converter: {
       fromAttribute: (value: string | null) =>
-        value ? new Date(value) : undefined,
+        value ? NysDatepicker.prototype._parseLocalDate(value) : undefined,
       toAttribute: (value: Date | string | undefined) => {
         if (!value) return "";
         if (typeof value === "string") return value; // accept ISO string directly
@@ -488,6 +488,7 @@ export class NysDatepicker extends LitElement {
             @click=${this._toggleDatepicker}
             tabindex=${this.disabled ? "-1" : "0"}
             ?disabled=${this.disabled}
+            aria-label="Open calendar"
           >
             <nys-icon name="calendar_month" size="24"></nys-icon>
           </button>

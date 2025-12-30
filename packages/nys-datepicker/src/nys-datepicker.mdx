@@ -35,6 +35,14 @@ If an id is not passed, a unique id will be generated.
 ### Value and form output
 The value prop can be set as a Date object or an ISO date string (`YYYY-MM-DD`). \
 Outwards, the input displays it as (`mm/dd/yyyy`). Internally, the component stores and submits the value as a string in ISO format.
+
+⚠️ Date object warning:
+Using `new Date("YYYY-MM-DD")` directly for `value` can produce an unexpected day due to timezone conversion (UTC vs local).
+Ensure your Date object represents the correct local date before passing it to `value`.
+
+`<nys-datepicker>` safely handles ISO date strings (`"YYYY-MM-DD"`), which will display and submit correctly.
+Reference: [StackOverflow explanation](https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off)
+
 Example:
 ```js
 // Using a Date object
