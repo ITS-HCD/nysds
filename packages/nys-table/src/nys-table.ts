@@ -121,6 +121,7 @@ export class NysTable extends LitElement {
     if (this.sortable) {
       if (!caption) {
         caption = document.createElement("caption");
+        caption.style.padding = "0";
       }
 
       const srOnly = document.createElement("span");
