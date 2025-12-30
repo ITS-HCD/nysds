@@ -483,7 +483,6 @@ export class NysDatepicker extends LitElement {
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
             @keydown=${this._handleInputKeydown}
-            readonly
           />
           <button
             id="calendar-button"
