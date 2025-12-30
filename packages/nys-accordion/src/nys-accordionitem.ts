@@ -5,6 +5,15 @@ import styles from "./nys-accordion.scss?inline";
 
 let accordionItemIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `<nys-accordionitem>` represents a single collapsible item within a `<nys-accordion>`.
+ *
+ * Features:
+ * - Can expand/collapse its content panel
+ * - Notifies parent `<nys-accordion>` of toggle events
+ * - Supports keyboard navigation (Enter / Space)
+ * - Can be styled as `bordered` when applied by the parent
+ */
 export class NysAccordionItem extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -13,7 +22,11 @@ export class NysAccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true }) expanded = false;
   @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   constructor() {
     super();
   }
@@ -31,9 +44,9 @@ export class NysAccordionItem extends LitElement {
     const slot = this.shadowRoot?.querySelector("slot");
 
     /**
-     * When the accordion starts expanded but the slot is empty,
-     * _updateHeight runs too early and calculates height as 0.
-     * Listening for slotchange ensures we recalc after the slot’s
+     * When the accordion starts expanded, but the slot is empty
+     * the _updateHeight() runs too early and calculates height as 0.
+     * Listening for slotchange ensures we recalculate after the slot’s
      * content is rendered so the final height is correct.
      */
     if (this.expanded && slot) {
@@ -49,7 +62,11 @@ export class NysAccordionItem extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
   private _generateUniqueId() {
     return `nys-accordionitem-${Date.now()}-${accordionItemIdCounter++}`;
   }

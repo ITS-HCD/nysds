@@ -63,7 +63,7 @@
   .nys-alert__container {
     display: flex;
     background-color: var(--_nys-alert-background-color);
-    border-left: var(--_nys-alert-border-width) solid
+    border-inline-start: var(--_nys-alert-border-width) solid
       var(--_nys-alert-border-color);
     border-radius: var(--_nys-alert-border-radius);
     color: var(--_nys-alert-color);
