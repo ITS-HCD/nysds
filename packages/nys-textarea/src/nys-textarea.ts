@@ -273,7 +273,6 @@ export class NysTextarea extends LitElement {
           @select="${this._handleSelect}"
           @selectionchange="${this._handleSelectionChange}"
         ></textarea>
-
       </label>
     `;
   }

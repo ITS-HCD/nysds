@@ -20,8 +20,8 @@ export class NysDatepicker extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) value = "";
-  @property({ type: Boolean }) showTodayButton = false;
-  @property({ type: Boolean }) showClearButton = false;
+  @property({ type: Boolean }) hideTodayButton = false;
+  @property({ type: Boolean }) hideClearButton = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
   @property({ type: Boolean, reflect: true }) optional = false;
@@ -38,6 +38,8 @@ export class NysDatepicker extends LitElement {
   @property({ type: String }) max = "";
   @property({ type: String }) startDate = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
   /**
@@ -60,6 +62,11 @@ export class NysDatepicker extends LitElement {
     }
 
     this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("invalid", this._handleInvalid);
   }
 
   firstUpdated() {
@@ -91,6 +98,7 @@ export class NysDatepicker extends LitElement {
     if (!value) {
       this.value = "";
       this._internals.setFormValue("");
+      this._manageRequire();
       return;
     }
 
@@ -104,6 +112,11 @@ export class NysDatepicker extends LitElement {
 
     this.value = yyyyMmDd;
     this._internals.setFormValue(yyyyMmDd);
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.value = yyyyMmDd;
+    }
 
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     if (datepicker) {
@@ -120,7 +133,6 @@ export class NysDatepicker extends LitElement {
 
     const message = this.errorMessage || "This field is required.";
     const isInvalid = this.required && !this.value;
-    console.log("THE VALUE", this.value, isInvalid);
 
     if (isInvalid) {
       this._internals.ariaRequired = "true";
@@ -141,8 +153,17 @@ export class NysDatepicker extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
-    const message = input.validationMessage;
     this._manageRequire(); // check required
+
+    // input.checkValidity();
+
+    // Check the wc-datepicker's internal value (which is a Date) rather than this.value (which is a string)
+    // if (this._internals.validity.valid) {
+    //   this.showError = false;
+    //   return;
+    // }
+
+    const message = input.validationMessage;
     this._setValidityMessage(message);
   }
 
@@ -184,9 +205,27 @@ export class NysDatepicker extends LitElement {
 
     const innerInput = this.shadowRoot?.querySelector("input");
     if (innerInput) {
-      innerInput.focus();
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          innerInput.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        innerInput.focus();
+      }
     }
-    this._setValidityMessage("This field is required.");
+    // this._setValidityMessage("This field is required.");
   }
 
   /**
@@ -255,14 +294,15 @@ export class NysDatepicker extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    // if (!this._hasUserInteracted) {
-    //   this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
-    // }
+    if (!this._hasUserInteracted) {
+      this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
+    }
 
     this._validate();
     this.dispatchEvent(new Event("nys-blur"));
   }
 
+  // For when users click outside of the datepicker, we remove the calendar popup
   private _onDocumentClick() {
     const onClick = (event: MouseEvent) => {
       const path = event.composedPath();
@@ -310,6 +350,7 @@ export class NysDatepicker extends LitElement {
       const dateString = (event as CustomEvent).detail; // format: YYYY-MM-DD
       const dateValue = this._parseLocalDate(dateString);
       this._setValue(dateValue);
+      this._validate();
     });
   }
 
@@ -337,17 +378,38 @@ export class NysDatepicker extends LitElement {
     const input = event.target as HTMLInputElement;
     if (!input) return;
 
+    const date = this._getValidDateFromInput(input.value);
+    if (!date) return;
+
+    this._setValue(this._parseLocalDate(input.value));
+
+    // Much like nys-textinput, we validate with eager mode for user's input
+    if (this._hasUserInteracted) {
+      this._validate();
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("nys-input", {
+        detail: { id: this.id, value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
+  private _getValidDateFromInput(value: string): Date | null {
     const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
-    const match = dateRegex.exec(input.value);
-    if (!match) return;
+    const match = dateRegex.exec(value);
+    if (!match) return null;
 
     const year = Number(match[1]);
 
-    // Due to how autocomplete happens for typing in the 1st digit of the datepicker YYYY (i.e. 0002)
-    // We reject any partial / nonsense years (like 0002, 0190, etc)
-    if (year < 1000) return;
+    // Reject partial / nonsense years caused by autocomplete (like 0002, 0190, etc).
+    // Reasoning: without this check, autocomplete will occur for the 1st digit of the datepicker YYYY
+    // (i.e. user starts typing 20.. but autocompletes as YYYY = 0002)
+    if (year < 1000) return null;
 
-    this._setValue(this._parseLocalDate(input.value));
+    return this._parseLocalDate(value);
   }
 
   render() {
@@ -370,10 +432,14 @@ export class NysDatepicker extends LitElement {
             type="date"
             max="9999-12-31"
             ?required=${this.required}
-            .value=${this.value || ""}
+            .value=${this.value}
             .min=${this.min || ""}
             .max=${this.max || ""}
             ?disabled=${this.disabled}
+            aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
+            aria-required=${ifDefined(this.required ? "true" : undefined)}
+            aria-label=${ifDefined(this.label || undefined)}
+            aria-description=${ifDefined(this.description || undefined)}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
@@ -394,10 +460,10 @@ export class NysDatepicker extends LitElement {
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
           >
-            ${this.showTodayButton || this.showClearButton
+            ${!this.hideTodayButton || !this.hideClearButton
               ? html`
                   <div class="wc-datepicker--button-container">
-                    ${this.showTodayButton
+                    ${!this.hideTodayButton
                       ? html`
                           <nys-button
                             label="Today"
@@ -409,7 +475,7 @@ export class NysDatepicker extends LitElement {
                           ></nys-button>
                         `
                       : null}
-                    ${this.showClearButton
+                    ${!this.hideClearButton
                       ? html`
                           <nys-button
                             label="Clear"

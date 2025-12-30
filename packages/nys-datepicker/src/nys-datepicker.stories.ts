@@ -25,8 +25,8 @@ interface NysDatepickerArgs {
   min: string;
   max: string;
   startDate: string;
-  showTodayButton: boolean;
-  showClearButton: boolean;
+  hideTodayButton: boolean;
+  hideClearButton: boolean;
 }
 
 const meta: Meta<NysDatepickerArgs> = {
@@ -50,8 +50,8 @@ const meta: Meta<NysDatepickerArgs> = {
     min: { control: "text" },
     max: { control: "text" },
     startDate: { control: "text" },
-    showTodayButton: { control: "boolean" },
-    showClearButton: { control: "boolean" },
+    hideTodayButton: { control: "boolean" },
+    hideClearButton: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -84,8 +84,8 @@ export const Basic: Story = {
     min: "",
     max: "",
     startDate: "",
-    showTodayButton: true,
-    showClearButton: true,
+    hideTodayButton: false,
+    hideClearButton: false,
   },
   render: (args) => html`
     <style>
@@ -111,8 +111,8 @@ export const Basic: Story = {
         placeholder=${args.placeholder}
         min=${args.min}
         max=${args.max}
-        ?showTodayButton=${args.showTodayButton}
-        ?showClearButton=${args.showClearButton}
+        ?hideTodayButton=${args.hideTodayButton}
+        ?hideClearButton=${args.hideClearButton}
       ></nys-datepicker>
     </div>
   `,
