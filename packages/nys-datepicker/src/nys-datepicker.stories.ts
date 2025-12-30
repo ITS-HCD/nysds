@@ -10,7 +10,7 @@ import "@nysds/nys-button";
 interface NysDatepickerArgs {
   id: string;
   name: string;
-  value: string;
+  value?: Date | string | undefined;
   disabled: boolean;
   required: boolean;
   optional: boolean;
@@ -21,9 +21,6 @@ interface NysDatepickerArgs {
   type: string;
   label: string;
   description: string;
-  placeholder: string;
-  min: string;
-  max: string;
   startDate: string;
   hideTodayButton: boolean;
   hideClearButton: boolean;
@@ -46,9 +43,6 @@ const meta: Meta<NysDatepickerArgs> = {
     type: { control: "text" },
     label: { control: "text" },
     description: { control: "text" },
-    placeholder: { control: "text" },
-    min: { control: "text" },
-    max: { control: "text" },
     startDate: { control: "text" },
     hideTodayButton: { control: "boolean" },
     hideClearButton: { control: "boolean" },
@@ -70,7 +64,7 @@ export const Basic: Story = {
   args: {
     id: "datepicker1",
     name: "datepicker1",
-    value: "",
+    value: undefined,
     disabled: false,
     required: false,
     optional: false,
@@ -80,20 +74,11 @@ export const Basic: Story = {
     type: "date",
     label: "Date of birth",
     description: "Enter in MM/DD/YYYY format",
-    placeholder: "",
-    min: "",
-    max: "",
     startDate: "",
     hideTodayButton: false,
     hideClearButton: false,
   },
   render: (args) => html`
-    <style>
-      .datepicker-container {
-        padding: 5rem 0;
-      }
-    </style>
-
     <div class="datepicker-container">
       <nys-datepicker
         id=${args.id}
@@ -108,9 +93,7 @@ export const Basic: Story = {
         type=${args.type}
         label=${args.label}
         description=${args.description}
-        placeholder=${args.placeholder}
-        min=${args.min}
-        max=${args.max}
+        startDate=${args.startDate}
         ?hideTodayButton=${args.hideTodayButton}
         ?hideClearButton=${args.hideClearButton}
       ></nys-datepicker>
@@ -121,13 +104,86 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-datepicker
-  id="datepicker1"
-  name="datepicker1"
+  id="myDatepicker"
+  name="myDatepicker"
   type="date"
   label="Date of birth"
   description="Enter in MM/DD/YYYY format"
 ></nys-datepicker>`,
         type: "auto",
+      },
+    },
+  },
+};
+
+export const WithCustomStartDate: Story = {
+  args: {
+    ...Basic.args,
+    id: "datepicker-startdate",
+    name: "datepicker-startdate",
+    label: "Project start date",
+    description: "Calendar opens to a predefined month",
+    startDate: "2024-01-01",
+  },
+  render: Basic.render,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker
+  label="Project start date"
+  startDate="2024-01-01"
+></nys-datepicker>`,
+      },
+    },
+  },
+};
+
+export const WithoutTodayAndClearButtons: Story = {
+  args: {
+    ...Basic.args,
+    id: "datepicker-no-actions",
+    name: "datepicker-no-actions",
+    label: "Select a date",
+    description: "Today and Clear buttons are hidden",
+    hideTodayButton: true,
+    hideClearButton: true,
+  },
+  render: Basic.render,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker
+  label="Select a date"
+  hideTodayButton
+  hideClearButton
+></nys-datepicker>`,
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Basic.args,
+    id: "datepicker-disabled",
+    name: "datepicker-disabled",
+    label: "Disabled datepicker",
+    description: "This field is not editable",
+    disabled: true,
+    value: "2025-01-15",
+  },
+  render: Basic.render,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker
+  label="Disabled datepicker"
+  disabled
+  value="2025-01-15"
+></nys-datepicker>`,
       },
     },
   },

@@ -286,29 +286,6 @@ wc-datepicker {
     background-color: var(--_nys-datepicker--date-background);
     line-height: var(--nys-font-lineheight-ui-md, 24px);
 
-    // &:hover:not(:disabled) {
-    //   background-color: var(--_nys-datepicker--navigation-hover-background);
-    //   border: var(--_nys-datepicker--navigation-hover-border);
-    // }
-
-    // &:active:not(:disabled),
-    // &[aria-pressed="true"] {
-    //   background-color: var(--_nys-datepicker--navigation-pressed-background);
-    //   border: var(--_nys-datepicker--navigation-pressed-border);
-    // }
-
-    // &:disabled,
-    // &[aria-disabled="true"] {
-    //   background-color: var(--_nys-datepicker--navigation-disabled-background);
-    //   border: var(--_nys-datepicker--navigation-disabled-border);
-    //   color: var(--_nys-datepicker-color-disabled);
-    // }
-
-    // &:focus-visible {
-    //   outline: 2px solid var(--nys-color-focus, #005fcc);
-    //   outline-offset: 2px;
-    // }
-
     &:hover:not(:disabled) {
       border: var(--_nys-datepicker--navigation-hover-border);
       background-color: var(--_nys-datepicker--navigation-hover-background);

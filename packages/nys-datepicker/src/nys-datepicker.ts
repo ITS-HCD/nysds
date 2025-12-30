@@ -19,7 +19,6 @@ export class NysDatepicker extends LitElement {
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
-  @property({ type: String }) value = "";
   @property({ type: Boolean }) hideTodayButton = false;
   @property({ type: Boolean }) hideClearButton = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -33,11 +32,23 @@ export class NysDatepicker extends LitElement {
   @property({ type: String }) type = "date";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) placeholder = "";
-  @property({ type: String }) min = "";
-  @property({ type: String }) max = "";
   @property({ type: String }) startDate = "";
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  // Datepicker accepts both string and Date, but internally normalize it to Date
+  @property({
+    type: Object,
+    converter: {
+      fromAttribute: (value: string | null) =>
+        value ? new Date(value) : undefined,
+      toAttribute: (value: Date | string | undefined) => {
+        if (!value) return "";
+        if (typeof value === "string") return value; // accept ISO string directly
+        return value.toISOString().split("T")[0];
+      },
+    },
+  })
+  value: string | Date | undefined = undefined;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
@@ -69,15 +80,37 @@ export class NysDatepicker extends LitElement {
     this.removeEventListener("invalid", this._handleInvalid);
   }
 
-  firstUpdated() {
+  async firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue(this.value);
+
+    const datepicker = await this._whenWcDatepickerReady();
+    if (!datepicker) return;
 
     // setTimeout is needed because the wc-datepicker needs to be rendered in first for the logics to work
     setTimeout(() => this._replaceButtonSVG(), 0);
     setTimeout(() => this._addMonthDropdownIcon(), 0);
     setTimeout(() => this._handleDateChange(), 0);
     setTimeout(() => this._onDocumentClick(), 0);
+  }
+
+  private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {
+    await customElements.whenDefined("wc-datepicker");
+
+    const datepicker = this.shadowRoot?.querySelector(
+      "wc-datepicker",
+    ) as WcDatepicker | null;
+
+    if (!datepicker) return null;
+
+    if ("updateComplete" in datepicker) {
+      await (datepicker as any).updateComplete;
+    }
+
+    // Wait one frame to ensure layout and slot text are painted
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    return datepicker;
   }
 
   /**
@@ -96,7 +129,7 @@ export class NysDatepicker extends LitElement {
   // Performs element validation
   private _setValue(value: Date | string | undefined) {
     if (!value) {
-      this.value = "";
+      this.value = undefined;
       this._internals.setFormValue("");
       this._manageRequire();
       return;
@@ -110,7 +143,7 @@ export class NysDatepicker extends LitElement {
       String(date.getDate()).padStart(2, "0"),
     ].join("-");
 
-    this.value = yyyyMmDd;
+    this.value = date;
     this._internals.setFormValue(yyyyMmDd);
 
     const input = this.shadowRoot?.querySelector("input");
@@ -367,7 +400,7 @@ export class NysDatepicker extends LitElement {
   private _handleClearClick() {
     if (this.disabled) return;
 
-    this.value = "";
+    this.value = undefined;
     this._internals.setFormValue("");
     const input = this.shadowRoot?.querySelector("input");
     if (input) {
@@ -386,7 +419,7 @@ export class NysDatepicker extends LitElement {
     const date = this._getValidDateFromInput(input.value);
     if (!date) return;
 
-    this._setValue(this._parseLocalDate(input.value));
+    this._setValue(date);
 
     // Much like nys-textinput, we validate with eager mode for user's input
     if (this._hasUserInteracted) {
@@ -437,9 +470,9 @@ export class NysDatepicker extends LitElement {
             type="date"
             max="9999-12-31"
             ?required=${this.required}
-            .value=${this.value}
-            .min=${this.min || ""}
-            .max=${this.max || ""}
+            .value=${this.value instanceof Date
+              ? this.value.toISOString().split("T")[0]
+              : this.value || ""}
             ?disabled=${this.disabled}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
             aria-required=${ifDefined(this.required ? "true" : undefined)}
@@ -462,7 +495,11 @@ export class NysDatepicker extends LitElement {
 
         <div class="wc-datepicker--container">
           <wc-datepicker
-            .value=${this.value ? this._parseLocalDate(this.value) : undefined}
+            .value=${this.value instanceof Date
+              ? this.value
+              : this.value
+                ? this._parseLocalDate(this.value)
+                : undefined}
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
           >
