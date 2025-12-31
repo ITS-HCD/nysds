@@ -6,6 +6,12 @@ import styles from "./nys-textinput.scss?inline";
 
 let textinputIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysTextinput` is a form-enabled text input component that supports
+ * validation, masking (like phone numbers), password visibility toggling,
+ * accessibility, and live error messaging. Integrates with forms via ElementInternals
+ * and emits custom events on user interaction.
+ */
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -52,7 +58,10 @@ export class NysTextinput extends LitElement {
     tel: "(___) ___-____",
   };
 
-  // Lifecycle updates
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
   static formAssociated = true; // allows use of elementInternals' API
 
   constructor() {
@@ -105,14 +114,21 @@ export class NysTextinput extends LitElement {
         }
       }
     }
+    if (
+      changedProperties.has("readonly") ||
+      changedProperties.has("required")
+    ) {
+      const input = this.shadowRoot?.querySelector("input");
+
+      if (input) input.required = this.required && !this.readonly;
+    }
   }
 
-  // This callback is automatically called when the parent form is reset.
-  formResetCallback() {
-    this.value = "";
-  }
+  /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
 
-  // Form Integration
   private _setValue() {
     this._internals.setFormValue(this.value);
     this._manageRequire(); // Update validation
@@ -187,7 +203,16 @@ export class NysTextinput extends LitElement {
     this._setValidityMessage(message);
   }
 
-  // Functions
+  // This callback is automatically called when the parent form is reset.
+  formResetCallback() {
+    this.value = "";
+  }
+
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
     const input = this.shadowRoot?.querySelector("input");
@@ -274,7 +299,11 @@ export class NysTextinput extends LitElement {
     return result;
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   // Handle input event to check pattern validity
   private _handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -374,7 +403,11 @@ export class NysTextinput extends LitElement {
           for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
-          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          flag=${this.required && !this.readonly
+            ? "required"
+            : this.optional
+              ? "optional"
+              : ""}
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
         >
@@ -397,7 +430,7 @@ export class NysTextinput extends LitElement {
               name=${this.name}
               id=${this.id + "--native"}
               ?disabled=${this.disabled}
-              ?required=${this.required}
+              ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"

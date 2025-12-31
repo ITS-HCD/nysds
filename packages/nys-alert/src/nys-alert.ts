@@ -6,6 +6,12 @@ import styles from "./nys-alert.scss?inline";
 
 let alertIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * NYS Alert component.
+ *
+ * Renders informational, success, warning, or error alerts.
+ * Supports live-region announcements for screen readers.
+ */
 export class NysAlert extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -31,7 +37,12 @@ export class NysAlert extends LitElement {
   @state() private _alertClosed = false;
   @state() private _slotHasContent = true;
 
-  // Aria attributes based on the type
+  /**
+   * Returns ARIA role and label based on alert type.
+   * - 'alert' => assertive live region (implied)
+   * - 'status' => polite live region
+   * - 'region' => generic, requires aria-label
+   */
   get ariaAttributes(): {
     role: "alert" | "status" | "region";
     ariaLabel: string;
@@ -49,10 +60,24 @@ export class NysAlert extends LitElement {
     return { role: ariaRole, ariaLabel };
   }
 
-  // Lifecycle Methods
+  /**
+   * Returns live-region type for screen readers if applicable.
+   * - 'polite' for status role
+   * - undefined for alert (since it's implicitly assertive) or region
+   */
+  get liveRegion(): "polite" | undefined {
+    const role = this.ariaAttributes.role;
+    if (role === "status") return "polite";
+    return undefined; // for region. No need to return "assertive" as role="alert" implies it
+  }
+
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   private _timeoutId: any = null;
 
-  // For alerts that have durations, we set a timer to close them.
   connectedCallback() {
     super.connectedCallback();
 
@@ -61,6 +86,7 @@ export class NysAlert extends LitElement {
       this.id = this._generateUniqueId();
     }
 
+    // For alerts that have durations, we set a timer to close them.
     if (this.duration > 0) {
       this._timeoutId = setTimeout(() => {
         this._closeAlert();
@@ -79,18 +105,16 @@ export class NysAlert extends LitElement {
     this._checkSlotContent();
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
   private _generateUniqueId() {
     return `nys-alert-${Date.now()}-${alertIdCounter++}`;
   }
 
-  // Helper function for overriding default icons or checking special naming cases (e.g. type=success)
-  private _getIconName() {
-    if (this.icon) {
-      return this.icon;
-    } else {
-      return this._checkAltNaming(); // checking alternative svg naming
-    }
+  private _resolveIconName() {
+    return this.icon || this._checkAltNaming();
   }
 
   private _checkAltNaming() {
@@ -120,6 +144,10 @@ export class NysAlert extends LitElement {
     );
   }
 
+  /**
+   * Checks whether the default slot has content.
+   * Updates `_slotHasContent` accordingly.
+   */
   private async _checkSlotContent() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (slot) {
@@ -156,12 +184,16 @@ export class NysAlert extends LitElement {
           >
             <div part="nys-alert__icon" class="nys-alert__icon">
               <nys-icon
-                name="${this._getIconName()}"
+                name="${this._resolveIconName()}"
                 size="3xl"
                 label="${this.type} icon"
               ></nys-icon>
             </div>
-            <div class="nys-alert__texts" role=${role}>
+            <div
+              class="nys-alert__texts"
+              role=${role}
+              aria-live=${ifDefined(this.liveRegion)}
+            >
               <p class="nys-alert__header">${this.heading}</p>
               ${this._slotHasContent
                 ? html`<slot></slot>`
@@ -199,6 +231,11 @@ export class NysAlert extends LitElement {
                   ?inverted=${this.type === "emergency"}
                   ariaLabel="${this.heading}, alert, Close"
                   @nys-click=${this._closeAlert}
+                  style=${ifDefined(
+                    this.type === "emergency"
+                      ? "--_nys-button-outline-color: var(--nys-color-ink-reverse, var(--nys-color-white, #fff));"
+                      : undefined,
+                  )}
                 ></nys-button>`
               : ""}
           </div>`

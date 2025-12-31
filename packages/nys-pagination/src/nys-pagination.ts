@@ -6,6 +6,11 @@ import styles from "./nys-pagination.scss?inline";
 
 let componentIdCounter = 0; // Counter for generating unique IDs
 
+/**
+ * `NysPagination` is a pagination component that renders page navigation buttons.
+ * Supports first/last page buttons, previous/next buttons, and dynamic ellipses
+ * for skipped pages. Dispatches `nys-change` events when the current page changes.
+ */
 export class NysPagination extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -15,7 +20,11 @@ export class NysPagination extends LitElement {
   @property({ type: Number, reflect: true }) totalPages = 1;
   @property({ type: Boolean, reflect: true }) _twoBeforeLast = false;
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle Methods
+   * --------------------------------------------------------------------------
+   */
+
   constructor() {
     super();
   }
@@ -36,7 +45,6 @@ export class NysPagination extends LitElement {
     }
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -44,7 +52,11 @@ export class NysPagination extends LitElement {
     }
   }
 
-  // Functions
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
   private _clampPage(page: number): number {
     if (page < 1) return 1;
     if (page > this.totalPages) return this.totalPages;
@@ -118,7 +130,11 @@ export class NysPagination extends LitElement {
     return buttons;
   }
 
-  // Event Handlers
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
   private _handlePageClick(page: number) {
     this.currentPage = this._clampPage(page);
     this.dispatchEvent(

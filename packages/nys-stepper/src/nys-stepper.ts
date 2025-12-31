@@ -4,6 +4,11 @@ import "./nys-step";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-stepper.scss?inline";
 
+/**
+ * `NysStepper` is a multi-step navigation component that manages
+ * a sequence of `<nys-step>` elements. It handles step selection,
+ * navigation, and displays a progress counter.
+ */
 export class NysStepper extends LitElement {
   static styles = unsafeCSS(styles);
 
