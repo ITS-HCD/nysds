@@ -167,7 +167,7 @@
       outline-color: transparent;
       outline-width: 1px;
       outline-style: solid;
-      background-color: transparent;
+      background-color: var(--nys-color-ink-reverse, #fff);
       position: absolute;
       top: 50%;
       right: var(--nys-space-50, 4px);
