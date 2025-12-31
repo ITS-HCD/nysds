@@ -37,18 +37,19 @@ export class NysTable extends LitElement {
   firstUpdated() {
     const slot = this.shadowRoot?.querySelector("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
+    this._handleSlotChange();
   }
 
   _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
       "slot",
     ) as HTMLSlotElement | null;
-    const wrapper = this.shadowRoot?.querySelector(
+    const container = this.shadowRoot?.querySelector(
       ".nys-table",
     ) as HTMLElement | null;
-    if (!slot || !wrapper) return;
+    if (!slot || !container) return;
 
-    wrapper.innerHTML = "";
+    container.innerHTML = "";
 
     const assigned = slot.assignedElements({ flatten: true });
 
@@ -59,11 +60,7 @@ export class NysTable extends LitElement {
         if (this.sortable) {
           this._addSortIcons(table);
         }
-        if (this.download) {
-          this._injectDownloadButton(table);
-        }
-        wrapper.appendChild(table);
-        return;
+        container.appendChild(table);
       }
     });
   }
@@ -275,40 +272,6 @@ export class NysTable extends LitElement {
     });
   }
 
-  _injectDownloadButton(table: HTMLTableElement) {
-    let caption = table.querySelector("caption");
-
-    // If there's no caption, create one and put it in the correct position
-    if (!caption) {
-      caption = document.createElement("caption");
-      table.insertBefore(caption, table.firstChild);
-    }
-
-    // Wrap the caption contents in a flex container
-    let container = caption.querySelector(".caption-row");
-    if (!container) {
-      container = document.createElement("div");
-
-      // Move existing caption contents into the container
-      while (caption.firstChild) {
-        container.appendChild(caption.firstChild);
-      }
-
-      caption.appendChild(container);
-    }
-
-    // Add the download button
-    const btn = document.createElement("nys-button");
-    btn.setAttribute("variant", "outline");
-    btn.setAttribute("size", "sm");
-    btn.setAttribute("prefixIcon", "download");
-    btn.setAttribute("label", "Download");
-    btn.setAttribute("id", `${this.id}-download-button`);
-    btn.onclick = () => this.downloadFile();
-
-    container.appendChild(btn);
-  }
-
   downloadFile() {
     // read file from this.download and trigger download
     const link = document.createElement("a");
@@ -324,7 +287,19 @@ export class NysTable extends LitElement {
 
   render() {
     return html`
-      <div class="nys-table"></div>
+      <div class="nys-table">
+        <div class="table-container"></div>
+      </div>
+      ${this.download
+        ? html` <nys-button
+            id="${this.id}-download-button"
+            label="Download table"
+            size="sm"
+            variant="outline"
+            prefixIcon="download"
+            @nys-click=${this.downloadFile}
+          ></nys-button>`
+        : ""}
       <slot style="display:none"></slot>
     `;
   }

@@ -35,6 +35,12 @@
   --_nys-table-border-width: var(--nys-space-1px, 1px);
 }
 
+:host([download]) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nys-space-150, 12px);
+}
+
 .nys-table {
   width: var(--_nys-table-width);
   font: var(--_nys-table-font-weight) var(--_nys-table-font-size) /
