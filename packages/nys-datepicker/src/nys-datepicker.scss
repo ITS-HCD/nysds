@@ -408,6 +408,7 @@ wc-datepicker {
 
   &__weekday {
     padding: var(--nys-space-200, 16px) 0 var(--nys-space-50, 4px) 0;
+    min-width: var(--nys-size-500, 40px);
     font-weight: 600;
     aspect-ratio: 1;
     > span {
