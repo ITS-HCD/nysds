@@ -85,6 +85,8 @@ export class NysDatepicker extends LitElement {
     // This ensures our element always participates in the form
     this._setValue(this.value);
 
+    if (this._shouldUseNativeDatepicker()) return;
+
     const datepicker = await this._whenWcDatepickerReady();
     if (!datepicker) return;
 
@@ -319,7 +321,7 @@ export class NysDatepicker extends LitElement {
    */
 
   private _handleInputKeydown(event: KeyboardEvent) {
-    if (this.disabled) return;
+    if (this.disabled || this._shouldUseNativeDatepicker()) return;
 
     if (event.key == " " || event.code == "Space") {
       event.preventDefault();
@@ -338,6 +340,8 @@ export class NysDatepicker extends LitElement {
 
   // For when users click outside of the datepicker, we remove the calendar popup
   private _onDocumentClick() {
+    if (this._shouldUseNativeDatepicker()) return;
+
     const onClick = (event: MouseEvent) => {
       const path = event.composedPath();
 
@@ -363,17 +367,25 @@ export class NysDatepicker extends LitElement {
   }
 
   private _toggleDatepicker() {
-    if (!this.disabled) {
-      const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
-      dateInput?.classList.toggle("active");
+    if (this.disabled) return;
+    if (this._shouldUseNativeDatepicker()) {
+      const input = this.shadowRoot?.querySelector(
+        "input",
+      ) as HTMLInputElement | null;
+
+      if (input) input.focus();
+      return;
     }
+
+    const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
+    dateInput?.classList.toggle("active");
   }
 
   private _openDatepicker() {
-    if (!this.disabled) {
-      const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
-      dateInput?.classList.add("active");
-    }
+    if (this.disabled || this._shouldUseNativeDatepicker()) return;
+
+    const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
+    dateInput?.classList.add("active");
   }
 
   private _handleDateChange() {
@@ -453,6 +465,20 @@ export class NysDatepicker extends LitElement {
     if (year < 1000) return null;
 
     return this._parseLocalDate(value);
+  }
+
+  private _isSafari(): boolean {
+    console.log("Checking browser");
+    const ua = navigator.userAgent;
+    return /Safari/.test(ua) && !/Chrome|Chromium|Edg/.test(ua);
+  }
+
+  private _isMobile(): boolean {
+    return window.matchMedia("(pointer: coarse)").matches;
+  }
+
+  private _shouldUseNativeDatepicker(): boolean {
+    return this._isSafari() || this._isMobile();
   }
 
   render() {
