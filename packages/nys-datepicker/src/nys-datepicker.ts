@@ -396,6 +396,10 @@ export class NysDatepicker extends LitElement {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
     this._setValue(today);
+
+    if (this._hasUserInteracted) {
+      this._validate();
+    }
   }
 
   private _handleClearClick() {
