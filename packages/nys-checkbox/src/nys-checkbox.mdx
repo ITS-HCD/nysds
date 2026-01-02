@@ -38,7 +38,7 @@ The **`nys-checkbox`** component is a reusable web component for use in New York
 
 ### Disabled
 <Canvas of={NysCheckboxStories.Disabled} />
-#### Size
+### Size
 Set the `size` prop of the **`nys-checkboxgroup`** to have all **`nys-checkbox`** be the same size. Our current sizes are:
 - `sm`: Set to 24px in width and height
 - `md`: The default size. Set to 32px in width and height.
@@ -59,7 +59,7 @@ The error message will appear **ONLY** when the `showError` attribute is set to 
 ### Slots
 When the description requires more complexity than a simple `string` value,  add your HTML content directly within the component as slot content, rather than setting a `description` prop. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`
 <Canvas of={NysCheckboxStories.Slot} />
-## Inverted
+### Inverted
 Set the `inverted` when the component is on a dark background. \
 You can set `inverted` on `nys-checkboxgroup` to apply it to all checkboxes, or on a single `nys-checkbox` if only one needs it.
 <Canvas of={NysCheckboxStories.Inverted} />
