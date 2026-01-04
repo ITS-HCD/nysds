@@ -1,0 +1,49 @@
+{
+  "name": "@nysds/mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for the New York State Design System. Exposes components, tokens, and documentation to AI assistants.",
+  "type": "module",
+  "bin": {
+    "nysds-mcp": "./dist/index.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/",
+    "data/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "inspect": "npx @modelcontextprotocol/inspector dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.3"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "ai-assistant"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITS-HCD/nysds.git",
+    "directory": "packages/mcp-server"
+  }
+}
