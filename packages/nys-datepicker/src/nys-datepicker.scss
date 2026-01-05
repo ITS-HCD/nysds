@@ -143,6 +143,8 @@
 
     #nys-datepicker--input {
       cursor: text;
+      font-family: var(--_nys-datepicker-font-family);
+      font-size: var(--_nys-datepicker-font-size);
       flex: 1;
       height: 24px;
       outline-color: transparent;
@@ -238,6 +240,8 @@ wc-datepicker {
   &.active {
     display: flex;
     flex-direction: column-reverse;
+    position: absolute;
+    z-index: 1;
   }
 
   *,
