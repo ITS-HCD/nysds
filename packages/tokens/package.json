@@ -11,7 +11,8 @@
   },
   "files": [
     "dist/",
-    "src/tokens.json"
+    "src/tokens.json",
+    "css.scss"
   ],
   "scripts": {
     "build": "tz build",
