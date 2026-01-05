@@ -101,14 +101,17 @@
 }
 
 // Sized gaps (compound selectors)
+// Gap values are halved: negative margin on row + padding on children
 @each $suffix, $value in $grid-gaps {
+  $half: if($value == 0, 0, math.div($value, 2));
+
   .nys-grid-row.nys-grid-gap#{$suffix} {
-    margin-left: -$value;
-    margin-right: -$value;
+    margin-left: -$half;
+    margin-right: -$half;
 
     > * {
-      padding-left: $value;
-      padding-right: $value;
+      padding-left: $half;
+      padding-right: $half;
     }
   }
 }
@@ -117,13 +120,15 @@
 @each $bp-name, $bp-value in $breakpoints {
   @media all and (min-width: #{$bp-value}) {
     @each $suffix, $value in $grid-gaps {
+      $half: if($value == 0, 0, math.div($value, 2));
+
       .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap#{$suffix} {
-        margin-left: -$value;
-        margin-right: -$value;
+        margin-left: -$half;
+        margin-right: -$half;
 
         > * {
-          padding-left: $value;
-          padding-right: $value;
+          padding-left: $half;
+          padding-right: $half;
         }
       }
     }
