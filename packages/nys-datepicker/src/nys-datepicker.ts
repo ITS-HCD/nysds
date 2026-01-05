@@ -127,8 +127,8 @@ export class NysDatepicker extends LitElement {
    * - _manageRequire: handle required state
    * - _validate: actively validate and show errors
    * - checkValidity: passive boolean check without UI
-   * - _setValidityMessage: apply custom validity message and toggle error UI
-   * - _handleInvalid: intercept native invalid event, trigger validation, and manage focus
+   * - _setValidityMessage: sync validation message with UI and internals
+   * - _handleInvalid: handle form invalid event and focus first invalid field
    */
 
   private _setValue(value: Date | string | undefined) {
