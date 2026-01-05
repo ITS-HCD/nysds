@@ -1,6 +1,6 @@
 name: Parent Ticket
 description: Used to track a new component or feature from spike to release
-title: "BUILD: [Component]"
+title: "PARENT: [Component]"
 labels: ["Proposal: Draft"]
 assignees:
   - esteinborn
@@ -15,12 +15,3 @@ body:
       description: Please fill out the details below for tracking this component's progress.
       value: |
         Parent Ticket to track progress of COMPONENT_NAME
-
-        ## Timeline:
-
-        | Sprint # | Dates     | Description                 |
-        |----------|-----------|-----------------------------|
-        | current  | add here  | Spike tickets and research  |
-        | +1       | add here  | Feedback window open        |
-        | +2       | add here  | Design phase                |
-        | +3       | add here  | Develop/QA phase            |

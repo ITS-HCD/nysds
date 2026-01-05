@@ -1,5 +1,7 @@
 # New York State Design System
 
+![Version](https://img.shields.io/github/v/release/ITS-HCD/nysds) ![Accessibility: WCAG 2.2 AA](https://img.shields.io/badge/accessibility-WCAG%202.2%20AA-green)
+
 This repository contains a library of reusable code components for building New York State applications and websites. These components are built using LitElement and styled with custom CSS properties (variables) for easy customization.
 
 ## About the New York State Design System
