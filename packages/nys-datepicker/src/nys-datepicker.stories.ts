@@ -18,8 +18,6 @@ interface NysDatepickerArgs {
   showError: boolean;
   errorMessage: string;
   form: string | null;
-
-  type: string;
   label: string;
   description: string;
   startDate: string;
@@ -45,7 +43,6 @@ const meta: Meta<NysDatepickerArgs> = {
     errorMessage: { control: "text" },
     form: { control: "text" },
 
-    type: { control: "text" },
     label: { control: "text" },
     description: { control: "text" },
     startDate: { control: "text" },
@@ -76,8 +73,6 @@ export const Basic: Story = {
     optional: false,
     showError: false,
     errorMessage: "",
-    form: null,
-    type: "date",
     label: "Date of birth",
     description: "Enter in MM/DD/YYYY format",
     startDate: "",
@@ -97,7 +92,6 @@ export const Basic: Story = {
         ?showError=${args.showError}
         errorMessage=${args.errorMessage}
         form=${args.form ?? ""}
-        type=${args.type}
         label=${args.label}
         description=${args.description}
         startDate=${args.startDate}
@@ -133,7 +127,7 @@ export const WidthVariants: Story = {
   `,
 };
 
-export const WithCustomStartDate: Story = {
+export const CustomStartDate: Story = {
   args: {
     ...Basic.args,
     id: "datepicker-startdate",
@@ -156,7 +150,7 @@ export const WithCustomStartDate: Story = {
   },
 };
 
-export const WithoutTodayAndClearButtons: Story = {
+export const WithoutButtons: Story = {
   args: {
     ...Basic.args,
     id: "datepicker-no-actions",

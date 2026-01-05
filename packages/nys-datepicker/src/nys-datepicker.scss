@@ -263,10 +263,6 @@ wc-datepicker {
       cursor: not-allowed;
     }
 
-    // .wc-datepicker__weekday {
-    //   color: #767676;
-    // }
-
     .wc-datepicker__date {
       cursor: not-allowed;
       opacity: 0.5;
@@ -280,10 +276,6 @@ wc-datepicker {
       &:hover:not(.wc-datepicker__date--selected) {
         background-color: transparent;
       }
-
-      // &--in-range:hover {
-      //   background-color: #f2f3f5;
-      // }
 
       &--selected:hover {
         color: var(--_nys-datepicker-bg);
@@ -512,28 +504,6 @@ wc-datepicker {
     }
   }
 
-  // &__footer {
-  //   display: flex;
-  //   padding: 0 0.75rem 0.75rem;
-  //   align-items: center;
-  //   gap: 0.5rem;
-  // }
-
-  // &__clear-button,
-  // &__today-button {
-  //   display: inline-flex;
-  //   height: 2rem;
-  //   padding: 0 0.5rem;
-  //   justify-content: center;
-  //   align-items: center;
-  //   border: none;
-  //   border-radius: 0.25rem;
-  //   color: #111;
-  //   background-color: #f2f3f5;
-  //   font: inherit;
-  //   line-height: 1;
-  //   cursor: pointer;
-  // }
 
   &--button-container {
     display: flex;

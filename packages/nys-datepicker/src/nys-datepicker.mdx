@@ -21,7 +21,7 @@ If an id is not passed, a unique id will be generated.
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=TODO" target="_blank">View in Figma</a>
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=15514-1502" target="_blank">View in Figma</a>
   </p>
 </div>
 
@@ -62,14 +62,25 @@ Form submission sends:
 2025-06-01
 ```
 
+### Width 
+Set the `width` prop to adjust the width of `<nys-datepicker>`\
+Supported widths are:
+- `md`: 200px (_default width_)
+- `lg`: 384px
+- `full`: will take up the full width of the parent container.
+<Canvas of={NysDatepickerStories.WidthVariants} />
+
+
 ### Custom Start Date
 Use this option to guide users toward a relevant time period without preselecting a date.
-<Canvas of={NysDatepickerStories.WithCustomStartDate} />
+<Canvas of={NysDatepickerStories.CustomStartDate} />
 
+### Hiding Buttons
 Hide the Today and Clear buttons to require users to intentionally choose a date. \
 Use properties `hideTodayButton` and `hideClearButton` to toggle off the buttons
-<Canvas of={NysDatepickerStories.WithoutTodayAndClearButtons} />
+<Canvas of={NysDatepickerStories.WithoutButtons} />
 
+### Disabled
 <Canvas of={NysDatepickerStories.Disabled} />
 
 ## Usage
