@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-label",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "description": "The Label component from the NYS Design System.",
   "module": "dist/nys-label.js",
   "types": "dist/index.d.ts",
@@ -23,8 +23,8 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.12.0",
-    "@nysds/nys-tooltip": "^1.12.0"
+    "@nysds/nys-icon": "^1.12.1",
+    "@nysds/nys-tooltip": "^1.12.1"
   },
   "devDependencies": {
     "lit": "^3.3.1",
