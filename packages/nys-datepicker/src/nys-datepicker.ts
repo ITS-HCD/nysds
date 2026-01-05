@@ -127,9 +127,10 @@ export class NysDatepicker extends LitElement {
    * - _manageRequire: handle required state
    * - _validate: actively validate and show errors
    * - checkValidity: passive boolean check without UI
+   * - _setValidityMessage: apply custom validity message and toggle error UI
+   * - _handleInvalid: intercept native invalid event, trigger validation, and manage focus
    */
 
-  // Performs element validation
   private _setValue(value: Date | string | undefined) {
     if (!value) {
       this.value = undefined;
