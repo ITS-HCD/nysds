@@ -18,7 +18,9 @@ export function registerValidationTools(server: McpServer): void {
     "validate_component_api",
     "Validate that the provided attributes/properties are valid for a given NYSDS component",
     {
-      tagName: z.string().describe("The tag name of the component (e.g., 'nys-button')"),
+      tagName: z
+        .string()
+        .describe("The tag name of the component (e.g., 'nys-button')"),
       attributes: z
         .record(z.string())
         .describe("Object of attribute names and values to validate"),
@@ -39,12 +41,12 @@ export function registerValidationTools(server: McpServer): void {
       }
 
       const validAttributes = new Set(
-        component.attributes?.map((a) => a.name) || []
+        component.attributes?.map((a) => a.name) || [],
       );
       const validProperties = new Set(
         component.members
           ?.filter((m) => m.kind === "field")
-          .map((m) => m.name) || []
+          .map((m) => m.name) || [],
       );
 
       const errors: string[] = [];
@@ -72,7 +74,7 @@ export function registerValidationTools(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 
   // setup_framework - Framework-specific guides
@@ -241,6 +243,6 @@ nysds:
           },
         ],
       };
-    }
+    },
   );
 }

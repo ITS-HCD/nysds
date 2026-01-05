@@ -84,6 +84,6 @@ NYSDS components support all modern browsers (Chrome, Firefox, Safari, Edge).
           },
         ],
       };
-    }
+    },
   );
 }

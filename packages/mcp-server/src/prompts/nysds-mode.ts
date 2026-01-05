@@ -54,6 +54,6 @@ When helping with UI development for New York State projects, prioritize NYSDS c
           },
         ],
       };
-    }
+    },
   );
 }

@@ -47,7 +47,7 @@ function getTokensPath(): string | null {
 function parseDTCGTokens(
   obj: Record<string, unknown>,
   prefix: string = "",
-  category: string = ""
+  category: string = "",
 ): DesignToken[] {
   const tokens: DesignToken[] = [];
 
@@ -76,8 +76,8 @@ function parseDTCGTokens(
         ...parseDTCGTokens(
           value as Record<string, unknown>,
           name,
-          currentCategory
-        )
+          currentCategory,
+        ),
       );
     }
   }
@@ -120,7 +120,7 @@ export function getAllTokens(): DesignToken[] {
 export function getTokensByCategory(category: string): DesignToken[] {
   const tokens = getAllTokens();
   return tokens.filter(
-    (t) => t.category.toLowerCase() === category.toLowerCase()
+    (t) => t.category.toLowerCase() === category.toLowerCase(),
   );
 }
 
@@ -135,7 +135,7 @@ export function searchTokens(query: string): DesignToken[] {
     (t) =>
       t.name.toLowerCase().includes(lowerQuery) ||
       t.value.toLowerCase().includes(lowerQuery) ||
-      t.description?.toLowerCase().includes(lowerQuery)
+      t.description?.toLowerCase().includes(lowerQuery),
   );
 }
 
@@ -154,25 +154,110 @@ export function getTokenCategories(): string[] {
 function getPlaceholderTokens(): DesignToken[] {
   return [
     // Colors
-    { name: "color.primary", value: "#154973", category: "color", description: "Primary brand color" },
-    { name: "color.secondary", value: "#0050a0", category: "color", description: "Secondary brand color" },
-    { name: "color.success", value: "#00a91c", category: "color", description: "Success state color" },
-    { name: "color.warning", value: "#e5a000", category: "color", description: "Warning state color" },
-    { name: "color.error", value: "#d54309", category: "color", description: "Error state color" },
-    { name: "color.info", value: "#00bde3", category: "color", description: "Info state color" },
+    {
+      name: "color.primary",
+      value: "#154973",
+      category: "color",
+      description: "Primary brand color",
+    },
+    {
+      name: "color.secondary",
+      value: "#0050a0",
+      category: "color",
+      description: "Secondary brand color",
+    },
+    {
+      name: "color.success",
+      value: "#00a91c",
+      category: "color",
+      description: "Success state color",
+    },
+    {
+      name: "color.warning",
+      value: "#e5a000",
+      category: "color",
+      description: "Warning state color",
+    },
+    {
+      name: "color.error",
+      value: "#d54309",
+      category: "color",
+      description: "Error state color",
+    },
+    {
+      name: "color.info",
+      value: "#00bde3",
+      category: "color",
+      description: "Info state color",
+    },
     // Spacing
-    { name: "spacing.xs", value: "4px", category: "spacing", description: "Extra small spacing" },
-    { name: "spacing.sm", value: "8px", category: "spacing", description: "Small spacing" },
-    { name: "spacing.md", value: "16px", category: "spacing", description: "Medium spacing" },
-    { name: "spacing.lg", value: "24px", category: "spacing", description: "Large spacing" },
-    { name: "spacing.xl", value: "32px", category: "spacing", description: "Extra large spacing" },
+    {
+      name: "spacing.xs",
+      value: "4px",
+      category: "spacing",
+      description: "Extra small spacing",
+    },
+    {
+      name: "spacing.sm",
+      value: "8px",
+      category: "spacing",
+      description: "Small spacing",
+    },
+    {
+      name: "spacing.md",
+      value: "16px",
+      category: "spacing",
+      description: "Medium spacing",
+    },
+    {
+      name: "spacing.lg",
+      value: "24px",
+      category: "spacing",
+      description: "Large spacing",
+    },
+    {
+      name: "spacing.xl",
+      value: "32px",
+      category: "spacing",
+      description: "Extra large spacing",
+    },
     // Typography
-    { name: "font.family.sans", value: "'Proxima Nova', system-ui, sans-serif", category: "typography", description: "Primary font family" },
-    { name: "font.size.sm", value: "14px", category: "typography", description: "Small font size" },
-    { name: "font.size.md", value: "16px", category: "typography", description: "Medium font size" },
-    { name: "font.size.lg", value: "20px", category: "typography", description: "Large font size" },
-    { name: "font.weight.regular", value: "400", category: "typography", description: "Regular font weight" },
-    { name: "font.weight.bold", value: "700", category: "typography", description: "Bold font weight" },
+    {
+      name: "font.family.sans",
+      value: "'Proxima Nova', system-ui, sans-serif",
+      category: "typography",
+      description: "Primary font family",
+    },
+    {
+      name: "font.size.sm",
+      value: "14px",
+      category: "typography",
+      description: "Small font size",
+    },
+    {
+      name: "font.size.md",
+      value: "16px",
+      category: "typography",
+      description: "Medium font size",
+    },
+    {
+      name: "font.size.lg",
+      value: "20px",
+      category: "typography",
+      description: "Large font size",
+    },
+    {
+      name: "font.weight.regular",
+      value: "400",
+      category: "typography",
+      description: "Regular font weight",
+    },
+    {
+      name: "font.weight.bold",
+      value: "700",
+      category: "typography",
+      description: "Bold font weight",
+    },
   ];
 }
 

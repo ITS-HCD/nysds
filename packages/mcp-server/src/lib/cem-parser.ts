@@ -70,7 +70,11 @@ export interface CEMModule {
   kind: "javascript-module";
   path: string;
   declarations?: CEMDeclaration[];
-  exports?: Array<{ kind: string; name: string; declaration: { name: string } }>;
+  exports?: Array<{
+    kind: string;
+    name: string;
+    declaration: { name: string };
+  }>;
 }
 
 export interface CustomElementsManifest {
@@ -88,7 +92,10 @@ function getCEMPath(): string {
   // Try multiple locations
   const possiblePaths = [
     // Relative to the package (when installed as dependency)
-    resolve(__dirname, "../../../node_modules/@nysds/components/dist/custom-elements.json"),
+    resolve(
+      __dirname,
+      "../../../node_modules/@nysds/components/dist/custom-elements.json",
+    ),
     // Relative to monorepo root (during development)
     resolve(__dirname, "../../../../dist/custom-elements.json"),
     // Direct path for testing
@@ -102,7 +109,7 @@ function getCEMPath(): string {
   }
 
   throw new Error(
-    `custom-elements.json not found. Searched paths:\n${possiblePaths.join("\n")}`
+    `custom-elements.json not found. Searched paths:\n${possiblePaths.join("\n")}`,
   );
 }
 
@@ -147,7 +154,7 @@ export function getAllComponents(): CEMDeclaration[] {
   }
 
   return components.sort((a, b) =>
-    (a.tagName || "").localeCompare(b.tagName || "")
+    (a.tagName || "").localeCompare(b.tagName || ""),
   );
 }
 
@@ -157,7 +164,7 @@ export function getAllComponents(): CEMDeclaration[] {
 export function getComponent(tagName: string): CEMDeclaration | undefined {
   const components = getAllComponents();
   return components.find(
-    (c) => c.tagName?.toLowerCase() === tagName.toLowerCase()
+    (c) => c.tagName?.toLowerCase() === tagName.toLowerCase(),
   );
 }
 

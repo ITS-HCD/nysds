@@ -37,7 +37,7 @@ export function registerComponentResources(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 
   // nysds://component/{tag} - Individual component docs
@@ -74,6 +74,6 @@ export function registerComponentResources(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 }

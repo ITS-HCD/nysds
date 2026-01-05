@@ -12,7 +12,11 @@
 
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { getAllTokens, getTokensByCategory, searchTokens } from "../lib/token-parser.js";
+import {
+  getAllTokens,
+  getTokensByCategory,
+  searchTokens,
+} from "../lib/token-parser.js";
 
 export function registerTokenTools(server: McpServer): void {
   // get_design_tokens - Token values by category
@@ -23,7 +27,9 @@ export function registerTokenTools(server: McpServer): void {
       category: z
         .string()
         .optional()
-        .describe("Token category to filter by (e.g., 'color', 'spacing', 'typography'). If omitted, returns all tokens."),
+        .describe(
+          "Token category to filter by (e.g., 'color', 'spacing', 'typography'). If omitted, returns all tokens.",
+        ),
     },
     async ({ category }) => {
       const tokens = category ? getTokensByCategory(category) : getAllTokens();
@@ -36,7 +42,7 @@ export function registerTokenTools(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 
   // find_tokens - Search tokens by name/value (P1)
@@ -44,7 +50,9 @@ export function registerTokenTools(server: McpServer): void {
     "find_tokens",
     "Search for design tokens by name or value",
     {
-      query: z.string().describe("Search query to match against token names and values"),
+      query: z
+        .string()
+        .describe("Search query to match against token names and values"),
     },
     async ({ query }) => {
       const results = searchTokens(query);
@@ -57,6 +65,6 @@ export function registerTokenTools(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 }

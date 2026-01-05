@@ -37,7 +37,7 @@ export function registerComponentTools(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 
   // get_component_docs - Full documentation for a specific component
@@ -72,7 +72,7 @@ export function registerComponentTools(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 
   // find_components - Search by name/description
@@ -80,7 +80,11 @@ export function registerComponentTools(server: McpServer): void {
     "find_components",
     "Search for NYSDS components by name or description",
     {
-      query: z.string().describe("Search query to match against component names and descriptions"),
+      query: z
+        .string()
+        .describe(
+          "Search query to match against component names and descriptions",
+        ),
     },
     async ({ query }) => {
       const results = searchComponents(query);
@@ -93,7 +97,7 @@ export function registerComponentTools(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 
   // get_usage_guide - Installation and usage patterns
@@ -151,6 +155,6 @@ Use the get_design_tokens tool to explore available tokens.
           },
         ],
       };
-    }
+    },
   );
 }

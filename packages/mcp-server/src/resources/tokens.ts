@@ -16,7 +16,8 @@ export function registerTokenResources(server: McpServer): void {
     "tokens",
     "nysds://tokens",
     {
-      description: "All NYSDS design tokens (colors, spacing, typography, etc.)",
+      description:
+        "All NYSDS design tokens (colors, spacing, typography, etc.)",
       mimeType: "application/json",
     },
     async () => {
@@ -31,6 +32,6 @@ export function registerTokenResources(server: McpServer): void {
           },
         ],
       };
-    }
+    },
   );
 }
