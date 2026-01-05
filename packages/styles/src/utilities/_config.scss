@@ -23,11 +23,11 @@ $grid-containers: (
   "-desktop": 64rem,
   "-desktop-lg": 75rem,
   "-widescreen": 87.5rem,
-  // NYS-custom scale in px
-  "-nys-mobile-lg": 480px,
-  "-nys-tablet": 640px,
-  "-nys-desktop": 1024px,
-  "-nys-widescreen": 1400px
+  // NYS-custom scale in ems
+  "-nys-mobile-lg": 30rem,
+  "-nys-tablet": 40rem,
+  "-nys-desktop": 64rem,
+  "-nys-widescreen": 87.5rem
 );
 
 // Grid gap scale (actual gap values - layout-grid divides by 2 for application)
