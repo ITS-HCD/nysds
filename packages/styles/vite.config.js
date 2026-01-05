@@ -16,9 +16,7 @@ export default defineConfig({
       input: {
         // NYSDS Bundles: Using @import to create style bundles
         nysds: "./src/nysds.scss", // Main core styles (includes tokens with all theme modes)
-        // Note: nysds-full requires USWDS to be built first
-        // "nysds-full": "./src/nysds-full.scss", // Core + utilities
-        // Typography
+        "nysds-full": "./src/nysds-full.scss", // Core + utilities
         "nysds-typography": "./src/core/typography.scss",
       },
       output: {

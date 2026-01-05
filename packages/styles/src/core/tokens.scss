@@ -5,4 +5,4 @@
  * This file imports the generated CSS variables at build time.
  * Source: packages/tokens/src/tokens.json
  */
-@import "@nysds/tokens/css";
+@use "@nysds/tokens/css" as *;
