@@ -17,6 +17,7 @@ export class NysTable extends LitElement {
 
   @state() private _sortColumn: number | null = null;
   @state() private _sortDirection: "asc" | "desc" | "none" = "none";
+  @state() private _captionText = "";
 
   /**************** Lifecycle Methods ****************/
   constructor() {
@@ -75,6 +76,13 @@ export class NysTable extends LitElement {
     let caption = table.querySelector(
       "caption",
     ) as HTMLTableCaptionElement | null;
+
+    // Save caption text if it exists
+    if (caption?.textContent?.trim()) {
+      this._captionText = caption.textContent.trim();
+    } else {
+      this._captionText = "";
+    }
 
     // Collect all rows
     const rows = Array.from(table.querySelectorAll("tr"));
@@ -294,6 +302,9 @@ export class NysTable extends LitElement {
         ? html` <nys-button
             id="${this.id}-download-button"
             label="Download table"
+            aria-label=${this._captionText
+              ? `Download ${this._captionText}`
+              : "Download table"}
             size="sm"
             variant="outline"
             prefixIcon="download"
