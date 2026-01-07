@@ -14,7 +14,6 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
   @property({ type: String }) homepageLink = "";
-  @state() private slotLinksExist = true;
   @state() private isMobileMenuOpen = false;
 
   /**
@@ -46,9 +45,6 @@ export class NysGlobalHeader extends LitElement {
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
-    // Update slotLinksExist for styling content
-    this.slotLinksExist = assignedNodes.length > 0;
-
     // Get the container to append the slotted elements
     const container = this.shadowRoot?.querySelector(
       ".nys-globalheader__content",
@@ -73,7 +69,7 @@ export class NysGlobalHeader extends LitElement {
           const cleanNodeMobile = node.cloneNode(true) as HTMLElement;
 
           // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
-          const dangerousTags = ["script", "iframe", "object", "embed" , "img"];
+          const dangerousTags = ["script", "iframe", "object", "embed", "img"];
           dangerousTags.forEach((tag) => {
             (cleanNode as Element)
               .querySelectorAll(tag)
@@ -180,23 +176,21 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
-          ${this.slotLinksExist
-            ? html` <div class="nys-globalheader__button-container">
-                <button
-                  class="nys-globalheader__mobile-menu-button"
-                  @click="${this._toggleMobileMenu}"
-                >
-                  <nys-icon
-                    name="${this.isMobileMenuOpen ? "close" : "menu"}"
-                    size="32"
-                    label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
-                  ></nys-icon>
-                  <span class="nys-globalheader__mobile-menu-button-text"
-                    >${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span
-                  >
-                </button>
-              </div>`
-            : ""}
+          <div class="nys-globalheader__button-container">
+            <button
+              class="nys-globalheader__mobile-menu-button"
+              @click="${this._toggleMobileMenu}"
+            >
+              <nys-icon
+                name="${this.isMobileMenuOpen ? "close" : "menu"}"
+                size="32"
+                label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
+              ></nys-icon>
+              <span class="nys-globalheader__mobile-menu-button-text"
+                >${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span
+              >
+            </button>
+          </div>
           ${!this.homepageLink?.trim()
             ? html`
                 <div class="nys-globalheader__name-container">
@@ -243,13 +237,9 @@ export class NysGlobalHeader extends LitElement {
                     : ""}
                 </div>
               </a>`}
-          ${this.slotLinksExist
-            ? html`<div class="nys-globalheader__content">
-                <slot
-                  @slotchange="${this._handleListSlotChange}"
-                ></slot>
-              </div>`
-            : ""}
+          <div class="nys-globalheader__content">
+            <slot @slotchange="${this._handleListSlotChange}"></slot>
+          </div>
         </div>
       </header>
       <div
