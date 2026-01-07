@@ -14,7 +14,7 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
   @property({ type: String }) homepageLink = "";
-  @state() private slotHasContent = true;
+  @state() private slotLinks = true;
   @state() private isMobileMenuOpen = false;
 
   /**
@@ -46,8 +46,8 @@ export class NysGlobalHeader extends LitElement {
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
-    // Update slotHasContent for styling content
-    this.slotHasContent = assignedNodes.length > 0;
+    // Update slotLinks for styling content
+    this.slotLinks = assignedNodes.length > 0;
 
     // Get the container to append the slotted elements
     const container = this.shadowRoot?.querySelector(
@@ -180,7 +180,7 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
-          ${this.slotHasContent
+          ${this.slotLinks
             ? html` <div class="nys-globalheader__button-container">
                 <button
                   class="nys-globalheader__mobile-menu-button"
@@ -243,10 +243,9 @@ export class NysGlobalHeader extends LitElement {
                     : ""}
                 </div>
               </a>`}
-          ${this.slotHasContent
+          ${this.slotLinks
             ? html`<div class="nys-globalheader__content">
                 <slot
-                  style="display: hidden"
                   @slotchange="${this._handleSlotChange}"
                 ></slot>
               </div>`
