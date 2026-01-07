@@ -73,7 +73,7 @@ export class NysGlobalHeader extends LitElement {
           const cleanNodeMobile = node.cloneNode(true) as HTMLElement;
 
           // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
-          const dangerousTags = ["script", "iframe", "object", "embed, img"];
+          const dangerousTags = ["script", "iframe", "object", "embed" , "img"];
           dangerousTags.forEach((tag) => {
             (cleanNode as Element)
               .querySelectorAll(tag)
