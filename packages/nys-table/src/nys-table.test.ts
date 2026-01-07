@@ -70,12 +70,15 @@ describe("nys-table", () => {
   it("injects a download button when download attribute is set", async () => {
     const el = await fixture<NysTable>(html`
       <nys-table id="test-table" download="data.csv">
-        <table></table>
+        <table>
+          <caption>Caption Table</caption>
+        </table>
       </nys-table>
     `);
     const button = el.shadowRoot?.getElementById("test-table-download-button");
     expect(button).to.exist;
     expect(el.download).to.equal("data.csv");
+    expect(button?.ariaLabel).to.equal("Download Caption Table");
   });
 
   it("adds sort icons to sortable tables", async () => {
