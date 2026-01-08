@@ -36,7 +36,10 @@ export class NysGlobalHeader extends LitElement {
 
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private async _handleListSlotChange() {
-    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+    const slot = this.shadowRoot?.querySelector(
+      'slot:not([name="user-actions"])',
+    ) as HTMLSlotElement | null;
+
     if (!slot) return;
 
     const assignedNodes = slot
@@ -45,7 +48,7 @@ export class NysGlobalHeader extends LitElement {
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
-    // Get the container to append the slotted elements
+    // Get the containers to append the slotted elements
     const container = this.shadowRoot?.querySelector(
       ".nys-globalheader__content",
     );
@@ -53,94 +56,23 @@ export class NysGlobalHeader extends LitElement {
       ".nys-globalheader__content-mobile",
     );
 
-    if (container && containerMobile) {
-      // Clear existing children in the container
-      container.innerHTML = "";
-      containerMobile.innerHTML = "";
+    if (!container || !containerMobile) return;
 
-      const currentUrl = this._normalizePath(
-        window.location.pathname + window.location.hash,
-      );
+    // Clear existing children in the container
+    container.innerHTML = "";
+    containerMobile.innerHTML = "";
 
-      // Clone and append slotted elements into the shadow DOM container
-      assignedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const cleanNode = node.cloneNode(true) as HTMLElement;
-          const cleanNodeMobile = node.cloneNode(true) as HTMLElement;
+    // Clone and append slotted elements into the shadow DOM container
+    assignedNodes.forEach((node) => {
+      if (node instanceof HTMLElement) {
+        // need to clone the node because cannot have same node in two places in DOM
+        const nodeInline = node.cloneNode(true) as HTMLElement;
+        const nodeMobile = node.cloneNode(true) as HTMLElement;
 
-          // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
-          const dangerousTags = ["script", "iframe", "object", "embed", "img"];
-          dangerousTags.forEach((tag) => {
-            (cleanNode as Element)
-              .querySelectorAll(tag)
-              .forEach((element) => element.remove());
-          });
-
-          /**
-           * Get all user slotted ahref links and for each link, determine the best matching link via the pattern of
-           * prioritize the link with the longest match.
-           * @param node
-           */
-          const highlightActiveLink = (node: HTMLElement) => {
-            const links = Array.from(node.querySelectorAll("a"));
-
-            // Because we can only have one active link at all times, we
-            let bestMatch: { li: HTMLElement | null; length: number } = {
-              li: null,
-              length: 0,
-            };
-
-            links.forEach((a) => {
-              const hrefAttr = a.getAttribute("href");
-              const linkPath = this._normalizePath(hrefAttr);
-
-              if (!linkPath) return;
-
-              // Exact homepage match
-              if (linkPath === "/" && currentUrl === "/") {
-                bestMatch = { li: a.closest("li"), length: 1 };
-              } else if (
-                currentUrl?.startsWith(linkPath) &&
-                linkPath.length > bestMatch.length
-              ) {
-                bestMatch = { li: a.closest("li"), length: linkPath.length };
-              }
-
-              // Clear old actives
-              links.forEach((a) => a.closest("li")?.classList.remove("active"));
-
-              // Set the best matched link to active
-              bestMatch.li?.classList.add("active");
-            });
-          };
-
-          highlightActiveLink(cleanNode);
-          highlightActiveLink(cleanNodeMobile);
-
-          container.appendChild(cleanNode);
-          containerMobile.appendChild(cleanNodeMobile);
-          node.remove(); // Remove from light DOM to avoid duplication
-        }
-      });
-    }
-  }
-
-  // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
-  // This ensures consistent active-link behavior regardless of how hrefs are written.
-  private _normalizePath(path: string | null) {
-    if (!path) return;
-
-    // Checks path always starts with "/"
-    if (!path.startsWith("/")) {
-      path = "/" + path;
-    }
-
-    // Strip trailing slash except for root "/"
-    if (path.length > 1 && path.endsWith("/")) {
-      path = path.slice(0, -1);
-    }
-
-    return path.toLowerCase();
+        container.appendChild(nodeInline);
+        containerMobile.appendChild(nodeMobile);
+      }
+    });
   }
 
   private _toggleMobileMenu() {
@@ -237,12 +169,12 @@ export class NysGlobalHeader extends LitElement {
                     : ""}
                 </div>
               </a>`}
-          <div class="nys-globalheader__content">
-            <slot @slotchange="${this._handleListSlotChange}"></slot>
-          </div>
-          <div class="emily-test">
-            test me
-          </div>
+          <div class="nys-globalheader__content"></div>
+          <slot
+            style="display: none;"
+            @slotchange="${this._handleListSlotChange}"
+          ></slot>
+          <slot name="user-actions"></slot>
         </div>
       </header>
       <div
