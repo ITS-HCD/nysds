@@ -143,6 +143,7 @@
 
     #nys-datepicker--input {
       cursor: text;
+      text-align: start;
       font-family: var(--_nys-datepicker-font-family);
       font-size: var(--_nys-datepicker-font-size);
       flex: 1;
@@ -170,6 +171,9 @@
         border: var(--_nys-datepicker--navigation-disabled-border);
         cursor: not-allowed;
         color: var(--_nys-datepicker--wc-weaker-color);
+      }
+      &::-webkit-date-and-time-value {
+        text-align: start;
       }
     }
 
@@ -507,7 +511,6 @@ wc-datepicker {
       }
     }
   }
-
 
   &--button-container {
     display: flex;
