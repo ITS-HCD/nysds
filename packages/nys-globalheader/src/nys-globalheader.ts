@@ -240,6 +240,9 @@ export class NysGlobalHeader extends LitElement {
           <div class="nys-globalheader__content">
             <slot @slotchange="${this._handleListSlotChange}"></slot>
           </div>
+          <div class="emily-test">
+            test me
+          </div>
         </div>
       </header>
       <div

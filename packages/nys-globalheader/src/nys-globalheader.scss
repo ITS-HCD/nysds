@@ -160,6 +160,11 @@
   .nys-globalheader__content {
     display: none;
     font-family: var(--_nys-globalheader-font-family--menu);
+    border: solid red;
+  }
+
+  .emily-test {
+    border: solid blue;
   }
 
   .nys-globalheader__content ul {
