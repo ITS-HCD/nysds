@@ -102,6 +102,12 @@ a {
   letter-spacing: var(--_nys-globalheader-letter-spacing--menu);
 }
 
+::slotted([slot="user-actions"]) {
+  display: flex;
+  align-items: center;
+  margin-inline-start: auto;
+}
+
 .nys-globalheader {
   display: flex;
   justify-content: center;
