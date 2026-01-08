@@ -93,16 +93,17 @@
   /* --- Font Size (by role) --- */
 
   /* Body */
+  --nys-font-size-body-lg: var(--nys-font-size-lg);
   --nys-font-size-body-md: var(--nys-font-size-md);
   --nys-font-size-body-sm: var(--nys-font-size-sm);
   --nys-font-size-body-xs: var(--nys-font-size-xs);
 
   /* Heading */
-  --nys-font-size-h1: var(--nys-font-size-7xl);
-  --nys-font-size-h2: var(--nys-font-size-5xl);
-  --nys-font-size-h3: var(--nys-font-size-4xl);
+  --nys-font-size-h1: var(--nys-font-size-5xl);
+  --nys-font-size-h2: var(--nys-font-size-4xl);
+  --nys-font-size-h3: var(--nys-font-size-3xl);
   --nys-font-size-h4: var(--nys-font-size-2xl);
-  --nys-font-size-h5: var(--nys-font-size-2xl);
+  --nys-font-size-h5: var(--nys-font-size-xl);
   --nys-font-size-h6: var(--nys-font-size-lg);
 
   /* UI */
