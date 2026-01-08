@@ -30,7 +30,6 @@ const meta: Meta<NysGlobalHeaderArgs> = {
 export default meta;
 type Story = StoryObj<NysGlobalHeaderArgs>;
 
-
 export const Basic: Story = {
   args: {
     appName: "User Registration Form",
