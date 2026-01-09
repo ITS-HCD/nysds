@@ -74,11 +74,13 @@ export class NysDatepicker extends LitElement {
     }
 
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("focusout", this._handleFocusOut);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
+    this.removeEventListener("focusout", this._handleFocusOut);
   }
 
   async firstUpdated() {
@@ -339,6 +341,19 @@ export class NysDatepicker extends LitElement {
     this.dispatchEvent(new Event("nys-blur"));
   }
 
+  private _handleFocusOut(event: FocusEvent) {
+    if (this._shouldUseNativeDatepicker()) return;
+
+    const nextFocused = event.relatedTarget as Node | null;
+
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    if (!datepicker) return;
+
+    if (!nextFocused || !this.contains(nextFocused)) {
+      datepicker.classList.remove("active");
+    }
+  }
+
   // For when users click outside of the datepicker, we remove the calendar popup
   private _onDocumentClick() {
     if (this._shouldUseNativeDatepicker()) return;
@@ -382,8 +397,8 @@ export class NysDatepicker extends LitElement {
     dateInput?.classList.toggle("active");
   }
 
-  private _openDatepicker(e?: Event) {
-    e?.preventDefault();
+  private _openDatepicker(event?: Event) {
+    event?.preventDefault();
     if (this.disabled || this._shouldUseNativeDatepicker()) return;
 
     const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
