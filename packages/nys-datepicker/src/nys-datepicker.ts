@@ -382,7 +382,8 @@ export class NysDatepicker extends LitElement {
     dateInput?.classList.toggle("active");
   }
 
-  private _openDatepicker() {
+  private _openDatepicker(e) {
+    e.preventDefault();
     if (this.disabled || this._shouldUseNativeDatepicker()) return;
 
     const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
@@ -479,7 +480,7 @@ export class NysDatepicker extends LitElement {
   }
 
   private _shouldUseNativeDatepicker(): boolean {
-    return this._isSafari() || this._isMobile();
+    return this._isSafari() && this._isMobile();
   }
 
   render() {
