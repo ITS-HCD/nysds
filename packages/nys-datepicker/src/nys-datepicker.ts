@@ -74,13 +74,13 @@ export class NysDatepicker extends LitElement {
     }
 
     this.addEventListener("invalid", this._handleInvalid);
-    this.addEventListener("focusout", this._handleFocusOut);
+    this.addEventListener("focusout", this._handleBlur);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
-    this.removeEventListener("focusout", this._handleFocusOut);
+    this.removeEventListener("focusout", this._handleBlur);
   }
 
   async firstUpdated() {
@@ -332,26 +332,23 @@ export class NysDatepicker extends LitElement {
     }
   }
 
-  private _handleBlur() {
-    if (!this._hasUserInteracted) {
-      this._hasUserInteracted = true; // At initial unfocus: if textarea is invalid, start aggressive mode
-    }
-
-    this._validate();
-    this.dispatchEvent(new Event("nys-blur"));
-  }
-
-  private _handleFocusOut(event: FocusEvent) {
-    if (this._shouldUseNativeDatepicker()) return;
-
+  private _handleBlur(event: FocusEvent) {
     const nextFocused = event.relatedTarget as Node | null;
 
-    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
-    if (!datepicker) return;
+    const stillInside =
+      nextFocused &&
+      (this.contains(nextFocused) || this.shadowRoot?.contains(nextFocused));
 
-    if (!nextFocused || !this.contains(nextFocused)) {
-      datepicker.classList.remove("active");
+    if (stillInside) return;
+
+    if (!this._hasUserInteracted) {
+      this._hasUserInteracted = true;
     }
+
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    datepicker?.classList.remove("active");
+    this._validate();
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   // For when users click outside of the datepicker, we remove the calendar popup
@@ -485,7 +482,6 @@ export class NysDatepicker extends LitElement {
   }
 
   private _isSafari(): boolean {
-    console.log("Checking browser");
     const ua = navigator.userAgent;
     return /Safari/.test(ua) && !/Chrome|Chromium|Edg/.test(ua);
   }
@@ -563,7 +559,7 @@ export class NysDatepicker extends LitElement {
                             fullWidth
                             variant="outline"
                             ?disabled=${this.disabled}
-                            @click=${this._handleTodayClick}
+                            @nys-click=${this._handleTodayClick}
                           ></nys-button>
                         `
                       : null}
@@ -575,7 +571,7 @@ export class NysDatepicker extends LitElement {
                             fullWidth
                             variant="outline"
                             ?disabled=${this.disabled}
-                            @click=${this._handleClearClick}
+                            @nys-click=${this._handleClearClick}
                           ></nys-button>
                         `
                       : null}
