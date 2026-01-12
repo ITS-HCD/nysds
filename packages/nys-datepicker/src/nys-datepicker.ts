@@ -328,7 +328,7 @@ export class NysDatepicker extends LitElement {
 
     if (event.key == " " || event.code == "Space") {
       event.preventDefault();
-      this._openDatepicker(event);
+      this._openDatepicker();
     }
   }
 
@@ -394,8 +394,7 @@ export class NysDatepicker extends LitElement {
     dateInput?.classList.toggle("active");
   }
 
-  private _openDatepicker(event?: Event) {
-    event?.preventDefault();
+  private _openDatepicker() {
     if (this.disabled || this._shouldUseNativeDatepicker()) return;
 
     const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
@@ -491,7 +490,7 @@ export class NysDatepicker extends LitElement {
   }
 
   private _shouldUseNativeDatepicker(): boolean {
-    return this._isSafari() && this._isMobile();
+    return this._isSafari() || this._isMobile();
   }
 
   render() {
@@ -522,7 +521,7 @@ export class NysDatepicker extends LitElement {
             aria-required=${ifDefined(this.required ? "true" : undefined)}
             aria-label=${ifDefined(this.label || undefined)}
             aria-description=${ifDefined(this.description || undefined)}
-            @click=${(e: Event) => this._openDatepicker(e)}
+            @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
             @keydown=${this._handleInputKeydown}
