@@ -92,7 +92,9 @@ describe("nys-datepicker", () => {
     ) as HTMLButtonElement;
     if (!todayBtn) return;
 
-    todayBtn.click();
+    todayBtn.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
     await el.updateComplete;
 
     const today = new Date();
