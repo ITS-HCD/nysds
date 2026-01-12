@@ -34,6 +34,50 @@ export class NysGlobalHeader extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  private _normalizePath(href: string | null): string | null {
+    if (!href) return null;
+
+    try {
+      const url = new URL(href, window.location.origin);
+      return url.pathname.replace(/\/+$/, "") || "/";
+    } catch {
+      return null;
+    }
+  }
+
+  private _highlightActiveLink(container: HTMLElement) {
+    const links = Array.from(container.querySelectorAll("a"));
+    const currentUrl = window.location.pathname.replace(/\/+$/, "") || "/";
+
+    let bestMatch: { li: HTMLElement | null; length: number } = {
+      li: null,
+      length: 0,
+    };
+
+    links.forEach((a) => {
+      const linkPath = this._normalizePath(a.getAttribute("href"));
+      if (!linkPath) return;
+
+      if (linkPath === "/" && currentUrl === "/") {
+        bestMatch = { li: a.closest("li"), length: 1 };
+      } else if (
+        currentUrl.startsWith(linkPath) &&
+        linkPath.length > bestMatch.length
+      ) {
+        bestMatch = {
+          li: a.closest("li"),
+          length: linkPath.length,
+        };
+      }
+    });
+
+    // Clear all previous actives
+    links.forEach((a) => a.closest("li")?.classList.remove("active"));
+
+    // Apply best match
+    bestMatch.li?.classList.add("active");
+  }
+
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
   private async _handleListSlotChange() {
     const slot = this.shadowRoot?.querySelector(
@@ -43,18 +87,19 @@ export class NysGlobalHeader extends LitElement {
     if (!slot) return;
 
     const assignedNodes = slot
-      ?.assignedNodes({ flatten: true })
-      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
+      .assignedNodes({ flatten: true })
+      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[];
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
     // Get the containers to append the slotted elements
     const container = this.shadowRoot?.querySelector(
       ".nys-globalheader__content",
-    );
+    ) as HTMLElement | null;
+
     const containerMobile = this.shadowRoot?.querySelector(
       ".nys-globalheader__content-mobile",
-    );
+    ) as HTMLElement | null;
 
     if (!container || !containerMobile) return;
 
@@ -73,6 +118,10 @@ export class NysGlobalHeader extends LitElement {
         containerMobile.appendChild(nodeMobile);
       }
     });
+
+    // Highlight active links AFTER DOM is finalized
+    this._highlightActiveLink(container);
+    this._highlightActiveLink(containerMobile);
   }
 
   private _toggleMobileMenu() {
