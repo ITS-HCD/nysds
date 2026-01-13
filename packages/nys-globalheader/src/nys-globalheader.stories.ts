@@ -218,7 +218,13 @@ export const UserActions: Story = {
     <li><a href="https://its.ny.gov/about-us">About Us</a></li>
   </ul>
   <div slot="user-actions">
-    <nys-avatar ariaLabel="User avatar" initials="NY"></nys-avatar>
+    <nys-button label="Log out" prefixIcon="slotted">
+      <nys-avatar slot="prefix-icon"
+        slot="prefix-icon"
+        ariaLabel="User avatar"
+        initials="NY"
+      ></nys-avatar>
+    </nys-button>
   </div>
 </nys-globalheader>
 `.trim(),
