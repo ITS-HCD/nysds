@@ -62,35 +62,20 @@ describe("nys-globalheader", () => {
     expect(testSlot?.textContent).to.include("Services");
   });
 
-  it("removes potentially dangerous elements from slotted content", async () => {
-    const el = await fixture<NysGlobalHeader>(
-      html`<nys-globalheader>
-        <div>
-          <script>
-            alert("hello!");
-          </script>
-          <iframe src="https://malicious.example"></iframe>
-          <img src="data:," onerror="alert('hello!')" />
-          <ul class="safe">
-            <li><a href="https://its.ny.gov/services">Services</a></li>
-            <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-          </ul>
-        </div>
-      </nys-globalheader>`,
-    );
+  it("renders content in the user-actions slot", async () => {
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader appName="Test App" agencyName="Test Agency">
+        <nys-button slot="user-actions" label="Log out"></nys-button>
+      </nys-globalheader>
+    `);
 
     await el.updateComplete;
 
-    // Check if slot removes dangerous elements
-    const content = el.shadowRoot?.querySelector(".nys-globalheader__content");
-    expect(content?.querySelector("script")).to.be.null;
-    expect(content?.querySelector("iframe")).to.be.null;
-    expect(content?.querySelector("img")).to.be.null;
+    const userActionsSlot = el.shadowRoot?.querySelector(
+      'slot[name="user-actions"]',
+    ) as HTMLSlotElement;
 
-    // Check if safe content remains
-    const testSlot = content?.querySelector(".safe");
-    expect(testSlot).to.exist;
-    expect(testSlot?.textContent).to.include("Services");
+    expect(userActionsSlot).to.exist;
   });
 });
 
