@@ -112,7 +112,8 @@ export class NysGlobalHeader extends LitElement {
     this._highlightActiveLink(container);
     this._highlightActiveLink(containerMobile);
   }
-
+  // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
+  // This ensures consistent active-link behavior regardless of how hrefs are written.
   private _normalizePath(href: string | null): string | null {
     if (!href) return null;
 
