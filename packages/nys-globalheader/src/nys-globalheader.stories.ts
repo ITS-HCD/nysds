@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalheader";
 import "@nysds/nys-icon";
 import "@nysds/nys-avatar";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysGlobalHeaderArgs {
@@ -193,7 +194,13 @@ export const UserActions: Story = {
         <li><a href="https://its.ny.gov/about-us">About Us</a></li>
       </ul>
       <div slot="user-actions">
-        <nys-avatar ariaLabel="User avatar" initials="NY"></nys-avatar>
+        <nys-button label="Log out" prefixIcon="slotted">
+          <nys-avatar
+            slot="prefix-icon"
+            ariaLabel="User avatar"
+            initials="NY"
+          ></nys-avatar>
+        </nys-button>
       </div>
     </nys-globalheader>
   `,
