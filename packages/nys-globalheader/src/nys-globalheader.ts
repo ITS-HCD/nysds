@@ -77,7 +77,7 @@ export class NysGlobalHeader extends LitElement {
 
     const assignedNodes = slot
       .assignedNodes({ flatten: true })
-      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[];
+      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
