@@ -40,6 +40,28 @@ describe("nys-globalheader", () => {
     expect(link.href).to.include("https://ny.gov");
   });
 
+  it("highlights the active link based on current URL", async () => {
+    history.pushState({}, "", "/services");
+
+    const el = await fixture<NysGlobalHeader>(html`
+      <nys-globalheader>
+        <ul>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/services/tools">Tools</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </nys-globalheader>
+    `);
+
+    await el.updateComplete;
+
+    const active = el.shadowRoot?.querySelector(
+      ".nys-globalheader__content li.active a",
+    );
+
+    expect(active?.getAttribute("href")).to.equal("/services");
+  });
+
   it("supports slot content", async () => {
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader
