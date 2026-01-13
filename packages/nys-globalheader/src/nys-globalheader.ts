@@ -34,17 +34,6 @@ export class NysGlobalHeader extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  private _normalizePath(href: string | null): string | null {
-    if (!href) return null;
-
-    try {
-      const url = new URL(href, window.location.origin);
-      return url.pathname.replace(/\/+$/, "") || "/";
-    } catch {
-      return null;
-    }
-  }
-
   private _highlightActiveLink(container: HTMLElement) {
     const links = Array.from(container.querySelectorAll("a"));
     const currentUrl = window.location.pathname.replace(/\/+$/, "") || "/";
@@ -122,6 +111,17 @@ export class NysGlobalHeader extends LitElement {
     // Highlight active links AFTER DOM is finalized
     this._highlightActiveLink(container);
     this._highlightActiveLink(containerMobile);
+  }
+
+  private _normalizePath(href: string | null): string | null {
+    if (!href) return null;
+
+    try {
+      const url = new URL(href, window.location.origin);
+      return url.pathname.replace(/\/+$/, "") || "/";
+    } catch {
+      return null;
+    }
   }
 
   private _toggleMobileMenu() {
