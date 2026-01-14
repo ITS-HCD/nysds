@@ -43,6 +43,54 @@ describe("nys-unavheader", () => {
     expect(el.trustbarVisible).to.be.false;
   });
 
+  it("toggles trustbar and manages focus when clicking the inline 'Here's how you know' button", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const inlineButton = el.shadowRoot?.getElementById(
+      "nys-unavheader__know--inline",
+    ) as HTMLElement;
+
+    const closeButton = el.shadowRoot?.getElementById(
+      "nys-unavheader__closetrustbar",
+    ) as HTMLElement;
+
+    expect(inlineButton).to.exist;
+    expect(closeButton).to.exist;
+
+    // Spy on focus behavior
+    const inlineFocusSpy = sinon.spy(inlineButton, "focus");
+    const closeFocusSpy = sinon.spy(closeButton, "focus");
+
+    // Open trustbar via inline button
+    inlineButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.trustbarVisible).to.be.true;
+
+    // Focus should move to close button
+    await el.updateComplete;
+    expect(closeFocusSpy.calledOnce).to.be.true;
+
+    // Close trustbar via inline button again
+    inlineButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.trustbarVisible).to.be.false;
+
+    // Focus should return to inline button
+    await el.updateComplete;
+    expect(inlineFocusSpy.calledOnce).to.be.true;
+
+    inlineFocusSpy.restore();
+    closeFocusSpy.restore();
+  });
+
   it("toggles language list when 'nys-click' event dispatched on translate button", async () => {
     const el = await fixture<NysUnavHeader>(
       html`<nys-unavheader></nys-unavheader>`,
