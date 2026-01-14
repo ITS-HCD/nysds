@@ -173,6 +173,95 @@ describe("nys-unavheader", () => {
     expect(el.isSearchFocused).to.be.false;
   });
 
+  it("triggers search handler on Enter key when value is non-empty", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    const searchStub = sinon.stub(el as any, "_handleSearch");
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(searchStub.calledOnce).to.be.true;
+    expect(searchStub.calledWith("housing")).to.be.true;
+
+    searchStub.restore();
+  });
+
+  it("does not trigger search handler on Enter when value is empty", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "   ",
+    });
+
+    const searchStub = sinon.stub(el as any, "_handleSearch");
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(searchStub.notCalled).to.be.true;
+
+    searchStub.restore();
+  });
+
+  it("triggers search handler when search button is clicked with a value", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    const searchButton = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar--button",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "transportation",
+    });
+
+    const searchStub = sinon.stub(el as any, "_handleSearch");
+
+    searchButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+
+    expect(searchStub.calledOnce).to.be.true;
+    expect(searchStub.calledWith("transportation")).to.be.true;
+
+    searchStub.restore();
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
     await expect(el).shadowDom.to.be.accessible();
