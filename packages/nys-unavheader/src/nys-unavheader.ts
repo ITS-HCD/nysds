@@ -21,7 +21,7 @@ export class NysUnavHeader extends LitElement {
   @property({ type: Boolean }) isSearchFocused = false;
   @property({ type: Boolean }) hideTranslate = false;
   @property({ type: Boolean }) hideSearch = false;
-  @property({ type: Array, reflect: true })
+  @property({ type: Array })
   private languages: [string, string][] = [
     ["English", ""],
     ["Español", "es"],

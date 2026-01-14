@@ -16,63 +16,100 @@ describe("nys-unavheader", () => {
       "Visit the NY.gov homepage",
     );
   });
-});
 
-it("toggles trustbar visibility when clicking the top trustbar", async () => {
-  const el = await fixture<NysUnavHeader>(
-    html`<nys-unavheader></nys-unavheader>`,
-  );
-  const trustbarToggle = el.shadowRoot?.querySelector(
-    ".nys-unavheader__trustbar.wrapper",
-  )!;
-  expect(el.trustbarVisible).to.be.false;
+  it("toggles trustbar visibility when clicking the top trustbar", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
 
-  trustbarToggle.dispatchEvent(new MouseEvent("click"));
-  expect(el.trustbarVisible).to.be.true;
+    const trustbarToggle = el.shadowRoot?.querySelector(
+      ".nys-unavheader__trustbar.wrapper",
+    ) as HTMLElement;
 
-  trustbarToggle.dispatchEvent(new MouseEvent("click"));
-  expect(el.trustbarVisible).to.be.false;
-});
+    expect(trustbarToggle).to.exist;
+    expect(el.trustbarVisible).to.be.false;
 
-it("toggles language list when 'nys-click' event dispatched on translate button", async () => {
-  const el = await fixture<NysUnavHeader>(
-    html`<nys-unavheader></nys-unavheader>`,
-  );
-  el.languageVisible = true;
-  await el.updateComplete;
-  const langList = el.shadowRoot?.querySelector(
-    ".nys-unavheader__languagelist",
-  );
-  expect(langList).to.exist;
-  expect(langList?.classList.contains("show")).to.be.true;
-  expect(langList?.classList.contains("hide")).to.be.false;
+    trustbarToggle.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+    expect(el.trustbarVisible).to.be.true;
 
-  el.languageVisible = false;
-  await el.updateComplete;
-  expect(langList?.classList.contains("hide")).to.be.true;
-  expect(langList?.classList.contains("show")).to.be.false;
-});
+    trustbarToggle.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+    expect(el.trustbarVisible).to.be.false;
+  });
 
-it("toggles search dropdown when 'nys-click' event dispatched on search button", async () => {
-  const el = await fixture<NysUnavHeader>(
-    html`<nys-unavheader></nys-unavheader>`,
-  );
-  el.searchDropdownVisible = true;
-  await el.updateComplete;
-  const searchDrop = el.shadowRoot?.querySelector(
-    ".nys-unavheader__searchdropdown",
-  );
-  expect(searchDrop).to.exist;
-  expect(searchDrop?.classList.contains("show")).to.be.true;
-  expect(searchDrop?.classList.contains("hide")).to.be.false;
+  it("toggles language list when 'nys-click' event dispatched on translate button", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
 
-  el.searchDropdownVisible = false;
-  await el.updateComplete;
-  expect(searchDrop?.classList.contains("hide")).to.be.true;
-  expect(searchDrop?.classList.contains("show")).to.be.false;
-});
+    const translateButton = el.shadowRoot?.querySelector(
+      "#nys-unavheader__translate--desktop",
+    ) as HTMLElement;
 
-it("passes the a11y audit", async () => {
-  const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
-  await expect(el).shadowDom.to.be.accessible();
+    const langList = el.shadowRoot?.querySelector(
+      ".nys-unavheader__languagelist",
+    ) as HTMLElement;
+
+    expect(translateButton).to.exist;
+    expect(langList).to.exist;
+
+    translateButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(langList.classList.contains("show")).to.be.true;
+    expect(langList.classList.contains("hide")).to.be.false;
+
+    translateButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(langList.classList.contains("hide")).to.be.true;
+    expect(langList.classList.contains("show")).to.be.false;
+  });
+
+  it("toggles search dropdown when 'nys-click' event dispatched on search button", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchButton = el.shadowRoot?.querySelector(
+      "#nys-unavheader__searchbutton",
+    ) as HTMLElement;
+
+    const searchDropdown = el.shadowRoot?.querySelector(
+      ".nys-unavheader__searchdropdown",
+    ) as HTMLElement;
+
+    expect(searchButton).to.exist;
+    expect(searchDropdown).to.exist;
+
+    searchButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(searchDropdown.classList.contains("show")).to.be.true;
+    expect(searchDropdown.classList.contains("hide")).to.be.false;
+
+    searchButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(searchDropdown.classList.contains("hide")).to.be.true;
+    expect(searchDropdown.classList.contains("show")).to.be.false;
+  });
+
+  it("passes the a11y audit", async () => {
+    const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
 });
