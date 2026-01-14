@@ -58,6 +58,11 @@ The `nys-globalheader` component includes a named slot called `user-actions`. Th
 
 <Canvas of={NysGlobalHeaderStories.UserActions} />
 
+## Show Logo
+The `showLogo` boolean property controls whether the New York State logo is displayed in the header. By default, the logo is hidden. To show the logo, set the `showLogo` property to `true`.
+This property should only be used when the `<nys-unavheader>` is not present on the page to avoid redundancy.
+<Canvas of={NysGlobalHeaderStories.ShowLogo} />
+
 ## Usage
 
 ### When to use this component
