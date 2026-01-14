@@ -119,6 +119,17 @@ a {
   box-sizing: border-box;
 }
 
+a#nys-globalheader__logolink {
+  outline-offset: var(--nys-space-2px, 2px);
+  outline-color: white;
+  margin: auto 0;
+}
+
+.nys-globalheader__logo svg {
+  vertical-align: top;
+  width: auto;
+}
+
 /* Main container */
 .nys-globalheader__main-container {
   display: flex;

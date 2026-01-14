@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalheader.scss?inline";
+import nysLogo from "./nys-global.logo";
 
 /**
  * `<nys-globalheader>` renders a New York State–style global header.
@@ -33,6 +34,17 @@ export class NysGlobalHeader extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
+  private _getNysLogo() {
+    if (!nysLogo) return null;
+
+    // Parse the SVG string into an actual SVG DOM element
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(nysLogo, "image/svg+xml");
+    const svgElement = svgDoc.documentElement;
+
+    return svgElement;
+  }
 
   private _highlightActiveLink(container: HTMLElement) {
     const links = Array.from(container.querySelectorAll("a"));
@@ -173,6 +185,13 @@ export class NysGlobalHeader extends LitElement {
               >
             </button>
           </div>
+          <a
+            href="https://www.ny.gov"
+            id="nys-globalheader__logolink"
+            aria-label="Visit the NY.gov homepage"
+          >
+            <div class="nys-globalheader__logo">${this._getNysLogo()}</div>
+          </a>
           ${!this.homepageLink?.trim()
             ? html`
                 <div class="nys-globalheader__name-container">
