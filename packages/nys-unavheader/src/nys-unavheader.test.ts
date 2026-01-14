@@ -1,6 +1,7 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import { NysUnavHeader } from "./nys-unavheader";
 import "../dist/nys-unavheader.js";
+import sinon from "sinon";
 
 describe("nys-unavheader", () => {
   it("should render with NYS logo link", async () => {
@@ -106,6 +107,70 @@ describe("nys-unavheader", () => {
 
     expect(searchDropdown.classList.contains("hide")).to.be.true;
     expect(searchDropdown.classList.contains("show")).to.be.false;
+  });
+
+  it("handles search focus and blur correctly", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    el.trustbarVisible = true;
+    el.languageVisible = true;
+    await el.updateComplete;
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    expect(searchBar).to.exist;
+
+    // Focus
+    searchBar.dispatchEvent(
+      new FocusEvent("focus", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.isSearchFocused).to.be.true;
+    expect(el.trustbarVisible).to.be.false;
+    expect(el.languageVisible).to.be.false;
+
+    // Blur
+    searchBar.dispatchEvent(
+      new FocusEvent("blur", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.isSearchFocused).to.be.false;
+  });
+
+  it("blurs search input and clears focus on Escape key", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    el.isSearchFocused = true;
+    await el.updateComplete;
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement & { blur: () => void };
+
+    expect(searchBar).to.exist;
+
+    const blurSpy = sinon.spy(searchBar, "blur");
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Escape",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(blurSpy.calledOnce).to.be.true;
+    expect(el.isSearchFocused).to.be.false;
   });
 
   it("passes the a11y audit", async () => {
