@@ -15,6 +15,7 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: String }) appName = "";
   @property({ type: String }) agencyName = "";
   @property({ type: String }) homepageLink = "";
+  @property({ type: Boolean }) showLogo = false;
   @state() private isMobileMenuOpen = false;
 
   /**
@@ -185,12 +186,19 @@ export class NysGlobalHeader extends LitElement {
               >
             </button>
           </div>
-          <a
-            href="https://www.ny.gov"
-            id="nys-globalheader__logolink"
-            aria-label="Visit the NY.gov homepage"
-          >
-            <div class="nys-globalheader__logo">${this._getNysLogo()}</div>
+          ${
+            this.showLogo
+              ? html`<a
+                  href="https://www.ny.gov"
+                  id="nys-globalheader__logolink"
+                  aria-label="Visit the NY.gov homepage"
+                >
+                  <div class="nys-globalheader__logo">
+                    ${this._getNysLogo()}
+                  </div>
+                </a>`
+              : ""
+          }
           </a>
           ${!this.homepageLink?.trim()
             ? html`

@@ -10,6 +10,7 @@ interface NysGlobalHeaderArgs {
   appName: string;
   agencyName: string;
   homepageLink: string;
+  showLogo: boolean;
 }
 
 const meta: Meta<NysGlobalHeaderArgs> = {
@@ -19,6 +20,7 @@ const meta: Meta<NysGlobalHeaderArgs> = {
     appName: { control: "text" },
     agencyName: { control: "text" },
     homepageLink: { control: "text" },
+    showLogo: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -41,6 +43,7 @@ export const Basic: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      .showLogo=${args.showLogo}
     >
     </nys-globalheader>
   `,
@@ -67,6 +70,7 @@ export const OnlyAgencyName: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      .showLogo=${args.showLogo}
     >
     </nys-globalheader>
   `,
@@ -92,6 +96,7 @@ export const OnlyAppName: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      .showLogo=${args.showLogo}
     >
     </nys-globalheader>
   `,
@@ -118,6 +123,7 @@ export const WithBothNames: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      .showLogo=${args.showLogo}
     >
     </nys-globalheader>
   `,
@@ -143,6 +149,7 @@ export const WithLinks: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      .showLogo=${args.showLogo}
     >
       <ul>
         <li><a href="https://its.ny.gov/services">Services</a></li>
@@ -184,15 +191,8 @@ export const UserActions: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      .showLogo=${args.showLogo}
     >
-      <ul>
-        <li><a href="https://its.ny.gov/services">Services</a></li>
-        <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
-        <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-        <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
-        <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
-        <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-      </ul>
       <div slot="user-actions">
         <nys-button label="Log out" prefixIcon="slotted">
           <nys-avatar
@@ -209,14 +209,6 @@ export const UserActions: Story = {
       source: {
         code: `
 <nys-globalheader agencyName="Office of Information Technology Services">
-  <ul>
-    <li><a href="https://its.ny.gov/services">Services</a></li>
-    <li><a href="https://its.ny.gov/get-help">Help Center</a></li>
-    <li><a href="https://its.ny.gov/cybersecurity">Cybersecurity</a></li>
-    <li><a href="https://its.ny.gov/policies">Policies and Laws</a></li>
-    <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
-    <li><a href="https://its.ny.gov/about-us">About Us</a></li>
-  </ul>
   <div slot="user-actions">
     <nys-button label="Log out" prefixIcon="slotted">
       <nys-avatar slot="prefix-icon"
@@ -228,6 +220,37 @@ export const UserActions: Story = {
   </div>
 </nys-globalheader>
 `.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const ShowLogo: Story = {
+  args: {
+    appName: "User Registration Form",
+    agencyName: "Office of Information Technology Services",
+    showLogo: true,
+  },
+
+  render: (args) => html`
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+      .showLogo=${args.showLogo}
+    >
+    </nys-globalheader>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services" showLogo>
+</nys-globalheader>
+        `,
+
         type: "auto",
       },
     },
