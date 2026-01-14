@@ -23,12 +23,12 @@ describe("nys-globalheader", () => {
     );
   });
 
-  it("renders the logo when showLogo is true", async () => {
+  it("renders the logo when showlogo is true", async () => {
     const el = await fixture<NysGlobalHeader>(
       html`<nys-globalheader
         appName="eFile"
         agencyName="Tax Department"
-        showLogo
+        showlogo
       ></nys-globalheader>`,
     );
 
