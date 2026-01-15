@@ -91,9 +91,10 @@ Use properties `hideTodayButton` and `hideClearButton` to toggle off the buttons
 - When native date picker behavior needs to be replaced with a controlled, accessible experience
 
 ### When to consider something else
-- When users need to select a date range
+- Familiar dates where users know the value without a calendar, such as a date of birth. Consider memorable date fields (https://github.com/ITS-HCD/nysds/discussions/1193)
+- When the day of the week is irrelevant, such as birthdays or document issue dates. Consider memorable date fields (https://github.com/ITS-HCD/nysds/discussions/1193)
+- When users need to select multiple dates or a span of time. Consider a date range component (https://github.com/ITS-HCD/nysds/discussions/1193)
 - When time selection is required
-- When a simple text input without validation is sufficient
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
