@@ -17,6 +17,7 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: String }) homepageLink = "";
   @property({ type: Boolean }) showlogo = false;
   @state() private isMobileMenuOpen = false;
+  @state() private hasLinkContent = false;
 
   /**
    * Lifecycle Methods
@@ -92,6 +93,8 @@ export class NysGlobalHeader extends LitElement {
       .assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
 
+    this.hasLinkContent = assignedNodes.length > 0;
+
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
     // Get the containers to append the slotted elements
@@ -125,6 +128,7 @@ export class NysGlobalHeader extends LitElement {
     this._highlightActiveLink(container);
     this._highlightActiveLink(containerMobile);
   }
+
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
   // This ensures consistent active-link behavior regardless of how hrefs are written.
   private _normalizePath(href: string | null): string | null {
@@ -171,21 +175,25 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
-          <div class="nys-globalheader__button-container">
-            <button
-              class="nys-globalheader__mobile-menu-button"
-              @click="${this._toggleMobileMenu}"
-            >
-              <nys-icon
-                name="${this.isMobileMenuOpen ? "close" : "menu"}"
-                size="32"
-                label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
-              ></nys-icon>
-              <span class="nys-globalheader__mobile-menu-button-text"
-                >${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span
-              >
-            </button>
-          </div>
+        ${
+          this.hasLinkContent
+            ? html` <div class="nys-globalheader__button-container">
+                <button
+                  class="nys-globalheader__mobile-menu-button"
+                  @click="${this._toggleMobileMenu}"
+                >
+                  <nys-icon
+                    name="${this.isMobileMenuOpen ? "close" : "menu"}"
+                    size="32"
+                    label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
+                  ></nys-icon>
+                  <span class="nys-globalheader__mobile-menu-button-text"
+                    >${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span
+                  >
+                </button>
+              </div>`
+            : ""
+        }
           ${
             this.showlogo
               ? html`<a
@@ -200,52 +208,54 @@ export class NysGlobalHeader extends LitElement {
               : ""
           }
           </a>
-          ${!this.homepageLink?.trim()
-            ? html`
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
-              `
-            : html`<a
-                class="nys-globalheader__name-container-link"
-                href=${this.homepageLink?.trim()}
-              >
-                <div class="nys-globalheader__name-container">
-                  ${this.appName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__appName nys-globalheader__name"
-                      >
-                        ${this.appName}
-                      </div> `
-                    : ""}
-                  ${this.agencyName?.trim().length > 0
-                    ? html`<div
-                        class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
-                          .length > 0
-                          ? ""
-                          : "main"}"
-                      >
-                        ${this.agencyName}
-                      </div> `
-                    : ""}
-                </div>
-              </a>`}
+          ${
+            !this.homepageLink?.trim()
+              ? html`
+                  <div class="nys-globalheader__name-container">
+                    ${this.appName?.trim().length > 0
+                      ? html`<div
+                          class="nys-globalheader__appName nys-globalheader__name"
+                        >
+                          ${this.appName}
+                        </div> `
+                      : ""}
+                    ${this.agencyName?.trim().length > 0
+                      ? html`<div
+                          class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
+                            .length > 0
+                            ? ""
+                            : "main"}"
+                        >
+                          ${this.agencyName}
+                        </div> `
+                      : ""}
+                  </div>
+                `
+              : html`<a
+                  class="nys-globalheader__name-container-link"
+                  href=${this.homepageLink?.trim()}
+                >
+                  <div class="nys-globalheader__name-container">
+                    ${this.appName?.trim().length > 0
+                      ? html`<div
+                          class="nys-globalheader__appName nys-globalheader__name"
+                        >
+                          ${this.appName}
+                        </div> `
+                      : ""}
+                    ${this.agencyName?.trim().length > 0
+                      ? html`<div
+                          class="nys-globalheader__agencyName nys-globalheader__name ${this.appName?.trim()
+                            .length > 0
+                            ? ""
+                            : "main"}"
+                        >
+                          ${this.agencyName}
+                        </div> `
+                      : ""}
+                  </div>
+                </a>`
+          }
           <div class="nys-globalheader__content"></div>
           <slot
             style="display: none;"
@@ -255,9 +265,9 @@ export class NysGlobalHeader extends LitElement {
         </div>
       </header>
       <div
-        class="nys-globalheader__content-mobile ${this.isMobileMenuOpen
-          ? ""
-          : "close"}"
+        class="nys-globalheader__content-mobile ${
+          this.isMobileMenuOpen ? "" : "close"
+        }"
       ></div>
     `;
   }
