@@ -485,6 +485,17 @@ export class NysDatepicker extends LitElement {
     return /Safari/.test(ua) && !/Chrome|Chromium|Edg/.test(ua);
   }
 
+  /**
+   * Determines whether the current device uses a coarse pointer.
+   * A coarse pointer usually means touch-based input where precise pointing
+   * is not expected, such as fingers on phones and most tablets.
+   *
+   * Note: This is not a guarantee of a mobile device.
+   * Some non-mobile devices may also report a coarse pointer,
+   * and some mobile devices may not.
+   *
+   * @returns `true` if the device reports a coarse pointer, otherwise `false`.
+   */
   private _isMobile(): boolean {
     return window.matchMedia("(pointer: coarse)").matches;
   }
