@@ -15,6 +15,7 @@
 @use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
+nys-datepicker:not(:defined),
 nys-accordion:not(:defined),
 nys-alert:not(:defined),
 nys-avatar:not(:defined),
