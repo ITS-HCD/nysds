@@ -6,24 +6,69 @@ import styles from "./nys-checkbox.scss?inline";
 let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * `<nys-checkboxgroup>` is a form-associated, accessible container for multiple `<nys-checkbox>` components.
- * Handles grouping logic, form submission, validation, required constraints, and keyboard accessibility.
+ * A container for grouping multiple `nys-checkbox` components as a single form control.
+ * Handles validation, required constraints, and submits comma-separated values.
+ *
+ * Use to allow users to select multiple options from a list. Apply `tile`, `size`, and `inverted` to the group
+ * and all children inherit these styles automatically.
+ *
+ * @summary Container for grouping checkboxes as a single form control.
+ * @element nys-checkboxgroup
+ *
+ * @slot - Default slot for `nys-checkbox` elements.
+ * @slot description - Custom HTML description content.
+ *
+ * @example Basic checkbox group
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" required>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
  */
 export class NysCheckboxgroup extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. Set on group, not individual checkboxes. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Requires at least one checkbox to be checked. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Shows "Optional" flag. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Shows error message when true. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
+
+  /** Visible label text for the group. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Renders all checkboxes as tiles with larger clickable area. */
   @property({ type: Boolean, reflect: true }) tile = false;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
+
+  /** Adjusts colors for dark backgrounds. Applied to all children. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** Form `id` to associate with. Applied to all children. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /**
+   * Checkbox size for all children: `sm` (24px) or `md` (32px, default).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   @state() private _slottedDescriptionText = "";

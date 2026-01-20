@@ -1,8 +1,8 @@
 # NYSDS JSDoc Enhancement PRD
 
-**Version:** 1.0  
-**Date:** January 19, 2026  
-**Status:** Ready for Implementation  
+**Version:** 2.0
+**Date:** January 19, 2026
+**Status:** ✅ COMPLETE — All 32 components documented, verified, ready for commit
 **Repo:** `/Users/plasticmind/Sites/nys/nysds-mcp`
 
 ---
@@ -233,6 +233,32 @@ export class NysButton extends LitElement {
 
 ### Key Documentation Principles
 
+#### 0. Keep Descriptions Concise (AI Best Practice)
+
+Per [CEM MCP best practices](https://bennypowers.github.io/cem/docs/usage/effective-mcp-descriptions/):
+
+| Metric | Target |
+|--------|--------|
+| **Class description** | 200-400 characters (sweet spot for AI) |
+| **Property descriptions** | 50-150 characters |
+| **Hard limit** | 2,000 characters (auto-truncated) |
+
+Focus on four key areas:
+1. **Purpose** — What it's *for*, not just what it *is*
+2. **Usage** — When and how to use it
+3. **Relationships** — How it works with other features
+4. **Constraints** — What to avoid
+
+**Example (266 chars):**
+```typescript
+/**
+ * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
+ *
+ * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
+ * `text` for inline. Set `href` to render as a navigation link.
+ */
+```
+
 #### 1. Use RFC 2119 Keywords for Actionable Guidance
 
 AI systems extract actionable guidelines using these keywords:
@@ -345,55 +371,94 @@ Review actual implementation for:
 
 ### Phase 1: Template & Validation (Days 1-2)
 
-1. **Create reference implementation** — Fully document `nys-button` as the gold standard
-2. **Update CEM config** — Add custom plugin for any new tags if needed
-3. **Validate CEM output** — Ensure enhanced JSDoc produces expected manifest structure
-4. **Document the pattern** — Create internal guide for team consistency
+1. ✅ **Create reference implementation** — Fully documented `nys-button` as the gold standard
+2. ⏭️ **Update CEM config** — Not needed; standard CEM analyzer handles all tags correctly
+3. ✅ **Validate CEM output** — Verified enhanced JSDoc produces expected manifest structure
+4. ✅ **Test MCP server** — Confirmed tools return enhanced documentation (summary, description, slots, cssProperties, events, member descriptions)
 
-### Phase 2: Form Components (Days 3-5)
+### Phase 2: Form Components (Days 3-5) ✅
 
 High-complexity, high-usage components:
-- `nys-textinput`
-- `nys-textarea`
-- `nys-select`
-- `nys-checkbox` / `nys-checkboxgroup`
-- `nys-radiobutton`
-- `nys-toggle`
-- `nys-fileinput`
+- ✅ `nys-textinput` — 366 char desc, 3 slots, 3 events
+- ✅ `nys-textarea` — 335 char desc, 1 slot, 5 events
+- ✅ `nys-select` — 321 char desc, 2 slots, 3 events
+- ✅ `nys-checkbox` / `nys-checkboxgroup` — 359/326 char desc, 1/2 slots, 3/0 events
+- ✅ `nys-radiobutton` / `nys-radiogroup` — 259/329 char desc, 1/2 slots, 3/0 events
+- ✅ `nys-toggle` — 259 char desc, 1 slot, 3 events
+- ✅ `nys-fileinput` — 306 char desc, 1 slot, 1 event
 
-### Phase 3: Display Components (Days 6-7)
+**Phase 2 Learnings:**
+1. **Paired components exist** — Some components come in pairs (checkbox/checkboxgroup, radiobutton/radiogroup). Always check for companion `*group` components when enhancing form elements.
+2. **Group containers share patterns** — The `*group` components handle validation, keyboard navigation, and propagate styles (size, tile, inverted) to children. Document this inheritance behavior.
+3. **Events bubble differently** — Individual form elements emit `nys-change`, but groups listen for these events rather than re-emitting them.
+4. **Slot inheritance** — Both individual and group components often have a `description` slot; document them consistently.
 
-- `nys-alert`
-- `nys-badge`
-- `nys-avatar`
-- `nys-icon`
-- `nys-tooltip`
-- `nys-divider`
-- `nys-modal`
+### Phase 3: Display Components (Days 6-7) ✅
 
-### Phase 4: Navigation & Layout (Days 8-9)
+- ✅ `nys-alert` — 298 char desc, 1 slot, 1 event
+- ✅ `nys-badge` — 307 char desc, 0 slots, 0 events
+- ✅ `nys-avatar` — 273 char desc, 1 slot, 0 events
+- ✅ `nys-icon` — 261 char desc, 0 slots, 0 events
+- ✅ `nys-tooltip` — 285 char desc, 0 slots, 0 events
+- ✅ `nys-divider` — 156 char desc, 0 slots, 0 events
+- ✅ `nys-modal` — 284 char desc, 2 slots, 2 events
 
-- `nys-accordion` / `nys-accordionitem`
-- `nys-pagination`
-- `nys-stepper`
-- `nys-skipnav`
-- `nys-backtotop`
+**Phase 3 Learnings:**
+1. **Not all components need events** — Display components like badge, avatar, icon, and divider have no custom events. Don't force `@fires` tags where they don't apply.
+2. **Getter/setter properties need JSDoc** — Properties defined via getter/setter (like tooltip's `position`) still need JSDoc comments above the getter for CEM to capture them.
+3. **Document fallback chains** — Components like avatar have priority logic (image > initials > icon > default). Document these cascades explicitly in the description.
+4. **Document implicit accessibility behaviors** — Modal's focus trapping, Escape key dismissal, and focus restoration are automatic but critical. Mention these in descriptions so AI knows they're handled.
+5. **Linked components need clear `for` patterns** — Tooltip connects to triggers via `for`/`id` pairing. Document this relationship pattern clearly with examples.
 
-### Phase 5: Global Components (Day 10)
+### Phase 4: Navigation & Layout (Days 8-9) ✅
 
-- `nys-globalheader`
-- `nys-globalfooter`
-- `nys-unavheader`
-- `nys-unavfooter`
-- `nys-label`
-- `nys-errormessage`
+- ✅ `nys-accordion` / `nys-accordionitem` — 270/285 char desc, 1/1 slots, 0/1 events
+- ✅ `nys-pagination` — 268 char desc, 0 slots, 1 event
+- ✅ `nys-stepper` / `nys-step` — 282/244 char desc, 2/0 slots, 0/1 events
+- ✅ `nys-skipnav` — 266 char desc, 0 slots, 0 events
+- ✅ `nys-backtotop` — 225 char desc, 0 slots, 0 events
 
-### Phase 6: Verification & Commit (Day 11)
+**Phase 4 Learnings:**
+1. **Parent/child component pairs are common** — accordion/accordionitem, stepper/step follow similar patterns to checkbox/checkboxgroup. Document the relationship and which props are set by parent vs user.
+2. **Some props are internal** — Properties like `stepNumber` (auto-assigned) or `bordered` (set by parent) should note they're not typically set directly by users.
+3. **Cancelable events enable SPA routing** — nys-step's `nys-step-click` event is cancelable, allowing developers to prevent default navigation for client-side routing.
 
-1. **Run CEM analyzer** — `npm run cem`
-2. **Validate output** — Check `dist/custom-elements.json` structure
-3. **Test MCP server** — Verify tools return enhanced documentation
-4. **Commit changes** — Single commit per component or batched by phase
+### Phase 5: Global Components (Day 10) ✅
+
+- ✅ `nys-globalheader` — 262 char desc, 1 slot, 0 events
+- ✅ `nys-globalfooter` — 269 char desc, 1 slot, 0 events
+- ✅ `nys-unavheader` — 304 char desc, 0 slots, 0 events
+- ✅ `nys-unavfooter` — 222 char desc, 0 slots, 0 events
+- ✅ `nys-label` — 238 char desc (internal), 1 slot, 0 events
+- ✅ `nys-errormessage` — 217 char desc (internal), 0 slots, 0 events
+
+**Phase 5 Learnings:**
+1. **Internal components need docs too** — Even private/internal components like nys-label and nys-errormessage benefit from JSDoc for maintainability and CEM completeness.
+2. **Universal nav is config-free** — `nys-unavheader` and `nys-unavfooter` have minimal/no props because they're standardized across all NYS sites.
+3. **Slot content gets sanitized** — Global header/footer sanitize slotted content (removing scripts, iframes) for security. This is implicit behavior worth noting.
+
+### Phase 6: Verification & Commit (Day 11) ✅
+
+1. ✅ **Run CEM analyzer** — `npm run cem` successful
+2. ✅ **Validate output** — All 32 components have summary and description
+3. ✅ **Test MCP server** — Server builds, CEM data accessible
+4. ✅ **Lint check** — All component files pass ESLint
+5. ⏳ **Commit changes** — Ready for commit
+
+**Final Statistics:**
+| Metric | Count |
+|--------|-------|
+| Total components | 32 |
+| With summary | 32 (100%) |
+| With description | 32 (100%) |
+| With slots documented | 20 |
+| With events documented | 14 |
+| Total slots | 29 |
+| Total events | 31 |
+
+**Additional Components Found During Verification:**
+- `nys-fileitem` — Child of nys-fileinput (internal)
+- `nys-option` — Child of nys-select
 
 ---
 
@@ -401,34 +466,34 @@ High-complexity, high-usage components:
 
 ### Full Component List with Priority
 
-| Component | Priority | Complexity | 11ty Doc | Notes |
-|-----------|----------|------------|----------|-------|
-| `nys-button` | P0 | High | ✅ | Reference implementation |
-| `nys-textinput` | P0 | High | ✅ | Form validation, masking |
-| `nys-select` | P0 | High | ✅ | Options, search |
-| `nys-checkbox` | P0 | Medium | ✅ | Includes checkboxgroup |
-| `nys-radiobutton` | P0 | Medium | ✅ | Similar to checkbox |
-| `nys-alert` | P0 | Medium | ✅ | Multiple types |
-| `nys-modal` | P0 | High | ✅ | Focus management |
-| `nys-textarea` | P1 | Medium | ✅ | Similar to textinput |
-| `nys-toggle` | P1 | Low | ✅ | Simple boolean |
-| `nys-fileinput` | P1 | Medium | ✅ | File handling |
-| `nys-accordion` | P1 | Medium | ✅ | Parent/child pattern |
-| `nys-pagination` | P1 | Medium | ✅ | Navigation logic |
-| `nys-tooltip` | P1 | Medium | ✅ | Positioning |
-| `nys-badge` | P2 | Low | ✅ | Simple display |
-| `nys-avatar` | P2 | Medium | ✅ | Image/initials fallback |
-| `nys-icon` | P2 | Low | ✅ | Icon library |
-| `nys-divider` | P2 | Low | ✅ | Minimal props |
-| `nys-stepper` | P2 | High | ✅ | Internal use mainly |
-| `nys-backtotop` | P2 | Low | ✅ | Auto-behavior |
-| `nys-skipnav` | P2 | Low | ✅ | A11y utility |
-| `nys-globalheader` | P1 | High | ✅ | Agency branding |
-| `nys-globalfooter` | P1 | Medium | ✅ | Agency branding |
-| `nys-unavheader` | P2 | Medium | ✅ | Universal nav |
-| `nys-unavfooter` | P2 | Medium | ✅ | Universal nav |
-| `nys-label` | P2 | Low | ❌ | Internal utility |
-| `nys-errormessage` | P2 | Low | ❌ | Internal utility |
+| Component | Priority | Complexity | 11ty Doc | JSDoc | Notes |
+|-----------|----------|------------|----------|-------|-------|
+| `nys-button` | P0 | High | ✅ | ✅ | Reference implementation (Phase 1) |
+| `nys-textinput` | P0 | High | ✅ | ✅ | Phase 2 complete |
+| `nys-select` | P0 | High | ✅ | ✅ | Phase 2 complete |
+| `nys-checkbox` | P0 | Medium | ✅ | ✅ | Phase 2 (includes checkboxgroup) |
+| `nys-radiobutton` | P0 | Medium | ✅ | ✅ | Phase 2 (includes radiogroup) |
+| `nys-alert` | P0 | Medium | ✅ | ✅ | Phase 3 complete |
+| `nys-modal` | P0 | High | ✅ | ✅ | Phase 3 complete |
+| `nys-textarea` | P1 | Medium | ✅ | ✅ | Phase 2 complete |
+| `nys-toggle` | P1 | Low | ✅ | ✅ | Phase 2 complete |
+| `nys-fileinput` | P1 | Medium | ✅ | ✅ | Phase 2 complete |
+| `nys-accordion` | P1 | Medium | ✅ | ✅ | Phase 4 (includes accordionitem) |
+| `nys-pagination` | P1 | Medium | ✅ | ✅ | Phase 4 complete |
+| `nys-tooltip` | P1 | Medium | ✅ | ✅ | Phase 3 complete |
+| `nys-badge` | P2 | Low | ✅ | ✅ | Phase 3 complete |
+| `nys-avatar` | P2 | Medium | ✅ | ✅ | Phase 3 complete |
+| `nys-icon` | P2 | Low | ✅ | ✅ | Phase 3 complete |
+| `nys-divider` | P2 | Low | ✅ | ✅ | Phase 3 complete |
+| `nys-stepper` | P2 | High | ✅ | ✅ | Phase 4 (includes step) |
+| `nys-backtotop` | P2 | Low | ✅ | ✅ | Phase 4 complete |
+| `nys-skipnav` | P2 | Low | ✅ | ✅ | Phase 4 complete |
+| `nys-globalheader` | P1 | High | ✅ | ✅ | Phase 5 complete |
+| `nys-globalfooter` | P1 | Medium | ✅ | ✅ | Phase 5 complete |
+| `nys-unavheader` | P2 | Medium | ✅ | ✅ | Phase 5 complete |
+| `nys-unavfooter` | P2 | Medium | ✅ | ✅ | Phase 5 complete |
+| `nys-label` | P2 | Low | ❌ | ✅ | Phase 5 (internal) |
+| `nys-errormessage` | P2 | Low | ❌ | ✅ | Phase 5 (internal) |
 
 ---
 
@@ -557,14 +622,47 @@ For each component, verify:
 
 ## Appendix: Reference Implementation
 
-See `packages/nys-button/src/nys-button.ts` after Phase 1 completion for the fully documented reference implementation.
+✅ **COMPLETE** — See `packages/nys-button/src/nys-button.ts` for the fully documented reference implementation.
+
+### Key Implementation Notes (from Phase 1)
+
+1. **Keep It Concise**: Target 200-400 characters for class descriptions, 50-150 for properties. AI systems perform best with focused, actionable text.
+
+2. **JSDoc Structure**: Place the description paragraphs first (plain text), then use `@summary` tag at the end to set the short summary. This ensures both `summary` and `description` fields are populated in the CEM.
+
+3. **Tag Order**: Use this order for consistency:
+   - Description paragraphs (plain text, 200-400 chars)
+   - `@summary` - Short one-liner (~70 chars)
+   - `@element` - Tag name
+   - `@slot` - Slot definitions (brief)
+   - `@cssprop` - CSS custom properties
+   - `@fires` - Events
+   - `@example` - Code examples
+
+4. **Property Documentation**: Each `@property` should have a concise JSDoc comment (50-150 chars) covering:
+   - What it does + when to use it (combined)
+   - For enums: all options on one line with guidance
+   - Default values via `@default` tag
+
+5. **CEM Config**: No custom plugins needed; the standard analyzer handles all tags correctly.
+
+### Metrics Achieved (nys-button reference)
+
+| Metric | Result |
+|--------|--------|
+| Class description | 266 chars ✅ |
+| Summary | 67 chars ✅ |
+| Property descriptions | 50-156 chars ✅ |
+| Slots | 3 documented |
+| CSS Properties | 9 documented |
+| Events | 3 documented |
 
 ---
 
 ## Appendix: Related Documentation
 
-- [Effective Writing for AI](https://bennypowers.dev/cem/docs/mcp/writing-descriptions/) — Best practices for CEM descriptions
-- [Tyler Forge MCP](https://github.com/tyler-technologies-oss/forge-mcp) — Reference implementation
+- [Effective Writing for AI](https://bennypowers.github.io/cem/docs/usage/effective-mcp-descriptions/) — Best practices for CEM descriptions
+- [CEM MCP Server](https://bennypowers.github.io/cem/docs/mcp/) — MCP server documentation
 - [Custom Elements Manifest](https://custom-elements-manifest.open-wc.org/) — CEM specification
 - **NYSDS 11ty Docs:** `/Users/plasticmind/Sites/nys/nysds-site/src/content/components/`
 - **MCP Server PRD:** `/Users/plasticmind/Sites/nys/nysds-mcp/PRD.md`

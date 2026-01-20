@@ -4,15 +4,33 @@ import { property, state } from "lit/decorators.js";
 import styles from "./nys-globalheader.scss?inline";
 
 /**
- * `<nys-globalheader>` renders a New York State–style global header.
- * Supports an optional app name, agency name, homepage link, and slotted navigation elements.
- * Highlights active links based on current URL and handles a mobile menu toggle.
+ * Agency-branded header with app/agency name, navigation, and responsive mobile menu.
+ *
+ * Place below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links
+ * are auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.
+ *
+ * @summary Agency header with navigation, mobile menu, and active link highlighting.
+ * @element nys-globalheader
+ *
+ * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ *
+ * @example Basic header
+ * ```html
+ * <nys-globalheader appName="My App" agencyName="Department of Health" homepageLink="/">
+ *   <ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
+ * </nys-globalheader>
+ * ```
  */
 export class NysGlobalHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Application name displayed prominently. */
   @property({ type: String }) appName = "";
+
+  /** Agency name displayed below app name (or as main title if no appName). */
   @property({ type: String }) agencyName = "";
+
+  /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
   @state() private slotHasContent = true;
   @state() private isMobileMenuOpen = false;

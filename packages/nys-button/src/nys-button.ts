@@ -7,41 +7,185 @@ import styles from "./nys-button.scss?inline";
 let buttonIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * `<nys-button>` is a button component that supports multiple
- * styles (variants), sizes, icons, circle mode, and can act as a native
- * button or a link. It is form-associated and supports keyboard accessibility.
+ * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
+ *
+ * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
+ * `text` for inline. Set `href` to render as a navigation link.
+ *
+ * @summary Button for actions and CTAs with variants, sizes, and icon support.
+ * @element nys-button
+ *
+ * @slot prefix-icon - Icon before label. Not shown for `text` variant.
+ * @slot suffix-icon - Icon after label. Not shown for `text` variant.
+ * @slot circle-icon - Icon for circle mode. Overrides `icon` prop.
+ *
+ * @cssprop [--nys-button-color] - Text color of the button label.
+ * @cssprop [--nys-button-color--hover] - Text color when hovered.
+ * @cssprop [--nys-button-color--active] - Text color when active/pressed.
+ * @cssprop [--nys-button-background-color] - Background color of the button.
+ * @cssprop [--nys-button-background-color--hover] - Background color when hovered.
+ * @cssprop [--nys-button-background-color--active] - Background color when active/pressed.
+ * @cssprop [--nys-button-border-color] - Border color of the button.
+ * @cssprop [--nys-button-border-color--hover] - Border color when hovered.
+ * @cssprop [--nys-button-border-color--active] - Border color when active/pressed.
+ *
+ * @fires nys-click - Fired when the button is clicked (mouse or keyboard). Not fired when disabled.
+ * @fires nys-focus - Fired when the button receives focus.
+ * @fires nys-blur - Fired when the button loses focus.
+ *
+ * @example Basic filled button
+ * ```html
+ * <nys-button label="Submit" variant="filled"></nys-button>
+ * ```
+ *
+ * @example Secondary outline button
+ * ```html
+ * <nys-button label="Cancel" variant="outline"></nys-button>
+ * ```
+ *
+ * @example Button with icons
+ * ```html
+ * <nys-button label="Previous" prefixIcon="chevron_left"></nys-button>
+ * <nys-button label="Next" suffixIcon="chevron_right"></nys-button>
+ * ```
+ *
+ * @example Circle icon button
+ * ```html
+ * <nys-button circle icon="close" label="Close dialog"></nys-button>
+ * ```
+ *
+ * @example Link-style button for navigation
+ * ```html
+ * <nys-button label="Visit NY.gov" href="https://www.ny.gov/" target="_blank" suffixIcon="open_in_new"></nys-button>
+ * ```
+ *
+ * @example Form submit button
+ * ```html
+ * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
+ * ```
  */
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /**
+   * Unique identifier. Auto-generated if not provided.
+   */
   @property({ type: String, reflect: true }) id = "";
+
+  /**
+   * Name for form submission.
+   */
   @property({ type: String, reflect: true }) name = "";
+
+  /**
+   * Button height: `sm` (40px) for dense UIs, `md` (48px, default) for standard use, `lg` (56px) for prominent CTAs.
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) size: "sm" | "md" | "lg" = "md";
+
+  /**
+   * Expands button to fill container width. Use for mobile layouts or stacked button groups.
+   * @default false
+   */
   @property({ type: Boolean, reflect: true }) fullWidth = false;
+
+  /**
+   * Visual style: `filled` for primary (one per section), `outline` for secondary, `ghost` for tertiary, `text` for inline actions. Avoid `text` for navigation.
+   * @default "filled"
+   */
   @property({ type: String, reflect: true }) variant:
     | "filled"
     | "outline"
     | "ghost"
     | "text" = "filled";
-  @property({ type: Boolean, reflect: true }) inverted = false; //used on dark text
+
+  /**
+   * Adjusts colors for dark backgrounds.
+   * @default false
+   */
+  @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /**
+   * Visible button text. Use sentence case, action-oriented text (e.g., "Save Draft"). Becomes aria-label in `circle` mode.
+   */
   @property({ type: String }) label = "";
+
+  /**
+   * Screen reader label. Required for icon-only buttons if `label` is not set.
+   */
   @property({ type: String }) ariaLabel = "";
+
+  /**
+   * ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.
+   */
   @property({ type: String }) ariaControls = "";
+
+  /**
+   * Material Symbol icon before label. Not shown for `text` variant or `circle` mode.
+   */
   @property({ type: String }) prefixIcon = "";
+
+  /**
+   * Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.
+   */
   @property({ type: String }) suffixIcon = "";
+
+  /**
+   * Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.
+   * @default false
+   */
   @property({ type: Boolean, reflect: true }) circle = false;
+
+  /**
+   * Icon for circle mode. Required when `circle` is true. Scales with size (sm=24px, md=32px, lg=40px).
+   */
   @property({ type: String }) icon = "";
+
+  /**
+   * Prevents interaction. Avoid disabling without explanation—show validation errors instead.
+   * @default false
+   */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /**
+   * Form `id` to associate with. Use when button is outside the form element.
+   */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /**
+   * Value submitted with form data. Only used when `type="submit"`.
+   */
   @property({ type: String }) value = "";
+
+  /**
+   * Additional screen reader description. Sets `aria-description`.
+   */
   @property({ type: String }) ariaDescription = "";
+
+  /**
+   * Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.
+   * @default "button"
+   */
   @property({ type: String, reflect: true }) type:
     | "submit"
     | "reset"
     | "button" = "button";
+
+  /**
+   * Click handler. Use instead of `@click` to ensure keyboard accessibility.
+   */
   @property({ attribute: false }) onClick: ((event: Event) => void) | null =
     null;
+
+  /**
+   * URL to navigate to. Renders as `<a>` tag. Omit for action buttons.
+   */
   @property({ type: String }) href = "";
+
+  /**
+   * Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon="open_in_new"`), `_parent`, `_top`, or frame name.
+   * @default "_self"
+   */
   @property({ type: String, reflect: true }) target:
     | "_self"
     | "_blank"

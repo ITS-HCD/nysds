@@ -4,18 +4,31 @@ import { property, state } from "lit/decorators.js";
 import styles from "./nys-backtotop.scss?inline";
 
 /**
- * `<nys-backtotop>` renders a button that scrolls the page to the top.
+ * A floating "Back to top" button that appears after scrolling. Smooth-scrolls to page top when clicked.
  *
- * Behavior:
- * - Automatically appears after scrolling past 1.5 viewport heights
- *   if page height is at least 4 screens tall.
- * - Adapts its style for mobile screens (circle button on narrow screens).
- * - Can be explicitly made visible via `visible` attribute.
+ * Auto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.
+ * Renders as circle button on mobile. Position with `position` prop (`left` or `right`).
+ *
+ * @summary Floating back-to-top button with auto-show behavior and smooth scroll.
+ * @element nys-backtotop
+ *
+ * @example Auto-appearing button
+ * ```html
+ * <nys-backtotop></nys-backtotop>
+ * ```
+ *
+ * @example Always visible, left position
+ * ```html
+ * <nys-backtotop visible position="left"></nys-backtotop>
+ * ```
  */
 export class NysBacktotop extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Horizontal position: `left` or `right`. */
   @property({ type: String }) position = "right";
+
+  /** Force button visibility. Overrides auto-show scroll behavior. */
   @property({ type: Boolean, reflect: true }) visible = false;
 
   @state() private isMobile = false;

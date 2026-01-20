@@ -4,12 +4,24 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-divider.scss?inline";
 
 /**
- * `<nys-divider>` renders a horizontal rule `<hr>` element with optional styling.
- * Can be inverted for dark backgrounds.
+ * A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.
+ *
+ * Use to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.
+ *
+ * @summary Horizontal divider for visual separation of content sections.
+ * @element nys-divider
+ *
+ * @example Basic divider
+ * ```html
+ * <p>Section one content</p>
+ * <nys-divider></nys-divider>
+ * <p>Section two content</p>
+ * ```
  */
 export class NysDivider extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
   constructor() {

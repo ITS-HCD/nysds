@@ -7,17 +7,37 @@ import styles from "./nys-pagination.scss?inline";
 let componentIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * `NysPagination` is a pagination component that renders page navigation buttons.
- * Supports first/last page buttons, previous/next buttons, and dynamic ellipses
- * for skipped pages. Dispatches `nys-change` events when the current page changes.
+ * Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.
+ *
+ * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.
+ * Hidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.
+ *
+ * @summary Page navigation with numbered links, prev/next buttons, and responsive layout.
+ * @element nys-pagination
+ *
+ * @fires nys-change - Fired when page changes. Detail: `{page}`.
+ *
+ * @example Basic pagination
+ * ```html
+ * <nys-pagination currentPage="1" totalPages="10"></nys-pagination>
+ * ```
  */
 export class NysPagination extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name attribute for form association. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Currently active page (1-indexed). Clamped to valid range. */
   @property({ type: Number, reflect: true }) currentPage = 1;
+
+  /** Total number of pages. Must be at least 1. */
   @property({ type: Number, reflect: true }) totalPages = 1;
+
+  /** Internal state for layout adjustments near the end. */
   @property({ type: Boolean, reflect: true }) _twoBeforeLast = false;
 
   /**
