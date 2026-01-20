@@ -10,8 +10,27 @@ MCP (Model Context Protocol) server for the New York State Design System. Expose
 ```bash
 npm install @nysds/mcp-server
 ```
+> [!WARNING]
+> This isn't published to NPM (yet), so the above won't work. You'd need to clone this repo to your local machine and switch to the `feature/mcp-server` branch.
 
-## Setup
+Once it's cloned, run this command from the `/packages/mcp-server` directory:
+
+```bash
+# Build the server
+npm run build
+
+# Run in development mode (watch)
+npm run dev
+
+# Test with MCP Inspector
+# npm run inspect
+
+# Until this is published to NPM, you need to run:
+npx @modelcontextprotocol/inspector dist/index.js
+```
+
+
+## Connecting to the MCP Server
 
 This MCP server runs locally on your machine. To use it, you need to configure your AI code assistant to spawn and communicate with it. Each assistant has its own configuration format, but they all follow the same pattern: tell the assistant how to start the server (via `npx`), and it will automatically connect and use the available tools.
 
@@ -141,24 +160,3 @@ Once configured, you can ask your AI assistant questions like:
 **Code review:**
 - "Is this the correct way to use the nys-select component?"
 - "Check if I'm using valid attributes on this nys-checkbox"
-
-## Development
-
-```bash
-# Build the server
-npm run build
-
-# Run in development mode (watch)
-npm run dev
-
-# Test with MCP Inspector
-npm run inspect
-```
-
-## Testing
-
-Use the MCP Inspector to test the server:
-
-```bash
-npx @modelcontextprotocol/inspector dist/index.js
-```
