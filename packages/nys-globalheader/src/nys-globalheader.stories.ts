@@ -185,15 +185,13 @@ export const UserActions: Story = {
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
     >
-      <div slot="user-actions">
-        <nys-button label="Log out" prefixIcon="slotted">
-          <nys-avatar
-            slot="prefix-icon"
-            ariaLabel="User avatar"
-            initials="NY"
-          ></nys-avatar>
-        </nys-button>
-      </div>
+      <nys-button slot="user-actions" label="Log out" prefixIcon="slotted">
+        <nys-avatar
+          slot="prefix-icon"
+          ariaLabel="User avatar"
+          initials="NY"
+        ></nys-avatar>
+      </nys-button>
     </nys-globalheader>
   `,
   parameters: {
@@ -201,15 +199,13 @@ export const UserActions: Story = {
       source: {
         code: `
 <nys-globalheader agencyName="Office of Information Technology Services">
-  <div slot="user-actions">
-    <nys-button label="Log out" prefixIcon="slotted">
-      <nys-avatar slot="prefix-icon"
-        slot="prefix-icon"
-        ariaLabel="User avatar"
-        initials="NY"
-      ></nys-avatar>
-    </nys-button>
-  </div>
+  <nys-button slot="user-actions" label="Log out" prefixIcon="slotted">
+    <nys-avatar
+      slot="prefix-icon"
+      ariaLabel="User avatar"
+      initials="NY"
+    ></nys-avatar>
+  </nys-button>
 </nys-globalheader>
 `.trim(),
         type: "auto",

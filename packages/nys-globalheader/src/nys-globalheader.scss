@@ -106,6 +106,10 @@ a {
   display: flex;
   align-items: center;
   margin-inline-start: auto;
+  --_nys-button-outline-color: var(
+    --nys-color-ink-reverse,
+    var(--nys-color-white, #fff)
+  );
 }
 
 .nys-globalheader {
