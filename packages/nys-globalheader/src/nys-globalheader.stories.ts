@@ -10,7 +10,6 @@ interface NysGlobalHeaderArgs {
   appName: string;
   agencyName: string;
   homepageLink: string;
-  showlogo: boolean;
 }
 
 const meta: Meta<NysGlobalHeaderArgs> = {
@@ -20,7 +19,6 @@ const meta: Meta<NysGlobalHeaderArgs> = {
     appName: { control: "text" },
     agencyName: { control: "text" },
     homepageLink: { control: "text" },
-    showlogo: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -43,7 +41,6 @@ export const Basic: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      .showlogo=${args.showlogo}
     >
     </nys-globalheader>
   `,
@@ -70,7 +67,6 @@ export const OnlyAgencyName: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      .showlogo=${args.showlogo}
     >
     </nys-globalheader>
   `,
@@ -96,7 +92,6 @@ export const OnlyAppName: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      .showlogo=${args.showlogo}
     >
     </nys-globalheader>
   `,
@@ -123,7 +118,6 @@ export const WithBothNames: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      .showlogo=${args.showlogo}
     >
     </nys-globalheader>
   `,
@@ -149,7 +143,6 @@ export const WithLinks: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      .showlogo=${args.showlogo}
     >
       <ul>
         <li><a href="https://its.ny.gov/services">Services</a></li>
@@ -191,7 +184,6 @@ export const UserActions: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      .showlogo=${args.showlogo}
     >
       <div slot="user-actions">
         <nys-button label="Log out" prefixIcon="slotted">
@@ -220,37 +212,6 @@ export const UserActions: Story = {
   </div>
 </nys-globalheader>
 `.trim(),
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const ShowLogo: Story = {
-  args: {
-    appName: "User Registration Form",
-    agencyName: "Office of Information Technology Services",
-    showlogo: true,
-  },
-
-  render: (args) => html`
-    <nys-globalheader
-      .agencyName=${args.agencyName}
-      .appName=${args.appName}
-      .homepageLink=${args.homepageLink}
-      .showlogo=${args.showlogo}
-    >
-    </nys-globalheader>
-  `,
-
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services" showlogo>
-</nys-globalheader>
-        `,
-
         type: "auto",
       },
     },
