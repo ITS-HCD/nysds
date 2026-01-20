@@ -10,7 +10,7 @@ MCP (Model Context Protocol) server for the New York State Design System. Expose
 ```bash
 npm install @nysds/mcp-server
 ```
-> [!WARNING]
+> !CAUTION]
 > This isn't published to NPM (yet), so the above won't work. You'd need to clone this repo to your local machine and switch to the `feature/mcp-server` branch.
 
 Once it's cloned, run this command from the `/packages/mcp-server` directory:
