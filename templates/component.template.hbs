@@ -86,6 +86,8 @@ export class Nys{{capitalize componentName}} extends LitElement {
    * - _manageRequire: handle required state
    * - _validate: actively validate and show errors
    * - checkValidity: passive boolean check without UI
+   * - _setValidityMessage: sync validation message with UI and internals
+   * - _handleInvalid: handle form invalid event and focus first invalid field
    */
 
   // Performs element validation
