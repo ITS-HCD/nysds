@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysPaginationStories from "./nys-pagination.stories";
-import "@nysds/nys-icon"
-import "@nysds/nys-badge"
+import "@nysds/nys-icon";
+import "@nysds/nys-badge";
 
 <Meta of={NysPaginationStories} title="Components/Pagination/Documentation" />
 
@@ -21,7 +27,12 @@ If an id is not passed, a unique id will be generated.
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=10600-10347" target="_blank">View in Figma</a>
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=10600-10347"
+      target="_blank"
+    >
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -35,7 +46,7 @@ If an id is not passed, a unique id will be generated.
 
 The `<nys-pagination>` component automatically renders in a condensed format on small screens.
 
-Note: If  `totalPages` is 1 then the `<nys-pagination>` component will not be visible.
+Note: If `totalPages` is 1 then the `<nys-pagination>` component will not be visible.
 
 ### Current Page
 
@@ -93,6 +104,7 @@ The `nys-pagination` component emits the following events:
 
 **Event details** \
 The event’s `detail` object includes:
+
 - id (string): The id of the pagination.
 - checked (boolean): Whether the pagination is currently checked.
 
@@ -104,7 +116,7 @@ const pagination = document.querySelector("nys-pagination");
 
 // Listen for the 'nys-change' event
 pagination.addEventListener("nys-change", (event) => {
-	console.log("Pagination is changed to page ${event.detail.page}");
+  console.log("Pagination is changed to page ${event.detail.page}");
 });
 ```
 

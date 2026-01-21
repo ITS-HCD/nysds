@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysIconStories from "./nys-icon.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysIconStories} title="Components/Icon/Documentation" />
 
@@ -18,10 +24,17 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
     label="AA"
     intent="success"
   ></nys-badge>
-  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9941">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      target="_blank"
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9941"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
-***
+---
 
 <Canvas of={NysIconStories.Basic} />
 
@@ -120,7 +133,9 @@ The **`nys-icon`** component is a reusable web component for use in New York Sta
 </div>
 
 ## Icon Name Properties
+
 ### Required Property
+
 The name property is the **ONLY** required attribute for the icon component. The
 current icon prop is `name="publish"` but you can change it to any of the listed icons like "edit-square".
 
@@ -129,21 +144,27 @@ Note: Leaving the 'ariaLabel' blank will set aria-hidden for screen readers.
 <Canvas of={NysIconStories.NameProp} />
 
 ### Aria Label
-Include a `ariaLabel` property to provide accessible text for screen readers.
-<Canvas of={NysIconStories.Labels} />
 
+Include a `ariaLabel` property to provide accessible text for screen readers.
+
+<Canvas of={NysIconStories.Labels} />
 
 ## Variants
 
 ### Size Inheritance
+
 The icon size adjusts to the relative font size of its nearest parent element. By default, the icon's `font-size` is set to `1cap`, aligning it with the height of capital letters in the current font. For browsers that do not support `1cap`, a fallback value of `0.7em` is used, as it closely approximates the height of capital letters in most fonts.
+
 <Canvas of={NysIconStories.InheritSize} />
 
 ### Size Naming Variant
+
 You can scale icons either relatively (based on the parent element’s font size) or literally (with predefined size values). The icons support two sizing systems: relative sizes and literal sizes.
 
 #### Relative Sizing
+
 To scale an icon relative to the inherited font size, pass a size variant like size=[variant name] as a prop. The values will scale based on the current font size of the parent element.
+
 - `xs` (extra small): 75% of parent font size
 - `sm` (small): 87.5% of parent font size
 - `md` (medium): 100% of parent font size - **Default**
@@ -155,6 +176,7 @@ To scale an icon relative to the inherited font size, pass a size variant like s
 - `5xl` (quintuple extra large): 300% of parent font size
 
 #### Literal Sizing
+
 For fixed, predefined sizes, you can use literal sizes. These sizes are defined in rem units, which provide fixed scaling options.
 
 - `12`: 0.75rem = 12px
@@ -170,48 +192,60 @@ For fixed, predefined sizes, you can use literal sizes. These sizes are defined 
 <Canvas of={NysIconStories.CustomSize} />
 
 ### Color Inheritance
+
 An icon will inherit the current text color from its closest parent element.
+
 <Canvas of={NysIconStories.ColorInheritance} />
 
 ### Color Change Using CSS Custom Variable
+
 You can override the parent inheritance by setting a color prop.
+
 <Canvas of={NysIconStories.ColorChange} />
 
 ### Rotate
+
 Set the icon's rotation by passing the angle as a number, like rotate="20" (without "deg").
+
 <Canvas of={NysIconStories.Rotate} />
 
 ### Flip
+
 Set an icon to flip horizontally, vertically, or in both directions by using the `flip` property.
 Available values are `horizontal`, `vertical`, and `both`.
+
 <Canvas of={NysIconStories.Flip} />
 
 ## Usage
 
 ### When to use this component
-  - To provide recognizable visual representations for common actions or objects (e.g., search, download, social media links).
-  - Ideal for enhancing navigation menus, buttons, or other interactive elements with visual cues.
+
+- To provide recognizable visual representations for common actions or objects (e.g., search, download, social media links).
+- Ideal for enhancing navigation menus, buttons, or other interactive elements with visual cues.
 
 ### When to consider something else
-  - If an icon does not add meaningful value to the context or might confuse users.
-  - When a descriptive label or plain text provides clearer communication.
+
+- If an icon does not add meaningful value to the context or might confuse users.
+- When a descriptive label or plain text provides clearer communication.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use icons to enhance user interfaces with clear, recognizable icons.
-      - Use appropriate icons align with the purpose and context of the UI elements they accompany.
-      - Provide an accessible label using the `ariaLabel` attribute to ensure screen readers can interpret the icon's purpose (if warranted).
-      - Customize icon sizes and colors to match the design system.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use icons to enhance user interfaces with clear, recognizable icons. - Use
+      appropriate icons align with the purpose and context of the UI elements
+      they accompany. - Provide an accessible label using the `ariaLabel`
+      attribute to ensure screen readers can interpret the icon's purpose (if
+      warranted). - Customize icon sizes and colors to match the design system.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)"/> Don't
-      - Use icons that lack clarity or context for their intended purpose.
-      - Use excessive customization that distracts from UI and established design patterns.
-      - Replace meaningful text with an icon unless its meaning is universally recognized or accompanied by a text label.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Use
+      icons that lack clarity or context for their intended purpose. - Use
+      excessive customization that distracts from UI and established design
+      patterns. - Replace meaningful text with an icon unless its meaning is
+      universally recognized or accompanied by a text label.
     </div>
   </div>
 </div>

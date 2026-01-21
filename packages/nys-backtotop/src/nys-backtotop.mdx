@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysBacktotopStories from "./nys-backtotop.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysBacktotopStories} title="Components/Backtotop/Documentation" />
 
@@ -19,7 +25,14 @@ It provides a button that allows users to quickly return to the top of a page, e
     label="AA"
     intent="success"
   ></nys-badge>
-  <p className="pill pill--uikit"><a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4303-1514" target="_blank">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4303-1514"
+      target="_blank"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
 ---
@@ -31,6 +44,7 @@ It provides a button that allows users to quickly return to the top of a page, e
 ## Options
 
 ### Left
+
 When the bottom right part of the screen cannot display the backtotop button, you can set the `left` prop to `true` to position it on the bottom left instead.
 This is useful when the right side of the screen is occupied by other elements, such as a chat bot.
 
@@ -39,26 +53,28 @@ This is useful when the right side of the screen is occupied by other elements, 
 ## Usage
 
 ### When to use this component
+
 - Only use 1 back to top component on a page
 - Use the component when the content is designed to be longer than the height of the screen
 
 ### When to consider something else
+
 - Add multiple back to top components to one page
 - Use when the content is designed to fill the size of the screen and is not scrollable
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Only use 1 back to top component on a page
-      - Use the component when the content is designed to be longer than the height of the screen
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Only use 1 back to top component on a page - Use the component when the
+      content is designed to be longer than the height of the screen
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Add multiple back to top components to one page
-      - Use when the content is designed to fill the size of the screen and is not scrollable
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Add
+      multiple back to top components to one page - Use when the content is
+      designed to fill the size of the screen and is not scrollable
     </div>
   </div>
 </div>
@@ -88,17 +104,17 @@ const backtotop = document.querySelector("nys-backtotop");
 
 // Listen for the 'click' event
 backtotop.addEventListener("click", () => {
-	console.log("Backtotop clicked");
+  console.log("Backtotop clicked");
 });
 
 // Listen for the 'focus' event
 backtotop.addEventListener("focus", () => {
-	console.log("Backtotop is focused");
+  console.log("Backtotop is focused");
 });
 
 // Listen for the 'blur' event
 backtotop.addEventListener("blur", () => {
-	console.log("Backtotop lost focus");
+  console.log("Backtotop lost focus");
 });
 ```
 

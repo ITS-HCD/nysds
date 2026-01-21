@@ -47,16 +47,15 @@
   --_nys-datepicker-text-color: var(--nys-color-text, #1b1b1b);
   --_nys-datepicker-text-disabled: var(--nys-color-text-disabled, #bec0c1);
   --_nys-datepicker-bg: var(--nys-color-ink-reverse, #fff);
-  
+
   /* Calendar Button */
   --_nys-datepicker--button-active-bg: var(--nys-color-gray-100, #d0d0ce);
-  
 
   /*** WC Styling Change ***/
   /* General */
   --_nys-datepicker--wc-padding: var(--nys-space-200, 16px);
   --_nys-datepicker--wc-weaker-color: var(--nys-color-text-weaker, #797c7f);
-  
+
   /* Calendar states */
   --_nys-datepicker--date-font-size: var(--nys-type-size-ui-sm, 14px);
   --_nys-datepicker--date-hover-bg: var(--nys-color-neutral-50, #ededed);
@@ -423,7 +422,8 @@ wc-datepicker {
   }
 
   &__weekday {
-    padding: var(--_nys-datepicker--wc-padding) 0 var(--_nys-datepicker-space-sm) 0;
+    padding: var(--_nys-datepicker--wc-padding) 0
+      var(--_nys-datepicker-space-sm) 0;
     min-width: var(--nys-size-500, 40px);
     font-weight: 600;
     aspect-ratio: 1;
@@ -502,7 +502,8 @@ wc-datepicker {
     }
     &.wc-datepicker__date--overflowing {
       color: var(--_nys-datepicker-text-disabled);
-      &:hover, &:active {
+      &:hover,
+      &:active {
         color: var(--_nys-datepicker-color);
       }
     }

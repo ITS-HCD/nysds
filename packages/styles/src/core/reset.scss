@@ -5,7 +5,7 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* Margin/Padding for Text Elements */
@@ -23,17 +23,17 @@ ol,
 blockquote,
 figure,
 pre {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /* Lists */
 
 ul,
 ol {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* === Global Styles */
@@ -42,17 +42,19 @@ ol {
 /* === Typography */
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-family-body);
-    color: var(--nys-color-ink);
+  margin: 0;
+  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
+    var(--nys-font-family-body);
+  color: var(--nys-color-ink);
 }
 
 small {
-    font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs) var(--nys-font-family-body);
+  font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs)
+    var(--nys-font-family-body);
 }
 
 h1,
@@ -61,159 +63,159 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--nys-font-family-heading);
-    font-weight: 700;
+  font-family: var(--nys-font-family-heading);
+  font-weight: 700;
 }
 
 h1 {
-    font-size: var(--nys-font-size-h1);
-    line-height: var(--nys-font-lineheight-h1);
-    letter-spacing: var(--nys-font-letterspacing-negative-300, -.02rem);
-    margin-top: var(--nys-space-600);
-    margin-bottom: var(--nys-space-250);
+  font-size: var(--nys-font-size-h1);
+  line-height: var(--nys-font-lineheight-h1);
+  letter-spacing: var(--nys-font-letterspacing-negative-300, -0.02rem);
+  margin-top: var(--nys-space-600);
+  margin-bottom: var(--nys-space-250);
 }
 
 h2 {
-    font-size: var(--nys-font-size-h2);
-    line-height: var(--nys-font-lineheight-h2);
-    letter-spacing: var(--nys-font-letterspacing-negative-200, -.01rem);
-    margin-top: var(--nys-space-500);
-    margin-bottom: var(--nys-space-200);
+  font-size: var(--nys-font-size-h2);
+  line-height: var(--nys-font-lineheight-h2);
+  letter-spacing: var(--nys-font-letterspacing-negative-200, -0.01rem);
+  margin-top: var(--nys-space-500);
+  margin-bottom: var(--nys-space-200);
 }
 
 h3 {
-    font-size: var(--nys-font-size-h3);
-    line-height: var(--nys-font-lineheight-h3);
-    letter-spacing: var(--nys-font-letterspacing-negative-200, -.01rem);
-    margin-top: var(--nys-space-400);
-    margin-bottom: var(--nys-space-150);
+  font-size: var(--nys-font-size-h3);
+  line-height: var(--nys-font-lineheight-h3);
+  letter-spacing: var(--nys-font-letterspacing-negative-200, -0.01rem);
+  margin-top: var(--nys-space-400);
+  margin-bottom: var(--nys-space-150);
 }
 
 h4 {
-    font-size: var(--nys-font-size-h4);
-    line-height: var(--nys-font-lineheight-h4);
-    margin-top: var(--nys-space-300);
-    margin-bottom: var(--nys-space-100);
+  font-size: var(--nys-font-size-h4);
+  line-height: var(--nys-font-lineheight-h4);
+  margin-top: var(--nys-space-300);
+  margin-bottom: var(--nys-space-100);
 }
 
 h5 {
-    font-size: var(--nys-font-size-h5);
-    line-height: var(--nys-font-lineheight-h5);
-    margin-top: var(--nys-space-250);
-    margin-bottom: var(--nys-space-100);
+  font-size: var(--nys-font-size-h5);
+  line-height: var(--nys-font-lineheight-h5);
+  margin-top: var(--nys-space-250);
+  margin-bottom: var(--nys-space-100);
 }
 
 h6 {
-    font-size: var(--nys-font-size-h6);
-    line-height: var(--nys-font-lineheight-h6);
-    margin-top: var(--nys-space-200);
-    margin-bottom: var(--nys-space-100);
+  font-size: var(--nys-font-size-h6);
+  line-height: var(--nys-font-lineheight-h6);
+  margin-top: var(--nys-space-200);
+  margin-bottom: var(--nys-space-100);
 }
-
 
 p,
 ul,
 ol,
 dl,
 blockquote {
-    font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-family-body);
-    margin-bottom: var(--nys-space-150);
+  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
+    var(--nys-font-family-body);
+  margin-bottom: var(--nys-space-150);
 }
 
 small {
-    margin-bottom: var(--nys-space-100);
+  margin-bottom: var(--nys-space-100);
 }
 
 /* Adjust for specific scenarios */
 
-h1+h2,
-h2+h3,
-h3+h4,
-h4+h5,
-h5+h6 {
-    margin-top: var(--nys-space-150);
+h1 + h2,
+h2 + h3,
+h3 + h4,
+h4 + h5,
+h5 + h6 {
+  margin-top: var(--nys-space-150);
 }
 
-p+p {
-    margin-top: var(--nys-space-150);
+p + p {
+  margin-top: var(--nys-space-150);
 }
 
-section+section {
-    margin-top: var(--nys-space-300);
+section + section {
+  margin-top: var(--nys-space-300);
 }
 
 @media (min-width: 768px) {
-    section+section {
-        margin-bottom: var(--nys-space-600);
-    }
+  section + section {
+    margin-bottom: var(--nys-space-600);
+  }
 }
 
 /* --- Lists --- */
 
 ul,
 ol {
-    margin-top: 0;
-    padding-left: var(--nys-space-200);
+  margin-top: 0;
+  padding-left: var(--nys-space-200);
 }
 
-blockquote>ul,
-blockquote>ol {
-    margin-top: 0;
-    margin-bottom: 0;
+blockquote > ul,
+blockquote > ol {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Unordered Lists (Bullets) */
 ul {
-    list-style-type: disc;
+  list-style-type: disc;
 }
 
 ul ul {
-    list-style-type: circle;
-    padding-left: var(--nys-space-200);
+  list-style-type: circle;
+  padding-left: var(--nys-space-200);
 }
 
 ul ul ul {
-    list-style-type: square;
-    padding-left: var(--nys-space-200);
+  list-style-type: square;
+  padding-left: var(--nys-space-200);
 }
 
 /* Ordered Lists (Numbers) */
 
 ol {
-    list-style-type: decimal;
+  list-style-type: decimal;
 }
 
 ol ol {
-    list-style-type: lower-alpha;
-    padding-left: var(--nys-space-200);
+  list-style-type: lower-alpha;
+  padding-left: var(--nys-space-200);
 }
 
 ol ol ol {
-    list-style-type: lower-roman;
-    padding-left: var(--nys-space-200);
+  list-style-type: lower-roman;
+  padding-left: var(--nys-space-200);
 }
 
 /* Lists Items */
 
 li {
-    margin-bottom: var(--nys-space-100);
+  margin-bottom: var(--nys-space-100);
 }
 
 li::marker {
-    color: var(--nys-color-theme-primary, #000);
+  color: var(--nys-color-theme-primary, #000);
 }
 
 /* Links */
 
 a {
-    color: var(--nys-color-link);
+  color: var(--nys-color-link);
 }
 
 a:hover,
 a:focus {
-    color: var(--nys-color-link-strong);
+  color: var(--nys-color-link-strong);
 }
 
 a:active {
-    color: var(--nys-color-link-strongest);
+  color: var(--nys-color-link-strongest);
 }

@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import { html } from 'lit';
-import * as NysUnavFooterStories from './nys-unavfooter.stories';
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysUnavFooterStories from "./nys-unavfooter.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysUnavFooterStories} title="Components/UnavFooter/Documentation" />
 
@@ -18,12 +24,30 @@ The **`nys-unavfooter`** component is a reusable web component for use in New Yo
     label="AA"
     intent="success"
   ></nys-badge>
-  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10268">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      target="_blank"
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10268"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
-***
+---
 
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The Universal Navigation Footer remains consistent across all sites </div>
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    verticalAlign: "middle",
+    alignItems: "center",
+  }}
+>
+  {" "}
+  <nys-icon size="xl" name="info"></nys-icon> The Universal Navigation Footer
+  remains consistent across all sites{" "}
+</div>
 <Canvas of={NysUnavFooterStories.Basic} />
 
 <Controls />
@@ -31,27 +55,29 @@ The **`nys-unavfooter`** component is a reusable web component for use in New Yo
 ## Usage
 
 ### When to use this component
-  - Use `nys-unavfooter` to provide consistent access to essential links across all sites.
+
+- Use `nys-unavfooter` to provide consistent access to essential links across all sites.
 
 ### When to consider something else
-  - Do not place the nys-unavfooter anywhere other than the bottom of the page as the final footer.
+
+- Do not place the nys-unavfooter anywhere other than the bottom of the page as the final footer.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use `nys-unavfooter` to provide consistent access to essential links across all sites.
-      - Place it only at the bottom of the page as the final footer.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use `nys-unavfooter` to provide consistent access to essential links
+      across all sites. - Place it only at the bottom of the page as the final
+      footer.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Place it anywhere other than the bottom of the page.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't -
+      Place it anywhere other than the bottom of the page.
     </div>
   </div>
 </div>
-
 
 ## Accessibility
 

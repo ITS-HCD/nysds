@@ -1,13 +1,19 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import { html } from 'lit';
-import * as NysTextareaStories from './nys-textarea.stories';
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysTextareaStories from "./nys-textarea.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysTextareaStories} title="Components/Textarea/Documentation" />
 
-
 # Text Area
+
 The **`nys-textarea`** is a reusable web component for use in New York State digital products. It allows users to input multiple lines of text to be collected.
 
 <div className="nys-grid-row nys-grid-gap-1">
@@ -18,10 +24,17 @@ The **`nys-textarea`** is a reusable web component for use in New York State dig
     label="AA"
     intent="success"
   ></nys-badge>
-  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10108">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      target="_blank"
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10108"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
-***
+---
 
 <Canvas of={NysTextareaStories.Basic} />
 
@@ -30,20 +43,23 @@ The **`nys-textarea`** is a reusable web component for use in New York State dig
 ## Options
 
 ### Width
+
 If no width is provided, the `nys-textarea` will default to `full`. Supported widths are `sm`, `md`, `lg`, and `full`.\
 Width `full` will take up the full width of the parent container.\
 If an invalid option is assigned to `width`, it will be ignored and default to `full`.
+
 <Canvas of={NysTextareaStories.Width} />
-### Rows
-The `rows` attribute specifies the visible height of a text area, in number of lines.\
-The default value is `rows="4"`
+### Rows The `rows` attribute specifies the visible height of a text area, in
+number of lines.\ The default value is `rows="4"`
 <Canvas of={NysTextareaStories.Rows} />
-### Resize
-By default the user can resize the `nys-textarea` vertically. If you want to disallow resizing altogether add `resize="none"`\
-Note: resize is not affected by setting `nys-textarea` to `disabled` or `readonly` and they are independent.
+### Resize By default the user can resize the `nys-textarea` vertically. If you
+want to disallow resizing altogether add `resize="none"`\ Note: resize is not
+affected by setting `nys-textarea` to `disabled` or `readonly` and they are
+independent.
 <Canvas of={NysTextareaStories.Resize} />
-### Description Slot
-You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization.
+### Description Slot You can supply a description via our `description` prop for
+plain text or by embedding HTML within our component via our slot for higher
+customization.
 <Canvas of={NysTextareaStories.DescriptionSlot} />
 ### Values and Placeholders
 <Canvas of={NysTextareaStories.ValueAndPlaceholder} />
@@ -54,39 +70,40 @@ You can supply a description via our `description` prop for plain text or by emb
 <Canvas of={NysTextareaStories.Maxlength} />
 ### Required
 <Canvas of={NysTextareaStories.Required} />
-### Optional
-Adding the `optional` prop will add an optional flag to the input.
+### Optional Adding the `optional` prop will add an optional flag to the input.
 <Canvas of={NysTextareaStories.Optional} />
 ### Error Message
 <Canvas of={NysTextareaStories.ErrorMessage} />
-## Inverted
-Set the `inverted` when the component is on a dark background.
+## Inverted Set the `inverted` when the component is on a dark background.
 <Canvas of={NysTextareaStories.Inverted} />
-
 
 ## Usage
 
 ### When to use this component
+
 - To collect **multiple lines of text input** from the user (e.g., comments, descriptions).
 - For **open-ended input** specific to the user (e.g., personal notes, feedback).
 
 ### When to consider something else
+
 - If you need to collect a **single line of text input**, use an input field instead.
 - If the input should be **selected from predefined options**, use a dropdown or radio button.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use the `nys-textarea` for **long-form text** like descriptions or detailed feedback.
-      - Use the `nys-textarea` when **precise user input** is required in multiple lines.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use the `nys-textarea` for **long-form text** like descriptions or
+      detailed feedback. - Use the `nys-textarea` when **precise user input** is
+      required in multiple lines.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Don't use the `nys-textarea` for **short or single-line inputs** (use `nys-input` instead).
-      - Don't use the `nys-textarea` for **data selection tasks** (e.g., dropdowns or predefined options).
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't -
+      Don't use the `nys-textarea` for **short or single-line inputs** (use
+      `nys-input` instead). - Don't use the `nys-textarea` for **data selection
+      tasks** (e.g., dropdowns or predefined options).
     </div>
   </div>
 </div>
@@ -110,34 +127,34 @@ The `nys-textarea` component emits the following events:
 
 **Event details** \
 The event’s `detail` object includes:
+
 - id (string): The id of the textarea.
 - value (string): The currently selected text.
 
 You can listen to these events using JavaScript:
 
 ```js
-
 // Select the textarea component
-const textarea = document.querySelector('nys-textarea');
+const textarea = document.querySelector("nys-textarea");
 
 // Listen for the 'nys-input' event
-textarea.addEventListener('nys-input', (event) => {
+textarea.addEventListener("nys-input", (event) => {
   const { id, value } = event.detail;
   console.log(`Textarea (${id}) changed:`, value);
 });
 
 // Listen for the 'nys-focus' event
-textarea.addEventListener('nys-focus', () => {
-  console.log('Text input is focused');
+textarea.addEventListener("nys-focus", () => {
+  console.log("Text input is focused");
 });
 
 // Listen for the 'nys-blur' event
-textarea.addEventListener('nys-blur', () => {
-  console.log('Text input is blurred');
+textarea.addEventListener("nys-blur", () => {
+  console.log("Text input is blurred");
 });
 
 // Listen for the 'nys-select' event
-textarea.addEventListener('nys-select', (event) => {
+textarea.addEventListener("nys-select", (event) => {
   const { id, value } = event.detail;
   console.log(`Textarea (${id}) selected text:`, value);
 });

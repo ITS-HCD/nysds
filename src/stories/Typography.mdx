@@ -22,13 +22,13 @@ NYSDS defines typography tokens (also known as [CSS variables](https://developer
 
 #### Primitive
 
-Primitive tokens are the raw typographical building blocks: family, size, weight, line height, and letter spacing. These tokens represent a range of sensible default values that can be used to build out interfaces. This includes tokens like `--nys-font-family-sans`, `--nys-font-size-md`, and `--nys-font-lineheight-lg`. 
+Primitive tokens are the raw typographical building blocks: family, size, weight, line height, and letter spacing. These tokens represent a range of sensible default values that can be used to build out interfaces. This includes tokens like `--nys-font-family-sans`, `--nys-font-size-md`, and `--nys-font-lineheight-lg`.
 
 ⛔️ These values **are not** meant to be used directly in your stylesheets. They are used to define the **semantic** tokens.
 
 #### Semantic
 
-Semantic tokens map specific properties to specific roles, like headings, body text, and UI elements. 
+Semantic tokens map specific properties to specific roles, like headings, body text, and UI elements.
 
 ✅ They **are** meant to be used directly in stylesheets. They help standardize font usage across components and applications.
 
@@ -44,19 +44,31 @@ Here are a few examples of NYSDS' semantic typography tokens:
   </thead>
   <tbody>
     <tr>
-      <td><code>--nys-font-family-body</code></td>
+      <td>
+        <code>--nys-font-family-body</code>
+      </td>
       <td>Font family for body text.</td>
-      <td><code>var(--nys-font-family-sans)</code></td>
+      <td>
+        <code>var(--nys-font-family-sans)</code>
+      </td>
     </tr>
     <tr>
-      <td><code>--nys-font-size-h1</code></td>
+      <td>
+        <code>--nys-font-size-h1</code>
+      </td>
       <td>Font size for Heading 1 elements.</td>
-      <td><code>var(--nys-font-size-5xl)</code></td>
+      <td>
+        <code>var(--nys-font-size-5xl)</code>
+      </td>
     </tr>
     <tr>
-      <td><code>--nys-font-size-ui-md</code></td>
+      <td>
+        <code>--nys-font-size-ui-md</code>
+      </td>
       <td>Medium font size for UI elements.</td>
-      <td><code>var(--nys-font-size-md)</code></td>
+      <td>
+        <code>var(--nys-font-size-md)</code>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -69,12 +81,12 @@ Here are a few examples of NYSDS' semantic typography tokens:
 
 To access these fonts:
 
-1. Download the appropriate font bundle from [NYSDS Fonts](https://github.com/ITS-HCD/nysds-fonts). (🔒 *Internal NYS Only*)
+1. Download the appropriate font bundle from [NYSDS Fonts](https://github.com/ITS-HCD/nysds-fonts). (🔒 _Internal NYS Only_)
 2. Extract the fonts into your project.
 3. Reference the provided `nysds-fonts.css` in the HTML head of your project:
 
-``` html
-<link rel="stylesheet" href="/assets/fonts/nysds-fonts.css">
+```html
+<link rel="stylesheet" href="/assets/fonts/nysds-fonts.css" />
 ```
 
 NYSDS web components using the typography tokens, so as soon as the fonts are installed, the components will appear correctly. More details about using tokens below.
@@ -83,18 +95,23 @@ NYSDS web components using the typography tokens, so as soon as the fonts are in
 
 For better performance, preload critical fonts. This helps reduce the chance of a fallback font loading and then the web font loading later, causing layout reflow and a Flash of Unstyled Text (FOUT):
 
-``` html
+```html
 <head>
-  <link rel="preload" href="/assets/fonts/proximanova-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  <link
+    rel="preload"
+    href="/assets/fonts/proximanova-regular.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin="anonymous"
+  />
 </head>
 ```
 
 Find more details about preloading fonts and web font best practices in Google's [Using Web Fonts guide](https://fonts.google.com/knowledge/using_type/using_web_fonts).
 
-
 ## Using Typography in a Project
 
-NYSDS' native web components use the typography tokens. 
+NYSDS' native web components use the typography tokens.
 
 If you're not using NYSDS components or if you're styling custom elements or parts of the site not covered by the components, use the typography tokens or utility classes directly in CSS and HTML.
 
@@ -110,7 +127,7 @@ body {
 }
 ```
 
-Unfortunately, each property must be set individually, as CSS does not support setting multiple properties at once with `var()`. 
+Unfortunately, each property must be set individually, as CSS does not support setting multiple properties at once with `var()`.
 
 This approach isn't too cumbersome when creating a library of components where you can define it once, but it can lead to a lot of repetition for everyday use. To help with this, NYSDS provides utility classes.
 
@@ -120,19 +137,21 @@ NYSDS also provides utility classes that combine several font tokens into common
 
 For example, NYSDS defines several utility classes that apply the font size, line height, and family for specific semantic text roles like heading, body, UI, and display:
 
-``` css
+```css
 .nys-font-h1 {
-  font: var(--nys-font-size-h1) / var(--nys-font-lineheight-h1) var(--nys-font-family-heading);
+  font: var(--nys-font-size-h1) / var(--nys-font-lineheight-h1)
+    var(--nys-font-family-heading);
   letter-spacing: var(--nys-font-letterspacing-h1);
 }
 .nys-font-body {
-  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-family-body);
+  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
+    var(--nys-font-family-body);
 }
 ```
 
 You can reference these classes in your HTML:
 
-``` html
+```html
 <h1 class="nys-font-h1">Welcome to NYSDS</h1>
 <div class="nys-font-body">
   <p>This is a sample paragraph styled using NYSDS typography utilities.</p>
@@ -154,105 +173,189 @@ You can reference these classes in your HTML:
   </thead>
   <tbody>
     <tr>
-      <td><code>.nys-font-body-xs</code></td>
+      <td>
+        <code>.nys-font-body-xs</code>
+      </td>
       <td>Extra small body text</td>
-      <td><div className="nys-font-body-xs">Discover the latest initiatives happening across New York State.</div></td>
+      <td>
+        <div className="nys-font-body-xs">
+          Discover the latest initiatives happening across New York State.
+        </div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-body-sm</code></td>
+      <td>
+        <code>.nys-font-body-sm</code>
+      </td>
       <td>Small body text</td>
-      <td><div className="nys-font-body-sm">Explore outdoor adventures, from the Adirondacks to Niagara Falls.</div></td>
+      <td>
+        <div className="nys-font-body-sm">
+          Explore outdoor adventures, from the Adirondacks to Niagara Falls.
+        </div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-body-md</code></td>
+      <td>
+        <code>.nys-font-body-md</code>
+      </td>
       <td>Medium body text</td>
-      <td><div className="nys-font-body-md">Welcome to the official website for New York State, where you’ll find services, programs, and resources for residents and businesses.</div></td>
+      <td>
+        <div className="nys-font-body-md">
+          Welcome to the official website for New York State, where you’ll find
+          services, programs, and resources for residents and businesses.
+        </div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-h1</code></td>
+      <td>
+        <code>.nys-font-h1</code>
+      </td>
       <td>Heading 1</td>
-      <td><div className="nys-font-h1">Experience the Empire State</div></td>
+      <td>
+        <div className="nys-font-h1">Experience the Empire State</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-h2</code></td>
+      <td>
+        <code>.nys-font-h2</code>
+      </td>
       <td>Heading 2</td>
-      <td><div className="nys-font-h2">Explore New York City and Beyond</div></td>
+      <td>
+        <div className="nys-font-h2">Explore New York City and Beyond</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-h3</code></td>
+      <td>
+        <code>.nys-font-h3</code>
+      </td>
       <td>Heading 3</td>
-      <td><div className="nys-font-h3">Parks, Trails, and Natural Wonders</div></td>
+      <td>
+        <div className="nys-font-h3">Parks, Trails, and Natural Wonders</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-h4</code></td>
+      <td>
+        <code>.nys-font-h4</code>
+      </td>
       <td>Heading 4</td>
-      <td><div className="nys-font-h4">Plan Your Visit Today</div></td>
+      <td>
+        <div className="nys-font-h4">Plan Your Visit Today</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-h5</code></td>
+      <td>
+        <code>.nys-font-h5</code>
+      </td>
       <td>Heading 5</td>
-      <td><div className="nys-font-h5">Join Our Community</div></td>
+      <td>
+        <div className="nys-font-h5">Join Our Community</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-h6</code></td>
+      <td>
+        <code>.nys-font-h6</code>
+      </td>
       <td>Heading 6</td>
-      <td><div className="nys-font-h6">Stay Informed with NYS Updates</div></td>
+      <td>
+        <div className="nys-font-h6">Stay Informed with NYS Updates</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-ui-xs</code></td>
+      <td>
+        <code>.nys-font-ui-xs</code>
+      </td>
       <td>Extra small UI text</td>
-      <td><div className="nys-font-ui-xs">Next</div></td>
+      <td>
+        <div className="nys-font-ui-xs">Next</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-ui-sm</code></td>
+      <td>
+        <code>.nys-font-ui-sm</code>
+      </td>
       <td>Small UI text</td>
-      <td><div className="nys-font-ui-sm">Apply Now</div></td>
+      <td>
+        <div className="nys-font-ui-sm">Apply Now</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-ui-md</code></td>
+      <td>
+        <code>.nys-font-ui-md</code>
+      </td>
       <td>Medium UI text</td>
-      <td><div className="nys-font-ui-md">View All Services</div></td>
+      <td>
+        <div className="nys-font-ui-md">View All Services</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-ui-lg</code></td>
+      <td>
+        <code>.nys-font-ui-lg</code>
+      </td>
       <td>Large UI text</td>
-      <td><div className="nys-font-ui-lg">Explore Programs</div></td>
+      <td>
+        <div className="nys-font-ui-lg">Explore Programs</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-ui-xl</code></td>
+      <td>
+        <code>.nys-font-ui-xl</code>
+      </td>
       <td>Extra large UI text</td>
-      <td><div className="nys-font-ui-xl">Get Started</div></td>
+      <td>
+        <div className="nys-font-ui-xl">Get Started</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-display-sm</code></td>
+      <td>
+        <code>.nys-font-display-sm</code>
+      </td>
       <td>Small display text</td>
-      <td><div className="nys-font-display-sm">Discover the beauty of upstate New York.</div></td>
+      <td>
+        <div className="nys-font-display-sm">
+          Discover the beauty of upstate New York.
+        </div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-display-md</code></td>
+      <td>
+        <code>.nys-font-display-md</code>
+      </td>
       <td>Medium display text</td>
-      <td><div className="nys-font-display-md">Welcome to the Empire State</div></td>
+      <td>
+        <div className="nys-font-display-md">Welcome to the Empire State</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-display-lg</code></td>
+      <td>
+        <code>.nys-font-display-lg</code>
+      </td>
       <td>Large display text</td>
-      <td><div className="nys-font-display-lg">Find Your Next Adventure</div></td>
+      <td>
+        <div className="nys-font-display-lg">Find Your Next Adventure</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-display-xl</code></td>
+      <td>
+        <code>.nys-font-display-xl</code>
+      </td>
       <td>Extra large display text</td>
-      <td><div className="nys-font-display-xl">New York State: It’s All Here</div></td>
+      <td>
+        <div className="nys-font-display-xl">New York State: It’s All Here</div>
+      </td>
     </tr>
     <tr>
-      <td><code>.nys-font-agency</code></td>
+      <td>
+        <code>.nys-font-agency</code>
+      </td>
       <td>Agency-specific font style</td>
-      <td><div className="nys-font-agency">New York State Department of Transportation</div></td>
+      <td>
+        <div className="nys-font-agency">
+          New York State Department of Transportation
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
-
-
-
 
 ## Best Practices
 

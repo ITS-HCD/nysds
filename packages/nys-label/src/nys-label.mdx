@@ -1,12 +1,17 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import { html } from 'lit';
-import * as NysLabelStories from './nys-label.stories';
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysLabelStories from "./nys-label.stories";
 import "@nysds/nys-alert";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysLabelStories} title="Components/Select/Documentation" />
-
 
 # Label **Component**
 
@@ -27,7 +32,7 @@ The **`nys-label`** is a reusable web component for use in New York State digita
   ></nys-badge>
 </div>
 
-***
+---
 
 <Canvas of={NysLabelStories.Basic} />
 
@@ -36,6 +41,7 @@ The **`nys-label`** is a reusable web component for use in New York State digita
 ### Options
 
 #### Description
+
 <Canvas of={NysLabelStories.Description} />
 <Canvas of={NysLabelStories.DescriptionSlot} />
 #### Required
@@ -47,21 +53,21 @@ The **`nys-label`** is a reusable web component for use in New York State digita
 
 ## Use cases
 
-
 ## Usage
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-    - Use the required flag only if the required prop is added to the form field.
-    - Use clear wording for what information the user should input in the form field.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use the required flag only if the required prop is added to the form
+      field. - Use clear wording for what information the user should input in
+      the form field.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-    - Use the label alone or without a form field.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Use
+      the label alone or without a form field.
     </div>
   </div>
 </div>

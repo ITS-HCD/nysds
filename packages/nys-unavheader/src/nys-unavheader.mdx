@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import { html } from 'lit';
-import * as NysUnavHeaderStories from './nys-unavheader.stories';
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysUnavHeaderStories from "./nys-unavheader.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysUnavHeaderStories} title="Components/UnavHeader/Documentation" />
 
@@ -21,12 +27,30 @@ Technology Standard ](https://its.ny.gov/system/files/documents/2025/02/nys-s16-
     label="AA"
     intent="success"
   ></nys-badge>
-  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-11902">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      target="_blank"
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-11902"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
-***
+---
 
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The Universal Navigation Header remains consistent across all sites </div>
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    verticalAlign: "middle",
+    alignItems: "center",
+  }}
+>
+  {" "}
+  <nys-icon size="xl" name="info"></nys-icon> The Universal Navigation Header
+  remains consistent across all sites{" "}
+</div>
 <Canvas of={NysUnavHeaderStories.Basic} />
 
 <Controls />
@@ -34,28 +58,31 @@ Technology Standard ](https://its.ny.gov/system/files/documents/2025/02/nys-s16-
 ## Options
 
 The translate and search features can be disabled if the feature already exists within the webpage.
+
 <Canvas of={NysUnavHeaderStories.HideTranslateSearch} />
 
 ## Usage
 
 ### When to use this component
-  - Use `nys-unavheader` to convey that this is a legitimate ny.gov site.
+
+- Use `nys-unavheader` to convey that this is a legitimate ny.gov site.
 
 ### When to consider something else
-  - Do not place the nys-unavheader anywhere other than the top of the page as the topmost header.
+
+- Do not place the nys-unavheader anywhere other than the top of the page as the topmost header.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use `nys-unavheader` to convey that this is a legitimate ny.gov site.
-      - Place it only at the top of the page as the topmost header.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use `nys-unavheader` to convey that this is a legitimate ny.gov site. -
+      Place it only at the top of the page as the topmost header.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Place it anywhere other than the top of the page.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't -
+      Place it anywhere other than the top of the page.
     </div>
   </div>
 </div>

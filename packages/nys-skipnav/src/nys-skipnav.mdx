@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysSkipnavStories from "./nys-skipnav.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysSkipnavStories} title="Components/Skipnav/Documentation" />
 
@@ -21,7 +27,12 @@ If an id is not passed, a unique id will be generated.
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10102" target="_blank">View in Figma</a>
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-10102"
+      target="_blank"
+    >
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -32,33 +43,37 @@ If an id is not passed, a unique id will be generated.
 <Controls />
 
 ## Options
+
 The `<nys-skipnav>` component adds a hidden "Skip to main content" link that appears on Tab, allowing keyboard and screen reader users to jump directly to the main content. By default, `href` is set to `href="#main-content"`, but you can change it to match the **id** of your main content container.
 
 **IMPORTANT:** To work correctly, `<nys-skipnav>` should be the first focusable element. Ideally right after the opening `<body>` tag, before any headers or nav elements.
+
 <Canvas of={NysSkipnavStories.HiddenUntilFocus} />
 
 ## Usage
 
 ### When to use this component
+
 - When your page has a large header or navigation before the main content
 - When you want to improve keyboard and screen reader accessibility
 
 ### When to consider something else
+
 - If your layout already starts with the main content and has no navigation to skip
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use on pages with navigation or repeated elements before the main content
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use on pages with navigation or repeated elements before the main content
       - Make sure the `href` matches the `id` of your main content container
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Don’t use if there’s no content to skip over
-      - Don’t forget to set the correct `href` or matching `id`
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't -
+      Don’t use if there’s no content to skip over - Don’t forget to set the
+      correct `href` or matching `id`
     </div>
   </div>
 </div>

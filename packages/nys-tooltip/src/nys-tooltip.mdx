@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysTooltipStories from "./nys-tooltip.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysTooltipStories} title="Components/Tooltip/Documentation" />
 
@@ -21,7 +27,12 @@ If an id is not passed, a unique id will be generated.
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4298-1477" target="_blank">View in Figma</a>
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4298-1477"
+      target="_blank"
+    >
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -36,6 +47,7 @@ If an id is not passed, a unique id will be generated.
 ## Supported Components
 
 The `<nys-tooltip>` supports the following NYS components:
+
 - `<nys-button>`
 - `<nys-icon>`
 - `<nys-textinput>` (appears as a hint icon)
@@ -47,6 +59,7 @@ The `<nys-tooltip>` supports the following NYS components:
 - `<nys-fileinput>` (appears as a hint icon)
 
 These components are either:
+
 - a form-related web component.
 - standard components used for tooltips (i.e., `nys-icon` and `nys-button`).
 
@@ -57,58 +70,78 @@ To attach `<nys-tooltip>` to a NYS component, see the section below.
 ## Options
 
 ### Linking Tooltip to an Component 🔗
+
 To attach a `nys-tooltip` to a support NYSDS component, set the tooltip’s `for` attribute to the target component's `id`. Both values MUST match:
+
 ```
 <nys-tooltip for="btn1" text="More details"></nys-tooltip>
 <nys-button id="btn1" label="Submit"></nys-button>
 ```
 
 ### Position
+
 Use the `position` prop to control where the direction where the tooltip will appear.
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>
-  <nys-icon size="xl" name="info"></nys-icon> If no position is provided, the tooltip will automatically choose the best position based on the available space.
+
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    verticalAlign: "middle",
+    alignItems: "center",
+  }}
+>
+  <nys-icon size="xl" name="info"></nys-icon> If no position is provided, the
+  tooltip will automatically choose the best position based on the available
+  space.
 </div>
 
 Valid positions are:
+
 - `top`
 - `bottom`
 - `right`
 - `left`
-<Canvas of={NysTooltipStories.Position} />
+  <Canvas of={NysTooltipStories.Position} />
 
 ### Hints for Form-Related Components
+
 When a tooltip is added to an NYS form component, it appears as a hint icon next to the label. \
 Tooltip positioning is automatic (top/auto), so you don’t need to set a position prop.
+
 <Canvas of={NysTooltipStories.FormElement} />
 
 ### Inverted
+
 Set the `inverted` prop of the **`nys-tooltip`** to adjust the appearance of the tooltip. Use this prop when the tooltip is on a dark background.
+
 <Canvas of={NysTooltipStories.Inverted} />
 
 ## Usage
 
 ### When to use this component
+
 - Use this component to wrap interactive or visual elements like `nys-icon`, `nys-button`, or the listed form-related NYSDS components to provide additional information or context.
 
 ### When to consider something else
+
 - When the information is critical for understanding or completing a task. Use inline text instead.
 - When the information is long or includes links or actions. Tooltips should stay simple and passive.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Provide brief and helpful content inside the tooltip.
-      - Provide tooltips for unlabeled icons.
-      - Position tooltips so they don’t block related content.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Provide brief and helpful content inside the tooltip. - Provide tooltips
+      for unlabeled icons. - Position tooltips so they don’t block related
+      content.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Use tooltips for information that is vital to task completion.
-      - Use interactive elements such as links or buttons inside a tooltip.
-      - Rely on tooltips when you have room to provide more explanation.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Use
+      tooltips for information that is vital to task completion. - Use
+      interactive elements such as links or buttons inside a tooltip. - Rely on
+      tooltips when you have room to provide more explanation.
     </div>
   </div>
 </div>

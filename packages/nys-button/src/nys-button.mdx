@@ -1,9 +1,15 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysButtonStories from "./nys-button.stories";
-import "@nysds/nys-alert"
+import "@nysds/nys-alert";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysButtonStories} title="Components/Button/Documentation" />
 
@@ -27,7 +33,9 @@ When using the `<nys-button>`, use the `onClick` prop (in lit.dev it's `.onClick
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8292">View in Figma</a>
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8292">
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -37,11 +45,23 @@ When using the `<nys-button>`, use the `onClick` prop (in lit.dev it's `.onClick
 
 <Controls />
 
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>
-	<nys-icon size="xl" name="info"></nys-icon> The button component takes the property `onClick`, which is a function that is called when the button is clicked.
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    verticalAlign: "middle",
+    alignItems: "center",
+  }}
+>
+  <nys-icon size="xl" name="info"></nys-icon> The button component takes the
+  property `onClick`, which is a function that is called when the button is
+  clicked.
 </div>
 ```html
-<nys-button onClick={() => alert("Button clicked")} label="Click Me"></nys-button>
+<nys-button
+  onClick={() => alert("Button clicked")}
+  label="Click Me"
+></nys-button>
 ```
 
 ## Options
@@ -83,14 +103,28 @@ Set the `suffixIcon` prop of the **`nys-button`** to include an icon in the butt
 
 If you wish to create a button with just an icon and no text, you can set the `ariaLabel` prop. This will allow users who rely on screen readers to understand the purpose of the button even though there is no visible label.
 
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center' }}>  <nys-icon size="xl" name="info"></nys-icon> The `aria-label` is automatically set to the label prop if provided, or defaults to "button"."</div>
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    verticalAlign: "middle",
+    alignItems: "center",
+  }}
+>
+  {" "}
+  <nys-icon size="xl" name="info"></nys-icon> The `aria-label` is automatically
+  set to the label prop if provided, or defaults to "button"."
+</div>
 <Canvas of={NysButtonStories.Icons} />
-### Circle
-Set the `circle` prop to create a circular button. This is useful for icon-only actions that require a more compact design.
-When using the `circle` prop the icon is set with the prop `icon`. If no `label` is provided the `aria-label` will be set to the value of the `icon` prop.
-If `label` is provided, it will not render but will be used to set the `aria-label` for accessibility purposes.
+### Circle Set the `circle` prop to create a circular button. This is useful for
+icon-only actions that require a more compact design. When using the `circle`
+prop the icon is set with the prop `icon`. If no `label` is provided the
+`aria-label` will be set to the value of the `icon` prop. If `label` is
+provided, it will not render but will be used to set the `aria-label` for
+accessibility purposes.
 
 Note: the `prefixIcon` and `suffixIcon` props are not supported when using the `circle` prop.
+
 <Canvas of={NysButtonStories.Circle} />
 ### Disabled
 <Canvas of={NysButtonStories.Disabled} />
@@ -118,20 +152,19 @@ Set the `inverted` prop of the **`nys-button`** to adjust the appearance of the 
 ### When to consider something else
 
 <div className="nys-grid-row nys-grid-gap-lg">
-	<div className="nys-mobile-lg:nys-grid-col">
-		<div className="usage-card usage-card--do">
-			### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-			- When users need to submit a form.
-			- When users need to navigate to a different page.
-			- When users need to trigger an action.
-		</div>
-	</div>
-	<div className="nys-mobile-lg:nys-grid-col">
-		<div className="usage-card usage-card--dont">
-			### <nys-icon name="cancel" color="var(--nys-color-error)" /> Don't
-			- Use inverted buttons on a light background. - Use buttons with icons only.
-		</div>
-	</div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      When users need to submit a form. - When users need to navigate to a
+      different page. - When users need to trigger an action.
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="cancel" color="var(--nys-color-error)" /> Don't - Use
+      inverted buttons on a light background. - Use buttons with icons only.
+    </div>
+  </div>
 </div>
 
 ## Accessibility
@@ -158,17 +191,17 @@ const button = document.querySelector("nys-button");
 
 // Listen for the 'nys-click' event
 button.addEventListener("nys-click", () => {
-	console.log("Button clicked");
+  console.log("Button clicked");
 });
 
 // Listen for the 'nys-focus' event
 button.addEventListener("nys-focus", () => {
-	console.log("Button is focused");
+  console.log("Button is focused");
 });
 
 // Listen for the 'nys-blur' event
 button.addEventListener("nys-blur", () => {
-	console.log("Button lost focus");
+  console.log("Button lost focus");
 });
 ```
 

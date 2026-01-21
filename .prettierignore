@@ -5,3 +5,12 @@ packages/*/node_modules
 packages/styles/uswds
 storybook-static
 coverage
+templates
+*.config.*
+*config.*
+.vscode
+.github/
+.storybook
+contributing.md
+license.md
+readme.md

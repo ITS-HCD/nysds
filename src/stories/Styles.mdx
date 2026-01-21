@@ -9,9 +9,10 @@ The New York State Design System (NYSDS) provides a CSS framework to ensure cons
 ## What's Included?
 
 The CSS framework is an collection of stylesheets that provide foundational CSS for tokens, themes, and utilities. The `@nysds/styles` package includes:
-  - **Global Stylesheet:** A centralized CSS file (nysds.min.css) for core design tokens like colors, typography, and spacing.
-  - **Agency-Specific Themes:** Optional CSS files tailored for individual agencies, enabling branding customization via CSS variables.
-  - **Utility Classes:** Lightweight, reusable classes for layout, spacing, and display styles.
+
+- **Global Stylesheet:** A centralized CSS file (nysds.min.css) for core design tokens like colors, typography, and spacing.
+- **Agency-Specific Themes:** Optional CSS files tailored for individual agencies, enabling branding customization via CSS variables.
+- **Utility Classes:** Lightweight, reusable classes for layout, spacing, and display styles.
 
 NYSDS web components reference these CSS variables within the Shadow DOM for their styling.
 
@@ -27,14 +28,14 @@ The `@nysds/styles` package is available on npm and can be used in any applicati
 
 Install the styles package:
 
-``` bash 
+```bash
 npm install @nysds/styles
 ```
 
 After installation, reference the styles in your application:
 
 ```html
-<link rel="stylesheet" href="[path-to-dir]/nysds.min.css"> 
+<link rel="stylesheet" href="[path-to-dir]/nysds.min.css" />
 ```
 
 ### Manual Download
@@ -42,18 +43,18 @@ After installation, reference the styles in your application:
 You can also download the CSS files directly from the [`@nysds/styles` npm page](https://www.npmjs.com/org/nysds) and include them in your project:
 
 ```html
-<link rel="stylesheet" href="[path-to-dir]/nysds.min.css">
+<link rel="stylesheet" href="[path-to-dir]/nysds.min.css" />
 ```
 
-##  Applying Agency-Specific Themes
+## Applying Agency-Specific Themes
 
 NYSDS' default theme uses the default New York State blue, but theme stylesheets for NYS agency groups are included with specific agency branding. Components that use themed design tokens like `--nys-color-theme` will be styled according to the selected theme.
 
 To use a theme in an application, include a reference to the theme stylesheet after the global stylesheet:
 
-``` html
-<link rel="stylesheet" href="[path-to-dir]/nysds.min.css">
-<link rel="stylesheet" href="[path-to-dir]/nysds-theme-health.min.css">
+```html
+<link rel="stylesheet" href="[path-to-dir]/nysds.min.css" />
+<link rel="stylesheet" href="[path-to-dir]/nysds-theme-health.min.css" />
 ```
 
 Every NYSDS component or element using one of the themed design tokens will now reflect that agency grouping's branding.
@@ -80,12 +81,15 @@ Most component properties are set using ["pseudo-private variables"](https://you
 
 For example:
 
-``` css
-:host { 
-  --_nys-button-background-color: var(--nys-button-background-color, var(--nys-color-theme, #154973;)); 
+```css
+:host {
+  --_nys-button-background-color: var(
+    --nys-button-background-color,
+    var(--nys-color-theme, #154973;)
+  );
 }
-button { 
-  background-color: var(--_nys-button-background-color); 
+button {
+  background-color: var(--_nys-button-background-color);
 }
 ```
 
@@ -93,7 +97,7 @@ The button component sets its own background color using a pseudo-private `--_ny
 
 To create a button with a custom background color, set the `--nys-button-background-color` variable on the button element:
 
-``` html
+```html
 <nys-button style="--nys-button-background-color: #990000;">Delete Forever</button>
 ```
 
@@ -110,6 +114,7 @@ Public variables are not exposed for all component properties. Be sure to check 
 NYSDS provides a lightweight utility-focused CSS framework from [the US Web Design System](https://designsystem.digital.gov/utilities/) to speed up mobile-responsive web development. These classes let you quickly style responsive layouts without writing custom CSS.
 
 Available Utility Categories
+
 - [Layout](?path=/docs/layout-grid--docs): grid-related layout utilities.
 - [Flexbox](?path=/docs/flexbox--docs): Layout, alignment, and ordering utilities.
 - [Other](?path=/docs/utilities--docs): Display, opacity, elevation, and other miscellaneous utilities.
@@ -117,5 +122,5 @@ Available Utility Categories
 To enable utility classes, include the full utility stylesheet:
 
 ```html
-<link rel="stylesheet" href="[path-to-dir]/nysds-full.min.css">
+<link rel="stylesheet" href="[path-to-dir]/nysds-full.min.css" />
 ```

@@ -1,14 +1,21 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import { html } from 'lit';
-import * as NysCheckboxStories from './nys-checkbox.stories';
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysCheckboxStories from "./nys-checkbox.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysCheckboxStories} title="Components/Checkbox/Documentation" />
 
 # Checkbox
 
 The **`nys-checkbox`** component is a reusable web component for use in New York State digital products. It provides users with the ability to toggle a binary state (checked/unchecked).
+
 - If an `id` is not passed, a unique `id` will be generated.
 - Optional: **`nys-checkboxgroup`** can be used to group multiple checkboxes so they function as a single form control.
 
@@ -20,23 +27,34 @@ The **`nys-checkbox`** component is a reusable web component for use in New York
     label="AA"
     intent="success"
   ></nys-badge>
-<p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=4808-7102">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      target="_blank"
+      href="https://www.figma.com/design/0ogYpymUPQQfhELthntNbt?node-id=4808-7102"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
-***
+---
 
 <Canvas of={NysCheckboxStories.Basic} />
 
 <Controls />
 
 ## Options
+
 ### Checkbox Grouping
+
 ⚠️ Important: While optional, you may find wrapping checkboxes with **`nys-checkboxgroup`** helpful for multiple selections with the same checkbox name. This ensures they function as a single form control visually & in validation.
+
 - When using **`nys-checkboxgroup`**, you can add `errorMessage` and `required` at the group level instead of on individual `nys-checkbox`.
 - For grouping to work correctly, all `nys-checkbox` elements within the same **`nys-checkboxgroup`** must have the same name attribute. This allows the form to recognize them as a related set of options.
-<Canvas of={NysCheckboxStories.Grouping} />
+  <Canvas of={NysCheckboxStories.Grouping} />
 
 ### Disabled
+
 <Canvas of={NysCheckboxStories.Disabled} />
 ### Size
 Set the `size` prop of the **`nys-checkboxgroup`** to have all **`nys-checkbox`** be the same size. Our current sizes are:
@@ -67,25 +85,27 @@ You can set `inverted` on `nys-checkboxgroup` to apply it to all checkboxes, or 
 ## Usage
 
 ### When to use this component
+
 - When collecting yes/no answers.
 - When obtaining confirmation from users.
 - When allowing users to select multiple options from a list.
 
 ### When to consider something else
+
 - When users need to select only one option (consider a [radio button](?path=/docs/components-radiobutton--docs) instead).
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use checkboxes for binary decisions (agree/disagree).
-      - Use checkboxes for multi-select lists (like selecting interests).
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use checkboxes for binary decisions (agree/disagree). - Use checkboxes for
+      multi-select lists (like selecting interests).
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Use checkboxes when users should choose only one option.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Use
+      checkboxes when users should choose only one option.
     </div>
   </div>
 </div>
@@ -108,6 +128,7 @@ The `NysCheckbox` component emits three custom events:
 
 **Event details** \
 The event’s `detail` object includes:
+
 - id (string): The id of the checkbox.
 - checked (boolean): Whether the checkbox is currently checked.
 - name (string): The checkbox’s name attribute (useful in forms).
@@ -116,28 +137,30 @@ The event’s `detail` object includes:
 You can listen to these events using JavaScript:
 
 ```js
+// Select the checkbox component
+const checkbox = document.querySelector("nys-checkbox");
 
-  // Select the checkbox component
-  const checkbox = document.querySelector('nys-checkbox');
+// Listen for the 'nys-change' event
+checkbox.addEventListener("nys-change", (event) => {
+  const { checked, name, value } = event.detail;
+  console.log(
+    `Checkbox changed: checked=${checked}, name=${name}, value=${value}`,
+  );
+});
 
-  // Listen for the 'nys-change' event
-  checkbox.addEventListener('nys-change', (event) => {
-    const { checked, name, value } = event.detail;
-    console.log(`Checkbox changed: checked=${checked}, name=${name}, value=${value}`);
-  });
+// Listen for the 'nys-focus' event
+checkbox.addEventListener("nys-focus", () => {
+  console.log("Checkbox is focused");
+});
 
-  // Listen for the 'nys-focus' event
-  checkbox.addEventListener('nys-focus', () => {
-    console.log('Checkbox is focused');
-  });
-
-  // Listen for the 'nys-blur' event
-  checkbox.addEventListener('nys-blur', () => {
-    console.log('Checkbox lost focus');
-  });
+// Listen for the 'nys-blur' event
+checkbox.addEventListener("nys-blur", () => {
+  console.log("Checkbox lost focus");
+});
 ```
 
 ## Dependencies
+
 This component automatically imports the following dependencies.
 
 - `<nys-icon>`

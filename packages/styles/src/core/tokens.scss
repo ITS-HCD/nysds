@@ -77,7 +77,6 @@
 
   --nys-color-focus: var(--nys-color-blue-600);
 
-
   /* ================== SEMANTIC TYPOGRAPHY TOKENS ===================== */
 
   /* === Role-Base Semantic Values === */
@@ -157,8 +156,12 @@
   /* Display */
   --nys-font-letterspacing-display-sm: var(--nys-font-letterspacing-0);
   --nys-font-letterspacing-display-md: var(--nys-font-letterspacing-0);
-  --nys-font-letterspacing-display-lg: var(--nys-font-letterspacing-negative-100);
-  --nys-font-letterspacing-display-xl: var(--nys-font-letterspacing-negative-100);
+  --nys-font-letterspacing-display-lg: var(
+    --nys-font-letterspacing-negative-100
+  );
+  --nys-font-letterspacing-display-xl: var(
+    --nys-font-letterspacing-negative-100
+  );
 
   /* UI */
   --nys-font-letterspacing-ui-xs: var(--nys-font-letterspacing-600);
@@ -263,9 +266,10 @@
 
   /* ===================== SHADOW/ELEVATION TOKENS ======================= */
 
-  --nys-shadow-raised: 0 4px 6px -1px var(--nys-color-black-transparent-100), 0 4px 6px -1px var(--nys-color-black-transparent-50);
+  --nys-shadow-raised:
+    0 4px 6px -1px var(--nys-color-black-transparent-100),
+    0 4px 6px -1px var(--nys-color-black-transparent-50);
   --nys-shadow-overlay: 0 25px 50px -12px var(--nys-color-black-transparent-300);
-
 
   /* ===================== PRIMITIVE COLOR RAMPS ====================== */
 
@@ -476,10 +480,15 @@
   /* ================ PRIMITIVE TYPOGRAPHY TOKENS ===================== */
 
   /* --- Font Family --- */
-  --nys-font-family-sans: Proxima Nova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-  --nys-font-family-serif: Noto Serif, Georgia, Cambria, Times New Roman, Times, serif;
+  --nys-font-family-sans:
+    Proxima Nova, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol;
+  --nys-font-family-serif:
+    Noto Serif, Georgia, Cambria, Times New Roman, Times, serif;
   --nys-font-family-alt: Oswald, Arial, sans-serif;
-  --nys-font-family-monospace: Roboto Mono Web, Bitstream Vera Sans Mono, Consolas, Courier, monospace;
+  --nys-font-family-monospace:
+    Roboto Mono Web, Bitstream Vera Sans Mono, Consolas, Courier, monospace;
   --nys-font-family-agency: D Sari, Arial, sans-serif;
 
   /* --- Font Size --- */

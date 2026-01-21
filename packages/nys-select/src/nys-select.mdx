@@ -1,9 +1,15 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import { html } from 'lit';
-import * as NysSelectStories from './nys-select.stories';
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysSelectStories from "./nys-select.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
-import '@nysds/nys-alert';
+import "@nysds/nys-badge";
+import "@nysds/nys-alert";
 
 <Meta of={NysSelectStories} title="Components/Select/Documentation" />
 
@@ -19,16 +25,24 @@ The **`nys-select`** is a reusable web component for use in New York State digit
     label="AA"
     intent="success"
   ></nys-badge>
-  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9877">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      target="_blank"
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-9877"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
-***
+---
 
 <Canvas of={NysSelectStories.Basic} />
 
 <Controls />
 
 ## Options
+
 <nys-alert type="warning">
 <p>The `<nys-option>` component will be deprecated with the 2.0 release of the New York State Design System.</p>
 <p>Use the native `<option>` tag for the options in the `<nys-select>` component.</p>
@@ -56,24 +70,42 @@ The following width options are available:
 ### Description Slot
 You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization.
 
-<div style={{ display: 'flex', gap: '10px', verticalAlign: 'middle', alignItems: 'center'}}>  <nys-icon name="info" size="xl" style={{margin: '20px 0' }}></nys-icon> You must use `slot="description"` on your embedded HTML for it to work properly. </div>
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    verticalAlign: "middle",
+    alignItems: "center",
+  }}
+>
+  {" "}
+  <nys-icon name="info" size="xl" style={{ margin: "20px 0" }}></nys-icon> You
+  must use `slot="description"` on your embedded HTML for it to work
+  properly.{" "}
+</div>
 <Canvas of={NysSelectStories.DescriptionSlot} />
 
 ### Error Message
+
 In order to display an error message, you must pass in `showError` to the component. Setting `errorMessage` does not display the message by default.
+
 <Canvas of={NysSelectStories.ErrorMessage} />
 
 ## Inverted
+
 Set the `inverted` when the component is on a dark background.
+
 <Canvas of={NysSelectStories.Inverted} />
 
 ## Usage
 
 ### When to use this component
+
 - When you need to collect data from a dropdown
 - When you need to provide a list of options for users to select a single option from
 
 ### When to consider something else
+
 - When you need to collect multiple items from a list
 
 <div className="nys-grid-row nys-grid-gap-lg">
@@ -105,32 +137,34 @@ The `nys-select` component includes the following accessibility-focused features
 ## Slots
 
 The `nys-select` component supports the following slots:
+
 <table>
-    <thead>
+  <thead>
     <tr>
-        <th>Component</th>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
+      <th>Component</th>
+      <th>Slot name</th>
+      <th>Description</th>
+      <th>Default value</th>
     </tr>
-    </thead>
-    <tbody>
+  </thead>
+  <tbody>
     <tr>
-        <td>`nys-select`</td>
-        <td>`description`</td>
-        <td>Description for the select component</td>
-        <td>None</td>
+      <td>`nys-select`</td>
+      <td>`description`</td>
+      <td>Description for the select component</td>
+      <td>None</td>
     </tr>
     <tr>
-        <td>`nys-option`</td>
-        <td>default</td>
-        <td>Displayed text of option</td>
-        <td>None</td>
+      <td>`nys-option`</td>
+      <td>default</td>
+      <td>Displayed text of option</td>
+      <td>None</td>
     </tr>
-    </tbody>
+  </tbody>
 </table>
 
 ## Events
+
 The `nys-select` component emits the following events:
 
 1. **`nys-change`**: Emitted when the value of the select changes. The event detail includes the value of the selected option.
@@ -139,34 +173,35 @@ The `nys-select` component emits the following events:
 
 **Event details** \
 The event’s `detail` object includes:
+
 - id (string): The id of the select.
 - value (string): The value of the selected option.
 
 You can listen for these events using the `addEventListener` method on the `nys-select` element.
 
 ```js
-
 //Select the select component
-const select = document.querySelector('nys-select');
+const select = document.querySelector("nys-select");
 
 //Listen for the 'nys-change' event
-select.addEventListener('nys-change', (event) => {
+select.addEventListener("nys-change", (event) => {
   const { id, value } = event.detail;
   console.log(`Select (${id}) changed to: ${value}`);
 });
 
 //Listen for the 'focus' event
-select.addEventListener('nys-focus', () => {
-  console.log('Select is focused');
+select.addEventListener("nys-focus", () => {
+  console.log("Select is focused");
 });
 
 //Listen for the 'nys-blur' event
-select.addEventListener('nys-blur', () => {
-  console.log('Select lost focus');
+select.addEventListener("nys-blur", () => {
+  console.log("Select lost focus");
 });
-
 ```
 
 ## Dependencies
+
 This component automatically imports the following dependencies.
+
 - `<nys-icon>`

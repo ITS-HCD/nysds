@@ -22,8 +22,7 @@
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '*.ts'"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "lit": "^3.3.1",
     "typescript": "^5.9.3",
@@ -43,4 +42,3 @@
   "author": "New York State Design System Team",
   "license": "MIT"
 }
-

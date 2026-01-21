@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysDatepickerStories from "./nys-datepicker.stories";
-import "@nysds/nys-icon"
-import "@nysds/nys-badge"
+import "@nysds/nys-icon";
+import "@nysds/nys-badge";
 
 <Meta of={NysDatepickerStories} title="Components/Datepicker/Documentation" />
 
@@ -21,7 +27,12 @@ If an id is not passed, a unique id will be generated.
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=15514-1502" target="_blank">View in Figma</a>
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=15514-1502"
+      target="_blank"
+    >
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -32,11 +43,14 @@ If an id is not passed, a unique id will be generated.
 <Controls />
 
 ## Options
+
 ### Value and form output
+
 The value prop can be set as a Date object or an ISO date string (`YYYY-MM-DD`). \
 Outwards, the input displays it as (`mm/dd/yyyy`). Internally, the component stores and submits the value as a string in ISO format.
 
 #### ⚠️ Date object warning
+
 Using `new Date("YYYY-MM-DD")` directly for `value` can produce an unexpected day due to timezone conversion (UTC vs local).
 Ensure your Date object represents the correct local date before passing it to `value`. \
 Reference: [StackOverflow explanation](https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off)
@@ -44,12 +58,13 @@ Reference: [StackOverflow explanation](https://stackoverflow.com/questions/75565
 Alternatively, `<nys-datepicker>` safely handles ISO date strings (`"YYYY-MM-DD"`), which will display and submit correctly.
 
 **Example:**
+
 ```js
 // Using a Date object
-value = new Date(2025, 5, 1) // June 1, 2025
+value = new Date(2025, 5, 1); // June 1, 2025
 
 // Using a string
-value = "2025-06-01"
+value = "2025-06-01";
 ```
 
 ```html
@@ -57,62 +72,69 @@ value = "2025-06-01"
 ```
 
 Form submission sends:
+
 ```js
 // FormData submits a string in YYYY-MM-DD format
-2025-06-01
+2025 - 06 - 01;
 ```
 
-### Width 
+### Width
+
 Set the `width` prop to adjust the width of `<nys-datepicker>`\
 Supported widths are:
+
 - `md`: 200px (_default width_)
 - `lg`: 384px
 - `full`: will take up the full width of the parent container.
-<Canvas of={NysDatepickerStories.WidthVariants} />
-
+  <Canvas of={NysDatepickerStories.WidthVariants} />
 
 ### Custom Start Date
+
 Use this option to guide users toward a relevant time period without preselecting a date.
+
 <Canvas of={NysDatepickerStories.CustomStartDate} />
 
 ### Hiding Buttons
+
 Hide the Today and Clear buttons to require users to intentionally choose a date. \
 Use properties `hideTodayButton` and `hideClearButton` to toggle off the buttons
+
 <Canvas of={NysDatepickerStories.WithoutButtons} />
 
 ### Disabled
+
 <Canvas of={NysDatepickerStories.Disabled} />
 
 ## Usage
 
 ### When to use this component
+
 - When users need to select a single calendar date
 - When a form requires consistent date formatting across browsers
 - When native date picker behavior needs to be replaced with a controlled, accessible experience
 
 ### When to consider something else
+
 - Familiar dates where users know the value without a calendar, such as a date of birth. \
- Consider memorable date fields ([currently under proposal](https://github.com/ITS-HCD/nysds/discussions/1193))
+  Consider memorable date fields ([currently under proposal](https://github.com/ITS-HCD/nysds/discussions/1193))
 - When the day of the week is irrelevant, such as birthdays or document issue dates. \
-Consider memorable date fields ([currently under proposal](https://github.com/ITS-HCD/nysds/discussions/1193))
+  Consider memorable date fields ([currently under proposal](https://github.com/ITS-HCD/nysds/discussions/1193))
 - When users need to select multiple dates or a span of time. Consider a date range component (possible version 2 of `nys-datepicker`)
 - When time selection is required
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use for birth dates, deadlines, and scheduling
-      - Pair with labels and helper text for clarity
-      - Use `required` when the date must be provided
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use for birth dates, deadlines, and scheduling - Pair with labels and
+      helper text for clarity - Use `required` when the date must be provided
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Use for selecting time or date ranges
-      - Use without a label or accessible description
-      - Rely on browser specific date picker behavior
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Use
+      for selecting time or date ranges - Use without a label or accessible
+      description - Rely on browser specific date picker behavior
     </div>
   </div>
 </div>
@@ -135,6 +157,7 @@ The `nys-datepicker` component emits the following events:
 
 **Event details** \
 The event’s `detail` object includes:
+
 - id (string): The id of the datepicker.
 - value (string): The currently value of the input.
 
@@ -145,7 +168,7 @@ You can listen to these events using JavaScript:
 const datepicker = document.querySelector("nys-datepicker");
 
 // Listen for the 'nys-click' event
-datepicker.addEventListener('nys-input', (event) => {
+datepicker.addEventListener("nys-input", (event) => {
   const { id, value } = event.detail;
   console.log(`Text input (${id}) changed:`, value);
 });

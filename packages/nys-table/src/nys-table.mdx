@@ -1,4 +1,10 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysTableStories from "./nys-table.stories";
 import "@nysds/nys-icon";
@@ -25,7 +31,9 @@ If an id is not passed, a unique id will be generated.
     <a
       href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=13670-31069"
       target="_blank"
-      >View in Figma</a>
+    >
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -77,17 +85,15 @@ Adding the `download` property adds a button which downloads the data that is be
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use for displaying tabular data.
-      - Use for displaying directories.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use for displaying tabular data. - Use for displaying directories.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Use for non-tabular data.
-      - Use for dashboards and other layouts.
-      - Use for long-form content.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Use
+      for non-tabular data. - Use for dashboards and other layouts. - Use for
+      long-form content.
     </div>
   </div>
 </div>

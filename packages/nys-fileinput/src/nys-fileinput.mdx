@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysFileinputStories from "./nys-fileinput.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysFileinputStories} title="Components/Fileinput/Documentation" />
 
@@ -21,7 +27,12 @@ If an id is not passed, a unique id will be generated.
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4739-1812" target="_blank">View in Figma</a>
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=4739-1812"
+      target="_blank"
+    >
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -32,60 +43,74 @@ If an id is not passed, a unique id will be generated.
 <Controls />
 
 ## Options
+
 The `accept` attribute sets the allowed file types using MIME types or file extensions (for example, image/png, .pdf).
 
 This component relies on the file extension or MIME type provided by the browser to determine if a file is acceptable. If a file does not match the allowed types, it will still appear in the list with an error message for the user, but it will be excluded from form submission.
 
 ### Dropzone
+
 Use the `dropzone` attribute to allow users to drag and drop files instead of (or in addition to) clicking the "Choose file" button.
+
 <Canvas of={NysFileinputStories.Dropzone} />
 
 ### Width
+
 Available values are:
 
 - `full` (default)
 - `lg`
-<Canvas of={NysFileinputStories.Width} />
+  <Canvas of={NysFileinputStories.Width} />
 
 ### Multiple files
+
 Set `multiple` to `true` to allow the selection of more than one file. Each selected file will display its own item in the list with progress and validation feedback.
+
 <Canvas of={NysFileinputStories.Multiple} />
 
 ### Disabled
+
 Set `disabled` to prevent interaction with the file input. Useful when the input should not be used under certain form conditions.
+
 <Canvas of={NysFileinputStories.Disabled} />
 
 ### Description Slot
+
 You can supply a description via our `description` prop for plain text or by embedding HTML within our component via our slot for higher customization.
+
 <Canvas of={NysFileinputStories.DescriptionSlot} />
 
 ## Inverted
+
 Set the `inverted` when the component is on a dark background.
+
 <Canvas of={NysFileinputStories.Inverted} />
 
 ## Usage
 
 ### When to use this component
+
 - When you need to upload a file as part of a form.
 - When you want to support drag-and-drop file uploads.
 
 ### When to consider something else
+
 - When uploading large files requiring resumable upload logic.
 - When selecting only from camera input or other device-native features.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Use when a file is required in a form.
-      - Use when multiple file selection is needed.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Use when a file is required in a form. - Use when multiple file selection
+      is needed.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Use when uploading sensitive data without encryption
-      - When you want to let users preview file content
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - Use
+      when uploading sensitive data without encryption - When you want to let
+      users preview file content
     </div>
   </div>
 </div>
@@ -99,21 +124,22 @@ The `nys-fileinput` component includes the following accessibility-focused featu
 - Keyboard-accessible via standard tab/focus patterns.
 
 ## Slots
+
 <table>
-    <thead>
+  <thead>
     <tr>
-        <th>Slot name</th>
-        <th>Description</th>
-        <th>Default value</th>
+      <th>Slot name</th>
+      <th>Description</th>
+      <th>Default value</th>
     </tr>
-    </thead>
-    <tbody>
+  </thead>
+  <tbody>
     <tr>
-        <td>`description`</td>
-        <td>Description text for `nys-fileinput`</td>
-        <td>none</td>
+      <td>`description`</td>
+      <td>Description text for `nys-fileinput`</td>
+      <td>none</td>
     </tr>
-    </tbody>
+  </tbody>
 </table>
 
 ## Events
@@ -124,6 +150,7 @@ The `nys-fileinput` component emits the following events:
 
 **Event details** \
 The event’s `detail` object includes:
+
 - id (string): The id of the file input.
 - files (Array of file entries): A list of files with status and progress information.
   - file (File): The raw File object.
@@ -144,8 +171,8 @@ fileinput.addEventListener("nys-change", (e) => {
   // Getting more specific details about each file(s)
   const { id, files } = event.detail;
   console.log(`Fileinput (${id}) changed:`);
-    files.forEach(({ file, progress, status, errorMsg }) => {
-      console.log(`- ${file.name} (${status}, ${progress}%)`, errorMsg || "");
+  files.forEach(({ file, progress, status, errorMsg }) => {
+    console.log(`- ${file.name} (${status}, ${progress}%)`, errorMsg || "");
   });
 });
 ```

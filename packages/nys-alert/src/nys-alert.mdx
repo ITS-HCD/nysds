@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from '@storybook/addon-docs/blocks';
-import { html } from 'lit';
-import * as NysAlertStories from './nys-alert.stories';
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysAlertStories from "./nys-alert.stories";
 import "@nysds/nys-icon";
-import '@nysds/nys-badge';
+import "@nysds/nys-badge";
 
 <Meta of={NysAlertStories} title="Components/Alert/Documentation" />
 
@@ -20,82 +26,111 @@ If an id is not passed, a unique id will be generated.
     label="AA"
     intent="success"
   ></nys-badge>
-  <p className="pill pill--uikit"><a target="_blank" href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8845">View in Figma</a></p>
+  <p className="pill pill--uikit">
+    <a
+      target="_blank"
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=3981-8845"
+    >
+      View in Figma
+    </a>
+  </p>
 </div>
 
-***
+---
 
 <Canvas of={NysAlertStories.Basic} />
 
 <Controls />
 
 ## Variants
+
 ## All Alerts
+
 Below are the available alert type, each showcasing its unique style and purpose.
+
 <Canvas of={NysAlertStories.AllAlerts} />
 
 ## Alert Property Examples
+
 ### Theme
+
 Set the `type` property to customize the alert style. Example: `type="info"`.
+
 <Canvas of={NysAlertStories.AlertType} />
 
 ### Custom Text
+
 Add descriptive content to your alert using the `text` prop or the our slot feature. \
 Use the `text` prop for simple texts, or leverage the slot by simply putting HTML elements within our component for advanced HTML customizations, such as links or styled texts.
+
 <Canvas of={NysAlertStories.Description} />
 
 ### Dismissible
+
 Set a `dismissible` boolean property to add a close button in the top-right corner, allowing users to dismiss the alert.
+
 > Additionally, the **nys-close** custom event is dispatched when the alert is dismissed. Developers can implement their own event listeners to handle custom actions, such as saving the alert's state locally. This allows for features like remembering dismissed alerts across page reloads.
+
 <Canvas of={NysAlertStories.Dismissible} />
 
 ### Duration
+
 Set the `duration` property to automatically hide the alert after a specified time (in milliseconds). This is ideal for non-critical alerts that do not require user acknowledgment.
+
 <Canvas of={NysAlertStories.Duration} />
 
 ### Icon Customization
+
 Override the default `type` icon by setting the `icon` property to any name from the icon library.
+
 <Canvas of={NysAlertStories.CustomIcon} />
 
 ### Heading only
+
 You may find having just a heading without description as a good compact version of the alert, ideal for short contexts. An empty description will center the text and icon for a cleaner layout.
+
 <Canvas of={NysAlertStories.HeadingOnly} />
 
 ### Action Links
+
 Display primary and secondary actions as links in the alert, providing clear and direct user options. \
 You must provide both an action label and a URL for each action to ensure proper functionality.
+
 <Canvas of={NysAlertStories.ActionLinks} />
 
 ## Usage
 
 ### When to use this component
-  - Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
-  - Ideal for messages such as success notifications, danger alerts, warnings, or informational updates.
-  - Use for dismissible or temporary alerts when the message is not critical to user workflow.
+
+- Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
+- Ideal for messages such as success notifications, danger alerts, warnings, or informational updates.
+- Use for dismissible or temporary alerts when the message is not critical to user workflow.
 
 ### When to consider something else
-  - If the information is not time-sensitive or critical, consider using a less intrusive component, such as a tooltip or inline message.
-  - Avoid using alerts for repetitive or non-actionable content that could frustrate users.
-  - For notifications outside the page context, consider using a toast or modal component instead.
+
+- If the information is not time-sensitive or critical, consider using a less intrusive component, such as a tooltip or inline message.
+- Avoid using alerts for repetitive or non-actionable content that could frustrate users.
+- For notifications outside the page context, consider using a toast or modal component instead.
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - Keep the alert content concise and focused on the message.
-      - Use the appropriate `type` (e.g., `info`, `success`, `warning`, or `danger`) to match the intent of the alert.
-      - Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      Keep the alert content concise and focused on the message. - Use the
+      appropriate `type` (e.g., `info`, `success`, `warning`, or `danger`) to
+      match the intent of the alert. - Use the `dismissible` property for
+      non-critical alerts, allowing users to clear them from the screen.
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - Overuse alerts for non-critical information, as this can desensitize users to important messages.
-      - Use icons or types that don’t clearly communicate the purpose of the alert.
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't -
+      Overuse alerts for non-critical information, as this can desensitize users
+      to important messages. - Use icons or types that don’t clearly communicate
+      the purpose of the alert.
     </div>
   </div>
 </div>
-
 
 ## Accessibility
 
@@ -105,12 +140,19 @@ The `nys-alert` component includes the following accessibility-focused features:
 - Visual focus indicators to help users navigate the component.
 
 #### Each alert type contains an ARIA role attribute that can notify assistive technologies of time-sensitive and important messages.
+
 <table border="1">
   <thead>
     <tr>
-      <th><strong>ARIA Role</strong></th>
-      <th><strong>Attribute</strong></th>
-      <th><strong>Use Case</strong></th>
+      <th>
+        <strong>ARIA Role</strong>
+      </th>
+      <th>
+        <strong>Attribute</strong>
+      </th>
+      <th>
+        <strong>Use Case</strong>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -121,13 +163,22 @@ The `nys-alert` component includes the following accessibility-focused features:
     </tr>
     <tr>
       <td>`role="status"`</td>
-      <td>Messages that provide advisory information but do not have the same urgency as alerts.</td>
+      <td>
+        Messages that provide advisory information but do not have the same
+        urgency as alerts.
+      </td>
       <td>Example: Success alert</td>
     </tr>
     <tr>
       <td>`role="region"`</td>
-      <td>Messages that provide information the user would want to be able to easily find, but are not important enough to interrupt user workflow.</td>
-      <td>Information and Warning alert (An `aria-label`will be added for this role.)</td>
+      <td>
+        Messages that provide information the user would want to be able to
+        easily find, but are not important enough to interrupt user workflow.
+      </td>
+      <td>
+        Information and Warning alert (An `aria-label`will be added for this
+        role.)
+      </td>
     </tr>
   </tbody>
 </table>
@@ -140,6 +191,7 @@ The `nys-alert` component emits the following events:
 
 **Event details** \
 The event’s `detail` object includes:
+
 - id (string): The id of the alert.
 - type (string): The alert’s type (e.g., "success", "error", "info").
 - label (string): The alert’s heading text.
@@ -159,12 +211,11 @@ alert.addEventListener("nys-close", (event) => {
   const { type, label } = event.detail;
   console.log(`Alert closed. Type: ${type}, Label: ${label}`);
 });
-
 ```
 
 ## Dependencies
+
 This component automatically imports the following dependencies.
 
 - `<nys-icon>`
 - `<nys-button>`
-

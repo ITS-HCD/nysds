@@ -1,8 +1,14 @@
-import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import {
+  Meta,
+  Story,
+  Source,
+  Canvas,
+  Controls,
+} from "@storybook/addon-docs/blocks";
 import { html } from "lit";
 import * as NysDividerStories from "./nys-divider.stories";
-import "@nysds/nys-icon"
-import "@nysds/nys-badge"
+import "@nysds/nys-icon";
+import "@nysds/nys-badge";
 
 <Meta of={NysDividerStories} title="Components/Divider/Documentation" />
 
@@ -19,7 +25,12 @@ The **`nys-divider`** component separates content and visually divides sections 
     intent="success"
   ></nys-badge>
   <p className="pill pill--uikit">
-    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=8420-575" target="_blank">View in Figma</a>
+    <a
+      href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=8420-575"
+      target="_blank"
+    >
+      View in Figma
+    </a>
   </p>
 </div>
 
@@ -32,30 +43,34 @@ The **`nys-divider`** component separates content and visually divides sections 
 ## Options
 
 ### Inverted
+
 The `inverted` attribute should be used when the divider is placed on a dark background. It changes the color of the divider to ensure visibility.
+
 <Canvas of={NysDividerStories.Inverted} />
 
 ## Usage
 
 ### When to use this component
+
 - To separate content displayed vertically
-- Set the  `inverted` property when using the component on a dark background
+- Set the `inverted` property when using the component on a dark background
 
 ### When to consider something else
+
 - When content is horizontally formatted
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
-      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - To separate content displayed vertically
-      - Set the  `inverted` property when using the component on a dark background
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do -
+      To separate content displayed vertically - Set the `inverted` property
+      when using the component on a dark background
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
-      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - When content is horizontally formatted
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't - When
+      content is horizontally formatted
     </div>
   </div>
 </div>
