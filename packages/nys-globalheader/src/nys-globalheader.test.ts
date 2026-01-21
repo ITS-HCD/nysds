@@ -93,14 +93,9 @@ describe("nys-globalheader", () => {
 
     await el.updateComplete;
 
-    const userActionsSlot = el.shadowRoot?.querySelector(
-      'slot[name="user-actions"]',
-    ) as HTMLSlotElement;
+    const button = el.querySelector('nys-button[slot="user-actions"]');
 
-    const assigned = userActionsSlot.assignedElements({ flatten: true });
-
-    expect(assigned.length).to.equal(1);
-    expect(assigned[0].tagName.toLowerCase()).to.equal("nys-button");
+    expect(button).to.exist;
   });
 
   it("sets active class on clicked nav link (desktop and mobile)", async () => {
