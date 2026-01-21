@@ -7,10 +7,17 @@ import styles from "./nys-toggle.scss?inline";
 let toggleIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * `NysToggle` is a form-associated toggle switch component that supports
- * labels, descriptions, inverted styles, size variants, and custom events.
- * It integrates with forms via ElementInternals and handles keyboard interaction.
+ * `<nys-toggle>` is a form-associated toggle switch with label, description,
+ * size variants, inverted styles, and optional icons. Supports keyboard
+ * interaction and integrates with forms via ElementInternals.
+ *
+ * @slot description - Optional slot to provide additional description below the label.
+ *
+ * @fires nys-change - Fired when toggle changes state. Detail: `{ id, checked }`.
+ * @fires nys-focus - Fired when toggle receives focus.
+ * @fires nys-blur - Fired when toggle loses focus.
  */
+
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
 

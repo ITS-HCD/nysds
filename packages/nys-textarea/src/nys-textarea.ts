@@ -7,10 +7,18 @@ import styles from "./nys-textarea.scss?inline";
 let textareaIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * `NysTextarea` is a form-enabled textarea component that supports
- * validation, accessibility, and live error messaging. It integrates
- * with forms via ElementInternals and emits custom events on user interaction.
+ * `<nys-textarea>` is a form-enabled textarea with validation, accessibility support,
+ * and live error messages. Integrates with forms via ElementInternals.
+ *
+ * @slot description - Optional slot for custom description content below the label.
+ *
+ * @fires nys-input - Fired on input, detail: `{ id, value }`
+ * @fires nys-focus - Fired on focus.
+ * @fires nys-blur - Fired on blur.
+ * @fires nys-select - Fired on text selection, detail: `{ id, value }`
+ * @fires nys-selectionchange - Fired on selection change, detail: `{ id, value }`
  */
+
 export class NysTextarea extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -234,7 +242,7 @@ export class NysTextarea extends LitElement {
     this.value = select.value;
     this.dispatchEvent(
       new CustomEvent("nys-select", {
-        detail: { value: this.value },
+        detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
       }),

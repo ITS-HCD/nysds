@@ -6,10 +6,22 @@ import styles from "./nys-tooltip.scss?inline";
 let tooltipIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * `NysTooltip` is a custom tooltip component for NYS design system components.
- * It supports dynamic positioning, user-preferred placement, keyboard interaction,
- * screen-reader accessibility, and viewport overflow handling.
+ * `<nys-tooltip>` is a custom tooltip component for NYS design system elements.
+ * It supports dynamic positioning, screen-reader accessibility, keyboard interaction,
+ * and viewport overflow handling.
+ *
+ * The tooltip automatically positions itself relative to a target element specified
+ * via the `for` attribute, but can also respect a user-defined position.
+ *
+ * @fires nys-focus - Dispatched when the reference element receives focus (via keyboard or programmatically).
+ * @fires nys-blur - Dispatched when the reference element loses focus or mouse leaves the tooltip.
+ *
+ * Notes:
+ * - Tooltip visibility is automatically managed on hover/focus of the reference element.
+ * - The component adjusts position dynamically to prevent overflow off-screen.
+ * - Supports keyboard dismissal with the Escape key.
  */
+
 export class NysTooltip extends LitElement {
   static styles = unsafeCSS(styles);
 

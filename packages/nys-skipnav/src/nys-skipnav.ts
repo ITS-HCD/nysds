@@ -4,10 +4,15 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-skipnav.scss?inline";
 
 /**
- * `NysSkipnav` is an accessible skip navigation link that allows users
- * to jump directly to the main content of a page, improving keyboard
- * and screen reader navigation.
+ * `<nys-skipnav>` provides an accessible skip navigation link for keyboard
+ * and screen reader users to jump directly to the main content of a page.
+ *
+ * Features:
+ * - Default target is `#main-content` if `href` is not provided
+ * - Link becomes visible on focus and hides on blur
+ * - Ensures the target element is focusable for accessibility
  */
+
 export class NysSkipnav extends LitElement {
   static styles = unsafeCSS(styles);
 

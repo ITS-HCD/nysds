@@ -5,10 +5,38 @@ import "./nys-step";
 import styles from "./nys-stepper.scss?inline";
 
 /**
- * `NysStepper` is a multi-step navigation component that manages
- * a sequence of `<nys-step>` elements. It handles step selection,
- * navigation, and displays a progress counter.
+ * `<nys-stepper>` manages a sequence of `<nys-step>` elements, providing
+ * multi-step navigation for forms or workflows.
+ *
+ * Features:
+ * - Tracks selected and current steps
+ * - Displays a step counter (e.g., "Step 2 of 5")
+ * - Supports compact/expanded view toggle
+ * - Validates that only `<nys-step>` or `<div slot="actions">` children are used
+ *
+ * @fires nys-step-click - Fired when a step is clicked; bubbles with the event path
+ *
+ * @example
+ * <div class="nys-grid-row">
+ *   <nys-stepper
+ *     id="stepper"
+ *     name="stepper"
+ *     label="Register for Design System Office Hours"
+ *     class="nys-desktop:nys-grid-col-3"
+ *   >
+ *     <nys-step label="Personal Details"></nys-step>
+ *     <nys-step label="Team Info" selected></nys-step>
+ *     <nys-step label="Usage Survey" current></nys-step>
+ *     <div slot="actions">
+ *       <nys-button variant="outline" label="Save & Exit" fullWidth></nys-button>
+ *     </div>
+ *   </nys-stepper>
+ *   <div class="nys-desktop:nys-grid-col-9" id="stepper-content">
+ *     Page content for the selected step
+ *   </div>
+ * </div>
  */
+
 export class NysStepper extends LitElement {
   static styles = unsafeCSS(styles);
 
