@@ -2,6 +2,8 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-globalheader";
 import "@nysds/nys-icon";
+import "@nysds/nys-avatar";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysGlobalHeaderArgs {
@@ -29,10 +31,6 @@ const meta: Meta<NysGlobalHeaderArgs> = {
 export default meta;
 type Story = StoryObj<NysGlobalHeaderArgs>;
 
-// Stories
-// Define stories without using args
-
-// Story: Basic
 export const Basic: Story = {
   args: {
     appName: "User Registration Form",
@@ -59,7 +57,6 @@ export const Basic: Story = {
   },
 };
 
-// Story: Without Application Name
 export const OnlyAgencyName: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
@@ -86,7 +83,6 @@ export const OnlyAgencyName: Story = {
   },
 };
 
-// Story: Without Application Name
 export const OnlyAppName: Story = {
   args: {
     appName: "NYS Employee Portal",
@@ -112,7 +108,6 @@ export const OnlyAppName: Story = {
   },
 };
 
-// Story: Without Application Name
 export const WithBothNames: Story = {
   args: {
     appName: "Unemployment Insurance Benefits",
@@ -139,7 +134,6 @@ export const WithBothNames: Story = {
   },
 };
 
-// Story: Without Application Name
 export const WithLinks: Story = {
   args: {
     agencyName: "Office of Information Technology Services",
@@ -173,6 +167,45 @@ export const WithLinks: Story = {
     <li><a href="https://its.ny.gov/procurement">Procurement</a></li>
     <li><a href="https://its.ny.gov/about-us">About Us</a></li>
   </ul>
+</nys-globalheader>
+`.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const UserActions: Story = {
+  args: {
+    agencyName: "Office of Information Technology Services",
+  },
+  render: (args) => html`
+    <nys-globalheader
+      .agencyName=${args.agencyName}
+      .appName=${args.appName}
+      .homepageLink=${args.homepageLink}
+    >
+      <nys-button slot="user-actions" label="Log out" prefixIcon="slotted">
+        <nys-avatar
+          slot="prefix-icon"
+          ariaLabel="User avatar"
+          initials="NY"
+        ></nys-avatar>
+      </nys-button>
+    </nys-globalheader>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader agencyName="Office of Information Technology Services">
+  <nys-button slot="user-actions" label="Log out" prefixIcon="slotted">
+    <nys-avatar
+      slot="prefix-icon"
+      ariaLabel="User avatar"
+      initials="NY"
+    ></nys-avatar>
+  </nys-button>
 </nys-globalheader>
 `.trim(),
         type: "auto",

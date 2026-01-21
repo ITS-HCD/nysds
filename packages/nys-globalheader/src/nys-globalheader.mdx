@@ -53,6 +53,11 @@ For public-facing content sites, the Global Header can include menu links. To ad
 
 <Canvas of={NysGlobalHeaderStories.WithLinks} />
 
+## User Actions Slot
+The `nys-globalheader` component includes a named slot called `user-actions`. This slot allows you to insert custom HTML content, such as user profile links, settings, or logout buttons, into the header.
+
+<Canvas of={NysGlobalHeaderStories.UserActions} />
+
 ## Usage
 
 ### When to use this component
@@ -74,7 +79,7 @@ For public-facing content sites, the Global Header can include menu links. To ad
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)"/> Don't
       - Use `appName` if an application is not for a single agency
-      - Add unnecessary or unrelated content.
+      - Add unnecessary or unrelated content
     </div>
   </div>
 </div>

@@ -1,0 +1,48 @@
+{
+  "name": "@nysds/nys-datepicker",
+  "version": "1.12.1",
+  "description": "The Datepicker component from the NYS Design System.",
+  "module": "dist/nys-datepicker.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/nys-datepicker.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch",
+    "lit-analyze": "lit-analyzer '*.ts'"
+  },
+  "dependencies": {
+    "@nysds/nys-icon": "^1.12.1",
+    "@nysds/nys-button": "^1.12.1",
+    "@nysds/nys-label": "^1.12.1",
+    "@nysds/nys-errormessage": "^1.12.1"
+  },
+  "devDependencies": {
+    "lit": "^3.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "datepicker",
+    "forms"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}
+

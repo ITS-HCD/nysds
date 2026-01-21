@@ -1,10 +1,10 @@
 // import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 
-// const reactOpts = {
-//   /** Output directory to write the React wrappers to - default is the root of the project */
-//   outdir: "./dist/react-wrappers",
-// };
+const reactOpts = {
+  /** Output directory to write the React wrappers to - default is the root of the project */
+  outdir: "./dist/react-wrappers",
+};
 
 const vscodeOpts = {
   /** Output directory to write the React wrappers to - default is the root of the project */
