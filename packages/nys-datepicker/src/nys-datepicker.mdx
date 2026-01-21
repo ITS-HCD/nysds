@@ -136,7 +136,7 @@ The `nys-datepicker` component emits the following events:
 **Event details** \
 The event’s `detail` object includes:
 - id (string): The id of the datepicker.
-- value (string): The currently value of the input.
+- value (date): The currently value of the datepicker input. Return only when valid date is produced.
 
 You can listen to these events using JavaScript:
 
@@ -144,10 +144,10 @@ You can listen to these events using JavaScript:
 // Select the datepicker component
 const datepicker = document.querySelector("nys-datepicker");
 
-// Listen for the 'nys-click' event
+// Listen for the 'nys-input' event
 datepicker.addEventListener('nys-input', (event) => {
   const { id, value } = event.detail;
-  console.log(`Text input (${id}) changed:`, value);
+  console.log(`Date picker input (${id}) changed:`, value);
 });
 ```
 

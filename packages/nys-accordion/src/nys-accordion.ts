@@ -10,9 +10,13 @@ let accordionIdCounter = 0; // Counter for generating unique IDs
  * `<nys-accordion>` groups one or more `<nys-accordionitem>` components.
  *
  * Responsibilities:
- * - Manages single-select behavior across accordion items
- * - Propagates shared visual state such as `bordered`
- * - Coordinates expand and collapse behavior between items
+ * - Optionally enforces single expanded item behavior
+ * - Propagates shared visual `bordered` properties to child items
+ * - Generates a stable unique identifier when none is provided
+ *
+ * @slot default One or more `<nys-accordionitem>` elements
+ *
+ * @fires nys-accordionitem-toggle
  */
 export class NysAccordion extends LitElement {
   static styles = unsafeCSS(styles);

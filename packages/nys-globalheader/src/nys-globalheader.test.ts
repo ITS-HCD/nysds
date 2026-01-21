@@ -97,7 +97,10 @@ describe("nys-globalheader", () => {
       'slot[name="user-actions"]',
     ) as HTMLSlotElement;
 
-    expect(userActionsSlot).to.exist;
+    const assigned = userActionsSlot.assignedElements({ flatten: true });
+
+    expect(assigned.length).to.equal(1);
+    expect(assigned[0].tagName.toLowerCase()).to.equal("nys-button");
   });
 
   it("sets active class on clicked nav link (desktop and mobile)", async () => {
