@@ -16,9 +16,23 @@ interface FileWithProgress {
 }
 
 /**
- * `<nys-fileinput>` allows file selection and upload with support for
- * multiple files, drag-and-drop, progress tracking, validation, and form integration.
+ * `<nys-fileinput>` provides accessible file selection with optional
+ * drag-and-drop support, progress tracking, validation, and form submission.
+ *
+ * Features:
+ * - Supports single or multiple file uploads
+ * - Optional drag-and-drop dropzone
+ * - File type validation and upload progress
+ * - Form-associated with native validation behavior
+ * - Keyboard and screen reader accessible
+ *
+ * @slot description - Custom description content under the label
+ *
+ * @fires nys-change - Fired when files are added or removed
+ *
+ * @returns {boolean} checkValidity - Returns validity state for form validation
  */
+
 export class NysFileinput extends LitElement {
   static styles = unsafeCSS(styles);
 

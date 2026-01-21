@@ -3,17 +3,21 @@ import { property, query } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
 
-let accordionItemIdCounter = 0; // Counter for generating unique IDs
+let accordionItemIdCounter = 0;
 
 /**
- * `<nys-accordionitem>` represents a single collapsible item within a `<nys-accordion>`.
+ * `<nys-accordionitem>` represents a single collapsible item inside a `<nys-accordion>`.
+ *
+ * @slot - Default slot for the content inside the accordion panel.
+ *
+ * @event nys-accordionitem-toggle - Fired when the item is expanded or collapsed.
+ *   @type {CustomEvent<{id: string, heading: string, expanded: boolean}>}
  *
  * Features:
- * - Can expand/collapse its content panel
- * - Notifies parent `<nys-accordion>` of toggle events
- * - Supports keyboard navigation (Enter / Space)
- * - Can be styled as `bordered` when applied by the parent
+ * - Click or keyboard (Enter/Space) toggles expansion.
+ * - Animates height changes when expanding/collapsing.
  */
+
 export class NysAccordionItem extends LitElement {
   static styles = unsafeCSS(styles);
 

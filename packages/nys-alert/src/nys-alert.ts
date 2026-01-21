@@ -7,11 +7,20 @@ import styles from "./nys-alert.scss?inline";
 let alertIdCounter = 0; // Counter for generating unique IDs
 
 /**
- * NYS Alert component.
+ * `<nys-alert>` renders an informational, success, warning, or error alert.
  *
- * Renders informational, success, warning, or error alerts.
- * Supports live-region announcements for screen readers.
+ * @slot - Default slot for additional alert content.
+ *
+ * @event nys-close - Fired when alert is dismissed (manual or timeout). 
+ *   @type {CustomEvent<{id: string, type: string, label: string}>}
+ *
+ * Features:
+ * - Accessible ARIA roles and live-region announcements.
+ * - Auto-close via `duration`.
+ * - Handles default slot content or fallback `text`.
+ * - Optional dismiss button.
  */
+
 export class NysAlert extends LitElement {
   static styles = unsafeCSS(styles);
 
