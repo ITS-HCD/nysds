@@ -141,11 +141,11 @@ export class NysUnavHeader extends LitElement {
   }
 
   private _handleSearch(searchValue: string) {
-    const event = new CustomEvent('nys-search-submit', {
+    const event = new CustomEvent("nys-search-submit", {
       bubbles: true,
       composed: true,
       cancelable: true,
-      detail: { query: searchValue }
+      detail: { query: searchValue },
     });
 
     this.dispatchEvent(event);
