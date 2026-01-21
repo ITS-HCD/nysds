@@ -1,6 +1,7 @@
   :host {
     /* Global Select Styles */
     --_nys-select-width: 100%;
+    --_nys-select-height: var(--nys-size-500, 40px);
     --_nys-select-font-family: var(
       --nys-font-family-ui,
       var(
@@ -68,6 +69,7 @@
     font-size: var(--_nys-select-font-size);
     padding: var(--_nys-select-padding);
     width: var(--_nys-select-width);
+    height: var(--_nys-select-height);
     max-width: 100%;
     text-indent: 1px;
     background: var(--_nys-select-background-color);
