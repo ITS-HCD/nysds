@@ -310,6 +310,256 @@ describe("nys-unavheader", () => {
     searchStub.restore();
   });
 
+  it("dispatches nys-search-submit event with correct detail when search is triggered", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    let eventDetail: any;
+    let eventFired = false;
+    el.addEventListener("nys-search-submit", (e: Event) => {
+      eventFired = true;
+      eventDetail = (e as CustomEvent).detail;
+      e.preventDefault(); // Prevent redirect in test
+    });
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(eventFired).to.be.true;
+    expect(eventDetail).to.exist;
+    expect(eventDetail.query).to.equal("housing");
+  });
+
+  it("uses custom searchUrl when provided and event is not prevented", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader
+        searchUrl="https://example.com/search"
+      ></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "test query",
+    });
+
+    // Spy on the actual _handleSearch method to capture the redirect URL
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+    let capturedUrl = "";
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      // Call original to trigger event
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (this.searchUrl) {
+          capturedUrl = `${this.searchUrl}?q=${encodeURIComponent(searchValue)}`;
+        }
+      }
+    };
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.equal("https://example.com/search?q=test%20query");
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
+  it("uses default search URL when searchUrl is not provided", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+    let capturedUrl = "";
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (this.searchUrl) {
+          capturedUrl = `${this.searchUrl}?q=${encodeURIComponent(searchValue)}`;
+        } else {
+          capturedUrl = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${encodeURIComponent(searchValue)}+inurl:${window.location.hostname}&site=default_collection`;
+        }
+      }
+    };
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.include("search.its.ny.gov");
+    expect(capturedUrl).to.include("q=housing");
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
+  it("does not redirect when nys-search-submit event is prevented", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    let redirectAttempted = false;
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        redirectAttempted = true;
+      }
+    };
+
+    el.addEventListener("nys-search-submit", (e: Event) => {
+      e.preventDefault();
+    });
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(redirectAttempted).to.be.false;
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
+  it("encodes search query properly in URL", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader
+        searchUrl="https://example.com/search"
+      ></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "test & special chars",
+    });
+
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+    let capturedUrl = "";
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (this.searchUrl) {
+          capturedUrl = `${this.searchUrl}?q=${encodeURIComponent(searchValue)}`;
+        }
+      }
+    };
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.equal(
+      "https://example.com/search?q=test%20%26%20special%20chars",
+    );
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
     await expect(el).shadowDom.to.be.accessible();

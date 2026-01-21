@@ -21,6 +21,7 @@ export class NysUnavHeader extends LitElement {
   @property({ type: Boolean }) isSearchFocused = false;
   @property({ type: Boolean }) hideTranslate = false;
   @property({ type: Boolean }) hideSearch = false;
+  @property({ type: String }) searchUrl = "";
   @property({ type: Array })
   private languages: [string, string][] = [
     ["English", ""],
@@ -140,7 +141,24 @@ export class NysUnavHeader extends LitElement {
   }
 
   private _handleSearch(searchValue: string) {
-    window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${searchValue}+inurl:${window.location.hostname}&site=default_collection`;
+    const event = new CustomEvent('nys-search-submit', {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: { query: searchValue }
+    });
+
+    this.dispatchEvent(event);
+
+    if (!event.defaultPrevented) {
+      if (this.searchUrl) {
+        // Custom search URL
+        window.location.href = `${this.searchUrl}?q=${encodeURIComponent(searchValue)}`;
+      } else {
+        // Default Google Search Appliance
+        window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${encodeURIComponent(searchValue)}+inurl:${window.location.hostname}&site=default_collection`;
+      }
+    }
   }
 
   render() {
