@@ -4,7 +4,7 @@ import type { NysRadiobutton } from "./nys-radiobutton";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
-let radiogroupIdCounter = 0; // Counter for generating unique IDs
+let radiogroupIdCounter = 0;
 
 /**
  * `<nys-radiogroup>` groups `<nys-radiobutton>` elements into a single
@@ -19,7 +19,6 @@ let radiogroupIdCounter = 0; // Counter for generating unique IDs
  * @fires nys-change - Fired when selection changes
  *   detail: { name: string; value: string }
  */
-
 
 export class NysRadiogroup extends LitElement {
   static styles = unsafeCSS(styles);

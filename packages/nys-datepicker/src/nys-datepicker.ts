@@ -12,7 +12,7 @@ if (!customElements.get("wc-datepicker")) {
   customElements.define("wc-datepicker", WcDatepicker);
 }
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
  * `<nys-datepicker>` is a form-associated, accessible date picker component.

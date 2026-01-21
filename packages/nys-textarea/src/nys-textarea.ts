@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textarea.scss?inline";
 
-let textareaIdCounter = 0; // Counter for generating unique IDs
+let textareaIdCounter = 0;
 
 /**
  * `<nys-textarea>` is a form-enabled textarea with validation, accessibility support,

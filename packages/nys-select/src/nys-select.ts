@@ -5,7 +5,7 @@ import { NysOption } from "./nys-option";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-select.scss?inline";
 
-let selectIdCounter = 0; // Counter for generating unique IDs
+let selectIdCounter = 0;
 
 /**
  * `<nys-select>` is a custom select/dropdown component.

@@ -6,7 +6,7 @@ import "./nys-fileitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileinput.scss?inline";
 
-let fileinputIdCounter = 0; // Counter for generating unique IDs
+let fileinputIdCounter = 0;
 
 interface FileWithProgress {
   file: File;

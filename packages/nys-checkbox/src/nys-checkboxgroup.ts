@@ -3,7 +3,7 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
 
-let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
+let checkboxgroupIdCounter = 0;
 
 /**
  * `<nys-checkboxgroup>` is a form-associated container for multiple `<nys-checkbox>` components.

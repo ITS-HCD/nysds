@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textinput.scss?inline";
 
-let textinputIdCounter = 0; // Counter for generating unique IDs
+let textinputIdCounter = 0;
 
 /**
  * `<nys-textinput>` is a form-enabled text input with validation, optional

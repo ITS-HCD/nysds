@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-avatar.scss?inline";
 
-let avatarIdCounter = 0; // Counter for generating unique IDs
+let avatarIdCounter = 0;
 
 /**
  * `<nys-avatar>` displays a user avatar as an image, initials, or icon.

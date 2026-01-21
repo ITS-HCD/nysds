@@ -16,7 +16,7 @@ let accordionIdCounter = 0;
  *
  * @slot default - Place one or more `<nys-accordionitem>` components here.
  *
- * @fires nys-accordionitem-toggle - Fired when a child `<nys-accordionitem>` is toggled. 
+ * @fires nys-accordionitem-toggle - Fired when a child `<nys-accordionitem>` is toggled.
  *   Event detail includes `{ id: string, heading: string, expanded: boolean }`.
  */
 

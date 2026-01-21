@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
  * `<nys-pagination>` renders page navigation controls.
