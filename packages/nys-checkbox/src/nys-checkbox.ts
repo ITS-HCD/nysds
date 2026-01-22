@@ -7,10 +7,6 @@ import styles from "./nys-checkbox.scss?inline";
 
 let checkboxIdCounter = 0; // Counter for generating unique IDs
 
-/**
- * `<nys-checkbox>` is a form-associated, accessible checkbox co88133
- * .
- */
 export class NysCheckbox extends LitElement {
   static styles = unsafeCSS(styles);
 
