@@ -3,13 +3,21 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-modal.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
- * `NysModal` is a fully accessible modal dialog component.
- * It supports headings, subheadings, body content, and action buttons.
- * Handles focus trapping, keyboard navigation, and body scroll management.
+ * `<nys-modal>` renders an accessible modal dialog.
+ *
+ * Supports headings, optional subheading, body content, and action buttons.
+ * Manages focus trapping, escape key handling, and body scroll locking.
+ *
+ * @slot - Modal body content
+ * @slot actions - Action buttons shown in the footer
+ *
+ * @fires nys-open - Emitted when the modal opens
+ * @fires nys-close - Emitted when the modal closes
  */
+
 export class NysModal extends LitElement {
   static styles = unsafeCSS(styles);
 

@@ -4,17 +4,20 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-avatar.scss?inline";
 
-let avatarIdCounter = 0; // Counter for generating unique IDs
+let avatarIdCounter = 0;
 
 /**
- * `<nys-avatar>` displays a user avatar which can be an image, initials, or icon.
+ * `<nys-avatar>` displays a user avatar as an image, initials, or icon.
+ *
+ * @slot - Default slot for custom icon content. Fallback icon is used if slot is empty.
  *
  * Features:
- * - Supports interactive avatars with button role
- * - Automatic contrast calculation for initials or icons based on background color
- * - Lazy loading for images
- * - Fallback to icon when no image or initials are provided
+ * - Computes foreground color for sufficient contrast based on background.
+ * - Supports interactive avatars with button role.
+ * - Fallback to icon when image or initials are missing.
+ * - Lazy loading for performance optimization.
  */
+
 export class NysAvatar extends LitElement {
   static styles = unsafeCSS(styles);
 

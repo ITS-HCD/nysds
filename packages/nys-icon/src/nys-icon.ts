@@ -5,9 +5,12 @@ import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.scss?inline";
 
 /**
- * `NysIcon` is a versatile web component for rendering SVG icons from a centralized library.
- * It supports accessibility attributes, size classes, rotation, color, and flipping.
+ * `<nys-icon>` renders an SVG icon from the internal icon library.
+ *
+ * Icons are inline SVGs and support sizing, rotation, flipping, color,
+ * and accessibility labeling.
  */
+
 export class NysIcon extends LitElement {
   static styles = unsafeCSS(styles);
 

@@ -4,10 +4,13 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-badge.scss?inline";
 
 /**
- * `<nys-badge>` displays a badge element with optional prefix/suffix icons
- * and labels. The badge can convey an intent (neutral, error, success, warning)
- * which affects default icons and styling.
+ * `<nys-badge>` displays a badge with optional prefix/suffix icons and labels.
+ *
+ * Features:
+ * - Conveys an intent (`neutral`, `error`, `success`, `warning`) which affects default icons and styling.
+ * - Supports custom prefix and suffix icons.
  */
+
 export class NysBadge extends LitElement {
   static styles = unsafeCSS(styles);
 

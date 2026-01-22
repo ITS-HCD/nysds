@@ -3,12 +3,26 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
 
-let checkboxgroupIdCounter = 0; // Counter for generating unique IDs
+let checkboxgroupIdCounter = 0;
 
 /**
- * `<nys-checkboxgroup>` is a form-associated, accessible container for multiple `<nys-checkbox>` components.
- * Handles grouping logic, form submission, validation, required constraints, and keyboard accessibility.
+ * `<nys-checkboxgroup>` is a form-associated container for multiple `<nys-checkbox>` components.
+ * Handles grouping, validation, required constraints, form submission, and accessibility.
+ *
+ * Features:
+ * - Manages multiple checkboxes as a single form field
+ * - Supports required/optional flags and error messages
+ * - Propagates size, tile, and inverted styling to child checkboxes
+ * - Keyboard and screen reader accessible via fieldset/legend
+ *
+ * @slot default - Slot for child `<nys-checkbox>` elements
+ * @slot description - Slot for custom description content
+ *
+ * @fires nys-change - Fired when any child checkbox changes
+ * @fires nys-focus - Fired when any child checkbox gains focus
+ * @fires nys-blur - Fired when any child checkbox loses focus
  */
+
 export class NysCheckboxgroup extends LitElement {
   static styles = unsafeCSS(styles);
 

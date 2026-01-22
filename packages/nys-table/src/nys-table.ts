@@ -1,0 +1,331 @@
+import { LitElement, html, unsafeCSS } from "lit";
+import { property, state } from "lit/decorators.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-table.scss?inline";
+
+let componentIdCounter = 0;
+
+/**
+ * `<nys-table>` is a responsive table component that can display native HTML tables,
+ * supports striped and bordered styling, sortable columns, and CSV download.
+ *
+ * @slot - Accepts a `<table>` element. Only the first table is rendered.
+ *
+ * @fires nys-click - Fired when the download button or sortable headers are clicked.
+ *
+ * @method downloadFile - Triggers download of the CSV file if `download` is set.
+ */
+export class NysTable extends LitElement {
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) name = "";
+  @property({ type: Boolean, reflect: true }) striped = false;
+  @property({ type: Boolean, reflect: true }) sortable = false;
+  @property({ type: Boolean, reflect: true }) bordered = false;
+  @property({ type: String, reflect: true }) download = "";
+
+  @state() private _sortColumn: number | null = null;
+  @state() private _sortDirection: "asc" | "desc" | "none" = "none";
+  @state() private _captionText = "";
+
+  /**************** Lifecycle Methods ****************/
+  constructor() {
+    super();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-table-${Date.now()}-${componentIdCounter++}`;
+    }
+  }
+
+  /******************** Functions ********************/
+  // Placeholder for generic functions (component-specific)
+
+  firstUpdated() {
+    const slot = this.shadowRoot?.querySelector("slot");
+    slot?.addEventListener("slotchange", () => this._handleSlotChange());
+    this._handleSlotChange();
+  }
+
+  _handleSlotChange() {
+    const slot = this.shadowRoot?.querySelector(
+      "slot",
+    ) as HTMLSlotElement | null;
+    const container = this.shadowRoot?.querySelector(
+      ".nys-table",
+    ) as HTMLElement | null;
+    if (!slot || !container) return;
+
+    container.innerHTML = "";
+
+    const assigned = slot.assignedElements({ flatten: true });
+
+    assigned.forEach((node) => {
+      if (node.tagName === "TABLE") {
+        const table = node.cloneNode(true) as HTMLTableElement;
+        this._normalizeTable(table);
+        if (this.sortable) {
+          this._addSortIcons(table);
+        }
+        container.appendChild(table);
+      }
+    });
+  }
+
+  _normalizeTable(table: HTMLTableElement) {
+    const hasThead = table.querySelector("thead");
+    const hasTbody = table.querySelector("tbody");
+
+    if (hasThead && hasTbody) return;
+
+    // Pull caption first
+    let caption = table.querySelector(
+      "caption",
+    ) as HTMLTableCaptionElement | null;
+
+    // Save caption text if it exists
+    if (caption?.textContent?.trim()) {
+      this._captionText = caption.textContent.trim();
+    } else {
+      this._captionText = "";
+    }
+
+    // Collect all rows
+    const rows = Array.from(table.querySelectorAll("tr"));
+    if (rows.length === 0) return;
+
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+
+    // Find first row containing th
+    const headerRowIndex = rows.findIndex((r) => r.querySelector("th"));
+
+    if (headerRowIndex === -1) {
+      rows.forEach((r) => tbody.appendChild(r));
+    } else {
+      const headerRow = rows[headerRowIndex];
+
+      // Wrap text nodes in <p> for each <th>
+      headerRow.querySelectorAll("th").forEach((th) => {
+        // Only wrap text nodes, leave icons or other children
+        Array.from(th.childNodes).forEach((node) => {
+          if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+            const p = document.createElement("p");
+            p.textContent = node.textContent;
+            th.replaceChild(p, node);
+          }
+        });
+      });
+
+      thead.appendChild(headerRow);
+
+      // Move remaining rows to tbody
+      rows.forEach((r, i) => {
+        if (i !== headerRowIndex) tbody.appendChild(r);
+      });
+    }
+
+    // Wipe original table content
+    table.innerHTML = "";
+
+    // Handle caption and sortable message
+    if (this.sortable) {
+      if (!caption) {
+        caption = document.createElement("caption");
+        caption.style.padding = "0";
+      }
+
+      const srOnly = document.createElement("span");
+      srOnly.setAttribute("class", "sr-only");
+      srOnly.textContent = "Column headers with buttons are sortable.";
+
+      caption.appendChild(srOnly);
+    }
+
+    if (caption) table.appendChild(caption);
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+  }
+
+  _addSortIcons(table: HTMLTableElement) {
+    const ths = Array.from(table.querySelectorAll("thead th"));
+    if (ths.length === 0) return;
+
+    ths.forEach((th, index) => {
+      // Prevent duplicates on slotchange or re-render
+      if (th.querySelector("nys-button[part='sort-button']")) return;
+
+      // Get existing text content
+      const label = th.textContent?.trim();
+      if (!label) return;
+
+      // Clear existing content
+      th.textContent = "";
+
+      const button = document.createElement("nys-button");
+      button.setAttribute("part", "sort-button");
+      button.setAttribute("variant", "ghost");
+      button.setAttribute("label", label);
+      button.setAttribute("suffixIcon", "slotted");
+      button.setAttribute("fullWidth", "true");
+
+      const icon = document.createElement("nys-icon");
+      icon.setAttribute("slot", "suffix-icon");
+      icon.setAttribute("name", "height");
+      icon.setAttribute("size", "24");
+      icon.setAttribute("color", "var(--nys-color-text-weak, #4a4d4f)");
+
+      button.appendChild(icon);
+
+      button.addEventListener("nys-click", (e) => {
+        e.stopPropagation();
+        this._onSortClick(index, table);
+      });
+
+      th.appendChild(button);
+    });
+  }
+
+  _updateSortIcons(table: HTMLTableElement) {
+    const ths = table.querySelectorAll("thead th");
+
+    ths.forEach((th, index) => {
+      const button = th.querySelector("nys-button[part='sort-button']");
+      const icon = button?.querySelector(
+        "nys-icon[slot='suffix-icon']",
+      ) as HTMLElement | null;
+
+      if (!button || !icon) return;
+
+      if (index === this._sortColumn) {
+        th.classList.add("nys-table__sortedcolumn");
+        switch (this._sortDirection) {
+          case "asc":
+            icon.setAttribute("name", "straight");
+            icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
+            icon.style.transform = "rotate(0deg)";
+            th.setAttribute("aria-sort", "ascending");
+            break;
+          case "desc":
+            icon.setAttribute("name", "straight");
+            icon.setAttribute("color", "var(--nys-color-ink, #1b1b1b)");
+            icon.style.transform = "rotate(180deg)";
+            th.setAttribute("aria-sort", "descending");
+            break;
+        }
+      } else {
+        // Reset for all other columns
+        th.classList.remove("nys-table__sortedcolumn");
+        icon.setAttribute("name", "height");
+        icon.setAttribute("color", "var(--nys-color-text-weak, #4a4d4f)");
+        icon.style.transform = "";
+        th.removeAttribute("aria-sort");
+      }
+    });
+  }
+
+  _onSortClick(columnIndex: number, table: HTMLTableElement) {
+    if (this._sortColumn !== columnIndex) {
+      // New column → start with ascending
+      this._sortColumn = columnIndex;
+      this._sortDirection = "asc";
+    } else {
+      // Same column → toggle
+      this._sortDirection = this._sortDirection === "asc" ? "desc" : "asc";
+    }
+
+    this._updateSortIcons(table);
+    this._sortTable(table, columnIndex, this._sortDirection);
+  }
+
+  _sortTable(
+    table: HTMLTableElement,
+    columnIndex: number,
+    direction: "asc" | "desc",
+  ) {
+    const tbody = table.querySelector("tbody");
+    if (!tbody) return;
+
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    rows.sort((a, b) => {
+      const aText = a.children[columnIndex]?.textContent?.trim() ?? "";
+      const bText = b.children[columnIndex]?.textContent?.trim() ?? "";
+
+      const aNum = Number(aText);
+      const bNum = Number(bText);
+
+      let result;
+
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        result = aNum - bNum;
+      } else {
+        result = aText.localeCompare(bText);
+      }
+
+      return direction === "asc" ? result : -result;
+    });
+
+    // Re-append sorted rows
+    rows.forEach((r) => tbody.appendChild(r));
+    this._updateSortedColumnStyles(table);
+  }
+
+  _updateSortedColumnStyles(table: HTMLTableElement) {
+    const rows = table.querySelectorAll("tbody tr");
+
+    rows.forEach((row) => {
+      Array.from(row.children).forEach((cell, index) => {
+        if (index === this._sortColumn) {
+          cell.classList.add("nys-table__sortedcolumn");
+        } else {
+          cell.classList.remove("nys-table__sortedcolumn");
+        }
+      });
+    });
+  }
+
+  downloadFile() {
+    // read file from this.download and trigger download
+    const link = document.createElement("a");
+    link.href = this.download;
+    link.download = this.download.split("/").pop() || "table-data.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  /****************** Event Handlers ******************/
+  // Placeholder for event handlers if needed
+
+  render() {
+    return html`
+      <div class="nys-table">
+        <div class="table-container"></div>
+      </div>
+      ${this.download
+        ? html` <nys-button
+            id="${this.id}-download-button"
+            label="Download table"
+            aria-label=${this._captionText
+              ? `Download ${this._captionText}`
+              : "Download table"}
+            size="sm"
+            variant="outline"
+            prefixIcon="download"
+            @nys-click=${this.downloadFile}
+          ></nys-button>`
+        : ""}
+      <slot style="display:none"></slot>
+    `;
+  }
+}
+
+if (!customElements.get("nys-table")) {
+  customElements.define("nys-table", NysTable);
+}

@@ -4,13 +4,18 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
- * `NysPagination` is a pagination component that renders page navigation buttons.
- * Supports first/last page buttons, previous/next buttons, and dynamic ellipses
- * for skipped pages. Dispatches `nys-change` events when the current page changes.
+ * `<nys-pagination>` renders page navigation controls.
+ *
+ * Displays previous and next buttons, page numbers, and ellipses
+ * when pages are skipped. Handles page bounds automatically.
+ *
+ * @fires nys-change - Fired when the page changes
+ *   detail: { page: number }
  */
+
 export class NysPagination extends LitElement {
   static styles = unsafeCSS(styles);
 

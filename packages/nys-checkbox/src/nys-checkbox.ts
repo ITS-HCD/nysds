@@ -5,13 +5,25 @@ import "./nys-checkboxgroup";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
 
-let checkboxIdCounter = 0; // Counter for generating unique IDs
+let checkboxIdCounter = 0;
 
 /**
- * `<nys-checkbox>` is a form-associated, accessible checkbox component.
- * Supports validation, labels, error messages, and keyboard interaction.
- * Can exist independently or inside a `<nys-checkboxgroup>`.
+ * `<nys-checkbox>` is an accessible, form-associated checkbox component.
+ * Can be used standalone or within a `<nys-checkboxgroup>`.
+ *
+ * Features:
+ * - Supports labels, descriptions, and tooltips
+ * - Displays error messages with `showError` and `errorMessage`
+ * - Keyboard interaction with spacebar toggle
+ * - Form integration via ElementInternals (`checked` value submitted)
+ *
+ * @fires nys-change - Fired when checkbox value changes
+ * @fires nys-focus - Fired on focus
+ * @fires nys-blur - Fired on blur
+ *
+ * @slot description - Slot to provide a custom description element
  */
+
 export class NysCheckbox extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -182,12 +194,19 @@ export class NysCheckbox extends LitElement {
   }
 
   private _manageLabelClick = () => {
-    const labelEl = this.shadowRoot?.querySelector("nys-label");
+    const wrapper = this.shadowRoot?.querySelector(".nys-checkbox");
     const inputEl = this.shadowRoot?.querySelector("input");
 
-    if (labelEl && inputEl) {
-      labelEl.addEventListener("click", () => inputEl.click());
-    }
+    if (!wrapper || !inputEl) return;
+
+    wrapper.addEventListener("click", (e) => {
+      // Avoid double toggling the checkbox. Already handled by input
+      if ((e.target as HTMLElement).tagName.toLowerCase() === "input") return;
+
+      if (!this.disabled) {
+        inputEl.click();
+      }
+    });
   };
 
   /**
@@ -247,7 +266,7 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <label class="nys-checkbox">
+      <div class="nys-checkbox">
         <div class="nys-checkbox__checkboxwrapper">
           <input
             id=${this.id + "--native"}
@@ -296,7 +315,7 @@ export class NysCheckbox extends LitElement {
             >
           </nys-label>
         `}
-      </label>
+      </div>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage
             id="single-error-message"

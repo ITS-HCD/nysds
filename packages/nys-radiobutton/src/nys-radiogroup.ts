@@ -4,13 +4,22 @@ import type { NysRadiobutton } from "./nys-radiobutton";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
-let radiogroupIdCounter = 0; // Counter for generating unique IDs
+let radiogroupIdCounter = 0;
 
 /**
- * `NysRadiogroup` manages a group of
- * `<nys-radiobutton>` elements. It enforces single selection, handles
- * keyboard navigation, accessibility, and form integration with validation.
+ * `<nys-radiogroup>` groups `<nys-radiobutton>` elements into a single
+ * selectable control.
+ *
+ * Supports keyboard navigation, validation, and native form submission
+ * through ElementInternals.
+ *
+ * @slot default - One or more `<nys-radiobutton>` elements
+ * @slot description - Optional descriptive text announced to screen readers
+ *
+ * @fires nys-change - Fired when selection changes
+ *   detail: { name: string; value: string }
  */
+
 export class NysRadiogroup extends LitElement {
   static styles = unsafeCSS(styles);
 

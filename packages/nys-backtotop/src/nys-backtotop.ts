@@ -6,11 +6,13 @@ import styles from "./nys-backtotop.scss?inline";
 /**
  * `<nys-backtotop>` renders a button that scrolls the page to the top.
  *
- * Behavior:
+ * Features:
  * - Automatically appears after scrolling past 1.5 viewport heights
- *   if page height is at least 4 screens tall.
- * - Adapts its style for mobile screens (circle button on narrow screens).
- * - Can be explicitly made visible via `visible` attribute.
+ *   if the page is at least 4 screens tall.
+ * - Adapts to mobile screens (renders as a circle button when narrow).
+ * - Can be explicitly shown with the `visible` attribute.
+ *
+ * @fires nys-click - Fired when the button is clicked (scrolls page to top).
  */
 export class NysBacktotop extends LitElement {
   static styles = unsafeCSS(styles);

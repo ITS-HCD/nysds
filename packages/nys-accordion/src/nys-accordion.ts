@@ -4,16 +4,22 @@ import "./nys-accordionitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
 
-let accordionIdCounter = 0; // Counter for generating unique IDs
+let accordionIdCounter = 0;
 
 /**
- * `<nys-accordion>` groups one or more `<nys-accordionitem>` components.
+ * `<nys-accordion>` groups one or more `<nys-accordionitem>` elements.
  *
- * Responsibilities:
- * - Manages single-select behavior across accordion items
- * - Propagates shared visual state such as `bordered`
- * - Coordinates expand and collapse behavior between items
+ * Features:
+ * - Optionally enforces single-expanded-item behavior via `singleSelect`.
+ * - Propagates shared visual `bordered` property to child items.
+ * - Generates a stable unique identifier if none is provided.
+ *
+ * @slot default - Place one or more `<nys-accordionitem>` components here.
+ *
+ * @fires nys-accordionitem-toggle - Fired when a child `<nys-accordionitem>` is toggled.
+ *   Event detail includes `{ id: string, heading: string, expanded: boolean }`.
  */
+
 export class NysAccordion extends LitElement {
   static styles = unsafeCSS(styles);
 

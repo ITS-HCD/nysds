@@ -10,7 +10,7 @@
 	  "**/*.styles.ts",
 	  "**/*.test.ts",
 	  "packages",
-	  "node_modules", 
+	  "node_modules",
 	  "dist"
 	]
  }
