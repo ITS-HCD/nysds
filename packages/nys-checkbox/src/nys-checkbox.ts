@@ -194,12 +194,19 @@ export class NysCheckbox extends LitElement {
   }
 
   private _manageLabelClick = () => {
-    const labelEl = this.shadowRoot?.querySelector("nys-label");
+    const wrapper = this.shadowRoot?.querySelector(".nys-checkbox");
     const inputEl = this.shadowRoot?.querySelector("input");
 
-    if (labelEl && inputEl) {
-      labelEl.addEventListener("click", () => inputEl.click());
-    }
+    if (!wrapper || !inputEl) return;
+
+    wrapper.addEventListener("click", (e) => {
+      // Avoid double toggling the checkbox. Already handled by input
+      if ((e.target as HTMLElement).tagName.toLowerCase() === "input") return;
+
+      if (!this.disabled) {
+        inputEl.click();
+      }
+    });
   };
 
   /**
@@ -259,7 +266,7 @@ export class NysCheckbox extends LitElement {
 
   render() {
     return html`
-      <label class="nys-checkbox">
+      <div class="nys-checkbox">
         <div class="nys-checkbox__checkboxwrapper">
           <input
             id=${this.id + "--native"}
@@ -308,7 +315,7 @@ export class NysCheckbox extends LitElement {
             >
           </nys-label>
         `}
-      </label>
+      </div>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage
             id="single-error-message"
