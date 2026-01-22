@@ -73,7 +73,7 @@ export const Basic: Story = {
     optional: false,
     showError: false,
     errorMessage: "",
-    label: "Date of birth",
+    label: "Schedule an appointment",
     description: "Enter in MM/DD/YYYY format",
     startDate: "",
     hideTodayButton: false,
@@ -107,8 +107,7 @@ export const Basic: Story = {
 <nys-datepicker
   id="myDatepicker"
   name="myDatepicker"
-  type="date"
-  label="Date of birth"
+  label="Schedule an appointment"
   description="Enter in MM/DD/YYYY format"
 ></nys-datepicker>`,
         type: "auto",
