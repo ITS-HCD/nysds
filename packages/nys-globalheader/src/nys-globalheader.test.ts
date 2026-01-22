@@ -93,11 +93,9 @@ describe("nys-globalheader", () => {
 
     await el.updateComplete;
 
-    const userActionsSlot = el.shadowRoot?.querySelector(
-      'slot[name="user-actions"]',
-    ) as HTMLSlotElement;
+    const button = el.querySelector('nys-button[slot="user-actions"]');
 
-    expect(userActionsSlot).to.exist;
+    expect(button).to.exist;
   });
 
   it("sets active class on clicked nav link (desktop and mobile)", async () => {

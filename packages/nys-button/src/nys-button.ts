@@ -4,13 +4,21 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-button.scss?inline";
 
-let buttonIdCounter = 0; // Counter for generating unique IDs
+let buttonIdCounter = 0;
 
 /**
- * `<nys-button>` is a button component that supports multiple
- * styles (variants), sizes, icons, circle mode, and can act as a native
- * button or a link. It is form-associated and supports keyboard accessibility.
+ * `<nys-button>` is a versatile button component supporting:
+ * - Multiple variants (`filled`, `outline`, `ghost`, `text`)
+ * - Sizes (`sm`, `md`, `lg`) and full-width layout
+ * - Icons (prefix, suffix, or circle) and optional labels
+ * - Native `<button>` or link `<a>` behavior with form association
+ * - Keyboard and accessibility support (`aria-label`, `aria-controls`, `aria-description`)
+ *
+ * @fires nys-click - Fired on button click
+ * @fires nys-focus - Fired when button receives focus
+ * @fires nys-blur - Fired when button loses focus
  */
+
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
 

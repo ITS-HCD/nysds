@@ -5,14 +5,24 @@ import "./nys-radiogroup";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
-let radiobuttonIdCounter = 0; // Counter for generating unique IDs
+let radiobuttonIdCounter = 0;
 
 /**
- * `NysRadiobutton` is a single radio button component designed for use in
- * `nys-radiogroup`. Supports labels, descriptions, inverted styling, tile layout,
- * and size variations. Handles internal grouping to ensure only one button in a group
- * is checked at a time and dispatches `nys-change` events on selection.
+ * `<nys-radiobutton>` represents a single radio button for use in a `<nys-radiogroup>`.
+ *
+ * Features:
+ * - Single selection per group
+ * - Supports labels, descriptions, tile layout, inverted style, and size variants
+ * - Integrates with forms and dispatches `nys-change` events on selection
+ *
+ * @slot description - Optional description text announced to screen readers
+ *
+ * @fires nys-change - Fired when the radio is selected or deselected
+ *   detail: { id: string, checked: boolean, name: string, value: string }
+ * @fires nys-focus - Fired when the radio gains focus
+ * @fires nys-blur - Fired when the radio loses focus
  */
+
 export class NysRadiobutton extends LitElement {
   static styles = unsafeCSS(styles);
 

@@ -5,9 +5,17 @@ import styles from "./nys-globalfooter.scss?inline";
 
 /**
  * `<nys-globalfooter>` renders a New York State–style global footer.
- * Supports an agency name, optional homepage link, and slotted content.
- * Slotted elements are sanitized and inserted into the shadow DOM with automatic layout handling.
+ *
+ * Displays an agency name with an optional homepage link and supports
+ * structured footer content via slots.
+ *
+ * @slot default - Footer content such as headings, links, or groups
+ *
+ * Layout behavior:
+ * - Multiple `<h4>` elements trigger a multi-column layout
+ * - Single group content renders in a compact layout
  */
+
 export class NysGlobalFooter extends LitElement {
   static styles = unsafeCSS(styles);
 

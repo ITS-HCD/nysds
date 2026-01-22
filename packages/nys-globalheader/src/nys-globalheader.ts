@@ -5,9 +5,20 @@ import styles from "./nys-globalheader.scss?inline";
 
 /**
  * `<nys-globalheader>` renders a New York State–style global header.
- * Supports an optional app name, agency name, homepage link, and slotted navigation elements.
- * Highlights active links based on current URL and handles a mobile menu toggle.
+ *
+ * Displays an optional application name, agency name, and homepage link.
+ * Supports slotted navigation content with automatic active-link detection
+ * and a responsive mobile menu.
+ *
+ * @slot default - Primary navigation list, typically a `<ul>` with links
+ * @slot user-actions - Optional user action elements such as login or profile
+ *
+ * Behavior:
+ * - Automatically highlights the best matching link based on the current URL
+ * - Duplicates navigation content for desktop and mobile layouts
+ * - Provides a toggleable mobile menu when navigation content exists
  */
+
 export class NysGlobalHeader extends LitElement {
   static styles = unsafeCSS(styles);
 

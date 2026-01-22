@@ -5,14 +5,26 @@ import { NysOption } from "./nys-option";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-select.scss?inline";
 
-let selectIdCounter = 0; // Counter for generating unique IDs
+let selectIdCounter = 0;
 
 /**
- * `NysSelect` is a custom select/dropdown component built for Lit.
- * Supports slotted <nys-option> elements, native <option> and <optgroup>,
- * integrates with forms via ElementInternals, and manages validation
- * and error messaging.
+ * `<nys-select>` is a custom select/dropdown component.
+ *
+ * Features:
+ * - Supports slotted `<nys-option>` elements, native `<option>` and `<optgroup>`
+ * - Integrates with forms via ElementInternals
+ * - Handles validation, error messages, and required/optional states
+ * - Inverted style and width variants supported
+ *
+ * @slot description - Optional description text announced to screen readers
+ * @slot default - Options (<nys-option>, <option>, <optgroup>) to populate the dropdown
+ *
+ * @fires nys-change - Fired when the selected value changes
+ *   detail: { id: string, value: string }
+ * @fires nys-focus - Fired when the select gains focus
+ * @fires nys-blur - Fired when the select loses focus
  */
+
 export class NysSelect extends LitElement {
   static styles = unsafeCSS(styles);
 

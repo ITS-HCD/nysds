@@ -5,7 +5,24 @@ import "./nys-checkboxgroup";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
 
-let checkboxIdCounter = 0; // Counter for generating unique IDs
+let checkboxIdCounter = 0;
+
+/**
+ * `<nys-checkbox>` is an accessible, form-associated checkbox component.
+ * Can be used standalone or within a `<nys-checkboxgroup>`.
+ *
+ * Features:
+ * - Supports labels, descriptions, and tooltips
+ * - Displays error messages with `showError` and `errorMessage`
+ * - Keyboard interaction with spacebar toggle
+ * - Form integration via ElementInternals (`checked` value submitted)
+ *
+ * @fires nys-change - Fired when checkbox value changes
+ * @fires nys-focus - Fired on focus
+ * @fires nys-blur - Fired on blur
+ *
+ * @slot description - Slot to provide a custom description element
+ */
 
 export class NysCheckbox extends LitElement {
   static styles = unsafeCSS(styles);

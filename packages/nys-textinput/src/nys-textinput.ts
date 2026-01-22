@@ -4,14 +4,22 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textinput.scss?inline";
 
-let textinputIdCounter = 0; // Counter for generating unique IDs
+let textinputIdCounter = 0;
 
 /**
- * `NysTextinput` is a form-enabled text input component that supports
- * validation, masking (like phone numbers), password visibility toggling,
- * accessibility, and live error messaging. Integrates with forms via ElementInternals
- * and emits custom events on user interaction.
+ * `<nys-textinput>` is a form-enabled text input with validation, optional
+ * masking, password toggle, accessibility support, and live error messages.
+ * Works with forms via ElementInternals.
+ *
+ * @slot description - Optional custom description content below the label.
+ * @slot startButton - Slot for a single <nys-button> at the start of the input.
+ * @slot endButton - Slot for a single <nys-button> at the end of the input.
+ *
+ * @fires nys-input - Fired on input change. Detail: `{ id, value }`.
+ * @fires nys-focus - Fired when input receives focus.
+ * @fires nys-blur - Fired when input loses focus.
  */
+
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
 

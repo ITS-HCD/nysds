@@ -71,7 +71,9 @@ describe("nys-table", () => {
     const el = await fixture<NysTable>(html`
       <nys-table id="test-table" download="data.csv">
         <table>
-          <caption>Caption Table</caption>
+          <caption>
+            Caption Table
+          </caption>
         </table>
       </nys-table>
     `);
