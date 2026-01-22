@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-textarea",
-  "version": "1.12.1",
+  "version": "1.13.0",
   "description": "The Textarea component from the NYS Design System.",
   "module": "dist/nys-textarea.js",
   "types": "dist/index.d.ts",
@@ -23,9 +23,9 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.12.1",
-    "@nysds/nys-label": "^1.12.1",
-    "@nysds/nys-errormessage": "^1.12.1"
+    "@nysds/nys-icon": "^1.13.0",
+    "@nysds/nys-label": "^1.13.0",
+    "@nysds/nys-errormessage": "^1.13.0"
   },
   "devDependencies": {
     "lit": "^3.3.1",
