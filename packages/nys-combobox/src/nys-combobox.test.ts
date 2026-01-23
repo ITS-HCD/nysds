@@ -13,7 +13,6 @@ describe("nys-combobox", () => {
     expect(el).to.exist;
   });
 
-
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysCombobox>(html`
       <nys-combobox label="My Label" required optional></nys-combobox>
@@ -24,7 +23,9 @@ describe("nys-combobox", () => {
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-combobox label="My Label"></nys-combobox>`);
+    const el = await fixture(
+      html`<nys-combobox label="My Label"></nys-combobox>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -36,4 +37,4 @@ describe("nys-combobox", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});
