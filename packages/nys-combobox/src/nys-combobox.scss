@@ -1,0 +1,41 @@
+  :host {
+    /* Anything that can be overridden should be defined here */
+
+    /* Global Combobox Styles */
+    --_nys-combobox-width: fit-content;
+    --_nys-combobox-height: var(--nys-size-600, 48px);
+    --_nys-combobox-radius: var(--nys-radius-xl, 12px);
+    --_nys-combobox-padding: var(--nys-space-100, 8px);
+    --_nys-combobox-gap: var(--nys-space-100, 8px);
+
+    /* Typography */
+    --_nys-combobox-font-size: var(--nys-font-size-ui-md, 16px);
+    --_nys-combobox-font-weight: var(--nys-font-weight-semibold, 600);
+    --_nys-combobox-line-height: var(--nys-font-lineheight-ui-md, 24px);
+    --_nys-combobox-font-family: var(
+      --nys-font-family-ui,
+      var(
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
+    );
+  }
+
+  .nys-combobox {
+    width: var(--_nys-combobox-width);
+    height: var(--_nys-combobox-height);
+    border-radius: var(--_nys-combobox-radius);
+    padding: var(--_nys-combobox-padding);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--_nys-combobox-gap);
+    font-family: var(--_nys-combobox-font-family);
+    font-size: var(--_nys-combobox-font-size);
+    font-weight: var(--_nys-combobox-font-weight);
+    line-height: var(--_nys-combobox-line-height);
+  }

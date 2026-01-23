@@ -1,0 +1,199 @@
+import { LitElement, html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
+// @ts-ignore: SCSS module imported via bundler as inline
+import styles from "./nys-combobox.scss?inline";
+
+
+let componentIdCounter = 0; 
+
+/**
+ * `<nys-your-component-name>` is ...
+ */
+
+export class NysCombobox extends LitElement {
+  static styles = unsafeCSS(styles);
+
+  @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) name = "";
+  @property({ type: String }) value = "";
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) required = false;
+  @property({ type: Boolean, reflect: true }) optional = false;
+  @property({ type: Boolean, reflect: true }) showError = false;
+  @property({ type: String }) errorMessage = "";
+  @property({ type: String, reflect: true }) form: string | null = null;
+
+
+  private _internals: ElementInternals;
+
+  /**
+   * Lifecycle Methods
+   * --------------------------------------------------------------------------
+   */
+
+  static formAssociated = true; // allows use of elementInternals' API
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-combobox-${Date.now()}-${componentIdCounter++}`;
+    }
+
+    this.addEventListener("invalid", this._handleInvalid);
+  }
+
+  firstUpdated() {
+    // This ensures our element always participates in the form
+    this._setValue(this.value);
+  }
+
+  /**
+   * Form Integration
+   * --------------------------------------------------------------------------
+   */
+   
+  /**
+  * Placeholder for form-related helper methods
+  * Refer to existing form-related components for full integration. Only a subset of functions is included here!
+  */
+
+  /**
+   * Form helper methods:
+   * - _setValue: set internal value and trigger validation
+   * - _manageRequire: handle required state
+   * - _validate: actively validate and show errors
+   * - checkValidity: passive boolean check without UI
+   * - _setValidityMessage: sync validation message with UI and internals
+   * - _handleInvalid: handle form invalid event and focus first invalid field
+   */
+
+  // Performs element validation
+  private _setValue(value: any) {
+    // ...
+    this.value = value;
+    this._internals.setFormValue(value);
+
+    this._manageRequire(); // Check validation when value is set
+  }
+
+  // Called to internally set the initial internalElement required flag.
+  private _manageRequire() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    const message = this.errorMessage || "This field is required.";
+    const isInvalid = this.required && !this.value;
+
+    if (isInvalid) {
+      this._internals.ariaRequired = "true";
+      this._internals.setValidity({ valueMissing: true }, message, input);
+    } else {
+      this._internals.ariaRequired = "false";
+      this._internals.setValidity({});
+    }
+  }
+
+  /**
+   * Actively validates the component:
+   * - Updates internal validity state
+   * - Updates UI (e.g. showError)
+   * - Called on blur/change or form submission
+   */
+  private _validate() {
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    const message = input.validationMessage;
+    this._manageRequire(); // check required
+    this._setValidityMessage(message);
+  }
+
+  /**
+   * Passive check of validity:
+   * - Returns true/false
+   * - Does NOT update UI or show errors
+   * - Used in form submission checks
+   */
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+
+  // Sets custom validity message
+  private _setValidityMessage(message: string = "") {
+    if (!this._internals) return;
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) return;
+
+    // Toggle the HTML <div> tag error message
+    this.showError = !!message;
+    // If user sets errorMessage, this will always override the native validation message
+    if (this.errorMessage?.trim() && message !== "") {
+      message = this.errorMessage;
+    }
+
+    this._internals.setValidity(
+      message ? { customError: true } : {},
+      message,
+      input
+    );
+  }
+
+  // Handles native 'invalid' events
+  private _handleInvalid(event: Event) {
+    event.preventDefault();
+    this._validate();
+
+    const innerInput = this.shadowRoot?.querySelector("input");
+    if (innerInput) {
+
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
+          innerInput.focus();
+        }
+      } else {
+        // If not part of a form, simply focus.
+        innerInput.focus();
+      }
+    }
+  }
+
+  /**
+   * Functions
+   * --------------------------------------------------------------------------
+   */
+
+  // Placeholder for generic functions (component-specific)
+
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+
+  // Placeholder for event handlers if needed
+
+  render() {
+    return html`<div class="nys-combobox"></div>`;
+  }
+}
+
+if (!customElements.get("nys-combobox")) {
+  customElements.define("nys-combobox", NysCombobox);
+}
