@@ -11,8 +11,11 @@ export default defineConfig({
       variableName: (id) => {
         // Convert dots to dashes and add prefix
         let name = `--nys-${id.replace(/\./g, "-")}`;
-        // Remove category prefixes from variable names
-        // (e.g., "color.primitive.blue.600" → "--nys-color-blue-600")
+        // Strip layer prefixes: primitive, applied, appearance, theme
+        // (e.g., "primitive.color.blue.600" → "--nys-color-blue-600")
+        // (e.g., "applied.color.text.default" → "--nys-color-text")
+        name = name.replace(/--nys-(primitive|applied|appearance|theme)-/, "--nys-");
+        // Legacy: also strip nested -primitive- and -semantic- if present
         name = name.replace(/-primitive-/, "-");
         name = name.replace(/-semantic-/, "-");
         // Remove "-default" suffix for backward compatibility

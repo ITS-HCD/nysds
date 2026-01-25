@@ -42,4 +42,4 @@ Thumbs.db
 
 # Ignore AI assistant files
 CLAUDE.md
-PRD.md
+docs/
