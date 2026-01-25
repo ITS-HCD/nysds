@@ -28,6 +28,10 @@ export class NysRadiobutton extends LitElement {
   @property({ type: String, reflect: true }) form: string | null = null;
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
   @property({ type: Boolean, reflect: true }) tile = false;
+  @property({ type: Boolean, reflect: true }) other = false;
+  @property({ type: Boolean }) showOtherError = false;
+
+  private _hasUserInteracted = false; // need this flag for "eager mode"
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
@@ -98,6 +102,13 @@ export class NysRadiobutton extends LitElement {
       return false;
     }
 
+    if (this.other && this.checked) {
+      const isInvalid = this.value.trim() === "";
+      if (isInvalid) {
+        return false;
+      }
+    }
+
     // Otherwise, optionally check the native input's validity if available.
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.checkValidity() : true;
@@ -129,16 +140,17 @@ export class NysRadiobutton extends LitElement {
     // when the user selects a choice, since form focus is no longer needed
     this.classList.remove("active-focus");
 
+    this.showOtherError = false;
+
     if (!this.checked && !this.disabled) {
       if (NysRadiobutton.buttonGroup[this.name]) {
         NysRadiobutton.buttonGroup[this.name].checked = false;
         NysRadiobutton.buttonGroup[this.name].requestUpdate();
       }
-
       NysRadiobutton.buttonGroup[this.name] = this;
-      this.checked = true;
 
-      // Dispatch a change event with the name and value
+      this.checked = true;
+      this._validateOtherAndEmitError();
       this._emitChangeEvent();
     }
   }
@@ -152,6 +164,9 @@ export class NysRadiobutton extends LitElement {
   private _handleBlur() {
     this.classList.remove("active-focus"); // removing this classList so the focus ring for handleInvalid() at radiogroup level will disappear
     this.dispatchEvent(new Event("nys-blur"));
+
+    this._hasUserInteracted = true;
+    this._validateOtherAndEmitError();
   }
 
   private _callInputHandling() {
@@ -165,6 +180,51 @@ export class NysRadiobutton extends LitElement {
     if (input) {
       input.focus();
       input.click();
+    }
+  }
+
+  private _handleTextInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let newValue = input.value;
+    this.value = newValue;
+
+    if (this._hasUserInteracted) {
+      this._validateOtherAndEmitError();
+    }
+
+    this._emitChangeEvent();
+  }
+
+  private _validateOtherAndEmitError() {
+    if (!this.other) return;
+
+    if (!this.checked) {
+      this.showOtherError = false;
+      return;
+    }
+
+    if (!this._hasUserInteracted) {
+      this.showOtherError = false;
+      return;
+    }
+
+    const isInvalid = this.value.trim() === "";
+    this.showOtherError = isInvalid;
+
+    if (isInvalid) {
+      this.dispatchEvent(
+        new CustomEvent("nys-error", {
+          detail: {
+            id: this.id,
+            name: this.name,
+            type: "other",
+            message: "Please enter a value for this option.",
+            sourceRadio: this,
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
     }
   }
 
@@ -187,15 +247,32 @@ export class NysRadiobutton extends LitElement {
         @click="${this._callInputHandling}"
         aria-label=${this.label}
       >
-        <span class="nys-radiobutton__radio"></span>
-        ${this.label &&
-        html`<nys-label
-          label=${this.label}
-          description=${ifDefined(this.description || undefined)}
-          ?inverted=${this.inverted}
-        >
-          <slot name="description" slot="description">${this.description}</slot>
-        </nys-label> `}
+        <div class="nys-radiobutton__main-container">
+          <span class="nys-radiobutton__radio"></span>
+          ${(this.label || this.other) &&
+          html`<nys-label
+            label="${this.other ? "Other" : this.label}"
+            description=${ifDefined(this.description || undefined)}
+            ?inverted=${this.inverted}
+          >
+            <slot name="description" slot="description"
+              >${this.description}</slot
+            >
+          </nys-label> `}
+        </div>
+        <div class="nys-radiobutton__other-container">
+          ${this.other && this.checked
+            ? html`
+                <nys-textinput
+                  .value=${this.value}
+                  id=${"radiobutton-other-" + this.id}
+                  @nys-input=${this._handleTextInput}
+                  @nys-blur=${this._handleBlur}
+                  aria-invalid=${this.showOtherError ? "true" : "false"}
+                ></nys-textinput>
+              `
+            : ""}
+        </div>
       </div>
     `;
   }

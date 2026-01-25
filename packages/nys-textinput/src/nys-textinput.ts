@@ -124,6 +124,11 @@ export class NysTextinput extends LitElement {
     }
   }
 
+  public focus() {
+    const input = this.shadowRoot?.querySelector("input");
+    input?.focus();
+  }
+
   /**
    * Form Integration
    * --------------------------------------------------------------------------

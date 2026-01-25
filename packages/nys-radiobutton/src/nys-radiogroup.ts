@@ -53,6 +53,7 @@ export class NysRadiogroup extends LitElement {
     }
     this.addEventListener("nys-change", this._handleRadioButtonChange);
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("nys-error", this._handleChildError);
   }
 
   disconnectedCallback() {
@@ -334,12 +335,31 @@ export class NysRadiogroup extends LitElement {
     this.selectedValue = value;
     this._internals.setFormValue(this.selectedValue);
 
+    // selecting anything clears group required error
+    this._internals.setValidity({});
+    this.showError = false;
+
     // Accounts for tabindex & ARIA on every click/space select
     this._updateGroupTabIndex();
   }
 
   private async _handleInvalid(event: Event) {
     event.preventDefault();
+
+    if (this._internals.validity.customError) {
+      const radios = this._getAllRadios();
+      const otherRadio = radios.find((radio) => radio.other && radio.checked);
+
+      if (otherRadio) {
+        const textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+
+        if (textInput) {
+          await (textInput as any).updateComplete;
+          (textInput as HTMLElement).focus();
+          return;
+        }
+      }
+    }
 
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
@@ -375,6 +395,22 @@ export class NysRadiogroup extends LitElement {
         }
       }
     }
+  }
+
+  private _handleChildError(event: Event) {
+    event.stopPropagation();
+
+    const { message, sourceRadio } = (event as CustomEvent).detail;
+
+    if (!sourceRadio) return;
+
+    this.showError = true;
+
+    this._internals.setValidity(
+      { customError: true },
+      message || "Please complete this field.",
+      sourceRadio as HTMLElement,
+    );
   }
 
   render() {
