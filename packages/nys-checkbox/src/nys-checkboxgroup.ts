@@ -50,12 +50,14 @@ export class NysCheckboxgroup extends LitElement {
     }
     this.addEventListener("nys-change", this._handleCheckboxChange);
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("nys-error", this._handleChildError);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("nys-change", this._handleCheckboxChange);
     this.removeEventListener("invalid", this._handleInvalid);
+    this.removeEventListener("nys-error", this._handleChildError);
   }
 
   firstUpdated() {
@@ -222,6 +224,29 @@ export class NysCheckboxgroup extends LitElement {
     this.showError = true;
     this._manageRequire(); // Refresh validation message
 
+    // Focus "other" text input when customError is set
+    if (this._internals.validity.customError) {
+      const checkboxes = Array.from(
+        this.querySelectorAll("nys-checkbox"),
+      ) as any[];
+
+      const otherCheckbox = checkboxes.find(
+        (checkbox) => checkbox.other && checkbox.checked,
+      );
+
+      if (otherCheckbox) {
+        const textInput =
+          otherCheckbox.shadowRoot?.querySelector("nys-textinput");
+
+        if (textInput) {
+          await (textInput as any).updateComplete;
+          (textInput as HTMLElement).focus();
+          return;
+        }
+      }
+    }
+
+    // Fallback behavior
     const firstCheckbox = this.querySelector("nys-checkbox");
     const firstCheckboxInput = firstCheckbox
       ? await (firstCheckbox as any).getInputElement()
@@ -236,7 +261,7 @@ export class NysCheckboxgroup extends LitElement {
         >;
         // Find the first element in the form that is invalid
         const firstInvalidElement = elements.find((element) => {
-          // If element is checkboxgroup, we see if anyone checkboxes within the group is checked to fulfill required constraint
+          // If element is <nys-checkboxgroup>, we see if anyone checkboxes within the group is checked to fulfill required constraint
           if (element.tagName.toLowerCase() === "nys-checkboxgroup") {
             const allCheckboxes = Array.from(
               this.querySelectorAll("nys-checkbox"),
@@ -287,6 +312,22 @@ export class NysCheckboxgroup extends LitElement {
     this._internals.setFormValue(selectedValues.join(", "));
 
     this._manageRequire();
+  }
+
+  private _handleChildError(event: Event) {
+    event.stopPropagation();
+
+    const { message, sourceRadio } = (event as CustomEvent).detail;
+
+    if (!sourceRadio) return;
+
+    this.showError = true;
+
+    this._internals.setValidity(
+      { customError: true },
+      message || "Please complete this field.",
+      sourceRadio as HTMLElement,
+    );
   }
 
   render() {

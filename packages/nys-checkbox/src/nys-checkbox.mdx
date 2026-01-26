@@ -59,6 +59,10 @@ The error message will appear **ONLY** when the `showError` attribute is set to 
 ### Slots
 When the description requires more complexity than a simple `string` value,  add your HTML content directly within the component as slot content, rather than setting a `description` prop. This allows the developer to include HTML in the description, such as `<a>` or `<strong>`
 <Canvas of={NysCheckboxStories.Slot} />
+### Other
+The `other` option lets users enter a custom value when none of the listed choices apply. When selected, a text input appears and the checkbox’s `value` is set to the entered text. \
+Note: Place this option as the last `<nys-checkbox>`. Do not provide a `label`; simply add the `other` prop.
+<Canvas of={NysCheckboxStories.Other} />
 ### Inverted
 Set the `inverted` when the component is on a dark background. \
 You can set `inverted` on `nys-checkboxgroup` to apply it to all checkboxes, or on a single `nys-checkbox` if only one needs it.

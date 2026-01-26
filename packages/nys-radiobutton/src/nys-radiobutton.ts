@@ -260,7 +260,7 @@ export class NysRadiobutton extends LitElement {
             >
           </nys-label> `}
         </div>
-        <div class="nys-radiobutton__other-container">
+        <div class="nys-radiobutton__other-container" @click=${(e: Event) => e.stopPropagation()}>
           ${this.other && this.checked
             ? html`
                 <nys-textinput
@@ -269,6 +269,7 @@ export class NysRadiobutton extends LitElement {
                   @nys-input=${this._handleTextInput}
                   @nys-blur=${this._handleBlur}
                   aria-invalid=${this.showOtherError ? "true" : "false"}
+                  width="md"
                 ></nys-textinput>
               `
             : ""}

@@ -322,20 +322,9 @@ input:active:not(:disabled):not(:checked)
 /* Special container for "other" text input */
 .nys-radiobutton__other-container {
   display: flex;
-  // margin-top: var(--nys-space-50, 4px);
   padding-inline-start: calc(
-    var(--_nys-radiobutton-size) + var(--nys-space-150, 12px)
+    var(--_nys-radiobutton-size) + var(--_nys-radiobutton-gap)
   );
-
-  // input {
-  //   margin: 0;
-  //   display: flex;
-  //   height: 40px;
-  //   padding: var(--nys-space-100, 8px) var(--nys-space-150, 12px);
-  //   justify-content: space-between;
-  //   align-items: center;
-  //   flex: 1 0 0;
-  // }
 }
 
 .nys-radiobutton__main-container > nys-label {
