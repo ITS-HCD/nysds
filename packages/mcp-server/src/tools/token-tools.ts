@@ -266,10 +266,10 @@ export function registerTokenTools(server: McpServer): void {
         .optional()
         .describe("Filter by token category"),
       layer: z
-        .enum(["primitive", "applied", "base"])
+        .enum(["primitive", "applied", "theme", "appearance"])
         .optional()
         .describe(
-          "Filter by token layer (primitive = raw values, applied = semantic tokens)",
+          "Filter by token layer (primitive = raw values, applied = semantic tokens, theme = agency theme tokens, appearance = light/dark mode)",
         ),
       includeResolvedValues: z
         .boolean()
@@ -297,10 +297,6 @@ export function registerTokenTools(server: McpServer): void {
           cssVariable: t.cssVariable,
           cssValue: t.cssValue,
         };
-
-        if (t.referencesVariable) {
-          result.referencesVariable = t.referencesVariable;
-        }
 
         if (includeResolvedValues && t.resolvedValue) {
           result.resolvedValue = t.resolvedValue;
@@ -371,7 +367,6 @@ export function registerTokenTools(server: McpServer): void {
       const formatted = results.map((t) => ({
         cssVariable: t.cssVariable,
         cssValue: t.cssValue,
-        referencesVariable: t.referencesVariable,
         description: t.description,
         category: t.category,
       }));
@@ -474,7 +469,6 @@ export function registerTokenTools(server: McpServer): void {
               {
                 cssVariable: tokenInfo.cssVariable,
                 cssValue: tokenInfo.cssValue,
-                referencesVariable: tokenInfo.referencesVariable,
                 resolvedValue: tokenInfo.resolvedValue,
                 description: tokenInfo.description,
                 category: tokenInfo.category,

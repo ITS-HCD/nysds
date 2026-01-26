@@ -193,14 +193,29 @@ function getCategoryFromPath(jsonPath: string): string {
 
 /**
  * Determine the layer from a JSON path
+ *
+ * Layers:
+ * - primitive: Raw values (colors, sizes, fonts, spacing, etc.)
+ * - applied: Semantic tokens that reference primitives (includes color.theme.* defaults)
+ * - theme: Agency theme overrides
+ * - appearance: Light/dark mode variations
  */
 function getLayerFromPath(jsonPath: string): string {
   const parts = jsonPath.split(".");
+
+  // Check for explicit layer prefixes
   if (["primitive", "applied", "appearance", "theme"].includes(parts[0])) {
     return parts[0];
   }
-  // Default layer for tokens not under a layer prefix
-  return "base";
+
+  // color.theme.* tokens are applied semantic tokens (agency themes override these)
+  if (parts[0] === "color" && parts[1] === "theme") {
+    return "applied";
+  }
+
+  // Non-prefixed categories (space, size, font, radius, etc.) contain raw values
+  // so they are classified as "primitive"
+  return "primitive";
 }
 
 // ============================================================================
