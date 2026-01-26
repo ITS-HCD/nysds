@@ -349,7 +349,10 @@ export class NysCheckbox extends LitElement {
             </nys-label>
           `}
         </div>
-        <div class="nys-checkbox__other-container">
+        <div
+          class="nys-checkbox__other-container"
+          @click=${(e: Event) => e.stopPropagation()}
+        >
           ${this.other && this.checked
             ? html`
                 <nys-textinput
