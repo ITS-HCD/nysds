@@ -196,13 +196,11 @@
     align-items: center;
     gap: var(--_nys-checkbox-gap);
 
-    &:has(nys-label[description]) {
+    &.has-description {
       align-items: flex-start;
     }
   }
 }
-
-
 
 /* wraps the native checkbox and it's icon */
 .nys-checkbox__checkbox-wrapper {

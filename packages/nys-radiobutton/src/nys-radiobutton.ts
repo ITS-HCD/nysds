@@ -228,6 +228,12 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
+  private _handleOtherKeydown(e: KeyboardEvent) {
+    if(e.key == "Space" || e.key === " ") {
+      e.stopPropagation();
+    }
+  }
+
   render() {
     return html`
       <input
@@ -260,7 +266,7 @@ export class NysRadiobutton extends LitElement {
             >
           </nys-label> `}
         </div>
-        <div class="nys-radiobutton__other-container" @click=${(e: Event) => e.stopPropagation()}>
+        <div class="nys-radiobutton__other-container">
           ${this.other && this.checked
             ? html`
                 <nys-textinput
@@ -268,6 +274,7 @@ export class NysRadiobutton extends LitElement {
                   id=${"radiobutton-other-" + this.id}
                   @nys-input=${this._handleTextInput}
                   @nys-blur=${this._handleBlur}
+                  @keydown=${this._handleOtherKeydown}
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width="md"
                 ></nys-textinput>

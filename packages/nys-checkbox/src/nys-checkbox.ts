@@ -194,6 +194,12 @@ export class NysCheckbox extends LitElement {
     }
   };
 
+  get _hasDescription() {
+    // This accounts for both description prop or slotted content. Used for styling text alignment.
+    const slot = this.querySelector('[slot="description"]');
+    return !!this.description || !!slot;
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -299,7 +305,11 @@ export class NysCheckbox extends LitElement {
   render() {
     return html`
       <label class="nys-checkbox">
-        <div class="nys-checkbox__main-container">
+        <div
+          class="nys-checkbox__main-container ${this._hasDescription
+            ? "has-description"
+            : ""}"
+        >
           <div class="nys-checkbox__checkbox-wrapper">
             <input
               id=${this.id + "--native"}
@@ -349,10 +359,7 @@ export class NysCheckbox extends LitElement {
             </nys-label>
           `}
         </div>
-        <div
-          class="nys-checkbox__other-container"
-          @click=${(e: Event) => e.stopPropagation()}
-        >
+        <div class="nys-checkbox__other-container">
           ${this.other && this.checked
             ? html`
                 <nys-textinput
