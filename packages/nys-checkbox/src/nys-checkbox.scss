@@ -193,14 +193,16 @@
     font-family: var(--_nys-checkbox-font-family);
     font-size: var(--_nys-checkbox-font-size);
     line-height: var(--_nys-checkbox-line-height);
+    align-items: center;
     gap: var(--_nys-checkbox-gap);
 
-    &:has(nys-label[description]),
-    &:has(::slotted([slot="description"])) {
+    &:has(nys-label[description]) {
       align-items: flex-start;
     }
   }
 }
+
+
 
 /* wraps the native checkbox and it's icon */
 .nys-checkbox__checkbox-wrapper {

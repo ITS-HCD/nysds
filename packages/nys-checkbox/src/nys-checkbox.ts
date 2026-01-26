@@ -339,7 +339,7 @@ export class NysCheckbox extends LitElement {
               tooltip=${this.tooltip}
               for=${this.id + "--native"}
               label="${this.other ? "Other" : this.label}"
-              description=${ifDefined(this.description ?? undefined)}
+              description=${ifDefined(this.description || undefined)}
               flag=${ifDefined(this.required ? "required" : undefined)}
               ?inverted=${this.inverted}
             >
