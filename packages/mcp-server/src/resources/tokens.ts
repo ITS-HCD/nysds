@@ -409,7 +409,8 @@ export function registerTokenResources(server: McpServer): void {
                   "Size tokens for component dimensions, icon sizes, and fixed widths/heights.",
                 tokens: sorted.map(formatToken),
                 usage: {
-                  iconSize: "width: var(--nys-size-200); height: var(--nys-size-200);",
+                  iconSize:
+                    "width: var(--nys-size-200); height: var(--nys-size-200);",
                   minHeight: "min-height: var(--nys-size-400);",
                   componentSize: "inline-size: var(--nys-size-600);",
                 },

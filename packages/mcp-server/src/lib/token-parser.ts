@@ -144,11 +144,13 @@ export function getTokensCSSPath(): string | null {
  * - "font.size.md" → "--nys-font-size-md"
  */
 export function toCSSVariable(jsonPath: string): string {
-  let name = "--nys-" + jsonPath
-    // Strip layer prefixes
-    .replace(/^(primitive|applied|appearance|theme)\./, "")
-    // Dots to hyphens
-    .replace(/\./g, "-");
+  let name =
+    "--nys-" +
+    jsonPath
+      // Strip layer prefixes
+      .replace(/^(primitive|applied|appearance|theme)\./, "")
+      // Dots to hyphens
+      .replace(/\./g, "-");
 
   // Strip trailing -default suffix
   name = name.replace(/-default$/, "");
@@ -185,8 +187,11 @@ function getCategoryFromPath(jsonPath: string): string {
   const parts = jsonPath.split(".");
 
   // Skip layer prefix if present
-  const startIndex =
-    ["primitive", "applied", "appearance", "theme"].includes(parts[0]) ? 1 : 0;
+  const startIndex = ["primitive", "applied", "appearance", "theme"].includes(
+    parts[0],
+  )
+    ? 1
+    : 0;
 
   return parts[startIndex] || "unknown";
 }
