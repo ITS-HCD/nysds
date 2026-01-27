@@ -7,15 +7,5 @@
 /* Include core typography styles */
 @use "./core/typography";
 
- /* Include USWDS Grid and Utility styles */
-@use "../uswds/dist/css/uswds.css";
-
-/* OLD NYSDS: Full Style Library */
-// @use "./utilities/layout-grid";
-// @use "./utilities/display";
-// @use "./utilities/float";
-// @use "./utilities/opacity";
-// @use "./utilities/flex";
-// @use "./utilities/zindex";
-@use "./utilities/padding";
-@use "./utilities/margin";
+/* Include NYSDS Utility classes */
+@use "./utilities";

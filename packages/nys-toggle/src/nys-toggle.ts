@@ -4,26 +4,71 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-toggle.scss?inline";
 
-let toggleIdCounter = 0; // Counter for generating unique IDs
+let toggleIdCounter = 0;
 
 /**
- * `NysToggle` is a form-associated toggle switch component that supports
- * labels, descriptions, inverted styles, size variants, and custom events.
- * It integrates with forms via ElementInternals and handles keyboard interaction.
+ * A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.
+ *
+ * Use when changing a setting takes effect immediately (e.g., dark mode, notifications).
+ * For binary choices in forms that submit later, use `nys-checkbox` instead.
+ *
+ * @summary Toggle switch for binary settings with immediate effect.
+ * @element nys-toggle
+ *
+ * @slot description - Custom HTML description content.
+ *
+ * @fires nys-change - Fired when toggle state changes. Detail: `{id, checked}`.
+ * @fires nys-focus - Fired when toggle gains focus.
+ * @fires nys-blur - Fired when toggle loses focus.
+ *
+ * @example Basic toggle
+ * ```html
+ * <nys-toggle label="Enable notifications" name="notifications"></nys-toggle>
+ * ```
+ *
+ * @example Dark mode toggle
+ * ```html
+ * <nys-toggle label="Dark mode" description="Adjust display for low light" checked></nys-toggle>
+ * ```
  */
+
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Value submitted when toggle is on. */
   @property({ type: String }) value = "";
+
+  /** Visible label text. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Form `id` to associate with. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /** Whether toggle is on. */
   @property({ type: Boolean, reflect: true }) checked = false;
+
+  /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Hides check/close icon inside toggle knob. */
   @property({ type: Boolean }) noIcon = false;
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /**
+   * Toggle size: `sm` or `md` (default).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   private _internals: ElementInternals;

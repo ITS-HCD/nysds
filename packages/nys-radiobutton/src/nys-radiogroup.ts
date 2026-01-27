@@ -4,28 +4,74 @@ import type { NysRadiobutton } from "./nys-radiobutton";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
-let radiogroupIdCounter = 0; // Counter for generating unique IDs
+let radiogroupIdCounter = 0;
 
 /**
- * `NysRadiogroup` manages a group of
- * `<nys-radiobutton>` elements. It enforces single selection, handles
- * keyboard navigation, accessibility, and form integration with validation.
+ * A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.
+ * Handles keyboard navigation (arrow keys), validation, required constraints, and form integration.
+ *
+ * Use to let users select exactly one option from 2-6 choices. Apply `tile`, `size`, and `inverted` to the group
+ * and all children inherit these styles automatically. For 7+ options, use `nys-select`.
+ *
+ * @summary Container for grouping radio buttons as a single form control.
+ * @element nys-radiogroup
+ *
+ * @slot - Default slot for `nys-radiobutton` elements.
+ * @slot description - Custom HTML description content.
+ *
+ * @example Basic radio group
+ * ```html
+ * <nys-radiogroup label="Select borough" required>
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="manhattan" label="Manhattan"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
  */
+
 export class NysRadiogroup extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) name = ""; // while not use by users, this prop is needed for internalElement form logic
+
+  /** Name for form submission. Auto-populated from child radiobuttons. */
+  @property({ type: String, reflect: true }) name = "";
+
+  /** Requires a selection before form submission. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Shows "Optional" flag. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Shows error message when true. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
+
+  /** Visible label text for the group. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Renders all radiobuttons as tiles with larger clickable area. */
   @property({ type: Boolean, reflect: true }) tile = false;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
+
+  /** Adjusts colors for dark backgrounds. Applied to all children. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** Form `id` to associate with. Applied to all children. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /**
+   * Radio size for all children: `sm` (24px) or `md` (32px, default).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   @state() private selectedValue: string | null = null;

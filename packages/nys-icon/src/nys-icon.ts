@@ -5,17 +5,47 @@ import iconLibrary from "./nys-icon.library";
 import styles from "./nys-icon.scss?inline";
 
 /**
- * `NysIcon` is a versatile web component for rendering SVG icons from a centralized library.
- * It supports accessibility attributes, size classes, rotation, color, and flipping.
+ * Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).
+ *
+ * Pass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible
+ * (removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors.
+ *
+ * @summary SVG icon from Material Symbols library with size, rotation, and color options.
+ * @element nys-icon
+ *
+ * @example Basic icon
+ * ```html
+ * <nys-icon name="check_circle" size="lg"></nys-icon>
+ * ```
+ *
+ * @example Accessible icon with label
+ * ```html
+ * <nys-icon name="warning" ariaLabel="Warning" color="var(--nys-color-warning)"></nys-icon>
+ * ```
  */
+
 export class NysIcon extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Icon name from Material Symbols library. Required. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG. */
   @property({ type: String }) ariaLabel = "";
+
+  /** Rotation in degrees. Applied via CSS `rotate`. */
   @property({ type: String }) rotate = "0";
+
+  /** Flip direction: `horizontal`, `vertical`, or empty for none. */
   @property({ type: String }) flip = "";
+
+  /** Icon color. Accepts any CSS color value. Defaults to `currentcolor`. */
   @property({ type: String }) color = "";
+
+  /**
+   * Icon size. Semantic sizes: `xs`-`5xl`. Pixel sizes: `12`-`50`.
+   * @default "md"
+   */
   @property({ type: String }) size:
     | "xs"
     | "sm"

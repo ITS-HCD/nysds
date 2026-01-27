@@ -3,19 +3,43 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tooltip.scss?inline";
 
-let tooltipIdCounter = 0; // Counter for generating unique IDs
+let tooltipIdCounter = 0;
 
 /**
- * `NysTooltip` is a custom tooltip component for NYS design system components.
- * It supports dynamic positioning, user-preferred placement, keyboard interaction,
- * screen-reader accessibility, and viewport overflow handling.
+ * Shows contextual help text on hover/focus. Auto-positions to stay within viewport and supports keyboard dismiss.
+ *
+ * Link to a trigger element via `for` attribute matching the trigger's `id`. Tooltip appears on hover or focus
+ * and dismisses on blur, mouse leave, or Escape key. Use for supplementary info only—not critical content.
+ *
+ * @summary Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
+ * @element nys-tooltip
+ *
+ * @example Tooltip for button
+ * ```html
+ * <nys-button id="help-btn" label="Help" circle icon="help"></nys-button>
+ * <nys-tooltip for="help-btn" text="Click for assistance"></nys-tooltip>
+ * ```
+ *
+ * @example Positioned tooltip
+ * ```html
+ * <nys-icon id="info-icon" name="info"></nys-icon>
+ * <nys-tooltip for="info-icon" text="Additional details" position="right"></nys-tooltip>
+ * ```
  */
+
 export class NysTooltip extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Tooltip content text. Required. */
   @property({ type: String }) text = "";
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** ID of the trigger element to attach this tooltip to. Required. */
   @property({ type: String }) for = "";
 
   // Track if tooltip is active (hovered or focused)
@@ -33,6 +57,10 @@ export class NysTooltip extends LitElement {
   // Position Logic
   private _position: "top" | "bottom" | "left" | "right" | null = null;
 
+  /**
+   * Preferred position relative to trigger. Auto-adjusts if space is insufficient.
+   * @default null (auto-positioned based on available space)
+   */
   @property({ type: String, reflect: true })
   get position() {
     return this._position;

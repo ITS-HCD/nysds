@@ -12,7 +12,19 @@ if (!customElements.get("wc-datepicker")) {
   customElements.define("wc-datepicker", WcDatepicker);
 }
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
+
+/**
+ * `<nys-datepicker>` is a form-associated, accessible date picker component.
+ * Optionally wraps a `<wc-datepicker>` for custom calendar UI.
+ *
+ * Events:
+ * @fires nys-blur - Dispatched when input or calendar loses focus
+ * @fires nys-input - Dispatched when user selects or types a valid date
+ *
+ * Notes:
+ * - Uses native date input on Safari or mobile devices (custom calendar removed for these scenarios)
+ */
 
 export class NysDatepicker extends LitElement {
   static styles = unsafeCSS(styles);

@@ -4,19 +4,36 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-fileitem.scss?inline";
 
 /**
- * `<nys-fileitem>` displays an individual file in a file input component.
- * It shows the file name, upload status, progress bar, and error messages.
+ * **Internal component.** Displays an individual file within `nys-fileinput` with status and progress.
+ *
+ * Rendered automatically by `nys-fileinput` for each selected file. Shows filename, upload status
+ * (pending/processing/done/error), progress bar during upload, and error messages. Remove button emits event.
+ *
+ * @summary Internal file item display with status, progress bar, and remove action.
+ * @element nys-fileitem
+ *
+ * @fires nys-fileRemove - Fired when remove button is clicked. Detail: `{filename}`.
  */
 export class NysFileItem extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Name of the file being displayed. */
   @property({ type: String }) filename = "";
+
+  /**
+   * Upload status: `pending` (queued), `processing` (uploading), `done` (complete), `error` (failed).
+   * @default "pending"
+   */
   @property({ type: String }) status:
     | "pending"
     | "processing"
     | "done"
     | "error" = "pending";
+
+  /** Upload progress percentage (0-100). Only shown when status is `processing`. */
   @property({ type: Number }) progress = 0;
+
+  /** Error message displayed when status is `error`. */
   @property({ type: String }) errorMessage = "";
 
   private _handleRemove() {

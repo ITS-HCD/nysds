@@ -1,0 +1,40 @@
+{
+  "name": "@nysds/tokens",
+  "version": "1.0.0",
+  "description": "Design tokens for the New York State Design System in DTCG 2025.10 format",
+  "type": "module",
+  "main": "src/tokens.json",
+  "exports": {
+    ".": "./src/tokens.json",
+    "./json": "./src/tokens.json",
+    "./css": "./dist/tokens.css"
+  },
+  "files": [
+    "dist/",
+    "src/tokens.json",
+    "css.scss"
+  ],
+  "scripts": {
+    "build": "tz build",
+    "dev": "tz build --watch"
+  },
+  "devDependencies": {
+    "@terrazzo/cli": "^0.5.0",
+    "@terrazzo/plugin-css": "^0.5.0"
+  },
+  "keywords": [
+    "design-tokens",
+    "dtcg",
+    "nysds",
+    "css-variables",
+    "new-york-state",
+    "design-system"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ITS-HCD/nysds.git",
+    "directory": "packages/tokens"
+  }
+}
