@@ -628,6 +628,7 @@ export class NysCombobox extends LitElement {
                     ariaLabel="clear selection"
                     variant="ghost"
                     size="sm"
+                    circle
                     @nys-click=${this._handleClearClick}
                     ?disabled=${this.disabled}
                   >
@@ -645,6 +646,7 @@ export class NysCombobox extends LitElement {
               ariaLabel="toggle dropdown"
               variant="ghost"
               size="sm"
+              circle
               @nys-click=${this._handleIconClick}
               ?disabled=${this.disabled}
             >
