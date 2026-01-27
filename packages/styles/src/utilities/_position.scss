@@ -1,0 +1,13 @@
+// ============================================
+// NYSDS Position Utilities
+// Position utilities with responsive variants
+// ============================================
+
+@use "config" as *;
+@use "mixins" as *;
+
+@each $value in $position-values {
+  @include responsive-variants("nys-position-#{$value}") {
+    position: $value;
+  }
+}

@@ -7,24 +7,59 @@ import styles from "./nys-textinput.scss?inline";
 let textinputIdCounter = 0;
 
 /**
- * `<nys-textinput>` is a form-enabled text input with validation, optional
- * masking, password toggle, accessibility support, and live error messages.
- * Works with forms via ElementInternals.
+ * A text input for collecting short, single-line data. Supports validation, input masking (tel),
+ * password visibility toggle, and live error messaging. Form-associated via ElementInternals.
  *
- * @slot description - Optional custom description content below the label.
- * @slot startButton - Slot for a single <nys-button> at the start of the input.
- * @slot endButton - Slot for a single <nys-button> at the end of the input.
+ * Use for names, emails, passwords, phone numbers. For multi-line input, use `nys-textarea` instead.
+ * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.
  *
- * @fires nys-input - Fired on input change. Detail: `{ id, value }`.
- * @fires nys-focus - Fired when input receives focus.
- * @fires nys-blur - Fired when input loses focus.
+ * @summary Text input for short single-line data with validation and masking support.
+ * @element nys-textinput
+ *
+ * @slot description - Custom HTML description content below the label.
+ * @slot startButton - Button at input start. Use single `nys-button` only.
+ * @slot endButton - Button at input end. Use single `nys-button` only.
+ *
+ * @fires nys-input - Fired on input change. Detail: `{id, value}`.
+ * @fires nys-focus - Fired when input gains focus.
+ * @fires nys-blur - Fired when input loses focus. Triggers validation.
+ *
+ * @example Basic text input
+ * ```html
+ * <nys-textinput label="Full Name" required></nys-textinput>
+ * ```
+ *
+ * @example Email with validation
+ * ```html
+ * <nys-textinput type="email" label="Email Address" required></nys-textinput>
+ * ```
+ *
+ * @example Phone with masking
+ * ```html
+ * <nys-textinput type="tel" label="Phone Number"></nys-textinput>
+ * ```
+ *
+ * @example Search with button
+ * ```html
+ * <nys-textinput type="search" placeholder="Search">
+ *   <nys-button slot="endButton" label="Search" prefixIcon="search"></nys-button>
+ * </nys-textinput>
+ * ```
  */
 
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. */
   @property({ type: String, reflect: true }) name = "";
+
+  /**
+   * Input type: `text` (default), `email`, `number`, `password`, `search`, `tel` (auto-masked), `url`.
+   * @default "text"
+   */
   @property({ type: String, reflect: true }) type:
     | "email"
     | "number"
@@ -33,28 +68,69 @@ export class NysTextinput extends LitElement {
     | "tel"
     | "text"
     | "url" = "text";
+
+  /** Visible label text. Required for accessibility. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Placeholder text. Don't use as label replacement. */
   @property({ type: String }) placeholder = "";
+
+  /** Current input value. */
   @property({ type: String }) value = "";
+
+  /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Makes input read-only but focusable. */
   @property({ type: Boolean, reflect: true }) readonly = false;
+
+  /** Marks as required. Shows "Required" flag and validates on blur. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Shows "Optional" flag. Use when most fields are required. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
+
+  /** Form `id` to associate with when input is outside form element. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /** Regex pattern for validation. Shows error on mismatch. */
   @property({ type: String }) pattern = "";
+
+  /** Maximum character length. */
   @property({ type: Number }) maxlength: number | null = null;
+
+  /**
+   * Input width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).
+   * @default "full"
+   */
   @property({ type: String, reflect: true }) width:
     | "sm"
     | "md"
     | "lg"
     | "full" = "full";
+
+  /** Step increment for `type="number"`. */
   @property({ type: Number }) step: number | null = null;
+
+  /** Minimum value for `type="number"`. */
   @property({ type: Number }) min: number | null = null;
+
+  /** Maximum value for `type="number"`. */
   @property({ type: Number }) max: number | null = null;
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** Shows error message when true. Set by validation or manually. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
   @state() private showPassword = false;
 

@@ -8,40 +8,87 @@ import styles from "./nys-checkbox.scss?inline";
 let checkboxIdCounter = 0;
 
 /**
- * `<nys-checkbox>` is an accessible, form-associated checkbox component.
- * Can be used standalone or within a `<nys-checkboxgroup>`.
+ * A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.
+ * Form-associated with validation via ElementInternals.
  *
- * Features:
- * - Supports labels, descriptions, and tooltips
- * - Displays error messages with `showError` and `errorMessage`
- * - Keyboard interaction with spacebar toggle
- * - Form integration via ElementInternals (`checked` value submitted)
+ * Use for binary decisions (agree/disagree) or selecting multiple options from a list.
+ * For single selection from 2-6 options, use `nys-radiobutton`. For immediate state changes, use `nys-toggle`.
  *
- * @fires nys-change - Fired when checkbox value changes
- * @fires nys-focus - Fired on focus
- * @fires nys-blur - Fired on blur
+ * @summary Checkbox for binary choices or multi-select options.
+ * @element nys-checkbox
  *
- * @slot description - Slot to provide a custom description element
+ * @slot description - Custom HTML description content.
+ *
+ * @fires nys-change - Fired when checked state changes. Detail: `{id, checked, name, value}`.
+ * @fires nys-focus - Fired when checkbox gains focus.
+ * @fires nys-blur - Fired when checkbox loses focus.
+ *
+ * @example Single checkbox
+ * ```html
+ * <nys-checkbox label="I agree to the terms" name="terms" required></nys-checkbox>
+ * ```
+ *
+ * @example Checkbox group
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
  */
 
 export class NysCheckbox extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Whether checkbox is checked. */
   @property({ type: Boolean, reflect: true }) checked = false;
+
+  /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Marks as required. Validates that checkbox is checked. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Visible label text. Required for accessibility. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. Use same name for grouped checkboxes. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Value submitted when checked. */
   @property({ type: String }) value = "";
+
+  /** Form `id` to associate with when checkbox is outside form element. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /** Shows error message when true. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
+
+  /** Internal: Set by parent checkboxgroup. Do not set manually. */
   @property({ type: Boolean }) groupExist = false;
+
+  /** Renders as tile with larger clickable area. Apply to group for consistency. */
   @property({ type: Boolean, reflect: true }) tile = false;
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
+
+  /**
+   * Checkbox size: `sm` (24px) or `md` (32px, default).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
