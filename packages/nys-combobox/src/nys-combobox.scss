@@ -225,29 +225,29 @@
   cursor: pointer;
   user-select: none;
   transition: background-color 0.15s ease;
-}
 
-.nys-combobox__option:hover:not([disabled]) {
-  background-color: var(--_nys-combobox-option-background-color--hover);
-}
+  &:hover:not([disabled]) {
+    background-color: var(--_nys-combobox-option-background-color--hover);
+  }
 
-.nys-combobox__option--highlighted:not([disabled]) {
-  background-color: var(--_nys-combobox-option-background-color--highlighted);
-}
+  &--highlighted:not([disabled]) {
+    background-color: var(--_nys-combobox-option-background-color--highlighted);
+  }
 
-.nys-combobox__option--selected:not([disabled]) {
-  background-color: var(--_nys-combobox-option-background-color--selected);
-}
+  &--selected:not([disabled]) {
+    background-color: var(--_nys-combobox-option-background-color--selected);
+  }
 
-.nys-combobox__option[disabled] {
-  color: var(--_nys-combobox-option-color--disabled);
-  cursor: not-allowed;
-  opacity: 0.6;
+  &[disabled] {
+    color: var(--_nys-combobox-option-color--disabled);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 }
 
 /* Group Label */
 .nys-combobox__optgroup {
-  padding: var(--nys-space-150, 12px) var(--nys-space-100, 8px);
+  padding: var(--nys-space-100, 8px)var(--nys-space-150, 12px);
 
   user-select: none;
   color: var(--nys-color-text);
