@@ -214,6 +214,8 @@ export const OptionGroup: Story = {
       .errorMessage=${args.errorMessage}
       .tooltip=${args.tooltip}
     >
+      <option value="apple">Apple</option>
+      <option value="banana">Banana</option>
       <optgroup label="Citrus">
         <option value="lemon">Lemon</option>
         <option value="lime">Lime</option>
