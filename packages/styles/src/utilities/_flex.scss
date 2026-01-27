@@ -1,0 +1,74 @@
+// ============================================
+// NYSDS Flex Utilities
+// Flexbox utilities with responsive variants
+// ============================================
+
+@use "config" as *;
+@use "mixins" as *;
+
+// Flex column sizes (1-12)
+@each $i in $flex-columns {
+  @include responsive-variants("nys-flex-#{$i}") {
+    flex: $i;
+  }
+}
+
+// Flex auto and fill
+@include responsive-variants("nys-flex-auto") {
+  flex: auto;
+}
+
+@include responsive-variants("nys-flex-fill") {
+  flex: 1 1 0%;
+}
+
+// Flex direction
+@include responsive-variants("nys-flex-column") {
+  flex-direction: column;
+}
+
+@include responsive-variants("nys-flex-row") {
+  flex-direction: row;
+}
+
+// Flex wrap
+@include responsive-variants("nys-flex-wrap") {
+  flex-wrap: wrap;
+}
+
+@include responsive-variants("nys-flex-no-wrap") {
+  flex-wrap: nowrap;
+}
+
+// Align items
+$flex-align-values: (start, end, center, stretch, baseline);
+
+@each $value in $flex-align-values {
+  @include responsive-variants("nys-flex-align-#{$value}") {
+    align-items: if($value == "start" or $value == "end", flex-#{$value}, $value);
+  }
+}
+
+// Align self
+@each $value in $flex-align-values {
+  @include responsive-variants("nys-flex-align-self-#{$value}") {
+    align-self: if($value == "start" or $value == "end", flex-#{$value}, $value);
+  }
+}
+
+// Justify content
+@include responsive-variants("nys-flex-justify-start") {
+  justify-content: flex-start;
+}
+
+@include responsive-variants("nys-flex-justify-center") {
+  justify-content: center;
+}
+
+@include responsive-variants("nys-flex-justify-end") {
+  justify-content: flex-end;
+}
+
+@include responsive-variants("nys-flex-justify") {
+  justify-content: space-between;
+}

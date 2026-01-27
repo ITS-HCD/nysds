@@ -5,45 +5,43 @@ import "./nys-step";
 import styles from "./nys-stepper.scss?inline";
 
 /**
- * `<nys-stepper>` manages a sequence of `<nys-step>` elements, providing
- * multi-step navigation for forms or workflows.
+ * A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.
  *
- * Features:
- * - Tracks selected and current steps
- * - Displays a step counter (e.g., "Step 2 of 5")
- * - Supports compact/expanded view toggle
- * - Validates that only `<nys-step>` or `<div slot="actions">` children are used
+ * Add `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become
+ * navigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.
  *
- * @fires nys-step-click - Fired when a step is clicked; bubbles with the event path
+ * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
+ * @element nys-stepper
  *
- * @example
- * <div class="nys-grid-row">
- *   <nys-stepper
- *     id="stepper"
- *     name="stepper"
- *     label="Register for Design System Office Hours"
- *     class="nys-desktop:nys-grid-col-3"
- *   >
- *     <nys-step label="Personal Details"></nys-step>
- *     <nys-step label="Team Info" selected></nys-step>
- *     <nys-step label="Usage Survey" current></nys-step>
- *     <div slot="actions">
- *       <nys-button variant="outline" label="Save & Exit" fullWidth></nys-button>
- *     </div>
- *   </nys-stepper>
- *   <div class="nys-desktop:nys-grid-col-9" id="stepper-content">
- *     Page content for the selected step
- *   </div>
- * </div>
+ * @slot - Default slot for `nys-step` elements.
+ * @slot actions - Navigation buttons (e.g., Back, Continue). Must be wrapped in a `<div>`.
+ *
+ * @example Basic stepper
+ * ```html
+ * <nys-stepper label="Application Progress">
+ *   <nys-step label="Personal Info" current></nys-step>
+ *   <nys-step label="Contact Details"></nys-step>
+ *   <nys-step label="Review"></nys-step>
+ * </nys-stepper>
+ * ```
  */
 
 export class NysStepper extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name attribute for form association. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Title displayed above the step counter. */
   @property({ type: String }) label = "";
+
+  /** Progress text (e.g., "Step 2 of 5"). Auto-updated based on selection. */
   @property({ type: String }) counterText = "initial";
+
+  /** Whether compact mobile view is expanded to show all steps. */
   @property({ type: Boolean, reflect: true })
   isCompactExpanded = false;
 

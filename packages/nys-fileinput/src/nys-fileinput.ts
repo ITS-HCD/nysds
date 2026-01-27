@@ -16,41 +16,81 @@ interface FileWithProgress {
 }
 
 /**
- * `<nys-fileinput>` provides accessible file selection with optional
- * drag-and-drop support, progress tracking, validation, and form submission.
+ * A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.
+ * Validates file types via magic bytes (not just extension). Form-associated via ElementInternals.
  *
- * Features:
- * - Supports single or multiple file uploads
- * - Optional drag-and-drop dropzone
- * - File type validation and upload progress
- * - Form-associated with native validation behavior
- * - Keyboard and screen reader accessible
+ * Use for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.
  *
- * @slot description - Custom description content under the label
+ * @summary File input with drag-and-drop, validation, and progress tracking.
+ * @element nys-fileinput
  *
- * @fires nys-change - Fired when files are added or removed
+ * @slot description - Custom HTML description content.
  *
- * @returns {boolean} checkValidity - Returns validity state for form validation
+ * @fires nys-change - Fired when files are added or removed. Detail: `{id, files}`.
+ *
+ * @example Single file upload
+ * ```html
+ * <nys-fileinput label="Upload document" accept=".pdf,.doc" required></nys-fileinput>
+ * ```
+ *
+ * @example Multiple files with dropzone
+ * ```html
+ * <nys-fileinput label="Upload images" accept="image/*" multiple dropzone></nys-fileinput>
+ * ```
  */
 
 export class NysFileinput extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Visible label text. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Allows selecting multiple files. */
   @property({ type: Boolean }) multiple = false;
+
+  /** Form `id` to associate with. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
-  @property({ type: String }) accept = ""; // e.g. "image/*,.pdf"
+
+  /** Accepted file types. Use MIME types (`image/*`) or extensions (`.pdf`). Validated via magic bytes. */
+  @property({ type: String }) accept = "";
+
+  /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Requires at least one file to be uploaded. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Shows "Optional" flag. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Shows error message when true. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
+
+  /** Enables drag-and-drop zone UI. */
   @property({ type: Boolean }) dropzone = false;
+
+  /**
+   * Component width: `lg` (384px) or `full` (100%, default).
+   * @default "full"
+   */
   @property({ type: String, reflect: true }) width: "lg" | "full" = "full";
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
   private _selectedFiles: FileWithProgress[] = [];
