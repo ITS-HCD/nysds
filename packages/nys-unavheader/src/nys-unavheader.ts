@@ -25,6 +25,7 @@ import styles from "./nys-unavheader.scss?inline";
  * <nys-unavheader hideSearch></nys-unavheader>
  * ```
  */
+
 export class NysUnavHeader extends LitElement {
   static styles = unsafeCSS(styles);
 

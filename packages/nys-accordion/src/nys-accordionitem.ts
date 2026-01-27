@@ -3,7 +3,7 @@ import { property, query } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
 
-let accordionItemIdCounter = 0; // Counter for generating unique IDs
+let accordionItemIdCounter = 0;
 
 /**
  * A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.
@@ -25,6 +25,7 @@ let accordionItemIdCounter = 0; // Counter for generating unique IDs
  * </nys-accordionitem>
  * ```
  */
+
 export class NysAccordionItem extends LitElement {
   static styles = unsafeCSS(styles);
 

@@ -1,0 +1,43 @@
+{
+  "name": "@nysds/nys-table",
+  "version": "1.13.0",
+  "description": "The Table component from the NYS Design System.",
+  "module": "dist/nys-table.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/nys-table.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "tsc --emitDeclarationOnly && vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch",
+    "lit-analyze": "lit-analyzer '*.ts'"
+  },
+  "devDependencies": {
+    "lit": "^3.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "@nysds/nys-button": "^1.13.0",
+    "@nysds/nys-icon": "^1.13.0"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "table",
+    "forms"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}

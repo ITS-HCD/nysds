@@ -4,7 +4,7 @@ import "./nys-accordionitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
 
-let accordionIdCounter = 0; // Counter for generating unique IDs
+let accordionIdCounter = 0;
 
 /**
  * A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.
@@ -33,6 +33,7 @@ let accordionIdCounter = 0; // Counter for generating unique IDs
  * </nys-accordion>
  * ```
  */
+
 export class NysAccordion extends LitElement {
   static styles = unsafeCSS(styles);
 

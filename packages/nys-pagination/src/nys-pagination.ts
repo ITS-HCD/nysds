@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
  * Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.
@@ -22,6 +22,7 @@ let componentIdCounter = 0; // Counter for generating unique IDs
  * <nys-pagination currentPage="1" totalPages="10"></nys-pagination>
  * ```
  */
+
 export class NysPagination extends LitElement {
   static styles = unsafeCSS(styles);
 

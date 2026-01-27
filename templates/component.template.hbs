@@ -4,11 +4,12 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-{{componentName}}.scss?inline";
 
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0; 
 
 /**
- * `NysYourComponentName` is ...
+ * `<nys-your-component-name>` is ...
  */
+
 export class Nys{{capitalize componentName}} extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -86,6 +87,8 @@ export class Nys{{capitalize componentName}} extends LitElement {
    * - _manageRequire: handle required state
    * - _validate: actively validate and show errors
    * - checkValidity: passive boolean check without UI
+   * - _setValidityMessage: sync validation message with UI and internals
+   * - _handleInvalid: handle form invalid event and focus first invalid field
    */
 
   // Performs element validation

@@ -23,6 +23,7 @@ import styles from "./nys-skipnav.scss?inline";
  * <nys-skipnav href="#content-area"></nys-skipnav>
  * ```
  */
+
 export class NysSkipnav extends LitElement {
   static styles = unsafeCSS(styles);
 

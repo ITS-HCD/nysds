@@ -25,6 +25,7 @@ import styles from "./nys-stepper.scss?inline";
  * </nys-stepper>
  * ```
  */
+
 export class NysStepper extends LitElement {
   static styles = unsafeCSS(styles);
 

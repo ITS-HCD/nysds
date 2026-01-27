@@ -7,7 +7,7 @@
    * Part of the New York State Design System (NYSDS)
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
-   * Version: 1.12.1
+   * Version: 1.13.0
 */
 
 
@@ -15,6 +15,7 @@
 @use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
+nys-datepicker:not(:defined),
 nys-accordion:not(:defined),
 nys-alert:not(:defined),
 nys-avatar:not(:defined),
@@ -36,6 +37,7 @@ nys-radiogroup:not(:defined),
 nys-select:not(:defined),
 nys-skipnav:not(:defined),
 nys-stepper:not(:defined),
+nys-table:not(:defined),
 nys-textarea:not(:defined),
 nys-textinput:not(:defined),
 nys-toggle:not(:defined),

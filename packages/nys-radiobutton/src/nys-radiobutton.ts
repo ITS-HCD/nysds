@@ -5,7 +5,7 @@ import "./nys-radiogroup";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
-let radiobuttonIdCounter = 0; // Counter for generating unique IDs
+let radiobuttonIdCounter = 0;
 
 /**
  * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.
@@ -30,6 +30,7 @@ let radiobuttonIdCounter = 0; // Counter for generating unique IDs
  * </nys-radiogroup>
  * ```
  */
+
 export class NysRadiobutton extends LitElement {
   static styles = unsafeCSS(styles);
 

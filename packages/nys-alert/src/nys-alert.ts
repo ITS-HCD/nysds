@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-alert.scss?inline";
 
-let alertIdCounter = 0; // Counter for generating unique IDs
+let alertIdCounter = 0;
 
 /**
  * Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.
@@ -29,6 +29,7 @@ let alertIdCounter = 0; // Counter for generating unique IDs
  * <nys-alert type="success" heading="Application submitted" dismissible></nys-alert>
  * ```
  */
+
 export class NysAlert extends LitElement {
   static styles = unsafeCSS(styles);
 

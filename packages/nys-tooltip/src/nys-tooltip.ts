@@ -3,7 +3,7 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tooltip.scss?inline";
 
-let tooltipIdCounter = 0; // Counter for generating unique IDs
+let tooltipIdCounter = 0;
 
 /**
  * Shows contextual help text on hover/focus. Auto-positions to stay within viewport and supports keyboard dismiss.
@@ -26,6 +26,7 @@ let tooltipIdCounter = 0; // Counter for generating unique IDs
  * <nys-tooltip for="info-icon" text="Additional details" position="right"></nys-tooltip>
  * ```
  */
+
 export class NysTooltip extends LitElement {
   static styles = unsafeCSS(styles);
 

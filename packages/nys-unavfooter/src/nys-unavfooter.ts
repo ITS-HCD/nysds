@@ -18,6 +18,7 @@ import styles from "./nys-unavfooter.scss?inline";
  * <nys-unavfooter></nys-unavfooter>
  * ```
  */
+
 export class NysUnavFooter extends LitElement {
   static styles = unsafeCSS(styles);
 

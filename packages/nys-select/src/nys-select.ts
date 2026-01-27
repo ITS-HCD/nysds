@@ -5,7 +5,7 @@ import { NysOption } from "./nys-option";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-select.scss?inline";
 
-let selectIdCounter = 0; // Counter for generating unique IDs
+let selectIdCounter = 0;
 
 /**
  * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
@@ -43,6 +43,7 @@ let selectIdCounter = 0; // Counter for generating unique IDs
  * </nys-select>
  * ```
  */
+
 export class NysSelect extends LitElement {
   static styles = unsafeCSS(styles);
 

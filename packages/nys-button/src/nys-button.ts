@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-button.scss?inline";
 
-let buttonIdCounter = 0; // Counter for generating unique IDs
+let buttonIdCounter = 0;
 
 /**
  * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
@@ -64,6 +64,7 @@ let buttonIdCounter = 0; // Counter for generating unique IDs
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
  */
+
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
 

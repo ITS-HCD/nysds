@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textinput.scss?inline";
 
-let textinputIdCounter = 0; // Counter for generating unique IDs
+let textinputIdCounter = 0;
 
 /**
  * A text input for collecting short, single-line data. Supports validation, input masking (tel),
@@ -46,6 +46,7 @@ let textinputIdCounter = 0; // Counter for generating unique IDs
  * </nys-textinput>
  * ```
  */
+
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
 

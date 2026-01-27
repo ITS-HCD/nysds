@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textarea.scss?inline";
 
-let textareaIdCounter = 0; // Counter for generating unique IDs
+let textareaIdCounter = 0;
 
 /**
  * A multi-line text input for collecting longer responses like comments, descriptions, or feedback.
@@ -33,6 +33,7 @@ let textareaIdCounter = 0; // Counter for generating unique IDs
  * <nys-textarea label="Describe the incident" description="Please provide details" required></nys-textarea>
  * ```
  */
+
 export class NysTextarea extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -302,7 +303,7 @@ export class NysTextarea extends LitElement {
     this.value = select.value;
     this.dispatchEvent(
       new CustomEvent("nys-select", {
-        detail: { value: this.value },
+        detail: { id: this.id, value: this.value },
         bubbles: true,
         composed: true,
       }),

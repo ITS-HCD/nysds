@@ -23,6 +23,7 @@ import styles from "./nys-badge.scss?inline";
  * <nys-badge prefixLabel="Messages" label="12"></nys-badge>
  * ```
  */
+
 export class NysBadge extends LitElement {
   static styles = unsafeCSS(styles);
 

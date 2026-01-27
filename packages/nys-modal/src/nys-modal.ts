@@ -3,7 +3,7 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-modal.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
  * An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.
@@ -31,6 +31,7 @@ let componentIdCounter = 0; // Counter for generating unique IDs
  * </nys-modal>
  * ```
  */
+
 export class NysModal extends LitElement {
   static styles = unsafeCSS(styles);
 

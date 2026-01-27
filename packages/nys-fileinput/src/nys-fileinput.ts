@@ -6,7 +6,7 @@ import "./nys-fileitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-fileinput.scss?inline";
 
-let fileinputIdCounter = 0; // Counter for generating unique IDs
+let fileinputIdCounter = 0;
 
 interface FileWithProgress {
   file: File;
@@ -38,6 +38,7 @@ interface FileWithProgress {
  * <nys-fileinput label="Upload images" accept="image/*" multiple dropzone></nys-fileinput>
  * ```
  */
+
 export class NysFileinput extends LitElement {
   static styles = unsafeCSS(styles);
 

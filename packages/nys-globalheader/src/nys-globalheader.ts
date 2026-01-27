@@ -21,6 +21,7 @@ import styles from "./nys-globalheader.scss?inline";
  * </nys-globalheader>
  * ```
  */
+
 export class NysGlobalHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -32,8 +33,8 @@ export class NysGlobalHeader extends LitElement {
 
   /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
-  @state() private slotHasContent = true;
   @state() private isMobileMenuOpen = false;
+  @state() private hasLinkContent = false;
 
   /**
    * Lifecycle Methods
@@ -42,8 +43,8 @@ export class NysGlobalHeader extends LitElement {
 
   firstUpdated() {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
-    slot?.addEventListener("slotchange", () => this._handleSlotChange());
-    this._handleSlotChange(); // run once at startup
+    slot?.addEventListener("slotchange", () => this._handleListSlotChange());
+    this._handleListSlotChange(); // run once at startup
 
     this._listenLinkClicks();
   }
@@ -53,116 +54,98 @@ export class NysGlobalHeader extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  private _highlightActiveLink(container: HTMLElement) {
+    const links = Array.from(container.querySelectorAll("a"));
+    const currentUrl = window.location.pathname.replace(/\/+$/, "") || "/";
+
+    let bestMatch: { li: HTMLElement | null; length: number } = {
+      li: null,
+      length: 0,
+    };
+
+    links.forEach((a) => {
+      const linkPath = this._normalizePath(a.getAttribute("href"));
+      if (!linkPath) return;
+
+      if (linkPath === "/" && currentUrl === "/") {
+        bestMatch = { li: a.closest("li"), length: 1 };
+      } else if (
+        currentUrl.startsWith(linkPath) &&
+        linkPath.length > bestMatch.length
+      ) {
+        bestMatch = {
+          li: a.closest("li"),
+          length: linkPath.length,
+        };
+      }
+    });
+
+    // Clear all previous actives
+    links.forEach((a) => a.closest("li")?.classList.remove("active"));
+
+    // Apply best match
+    bestMatch.li?.classList.add("active");
+  }
+
   // Gets called when the slot content changes and directly appends the slotted elements into the shadow DOM
-  private async _handleSlotChange() {
-    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
+  private async _handleListSlotChange() {
+    const slot = this.shadowRoot?.querySelector(
+      'slot:not([name="user-actions"])',
+    ) as HTMLSlotElement | null;
+
     if (!slot) return;
 
     const assignedNodes = slot
-      ?.assignedNodes({ flatten: true })
+      .assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
+
+    this.hasLinkContent = assignedNodes.length > 0;
 
     await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
 
-    // Update slotHasContent for styling content
-    this.slotHasContent = assignedNodes.length > 0;
-
-    // Get the container to append the slotted elements
+    // Get the containers to append the slotted elements
     const container = this.shadowRoot?.querySelector(
       ".nys-globalheader__content",
-    );
+    ) as HTMLElement | null;
+
     const containerMobile = this.shadowRoot?.querySelector(
       ".nys-globalheader__content-mobile",
-    );
+    ) as HTMLElement | null;
 
-    if (container && containerMobile) {
-      // Clear existing children in the container
-      container.innerHTML = "";
-      containerMobile.innerHTML = "";
+    if (!container || !containerMobile) return;
 
-      const currentUrl = this._normalizePath(
-        window.location.pathname + window.location.hash,
-      );
+    // Clear existing children in the container
+    container.innerHTML = "";
+    containerMobile.innerHTML = "";
 
-      // Clone and append slotted elements into the shadow DOM container
-      assignedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const cleanNode = node.cloneNode(true) as HTMLElement;
-          const cleanNodeMobile = node.cloneNode(true) as HTMLElement;
+    // Clone and append slotted elements into the shadow DOM container
+    assignedNodes.forEach((node) => {
+      if (node instanceof HTMLElement) {
+        // need to clone the node because cannot have same node in two places in DOM
+        const nodeInline = node.cloneNode(true) as HTMLElement;
+        const nodeMobile = node.cloneNode(true) as HTMLElement;
 
-          // Remove <script>, <iframe>, <object>, and any potentially dangerous elements XSS
-          const dangerousTags = ["script", "iframe", "object", "embed, img"];
-          dangerousTags.forEach((tag) => {
-            (cleanNode as Element)
-              .querySelectorAll(tag)
-              .forEach((element) => element.remove());
-          });
+        container.appendChild(nodeInline);
+        containerMobile.appendChild(nodeMobile);
+      }
+    });
 
-          /**
-           * Get all user slotted ahref links and for each link, determine the best matching link via the pattern of
-           * prioritize the link with the longest match.
-           * @param node
-           */
-          const highlightActiveLink = (node: HTMLElement) => {
-            const links = Array.from(node.querySelectorAll("a"));
-
-            // Because we can only have one active link at all times, we
-            let bestMatch: { li: HTMLElement | null; length: number } = {
-              li: null,
-              length: 0,
-            };
-
-            links.forEach((a) => {
-              const hrefAttr = a.getAttribute("href");
-              const linkPath = this._normalizePath(hrefAttr);
-
-              if (!linkPath) return;
-
-              // Exact homepage match
-              if (linkPath === "/" && currentUrl === "/") {
-                bestMatch = { li: a.closest("li"), length: 1 };
-              } else if (
-                currentUrl?.startsWith(linkPath) &&
-                linkPath.length > bestMatch.length
-              ) {
-                bestMatch = { li: a.closest("li"), length: linkPath.length };
-              }
-
-              // Clear old actives
-              links.forEach((a) => a.closest("li")?.classList.remove("active"));
-
-              // Set the best matched link to active
-              bestMatch.li?.classList.add("active");
-            });
-          };
-
-          highlightActiveLink(cleanNode);
-          highlightActiveLink(cleanNodeMobile);
-
-          container.appendChild(cleanNode);
-          containerMobile.appendChild(cleanNodeMobile);
-          node.remove(); // Remove from light DOM to avoid duplication
-        }
-      });
-    }
+    // Highlight active links AFTER DOM is finalized
+    this._highlightActiveLink(container);
+    this._highlightActiveLink(containerMobile);
   }
 
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
   // This ensures consistent active-link behavior regardless of how hrefs are written.
-  private _normalizePath(path: string | null) {
-    if (!path) return;
+  private _normalizePath(href: string | null): string | null {
+    if (!href) return null;
 
-    // Checks path always starts with "/"
-    if (!path.startsWith("/")) {
-      path = "/" + path;
+    try {
+      const url = new URL(href, window.location.origin);
+      return url.pathname.replace(/\/+$/, "") || "/";
+    } catch {
+      return null;
     }
-
-    // Strip trailing slash except for root "/"
-    if (path.length > 1 && path.endsWith("/")) {
-      path = path.slice(0, -1);
-    }
-
-    return path.toLowerCase();
   }
 
   private _toggleMobileMenu() {
@@ -198,7 +181,7 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
-          ${this.slotHasContent
+          ${this.hasLinkContent
             ? html` <div class="nys-globalheader__button-container">
                 <button
                   class="nys-globalheader__mobile-menu-button"
@@ -261,14 +244,12 @@ export class NysGlobalHeader extends LitElement {
                     : ""}
                 </div>
               </a>`}
-          ${this.slotHasContent
-            ? html`<div class="nys-globalheader__content">
-                <slot
-                  style="display: hidden"
-                  @slotchange="${this._handleSlotChange}"
-                ></slot>
-              </div>`
-            : ""}
+          <div class="nys-globalheader__content"></div>
+          <slot
+            style="display: none;"
+            @slotchange="${this._handleListSlotChange}"
+          ></slot>
+          <slot name="user-actions"></slot>
         </div>
       </header>
       <div

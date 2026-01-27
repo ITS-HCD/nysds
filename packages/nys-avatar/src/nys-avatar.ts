@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-avatar.scss?inline";
 
-let avatarIdCounter = 0; // Counter for generating unique IDs
+let avatarIdCounter = 0;
 
 /**
  * Displays a user representation as image, initials, or icon with automatic fallback chain.
@@ -27,6 +27,7 @@ let avatarIdCounter = 0; // Counter for generating unique IDs
  * <nys-avatar initials="JS" color="var(--nys-color-theme)" ariaLabel="Jane Smith"></nys-avatar>
  * ```
  */
+
 export class NysAvatar extends LitElement {
   static styles = unsafeCSS(styles);
 

@@ -22,6 +22,7 @@ import styles from "./nys-globalfooter.scss?inline";
  * </nys-globalfooter>
  * ```
  */
+
 export class NysGlobalFooter extends LitElement {
   static styles = unsafeCSS(styles);
 

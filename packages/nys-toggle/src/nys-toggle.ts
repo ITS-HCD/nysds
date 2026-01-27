@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-toggle.scss?inline";
 
-let toggleIdCounter = 0; // Counter for generating unique IDs
+let toggleIdCounter = 0;
 
 /**
  * A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.
@@ -31,6 +31,7 @@ let toggleIdCounter = 0; // Counter for generating unique IDs
  * <nys-toggle label="Dark mode" description="Adjust display for low light" checked></nys-toggle>
  * ```
  */
+
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
 

@@ -444,6 +444,18 @@
       "references": []
     },
     {
+      "name": "nys-table",
+      "description": "\n---\n",
+      "attributes": [
+        { "name": "id", "values": [] },
+        { "name": "name", "values": [] },
+        { "name": "striped", "values": [] },
+        { "name": "sortable", "values": [] },
+        { "name": "download", "values": [] }
+      ],
+      "references": []
+    },
+    {
       "name": "nys-textarea",
       "description": "\n---\n\n\n### **Events:**\n - **nys-input**\n- **nys-focus**\n- **nys-blur**\n- **nys-select**\n- **nys-selectionchange**\n\n### **Methods:**\n - **checkValidity(): _boolean_** - ******************** Functions *********************",
       "attributes": [

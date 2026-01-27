@@ -23,6 +23,7 @@ import styles from "./nys-icon.scss?inline";
  * <nys-icon name="warning" ariaLabel="Warning" color="var(--nys-color-warning)"></nys-icon>
  * ```
  */
+
 export class NysIcon extends LitElement {
   static styles = unsafeCSS(styles);
 
