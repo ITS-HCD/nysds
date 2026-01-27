@@ -51,12 +51,6 @@
   --_nys-combobox-option-color--disabled: var(--nys-color-text-disabled,
       var(--nys-color-neutral-200, #bec0c1));
 
-  /* Group Label Styles */
-  --_nys-combobox-group-label-color: var(--nys-color-text-weak,
-      var(--nys-color-neutral-600, #626466));
-  --_nys-combobox-group-label-font-weight: var(--nys-font-weight-semibold, 600);
-  --_nys-combobox-group-label-padding: var(--nys-space-75, 6px) var(--nys-space-150, 12px);
-
   /* Global Font Styles */
   --_nys-combobox-font-family: var(--nys-font-family-ui,
       var(--nys-font-family-sans,
@@ -252,15 +246,20 @@
 }
 
 /* Group Label */
-.nys-combobox__group-label {
-  padding: var(--_nys-combobox-group-label-padding);
-  color: var(--_nys-combobox-group-label-color);
-  font-weight: var(--_nys-combobox-group-label-font-weight);
-  font-size: calc(var(--_nys-combobox-font-size) * 0.875);
-  /* Slightly smaller */
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.nys-combobox__optgroup {
+  padding: var(--nys-space-150, 12px) var(--nys-space-100, 8px);
+
   user-select: none;
+  color: var(--nys-color-text);
+
+  /* UI/Medium/Bold */
+  font-family: var(--nys-font-family-ui, "Proxima Nova");
+  font-size: var(--nys-font-size-ui-md, 16px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--nys-font-lineheight-ui-md, 24px);
+  /* 150% */
+  letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 }
 
 /* No Results */

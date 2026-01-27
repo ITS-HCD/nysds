@@ -532,7 +532,7 @@ export class NysCombobox extends LitElement {
       if (option.group && option.group !== currentGroup) {
         currentGroup = option.group;
         elements.push(html`
-          <div class="nys-combobox__group-label" role="presentation">
+          <div class="nys-combobox__optgroup" role="presentation">
             ${option.group}
           </div>
         `);
