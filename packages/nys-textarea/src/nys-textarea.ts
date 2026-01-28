@@ -7,44 +7,105 @@ import styles from "./nys-textarea.scss?inline";
 let textareaIdCounter = 0;
 
 /**
- * `<nys-textarea>` is a form-enabled textarea with validation, accessibility support,
- * and live error messages. Integrates with forms via ElementInternals.
+ * A multi-line text input for collecting longer responses like comments, descriptions, or feedback.
+ * Form-associated with validation support via ElementInternals.
  *
- * @slot description - Optional slot for custom description content below the label.
+ * Use for detailed responses needing multiple lines. For single-line input, use `nys-textinput`.
+ * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.
  *
- * @fires nys-input - Fired on input, detail: `{ id, value }`
- * @fires nys-focus - Fired on focus.
- * @fires nys-blur - Fired on blur.
- * @fires nys-select - Fired on text selection, detail: `{ id, value }`
- * @fires nys-selectionchange - Fired on selection change, detail: `{ id, value }`
+ * @summary Multi-line text input for comments, descriptions, and feedback.
+ * @element nys-textarea
+ *
+ * @slot description - Custom HTML description content below the label.
+ *
+ * @fires nys-input - Fired on input change. Detail: `{id, value}`.
+ * @fires nys-focus - Fired when textarea gains focus.
+ * @fires nys-blur - Fired when textarea loses focus. Triggers validation.
+ * @fires nys-select - Fired when user selects text. Detail: `{id, value}`.
+ *
+ * @example Basic textarea
+ * ```html
+ * <nys-textarea label="Comments" rows="4"></nys-textarea>
+ * ```
+ *
+ * @example Required with description
+ * ```html
+ * <nys-textarea label="Describe the incident" description="Please provide details" required></nys-textarea>
+ * ```
  */
 
 export class NysTextarea extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Visible label text. Required for accessibility. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Placeholder text. Don't use as label replacement. */
   @property({ type: String }) placeholder = "";
+
+  /** Current textarea value. */
   @property({ type: String }) value = "";
+
+  /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Makes textarea read-only but focusable. */
   @property({ type: Boolean, reflect: true }) readonly = false;
+
+  /** Marks as required. Shows "Required" flag and validates on blur. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Shows "Optional" flag. Use when most fields are required. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** Form `id` to associate with when textarea is outside form element. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /** Maximum character length. */
   @property({ type: Number }) maxlength: number | null = null;
+
+  /**
+   * Textarea width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).
+   * @default "full"
+   */
   @property({ type: String, reflect: true }) width:
     | "sm"
     | "md"
     | "lg"
     | "full" = "full";
+
+  /**
+   * Visible height in lines.
+   * @default 4
+   */
   @property({ type: Number }) rows = 4;
+
+  /**
+   * Resize behavior: `vertical` (default, user can resize height), `none` (fixed size).
+   * @default "vertical"
+   */
   @property({ type: String, reflect: true }) resize: "vertical" | "none" =
     "vertical";
+
+  /** Shows error message when true. Set by validation or manually. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
   async updated(changedProperties: Map<string | number | symbol, unknown>) {

@@ -4,22 +4,32 @@ import { property, state } from "lit/decorators.js";
 import styles from "./nys-globalfooter.scss?inline";
 
 /**
- * `<nys-globalfooter>` renders a New York State–style global footer.
+ * Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.
  *
- * Displays an agency name with an optional homepage link and supports
- * structured footer content via slots.
+ * Place above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements
+ * to create multi-column layouts; without `<h4>`, renders as compact single section.
  *
- * @slot default - Footer content such as headings, links, or groups
+ * @summary Agency footer with auto-layout for contact info and link sections.
+ * @element nys-globalfooter
  *
- * Layout behavior:
- * - Multiple `<h4>` elements trigger a multi-column layout
- * - Single group content renders in a compact layout
+ * @slot - Footer content (links, contact info). Use `<h4>` for column headings.
+ *
+ * @example Simple footer
+ * ```html
+ * <nys-globalfooter agencyName="Department of Health" homepageLink="/">
+ *   <span>123 Main St, Albany NY</span>
+ *   <span>info@health.ny.gov</span>
+ * </nys-globalfooter>
+ * ```
  */
 
 export class NysGlobalFooter extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Agency name displayed as the footer heading. */
   @property({ type: String }) agencyName = "";
+
+  /** URL for the agency name link. If empty, name is not clickable. */
   @property({ type: String }) homepageLink = "";
   @state() private slotHasContent = true;
 

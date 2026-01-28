@@ -6,25 +6,40 @@ import styles from "./nys-accordion.scss?inline";
 let accordionItemIdCounter = 0;
 
 /**
- * `<nys-accordionitem>` represents a single collapsible item inside a `<nys-accordion>`.
+ * A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.
  *
- * @slot - Default slot for the content inside the accordion panel.
+ * Place inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button
+ * accessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.
  *
- * @event nys-accordionitem-toggle - Fired when the item is expanded or collapsed.
- *   @type {CustomEvent<{id: string, heading: string, expanded: boolean}>}
+ * @summary Collapsible panel for use within nys-accordion with keyboard support.
+ * @element nys-accordionitem
  *
- * Features:
- * - Click or keyboard (Enter/Space) toggles expansion.
- * - Animates height changes when expanding/collapsing.
+ * @slot - Default slot for panel content shown when expanded.
+ *
+ * @fires nys-accordionitem-toggle - Fired when expanded state changes. Detail: `{id, heading, expanded}`.
+ *
+ * @example Expanded item
+ * ```html
+ * <nys-accordionitem heading="How do I apply?" expanded>
+ *   <p>Visit ny.gov and complete the online application.</p>
+ * </nys-accordionitem>
+ * ```
  */
 
 export class NysAccordionItem extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Heading text displayed in the clickable toggle button. */
   @property({ type: String }) heading = "";
+
+  /** Whether the content panel is visible. Toggle via click or keyboard. */
   @property({ type: Boolean, reflect: true }) expanded = false;
-  @property({ type: Boolean, reflect: true }) bordered = false; // Code NEED this, don't delete this. This is due to how the <nys-accordion> group is applying bordered to each individual <nys-accordionitem>
+
+  /** Adds border styling. Set by parent `nys-accordion`, not directly. */
+  @property({ type: Boolean, reflect: true }) bordered = false;
 
   /**
    * Lifecycle methods

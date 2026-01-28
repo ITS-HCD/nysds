@@ -1,0 +1,13 @@
+// ============================================
+// NYSDS Z-Index Utilities
+// Z-index utilities with responsive variants
+// ============================================
+
+@use "config" as *;
+@use "mixins" as *;
+
+@each $name, $value in $zindex-values {
+  @include responsive-variants("nys-z-#{$name}") {
+    z-index: $value;
+  }
+}

@@ -13,13 +13,6 @@
       "default": "./dist/nysds.min.css"
     },
     "./full": "./dist/nysds-full.min.css",
-    "./themes/admin": "./dist/nysds-theme-admin.min.css",
-    "./themes/business": "./dist/nysds-theme-business.min.css",
-    "./themes/environment": "./dist/nysds-theme-environment.min.css",
-    "./themes/health": "./dist/nysds-theme-health.min.css",
-    "./themes/local": "./dist/nysds-theme-local.min.css",
-    "./themes/safety": "./dist/nysds-theme-safety.min.css",
-    "./themes/transportation": "./dist/nysds-theme-transportation.min.css",
     "./typography": "./dist/nysds-typography.min.css"
   },
   "scripts": {
@@ -28,6 +21,7 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
+    "@nysds/tokens": "*",
     "vite": "^7.1.12"
   },
   "keywords": [

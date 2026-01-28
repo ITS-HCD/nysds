@@ -6,26 +6,54 @@ import styles from "./nys-modal.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * `<nys-modal>` renders an accessible modal dialog.
+ * An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.
  *
- * Supports headings, optional subheading, body content, and action buttons.
- * Manages focus trapping, escape key handling, and body scroll locking.
+ * Set `open` to show the modal. Content goes in the default slot; action buttons in the `actions` slot.
+ * Dismisses via close button or Escape key unless `mandatory` is set. Focus returns to trigger on close.
  *
- * @slot - Modal body content
- * @slot actions - Action buttons shown in the footer
+ * @summary Accessible modal dialog with focus trap, keyboard support, and action slots.
+ * @element nys-modal
  *
- * @fires nys-open - Emitted when the modal opens
- * @fires nys-close - Emitted when the modal closes
+ * @slot - Default slot for body content.
+ * @slot actions - Action buttons displayed in footer. Buttons auto-resize on mobile.
+ *
+ * @fires nys-open - Fired when modal opens. Detail: `{id}`.
+ * @fires nys-close - Fired when modal closes. Detail: `{id}`.
+ *
+ * @example Basic modal
+ * ```html
+ * <nys-modal id="confirm-modal" heading="Confirm action" open>
+ *   <p>Are you sure you want to proceed?</p>
+ *   <div slot="actions">
+ *     <nys-button label="Cancel" variant="outline"></nys-button>
+ *     <nys-button label="Confirm" variant="filled"></nys-button>
+ *   </div>
+ * </nys-modal>
+ * ```
  */
 
 export class NysModal extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Modal heading text. Required for accessibility. */
   @property({ type: String }) heading = "";
+
+  /** Secondary heading below the main heading. */
   @property({ type: String }) subheading = "";
+
+  /** Controls modal visibility. Set to `true` to show. */
   @property({ type: Boolean, reflect: true }) open = false;
+
+  /** Prevents dismissal via close button or Escape key. User must take an action. */
   @property({ type: Boolean, reflect: true }) mandatory = false;
+
+  /**
+   * Modal width: `sm` (400px), `md` (600px), or `lg` (800px).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) width: "sm" | "md" | "lg" = "md";
 
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
