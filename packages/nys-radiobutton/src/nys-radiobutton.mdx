@@ -50,11 +50,12 @@ Set the `size` prop of the **`nys-radiogroup`** to have all **`nys-radiobutton`*
 <Canvas of={NysRadiobuttonStories.Size} />
 ### Tile
 The `tile` prop will change the styling of the radio button to a tile. This is useful when you want a larger clickable area for the user.\
+
 Note: The `tile` prop is applied  to the `nys-radiogroup` component, not the `nys-radiobutton`. All `nys-radiobutton` in the `nys-radiogroup` will be set to tile.
 <Canvas of={NysRadiobuttonStories.Tile} />
 ### Other
-The `other` option lets users enter a custom value when none of the listed choices apply. When selected, a text input appears and the radio button’s `value` is set to the entered text.
-By default, the label will be “Other” if no `label` is provided. You may optionally supply a custom `label` to better match the context, such as “Something else” or “Other (please specify)”. \
+The `other` option lets users enter a custom value when none of the listed choices apply. When selected, a text input appears and the `<nys-radiobutton>`’s `value` is set to the entered text.
+By default, the label will be “Other” if no `label` is provided. You may optionally supply a custom `label` to better match the context, such as “Something else” or “Other (please specify)”. 
 
 Note: Place this option as the last `<nys-radiobutton>` within `<nys-radiogroup>`.
 <Canvas of={NysRadiobuttonStories.Other} />
