@@ -726,12 +726,6 @@ export const Other: Story = {
         name="landmarks"
         value="catskills"
         label="Catskills"
-        checked
-      ></nys-checkbox>
-      <nys-checkbox
-        name="landmarks"
-        value="niagara-falls"
-        label="Niagara Falls"
       ></nys-checkbox>
       <nys-checkbox name="landmarks" other></nys-checkbox>
     </nys-checkboxgroup>
@@ -744,7 +738,6 @@ export const Other: Story = {
 <nys-checkboxgroup
   label="Select your favorite New York landmarks"
   description="Choose from the options below"
-  optional
 >
   <nys-checkbox
     label="Adirondacks"
@@ -754,8 +747,7 @@ export const Other: Story = {
     checked
   ></nys-checkbox>
   <nys-checkbox name="landmarks" value="finger-lakes" label="Finger Lakes" checked></nys-checkbox>
-  <nys-checkbox name="landmarks" value="catskills" label="Catskills" checked></nys-checkbox>
-  <nys-checkbox name="landmarks" value="niagara-falls" label="Niagara Falls"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="catskills" label="Catskills"></nys-checkbox>
   <nys-checkbox name="landmarks" other></nys-checkbox>
 </nys-checkboxgroup>
         `,
