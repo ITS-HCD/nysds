@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
+import type { NysCheckbox } from "./nys-checkbox";
 
 let checkboxgroupIdCounter = 0;
 
@@ -197,8 +198,18 @@ export class NysCheckboxgroup extends LitElement {
       );
       this.showError = true;
     } else {
-      this._internals.setValidity({});
-      this.showError = false;
+      // Only clear if there is no invalid "other"
+      const hasInvalidOther = checkboxes.some(
+        (checkbox: any) =>
+          checkbox.checked &&
+          checkbox.other &&
+          (!checkbox.value || checkbox.value.trim() === ""),
+      );
+
+      if (!hasInvalidOther) {
+        this._internals.setValidity({});
+        this.showError = false;
+      }
     }
   }
 
@@ -278,7 +289,7 @@ export class NysCheckboxgroup extends LitElement {
     if (this._internals.validity.customError) {
       const checkboxes = Array.from(
         this.querySelectorAll("nys-checkbox"),
-      ) as any[];
+      ) as NysCheckbox[];
 
       const otherCheckbox = checkboxes.find(
         (checkbox) => checkbox.other && checkbox.checked,
@@ -355,7 +366,9 @@ export class NysCheckboxgroup extends LitElement {
   private _handleCheckboxChange(event: Event) {
     const customEvent = event as CustomEvent;
     const { name } = customEvent.detail;
-    const checkboxes = Array.from(this.querySelectorAll("nys-checkbox"));
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
 
     // Filter to only the checked ones and extract their values.
     const selectedValues = checkboxes
@@ -394,25 +407,28 @@ export class NysCheckboxgroup extends LitElement {
     }
   }
 
-  private async _checkOtherInputs(checkboxes: any[]) {
+  private async _checkOtherInputs(checkboxes: NysCheckbox[]) {
     for (const checkbox of checkboxes) {
       if (checkbox.checked && checkbox.other) {
         const value = checkbox.value.trim();
         const textInput = checkbox.shadowRoot?.querySelector("nys-textinput");
 
+        // Prevent error validation just because it is empty on first selection
+        if (!value && !this._internals.validity.customError) {
+          return;
+        }
+
         if (!value || value === "") {
           const message = "Please enter a value for this option.";
-          this._internals.setValidity(
-            { customError: true },
-            message,
-            textInput || checkbox,
-          );
+          this._internals.setValidity({ customError: true }, message, checkbox);
 
           this.showError = true;
 
-          await (textInput as any).updateComplete;
-          (textInput as HTMLElement).focus();
-          return;
+          if (textInput) {
+            await (textInput as any).updateComplete;
+            (textInput as HTMLElement).focus();
+            return;
+          }
         }
       }
     }
