@@ -5,17 +5,43 @@ import "./nys-step";
 import styles from "./nys-stepper.scss?inline";
 
 /**
- * `NysStepper` is a multi-step navigation component that manages
- * a sequence of `<nys-step>` elements. It handles step selection,
- * navigation, and displays a progress counter.
+ * A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.
+ *
+ * Add `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become
+ * navigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.
+ *
+ * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
+ * @element nys-stepper
+ *
+ * @slot - Default slot for `nys-step` elements.
+ * @slot actions - Navigation buttons (e.g., Back, Continue). Must be wrapped in a `<div>`.
+ *
+ * @example Basic stepper
+ * ```html
+ * <nys-stepper label="Application Progress">
+ *   <nys-step label="Personal Info" current></nys-step>
+ *   <nys-step label="Contact Details"></nys-step>
+ *   <nys-step label="Review"></nys-step>
+ * </nys-stepper>
+ * ```
  */
+
 export class NysStepper extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name attribute for form association. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Title displayed above the step counter. */
   @property({ type: String }) label = "";
+
+  /** Progress text (e.g., "Step 2 of 5"). Auto-updated based on selection. */
   @property({ type: String }) counterText = "initial";
+
+  /** Whether compact mobile view is expanded to show all steps. */
   @property({ type: Boolean, reflect: true })
   isCompactExpanded = false;
 

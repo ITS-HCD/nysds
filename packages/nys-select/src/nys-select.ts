@@ -5,30 +5,91 @@ import { NysOption } from "./nys-option";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-select.scss?inline";
 
-let selectIdCounter = 0; // Counter for generating unique IDs
+let selectIdCounter = 0;
 
 /**
- * `NysSelect` is a custom select/dropdown component built for Lit.
- * Supports slotted <nys-option> elements, native <option> and <optgroup>,
- * integrates with forms via ElementInternals, and manages validation
- * and error messaging.
+ * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
+ * Form-associated with validation via ElementInternals.
+ *
+ * Use when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.
+ * For multiple selections, use `nys-checkbox` group instead.
+ *
+ * @summary Dropdown select for choosing one option from a list.
+ * @element nys-select
+ *
+ * @slot - Default slot for `<option>` and `<optgroup>` elements.
+ * @slot description - Custom HTML description content below the label.
+ *
+ * @fires nys-change - Fired when selection changes. Detail: `{id, value}`.
+ * @fires nys-focus - Fired when select gains focus.
+ * @fires nys-blur - Fired when select loses focus. Triggers validation.
+ *
+ * @example Basic select
+ * ```html
+ * <nys-select label="Select borough">
+ *   <option value="bronx">The Bronx</option>
+ *   <option value="brooklyn">Brooklyn</option>
+ *   <option value="manhattan">Manhattan</option>
+ * </nys-select>
+ * ```
+ *
+ * @example With option groups
+ * ```html
+ * <nys-select label="Select service">
+ *   <optgroup label="Transportation">
+ *     <option value="mta">MTA</option>
+ *     <option value="dmv">DMV</option>
+ *   </optgroup>
+ * </nys-select>
+ * ```
  */
+
 export class NysSelect extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Visible label text. Required for accessibility. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. Use slot for custom HTML. */
   @property({ type: String }) description = "";
+
+  /** Currently selected option value. */
   @property({ type: String }) value = "";
+
+  /** Prevents interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Marks as required. Shows "Required" flag and validates on blur. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Shows "Optional" flag. Use when most fields are required. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
+
+  /** Form `id` to associate with when select is outside form element. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+
+  /** Shows error message when true. Set by validation or manually. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
+
+  /**
+   * Select width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).
+   * @default "full"
+   */
   @property({ type: String, reflect: true }) width:
     | "sm"
     | "md"

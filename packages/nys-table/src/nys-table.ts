@@ -3,8 +3,18 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
+/**
+ * `<nys-table>` is a responsive table component that can display native HTML tables,
+ * supports striped and bordered styling, sortable columns, and CSV download.
+ *
+ * @slot - Accepts a `<table>` element. Only the first table is rendered.
+ *
+ * @fires nys-click - Fired when the download button or sortable headers are clicked.
+ *
+ * @method downloadFile - Triggers download of the CSV file if `download` is set.
+ */
 export class NysTable extends LitElement {
   static styles = unsafeCSS(styles);
 

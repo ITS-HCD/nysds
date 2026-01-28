@@ -1,0 +1,13 @@
+// ============================================
+// NYSDS Float Utilities
+// Float property utilities with responsive variants
+// ============================================
+
+@use "config" as *;
+@use "mixins" as *;
+
+@each $value in $float-values {
+  @include responsive-variants("nys-float-#{$value}") {
+    float: $value;
+  }
+}

@@ -64,8 +64,8 @@ type Story = StoryObj<NysDatepickerArgs>;
 
 export const Basic: Story = {
   args: {
-    id: "datepicker1",
-    name: "datepicker1",
+    id: "my-datepicker",
+    name: "my-datepicker",
     value: undefined,
     width: "md",
     disabled: false,
@@ -73,7 +73,7 @@ export const Basic: Story = {
     optional: false,
     showError: false,
     errorMessage: "",
-    label: "Date of birth",
+    label: "Schedule an appointment",
     description: "Enter in MM/DD/YYYY format",
     startDate: "",
     hideTodayButton: false,
@@ -105,10 +105,9 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-datepicker
-  id="myDatepicker"
-  name="myDatepicker"
-  type="date"
-  label="Date of birth"
+  id="my-datepicker"
+  name="my-datepicker"
+  label="Schedule an appointment"
   description="Enter in MM/DD/YYYY format"
 ></nys-datepicker>`,
         type: "auto",

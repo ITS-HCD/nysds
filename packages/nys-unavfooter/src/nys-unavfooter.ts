@@ -4,9 +4,21 @@ import nysLogo from "./nys-unav.logo";
 import styles from "./nys-unavfooter.scss?inline";
 
 /**
- * `NysUnavFooter` is a custom footer component for NYS websites.
- * It displays the NYS logo linking to the official site and a set of key navigation links.
+ * Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.
+ *
+ * Place as the last element before `</body>`. Displays NY.gov logo and links to Agencies,
+ * App Directory, Counties, Events, Programs, and Services. No configuration needed.
+ *
+ * @summary Universal NYS footer with logo and statewide links. Required site-wide.
+ * @element nys-unavfooter
+ *
+ * @example Standard usage
+ * ```html
+ * <nys-globalfooter>...</nys-globalfooter>
+ * <nys-unavfooter></nys-unavfooter>
+ * ```
  */
+
 export class NysUnavFooter extends LitElement {
   static styles = unsafeCSS(styles);
 

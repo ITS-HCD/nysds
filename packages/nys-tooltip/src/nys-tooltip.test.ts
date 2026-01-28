@@ -11,6 +11,14 @@ describe("nys-tooltip", () => {
     expect(el).to.exist;
   });
 
+  it("auto generates an id when none is provided", async () => {
+    const el = await fixture<NysTooltip>(
+      html`<nys-tooltip text="ID test"></nys-tooltip>`,
+    );
+
+    expect(el.id).to.match(/^nys-tooltip-/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysTooltip>(html`
       <nys-tooltip text="My Text" position="top" inverted></nys-tooltip>
@@ -20,7 +28,25 @@ describe("nys-tooltip", () => {
     expect(el.inverted).to.be.true;
   });
 
-  // Accessibility tests
+  it("reflects position attribute", async () => {
+    const el = await fixture<NysTooltip>(
+      html`<nys-tooltip text="Position test" position="right"></nys-tooltip>`,
+    );
+
+    expect(el.getAttribute("position")).to.equal("right");
+    expect(el.position).to.equal("right");
+  });
+
+  it("does not render tooltip content when text is empty", async () => {
+    const el = await fixture<NysTooltip>(
+      html`<nys-tooltip text=""></nys-tooltip>`,
+    );
+
+    const content = el.shadowRoot?.querySelector(".nys-tooltip__content");
+    expect(content).to.not.exist;
+  });
+
+  /****** Accessibility tests ******/
   it("renders tooltip content with role=tooltip", async () => {
     const el = await fixture<NysTooltip>(
       html`<nys-tooltip text="Info"></nys-tooltip>`,
@@ -42,6 +68,30 @@ describe("nys-tooltip", () => {
 
     expect(tooltip.for).to.equal("my-icon");
     expect(icon.getAttribute("ariaLabel")).to.equal("Hint: Hello World");
+  });
+
+  it("closes tooltip when Escape key is pressed", async () => {
+    const el = await fixture(html`
+      <div>
+        <button id="my-btn">Focus</button>
+        <nys-tooltip for="my-btn" text="Escape test"></nys-tooltip>
+      </div>
+    `);
+
+    const button = el.querySelector("#my-btn");
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+
+    button?.dispatchEvent(new FocusEvent("focusin", { bubbles: true }));
+    await tooltip.updateComplete;
+
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+    await tooltip.updateComplete;
+
+    const content = tooltip.shadowRoot?.querySelector(
+      ".nys-tooltip__content",
+    ) as HTMLElement;
+
+    expect(content.getAttribute("aria-hidden")).to.equal("true");
   });
 
   it("passes the a11y audit", async () => {

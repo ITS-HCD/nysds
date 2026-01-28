@@ -4,21 +4,46 @@ import "./nys-accordionitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
 
-let accordionIdCounter = 0; // Counter for generating unique IDs
+let accordionIdCounter = 0;
 
 /**
- * `<nys-accordion>` groups one or more `<nys-accordionitem>` components.
+ * A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.
  *
- * Responsibilities:
- * - Manages single-select behavior across accordion items
- * - Propagates shared visual state such as `bordered`
- * - Coordinates expand and collapse behavior between items
+ * Place `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.
+ * The `bordered` style propagates to all children automatically.
+ *
+ * @summary Container for accordion items with optional single-select and bordered styling.
+ * @element nys-accordion
+ *
+ * @slot - Default slot for `nys-accordionitem` elements.
+ *
+ * @example Basic accordion
+ * ```html
+ * <nys-accordion>
+ *   <nys-accordionitem heading="Section 1">Content for section 1</nys-accordionitem>
+ *   <nys-accordionitem heading="Section 2">Content for section 2</nys-accordionitem>
+ * </nys-accordion>
+ * ```
+ *
+ * @example Single-select accordion
+ * ```html
+ * <nys-accordion singleSelect bordered>
+ *   <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
+ *   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
+ * </nys-accordion>
+ * ```
  */
+
 export class NysAccordion extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Only one item can be expanded at a time. Expanding one collapses others. */
   @property({ type: Boolean, reflect: true }) singleSelect = false;
+
+  /** Adds borders around each accordion item. Propagates to all children. */
   @property({ type: Boolean, reflect: true }) bordered = false;
 
   /**

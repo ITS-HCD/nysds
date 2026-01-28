@@ -1,0 +1,228 @@
+// ============================================
+// NYSDS Layout Grid Utilities
+// Grid containers, rows, columns, gaps, and offsets
+// ============================================
+
+@use "sass:math";
+@use "config" as *;
+
+// ============================================
+// BASE COLUMN STYLES (attribute selector)
+// ============================================
+[class*="nys-grid-col"] {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// ============================================
+// GRID CONTAINERS
+// ============================================
+@each $suffix, $max-width in $grid-containers {
+  .nys-grid-container#{$suffix} {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: $max-width;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @media all and (min-width: 64em) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+}
+
+// Responsive container variants (with nested media queries for padding)
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $suffix, $max-width in $grid-containers {
+      .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: $max-width;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }
+  }
+
+  // Nested media query for desktop+ padding
+  @media all and (min-width: #{$bp-value}) and (min-width: 64em) {
+    @each $suffix, $max-width in $grid-containers {
+      .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+  }
+}
+
+// ============================================
+// GRID ROW
+// ============================================
+.nys-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    .nys-#{$bp-name}\:nys-grid-row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+// ============================================
+// GRID GAPS (negative margin + child padding pattern)
+// ============================================
+
+// Default gap (responsive: 0.5rem base, 1rem at 64em+)
+.nys-grid-row.nys-grid-gap {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+
+  > * {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  @media all and (min-width: 64em) {
+    margin-left: -1rem;
+    margin-right: -1rem;
+
+    > * {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}
+
+// Sized gaps (compound selectors)
+// Gap values are halved: negative margin on row + padding on children
+@each $suffix, $value in $grid-gaps {
+  $half: if($value == 0, 0, math.div($value, 2));
+
+  .nys-grid-row.nys-grid-gap#{$suffix} {
+    margin-left: -$half;
+    margin-right: -$half;
+
+    > * {
+      padding-left: $half;
+      padding-right: $half;
+    }
+  }
+}
+
+// Responsive gap variants
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $suffix, $value in $grid-gaps {
+      $half: if($value == 0, 0, math.div($value, 2));
+
+      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap#{$suffix} {
+        margin-left: -$half;
+        margin-right: -$half;
+
+        > * {
+          padding-left: $half;
+          padding-right: $half;
+        }
+      }
+    }
+  }
+}
+
+// ============================================
+// GRID COLUMNS
+// ============================================
+
+// Numbered columns (1-12) - use math.percentage for exact parity
+@for $i from 1 through 12 {
+  .nys-grid-col-#{$i} {
+    flex: 0 1 auto;
+    width: math.percentage(math.div($i, 12));
+  }
+}
+
+.nys-grid-col {
+  flex: 1 1 0%;
+  width: auto;
+  max-width: 100%;
+  min-width: 1px;
+}
+
+.nys-grid-col-auto {
+  flex: 0 1 auto;
+  width: auto;
+  max-width: 100%;
+}
+
+.nys-grid-col-fill {
+  flex: 1 1 0%;
+  width: auto;
+  max-width: 100%;
+  min-width: 1px;
+}
+
+// Responsive column variants
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @for $i from 1 through 12 {
+      .nys-#{$bp-name}\:nys-grid-col-#{$i} {
+        flex: 0 1 auto;
+        width: math.percentage(math.div($i, 12));
+      }
+    }
+
+    .nys-#{$bp-name}\:nys-grid-col {
+      flex: 1 1 0%;
+      width: auto;
+      max-width: 100%;
+      min-width: 1px;
+    }
+
+    .nys-#{$bp-name}\:nys-grid-col-auto {
+      flex: 0 1 auto;
+      width: auto;
+      max-width: 100%;
+    }
+
+    .nys-#{$bp-name}\:nys-grid-col-fill {
+      flex: 1 1 0%;
+      width: auto;
+      max-width: 100%;
+      min-width: 1px;
+    }
+  }
+}
+
+// ============================================
+// GRID OFFSETS
+// ============================================
+@for $i from 1 through 12 {
+  .nys-grid-offset-#{$i} {
+    margin-left: math.percentage(math.div($i, 12));
+  }
+}
+
+.nys-grid-offset-none {
+  margin-left: 0;
+}
+
+// Responsive offset variants
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @for $i from 1 through 12 {
+      .nys-#{$bp-name}\:nys-grid-offset-#{$i} {
+        margin-left: math.percentage(math.div($i, 12));
+      }
+    }
+
+    .nys-#{$bp-name}\:nys-grid-offset-none {
+      margin-left: 0;
+    }
+  }
+}
