@@ -783,7 +783,6 @@ export const Other: Story = {
 <nys-radiogroup
   label="What is your primary work location?"
   description="This is the location you use for your in office days."
-  optional
 >
   <nys-radiobutton
     name="office"
