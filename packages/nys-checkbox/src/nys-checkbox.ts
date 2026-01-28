@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "./nys-checkboxgroup";
 // @ts-ignore: SCSS module imported via bundler as inline
@@ -33,6 +33,7 @@ export class NysCheckbox extends LitElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
+  @state() private isMobile = window.innerWidth < 480;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
 
@@ -62,11 +63,13 @@ export class NysCheckbox extends LitElement {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
     this.addEventListener("invalid", this._handleInvalid);
+    window.addEventListener("resize", this._handleResize);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
+    window.removeEventListener("resize", this._handleResize);
   }
 
   firstUpdated() {
@@ -200,6 +203,10 @@ export class NysCheckbox extends LitElement {
     return !!this.description || !!slot;
   }
 
+  private _handleResize = () => {
+    this.isMobile = window.innerWidth < 480;
+  };
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -272,12 +279,7 @@ export class NysCheckbox extends LitElement {
   private _validateOtherAndEmitError() {
     if (!this.other) return;
 
-    if (!this.checked) {
-      this.showOtherError = false;
-      return;
-    }
-
-    if (!this._hasUserInteracted) {
+    if (!this.checked || !this._hasUserInteracted) {
       this.showOtherError = false;
       return;
     }
@@ -293,8 +295,15 @@ export class NysCheckbox extends LitElement {
             name: this.name,
             type: "other",
             message: "Please enter a value for this option.",
-            sourceRadio: this,
+            sourceCheckbox: this,
           },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    } else {
+      this.dispatchEvent(
+        new CustomEvent("nys-error-clear", {
           bubbles: true,
           composed: true,
         }),
@@ -368,7 +377,7 @@ export class NysCheckbox extends LitElement {
                   @nys-input=${this._handleTextInput}
                   @nys-blur=${this._handleBlur}
                   aria-invalid=${this.showOtherError ? "true" : "false"}
-                  width="md"
+                  width=${this.isMobile ? "full" : "md"}
                 ></nys-textinput>
               `
             : ""}

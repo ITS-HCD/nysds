@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "./nys-radiogroup";
 // @ts-ignore: SCSS module imported via bundler as inline
@@ -30,6 +30,7 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
+  @state() private isMobile = window.innerWidth < 480;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
 
@@ -67,6 +68,7 @@ export class NysRadiobutton extends LitElement {
     this.addEventListener("focus", this._handleFocus);
     this.addEventListener("blur", this._handleBlur);
     this.addEventListener("click", this._handleChange);
+    window.addEventListener("resize", this._handleResize);
   }
 
   disconnectedCallback() {
@@ -74,6 +76,7 @@ export class NysRadiobutton extends LitElement {
 
     this.removeEventListener("focus", this._handleFocus);
     this.removeEventListener("blur", this._handleBlur);
+    window.removeEventListener("resize", this._handleResize);
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -113,6 +116,10 @@ export class NysRadiobutton extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     return input ? input.checkValidity() : true;
   }
+
+  private _handleResize = () => {
+    this.isMobile = window.innerWidth < 480;
+  };
 
   /**
    * Event Handlers
@@ -198,12 +205,7 @@ export class NysRadiobutton extends LitElement {
   private _validateOtherAndEmitError() {
     if (!this.other) return;
 
-    if (!this.checked) {
-      this.showOtherError = false;
-      return;
-    }
-
-    if (!this._hasUserInteracted) {
+    if (!this.checked || !this._hasUserInteracted) {
       this.showOtherError = false;
       return;
     }
@@ -229,7 +231,7 @@ export class NysRadiobutton extends LitElement {
   }
 
   private _handleOtherKeydown(e: KeyboardEvent) {
-    if(e.key == "Space" || e.key === " ") {
+    if (e.key == "Space" || e.key === " ") {
       e.stopPropagation();
     }
   }
@@ -276,7 +278,7 @@ export class NysRadiobutton extends LitElement {
                   @nys-blur=${this._handleBlur}
                   @keydown=${this._handleOtherKeydown}
                   aria-invalid=${this.showOtherError ? "true" : "false"}
-                  width="md"
+                  width=${this.isMobile ? "full" : "md"}
                 ></nys-textinput>
               `
             : ""}

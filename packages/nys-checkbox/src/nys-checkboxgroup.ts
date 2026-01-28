@@ -51,6 +51,7 @@ export class NysCheckboxgroup extends LitElement {
     this.addEventListener("nys-change", this._handleCheckboxChange);
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("nys-error", this._handleChildError);
+    this.addEventListener("nys-error-clear", this._handleChildErrorClear);
   }
 
   disconnectedCallback() {
@@ -58,6 +59,7 @@ export class NysCheckboxgroup extends LitElement {
     this.removeEventListener("nys-change", this._handleCheckboxChange);
     this.removeEventListener("invalid", this._handleInvalid);
     this.removeEventListener("nys-error", this._handleChildError);
+    this.removeEventListener("nys-error-clear", this._handleChildErrorClear);
   }
 
   firstUpdated() {
@@ -122,30 +124,35 @@ export class NysCheckboxgroup extends LitElement {
 
   // Updates the required attribute of each checkbox in the group
   private async _manageRequire() {
-    if (this.required) {
-      const message = this.errorMessage || "Please select at least one option.";
-      const firstCheckbox = this.querySelector("nys-checkbox");
-      const firstCheckboxInput = firstCheckbox
-        ? await (firstCheckbox as any).getInputElement().catch(() => null)
-        : null;
+    if (!this.required) return;
 
-      const checkboxes = this.querySelectorAll("nys-checkbox");
-      // Loop through each child checkbox to see if one is checked.
-      const atLeastOneChecked = Array.from(checkboxes).some(
-        (checkbox: any) => checkbox.checked,
+    const message = this.errorMessage || "Please select at least one option.";
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as any[];
+
+    // Loop through each child checkbox to see if one is checked.
+    const atLeastOneChecked = checkboxes.some(
+      (checkbox: any) => checkbox.checked,
+    );
+
+    const firstCheckboxInput = checkboxes
+      ? await checkboxes[0].getInputElement().catch(() => null)
+      : null;
+
+    //const validity = this._internals.validity;
+
+    if (!atLeastOneChecked) {
+      // No checkboxes check is automatic validation fail when "required" prop is present
+      this._internals.setValidity(
+        { valueMissing: true },
+        message,
+        firstCheckboxInput ? firstCheckboxInput : this,
       );
-
-      if (atLeastOneChecked) {
-        this._internals.setValidity({});
-        this.showError = false;
-      } else {
-        this._internals.setValidity(
-          { valueMissing: true },
-          message,
-          firstCheckboxInput ? firstCheckboxInput : this,
-        );
-        this.showError = true;
-      }
+      this.showError = true;
+    } else {
+      this._internals.setValidity({});
+      this.showError = false;
     }
   }
 
@@ -221,9 +228,6 @@ export class NysCheckboxgroup extends LitElement {
   private async _handleInvalid(event: Event) {
     event.preventDefault();
 
-    this.showError = true;
-    this._manageRequire(); // Refresh validation message
-
     // Focus "other" text input when customError is set
     if (this._internals.validity.customError) {
       const checkboxes = Array.from(
@@ -246,47 +250,52 @@ export class NysCheckboxgroup extends LitElement {
       }
     }
 
-    // Fallback behavior
-    const firstCheckbox = this.querySelector("nys-checkbox");
-    const firstCheckboxInput = firstCheckbox
-      ? await (firstCheckbox as any).getInputElement()
-      : null;
+    if (this._internals.validity.valueMissing) {
+      this.showError = true;
+      this._manageRequire(); // Refresh validation message
 
-    if (firstCheckboxInput) {
-      // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
-      if (form) {
-        const elements = Array.from(form.elements) as Array<
-          HTMLElement & { checkValidity?: () => boolean }
-        >;
-        // Find the first element in the form that is invalid
-        const firstInvalidElement = elements.find((element) => {
-          // If element is <nys-checkboxgroup>, we see if anyone checkboxes within the group is checked to fulfill required constraint
-          if (element.tagName.toLowerCase() === "nys-checkboxgroup") {
-            const allCheckboxes = Array.from(
-              this.querySelectorAll("nys-checkbox"),
-            ) as any[];
-            const hasCheckedCheckbox = allCheckboxes.filter(
-              (checkbox) => checkbox.checked,
-            );
-            // Required constraint not met, continue logic to have this component be focused
-            if (hasCheckedCheckbox.length === 0) {
-              return element;
+      // Fallback behavior
+      const firstCheckbox = this.querySelector("nys-checkbox");
+      const firstCheckboxInput = firstCheckbox
+        ? await (firstCheckbox as any).getInputElement()
+        : null;
+
+      if (firstCheckboxInput) {
+        // Focus only if this is the first invalid element (top-down approach)
+        const form = this._internals.form;
+        if (form) {
+          const elements = Array.from(form.elements) as Array<
+            HTMLElement & { checkValidity?: () => boolean }
+          >;
+          // Find the first element in the form that is invalid
+          const firstInvalidElement = elements.find((element) => {
+            // If element is <nys-checkboxgroup>, we see if anyone checkboxes within the group is checked to fulfill required constraint
+            if (element.tagName.toLowerCase() === "nys-checkboxgroup") {
+              const allCheckboxes = Array.from(
+                this.querySelectorAll("nys-checkbox"),
+              ) as any[];
+              const hasCheckedCheckbox = allCheckboxes.filter(
+                (checkbox) => checkbox.checked,
+              );
+              // Required constraint not met, continue logic to have this component be focused
+              if (hasCheckedCheckbox.length === 0) {
+                return element;
+              }
+            } else {
+              return (
+                typeof element.checkValidity === "function" &&
+                !element.checkValidity()
+              );
             }
-          } else {
-            return (
-              typeof element.checkValidity === "function" &&
-              !element.checkValidity()
-            );
-          }
-        });
+          });
 
-        if (firstInvalidElement === this) {
+          if (firstInvalidElement === this) {
+            firstCheckboxInput.focus();
+          }
+        } else {
+          // If not part of a form, simply focus.
           firstCheckboxInput.focus();
         }
-      } else {
-        // If not part of a form, simply focus.
-        firstCheckboxInput.focus();
       }
     }
   }
@@ -308,26 +317,59 @@ export class NysCheckboxgroup extends LitElement {
       .map((checkbox: any) => checkbox.value);
 
     this.name = name;
-
     this._internals.setFormValue(selectedValues.join(", "));
 
+    // Normal required validation
     this._manageRequire();
+
+    // Check if any "other" checkbox is checked but empty
+    this._checkOtherInputs(checkboxes);
   }
 
-  private _handleChildError(event: Event) {
+  private async _handleChildError(event: Event) {
     event.stopPropagation();
 
-    const { message, sourceRadio } = (event as CustomEvent).detail;
-
-    if (!sourceRadio) return;
+    const { message, sourceCheckbox } = (event as CustomEvent).detail;
+    if (!sourceCheckbox) return;
 
     this.showError = true;
 
     this._internals.setValidity(
       { customError: true },
       message || "Please complete this field.",
-      sourceRadio as HTMLElement,
+      sourceCheckbox as HTMLElement,
     );
+  }
+
+  private _handleChildErrorClear() {
+    if (this._internals.validity.customError) {
+      this._internals.setValidity({});
+      this.showError = false;
+    }
+  }
+
+  private async _checkOtherInputs(checkboxes: any[]) {
+    for (const checkbox of checkboxes) {
+      if (checkbox.checked && checkbox.other) {
+        const value = checkbox.value.trim();
+        const textInput = checkbox.shadowRoot?.querySelector("nys-textinput");
+
+        if (!value || value === "") {
+          const message = "Please enter a value for this option.";
+          this._internals.setValidity(
+            { customError: true },
+            message,
+            textInput || checkbox,
+          );
+
+          this.showError = true;
+
+          await (textInput as any).updateComplete;
+          (textInput as HTMLElement).focus();
+          return;
+        }
+      }
+    }
   }
 
   render() {

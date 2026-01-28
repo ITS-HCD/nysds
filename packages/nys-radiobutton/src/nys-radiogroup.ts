@@ -346,6 +346,7 @@ export class NysRadiogroup extends LitElement {
   private async _handleInvalid(event: Event) {
     event.preventDefault();
 
+    // Focus "other" text input when customError is set
     if (this._internals.validity.customError) {
       const radios = this._getAllRadios();
       const otherRadio = radios.find((radio) => radio.other && radio.checked);
@@ -401,7 +402,6 @@ export class NysRadiogroup extends LitElement {
     event.stopPropagation();
 
     const { message, sourceRadio } = (event as CustomEvent).detail;
-
     if (!sourceRadio) return;
 
     this.showError = true;
