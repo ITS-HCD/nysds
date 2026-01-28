@@ -303,7 +303,7 @@ export class NysRadiobutton extends LitElement {
           <span class="nys-radiobutton__radio"></span>
           ${(this.label || this.other) &&
           html`<nys-label
-            label="${this.other ? "Other" : this.label}"
+            label="${this.label || (this.other ? "Other" : "")}"
             description=${ifDefined(this.description || undefined)}
             ?inverted=${this.inverted}
           >
