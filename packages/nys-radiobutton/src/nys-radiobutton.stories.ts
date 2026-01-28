@@ -792,6 +792,12 @@ export const Other: Story = {
   ></nys-radiobutton>
   <nys-radiobutton
     name="office"
+    label="Manhattan"
+    description="New York City"
+    value="manhattan"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="office"
     other
   ></nys-radiobutton>
 </nys-radiogroup>
