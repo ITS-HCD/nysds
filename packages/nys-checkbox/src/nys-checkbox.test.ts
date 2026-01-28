@@ -117,34 +117,33 @@ describe("nys-checkbox", () => {
     expect(events).to.deep.equal(["focus", "blur"]);
   });
 
-it("uses slotted description text for accessibility", async () => {
-  const el = await fixture<NysCheckbox>(html`
-    <nys-checkbox label="My Label">
-      <label slot="description">Extra details</label>
-    </nys-checkbox>
-  `);
+  it("uses slotted description text for accessibility", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox label="My Label">
+        <label slot="description">Extra details</label>
+      </nys-checkbox>
+    `);
 
-  await el.updateComplete;
+    await el.updateComplete;
 
-  expect(el.label).to.equal("My Label");
+    expect(el.label).to.equal("My Label");
 
-  const nysLabel = el.shadowRoot!.querySelector("nys-label");
-  expect(nysLabel).to.exist;
+    const nysLabel = el.shadowRoot!.querySelector("nys-label");
+    expect(nysLabel).to.exist;
 
-  const slot = nysLabel!.querySelector(
-    'slot[name="description"]',
-  ) as HTMLSlotElement;
+    const slot = nysLabel!.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement;
 
-  expect(slot).to.exist;
+    expect(slot).to.exist;
 
-  const assignedText = slot
-    .assignedNodes({ flatten: true })
-    .map((n) => n.textContent?.trim())
-    .join("");
+    const assignedText = slot
+      .assignedNodes({ flatten: true })
+      .map((n) => n.textContent?.trim())
+      .join("");
 
-  expect(assignedText).to.equal("Extra details");
-});
-
+    expect(assignedText).to.equal("Extra details");
+  });
 
   it("passes the a11y audit", async () => {
     const el = await fixture(
