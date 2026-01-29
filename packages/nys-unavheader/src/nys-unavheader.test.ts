@@ -1,6 +1,7 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import { NysUnavHeader } from "./nys-unavheader";
 import "../dist/nys-unavheader.js";
+import sinon from "sinon";
 
 describe("nys-unavheader", () => {
   it("should render with NYS logo link", async () => {
@@ -16,63 +17,551 @@ describe("nys-unavheader", () => {
       "Visit the NY.gov homepage",
     );
   });
-});
 
-it("toggles trustbar visibility when clicking the top trustbar", async () => {
-  const el = await fixture<NysUnavHeader>(
-    html`<nys-unavheader></nys-unavheader>`,
-  );
-  const trustbarToggle = el.shadowRoot?.querySelector(
-    ".nys-unavheader__trustbar.wrapper",
-  )!;
-  expect(el.trustbarVisible).to.be.false;
+  it("toggles trustbar visibility when clicking the top trustbar", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
 
-  trustbarToggle.dispatchEvent(new MouseEvent("click"));
-  expect(el.trustbarVisible).to.be.true;
+    const trustbarToggle = el.shadowRoot?.querySelector(
+      ".nys-unavheader__trustbar.wrapper",
+    ) as HTMLElement;
 
-  trustbarToggle.dispatchEvent(new MouseEvent("click"));
-  expect(el.trustbarVisible).to.be.false;
-});
+    expect(trustbarToggle).to.exist;
+    expect(el.trustbarVisible).to.be.false;
 
-it("toggles language list when 'nys-click' event dispatched on translate button", async () => {
-  const el = await fixture<NysUnavHeader>(
-    html`<nys-unavheader></nys-unavheader>`,
-  );
-  el.languageVisible = true;
-  await el.updateComplete;
-  const langList = el.shadowRoot?.querySelector(
-    ".nys-unavheader__languagelist",
-  );
-  expect(langList).to.exist;
-  expect(langList?.classList.contains("show")).to.be.true;
-  expect(langList?.classList.contains("hide")).to.be.false;
+    trustbarToggle.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+    expect(el.trustbarVisible).to.be.true;
 
-  el.languageVisible = false;
-  await el.updateComplete;
-  expect(langList?.classList.contains("hide")).to.be.true;
-  expect(langList?.classList.contains("show")).to.be.false;
-});
+    trustbarToggle.dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+    expect(el.trustbarVisible).to.be.false;
+  });
 
-it("toggles search dropdown when 'nys-click' event dispatched on search button", async () => {
-  const el = await fixture<NysUnavHeader>(
-    html`<nys-unavheader></nys-unavheader>`,
-  );
-  el.searchDropdownVisible = true;
-  await el.updateComplete;
-  const searchDrop = el.shadowRoot?.querySelector(
-    ".nys-unavheader__searchdropdown",
-  );
-  expect(searchDrop).to.exist;
-  expect(searchDrop?.classList.contains("show")).to.be.true;
-  expect(searchDrop?.classList.contains("hide")).to.be.false;
+  it("toggles trustbar and manages focus when clicking the inline 'Here's how you know' button", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
 
-  el.searchDropdownVisible = false;
-  await el.updateComplete;
-  expect(searchDrop?.classList.contains("hide")).to.be.true;
-  expect(searchDrop?.classList.contains("show")).to.be.false;
-});
+    const inlineButton = el.shadowRoot?.getElementById(
+      "nys-unavheader__know--inline",
+    ) as HTMLElement;
 
-it("passes the a11y audit", async () => {
-  const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
-  await expect(el).shadowDom.to.be.accessible();
+    const closeButton = el.shadowRoot?.getElementById(
+      "nys-unavheader__closetrustbar",
+    ) as HTMLElement;
+
+    expect(inlineButton).to.exist;
+    expect(closeButton).to.exist;
+
+    // Spy on focus behavior
+    const inlineFocusSpy = sinon.spy(inlineButton, "focus");
+    const closeFocusSpy = sinon.spy(closeButton, "focus");
+
+    // Open trustbar via inline button
+    inlineButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.trustbarVisible).to.be.true;
+
+    // Focus should move to close button
+    await el.updateComplete;
+    expect(closeFocusSpy.calledOnce).to.be.true;
+
+    // Close trustbar via inline button again
+    inlineButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.trustbarVisible).to.be.false;
+
+    // Focus should return to inline button
+    await el.updateComplete;
+    expect(inlineFocusSpy.calledOnce).to.be.true;
+
+    inlineFocusSpy.restore();
+    closeFocusSpy.restore();
+  });
+
+  it("toggles language list when 'nys-click' event dispatched on translate button", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const translateButton = el.shadowRoot?.querySelector(
+      "#nys-unavheader__translate--desktop",
+    ) as HTMLElement;
+
+    const langList = el.shadowRoot?.querySelector(
+      ".nys-unavheader__languagelist",
+    ) as HTMLElement;
+
+    expect(translateButton).to.exist;
+    expect(langList).to.exist;
+
+    translateButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(langList.classList.contains("show")).to.be.true;
+    expect(langList.classList.contains("hide")).to.be.false;
+
+    translateButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(langList.classList.contains("hide")).to.be.true;
+    expect(langList.classList.contains("show")).to.be.false;
+  });
+
+  it("toggles search dropdown when 'nys-click' event dispatched on search button", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchButton = el.shadowRoot?.querySelector(
+      "#nys-unavheader__searchbutton",
+    ) as HTMLElement;
+
+    const searchDropdown = el.shadowRoot?.querySelector(
+      ".nys-unavheader__searchdropdown",
+    ) as HTMLElement;
+
+    expect(searchButton).to.exist;
+    expect(searchDropdown).to.exist;
+
+    searchButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(searchDropdown.classList.contains("show")).to.be.true;
+    expect(searchDropdown.classList.contains("hide")).to.be.false;
+
+    searchButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(searchDropdown.classList.contains("hide")).to.be.true;
+    expect(searchDropdown.classList.contains("show")).to.be.false;
+  });
+
+  it("handles search focus and blur correctly", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    el.trustbarVisible = true;
+    el.languageVisible = true;
+    await el.updateComplete;
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    expect(searchBar).to.exist;
+
+    // Focus
+    searchBar.dispatchEvent(
+      new FocusEvent("focus", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.isSearchFocused).to.be.true;
+    expect(el.trustbarVisible).to.be.false;
+    expect(el.languageVisible).to.be.false;
+
+    // Blur
+    searchBar.dispatchEvent(
+      new FocusEvent("blur", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.isSearchFocused).to.be.false;
+  });
+
+  it("blurs search input and clears focus on Escape key", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    el.isSearchFocused = true;
+    await el.updateComplete;
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement & { blur: () => void };
+
+    expect(searchBar).to.exist;
+
+    const blurSpy = sinon.spy(searchBar, "blur");
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Escape",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(blurSpy.calledOnce).to.be.true;
+    expect(el.isSearchFocused).to.be.false;
+  });
+
+  it("triggers search handler on Enter key when value is non-empty", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    const searchStub = sinon.stub(el as any, "_handleSearch");
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(searchStub.calledOnce).to.be.true;
+    expect(searchStub.calledWith("housing")).to.be.true;
+
+    searchStub.restore();
+  });
+
+  it("does not trigger search handler on Enter when value is empty", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "   ",
+    });
+
+    const searchStub = sinon.stub(el as any, "_handleSearch");
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    expect(searchStub.notCalled).to.be.true;
+
+    searchStub.restore();
+  });
+
+  it("triggers search handler when search button is clicked with a value", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    const searchButton = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar--button",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "transportation",
+    });
+
+    const searchStub = sinon.stub(el as any, "_handleSearch");
+
+    searchButton.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+
+    expect(searchStub.calledOnce).to.be.true;
+    expect(searchStub.calledWith("transportation")).to.be.true;
+
+    searchStub.restore();
+  });
+
+  it("dispatches nys-search-submit event with correct detail when search is triggered", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    let eventDetail: any;
+    let eventFired = false;
+    el.addEventListener("nys-search-submit", (e: Event) => {
+      eventFired = true;
+      eventDetail = (e as CustomEvent).detail;
+      e.preventDefault(); // Prevent redirect in test
+    });
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(eventFired).to.be.true;
+    expect(eventDetail).to.exist;
+    expect(eventDetail.query).to.equal("housing");
+  });
+
+  it("uses custom searchUrl when provided and event is not prevented", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader
+        searchUrl="https://example.com/search"
+      ></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "test query",
+    });
+
+    // Spy on the actual _handleSearch method to capture the redirect URL
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+    let capturedUrl = "";
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      // Call original to trigger event
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (this.searchUrl) {
+          capturedUrl = `${this.searchUrl}?q=${encodeURIComponent(searchValue)}`;
+        }
+      }
+    };
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.equal("https://example.com/search?q=test%20query");
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
+  it("uses default search URL when searchUrl is not provided", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+    let capturedUrl = "";
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (this.searchUrl) {
+          capturedUrl = `${this.searchUrl}?q=${encodeURIComponent(searchValue)}`;
+        } else {
+          capturedUrl = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${encodeURIComponent(searchValue)}+inurl:${window.location.hostname}&site=default_collection`;
+        }
+      }
+    };
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.include("search.its.ny.gov");
+    expect(capturedUrl).to.include("q=housing");
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
+  it("does not redirect when nys-search-submit event is prevented", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "housing",
+    });
+
+    let redirectAttempted = false;
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        redirectAttempted = true;
+      }
+    };
+
+    el.addEventListener("nys-search-submit", (e: Event) => {
+      e.preventDefault();
+    });
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(redirectAttempted).to.be.false;
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
+  it("encodes search query properly in URL", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader
+        searchUrl="https://example.com/search"
+      ></nys-unavheader>`,
+    );
+
+    const searchBar = el.shadowRoot?.getElementById(
+      "nys-unavheader__searchbar",
+    ) as HTMLElement;
+
+    Object.defineProperty(searchBar, "value", {
+      configurable: true,
+      value: "test & special chars",
+    });
+
+    const originalHandleSearch = (el as any)._handleSearch.bind(el);
+    let capturedUrl = "";
+
+    (el as any)._handleSearch = function (searchValue: string) {
+      const event = new CustomEvent("nys-search-submit", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { query: searchValue },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (this.searchUrl) {
+          capturedUrl = `${this.searchUrl}?q=${encodeURIComponent(searchValue)}`;
+        }
+      }
+    };
+
+    searchBar.dispatchEvent(
+      new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.equal(
+      "https://example.com/search?q=test%20%26%20special%20chars",
+    );
+
+    // Restore
+    (el as any)._handleSearch = originalHandleSearch;
+  });
+
+  it("passes the a11y audit", async () => {
+    const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
 });

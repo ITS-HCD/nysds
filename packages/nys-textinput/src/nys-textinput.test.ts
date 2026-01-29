@@ -17,6 +17,16 @@ describe("nys-textinput", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-textinput-\d+-\d+$/);
+  });
+
   it("renders with default type as text", async () => {
     const el = await fixture(html`<nys-textinput></nys-textinput>`);
     const input = el.shadowRoot?.querySelector("input");
