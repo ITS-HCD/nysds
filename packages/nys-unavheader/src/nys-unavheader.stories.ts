@@ -78,7 +78,7 @@ export const CustomSearchUrl: Story = {
   args: {
     hideTranslate: true,
     hideSearch: false,
-    searchUrl: "https://www.google.com/search",
+    searchUrl: "https://www.google.com/search?q=",
   },
   render: (args) =>
     html`<nys-unavheader
@@ -89,7 +89,7 @@ export const CustomSearchUrl: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-unavheader hideTranslate searchUrl="https://www.google.com/search"></nys-unavheader>`,
+        code: `<nys-unavheader hideTranslate searchUrl="https://www.google.com/search?q="></nys-unavheader>`,
         type: "auto",
       },
     },
