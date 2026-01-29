@@ -3,6 +3,8 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-badge.scss?inline";
 
+let badgeIdCounter = 0;
+
 /**
  * A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.
  *
@@ -94,6 +96,10 @@ export class NysBadge extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    if (!this.id) {
+      this.id = `nys-badge-${Date.now()}-${badgeIdCounter++}`;
+    }
 
     const attr = this.getAttribute("prefixicon");
     if (attr !== null && this.prefixIcon === "") {

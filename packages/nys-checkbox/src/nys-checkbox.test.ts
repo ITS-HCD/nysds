@@ -9,6 +9,23 @@ describe("nys-checkbox", () => {
     expect(el).to.exist;
   });
 
+  it("generates a checkbox id if not provided", async () => {
+    const el = await fixture<NysCheckbox>(html`<nys-checkbox></nys-checkbox>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-checkbox-\d+-\d+$/);
+  });
+
+  it("generates a checkboxgroup id if not provided", async () => {
+    const el = await fixture(
+      html`<nys-checkboxgroup></nys-checkboxgroup>`,
+    );
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-checkboxgroup-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysCheckbox>(html`
       <nys-checkbox label="My Label" required></nys-checkbox>

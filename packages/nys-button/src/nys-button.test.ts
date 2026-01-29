@@ -4,6 +4,19 @@ import "../dist/nys-button.js";
 import "@nysds/nys-icon";
 
 describe("nys-button", () => {
+  it("renders the component", async () => {
+    const el = await fixture(html`<nys-button></nys-button>`);
+    expect(el).to.exist;
+  });
+
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysButton>(html`<nys-button></nys-button>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-button-\d+-\d+$/);
+  });
+
   it("should have default type as button", async () => {
     const el = await fixture<NysButton>(html`<nys-button></nys-button>`);
     expect(el?.type).to.equal("button");
