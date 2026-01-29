@@ -93,7 +93,7 @@ export class NysCheckboxgroup extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${checkboxgroupIdCounter++}`;
+      this.id = `nys-checkboxgroup-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
     this.addEventListener("nys-change", this._handleCheckboxChange);
     this.addEventListener("invalid", this._handleInvalid);
