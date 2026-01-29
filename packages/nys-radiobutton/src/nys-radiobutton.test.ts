@@ -192,13 +192,8 @@ describe("nys-radiobutton", () => {
   it("clears error when valid text is entered", async () => {
     const group = await fixture(html`
       <nys-radiogroup label="Select option">
-        <nys-radiobutton
-          label="Option 1"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          other
-          checked
-        ></nys-radiobutton>
+        <nys-radiobutton label="Option 1"></nys-radiobutton>
+        <nys-radiobutton other checked></nys-radiobutton>
       </nys-radiogroup>
     `);
 
