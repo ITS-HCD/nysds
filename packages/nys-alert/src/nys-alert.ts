@@ -4,28 +4,69 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-alert.scss?inline";
 
-let alertIdCounter = 0; // Counter for generating unique IDs
+let alertIdCounter = 0;
 
 /**
- * NYS Alert component.
+ * Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.
  *
- * Renders informational, success, warning, or error alerts.
- * Supports live-region announcements for screen readers.
+ * Use `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,
+ * and `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.
+ *
+ * @summary Alert for contextual feedback with semantic types and live region support.
+ * @element nys-alert
+ *
+ * @slot - Default slot for custom body content. Overrides `text` prop when provided.
+ *
+ * @fires nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
+ *
+ * @example Info alert
+ * ```html
+ * <nys-alert type="info" heading="Update available" text="A new version is ready to install."></nys-alert>
+ * ```
+ *
+ * @example Dismissible success alert
+ * ```html
+ * <nys-alert type="success" heading="Application submitted" dismissible></nys-alert>
+ * ```
  */
+
 export class NysAlert extends LitElement {
   static styles = unsafeCSS(styles);
 
-  // Properties
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Bold heading text displayed at the top of the alert. */
   @property({ type: String }) heading = "";
+
+  /** Custom icon name. Defaults to type-appropriate icon if not set. */
   @property({ type: String }) icon = "";
+
+  /** Shows close button allowing users to dismiss the alert. */
   @property({ type: Boolean, reflect: true }) dismissible = false;
+
+  /** Auto-dismiss after specified milliseconds. Set to 0 to disable. */
   @property({ type: Number, reflect: true }) duration = 0;
+
+  /** Body text content. Ignored if slot content is provided. */
   @property({ type: String }) text = "";
+
+  /** URL for the primary action link. */
   @property({ type: String }) primaryAction = "";
+
+  /** URL for the secondary action link. */
   @property({ type: String }) secondaryAction = "";
+
+  /** Label text for primary action link. */
   @property({ type: String }) primaryLabel = "Learn more";
+
+  /** Label text for secondary action link. */
   @property({ type: String }) secondaryLabel = "Dismiss";
+
+  /**
+   * Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region.
+   * @default "base"
+   */
   @property({ type: String, reflect: true }) type:
     | "base"
     | "info"

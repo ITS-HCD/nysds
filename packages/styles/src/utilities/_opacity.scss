@@ -1,0 +1,14 @@
+// ============================================
+// NYSDS Opacity Utilities
+// Opacity utilities (0-100 in 10% steps)
+// ============================================
+
+@use "sass:math";
+@use "config" as *;
+@use "mixins" as *;
+
+@each $value in $opacity-values {
+  @include responsive-variants("nys-opacity-#{$value}") {
+    opacity: math.div($value, 100);
+  }
+}

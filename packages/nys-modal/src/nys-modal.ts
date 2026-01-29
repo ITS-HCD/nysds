@@ -3,21 +3,57 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-modal.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
- * `NysModal` is a fully accessible modal dialog component.
- * It supports headings, subheadings, body content, and action buttons.
- * Handles focus trapping, keyboard navigation, and body scroll management.
+ * An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.
+ *
+ * Set `open` to show the modal. Content goes in the default slot; action buttons in the `actions` slot.
+ * Dismisses via close button or Escape key unless `mandatory` is set. Focus returns to trigger on close.
+ *
+ * @summary Accessible modal dialog with focus trap, keyboard support, and action slots.
+ * @element nys-modal
+ *
+ * @slot - Default slot for body content.
+ * @slot actions - Action buttons displayed in footer. Buttons auto-resize on mobile.
+ *
+ * @fires nys-open - Fired when modal opens. Detail: `{id}`.
+ * @fires nys-close - Fired when modal closes. Detail: `{id}`.
+ *
+ * @example Basic modal
+ * ```html
+ * <nys-modal id="confirm-modal" heading="Confirm action" open>
+ *   <p>Are you sure you want to proceed?</p>
+ *   <div slot="actions">
+ *     <nys-button label="Cancel" variant="outline"></nys-button>
+ *     <nys-button label="Confirm" variant="filled"></nys-button>
+ *   </div>
+ * </nys-modal>
+ * ```
  */
+
 export class NysModal extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Modal heading text. Required for accessibility. */
   @property({ type: String }) heading = "";
+
+  /** Secondary heading below the main heading. */
   @property({ type: String }) subheading = "";
+
+  /** Controls modal visibility. Set to `true` to show. */
   @property({ type: Boolean, reflect: true }) open = false;
+
+  /** Prevents dismissal via close button or Escape key. User must take an action. */
   @property({ type: Boolean, reflect: true }) mandatory = false;
+
+  /**
+   * Modal width: `sm` (400px), `md` (600px), or `lg` (800px).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) width: "sm" | "md" | "lg" = "md";
 
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
@@ -40,7 +76,7 @@ export class NysModal extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
+      this.id = `nys-modal-${Date.now()}-${componentIdCounter++}`;
     }
     window.addEventListener("resize", () => this._updateSlottedButtonWidth());
     window.addEventListener("keydown", (e) => this._handleKeydown(e));

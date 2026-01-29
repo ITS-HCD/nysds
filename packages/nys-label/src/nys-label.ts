@@ -4,18 +4,34 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-label.scss?inline";
 
 /**
- * THIS IS A PRIVATE COMPONENT!
- * `NysLabel` is a component for rendering form labels with optional
- * descriptions, flags (required/optional), and tooltips.
+ * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
+ *
+ * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
+ * Handles label association via `for`, displays asterisk for required fields, and integrates tooltips.
+ *
+ * @summary Internal label component for form fields with flag and tooltip support.
+ * @element nys-label
+ *
+ * @slot description - Custom HTML description content below the label.
  */
 export class NysLabel extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** ID of the form element this label is associated with. */
   @property({ type: String }) for = "";
+
+  /** Label text displayed above the form field. */
   @property({ type: String }) label = "";
+
+  /** Helper text displayed below the label. */
   @property({ type: String }) description = "";
+
+  /** Flag type: `required` shows asterisk, `optional` shows "(Optional)". */
   @property({ type: String }) flag = "";
+
+  /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
+  /** Tooltip text shown on hover/focus of info icon next to label. */
   @property({ type: String })
   get tooltip() {
     return this._tooltip;

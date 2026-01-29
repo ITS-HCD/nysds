@@ -4,28 +4,58 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-avatar.scss?inline";
 
-let avatarIdCounter = 0; // Counter for generating unique IDs
+let avatarIdCounter = 0;
 
 /**
- * `<nys-avatar>` displays a user avatar which can be an image, initials, or icon.
+ * Displays a user representation as image, initials, or icon with automatic fallback chain.
  *
- * Features:
- * - Supports interactive avatars with button role
- * - Automatic contrast calculation for initials or icons based on background color
- * - Lazy loading for images
- * - Fallback to icon when no image or initials are provided
+ * Priority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;
+ * foreground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).
+ *
+ * @summary User avatar with image, initials, or icon fallback and contrast-aware colors.
+ * @element nys-avatar
+ *
+ * @slot - Custom icon content. Overrides default icon when no image or initials.
+ *
+ * @example Image avatar
+ * ```html
+ * <nys-avatar image="/path/to/photo.jpg" ariaLabel="Jane Smith"></nys-avatar>
+ * ```
+ *
+ * @example Initials avatar with custom color
+ * ```html
+ * <nys-avatar initials="JS" color="var(--nys-color-theme)" ariaLabel="Jane Smith"></nys-avatar>
+ * ```
  */
+
 export class NysAvatar extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Accessible label for screen readers. Required when no image `alt` is available. */
   @property({ type: String }) ariaLabel = "";
+
+  /** Image URL. Takes priority over initials and icon. */
   @property({ type: String }) image = "";
+
+  /** 1-2 character initials. Used when no image is provided. */
   @property({ type: String }) initials = "";
+
+  /** Custom icon name. Falls back to `account_circle` if not set. */
   @property({ type: String }) icon = "";
+
+  /** Background color. Foreground auto-adjusts for contrast. Accepts CSS values or variables. */
   @property({ type: String }) color = "";
+
+  /** Makes avatar clickable with button role and focus ring. */
   @property({ type: Boolean, reflect: true }) interactive = false;
+
+  /** Prevents interaction when `interactive` is true. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Enables lazy loading for the image. */
   @property({ type: Boolean, reflect: true }) lazy = false;
   @state() private _slotHasContent = false;
 

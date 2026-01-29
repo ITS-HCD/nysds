@@ -1,0 +1,3 @@
+// Sass-compatible wrapper for @use "@nysds/tokens/css"
+// This file allows Sass to resolve the package subpath export
+@use "dist/tokens.css";

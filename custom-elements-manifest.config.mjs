@@ -1,10 +1,10 @@
 // import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 
-const reactOpts = {
-  /** Output directory to write the React wrappers to - default is the root of the project */
-  outdir: "./dist/react-wrappers",
-};
+// const reactOpts = {
+//   /** Output directory to write the React wrappers to - default is the root of the project */
+//   outdir: "./dist/react-wrappers",
+// };
 
 const vscodeOpts = {
   /** Output directory to write the React wrappers to - default is the root of the project */
@@ -15,7 +15,14 @@ export default {
   /** Globs to analyze */
   globs: ["**/packages/**/*.ts"],
   /** Globs to exclude */
-  exclude: ["**/packages/**/*figma.ts", "**/packages/**/*stories.ts", "**/packages/**/*logo.ts", "**/packages/**/*library.ts", "**/packages/styles/**"],
+  exclude: [
+    "**/packages/**/*figma.ts",
+    "**/packages/**/*stories.ts",
+    "**/packages/**/*logo.ts",
+    "**/packages/**/*library.ts",
+    "**/packages/styles/**",
+    "**/packages/mcp-server/**"
+  ],
   /** Directory to output CEM to */
   outdir: "./dist",
   /** Run in dev mode, provides extra logging */

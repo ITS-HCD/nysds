@@ -4,20 +4,41 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
 
-let componentIdCounter = 0; // Counter for generating unique IDs
+let componentIdCounter = 0;
 
 /**
- * `NysPagination` is a pagination component that renders page navigation buttons.
- * Supports first/last page buttons, previous/next buttons, and dynamic ellipses
- * for skipped pages. Dispatches `nys-change` events when the current page changes.
+ * Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.
+ *
+ * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.
+ * Hidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.
+ *
+ * @summary Page navigation with numbered links, prev/next buttons, and responsive layout.
+ * @element nys-pagination
+ *
+ * @fires nys-change - Fired when page changes. Detail: `{page}`.
+ *
+ * @example Basic pagination
+ * ```html
+ * <nys-pagination currentPage="1" totalPages="10"></nys-pagination>
+ * ```
  */
+
 export class NysPagination extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name attribute for form association. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Currently active page (1-indexed). Clamped to valid range. */
   @property({ type: Number, reflect: true }) currentPage = 1;
+
+  /** Total number of pages. Must be at least 1. */
   @property({ type: Number, reflect: true }) totalPages = 1;
+
+  /** Internal state for layout adjustments near the end. */
   @property({ type: Boolean, reflect: true }) _twoBeforeLast = false;
 
   /**
@@ -73,6 +94,7 @@ export class NysPagination extends LitElement {
           ariaLabel="Page ${page}"
           id=${ifDefined(id)}
           variant=${this.currentPage === page ? "filled" : "outline"}
+          size="sm"
           @nys-click="${() => this._handlePageClick(page)}"
         ></nys-button>
       `);
@@ -85,6 +107,7 @@ export class NysPagination extends LitElement {
           class="spacer"
           tabindex="-1"
           id=${id}
+          size="sm"
         ></nys-button>`,
       );
     };
@@ -158,6 +181,7 @@ export class NysPagination extends LitElement {
         label="Previous"
         prefixIcon="chevron_left"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === 1}
         @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
       ></nys-button>
@@ -166,6 +190,7 @@ export class NysPagination extends LitElement {
         prefixIcon="chevron_left"
         ariaLabel="Previous Page"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === 1}
         @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
       ></nys-button>
@@ -175,6 +200,7 @@ export class NysPagination extends LitElement {
         label="Next"
         suffixIcon="chevron_right"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === this.totalPages}
         @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
       ></nys-button>
@@ -183,6 +209,7 @@ export class NysPagination extends LitElement {
         suffixIcon="chevron_right"
         ariaLabel="Next Page"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === this.totalPages}
         @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
       ></nys-button>

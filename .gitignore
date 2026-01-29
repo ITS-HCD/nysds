@@ -39,3 +39,7 @@ npm-debug.log*
 # Ignore temporary and system files
 .DS_Store
 Thumbs.db
+
+# Ignore AI assistant files
+CLAUDE.md
+docs/
