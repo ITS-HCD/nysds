@@ -214,8 +214,21 @@ export class NysTextarea extends LitElement {
   }
 
   // This callback is automatically called when the parent form is reset.
-  formResetCallback() {
+  public formResetCallback() {
     this.value = "";
+
+    const textarea = this.shadowRoot?.querySelector("textarea");
+    if (textarea) {
+      textarea.value = "";
+      textarea.setAttribute("aria-invalid", "false");
+    }
+
+    // Reset validation UI
+    this.showError = false;
+    this._internals.setValidity({});
+
+    // Re-render UI
+    this.requestUpdate();
   }
 
   /**
