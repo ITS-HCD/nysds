@@ -30,7 +30,7 @@
     "build:link": "npm run build:all && npm link",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "lit-analyze": "find ./packages -name '*.ts' ! -name '*.figma.*' | xargs lit-analyzer {}",
+    "lit-analyze": "find ./packages/nys-*/ -name '*.ts' ! -name '*.figma.*' | xargs lit-analyzer {}",
     "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish --access public",
     "release:dry-run": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
