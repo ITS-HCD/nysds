@@ -76,7 +76,7 @@ export class NysModal extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-{{componentName}}-${Date.now()}-${componentIdCounter++}`;
+      this.id = `nys-modal-${Date.now()}-${componentIdCounter++}`;
     }
     window.addEventListener("resize", () => this._updateSlottedButtonWidth());
     window.addEventListener("keydown", (e) => this._handleKeydown(e));
