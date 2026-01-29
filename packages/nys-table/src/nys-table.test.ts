@@ -8,6 +8,14 @@ describe("nys-table", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysTable>(html`<nys-table></nys-table>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-table-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysTable>(html`
       <nys-table
