@@ -76,7 +76,7 @@ export class NysAccordion extends LitElement {
    */
 
   private _generateUniqueId() {
-    return `nys-accordionitem-${Date.now()}-${accordionIdCounter++}`;
+    return `nys-accordion-${Date.now()}-${accordionIdCounter++}`;
   }
 
   private _getAccordionItems() {
