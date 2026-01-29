@@ -26,20 +26,12 @@ function removeDemoFiles() {
   return {
     name: "remove-demo-files",
     closeBundle() {
-      const demoFiles = [
-        "dist/nys-stepper/newsletter.html",
-        "dist/nys-stepper/personal.html",
-        "dist/nys-stepper/survey.html",
-        "dist/nys-stepper/team.html",
-      ];
+      const demoFolder = path.resolve("dist/nys-stepper");
 
-      demoFiles.forEach((file) => {
-        const filePath = path.resolve(file);
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath);
-          console.log(`✓ Removed demo file: ${file}`);
-        }
-      });
+      if (fs.existsSync(demoFolder)) {
+        fs.rmSync(demoFolder, { recursive: true, force: true });
+        console.log(`✓ Removed demo directory: dist/nys-stepper/`);
+      }
     },
   };
 }
