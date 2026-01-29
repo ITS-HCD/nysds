@@ -1,5 +1,7 @@
 import { mergeConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
+import fs from "fs";
+import path from "path";
 // import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
 // import { minify } from 'rollup-plugin-esbuild-minify';
 
@@ -18,6 +20,29 @@ const overrideConfig = {};
 
 // Externalize Lit and all NYSDS internal packages
 const external = (id) => id === "lit" || id.startsWith("lit/");
+
+// Plugin to remove demo HTML files after build
+function removeDemoFiles() {
+  return {
+    name: "remove-demo-files",
+    closeBundle() {
+      const demoFiles = [
+        "dist/nys-stepper/newsletter.html",
+        "dist/nys-stepper/personal.html",
+        "dist/nys-stepper/survey.html",
+        "dist/nys-stepper/team.html",
+      ];
+
+      demoFiles.forEach((file) => {
+        const filePath = path.resolve(file);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+          console.log(`✓ Removed demo file: ${file}`);
+        }
+      });
+    },
+  };
+}
 
 export const defaultConfig = {
   css: {
@@ -56,6 +81,7 @@ export const defaultConfig = {
         // minifyTemplateLiterals(),
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
+        removeDemoFiles(), // Add the cleanup plugin
       ].filter(Boolean),
     },
   },
