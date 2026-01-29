@@ -5,6 +5,21 @@ import "@nysds/nys-button";
 import "@nysds/nys-icon";
 
 describe("nys-alert", () => {
+  it("renders the component", async () => {
+    const el = await fixture<NysAlert>(html`<nys-alert></nys-alert>`);
+    expect(el).to.exist;
+    expect(el.type).to.equal("base");
+    expect(el.dismissible).to.be.false;
+  });
+
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysAlert>(html`<nys-alert></nys-alert>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-alert-\d+-\d+$/);
+  });
+
   it("should have default type as base", async () => {
     const el = await fixture<NysAlert>(html`<nys-alert></nys-alert>`);
     expect(el?.type).to.equal("base");
