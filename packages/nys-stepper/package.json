@@ -22,11 +22,13 @@
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
+  "dependencies": {
+    "@nysds/nys-button": "^1.13.0"
+  },
   "devDependencies": {
     "lit": "^3.3.1",
     "typescript": "^5.9.3",
-    "vite": "^7.1.12",
-    "@nysds/nys-button": "^1.13.0"
+    "vite": "^7.1.12"
   },
   "keywords": [
     "new-york-state",
