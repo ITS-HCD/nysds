@@ -94,6 +94,7 @@ export class NysPagination extends LitElement {
           ariaLabel="Page ${page}"
           id=${ifDefined(id)}
           variant=${this.currentPage === page ? "filled" : "outline"}
+          size="sm"
           @nys-click="${() => this._handlePageClick(page)}"
         ></nys-button>
       `);
@@ -106,6 +107,7 @@ export class NysPagination extends LitElement {
           class="spacer"
           tabindex="-1"
           id=${id}
+          size="sm"
         ></nys-button>`,
       );
     };
@@ -179,6 +181,7 @@ export class NysPagination extends LitElement {
         label="Previous"
         prefixIcon="chevron_left"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === 1}
         @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
       ></nys-button>
@@ -187,6 +190,7 @@ export class NysPagination extends LitElement {
         prefixIcon="chevron_left"
         ariaLabel="Previous Page"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === 1}
         @nys-click="${() => this._handlePageClick(this.currentPage - 1)}"
       ></nys-button>
@@ -196,6 +200,7 @@ export class NysPagination extends LitElement {
         label="Next"
         suffixIcon="chevron_right"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === this.totalPages}
         @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
       ></nys-button>
@@ -204,6 +209,7 @@ export class NysPagination extends LitElement {
         suffixIcon="chevron_right"
         ariaLabel="Next Page"
         variant="outline"
+        size="sm"
         ?disabled=${this.currentPage === this.totalPages}
         @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
       ></nys-button>
