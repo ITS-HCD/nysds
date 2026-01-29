@@ -4,6 +4,8 @@ import "./nys-step";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-stepper.scss?inline";
 
+let stepperIdCounter = 0;
+
 /**
  * A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.
  *
@@ -56,6 +58,11 @@ export class NysStepper extends LitElement {
     this.addEventListener("nys-step-click", this._onStepClick);
     // Defer step validation to next tick to ensure children are upgraded
     requestAnimationFrame(() => this._validateSteps());
+
+    // Generate unique id if not provided
+    if (!this.id) {
+      this.id = `nys-stepper-${++stepperIdCounter}-${Date.now()}`;
+    }
   }
 
   disconnectedCallback() {

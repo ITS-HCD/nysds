@@ -9,6 +9,14 @@ describe("nys-badge", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysBadge>(html`<nys-badge></nys-badge>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-badge-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysBadge>(html`
       <nys-badge label="My Label" prefixIcon suffixIcon></nys-badge>

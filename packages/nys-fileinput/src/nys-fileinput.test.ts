@@ -13,6 +13,16 @@ describe("nys-fileinput", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput></nys-fileinput>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-fileinput-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysFileinput>(html`
       <nys-fileinput label="My Label" required optional></nys-fileinput>
