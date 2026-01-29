@@ -2236,7 +2236,8 @@
             },
             {
               "kind": "method",
-              "name": "formResetCallback"
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -2736,6 +2737,11 @@
               "kind": "method",
               "name": "_getSlotDescriptionForAria",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -4068,6 +4074,11 @@
                   "text": "boolean"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -5911,21 +5922,6 @@
               "reflects": true
             },
             {
-              "kind": "method",
-              "name": "getInputElement",
-              "privacy": "public",
-              "return": {
-                "type": {
-                  "text": "Promise<HTMLInputElement | null>"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "formResetUpdate",
-              "privacy": "public"
-            },
-            {
               "kind": "field",
               "name": "buttonGroup",
               "type": {
@@ -5936,13 +5932,19 @@
             },
             {
               "kind": "method",
-              "name": "checkValidity",
+              "name": "getInputElement",
+              "privacy": "public",
               "return": {
                 "type": {
-                  "text": "boolean"
+                  "text": "Promise<HTMLInputElement | null>"
                 }
               },
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "formResetUpdate",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -6376,7 +6378,8 @@
             },
             {
               "kind": "method",
-              "name": "formResetCallback"
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -6997,7 +7000,8 @@
             },
             {
               "kind": "method",
-              "name": "formResetCallback"
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -8347,7 +8351,8 @@
             },
             {
               "kind": "method",
-              "name": "formResetCallback"
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -9015,7 +9020,8 @@
             },
             {
               "kind": "method",
-              "name": "formResetCallback"
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
@@ -9541,6 +9547,11 @@
               "static": true,
               "default": "true",
               "description": "Lifecycle methods\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback",
+              "privacy": "public"
             },
             {
               "kind": "method",
