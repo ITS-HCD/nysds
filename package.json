@@ -8,7 +8,7 @@
   ],
   "files": [
     "dist/",
-    "!nys-stepper/"
+    "custom-elements.json"
   ],
   "main": "dist/nysds.js",
   "module": "dist/nysds.es.js",
@@ -20,13 +20,14 @@
       "require": "./dist/nysds.js"
     }
   },
+  "customElements": "custom-elements.json",
   "scripts": {
     "dev": "vite",
     "gen": "plop",
     "build": "tsc --emitDeclarationOnly && vite build",
     "build:umd": "tsc --emitDeclarationOnly && vite build --config vite.config.umd.js",
     "build:packages": "node src/scripts/build-order.js",
-    "build:all": "npm run clean:dist && npm run lint && cross-env NODE_ENV=production npm run build:packages && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd && npm run lit-analyze || true && npm run cem",
+    "build:all": "npm run clean:dist && npm run lint && cross-env NODE_ENV=production npm run build:packages && cross-env NODE_ENV=production npm run build && cross-env NODE_ENV=production npm run build:umd && npm run lit-analyze || true && npm run cem && npm run cem:copy",
     "build:link": "npm run build:all && npm link",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -44,7 +45,8 @@
     "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && rm -rf packages/*/dist && rm -rf packages/**/*/dist",
     "clean:all": "npm run clean:dist && npm run clean:node",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs"
+    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs",
+    "cem:copy": "cp ./custom-elements.json dist/"
   },
   "repository": {
     "type": "git",
@@ -104,7 +106,6 @@
   "overrides": {
     "storybook": "$storybook"
   },
-  "customElements": "dist/custom-elements.json",
   "dependencies": {
     "wc-datepicker": "^0.9.2"
   }
