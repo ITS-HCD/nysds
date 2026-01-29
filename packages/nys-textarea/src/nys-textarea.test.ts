@@ -5,6 +5,19 @@ import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 
 describe("nys-textarea", () => {
+  it("renders the component", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    expect(el).to.exist;
+  });
+
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-textarea-\d+-\d+$/);
+  });
+
   it("renders the component with default attributes", async () => {
     const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
 

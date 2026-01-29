@@ -1,7 +1,8 @@
 import { expect, html, fixture } from "@open-wc/testing";
 
 import "../dist/nys-stepper.js";
-import { NysStepper } from "../dist/nys-stepper.js";
+import { NysStepper } from "./nys-stepper.js";
+
 // You may need to import other dependencies such as the component's tag name
 // For example:
 // import { NysTextinput } from "./nys-textinput";
@@ -11,6 +12,14 @@ describe("nys-stepper", () => {
   it("renders the component", async () => {
     const el = await fixture(html`<nys-stepper></nys-stepper>`);
     expect(el).to.exist;
+  });
+
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysStepper>(html`<nys-stepper></nys-stepper>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-stepper-\d+-\d+$/);
   });
 
   it("reflects attributes to properties", async () => {
