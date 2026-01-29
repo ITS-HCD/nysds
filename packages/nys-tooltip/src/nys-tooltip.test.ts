@@ -11,13 +11,13 @@ describe("nys-tooltip", () => {
     expect(el).to.exist;
   });
 
-it("generates an id if not provided", async () => {
-  const el = await fixture<NysTooltip>(html`<nys-tooltip></nys-tooltip>`);
-  await el.updateComplete;
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysTooltip>(html`<nys-tooltip></nys-tooltip>`);
+    await el.updateComplete;
 
-  expect(el.id).to.not.be.empty;
-  expect(el.id).to.match(/^nys-tooltip-\d+-\d+$/);
-});
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-tooltip-\d+-\d+$/);
+  });
 
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysTooltip>(html`

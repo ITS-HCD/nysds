@@ -18,9 +18,7 @@ describe("nys-checkbox", () => {
   });
 
   it("generates a checkboxgroup id if not provided", async () => {
-    const el = await fixture(
-      html`<nys-checkboxgroup></nys-checkboxgroup>`,
-    );
+    const el = await fixture(html`<nys-checkboxgroup></nys-checkboxgroup>`);
 
     expect(el.id).to.not.be.empty;
     expect(el.id).to.match(/^nys-checkboxgroup-\d+-\d+$/);
