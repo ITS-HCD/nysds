@@ -105,6 +105,15 @@ export class NysToggle extends LitElement {
     }
   }
 
+  public formResetCallback() {
+    this.checked = false;
+
+    this._internals.setFormValue(this.checked ? this.value : null);
+
+    // Re-render UI
+    this.requestUpdate();
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
