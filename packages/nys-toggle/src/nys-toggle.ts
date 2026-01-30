@@ -171,6 +171,7 @@ export class NysToggle extends LitElement {
               role="switch"
               aria-checked="${this.checked ? "true" : "false"}"
               aria-disabled="${this.disabled ? "true" : "false"}"
+              aria-label="${this.label || "Toggle switch"}"
               @change=${this._handleChange}
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
@@ -188,10 +189,16 @@ export class NysToggle extends LitElement {
               </div>
             </span>
           </div>
-          <div class="nys-toggle__text ${this.inverted ? "invert" : ""}">
-            <div class="nys-toggle__label">${this.label}</div>
-            <slot name="description">${this.description}</slot>
-          </div>
+          ${this.label &&
+          html`<nys-label
+            label=${this.label}
+            description=${ifDefined(this.description || undefined)}
+            ?inverted=${this.inverted}
+          >
+            <slot name="description" slot="description"
+              >${this.description}</slot
+            >
+          </nys-label> `}
         </div>
       </label>
     `;
