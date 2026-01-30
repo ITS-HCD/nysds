@@ -2177,6 +2177,48 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "other",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_textInputHasFocus",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
               "kind": "method",
               "name": "getInputElement",
               "privacy": "public",
@@ -2268,6 +2310,16 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "_hasDescription",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_handleResize",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
@@ -2298,6 +2350,16 @@
             },
             {
               "kind": "method",
+              "name": "_handleTextInputBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInputFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleKeydown",
               "privacy": "private",
               "parameters": [
@@ -2308,6 +2370,29 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_validateOtherAndEmitError",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchClearError",
+              "privacy": "private"
             }
           ],
           "events": [
@@ -2326,11 +2411,20 @@
               "description": "Fired when checkbox gains focus."
             },
             {
-              "name": "nys-blur",
+              "name": "nys-error",
               "type": {
-                "text": "Event"
-              },
-              "description": "Fired when checkbox loses focus."
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-error-clear",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "Fired when checkbox loses focus.",
+              "name": "nys-blur"
             }
           ],
           "attributes": [
@@ -2477,6 +2571,22 @@
               "default": "\"md\"",
               "description": "Checkbox size: `sm` (24px) or `md` (32px, default).",
               "fieldName": "size"
+            },
+            {
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "other"
+            },
+            {
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showOtherError"
             }
           ],
           "superclass": {
@@ -2676,6 +2786,24 @@
             },
             {
               "kind": "field",
+              "name": "_hasOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_otherErrorCheckbox",
+              "type": {
+                "text": "NysCheckbox | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
               "name": "_internals",
               "type": {
                 "text": "ElementInternals"
@@ -2694,9 +2822,14 @@
             },
             {
               "kind": "method",
-              "name": "_setGroupExist",
+              "name": "_hasAtLeastOneChecked",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_setGroupExist",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -2706,6 +2839,11 @@
             {
               "kind": "method",
               "name": "_manageRequire",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setCustomOtherError",
               "privacy": "private"
             },
             {
@@ -2769,6 +2907,45 @@
                 }
               ],
               "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildErrorClear",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_checkOtherInputs",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "checkboxes",
+                  "type": {
+                    "text": "NysCheckbox[]"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -5923,6 +6100,39 @@
             },
             {
               "kind": "field",
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "other",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "buttonGroup",
               "type": {
                 "text": "Record<string, NysRadiobutton>"
@@ -5945,6 +6155,11 @@
               "kind": "method",
               "name": "formResetUpdate",
               "privacy": "public"
+            },
+            {
+              "kind": "field",
+              "name": "_handleResize",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -5971,6 +6186,37 @@
               "kind": "method",
               "name": "_callInputHandling",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_validateOtherAndEmitError",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
             }
           ],
           "events": [
@@ -5994,6 +6240,12 @@
                 "text": "Event"
               },
               "description": "Fired when radio loses focus."
+            },
+            {
+              "name": "nys-error",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
@@ -6104,6 +6356,22 @@
               "default": "false",
               "description": "Renders as tile with larger clickable area.",
               "fieldName": "tile"
+            },
+            {
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "other"
+            },
+            {
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showOtherError"
             }
           ],
           "superclass": {
@@ -6434,6 +6702,19 @@
             {
               "kind": "method",
               "name": "_handleInvalid",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildError",
               "privacy": "private",
               "parameters": [
                 {
@@ -7885,7 +8166,7 @@
             },
             {
               "kind": "method",
-              "name": "_normalizeTable",
+              "name": "_normalizeTableDOM",
               "parameters": [
                 {
                   "name": "table",
@@ -8987,6 +9268,11 @@
               "static": true,
               "default": "true",
               "description": "Lifecycle methods\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "privacy": "public"
             },
             {
               "kind": "method",

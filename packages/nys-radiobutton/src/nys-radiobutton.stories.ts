@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-radiobutton";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
+import "@nysds/nys-textinput";
 
 // Define the structure of the args used in the stories
 interface NysRadiobuttonArgs {
@@ -13,6 +14,7 @@ interface NysRadiobuttonArgs {
   label: string;
   description: string;
   size: "sm" | "md";
+  other: boolean;
   tile: boolean;
   disabled: boolean;
   value: string;
@@ -34,6 +36,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
     label: { control: "text" },
     description: { control: "text" },
     size: { control: "select", options: ["sm", "md"] },
+    other: { control: "boolean" },
     tile: { control: "boolean" },
     disabled: { control: "boolean" },
     value: { control: "text" },
@@ -64,6 +67,7 @@ export const Basic: Story = {
     label: "Albany",
     description: "Upstate New York",
     value: "albany",
+    other: false,
     tile: false,
     checked: false,
     disabled: false,
@@ -715,6 +719,86 @@ export const Optional: Story = {
     label="Manhattan"
     description="New York City"
     value="manhattan"
+  ></nys-radiobutton>
+</nys-radiogroup>
+`.trim(),
+
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Other: Story = {
+  args: {
+    name: "office",
+    label: "Albany",
+    description: "Upstate New York",
+    value: "albany",
+    other: true,
+  },
+
+  render: (args) => html`
+    <nys-radiogroup
+      label="What is your primary work location?"
+      description="This is the location you use for your in office days."
+      size=${args.size}
+      .tile=${args.tile}
+      .required=${args.required}
+      .optional=${args.optional}
+      ?inverted=${args.inverted}
+      .form=${args.form}
+      .showError=${args.showError}
+      .errorMessage=${args.errorMessage}
+    >
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${args.checked}
+        .label=${args.label}
+        .description=${args.description}
+        .disabled=${args.disabled}
+        .value=${args.value}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${false}
+        .label=${"Manhattan"}
+        .description=${"New York City"}
+        .disabled=${args.disabled}
+        .value=${"manhattan"}
+      ></nys-radiobutton>
+      <nys-radiobutton
+        .name=${args.name}
+        .checked=${false}
+        .disabled=${args.disabled}
+        other
+      ></nys-radiobutton>
+    </nys-radiogroup>
+  `,
+
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup
+  label="What is your primary work location?"
+  description="This is the location you use for your in office days."
+>
+  <nys-radiobutton
+    name="office"
+    label="Albany"
+    description="Upstate New York"
+    value="albany"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="office"
+    label="Manhattan"
+    description="New York City"
+    value="manhattan"
+  ></nys-radiobutton>
+  <nys-radiobutton
+    name="office"
+    other
   ></nys-radiobutton>
 </nys-radiogroup>
 `.trim(),

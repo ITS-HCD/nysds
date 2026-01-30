@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "./nys-checkboxgroup";
 // @ts-ignore: SCSS module imported via bundler as inline
@@ -90,6 +90,12 @@ export class NysCheckbox extends LitElement {
    * @default "md"
    */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
+  @property({ type: Boolean, reflect: true }) other = false;
+  @property({ type: Boolean }) showOtherError = false;
+  @state() private isMobile = window.innerWidth < 480;
+
+  private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _textInputHasFocus = false;
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
@@ -117,11 +123,13 @@ export class NysCheckbox extends LitElement {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
     this.addEventListener("invalid", this._handleInvalid);
+    window.addEventListener("resize", this._handleResize);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
+    window.removeEventListener("resize", this._handleResize);
   }
 
   firstUpdated() {
@@ -256,19 +264,34 @@ export class NysCheckbox extends LitElement {
   }
 
   private _manageLabelClick = () => {
-    const wrapper = this.shadowRoot?.querySelector(".nys-checkbox");
+    const main = this.shadowRoot?.querySelector(
+      ".nys-checkbox__main-container",
+    );
     const inputEl = this.shadowRoot?.querySelector("input");
 
-    if (!wrapper || !inputEl) return;
+    if (!main || !inputEl) return;
 
-    wrapper.addEventListener("click", (e) => {
-      // Avoid double toggling the checkbox. Already handled by input
-      if ((e.target as HTMLElement).tagName.toLowerCase() === "input") return;
+    main.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+
+      // Let native input behavior work. Avoid double toggling the checkbox.
+      if (target.tagName.toLowerCase() === "input") return;
 
       if (!this.disabled) {
         inputEl.click();
+        inputEl.focus();
       }
     });
+  };
+
+  get _hasDescription() {
+    // This accounts for both description prop or slotted content. Used for styling text alignment.
+    const slot = this.querySelector('[slot="description"]');
+    return !!this.description || !!slot;
+  }
+
+  private _handleResize = () => {
+    this.isMobile = window.innerWidth < 480;
   };
 
   /**
@@ -294,7 +317,16 @@ export class NysCheckbox extends LitElement {
   // Handle checkbox change event
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
+    const wasChecked = this.checked;
+
     this.checked = checked;
+
+    if (this.other && wasChecked) {
+      this.showOtherError = false;
+      this._hasUserInteracted = false;
+      this._dispatchClearError();
+    }
+
     if (!this.groupExist) {
       this._internals.setFormValue(this.checked ? this.value : null);
     }
@@ -308,6 +340,22 @@ export class NysCheckbox extends LitElement {
 
   private _handleBlur() {
     this.dispatchEvent(new Event("nys-blur"));
+    setTimeout(() => {
+      if (!this._textInputHasFocus && this.other && this.checked) {
+        this._hasUserInteracted = true;
+        this._validateOtherAndEmitError();
+      }
+    }, 50);
+  }
+
+  private _handleTextInputBlur() {
+    this._textInputHasFocus = false;
+    this._hasUserInteracted = true;
+    this._validateOtherAndEmitError();
+  }
+
+  private _handleTextInputFocus() {
+    this._textInputHasFocus = true;
   }
 
   private async _handleKeydown(e: KeyboardEvent) {
@@ -326,57 +374,131 @@ export class NysCheckbox extends LitElement {
     }
   }
 
+  private _handleTextInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let newValue = input.value;
+    this.value = newValue;
+
+    if (this._hasUserInteracted) {
+      this._validateOtherAndEmitError();
+    }
+
+    this._emitChangeEvent();
+  }
+
+  private _validateOtherAndEmitError() {
+    if (!this.other) return;
+
+    // Prevent early validation of the "other" input before the user interacts with it.
+    // Additionally clear validation when "other" checkbox is unchecked
+    if (!this.checked || !this._hasUserInteracted) {
+      this.showOtherError = false;
+
+      this._dispatchClearError();
+      return;
+    }
+
+    const isInvalid = this.value.trim() === "";
+    this.showOtherError = isInvalid;
+
+    if (isInvalid) {
+      this.dispatchEvent(
+        new CustomEvent("nys-error", {
+          detail: {
+            id: this.id,
+            name: this.name,
+            type: "other",
+            message: "Please enter a value for this option.",
+            sourceCheckbox: this,
+          },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+  }
+
+  private _dispatchClearError() {
+    this.dispatchEvent(
+      new CustomEvent("nys-error-clear", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   render() {
     return html`
       <div class="nys-checkbox">
-        <div class="nys-checkbox__checkboxwrapper">
-          <input
-            id=${this.id + "--native"}
-            class="nys-checkbox__checkbox"
-            type="checkbox"
-            name="${ifDefined(this.name ? this.name : undefined)}"
-            .checked=${this.checked}
-            ?disabled=${this.disabled}
-            .value=${this.value}
-            ?required="${this.required}"
-            form=${ifDefined(this.form || undefined)}
-            aria-checked="${this.checked}"
-            aria-disabled="${this.disabled ? "true" : "false"}"
-            aria-required="${this.required}"
-            aria-describedby="group-info"
-            @change="${this._handleChange}"
-            @focus="${this._handleFocus}"
-            @blur="${this._handleBlur}"
-            @keydown="${this._handleKeydown}"
-            aria-label="${this.label}"
-          />
-          ${this.checked
-            ? html`<nys-icon
-                name="check"
-                size="${this.size === "md"
-                  ? "4xl"
-                  : this.size === "sm"
-                    ? "2xl"
-                    : "4xl"}"
-                class="nys-checkbox__icon"
-              ></nys-icon>`
+        <div
+          class="nys-checkbox__main-container ${this._hasDescription
+            ? "has-description"
+            : ""}"
+        >
+          <div class="nys-checkbox__checkbox-wrapper">
+            <input
+              id=${this.id + "--native"}
+              class="nys-checkbox__checkbox"
+              type="checkbox"
+              name="${ifDefined(this.name ? this.name : undefined)}"
+              .checked=${this.checked}
+              ?disabled=${this.disabled}
+              .value=${this.value}
+              ?required="${this.required}"
+              form=${ifDefined(this.form || undefined)}
+              aria-checked="${this.checked}"
+              aria-disabled="${this.disabled ? "true" : "false"}"
+              aria-required="${this.required}"
+              aria-describedby="group-info"
+              @change="${this._handleChange}"
+              @focus="${this._handleFocus}"
+              @blur="${this._handleBlur}"
+              @keydown="${this._handleKeydown}"
+              aria-label="${this.label}"
+            />
+            ${this.checked
+              ? html`<nys-icon
+                  name="check"
+                  size="${this.size === "md"
+                    ? "4xl"
+                    : this.size === "sm"
+                      ? "2xl"
+                      : "4xl"}"
+                  class="nys-checkbox__icon"
+                ></nys-icon>`
+              : ""}
+          </div>
+          ${(this.label || this.other) &&
+          html`
+            <nys-label
+              tooltip=${this.tooltip}
+              for=${this.id + "--native"}
+              label="${this.label || (this.other ? "Other" : "")}"
+              description=${ifDefined(this.description || undefined)}
+              flag=${ifDefined(this.required ? "required" : undefined)}
+              ?inverted=${this.inverted}
+            >
+              <slot name="description" slot="description"
+                >${this.description}</slot
+              >
+            </nys-label>
+          `}
+        </div>
+        <div class="nys-checkbox__other-container">
+          ${this.other && this.checked
+            ? html`
+                <nys-textinput
+                  .value=${this.value}
+                  id=${"radiobutton-other-" + this.id}
+                  @nys-input=${this._handleTextInput}
+                  @nys-blur=${this._handleTextInputBlur}
+                  @nys-focus=${this._handleTextInputFocus}
+                  aria-invalid=${this.showOtherError ? "true" : "false"}
+                  width=${this.isMobile ? "full" : "md"}
+                ></nys-textinput>
+              `
             : ""}
         </div>
-        ${this.label &&
-        html`
-          <nys-label
-            tooltip=${this.tooltip}
-            for=${this.id + "--native"}
-            label=${this.label}
-            description=${ifDefined(this.description ?? undefined)}
-            flag=${ifDefined(this.required ? "required" : undefined)}
-            ?inverted=${this.inverted}
-          >
-            <slot name="description" slot="description"
-              >${this.description}</slot
-            >
-          </nys-label>
-        `}
       </div>
       ${this.parentElement?.tagName.toLowerCase() !== "nys-checkboxgroup"
         ? html`<nys-errormessage

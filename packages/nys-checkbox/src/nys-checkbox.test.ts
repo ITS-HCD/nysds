@@ -146,8 +146,6 @@ describe("nys-checkbox", () => {
     const nysLabel = el.shadowRoot!.querySelector("nys-label");
     expect(nysLabel).to.exist;
 
-    expect(nysLabel!.hasAttribute("description")).to.be.true;
-
     const slot = nysLabel!.querySelector(
       'slot[name="description"]',
     ) as HTMLSlotElement;
@@ -208,6 +206,182 @@ describe("nys-checkbox", () => {
     expect(checkboxes[2].checked).to.be.false;
   });
 
+  it("resets checked state when the form is reset", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<form>
+        <nys-checkbox checked></nys-checkbox>
+      </form>`,
+    );
+
+    const checkbox = el.querySelector("nys-checkbox") as NysCheckbox;
+
+    expect(checkbox.checked).to.be.true;
+
+    // Trigger native form reset
+    (checkbox.closest("form") as HTMLFormElement).reset();
+
+    expect(checkbox.checked).to.be.false;
+  });
+
+  it("resets checked states of all checkboxes when the form is reset", async () => {
+    const el = await fixture<NysCheckboxgroup>(
+      html`<form>
+        <nys-checkboxgroup>
+          <nys-checkbox checked></nys-checkbox>
+          <nys-checkbox checked></nys-checkbox>
+          <nys-checkbox></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>`,
+    );
+
+    const checkboxes = Array.from(
+      el.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+
+    // Confirm initial state
+    expect(checkboxes[0].checked).to.be.true;
+    expect(checkboxes[1].checked).to.be.true;
+    expect(checkboxes[2].checked).to.be.false;
+
+    // Trigger native form reset
+    (el.closest("form") as HTMLFormElement).reset();
+
+    // After reset, all checkboxes should revert to their initial default state
+    expect(checkboxes[0].checked).to.be.false;
+    expect(checkboxes[1].checked).to.be.false;
+    expect(checkboxes[2].checked).to.be.false;
+  });
+
+  /*** Other test ***/
+  it("renders with other property set", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox other label="My Checkbox"></nys-checkbox>
+    `);
+
+    expect(el.other).to.be.true;
+    expect(el.hasAttribute("other")).to.be.true;
+  });
+
+  it("shows 'Other' label when other is true and label is empty", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+    const nysLabel = el.shadowRoot!.querySelector("nys-label");
+    expect(nysLabel).to.exist;
+    expect(nysLabel?.getAttribute("label")).to.equal("Other");
+  });
+
+  it("uses custom label when provided with other property", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other label="Custom Other Label"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+    const nysLabel = el.shadowRoot!.querySelector("nys-label");
+    expect(nysLabel!.getAttribute("label")).to.equal("Custom Other Label");
+  });
+
+  it("shows textinput when 'other' checkbox is checked", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other name="options"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+
+    // Initially no text input should be visible
+    let textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.not.exist;
+
+    const input = await el.getInputElement();
+    input?.click();
+    await el.updateComplete;
+
+    // Text input should now be visible
+    textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+  });
+
+  it("hides text input when 'other' checkbox is unchecked", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other checked></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+
+    // Text input should be visible initially
+    let textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+
+    const input = await el.getInputElement();
+    input?.click();
+    await el.updateComplete;
+
+    // Text input should now be hidden after unchecking
+    textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.not.exist;
+  });
+
+  it("shows error when 'other' checkbox is checked but text input is empty after blur", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other checked value=""></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+    const textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(el.showOtherError).to.be.false;
+
+    // Trigger blur event
+    const blurEvent = new Event("nys-blur", { bubbles: true });
+    textInput?.dispatchEvent(blurEvent);
+    await el.updateComplete;
+
+    expect(el.showOtherError).to.be.true;
+  });
+
+  it("clears 'other' validation error when valid text is entered", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other checked value=""></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+    const textInput = el.shadowRoot?.querySelector("nys-textinput");
+
+    // First trigger error by blurring with empty value
+    const blurEvent = new Event("nys-blur", { bubbles: true });
+    textInput?.dispatchEvent(blurEvent);
+    await el.updateComplete;
+
+    expect(el.showOtherError).to.be.true;
+
+    // Now enter valid text
+    const inputEvent = new Event("nys-input", { bubbles: true });
+    Object.defineProperty(inputEvent, "target", {
+      writable: false,
+      value: { value: "Valid input" },
+    });
+
+    textInput?.dispatchEvent(inputEvent);
+    textInput?.dispatchEvent(blurEvent);
+    await el.updateComplete;
+
+    expect(el.showOtherError).to.be.false;
+  });
+
+  /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-checkbox label="My Label"></nys-checkbox>`,

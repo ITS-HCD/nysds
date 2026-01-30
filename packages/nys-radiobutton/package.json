@@ -23,6 +23,7 @@
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "dependencies": {
+    "@nysds/nys-textinput": "^1.13.0",
     "@nysds/nys-label": "^1.13.0",
     "@nysds/nys-errormessage": "^1.13.0"
   },
