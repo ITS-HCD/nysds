@@ -339,6 +339,7 @@ export class NysCheckbox extends LitElement {
   }
 
   private _handleBlur() {
+    this.dispatchEvent(new Event("nys-blur"));
     setTimeout(() => {
       if (!this._textInputHasFocus && this.other && this.checked) {
         this._hasUserInteracted = true;
