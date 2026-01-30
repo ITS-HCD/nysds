@@ -95,6 +95,7 @@ export class NysCheckbox extends LitElement {
   @state() private isMobile = window.innerWidth < 480;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _textInputHasFocus = false;
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
@@ -301,7 +302,16 @@ export class NysCheckbox extends LitElement {
   // Handle checkbox change event
   private _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
+    const wasChecked = this.checked;
+
     this.checked = checked;
+
+    if (this.other && wasChecked) {
+      this.showOtherError = false;
+      this._hasUserInteracted = false;
+      this._dispatchClearError();
+    }
+
     if (!this.groupExist) {
       this._internals.setFormValue(this.checked ? this.value : null);
     }
@@ -314,9 +324,22 @@ export class NysCheckbox extends LitElement {
   }
 
   private _handleBlur() {
-    this.dispatchEvent(new Event("nys-blur"));
+    setTimeout(() => {
+      if (!this._textInputHasFocus && this.other && this.checked) {
+        this._hasUserInteracted = true;
+        this._validateOtherAndEmitError();
+      }
+    }, 50);
+  }
+
+  private _handleTextInputBlur() {
+    this._textInputHasFocus = false;
     this._hasUserInteracted = true;
     this._validateOtherAndEmitError();
+  }
+
+  private _handleTextInputFocus() {
+    this._textInputHasFocus = true;
   }
 
   private async _handleKeydown(e: KeyboardEvent) {
@@ -350,8 +373,12 @@ export class NysCheckbox extends LitElement {
   private _validateOtherAndEmitError() {
     if (!this.other) return;
 
+    // Prevent early validation of the "other" input before the user interacts with it.
+    // Additionally clear validation when "other" checkbox is unchecked
     if (!this.checked || !this._hasUserInteracted) {
       this.showOtherError = false;
+
+      this._dispatchClearError();
       return;
     }
 
@@ -372,14 +399,16 @@ export class NysCheckbox extends LitElement {
           composed: true,
         }),
       );
-    } else {
-      this.dispatchEvent(
-        new CustomEvent("nys-error-clear", {
-          bubbles: true,
-          composed: true,
-        }),
-      );
     }
+  }
+
+  private _dispatchClearError() {
+    this.dispatchEvent(
+      new CustomEvent("nys-error-clear", {
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   render() {
@@ -446,7 +475,8 @@ export class NysCheckbox extends LitElement {
                   .value=${this.value}
                   id=${"radiobutton-other-" + this.id}
                   @nys-input=${this._handleTextInput}
-                  @nys-blur=${this._handleBlur}
+                  @nys-blur=${this._handleTextInputBlur}
+                  @nys-focus=${this._handleTextInputFocus}
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width=${this.isMobile ? "full" : "md"}
                 ></nys-textinput>
