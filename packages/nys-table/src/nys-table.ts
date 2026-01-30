@@ -56,43 +56,41 @@ export class NysTable extends LitElement {
       "slot",
     ) as HTMLSlotElement | null;
     const container = this.shadowRoot?.querySelector(
-      ".nys-table",
+      ".table-container",
     ) as HTMLElement | null;
+
     if (!slot || !container) return;
 
     container.innerHTML = "";
 
     const assigned = slot.assignedElements({ flatten: true });
+    const tableEl = assigned.find((el) => el.tagName === "TABLE") as
+      | HTMLTableElement
+      | undefined;
 
-    assigned.forEach((node) => {
-      if (node.tagName === "TABLE") {
-        const table = node.cloneNode(true) as HTMLTableElement;
-        this._normalizeTable(table);
-        if (this.sortable) {
-          this._addSortIcons(table);
-        }
-        container.appendChild(table);
-      }
-    });
+    if (!tableEl) return;
+
+    const table = tableEl.cloneNode(true) as HTMLTableElement;
+
+    this._normalizeTableDOM(table);
+
+    if (this.sortable) {
+      this._addSortIcons(table);
+    }
+
+    container.appendChild(table);
   }
 
-  _normalizeTable(table: HTMLTableElement) {
+  _normalizeTableDOM(table: HTMLTableElement) {
     const hasThead = table.querySelector("thead");
     const hasTbody = table.querySelector("tbody");
 
     if (hasThead && hasTbody) return;
 
     // Pull caption first
-    let caption = table.querySelector(
+    const caption = table.querySelector(
       "caption",
     ) as HTMLTableCaptionElement | null;
-
-    // Save caption text if it exists
-    if (caption?.textContent?.trim()) {
-      this._captionText = caption.textContent.trim();
-    } else {
-      this._captionText = "";
-    }
 
     // Collect all rows
     const rows = Array.from(table.querySelectorAll("tr"));
@@ -133,23 +131,41 @@ export class NysTable extends LitElement {
     table.innerHTML = "";
 
     // Handle caption and sortable message
-    if (this.sortable) {
-      if (!caption) {
-        caption = document.createElement("caption");
-        caption.style.padding = "0";
-      }
+    if (caption) {
+      table.appendChild(caption);
+    }
 
+    if (this.sortable) {
       const srOnly = document.createElement("span");
       srOnly.setAttribute("class", "sr-only");
       srOnly.textContent = "Column headers with buttons are sortable.";
 
-      caption.appendChild(srOnly);
+      if (caption) {
+        caption.appendChild(srOnly);
+      } else {
+        const nextCaption = document.createElement("caption");
+        nextCaption.appendChild(srOnly);
+        table.appendChild(nextCaption);
+      }
     }
-
-    if (caption) table.appendChild(caption);
 
     table.appendChild(thead);
     table.appendChild(tbody);
+  }
+
+  willUpdate() {
+    const table = Array.from(this.children).find(
+      (el) => el.tagName === "TABLE",
+    ) as HTMLTableElement | undefined;
+
+    if (!table) return;
+
+    const caption = table.querySelector("caption");
+    const nextCaption = caption?.textContent?.trim() ?? "";
+
+    if (this._captionText !== nextCaption) {
+      this._captionText = nextCaption;
+    }
   }
 
   _addSortIcons(table: HTMLTableElement) {
