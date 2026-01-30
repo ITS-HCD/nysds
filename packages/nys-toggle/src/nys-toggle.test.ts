@@ -8,6 +8,14 @@ describe("nys-toggle", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysToggle>(html`<nys-toggle></nys-toggle>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-toggle-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysToggle>(html`
       <nys-toggle label="My Label" checked></nys-toggle>
@@ -67,6 +75,29 @@ describe("nys-toggle", () => {
     await el.updateComplete;
 
     expect(events).to.deep.equal(["focus", "blur"]);
+  });
+
+  it("resets checked state when form is reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-toggle checked value="on"></nys-toggle>
+      </form>
+    `);
+
+    const toggle = form.querySelector<NysToggle>("nys-toggle")!;
+    const input = toggle.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+
+    // Initial state
+    expect(toggle.checked).to.be.true;
+    expect(input.checked).to.be.true;
+
+    form.reset();
+    await toggle.updateComplete;
+
+    // Confirm reset
+    expect(toggle.checked).to.be.false;
+    expect(input.checked).to.be.false;
+    expect((toggle as any)._internals.formValue).to.be.undefined;
   });
 
   it("passes the a11y audit", async () => {

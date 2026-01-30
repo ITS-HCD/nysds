@@ -9,6 +9,21 @@ describe("nys-checkbox", () => {
     expect(el).to.exist;
   });
 
+  it("generates a checkbox id if not provided", async () => {
+    const el = await fixture<NysCheckbox>(html`<nys-checkbox></nys-checkbox>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-checkbox-\d+-\d+$/);
+  });
+
+  it("generates a checkboxgroup id if not provided", async () => {
+    const el = await fixture(html`<nys-checkboxgroup></nys-checkboxgroup>`);
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-checkboxgroup-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysCheckbox>(html`
       <nys-checkbox label="My Label" required></nys-checkbox>
@@ -145,6 +160,98 @@ describe("nys-checkbox", () => {
     expect(assignedText).to.equal("Extra details");
   });
 
+  it("resets checked state when the form is reset", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<form>
+        <nys-checkbox checked></nys-checkbox>
+      </form>`,
+    );
+
+    const checkbox = el.querySelector("nys-checkbox") as NysCheckbox;
+
+    expect(checkbox.checked).to.be.true;
+
+    // Trigger native form reset
+    (checkbox.closest("form") as HTMLFormElement).reset();
+
+    expect(checkbox.checked).to.be.false;
+  });
+
+  it("resets checked states of all checkboxes when the form is reset", async () => {
+    const el = await fixture<NysCheckboxgroup>(
+      html`<form>
+        <nys-checkboxgroup>
+          <nys-checkbox checked></nys-checkbox>
+          <nys-checkbox checked></nys-checkbox>
+          <nys-checkbox></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>`,
+    );
+
+    const checkboxes = Array.from(
+      el.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+
+    // Confirm initial state
+    expect(checkboxes[0].checked).to.be.true;
+    expect(checkboxes[1].checked).to.be.true;
+    expect(checkboxes[2].checked).to.be.false;
+
+    // Trigger native form reset
+    (el.closest("form") as HTMLFormElement).reset();
+
+    // After reset, all checkboxes should revert to their initial default state
+    expect(checkboxes[0].checked).to.be.false;
+    expect(checkboxes[1].checked).to.be.false;
+    expect(checkboxes[2].checked).to.be.false;
+  });
+
+  it("resets checked state when the form is reset", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<form>
+        <nys-checkbox checked></nys-checkbox>
+      </form>`,
+    );
+
+    const checkbox = el.querySelector("nys-checkbox") as NysCheckbox;
+
+    expect(checkbox.checked).to.be.true;
+
+    // Trigger native form reset
+    (checkbox.closest("form") as HTMLFormElement).reset();
+
+    expect(checkbox.checked).to.be.false;
+  });
+
+  it("resets checked states of all checkboxes when the form is reset", async () => {
+    const el = await fixture<NysCheckboxgroup>(
+      html`<form>
+        <nys-checkboxgroup>
+          <nys-checkbox checked></nys-checkbox>
+          <nys-checkbox checked></nys-checkbox>
+          <nys-checkbox></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>`,
+    );
+
+    const checkboxes = Array.from(
+      el.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+
+    // Confirm initial state
+    expect(checkboxes[0].checked).to.be.true;
+    expect(checkboxes[1].checked).to.be.true;
+    expect(checkboxes[2].checked).to.be.false;
+
+    // Trigger native form reset
+    (el.closest("form") as HTMLFormElement).reset();
+
+    // After reset, all checkboxes should revert to their initial default state
+    expect(checkboxes[0].checked).to.be.false;
+    expect(checkboxes[1].checked).to.be.false;
+    expect(checkboxes[2].checked).to.be.false;
+  });
+
   /*** Other test ***/
   it("renders with other property set", async () => {
     const el = await fixture<NysCheckbox>(html`
@@ -202,7 +309,7 @@ describe("nys-checkbox", () => {
     expect(textInput).to.exist;
   });
 
-  it("hides text input when other checkbox is unchecked", async () => {
+  it("hides text input when 'other' checkbox is unchecked", async () => {
     const group = await fixture(html`
       <nys-checkboxgroup label="Select options">
         <nys-checkbox other checked></nys-checkbox>
@@ -224,7 +331,7 @@ describe("nys-checkbox", () => {
     expect(textInput).to.not.exist;
   });
 
-  it("shows error when other checkbox is checked but text input is empty after blur", async () => {
+  it("shows error when 'other' checkbox is checked but text input is empty after blur", async () => {
     const group = await fixture(html`
       <nys-checkboxgroup label="Select options">
         <nys-checkbox other checked value=""></nys-checkbox>
@@ -243,7 +350,7 @@ describe("nys-checkbox", () => {
     expect(el.showOtherError).to.be.true;
   });
 
-  it("clears error when valid text is entered", async () => {
+  it("clears 'other' validation error when valid text is entered", async () => {
     const group = await fixture(html`
       <nys-checkboxgroup label="Select options">
         <nys-checkbox other checked value=""></nys-checkbox>

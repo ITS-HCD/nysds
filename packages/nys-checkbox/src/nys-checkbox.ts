@@ -197,8 +197,23 @@ export class NysCheckbox extends LitElement {
   }
 
   // Called automatically when the parent form is reset
-  formResetCallback() {
+  public formResetCallback() {
     this.checked = false;
+
+    this._internals.setFormValue(null);
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.checked = false;
+    }
+
+    // Reset validation UI
+    this.showError = false;
+    this.errorMessage = "";
+    this._internals.setValidity({});
+
+    // Re-render UI
+    this.requestUpdate();
   }
 
   /**

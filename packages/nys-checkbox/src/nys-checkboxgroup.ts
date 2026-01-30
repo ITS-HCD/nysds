@@ -95,7 +95,7 @@ export class NysCheckboxgroup extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-checkbox-${Date.now()}-${checkboxgroupIdCounter++}`;
+      this.id = `nys-checkboxgroup-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
     this.addEventListener("nys-change", this._handleCheckboxChange);
     this.addEventListener("invalid", this._handleInvalid);
@@ -301,6 +301,24 @@ export class NysCheckboxgroup extends LitElement {
       .map((node) => node.textContent?.trim())
       .filter(Boolean)
       .join(", ");
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  public formResetCallback() {
+    // Reset all child checkboxes
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox: any) => {
+      checkbox.formResetCallback();
+    });
+
+    this._internals.setFormValue("");
+
+    // Reset validation UI
+    this.showError = false;
+    this._internals.setValidity({});
+
+    // Re-render UI
+    this.requestUpdate();
   }
 
   private async _handleInvalid(event: Event) {

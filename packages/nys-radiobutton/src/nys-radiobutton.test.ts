@@ -9,6 +9,16 @@ describe("nys-radiobutton", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysRadiogroup>(
+      html`<nys-radiogroup></nys-radiogroup>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-radiogroup-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysRadiogroup>(html`
       <nys-radiogroup
@@ -52,24 +62,120 @@ describe("nys-radiobutton", () => {
     expect(el.hasAttribute("tile")).to.be.true;
   });
 
-  it("renders with other property set in radiogroup", async () => {
-    const group = await fixture(html`
-      <nys-radiogroup label="Select option">
-        <nys-radiobutton label="Option 1"></nys-radiobutton>
-        <nys-radiobutton name="options" other></nys-radiobutton>
+  it("resets selected radio when formResetCallback is called", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup name="choices">
+        <nys-radiobutton name="choices" value="a" checked></nys-radiobutton>
+        <nys-radiobutton name="choices" value="b"></nys-radiobutton>
       </nys-radiogroup>
     `);
 
-    const radios = Array.from(group.querySelectorAll("nys-radiobutton"));
-    const otherRadio = radios.find((r) => r.other) as NysRadiobutton;
+    const radios = group.querySelectorAll<NysRadiobutton>("nys-radiobutton");
 
-    expect(otherRadio).to.exist;
-    expect(otherRadio.other).to.be.true;
-    expect(otherRadio.hasAttribute("other")).to.be.true;
+    expect(radios[0].checked).to.be.true;
+    expect(radios[1].checked).to.be.false;
+    expect(group.selectedValue).to.equal("a");
+
+    group.formResetCallback();
+
+    // Expect all radios reset
+    radios.forEach((radio) => {
+      expect(radio.checked).to.be.false;
+      expect(radio.getAttribute("aria-checked")).to.equal("false");
+    });
+
+    // Group state reset
+    expect(group.selectedValue).to.be.null;
+    expect(group.showError).to.be.false;
+    expect(group.errorMessage).to.equal("");
+    expect(group._internals.validity.valid).to.be.true;
+  });
+
+  it("resets radios when native form reset is triggered", async () => {
+    const el = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-radiogroup name="choices">
+          <nys-radiobutton name="choices" value="a" checked></nys-radiobutton>
+          <nys-radiobutton name="choices" value="b"></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+
+    const group = el.querySelector<NysRadiogroup>("nys-radiogroup");
+    const radios = group.querySelectorAll<NysRadiobutton>("nys-radiobutton");
+
+    expect(radios[0].checked).to.be.true;
+    expect(radios[1].checked).to.be.false;
+
+    (group.closest("form") as HTMLFormElement).reset();
+
+    // Expect all radios reset
+    radios.forEach((radio) => {
+      expect(radio.checked).to.be.false;
+      expect(radio.getAttribute("aria-checked")).to.equal("false");
+    });
+
+    expect(group.selectedValue).to.be.null;
+  });
+
+  it("resets selected radio when formResetCallback is called", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup name="choices">
+        <nys-radiobutton name="choices" value="a" checked></nys-radiobutton>
+        <nys-radiobutton name="choices" value="b"></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+
+    const radios = group.querySelectorAll<NysRadiobutton>("nys-radiobutton");
+
+    expect(radios[0].checked).to.be.true;
+    expect(radios[1].checked).to.be.false;
+    expect(group.selectedValue).to.equal("a");
+
+    group.formResetCallback();
+
+    // Expect all radios reset
+    radios.forEach((radio) => {
+      expect(radio.checked).to.be.false;
+      expect(radio.getAttribute("aria-checked")).to.equal("false");
+    });
+
+    // Group state reset
+    expect(group.selectedValue).to.be.null;
+    expect(group.showError).to.be.false;
+    expect(group.errorMessage).to.equal("");
+    expect(group._internals.validity.valid).to.be.true;
+  });
+
+  it("resets radios when native form reset is triggered", async () => {
+    const el = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-radiogroup name="choices">
+          <nys-radiobutton name="choices" value="a" checked></nys-radiobutton>
+          <nys-radiobutton name="choices" value="b"></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+
+    const group = el.querySelector<NysRadiogroup>("nys-radiogroup");
+    const radios = group.querySelectorAll<NysRadiobutton>("nys-radiobutton");
+
+    expect(radios[0].checked).to.be.true;
+    expect(radios[1].checked).to.be.false;
+
+    (group.closest("form") as HTMLFormElement).reset();
+
+    // Expect all radios reset
+    radios.forEach((radio) => {
+      expect(radio.checked).to.be.false;
+      expect(radio.getAttribute("aria-checked")).to.equal("false");
+    });
+
+    expect(group.selectedValue).to.be.null;
   });
 
   /*** Other test ***/
-  it("renders with other property set in radiogroup", async () => {
+  it("renders with 'other' property set in radiogroup", async () => {
     const group = await fixture(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1"></nys-radiobutton>
@@ -85,7 +191,7 @@ describe("nys-radiobutton", () => {
     expect(otherRadio?.hasAttribute("other")).to.be.true;
   });
 
-  it("shows 'Other' label when other is true and label is empty", async () => {
+  it("shows 'Other' label when 'other' is true and label is empty", async () => {
     const group = await fixture(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1"></nys-radiobutton>
@@ -101,7 +207,7 @@ describe("nys-radiobutton", () => {
     expect(nysLabel?.getAttribute("label")).to.equal("Other");
   });
 
-  it("uses custom label when provided with other property", async () => {
+  it("uses custom label when provided with 'other' property", async () => {
     const group = await fixture(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1"></nys-radiobutton>
@@ -116,7 +222,7 @@ describe("nys-radiobutton", () => {
     expect(nysLabel?.getAttribute("label")).to.equal("Custom Other Label");
   });
 
-  it("shows text input when other radiobutton is selected", async () => {
+  it("shows text input when 'other' radiobutton is selected", async () => {
     const group = await fixture(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1"></nys-radiobutton>
@@ -167,7 +273,7 @@ describe("nys-radiobutton", () => {
     expect(textInput).to.not.exist;
   });
 
-  it("shows error when other radio is selected but text input is empty after blur", async () => {
+  it("shows error when 'other' radio is selected but text input is empty after blur", async () => {
     const group = await fixture(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1"></nys-radiobutton>
@@ -189,16 +295,11 @@ describe("nys-radiobutton", () => {
     expect(otherRadio.showOtherError).to.be.true;
   });
 
-  it("clears error when valid text is entered", async () => {
+  it("clears 'other' validation error when valid text is entered", async () => {
     const group = await fixture(html`
       <nys-radiogroup label="Select option">
-        <nys-radiobutton
-          label="Option 1"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          other
-          checked
-        ></nys-radiobutton>
+        <nys-radiobutton label="Option 1"></nys-radiobutton>
+        <nys-radiobutton other checked></nys-radiobutton>
       </nys-radiogroup>
     `);
 

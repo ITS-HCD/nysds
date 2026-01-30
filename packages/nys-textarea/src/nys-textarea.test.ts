@@ -5,6 +5,19 @@ import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 
 describe("nys-textarea", () => {
+  it("renders the component", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    expect(el).to.exist;
+  });
+
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-textarea-\d+-\d+$/);
+  });
+
   it("renders the component with default attributes", async () => {
     const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
 
@@ -150,6 +163,52 @@ describe("nys-textarea", () => {
 
     const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
     expect(errorMessage?.hasAttribute("showError")).to.be.true;
+  });
+
+  it("resets value and validation when formResetCallback is called", async () => {
+    const el = await fixture<NysTextarea>(html`
+      <nys-textarea value="Initial text" showError></nys-textarea>
+    `);
+
+    const textarea =
+      el.shadowRoot!.querySelector<HTMLTextAreaElement>("textarea")!;
+
+    // initial state
+    expect(el.value).to.equal("Initial text");
+    expect(textarea.value).to.equal("Initial text");
+    expect(el.showError).to.be.true;
+    expect(textarea.getAttribute("aria-invalid")).to.not.equal("false");
+
+    el.formResetCallback();
+    await el.updateComplete;
+
+    // Expect value cleared
+    expect(el.value).to.equal("");
+    expect(textarea.value).to.equal("");
+    expect(el.showError).to.be.false;
+    expect(textarea.getAttribute("aria-invalid")).to.equal("false");
+
+    expect(el._internals.validity.valid).to.be.true;
+  });
+
+  it("resets value when native form reset is triggered", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-textarea value="Initial text"></nys-textarea>
+      </form>
+    `);
+
+    const el = form.querySelector<NysTextarea>("nys-textarea")!;
+    const textarea =
+      el.shadowRoot?.querySelector<HTMLTextAreaElement>("textarea")!;
+
+    expect(el.value).to.equal("Initial text");
+    expect(textarea.value).to.equal("Initial text");
+
+    form.reset();
+
+    expect(el.value).to.equal("");
+    expect(textarea.value).to.equal("");
   });
 });
 

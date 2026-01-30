@@ -229,17 +229,6 @@ export class NysSelect extends LitElement {
    */
 
   private _setValue() {
-    // // set value to the option that is selected by default
-    // const select = this.shadowRoot?.querySelector("select");
-    // if (!select) return;
-
-    // // for each option, see if it's selected
-    // Array.from(select.options).forEach((option) => {
-    //   if (option.selected) {
-    //     this.value = option.value;
-    //   }
-    // });
-
     this._internals.setFormValue(this.value);
     this._manageRequire(); // Check validation when value is set
   }
@@ -291,8 +280,21 @@ export class NysSelect extends LitElement {
   }
 
   // This callback is automatically called when the parent form is reset.
-  formResetCallback() {
+  public formResetCallback() {
     this.value = "";
+    const select = this.shadowRoot?.querySelector("select");
+    if (select) {
+      select.value = "";
+      Array.from(select.options).forEach((other) => (other.selected = false));
+    }
+
+    // Reset validation UI
+    this.showError = false;
+    this.errorMessage = "";
+    this._internals.setValidity({});
+
+    // Re-render UI
+    this.requestUpdate();
   }
 
   /**
@@ -428,7 +430,7 @@ export class NysSelect extends LitElement {
           </select>
           <slot style="display: none;"></slot>
           <nys-icon
-            name="expand_all"
+            name="chevron_down"
             size="2xl"
             class="nys-select__icon"
           ></nys-icon>

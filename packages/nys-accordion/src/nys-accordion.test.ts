@@ -12,6 +12,16 @@ describe("nys-accordionitem", () => {
     expect(el.bordered).to.be.false;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-accordionitem-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysAccordionItem>(html`
       <nys-accordionitem
