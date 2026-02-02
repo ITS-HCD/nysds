@@ -174,16 +174,6 @@ describe("nys-textinput", () => {
     expect(el.errorMessage).to.include("Something is wrong");
   });
 
-  it("passes the a11y audit", async () => {
-    const el = await fixture(
-      html`<nys-textinput label="First Name"></nys-textinput>`,
-    );
-    await expect(el).shadowDom.to.be.accessible();
-    // does label map to aria-label
-    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-    expect(input?.getAttribute("aria-label")).to.equal("First Name");
-  });
-
   it("renders a button in the slot", async () => {
     const el = await fixture(
       html`<nys-textinput name="searchInput" type="search" placeholder="Search">
@@ -253,6 +243,51 @@ describe("nys-textinput", () => {
     textinput.disabled = true;
     textinput.focus();
     expect(document.activeElement).to.not.equal(textinput);
+  });
+
+  it("resets value, validation, and UI when form is reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-textinput
+          value="Initial"
+          showError
+          errorMessage="Error"
+        ></nys-textinput>
+      </form>
+    `);
+
+    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    const input = el.shadowRoot?.querySelector<HTMLInputElement>("input")!;
+
+    (el as any).showPassword = true; // this is private on the textinput, so need to set it directly here
+    await el.updateComplete;
+
+    // initial state
+    expect(el.value).to.equal("Initial");
+    expect(input.value).to.equal("Initial");
+    expect(el.showError).to.be.true;
+    expect(el.errorMessage).to.equal("Error");
+    expect((el as any).showPassword).to.be.true;
+
+    form.reset();
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+    expect(input.value).to.equal("");
+    expect(el.showError).to.be.false;
+    expect(el.errorMessage).to.equal("");
+    expect((el as any).showPassword).to.be.false;
+    expect((el as any)._internals.validity.valid).to.be.true;
+  });
+
+  it("passes the a11y audit", async () => {
+    const el = await fixture(
+      html`<nys-textinput label="First Name"></nys-textinput>`,
+    );
+    await expect(el).shadowDom.to.be.accessible();
+    // does label map to aria-label
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    expect(input?.getAttribute("aria-label")).to.equal("First Name");
   });
 });
 

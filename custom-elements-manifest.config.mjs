@@ -7,7 +7,7 @@ import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 // };
 
 const vscodeOpts = {
-  /** Output directory to write the React wrappers to - default is the root of the project */
+  /** Output directory to write the VSCode autocompletes to- default is the root of the project */
   outdir: "./dist/.vscode",
 };
 
@@ -24,7 +24,7 @@ export default {
     "**/packages/mcp-server/**"
   ],
   /** Directory to output CEM to */
-  outdir: "./dist",
+  outdir: "./",
   /** Run in dev mode, provides extra logging */
   dev: false,
   /** Run in watch mode, runs on file changes */

@@ -73,16 +73,6 @@ export class NysRadiobutton extends LitElement {
   /** Renders as tile with larger clickable area. */
   @property({ type: Boolean, reflect: true }) tile = false;
 
-  public async getInputElement(): Promise<HTMLInputElement | null> {
-    await this.updateComplete; // Wait for the component to finish rendering
-    return this.shadowRoot?.querySelector("input") || null;
-  }
-
-  // This callback is automatically called when the parent form is reset.
-  public formResetUpdate() {
-    this.checked = false;
-  }
-
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
   /**
@@ -135,16 +125,23 @@ export class NysRadiobutton extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  // This helper function is called to perform the element's native validation.
-  checkValidity(): boolean {
-    // If the radiogroup is required but no radio is selected, return false.
-    if (this.required && !this.checked) {
-      return false;
+  public async getInputElement(): Promise<HTMLInputElement | null> {
+    await this.updateComplete; // Wait for the component to finish rendering
+    return this.shadowRoot?.querySelector("input") || null;
+  }
+
+  // This callback is automatically called when the parent form is reset.
+  public formResetUpdate() {
+    this.checked = false;
+
+    this.setAttribute("aria-checked", "false");
+
+    if (NysRadiobutton.buttonGroup[this.name] === this) {
+      delete NysRadiobutton.buttonGroup[this.name];
     }
 
-    // Otherwise, optionally check the native input's validity if available.
-    const input = this.shadowRoot?.querySelector("input");
-    return input ? input.checkValidity() : true;
+    // Re-render UI
+    this.requestUpdate();
   }
 
   /**

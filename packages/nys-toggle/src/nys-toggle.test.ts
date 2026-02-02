@@ -77,6 +77,29 @@ describe("nys-toggle", () => {
     expect(events).to.deep.equal(["focus", "blur"]);
   });
 
+  it("resets checked state when form is reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-toggle checked value="on"></nys-toggle>
+      </form>
+    `);
+
+    const toggle = form.querySelector<NysToggle>("nys-toggle")!;
+    const input = toggle.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+
+    // Initial state
+    expect(toggle.checked).to.be.true;
+    expect(input.checked).to.be.true;
+
+    form.reset();
+    await toggle.updateComplete;
+
+    // Confirm reset
+    expect(toggle.checked).to.be.false;
+    expect(input.checked).to.be.false;
+    expect((toggle as any)._internals.formValue).to.be.undefined;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-toggle label="My Label"></nys-toggle>`);
     await expect(el).shadowDom.to.be.accessible();

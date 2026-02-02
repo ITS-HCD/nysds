@@ -262,6 +262,24 @@ export class NysCheckboxgroup extends LitElement {
       .join(", ");
   }
 
+  // This callback is automatically called when the parent form is reset.
+  public formResetCallback() {
+    // Reset all child checkboxes
+    const checkboxes = this.querySelectorAll("nys-checkbox");
+    checkboxes.forEach((checkbox: any) => {
+      checkbox.formResetCallback();
+    });
+
+    this._internals.setFormValue("");
+
+    // Reset validation UI
+    this.showError = false;
+    this._internals.setValidity({});
+
+    // Re-render UI
+    this.requestUpdate();
+  }
+
   private async _handleInvalid(event: Event) {
     event.preventDefault();
 

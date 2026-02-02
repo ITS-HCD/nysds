@@ -288,8 +288,25 @@ export class NysTextinput extends LitElement {
   }
 
   // This callback is automatically called when the parent form is reset.
-  formResetCallback() {
+  public formResetCallback() {
     this.value = "";
+
+    const input = this.shadowRoot?.querySelector("input");
+    if (input) {
+      input.value = "";
+    }
+
+    this._internals.setFormValue("");
+
+    // Reset validation UI
+    this.showError = false;
+    this.errorMessage = "";
+    this._internals.setValidity({});
+
+    this.showPassword = false;
+
+    // Re-render UI
+    this.requestUpdate();
   }
 
   /**

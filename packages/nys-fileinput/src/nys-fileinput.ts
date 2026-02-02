@@ -259,6 +259,28 @@ export class NysFileinput extends LitElement {
     return input ? input.checkValidity() : true;
   }
 
+  // Called automatically when the parent form is reset
+  public formResetCallback() {
+    this._selectedFiles = [];
+    const input = this.shadowRoot?.querySelector(
+      ".hidden-file-input",
+    ) as HTMLInputElement | null;
+
+    if (input) {
+      input.value = "";
+    }
+
+    this._internals.setFormValue(null);
+
+    // Reset validation UI
+    this.showError = false;
+    this.errorMessage = "";
+    this._internals.setValidity({});
+
+    // Re-render UI
+    this.requestUpdate();
+  }
+
   private _handleInvalid(event: Event) {
     event.preventDefault();
     this._validate();

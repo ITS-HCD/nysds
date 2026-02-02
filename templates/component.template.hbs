@@ -86,8 +86,9 @@ export class Nys{{capitalize componentName}} extends LitElement {
    * - _setValue: set internal value and trigger validation
    * - _manageRequire: handle required state
    * - _validate: actively validate and show errors
-   * - checkValidity: passive boolean check without UI
    * - _setValidityMessage: sync validation message with UI and internals
+   * - checkValidity: passive boolean check without UI
+   * - formResetCallback: reset component state when parent form is reset
    * - _handleInvalid: handle form invalid event and focus first invalid field
    */
 
@@ -132,17 +133,6 @@ export class Nys{{capitalize componentName}} extends LitElement {
     this._setValidityMessage(message);
   }
 
-  /**
-   * Passive check of validity:
-   * - Returns true/false
-   * - Does NOT update UI or show errors
-   * - Used in form submission checks
-   */
-  checkValidity(): boolean {
-    const input = this.shadowRoot?.querySelector("input");
-    return input ? input.checkValidity() : true;
-  }
-
   // Sets custom validity message
   private _setValidityMessage(message: string = "") {
     if (!this._internals) return;
@@ -161,6 +151,32 @@ export class Nys{{capitalize componentName}} extends LitElement {
       message,
       input
     );
+  }
+
+  /**
+   * Passive check of validity:
+   * - Returns true/false
+   * - Does NOT update UI or show errors
+   * - Used in form submission checks
+   */
+  checkValidity(): boolean {
+    const input = this.shadowRoot?.querySelector("input");
+    return input ? input.checkValidity() : true;
+  }
+  
+  // This callback is automatically called when the parent form is reset.
+  public formResetCallback() {
+    this.value = "";
+
+    this._internals.setFormValue(null);
+
+    // Reset validation UI
+    this.showError = false;
+    this.errorMessage = "";
+    this._internals.setValidity({});
+
+    // Re-render UI
+    this.requestUpdate();
   }
 
   // Handles native 'invalid' events
