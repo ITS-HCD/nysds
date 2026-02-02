@@ -315,21 +315,30 @@ export class NysCheckbox extends LitElement {
   }
 
   // Handle checkbox change event
-  private _handleChange(e: Event) {
+  private async _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
     const wasChecked = this.checked;
 
     this.checked = checked;
 
-    if (this.other && wasChecked) {
-      this.showOtherError = false;
-      this._hasUserInteracted = false;
-      this._dispatchClearError();
-    }
-
     if (!this.groupExist) {
       this._internals.setFormValue(this.checked ? this.value : null);
     }
+
+    // If unchecking "other", clear error state
+    if (this.other && wasChecked && !checked) {
+      this.showOtherError = false;
+      this._hasUserInteracted = false;
+      this._textInputHasFocus = false;
+      this._dispatchClearError();
+    }
+
+    // If checking "other", focus the text input
+    if (this.other && !wasChecked && checked) {
+      await this.updateComplete;
+      this._focusOnTextInput();
+    }
+
     this._validate();
     this._emitChangeEvent();
   }
@@ -340,12 +349,10 @@ export class NysCheckbox extends LitElement {
 
   private _handleBlur() {
     this.dispatchEvent(new Event("nys-blur"));
-    setTimeout(() => {
-      if (!this._textInputHasFocus && this.other && this.checked) {
-        this._hasUserInteracted = true;
-        this._validateOtherAndEmitError();
-      }
-    }, 50);
+    if (!this._textInputHasFocus && this.other && this.checked) {
+      this._hasUserInteracted = true;
+      this._validateOtherAndEmitError();
+    }
   }
 
   private _handleTextInputBlur() {
@@ -356,6 +363,16 @@ export class NysCheckbox extends LitElement {
 
   private _handleTextInputFocus() {
     this._textInputHasFocus = true;
+  }
+
+  private _focusOnTextInput() {
+    this._textInputHasFocus = true;
+    const textInput = this.shadowRoot?.querySelector("nys-textinput");
+    if (textInput) {
+      setTimeout(() => {
+        (textInput as HTMLElement).focus();
+      }, 50);
+    }
   }
 
   private async _handleKeydown(e: KeyboardEvent) {

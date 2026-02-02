@@ -2360,6 +2360,11 @@
             },
             {
               "kind": "method",
+              "name": "_focusOnTextInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleKeydown",
               "privacy": "private",
               "parameters": [
@@ -2411,6 +2416,13 @@
               "description": "Fired when checkbox gains focus."
             },
             {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when checkbox loses focus."
+            },
+            {
               "name": "nys-error",
               "type": {
                 "text": "CustomEvent"
@@ -2421,10 +2433,6 @@
               "type": {
                 "text": "CustomEvent"
               }
-            },
-            {
-              "description": "Fired when checkbox loses focus.",
-              "name": "nys-blur"
             }
           ],
           "attributes": [
@@ -6133,6 +6141,15 @@
             },
             {
               "kind": "field",
+              "name": "_textInputHasFocus",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "buttonGroup",
               "type": {
                 "text": "Record<string, NysRadiobutton>"
@@ -6199,6 +6216,21 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInputFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInputBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_focusOnTextInput",
+              "privacy": "private"
             },
             {
               "kind": "method",

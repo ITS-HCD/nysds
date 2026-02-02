@@ -77,6 +77,7 @@ export class NysRadiobutton extends LitElement {
   @state() private isMobile = window.innerWidth < 480;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
+  private _textInputHasFocus = false; 
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
@@ -176,7 +177,7 @@ export class NysRadiobutton extends LitElement {
   }
 
   // Handle radiobutton change event & unselection of other options in group
-  private _handleChange() {
+  private async _handleChange() {
     // Remove active-focus so the focus outline doesn't linger
     // when the user selects a choice, since form focus is no longer needed
     this.classList.remove("active-focus");
@@ -184,6 +185,8 @@ export class NysRadiobutton extends LitElement {
     this.showOtherError = false;
 
     if (!this.checked && !this.disabled) {
+      const wasChecked = this.checked;
+
       if (NysRadiobutton.buttonGroup[this.name]) {
         NysRadiobutton.buttonGroup[this.name].checked = false;
         NysRadiobutton.buttonGroup[this.name].requestUpdate();
@@ -193,6 +196,12 @@ export class NysRadiobutton extends LitElement {
       this.checked = true;
       this._validateOtherAndEmitError();
       this._emitChangeEvent();
+
+      // If this is an "other" radio being selected, focus the text input
+      if (this.other && !wasChecked) {
+        await this.updateComplete; // Wait for text input to render
+        this._focusOnTextInput();
+      }
     }
   }
 
@@ -206,8 +215,12 @@ export class NysRadiobutton extends LitElement {
     this.classList.remove("active-focus"); // removing this classList so the focus ring for handleInvalid() at radiogroup level will disappear
     this.dispatchEvent(new Event("nys-blur"));
 
-    this._hasUserInteracted = true;
-    this._validateOtherAndEmitError();
+    setTimeout(() => {
+      if (!this._textInputHasFocus && this.other && this.checked) {
+        this._hasUserInteracted = true;
+        this._validateOtherAndEmitError();
+      }
+    }, 50);
   }
 
   private _callInputHandling() {
@@ -234,6 +247,25 @@ export class NysRadiobutton extends LitElement {
     }
 
     this._emitChangeEvent();
+  }
+
+  private _handleTextInputFocus() {
+    this._textInputHasFocus = true;
+  }
+
+  private _handleTextInputBlur() {
+    this._textInputHasFocus = false;
+    this._hasUserInteracted = true;
+    this._validateOtherAndEmitError();
+  }
+
+  private _focusOnTextInput() {
+    const textInput = this.shadowRoot?.querySelector("nys-textinput");
+    if (textInput) {
+      setTimeout(() => {
+        (textInput as HTMLElement).focus();
+      }, 50);
+    }
   }
 
   private _validateOtherAndEmitError() {
@@ -309,7 +341,8 @@ export class NysRadiobutton extends LitElement {
                   .value=${this.value}
                   id=${"radiobutton-other-" + this.id}
                   @nys-input=${this._handleTextInput}
-                  @nys-blur=${this._handleBlur}
+                  @nys-blur=${this._handleTextInputBlur}
+                  @nys-focus=${this._handleTextInputFocus}
                   @keydown=${this._handleOtherKeydown}
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width=${this.isMobile ? "full" : "md"}
