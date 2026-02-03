@@ -57,6 +57,8 @@ export class NysBadge extends LitElement {
   /** Primary label text displayed in the badge. */
   @property({ type: String }) label = "";
 
+  @property({ type: String, reflect: true }) variant: "strong" | "" = "";
+
   // Icons (string or boolean)
   private _prefixIcon: string | boolean = "";
   @property({ type: String, attribute: "prefixicon" })
