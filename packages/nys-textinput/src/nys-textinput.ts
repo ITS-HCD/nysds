@@ -105,6 +105,9 @@ export class NysTextinput extends LitElement {
   /** Maximum character length. */
   @property({ type: Number }) maxlength: number | null = null;
 
+  /** Accessible label. When set, assuming "label" isn't provided for private special cases (i.e., <checkbox other>). */
+  @property({ type: String }) ariaLabel = "";
+
   /**
    * Input width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).
    * @default "full"
@@ -542,7 +545,7 @@ export class NysTextinput extends LitElement {
               aria-disabled="${this.disabled}"
               aria-label="${[this.label, this.description]
                 .filter(Boolean)
-                .join(" ") || "Text input"}"
+                .join(" ") || ifDefined(this.ariaLabel || undefined) || "Text input"}"
               .value=${this.value}
               placeholder=${ifDefined(
                 this.placeholder ? this.placeholder : undefined,

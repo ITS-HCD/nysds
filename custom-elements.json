@@ -9234,6 +9234,16 @@
             },
             {
               "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label. When set, assuming \"label\" isn't provided for private special cases (i.e., <checkbox other>).",
+              "attribute": "ariaLabel"
+            },
+            {
+              "kind": "field",
               "name": "width",
               "type": {
                 "text": "| \"sm\"\n    | \"md\"\n    | \"lg\"\n    | \"full\""
@@ -9666,6 +9676,15 @@
               "default": "null",
               "description": "Maximum character length.",
               "fieldName": "maxlength"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label. When set, assuming \"label\" isn't provided for private special cases (i.e., <checkbox other>).",
+              "fieldName": "ariaLabel"
             },
             {
               "name": "width",

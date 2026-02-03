@@ -396,6 +396,7 @@ export class NysRadiobutton extends LitElement {
                 @nys-blur=${this._handleTextInputBlur}
                 @nys-focus=${this._handleTextInputFocus}
                 @keydown=${this._handleOtherKeydown}
+                ariaLabel="Other"
                 aria-invalid=${this.showOtherError ? "true" : "false"}
                 width=${this.isMobile ? "full" : "md"}
               ></nys-textinput>

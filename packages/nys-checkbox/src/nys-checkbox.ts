@@ -512,6 +512,7 @@ export class NysCheckbox extends LitElement {
                   @nys-input=${this._handleTextInput}
                   @nys-blur=${this._handleTextInputBlur}
                   @nys-focus=${this._handleTextInputFocus}
+                  ariaLabel="Other"
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width=${this.isMobile ? "full" : "md"}
                 ></nys-textinput>
