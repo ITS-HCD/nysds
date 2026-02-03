@@ -6286,6 +6286,19 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleRadioKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
             }
           ],
           "events": [
