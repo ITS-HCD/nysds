@@ -171,7 +171,7 @@ export class NysRadiobutton extends LitElement {
 
     if (radioSpan) {
       radioSpan.tabIndex = 0;
-      console.log(this.activeFocusable)
+      console.log(this.activeFocusable);
       radioSpan.focus();
     }
   }
@@ -180,7 +180,6 @@ export class NysRadiobutton extends LitElement {
     // const radioSpan = this.shadowRoot?.querySelector(
     //   ".nys-radiobutton__radio",
     // ) as HTMLElement | null;
-
     // if (radioSpan) {
     //   radioSpan.tabIndex = -1;
     // }
@@ -244,7 +243,7 @@ export class NysRadiobutton extends LitElement {
   private _handleBlur() {
     this.classList.remove("active-focus"); // removing this classList so the focus ring for handleInvalid() at radiogroup level will disappear
     this.dispatchEvent(new Event("nys-blur"));
-console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus)
+    console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus);
     setTimeout(() => {
       if (this._textInputHasFocus && this.other && this.checked) {
         this._hasUserInteracted = true;
@@ -284,7 +283,7 @@ console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus)
   }
 
   private _handleTextInputBlur() {
-    console.log("BLUR???")
+    console.log("BLUR???");
     this._textInputHasFocus = false;
     this._hasUserInteracted = true;
     this._validateOtherAndEmitError();
@@ -302,7 +301,7 @@ console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus)
   private _validateOtherAndEmitError() {
     if (!this.other) return;
 
-    console.log("this._hasUserInteracted", this._hasUserInteracted)
+    console.log("this._hasUserInteracted", this._hasUserInteracted);
     if (!this.checked || !this._hasUserInteracted) {
       this.showOtherError = false;
       return;
@@ -334,6 +333,13 @@ console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus)
     }
   }
 
+  private _handleRadioKeydown(e: KeyboardEvent) {
+    if (e.key == "Space" || e.key === " ") {
+      e.stopPropagation();
+      this._focusOnTextInput();
+    }
+  }
+
   render() {
     return html`
       <input
@@ -361,10 +367,12 @@ console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus)
             aria-checked=${this.checked ? "true" : "false"}
             aria-disabled=${this.disabled ? "true" : "false"}
             aria-required=${this.required ? "true" : "false"}
-            aria-label=${this.label || (this.other ? "Other" : "")}
+            aria-label=${this.label ||
+            ifDefined(this.other ? "Other" : undefined)}
             tabindex=${this.activeFocusable && !this.disabled
               ? ifDefined(undefined)
               : "-1"}
+            @keydown="${this._handleRadioKeydown}"
           ></span>
           ${(this.label || this.other) &&
           html`<nys-label

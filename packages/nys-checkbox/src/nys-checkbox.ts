@@ -384,6 +384,7 @@ export class NysCheckbox extends LitElement {
 
         // Wait for DOM updates before validating. This is necessary to ensure the native input validation state is updated before this.validate().
         await this.updateComplete;
+        this._focusOnTextInput();
         this._validate();
 
         this._emitChangeEvent();
@@ -471,7 +472,8 @@ export class NysCheckbox extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
-              aria-label=${this.label || (this.other ?? "Other")}
+              aria-label=${this.label ||
+              ifDefined(this.other ? "Other" : undefined)}
             />
             ${this.checked
               ? html`<nys-icon
