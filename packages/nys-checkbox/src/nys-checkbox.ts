@@ -471,7 +471,7 @@ export class NysCheckbox extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
-              aria-label="${this.label}"
+              aria-label=${this.label || (this.other ?? "Other")}
             />
             ${this.checked
               ? html`<nys-icon

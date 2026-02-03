@@ -245,28 +245,64 @@ export class NysRadiogroup extends LitElement {
       index = 0;
     }
 
+    // const currentIndex = radioBtns.findIndex((r) => r.checked);
+    // let newIndex = currentIndex;
+
+    // if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
+    //   newIndex = currentIndex <= 0 ? radioBtns.length - 1 : currentIndex - 1;
+    // } else if (["ArrowDown", "ArrowRight"].includes(event.key)) {
+    //   newIndex = currentIndex >= radioBtns.length - 1 ? 0 : currentIndex + 1;
+    // }
+
     // The target is the new radiobutton the user want to choose given the keydown type.
     // We let the target's <input/> dispatch the clickEvent and call _handleRadioButtonChange() directly to make form integration work
+    // const target = radioBtns[index];
+    // const input = await target.getInputElement();
+    // input?.click();
+
+    // this._updateGroupTabIndex();
+    // target.focus();
+
     const target = radioBtns[index];
     const input = await target.getInputElement();
     input?.click();
 
+    const focusableSpan = target.shadowRoot?.querySelector<HTMLElement>(
+      ".nys-radiobutton__radio",
+    );
+    focusableSpan?.focus();
     this._updateGroupTabIndex();
-    target.focus();
   }
 
   private _updateGroupTabIndex() {
     const radios = this._getAllRadios();
-    const active = radios.find((radio) => radio.checked) || radios[0]; // If none checked, make first radiobutton tabbable
+    // const active = radios.find((radio) => radio.checked) || radios[0]; // If none checked, make first radiobutton tabbable
+
+    // Pick active: checked first, otherwise first enabled
+    const active =
+      radios.find((radio) => radio.checked && !radio.disabled) ||
+      radios.find((radio) => !radio.disabled);
 
     radios.forEach((radio) => {
+      // if (radio.disabled) {
+      //   radio.tabIndex = -1;
+      // } else {
+      //   // radio.tabIndex = radio === active ? 0 : -1;
+      //   radio.activeFocusable = radio === active && !radio.disabled;
+      // }
+
+      // radio.activeFocusable = radio === active;
+
       if (radio.disabled) {
         radio.tabIndex = -1;
+      } else if (radio === active) {
+        radio.removeAttribute("tabindex");
       } else {
-        radio.tabIndex = radio === active ? 0 : -1;
+        radio.setAttribute("tabindex", "-1");
       }
 
       // Need to update ARIA state due to the new tabindex
+      radio.setAttribute("role", "radio");
       radio.setAttribute("aria-checked", radio.checked ? "true" : "false");
       radio.setAttribute("aria-disabled", radio.disabled ? "true" : "false");
       radio.setAttribute("aria-required", this.required ? "true" : "false");
@@ -386,8 +422,7 @@ export class NysRadiogroup extends LitElement {
 
   // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
   private _handleRadioButtonChange(event: Event) {
-    const customEvent = event as CustomEvent;
-    const { name, value } = customEvent.detail;
+    const { name, value } = (event as CustomEvent).detail;
 
     this.name = name;
     this.selectedValue = value;

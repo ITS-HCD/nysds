@@ -74,10 +74,12 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
+  @property({ type: Boolean }) activeFocusable = false;
+
   @state() private isMobile = window.innerWidth < 480;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  private _textInputHasFocus = false; 
+  private _textInputHasFocus = false;
 
   static buttonGroup: Record<string, NysRadiobutton> = {};
 
@@ -126,6 +128,12 @@ export class NysRadiobutton extends LitElement {
         NysRadiobutton.buttonGroup[this.name] = this;
       }
     }
+
+    if (changedProperties.has("activeFocusable") && this.activeFocusable) {
+      this._focusRadioVisual();
+    } else {
+      this._clearRadioVisualFocus();
+    }
   }
 
   /**
@@ -155,6 +163,27 @@ export class NysRadiobutton extends LitElement {
   private _handleResize = () => {
     this.isMobile = window.innerWidth < 480;
   };
+
+  private _focusRadioVisual() {
+    const radioSpan = this.shadowRoot?.querySelector(
+      ".nys-radiobutton__radio",
+    ) as HTMLElement | null;
+
+    if (radioSpan) {
+      radioSpan.tabIndex = 0;
+      radioSpan.focus();
+    }
+  }
+
+  private _clearRadioVisualFocus() {
+    const radioSpan = this.shadowRoot?.querySelector(
+      ".nys-radiobutton__radio",
+    ) as HTMLElement | null;
+
+    if (radioSpan) {
+      radioSpan.tabIndex = -1;
+    }
+  }
 
   /**
    * Event Handlers
@@ -313,13 +342,12 @@ export class NysRadiobutton extends LitElement {
         ?required="${this.required}"
         form=${ifDefined(this.form || undefined)}
         @change="${this._handleChange}"
-        hidden
-        aria-hidden="true"
+        class="sr-only"
       />
       <div
         class="nys-radiobutton"
         @click="${this._callInputHandling}"
-        aria-label=${this.label}
+        aria-label=${this.label || (this.other ?? "Other")}
       >
         <div class="nys-radiobutton__main-container">
           <span class="nys-radiobutton__radio"></span>
@@ -334,22 +362,22 @@ export class NysRadiobutton extends LitElement {
             >
           </nys-label> `}
         </div>
-        <div class="nys-radiobutton__other-container">
-          ${this.other && this.checked
-            ? html`
-                <nys-textinput
-                  .value=${this.value}
-                  id=${"radiobutton-other-" + this.id}
-                  @nys-input=${this._handleTextInput}
-                  @nys-blur=${this._handleTextInputBlur}
-                  @nys-focus=${this._handleTextInputFocus}
-                  @keydown=${this._handleOtherKeydown}
-                  aria-invalid=${this.showOtherError ? "true" : "false"}
-                  width=${this.isMobile ? "full" : "md"}
-                ></nys-textinput>
-              `
-            : ""}
-        </div>
+      </div>
+      <div class="nys-radiobutton__other-container">
+        ${this.other && this.checked
+          ? html`
+              <nys-textinput
+                .value=${this.value}
+                id=${"radiobutton-other-" + this.id}
+                @nys-input=${this._handleTextInput}
+                @nys-blur=${this._handleTextInputBlur}
+                @nys-focus=${this._handleTextInputFocus}
+                @keydown=${this._handleOtherKeydown}
+                aria-invalid=${this.showOtherError ? "true" : "false"}
+                width=${this.isMobile ? "full" : "md"}
+              ></nys-textinput>
+            `
+          : ""}
       </div>
     `;
   }

@@ -313,6 +313,27 @@ input:active:not(:disabled):not(:checked)
   outline: solid var(--_nys-radiobutton-outline-width)
     var(--_nys-radiobutton-outline-color);
 }
+/* When input has focus, show outline on the custom span */
+input:focus + .nys-radiobutton .nys-radiobutton__radio,
+.nys-radiobutton:focus-within .nys-radiobutton__radio {
+  outline: solid var(--_nys-radiobutton-outline-width)
+    var(--_nys-radiobutton-outline-color);
+  outline-offset: var(--_nys-radiobutton-outline-offset);
+}
+/* Screen reader only / visually hidden but accessible */
+.sr-only {
+  position: absolute;
+    width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
 
 .nys-radiobutton__main-container {
   display: flex;
