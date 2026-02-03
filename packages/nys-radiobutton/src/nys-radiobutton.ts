@@ -171,18 +171,19 @@ export class NysRadiobutton extends LitElement {
 
     if (radioSpan) {
       radioSpan.tabIndex = 0;
+      console.log(this.activeFocusable)
       radioSpan.focus();
     }
   }
 
   private _clearRadioVisualFocus() {
-    const radioSpan = this.shadowRoot?.querySelector(
-      ".nys-radiobutton__radio",
-    ) as HTMLElement | null;
+    // const radioSpan = this.shadowRoot?.querySelector(
+    //   ".nys-radiobutton__radio",
+    // ) as HTMLElement | null;
 
-    if (radioSpan) {
-      radioSpan.tabIndex = -1;
-    }
+    // if (radioSpan) {
+    //   radioSpan.tabIndex = -1;
+    // }
   }
 
   /**
@@ -342,7 +343,8 @@ export class NysRadiobutton extends LitElement {
         ?required="${this.required}"
         form=${ifDefined(this.form || undefined)}
         @change="${this._handleChange}"
-        aria-label=${this.label || (this.other ? "Other" : "")}
+        aria-hidden="true"
+        tabindex="-1"
         class="sr-only"
       />
       <div
