@@ -131,8 +131,6 @@ export class NysRadiobutton extends LitElement {
 
     if (changedProperties.has("activeFocusable") && this.activeFocusable) {
       this._focusRadioVisual();
-    } else {
-      this._clearRadioVisualFocus();
     }
   }
 
@@ -174,15 +172,6 @@ export class NysRadiobutton extends LitElement {
       console.log(this.activeFocusable);
       radioSpan.focus();
     }
-  }
-
-  private _clearRadioVisualFocus() {
-    // const radioSpan = this.shadowRoot?.querySelector(
-    //   ".nys-radiobutton__radio",
-    // ) as HTMLElement | null;
-    // if (radioSpan) {
-    //   radioSpan.tabIndex = -1;
-    // }
   }
 
   /**

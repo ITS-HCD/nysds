@@ -212,14 +212,7 @@ export class NysRadiogroup extends LitElement {
 
   // Arrow / Space / Enter navigation at group level
   private async _handleKeyDown(event: KeyboardEvent) {
-    const keys = [
-      "ArrowUp",
-      "ArrowDown",
-      // "ArrowLeft",
-      // "ArrowRight",
-      " ",
-      "Enter",
-    ];
+    const keys = ["ArrowUp", "ArrowDown", " ", "Enter"];
 
     if (!keys.includes(event.key)) return;
     event.preventDefault();
@@ -245,24 +238,6 @@ export class NysRadiogroup extends LitElement {
       index = 0;
     }
 
-    // const currentIndex = radioBtns.findIndex((r) => r.checked);
-    // let newIndex = currentIndex;
-
-    // if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
-    //   newIndex = currentIndex <= 0 ? radioBtns.length - 1 : currentIndex - 1;
-    // } else if (["ArrowDown", "ArrowRight"].includes(event.key)) {
-    //   newIndex = currentIndex >= radioBtns.length - 1 ? 0 : currentIndex + 1;
-    // }
-
-    // The target is the new radiobutton the user want to choose given the keydown type.
-    // We let the target's <input/> dispatch the clickEvent and call _handleRadioButtonChange() directly to make form integration work
-    // const target = radioBtns[index];
-    // const input = await target.getInputElement();
-    // input?.click();
-
-    // this._updateGroupTabIndex();
-    // target.focus();
-
     const target = radioBtns[index];
     const input = await target.getInputElement();
     input?.click();
@@ -284,17 +259,7 @@ export class NysRadiogroup extends LitElement {
       radios.find((radio) => !radio.disabled);
 
     radios.forEach((radio) => {
-      // if (radio.disabled) {
-      //   radio.tabIndex = -1;
-      // } else {
-      //   // radio.tabIndex = radio === active ? 0 : -1;
-      //   radio.activeFocusable = radio === active && !radio.disabled;
-      // }
-
-      // radio.activeFocusable = radio === active;
-
-
-      // Only one radiobutton can be focusable at all times. 
+      // Only one radiobutton can be focusable at all times.
       // Due to this, we calculate logic to determine an active radiobutton and call all other as tabindex="-1"
       if (radio.disabled) {
         radio.tabIndex = -1;
@@ -304,12 +269,6 @@ export class NysRadiogroup extends LitElement {
       } else {
         radio.setAttribute("tabindex", "-1");
       }
-
-      // Need to update ARIA state due to the new tabindex
-      // radio.setAttribute("role", "radio");
-      // radio.setAttribute("aria-checked", radio.checked ? "true" : "false");
-      // radio.setAttribute("aria-disabled", radio.disabled ? "true" : "false");
-      // radio.setAttribute("aria-required", this.required ? "true" : "false");
     });
   }
 
@@ -342,10 +301,6 @@ export class NysRadiogroup extends LitElement {
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
-      // radio.setAttribute("role", "radio");
-      // radio.setAttribute("aria-checked", String(radio.checked));
-      // radio.setAttribute("aria-required", String(radio.required));
-      // radio.setAttribute("aria-disabled", String(radio.disabled));
       radio.setAttribute("tabindex", "-1");
     });
   }
