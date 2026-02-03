@@ -302,10 +302,10 @@ export class NysRadiogroup extends LitElement {
       }
 
       // Need to update ARIA state due to the new tabindex
-      radio.setAttribute("role", "radio");
-      radio.setAttribute("aria-checked", radio.checked ? "true" : "false");
-      radio.setAttribute("aria-disabled", radio.disabled ? "true" : "false");
-      radio.setAttribute("aria-required", this.required ? "true" : "false");
+      // radio.setAttribute("role", "radio");
+      // radio.setAttribute("aria-checked", radio.checked ? "true" : "false");
+      // radio.setAttribute("aria-disabled", radio.disabled ? "true" : "false");
+      // radio.setAttribute("aria-required", this.required ? "true" : "false");
     });
   }
 
@@ -338,10 +338,10 @@ export class NysRadiogroup extends LitElement {
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
-      radio.setAttribute("role", "radio");
-      radio.setAttribute("aria-checked", String(radio.checked));
-      radio.setAttribute("aria-required", String(radio.required));
-      radio.setAttribute("aria-disabled", String(radio.disabled));
+      // radio.setAttribute("role", "radio");
+      // radio.setAttribute("aria-checked", String(radio.checked));
+      // radio.setAttribute("aria-required", String(radio.required));
+      // radio.setAttribute("aria-disabled", String(radio.disabled));
       radio.setAttribute("tabindex", "-1");
     });
   }

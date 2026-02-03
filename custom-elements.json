@@ -6199,11 +6199,6 @@
             },
             {
               "kind": "method",
-              "name": "_syncHostTabIndex",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"

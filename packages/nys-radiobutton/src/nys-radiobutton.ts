@@ -150,7 +150,7 @@ export class NysRadiobutton extends LitElement {
   public formResetUpdate() {
     this.checked = false;
 
-    this.setAttribute("aria-checked", "false");
+    // this.setAttribute("aria-checked", "false");
 
     if (NysRadiobutton.buttonGroup[this.name] === this) {
       delete NysRadiobutton.buttonGroup[this.name];
@@ -342,6 +342,7 @@ export class NysRadiobutton extends LitElement {
         ?required="${this.required}"
         form=${ifDefined(this.form || undefined)}
         @change="${this._handleChange}"
+        aria-label=${this.label || (this.other ? "Other" : "")}
         class="sr-only"
       />
       <div
@@ -350,7 +351,17 @@ export class NysRadiobutton extends LitElement {
         aria-label=${this.label || (this.other ?? "Other")}
       >
         <div class="nys-radiobutton__main-container">
-          <span class="nys-radiobutton__radio"></span>
+          <span
+            class="nys-radiobutton__radio"
+            role="radio"
+            aria-checked=${this.checked ? "true" : "false"}
+            aria-disabled=${this.disabled ? "true" : "false"}
+            aria-required=${this.required ? "true" : "false"}
+            aria-label=${this.label || (this.other ? "Other" : "")}
+            tabindex=${this.activeFocusable && !this.disabled
+              ? ifDefined(undefined)
+              : "-1"}
+          ></span>
           ${(this.label || this.other) &&
           html`<nys-label
             label="${this.label || (this.other ? "Other" : "")}"
