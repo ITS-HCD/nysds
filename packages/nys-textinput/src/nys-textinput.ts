@@ -540,11 +540,9 @@ export class NysTextinput extends LitElement {
               ?readonly=${this.readonly}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
-              aria-label="${ifDefined(
-                this.label
-                  ? [this.label, this.description].filter(Boolean).join(" ")
-                  : undefined,
-              )}"
+              aria-label="${[this.label, this.description]
+                .filter(Boolean)
+                .join(" ") || "Text input"}"
               .value=${this.value}
               placeholder=${ifDefined(
                 this.placeholder ? this.placeholder : undefined,
