@@ -1179,6 +1179,16 @@
             },
             {
               "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "\"strong\" | \"\""
+              },
+              "default": "\"\"",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_prefixIcon",
               "type": {
                 "text": "string | boolean"
@@ -1298,6 +1308,14 @@
               "default": "\"\"",
               "description": "Primary label text displayed in the badge.",
               "fieldName": "label"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "\"strong\" | \"\""
+              },
+              "default": "\"\"",
+              "fieldName": "variant"
             },
             {
               "name": "prefixicon",
