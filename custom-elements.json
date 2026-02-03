@@ -2920,6 +2920,708 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-combobox/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-combobox/src/nys-combobox"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-combobox/src/nys-combobox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-combobox>` is a form-enabled combo box combining text input with a filterable dropdown.\n\nFeatures:\n- Type to filter options\n- Keyboard navigation (Arrow keys, Enter, Escape)\n- Mouse and keyboard interaction\n- Clears non-selected text on blur\n- Clear button when value is selected\n- Integrates with forms via ElementInternals\n- Supports native <option> and <optgroup> elements\n- Accessible per W3C ARIA Authoring Practices",
+          "name": "NysCombobox",
+          "slots": [
+            {
+              "description": "Optional custom description content below the label.",
+              "name": "description"
+            },
+            {
+              "description": "Options (<option>, <optgroup>) to populate the dropdown",
+              "name": "default"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "optional",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "optional",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "form",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "type": {
+                "text": "\"md\" | \"lg\" | \"full\""
+              },
+              "default": "\"full\"",
+              "attribute": "width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "showError",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "errorMessage"
+            },
+            {
+              "kind": "field",
+              "name": "_isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_filterText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_highlightedIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "_options",
+              "type": {
+                "text": "ComboboxOption[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_filteredOptions",
+              "type": {
+                "text": "ComboboxOption[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_dropdownAbove",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_input",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_listbox",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_originalErrorMessage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_selectedLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private",
+              "description": "Slot handling\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_setValue",
+              "privacy": "private",
+              "description": "Form Integration\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_manageRequire",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setValidityMessage",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "message",
+                  "default": "\"\"",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_validate",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback"
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_handleInvalid",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_positionDropdown",
+              "privacy": "private",
+              "description": "Dropdown positioning\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_filterOptions",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "searchText",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Filtering\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_scrollToHighlighted",
+              "privacy": "private",
+              "description": "Keyboard navigation\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeyDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_moveHighlight",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "direction",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleBlur",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleDocumentClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleIconClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleClearClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleLabelClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOptionClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "option",
+                  "type": {
+                    "text": "ComboboxOption"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOptionMouseEnter",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_selectOption",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "option",
+                  "type": {
+                    "text": "ComboboxOption"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_openDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_closeDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderOptions",
+              "privacy": "private",
+              "description": "Render helpers\n--------------------------------------------------------------------------"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired on input change. Detail: `{ id, value }`."
+            },
+            {
+              "name": "nys-focus",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when combobox receives focus."
+            },
+            {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when combobox loses focus."
+            },
+            {
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when selection changes. Detail: `{ id, value }`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "description"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "optional",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "optional"
+            },
+            {
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "tooltip"
+            },
+            {
+              "name": "form",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "fieldName": "form"
+            },
+            {
+              "name": "width",
+              "type": {
+                "text": "\"md\" | \"lg\" | \"full\""
+              },
+              "default": "\"full\"",
+              "fieldName": "width"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "inverted"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showError"
+            },
+            {
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "errorMessage"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-combobox",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-combobox",
+          "declaration": {
+            "name": "NysCombobox",
+            "module": "packages/nys-combobox/src/nys-combobox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCombobox",
+          "declaration": {
+            "name": "NysCombobox",
+            "module": "packages/nys-combobox/src/nys-combobox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-datepicker/src/index.ts",
       "declarations": [],
       "exports": [
@@ -7885,7 +8587,7 @@
             },
             {
               "kind": "method",
-              "name": "_normalizeTable",
+              "name": "_normalizeTableDOM",
               "parameters": [
                 {
                   "name": "table",

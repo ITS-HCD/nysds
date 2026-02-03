@@ -403,6 +403,11 @@ export class NysCombobox extends LitElement {
 
   private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
+
+    if (!this._isOpen) {
+      console.log("opening dropdown on focus");
+      this._openDropdown();
+    }
   }
 
   private _handleBlur(event: FocusEvent) {
@@ -429,9 +434,14 @@ export class NysCombobox extends LitElement {
   }
 
   private _handleDocumentClick = (event: MouseEvent) => {
-    if (!this.shadowRoot?.contains(event.target as Node)) {
-      this._closeDropdown();
+    // Don't close if click is on the combobox host element or inside shadow DOM
+    if (
+      event.target === this ||
+      this.shadowRoot?.contains(event.target as Node)
+    ) {
+      return;
     }
+    this._closeDropdown();
   };
 
   private _handleIconClick() {
@@ -462,11 +472,6 @@ export class NysCombobox extends LitElement {
         composed: true,
       }),
     );
-  }
-
-  private _handleLabelClick() {
-    this._input.focus();
-    this._openDropdown();
   }
 
   private _handleOptionClick(option: ComboboxOption) {
@@ -580,7 +585,6 @@ export class NysCombobox extends LitElement {
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           tooltip=${this.tooltip}
           ?inverted=${this.inverted}
-          @click=${this._handleLabelClick}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
@@ -618,7 +622,6 @@ export class NysCombobox extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeyDown}"
-              @click="${() => !this._isOpen && this._openDropdown()}"
             />
             ${this.value
               ? html`
