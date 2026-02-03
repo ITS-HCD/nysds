@@ -169,8 +169,7 @@ export class NysRadiobutton extends LitElement {
 
     if (radioSpan) {
       radioSpan.tabIndex = 0;
-      console.log(this.activeFocusable);
-      radioSpan.focus();
+      // radioSpan.focus();
     }
   }
 

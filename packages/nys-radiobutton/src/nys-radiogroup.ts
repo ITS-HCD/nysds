@@ -242,11 +242,13 @@ export class NysRadiogroup extends LitElement {
     const input = await target.getInputElement();
     input?.click();
 
+    await this.updateComplete;
+    this._updateGroupTabIndex();
+
     const focusableSpan = target.shadowRoot?.querySelector<HTMLElement>(
       ".nys-radiobutton__radio",
     );
     focusableSpan?.focus();
-    this._updateGroupTabIndex();
   }
 
   private _updateGroupTabIndex() {
