@@ -215,8 +215,8 @@ export class NysRadiogroup extends LitElement {
     const keys = [
       "ArrowUp",
       "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
+      // "ArrowLeft",
+      // "ArrowRight",
       " ",
       "Enter",
     ];
@@ -293,7 +293,6 @@ export class NysRadiogroup extends LitElement {
 
       // radio.activeFocusable = radio === active;
 
-      console.log(active, radio === active)
 
       // Only one radiobutton can be focusable at all times. 
       // Due to this, we calculate logic to determine an active radiobutton and call all other as tabindex="-1"
@@ -301,9 +300,7 @@ export class NysRadiogroup extends LitElement {
         radio.tabIndex = -1;
       } else if (radio === active) {
         radio.removeAttribute("tabindex");
-        console.log("WE ARE HERE")
         radio.activeFocusable = true;
-        console.log("radio.activeFocusable", radio.activeFocusable)
       } else {
         radio.setAttribute("tabindex", "-1");
       }

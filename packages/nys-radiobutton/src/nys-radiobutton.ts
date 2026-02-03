@@ -206,7 +206,7 @@ export class NysRadiobutton extends LitElement {
     );
   }
 
-  // Handle radiobutton change event & unselection of other options in group
+  // Handle radiobutton change event & un-selection of other radio options in group
   private async _handleChange() {
     // Remove active-focus so the focus outline doesn't linger
     // when the user selects a choice, since form focus is no longer needed
@@ -244,9 +244,9 @@ export class NysRadiobutton extends LitElement {
   private _handleBlur() {
     this.classList.remove("active-focus"); // removing this classList so the focus ring for handleInvalid() at radiogroup level will disappear
     this.dispatchEvent(new Event("nys-blur"));
-
+console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus)
     setTimeout(() => {
-      if (!this._textInputHasFocus && this.other && this.checked) {
+      if (this._textInputHasFocus && this.other && this.checked) {
         this._hasUserInteracted = true;
         this._validateOtherAndEmitError();
       }
@@ -284,6 +284,7 @@ export class NysRadiobutton extends LitElement {
   }
 
   private _handleTextInputBlur() {
+    console.log("BLUR???")
     this._textInputHasFocus = false;
     this._hasUserInteracted = true;
     this._validateOtherAndEmitError();
@@ -301,6 +302,7 @@ export class NysRadiobutton extends LitElement {
   private _validateOtherAndEmitError() {
     if (!this.other) return;
 
+    console.log("this._hasUserInteracted", this._hasUserInteracted)
     if (!this.checked || !this._hasUserInteracted) {
       this.showOtherError = false;
       return;
