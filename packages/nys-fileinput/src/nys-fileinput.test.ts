@@ -152,7 +152,7 @@ describe("nys-fileinput", () => {
     await el.updateComplete;
 
     // Wait for all requestUpdate()s from FileReader.onload to finish
-    await new Promise((resolve) => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, 200));
     await el.updateComplete;
 
     const button = el.shadowRoot?.querySelector("nys-button");
