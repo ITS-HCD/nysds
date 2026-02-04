@@ -30,7 +30,42 @@ describe("nys-badge", () => {
     const el = await fixture<NysBadge>(
       html`<nys-badge label="My Label"></nys-badge>`,
     );
+    await el.updateComplete;
+
     expect(el.intent).to.equal("neutral");
+
+    const computed = getComputedStyle(el);
+    const backgroundColor = computed.getPropertyValue(
+      "--_nys-badge-background-color",
+    );
+    const borderColor = computed.getPropertyValue("--_nys-badge-border-color");
+    expect(backgroundColor).to.equal("#f6f6f6");
+    expect(borderColor).to.equal("#62666a");
+  });
+
+  it("strong is applied properly", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge
+        label="My Label"
+        intent="success"
+        variant="strong"
+        prefixIcon
+      ></nys-badge>`,
+    );
+    await el.updateComplete;
+
+    expect(el.intent).to.equal("success");
+
+    const computed = getComputedStyle(el);
+    const backgroundColor = computed.getPropertyValue(
+      "--_nys-badge-background-color",
+    );
+    const borderColor = computed.getPropertyValue("--_nys-badge-border-color");
+    const color = computed.getPropertyValue("--_nys-badge-color");
+
+    expect(backgroundColor).to.equal("#1E752E");
+    expect(borderColor).to.equal("#1E752E");
+    expect(color).to.equal("#ffffff");
   });
 
   it("can have custom icons", async () => {
