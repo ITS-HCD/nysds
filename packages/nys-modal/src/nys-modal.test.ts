@@ -8,6 +8,14 @@ describe("nys-modal", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysModal>(html`<nys-modal></nys-modal>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-modal-\d+-\d+$/);
+  });
+
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysModal>(html`
       <nys-modal

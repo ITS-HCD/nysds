@@ -3,6 +3,19 @@ import { NysAvatar } from "./nys-avatar";
 import "../dist/nys-avatar.js";
 
 describe("nys-avatar", () => {
+  it("renders the component", async () => {
+    const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
+    expect(el).to.exist;
+  });
+
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-avatar-\d+-\d+$/);
+  });
+
   it("should have default color as #eff6fb", async () => {
     const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
 

@@ -2,8 +2,8 @@ import { execSync } from "child_process";
 
 // Define the build order for your packages
 const packages = [
-  { name: "styles", path: "packages/styles/uswds" }, // compile USWDS using their built-in Gulp script
-  { name: "styles", path: "packages/styles/" }, // run the nysds vite build
+  { name: "tokens", path: "packages/tokens" },
+  { name: "styles", path: "packages/styles" },
   { name: "nys-accordion", path: "packages/nys-accordion" },
   { name: "nys-alert", path: "packages/nys-alert" },
   { name: "nys-avatar", path: "packages/nys-avatar" },

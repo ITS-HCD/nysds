@@ -1,0 +1,24 @@
+// ============================================
+// NYSDS Padding Utilities
+// Uniform and directional padding classes
+// ============================================
+
+@use "config" as *;
+
+// Uniform padding
+@each $name, $value in $spacing {
+  .nys-padding-#{$name} {
+    padding: $value;
+  }
+}
+
+// Directional padding
+@each $name, $value in $spacing {
+  @each $dir-name, $props in $directions {
+    .nys-padding-#{$dir-name}-#{$name} {
+      @each $prop in $props {
+        padding-#{$prop}: $value;
+      }
+    }
+  }
+}

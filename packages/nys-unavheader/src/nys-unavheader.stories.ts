@@ -9,6 +9,7 @@ import "@nysds/nys-textinput";
 interface NysUnavHeaderArgs {
   hideTranslate: boolean;
   hideSearch: boolean;
+  searchUrl: string;
 }
 
 const meta: Meta<NysUnavHeaderArgs> = {
@@ -17,6 +18,7 @@ const meta: Meta<NysUnavHeaderArgs> = {
   argTypes: {
     hideTranslate: { control: "boolean" },
     hideSearch: { control: "boolean" },
+    searchUrl: { control: "text" },
   },
   parameters: {
     docs: {
@@ -29,19 +31,17 @@ const meta: Meta<NysUnavHeaderArgs> = {
 export default meta;
 type Story = StoryObj<NysUnavHeaderArgs>;
 
-// Stories
-// Define stories without using args
-
-// Story: Basic
 export const Basic: Story = {
   args: {
     hideTranslate: false,
     hideSearch: false,
+    searchUrl: "",
   },
   render: (args) =>
     html`<nys-unavheader
       .hideTranslate=${args.hideTranslate}
       .hideSearch=${args.hideSearch}
+      .searchUrl=${args.searchUrl}
     ></nys-unavheader>`,
   parameters: {
     docs: {
@@ -53,11 +53,11 @@ export const Basic: Story = {
   },
 };
 
-// Story: Basic
 export const HideTranslateSearch: Story = {
   args: {
     hideTranslate: true,
     hideSearch: true,
+    searchUrl: "",
   },
   render: (args) =>
     html`<nys-unavheader
@@ -68,6 +68,28 @@ export const HideTranslateSearch: Story = {
     docs: {
       source: {
         code: `<nys-unavheader hideTranslate hideSearch></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomSearchUrl: Story = {
+  args: {
+    hideTranslate: true,
+    hideSearch: false,
+    searchUrl: "https://www.google.com/search?q=",
+  },
+  render: (args) =>
+    html`<nys-unavheader
+      .hideTranslate=${args.hideTranslate}
+      .hideSearch=${args.hideSearch}
+      .searchUrl=${args.searchUrl}
+    ></nys-unavheader>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-unavheader hideTranslate searchUrl="https://www.google.com/search?q="></nys-unavheader>`,
         type: "auto",
       },
     },

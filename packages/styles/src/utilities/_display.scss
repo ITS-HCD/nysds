@@ -1,0 +1,13 @@
+// ============================================
+// NYSDS Display Utilities
+// Display property utilities with responsive variants
+// ============================================
+
+@use "config" as *;
+@use "mixins" as *;
+
+@each $value in $display-values {
+  @include responsive-variants("nys-display-#{$value}") {
+    display: $value;
+  }
+}

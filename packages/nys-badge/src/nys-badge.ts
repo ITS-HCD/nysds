@@ -3,27 +3,61 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-badge.scss?inline";
 
+let badgeIdCounter = 0;
+
 /**
- * `<nys-badge>` displays a badge with optional prefix/suffix icons and labels.
+ * A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.
  *
- * Features:
- * - Conveys an intent (`neutral`, `error`, `success`, `warning`) which affects default icons and styling.
- * - Supports custom prefix and suffix icons.
+ * Use badges to highlight metadata like status ("Approved"), counts ("3 new"), or categories.
+ * Set `intent` to apply semantic meaning. Add `prefixIcon` or `suffixIcon` as boolean for default icons,
+ * or pass icon name strings for custom icons.
+ *
+ * @summary Compact label for status, counts, or categorization with semantic styling.
+ * @element nys-badge
+ *
+ * @example Status badge
+ * ```html
+ * <nys-badge intent="success" label="Approved" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Count badge
+ * ```html
+ * <nys-badge prefixLabel="Messages" label="12"></nys-badge>
+ * ```
  */
 
 export class NysBadge extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name attribute for form association. */
   @property({ type: String, reflect: true }) name = "";
+
+  /**
+   * Badge size: `sm` (smaller text) or `md` (default).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
+
+  /**
+   * Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.
+   * @default "neutral"
+   */
   @property({ type: String, reflect: true }) intent:
     | "neutral"
     | "error"
     | "success"
     | "warning" = "neutral";
+
+  /** Secondary label displayed before the main label. */
   @property({ type: String }) prefixLabel = "";
+
+  /** Primary label text displayed in the badge. */
   @property({ type: String }) label = "";
+
+  @property({ type: String, reflect: true }) variant: "strong" | "" = "";
 
   // Icons (string or boolean)
   private _prefixIcon: string | boolean = "";
@@ -64,6 +98,10 @@ export class NysBadge extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    if (!this.id) {
+      this.id = `nys-badge-${Date.now()}-${badgeIdCounter++}`;
+    }
 
     const attr = this.getAttribute("prefixicon");
     if (attr !== null && this.prefixIcon === "") {

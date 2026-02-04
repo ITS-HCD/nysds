@@ -8,6 +8,14 @@ describe("nys-divider", () => {
     expect(el).to.exist;
   });
 
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysDivider>(html`<nys-divider></nys-divider>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-divider-\d+-\d+$/);
+  });
+
   it("reflects inverted property correctly", async () => {
     const el = await fixture<NysDivider>(html`
       <nys-divider inverted></nys-divider>

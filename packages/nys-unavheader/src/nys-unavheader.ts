@@ -5,26 +5,49 @@ import nysLogo from "./nys-unav.logo";
 import styles from "./nys-unavheader.scss?inline";
 
 /**
- * `<nys-unavheader>` is a universal header for New York State websites.
+ * Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.
  *
- * Features:
- * - Trust bar indicating official NYS site status, with expandable details
- * - NYS logo linking to the homepage
- * - Search bar with dropdown behavior for mobile and desktop
- * - Language translation dropdown supporting multiple languages
- * - Accessible interactions with ARIA attributes and keyboard handling
+ * Place as the first element in `<body>`. Includes "official site" trust indicator, NY.gov logo,
+ * site search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`
+ * to remove features if not applicable.
+ *
+ * @summary Universal NYS header with trust bar, search, and translation. Required site-wide.
+ * @element nys-unavheader
+ *
+ * @example Standard usage
+ * ```html
+ * <nys-unavheader></nys-unavheader>
+ * <nys-globalheader>...</nys-globalheader>
+ * ```
+ *
+ * @example Without search
+ * ```html
+ * <nys-unavheader hideSearch></nys-unavheader>
+ * ```
  */
 
 export class NysUnavHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Internal: Whether trust bar panel is expanded. */
   @property({ type: Boolean }) trustbarVisible = false;
+
+  /** Internal: Whether search dropdown is visible (mobile). */
   @property({ type: Boolean }) searchDropdownVisible = false;
+
+  /** Internal: Whether language dropdown is visible. */
   @property({ type: Boolean }) languageVisible = false;
+
+  /** Internal: Whether search input is focused. */
   @property({ type: Boolean }) isSearchFocused = false;
+
+  /** Hides the translation dropdown. */
   @property({ type: Boolean }) hideTranslate = false;
+
+  /** Hides the search functionality. */
   @property({ type: Boolean }) hideSearch = false;
-  @property({ type: Array, reflect: true })
+  @property({ type: String }) searchUrl = "";
+  @property({ type: Array })
   private languages: [string, string][] = [
     ["English", ""],
     ["Español", "es"],
@@ -143,7 +166,24 @@ export class NysUnavHeader extends LitElement {
   }
 
   private _handleSearch(searchValue: string) {
-    window.location.href = `https://search.its.ny.gov/search/search.html?btnG=Search&client=default_frontend&output=xml_no_dtd&proxystylesheet=default_frontend&ulang=en&sort=date:D:L:d1&entqr=3&entqrm=0&wc=200&wc_mc=1&oe=UTF-8&ie=UTF-8&ud=1&site=default_collection&q=${searchValue}+inurl:${window.location.hostname}&site=default_collection`;
+    const event = new CustomEvent("nys-search-submit", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: { query: searchValue },
+    });
+
+    this.dispatchEvent(event);
+
+    if (!event.defaultPrevented) {
+      if (this.searchUrl) {
+        // Custom search URL
+        window.location.href = `${this.searchUrl}${encodeURIComponent(searchValue)}`;
+      } else {
+        // Default Google Search Appliance
+        window.location.href = `https://search.its.ny.gov/search/search.html?q=${encodeURIComponent(searchValue)}+inurl:${window.location.hostname}&site=default_collection`;
+      }
+    }
   }
 
   render() {

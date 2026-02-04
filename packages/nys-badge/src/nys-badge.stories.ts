@@ -9,6 +9,7 @@ interface NysBadgeArgs {
   name: string;
   size: "sm" | "md";
   intent: "neutral" | "error" | "success" | "warning";
+  variant: "" | "strong";
   prefixLabel: string;
   label: string;
   prefixIcon: string;
@@ -30,6 +31,11 @@ const meta: Meta<NysBadgeArgs> = {
       control: "select",
       options: ["neutral", "error", "success", "warning"],
       description: "Intent of the badge",
+    },
+    variant: {
+      control: "select",
+      options: ["", "strong"],
+      description: "Variant of the badge",
     },
     prefixLabel: { control: "text", description: "Prefix text" },
     prefixIcon: {
@@ -66,6 +72,7 @@ export const Basic: Story = {
       .label=${args.label}
       .size=${args.size}
       .intent=${args.intent}
+      .variant=${args.variant}
       .prefixLabel=${args.prefixLabel}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
@@ -100,6 +107,73 @@ export const Intent: Story = {
   <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
   <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
   <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+</div>
+`,
+      },
+    },
+  },
+};
+
+export const Strong: Story = {
+  render: () => html`
+    <div class="nys-grid-row nys-grid-gap-1">
+      <nys-badge
+        label="Neutral"
+        prefixIcon
+        prefixLabel="prefix"
+        suffixicon
+        variant="strong"
+      ></nys-badge>
+      <nys-badge
+        label="Error"
+        intent="error"
+        prefixIcon
+        prefixLabel="prefix"
+        suffixicon
+        variant="strong"
+      ></nys-badge>
+      <nys-badge
+        label="Warning"
+        intent="warning"
+        prefixIcon
+        prefixLabel="prefix"
+        suffixicon
+        variant="strong"
+      ></nys-badge>
+      <nys-badge
+        label="Success"
+        intent="success"
+        prefixIcon
+        prefixLabel="prefix"
+        suffixicon
+        variant="strong"
+      ></nys-badge>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        type: "auto",
+        code: `
+<div class="nys-grid-row nys-grid-gap-1">
+      <nys-badge
+        label="Error"
+        intent="error"
+        prefixIcon
+        variant="strong"
+      ></nys-badge>
+      <nys-badge
+        label="Warning"
+        intent="warning"
+        prefixIcon
+        variant="strong"
+      ></nys-badge>
+      <nys-badge
+        label="Success"
+        intent="success"
+        prefixIcon
+        variant="strong"
+      ></nys-badge>
 </div>
 `,
       },

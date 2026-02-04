@@ -1,0 +1,28 @@
+// ============================================
+// NYSDS Overflow Utilities
+// Overflow utilities with responsive variants
+// ============================================
+
+@use "config" as *;
+@use "mixins" as *;
+
+// Base overflow (all directions)
+@each $value in $overflow-values {
+  @include responsive-variants("nys-overflow-#{$value}") {
+    overflow: $value;
+  }
+}
+
+// Overflow X
+@each $value in $overflow-values {
+  @include responsive-variants("nys-overflow-x-#{$value}") {
+    overflow-x: $value;
+  }
+}
+
+// Overflow Y
+@each $value in $overflow-values {
+  @include responsive-variants("nys-overflow-y-#{$value}") {
+    overflow-y: $value;
+  }
+}

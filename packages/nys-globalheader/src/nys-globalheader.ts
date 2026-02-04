@@ -4,26 +4,34 @@ import { property, state } from "lit/decorators.js";
 import styles from "./nys-globalheader.scss?inline";
 
 /**
- * `<nys-globalheader>` renders a New York State–style global header.
+ * Agency-branded header with app/agency name, navigation, and responsive mobile menu.
  *
- * Displays an optional application name, agency name, and homepage link.
- * Supports slotted navigation content with automatic active-link detection
- * and a responsive mobile menu.
+ * Place below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links
+ * are auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.
  *
- * @slot default - Primary navigation list, typically a `<ul>` with links
- * @slot user-actions - Optional user action elements such as login or profile
+ * @summary Agency header with navigation, mobile menu, and active link highlighting.
+ * @element nys-globalheader
  *
- * Behavior:
- * - Automatically highlights the best matching link based on the current URL
- * - Duplicates navigation content for desktop and mobile layouts
- * - Provides a toggleable mobile menu when navigation content exists
+ * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ *
+ * @example Basic header
+ * ```html
+ * <nys-globalheader appName="My App" agencyName="Department of Health" homepageLink="/">
+ *   <ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
+ * </nys-globalheader>
+ * ```
  */
 
 export class NysGlobalHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Application name displayed prominently. */
   @property({ type: String }) appName = "";
+
+  /** Agency name displayed below app name (or as main title if no appName). */
   @property({ type: String }) agencyName = "";
+
+  /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
   @state() private isMobileMenuOpen = false;
   @state() private hasLinkContent = false;

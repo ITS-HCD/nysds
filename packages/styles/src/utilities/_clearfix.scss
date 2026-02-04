@@ -1,0 +1,10 @@
+// ============================================
+// NYSDS Clearfix Utility
+// Clearfix for floated content
+// ============================================
+
+.nys-clearfix::after {
+  clear: both;
+  content: "";
+  display: block;
+}
