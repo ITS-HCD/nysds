@@ -144,6 +144,13 @@ export class NysRadiobutton extends LitElement {
     return this.shadowRoot?.querySelector("input") || null;
   }
 
+  public focusRadiobutton() {
+    const radioBtn = this.shadowRoot?.querySelector(
+      ".nys-radiobutton__radio",
+    ) as HTMLElement;
+    radioBtn.focus();
+  }
+
   // This callback is automatically called when the parent form is reset.
   public formResetUpdate() {
     this.checked = false;
@@ -169,7 +176,6 @@ export class NysRadiobutton extends LitElement {
 
     if (radioSpan) {
       radioSpan.tabIndex = 0;
-      // radioSpan.focus();
     }
   }
 
@@ -271,7 +277,6 @@ export class NysRadiobutton extends LitElement {
   }
 
   private _handleTextInputBlur() {
-    console.log("BLUR???");
     this._textInputHasFocus = false;
     this._hasUserInteracted = true;
     this._validateOtherAndEmitError();

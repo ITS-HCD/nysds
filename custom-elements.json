@@ -6197,6 +6197,11 @@
             },
             {
               "kind": "method",
+              "name": "focusRadiobutton",
+              "privacy": "public"
+            },
+            {
+              "kind": "method",
               "name": "formResetUpdate",
               "privacy": "public"
             },
@@ -6208,11 +6213,6 @@
             {
               "kind": "method",
               "name": "_focusRadioVisual",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_clearRadioVisualFocus",
               "privacy": "private"
             },
             {
