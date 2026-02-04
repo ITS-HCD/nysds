@@ -6217,6 +6217,11 @@
             },
             {
               "kind": "method",
+              "name": "_clearOtherState",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
@@ -6302,6 +6307,12 @@
             }
           ],
           "events": [
+            {
+              "name": "nys-error-clear",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
             {
               "name": "nys-change",
               "type": {

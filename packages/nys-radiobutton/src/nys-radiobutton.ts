@@ -119,6 +119,15 @@ export class NysRadiobutton extends LitElement {
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     // When "checked" changes, update the internals.
     if (changedProperties.has("checked")) {
+      const wasChecked = changedProperties.get("checked") as
+        | boolean
+        | undefined;
+
+      // If this radio was unchecked, clear "other" error state
+      if (wasChecked && !this.checked) {
+        this._clearOtherState();
+      }
+
       // Ensure only one radiobutton per group is checked.
       if (this.checked && NysRadiobutton.buttonGroup[this.name] !== this) {
         if (NysRadiobutton.buttonGroup[this.name]) {
@@ -154,8 +163,7 @@ export class NysRadiobutton extends LitElement {
   // This callback is automatically called when the parent form is reset.
   public formResetUpdate() {
     this.checked = false;
-
-    // this.setAttribute("aria-checked", "false");
+    this._clearOtherState();
 
     if (NysRadiobutton.buttonGroup[this.name] === this) {
       delete NysRadiobutton.buttonGroup[this.name];
@@ -177,6 +185,27 @@ export class NysRadiobutton extends LitElement {
     if (radioSpan) {
       radioSpan.tabIndex = 0;
     }
+  }
+
+  private _clearOtherState() {
+    if (!this.other) return;
+
+    this.showOtherError = false;
+    this._hasUserInteracted = false;
+    this._textInputHasFocus = false;
+
+    // Optional: clear error at the group level
+    this.dispatchEvent(
+      new CustomEvent("nys-error-clear", {
+        detail: {
+          id: this.id,
+          name: this.name,
+          type: "other",
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   /**
@@ -201,10 +230,6 @@ export class NysRadiobutton extends LitElement {
 
   // Handle radiobutton change event & un-selection of other radio options in group
   private async _handleChange() {
-    // Remove active-focus so the focus outline doesn't linger
-    // when the user selects a choice, since form focus is no longer needed
-    this.classList.remove("active-focus");
-
     this.showOtherError = false;
 
     if (!this.checked && !this.disabled) {
@@ -235,9 +260,7 @@ export class NysRadiobutton extends LitElement {
 
   // Handle blur event
   private _handleBlur() {
-    this.classList.remove("active-focus"); // removing this classList so the focus ring for handleInvalid() at radiogroup level will disappear
     this.dispatchEvent(new Event("nys-blur"));
-    console.log("WHY IS this._textInputHasFocus", this._textInputHasFocus);
     setTimeout(() => {
       if (this._textInputHasFocus && this.other && this.checked) {
         this._hasUserInteracted = true;
@@ -294,7 +317,6 @@ export class NysRadiobutton extends LitElement {
   private _validateOtherAndEmitError() {
     if (!this.other) return;
 
-    console.log("this._hasUserInteracted", this._hasUserInteracted);
     if (!this.checked || !this._hasUserInteracted) {
       this.showOtherError = false;
       return;
