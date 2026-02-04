@@ -6197,22 +6197,12 @@
             },
             {
               "kind": "method",
-              "name": "focusRadiobutton",
-              "privacy": "public"
-            },
-            {
-              "kind": "method",
               "name": "formResetUpdate",
               "privacy": "public"
             },
             {
               "kind": "field",
               "name": "_handleResize",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_focusRadioVisual",
               "privacy": "private"
             },
             {
@@ -6282,19 +6272,6 @@
             {
               "kind": "method",
               "name": "_handleOtherKeydown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_handleRadioKeydown",
               "privacy": "private",
               "parameters": [
                 {

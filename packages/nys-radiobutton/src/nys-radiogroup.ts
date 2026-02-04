@@ -244,11 +244,12 @@ export class NysRadiogroup extends LitElement {
 
     await this.updateComplete;
     this._updateGroupTabIndex();
+    target.focus();
 
-    const focusableSpan = target.shadowRoot?.querySelector<HTMLElement>(
-      ".nys-radiobutton__radio",
-    );
-    focusableSpan?.focus();
+    // const focusableSpan = target.shadowRoot?.querySelector<HTMLElement>(
+    //   ".nys-radiobutton__radio",
+    // );
+    // focusableSpan?.focus();
   }
 
   private _updateGroupTabIndex() {
@@ -265,7 +266,8 @@ export class NysRadiogroup extends LitElement {
       if (radio.disabled) {
         radio.tabIndex = -1;
       } else if (radio === active) {
-        radio.removeAttribute("tabindex");
+        // radio.removeAttribute("tabindex");
+        radio.tabIndex = 0;
         radio.activeFocusable = true;
       } else {
         radio.setAttribute("tabindex", "-1");
@@ -303,6 +305,9 @@ export class NysRadiogroup extends LitElement {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
       radio.setAttribute("role", "radio");
+      radio.setAttribute("aria-checked", String(radio.checked));
+      radio.setAttribute("aria-required", String(radio.required));
+      radio.setAttribute("aria-disabled", String(radio.disabled));
       radio.setAttribute("tabindex", "-1");
     });
   }
@@ -440,12 +445,12 @@ export class NysRadiogroup extends LitElement {
               !element.checkValidity(),
           );
           if (firstInvalidElement === this) {
-            firstRadio.focusRadiobutton();
+            firstRadio.focus();
             // firstRadio.classList.add("active-focus"); // Needed to show focus outline; will be removed if user clicks to select
           }
         } else {
           // If not part of a form, simply focus.
-          firstRadio.focusRadiobutton();
+          firstRadio.focus();
           // firstRadio.classList.add("active-focus");
         }
       }

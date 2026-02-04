@@ -138,9 +138,9 @@ export class NysRadiobutton extends LitElement {
       }
     }
 
-    if (changedProperties.has("activeFocusable") && this.activeFocusable) {
-      this._focusRadioVisual();
-    }
+    // if (changedProperties.has("activeFocusable") && this.activeFocusable) {
+    //   this._focusRadioVisual();
+    // }
   }
 
   /**
@@ -153,12 +153,12 @@ export class NysRadiobutton extends LitElement {
     return this.shadowRoot?.querySelector("input") || null;
   }
 
-  public focusRadiobutton() {
-    const radioBtn = this.shadowRoot?.querySelector(
-      ".nys-radiobutton__radio",
-    ) as HTMLElement;
-    radioBtn.focus();
-  }
+  // public focusRadiobutton() {
+  //   const radioBtn = this.shadowRoot?.querySelector(
+  //     ".nys-radiobutton__radio",
+  //   ) as HTMLElement;
+  //   radioBtn.focus();
+  // }
 
   // This callback is automatically called when the parent form is reset.
   public formResetUpdate() {
@@ -177,15 +177,15 @@ export class NysRadiobutton extends LitElement {
     this.isMobile = window.innerWidth < 480;
   };
 
-  private _focusRadioVisual() {
-    const radioSpan = this.shadowRoot?.querySelector(
-      ".nys-radiobutton__radio",
-    ) as HTMLElement | null;
+  // private _focusRadioVisual() {
+  //   const radioSpan = this.shadowRoot?.querySelector(
+  //     ".nys-radiobutton__radio",
+  //   ) as HTMLElement | null;
 
-    if (radioSpan) {
-      radioSpan.tabIndex = 0;
-    }
-  }
+  //   if (radioSpan) {
+  //     radioSpan.tabIndex = 0;
+  //   }
+  // }
 
   private _clearOtherState() {
     if (!this.other) return;
@@ -348,12 +348,6 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
-  private _handleRadioKeydown(e: KeyboardEvent) {
-    if (e.key == "Space" || e.key === " ") {
-      e.stopPropagation();
-      this._focusOnTextInput();
-    }
-  }
 
   render() {
     return html`
@@ -378,14 +372,7 @@ export class NysRadiobutton extends LitElement {
         <div class="nys-radiobutton__main-container">
           <span
             class="nys-radiobutton__radio"
-            role="radio"
-            aria-checked=${this.checked ? "true" : "false"}
-            aria-disabled=${this.disabled ? "true" : "false"}
-            aria-required=${this.required ? "true" : "false"}
-            aria-label=${this.label ||
-            ifDefined(this.other ? "Other" : undefined)}
-            tabindex=${this.activeFocusable && !this.disabled ? 0 : -1}
-            @keydown="${this._handleRadioKeydown}"
+
           ></span>
           ${(this.label || this.other) &&
           html`<nys-label

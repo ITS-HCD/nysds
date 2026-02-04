@@ -308,11 +308,14 @@ input:active:not(:disabled):not(:checked)
 }
 
 /* Focused */
-// :host:focus-visible,
-// :host(.active-focus) {
-//   outline: solid var(--_nys-radiobutton-outline-width)
-//     var(--_nys-radiobutton-outline-color);
-// }
+:host(:focus-visible) {
+  outline: none;
+}
+:host(:focus-visible) .nys-radiobutton__radio {
+  outline: solid var(--_nys-radiobutton-outline-width)
+    var(--_nys-radiobutton-outline-color);
+}
+
 /* When input has focus, show outline on the custom span */
 input:focus + .nys-radiobutton .nys-radiobutton__radio,
 .nys-radiobutton:focus-within .nys-radiobutton__radio {
