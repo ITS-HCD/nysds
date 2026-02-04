@@ -381,6 +381,87 @@ describe("nys-checkbox", () => {
     expect(el.showOtherError).to.be.false;
   });
 
+  it("checks 'other' produces the textbox with no error", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox label="Option 1"></nys-checkbox>
+        <nys-checkbox other></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const checkboxes = Array.from(group.querySelectorAll("nys-checkbox"));
+    const otherCheckbox = checkboxes.find(
+      (checkbox) => checkbox.other,
+    ) as NysCheckbox;
+
+    // Check the other checkbox
+    const input = await otherCheckbox.getInputElement();
+    input?.click();
+    await otherCheckbox.updateComplete;
+
+    // Textbox should appear
+    const textInput = otherCheckbox.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+    expect(otherCheckbox.showOtherError).to.be.false;
+  });
+
+  it("clicking off 'other' textbox while still checked produces an error", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox label="Option 1" value="1"></nys-checkbox>
+        <nys-checkbox other checked value=""></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const checkboxes = Array.from(group.querySelectorAll("nys-checkbox"));
+    const otherCheckbox = checkboxes.find(
+      (checkbox) => checkbox.other,
+    ) as NysCheckbox;
+
+    const textInput = otherCheckbox.shadowRoot?.querySelector("nys-textinput");
+
+    expect(otherCheckbox.showOtherError).to.be.false;
+
+    // Trigger blur event (clicking off)
+    const blurEvent = new Event("nys-blur", { bubbles: true });
+    textInput?.dispatchEvent(blurEvent);
+    await otherCheckbox.updateComplete;
+
+    // Error should be shown
+    expect(otherCheckbox.showOtherError).to.be.true;
+  });
+
+  it("unchecking 'other' clears any errors for the 'other' field", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox label="Option 1" value="1"></nys-checkbox>
+        <nys-checkbox other checked value=""></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const checkboxes = Array.from(group.querySelectorAll("nys-checkbox"));
+    const otherCheckbox = checkboxes.find(
+      (checkbox) => checkbox.other,
+    ) as NysCheckbox;
+
+    const textInput = otherCheckbox.shadowRoot?.querySelector("nys-textinput");
+
+    // First trigger an error
+    const blurEvent = new Event("nys-blur", { bubbles: true });
+    textInput?.dispatchEvent(blurEvent);
+    await otherCheckbox.updateComplete;
+
+    expect(otherCheckbox.showOtherError).to.be.true;
+
+    // Unchecking the checkbox
+    const input = await otherCheckbox.getInputElement();
+    input?.click();
+    await otherCheckbox.updateComplete;
+
+    // Error should be cleared
+    expect(otherCheckbox.showOtherError).to.be.false;
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(

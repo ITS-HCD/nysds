@@ -510,7 +510,15 @@ export class NysCheckboxgroup extends LitElement {
 
   render() {
     return html`
-      <div class="nys-checkboxgroup">
+      <fieldset
+        aria-label="${this.label}${this._slottedDescriptionText
+          ? ` ${this._slottedDescriptionText}`
+          : this.description
+            ? ` ${this.description}`
+            : ""}"
+        class="nys-checkboxgroup"
+        role="radiogroup"
+      >
         <nys-label
           for=${this.id + "--native"}
           label=${this.label}
@@ -522,23 +530,14 @@ export class NysCheckboxgroup extends LitElement {
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
         <div class="nys-checkboxgroup__content">
-          <fieldset>
-            <legend class="sr-only">
-              ${this.label}${this._slottedDescriptionText
-                ? ` ${this._slottedDescriptionText}`
-                : this.description
-                  ? ` ${this.description}`
-                  : ""}
-            </legend>
-            <slot></slot>
-          </fieldset>
+          <slot></slot>
         </div>
         <nys-errormessage
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
           .showDivider=${!this.tile}
         ></nys-errormessage>
-      </div>
+      </fieldset>
     `;
   }
 }

@@ -253,7 +253,6 @@ export class NysRadiogroup extends LitElement {
 
   private _updateGroupTabIndex() {
     const radios = this._getAllRadios();
-    // const active = radios.find((radio) => radio.checked) || radios[0]; // If none checked, make first radiobutton tabbable
 
     // Pick active: checked first, otherwise first enabled
     const active =
@@ -303,6 +302,7 @@ export class NysRadiogroup extends LitElement {
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
+      radio.setAttribute("role", "radio");
       radio.setAttribute("tabindex", "-1");
     });
   }
@@ -468,7 +468,15 @@ export class NysRadiogroup extends LitElement {
   }
 
   render() {
-    return html`<div class="nys-radiogroup">
+    return html`<fieldset
+      aria-label="${this.label}${this._slottedDescriptionText
+        ? ` ${this._slottedDescriptionText}`
+        : this.description
+          ? ` ${this.description}`
+          : ""}"
+      role="radiogroup"
+      class="nys-radiogroup"
+    >
       <nys-label
         for=${this.id + "--native"}
         label=${this.label}
@@ -479,24 +487,15 @@ export class NysRadiogroup extends LitElement {
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
-      <div class="nys-radiogroup__content">
-        <fieldset role="radiogroup" @keydown=${this._handleKeyDown}>
-          <legend class="sr-only">
-            ${this.label}${this._slottedDescriptionText
-              ? ` ${this._slottedDescriptionText}`
-              : this.description
-                ? ` ${this.description}`
-                : ""}
-          </legend>
-          <slot></slot>
-        </fieldset>
+      <div class="nys-radiogroup__content" @keydown=${this._handleKeyDown}>
+        <slot></slot>
       </div>
       <nys-errormessage
         ?showError=${this.showError}
         errorMessage=${this._internals.validationMessage || this.errorMessage}
         .showDivider=${!this.tile}
       ></nys-errormessage>
-    </div>`;
+    </fieldset>`;
   }
 }
 

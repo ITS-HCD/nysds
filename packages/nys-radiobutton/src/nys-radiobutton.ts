@@ -384,9 +384,7 @@ export class NysRadiobutton extends LitElement {
             aria-required=${this.required ? "true" : "false"}
             aria-label=${this.label ||
             ifDefined(this.other ? "Other" : undefined)}
-            tabindex=${this.activeFocusable && !this.disabled
-              ? ifDefined(undefined)
-              : "-1"}
+            tabindex=${this.activeFocusable && !this.disabled ? 0 : -1}
             @keydown="${this._handleRadioKeydown}"
           ></span>
           ${(this.label || this.other) &&
