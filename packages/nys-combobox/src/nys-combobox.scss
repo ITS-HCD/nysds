@@ -48,6 +48,7 @@
       #e3e4e5);
   --_nys-combobox-option-background-color--selected: var(--nys-color-primary-50,
       #e6f0ff);
+  --_nys-combobox-option-border-color--selected: var(--nys-color-theme-mid, #457AA5);
 
   /* Global Font Styles */
   --_nys-combobox-font-family: var(--nys-font-family-ui,
@@ -235,6 +236,7 @@
 
   &--selected:not([disabled]) {
     background-color: var(--_nys-combobox-option-background-color--selected);
+    border: var(--_nys-combobox-option-border-color--selected) solid 1px;
   }
 
   &[disabled] {
