@@ -6145,15 +6145,6 @@
             },
             {
               "kind": "field",
-              "name": "activeFocusable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "activeFocusable"
-            },
-            {
-              "kind": "field",
               "name": "isMobile",
               "privacy": "private"
             },
@@ -6442,14 +6433,6 @@
               },
               "default": "false",
               "fieldName": "showOtherError"
-            },
-            {
-              "name": "activeFocusable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "activeFocusable"
             }
           ],
           "superclass": {

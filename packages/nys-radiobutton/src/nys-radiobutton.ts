@@ -74,7 +74,6 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) tile = false;
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
-  @property({ type: Boolean }) activeFocusable = false;
 
   @state() private isMobile = window.innerWidth < 480;
 
@@ -137,10 +136,6 @@ export class NysRadiobutton extends LitElement {
         NysRadiobutton.buttonGroup[this.name] = this;
       }
     }
-
-    // if (changedProperties.has("activeFocusable") && this.activeFocusable) {
-    //   this._focusRadioVisual();
-    // }
   }
 
   /**
@@ -152,13 +147,6 @@ export class NysRadiobutton extends LitElement {
     await this.updateComplete; // Wait for the component to finish rendering
     return this.shadowRoot?.querySelector("input") || null;
   }
-
-  // public focusRadiobutton() {
-  //   const radioBtn = this.shadowRoot?.querySelector(
-  //     ".nys-radiobutton__radio",
-  //   ) as HTMLElement;
-  //   radioBtn.focus();
-  // }
 
   // This callback is automatically called when the parent form is reset.
   public formResetUpdate() {
@@ -176,16 +164,6 @@ export class NysRadiobutton extends LitElement {
   private _handleResize = () => {
     this.isMobile = window.innerWidth < 480;
   };
-
-  // private _focusRadioVisual() {
-  //   const radioSpan = this.shadowRoot?.querySelector(
-  //     ".nys-radiobutton__radio",
-  //   ) as HTMLElement | null;
-
-  //   if (radioSpan) {
-  //     radioSpan.tabIndex = 0;
-  //   }
-  // }
 
   private _clearOtherState() {
     if (!this.other) return;
@@ -348,7 +326,6 @@ export class NysRadiobutton extends LitElement {
     }
   }
 
-
   render() {
     return html`
       <input
@@ -370,10 +347,7 @@ export class NysRadiobutton extends LitElement {
         aria-label=${this.label || (this.other ?? "Other")}
       >
         <div class="nys-radiobutton__main-container">
-          <span
-            class="nys-radiobutton__radio"
-
-          ></span>
+          <span class="nys-radiobutton__radio"></span>
           ${(this.label || this.other) &&
           html`<nys-label
             label="${this.label || (this.other ? "Other" : "")}"

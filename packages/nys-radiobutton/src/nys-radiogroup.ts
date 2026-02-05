@@ -218,18 +218,20 @@ export class NysRadiogroup extends LitElement {
     event.preventDefault();
 
     const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
-    const checkedRadio =
-      radioBtns.find((radio) => radio.checked) || radioBtns[0];
 
-    // Computing the new index based on the keydown event
-    const increment =
-      event.key === " " || event.key === "Enter"
-        ? 0
-        : ["ArrowUp", "ArrowLeft"].includes(event.key)
-          ? -1
-          : 1;
+    const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
+    const currentRadio =
+      focusedRadio || radioBtns.find((radio) => radio.checked) || radioBtns[0]; // fallback is checked radio or first radio
 
-    let index = radioBtns.indexOf(checkedRadio) + increment;
+    let increment = 0;
+    if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
+      increment = -1;
+    } else if (["ArrowDown", "ArrowRight"].includes(event.key)) {
+      increment = 1;
+    }
+
+    let index = radioBtns.indexOf(currentRadio) + increment;
+
     // Handles the wrap around ends if user is at first or last radiobutton
     if (index < 0) {
       index = radioBtns.length - 1;
@@ -245,11 +247,6 @@ export class NysRadiogroup extends LitElement {
     await this.updateComplete;
     this._updateGroupTabIndex();
     target.focus();
-
-    // const focusableSpan = target.shadowRoot?.querySelector<HTMLElement>(
-    //   ".nys-radiobutton__radio",
-    // );
-    // focusableSpan?.focus();
   }
 
   private _updateGroupTabIndex() {
@@ -266,9 +263,7 @@ export class NysRadiogroup extends LitElement {
       if (radio.disabled) {
         radio.tabIndex = -1;
       } else if (radio === active) {
-        // radio.removeAttribute("tabindex");
         radio.tabIndex = 0;
-        radio.activeFocusable = true;
       } else {
         radio.setAttribute("tabindex", "-1");
       }
@@ -446,12 +441,10 @@ export class NysRadiogroup extends LitElement {
           );
           if (firstInvalidElement === this) {
             firstRadio.focus();
-            // firstRadio.classList.add("active-focus"); // Needed to show focus outline; will be removed if user clicks to select
           }
         } else {
           // If not part of a form, simply focus.
           firstRadio.focus();
-          // firstRadio.classList.add("active-focus");
         }
       }
     }
