@@ -42,7 +42,6 @@ export class NysCombobox extends LitElement {
   @property({ type: String, reflect: true }) name = "";
   @property({ type: String }) label = "";
   @property({ type: String }) description = "";
-  @property({ type: String }) placeholder = "";
   @property({ type: String }) value = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: Boolean, reflect: true }) required = false;
@@ -612,9 +611,6 @@ export class NysCombobox extends LitElement {
                 .filter(Boolean)
                 .join(" ")}"
               .value=${this._filterText}
-              placeholder=${ifDefined(
-                this.placeholder ? this.placeholder : undefined,
-              )}
               form=${ifDefined(this.form || undefined)}
               @input=${this._handleInput}
               @focus="${this._handleFocus}"
@@ -635,7 +631,7 @@ export class NysCombobox extends LitElement {
                   >
                     <nys-icon
                       slot="suffix-icon"
-                      size="2xl"
+                      size="xl"
                       name="close"
                     ></nys-icon>
                   </nys-button>
@@ -653,7 +649,7 @@ export class NysCombobox extends LitElement {
             >
               <nys-icon
                 slot="suffix-icon"
-                size="2xl"
+                size="xl"
                 name="chevron_down"
               ></nys-icon>
             </nys-button>
