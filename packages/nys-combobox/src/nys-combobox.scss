@@ -42,12 +42,12 @@
 
   /* Option Styles */
   --_nys-combobox-option-padding: var(--nys-space-100, 8px) var(--nys-space-150, 12px);
-  --_nys-combobox-option-background-color--hover: var(--nys-color-neutral-50,
-      #eeeeee);
-  --_nys-combobox-option-background-color--highlighted: var(--nys-color-neutral-100,
-      #e3e4e5);
-  --_nys-combobox-option-background-color--selected: var(--nys-color-primary-50,
-      #e6f0ff);
+  --_nys-combobox-option-background-color--hover: var(--nys-color-neutral-10,
+      #F6F6F6);
+  --_nys-combobox-option-background-color--active: var(--nys-color-neutral-50,
+      #EDEDED);
+  --_nys-combobox-option-background-color--selected: var(--nys-theme-weaker,
+      #EFF6FB);
   --_nys-combobox-option-border-color--selected: var(--nys-color-theme-mid, #457AA5);
 
   /* Global Font Styles */
@@ -226,18 +226,19 @@
   transition: background-color 0.15s ease;
   border-bottom: var(--nys-border-width-sm, 1px) solid var(--nys-color-neutral-50, #EDEDED);
 
-  &:hover:not([disabled]) {
+  &:hover:not([disabled]):not(.nys-combobox__option--selected) {
     background-color: var(--_nys-combobox-option-background-color--hover);
-  }
-
-  &--highlighted:not([disabled]) {
-    background-color: var(--_nys-combobox-option-background-color--highlighted);
   }
 
   &--selected:not([disabled]) {
     background-color: var(--_nys-combobox-option-background-color--selected);
     border: var(--_nys-combobox-option-border-color--selected) solid 1px;
   }
+
+  &--highlighted:not([disabled]) {
+    border: solid var(--nys-color-focus, #004DD1) 2px;
+  }
+
 
   &[disabled] {
     background: var(--nys-color-neutral-10, #F6F6F6);
