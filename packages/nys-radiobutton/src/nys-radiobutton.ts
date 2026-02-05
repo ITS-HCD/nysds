@@ -338,7 +338,7 @@ export class NysRadiobutton extends LitElement {
         form=${ifDefined(this.form || undefined)}
         @change="${this._handleChange}"
         aria-hidden="true"
-        tabindex="-1"
+        hidden
         class="sr-only"
       />
       <div
