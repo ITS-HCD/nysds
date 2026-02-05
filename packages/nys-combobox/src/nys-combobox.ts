@@ -405,7 +405,6 @@ export class NysCombobox extends LitElement {
     this.dispatchEvent(new Event("nys-focus"));
 
     if (!this._isOpen) {
-      console.log("opening dropdown on focus");
       this._openDropdown();
     }
   }
@@ -488,6 +487,7 @@ export class NysCombobox extends LitElement {
     this._selectedLabel = option.label;
     this._filterText = option.label;
     this._internals.setFormValue(this.value);
+    this._input.focus();
     this._closeDropdown();
     this._filterOptions("");
 
@@ -508,8 +508,6 @@ export class NysCombobox extends LitElement {
         composed: true,
       }),
     );
-
-    this._input.focus();
   }
 
   private _openDropdown() {
