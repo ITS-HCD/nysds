@@ -258,15 +258,10 @@ export class NysRadiogroup extends LitElement {
       radios.find((radio) => !radio.disabled);
 
     radios.forEach((radio) => {
+      radio.setAttribute("aria-checked", String(radio.checked));
       // Only one radiobutton can be focusable at all times.
       // Due to this, we calculate logic to determine an active radiobutton and call all other as tabindex="-1"
-      if (radio.disabled) {
-        radio.tabIndex = -1;
-      } else if (radio === active) {
-        radio.tabIndex = 0;
-      } else {
-        radio.setAttribute("tabindex", "-1");
-      }
+      radio.tabIndex = radio === active && !radio.disabled ? 0 : -1;
     });
   }
 
