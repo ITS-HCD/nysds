@@ -13,7 +13,7 @@
         sans-serif));
   --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
-  --_nys-table-line-height: 16px;
+  --_nys-table-line-height: var(--nys-font-line-height-ui, 24px);
 
   --_nys-table-padding--caption: var(--nys-space-250, 20px) var(--nys-space-150, 12px);
   --_nys-table-font-size--caption: var(--nys-font-size-ui-lg, 18px);
