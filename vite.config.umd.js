@@ -17,14 +17,14 @@ const banner = `
 export default defineConfig({
   css: {
     postcss: null,
-    preprocessorOptions: {
-      scss: {
-        additionalData:
-        `@use "../../../src/scss/global-variables.scss" as *;
-         @use "../../../src/scss/mixins.scss" as *;
-        `,
-      },
-    },
+    // preprocessorOptions: {
+    //   scss: {
+    //     additionalData:
+    //     `@use "../../../src/scss/global-variables.scss" as *;
+    //      @use "../../../src/scss/mixins.scss" as *;
+    //     `,
+    //   },
+    // },
   },
   build: {
     lib: {

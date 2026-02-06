@@ -2,7 +2,7 @@
   /* Global Header Styles */
   --_nys-globalheader-color: var(
     --nys-color-text-reverse,
-    var(--nys-color-white, #ffffff)
+    var(--nys-color-white, #fff)
   );
   --_nys-globalheader-link-color: var(
     --nys-color-link-reverse-neutral,
@@ -106,6 +106,7 @@ a {
   display: flex;
   align-items: center;
   margin-inline-start: auto;
+
   --_nys-button-outline-color: var(
     --nys-color-ink-reverse,
     var(--nys-color-white, #fff)
@@ -150,6 +151,7 @@ a#nys-globalheader__logolink {
   align-items: flex-start;
   gap: var(--_nys-globalheader-gap--text);
 }
+
 .nys-globalheader__name {
   margin: 0;
   color: var(--_nys-globalheader-color);
@@ -179,9 +181,8 @@ a#nys-globalheader__logolink {
 
 .nys-globalheader__content ul {
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 .nys-globalheader__content ul a:hover {
@@ -204,16 +205,20 @@ a#nys-globalheader__logolink {
 .nys-globalheader__content-mobile li.active a {
   font-weight: 700;
 }
+
 .nys-globalheader__content li.active {
   border-bottom: 8px solid var(--nys-color-theme-weak, #cddde9);
 }
+
 .nys-globalheader__content li.active a {
   margin-bottom: calc(-1 * var(--nys-space-100, 8px));
 }
+
 .nys-globalheader__content-mobile li.active a {
   border-left: 8px solid var(--nys-color-theme-weak, #cddde9);
   border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
 }
+
 .nys-globalheader__content ul li.active a:hover {
   text-decoration: none;
 }
@@ -228,16 +233,20 @@ a#nys-globalheader__logolink {
   background-color: var(--_nys-globalheader-background-color);
   width: fit-content;
 }
+
 .nys-globalheader__content-mobile.close {
   display: none;
 }
+
 .nys-globalheader__content-mobile ul {
   display: flex;
   flex-direction: column;
 }
+
 .nys-globalheader__content-mobile ul li:first-child a {
   border-top: 1px solid var(--_nys-globalheader-color);
 }
+
 .nys-globalheader__content-mobile ul li a {
   display: flex;
   padding: 24px;
@@ -247,28 +256,30 @@ a#nys-globalheader__logolink {
   border-bottom: 1px solid var(--_nys-globalheader-border-color--menu);
   background-color: var(--_nys-globalheader-background-color);
 }
+
 .nys-globalheader__content-mobile ul li a:hover {
   background-color: var(--_nys-globalheader-background-color--menu--hover);
 }
+
 .nys-globalheader__content-mobile ul li a:active {
   background-color: var(--_nys-globalheader-background-color--menu--active);
 }
+
 .nys-globalheader__name-container-link {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 /* Mobile Menu (OPEN/CLOSE Button Container) */
 .nys-globalheader__button-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .nys-globalheader__mobile-menu-button {
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 3px;
   width: 50px;
   height: 50px;
@@ -281,6 +292,7 @@ a#nys-globalheader__logolink {
   padding: 0;
   color: var(--_nys-globalheader-color);
 }
+
 .nys-globalheader__mobile-menu-button-text {
   font-size: var(--_nys-globalheader-font-size--menu-btn);
   line-height: var(--_nys-globalheader-line-height--menu-btn);
@@ -288,24 +300,29 @@ a#nys-globalheader__logolink {
 }
 
 /* Breakpoints using NYSDS Guidelines (Menu Links) */
+
 /* https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=1170-340 */
-@media (min-width: 1024px) {
+@media (width >= 1024px) {
   /* Desktop (MD - Above 1024px) */
   .nys-globalheader__content {
     display: flex;
   }
+
   .nys-globalheader__content ul {
     flex-direction: row;
   }
+
   .nys-globalheader__content-mobile,
   .nys-globalheader__button-container {
     display: none;
   }
+
   li {
     display: flex;
     align-items: center;
     padding: var(--_nys-globalheader-link-padding);
   }
+
   :host {
     --_nys-globalheader-gap: var(--nys-space-500, 40px);
     --_nys-globalheader-padding: var(--nys-space-50, 4px)
@@ -313,7 +330,7 @@ a#nys-globalheader__logolink {
   }
 }
 
-@media (min-width: 1280px) {
+@media (width >= 1280px) {
   /* Large Desktop (LG - Above 1280px) */
   :host {
     --_nys-globalheader-padding: var(--nys-space-50, 4px)
