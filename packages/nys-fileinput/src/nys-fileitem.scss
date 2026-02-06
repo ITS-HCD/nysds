@@ -53,8 +53,7 @@
 
   .file-item__main {
     display: flex;
-    justify-items: center;
-    align-items: center;
+    place-items: center center;
     gap: var(--_nys-fileinput-gap);
     padding: var(--_nys-fileitem-padding);
     height: 56px;
@@ -112,14 +111,17 @@
     overflow: hidden;
     appearance: none;
   }
+
   /* Track */
   progress::-moz-progress-bar {
     background-color: var(--_nys-fileitem-background-color--progress);
   }
+
   /* Filled value (the blue bar) */
   progress::-webkit-progress-value {
     background-color: var(--_nys-fileitem-background-color--progress--fill);
   }
+
   /* Firefox */
   progress::-webkit-progress-bar {
     background-color: var(--_nys-fileitem-background-color--progress);
@@ -138,6 +140,7 @@
     0% {
       transform: rotate(0deg);
     }
+
     100% {
       transform: rotate(360deg);
     }

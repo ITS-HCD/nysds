@@ -1,6 +1,6 @@
   :host {
     /* Global Tooltip Styles */
-    --_nys-tooltip-color: var(--nys-color-text-reverse, #ffffff);
+    --_nys-tooltip-color: var(--nys-color-text-reverse, #fff);
     --_nys-tooltip-background-color: var(--nys-color-ink, #1b1b1b);
     --_nys-tooltip-border-radius: var(--nys-radius-md, 4px);
     --_nys-tooltip-font-family: var(
@@ -34,7 +34,6 @@
   }
 
   .nys-tooltip__inner {
-    display: block;
     color: var(--_nys-tooltip-color);
     font-family: var(--_nys-tooltip-font-family);
     font-size: var(--_nys-tooltip-font-size);
@@ -42,7 +41,7 @@
     line-height: var(--_nys-tooltip-line-height);
     letter-spacing: var(--_nys-tooltip-letter-spacing);
     white-space: normal;
-    word-break: break-word;
+    overflow-wrap: anywhere; // Used to be word-wrap: break-word, but that is deprecated
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -70,6 +69,7 @@
   }
 
   /* ===================== POSITIONING ===================== */
+
   /* Top */
   :host([position="top"]) .nys-tooltip__arrow {
     top: 100%;
@@ -91,6 +91,7 @@
     transform: translateY(-50%) rotate(-90deg);
     margin-left: -4px;
   }
+
   /* Right */
   :host([position="right"]) .nys-tooltip__arrow {
     right: 100%;
@@ -109,7 +110,7 @@
       no-repeat center;
   }
 
-  @media (max-width: 400px) {
+  @media (width <= 400px) {
     .nys-tooltip__content {
       max-width: calc(
         100vw - 2rem

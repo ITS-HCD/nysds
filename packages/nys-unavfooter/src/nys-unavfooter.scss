@@ -3,7 +3,7 @@
     /* Global Footer Styles */
     --_nys-unavfooter-color: var(
       --nys-color-link-reverse-neutral,
-      var(--nys-color-white, #ffffff)
+      var(--nys-color-white, #fff)
     );
     --_nys-unavfooter-background-color: var(
       --nys-color-surface-reverse,
@@ -68,9 +68,11 @@
     text-underline-offset: auto;
     text-underline-position: from-font;
   }
+
   a:hover {
     text-decoration-line: underline;
   }
+
   a:active {
     text-decoration-thickness: var(--_nys-unavfooter-text-decoration-thickness);
   }
@@ -126,14 +128,16 @@
   }
 
   /* Breakpoints using NYSDS Grid Guidelines (Menu Links) */
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     /* Tablet (MD - Above 768px) */
     .nys-unavfooter__container_menu {
       flex-direction: row;
     }
+
     .nys-unavfooter__content ul {
       justify-content: flex-start;
     }
+
     :host {
       --_nys-unavfooter-padding--gutter: var(--nys-gutter-lg, 32px);
       --_nys-unavfooter-column-gap: var(--nys-space-600, 48px);
@@ -141,7 +145,7 @@
     }
   }
 
-  @media (min-width: 1280px) {
+  @media (width >= 1280px) {
     /* Large Desktop (XL - Above 1280px) */
     :host {
       --_nys-unavfooter-padding--gutter: var(--nys-gutter-xl, 64px);

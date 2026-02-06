@@ -3,7 +3,7 @@
     --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
     --_nys-unavheader-background-color: var(
       --nys-color-surface,
-      var(--nys-color-white, #ffffff)
+      var(--nys-color-white, #fff)
     );
     --_nys-unavheader-color: var(
       --nys-color-text,
@@ -64,10 +64,12 @@
     padding-top: var(--nys-space-100, 8px);
     padding-bottom: var(--nys-space-100, 8px);
   }
+
   .nys-unavheader__trustbar.wrapper > .content,
   .nys-unavheader__trustbar.wrapper > .content * {
     cursor: pointer;
   }
+
   .nys-unavheader__trustbar.inline,
   .nys-unavheader__trustbar.inline #nys-unavheader__official {
     background-color: transparent;
@@ -84,6 +86,7 @@
     align-items: center;
     gap: var(--nys-space-100, 8px);
     height: fit-content;
+
     /* Typography */
     font-size: var(--nys-font-size-ui-xs, 12px);
     font-weight: var(--nys-font-weight-regular, 400);
@@ -118,6 +121,7 @@
     align-items: center;
     cursor: pointer;
     gap: var(--nys-space-50, 4px);
+
     /* These props ARE NOT publicly overridable */
     --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
     --_nys-button-border-radius--start: var(--nys-radius-md, 4px);
@@ -126,17 +130,18 @@
     --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-border-width: 0px;
     --_nys-button-text-decoration: underline;
+
     /* These props ARE publicly overridable */
     --nys-button-color: var(--nys-color-link, #004dd1);
     --nys-button-color--hover: var(--nys-color-link-strong, #003ba1);
     --nys-button-color--active: var(--nys-color-link-strongest, #002971);
     --nys-button-background-color--hover: var(
       --nys-color-transparent,
-      #ffffff00
+      #fff0
     );
     --nys-button-background-color--active: var(
       --nys-color-transparent,
-      #ffffff00
+      #fff0
     );
 
     /* typography */
@@ -166,6 +171,7 @@
     padding-top: var(--nys-space-400, 32px);
     padding-bottom: var(--nys-space-400, 32px);
   }
+
   .nys-unavheader__messagewrapper {
     display: flex;
     gap: var(--nys-space-400, 32px);
@@ -190,6 +196,7 @@
     line-height: var(--nys-typography-font-lineheight-ui-sm, 24px);
     letter-spacing: var(--nys-typography-font-letterspacing-ui-sm, 0.044px);
   }
+
   .nys-unavheader__searchdropdown.wrapper {
     background-color: var(--_nys-unavheader-background-color--section-raised);
     padding-top: var(--nys-space-250, 20px);
@@ -207,6 +214,7 @@
   .nys-unavheader__search {
     max-width: var(--nys-form-width-md, 200px);
     transition: max-width 0.5s ease;
+
     --_nys-textinput-gap: 0px;
   }
 
@@ -266,7 +274,7 @@
   }
 
   /* Breakpoints using NYSDS Grid Guidelines */
-  @media (min-width: 0) and (max-width: 479px) {
+  @media (width >= 0) and (width <= 479px) {
     /* Mobile (XS) */
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
@@ -281,7 +289,7 @@
     .nys-unavheader__trustbar > .content {
       flex-direction: column;
       align-items: flex-start;
-      gap: 0px;
+      gap: 0;
       line-height: 16px;
     }
 
@@ -304,7 +312,7 @@
     }
   }
 
-  @media (min-width: 480px) and (max-width: 767px) {
+  @media (width >= 480px) and (width <= 767px) {
     /* Mobile Large (SM - Above 480px) */
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-sm, 20px);
@@ -324,7 +332,7 @@
     }
   }
 
-  @media (min-width: 768px) and (max-width: 1023px) {
+  @media (width >= 768px) and (width <= 1023px) {
     /* Tablet (MD - Above 768px) */
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-md, 32px);
@@ -344,11 +352,12 @@
     }
   }
 
-  @media (min-width: 1024px) and (max-width: 1279px) {
+  @media (width >= 1024px) and (width <= 1279px) {
     /* Desktop (LG - Above 1024px) */
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-lg, 32px);
     }
+
     .nys-unavheader__trustbar.wrapper {
       display: none;
     }
@@ -371,11 +380,12 @@
     }
   }
 
-  @media (min-width: 1280px) {
+  @media (width >= 1280px) {
     /* Desktop Large (XL - Above 1280px) */
     :host {
       --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);
     }
+
     .nys-unavheader__trustbar.wrapper {
       display: none;
     }

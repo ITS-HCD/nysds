@@ -36,12 +36,10 @@
 
     /* Select Outline & Border States */
     --_nys-select-border-width: var(--nys-border-width-sm, 1px);
-
     --_nys-select-border-color: var(--nys-color-neutral-400, #909395);
     --_nys-select-border-color--hover: var(--nys-color-neutral-900, #1b1b1b);
     --_nys-select-border-color--focus: var(--nys-color-focus, #004dd1);
     --_nys-select-border-color--disabled: var(--nys-color-neutral-200, #bec0c1);
-
     --_nys-select-border-default: var(--nys-border-width-sm, 1px) solid
       var(--nys-color-neutral-400, #909395);
     --_nys-select-border-focus: var(--nys-border-width-sm, 1px) solid
@@ -73,8 +71,6 @@
     max-width: 100%;
     text-indent: 1px;
     background: var(--_nys-select-background-color);
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     text-overflow: ellipsis;
   }
@@ -109,6 +105,7 @@
 
   :host([width="full"]) {
     --_nys-select-width: 100%;
+
     flex: 1; /* stretches width for flex container */
   }
 
@@ -134,6 +131,7 @@
     cursor: not-allowed;
     color: var(--_nys-select-color--disabled);
   }
+
   .nys-select__select:disabled ~ .nys-select__icon {
     color: var(--_nys-select-color--disabled);
   }

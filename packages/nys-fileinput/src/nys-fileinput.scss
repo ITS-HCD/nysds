@@ -51,14 +51,15 @@
     font-weight: var(--_nys-fileinput-font-weight);
     line-height: var(--_nys-fileinput-line-height);
   }
+
   :host([width="lg"]) .nys-fileinput {
     max-width: var(--nys-form-width-lg, 384px);
   }
 
   ul {
     list-style-type: none;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -82,6 +83,7 @@
 
   .nys-fileinput__dropzone:hover {
     cursor: pointer;
+
     --_nys-fileinput-border-width: var(--nys-border-width-md, 2px);
     --_nys-fileinput-border-color: var(--nys-color-neutral-700, #4a4d4f);
   }
@@ -103,8 +105,10 @@
 
   .nys-fileinput__dropzone.disabled {
     cursor: not-allowed;
+
     --_nys-fileinput-border-color: var(--nys-color-neutral-300, #a7a9ab);
     --_nys-fileinput-border-width: var(--nys-border-width-sm, 1px);
+
     background-color: var(
       --_nys-fileinput-background-color--dropzone--disabled
     );
@@ -121,12 +125,15 @@
     appearance: none;
     border: none;
   }
+
   progress::-moz-progress-bar {
     background-color: var(--_nys-fileinput-progress-background);
   }
+
   progress::-webkit-progress-value {
     background-color: var(--_nys-fileinput-progress-background);
   }
+
   progress::-webkit-progress-bar {
     background-color: var(--_nys-fileinput-progress-background);
   }

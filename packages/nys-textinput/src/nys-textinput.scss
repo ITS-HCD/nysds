@@ -19,11 +19,7 @@
     --_nys-textinput-gap: var(--nys-space-50, 4px);
     --_nys-textinput-background-color: var(
       --nys-color-ink-reverse,
-      var(--nys-color-white, #ffffff)
-    );
-    --_nys-textinput-color: var(
-      --nys-color-ink,
-      var(--nys-color-neutral-900, #1b1b1b)
+      var(--nys-color-white, #fff)
     );
 
     /* Hovered */
@@ -85,6 +81,7 @@
 
   :host([width="full"]) {
     --_nys-textinput-width: 100%;
+
     flex: 1; /* stretches width for flex container */
   }
 
@@ -122,19 +119,16 @@
     border-radius: var(--_nys-textinput-border-radius);
     border: solid var(--_nys-textinput-border-color)
       var(--_nys-textinput-border-width);
-    outline-color: transparent;
-    outline-width: var(--_nys-textinput-outline-width);
-    outline-style: solid;
+    outline: transparent solid var(--_nys-textinput-outline-width);
     padding: var(--_nys-textinput-padding);
     width: 100%;
     height: var(--_nys-textinput-height);
     box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     background-color: transparent;
     position: relative;
     font: inherit;
   }
+
   .nys-textinput__input::placeholder {
     color: var(--_nys-textinput-color--placeholder);
   }
@@ -177,6 +171,7 @@
     --_nys-button-border-color--disabled: var(--_nys-textinput-color--disabled);
     --_nys-button-color--disabled: var(--_nys-textinput-color--disabled);
     --_nys-button-border-width: var(--_nys-textinput-border-width);
+
     z-index: 1; /* to make sure the button outline renders on top of the input */
   }
 
@@ -195,6 +190,7 @@
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--_nys-textinput-color--icon);
+
     /* These props ARE publicly overridable */
     --nys-button-background-color: var(--_nys-textinput-background-color);
     --nys-button-background-color--hover: var(
@@ -203,10 +199,12 @@
     --nys-button-background-color--active: var(
       --_nys-textinput-background-color
     );
+
     /* These props ARE NOT publicly overridable */
     --_nys-button-outline-focus: calc(
       var(--_nys-button-outline-width) * -1
     ); /* Needs to be negative of the offset width */
+
     --_nys-button-padding--y: var(--nys-space-50, 4px);
     --_nys-button-padding--x: var(--nys-space-50, 4px);
     --_nys-button-height: var(--nys-size-300, 32px);
@@ -214,7 +212,7 @@
   }
 
   /* Hovered */
-  .nys-textinput__input:hover:not(:disabled):not(:focus):not([readonly]) {
+  .nys-textinput__input:hover:not(:disabled, :focus, [readonly]) {
     outline-color: var(--_nys-textinput-outline-color--hover);
     border-color: var(--_nys-textinput-outline-color--hover);
   }

@@ -131,6 +131,7 @@
   a:hover {
     text-decoration: underline;
   }
+
   a:active {
     text-decoration-thickness: var(
       --_nys-globalfooter-text-decoration-thickness
@@ -144,9 +145,8 @@
 
   .nys-globalfooter__content ul {
     display: flex;
-    flex-direction: column;
+    flex-flow: column wrap;
     gap: var(--_nys-globalfooter-row-gap) var(--_nys-globalfooter-column-gap);
-    flex-wrap: wrap;
   }
 
   /** Column Menus **/
@@ -172,21 +172,23 @@
   }
 
   /* Breakpoints using NYSDS Guidelines (Menu Links) */
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     /* Tablet (MD - Above 768px) */
     .nys-globalfooter__content ul {
       flex-direction: row;
     }
+
     .nys-globalfooter__content ul li:has(span ~ ul) {
       flex: 1 0 205px;
     }
+
     :host {
       --_nys-globalfooter-padding--gutter: var(--nys-gutter-lg, 32px);
       --_nys-globalfooter-row-gap: var(--nys-space-600, 48px);
     }
   }
 
-  @media (min-width: 1280px) {
+  @media (width >= 1280px) {
     /* Large Desktop (XL - Above 1280px) */
     :host {
       --_nys-globalfooter-padding--gutter: var(--nys-gutter-xl, 64px);

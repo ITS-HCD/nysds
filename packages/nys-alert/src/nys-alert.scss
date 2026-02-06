@@ -96,9 +96,11 @@
     font-size: var(--_nys-alert-font-size);
     color: var(--_nys-alert-color--link);
   }
+
   a:hover {
     color: var(--_nys-alert-color--link--hover);
   }
+
   a:active {
     color: var(--_nys-alert-color--link--active);
   }
@@ -138,9 +140,11 @@
     display: flex;
     align-items: center;
   }
+
   .nys-alert--centered .nys-alert__header {
     margin-bottom: -3px; /* Adjusts the header text to be centered */
   }
+
   .nys-alert--centered div[part="nys-alert__icon"] {
     margin-top: 0;
     display: flex;
@@ -171,6 +175,7 @@
       var(--nys-color-info-weak, var(--nys-color-blue-50, #e5effa))
     );
   }
+
   :host([type="success"]) {
     --_nys-alert-border-color: var(
       --nys-alert-border-color,
@@ -181,6 +186,7 @@
       var(--nys-color-success-weak, var(--nys-color-green-50, #e8f1ea))
     );
   }
+
   :host([type="warning"]) {
     --_nys-alert-border-color: var(
       --nys-alert-border-color,
@@ -191,6 +197,7 @@
       var(--nys-color-warning-weak, var(--nys-color-yellow-50, #fefae5))
     );
   }
+
   :host([type="danger"]) {
     --_nys-alert-border-color: var(
       --nys-alert-border-color,
@@ -201,6 +208,7 @@
       var(--nys-color-danger-weak, var(--nys-color-red-50, #f7eaea))
     );
   }
+
   :host([type="emergency"]) {
     --_nys-alert-border-color: var(
       --nys-alert-border-color,
@@ -227,9 +235,11 @@
       var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff))
     );
   }
+
   :host([type="emergency"]) a:hover {
     text-decoration-thickness: 2px;
   }
+
   :host([type="emergency"]) a:active {
     text-decoration-thickness: 3px;
   }

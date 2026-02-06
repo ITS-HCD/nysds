@@ -1,7 +1,9 @@
 /* === NYSDS: Typography Styles */
 
 /* These Role-based typography classes are designed to align with the  */
+
 /* text styles in the NYSDS Foundations Figma file.                */
+
 /* https://designsystem.ny.gov/foundations/utilities/typography/ */
 
 /* --- Body --- */
@@ -49,6 +51,7 @@ $display-sizes: (sm, md, lg, xl);
 }
 
 /* --- Font Family Attribute Selectors --- */
+
 /* These set font-family for any class matching the pattern */
 
 [class*="nys-font-mono-"] {
