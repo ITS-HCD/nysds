@@ -23,6 +23,10 @@
   --_nys-table-padding--cell--y: var(--nys-space-200, 16px);
   --_nys-table-background-color: var(--nys-color-ink-reverse, #fff);
   --_nys-table-background-color--striped: var(--nys-color-neutral-10, #f6f6f6);
+
+  --_nys-table-color--code: var(--nys-color-red-600, #b52c2c);
+  --_nys-table-background-color--code: var(--nys-color-neutral-10, #f6f6f6);
+
 }
 
 :host([bordered]) {
@@ -62,6 +66,13 @@
   td {
     padding: var(--_nys-table-padding--cell--y) var(--_nys-table-padding--cell--x);
     border: var(--_nys-table-border-width) solid var(--_nys-table-border-color);
+
+    code {
+      color: var(--_nys-table-color--code);
+      background-color: var(--_nys-table-background-color--code);
+      padding: var(--nys-space-1px) var(--nys-space-2px);
+      border-radius: var(--nys-radius-md);
+    }
   }
 
   th {
