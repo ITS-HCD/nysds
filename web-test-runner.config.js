@@ -16,7 +16,7 @@ const filterBrowserLogs = (log) => {
 }
 
 export default {
-  files: ["packages/**/*.test.ts", "src/**/*.test.ts"],
+  files: ["packages/**/*.test.ts", "src/**/*.test.ts", "!packages/mcp-server/**"],
   nodeResolve: true,
   filterBrowserLogs,
   browserStartTimeout: 60000,

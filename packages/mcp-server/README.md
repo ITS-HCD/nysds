@@ -7,36 +7,20 @@ MCP (Model Context Protocol) server for the New York State Design System. Expose
 
 ## Installation
 
-> [!CAUTION]
-> This package is not yet published to npm. You must clone the repository and build locally until it is.
+```bash
+npx @nysds/mcp-server
+```
 
-Once it's cloned, run this command from the `/packages/mcp-server` directory:
+Or install globally:
 
 ```bash
-# Clone the repository
-git clone https://github.com/ITS-HCD/nysds nysds-mcp
-cd nysds-mcp
-
-# Switch to the MCP feature branch
-git checkout feature/mcp-server
-
-# Install dependencies (from repo root)
-npm install
-
-# Build the MCP server
-npm run build --workspace=packages/mcp-server
-
-# Explore the MCP server with the MCP inspector
-cd packages
-npx @modelcontextprotocol/inspector node dist/index.js
+npm install -g @nysds/mcp-server
+nysds-mcp
 ```
 
 ## Connecting to the MCP Server
 
-Once the MCP server is set up and built, your AI code assistant can automatically connect and communicate with it. You only need to set up the configuration. Each assistant has its own configuration format, but they all follow the same pattern: tell the assistant how to start the server (via `npx`), and it will automatically connect and use the available tools.
-
-> [!NOTE]
-> The "args" in these examples will change after the package is published to npm.
+Once the MCP server is installed, your AI code assistant can automatically connect and communicate with it. You only need to set up the configuration. Each assistant has its own configuration format, but they all follow the same pattern: tell the assistant how to start the server (via `npx`), and it will automatically connect and use the available tools.
 
 ### GitHub Copilot
 
@@ -46,8 +30,8 @@ MCP support in GitHub Copilot is available in VS Code. Add to your VS Code setti
 {
   "servers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["@nysds/mcp-server"]
     }
   }
 }
@@ -66,8 +50,8 @@ Add to your Claude Desktop configuration:
 {
   "mcpServers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["@nysds/mcp-server"]
     }
   }
 }
@@ -81,8 +65,8 @@ Add to your project's `.mcp.json`:
 {
   "mcpServers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["@nysds/mcp-server"]
     }
   }
 }
@@ -98,8 +82,8 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
 {
   "mcpServers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["@nysds/mcp-server"]
     }
   }
 }
