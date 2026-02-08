@@ -9,6 +9,41 @@ import styles from "./nys-stepper.scss?inline";
  * Mark as `current` to indicate active progress point. Previous steps become clickable for navigation.
  * Set `href` for page-based navigation or listen to `nys-step-click` for SPA routing.
  *
+ * ## Step States
+ *
+ * Understanding the three step states is critical for proper stepper usage:
+ *
+ * - **`selected`** - Which step is currently being displayed/viewed. This controls which step's
+ *   content is shown. Defaults to `current` if not set. Cannot be set on a step after `current`.
+ *   Users can click previous steps to change `selected` without changing `current`.
+ *
+ * - **`current`** - The furthest step the user has reached. This is the progress boundary.
+ *   Update this as the user completes steps and advances. Steps after `current` are not navigable.
+ *   Only one step should have `current` at a time.
+ *
+ * - **`previous`** - Auto-applied by the stepper to all steps before `current`. Do not set manually.
+ *   Steps with `previous` are clickable and allow the user to navigate back.
+ *
+ * ## Common Patterns
+ *
+ * **Initial state:** Set `current` on the first step. `selected` will default to it.
+ * ```html
+ * <nys-step label="Step 1" current></nys-step>
+ * <nys-step label="Step 2"></nys-step>
+ * ```
+ *
+ * **User completed step 1, now on step 2:**
+ * ```html
+ * <nys-step label="Step 1"></nys-step>
+ * <nys-step label="Step 2" current></nys-step>
+ * ```
+ *
+ * **User went back to review step 1 (but progress is still at step 2):**
+ * ```html
+ * <nys-step label="Step 1" selected></nys-step>
+ * <nys-step label="Step 2" current></nys-step>
+ * ```
+ *
  * @summary Individual step for use within nys-stepper with navigation support.
  * @element nys-step
  *
