@@ -41,13 +41,29 @@ export function registerPrompts(server: McpServer): void {
 
 ## Available Tools
 
+### Components
 - \`list_components\`: See all available components
 - \`get_component_docs\`: Get detailed docs for a specific component
 - \`find_components\`: Search for components by functionality
-- \`get_design_tokens\`: Access design token values
 - \`validate_component_api\`: Validate component usage
-- \`setup_framework\`: Get framework-specific setup guides
+
+### Design Tokens
+- \`get_design_tokens\`: Access design token values
+- \`find_tokens\`: Search for tokens by name or value
+- \`get_token_value\`: Get details about a specific token
+- \`list_themes\`: List available agency themes
+
+### Styles & Utilities
+- \`get_utility_classes\`: Grid, flexbox, spacing, and other utility classes
+- \`get_styles_install_guide\`: Installation options for @nysds/styles
+- \`get_font_setup_guide\`: Font installation and setup instructions
+
+### Forms & Validation
+- \`get_form_validation_guide\`: Form validation patterns and best practices
+
+### Setup
 - \`get_usage_guide\`: General installation and usage guide
+- \`setup_framework\`: Get framework-specific setup guides (React, Angular, Vue, etc.)
 
 When helping with UI development for New York State projects, prioritize NYSDS components and patterns.`,
             },

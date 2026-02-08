@@ -26,6 +26,39 @@ let stepperIdCounter = 0;
  *   <nys-step label="Review"></nys-step>
  * </nys-stepper>
  * ```
+ *
+ * @example Grid layout with sidebar placement
+ * Use NYSDS grid utilities to position the stepper as a sidebar alongside form content.
+ * ```html
+ * <div class="nys-grid-container">
+ *   <div class="nys-grid-row">
+ *     <nys-stepper label="Application" class="nys-grid-col-12 nys-desktop:nys-grid-col-4">
+ *       <nys-step label="Personal Info"></nys-step>
+ *       <nys-step label="Contact" current></nys-step>
+ *       <nys-step label="Review"></nys-step>
+ *     </nys-stepper>
+ *     <div class="nys-grid-col-12 nys-desktop:nys-grid-col-8">
+ *       <!-- Form content for current step -->
+ *       <nys-textinput label="Email" required></nys-textinput>
+ *       <nys-textinput label="Phone"></nys-textinput>
+ *     </div>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * @example Navigation buttons in actions slot
+ * Add Previous/Next buttons using the actions slot. Wrap buttons in a `<div>`.
+ * ```html
+ * <nys-stepper label="Application">
+ *   <nys-step label="Step 1"></nys-step>
+ *   <nys-step label="Step 2" current></nys-step>
+ *   <nys-step label="Step 3"></nys-step>
+ *   <div slot="actions">
+ *     <nys-button label="Previous" variant="outline"></nys-button>
+ *     <nys-button label="Next"></nys-button>
+ *   </div>
+ * </nys-stepper>
+ * ```
  */
 
 export class NysStepper extends LitElement {
