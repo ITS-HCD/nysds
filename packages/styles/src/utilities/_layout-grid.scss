@@ -26,7 +26,7 @@
     padding-left: 1rem;
     padding-right: 1rem;
 
-    @media all and (min-width: 64em) {
+    @media all and (width >= 64em) {
       padding-left: 2rem;
       padding-right: 2rem;
     }
@@ -48,7 +48,7 @@
   }
 
   // Nested media query for desktop+ padding
-  @media all and (min-width: #{$bp-value}) and (min-width: 64em) {
+  @media all and (min-width: #{$bp-value}) and (width >= 64em) {
     @each $suffix, $max-width in $grid-containers {
       .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
         padding-left: 2rem;
@@ -89,7 +89,7 @@
     padding-right: 0.5rem;
   }
 
-  @media all and (min-width: 64em) {
+  @media all and (width >= 64em) {
     margin-left: -1rem;
     margin-right: -1rem;
 

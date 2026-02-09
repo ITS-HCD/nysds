@@ -20,7 +20,11 @@ const overrideConfig = {
     lib: {
       fileName: () => "nys-alert.js",
     },
+<<<<<<< HEAD
     // emptyOutDir: true, // Since we're building both ES and UMD formats
+=======
+    
+>>>>>>> e616155f004ec6a95ec087b0a8c6ed19b4d9886a
     rollupOptions: {
       output: [{ banner }],
     },

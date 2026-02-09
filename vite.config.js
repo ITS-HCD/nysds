@@ -39,14 +39,14 @@ function removeDemoFiles() {
 export const defaultConfig = {
   css: {
     postcss: null,
-    preprocessorOptions: {
-      scss: {
-        additionalData:
-        `@use "../../../src/scss/global-variables.scss" as *;
-         @use "../../../src/scss/mixins.scss" as *;
-        `,
-      },
-    },
+    // preprocessorOptions: {
+    //   scss: {
+    //     additionalData:
+    //     `@use "../../../src/scss/global-variables.scss" as *;
+    //      @use "../../../src/scss/mixins.scss" as *;
+    //     `,
+    //   },
+    // },
   },
   build: {
     lib: {
