@@ -31,7 +31,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.",
+          "description": "A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic accordion</figcaption>\n\n```html\n<nys-accordion>\n<nys-accordionitem heading=\"Section 1\">Content for section 1</nys-accordionitem>\n<nys-accordionitem heading=\"Section 2\">Content for section 2</nys-accordionitem>\n</nys-accordion>\n```\n\n</figure>",
           "name": "NysAccordion",
           "slots": [
             {
@@ -166,7 +166,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.\n\nPlace inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button\naccessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.",
+          "description": "A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.\n\nPlace inside `nys-accordion`. Set `expanded` to open by default. The heading acts as a toggle button\naccessible via click, Enter, or Space. Parent accordion controls `bordered` and `singleSelect` behavior.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Expanded item</figcaption>\n\n```html\n<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>\n```\n\n</figure>",
           "name": "NysAccordionItem",
           "slots": [
             {
@@ -357,7 +357,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.\n\nUse `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,\nand `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.",
+          "description": "Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.\n\nUse `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,\nand `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Info alert</figcaption>\n\n```html\n<nys-alert type=\"info\" heading=\"Update available\" text=\"A new version is ready to install.\"></nys-alert>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Dismissible success alert</figcaption>\n\n```html\n<nys-alert type=\"success\" heading=\"Application submitted\" dismissible></nys-alert>\n```\n\n</figure>",
           "name": "NysAlert",
           "slots": [
             {
@@ -713,7 +713,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Displays a user representation as image, initials, or icon with automatic fallback chain.\n\nPriority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;\nforeground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).",
+          "description": "Displays a user representation as image, initials, or icon with automatic fallback chain.\n\nPriority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;\nforeground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).\n\n## Examples\n\n<figure class=\"example\"><figcaption>Image avatar</figcaption>\n\n```html\n<nys-avatar image=\"/path/to/photo.jpg\" ariaLabel=\"Jane Smith\"></nys-avatar>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Initials avatar with custom color</figcaption>\n\n```html\n<nys-avatar initials=\"JS\" color=\"var(--nys-color-theme)\" ariaLabel=\"Jane Smith\"></nys-avatar>\n```\n\n</figure>",
           "name": "NysAvatar",
           "slots": [
             {
@@ -974,7 +974,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A floating \"Back to top\" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).",
+          "description": "A floating \"Back to top\" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).\n\n## Examples",
           "name": "NysBacktotop",
           "members": [
             {
@@ -1110,7 +1110,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.\n\nUse badges to highlight metadata like status (\"Approved\"), counts (\"3 new\"), or categories.\nSet `intent` to apply semantic meaning. Add `prefixIcon` or `suffixIcon` as boolean for default icons,\nor pass icon name strings for custom icons.",
+          "description": "A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.\n\nUse badges to highlight metadata like status (\"Approved\"), counts (\"3 new\"), or categories.\nSet `intent` to apply semantic meaning. Add `prefixIcon` or `suffixIcon` as boolean for default icons,\nor pass icon name strings for custom icons.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Status badge</figcaption>\n\n```html\n<nys-badge intent=\"success\" label=\"Approved\" prefixIcon></nys-badge>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Count badge</figcaption>\n\n```html\n<nys-badge prefixLabel=\"Messages\" label=\"12\"></nys-badge>\n```\n\n</figure>",
           "name": "NysBadge",
           "members": [
             {
@@ -1381,7 +1381,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.\n\nUse `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,\n`text` for inline. Set `href` to render as a navigation link.",
+          "description": "A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.\n\nUse `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,\n`text` for inline. Set `href` to render as a navigation link.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic filled button</figcaption>\n\n```html\n<nys-button label=\"Submit\" variant=\"filled\"></nys-button>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Secondary outline button</figcaption>\n\n```html\n<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Button with icons</figcaption>\n\n```html\n<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>\n<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Circle icon button</figcaption>\n\n```html\n<nys-button circle icon=\"close\" label=\"Close dialog\"></nys-button>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Form submit button</figcaption>\n\n```html\n<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>\n```\n\n</figure>",
           "name": "NysButton",
           "cssProperties": [
             {
@@ -2015,7 +2015,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.\nForm-associated with validation via ElementInternals.\n\nUse for binary decisions (agree/disagree) or selecting multiple options from a list.\nFor single selection from 2-6 options, use `nys-radiobutton`. For immediate state changes, use `nys-toggle`.",
+          "description": "A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.\nForm-associated with validation via ElementInternals.\n\nUse for binary decisions (agree/disagree) or selecting multiple options from a list.\nFor single selection from 2-6 options, use `nys-radiobutton`. For immediate state changes, use `nys-toggle`.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Single checkbox</figcaption>\n\n```html\n<nys-checkbox label=\"I agree to the terms\" name=\"terms\" required></nys-checkbox>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Checkbox group</figcaption>\n\n```html\n<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>\n```\n\n</figure>",
           "name": "NysCheckbox",
           "slots": [
             {
@@ -2531,7 +2531,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping multiple `nys-checkbox` components as a single form control.\nHandles validation, required constraints, and submits comma-separated values.\n\nUse to allow users to select multiple options from a list. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically.",
+          "description": "A container for grouping multiple `nys-checkbox` components as a single form control.\nHandles validation, required constraints, and submits comma-separated values.\n\nUse to allow users to select multiple options from a list. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic checkbox group</figcaption>\n\n```html\n<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>\n```\n\n</figure>",
           "name": "NysCheckboxgroup",
           "slots": [
             {
@@ -3593,7 +3593,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.\n\nUse to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.",
+          "description": "A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.\n\nUse to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic divider</figcaption>\n\n```html\n<p>Section one content</p>\n<nys-divider></nys-divider>\n<p>Section two content</p>\n```\n\n</figure>",
           "name": "NysDivider",
           "members": [
             {
@@ -3805,7 +3805,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.\nValidates file types via magic bytes (not just extension). Form-associated via ElementInternals.\n\nUse for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.",
+          "description": "A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.\nValidates file types via magic bytes (not just extension). Form-associated via ElementInternals.\n\nUse for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Single file upload</figcaption>\n\n```html\n<nys-fileinput label=\"Upload document\" accept=\".pdf,.doc\" required></nys-fileinput>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Multiple files with dropzone</figcaption>\n\n```html\n<nys-fileinput label=\"Upload images\" accept=\"image/*\" multiple dropzone></nys-fileinput>\n```\n\n</figure>",
           "name": "NysFileinput",
           "slots": [
             {
@@ -4612,7 +4612,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.\n\nPlace above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements\nto create multi-column layouts; without `<h4>`, renders as compact single section.",
+          "description": "Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.\n\nPlace above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements\nto create multi-column layouts; without `<h4>`, renders as compact single section.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Simple footer</figcaption>\n\n```html\n<nys-globalfooter agencyName=\"Department of Health\" homepageLink=\"/\">\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>\n```\n\n</figure>",
           "name": "NysGlobalFooter",
           "slots": [
             {
@@ -4726,7 +4726,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.",
+          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic header</figcaption>\n\n```html\n<nys-globalheader appName=\"My App\" agencyName=\"Department of Health\" homepageLink=\"/\">\n<ul><li><a href=\"/about\">About</a></li><li><a href=\"/contact\">Contact</a></li></ul>\n</nys-globalheader>\n```\n\n</figure>",
           "name": "NysGlobalHeader",
           "slots": [
             {
@@ -4909,7 +4909,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).\n\nPass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible\n(removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors.",
+          "description": "Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).\n\nPass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible\n(removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic icon</figcaption>\n\n```html\n<nys-icon name=\"check_circle\" size=\"lg\"></nys-icon>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Accessible icon with label</figcaption>\n\n```html\n<nys-icon name=\"warning\" ariaLabel=\"Warning\" color=\"var(--nys-color-warning)\"></nys-icon>\n```\n\n</figure>",
           "name": "NysIcon",
           "members": [
             {
@@ -5267,7 +5267,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.\n\nSet `open` to show the modal. Content goes in the default slot; action buttons in the `actions` slot.\nDismisses via close button or Escape key unless `mandatory` is set. Focus returns to trigger on close.",
+          "description": "An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.\n\nSet `open` to show the modal. Content goes in the default slot; action buttons in the `actions` slot.\nDismisses via close button or Escape key unless `mandatory` is set. Focus returns to trigger on close.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic modal</figcaption>\n\n```html\n<nys-modal id=\"confirm-modal\" heading=\"Confirm action\" open>\n<p>Are you sure you want to proceed?</p>\n<div slot=\"actions\">\n<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>\n<nys-button label=\"Confirm\" variant=\"filled\"></nys-button>\n</div>\n</nys-modal>\n```\n\n</figure>",
           "name": "NysModal",
           "slots": [
             {
@@ -5592,7 +5592,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.\n\nSet `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.\nHidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.",
+          "description": "Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.\n\nSet `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.\nHidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic pagination</figcaption>\n\n```html\n<nys-pagination currentPage=\"1\" totalPages=\"10\"></nys-pagination>\n```\n\n</figure>",
           "name": "NysPagination",
           "members": [
             {
@@ -5802,7 +5802,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.\n\nUse within `nys-radiogroup` for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.\nFor multiple selections, use `nys-checkbox`.",
+          "description": "A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.\n\nUse within `nys-radiogroup` for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.\nFor multiple selections, use `nys-checkbox`.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Radio group</figcaption>\n\n```html\n<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>\n```\n\n</figure>",
           "name": "NysRadiobutton",
           "slots": [
             {
@@ -6159,7 +6159,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.\nHandles keyboard navigation (arrow keys), validation, required constraints, and form integration.\n\nUse to let users select exactly one option from 2-6 choices. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically. For 7+ options, use `nys-select`.",
+          "description": "A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.\nHandles keyboard navigation (arrow keys), validation, required constraints, and form integration.\n\nUse to let users select exactly one option from 2-6 choices. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically. For 7+ options, use `nys-select`.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic radio group</figcaption>\n\n```html\n<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\"></nys-radiobutton>\n</nys-radiogroup>\n```\n\n</figure>",
           "name": "NysRadiogroup",
           "slots": [
             {
@@ -6640,7 +6640,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "An option item for use within `nys-select`. Wraps a native `<option>` element.\n\nPlace inside `nys-select`. Set `value` for form submission and `label` for display text.\nAlternatively, slot text content which auto-populates the label.",
+          "description": "An option item for use within `nys-select`. Wraps a native `<option>` element.\n\nPlace inside `nys-select`. Set `value` for form submission and `label` for display text.\nAlternatively, slot text content which auto-populates the label.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic options</figcaption>\n\n```html\n<nys-select>\n<nys-option value=\"ny\">New York</nys-option>\n<nys-option value=\"ca\" disabled>California</nys-option>\n</nys-select>\n```\n\n</figure>",
           "name": "NysOption",
           "slots": [
             {
@@ -6784,7 +6784,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.\nForm-associated with validation via ElementInternals.\n\nUse when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.\nFor multiple selections, use `nys-checkbox` group instead.",
+          "description": "A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.\nForm-associated with validation via ElementInternals.\n\nUse when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.\nFor multiple selections, use `nys-checkbox` group instead.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic select</figcaption>\n\n```html\n<nys-select label=\"Select borough\">\n<option value=\"bronx\">The Bronx</option>\n<option value=\"brooklyn\">Brooklyn</option>\n<option value=\"manhattan\">Manhattan</option>\n</nys-select>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>With option groups</figcaption>\n\n```html\n<nys-select label=\"Select service\">\n<optgroup label=\"Transportation\">\n<option value=\"mta\">MTA</option>\n<option value=\"dmv\">DMV</option>\n</optgroup>\n</nys-select>\n```\n\n</figure>",
           "name": "NysSelect",
           "slots": [
             {
@@ -7270,7 +7270,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "An accessible \"Skip to main content\" link for keyboard and screen reader users. Visually hidden until focused.\n\nPlace as the first focusable element in the document. Links to `#main-content` by default, or specify `href`\nfor a custom target. The target element receives focus when activated for proper screen reader announcement.",
+          "description": "An accessible \"Skip to main content\" link for keyboard and screen reader users. Visually hidden until focused.\n\nPlace as the first focusable element in the document. Links to `#main-content` by default, or specify `href`\nfor a custom target. The target element receives focus when activated for proper screen reader announcement.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Default skip link</figcaption>\n\n```html\n<nys-skipnav></nys-skipnav>\n<main id=\"main-content\">...</main>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Custom target</figcaption>\n\n```html\n<nys-skipnav href=\"#content-area\"></nys-skipnav>\n```\n\n</figure>",
           "name": "NysSkipnav",
           "members": [
             {
@@ -7388,7 +7388,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation or listen to `nys-step-click` for SPA routing.\n\n## Step States\n\nUnderstanding the three step states is critical for proper stepper usage:\n\n- **`selected`** - Which step is currently being displayed/viewed. This controls which step's\n  content is shown. Defaults to `current` if not set. Cannot be set on a step after `current`.\n  Users can click previous steps to change `selected` without changing `current`.\n\n- **`current`** - The furthest step the user has reached. This is the progress boundary.\n  Update this as the user completes steps and advances. Steps after `current` are not navigable.\n  Only one step should have `current` at a time.\n\n- **`previous`** - Auto-applied by the stepper to all steps before `current`. Do not set manually.\n  Steps with `previous` are clickable and allow the user to navigate back.\n\n## Common Patterns\n\n**Initial state:** Set `current` on the first step. `selected` will default to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (but progress is still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
+          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation or listen to `nys-step-click` for SPA routing.\n\n## Step States\n\nUnderstanding the three step states is critical for proper stepper usage:\n\n- **`selected`** - Which step is currently being displayed/viewed. This controls which step's\n  content is shown. Defaults to `current` if not set. Cannot be set on a step after `current`.\n  Users can click previous steps to change `selected` without changing `current`.\n\n- **`current`** - The furthest step the user has reached. This is the progress boundary.\n  Update this as the user completes steps and advances. Steps after `current` are not navigable.\n  Only one step should have `current` at a time.\n\n- **`previous`** - Auto-applied by the stepper to all steps before `current`. Do not set manually.\n  Steps with `previous` are clickable and allow the user to navigate back.\n\n## Common Patterns\n\n**Initial state:** Set `current` on the first step. `selected` will default to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (but progress is still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n## Examples\n\n<figure class=\"example\"><figcaption>Step with navigation</figcaption>\n\n```html\n<nys-step label=\"Personal Info\" href=\"/step-1\"></nys-step>\n```\n\n</figure>",
           "name": "NysStep",
           "members": [
             {
@@ -7584,7 +7584,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become\nnavigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.\n\n## Layout\n\nThe stepper is designed to sit in a sidebar alongside form content on desktop, stacking vertically on mobile.\nUse the NYSDS grid system:\n\n```html\n<div class=\"nys-grid-container\">\n  <div class=\"nys-grid-row\">\n    <div class=\"nys-grid-col-12 nys-desktop:nys-grid-col-4\">\n      <nys-stepper label=\"Application\">\n        <nys-step label=\"Personal Info\" current></nys-step>\n        <nys-step label=\"Review\"></nys-step>\n      </nys-stepper>\n    </div>\n    <div class=\"nys-grid-col-12 nys-desktop:nys-grid-col-8\">\n      <!-- Step content and form fields here -->\n    </div>\n  </div>\n</div>\n```\n\nThe stepper switches to a compact view on mobile automatically. Do not place the stepper inside the form element.",
+          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become\nnavigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.\nDo not place the stepper inside a form element.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic stepper</figcaption>\n\n```html\n<nys-stepper label=\"Application Progress\">\n<nys-step label=\"Personal Info\" current></nys-step>\n<nys-step label=\"Contact Details\"></nys-step>\n<nys-step label=\"Review\"></nys-step>\n</nys-stepper>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Grid layout with sidebar placement</figcaption>\n\nUse NYSDS grid utilities to position the stepper as a sidebar alongside form content.\n```html\n<div class=\"nys-grid-container\">\n<div class=\"nys-grid-row\">\n<nys-stepper label=\"Application\" class=\"nys-grid-col-12 nys-desktop:nys-grid-col-4\">\n<nys-step label=\"Personal Info\"></nys-step>\n<nys-step label=\"Contact\" current></nys-step>\n<nys-step label=\"Review\"></nys-step>\n</nys-stepper>\n<div class=\"nys-grid-col-12 nys-desktop:nys-grid-col-8\">\n<!-- Form content for current step -->\n<nys-textinput label=\"Email\" required></nys-textinput>\n<nys-textinput label=\"Phone\"></nys-textinput>\n</div>\n</div>\n</div>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Navigation buttons in actions slot</figcaption>\n\nAdd Previous/Next buttons using the actions slot. Wrap buttons in a `<div>`.\n```html\n<nys-stepper label=\"Application\">\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n<nys-step label=\"Step 3\"></nys-step>\n<div slot=\"actions\">\n<nys-button label=\"Previous\" variant=\"outline\"></nys-button>\n<nys-button label=\"Next\"></nys-button>\n</div>\n</nys-stepper>\n```\n\n</figure>",
           "name": "NysStepper",
           "slots": [
             {
@@ -8101,7 +8101,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-line text input for collecting longer responses like comments, descriptions, or feedback.\nForm-associated with validation support via ElementInternals.\n\nUse for detailed responses needing multiple lines. For single-line input, use `nys-textinput`.\nFor predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.",
+          "description": "A multi-line text input for collecting longer responses like comments, descriptions, or feedback.\nForm-associated with validation support via ElementInternals.\n\nUse for detailed responses needing multiple lines. For single-line input, use `nys-textinput`.\nFor predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic textarea</figcaption>\n\n```html\n<nys-textarea label=\"Comments\" rows=\"4\"></nys-textarea>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Required with description</figcaption>\n\n```html\n<nys-textarea label=\"Describe the incident\" description=\"Please provide details\" required></nys-textarea>\n```\n\n</figure>",
           "name": "NysTextarea",
           "slots": [
             {
@@ -8705,7 +8705,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A text input for collecting short, single-line data. Supports validation, input masking (tel),\npassword visibility toggle, and live error messaging. Form-associated via ElementInternals.\n\nUse for names, emails, passwords, phone numbers. For multi-line input, use `nys-textarea` instead.\nFor predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.",
+          "description": "A text input for collecting short, single-line data. Supports validation, input masking (tel),\npassword visibility toggle, and live error messaging. Form-associated via ElementInternals.\n\nUse for names, emails, passwords, phone numbers. For multi-line input, use `nys-textarea` instead.\nFor predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic text input</figcaption>\n\n```html\n<nys-textinput label=\"Full Name\" required></nys-textinput>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Email with validation</figcaption>\n\n```html\n<nys-textinput type=\"email\" label=\"Email Address\" required></nys-textinput>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Phone with masking</figcaption>\n\n```html\n<nys-textinput type=\"tel\" label=\"Phone Number\"></nys-textinput>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Search with button</figcaption>\n\n```html\n<nys-textinput type=\"search\" placeholder=\"Search\">\n<nys-button slot=\"endButton\" label=\"Search\" prefixIcon=\"search\"></nys-button>\n</nys-textinput>\n```\n\n</figure>",
           "name": "NysTextinput",
           "slots": [
             {
@@ -9423,7 +9423,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.\n\nUse when changing a setting takes effect immediately (e.g., dark mode, notifications).\nFor binary choices in forms that submit later, use `nys-checkbox` instead.",
+          "description": "A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.\n\nUse when changing a setting takes effect immediately (e.g., dark mode, notifications).\nFor binary choices in forms that submit later, use `nys-checkbox` instead.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Basic toggle</figcaption>\n\n```html\n<nys-toggle label=\"Enable notifications\" name=\"notifications\"></nys-toggle>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Dark mode toggle</figcaption>\n\n```html\n<nys-toggle label=\"Dark mode\" description=\"Adjust display for low light\" checked></nys-toggle>\n```\n\n</figure>",
           "name": "NysToggle",
           "slots": [
             {
@@ -9788,7 +9788,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Shows contextual help text on hover/focus. Auto-positions to stay within viewport and supports keyboard dismiss.\n\nLink to a trigger element via `for` attribute matching the trigger's `id`. Tooltip appears on hover or focus\nand dismisses on blur, mouse leave, or Escape key. Use for supplementary info only—not critical content.",
+          "description": "Shows contextual help text on hover/focus. Auto-positions to stay within viewport and supports keyboard dismiss.\n\nLink to a trigger element via `for` attribute matching the trigger's `id`. Tooltip appears on hover or focus\nand dismisses on blur, mouse leave, or Escape key. Use for supplementary info only—not critical content.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Tooltip for button</figcaption>\n\n```html\n<nys-button id=\"help-btn\" label=\"Help\" circle icon=\"help\"></nys-button>\n<nys-tooltip for=\"help-btn\" text=\"Click for assistance\"></nys-tooltip>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Positioned tooltip</figcaption>\n\n```html\n<nys-icon id=\"info-icon\" name=\"info\"></nys-icon>\n<nys-tooltip for=\"info-icon\" text=\"Additional details\" position=\"right\"></nys-tooltip>\n```\n\n</figure>",
           "name": "NysTooltip",
           "members": [
             {
@@ -10182,7 +10182,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.\n\nPlace as the last element before `</body>`. Displays NY.gov logo and links to Agencies,\nApp Directory, Counties, Events, Programs, and Services. No configuration needed.",
+          "description": "Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.\n\nPlace as the last element before `</body>`. Displays NY.gov logo and links to Agencies,\nApp Directory, Counties, Events, Programs, and Services. No configuration needed.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Standard usage</figcaption>\n\n```html\n<nys-globalfooter>...</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>\n```\n\n</figure>",
           "name": "NysUnavFooter",
           "members": [
             {
@@ -10241,7 +10241,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
+          "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.\n\n## Examples\n\n<figure class=\"example\"><figcaption>Standard usage</figcaption>\n\n```html\n<nys-unavheader></nys-unavheader>\n<nys-globalheader>...</nys-globalheader>\n```\n\n</figure>\n\n<figure class=\"example\"><figcaption>Without search</figcaption>\n\n```html\n<nys-unavheader hideSearch></nys-unavheader>\n```\n\n</figure>",
           "name": "NysUnavHeader",
           "members": [
             {
