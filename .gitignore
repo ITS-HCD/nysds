@@ -41,5 +41,5 @@ npm-debug.log*
 Thumbs.db
 
 # Ignore AI assistant files
-CLAUDE.md
+/CLAUDE.md
 docs/
