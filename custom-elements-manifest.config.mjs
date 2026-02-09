@@ -1,5 +1,6 @@
 // import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
+import { jsdocExamplePlugin } from "cem-plugin-jsdoc-example";
 
 // const reactOpts = {
 //   /** Output directory to write the React wrappers to - default is the root of the project */
@@ -44,6 +45,7 @@ export default {
   /** Provide custom plugins */
   plugins: [
     // customElementReactWrapperPlugin(reactOpts), // disabling until we get around to testing the react wrappers
+    jsdocExamplePlugin(),
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
