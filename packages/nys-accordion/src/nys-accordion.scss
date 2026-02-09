@@ -12,26 +12,29 @@
   --_nys-accordion-outline-color: var(--nys-color-focus, #004dd1);
   --_nys-accordion-gap: var(--nys-space-100, 8px);
 
-    /* Header & Text container */
-    --_nys-accordion-header-background-color: var(--nys-accordion-header-background-color, var(--nys-color-neutral-50, #ededed));
-    --_nys-accordion-header-background-color--hover: var(
-      --nys-color-neutral-100,
-      #d0d0ce
-    );
-    --_nys-accordionitem-gap: var(--nys-space-200, 16px);
-    --_nys-accordionitem-background-color: var(--nys-color-ink-reverse, #fff);
-    --_nys-accordionitem-padding: var(--nys-space-200, 16px)
-      var(--local-xx-spacing-205, 20px);
-    --_nys-accordion-content-max-width: var(--nys-accordion-content-max-width, 80ch);
+  /* Header & Text container */
+  --_nys-accordion-header-background-color: var(
+    --nys-accordion-header-background-color,
+    var(--nys-color-neutral-50, #ededed)
+  );
+  --_nys-accordion-header-background-color--hover: var(
+    --nys-color-neutral-100,
+    #d0d0ce
+  );
+  --_nys-accordionitem-gap: var(--nys-space-200, 16px);
+  --_nys-accordionitem-background-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-accordionitem-padding: var(--nys-space-200, 16px)
+    var(--local-xx-spacing-205, 20px);
+  --_nys-accordion-content-max-width: var(
+    --nys-accordion-content-max-width,
+    80ch
+  );
 
   /* Typography */
   --_nys-accordion-font-size: var(--nys-type-size-ui-xl, 20px);
   --_nys-accordion-font-weight: var(--nys-font-weight-bold, 700);
   --_nys-accordion-line-height: var(--nys-font-lineheight-ui-xl, 28px);
-  --_nys-accordion-letter-spacing: var(
-    --nys-font-letterspacing-ui-xl,
-    0.017px
-  );
+  --_nys-accordion-letter-spacing: var(--nys-font-letterspacing-ui-xl, 0.017px);
   --_nys-accordion-font-family: var(
     --nys-font-family-ui,
     var(
@@ -60,24 +63,24 @@ p {
   display: flex;
 }
 
-  .nys-accordionitem__heading {
-    all: unset;
-    flex: 1;
-    gap: var(--_nys-accordionitem-gap);
-    display: flex;
-    padding: var(--_nys-accordion-padding--y) var(--_nys-accordion-padding--x);
-    align-items: center;
-    align-self: stretch;
-    border-radius: var(--_nys-accordion-border-radius);
-    background-color: var(--_nys-accordion-header-background-color);
-    cursor: pointer;
-    transition: 0.05s all ease-in-out;
-  }
+.nys-accordionitem__heading {
+  all: unset;
+  flex: 1;
+  gap: var(--_nys-accordionitem-gap);
+  display: flex;
+  padding: var(--_nys-accordion-padding--y) var(--_nys-accordion-padding--x);
+  align-items: center;
+  align-self: stretch;
+  border-radius: var(--_nys-accordion-border-radius);
+  background-color: var(--_nys-accordion-header-background-color);
+  cursor: pointer;
+  transition: 0.05s all ease-in-out;
+}
 
-  .nys-accordionitem__heading:hover {
-    border-radius: var(--_nys-accordion-border-radius);
-    background-color: var(--_nys-accordion-header-background-color--hover);
-  }
+.nys-accordionitem__heading:hover {
+  border-radius: var(--_nys-accordion-border-radius);
+  background-color: var(--_nys-accordion-header-background-color--hover);
+}
 
 .nys-accordionitem__heading:focus-visible {
   outline-offset: var(--_nys-accordion-outline-offset);
@@ -112,9 +115,9 @@ p {
   background-color: var(--_nys-accordionitem-background-color);
 }
 
-  .nys-accordionitem__content-slot-container-text {
-    max-width: var(--_nys-accordion-content-max-width);
-  }
+.nys-accordionitem__content-slot-container-text {
+  max-width: var(--_nys-accordion-content-max-width);
+}
 
 /*** Expanded Styling ***/
 .expand-icon {
