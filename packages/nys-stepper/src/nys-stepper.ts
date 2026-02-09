@@ -12,6 +12,29 @@ let stepperIdCounter = 0;
  * Add `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become
  * navigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.
  *
+ * ## Layout
+ *
+ * The stepper is designed to sit in a sidebar alongside form content on desktop, stacking vertically on mobile.
+ * Use the NYSDS grid system:
+ *
+ * ```html
+ * <div class="nys-grid-container">
+ *   <div class="nys-grid-row">
+ *     <div class="nys-grid-col-12 nys-desktop:nys-grid-col-4">
+ *       <nys-stepper label="Application">
+ *         <nys-step label="Personal Info" current></nys-step>
+ *         <nys-step label="Review"></nys-step>
+ *       </nys-stepper>
+ *     </div>
+ *     <div class="nys-grid-col-12 nys-desktop:nys-grid-col-8">
+ *       <!-- Step content and form fields here -->
+ *     </div>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * The stepper switches to a compact view on mobile automatically. Do not place the stepper inside the form element.
+ *
  * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
  * @element nys-stepper
  *
