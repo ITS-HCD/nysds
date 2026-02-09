@@ -29,7 +29,7 @@ let textinputIdCounter = 0;
  * <nys-textinput label="Full Name" required></nys-textinput>
  * ```
  *
- * @example Email with validation
+ * @example Required Email
  * ```html
  * <nys-textinput type="email" label="Email Address" required></nys-textinput>
  * ```

@@ -15,40 +15,107 @@ if (!customElements.get("wc-datepicker")) {
 let componentIdCounter = 0;
 
 /**
- * `<nys-datepicker>` is a form-associated, accessible date picker component.
- * Optionally wraps a `<wc-datepicker>` for custom calendar UI.
+ * Date picker with calendar popup and form validation. Falls back to native date input
+ * on Safari and mobile.
  *
- * Events:
- * @fires nys-blur - Dispatched when input or calendar loses focus
- * @fires nys-input - Dispatched when user selects or types a valid date
+ * @summary Date picker with calendar popup and native fallback.
+ * @element nys-datepicker
  *
- * Notes:
- * - Uses native date input on Safari or mobile devices (custom calendar removed for these scenarios)
+ * @fires nys-blur - Fired when input or calendar loses focus. Triggers validation.
+ * @fires nys-input - Fired on date selection. Detail: `{id, value}`.
+ *
+ * @example Basic date picker
+ * ```html
+ * <nys-datepicker label="Birth Date" required></nys-datepicker>
+ * ```
+ *
+ * @example With width and description
+ * ```html
+ * <nys-datepicker
+ *   label="Event Date"
+ *   description="Select the date of your event"
+ *   width="lg">
+ * </nys-datepicker>
+ * ```
+ *
+ * @example Hide buttons, set start date
+ * ```html
+ * <nys-datepicker
+ *   label="Appointment"
+ *   hideTodayButton
+ *   hideClearButton
+ *   startDate="2024-01-01">
+ * </nys-datepicker>
+ * ```
+ *
+ * @example With validation error message
+ * ```html
+ * <nys-datepicker
+ *   label="Start Date"
+ *   required
+ *   errorMessage="Please select a valid start date">
+ * </nys-datepicker>
+ * ```
  */
 
 export class NysDatepicker extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
+
+  /** Name for form submission. */
   @property({ type: String, reflect: true }) name = "";
+
+  /**
+   * Input width: `md` (200px), `lg` (384px), `full` (100%).
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) width: "md" | "lg" | "full" = "md";
+
+  /** Hide the "Today" button in calendar popup. */
   @property({ type: Boolean }) hideTodayButton = false;
+
+  /** Hide the "Clear" button in calendar popup. */
   @property({ type: Boolean }) hideClearButton = false;
+
+  /** Disable interaction. */
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  /** Mark as required. Shows "Required" flag and validates on blur. */
   @property({ type: Boolean, reflect: true }) required = false;
+
+  /** Show "Optional" flag. Use when most fields are required. */
   @property({ type: Boolean, reflect: true }) optional = false;
+
+  /** Show error state. */
   @property({ type: Boolean, reflect: true }) showError = false;
+
+  /** Error message text. */
   @property({ type: String }) errorMessage = "";
+
+  /** Form `id` to associate with when input is outside form. */
   @property({ type: String, reflect: true }) form: string | null = null;
+
+  /** Tooltip text on info icon hover. */
   @property({ type: String }) tooltip = "";
 
+  /** Input type. Currently only supports `date`. */
   @property({ type: String }) type = "date";
+
+  /** Label text. Required for accessibility. */
   @property({ type: String }) label = "";
+
+  /** Helper text below label. */
   @property({ type: String }) description = "";
+
+  /** Initial date when calendar opens (YYYY-MM-DD). */
   @property({ type: String }) startDate = "";
+
+  /** Dark background mode. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
-  // Datepicker accepts both string and Date, but internally normalize it to Date
+  /** Selected date. Accepts Date object or ISO string (YYYY-MM-DD). */
   @property({
     type: Object,
     converter: {
