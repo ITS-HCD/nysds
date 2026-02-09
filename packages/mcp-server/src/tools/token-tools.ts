@@ -4,12 +4,9 @@
  * MCP tools for working with NYSDS design tokens.
  *
  * Tools:
- * - get_design_tokens: Get tokens with filtering and options
+ * - get_tokens: Get tokens, categories, or themes
  * - find_tokens: Search tokens by CSS variable, value, or description
- * - list_themes: List all 8 agency themes
- * - get_token_value: Get detailed info for a specific token
- * - validate_token_usage: Validate token usage in context
- * - list_token_categories: List categories with token counts
+ * - get_token_info: Get detailed token info with optional context validation
  * - get_token_graph: Get token dependency graph
  */
 
@@ -25,6 +22,7 @@ import {
   buildTokenGraph,
   type CSSTokenInfo,
 } from "../lib/token-parser.js";
+import { formatResponse } from "../lib/format.js";
 
 // ============================================================================
 // Theme Data
@@ -244,12 +242,18 @@ function validateTokenInContext(
 
 export function registerTokenTools(server: McpServer): void {
   // -------------------------------------------------------------------------
-  // get_design_tokens - Enhanced token retrieval
+  // get_tokens - Consolidated token retrieval (tokens, categories, or themes)
   // -------------------------------------------------------------------------
   server.tool(
-    "get_design_tokens",
-    "Get NYSDS design tokens with optional filtering by category or layer. Returns CSS variable names and values.",
+    "get_tokens",
+    "Get NYSDS design tokens, token categories, or agency themes",
     {
+      output: z
+        .enum(["tokens", "categories", "themes"])
+        .default("tokens")
+        .describe(
+          "What to return: 'tokens' for CSS variables, 'categories' for category list with counts, 'themes' for agency themes",
+        ),
       category: z
         .enum([
           "color",
@@ -264,23 +268,59 @@ export function registerTokenTools(server: McpServer): void {
           "icon",
         ])
         .optional()
-        .describe("Filter by token category"),
+        .describe("Filter tokens by category (only applies when output='tokens')"),
       layer: z
         .enum(["primitive", "applied", "theme", "appearance"])
         .optional()
         .describe(
-          "Filter by token layer (primitive = raw values, applied = semantic tokens, theme = agency theme tokens, appearance = light/dark mode)",
+          "Filter tokens by layer (only applies when output='tokens'). primitive = raw values, applied = semantic tokens, theme = agency theme tokens, appearance = light/dark mode",
         ),
       includeResolvedValues: z
         .boolean()
         .default(false)
-        .describe("Include resolved hex/rem values for previews"),
+        .describe("Include resolved hex/rem values (only applies when output='tokens')"),
       includeDescriptions: z
         .boolean()
         .default(true)
-        .describe("Include token descriptions"),
+        .describe("Include token descriptions (only applies when output='tokens')"),
     },
-    async ({ category, layer, includeResolvedValues, includeDescriptions }) => {
+    async ({ output, category, layer, includeResolvedValues, includeDescriptions }) => {
+      // Return categories
+      if (output === "categories") {
+        const categories = getCSSTokenCategories();
+        const total = categories.reduce((sum, c) => sum + c.count, 0);
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: formatResponse({ categories, totalTokens: total }),
+            },
+          ],
+        };
+      }
+
+      // Return themes
+      if (output === "themes") {
+        return {
+          content: [
+            {
+              type: "text",
+              text: formatResponse({
+                  themes: AGENCY_THEMES,
+                  usage: {
+                    htmlAttribute: '<html data-theme="admin">',
+                    cssClass: '<body class="nys-theme-admin">',
+                    cssCustomProperty: "Themes modify --nys-color-theme-* tokens",
+                  },
+                  totalThemes: AGENCY_THEMES.length,
+                }),
+            },
+          ],
+        };
+      }
+
+      // Return tokens (default)
       let tokens: CSSTokenInfo[];
 
       if (category) {
@@ -313,14 +353,7 @@ export function registerTokenTools(server: McpServer): void {
         content: [
           {
             type: "text",
-            text: JSON.stringify(
-              {
-                count: tokens.length,
-                tokens: formatted,
-              },
-              null,
-              2,
-            ),
+            text: formatResponse({ count: tokens.length, tokens: formatted }),
           },
         ],
       };
@@ -375,15 +408,7 @@ export function registerTokenTools(server: McpServer): void {
         content: [
           {
             type: "text",
-            text: JSON.stringify(
-              {
-                query,
-                count: results.length,
-                results: formatted,
-              },
-              null,
-              2,
-            ),
+            text: formatResponse({ query, count: results.length, results: formatted }),
           },
         ],
       };
@@ -391,50 +416,25 @@ export function registerTokenTools(server: McpServer): void {
   );
 
   // -------------------------------------------------------------------------
-  // list_themes - List agency themes
+  // get_token_info - Get detailed token info with optional context validation
   // -------------------------------------------------------------------------
   server.tool(
-    "list_themes",
-    "List all NYSDS agency themes with their selectors and primary colors",
-    {},
-    async () => {
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(
-              {
-                themes: AGENCY_THEMES,
-                usage: {
-                  htmlAttribute: '<html data-theme="admin">',
-                  cssClass: '<body class="nys-theme-admin">',
-                  cssCustomProperty: "Themes modify --nys-color-theme-* tokens",
-                },
-                totalThemes: AGENCY_THEMES.length,
-              },
-              null,
-              2,
-            ),
-          },
-        ],
-      };
-    },
-  );
-
-  // -------------------------------------------------------------------------
-  // get_token_value - Get detailed token info
-  // -------------------------------------------------------------------------
-  server.tool(
-    "get_token_value",
-    "Get detailed information about a specific design token including its value, description, and which tokens use it",
+    "get_token_info",
+    "Get detailed information about a specific design token. Optionally validate usage in a specific context (text, background, border, icon).",
     {
       token: z
         .string()
         .describe(
           'CSS variable name (e.g., "--nys-color-text" or "color-text")',
         ),
+      context: z
+        .enum(["text", "background", "border", "icon"])
+        .optional()
+        .describe(
+          "Optional: validate token usage for a specific context. When provided, includes recommendations and warnings.",
+        ),
     },
-    async ({ token }) => {
+    async ({ token, context }) => {
       const tokenInfo = getCSSTokenByVariable(token);
 
       if (!tokenInfo) {
@@ -442,15 +442,11 @@ export function registerTokenTools(server: McpServer): void {
           content: [
             {
               type: "text",
-              text: JSON.stringify(
-                {
+              text: formatResponse({
                   error: `Token not found: ${token}`,
                   suggestion:
                     "Try searching with find_tokens to discover available tokens",
-                },
-                null,
-                2,
-              ),
+                }),
             },
           ],
         };
@@ -461,104 +457,36 @@ export function registerTokenTools(server: McpServer): void {
       const node = graph.get(tokenInfo.cssVariable);
       const usedBy = node?.usedBy || [];
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(
-              {
-                cssVariable: tokenInfo.cssVariable,
-                cssValue: tokenInfo.cssValue,
-                resolvedValue: tokenInfo.resolvedValue,
-                description: tokenInfo.description,
-                category: tokenInfo.category,
-                layer: tokenInfo.layer,
-                usedBy: usedBy.length > 0 ? usedBy : undefined,
-                usage: `var(${tokenInfo.cssVariable})`,
-              },
-              null,
-              2,
-            ),
-          },
-        ],
+      // Base token info
+      const result: Record<string, unknown> = {
+        cssVariable: tokenInfo.cssVariable,
+        cssValue: tokenInfo.cssValue,
+        resolvedValue: tokenInfo.resolvedValue,
+        description: tokenInfo.description,
+        category: tokenInfo.category,
+        layer: tokenInfo.layer,
+        usedBy: usedBy.length > 0 ? usedBy : undefined,
+        usage: `var(${tokenInfo.cssVariable})`,
+        resourceUri: "nysds://tokens",
       };
-    },
-  );
 
-  // -------------------------------------------------------------------------
-  // validate_token_usage - Validate token in context
-  // -------------------------------------------------------------------------
-  server.tool(
-    "validate_token_usage",
-    "Validate whether a token is appropriate for a specific usage context (text, background, border, icon)",
-    {
-      token: z
-        .string()
-        .describe(
-          'CSS variable name (e.g., "--nys-color-text" or "color-text")',
-        ),
-      context: z
-        .enum(["text", "background", "border", "icon"])
-        .describe("How the token will be used"),
-    },
-    async ({ token, context }) => {
-      const tokenInfo = getCSSTokenByVariable(token);
-
-      if (!tokenInfo) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify(
-                {
-                  error: `Token not found: ${token}`,
-                  suggestion:
-                    "Try searching with find_tokens to discover available tokens",
-                },
-                null,
-                2,
-              ),
-            },
-          ],
+      // If context provided, add validation info
+      if (context) {
+        const validation = validateTokenInContext(tokenInfo, context);
+        result.validation = {
+          context,
+          valid: validation.valid,
+          recommendations: validation.recommendations.length > 0 ? validation.recommendations : undefined,
+          warnings: validation.warnings,
+          alternatives: validation.alternatives.length > 0 ? validation.alternatives : undefined,
         };
       }
 
-      const validation = validateTokenInContext(tokenInfo, context);
-
       return {
         content: [
           {
             type: "text",
-            text: JSON.stringify(validation, null, 2),
-          },
-        ],
-      };
-    },
-  );
-
-  // -------------------------------------------------------------------------
-  // list_token_categories - List categories with counts
-  // -------------------------------------------------------------------------
-  server.tool(
-    "list_token_categories",
-    "List all token categories with the number of tokens in each",
-    {},
-    async () => {
-      const categories = getCSSTokenCategories();
-      const total = categories.reduce((sum, c) => sum + c.count, 0);
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(
-              {
-                categories,
-                totalTokens: total,
-              },
-              null,
-              2,
-            ),
+            text: formatResponse(result),
           },
         ],
       };
@@ -596,8 +524,8 @@ export function registerTokenTools(server: McpServer): void {
         .int()
         .min(1)
         .max(100)
-        .default(50)
-        .describe("Maximum number of tokens to return"),
+        .default(20)
+        .describe("Maximum number of tokens to return (default: 20)"),
     },
     async ({ filter, category, limit }) => {
       const graph = buildTokenGraph();
@@ -651,8 +579,7 @@ export function registerTokenTools(server: McpServer): void {
         content: [
           {
             type: "text",
-            text: JSON.stringify(
-              {
+            text: formatResponse({
                 filter,
                 category: category || "all",
                 nodes: nodes.map((n) => ({
@@ -661,10 +588,7 @@ export function registerTokenTools(server: McpServer): void {
                   usedBy: n.usedBy.length > 0 ? n.usedBy : undefined,
                 })),
                 stats,
-              },
-              null,
-              2,
-            ),
+              }),
           },
         ],
       };
