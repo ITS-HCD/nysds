@@ -3160,6 +3160,15 @@
             },
             {
               "kind": "field",
+              "name": "_hasAnnouncedLabels",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "_hasUserInteracted",
               "type": {
                 "text": "boolean"
@@ -3404,6 +3413,11 @@
                   "text": "boolean"
                 }
               }
+            },
+            {
+              "kind": "method",
+              "name": "_handleFocusOnce",
+              "privacy": "private"
             }
           ],
           "events": [

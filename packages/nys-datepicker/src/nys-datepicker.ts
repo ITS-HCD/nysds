@@ -640,9 +640,12 @@ export class NysDatepicker extends LitElement {
             ? "disabled"
             : ""}"
         >
-          <span id="${this.id}-announceVO" class="sr-only">
-            ${this.label} + ${this.description}
-          </span>
+          <span id="${this.id}-label" class="sr-only"> ${this.label} </span>
+          ${this.description
+            ? html`<span id="${this.id}-description" class="sr-only">
+                ${this.description}
+              </span>`
+            : null}
           <input
             id=${this.id}
             class="nys-datepicker--input"
@@ -653,9 +656,14 @@ export class NysDatepicker extends LitElement {
               ? this.value.toISOString().split("T")[0]
               : this.value || ""}
             ?disabled=${this.disabled}
-            aria-describedby=${ifDefined(
+            aria-labelledby=${ifDefined(
               !this._hasAnnouncedLabels && this.label
-                ? `${this.id}-announceVO`
+                ? `${this.id}-label`
+                : undefined,
+            )}
+            aria-describedby=${ifDefined(
+              !this._hasAnnouncedLabels && this.description
+                ? `${this.id}-description`
                 : undefined,
             )}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
