@@ -64,11 +64,15 @@ export function registerComponentTools(server: McpServer): void {
         };
       }
 
+      // Remove members array to avoid duplication with attributes
+      // Attributes contains the HTML API, members duplicates this plus private methods
+      const { members: _members, ...componentWithoutMembers } = component;
+
       return {
         content: [
           {
             type: "text",
-            text: JSON.stringify(component, null, 2),
+            text: JSON.stringify(componentWithoutMembers, null, 2),
           },
         ],
       };
