@@ -70,9 +70,9 @@ export class NysLabel extends LitElement {
                 ></nys-icon> `
             : ""}
         </div>
-        <label for=${this.for} class="nys-label__description">
+        <p for=${this.for} class="nys-label__description">
           <slot name="description">${this.description}</slot>
-        </label>
+        </p>
       </div>
     `;
   }

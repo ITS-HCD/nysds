@@ -176,6 +176,7 @@ export class NysDatepicker extends LitElement {
     setTimeout(() => this._addMonthDropdownIcon(), 0);
     setTimeout(() => this._handleDateChange(), 0);
     setTimeout(() => this._onDocumentClick(), 0);
+    setTimeout(() => this._onDocumentEsc(), 0);
   }
 
   private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {
@@ -409,6 +410,12 @@ export class NysDatepicker extends LitElement {
       event.preventDefault();
       this._openDatepicker();
     }
+
+    if (event.key === "Escape" || event.code === "Escape") {
+      event.preventDefault();
+      const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+      datepicker?.classList.remove("active");
+    }
   }
 
   private _handleBlur(event: FocusEvent) {
@@ -456,6 +463,23 @@ export class NysDatepicker extends LitElement {
     };
 
     document.addEventListener("click", onClick);
+  }
+
+  private _onDocumentEsc() {
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+
+    const onKeydownEsc = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.code === "Escape") {
+        if (datepicker?.classList.contains("active")) {
+          event.preventDefault();
+          datepicker.classList.remove("active");
+          // Return focus to input
+          const input = this.shadowRoot?.querySelector("input");
+          input?.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeydownEsc);
   }
 
   private _toggleDatepicker() {
@@ -611,8 +635,6 @@ export class NysDatepicker extends LitElement {
             ?disabled=${this.disabled}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
             aria-required=${ifDefined(this.required ? "true" : undefined)}
-            aria-label=${ifDefined(this.label || undefined)}
-            aria-description=${ifDefined(this.description || undefined)}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
@@ -626,6 +648,8 @@ export class NysDatepicker extends LitElement {
                   tabindex=${this.disabled ? "-1" : "0"}
                   ?disabled=${this.disabled}
                   aria-label="Open calendar"
+                  aria-haspopup="dialog"
+                  aria-controls="wc-datepicker-popup"
                 >
                   <nys-icon name="calendar_month" size="24"></nys-icon>
                 </button>
@@ -633,7 +657,7 @@ export class NysDatepicker extends LitElement {
             : null}
         </div>
 
-        <div class="wc-datepicker--container">
+        <div class="wc-datepicker--container" id="wc-datepicker-popup">
           <wc-datepicker
             .value=${this.value instanceof Date
               ? this.value
