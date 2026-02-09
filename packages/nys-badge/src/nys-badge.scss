@@ -7,7 +7,7 @@
   --_nys-badge-radius: var(--nys-radius-round, 1776px);
   --_nys-badge-padding: var(--nys-space-2-px, 2px) var(--nys-space-100, 8px);
   --_nys-badge-gap: var(--nys-space-50, 4px);
-  --_nys-badge-color: var(--nys-color-ink, #000000);
+  --_nys-badge-color: var(--nys-color-ink, #000);
   --_nys-badge-background-color: var(--nys-color-base-weak, #f6f6f6);
   --_nys-badge-border-color: var(--nys-color-base, #62666a);
   --_nys-badge-border-width: var(--nys-border-width-sm, 1px);
@@ -58,10 +58,10 @@
 /* Variant */
 :host([variant="strong"]) {
   --_nys-badge-background-color: var(--_nys-badge-border-color);
-  --_nys-badge-color: var(--nys-color-white, #ffffff);
+  --_nys-badge-color: var(--nys-color-white, #fff);
 
   .nys-badge {
-    --nys-icon-color: var(--nys-color-white, #ffffff);
+    --nys-icon-color: var(--nys-color-white, #fff);
   }
 }
 
@@ -71,10 +71,10 @@
 
 :host([variant="strong"][intent="warning"]) {
   --_nys-badge-border-color: var(--nys-color-warning, #FACE00);
-  --_nys-badge-color: var(--nys-color-ink, #000000);
+  --_nys-badge-color: var(--nys-color-ink, #000);
 
   .nys-badge {
-    --nys-icon-color: var(--nys-color-ink, #000000);
+    --nys-icon-color: var(--nys-color-ink, #000);
   }
 }
 
@@ -94,6 +94,7 @@
   font-weight: var(--_nys-badge-font-weight);
   line-height: var(--_nys-badge-line-height);
   cursor: default;
+
   --nys-icon-color: var(--_nys-badge-border-color);
 }
 
