@@ -41,11 +41,47 @@ export class NysLabel extends LitElement {
   }
   private _tooltip: string = "";
 
+  /**
+   * Event Handlers
+   * --------------------------------------------------------------------------
+   */
+  private _handleLabelClick(event: Event) {
+    if (!this.for) return;
+
+    const parentShadowDOM = (this.getRootNode() as ShadowRoot).host;
+    let target: HTMLElement | null = null;
+
+    if (parentShadowDOM && parentShadowDOM.shadowRoot) {
+      target = parentShadowDOM.shadowRoot.querySelector(`#${this.for}`);
+    }
+
+    if (!target) return;
+
+    if (target instanceof HTMLInputElement) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (target.type === "file") {
+        target.click();
+      } else if (target.type === "checkbox" || target.type === "radio") {
+        target.focus();
+        target.click();
+      } else {
+        // For other inputs (text, date, number, email, etc.), just focus
+        target.focus();
+      }
+    } else {
+      (target as HTMLElement).focus();
+    }
+  }
+
   render() {
     return html`
       <div class="nys-label ${this.inverted ? "invert" : ""}">
         <div class="nys-label__tooltip-wrapper">
-          <label for=${this.for} class="nys-label__label"
+          <label
+            for=${this.for}
+            class="nys-label__label"
+            @click=${this._handleLabelClick}
             >${this.label}
             ${this.flag === "required"
               ? html`<div class="nys-label__required">*</div>`
@@ -70,7 +106,11 @@ export class NysLabel extends LitElement {
                 ></nys-icon> `
             : ""}
         </div>
-        <p for=${this.for} class="nys-label__description">
+        <p
+          for=${this.for}
+          class="nys-label__description"
+          @click=${this._handleLabelClick}
+        >
           <slot name="description">${this.description}</slot>
         </p>
       </div>

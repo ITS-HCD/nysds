@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 // @ts-ignore: SCSS module imported via bundler as inline
@@ -129,6 +129,8 @@ export class NysDatepicker extends LitElement {
     },
   })
   value: string | Date | undefined = undefined;
+
+  @state() private datepickerIsOpen = false;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
@@ -433,6 +435,7 @@ export class NysDatepicker extends LitElement {
 
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     datepicker?.classList.remove("active");
+    this.datepickerIsOpen = false;
     this._validate();
     this.dispatchEvent(new Event("nys-blur"));
   }
@@ -473,6 +476,7 @@ export class NysDatepicker extends LitElement {
         if (datepicker?.classList.contains("active")) {
           event.preventDefault();
           datepicker.classList.remove("active");
+          this.datepickerIsOpen = false;
           // Return focus to input
           const input = this.shadowRoot?.querySelector("input");
           input?.focus();
@@ -494,7 +498,8 @@ export class NysDatepicker extends LitElement {
     }
 
     const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
-    dateInput?.classList.toggle("active");
+    const isActive = dateInput?.classList.toggle("active");
+    this.datepickerIsOpen = !!isActive;
   }
 
   private _openDatepicker() {
@@ -502,6 +507,7 @@ export class NysDatepicker extends LitElement {
 
     const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
     dateInput?.classList.add("active");
+    this.datepickerIsOpen = true;
   }
 
   private _handleDateChange() {
@@ -515,6 +521,7 @@ export class NysDatepicker extends LitElement {
       this._validate();
 
       datepicker.classList.remove("active");
+      this.datepickerIsOpen = false;
     });
   }
 
@@ -612,7 +619,7 @@ export class NysDatepicker extends LitElement {
 
     return html` <div class="nys-datepicker--container">
         <nys-label
-          for=${this.id + "--native"}
+          for=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -625,7 +632,8 @@ export class NysDatepicker extends LitElement {
             : ""}"
         >
           <input
-            id="nys-datepicker--input"
+            id=${this.id}
+            class="nys-datepicker--input"
             type="date"
             max="9999-12-31"
             ?required=${this.required}
@@ -650,6 +658,7 @@ export class NysDatepicker extends LitElement {
                   aria-label="Open calendar"
                   aria-haspopup="dialog"
                   aria-controls="wc-datepicker-popup"
+                  aria-expanded=${this.datepickerIsOpen ? "true" : "false"}
                 >
                   <nys-icon name="calendar_month" size="24"></nys-icon>
                 </button>
@@ -657,8 +666,9 @@ export class NysDatepicker extends LitElement {
             : null}
         </div>
 
-        <div class="wc-datepicker--container" id="wc-datepicker-popup">
+        <div class="wc-datepicker--container">
           <wc-datepicker
+            id="wc-datepicker-popup"
             .value=${this.value instanceof Date
               ? this.value
               : this.value
@@ -666,6 +676,7 @@ export class NysDatepicker extends LitElement {
                 : undefined}
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
+            role="dialog"
           >
             ${!this.hideTodayButton || !this.hideClearButton
               ? html`
