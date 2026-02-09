@@ -2957,7 +2957,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-datepicker>` is a form-associated, accessible date picker component.\nOptionally wraps a `<wc-datepicker>` for custom calendar UI.\n\nEvents:",
+          "description": "Form-associated, accessible date picker with custom calendar UI.\nFalls back to native date input on Safari and mobile devices.",
           "name": "NysDatepicker",
           "members": [
             {
@@ -3380,14 +3380,14 @@
               "type": {
                 "text": "Event"
               },
-              "description": "Dispatched when input or calendar loses focus"
+              "description": "Dispatched when input or calendar loses focus."
             },
             {
               "name": "nys-input",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when user selects or types a valid date Notes: - Uses native date input on Safari or mobile devices (custom calendar removed for these scenarios)"
+              "description": "Dispatched when user selects or types a valid date."
             }
           ],
           "attributes": [
@@ -3541,7 +3541,8 @@
             "package": "lit"
           },
           "tagName": "nys-datepicker",
-          "customElement": true
+          "customElement": true,
+          "summary": "Accessible date picker with calendar popup and native fallback."
         }
       ],
       "exports": [
@@ -7583,7 +7584,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become\nnavigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.",
+          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become\nnavigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.\n\n## Layout\n\nThe stepper is designed to sit in a sidebar alongside form content on desktop, stacking vertically on mobile.\nUse the NYSDS grid system:\n\n```html\n<div class=\"nys-grid-container\">\n  <div class=\"nys-grid-row\">\n    <div class=\"nys-grid-col-12 nys-desktop:nys-grid-col-4\">\n      <nys-stepper label=\"Application\">\n        <nys-step label=\"Personal Info\" current></nys-step>\n        <nys-step label=\"Review\"></nys-step>\n      </nys-stepper>\n    </div>\n    <div class=\"nys-grid-col-12 nys-desktop:nys-grid-col-8\">\n      <!-- Step content and form fields here -->\n    </div>\n  </div>\n</div>\n```\n\nThe stepper switches to a compact view on mobile automatically. Do not place the stepper inside the form element.",
           "name": "NysStepper",
           "slots": [
             {
