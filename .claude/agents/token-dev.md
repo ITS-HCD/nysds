@@ -1,4 +1,5 @@
 ---
+name: token-dev
 model: sonnet
 description: Develops and maintains the NYSDS design token architecture (DTCG, Terrazzo, CSS custom properties)
 ---

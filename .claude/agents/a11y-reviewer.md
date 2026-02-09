@@ -1,4 +1,5 @@
 ---
+name: a11y-reviewer
 model: sonnet
 description: Reviews NYSDS web components for WCAG 2.2 AA accessibility compliance
 ---

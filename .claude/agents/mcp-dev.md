@@ -1,4 +1,5 @@
 ---
+name: mcp-dev
 model: sonnet
 description: Extends the NYSDS MCP server with new tools, resources, and a11y guidance
 ---

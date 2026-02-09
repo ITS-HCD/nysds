@@ -1,4 +1,5 @@
 ---
+name: angular-wrapper
 model: haiku
 description: Generates Angular integration directives for NYSDS web components
 ---

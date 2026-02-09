@@ -1,4 +1,5 @@
 ---
+name: docs-writer
 model: haiku
 description: Writes Storybook MDX docs, Code Connect files, and JSDoc for NYSDS components
 ---
