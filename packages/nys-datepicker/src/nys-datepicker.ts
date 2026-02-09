@@ -131,6 +131,7 @@ export class NysDatepicker extends LitElement {
   value: string | Date | undefined = undefined;
 
   @state() private datepickerIsOpen = false;
+  @state() private _hasAnnouncedLabels = false;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
@@ -614,6 +615,14 @@ export class NysDatepicker extends LitElement {
     return this._isSafari() || this._isMobile();
   }
 
+  private _handleFocusOnce() {
+    if (this._hasAnnouncedLabels) return;
+
+    setTimeout(() => {
+      this._hasAnnouncedLabels = true;
+    }, 100);
+  }
+
   render() {
     const useNative = this._shouldUseNativeDatepicker();
 
@@ -631,6 +640,9 @@ export class NysDatepicker extends LitElement {
             ? "disabled"
             : ""}"
         >
+          <span id="${this.id}-announceVO" class="sr-only">
+            ${this.label} + ${this.description}
+          </span>
           <input
             id=${this.id}
             class="nys-datepicker--input"
@@ -641,12 +653,18 @@ export class NysDatepicker extends LitElement {
               ? this.value.toISOString().split("T")[0]
               : this.value || ""}
             ?disabled=${this.disabled}
+            aria-describedby=${ifDefined(
+              !this._hasAnnouncedLabels && this.label
+                ? `${this.id}-announceVO`
+                : undefined,
+            )}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
             aria-required=${ifDefined(this.required ? "true" : undefined)}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
             @keydown=${this._handleInputKeydown}
+            @focus=${this._handleFocusOnce}
           />
           ${!useNative
             ? html`

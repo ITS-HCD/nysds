@@ -56,7 +56,7 @@ describe("nys-textarea", () => {
     );
 
     const label = el.shadowRoot?.querySelector("nys-label");
-    expect(label?.getAttribute("for")).to.equal("quote--native");
+    expect(label?.getAttribute("for")).to.equal("quote");
 
     const textarea = el.shadowRoot?.querySelector<HTMLTextAreaElement>(
       ".nys-textarea__textarea",
