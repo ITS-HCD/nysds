@@ -30,19 +30,24 @@ let stepperIdCounter = 0;
  *
  * @example Grid layout with sidebar placement
  * Use NYSDS grid utilities to position the stepper as a sidebar alongside form content.
+ * **Layout requirements:**
+ * - Wrap in `nys-grid-container` > `nys-grid-row`
+ * - Use mobile-first classes: `nys-grid-col-12` (stacks on mobile) plus `nys-desktop:nys-grid-col-*`
+ * - Columns must total 12 (e.g., 3+9 or 4+8)
+ * - Recommended: stepper 3-4 cols, content 8-9 cols
  * ```html
  * <div class="nys-grid-container">
  *   <div class="nys-grid-row">
- *     <nys-stepper label="Application" class="nys-grid-col-12 nys-desktop:nys-grid-col-4">
+ *     <nys-stepper label="Application" class="nys-grid-col-12 nys-desktop:nys-grid-col-3">
  *       <nys-step label="Personal Info"></nys-step>
  *       <nys-step label="Contact" current></nys-step>
  *       <nys-step label="Review"></nys-step>
  *     </nys-stepper>
- *     <div class="nys-grid-col-12 nys-desktop:nys-grid-col-8">
+ *     <main class="nys-grid-col-12 nys-desktop:nys-grid-col-9" id="main-content">
  *       <!-- Form content for current step -->
  *       <nys-textinput label="Email" required></nys-textinput>
  *       <nys-textinput label="Phone"></nys-textinput>
- *     </div>
+ *     </main>
  *   </div>
  * </div>
  * ```
