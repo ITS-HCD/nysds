@@ -1,4 +1,5 @@
 ---
+name: react-wrapper
 model: haiku
 description: Generates React wrapper components for NYSDS web components using @lit/react
 ---

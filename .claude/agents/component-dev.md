@@ -1,4 +1,5 @@
 ---
+name: component-dev
 model: sonnet
 description: Builds and improves Lit web components for the NYSDS component library
 ---

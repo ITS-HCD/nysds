@@ -1,4 +1,5 @@
 ---
+name: component-tester
 model: sonnet
 description: Writes and improves tests for NYSDS Lit web components
 ---
