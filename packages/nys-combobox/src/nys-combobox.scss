@@ -228,8 +228,8 @@
     border: var(--_nys-combobox-option-border-color--selected) solid 1px;
   }
 
-  &--highlighted:not([disabled]) {
-    border: solid var(--nys-color-focus, #004DD1) 2px;
+  &--focused:not([disabled]) {
+    border: var(--_nys-combobox-outline-color--focus) solid 2px;
   }
 
 

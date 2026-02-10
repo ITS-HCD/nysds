@@ -540,13 +540,13 @@ export class NysCombobox extends LitElement {
         `);
       }
 
-      const isHighlighted = index === this._highlightedIndex;
+      const isFocused = index === this._highlightedIndex;
       const isSelected = option.value === this.value;
 
       elements.push(html`
         <div
-          class="nys-combobox__option ${isHighlighted
-            ? "nys-combobox__option--highlighted"
+          class="nys-combobox__option ${isFocused
+            ? "nys-combobox__option--focused"
             : ""} ${isSelected ? "nys-combobox__option--selected" : ""}"
           role="option"
           data-index="${index}"
