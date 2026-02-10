@@ -60,8 +60,7 @@ let stepperIdCounter = 0;
  *   <nys-step label="Step 2" current></nys-step>
  *   <nys-step label="Step 3"></nys-step>
  *   <div slot="actions">
- *     <nys-button label="Previous" variant="outline"></nys-button>
- *     <nys-button label="Next"></nys-button>
+ *     <nys-button label="Save and Exit" variant="outline" size="sm" fullWidth></nys-button>
  *   </div>
  * </nys-stepper>
  * ```
