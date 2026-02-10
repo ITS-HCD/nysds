@@ -230,7 +230,7 @@
     border: var(--_nys-combobox-option-border-color--selected) solid 1px;
   }
 
-  &--focused:not([disabled]) {
+  &--focused:not([disabled]):not(:hover) {
     border: var(--_nys-combobox-outline-color--focus) solid 2px;
   }
 
