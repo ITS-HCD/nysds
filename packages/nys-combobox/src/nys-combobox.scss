@@ -162,33 +162,24 @@
 }
 
 /* Clear and Toggle Buttons */
-.nys-combobox__clear,
-.nys-combobox__toggle {
+.nys-combobox__buttons {
+  background-color: var(--_nys-combobox-background-color);
+  display: flex;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
+  right: var(--nys-space-150, 12px);
+  gap: var(--nys-space-150, 12px);
 
-  /* These props ARE publicly overridable */
-  --nys-button-background-color: var(--_nys-combobox-background-color);
-  --nys-button-background-color--hover: var(--_nys-combobox-background-color);
-  --nys-button-background-color--active: var(--_nys-combobox-background-color);
-
-  /* These props ARE NOT publicly overridable */
-  --_nys-button-outline-focus: calc(var(--_nys-button-outline-width) * -1);
+  nys-button {
   --_nys-button-padding--y: var(--nys-space-50, 4px);
   --_nys-button-padding--x: var(--nys-space-50, 4px);
   --_nys-button-height: var(--nys-size-300, 32px);
   --_nys-button-width: var(--nys-size-400, 32px);
-}
+  }
 
-.nys-combobox__toggle {
-  right: var(--nys-space-150, 12px);
-}
-
-.nys-combobox__clear {
-  right: calc(var(--nys-size-400, 32px) + var(--nys-space-50, 4px));
-  /* Position to the left of toggle */
+  .nys-combobox__chevron {
+    border-inline-start: solid var(--nys-color-neutral-200, #BEC0C1) var(--nys-border-width-sm, 1px);
+    padding-inline-start: var(--nys-space-150, 12px);
+  }
 }
 
 /* Listbox (Dropdown) */

@@ -617,42 +617,44 @@ export class NysCombobox extends LitElement {
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeyDown}"
             />
-            ${this.value
-              ? html`
-                  <nys-button
-                    class="nys-combobox__clear"
-                    suffixIcon="slotted"
-                    ariaLabel="clear selection"
-                    variant="ghost"
-                    size="sm"
-                    circle
-                    @nys-click=${this._handleClearClick}
-                    ?disabled=${this.disabled}
-                  >
-                    <nys-icon
-                      slot="suffix-icon"
-                      size="xl"
-                      name="close"
-                    ></nys-icon>
-                  </nys-button>
-                `
-              : ""}
-            <nys-button
-              class="nys-combobox__toggle"
-              suffixIcon="slotted"
-              ariaLabel="toggle dropdown"
-              variant="ghost"
-              size="sm"
-              circle
-              @nys-click=${this._handleIconClick}
-              ?disabled=${this.disabled}
-            >
-              <nys-icon
-                slot="suffix-icon"
-                size="xl"
-                name="chevron_down"
-              ></nys-icon>
-            </nys-button>
+            <div class="nys-combobox__buttons">
+              ${this.value
+                ? html`
+                    <nys-button
+                      class="nys-combobox__clear"
+                      suffixIcon="slotted"
+                      ariaLabel="clear selection"
+                      variant="ghost"
+                      size="sm"
+                      circle
+                      @nys-click=${this._handleClearClick}
+                      ?disabled=${this.disabled}
+                    >
+                      <nys-icon
+                        slot="suffix-icon"
+                        size="xl"
+                        name="close"
+                      ></nys-icon>
+                    </nys-button>
+                  `
+                : ""}
+              <nys-button
+                class="nys-combobox__chevron"
+                suffixIcon="slotted"
+                ariaLabel="toggle dropdown"
+                variant="ghost"
+                size="sm"
+                circle
+                @nys-click=${this._handleIconClick}
+                ?disabled=${this.disabled}
+              >
+                <nys-icon
+                  slot="suffix-icon"
+                  size="xl"
+                  name="chevron_down"
+                ></nys-icon>
+              </nys-button>
+            </div>
           </div>
           ${this._isOpen
             ? html`
