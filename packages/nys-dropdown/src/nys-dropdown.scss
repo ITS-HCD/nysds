@@ -1,0 +1,41 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Dropdown Styles */
+  --_nys-dropdown-width: fit-content;
+  --_nys-dropdown-height: var(--nys-size-600, 48px);
+  --_nys-dropdown-radius: var(--nys-radius-xl, 12px);
+  --_nys-dropdown-padding: var(--nys-space-100, 8px);
+  --_nys-dropdown-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-dropdown-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-dropdown-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-dropdown-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-dropdown-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+.nys-dropdown {
+  width: var(--_nys-dropdown-width);
+  height: var(--_nys-dropdown-height);
+  border-radius: var(--_nys-dropdown-radius);
+  padding: var(--_nys-dropdown-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--_nys-dropdown-gap);
+  font-family: var(--_nys-dropdown-font-family);
+  font-size: var(--_nys-dropdown-font-size);
+  font-weight: var(--_nys-dropdown-font-weight);
+  line-height: var(--_nys-dropdown-line-height);
+}

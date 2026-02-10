@@ -3719,6 +3719,96 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-dropdown/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-dropdown/src/nys-dropdown"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-dropdown/src/nys-dropdown.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-your-component-name>` is ...",
+          "name": "NysDropdown",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-dropdown",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-dropdown",
+          "declaration": {
+            "name": "NysDropdown",
+            "module": "packages/nys-dropdown/src/nys-dropdown.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDropdown",
+          "declaration": {
+            "name": "NysDropdown",
+            "module": "packages/nys-dropdown/src/nys-dropdown.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-errormessage/src/index.ts",
       "declarations": [],
       "exports": [
