@@ -96,9 +96,12 @@ function getCEMPath(): string {
       __dirname,
       "../../../node_modules/@nysds/components/dist/custom-elements.json",
     ),
-    // Relative to monorepo root (during development)
+    // Root of monorepo (during development) - WHERE CEM ACTUALLY OUTPUTS
+    resolve(__dirname, "../../../../custom-elements.json"),
+    // Legacy dist location
     resolve(__dirname, "../../../../dist/custom-elements.json"),
     // Direct path for testing
+    resolve(process.cwd(), "custom-elements.json"),
     resolve(process.cwd(), "dist/custom-elements.json"),
   ];
 
