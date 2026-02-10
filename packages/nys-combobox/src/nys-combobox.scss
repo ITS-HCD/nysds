@@ -44,6 +44,8 @@
       #F6F6F6);
   --_nys-combobox-option-background-color--active: var(--nys-color-neutral-50,
       #EDEDED);
+  --_nys-combobox-option-background-color--disabled: var(--nys-color-neutral-10, #F6F6F6);
+  --_nys-combobox-option-color--disabled: var(--nys-color-text-disabled, #BEC0C1);
   --_nys-combobox-option-background-color--selected: var(--nys-theme-weaker,
       #EFF6FB);
   --_nys-combobox-option-border-color--selected: var(--nys-color-theme-mid, #457AA5);
@@ -234,8 +236,8 @@
 
 
   &[disabled] {
-    background: var(--nys-color-neutral-10, #F6F6F6);
-    color: var(--nys-color-text-disabled, #BEC0C1);
+    background-color: var(--_nys-combobox-option-background-color--disabled);
+    color: var(--_nys-combobox-option-color--disabled);
     cursor: not-allowed;
   }
 }
