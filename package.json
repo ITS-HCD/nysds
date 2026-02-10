@@ -46,7 +46,7 @@
     "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && rm -rf packages/*/dist && rm -rf packages/**/*/dist",
     "clean:all": "npm run clean:dist && npm run clean:node",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs",
+    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && npm run cem:copy",
     "cem:copy": "cp ./custom-elements.json dist/"
   },
   "repository": {
