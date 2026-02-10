@@ -73,8 +73,14 @@ export function registerComponentTools(server: McpServer): void {
       tagName: z
         .string()
         .describe("The tag name of the component (e.g., 'nys-button')"),
+      includeExamples: z
+        .boolean()
+        .default(false)
+        .describe(
+          "Include HTML code examples from component JSDoc. Set to true when you need usage patterns.",
+        ),
     },
-    async ({ tagName }) => {
+    async ({ tagName, includeExamples }) => {
       const component = getComponent(tagName);
 
       if (!component) {
@@ -93,12 +99,35 @@ export function registerComponentTools(server: McpServer): void {
       // Attributes contains the HTML API, members duplicates this plus private methods
       const { members: _members, ...componentWithoutMembers } = component;
 
+      // Extract examples from description into separate field to avoid truncation
+      let description = componentWithoutMembers.description || "";
+      const examples: Array<{ title: string; description?: string; code: string }> = [];
+
+      const examplesMatch = description.match(/## Examples\s*([\s\S]*)/);
+      if (examplesMatch) {
+        // Remove examples section from main description
+        description = description.replace(/## Examples\s*[\s\S]*/, "").trim();
+
+        // Parse individual examples from <figure class="example"> blocks
+        const figureRegex = /<figure class="example"><figcaption>([^<]+)<\/figcaption>\s*([\s\S]*?)```html\s*([\s\S]*?)```\s*<\/figure>/g;
+        let match;
+        while ((match = figureRegex.exec(examplesMatch[1])) !== null) {
+          examples.push({
+            title: match[1].trim(),
+            description: match[2].trim() || undefined,
+            code: match[3].trim(),
+          });
+        }
+      }
+
       return {
         content: [
           {
             type: "text",
             text: JSON.stringify({
               ...componentWithoutMembers,
+              description,
+              examples: includeExamples && examples.length > 0 ? examples : undefined,
               resourceUri: `nysds://component/${tagName}`,
             }, null, 2),
           },
