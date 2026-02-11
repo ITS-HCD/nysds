@@ -18,8 +18,8 @@
     var(--nys-color-neutral-50, #ededed)
   );
   --_nys-accordion-background-color--header--hover: var(
-    --nys-color-neutral-100,
-    #d0d0ce
+    --nys-accordion-background-color--header--hover,
+    var(--nys-color-neutral-100, #d0d0ce)
   );
   --_nys-accordionitem-gap: var(--nys-space-200, 16px);
   --_nys-accordionitem-background-color: var(--nys-color-ink-reverse, #fff);
