@@ -91,23 +91,29 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
 
 ## Available Tools
 
-### P0 (Core)
+### Components
 
 | Tool | Description |
 |------|-------------|
-| `list_components` | List all NYSDS components with summaries |
-| `get_component_docs` | Full documentation for a specific component |
-| `find_components` | Search components by name/description |
-| `get_design_tokens` | Get token values by category |
-| `get_usage_guide` | Installation and usage patterns |
+| `find_components` | Search for components by name/description, or list all (omit query) |
+| `get_component` | Full documentation for a specific component. Use `includeExamples: true` for code examples. |
+| `validate_component_api` | Validate that attributes/properties are valid for a component |
 
-### P1 (Extended)
+### Design Tokens
 
 | Tool | Description |
 |------|-------------|
-| `validate_component_api` | Validate prop/attribute usage |
-| `setup_framework` | Framework-specific setup guides |
-| `find_tokens` | Search tokens by name/value |
+| `get_tokens` | Get tokens, categories, or agency themes. Filter by category or layer. |
+| `find_tokens` | Search tokens by CSS variable name, value, or description |
+| `get_token_info` | Detailed info for a specific token with optional context validation |
+| `get_token_graph` | Token dependency graph showing references and usage |
+
+### Styles & Guides
+
+| Tool | Description |
+|------|-------------|
+| `get_utility_classes` | Grid, flexbox, spacing, display, and typography utility classes |
+| `get_guide` | Guides for installation, forms, styles, fonts, page structure, or framework setup |
 
 ## Available Resources
 
@@ -115,7 +121,13 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
 |-----|-------------|
 | `nysds://components` | Component overview list |
 | `nysds://component/{tag}` | Individual component docs |
-| `nysds://tokens` | All design tokens |
+| `nysds://tokens` | All design tokens with CSS variables and descriptions |
+| `nysds://tokens/css` | Raw tokens.css file content |
+| `nysds://tokens/graph` | Token dependency graph with stats |
+| `nysds://tokens/color` | Color tokens only |
+| `nysds://tokens/font` | Typography tokens |
+| `nysds://tokens/space` | Spacing tokens |
+| `nysds://tokens/size` | Size tokens |
 | `nysds://installation` | Installation guide |
 
 ## Prompts
