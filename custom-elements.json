@@ -3010,15 +3010,6 @@
             },
             {
               "kind": "field",
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "attribute": "placeholder"
-            },
-            {
-              "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
@@ -3400,11 +3391,6 @@
             },
             {
               "kind": "method",
-              "name": "_handleLabelClick",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "_handleOptionClick",
               "privacy": "private",
               "parameters": [
@@ -3521,14 +3507,6 @@
               },
               "default": "\"\"",
               "fieldName": "description"
-            },
-            {
-              "name": "placeholder",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "fieldName": "placeholder"
             },
             {
               "name": "value",
