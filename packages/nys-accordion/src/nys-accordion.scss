@@ -13,11 +13,11 @@
   --_nys-accordion-gap: var(--nys-space-100, 8px);
 
   /* Header & Text container */
-  --_nys-accordion-header-background-color: var(
-    --nys-accordion-header-background-color,
+  --_nys-accordion-background-color--header: var(
+    --nys-accordion-background-color--header,
     var(--nys-color-neutral-50, #ededed)
   );
-  --_nys-accordion-header-background-color--hover: var(
+  --_nys-accordion-background-color--header--hover: var(
     --nys-color-neutral-100,
     #d0d0ce
   );
@@ -72,14 +72,14 @@ p {
   align-items: center;
   align-self: stretch;
   border-radius: var(--_nys-accordion-border-radius);
-  background-color: var(--_nys-accordion-header-background-color);
+  background-color: var(--_nys-accordion-background-color--header);
   cursor: pointer;
   transition: 0.05s all ease-in-out;
 }
 
 .nys-accordionitem__heading:hover {
   border-radius: var(--_nys-accordion-border-radius);
-  background-color: var(--_nys-accordion-header-background-color--hover);
+  background-color: var(--_nys-accordion-background-color--header--hover);
 }
 
 .nys-accordionitem__heading:focus-visible {
