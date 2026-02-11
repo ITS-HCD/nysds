@@ -3,7 +3,7 @@
 MCP (Model Context Protocol) server for the New York State Design System. Exposes NYSDS components, design tokens, and documentation to AI assistants.
 
 > [!WARNING]
-> This MCP server is a work-in-progress and the current results are incomplete or inaccurate. The server is functional, but the quality of the output depends on the robustness of the underlying documentation, which requires some updating. Our team is in the process of migrating design tokens to the [DTCG 2025.10 format](https://www.designtokens.org/tr/2025.10/format/) (will be @nysds/tokens) and enhancing component JSDoc with patterns, accessibility guidance, and usage rules based on guidance from ["Effective Writing for AI" by Benny Powers](https://bennypowers.dev/cem/docs/mcp/writing-descriptions/). AI results should improve significantly as tokens and improved documentation rolls out.
+> This MCP server is a work-in-progress and the current tool results are being refined. The server is functional, but the quality of the output depends on the robustness of the underlying documentation, and we're enhancing component JSDoc with patterns, accessibility guidance, and usage rules based on guidance from ["Effective Writing for AI" by Benny Powers](https://bennypowers.dev/cem/docs/mcp/writing-descriptions/).
 
 ## Installation
 
