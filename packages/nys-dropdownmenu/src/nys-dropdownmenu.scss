@@ -2,11 +2,12 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Dropdownmenu Styles */
-  --_nys-dropdownmenu-width: fit-content;
+  --_nys-dropdownmenu-width: 212px;
   --_nys-dropdownmenu-height: var(--nys-size-600, 48px);
-  --_nys-dropdownmenu-radius: var(--nys-radius-xl, 12px);
-  --_nys-dropdownmenu-padding: var(--nys-space-100, 8px);
-  --_nys-dropdownmenu-gap: var(--nys-space-100, 8px);
+  --_nys-dropdownmenu-radius: var(--nys-radius-md, 4px);
+  --_nys-dropdownmenu-border-size: var(--nys-border-width-sm, 1px);
+  --_nys-dropdownmenu-border-color: var(--nys-color-neutral-100, #d0d0ce);
+  --_nys-dropdownmenu-background-color: var(--nys-color-ink-reverse, #fff);
 
   /* Typography */
   --_nys-dropdownmenu-font-size: var(--nys-font-size-ui-md, 16px);
@@ -26,14 +27,15 @@
 }
 
 .nys-dropdownmenu {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
   width: var(--_nys-dropdownmenu-width);
   height: var(--_nys-dropdownmenu-height);
   border-radius: var(--_nys-dropdownmenu-radius);
-  padding: var(--_nys-dropdownmenu-padding);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--_nys-dropdownmenu-gap);
+  border: var(--_nys-dropdownmenu-border-size) solid
+    var(--_nys-dropdownmenu-border-color);
+  background: var(--_nys-dropdownmenu-background-color);
   font-family: var(--_nys-dropdownmenu-font-family);
   font-size: var(--_nys-dropdownmenu-font-size);
   font-weight: var(--_nys-dropdownmenu-font-weight);

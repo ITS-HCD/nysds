@@ -1,7 +1,7 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from "./nys-dropdown.scss?inline";
+import styles from "./nys-dropdownmenu.scss?inline";
 
 /**
  * **Slotted component.** Displays an individual dropdown item within `nys-dropdown` with label.
@@ -22,7 +22,9 @@ export class NysDropdownItem extends LitElement {
   @property({ type: String }) divider = "";
 
   render() {
-    return html` <li role="menuitem"><a href="${this.link}">${this.label}</a></li>`;
+    return html` <li role="menuitem">
+      <a href="${this.link}">${this.label}</a>
+    </li>`;
   }
 }
 

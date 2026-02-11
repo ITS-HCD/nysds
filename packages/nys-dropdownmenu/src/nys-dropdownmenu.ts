@@ -1,13 +1,13 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
-import styles from "./nys-dropdown.scss?inline";
+import styles from "./nys-dropdownmenu.scss?inline";
 
 /**
  * Dropdown menus enable users to select an action from a list of options. They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.
  */
 
-export class NysDropdown extends LitElement {
+export class NysDropdownMenu extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) for = "";
@@ -38,6 +38,7 @@ export class NysDropdown extends LitElement {
     if (!this._userHasSetPosition) {
       this._userHasSetPosition = value !== null;
       this._originalUserPosition = value;
+      console.log(this._originalUserPosition);
     }
   }
 
@@ -66,7 +67,7 @@ export class NysDropdown extends LitElement {
   // Placeholder for event handlers if needed
 
   render() {
-    return html`<div class="nys-dropdown">
+    return html`<div class="nys-dropdownmenu">
       <ul role="menu">
         <slot></slot>
       </ul>
@@ -74,6 +75,6 @@ export class NysDropdown extends LitElement {
   }
 }
 
-if (!customElements.get("nys-dropdown")) {
-  customElements.define("nys-dropdown", NysDropdown);
+if (!customElements.get("nys-dropdownmenu")) {
+  customElements.define("nys-dropdownmenu", NysDropdownMenu);
 }

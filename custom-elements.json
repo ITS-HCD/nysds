@@ -3654,6 +3654,244 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-dropdownmenu/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Dropdown menus enable users to select an action from a list of options. They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.",
+          "name": "NysDropdown",
+          "members": [
+            {
+              "kind": "field",
+              "name": "for",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "for",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "divider"
+            },
+            {
+              "kind": "field",
+              "name": "_userHasSetPosition",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_originalUserPosition",
+              "type": {
+                "text": "typeof this._position | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_position",
+              "type": {
+                "text": "\"left\" | \"right\" | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "position",
+              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
+              "default": "null (auto-positioned based on available space)",
+              "attribute": "position",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "for",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "for"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "divider"
+            },
+            {
+              "name": "position",
+              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
+              "default": "null (auto-positioned based on available space)",
+              "fieldName": "position"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-dropdown",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-dropdown",
+          "declaration": {
+            "name": "NysDropdown",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDropdown",
+          "declaration": {
+            "name": "NysDropdown",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "**Slotted component.** Displays an individual dropdown item within `nys-dropdown` with label.\n\nThe `nys-dropdownitem` is used as customizable item within the dropdown so users don't have to raw code <ul>, <li>, <a href>\nand have the benefit of default customization.",
+          "name": "NysDropdownItem",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "link",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "link"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "divider"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "link",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "link"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "divider"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-dropdownitem",
+          "customElement": true,
+          "summary": "Dropdown item to display label and provide href link."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-dropdownitem",
+          "declaration": {
+            "name": "NysDropdownItem",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDropdownItem",
+          "declaration": {
+            "name": "NysDropdownItem",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-errormessage/src/index.ts",
       "declarations": [],
       "exports": [
