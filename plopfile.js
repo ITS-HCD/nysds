@@ -39,11 +39,11 @@ export default function (plop) {
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.figma.ts",
         templateFile: "templates/figma.template.hbs",
       },
-      {
-        type: "add",
-        path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.mdx",
-        templateFile: "templates/mdx.template.hbs",
-      },
+      // {
+      //   type: "add",
+      //   path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.mdx",
+      //   templateFile: "templates/mdx.template.hbs",
+      // },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.stories.ts",
