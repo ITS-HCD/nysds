@@ -260,7 +260,8 @@
   }
 
   &--focused:not([disabled]):not(:hover) {
-    border: var(--_nys-combobox-outline-color--focus) solid 2px;
+    outline: var(--_nys-combobox-outline-color--focus) solid 2px;
+    outline-offset: -2px;
   }
 
   &[disabled] {
