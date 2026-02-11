@@ -131,7 +131,6 @@ export class NysDatepicker extends LitElement {
   value: string | Date | undefined = undefined;
 
   @state() private datepickerIsOpen = false;
-  @state() private _hasAnnouncedLabels = false;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
@@ -615,14 +614,6 @@ export class NysDatepicker extends LitElement {
     return this._isSafari() || this._isMobile();
   }
 
-  private _handleFocusOnce() {
-    if (this._hasAnnouncedLabels) return;
-
-    setTimeout(() => {
-      this._hasAnnouncedLabels = true;
-    }, 100);
-  }
-
   render() {
     const useNative = this._shouldUseNativeDatepicker();
 
@@ -640,12 +631,6 @@ export class NysDatepicker extends LitElement {
             ? "disabled"
             : ""}"
         >
-          <span id="${this.id}-label" class="sr-only"> ${this.label} </span>
-          ${this.description
-            ? html`<span id="${this.id}-description" class="sr-only">
-                ${this.description}
-              </span>`
-            : null}
           <input
             id=${this.id}
             class="nys-datepicker--input"
@@ -656,23 +641,13 @@ export class NysDatepicker extends LitElement {
               ? this.value.toISOString().split("T")[0]
               : this.value || ""}
             ?disabled=${this.disabled}
-            aria-labelledby=${ifDefined(
-              !this._hasAnnouncedLabels && this.label
-                ? `${this.id}-label`
-                : undefined,
-            )}
-            aria-describedby=${ifDefined(
-              !this._hasAnnouncedLabels && this.description
-                ? `${this.id}-description`
-                : undefined,
-            )}
+            aria-label=${ifDefined(this.label || undefined)}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
             aria-required=${ifDefined(this.required ? "true" : undefined)}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
             @keydown=${this._handleInputKeydown}
-            @focus=${this._handleFocusOnce}
           />
           ${!useNative
             ? html`
