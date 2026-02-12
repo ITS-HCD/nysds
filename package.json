@@ -42,7 +42,7 @@
     "build-storybook": "npm run build:packages && storybook build",
     "storybook:cibuild": "storybook build",
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf packages/**/*/node_modules",
-    "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && rm -rf packages/*/dist && rm -rf packages/**/*/dist",
+    "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && find packages -type d -name dist ! -path '*/mcp-server/dist' -exec rm -rf {} + 2>/dev/null || true",
     "clean:all": "npm run clean:dist && npm run clean:node",
     "code-connect": "dotenv -- npx figma connect publish",
     "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs",
