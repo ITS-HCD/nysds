@@ -3284,6 +3284,11 @@
             {
               "kind": "method",
               "name": "_setTodayDate",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setFocusOnTodayDate",
               "privacy": "private",
               "parameters": [
                 {
@@ -3381,6 +3386,19 @@
                   "name": "value",
                   "type": {
                     "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleFocusTrap",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
                   }
                 }
               ]

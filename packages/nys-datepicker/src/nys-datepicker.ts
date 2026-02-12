@@ -401,15 +401,34 @@ export class NysDatepicker extends LitElement {
     return new Date(year, month - 1, day);
   }
 
-  private _setTodayDate(visualFocusOnly = false) {
+  private _setTodayDate() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
+    this._setValue(today);
+  }
+
+  private async _setFocusOnTodayDate(visualFocusOnly = false) {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
 
-    if (visualFocusOnly) {
-      const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
-      datepicker!.value = today;
-    } else {
-      this._setValue(today);
+    const yyyyMmDd = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, "0"),
+      String(today.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    if (!datepicker) return;
+
+    datepicker.value = today;
+
+    const todayCell = datepicker.querySelector(
+      `td[data-date="${yyyyMmDd}"]`,
+    ) as HTMLElement | null;
+    if (!todayCell) return;
+
+    if (!visualFocusOnly) {
+      todayCell.focus();
     }
   }
 
@@ -449,8 +468,10 @@ export class NysDatepicker extends LitElement {
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     datepicker?.classList.remove("active");
     this.datepickerIsOpen = false;
+
     this._validate();
     this.dispatchEvent(new Event("nys-blur"));
+    this.removeEventListener("keydown", this._handleFocusTrap);
   }
 
   // For when users click outside of the datepicker, we remove the calendar popup
@@ -491,6 +512,7 @@ export class NysDatepicker extends LitElement {
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     datepicker?.classList.remove("active");
     this.datepickerIsOpen = false;
+    this.removeEventListener("keydown", this._handleFocusTrap);
 
     // Return focus to input
     const input = this.shadowRoot?.querySelector("input");
@@ -512,8 +534,10 @@ export class NysDatepicker extends LitElement {
     const isActive = dateInput?.classList.toggle("active");
     this.datepickerIsOpen = !!isActive;
     if (!this.value) {
-      this._setTodayDate(true);
+      this._setFocusOnTodayDate();
     }
+
+    this.addEventListener("keydown", this._handleFocusTrap);
   }
 
   private _openDatepicker() {
@@ -522,18 +546,21 @@ export class NysDatepicker extends LitElement {
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     if (!datepicker) return;
 
+    // Following native focus behaviors where if no date is set on input, the calendar popup will focus on today's date
     if (!this.value) {
-      this._setTodayDate(true);
+      this._setFocusOnTodayDate(true);
     }
 
     datepicker?.classList.add("active");
     this.datepickerIsOpen = true;
+    this.addEventListener("keydown", this._handleFocusTrap);
   }
 
   private _handleDateChange() {
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     if (!datepicker) return;
 
+    // The "selectDate" event is a custom event from the wc-datepicker
     datepicker.addEventListener("selectDate", (event: Event) => {
       const dateString = (event as CustomEvent).detail; // format: YYYY-MM-DD
       const dateValue = this._parseLocalDate(dateString);
@@ -542,6 +569,7 @@ export class NysDatepicker extends LitElement {
 
       datepicker.classList.remove("active");
       this.datepickerIsOpen = false;
+      this.removeEventListener("keydown", this._handleFocusTrap);
     });
   }
 
@@ -616,6 +644,58 @@ export class NysDatepicker extends LitElement {
     if (year < 1000) return null;
 
     return this._parseLocalDate(value);
+  }
+
+  private _handleFocusTrap(event: KeyboardEvent) {
+    if (!this.datepickerIsOpen) return;
+    if (event.key !== "Tab") return;
+
+    const calendarPopup = this.shadowRoot?.querySelector(
+      ".wc-datepicker--container",
+    ) as HTMLElement | null;
+
+    if (!calendarPopup) return;
+
+    const focusableSelectors = [
+      "button:not([disabled])",
+      "input:not([disabled])",
+      "select:not([disabled])",
+      "[tabindex]:not([tabindex='-1'])",
+    ];
+
+    const focusableElements: HTMLElement[] = [];
+
+    // Add the "Today" and "Clear" <nys-button> if they exist
+    calendarPopup.querySelectorAll<HTMLElement>("nys-button").forEach((btn) => {
+      focusableElements.push(btn);
+    });
+
+    // Populating the focusableElements list in order of focus of the elements in wc-datepicker
+    focusableElements.push(
+      ...Array.from<HTMLElement>(
+        calendarPopup.querySelectorAll(focusableSelectors.join(",")),
+      ).filter((el) => el.offsetParent !== null),
+    );
+
+    if (focusableElements.length === 0) return;
+
+    const first = focusableElements[0];
+    const last = focusableElements[focusableElements.length - 1];
+    const activeElement = this.shadowRoot?.activeElement as HTMLElement;
+
+    if (event.shiftKey) {
+      // Shift + Tab (go straight to last if we're at currently focus at first)
+      if (activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else {
+      // Tab (go back to first focusable element if we're at last)
+      if (activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
   }
 
   private _isSafari(): boolean {
@@ -706,6 +786,7 @@ export class NysDatepicker extends LitElement {
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
             role="dialog"
+            aria-modal=${this.datepickerIsOpen ? "true" : "false"}
           >
             ${!this.hideTodayButton || !this.hideClearButton
               ? html`
