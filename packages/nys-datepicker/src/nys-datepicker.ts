@@ -156,12 +156,14 @@ export class NysDatepicker extends LitElement {
 
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("focusout", this._handleBlur);
+    this.addEventListener("keydown", this._onKeydownEsc);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
     this.removeEventListener("focusout", this._handleBlur);
+    this.removeEventListener("keydown", this._onKeydownEsc);
   }
 
   async firstUpdated() {
@@ -178,7 +180,6 @@ export class NysDatepicker extends LitElement {
     setTimeout(() => this._addMonthDropdownIcon(), 0);
     setTimeout(() => this._handleDateChange(), 0);
     setTimeout(() => this._onDocumentClick(), 0);
-    setTimeout(() => this._onDocumentEsc(), 0);
   }
 
   private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {
@@ -400,6 +401,18 @@ export class NysDatepicker extends LitElement {
     return new Date(year, month - 1, day);
   }
 
+  private _setTodayDate(visualFocusOnly = false) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
+
+    if (visualFocusOnly) {
+      const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+      datepicker!.value = today;
+    } else {
+      this._setValue(today);
+    }
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -468,23 +481,21 @@ export class NysDatepicker extends LitElement {
     document.addEventListener("click", onClick);
   }
 
-  private _onDocumentEsc() {
-    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+  private _onKeydownEsc = (event: KeyboardEvent) => {
+    if (event.key !== "Escape" || event.code !== "Escape") return;
+    if (!this.datepickerIsOpen) return;
 
-    const onKeydownEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape" || event.code === "Escape") {
-        if (datepicker?.classList.contains("active")) {
-          event.preventDefault();
-          datepicker.classList.remove("active");
-          this.datepickerIsOpen = false;
-          // Return focus to input
-          const input = this.shadowRoot?.querySelector("input");
-          input?.focus();
-        }
-      }
-    };
-    document.addEventListener("keydown", onKeydownEsc);
-  }
+    event.preventDefault();
+    event.stopPropagation();
+
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    datepicker?.classList.remove("active");
+    this.datepickerIsOpen = false;
+
+    // Return focus to input
+    const input = this.shadowRoot?.querySelector("input");
+    input?.focus();
+  };
 
   private _toggleDatepicker() {
     if (this.disabled) return;
@@ -500,13 +511,22 @@ export class NysDatepicker extends LitElement {
     const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
     const isActive = dateInput?.classList.toggle("active");
     this.datepickerIsOpen = !!isActive;
+    if (!this.value) {
+      this._setTodayDate(true);
+    }
   }
 
   private _openDatepicker() {
     if (this.disabled || this._shouldUseNativeDatepicker()) return;
 
-    const dateInput = this.shadowRoot?.querySelector("wc-datepicker");
-    dateInput?.classList.add("active");
+    const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
+    if (!datepicker) return;
+
+    if (!this.value) {
+      this._setTodayDate(true);
+    }
+
+    datepicker?.classList.add("active");
     this.datepickerIsOpen = true;
   }
 
@@ -528,10 +548,7 @@ export class NysDatepicker extends LitElement {
   private _handleTodayClick() {
     if (this.disabled) return;
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
-    this._setValue(today);
-
+    this._setTodayDate();
     if (this._hasUserInteracted) {
       this._validate();
     }
@@ -556,8 +573,19 @@ export class NysDatepicker extends LitElement {
     const input = event.target as HTMLInputElement;
     if (!input) return;
 
+    // Native datepicker sets incomplete or empty input to default the calendar popup focus as today's date.
     const date = this._getValidDateFromInput(input.value);
-    if (!date) return;
+    if (!date) {
+      // If input is completely empty, clear value
+      if (!input.value) {
+        this.value = undefined;
+        this._internals.setFormValue("");
+        if (this._hasUserInteracted) {
+          this._validate();
+        }
+      }
+      return;
+    }
 
     this._setValue(date);
 

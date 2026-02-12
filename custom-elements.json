@@ -3160,15 +3160,6 @@
             },
             {
               "kind": "field",
-              "name": "_hasAnnouncedLabels",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
               "name": "_hasUserInteracted",
               "type": {
                 "text": "boolean"
@@ -3292,6 +3283,17 @@
             },
             {
               "kind": "method",
+              "name": "_setTodayDate",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "visualFocusOnly",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_handleInputKeydown",
               "privacy": "private",
               "parameters": [
@@ -3323,8 +3325,8 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
-              "name": "_onDocumentEsc",
+              "kind": "field",
+              "name": "_onKeydownEsc",
               "privacy": "private"
             },
             {
@@ -3413,11 +3415,6 @@
                   "text": "boolean"
                 }
               }
-            },
-            {
-              "kind": "method",
-              "name": "_handleFocusOnce",
-              "privacy": "private"
             }
           ],
           "events": [
