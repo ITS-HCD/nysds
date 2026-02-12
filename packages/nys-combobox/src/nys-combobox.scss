@@ -112,7 +112,6 @@
 :host([width="full"]) {
   --_nys-combobox-width: 100%;
   flex: 1;
-  /* stretches width for flex container */
 }
 
 :host([showError]) {
@@ -156,6 +155,7 @@
   outline-style: solid;
   padding: var(--_nys-combobox-padding);
   padding-right: calc(var(--nys-size-400, 32px) + var(--nys-space-100, 8px));
+
   /* Space for toggle button */
   width: 100%;
   height: var(--_nys-combobox-height);
