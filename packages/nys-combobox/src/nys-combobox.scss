@@ -172,7 +172,6 @@
   padding-right: calc(
     var(--nys-size-400, 32px) * 2 + var(--nys-space-100, 8px)
   );
-  /* Space for both clear and toggle buttons */
 }
 
 /* Hovered */
@@ -198,7 +197,6 @@
 
 /* Clear and Toggle Buttons */
 .nys-combobox__buttons {
-  background-color: var(--_nys-combobox-background-color);
   display: flex;
   position: absolute;
   right: var(--nys-space-150, 12px);
@@ -285,6 +283,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: var(--nys-font-lineheight-ui-md, 24px);
+
   /* 150% */
   letter-spacing: var(--nys-font-letterspacing-ui-md, 0.044px);
 
