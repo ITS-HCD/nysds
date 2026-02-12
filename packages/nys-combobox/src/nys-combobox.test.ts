@@ -491,28 +491,442 @@ describe("nys-combobox", () => {
   });
 
   // Keyboard interaction tests
-  it("supports keyboard navigation for accessibility", async () => {
-    const el = await fixture<NysCombobox>(html`
-      <nys-combobox>
-        <option value="apple">Apple</option>
-        <option value="banana">Banana</option>
-      </nys-combobox>
-    `);
-    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+  describe("keyboard navigation", () => {
+    it("opens dropdown with ArrowDown when closed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
-    input.focus();
-    expect(document.activeElement).to.exist;
+      input.focus();
+      expect((el as any)._isOpen).to.be.false;
 
-    // Component should handle keyboard events (specific implementation depends on component)
-    const keyEvent = new KeyboardEvent("keydown", {
-      key: "ArrowDown",
-      bubbles: true,
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.true;
     });
-    input.dispatchEvent(keyEvent);
-    await el.updateComplete;
 
-    // Verify component responds to keyboard input
-    expect(input).to.exist;
+    it("opens dropdown with ArrowUp when closed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      input.focus();
+      expect((el as any)._isOpen).to.be.false;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowUp",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.true;
+    });
+
+    it("moves highlight down with ArrowDown when dropdown is open", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+          <option value="cherry">Cherry</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown first
+      (el as any)._openDropdown();
+      await el.updateComplete;
+
+      const initialHighlight = (el as any)._highlightedIndex;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._highlightedIndex).to.equal(initialHighlight + 1);
+    });
+
+    it("moves highlight up with ArrowUp when dropdown is open", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+          <option value="cherry">Cherry</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and set highlight to second item
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = 1;
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowUp",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._highlightedIndex).to.equal(0);
+    });
+
+    it("selects highlighted option with Enter key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+          <option value="cherry">Cherry</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and highlight second option
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = 1;
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(el.value).to.equal("banana");
+    });
+
+    it("does not select option with Enter when dropdown is closed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      const initialValue = el.value;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(el.value).to.equal(initialValue);
+    });
+
+    it("does not select option with Enter when no option is highlighted", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown but set invalid highlight index
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = -1;
+      await el.updateComplete;
+
+      const initialValue = el.value;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(el.value).to.equal(initialValue);
+    });
+
+    it("closes dropdown with Escape key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown first
+      (el as any)._openDropdown();
+      await el.updateComplete;
+      expect((el as any)._isOpen).to.be.true;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.false;
+    });
+
+    it("restores selected label when Escape is pressed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox value="apple">
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and change filter text
+      (el as any)._openDropdown();
+      (el as any)._filterText = "ban";
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._filterText).to.equal((el as any)._selectedLabel);
+    });
+
+    it("closes dropdown with Tab key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown first
+      (el as any)._openDropdown();
+      await el.updateComplete;
+      expect((el as any)._isOpen).to.be.true;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Tab",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.false;
+    });
+
+    it("restores selected label when Tab is pressed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox value="banana">
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and change filter text
+      (el as any)._openDropdown();
+      (el as any)._filterText = "app";
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Tab",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._filterText).to.equal((el as any)._selectedLabel);
+    });
+
+    it("prevents default behavior for ArrowDown", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      // Override preventDefault to track if it was called
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("prevents default behavior for ArrowUp", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowUp",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("prevents default behavior for Enter", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = 0;
+      await el.updateComplete;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("prevents default behavior for Escape", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      (el as any)._openDropdown();
+      await el.updateComplete;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("does not prevent default for Tab key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      (el as any)._openDropdown();
+      await el.updateComplete;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Tab",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.false;
+    });
+
+    it("navigates through filtered options with keyboard", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="apricot">Apricot</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Filter to only show options starting with 'a'
+      (el as any)._openDropdown();
+      (el as any)._filterText = "a";
+      await el.updateComplete;
+
+      // Arrow down should navigate through filtered options
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      // Should be highlighting within filtered options
+      expect((el as any)._highlightedIndex).to.be.greaterThanOrEqual(0);
+    });
   });
 
   // Edge cases and error handling
