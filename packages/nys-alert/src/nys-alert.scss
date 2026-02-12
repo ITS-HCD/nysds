@@ -220,19 +220,19 @@ a:active {
   );
   --_nys-alert-color: var(
     --nys-alert-color,
-    var(--nys-color-text-reverse, var(--nys-color-white, #fff))
+    var(--nys-color-text-reverse, var(--nys-color-white, #ffffff))
   );
   --_nys-alert-color--link: var(
     --nys-alert-color--link,
-    var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff))
+    var(--nys-color-link-reverse-neutral, var(--nys-color-white, #ffffff))
   );
   --_nys-alert-color--link--hover: var(
     --nys-alert-color--link--hover,
-    var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff))
+    var(--nys-color-link-reverse-neutral, var(--nys-color-white, #ffffff))
   );
   --_nys-alert-color--link--active: var(
     --nys-alert-color--link--active,
-    var(--nys-color-link-reverse-neutral, var(--nys-color-white, #fff))
+    var(--nys-color-link-reverse-neutral, var(--nys-color-white, #ffffff))
   );
 }
 

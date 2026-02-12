@@ -38,7 +38,7 @@
   );
 
   /* Default (Empty) */
-  --_nys-checkbox-background-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-checkbox-background-color: var(--nys-color-ink-reverse, #ffffff);
   --_nys-checkbox-border-color: var(--nys-color-neutral-600, #62666a);
 
   /* Empty + Hovered */
@@ -122,7 +122,7 @@
   --_nys-checkbox-border-color--tile: var(--nys-color-neutral-100, #d0d0ce);
   --_nys-checkbox-background-color--tile: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
   --_nys-checkbox-padding--x--tile: var(--nys-space-250, 20px);
   --_nys-checkbox-padding--y--tile: var(--nys-space-200, 16px);
@@ -134,7 +134,7 @@
   );
   --_nys-checkbox-background-color--tile--hover: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
 
   /* Pressed */
@@ -144,7 +144,7 @@
   );
   --_nys-checkbox-background-color--tile--active: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
 
   /* Checked */

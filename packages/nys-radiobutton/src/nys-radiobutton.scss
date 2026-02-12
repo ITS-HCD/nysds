@@ -36,7 +36,7 @@
   );
 
   /* Default (Empty) */
-  --_nys-radiobutton-background-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-radiobutton-background-color: var(--nys-color-ink-reverse, #ffffff);
   --_nys-radiobutton-border-color: var(--nys-color-neutral-600, #62666a);
 
   /* Empty + Hovered */
@@ -108,7 +108,7 @@
   );
   --_nys-radiobutton-background-color--tile: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
   --_nys-radiobutton-padding--x--tile: var(--nys-space-250, 20px);
   --_nys-radiobutton-padding--y--tile: var(--nys-space-200, 16px);
@@ -120,7 +120,7 @@
   );
   --_nys-radiobutton-background-color--tile--hover: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
 
   /* Pressed */
@@ -130,7 +130,7 @@
   );
   --_nys-radiobutton-background-color--tile--active: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
 
   /* Checked */

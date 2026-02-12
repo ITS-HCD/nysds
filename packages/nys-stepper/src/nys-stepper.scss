@@ -167,13 +167,13 @@
 :host([current]) .nys-step__number,
 :host([current]) .nys-step__line {
   background-color: var(--nys-color-theme-stronger, #081b2b);
-  color: var(--nys-color-text-reverse, #fff);
+  color: var(--nys-color-text-reverse, #ffffff);
   border-color: var(--nys-color-theme-stronger, #081b2b);
 }
 
 :host([selected]) .nys-step__number {
   background-color: var(--nys-color-theme, #154973);
-  color: var(--nys-color-text-reverse, #fff);
+  color: var(--nys-color-text-reverse, #ffffff);
   border-color: var(--nys-color-theme, #154973);
   outline: var(--nys-size-50, 4px) solid var(--nys-color-theme-weak, #cddde9);
 }
@@ -346,13 +346,13 @@
   :host([isCompactExpanded][current]) .nys-step__number,
   :host([isCompactExpanded][current]) .nys-step__line {
     background: var(--nys-color-theme-stronger, #081b2b);
-    color: var(--nys-color-text-reverse, #fff);
+    color: var(--nys-color-text-reverse, #ffffff);
     border-color: var(--nys-color-theme-stronger, #081b2b);
   }
 
   :host([isCompactExpanded][selected]) .nys-step__number {
     background: var(--nys-color-theme, #154973);
-    color: var(--nys-color-text-reverse, #fff);
+    color: var(--nys-color-text-reverse, #ffffff);
     border-color: var(--nys-color-theme, #154973);
     outline: 4px solid var(--nys-color-theme-weak, #cddde9);
   }
