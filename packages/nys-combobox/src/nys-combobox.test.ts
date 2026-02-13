@@ -235,7 +235,7 @@ describe("nys-combobox", () => {
     expect(el.width).to.equal("lg");
   });
 
-  it("applies sm width when set", async () => {
+  it("applies lg width when set", async () => {
     const el = await fixture<NysCombobox>(
       html`<nys-combobox width="lg"></nys-combobox>`,
     );
@@ -290,7 +290,7 @@ describe("nys-combobox", () => {
   });
 
   // Value change and events tests
-  it("updates value when user types", async () => {
+  it("updates value when user selects an option", async () => {
     const el = await fixture<NysCombobox>(html`
       <nys-combobox>
         <option value="apple">Apple</option>
@@ -299,8 +299,17 @@ describe("nys-combobox", () => {
     `);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
+    // Type to filter
     input.value = "apple";
     input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    // Select the option by pressing Enter
+    const keyEvent = new KeyboardEvent("keydown", {
+      key: "Enter",
+      bubbles: true,
+    });
+    input.dispatchEvent(keyEvent);
     await el.updateComplete;
 
     expect(el.value).to.equal("apple");
@@ -328,7 +337,7 @@ describe("nys-combobox", () => {
   // Focus and blur tests
   it("dispatches focus and blur events", async () => {
     const el = await fixture<NysCombobox>(
-      html`<nys-combobox label="FocusMe"></nys-combobox>`,
+      html`<nys-combobox label="Focus Test"></nys-combobox>`,
     );
     const input = el.shadowRoot?.querySelector("input")!;
 
@@ -403,7 +412,7 @@ describe("nys-combobox", () => {
   it("resets to default value when form is reset", async () => {
     const form = await fixture<HTMLFormElement>(html`
       <form>
-        <nys-combobox value="banana">
+        <nys-combobox>
           <option value="apple">Apple</option>
           <option value="banana" selected>Banana</option>
         </nys-combobox>

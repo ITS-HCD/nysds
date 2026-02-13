@@ -130,10 +130,17 @@ export class NysCombobox extends LitElement {
 
     const assignedElements = slot.assignedElements({ flatten: true });
     const options: ComboboxOption[] = [];
+    let selectedOptionValue: string | null = null;
 
     assignedElements.forEach((node) => {
       if (node.tagName === "OPTION") {
         const option = node as HTMLOptionElement;
+
+        // Check if this option has the selected attribute
+        if (option.selected && !selectedOptionValue) {
+          selectedOptionValue = option.value;
+        }
+
         options.push({
           value: option.value,
           label: option.textContent?.trim() || option.value,
@@ -146,6 +153,12 @@ export class NysCombobox extends LitElement {
         Array.from(group.children).forEach((child) => {
           if (child.tagName === "OPTION") {
             const option = child as HTMLOptionElement;
+
+            // Check if this option has the selected attribute
+            if (option.selected && !selectedOptionValue) {
+              selectedOptionValue = option.value;
+            }
+
             options.push({
               value: option.value,
               label: option.textContent?.trim() || option.value,
@@ -159,6 +172,11 @@ export class NysCombobox extends LitElement {
 
     this._options = options;
     this._filteredOptions = options;
+
+    // Set value from selected attribute if found and no value is already set
+    if (selectedOptionValue && !this.value) {
+      this.value = selectedOptionValue;
+    }
 
     // Set initial display text if value exists
     if (this.value) {
