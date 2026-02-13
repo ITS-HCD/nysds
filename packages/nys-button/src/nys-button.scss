@@ -343,7 +343,7 @@
 
   /* Ghost Inverted - Hover */
   --_nys-button-background-color--hover: var(--nys-button-background-color--hover,
-      var(--nys-color-white-transparent-100, #ffffff1a));
+      var(--nys-color-white-transparent-200, #ffffff33));
   --_nys-button-color--hover: var(--nys-button-color--hover,
       var(--nys-color-text-reverse, #fff));
   --_nys-button-border-color--hover: var(--nys-button-border-color--hover,
@@ -351,7 +351,7 @@
 
   /* Ghost Inverted - Pressed/Active */
   --_nys-button-background-color--active: var(--nys-button-background-color--active,
-      var(--nys-color-white-transparent-200, #fff3));
+      var(--nys-color-white-transparent-300, #ffffff4d));
   --_nys-button-color--active: var(--nys-button-color--active,
       var(--nys-color-text-reverse, #fff));
   --_nys-button-border-color--active: var(--nys-button-border-color--active,
