@@ -34,11 +34,7 @@ describe("nys-combobox", () => {
   // Property reflection tests
   it("reflects attributes to properties", async () => {
     const el = await fixture<NysCombobox>(html`
-      <nys-combobox
-        label="My Label"
-        name="myName"
-        required
-      ></nys-combobox>
+      <nys-combobox label="My Label" name="myName" required></nys-combobox>
     `);
     expect(el.label).to.equal("My Label");
     expect(el.name).to.equal("myName");
@@ -148,7 +144,6 @@ describe("nys-combobox", () => {
     `);
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
-    const initialValue = el.value;
     input.value = "apple";
     input.dispatchEvent(new Event("input"));
     await el.updateComplete;

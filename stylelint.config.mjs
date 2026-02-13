@@ -10,7 +10,7 @@ export default {
     "selector-not-notation": null,
     "property-no-vendor-prefix": null,
     "declaration-empty-line-before": null,
-    " declaration-block-no-redundant-longhand-properties": null,
+    "declaration-block-no-redundant-longhand-properties": null,
     "color-hex-length": "long",
   },
   "extends": ["stylelint-config-standard-scss"]
