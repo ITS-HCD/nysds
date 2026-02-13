@@ -95,7 +95,7 @@ export class NysCheckbox extends LitElement {
   @state() private isMobile = window.innerWidth < 480;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  private _textInputHasFocus = false;
+  // private _textInputHasFocus = false;
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
@@ -123,12 +123,14 @@ export class NysCheckbox extends LitElement {
       this.id = `nys-checkbox-${Date.now()}-${checkboxIdCounter++}`;
     }
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("blur", this._handleBlur);
     window.addEventListener("resize", this._handleResize);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
+    this.removeEventListener("blur", this._handleBlur);
     window.removeEventListener("resize", this._handleResize);
   }
 
@@ -329,15 +331,15 @@ export class NysCheckbox extends LitElement {
     if (this.other && wasChecked && !checked) {
       this.showOtherError = false;
       this._hasUserInteracted = false;
-      this._textInputHasFocus = false;
+      // this._textInputHasFocus = false;
       this._dispatchClearError();
     }
 
-    // If checking "other", focus the text input
-    if (this.other && !wasChecked && checked) {
-      await this.updateComplete;
-      this._focusOnTextInput();
-    }
+    // // If checking "other", focus the text input
+    // if (this.other && !wasChecked && checked) {
+    //   await this.updateComplete;
+    //   // this._focusOnTextInput();
+    // }
 
     this._validate();
     this._emitChangeEvent();
@@ -349,31 +351,33 @@ export class NysCheckbox extends LitElement {
 
   private _handleBlur() {
     this.dispatchEvent(new Event("nys-blur"));
-    if (!this._textInputHasFocus && this.other && this.checked) {
+
+    if (this.other && this.checked) {
+      console.log("HERE");
       this._hasUserInteracted = true;
       this._validateOtherAndEmitError();
     }
   }
 
   private _handleTextInputBlur() {
-    this._textInputHasFocus = false;
+    // this._textInputHasFocus = false;
     this._hasUserInteracted = true;
     this._validateOtherAndEmitError();
   }
 
-  private _handleTextInputFocus() {
-    this._textInputHasFocus = true;
-  }
+  // private _handleTextInputFocus() {
+  //   this._textInputHasFocus = true;
+  // }
 
-  private _focusOnTextInput() {
-    this._textInputHasFocus = true;
-    const textInput = this.shadowRoot?.querySelector("nys-textinput");
-    if (textInput) {
-      setTimeout(() => {
-        (textInput as HTMLElement).focus();
-      }, 50);
-    }
-  }
+  // private _focusOnTextInput() {
+  //   // this._textInputHasFocus = true;
+  //   const textInput = this.shadowRoot?.querySelector("nys-textinput");
+  //   if (textInput) {
+  //     setTimeout(() => {
+  //       (textInput as HTMLElement).focus();
+  //     }, 50);
+  //   }
+  // }
 
   private async _handleKeydown(e: KeyboardEvent) {
     if (e.code === "Space") {
@@ -384,7 +388,7 @@ export class NysCheckbox extends LitElement {
 
         // Wait for DOM updates before validating. This is necessary to ensure the native input validation state is updated before this.validate().
         await this.updateComplete;
-        this._focusOnTextInput();
+        // this._focusOnTextInput();
         this._validate();
 
         this._emitChangeEvent();
@@ -470,7 +474,6 @@ export class NysCheckbox extends LitElement {
               aria-describedby="group-info"
               @change="${this._handleChange}"
               @focus="${this._handleFocus}"
-              @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
               aria-label=${this.label ||
               ifDefined(this.other ? "Other" : undefined)}
@@ -511,7 +514,6 @@ export class NysCheckbox extends LitElement {
                   id=${"radiobutton-other-" + this.id}
                   @nys-input=${this._handleTextInput}
                   @nys-blur=${this._handleTextInputBlur}
-                  @nys-focus=${this._handleTextInputFocus}
                   ariaLabel="Other"
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width=${this.isMobile ? "full" : "md"}

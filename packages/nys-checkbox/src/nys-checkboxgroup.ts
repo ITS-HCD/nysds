@@ -468,7 +468,6 @@ export class NysCheckboxgroup extends LitElement {
     for (const checkbox of checkboxes) {
       if (checkbox.checked && checkbox.other) {
         const value = checkbox.value.trim();
-        const textInput = checkbox.shadowRoot?.querySelector("nys-textinput");
 
         const hasUserInteracted = (checkbox as any)._hasUserInteracted;
 
@@ -483,11 +482,6 @@ export class NysCheckboxgroup extends LitElement {
           this._setCustomOtherError();
           this.showError = true;
           foundInvalidOther = true;
-
-          if (textInput) {
-            await (textInput as any).updateComplete;
-            (textInput as HTMLElement).focus();
-          }
           return;
         }
       }

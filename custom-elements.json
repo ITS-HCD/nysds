@@ -2228,15 +2228,6 @@
               "default": "false"
             },
             {
-              "kind": "field",
-              "name": "_textInputHasFocus",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
               "kind": "method",
               "name": "getInputElement",
               "privacy": "public",
@@ -2369,16 +2360,6 @@
             {
               "kind": "method",
               "name": "_handleTextInputBlur",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleTextInputFocus",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_focusOnTextInput",
               "privacy": "private"
             },
             {
@@ -6159,15 +6140,6 @@
             },
             {
               "kind": "field",
-              "name": "_textInputHasFocus",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
               "name": "buttonGroup",
               "type": {
                 "text": "Record<string, NysRadiobutton>"
@@ -6242,17 +6214,7 @@
             },
             {
               "kind": "method",
-              "name": "_handleTextInputFocus",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "_handleTextInputBlur",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_focusOnTextInput",
               "privacy": "private"
             },
             {
