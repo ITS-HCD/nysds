@@ -95,7 +95,6 @@ export class NysCheckbox extends LitElement {
   @state() private isMobile = window.innerWidth < 480;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  // private _textInputHasFocus = false;
 
   public async getInputElement(): Promise<HTMLInputElement | null> {
     await this.updateComplete; // Wait for the component to finish rendering
@@ -335,12 +334,6 @@ export class NysCheckbox extends LitElement {
       this._dispatchClearError();
     }
 
-    // // If checking "other", focus the text input
-    // if (this.other && !wasChecked && checked) {
-    //   await this.updateComplete;
-    //   // this._focusOnTextInput();
-    // }
-
     this._validate();
     this._emitChangeEvent();
   }
@@ -364,20 +357,6 @@ export class NysCheckbox extends LitElement {
     this._hasUserInteracted = true;
     this._validateOtherAndEmitError();
   }
-
-  // private _handleTextInputFocus() {
-  //   this._textInputHasFocus = true;
-  // }
-
-  // private _focusOnTextInput() {
-  //   // this._textInputHasFocus = true;
-  //   const textInput = this.shadowRoot?.querySelector("nys-textinput");
-  //   if (textInput) {
-  //     setTimeout(() => {
-  //       (textInput as HTMLElement).focus();
-  //     }, 50);
-  //   }
-  // }
 
   private async _handleKeydown(e: KeyboardEvent) {
     if (e.code === "Space") {
