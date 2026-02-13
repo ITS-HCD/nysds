@@ -99,6 +99,33 @@ export class NysCombobox extends LitElement {
 
   firstUpdated() {
     this._handleSlotChange();
+
+    // If a selected option was found and no explicit value was set, use it
+    const slot = this.shadowRoot?.querySelector(
+      'slot:not([name="description"])',
+    ) as HTMLSlotElement | null;
+
+    if (!this.value && slot) {
+      const assignedElements = slot.assignedElements({ flatten: true });
+      for (const node of assignedElements) {
+        if (node.tagName === "OPTION" && (node as HTMLOptionElement).selected) {
+          this.value = (node as HTMLOptionElement).value;
+          break;
+        } else if (node.tagName === "OPTGROUP") {
+          for (const child of (node as HTMLOptGroupElement).children) {
+            if (
+              child.tagName === "OPTION" &&
+              (child as HTMLOptionElement).selected
+            ) {
+              this.value = (child as HTMLOptionElement).value;
+              break;
+            }
+          }
+          if (this.value) break;
+        }
+      }
+    }
+
     this._setValue();
   }
 
@@ -130,17 +157,10 @@ export class NysCombobox extends LitElement {
 
     const assignedElements = slot.assignedElements({ flatten: true });
     const options: ComboboxOption[] = [];
-    let selectedOptionValue: string | null = null;
 
     assignedElements.forEach((node) => {
       if (node.tagName === "OPTION") {
         const option = node as HTMLOptionElement;
-
-        // Check if this option has the selected attribute
-        if (option.selected && !selectedOptionValue) {
-          selectedOptionValue = option.value;
-        }
-
         options.push({
           value: option.value,
           label: option.textContent?.trim() || option.value,
@@ -153,12 +173,6 @@ export class NysCombobox extends LitElement {
         Array.from(group.children).forEach((child) => {
           if (child.tagName === "OPTION") {
             const option = child as HTMLOptionElement;
-
-            // Check if this option has the selected attribute
-            if (option.selected && !selectedOptionValue) {
-              selectedOptionValue = option.value;
-            }
-
             options.push({
               value: option.value,
               label: option.textContent?.trim() || option.value,
@@ -172,11 +186,6 @@ export class NysCombobox extends LitElement {
 
     this._options = options;
     this._filteredOptions = options;
-
-    // Set value from selected attribute if found and no value is already set
-    if (selectedOptionValue && !this.value) {
-      this.value = selectedOptionValue;
-    }
 
     // Set initial display text if value exists
     if (this.value) {
@@ -420,10 +429,6 @@ export class NysCombobox extends LitElement {
 
   private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
-
-    if (!this._isOpen) {
-      this._openDropdown();
-    }
   }
 
   private _handleBlur(event: FocusEvent) {

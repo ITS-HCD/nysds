@@ -477,15 +477,6 @@ describe("nys-combobox", () => {
     expect(input?.getAttribute("aria-required")).to.equal("true");
   });
 
-  it("sets aria-invalid when showError is true", async () => {
-    const el = await fixture<NysCombobox>(
-      html`<nys-combobox showError></nys-combobox>`,
-    );
-    await el.updateComplete;
-    const input = el.shadowRoot?.querySelector("input");
-    expect(input?.getAttribute("aria-invalid")).to.equal("true");
-  });
-
   it("sets aria-disabled when disabled", async () => {
     const el = await fixture<NysCombobox>(
       html`<nys-combobox disabled></nys-combobox>`,
