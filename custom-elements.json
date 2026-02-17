@@ -33,6 +33,20 @@
           "kind": "class",
           "description": "A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.",
           "name": "NysAccordion",
+          "cssProperties": [
+            {
+              "description": "Background color of the accordion header.",
+              "name": "--nys-accordion-background-color--header"
+            },
+            {
+              "description": "Background hover color of the accordion header.",
+              "name": "--nys-accordion-background-color--header--hover"
+            },
+            {
+              "description": "Maximum readable width of accordion content. Defaults to a character-based width (80ch) for readability.",
+              "name": "--nys-accordion-content-max-width"
+            }
+          ],
           "slots": [
             {
               "description": "Default slot for `nys-accordionitem` elements.",
