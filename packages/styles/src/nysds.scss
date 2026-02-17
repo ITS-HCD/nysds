@@ -15,7 +15,6 @@
 @use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
-nys-dropdown:not(:defined),
 nys-datepicker:not(:defined),
 nys-accordion:not(:defined),
 nys-alert:not(:defined),
