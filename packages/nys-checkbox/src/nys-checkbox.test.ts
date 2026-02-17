@@ -122,11 +122,11 @@ describe("nys-checkbox", () => {
     el.addEventListener("nys-blur", () => events.push("blur"));
 
     // Simulate tabbing into the checkbox
-    input!.dispatchEvent(new FocusEvent("focus", { bubbles: true }));
+    input?.dispatchEvent(new FocusEvent("focus", { bubbles: true }));
     await el.updateComplete;
 
     // Simulate tabbing out of the checkbox
-    input!.dispatchEvent(new FocusEvent("blur", { bubbles: true }));
+    el?.dispatchEvent(new FocusEvent("blur", { bubbles: true }));
     await el.updateComplete;
 
     expect(events).to.deep.equal(["focus", "blur"]);

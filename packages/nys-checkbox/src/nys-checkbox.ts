@@ -330,7 +330,6 @@ export class NysCheckbox extends LitElement {
     if (this.other && wasChecked && !checked) {
       this.showOtherError = false;
       this._hasUserInteracted = false;
-      // this._textInputHasFocus = false;
       this._dispatchClearError();
     }
 
@@ -346,14 +345,12 @@ export class NysCheckbox extends LitElement {
     this.dispatchEvent(new Event("nys-blur"));
 
     if (this.other && this.checked) {
-      console.log("HERE");
       this._hasUserInteracted = true;
       this._validateOtherAndEmitError();
     }
   }
 
   private _handleTextInputBlur() {
-    // this._textInputHasFocus = false;
     this._hasUserInteracted = true;
     this._validateOtherAndEmitError();
   }
@@ -367,7 +364,6 @@ export class NysCheckbox extends LitElement {
 
         // Wait for DOM updates before validating. This is necessary to ensure the native input validation state is updated before this.validate().
         await this.updateComplete;
-        // this._focusOnTextInput();
         this._validate();
 
         this._emitChangeEvent();
