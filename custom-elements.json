@@ -3123,7 +3123,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-datepicker>` is a form-associated, accessible date picker component.\nOptionally wraps a `<wc-datepicker>` for custom calendar UI.\n\nEvents:",
+          "description": "Date picker with calendar popup and form validation. Falls back to native date input\non Safari and mobile.",
           "name": "NysDatepicker",
           "members": [
             {
@@ -3133,6 +3133,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
               "attribute": "id",
               "reflects": true
             },
@@ -3143,6 +3144,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Name for form submission.",
               "attribute": "name",
               "reflects": true
             },
@@ -3153,6 +3155,7 @@
                 "text": "\"md\" | \"lg\" | \"full\""
               },
               "default": "\"md\"",
+              "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
               "attribute": "width",
               "reflects": true
             },
@@ -3163,6 +3166,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Hide the \"Today\" button in calendar popup.",
               "attribute": "hideTodayButton"
             },
             {
@@ -3172,6 +3176,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Hide the \"Clear\" button in calendar popup.",
               "attribute": "hideClearButton"
             },
             {
@@ -3181,6 +3186,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Disable interaction.",
               "attribute": "disabled",
               "reflects": true
             },
@@ -3191,6 +3197,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Mark as required. Shows \"Required\" flag and validates on blur.",
               "attribute": "required",
               "reflects": true
             },
@@ -3201,6 +3208,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Show \"Optional\" flag. Use when most fields are required.",
               "attribute": "optional",
               "reflects": true
             },
@@ -3211,6 +3219,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Show error state.",
               "attribute": "showError",
               "reflects": true
             },
@@ -3221,6 +3230,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Error message text.",
               "attribute": "errorMessage"
             },
             {
@@ -3230,6 +3240,7 @@
                 "text": "string | null"
               },
               "default": "null",
+              "description": "Form `id` to associate with when input is outside form.",
               "attribute": "form",
               "reflects": true
             },
@@ -3240,6 +3251,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Tooltip text on info icon hover.",
               "attribute": "tooltip"
             },
             {
@@ -3249,6 +3261,7 @@
                 "text": "string"
               },
               "default": "\"date\"",
+              "description": "Input type. Currently only supports `date`.",
               "attribute": "type"
             },
             {
@@ -3258,6 +3271,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Label text. Required for accessibility.",
               "attribute": "label"
             },
             {
@@ -3267,6 +3281,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Helper text below label.",
               "attribute": "description"
             },
             {
@@ -3276,6 +3291,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Initial date when calendar opens (YYYY-MM-DD).",
               "attribute": "startDate"
             },
             {
@@ -3285,6 +3301,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Dark background mode.",
               "attribute": "inverted",
               "reflects": true
             },
@@ -3295,7 +3312,17 @@
                 "text": "string | Date | undefined"
               },
               "default": "undefined",
+              "description": "Selected date. Accepts Date object or ISO string (YYYY-MM-DD).",
               "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "datepickerIsOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",
@@ -3422,6 +3449,22 @@
             },
             {
               "kind": "method",
+              "name": "_setTodayDate",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setFocusOnTodayDate",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "visualFocusOnly",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_handleInputKeydown",
               "privacy": "private",
               "parameters": [
@@ -3450,6 +3493,11 @@
             {
               "kind": "method",
               "name": "_onDocumentClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_onKeydownEsc",
               "privacy": "private"
             },
             {
@@ -3510,6 +3558,19 @@
             },
             {
               "kind": "method",
+              "name": "_handleFocusTrap",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_isSafari",
               "privacy": "private",
               "return": {
@@ -3546,14 +3607,14 @@
               "type": {
                 "text": "Event"
               },
-              "description": "Dispatched when input or calendar loses focus"
+              "description": "Fired when input or calendar loses focus. Triggers validation."
             },
             {
               "name": "nys-input",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when user selects or types a valid date Notes: - Uses native date input on Safari or mobile devices (custom calendar removed for these scenarios)"
+              "description": "Fired on date selection. Detail: `{id, value}`."
             }
           ],
           "attributes": [
@@ -3563,6 +3624,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
               "fieldName": "id"
             },
             {
@@ -3571,6 +3633,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Name for form submission.",
               "fieldName": "name"
             },
             {
@@ -3579,6 +3642,7 @@
                 "text": "\"md\" | \"lg\" | \"full\""
               },
               "default": "\"md\"",
+              "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
               "fieldName": "width"
             },
             {
@@ -3587,6 +3651,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Hide the \"Today\" button in calendar popup.",
               "fieldName": "hideTodayButton"
             },
             {
@@ -3595,6 +3660,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Hide the \"Clear\" button in calendar popup.",
               "fieldName": "hideClearButton"
             },
             {
@@ -3603,6 +3669,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Disable interaction.",
               "fieldName": "disabled"
             },
             {
@@ -3611,6 +3678,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Mark as required. Shows \"Required\" flag and validates on blur.",
               "fieldName": "required"
             },
             {
@@ -3619,6 +3687,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Show \"Optional\" flag. Use when most fields are required.",
               "fieldName": "optional"
             },
             {
@@ -3627,6 +3696,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Show error state.",
               "fieldName": "showError"
             },
             {
@@ -3635,6 +3705,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Error message text.",
               "fieldName": "errorMessage"
             },
             {
@@ -3643,6 +3714,7 @@
                 "text": "string | null"
               },
               "default": "null",
+              "description": "Form `id` to associate with when input is outside form.",
               "fieldName": "form"
             },
             {
@@ -3651,6 +3723,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Tooltip text on info icon hover.",
               "fieldName": "tooltip"
             },
             {
@@ -3659,6 +3732,7 @@
                 "text": "string"
               },
               "default": "\"date\"",
+              "description": "Input type. Currently only supports `date`.",
               "fieldName": "type"
             },
             {
@@ -3667,6 +3741,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Label text. Required for accessibility.",
               "fieldName": "label"
             },
             {
@@ -3675,6 +3750,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Helper text below label.",
               "fieldName": "description"
             },
             {
@@ -3683,6 +3759,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Initial date when calendar opens (YYYY-MM-DD).",
               "fieldName": "startDate"
             },
             {
@@ -3691,6 +3768,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Dark background mode.",
               "fieldName": "inverted"
             },
             {
@@ -3699,6 +3777,7 @@
                 "text": "string | Date | undefined"
               },
               "default": "undefined",
+              "description": "Selected date. Accepts Date object or ISO string (YYYY-MM-DD).",
               "fieldName": "value"
             }
           ],
@@ -3707,7 +3786,8 @@
             "package": "lit"
           },
           "tagName": "nys-datepicker",
-          "customElement": true
+          "customElement": true,
+          "summary": "Date picker with calendar popup and native fallback."
         }
       ],
       "exports": [
@@ -5329,6 +5409,20 @@
               },
               "privacy": "private",
               "default": "\"\""
+            },
+            {
+              "kind": "method",
+              "name": "_handleLabelClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
             }
           ],
           "attributes": [
