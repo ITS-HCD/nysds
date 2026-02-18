@@ -248,8 +248,8 @@ wc-datepicker {
     var(--nys-color-neutral-100, #d0d0ce);
   background: var(--_nys-datepicker-bg);
   box-shadow:
-    0 4px 6px -1px var(--nys-color-black-transparent-100, rgb(27 27 27 / 10%)),
-    0 4px 6px -1px var(--nys-color-black-transparent-50, rgb(27 27 27 / 1%));
+    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, .10)),
+    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, .01));
   color: var(--_nys-datepicker-text-color);
   margin-bottom: 3px;
 
@@ -279,13 +279,13 @@ wc-datepicker {
 
   &--disabled {
     *:disabled {
-      opacity: 50%;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
     .wc-datepicker__date {
       cursor: not-allowed;
-      opacity: 50%;
+      opacity: 0.5;
 
       &:focus {
         outline: none;
