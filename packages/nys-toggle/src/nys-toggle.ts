@@ -158,10 +158,11 @@ export class NysToggle extends LitElement {
 
   render() {
     return html`
-      <label class="nys-toggle">
+      <div class="nys-toggle">
         <div class="nys-toggle__content">
           <div class="nys-toggle__toggle">
             <input
+              id=${this.id}
               type="checkbox"
               name="${ifDefined(this.name ? this.name : undefined)}"
               .value=${this.value}
@@ -191,6 +192,7 @@ export class NysToggle extends LitElement {
           </div>
           ${this.label &&
           html`<nys-label
+            for=${this.id}
             label=${this.label}
             description=${ifDefined(this.description || undefined)}
             ?inverted=${this.inverted}
@@ -200,7 +202,7 @@ export class NysToggle extends LitElement {
             >
           </nys-label> `}
         </div>
-      </label>
+      </div>
     `;
   }
 }
