@@ -10,10 +10,9 @@ import styles from "./nys-dropdownmenu.scss?inline";
  * and have the benefit of default customization.
  *
  * @summary Dropdown item to display label and provide href link.
- * @element nys-dropdownitem
- *
+ * @element nys-dropdownmenuitem
  */
-export class NysDropdownItem extends LitElement {
+export class NysDropdownMenuItem extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String }) label = "";
@@ -21,13 +20,34 @@ export class NysDropdownItem extends LitElement {
   @property({ type: String }) disabled = "";
   @property({ type: String }) divider = "";
 
+  private _handleClick(e: Event) {
+    if (this.disabled) {
+      e.preventDefault();
+      return;
+    }
+
+    this.dispatchEvent(
+      new CustomEvent("nys-select", {
+        bubbles: true,
+        composed: true,
+        detail: { label: this.label, link: this.link },
+      }),
+    );
+  }
+
   render() {
-    return html` <li role="menuitem">
-      <a href="${this.link}">${this.label}</a>
+    return html`<li class="nys-dropdownmenuitem" role="none">
+      <a
+        href="${this.link}"
+        aria-disabled="${this.disabled ? "true" : "false"}"
+        role="menuitem"
+        @click="${this._handleClick}"
+        >${this.label}</a
+      >
     </li>`;
   }
 }
 
-if (!customElements.get("nys-dropdownitem")) {
-  customElements.define("nys-dropdownitem", NysDropdownItem);
+if (!customElements.get("nys-dropdownmenuitem")) {
+  customElements.define("nys-dropdownmenuitem", NysDropdownMenuItem);
 }

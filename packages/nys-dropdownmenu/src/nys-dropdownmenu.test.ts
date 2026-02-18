@@ -1,6 +1,6 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-dropdownmenu.js";
-import { NysDropdownmenu } from "./nys-dropdownmenu.js";
+import { NysDropdownMenu } from "./nys-dropdownmenu.js";
 
 // You may need to import other dependencies such as the component's tag name
 // For example:
@@ -14,7 +14,7 @@ describe("nys-dropdownmenu", () => {
   });
 
   it("generates an id if not provided", async () => {
-    const el = await fixture<NysDropdownmenu>(html`<nys-dropdownmenu></nys-dropdownmenu>`);
+    const el = await fixture<NysDropdownMenu>(html`<nys-dropdownmenu></nys-dropdownmenu>`);
     await el.updateComplete;
 
     expect(el.id).to.not.be.empty;
@@ -22,7 +22,7 @@ describe("nys-dropdownmenu", () => {
   });
 
   it("reflects attributes to properties", async () => {
-    const el = await fixture<NysDropdownmenu>(html`
+    const el = await fixture<NysDropdownMenu>(html`
       <nys-dropdownmenu label="My Label" required optional></nys-dropdownmenu>
     `);
     expect(el.label).to.equal("My Label");

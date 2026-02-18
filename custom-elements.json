@@ -33,6 +33,20 @@
           "kind": "class",
           "description": "A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.",
           "name": "NysAccordion",
+          "cssProperties": [
+            {
+              "description": "Background color of the accordion header.",
+              "name": "--nys-accordion-background-color--header"
+            },
+            {
+              "description": "Background hover color of the accordion header.",
+              "name": "--nys-accordion-background-color--header--hover"
+            },
+            {
+              "description": "Maximum readable width of accordion content. Defaults to a character-based width (80ch) for readability.",
+              "name": "--nys-accordion-content-max-width"
+            }
+          ],
           "slots": [
             {
               "description": "Default slot for `nys-accordionitem` elements.",
@@ -3664,6 +3678,14 @@
             "name": "*",
             "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu"
           }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem"
+          }
         }
       ]
     },
@@ -3673,8 +3695,8 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Dropdown menus enable users to select an action from a list of options. They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.",
-          "name": "NysDropdown",
+          "description": "Dropdown menus enable users to select an action from a list of options.\nThey’re commonly used to save space by grouping related actions, or to provide actions in a confined space.",
+          "name": "NysDropdownMenu",
           "members": [
             {
               "kind": "field",
@@ -3685,15 +3707,6 @@
               "default": "\"\"",
               "attribute": "for",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "divider",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "attribute": "divider"
             },
             {
               "kind": "field",
@@ -3708,7 +3721,7 @@
               "kind": "field",
               "name": "_originalUserPosition",
               "type": {
-                "text": "typeof this._position | null"
+                "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
               },
               "privacy": "private",
               "default": "null"
@@ -3717,7 +3730,7 @@
               "kind": "field",
               "name": "_position",
               "type": {
-                "text": "\"left\" | \"right\" | null"
+                "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
               },
               "privacy": "private",
               "default": "null"
@@ -3741,14 +3754,6 @@
               "fieldName": "for"
             },
             {
-              "name": "divider",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "fieldName": "divider"
-            },
-            {
               "name": "position",
               "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
               "default": "null (auto-positioned based on available space)",
@@ -3759,24 +3764,24 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "nys-dropdown",
+          "tagName": "nys-dropdownmenu",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "custom-element-definition",
-          "name": "nys-dropdown",
+          "name": "nys-dropdownmenu",
           "declaration": {
-            "name": "NysDropdown",
+            "name": "NysDropdownMenu",
             "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts"
           }
         },
         {
           "kind": "js",
-          "name": "NysDropdown",
+          "name": "NysDropdownMenu",
           "declaration": {
-            "name": "NysDropdown",
+            "name": "NysDropdownMenu",
             "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts"
           }
         }
@@ -3789,7 +3794,7 @@
         {
           "kind": "class",
           "description": "**Slotted component.** Displays an individual dropdown item within `nys-dropdown` with label.\n\nThe `nys-dropdownitem` is used as customizable item within the dropdown so users don't have to raw code <ul>, <li>, <a href>\nand have the benefit of default customization.",
-          "name": "NysDropdownItem",
+          "name": "NysDropdownMenuItem",
           "members": [
             {
               "kind": "field",
@@ -3866,7 +3871,7 @@
             "name": "LitElement",
             "package": "lit"
           },
-          "tagName": "nys-dropdownitem",
+          "tagName": "nys-dropdownmenuitem",
           "customElement": true,
           "summary": "Dropdown item to display label and provide href link."
         }
@@ -3874,17 +3879,17 @@
       "exports": [
         {
           "kind": "custom-element-definition",
-          "name": "nys-dropdownitem",
+          "name": "nys-dropdownmenuitem",
           "declaration": {
-            "name": "NysDropdownItem",
+            "name": "NysDropdownMenuItem",
             "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
           }
         },
         {
           "kind": "js",
-          "name": "NysDropdownItem",
+          "name": "NysDropdownMenuItem",
           "declaration": {
-            "name": "NysDropdownItem",
+            "name": "NysDropdownMenuItem",
             "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
           }
         }

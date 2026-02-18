@@ -2,16 +2,26 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Dropdownmenu Styles */
-  --_nys-dropdownmenu-width: 212px;
-  --_nys-dropdownmenu-height: var(--nys-size-600, 48px);
+  --_nys-dropdownmenu-width: 180px;
+  --_nys-dropdownmenu-height: 100%;
   --_nys-dropdownmenu-radius: var(--nys-radius-md, 4px);
   --_nys-dropdownmenu-border-size: var(--nys-border-width-sm, 1px);
   --_nys-dropdownmenu-border-color: var(--nys-color-neutral-100, #d0d0ce);
-  --_nys-dropdownmenu-background-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-dropdownmenu-background-color: var(--Color-Surface-surface-1, #fff);
+  --_nys-dropdownmenu-boxshadow-color-100: var(
+    --nys-color-black-transparent-100,
+    rgba(27, 27, 27, 0.1)
+  );
+  --_nys-dropdownmenu-boxshadow-color-50: var(
+    --nys-color-black-transparent-50,
+    rgba(27, 27, 27, 0.01)
+  );
+  --_nys-dropdownmenu-gap: var(--size-50, 4px);
+  --_nys-dropdownmenu-padding: var(--size-50, 4px);
 
   /* Typography */
   --_nys-dropdownmenu-font-size: var(--nys-font-size-ui-md, 16px);
-  --_nys-dropdownmenu-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-dropdownmenu-font-weight: var(font-weight: 400);
   --_nys-dropdownmenu-line-height: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-dropdownmenu-font-family: var(
     --nys-font-family-ui,
@@ -24,20 +34,78 @@
       sans-serif
     )
   );
+
+  /* Dropdownmenu Item Styles */
+  --_nys-dropdownmenuitem-color: var(--Text, var(--Color-Text-text, #000));
+  --_nys-dropdownmenuitem-padding: var(--size-130, 11px) var(--size-100, 8px);
+  --_nys-dropdownmenuitem-border-radius: var(--medium, 6px);
+  --_nys-dropdownmenuitem-background: var(--Color-Surface-surface-1, #fff);
+  --_nys-dropdownmenuitem-background--hover: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-dropdownmenuitem-background--active: var(--nys-color-neutral-50, #ededed);
+  --_nys-dropdownmenuitem-color--disabled: var(--nys-color-text-disabled, #bec0c1);
+  --_nys-dropdownmenuitem-outline-size: var(--nys-border-width-md, 2px);
+  --_nys-dropdownmenuitem-outline-color: var(--nys-color-focus, #004dd1);
 }
 
 .nys-dropdownmenu {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
+  position: absolute;
+  &.active {
+    ul {
+      display: flex;
+    }
+  }
+  ul {
+    display: none;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--_nys-dropdownmenu-gap);
+    width: var(--_nys-dropdownmenu-width);
+    height: var(--_nys-dropdownmenu-height);
+    border-radius: var(--_nys-dropdownmenu-radius);
+    border: var(--_nys-dropdownmenu-border-size) solid
+      var(--_nys-dropdownmenu-border-color);
+    background: var(--_nys-dropdownmenu-background-color);
+    box-shadow:
+      0 4px 6px -1px var(--_nys-dropdownmenu-boxshadow-color-100),
+      0 4px 6px -1px var(--_nys-dropdownmenu-boxshadow-color-50);
+    padding: var(--_nys-dropdownmenu-padding);
+    font-family: var(--_nys-dropdownmenu-font-family);
+    font-size: var(--_nys-dropdownmenu-font-size);
+    font-weight: var(--_nys-dropdownmenu-font-weight);
+    line-height: var(--_nys-dropdownmenu-line-height);
+    overflow: hidden;
+    margin: 0;
+  }
+}
+
+/**** Dropdownmenu Item ****/
+
+.nys-dropdownmenuitem {
   width: var(--_nys-dropdownmenu-width);
-  height: var(--_nys-dropdownmenu-height);
-  border-radius: var(--_nys-dropdownmenu-radius);
-  border: var(--_nys-dropdownmenu-border-size) solid
-    var(--_nys-dropdownmenu-border-color);
-  background: var(--_nys-dropdownmenu-background-color);
-  font-family: var(--_nys-dropdownmenu-font-family);
-  font-size: var(--_nys-dropdownmenu-font-size);
-  font-weight: var(--_nys-dropdownmenu-font-weight);
-  line-height: var(--_nys-dropdownmenu-line-height);
+  a {
+    display: flex;
+    padding: var(--_nys-dropdownmenuitem-padding);
+    align-items: flex-start;
+    border-radius: var(--_nys-dropdownmenuitem-border-radius);
+    background: var(--_nys-dropdownmenuitem-background);
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-wrap: wrap;
+    color: var(--_nys-dropdownmenuitem-color);
+    transition: .05s ease-in-out all;
+    &:hover {
+      background: var(--_nys-dropdownmenuitem-background--hover);
+    }
+    &:active {
+      background: var(--_nys-dropdownmenuitem-background--active);
+    }
+    &:focus {
+      outline: var(--_nys-dropdownmenuitem-outline-size) solid
+        var(--_nys-dropdownmenuitem-outline-color);
+    }
+    &:disabled {
+      color: var(--_nys-dropdownmenuitem-color--disabled);
+    }
+  }
 }
