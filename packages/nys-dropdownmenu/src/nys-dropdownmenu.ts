@@ -47,7 +47,6 @@ export class NysDropdownMenu extends LitElement {
     if (!this._userHasSetPosition) {
       this._userHasSetPosition = value !== null;
       this._originalUserPosition = value;
-      console.log(this._originalUserPosition);
     }
   }
 
@@ -72,7 +71,6 @@ export class NysDropdownMenu extends LitElement {
    */
 
   private _findTrigger() {
-    console.log("_findTrigger");
     const targetId = this.for;
     if (!targetId) return null;
 
