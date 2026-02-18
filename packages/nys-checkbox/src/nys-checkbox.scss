@@ -231,7 +231,7 @@
   left: 50%;
   transform: translate(-50%, -50%); /* Centering the icon visually */
   pointer-events: none;
-  color: white;
+  color: var(--nys-color-ink-reverse, #ffffff);
 }
 
 .nys-checkbox__checkbox {

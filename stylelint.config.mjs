@@ -1,6 +1,6 @@
 /** @type {import("stylelint").Config} */
 export default {
-  "rules": {
+  rules: {
     "custom-property-pattern": null,
     "selector-class-pattern": null,
     "selector-id-pattern": null,
@@ -12,6 +12,7 @@ export default {
     "declaration-empty-line-before": null,
     "declaration-block-no-redundant-longhand-properties": null,
     "color-hex-length": "long",
+    "color-named": "never",
   },
-  "extends": ["stylelint-config-standard-scss"]
+  extends: ["stylelint-config-standard-scss"],
 };
