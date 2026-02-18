@@ -1,18 +1,28 @@
 /** @type {import("stylelint").Config} */
 export default {
   rules: {
-    "custom-property-pattern": null,
+    // Color
+    "color-named": "never",
+    "color-hex-length": "long",
+    "color-function-notation": "legacy",
+    "color-function-alias-notation": null,
+    "alpha-value-notation": "number",
+
+    // Selector
     "selector-class-pattern": null,
     "selector-id-pattern": null,
-    "color-function-alias-notation": null,
-    "color-function-notation": "legacy",
-    "alpha-value-notation": "number",
     "selector-not-notation": "simple",
+
+    // Property
+    "custom-property-pattern": null,
     "property-no-vendor-prefix": null,
+
+    // Declaration
     "declaration-empty-line-before": null,
     "declaration-block-no-redundant-longhand-properties": null,
-    "color-hex-length": "long",
-    "color-named": "never",
+
+    // Block
+    "block-no-empty": true,
   },
   extends: ["stylelint-config-standard-scss"],
 };
