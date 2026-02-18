@@ -7,7 +7,7 @@ export default {
     "color-function-alias-notation": null,
     "color-function-notation": "modern",
     "alpha-value-notation": "percentage",
-    "selector-not-notation": null,
+    "selector-not-notation": "simple",
     "property-no-vendor-prefix": null,
     "declaration-empty-line-before": null,
     "declaration-block-no-redundant-longhand-properties": null,

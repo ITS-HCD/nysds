@@ -212,7 +212,7 @@
 }
 
 /* Hovered */
-.nys-textinput__input:hover:not(:disabled, :focus, [readonly]) {
+.nys-textinput__input:hover:not(:disabled):not(:focus):not([readonly]) {
   outline-color: var(--_nys-textinput-outline-color--hover);
   border-color: var(--_nys-textinput-outline-color--hover);
 }
