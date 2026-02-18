@@ -515,6 +515,7 @@ wc-datepicker {
       color: var(--_nys-datepicker--date-disabled-color);
       cursor: default;
 
+      // stylelint-disable-next-line selector-not-notation
       &:not(&--selected, &--in-range):hover {
         background-color: transparent;
       }
