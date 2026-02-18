@@ -99,6 +99,7 @@ export class NysRadiogroup extends LitElement {
     }
     this.addEventListener("nys-change", this._handleRadioButtonChange);
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("nys-error", this._handleChildError);
   }
 
   disconnectedCallback() {
@@ -211,31 +212,26 @@ export class NysRadiogroup extends LitElement {
 
   // Arrow / Space / Enter navigation at group level
   private async _handleKeyDown(event: KeyboardEvent) {
-    const keys = [
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      " ",
-      "Enter",
-    ];
+    const keys = ["ArrowUp", "ArrowDown", " ", "Enter"];
 
     if (!keys.includes(event.key)) return;
     event.preventDefault();
 
     const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
-    const checkedRadio =
-      radioBtns.find((radio) => radio.checked) || radioBtns[0];
 
-    // Computing the new index based on the keydown event
-    const increment =
-      event.key === " " || event.key === "Enter"
-        ? 0
-        : ["ArrowUp", "ArrowLeft"].includes(event.key)
-          ? -1
-          : 1;
+    const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
+    const currentRadio =
+      focusedRadio || radioBtns.find((radio) => radio.checked) || radioBtns[0]; // fallback is checked radio or first radio
 
-    let index = radioBtns.indexOf(checkedRadio) + increment;
+    let increment = 0;
+    if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
+      increment = -1;
+    } else if (["ArrowDown", "ArrowRight"].includes(event.key)) {
+      increment = 1;
+    }
+
+    let index = radioBtns.indexOf(currentRadio) + increment;
+
     // Handles the wrap around ends if user is at first or last radiobutton
     if (index < 0) {
       index = radioBtns.length - 1;
@@ -244,31 +240,28 @@ export class NysRadiogroup extends LitElement {
       index = 0;
     }
 
-    // The target is the new radiobutton the user want to choose given the keydown type.
-    // We let the target's <input/> dispatch the clickEvent and call _handleRadioButtonChange() directly to make form integration work
     const target = radioBtns[index];
     const input = await target.getInputElement();
     input?.click();
 
+    await this.updateComplete;
     this._updateGroupTabIndex();
     target.focus();
   }
 
   private _updateGroupTabIndex() {
     const radios = this._getAllRadios();
-    const active = radios.find((radio) => radio.checked) || radios[0]; // If none checked, make first radiobutton tabbable
+
+    // Pick active: checked first, otherwise first enabled
+    const active =
+      radios.find((radio) => radio.checked && !radio.disabled) ||
+      radios.find((radio) => !radio.disabled);
 
     radios.forEach((radio) => {
-      if (radio.disabled) {
-        radio.tabIndex = -1;
-      } else {
-        radio.tabIndex = radio === active ? 0 : -1;
-      }
-
-      // Need to update ARIA state due to the new tabindex
-      radio.setAttribute("aria-checked", radio.checked ? "true" : "false");
-      radio.setAttribute("aria-disabled", radio.disabled ? "true" : "false");
-      radio.setAttribute("aria-required", this.required ? "true" : "false");
+      radio.setAttribute("aria-checked", String(radio.checked));
+      // Only one radiobutton can be focusable at all times.
+      // Due to this, we calculate logic to determine an active radiobutton and call all other as tabindex="-1"
+      radio.tabIndex = radio === active && !radio.disabled ? 0 : -1;
     });
   }
 
@@ -385,12 +378,15 @@ export class NysRadiogroup extends LitElement {
 
   // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
   private _handleRadioButtonChange(event: Event) {
-    const customEvent = event as CustomEvent;
-    const { name, value } = customEvent.detail;
+    const { name, value } = (event as CustomEvent).detail;
 
     this.name = name;
     this.selectedValue = value;
     this._internals.setFormValue(this.selectedValue);
+
+    // selecting anything clears group required error
+    this._internals.setValidity({});
+    this.showError = false;
 
     // Accounts for tabindex & ARIA on every click/space select
     this._updateGroupTabIndex();
@@ -398,6 +394,22 @@ export class NysRadiogroup extends LitElement {
 
   private async _handleInvalid(event: Event) {
     event.preventDefault();
+
+    // Focus "other" text input when customError is set
+    if (this._internals.validity.customError) {
+      const radios = this._getAllRadios();
+      const otherRadio = radios.find((radio) => radio.other && radio.checked);
+
+      if (otherRadio) {
+        const textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+
+        if (textInput) {
+          await (textInput as any).updateComplete;
+          (textInput as HTMLElement).focus();
+          return;
+        }
+      }
+    }
 
     // Check if the radio group is invalid and set `showError` accordingly
     if (this._internals.validity.valueMissing) {
@@ -424,19 +436,40 @@ export class NysRadiogroup extends LitElement {
           );
           if (firstInvalidElement === this) {
             firstRadio.focus();
-            firstRadio.classList.add("active-focus"); // Needed to show focus outline; will be removed if user clicks to select
           }
         } else {
           // If not part of a form, simply focus.
           firstRadio.focus();
-          firstRadio.classList.add("active-focus");
         }
       }
     }
   }
 
+  private _handleChildError(event: Event) {
+    event.stopPropagation();
+
+    const { message, sourceRadio } = (event as CustomEvent).detail;
+    if (!sourceRadio) return;
+
+    this.showError = true;
+
+    this._internals.setValidity(
+      { customError: true },
+      message || "Please complete this field.",
+      sourceRadio as HTMLElement,
+    );
+  }
+
   render() {
-    return html`<div class="nys-radiogroup">
+    return html`<fieldset
+      aria-label="${this.label}${this._slottedDescriptionText
+        ? ` ${this._slottedDescriptionText}`
+        : this.description
+          ? ` ${this.description}`
+          : ""}"
+      role="radiogroup"
+      class="nys-radiogroup"
+    >
       <nys-label
         for=${this.id + "--native"}
         label=${this.label}
@@ -447,24 +480,15 @@ export class NysRadiogroup extends LitElement {
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
-      <div class="nys-radiogroup__content">
-        <fieldset role="radiogroup" @keydown=${this._handleKeyDown}>
-          <legend class="sr-only">
-            ${this.label}${this._slottedDescriptionText
-              ? ` ${this._slottedDescriptionText}`
-              : this.description
-                ? ` ${this.description}`
-                : ""}
-          </legend>
-          <slot></slot>
-        </fieldset>
+      <div class="nys-radiogroup__content" @keydown=${this._handleKeyDown}>
+        <slot></slot>
       </div>
       <nys-errormessage
         ?showError=${this.showError}
         errorMessage=${this._internals.validationMessage || this.errorMessage}
         .showDivider=${!this.tile}
       ></nys-errormessage>
-    </div>`;
+    </fieldset>`;
   }
 }
 

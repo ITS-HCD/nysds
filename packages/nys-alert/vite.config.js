@@ -20,7 +20,6 @@ const overrideConfig = {
     lib: {
       fileName: () => "nys-alert.js",
     },
-    
     rollupOptions: {
       output: [{ banner }],
     },

@@ -337,9 +337,9 @@ export class NysTextarea extends LitElement {
 
   render() {
     return html`
-      <label class="nys-textarea">
+      <div class="nys-textarea">
         <nys-label
-          for=${this.id + "--native"}
+          for=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
@@ -355,7 +355,7 @@ export class NysTextarea extends LitElement {
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
-          id=${this.id + "--native"}
+          id=${this.id}
           .value=${this.value}
           ?disabled=${this.disabled}
           ?required=${this.required && !this.readonly}
@@ -380,7 +380,7 @@ export class NysTextarea extends LitElement {
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
         ></nys-errormessage>
-      </label>
+      </div>
     `;
   }
 }

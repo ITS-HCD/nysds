@@ -46,11 +46,10 @@
   /* Core colors */
   --_nys-datepicker-text-color: var(--nys-color-text, #1b1b1b);
   --_nys-datepicker-text-disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-datepicker-bg: var(--nys-color-ink-reverse, #ffffff);
+  --_nys-datepicker-bg: var(--nys-color-ink-reverse, #fff);
 
   /* Calendar Button */
   --_nys-datepicker--button-active-bg: var(--nys-color-gray-100, #d0d0ce);
-
 
   /*** WC Styling Change ***/
 
@@ -142,7 +141,7 @@
       }
     }
 
-    #nys-datepicker--input {
+    .nys-datepicker--input {
       cursor: text;
       text-align: start;
       font-family: var(--_nys-datepicker-font-family);
@@ -228,6 +227,16 @@
       flex: 1;
     }
   }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
 }
 
 /**************** WC STYLINGS ****************/
@@ -428,7 +437,8 @@ wc-datepicker {
   }
 
   &__weekday {
-    padding: var(--_nys-datepicker--wc-padding) 0 var(--_nys-datepicker-space-sm) 0;
+    padding: var(--_nys-datepicker--wc-padding) 0
+      var(--_nys-datepicker-space-sm) 0;
     min-width: var(--nys-size-500, 40px);
     font-weight: 600;
     aspect-ratio: 1;
@@ -513,7 +523,8 @@ wc-datepicker {
     &.wc-datepicker__date--overflowing {
       color: var(--_nys-datepicker-text-disabled);
 
-      &:hover, &:active {
+      &:hover,
+      &:active {
         color: var(--_nys-datepicker-color);
       }
     }

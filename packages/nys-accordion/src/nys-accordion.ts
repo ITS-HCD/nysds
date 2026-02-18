@@ -17,6 +17,10 @@ let accordionIdCounter = 0;
  *
  * @slot - Default slot for `nys-accordionitem` elements.
  *
+ * @cssprop [--nys-accordion-background-color--header] - Background color of the accordion header.
+ * @cssprop [--nys-accordion-background-color--header--hover] - Background hover color of the accordion header.
+ * @cssprop [--nys-accordion-content-max-width] - Maximum readable width of accordion content. Defaults to a character-based width (80ch) for readability.
+ *
  * @example Basic accordion
  * ```html
  * <nys-accordion>

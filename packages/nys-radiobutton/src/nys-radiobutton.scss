@@ -54,10 +54,7 @@
   --_nys-radiobutton-border-color--active: var(--nys-color-ink, #1b1b1b);
 
   /* Checked */
-  --_nys-radiobutton-background-color--checked: var(
-    --nys-color-theme,
-    #154973
-  );
+  --_nys-radiobutton-background-color--checked: var(--nys-color-theme, #154973);
 
   /* Disabled */
   --_nys-radiobutton-background-color--disabled: var(
@@ -102,10 +99,7 @@
   --_nys-radiobutton-font-weight--label: var(--nys-font-weight-semibold, 600);
   --_nys-radiobutton-border-width--tile: var(--nys-border-width-sm, 1px);
   --_nys-radiobutton-border-radius--tile: var(--nys-radius-md, 4px);
-  --_nys-radiobutton-border-color--tile: var(
-    --nys-color-neutral-100,
-    #d0d0ce
-  );
+  --_nys-radiobutton-border-color--tile: var(--nys-color-neutral-100, #d0d0ce);
   --_nys-radiobutton-background-color--tile: var(
     --nys-color-ink-reverse,
     #ffffff
@@ -192,7 +186,7 @@
 
 .nys-radiobutton {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   font-family: var(--_nys-radiobutton-font-family);
   font-size: var(--_nys-radiobutton-font-size);
   line-height: var(--_nys-radiobutton-line-height);
@@ -258,9 +252,7 @@ input:not(:disabled):checked + .nys-radiobutton .nys-radiobutton__radio {
 input:disabled:checked + .nys-radiobutton .nys-radiobutton__radio {
   background-image: url('data:image/svg+xml;utf8,<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="11" stroke="white" stroke-width="6"/></svg>');
   border-color: var(--_nys-radiobutton-border-color--checked--disabled);
-  background-color: var(
-    --_nys-radiobutton-background-color--checked--disabled
-  );
+  background-color: var(--_nys-radiobutton-background-color--checked--disabled);
 }
 
 :host([tile])
@@ -333,25 +325,68 @@ input:active:not(:disabled, :checked)
 }
 
 /* Focused */
-:host:focus-visible,
-:host(.active-focus) {
+:host(:focus-visible) {
+  outline: none;
+}
+
+:host(:focus-visible) .nys-radiobutton__radio {
   outline: solid var(--_nys-radiobutton-outline-width)
     var(--_nys-radiobutton-outline-color);
 }
 
-.nys-radiobutton > nys-label {
+/* When input has focus, show outline on the custom span */
+input:focus + .nys-radiobutton .nys-radiobutton__radio,
+.nys-radiobutton:focus-within .nys-radiobutton__radio {
+  outline: solid var(--_nys-radiobutton-outline-width)
+    var(--_nys-radiobutton-outline-color);
+  outline-offset: var(--_nys-radiobutton-outline-offset);
+}
+
+/* Screen reader only / visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+
+.nys-radiobutton__main-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Special container for "other" text input */
+.nys-radiobutton__other-container {
+  display: flex;
+  padding-inline-start: calc(
+    var(--_nys-radiobutton-size) + var(--_nys-radiobutton-gap)
+  );
+}
+
+.nys-radiobutton__main-container > nys-label {
   --_nys-label-font-weight: var(--_nys-radiobutton-font-weight--label);
 
   display: flex;
   padding-inline-start: var(--_nys-radiobutton-gap);
 }
 
-:host([tile]) .nys-radiobutton > nys-label {
+:host([tile]) .nys-radiobutton__main-container > nys-label {
   --_nys-description-font-style: normal;
 }
 
-input:disabled + .nys-radiobutton > nys-label,
-input:disabled + .nys-radiobutton > nys-label * {
+input:disabled + .nys-radiobutton .nys-radiobutton__main-container > nys-label,
+input:disabled
+  + .nys-radiobutton
+  .nys-radiobutton__main-container
+  > nys-label
+  * {
   cursor: not-allowed;
 
   --_nys-label-cursor: not-allowed;

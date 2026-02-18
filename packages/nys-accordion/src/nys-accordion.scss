@@ -13,24 +13,28 @@
   --_nys-accordion-gap: var(--nys-space-100, 8px);
 
   /* Header & Text container */
-  --_nys-accordion-background-color: var(--nys-color-neutral-50, #ededed);
-  --_nys-accordion-background-color--hover: var(
-    --nys-color-neutral-100,
-    #d0d0ce
+  --_nys-accordion-background-color--header: var(
+    --nys-accordion-background-color--header,
+    var(--nys-color-neutral-50, #ededed)
+  );
+  --_nys-accordion-background-color--header--hover: var(
+    --nys-accordion-background-color--header--hover,
+    var(--nys-color-neutral-100, #d0d0ce)
   );
   --_nys-accordionitem-gap: var(--nys-space-200, 16px);
   --_nys-accordionitem-background-color: var(--nys-color-ink-reverse, #ffffff);
   --_nys-accordionitem-padding: var(--nys-space-200, 16px)
     var(--local-xx-spacing-205, 20px);
+  --_nys-accordion-content-max-width: var(
+    --nys-accordion-content-max-width,
+    80ch
+  );
 
   /* Typography */
   --_nys-accordion-font-size: var(--nys-type-size-ui-xl, 20px);
   --_nys-accordion-font-weight: var(--nys-font-weight-bold, 700);
   --_nys-accordion-line-height: var(--nys-font-lineheight-ui-xl, 28px);
-  --_nys-accordion-letter-spacing: var(
-    --nys-font-letterspacing-ui-xl,
-    0.017px
-  );
+  --_nys-accordion-letter-spacing: var(--nys-font-letterspacing-ui-xl, 0.017px);
   --_nys-accordion-font-family: var(
     --nys-font-family-ui,
     var(
@@ -68,14 +72,14 @@ p {
   align-items: center;
   align-self: stretch;
   border-radius: var(--_nys-accordion-border-radius);
-  background-color: var(--_nys-accordion-background-color);
+  background-color: var(--_nys-accordion-background-color--header);
   cursor: pointer;
   transition: 0.05s all ease-in-out;
 }
 
 .nys-accordionitem__heading:hover {
   border-radius: var(--_nys-accordion-border-radius);
-  background-color: var(--_nys-accordion-background-color--hover);
+  background-color: var(--_nys-accordion-background-color--header--hover);
 }
 
 .nys-accordionitem__heading:focus-visible {
@@ -112,7 +116,7 @@ p {
 }
 
 .nys-accordionitem__content-slot-container-text {
-  max-width: 528px;
+  max-width: var(--_nys-accordion-content-max-width);
 }
 
 /*** Expanded Styling ***/
