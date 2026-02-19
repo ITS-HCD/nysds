@@ -70,7 +70,7 @@
     --nys-color-text-disabled,
     #bec0c1
   );
-  --_nys-datepicker-border--date--disabled: var(
+  --_nys-datepicker-border-color--date--disabled: var(
     --nys-color-neutral-200,
     #bec0c1
   );
@@ -84,7 +84,7 @@
     --nys-color-neutral-50,
     #ededed
   );
-  --_nys-datepicker-background--navigation--disabled: var(
+  --_nys-datepicker-background-color--navigation--disabled: var(
     --nys-color-neutral-10,
     #f6f6f6
   );
@@ -152,7 +152,7 @@
       border-radius: var(--_nys-datepicker-border-radius);
       border: var(--_nys-datepicker-border-width) solid
         var(--_nys-datepicker-border-color);
-      background: var(--_nys-datepicker-background-color);
+      background-color: var(--_nys-datepicker-background-color);
       padding: var(--_nys-datepicker-space-md) var(--_nys-datepicker-space-md)
         var(--_nys-datepicker-space-md) var(--_nys-datepicker-space-lg);
       color: var(--_nys-datepicker-color);
@@ -246,7 +246,7 @@ wc-datepicker {
   border-radius: var(--_nys-datepicker-border-radius);
   border: var(--_nys-datepicker-border-width) solid
     var(--nys-color-neutral-100, #d0d0ce);
-  background: var(--_nys-datepicker-background-color);
+  background-color: var(--_nys-datepicker-background-color);
   box-shadow:
     0 4px 6px -1px var(--nys-color-black-transparent-100, rgb(27 27 27 / 10%)),
     0 4px 6px -1px var(--nys-color-black-transparent-50, rgb(27 27 27 / 1%));
@@ -289,7 +289,7 @@ wc-datepicker {
 
       &:focus {
         outline: none;
-        border-color: var(--_nys-datepicker-border--date--disabled);
+        border-color: var(--_nys-datepicker-border-color--date--disabled);
         box-shadow: none;
       }
 
@@ -349,7 +349,7 @@ wc-datepicker {
     &:disabled,
     &[aria-disabled="true"] {
       border: var(--_nys-datepicker-border--navigation--disabled);
-      background-color: var(--_nys-datepicker-background--navigation--disabled);
+      background-color: var(--_nys-datepicker-background-color--navigation--disabled);
       color: var(--_nys-datepicker-color--disabled);
     }
   }
@@ -424,7 +424,7 @@ wc-datepicker {
 
     &:disabled,
     &[aria-disabled="true"] {
-      background-color: var(--_nys-datepicker-background--navigation--disabled);
+      background-color: var(--_nys-datepicker-background-color--navigation--disabled);
       border: var(--_nys-datepicker-border--navigation--disabled);
       color: var(--_nys-datepicker-color--disabled);
     }
