@@ -19,7 +19,7 @@
   --_nys-textinput-gap: var(--nys-space-50, 4px);
   --_nys-textinput-background-color: var(
     --nys-color-ink-reverse,
-    var(--nys-color-white, #fff)
+    var(--nys-color-white, #ffffff)
   );
 
   /* Hovered */
@@ -212,7 +212,7 @@
 }
 
 /* Hovered */
-.nys-textinput__input:hover:not(:disabled, :focus, [readonly]) {
+.nys-textinput__input:hover:not(:disabled):not(:focus):not([readonly]) {
   outline-color: var(--_nys-textinput-outline-color--hover);
   border-color: var(--_nys-textinput-outline-color--hover);
 }

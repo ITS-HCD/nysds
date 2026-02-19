@@ -36,7 +36,7 @@
   );
 
   /* Default (Empty) */
-  --_nys-radiobutton-background-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-radiobutton-background-color: var(--nys-color-ink-reverse, #ffffff);
   --_nys-radiobutton-border-color: var(--nys-color-neutral-600, #62666a);
 
   /* Empty + Hovered */
@@ -111,7 +111,7 @@
   );
   --_nys-radiobutton-background-color--tile--hover: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
 
   /* Pressed */
@@ -121,7 +121,7 @@
   );
   --_nys-radiobutton-background-color--tile--active: var(
     --nys-color-ink-reverse,
-    #fff
+    #ffffff
   );
 
   /* Checked */
@@ -282,7 +282,7 @@ input:disabled + .nys-radiobutton .nys-radiobutton__radio {
 }
 
 /* Hover - only allow hover on unchecked */
-input:hover:not(:disabled, :checked)
+input:hover:not(:disabled):not(:checked)
   + .nys-radiobutton
   .nys-radiobutton__radio {
   border-color: var(--_nys-radiobutton-border-color--hover);
@@ -291,7 +291,7 @@ input:hover:not(:disabled, :checked)
 
 :host([tile])
   .nys-radiobutton:has(
-    input:hover:not(:disabled, :checked)
+    input:hover:not(:disabled):not(:checked)
       + .nys-radiobutton
       .nys-radiobutton__radio
   ) {
@@ -302,7 +302,7 @@ input:hover:not(:disabled, :checked)
 }
 
 /* Pressed - only allow pressed on unchecked */
-input:active:not(:disabled, :checked)
+input:active:not(:disabled):not(:checked)
   + .nys-radiobutton
   .nys-radiobutton__radio {
   border-color: var(--_nys-radiobutton-border-color--active);
@@ -311,7 +311,7 @@ input:active:not(:disabled, :checked)
 
 :host([tile])
   .nys-radiobutton:has(
-    input:active:not(:disabled, :checked)
+    input:active:not(:disabled):not(:checked)
       + .nys-radiobutton
       .nys-radiobutton__radio
   ) {
