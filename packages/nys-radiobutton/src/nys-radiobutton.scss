@@ -100,10 +100,7 @@
   --_nys-radiobutton-border-width--tile: var(--nys-border-width-sm, 1px);
   --_nys-radiobutton-border-radius--tile: var(--nys-radius-md, 4px);
   --_nys-radiobutton-border-color--tile: var(--nys-color-neutral-100, #d0d0ce);
-  --_nys-radiobutton-background-color--tile: var(
-    --nys-color-ink-reverse,
-    #ffffff
-  );
+  --_nys-radiobutton-background-color--tile: var(--nys-color-ink-reverse, #ffffff);
   --_nys-radiobutton-padding--x--tile: var(--nys-space-250, 20px);
   --_nys-radiobutton-padding--y--tile: var(--nys-space-200, 16px);
 
@@ -336,7 +333,8 @@ input:active:not(:disabled):not(:checked)
 
 /* When input has focus, show outline on the custom span */
 input:focus + .nys-radiobutton .nys-radiobutton__radio,
-.nys-radiobutton:focus-within .nys-radiobutton__radio {
+.nys-radiobutton:focus-within .nys-radiobutton__radio,
+:host(.focused) .nys-radiobutton__radio {
   outline: solid var(--_nys-radiobutton-outline-width)
     var(--_nys-radiobutton-outline-color);
   outline-offset: var(--_nys-radiobutton-outline-offset);
@@ -354,8 +352,6 @@ input:focus + .nys-radiobutton .nys-radiobutton__radio,
   white-space: nowrap;
   border: 0;
 }
-
-
 
 .nys-radiobutton__main-container {
   display: flex;
