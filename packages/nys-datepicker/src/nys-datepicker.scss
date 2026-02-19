@@ -46,7 +46,7 @@
   /* Core colors */
   --_nys-datepicker-text-color: var(--nys-color-text, #1b1b1b);
   --_nys-datepicker-text-disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-datepicker-bg: var(--nys-color-ink-reverse, #fff);
+  --_nys-datepicker-bg: var(--nys-color-ink-reverse, #ffffff);
 
   /* Calendar Button */
   --_nys-datepicker--button-active-bg: var(--nys-color-gray-100, #d0d0ce);
@@ -212,7 +212,7 @@
         background: var(--_nys-datepicker--button-active-bg);
       }
 
-      &:focus:not(:active, :disabled) {
+      &:focus:not(:active):not(:disabled) {
         outline-color: var(--_nys-datepicker-outline-color--focus);
         border-color: var(--_nys-datepicker-outline-color--focus);
       }
@@ -248,8 +248,8 @@ wc-datepicker {
     var(--nys-color-neutral-100, #d0d0ce);
   background: var(--_nys-datepicker-bg);
   box-shadow:
-    0 4px 6px -1px var(--nys-color-black-transparent-100, rgb(27 27 27 / 10%)),
-    0 4px 6px -1px var(--nys-color-black-transparent-50, rgb(27 27 27 / 1%));
+    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, .10)),
+    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, .01));
   color: var(--_nys-datepicker-text-color);
   margin-bottom: 3px;
 
@@ -472,7 +472,7 @@ wc-datepicker {
       box-shadow: inset 0 0 0 2px var(--_nys-datepicker--date-focus-ring);
     }
 
-    &:hover:not(.wc-datepicker__date--selected, :active) {
+    &:hover:not(.wc-datepicker__date--selected):not(:active) {
       color: var(--_nys-datepicker--date-hover-color);
       background-color: var(--_nys-datepicker--date-hover-bg);
     }
@@ -515,6 +515,7 @@ wc-datepicker {
       color: var(--_nys-datepicker--date-disabled-color);
       cursor: default;
 
+      // stylelint-disable-next-line selector-not-notation
       &:not(&--selected, &--in-range):hover {
         background-color: transparent;
       }
