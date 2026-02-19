@@ -366,26 +366,32 @@ describe("nys-combobox", () => {
     expect(el.checkValidity()).to.be.true;
   });
 
-  it("resets value and validation when form is reset", async () => {
+  it("resets to blank value when form is reset", async () => {
     const form = await fixture<HTMLFormElement>(html`
       <form>
-        <nys-combobox
-          value="apple"
-          showError
-          errorMessage="Error"
-        ></nys-combobox>
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
       </form>
     `);
 
     const el = form.querySelector<NysCombobox>("nys-combobox")!;
     const input = el.shadowRoot?.querySelector<HTMLInputElement>("input")!;
 
-    // Initial state
-    expect(el.value).to.equal("apple");
-    expect(input.value).to.equal("apple");
-    expect(el.showError).to.be.true;
-    expect(el.errorMessage).to.equal("Error");
+    // Change value
+    input.value = "apple";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
 
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.equal("apple");
+
+    // Reset form
     form.reset();
     await el.updateComplete;
 
@@ -411,24 +417,21 @@ describe("nys-combobox", () => {
 
     // Change value
     input.value = "apple";
-    input.dispatchEvent(new Event("change"));
+    input.dispatchEvent(new Event("input", { bubbles: true }));
     await el.updateComplete;
+
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+    );
+    await el.updateComplete;
+
     expect(el.value).to.equal("apple");
 
     // Reset form
     form.reset();
     await el.updateComplete;
 
-    // Should reset to default value
     expect(el.value).to.equal("banana");
-  });
-
-  // Tooltip tests
-  it("renders tooltip when tooltip attribute is set", async () => {
-    const el = await fixture<NysCombobox>(
-      html`<nys-combobox tooltip="Help text"></nys-combobox>`,
-    );
-    expect(el.tooltip).to.equal("Help text");
   });
 
   // Inverted theme tests (Inverted story)

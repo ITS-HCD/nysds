@@ -68,6 +68,7 @@ export class NysCombobox extends LitElement {
   private _hasUserInteracted = false;
   private _internals: ElementInternals;
   private _selectedLabel = "";
+  private _defaultValue = "";
 
   /**
    * Lifecycle methods
@@ -127,6 +128,7 @@ export class NysCombobox extends LitElement {
     }
 
     this._setValue();
+    this._defaultValue = this.value; // ← capture after resolving selected option
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
@@ -250,11 +252,26 @@ export class NysCombobox extends LitElement {
   }
 
   formResetCallback() {
-    this.value = "";
-    this._filterText = "";
-    this._selectedLabel = "";
-  }
+    this.value = this._defaultValue;
+    this._filterText = this._defaultValue
+      ? (this._options.find((opt) => opt.value === this._defaultValue)?.label ??
+        "")
+      : "";
+    this._selectedLabel = this._filterText;
 
+    if (this._input) {
+      this._input.value = this._filterText;
+    }
+
+    this._internals.setFormValue(this.value);
+
+    // Reset validation UI
+    this.showError = false;
+    this.errorMessage = "";
+    this._internals.setValidity({});
+
+    this.requestUpdate();
+  }
   checkValidity(): boolean {
     return this._input ? this._input.checkValidity() : true;
   }
@@ -521,10 +538,6 @@ export class NysCombobox extends LitElement {
   }
 
   private _handleChange() {
-    console.log("[nys-combobox] nys-change fired:", {
-      id: this.id,
-      value: this.value,
-    });
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: { id: this.id, value: this.value },
