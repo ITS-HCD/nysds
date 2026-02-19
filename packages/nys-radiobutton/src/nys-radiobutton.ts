@@ -216,7 +216,6 @@ export class NysRadiobutton extends LitElement {
       NysRadiobutton.buttonGroup[this.name] = this;
 
       this.checked = true;
-      23;
       this._validateOtherAndEmitError();
       this._emitChangeEvent();
     }
