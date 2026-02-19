@@ -290,13 +290,17 @@ describe("nys-combobox", () => {
   });
 
   // Value change and events tests
-  it("updates value when user selects an option", async () => {
+  it("updates value and emits nys-change event when user selects an option", async () => {
     const el = await fixture<NysCombobox>(html`
       <nys-combobox>
         <option value="apple">Apple</option>
         <option value="banana">Banana</option>
       </nys-combobox>
     `);
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-change", (e: any) => (eventDetail = e.detail));
+
     const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
 
     // Type to filter
@@ -313,23 +317,6 @@ describe("nys-combobox", () => {
     await el.updateComplete;
 
     expect(el.value).to.equal("apple");
-  });
-
-  it("emits nys-change event when value changes", async () => {
-    const el = await fixture<NysCombobox>(html`
-      <nys-combobox>
-        <option value="apple">Apple</option>
-      </nys-combobox>
-    `);
-
-    let eventDetail: any = null;
-    el.addEventListener("nys-change", (e: any) => (eventDetail = e.detail));
-
-    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-    input.value = "apple";
-    input.dispatchEvent(new Event("change", { bubbles: true }));
-    await el.updateComplete;
-
     expect(eventDetail).to.exist;
     expect(eventDetail.value).to.equal("apple");
   });
