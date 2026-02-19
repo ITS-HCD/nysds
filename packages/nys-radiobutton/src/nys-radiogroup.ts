@@ -402,6 +402,7 @@ export class NysRadiogroup extends LitElement {
 
       if (otherRadio) {
         const textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+        otherRadio.classList.remove("focused");
 
         if (textInput) {
           await (textInput as any).updateComplete;
