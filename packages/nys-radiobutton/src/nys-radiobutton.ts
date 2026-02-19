@@ -206,7 +206,6 @@ export class NysRadiobutton extends LitElement {
 
   // Handle radiobutton change event & un-selection of other radio options in group
   private async _handleChange() {
-    console.log("_handleChange");
     this.showOtherError = false;
 
     if (!this.checked && !this.disabled) {
@@ -217,14 +216,24 @@ export class NysRadiobutton extends LitElement {
       NysRadiobutton.buttonGroup[this.name] = this;
 
       this.checked = true;
+      23;
       this._validateOtherAndEmitError();
       this._emitChangeEvent();
     }
   }
 
   // Handle focus event
-  private _handleFocus() {
-    this.classList.add("focused");
+  private _handleFocus(event: FocusEvent) {
+    // If the focus event came from the internal nys-textinput, skip
+    const path = event?.composedPath() || [];
+    const isInsideTextInput = path.some(
+      (el) => (el as HTMLElement).tagName?.toLowerCase() === "nys-textinput",
+    );
+
+    if (!isInsideTextInput) {
+      this.classList.add("focused");
+    }
+
     this.dispatchEvent(new Event("nys-focus"));
   }
 
