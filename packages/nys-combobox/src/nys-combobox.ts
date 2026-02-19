@@ -486,13 +486,7 @@ export class NysCombobox extends LitElement {
     this._closeDropdown();
     this._input.focus();
 
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: { id: this.id, value: "" },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this._handleChange();
   }
 
   private _handleOptionClick(option: ComboboxOption) {
@@ -523,6 +517,14 @@ export class NysCombobox extends LitElement {
       this._validate();
     }
 
+    this._handleChange();
+  }
+
+  private _handleChange() {
+    console.log("[nys-combobox] nys-change fired:", {
+      id: this.id,
+      value: this.value,
+    });
     this.dispatchEvent(
       new CustomEvent("nys-change", {
         detail: { id: this.id, value: this.value },
