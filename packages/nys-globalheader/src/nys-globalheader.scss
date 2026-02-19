@@ -126,7 +126,7 @@ a {
 
 a#nys-globalheader__logolink {
   outline-offset: var(--nys-space-2px, 2px);
-  outline-color: white;
+  outline-color: var(--nys-color-ink-reverse, #ffffff);;
   margin: auto 0;
 }
 

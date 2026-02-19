@@ -65,7 +65,7 @@ describe("nys-badge", () => {
 
     expect(backgroundColor).to.equal("#1E752E");
     expect(borderColor).to.equal("#1E752E");
-    expect(color).to.equal("#fff");
+    expect(color).to.equal("#ffffff");
   });
 
   it("can have custom icons", async () => {

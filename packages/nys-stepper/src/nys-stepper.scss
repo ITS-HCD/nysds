@@ -82,19 +82,19 @@
   /* Shadow Cover TOP */
     linear-gradient(
         var(--nys-color-surface-raised, #f6f6f6) 30%,
-        rgb(255 255 255 / 0%)
+        rgba(255, 255, 255, 0)
       )
       center top,
     /* Shadow Cover BOTTOM */
       linear-gradient(
-        rgb(255 255 255 / 0%),
+        rgba(255, 255, 255, 0),
         var(--nys-color-surface-raised, #f6f6f6) 70%
       )
       center bottom,
     /* Shadow TOP */
-      linear-gradient(to bottom, rgb(99 99 99 / 20%), rgb(0 0 0 / 0%)) top,
+      linear-gradient(to bottom, rgba(99, 99, 99, 0.2), rgba(0, 0, 0, 0)) top,
     /* Shadow BOTTOM */
-      linear-gradient(to top, rgb(99 99 99 / 20%), rgb(0 0 0 / 0%)) bottom;
+      linear-gradient(to top, rgba(99, 99, 99, 0.2), rgba(0, 0, 0, 0)) bottom;
   background-repeat: no-repeat;
   background-size:
     100% 40px,
@@ -122,8 +122,7 @@
 }
 
 .nys-step__contentwrapper:focus-visible {
-  outline: solid var(--nys-color-focus, #004dd1)
-    var(--nys-border-width-md, 2px);
+  outline: solid var(--nys-color-focus, #004dd1) var(--nys-border-width-md, 2px);
   outline-offset: var(--nys-space-2px, 2px);
   border-radius: var(--nys-radius-md, 4px);
 }
@@ -138,17 +137,14 @@
   width: var(--nys-size-1px, 1px);
   height: var(--nys-size-300, 24px);
   border-radius: var(--nys-radius-round, 1776px);
-  background: var(--nys-color-black-transparent-200, rgb(27 27 27 / 20%));
+  background: var(--nys-color-black-transparent-200, rgba(27, 27, 27, 0.2));
   margin: var(--nys-space-100, 8px) 0;
 }
 
 .nys-step__number {
   border-radius: var(--nys-radius-round, 1776px);
   border: var(--nys-size-1px, 1px) solid var(--nys-color-neutral-400, #909395);
-  background: var(
-    --nys-color-white-transparent-900,
-    rgb(255 255 255 / 90%)
-  );
+  background: var(--nys-color-white-transparent-900, rgba(255, 255, 255, 0.9));
   width: var(--nys-size-300, 24px);
   min-width: var(--nys-size-300, 24px);
   max-width: var(--nys-size-300, 24px);
@@ -330,7 +326,7 @@
     border: 1px solid var(--nys-color-neutral-400, #909395);
     background: var(
       --nys-color-white-transparent-900,
-      rgb(255 255 255 / 90%)
+      rgba(255, 255, 255, 0.9)
     );
     width: var(--nys-space-300, 24px);
     min-width: var(--nys-space-300, 24px);
