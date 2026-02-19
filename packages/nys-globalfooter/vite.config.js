@@ -20,7 +20,7 @@ const overrideConfig = {
     lib: {
       fileName: () => "nys-globalfooter.js",
     },
-    emptyOutDir: true, // Since we're building both ES and UMD formats
+    
     rollupOptions: {
       output: [{ banner }],
     },

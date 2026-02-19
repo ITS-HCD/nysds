@@ -12,6 +12,7 @@ export default defineConfig({
   build: {
     cssCodeSplit: true,
     sourcemap: true,
+    emptyOutDir: false, // Since we're building both ESM and UMD
     rollupOptions: {
       input: {
         // NYSDS Bundles: Using @import to create style bundles

@@ -1,7 +1,7 @@
 {
   "name": "@nysds/styles",
   "type": "module",
-  "version": "1.13.1",
+  "version": "1.14.0",
   "description": "CSS variables, styles, and themes for the New York State Design System",
   "main": "dist/nysds.min.css",
   "style": "dist/nysds.min.css",
@@ -20,9 +20,11 @@
     "build": "vite build",
     "clean": "rm -rf dist"
   },
+  "dependencies": {
+    "@nysds/tokens": "1.14.0"
+  },
   "devDependencies": {
-    "@nysds/tokens": "*",
-    "vite": "^7.1.12"
+    "vite": "^7.3.1"
   },
   "keywords": [
     "new-york-state",

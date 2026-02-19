@@ -9,6 +9,7 @@
 
 @each $value in $opacity-values {
   @include responsive-variants("nys-opacity-#{$value}") {
+    // stylelint-disable-next-line alpha-value-notation
     opacity: math.div($value, 100);
   }
 }

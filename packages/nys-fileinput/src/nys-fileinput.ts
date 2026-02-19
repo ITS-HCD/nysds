@@ -527,6 +527,7 @@ export class NysFileinput extends LitElement {
       @nys-fileRemove=${this._handleFileRemove}
     >
       <nys-label
+        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -537,6 +538,7 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
+        id=${this.id}
         class="hidden-file-input"
         tabindex="-1"
         type="file"

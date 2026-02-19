@@ -302,8 +302,10 @@ export class NysModal extends LitElement {
         // Laying out the starting (i.e. dismiss btn) and ending elements for looping focus elements
         const firstFocusableEl = focusableElements[0];
         const lastFocusableEl = focusableElements[focusableElements.length - 1];
-        let active = document.activeElement as HTMLElement | null;
-        let activeIndex = focusableElements.indexOf(active as HTMLElement);
+        let activeElement = document.activeElement as HTMLElement | null;
+        let activeIndex = focusableElements.indexOf(
+          activeElement as HTMLElement,
+        );
 
         /**
          * Move focus backward when Shift+Tab is pressed.
@@ -336,7 +338,7 @@ export class NysModal extends LitElement {
           }
         } else {
           // Tab (go back to first focusable element if we're at last)
-          if (active === lastFocusableEl) {
+          if (activeElement === lastFocusableEl) {
             e.preventDefault();
             if (firstFocusableEl.tagName.toLowerCase() === "nys-button") {
               const nysButton = firstFocusableEl as HTMLElement & {
