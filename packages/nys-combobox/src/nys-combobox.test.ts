@@ -235,13 +235,6 @@ describe("nys-combobox", () => {
     expect(el.width).to.equal("lg");
   });
 
-  it("applies lg width when set", async () => {
-    const el = await fixture<NysCombobox>(
-      html`<nys-combobox width="lg"></nys-combobox>`,
-    );
-    expect(el.width).to.equal("lg");
-  });
-
   // Description slot tests (DescriptionSlot story)
   it("renders slotted description content", async () => {
     const el = await fixture<NysCombobox>(html`
