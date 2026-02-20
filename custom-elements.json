@@ -3956,7 +3956,25 @@
             },
             {
               "kind": "field",
-              "name": "_userHasSetPosition",
+              "name": "showDropdown",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "showDropdown"
+            },
+            {
+              "kind": "field",
+              "name": "_originalUserPosition",
+              "type": {
+                "text": "typeof this._position | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_internallyUpdatingPosition",
               "type": {
                 "text": "boolean"
               },
@@ -3965,18 +3983,18 @@
             },
             {
               "kind": "field",
-              "name": "_originalUserPosition",
+              "name": "_position",
               "type": {
-                "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
+                "text": "| \"top\"\n    | \"bottom\"\n    | \"left\"\n    | \"right\"\n    | \"bottom-start\"\n    | \"bottom-end\"\n    | \"top-start\"\n    | \"top-end\""
               },
               "privacy": "private",
-              "default": "null"
+              "default": "\"bottom-start\""
             },
             {
               "kind": "field",
-              "name": "_position",
+              "name": "_trigger",
               "type": {
-                "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
+                "text": "HTMLElement | null"
               },
               "privacy": "private",
               "default": "null"
@@ -3984,10 +4002,82 @@
             {
               "kind": "field",
               "name": "position",
-              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
-              "default": "null (auto-positioned based on available space)",
+              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.\n- `bottom-start`: opens downward, left-aligned with trigger\n- `bottom-end`: opens downward, right-aligned with trigger\n- `top-start`: opens upward, left-aligned with trigger\n- `top-end`: opens upward, right-aligned with trigger\n- `bottom` / `top` / `left` / `right`: legacy axis-only positions",
+              "default": "\"bottom-start\"",
               "attribute": "position",
               "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_findTrigger",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_connectTrigger",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_toggleDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_doesPositionFit",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "pos",
+                  "type": {
+                    "text": "typeof this._position"
+                  }
+                }
+              ],
+              "description": "Returns true if the menu fits on the given side of the trigger."
+            },
+            {
+              "kind": "method",
+              "name": "_getFallbackPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "typeof this._position"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "preferred",
+                  "type": {
+                    "text": "typeof this._position"
+                  }
+                }
+              ],
+              "description": "Returns the fallback position when the preferred one doesn't fit."
+            },
+            {
+              "kind": "method",
+              "name": "_setInternalPosition",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "pos",
+                  "type": {
+                    "text": "typeof this._position"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_positionMenu",
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -4000,9 +4090,17 @@
               "fieldName": "for"
             },
             {
+              "name": "showDropdown",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showDropdown"
+            },
+            {
               "name": "position",
-              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
-              "default": "null (auto-positioned based on available space)",
+              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.\n- `bottom-start`: opens downward, left-aligned with trigger\n- `bottom-end`: opens downward, right-aligned with trigger\n- `top-start`: opens upward, left-aligned with trigger\n- `top-end`: opens upward, right-aligned with trigger\n- `bottom` / `top` / `left` / `right`: legacy axis-only positions",
+              "default": "\"bottom-start\"",
               "fieldName": "position"
             }
           ],
@@ -4077,6 +4175,27 @@
               },
               "default": "\"\"",
               "attribute": "divider"
+            },
+            {
+              "kind": "method",
+              "name": "_handleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-select",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
