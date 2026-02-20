@@ -3392,6 +3392,15 @@
             },
             {
               "kind": "field",
+              "name": "_defaultValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "formAssociated",
               "type": {
                 "text": "boolean"
@@ -3607,6 +3616,11 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChange",
+              "privacy": "private"
             },
             {
               "kind": "method",

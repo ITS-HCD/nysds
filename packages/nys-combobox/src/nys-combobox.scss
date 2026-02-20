@@ -214,6 +214,10 @@
     background-color: var(--_nys-combobox-option-background-color--hover);
   }
 
+  &:active:not([disabled]):not(.nys-combobox__option--selected) {
+    background-color: var(--_nys-combobox-option-background-color--active);
+  }
+
   &--selected:not([disabled]) {
     background-color: var(--_nys-combobox-option-background-color--selected);
     border: var(--_nys-combobox-option-border-color--selected) solid 1px;
