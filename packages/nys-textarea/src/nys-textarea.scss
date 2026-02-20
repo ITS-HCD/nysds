@@ -98,7 +98,7 @@
 }
 
 /* Hovered */
-.nys-textarea__textarea:hover:not(:disabled, :focus, [readonly]) {
+.nys-textarea__textarea:hover:not(:disabled):not(:focus):not([readonly]) {
   outline: solid var(--_nys-textarea-outline-width) var(--_nys-textarea-outline-color--hover);
   border-color: var(--_nys-textarea-outline-color--hover);
 }

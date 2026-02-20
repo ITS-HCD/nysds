@@ -6524,7 +6524,15 @@
             {
               "kind": "method",
               "name": "_handleFocus",
-              "privacy": "private"
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",

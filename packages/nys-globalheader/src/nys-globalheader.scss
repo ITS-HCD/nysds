@@ -2,11 +2,11 @@
   /* Global Header Styles */
   --_nys-globalheader-color: var(
     --nys-color-text-reverse,
-    var(--nys-color-white, #fff)
+    var(--nys-color-white, #ffffff)
   );
   --_nys-globalheader-link-color: var(
     --nys-color-link-reverse-neutral,
-    var(--nys-color-white, #fff)
+    var(--nys-color-white, #ffffff)
   );
   --_nys-globalheader-background-color: var(
     --nys-color-theme,
@@ -109,7 +109,7 @@ a {
 
   --_nys-button-outline-color: var(
     --nys-color-ink-reverse,
-    var(--nys-color-white, #fff)
+    var(--nys-color-white, #ffffff)
   );
 }
 
@@ -126,7 +126,7 @@ a {
 
 a#nys-globalheader__logolink {
   outline-offset: var(--nys-space-2px, 2px);
-  outline-color: white;
+  outline-color: var(--nys-color-ink-reverse, #ffffff);;
   margin: auto 0;
 }
 

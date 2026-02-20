@@ -1,6 +1,6 @@
 :host {
   /* Global Tooltip Styles */
-  --_nys-tooltip-color: var(--nys-color-text-reverse, #fff);
+  --_nys-tooltip-color: var(--nys-color-text-reverse, #ffffff);
   --_nys-tooltip-background-color: var(--nys-color-ink, #1b1b1b);
   --_nys-tooltip-border-radius: var(--nys-radius-md, 4px);
   --_nys-tooltip-font-family: var(
@@ -102,7 +102,7 @@
 
 :host([inverted]) .nys-tooltip__content {
   --_nys-tooltip-color: var(--nys-color-text, #1b1b1b);
-  --_nys-tooltip-background-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-tooltip-background-color: var(--nys-color-ink-reverse, #ffffff);
 }
 
 :host([inverted]) .nys-tooltip__arrow {
