@@ -5,11 +5,17 @@ import "@nysds/nys-button";
 import "@nysds/nys-icon";
 import "@nysds/nys-textinput";
 
+interface Language {
+  code: string;
+  label: string;
+}
+
 // Define the structure of the args used in the stories
 interface NysUnavHeaderArgs {
   hideTranslate: boolean;
   hideSearch: boolean;
   searchUrl: string;
+  languages: Language[];
 }
 
 const meta: Meta<NysUnavHeaderArgs> = {
@@ -19,6 +25,7 @@ const meta: Meta<NysUnavHeaderArgs> = {
     hideTranslate: { control: "boolean" },
     hideSearch: { control: "boolean" },
     searchUrl: { control: "text" },
+    languages: { control: "text" },
   },
   parameters: {
     docs: {
@@ -90,6 +97,35 @@ export const CustomSearchUrl: Story = {
     docs: {
       source: {
         code: `<nys-unavheader hideTranslate searchUrl="https://www.google.com/search?q="></nys-unavheader>`,
+        type: "auto",
+      },
+    },
+  },
+};
+export const CustomLanguages: Story = {
+  args: {
+    hideTranslate: false,
+    hideSearch: false,
+    searchUrl: "",
+    languages: [
+      { code: "en", label: "English" },
+      { code: "es", label: "Español" },
+      { code: "fr", label: "Français" },
+    ],
+  },
+  render: (args) =>
+    html`<nys-unavheader
+      .hideTranslate=${args.hideTranslate}
+      .hideSearch=${args.hideSearch}
+      .searchUrl=${args.searchUrl}
+      .languages=${args.languages}
+    ></nys-unavheader>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-unavheader
+  languages="[{"code":"en","label":"English"},{"code":"es","label":"Español"},{"code":"fr","label":"Français"}]"
+></nys-unavheader>`,
         type: "auto",
       },
     },

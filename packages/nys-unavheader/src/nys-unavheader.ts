@@ -26,7 +26,6 @@ import styles from "./nys-unavheader.scss?inline";
  * ```
  */
 
-// ADD this interface above the class
 interface Language {
   code: string;
   label: string;
