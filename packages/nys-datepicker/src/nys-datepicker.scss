@@ -10,7 +10,6 @@
     var(--nys-color-neutral-900, #1b1b1b)
   );
   --_nys-datepicker-color--disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-datepicker-gap--row: var(--nys-space-2-px, 2px);
 
   /* Sizing */
   --_nys-datepicker-space-sm: var(--nys-space-50, 4px);
@@ -58,7 +57,11 @@
 
   /* General */
   --_nys-datepicker-padding--calendar: var(--nys-space-200, 16px);
-  --_nys-datepicker-color--calendar--weekends: var(--nys-color-text-weaker, #797c7f);
+  --_nys-datepicker-color--calendar--weekends: var(
+    --nys-color-text-weaker,
+    #797c7f
+  );
+  --_nys-datepicker-gap--calendar-row: var(--nys-space-2-px, 2px);
 
   /* Calendar states */
   --_nys-datepicker-font-size--date: var(--nys-type-size-ui-sm, 14px);
@@ -100,9 +103,18 @@
     --nys-color-neutral-10,
     #f6f6f6
   );
-  --_nys-datepicker-color--navigation--hover: var(--nys-color-neutral-900, #1b1b1b);
-  --_nys-datepicker-color--navigation--pressed: var(--nys-color-neutral-900, #1b1b1b);
-  --_nys-datepicker-color--navigation--disabled: var(--nys-color-neutral-200, #bec0c1);
+  --_nys-datepicker-color--navigation--hover: var(
+    --nys-color-neutral-900,
+    #1b1b1b
+  );
+  --_nys-datepicker-color--navigation--pressed: var(
+    --nys-color-neutral-900,
+    #1b1b1b
+  );
+  --_nys-datepicker-color--navigation--disabled: var(
+    --nys-color-neutral-200,
+    #bec0c1
+  );
   --_nys-datepicker-box-shadow-border--navigation: inset 0 0 0 1px
     var(--nys-color-neutral-900, #1b1b1b);
 }
@@ -250,8 +262,8 @@ wc-datepicker {
     var(--nys-color-neutral-100, #d0d0ce);
   background-color: var(--_nys-datepicker-background-color);
   box-shadow:
-    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, .10)),
-    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, .01));
+    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1)),
+    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01));
   color: var(--_nys-datepicker-text-color);
   margin-bottom: 3px;
 
@@ -567,7 +579,7 @@ wc-datepicker {
   tr.wc-datepicker__calendar-row.sc-wc-datepicker {
     display: flex;
     align-items: center;
-    gap: var(--_nys-datepicker-gap--row);
+    gap: var(--_nys-datepicker-gap--calendar-row);
     align-self: stretch;
   }
 }
