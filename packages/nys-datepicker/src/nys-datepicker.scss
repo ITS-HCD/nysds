@@ -9,7 +9,7 @@
     --nys-color-text,
     var(--nys-color-neutral-900, #1b1b1b)
   );
-  --_nys-datepicker-color--disabled: var(--nys-color-neutral-200, #bec0c1);
+  --_nys-datepicker-color--disabled: var(--nys-color-text-disabled, #bec0c1);
   --_nys-datepicker-gap--row: var(--nys-space-2-px, 2px);
 
   /* Sizing */
@@ -46,7 +46,7 @@
   /* Core colors */
   --_nys-datepicker-text-color: var(--nys-color-text, #1b1b1b);
   --_nys-datepicker-text-disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-datepicker-background-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-datepicker-background-color: var(--nys-color-ink-reverse, #ffffff);
 
   /* Calendar Button */
   --_nys-datepicker-background-color--button--active: var(
@@ -57,8 +57,8 @@
   /*** WC Styling Change ***/
 
   /* General */
-  --_nys-datepicker-padding--wc: var(--nys-space-200, 16px);
-  --_nys-datepicker-color-weaker--wc: var(--nys-color-text-weaker, #797c7f);
+  --_nys-datepicker-padding--calendar: var(--nys-space-200, 16px);
+  --_nys-datepicker-color--calendar--weekends: var(--nys-color-text-weaker, #797c7f);
 
   /* Calendar states */
   --_nys-datepicker-font-size--date: var(--nys-type-size-ui-sm, 14px);
@@ -172,7 +172,7 @@
         border: var(--_nys-datepicker-border-width) solid
           var(--_nys-datepicker-color--navigation--disabled);
         cursor: not-allowed;
-        color: var(--_nys-datepicker-color-weaker--wc);
+        color: var(--_nys-datepicker-color--disabled);
       }
 
       &::-webkit-date-and-time-value {
@@ -214,7 +214,7 @@
         background: var(--_nys-datepicker-background-color--button--active);
       }
 
-      &:focus:not(:active, :disabled) {
+      &:focus:not(:active):not(:disabled) {
         outline-color: var(--_nys-datepicker-outline-color--focus);
         border-color: var(--_nys-datepicker-outline-color--focus);
       }
@@ -244,14 +244,14 @@
 /**************** WC STYLINGS ****************/
 wc-datepicker {
   display: none;
-  padding: var(--_nys-datepicker-padding--wc);
+  padding: var(--_nys-datepicker-padding--calendar);
   border-radius: var(--_nys-datepicker-border-radius);
   border: var(--_nys-datepicker-border-width) solid
     var(--nys-color-neutral-100, #d0d0ce);
   background-color: var(--_nys-datepicker-background-color);
   box-shadow:
-    0 4px 6px -1px var(--nys-color-black-transparent-100, rgb(27 27 27 / 10%)),
-    0 4px 6px -1px var(--nys-color-black-transparent-50, rgb(27 27 27 / 1%));
+    0 4px 6px -1px var(--nys-color-black-transparent-100, rgba(27, 27, 27, .10)),
+    0 4px 6px -1px var(--nys-color-black-transparent-50, rgba(27, 27, 27, .01));
   color: var(--_nys-datepicker-text-color);
   margin-bottom: 3px;
 
@@ -462,7 +462,7 @@ wc-datepicker {
   }
 
   &__weekday {
-    padding: var(--_nys-datepicker-padding--wc) 0
+    padding: var(--_nys-datepicker-padding--calendar) 0
       var(--_nys-datepicker-space-sm) 0;
     min-width: var(--nys-size-500, 40px);
     font-weight: 600;
@@ -478,7 +478,7 @@ wc-datepicker {
 
     &[aria-label="Saturday"],
     &[aria-label="Sunday"] {
-      color: var(--_nys-datepicker-color-weaker--wc);
+      color: var(--_nys-datepicker-color--calendar--weekends);
     }
   }
 
@@ -540,6 +540,7 @@ wc-datepicker {
       color: var(--_nys-datepicker-color--date--disabled);
       cursor: default;
 
+      // stylelint-disable-next-line selector-not-notation
       &:not(&--selected, &--in-range):hover {
         background-color: transparent;
       }
@@ -559,7 +560,7 @@ wc-datepicker {
     display: flex;
     padding-top: var(--_nys-datepicker-space-lg);
     align-items: flex-end;
-    gap: var(--_nys-datepicker-padding--wc);
+    gap: var(--_nys-datepicker-padding--calendar);
     align-self: stretch;
   }
 

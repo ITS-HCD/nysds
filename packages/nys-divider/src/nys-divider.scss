@@ -9,7 +9,7 @@
 
 /* Inverted */
 :host([inverted]) {
-  --_nys-divider-color: var(--nys-color-ink-reverse, #fff);
+  --_nys-divider-color: var(--nys-color-ink-reverse, #ffffff);
 }
 
 .nys-divider {

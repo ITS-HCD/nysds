@@ -5,7 +5,7 @@
   --_nys-modal-border-radius: var(--nys-radius-lg, 8px);
   --_nys-modal-border-color: var(--nys-color-neutral-200, #bec0c1);
   --_nys-modal-border-width: 1px;
-  --_nys-modal-background-color: var(--nys-color-surface, #fff);
+  --_nys-modal-background-color: var(--nys-color-surface, #ffffff);
   --_nys-modal-margin: var(--nys-space-250, 20px);
   --_nys-modal-padding: var(--nys-space-300, 24px);
   --_nys-modal-gap: var(--nys-space-200, 16px);
@@ -13,7 +13,7 @@
   /* Modal Overlay */
   --_nys-modal-background-color--overlay: var(
     --nys-color-black-transparent-700,
-    rgb(27 27 27 / 70%)
+    rgba(27, 27, 27, 0.70)
   );
 
   /* Modal Header */

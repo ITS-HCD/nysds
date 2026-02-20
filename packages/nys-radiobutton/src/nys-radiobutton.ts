@@ -206,7 +206,6 @@ export class NysRadiobutton extends LitElement {
 
   // Handle radiobutton change event & un-selection of other radio options in group
   private async _handleChange() {
-    console.log("_handleChange");
     this.showOtherError = false;
 
     if (!this.checked && !this.disabled) {
@@ -223,13 +222,25 @@ export class NysRadiobutton extends LitElement {
   }
 
   // Handle focus event
-  private _handleFocus() {
+  private _handleFocus(event: FocusEvent) {
+    // If the focus event came from the internal nys-textinput, skip
+    const path = event?.composedPath() || [];
+    const isInsideTextInput = path.some(
+      (el) => (el as HTMLElement).tagName?.toLowerCase() === "nys-textinput",
+    );
+
+    if (!isInsideTextInput) {
+      this.classList.add("focused");
+    }
+
     this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
+    this.classList.remove("focused");
     this.dispatchEvent(new Event("nys-blur"));
+
     setTimeout(() => {
       // Only validate if we're blurring away from the component entirely
       // and this is an "other" radio that's checked
@@ -348,6 +359,7 @@ export class NysRadiobutton extends LitElement {
                 @nys-input=${this._handleTextInput}
                 @nys-blur=${this._handleTextInputBlur}
                 @keydown=${this._handleOtherKeydown}
+                @nys-focus=${() => this.classList.remove("focused")}
                 ariaLabel="Other"
                 aria-invalid=${this.showOtherError ? "true" : "false"}
                 width=${this.isMobile ? "full" : "md"}
