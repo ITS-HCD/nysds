@@ -432,6 +432,16 @@ export class NysDatepicker extends LitElement {
     }
   }
 
+  private _dispatchInputEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-input", {
+        detail: { id: this.id, value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
@@ -567,6 +577,7 @@ export class NysDatepicker extends LitElement {
       this._setValue(dateValue);
       this._validate();
 
+      this._dispatchInputEvent();
       datepicker.classList.remove("active");
       this.datepickerIsOpen = false;
       this.removeEventListener("keydown", this._handleFocusTrap);
@@ -622,13 +633,7 @@ export class NysDatepicker extends LitElement {
       this._validate();
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-input", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this._dispatchInputEvent();
   }
 
   private _getValidDateFromInput(value: string): Date | null {
