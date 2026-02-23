@@ -1,0 +1,19 @@
+name: Ref Site Documentation
+description: Tracking adding the changes to the ref site
+title: Ref Site Updates for COMPONENT_NAME
+labels:
+  - subtask
+assignees:
+  - emilygorelik
+  - NovaCat35
+projects:
+  - ITS-HCD/1
+
+body:
+  - type: textarea
+    id: ref-site-ticket-content
+    attributes:
+      label: Ref Site Ticket Content
+      description: Please fill out the details below for tracking this component's progress.
+      value: |
+        Ref Site updates of changes made
