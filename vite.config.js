@@ -39,20 +39,16 @@ function removeDemoFiles() {
 export const defaultConfig = {
   css: {
     postcss: null,
-    // preprocessorOptions: {
-    //   scss: {
-    //     additionalData:
-    //     `@use "../../../src/scss/global-variables.scss" as *;
-    //      @use "../../../src/scss/mixins.scss" as *;
-    //     `,
-    //   },
-    // },
+  },
+  esbuild: {
+    legalComments: 'inline',
   },
   build: {
     lib: {
       entry: ["./src/index.ts"],
       fileName: () => "nysds.es.js",
     },
+    minify: 'esbuild',
     sourcemap: true,
     emptyOutDir: false, // Since we're building both ES and UMD formats
     rollupOptions: {
@@ -69,8 +65,6 @@ export const defaultConfig = {
         },
       ],
       plugins: [
-        // minify(),
-        // minifyTemplateLiterals(),
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
         removeDemoFiles(), // Add the cleanup plugin
