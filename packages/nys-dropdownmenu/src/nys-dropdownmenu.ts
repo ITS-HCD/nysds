@@ -8,12 +8,26 @@ import styles from "./nys-dropdownmenu.scss?inline";
  * Dropdown menus enable users to select an action from a list of options.
  * They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.
  *
+ * @summary Action menu with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-dropdownmenu
- * @example
- * <button id="my-trigger">Action</button>
+ *
+ * @example Basic dropdown
+ * ```html
+ * <button id="my-trigger">Actions</button>
  * <nys-dropdownmenu for="my-trigger">
- *   <nys-dropdownitem label="Label 1" link="#"></nys-dropdownitem>
+ *   <nys-dropdownmenuitem label="Edit" link="/edit"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Delete" link="/delete"></nys-dropdownmenuitem>
  * </nys-dropdownmenu>
+ * ```
+ *
+ * @example Positioned dropdown
+ * ```html
+ * <button id="settings-btn">Settings</button>
+ * <nys-dropdownmenu for="settings-btn" position="top-start">
+ *   <nys-dropdownmenuitem label="Profile" link="/profile"></nys-dropdownmenuitem>
+ *   <nys-dropdownmenuitem label="Logout" link="/logout"></nys-dropdownmenuitem>
+ * </nys-dropdownmenu>
+ * ```
  */
 
 type Position = "bottom-start" | "bottom-end" | "top-start" | "top-end";
@@ -42,35 +56,9 @@ export class NysDropdownMenu extends LitElement {
    */
   @property({ type: String, reflect: true }) position: Position | null = null;
 
-  // // Track if user set position is set explicitly
-  // private _userHasSetPosition = false;
-  // private _originalUserPosition: Position | null = null;
-  // private _position: Position = "bottom";
-
   private _trigger: HTMLElement | null = null;
   private _menuElement: HTMLElement | null = null;
   private readonly GAP = 4; // px gap between trigger and menu
-
-  /**
-   * Preferred position relative to trigger. Auto-adjusts if space is insufficient.
-   * @default null (auto-positioned based on available space)
-   */
-  // @property({ type: String, reflect: true })
-  // get position() {
-  //   return this._position;
-  // }
-
-  // set position(value) {
-  //   const oldVal = this._position;
-  //   this._position = value;
-  //   this.requestUpdate("position", oldVal);
-
-  //   // The "_userHasSetPosition" flag allows user's set position to take preference
-  //   if (!this._userHasSetPosition) {
-  //     this._userHasSetPosition = value !== null;
-  //     this._originalUserPosition = value;
-  //   }
-  // }
 
   /**
    * Lifecycle Methods
@@ -86,11 +74,14 @@ export class NysDropdownMenu extends LitElement {
     super.connectedCallback();
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+  }
+
   async firstUpdated() {
     await this.updateComplete;
     this._connectTrigger();
   }
-
   /**
    * Functions
    * --------------------------------------------------------------------------
@@ -128,16 +119,54 @@ export class NysDropdownMenu extends LitElement {
       this._trigger = trigger;
       this._trigger.setAttribute("aria-haspopup", "true");
       this._trigger.setAttribute("aria-expanded", "false");
-      this._trigger.addEventListener("click", () => this._toggleDropdown());
+      this._trigger.addEventListener("click", this._toggleDropdown);
+      this._trigger.addEventListener("keydown", this._handleTriggerKeydown);
     }
   }
 
-  private _toggleDropdown() {
+  private _toggleDropdown = () => {
     this.showDropdown = !this.showDropdown;
 
-    if (this.showDropdown) {
-      requestAnimationFrame(() => this._positionMenu());
+    if (this._trigger) {
+      this._trigger.setAttribute("aria-expanded", String(this.showDropdown));
     }
+
+    if (this.showDropdown) {
+      window.addEventListener("scroll", this._handleWindowScroll, true);
+      window.addEventListener("resize", this._handleWindowResize);
+
+      this._menuElement = this.shadowRoot?.querySelector(
+        ".nys-dropdownmenu",
+      ) as HTMLElement | null;
+      this._menuElement!.addEventListener("keydown", this._handleMenuKeydown);
+
+      requestAnimationFrame(() => this._positionMenu());
+    } else {
+      window.removeEventListener("scroll", this._handleWindowScroll, true);
+      window.removeEventListener("resize", this._handleWindowResize);
+      this._menuElement!.removeEventListener(
+        "keydown",
+        this._handleMenuKeydown,
+      );
+    }
+  };
+
+  private _closeDropdown() {
+    this.showDropdown = false;
+
+    if (this._trigger) {
+      this._trigger.setAttribute("aria-expanded", "false");
+      this._trigger.focus();
+    }
+  }
+
+  private _getMenuItems(): HTMLElement[] {
+    const slot = this.shadowRoot?.querySelector("slot");
+    const assigned = slot?.assignedElements({ flatten: true }) || [];
+
+    return assigned.filter(
+      (el) => el && !el.hasAttribute("disabled"),
+    ) as HTMLElement[];
   }
 
   /**
@@ -152,7 +181,6 @@ export class NysDropdownMenu extends LitElement {
   private _positionMenu() {
     if (!this._trigger) return;
 
-    // const triggerRect = this._trigger.getBoundingClientRect();
     this._menuElement = this.shadowRoot?.querySelector(
       ".nys-dropdownmenu",
     ) as HTMLElement | null;
@@ -327,7 +355,7 @@ export class NysDropdownMenu extends LitElement {
     }
 
     if (horizontal === "start") {
-      left = triggerRect.left + scrollX + this.GAP;
+      left = triggerRect.left + scrollX;
     } else {
       left = triggerRect.right + scrollX - menuRect.width;
     }
@@ -346,6 +374,59 @@ export class NysDropdownMenu extends LitElement {
    * Event Handlers
    * --------------------------------------------------------------------------
    */
+
+  private _handleTriggerKeydown = (event: KeyboardEvent) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      this._toggleDropdown();
+    }
+
+    if (event.key === "Escape" && this.showDropdown) {
+      event.preventDefault();
+      this._closeDropdown();
+    }
+  };
+
+  private _handleMenuKeydown = (event: KeyboardEvent) => {
+    const items = this._getMenuItems();
+    const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+
+    switch (event.key) {
+      case "Escape":
+        event.preventDefault();
+        this._closeDropdown();
+        break;
+      case "ArrowDown":
+      case "ArrowRight":
+        event.preventDefault();
+        const nextIndex =
+          currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+        items[nextIndex].focus();
+        break;
+      case "ArrowUp":
+      case "ArrowLeft":
+        event.preventDefault();
+        const prevIndex =
+          currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+        items[prevIndex].focus();
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  private _handleWindowResize = () => {
+    if (this.showDropdown) {
+      this._positionMenu();
+    }
+  };
+
+  private _handleWindowScroll = () => {
+    if (this.showDropdown) {
+      this._positionMenu();
+    }
+  };
 
   render() {
     return html`<div
