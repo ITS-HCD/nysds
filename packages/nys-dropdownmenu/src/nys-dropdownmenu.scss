@@ -49,6 +49,8 @@
 
 .nys-dropdownmenu {
   position: absolute;
+  top: 0;
+  left: 0;
   &.active {
     ul {
       display: flex;
