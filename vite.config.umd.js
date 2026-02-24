@@ -1,5 +1,7 @@
 import { defineConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
+import fs from "fs";
+import path from "path";
 // import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
 // import { minify } from 'rollup-plugin-esbuild-minify';
 
@@ -14,17 +16,27 @@ const banner = `
  */
 `;
 
+// Plugin to remove demo HTML files after build
+function removeDemoFiles() {
+  return {
+    name: "remove-demo-files",
+    closeBundle() {
+      const demoFolder = path.resolve("dist/nys-stepper");
+
+      if (fs.existsSync(demoFolder)) {
+        fs.rmSync(demoFolder, { recursive: true, force: true });
+        console.log(`✓ Removed demo directory: dist/nys-stepper/`);
+      }
+    },
+  };
+}
+
 export default defineConfig({
   css: {
     postcss: null,
-    // preprocessorOptions: {
-    //   scss: {
-    //     additionalData:
-    //     `@use "../../../src/scss/global-variables.scss" as *;
-    //      @use "../../../src/scss/mixins.scss" as *;
-    //     `,
-    //   },
-    // },
+  },
+  esbuild: {
+    legalComments: 'inline',
   },
   build: {
     lib: {
@@ -33,6 +45,7 @@ export default defineConfig({
       fileName: () => "nysds.js", // Output as "nysds.js" for UMD
       formats: ["umd"], // UMD format
     },
+    minify: 'esbuild',
     sourcemap: true,
     emptyOutDir: false, // Since we're building both ESM and UMD
     rollupOptions: {
@@ -45,10 +58,9 @@ export default defineConfig({
         },
       },
       plugins: [
-        // minify(),
-        // minifyTemplateLiterals(),
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-umd.html", open: true }),
+        removeDemoFiles(), // Add the cleanup plugin
       ].filter(Boolean),
     },
   },
