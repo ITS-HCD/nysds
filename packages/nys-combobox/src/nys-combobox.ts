@@ -524,11 +524,7 @@ export class NysCombobox extends LitElement {
     this._closeDropdown();
     this._filterOptions("");
 
-    if (this.required && this.value) {
-      this.showError = false;
-      this.errorMessage = "";
-      this._internals.setValidity({});
-    }
+    this._setValidityMessage("");
 
     if (this._hasUserInteracted) {
       this._validate();
