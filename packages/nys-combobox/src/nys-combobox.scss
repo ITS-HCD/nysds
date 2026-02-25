@@ -37,17 +37,17 @@
   --_nys-combobox-listbox-max-height: var(--nys-size-3000, 300px);
 
   /* Option Styles */
-  --_nys-combobox-option-padding: var(--nys-space-100, 8px) var(--nys-space-150, 12px);
-  --_nys-combobox-option-background-color--hover: var(--nys-color-neutral-10,
+  --_nys-combobox-padding--option: var(--nys-space-100, 8px) var(--nys-space-150, 12px);
+  --_nys-combobox-background-color--option--hover: var(--nys-color-neutral-10,
       #f6f6f6);
-  --_nys-combobox-option-background-color--active: var(--nys-color-neutral-50,
+  --_nys-combobox-background-color--option--active: var(--nys-color-neutral-50,
       #ededed);
-  --_nys-combobox-option-background-color--disabled: var(var(--nys-color-white, #ffffff));
+  --_nys-combobox-background-color--option--disabled: var(--nys-color-white, #ffffff);
   --_nys-combobox-option-color--disabled: var(--nys-color-text-disabled,
       #bec0c1);
-  --_nys-combobox-option-background-color--selected: var(--nys-theme-weaker,
+  --_nys-combobox-background-color--option--selected: var(--nys-theme-weaker,
       #eff6fb);
-  --_nys-combobox-option-border-color--selected: var(--nys-color-theme-mid,
+  --_nys-combobox-border-color--option--selected: var(--nys-color-theme-mid,
       #457aa5);
 
   /* Global Font Styles */
@@ -203,7 +203,7 @@
 
 /* Options */
 .nys-combobox__option {
-  padding: var(--_nys-combobox-option-padding);
+  padding: var(--_nys-combobox-padding--option);
   cursor: pointer;
   user-select: none;
   transition: background-color 0.15s ease;
@@ -211,16 +211,16 @@
   background-color: var(--_nys-combobox-background-color);
 
   &:hover:not([disabled]):not(.nys-combobox__option--selected) {
-    background-color: var(--_nys-combobox-option-background-color--hover);
+    background-color: var(--_nys-combobox-background-color--option--hover);
   }
 
   &:active:not([disabled]):not(.nys-combobox__option--selected) {
-    background-color: var(--_nys-combobox-option-background-color--active);
+    background-color: var(--_nys-combobox-background-color--option--active);
   }
 
   &--selected:not([disabled]) {
-    background-color: var(--_nys-combobox-option-background-color--selected);
-    border: var(--_nys-combobox-option-border-color--selected) solid 1px;
+    background-color: var(--_nys-combobox-background-color--option--selected);
+    border: var(--_nys-combobox-border-color--option--selected) solid 1px;
   }
 
   &--focused:not([disabled]):not(:hover) {
@@ -229,7 +229,7 @@
   }
 
   &[disabled] {
-    background-color: var(--_nys-combobox-option-background-color--disabled);
+    background-color: var(--_nys-combobox-background-color--option--disabled);
     color: var(--_nys-combobox-option-color--disabled);
     cursor: not-allowed;
   }
@@ -260,7 +260,7 @@
 /* No Results */
 .nys-combobox__no-results {
   background-color: var(--_nys-combobox-background-color);
-  padding: var(--_nys-combobox-option-padding);
+  padding: var(--_nys-combobox-padding--option);
   color: var(--_nys-combobox-color);
   cursor: not-allowed;
 }
