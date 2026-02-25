@@ -666,7 +666,7 @@ export class NysCombobox extends LitElement {
                     >
                       <nys-icon
                         slot="suffix-icon"
-                        size="xl"
+                        size="20"
                         name="close"
                       ></nys-icon>
                     </nys-button>
@@ -684,7 +684,7 @@ export class NysCombobox extends LitElement {
               >
                 <nys-icon
                   slot="suffix-icon"
-                  size="xl"
+                  size="20"
                   name="chevron_down"
                 ></nys-icon>
               </nys-button>
