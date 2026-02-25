@@ -12,25 +12,22 @@ describe("nys-dropdownmenu", () => {
     expect(el).to.exist;
   });
 
-  it("generates an id if not provided", async () => {
-    const el = await fixture<NysDropdownMenu>(html`<nys-dropdownmenu></nys-dropdownmenu>`);
-    await el.updateComplete;
-
-    expect(el.id).to.not.be.empty;
-    expect(el.id).to.match(/^nys-dropdownmenu-\d+-\d+$/);
-  });
-
-  it("reflects attributes to properties", async () => {
+  it("position property reflects to attribute", async () => {
     const el = await fixture<NysDropdownMenu>(html`
-      <nys-dropdownmenu label="My Label" required optional></nys-dropdownmenu>
+      <nys-dropdownmenu
+        for="my-trigger"
+        position="top-start"
+      ></nys-dropdownmenu>
     `);
-    expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
+    await el.updateComplete;
+    expect(el.position).to.equal("top-start");
+    expect(el.getAttribute("position")).to.equal("top-start");
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-dropdownmenu label="My Label"></nys-dropdownmenu>`);
+    const el = await fixture(
+      html`<nys-dropdownmenu label="My Label"></nys-dropdownmenu>`,
+    );
     await expect(el).shadowDom.to.be.accessible();
   });
 
@@ -42,4 +39,4 @@ describe("nys-dropdownmenu", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

@@ -3941,7 +3941,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Dropdown menus enable users to select an action from a list of options.\nThey’re commonly used to save space by grouping related actions, or to provide actions in a confined space.",
+          "description": "",
           "name": "NysDropdownMenu",
           "members": [
             {
@@ -3956,38 +3956,265 @@
             },
             {
               "kind": "field",
-              "name": "_userHasSetPosition",
+              "name": "showDropdown",
               "type": {
                 "text": "boolean"
               },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "_originalUserPosition",
-              "type": {
-                "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
-              },
-              "privacy": "private",
-              "default": "null"
-            },
-            {
-              "kind": "field",
-              "name": "_position",
-              "type": {
-                "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
-              },
-              "privacy": "private",
-              "default": "null"
+              "default": "false",
+              "attribute": "showDropdown"
             },
             {
               "kind": "field",
               "name": "position",
-              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
-              "default": "null (auto-positioned based on available space)",
+              "type": {
+                "text": "Position | null"
+              },
+              "default": "null",
+              "description": "Preferred position relative to trigger.",
               "attribute": "position",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_trigger",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_menuElement",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "GAP",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true,
+              "default": "4"
+            },
+            {
+              "kind": "method",
+              "name": "_findTrigger",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_connectTrigger",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_toggleDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_closeDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getMenuItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "applyInverseTransform",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_positionMenu",
+              "privacy": "private",
+              "description": "The controller function for positioning the dropdown menu.\nThe logic diverts to if user sets position or we auto position the dropdown menu"
+            },
+            {
+              "kind": "method",
+              "name": "_setUserPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "userPosition",
+                  "type": {
+                    "text": "Position"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_autoPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "description": "Auto Positioning of the dropdown menu relies on the best surrounding space available\nto select the desirable position."
+            },
+            {
+              "kind": "method",
+              "name": "_checkSpaceAvailable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SpaceAvailable"
+                }
+              },
+              "description": "Checks if the dropdown menu fits inside the viewport on the given side of the trigger.\nOverrides user set position for auto-positioning if user's desire space is not available"
+            },
+            {
+              "kind": "method",
+              "name": "_checkPositionFits",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "position",
+                  "type": {
+                    "text": "Position"
+                  }
+                },
+                {
+                  "name": "space",
+                  "type": {
+                    "text": "SpaceAvailable"
+                  }
+                },
+                {
+                  "name": "menuRect",
+                  "type": {
+                    "text": "DOMRect"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_findBestAlternative",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "userPosition",
+                  "type": {
+                    "text": "Position"
+                  }
+                },
+                {
+                  "name": "space",
+                  "type": {
+                    "text": "SpaceAvailable"
+                  }
+                },
+                {
+                  "name": "menuRect",
+                  "type": {
+                    "text": "DOMRect"
+                  }
+                }
+              ],
+              "description": "This position is called for when user's set position didn't fit OR auto positioning when default position doesn't fit\nWe look for the best alternative positions in order of preference base on the set position (e.g. bottom-start => bottom-end)."
+            },
+            {
+              "kind": "method",
+              "name": "_findMostAvailableSpace",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "space",
+                  "type": {
+                    "text": "SpaceAvailable"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_calculateCoordinates",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "position",
+                  "type": {
+                    "text": "Position"
+                  }
+                }
+              ],
+              "description": "A valid ideal position has been chosen.\nThis function calculates the coordinate of the trigger to properly position the dropdown menu."
+            },
+            {
+              "kind": "method",
+              "name": "_applyPosition",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "coords",
+                  "type": {
+                    "text": "PositionCoordinates"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleTriggerKeydown",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_handleMenuKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleWindowResize",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleWindowScroll",
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -4000,9 +4227,20 @@
               "fieldName": "for"
             },
             {
+              "name": "showDropdown",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showDropdown"
+            },
+            {
               "name": "position",
-              "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
-              "default": "null (auto-positioned based on available space)",
+              "type": {
+                "text": "Position | null"
+              },
+              "default": "null",
+              "description": "Preferred position relative to trigger.",
               "fieldName": "position"
             }
           ],
@@ -4044,6 +4282,15 @@
           "members": [
             {
               "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
               "name": "label",
               "type": {
                 "text": "string"
@@ -4077,6 +4324,27 @@
               },
               "default": "\"\"",
               "attribute": "divider"
+            },
+            {
+              "kind": "method",
+              "name": "_handleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-select",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
