@@ -41,21 +41,30 @@ type Story = StoryObj<NysDropdownMenuArgs>;
 export const Basic: Story = {
   args: {
     id: "my-dropdownmenu",
-    for: "my-tigger-id",
+    for: "my-trigger-id",
     showDropdown: false,
   },
-  render: (args) => html`
-    <nys-button id="my-trigger-id" label="trigger">Open Menu</nys-button>
-
-    <nys-dropdownmenu .id=${args.id} .for=${args.for}
-      ><nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem
-      ><nys-dropdownmenuitem
-        label="Repositories & Github Pages"
-      ></nys-dropdownmenuitem
-      ><nys-dropdownmenuitem label="Organizations"></nys-dropdownmenuitem
-      ><nys-dropdownmenuitem label="Sign out"></nys-dropdownmenuitem
-    ></nys-dropdownmenu>
-  `,
+  render: (args) =>
+    html`<div
+      style="
+          margin: 250px;
+          display: flex;
+          justify-content: center;
+          align-items: center;"
+    >
+      <nys-button id="my-trigger-id" label="trigger">Open Menu</nys-button>
+      <nys-dropdownmenu
+        .id=${args.id}
+        .for=${args.for}
+        .position=${args.position}
+        ><nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem
+        ><nys-dropdownmenuitem
+          label="Repositories & Github Pages"
+        ></nys-dropdownmenuitem
+        ><nys-dropdownmenuitem label="Organizations"></nys-dropdownmenuitem
+        ><nys-dropdownmenuitem label="Sign out"></nys-dropdownmenuitem
+      ></nys-dropdownmenu>
+    </div> `,
   parameters: {
     docs: {
       source: {
@@ -97,7 +106,7 @@ export const dropdownOnUserAction: Story = {
       </nys-button>
     </nys-globalheader>
 
-    <nys-dropdownmenu .id=${args.id} .for=${args.for}
+    <nys-dropdownmenu .id=${args.id} .for=${args.for} .position=${args.position}
       ><nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem
       ><nys-dropdownmenuitem
         label="Repositories & Github Pages"

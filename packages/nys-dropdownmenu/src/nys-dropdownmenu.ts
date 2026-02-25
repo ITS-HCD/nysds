@@ -80,6 +80,7 @@ export class NysDropdownMenu extends LitElement {
 
   async firstUpdated() {
     await this.updateComplete;
+    this.applyInverseTransform();
     this._connectTrigger();
   }
   /**
@@ -167,6 +168,14 @@ export class NysDropdownMenu extends LitElement {
     return assigned.filter(
       (el) => el && !el.hasAttribute("disabled"),
     ) as HTMLElement[];
+  }
+
+  // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.
+  // This function removes such transforms to prevent them from affecting tooltip positioning calculations.
+  private applyInverseTransform() {
+    document.querySelectorAll('div[scale="1"]').forEach((el) => {
+      (el as HTMLElement).style.transform = "none";
+    });
   }
 
   /**
@@ -336,8 +345,6 @@ export class NysDropdownMenu extends LitElement {
 
     const triggerRect = this._trigger.getBoundingClientRect();
     const menuRect = this._menuElement.getBoundingClientRect();
-    const scrollX = window.scrollX;
-    const scrollY = window.scrollY;
 
     const [vertical, horizontal] = position.split("-") as [
       "top" | "bottom",
@@ -349,15 +356,16 @@ export class NysDropdownMenu extends LitElement {
 
     // Vertical position
     if (vertical === "bottom") {
-      top = triggerRect.bottom + scrollY + this.GAP;
+      top = triggerRect.bottom + this.GAP;
     } else {
-      top = triggerRect.top + scrollY - menuRect.height - this.GAP;
+      top = triggerRect.top - menuRect.height - this.GAP;
     }
 
+    // Horizontal position
     if (horizontal === "start") {
-      left = triggerRect.left + scrollX;
+      left = triggerRect.left;
     } else {
-      left = triggerRect.right + scrollX - menuRect.width;
+      left = triggerRect.right - menuRect.width;
     }
 
     return { top, left };
