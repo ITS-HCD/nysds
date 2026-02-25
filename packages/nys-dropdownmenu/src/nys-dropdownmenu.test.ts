@@ -6,7 +6,6 @@ import { NysDropdownMenu } from "./nys-dropdownmenu.js";
 // For example:
 // import { NysTextinput } from "./nys-textinput";
 
-// Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-dropdownmenu", () => {
   it("renders the component", async () => {
     const el = await fixture(html`<nys-dropdownmenu></nys-dropdownmenu>`);

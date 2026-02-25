@@ -57,13 +57,25 @@ export const Basic: Story = {
         .id=${args.id}
         .for=${args.for}
         .position=${args.position}
-        ><nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem
-        ><nys-dropdownmenuitem
+      >
+        <nys-dropdownmenuitem
+          label="Profile"
+          link="/profile"
+        ></nys-dropdownmenuitem>
+        <nys-dropdownmenuitem
           label="Repositories & Github Pages"
-        ></nys-dropdownmenuitem
-        ><nys-dropdownmenuitem label="Organizations"></nys-dropdownmenuitem
-        ><nys-dropdownmenuitem label="Sign out"></nys-dropdownmenuitem
-      ></nys-dropdownmenu>
+          link="/repos"
+        ></nys-dropdownmenuitem>
+        <nys-dropdownmenuitem
+          label="Organizations"
+          link="/organizations"
+        ></nys-dropdownmenuitem>
+        <nys-dropdownmenuitem
+          label="Sign out"
+          link="/logout"
+        ></nys-dropdownmenuitem>
+        ></nys-dropdownmenu
+      >
     </div> `,
   parameters: {
     docs: {
@@ -71,10 +83,12 @@ export const Basic: Story = {
         code: `
 <nys-button id="my-trigger-id" label="trigger">Open Menu</nys-button>
 
-<nys-dropdownmenu
-  id="my-dropdownmenu"
-  for="my-trigger-id"
-></nys-dropdownmenu>`,
+<nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
+  <nys-dropdownmenuitem label="Profile" link="/profile"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Repositories & Github Pages" link="/repos"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Organizations" link="/organizations"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Sign out" link="/logout"></nys-dropdownmenuitem>
+</nys-dropdownmenu>`,
         type: "auto",
       },
     },
@@ -106,14 +120,29 @@ export const dropdownOnUserAction: Story = {
       </nys-button>
     </nys-globalheader>
 
-    <nys-dropdownmenu .id=${args.id} .for=${args.for} .position=${args.position}
-      ><nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem
-      ><nys-dropdownmenuitem
+    <nys-dropdownmenu
+      .id=${args.id}
+      .for=${args.for}
+      .position=${args.position}
+    >
+      <nys-dropdownmenuitem
+        label="Profile"
+        link="/profile"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
         label="Repositories & Github Pages"
-      ></nys-dropdownmenuitem
-      ><nys-dropdownmenuitem label="Organizations"></nys-dropdownmenuitem
-      ><nys-dropdownmenuitem label="Sign out"></nys-dropdownmenuitem
-    ></nys-dropdownmenu>
+        link="/repos"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Organizations"
+        link="/organizations"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Sign out"
+        link="/logout"
+      ></nys-dropdownmenuitem>
+      ></nys-dropdownmenu
+    >
   `,
   parameters: {
     docs: {
@@ -142,12 +171,10 @@ export const dropdownOnUserAction: Story = {
   for="trigger-id1"
   position="bottom-end"
 >
-  <nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem
-    label="Repositories & Github Pages"
-  ></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Organizations"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Sign out"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Profile" link="/profile"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Repositories & Github Pages" link="/repos"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Organizations" link="/organizations"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Sign out" link="/logout"></nys-dropdownmenuitem>
 </nys-dropdownmenu>`,
       },
     },
