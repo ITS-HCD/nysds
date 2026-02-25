@@ -29,12 +29,12 @@
       var(--nys-color-neutral-200, #bec0c1));
 
   /* Listbox (Dropdown) Styles */
-  --_nys-combobox--background-color: var(--nys-color-ink-reverse,
+  --_nys-combobox-background-color--dropdown: var(--nys-color-ink-reverse,
       var(--nys-color-white, #ffffff));
-  --_nys-combobox-listbox-border-color: var(--nys-color-neutral-400, #909395);
-  --_nys-combobox-listbox-shadow: var(--nys-shadow-lg,
+  --_nys-combobox-border-color--dropdown: var(--nys-color-neutral-400, #909395);
+  --_nys-combobox-shadow--dropdown: var(--nys-shadow-lg,
       0 4px 8px rgba(0, 0, 0, 0.1));
-  --_nys-combobox-listbox-max-height: var(--nys-size-3000, 300px);
+  --_nys-combobox-max-height--dropdown: var(--nys-size-3000, 300px);
 
   /* Option Styles */
   --_nys-combobox-padding--option: var(--nys-space-100, 8px) var(--nys-space-150, 12px);
@@ -43,7 +43,7 @@
   --_nys-combobox-background-color--option--active: var(--nys-color-neutral-50,
       #ededed);
   --_nys-combobox-background-color--option--disabled: var(--nys-color-white, #ffffff);
-  --_nys-combobox-option-color--disabled: var(--nys-color-text-disabled,
+  --_nys-combobox-color--option--disabled: var(--nys-color-text-disabled,
       #bec0c1);
   --_nys-combobox-background-color--option--selected: var(--nys-theme-weaker,
       #eff6fb);
@@ -186,11 +186,11 @@
   left: 0;
   right: 0;
   top: calc(100% + var(--nys-space-50, 4px));
-  background-color: var(--_nys-combobox-listbox-background-color);
-  border: solid var(--_nys-combobox-listbox-border-color) var(--_nys-combobox-border-width);
+  background-color: var(--_nys-combobox-background-color--dropdown);
+  border: solid var(--_nys-combobox-border-color--dropdown) var(--_nys-combobox-border-width);
   border-radius: var(--_nys-combobox-border-radius);
-  box-shadow: var(--_nys-combobox-listbox-shadow);
-  max-height: var(--_nys-combobox-listbox-max-height);
+  box-shadow: var(--_nys-combobox-shadow--dropdown);
+  max-height: var(--_nys-combobox-max-height--dropdown);
   overflow-y: auto;
   z-index: 1000;
   box-sizing: border-box;
@@ -230,7 +230,7 @@
 
   &[disabled] {
     background-color: var(--_nys-combobox-background-color--option--disabled);
-    color: var(--_nys-combobox-option-color--disabled);
+    color: var(--_nys-combobox-color--option--disabled);
     cursor: not-allowed;
   }
 }
