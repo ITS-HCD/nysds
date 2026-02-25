@@ -10,6 +10,7 @@ interface NysDropdownMenuArgs {
   id: string;
   for: string;
   showDropdown: boolean;
+  position: "bottom-start" | "bottom-end" | "top-start" | "top-end";
 }
 
 const meta: Meta<NysDropdownMenuArgs> = {
@@ -19,6 +20,10 @@ const meta: Meta<NysDropdownMenuArgs> = {
     id: { control: "text" },
     for: { control: "text" },
     showDropdown: { control: "boolean" },
+    position: {
+      control: { type: "select" },
+      options: ["bottom-start", "bottom-end", "top-start", "top-end"],
+    },
   },
   parameters: {
     docs: {
@@ -40,6 +45,8 @@ export const Basic: Story = {
     showDropdown: false,
   },
   render: (args) => html`
+    <nys-button id="my-trigger-id" label="trigger">Open Menu</nys-button>
+
     <nys-dropdownmenu .id=${args.id} .for=${args.for}
       ><nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem
       ><nys-dropdownmenuitem
@@ -53,6 +60,8 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
+<nys-button id="my-trigger-id" label="trigger">Open Menu</nys-button>
+
 <nys-dropdownmenu
   id="my-dropdownmenu"
   for="my-trigger-id"
@@ -101,10 +110,36 @@ export const dropdownOnUserAction: Story = {
     docs: {
       source: {
         code: `
+<nys-globalheader
+  appName="User Registration Form"
+  agencyName="Office of Information Technology Services"
+>
+  <nys-button
+    id="trigger-id1"
+    slot="user-actions"
+    label="Log out"
+    prefixIcon="slotted"
+  >
+    <nys-avatar
+      slot="prefix-icon"
+      ariaLabel="User avatar"
+      initials="NY"
+    ></nys-avatar>
+  </nys-button>
+</nys-globalheader>
+
 <nys-dropdownmenu
   id="dropdownmenu1"
   for="trigger-id1"
-></nys-dropdownmenu>`,
+  position="bottom-end"
+>
+  <nys-dropdownmenuitem label="Profile"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem
+    label="Repositories & Github Pages"
+  ></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Organizations"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Sign out"></nys-dropdownmenuitem>
+</nys-dropdownmenu>`,
       },
     },
   },

@@ -8,7 +8,7 @@ import "@nysds/nys-badge"
 
 # Dropdownmenu
 
-The **`nys-dropdownmenu`** component is a reusable web component for use in New York State digital products.
+The **`nys-dropdownmenu`** component display a list of actions that are triggered by a button or interactive element. They help conserve space while grouping related actions.
 
 If an id is not passed, a unique id will be generated.
 
@@ -32,31 +32,41 @@ If an id is not passed, a unique id will be generated.
 <Controls />
 
 ## Options
+## With Trigger Inside Global Header
 <Canvas of={NysDropdownmenuStories.dropdownOnUserAction} />
 
 ## Usage
 
 ### When to use this component
-- TODO: Add when to use this component
-- TODO: Add when to use this component
+- To display a short list of related actions
+- For account menus and user actions
+- For overflow or contextual actions
+- When actions are secondary to page content
 
 ### When to consider something else
-- TODO: Add when to consider something else
-- TODO: Add when to consider something else
+- When presenting a large list of selectable options
+- When content includes form inputs or complex layouts
+- When actions should remain permanently visible
+- When building primary navigation
+
 
 <div className="nys-grid-row nys-grid-gap-lg">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
-      - TODO: Add when to use this component
-      - TODO: Add when to use this component
+      - Keep menu labels short and action-focused
+      - Group related actions logically
+      - Use clear, descriptive labels
+      - Maintain consistent alignment with the trigger
     </div>
   </div>
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--dont">
       ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
-      - TODO: Add when to consider something else
-      - TODO: Add when to consider something else
+      - Overcrowd the menu with too many items
+      - Hide primary navigation inside a dropdown
+      - Include complex interactive components
+      - Place destructive actions without clear labeling
     </div>
   </div>
 </div>
@@ -65,9 +75,12 @@ If an id is not passed, a unique id will be generated.
 
 The `nys-dropdownmenu` component includes the following accessibility-focused features:
 
-- Users do not need to set aria-expanded and aria-popup on their trigger element as attaching the dropdown via the `for` attribute will do so automatically
-- TODO: Add accessibility features
-- TODO: Add accessibility features
+- Automatic application of `aria-haspopup` and `aria-expanded` to the trigger
+- Keyboard interaction
+  - Enter or Space opens the menu
+  - Escape closes the menu and returns focus to the trigger
+  - Arrow keys move between menu items
+- `role="menu"` applied to the container
 
 ## Slots
 <table>
@@ -80,51 +93,10 @@ The `nys-dropdownmenu` component includes the following accessibility-focused fe
     </thead>
     <tbody>
     <tr>
-        <td>`description`</td>
-        <td>Description text for either `nys-component` or `nys-component`</td>
+        <td>default</td>
+        <td>Accepts one or more `nys-dropdownmenuitem` elements</td>
         <td>none</td>
     </tr>
     </tbody>
 </table>
 
-## Events
-
-The `nys-dropdownmenu` component emits the following events:
-
-1. `nys-click`: Emitted when the dropdownmenu is clicked.
-2. `nys-focus`: Emitted when the dropdownmenu receives focus.
-3. `nys-blur`: Emitted when the dropdownmenu loses focus.
-
-**Event details** \
-The event’s `detail` object includes:
-- id (string): The id of the dropdownmenu.
-- checked (boolean): Whether the dropdownmenu is currently checked.
-
-You can listen to these events using JavaScript:
-
-```js
-// Select the dropdownmenu component
-const dropdownmenu = document.querySelector("nys-dropdownmenu");
-
-// Listen for the 'nys-click' event
-dropdownmenu.addEventListener("nys-click", (event) => {
-  const {id, checked} = event.detail;
-	console.log("Dropdownmenu (${id}) is clicked. Checked: ${checked}");
-});
-
-// Listen for the 'nys-focus' event
-dropdownmenu.addEventListener("nys-focus", () => {
-	console.log("Dropdownmenu is focused");
-});
-
-// Listen for the 'nys-blur' event
-dropdownmenu.addEventListener("nys-blur", () => {
-	console.log("Dropdownmenu lost focus");
-});
-```
-
-## Dependencies
-
-This component automatically imports the following dependencies.
-
-- TODO: Add dependencies
