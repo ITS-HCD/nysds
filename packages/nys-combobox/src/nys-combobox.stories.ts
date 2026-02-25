@@ -40,7 +40,7 @@ const meta: Meta<NysComboboxArgs> = {
     optional: { control: "boolean" },
     form: { control: "text" },
     inverted: { control: "boolean" },
-    width: { control: "select", options: ["sm", "md", "lg", "full"] },
+    width: { control: "select", options: ["md", "lg", "full"] },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
     tooltip: { control: "text" },
@@ -434,7 +434,7 @@ export const Optional: Story = {
 export const Width: Story = {
   args: {
     label: "Select your favorite fruit",
-    description: "Valid widths are sm, md, lg, and full",
+    description: "Valid widths are md, lg, and full",
     placeholder: "Type to search...",
     value: "",
     width: "md",
@@ -469,9 +469,9 @@ export const Width: Story = {
         code: `
 <nys-combobox
   label="Select your favorite fruit"
-  description="Valid widths are sm, md, lg, and full"
+  description="Valid widths are md, lg, and full"
   placeholder="Type to search..."
-  width="sm"
+  width="md"
 >
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
