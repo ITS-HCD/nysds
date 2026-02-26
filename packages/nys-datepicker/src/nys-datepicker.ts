@@ -405,6 +405,7 @@ export class NysDatepicker extends LitElement {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
     this._setValue(today);
+    this._setFocusOnTodayDate();
   }
 
   private async _setFocusOnTodayDate(visualFocusOnly = false) {
@@ -419,8 +420,6 @@ export class NysDatepicker extends LitElement {
 
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     if (!datepicker) return;
-
-    datepicker.value = today;
 
     const todayCell = datepicker.querySelector(
       `td[data-date="${yyyyMmDd}"]`,
