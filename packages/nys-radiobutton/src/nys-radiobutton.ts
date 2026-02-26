@@ -222,23 +222,12 @@ export class NysRadiobutton extends LitElement {
   }
 
   // Handle focus event
-  private _handleFocus(event: FocusEvent) {
-    // If the focus event came from the internal nys-textinput, skip
-    const path = event?.composedPath() || [];
-    const isInsideTextInput = path.some(
-      (el) => (el as HTMLElement).tagName?.toLowerCase() === "nys-textinput",
-    );
-
-    if (!isInsideTextInput) {
-      this.classList.add("focused");
-    }
-
+  private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.classList.remove("focused");
     this.dispatchEvent(new Event("nys-blur"));
 
     setTimeout(() => {
@@ -349,23 +338,23 @@ export class NysRadiobutton extends LitElement {
             >
           </nys-label> `}
         </div>
-      </div>
-      <div class="nys-radiobutton__other-container">
-        ${this.other && this.checked
-          ? html`
-              <nys-textinput
-                .value=${this.value}
-                id=${"radiobutton-other-" + this.id}
-                @nys-input=${this._handleTextInput}
-                @nys-blur=${this._handleTextInputBlur}
-                @keydown=${this._handleOtherKeydown}
-                @nys-focus=${() => this.classList.remove("focused")}
-                ariaLabel="Other"
-                aria-invalid=${this.showOtherError ? "true" : "false"}
-                width=${this.isMobile ? "full" : "md"}
-              ></nys-textinput>
-            `
-          : ""}
+        <div class="nys-radiobutton__other-container">
+          ${this.other && this.checked
+            ? html`
+                <nys-textinput
+                  .value=${this.value}
+                  id=${"radiobutton-other-" + this.id}
+                  @nys-input=${this._handleTextInput}
+                  @nys-blur=${this._handleTextInputBlur}
+                  @keydown=${this._handleOtherKeydown}
+                  @nys-focus=${() => this.classList.remove("focused")}
+                  ariaLabel="Other"
+                  aria-invalid=${this.showOtherError ? "true" : "false"}
+                  width=${this.isMobile ? "full" : "md"}
+                ></nys-textinput>
+              `
+            : ""}
+        </div>
       </div>
     `;
   }
