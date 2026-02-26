@@ -92,7 +92,10 @@
 /**** Dropdownmenu Item ****/
 
 .nys-dropdownmenuitem {
+  list-style: none;
   width: var(--_nys-dropdownmenu-width);
+  padding: 0;
+  margin: 0;
   a {
     display: flex;
     padding: var(--_nys-dropdownmenuitem-padding);

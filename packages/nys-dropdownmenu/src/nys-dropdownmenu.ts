@@ -58,7 +58,8 @@ export class NysDropdownMenu extends LitElement {
 
   private _trigger: HTMLElement | null = null;
   private _menuElement: HTMLElement | null = null;
-  private readonly GAP = 4; // px gap between trigger and menu
+  private _ariaTarget: HTMLElement | null = null;
+  private readonly GAP = 4;
 
   /**
    * Lifecycle Methods
@@ -116,21 +117,28 @@ export class NysDropdownMenu extends LitElement {
 
   private _connectTrigger() {
     const trigger = this._findTrigger();
-    if (trigger) {
-      this._trigger = trigger;
-      this._trigger.setAttribute("aria-haspopup", "true");
-      this._trigger.setAttribute("aria-expanded", "false");
-      this._trigger.addEventListener("click", this._toggleDropdown);
-      this._trigger.addEventListener("keydown", this._handleTriggerKeydown);
-    }
+    if (!trigger) return;
+
+    this._trigger = trigger;
+
+    const ariaTarget =
+      trigger.tagName.toLowerCase() === "nys-button"
+        ? (trigger.shadowRoot?.querySelector("button") ?? trigger)
+        : trigger;
+
+    ariaTarget.setAttribute("aria-haspopup", "menu");
+    ariaTarget.setAttribute("aria-expanded", "false");
+
+    this._ariaTarget = ariaTarget;
+
+    this._trigger.addEventListener("click", this._toggleDropdown);
+    this._trigger.addEventListener("keydown", this._handleTriggerKeydown);
   }
 
   private _toggleDropdown = () => {
     this.showDropdown = !this.showDropdown;
 
-    if (this._trigger) {
-      this._trigger.setAttribute("aria-expanded", String(this.showDropdown));
-    }
+    this._ariaTarget?.setAttribute("aria-expanded", String(this.showDropdown));
 
     if (this.showDropdown) {
       window.addEventListener("scroll", this._handleWindowScroll, true);
@@ -154,11 +162,8 @@ export class NysDropdownMenu extends LitElement {
 
   private _closeDropdown() {
     this.showDropdown = false;
-
-    if (this._trigger) {
-      this._trigger.setAttribute("aria-expanded", "false");
-      this._trigger.focus();
-    }
+    this._ariaTarget?.setAttribute("aria-expanded", "false");
+    this._trigger?.focus();
   }
 
   private _getMenuItems(): HTMLElement[] {
@@ -440,6 +445,7 @@ export class NysDropdownMenu extends LitElement {
     return html`<div
       class="nys-dropdownmenu ${this.showDropdown ? "active" : ""}"
       for=${this.for}
+      ?hidden=${!this.showDropdown}
     >
       <ul role="menu">
         <slot></slot>

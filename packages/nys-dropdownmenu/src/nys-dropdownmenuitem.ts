@@ -50,14 +50,15 @@ export class NysDropdownMenuItem extends LitElement {
   }
 
   render() {
-    return html`<li class="nys-dropdownmenuitem" role="none">
+    return html`<li class="nys-dropdownmenuitem" role="presentation">
       <a
         class=${this.disabled ? "disabled" : ""}
         href=${this.disabled ? "" : this.href}
-        aria-disabled="${this.disabled ? "true" : "false"}"
         role="menuitem"
-        @click="${this._handleClick}"
+        aria-disabled="${this.disabled ? "true" : "false"}"
+        aria-label=${this.label}
         tabindex=${this.disabled ? "-1" : "0"}
+        @click="${this._handleClick}"
         >${this.label}</a
       >
     </li>`;
