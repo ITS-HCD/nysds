@@ -30,8 +30,8 @@ export class NysDropdownMenuItem extends LitElement {
   };
 
   @property({ type: String }) label = "";
-  @property({ type: String }) link = "";
-  @property({ type: String }) disabled = "";
+  @property({ type: String }) href = "";
+  @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String }) divider = "";
 
   private _handleClick(e: Event) {
@@ -41,10 +41,10 @@ export class NysDropdownMenuItem extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent("nys-select", {
+      new CustomEvent("nys-dropdownmenuitem-select", {
         bubbles: true,
         composed: true,
-        detail: { label: this.label, link: this.link },
+        detail: { label: this.label, href: this.href },
       }),
     );
   }
@@ -52,10 +52,12 @@ export class NysDropdownMenuItem extends LitElement {
   render() {
     return html`<li class="nys-dropdownmenuitem" role="none">
       <a
-        href="${this.link}"
+        class=${this.disabled ? "disabled" : ""}
+        href=${this.disabled ? "" : this.href}
         aria-disabled="${this.disabled ? "true" : "false"}"
         role="menuitem"
         @click="${this._handleClick}"
+        tabindex=${this.disabled ? "-1" : "0"}
         >${this.label}</a
       >
     </li>`;

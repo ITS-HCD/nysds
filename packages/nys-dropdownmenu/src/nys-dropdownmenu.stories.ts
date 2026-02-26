@@ -60,22 +60,21 @@ export const Basic: Story = {
       >
         <nys-dropdownmenuitem
           label="Profile"
-          link="/profile"
+          href="/profile"
         ></nys-dropdownmenuitem>
         <nys-dropdownmenuitem
           label="Repositories & Github Pages"
-          link="/repos"
+          href="/repos"
         ></nys-dropdownmenuitem>
         <nys-dropdownmenuitem
           label="Organizations"
-          link="/organizations"
+          href="/organizations"
         ></nys-dropdownmenuitem>
         <nys-dropdownmenuitem
           label="Sign out"
-          link="/logout"
+          href="/logout"
         ></nys-dropdownmenuitem>
-        ></nys-dropdownmenu
-      >
+      </nys-dropdownmenu>
     </div> `,
   parameters: {
     docs: {
@@ -84,10 +83,10 @@ export const Basic: Story = {
 <nys-button id="my-trigger-id" label="trigger">Open Menu</nys-button>
 
 <nys-dropdownmenu id="my-dropdownmenu" for="my-trigger-id">
-  <nys-dropdownmenuitem label="Profile" link="/profile"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Repositories & Github Pages" link="/repos"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Organizations" link="/organizations"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Sign out" link="/logout"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Organizations" href="/organizations"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
 </nys-dropdownmenu>`,
         type: "auto",
       },
@@ -127,22 +126,22 @@ export const dropdownOnUserAction: Story = {
     >
       <nys-dropdownmenuitem
         label="Profile"
-        link="/profile"
+        href="/profile"
       ></nys-dropdownmenuitem>
       <nys-dropdownmenuitem
         label="Repositories & Github Pages"
-        link="/repos"
+        href="/repos"
       ></nys-dropdownmenuitem>
       <nys-dropdownmenuitem
         label="Organizations"
-        link="/organizations"
+        href="/organizations"
+        disabled
       ></nys-dropdownmenuitem>
       <nys-dropdownmenuitem
         label="Sign out"
-        link="/logout"
+        href="/logout"
       ></nys-dropdownmenuitem>
-      ></nys-dropdownmenu
-    >
+    </nys-dropdownmenu>
   `,
   parameters: {
     docs: {
@@ -171,10 +170,10 @@ export const dropdownOnUserAction: Story = {
   for="trigger-id1"
   position="bottom-end"
 >
-  <nys-dropdownmenuitem label="Profile" link="/profile"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Repositories & Github Pages" link="/repos"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Organizations" link="/organizations"></nys-dropdownmenuitem>
-  <nys-dropdownmenuitem label="Sign out" link="/logout"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Organizations" href="/organizations" disabled></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
 </nys-dropdownmenu>`,
       },
     },

@@ -4300,21 +4300,22 @@
             },
             {
               "kind": "field",
-              "name": "link",
+              "name": "href",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "attribute": "link"
+              "attribute": "href"
             },
             {
               "kind": "field",
               "name": "disabled",
               "type": {
-                "text": "string"
+                "text": "boolean"
               },
-              "default": "\"\"",
-              "attribute": "disabled"
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -4341,7 +4342,7 @@
           ],
           "events": [
             {
-              "name": "nys-select",
+              "name": "nys-dropdownmenuitem-select",
               "type": {
                 "text": "CustomEvent"
               }
@@ -4357,19 +4358,19 @@
               "fieldName": "label"
             },
             {
-              "name": "link",
+              "name": "href",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "link"
+              "fieldName": "href"
             },
             {
               "name": "disabled",
               "type": {
-                "text": "string"
+                "text": "boolean"
               },
-              "default": "\"\"",
+              "default": "false",
               "fieldName": "disabled"
             },
             {
