@@ -20,9 +20,10 @@ const overrideConfig = {
     lib: {
       fileName: () => "nys-unavheader.js",
     },
-    
     rollupOptions: {
-      output: [{ banner }],
+      output: { 
+        banner,
+     },
     },
   },
 };
