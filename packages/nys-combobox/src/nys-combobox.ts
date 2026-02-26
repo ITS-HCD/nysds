@@ -583,6 +583,7 @@ export class NysCombobox extends LitElement {
             ? "nys-combobox__option--focused"
             : ""} ${isSelected ? "nys-combobox__option--selected" : ""}"
           role="option"
+          id="${this.id}--option-${index}"
           data-index="${index}"
           aria-selected="${isSelected}"
           aria-disabled="${option.disabled || false}"
