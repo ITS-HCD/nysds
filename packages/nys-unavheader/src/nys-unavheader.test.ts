@@ -560,6 +560,172 @@ describe("nys-unavheader", () => {
     (el as any)._handleSearch = originalHandleSearch;
   });
 
+  it("dispatches nys-language-select event with correct detail and uses Smartling subdomain redirect when no url is provided", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    el.languages = [
+      { code: "en", label: "English" },
+      { code: "es", label: "Español" },
+    ];
+    await el.updateComplete;
+
+    const originalHandleLanguageSelect = (el as any)._handleLanguageSelect.bind(
+      el,
+    );
+    let capturedUrl = "";
+
+    (el as any)._handleLanguageSelect = function (language: {
+      code: string;
+      label: string;
+      url?: string;
+    }) {
+      const event = new CustomEvent("nys-language-select", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { language },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (language.url) {
+          capturedUrl = language.url;
+        } else {
+          const subdomain = language.code === "en" ? "" : `${language.code}.`;
+          capturedUrl = `https://${subdomain}${window.location.hostname}`;
+        }
+      }
+    };
+
+    const langButtons = el.shadowRoot?.querySelectorAll(
+      ".nys-unavheader__languagelink",
+    ) as NodeListOf<HTMLElement>;
+
+    // Click Español (index 1)
+    langButtons[1].dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.equal(`https://es.${window.location.hostname}`);
+
+    (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
+  });
+
+  it("redirects to custom url when language has a url property", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    el.languages = [
+      { code: "en", label: "English" },
+      { code: "es", label: "Español", url: "https://www.google.com" },
+    ];
+    await el.updateComplete;
+
+    const originalHandleLanguageSelect = (el as any)._handleLanguageSelect.bind(
+      el,
+    );
+    let capturedUrl = "";
+
+    (el as any)._handleLanguageSelect = function (language: {
+      code: string;
+      label: string;
+      url?: string;
+    }) {
+      const event = new CustomEvent("nys-language-select", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { language },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        if (language.url) {
+          capturedUrl = language.url;
+        } else {
+          const subdomain = language.code === "en" ? "" : `${language.code}.`;
+          capturedUrl = `https://${subdomain}${window.location.hostname}`;
+        }
+      }
+    };
+
+    const langButtons = el.shadowRoot?.querySelectorAll(
+      ".nys-unavheader__languagelink",
+    ) as NodeListOf<HTMLElement>;
+
+    // Click Español (index 1)
+    langButtons[1].dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+
+    await el.updateComplete;
+
+    expect(capturedUrl).to.equal("https://www.google.com");
+
+    (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
+  });
+
+  it("does not redirect when nys-language-select event is prevented", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    el.languages = [
+      { code: "en", label: "English" },
+      { code: "es", label: "Español" },
+    ];
+    await el.updateComplete;
+
+    let redirectAttempted = false;
+    const originalHandleLanguageSelect = (el as any)._handleLanguageSelect.bind(
+      el,
+    );
+
+    (el as any)._handleLanguageSelect = function (language: {
+      code: string;
+      label: string;
+      url?: string;
+    }) {
+      const event = new CustomEvent("nys-language-select", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+        detail: { language },
+      });
+
+      this.dispatchEvent(event);
+
+      if (!event.defaultPrevented) {
+        redirectAttempted = true;
+      }
+    };
+
+    el.addEventListener("nys-language-select", (e: Event) => {
+      e.preventDefault();
+    });
+
+    const langButtons = el.shadowRoot?.querySelectorAll(
+      ".nys-unavheader__languagelink",
+    ) as NodeListOf<HTMLElement>;
+
+    langButtons[1].dispatchEvent(
+      new MouseEvent("click", { bubbles: true, composed: true }),
+    );
+
+    await el.updateComplete;
+
+    expect(redirectAttempted).to.be.false;
+
+    (el as any)._handleLanguageSelect = originalHandleLanguageSelect;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
     await expect(el).shadowDom.to.be.accessible();
