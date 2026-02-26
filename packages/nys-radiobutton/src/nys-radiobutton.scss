@@ -284,17 +284,15 @@ input:disabled + .nys-radiobutton .nys-radiobutton__radio {
 /* Hover - only allow hover on unchecked */
 input:hover:not(:disabled):not(:checked)
   + .nys-radiobutton
+  .nys-radiobutton__radio,
+input:not(:disabled):not(:checked)
+  + .nys-radiobutton:hover
   .nys-radiobutton__radio {
   border-color: var(--_nys-radiobutton-border-color--hover);
   background-color: var(--_nys-radiobutton-background-color--hover);
 }
 
-:host([tile])
-  .nys-radiobutton:has(
-    input:hover:not(:disabled):not(:checked)
-      + .nys-radiobutton
-      .nys-radiobutton__radio
-  ) {
+:host([tile]) input:not(:disabled):not(:checked) + .nys-radiobutton:hover {
   border-color: var(--_nys-radiobutton-border-color--tile--hover);
   background-color: var(--_nys-radiobutton-background-color--tile--hover);
   outline: solid var(--_nys-radiobutton-border-width--tile)
@@ -304,17 +302,15 @@ input:hover:not(:disabled):not(:checked)
 /* Pressed - only allow pressed on unchecked */
 input:active:not(:disabled):not(:checked)
   + .nys-radiobutton
+  .nys-radiobutton__radio,
+input:not(:disabled):not(:checked)
+  + .nys-radiobutton:active
   .nys-radiobutton__radio {
   border-color: var(--_nys-radiobutton-border-color--active);
   background-color: var(--_nys-radiobutton-background-color--active);
 }
 
-:host([tile])
-  .nys-radiobutton:has(
-    input:active:not(:disabled):not(:checked)
-      + .nys-radiobutton
-      .nys-radiobutton__radio
-  ) {
+:host([tile]) input:not(:disabled):not(:checked) + .nys-radiobutton:active {
   border-color: var(--_nys-radiobutton-border-color--tile--active);
   background-color: var(--_nys-radiobutton-background-color--tile--active);
   outline: solid var(--_nys-radiobutton-border-width--tile)
@@ -332,9 +328,8 @@ input:active:not(:disabled):not(:checked)
 }
 
 /* When input has focus, show outline on the custom span */
-input:focus + .nys-radiobutton .nys-radiobutton__radio,
-.nys-radiobutton:focus-within .nys-radiobutton__radio,
-:host(.focused) .nys-radiobutton__radio {
+input:focus-visible + .nys-radiobutton .nys-radiobutton__radio,
+.nys-radiobutton:has(:focus-visible) .nys-radiobutton__radio {
   outline: solid var(--_nys-radiobutton-outline-width)
     var(--_nys-radiobutton-outline-color);
   outline-offset: var(--_nys-radiobutton-outline-offset);

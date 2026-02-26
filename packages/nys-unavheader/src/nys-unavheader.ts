@@ -26,6 +26,12 @@ import styles from "./nys-unavheader.scss?inline";
  * ```
  */
 
+interface Language {
+  code: string;
+  label: string;
+  url?: string;
+}
+
 export class NysUnavHeader extends LitElement {
   static styles = unsafeCSS(styles);
 
@@ -46,23 +52,27 @@ export class NysUnavHeader extends LitElement {
 
   /** Hides the search functionality. */
   @property({ type: Boolean }) hideSearch = false;
+
+  /** The URL endpoint of the search, make sure to include the query param. */
   @property({ type: String }) searchUrl = "";
+
+  /** The list of languages this site can be translated to, default to use Smartling */
   @property({ type: Array })
-  private languages: [string, string][] = [
-    ["English", ""],
-    ["Español", "es"],
-    ["中文", "zh"],
-    ["繁體中文", "zh-traditional"],
-    ["Русский", "ru"],
-    ["יידיש", "yi"],
-    ["বাংলা", "bn"],
-    ["한국어", "ko"],
-    ["Kreyòl Ayisyen", "ht"],
-    ["Italiano", "it"],
-    ["العربية", "ar"],
-    ["Polski", "pl"],
-    ["Français", "fr"],
-    ["اردو", "ur"],
+  languages: Language[] = [
+    { code: "en", label: "English" },
+    { code: "es", label: "Español" },
+    { code: "zh", label: "中文" },
+    { code: "zh-traditional", label: "繁體中文" },
+    { code: "yi", label: "יידיש" },
+    { code: "ru", label: "Русский" },
+    { code: "bn", label: "বাংলা" },
+    { code: "ko", label: "한국어" },
+    { code: "ht", label: "Kreyòl Ayisyen" },
+    { code: "it", label: "Italiano" },
+    { code: "ar", label: "العربية" },
+    { code: "pl", label: "Polski" },
+    { code: "fr", label: "Français" },
+    { code: "ur", label: "اردو" },
   ];
 
   /**
@@ -132,6 +142,30 @@ export class NysUnavHeader extends LitElement {
     if (this.searchDropdownVisible) {
       this.trustbarVisible = false;
       this.languageVisible = false;
+    }
+  }
+
+  private _handleLanguageSelect(language: Language) {
+    this.languageVisible = false;
+
+    const event = new CustomEvent("nys-language-select", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: { language },
+    });
+
+    this.dispatchEvent(event);
+
+    if (!event.defaultPrevented) {
+      if (language.url) {
+        // Use the provided URL override
+        window.location.href = language.url;
+      } else {
+        // Default behavior: redirect to Smartling subdomain
+        const subdomain = language.code === "en" ? "" : `${language.code}.`;
+        window.location.href = `https://${subdomain}${window.location.hostname}`;
+      }
     }
   }
 
@@ -342,14 +376,14 @@ export class NysUnavHeader extends LitElement {
                       : "hide"}"
                   >
                     ${this.languages.map(
-                      ([label, code]) =>
-                        html`<a
+                      (lang) =>
+                        html`<nys-button
+                          variant="ghost"
+                          fullWidth
+                          label="${lang.label}"
                           class="nys-unavheader__languagelink"
-                          target="_self"
-                          href="https://${code ? code + "." : ""}${window
-                            .location.hostname}"
-                          >${label}</a
-                        >`,
+                          @click="${() => this._handleLanguageSelect(lang)}"
+                        ></nys-button>`,
                     )}
                   </div>
                 </div>`

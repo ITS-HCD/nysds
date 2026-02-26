@@ -6793,15 +6793,7 @@
             {
               "kind": "method",
               "name": "_handleFocus",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "FocusEvent"
-                  }
-                }
-              ]
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -11240,10 +11232,9 @@
               "kind": "field",
               "name": "languages",
               "type": {
-                "text": "[string, string][]"
+                "text": "Language[]"
               },
-              "privacy": "private",
-              "default": "[ [\"English\", \"\"], [\"Español\", \"es\"], [\"中文\", \"zh\"], [\"繁體中文\", \"zh-traditional\"], [\"Русский\", \"ru\"], [\"יידיש\", \"yi\"], [\"বাংলা\", \"bn\"], [\"한국어\", \"ko\"], [\"Kreyòl Ayisyen\", \"ht\"], [\"Italiano\", \"it\"], [\"العربية\", \"ar\"], [\"Polski\", \"pl\"], [\"Français\", \"fr\"], [\"اردو\", \"ur\"], ]",
+              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
               "attribute": "languages"
             },
             {
@@ -11275,6 +11266,19 @@
               "kind": "method",
               "name": "_toggleSearchDropdown",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleLanguageSelect",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "language",
+                  "type": {
+                    "text": "Language"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -11392,9 +11396,9 @@
             {
               "name": "languages",
               "type": {
-                "text": "[string, string][]"
+                "text": "Language[]"
               },
-              "default": "[ [\"English\", \"\"], [\"Español\", \"es\"], [\"中文\", \"zh\"], [\"繁體中文\", \"zh-traditional\"], [\"Русский\", \"ru\"], [\"יידיש\", \"yi\"], [\"বাংলা\", \"bn\"], [\"한국어\", \"ko\"], [\"Kreyòl Ayisyen\", \"ht\"], [\"Italiano\", \"it\"], [\"العربية\", \"ar\"], [\"Polski\", \"pl\"], [\"Français\", \"fr\"], [\"اردو\", \"ur\"], ]",
+              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
               "fieldName": "languages"
             }
           ],
@@ -11403,8 +11407,7 @@
             "package": "lit"
           },
           "tagName": "nys-unavheader",
-          "customElement": true,
-          "summary": "Universal NYS header with trust bar, search, and translation. Required site-wide."
+          "customElement": true
         }
       ],
       "exports": [
