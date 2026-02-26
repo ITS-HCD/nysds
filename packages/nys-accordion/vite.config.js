@@ -21,7 +21,7 @@ const overrideConfig = {
       fileName: () => "nys-accordion.js",
     },
     rollupOptions: {
-      output: [{ banner }],
+      output: { banner },
     },
   },
 };
