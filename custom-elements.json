@@ -3479,6 +3479,11 @@
             },
             {
               "kind": "method",
+              "name": "_dispatchInputEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleInputKeydown",
               "privacy": "private",
               "parameters": [
@@ -3617,18 +3622,18 @@
           ],
           "events": [
             {
-              "name": "nys-blur",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Fired when input or calendar loses focus. Triggers validation."
-            },
-            {
               "name": "nys-input",
               "type": {
                 "text": "CustomEvent"
               },
               "description": "Fired on date selection. Detail: `{id, value}`."
+            },
+            {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when input or calendar loses focus. Triggers validation."
             }
           ],
           "attributes": [
@@ -10658,7 +10663,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
+          "description": "",
           "name": "NysUnavHeader",
           "members": [
             {
@@ -10728,6 +10733,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "The URL endpoint of the search, make sure to include the query param.",
               "attribute": "searchUrl"
             },
             {
@@ -10737,6 +10743,7 @@
                 "text": "Language[]"
               },
               "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
+              "description": "The list of languages this site can be translated to, default to use Smartling",
               "attribute": "languages"
             },
             {
@@ -10893,6 +10900,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "The URL endpoint of the search, make sure to include the query param.",
               "fieldName": "searchUrl"
             },
             {
@@ -10901,6 +10909,7 @@
                 "text": "Language[]"
               },
               "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
+              "description": "The list of languages this site can be translated to, default to use Smartling",
               "fieldName": "languages"
             }
           ],
