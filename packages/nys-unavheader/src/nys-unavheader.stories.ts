@@ -8,6 +8,7 @@ import "@nysds/nys-textinput";
 interface Language {
   code: string;
   label: string;
+  url?: string;
 }
 
 // Define the structure of the args used in the stories
@@ -123,9 +124,50 @@ export const CustomLanguages: Story = {
   parameters: {
     docs: {
       source: {
-        code: `<nys-unavheader
-  languages="[{"code":"en","label":"English"},{"code":"es","label":"Español"},{"code":"fr","label":"Français"}]"
-></nys-unavheader>`,
+        code: `<nys-unavheader id="my-header"></nys-unavheader>
+<script>
+  const header = document.querySelector('#my-header');
+  header.languages = [
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Español' },
+    { code: 'fr', label: 'Français' },
+  ];
+</script>`,
+        type: "auto",
+      },
+    },
+  },
+};
+export const CustomLanguageUrl: Story = {
+  args: {
+    hideTranslate: false,
+    hideSearch: true,
+    searchUrl: "",
+    languages: [
+      { code: "en", label: "English" },
+      { code: "es", label: "Español", url: "https://www.google.com" },
+      { code: "fr", label: "Français", url: "https://www.google.com" },
+    ],
+  },
+  render: (args) =>
+    html`<nys-unavheader
+      .hideTranslate=${args.hideTranslate}
+      .hideSearch=${args.hideSearch}
+      .searchUrl=${args.searchUrl}
+      .languages=${args.languages}
+    ></nys-unavheader>`,
+  parameters: {
+    docs: {
+      source: {
+        code: `<nys-unavheader id="my-header" hideSearch></nys-unavheader>
+<script>
+  const header = document.querySelector('#my-header');
+  header.languages = [
+    { code: 'en', label: 'English' },
+    { code: 'es', label: 'Español', url: 'https://www.google.com' },
+    { code: 'fr', label: 'Français', url: 'https://www.google.com' },
+  ];
+</script>`,
         type: "auto",
       },
     },

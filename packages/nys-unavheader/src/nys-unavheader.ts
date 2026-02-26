@@ -29,6 +29,7 @@ import styles from "./nys-unavheader.scss?inline";
 interface Language {
   code: string;
   label: string;
+  url?: string;
 }
 
 export class NysUnavHeader extends LitElement {
@@ -51,7 +52,11 @@ export class NysUnavHeader extends LitElement {
 
   /** Hides the search functionality. */
   @property({ type: Boolean }) hideSearch = false;
+
+  /** The URL endpoint of the search, make sure to include the query param. */
   @property({ type: String }) searchUrl = "";
+
+  /** The list of languages this site can be translated to, default to use Smartling */
   @property({ type: Array })
   languages: Language[] = [
     { code: "en", label: "English" },
@@ -153,9 +158,14 @@ export class NysUnavHeader extends LitElement {
     this.dispatchEvent(event);
 
     if (!event.defaultPrevented) {
-      // Default behavior: redirect to Smartling subdomain
-      const subdomain = language.code === "en" ? "" : `${language.code}.`;
-      window.location.href = `https://${subdomain}${window.location.hostname}`;
+      if (language.url) {
+        // Use the provided URL override
+        window.location.href = language.url;
+      } else {
+        // Default behavior: redirect to Smartling subdomain
+        const subdomain = language.code === "en" ? "" : `${language.code}.`;
+        window.location.href = `https://${subdomain}${window.location.hostname}`;
+      }
     }
   }
 
