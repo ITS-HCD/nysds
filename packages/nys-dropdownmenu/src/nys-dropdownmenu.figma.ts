@@ -17,9 +17,21 @@ figma.connect("<FIGMA_DROPDOWNMENU>", {
       position="${props.position}"
       ?showDropdown=${props.showDropdown}
     >
-      <nys-dropdownmenuitem label="Profile" link="/example-profile"></nys-dropdownmenuitem>
-      <nys-dropdownmenuitem label="Repositories & Github Pages" link="/example-repos"></nys-dropdownmenuitem>
-      <nys-dropdownmenuitem label="Organizations" link="/example-orgs"></nys-dropdownmenuitem>
-      <nys-dropdownmenuitem label="Sign out" link="/example-signout"></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Profile"
+        link="/example-profile"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Repositories & Github Pages"
+        link="/example-repos"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Organizations"
+        link="/example-orgs"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Sign out"
+        link="/example-signout"
+      ></nys-dropdownmenuitem>
     </nys-dropdownmenu>`,
 });

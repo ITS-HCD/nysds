@@ -15,8 +15,6 @@
 @use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
-nys-dropdownmenu:not(:defined),
-nys-datepicker:not(:defined),
 nys-accordion:not(:defined),
 nys-alert:not(:defined),
 nys-avatar:not(:defined),
@@ -25,7 +23,9 @@ nys-badge:not(:defined),
 nys-button:not(:defined),
 nys-checkbox:not(:defined),
 nys-checkboxgroup:not(:defined),
+nys-datepicker:not(:defined),
 nys-divider:not(:defined),
+nys-dropdownmenu:not(:defined),
 nys-errormessage:not(:defined),
 nys-fileinput:not(:defined),
 nys-globalfooter:not(:defined),
