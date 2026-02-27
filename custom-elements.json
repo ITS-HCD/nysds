@@ -1452,15 +1452,6 @@
           "members": [
             {
               "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "object"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
-            },
-            {
-              "kind": "field",
               "name": "id",
               "type": {
                 "text": "string"
@@ -4000,6 +3991,15 @@
             {
               "kind": "field",
               "name": "_menuElement",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_ariaTarget",
               "type": {
                 "text": "HTMLElement | null"
               },

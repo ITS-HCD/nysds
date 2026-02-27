@@ -97,7 +97,7 @@ describe("nys-dropdownmenu", () => {
 
   it("sets aria-haspopup on the trigger host", async () => {
     const { trigger } = await fixtureWithTrigger();
-    expect(trigger.getAttribute("aria-haspopup")).to.equal("true");
+    expect(trigger.getAttribute("aria-haspopup")).to.equal("menu");
   });
 
   it("closes and restores focus on Escape keydown", async () => {
@@ -172,5 +172,4 @@ describe("nys-dropdownmenuitem", () => {
     expect(detail.label).to.equal("Edit");
     expect(detail.href).to.equal("/edit");
   });
-
 });
