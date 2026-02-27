@@ -509,7 +509,7 @@ wc-datepicker {
       box-shadow: inset 0 0 0 2px var(--_nys-datepicker-focus-ring--date);
     }
 
-    &:hover:not(.wc-datepicker__date--selected, :active) {
+    &:hover:not(.wc-datepicker__date--selected):not(:active) {
       color: var(--_nys-datepicker-color--date--hover);
       background-color: var(--_nys-datepicker-background-color--date--hover);
     }
