@@ -47,23 +47,21 @@ export const defaultConfig = {
     lib: {
       entry: ["./src/index.ts"],
       fileName: () => "nysds.es.js",
+      formats: ["es"],
     },
     minify: 'esbuild',
     sourcemap: true,
     emptyOutDir: false, // Since we're building both ES and UMD formats
     rollupOptions: {
       external,
-      output: [
-        {
-          compact: true,
-          format: "es",
-          banner,
-          dir: "dist",
-          globals: {
-            lit: "Lit",
-          },
+      output: {
+        compact: true,
+        banner,
+        dir: "dist",
+        globals: {
+          lit: "Lit",
         },
-      ],
+      },
       plugins: [
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
