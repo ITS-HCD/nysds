@@ -210,7 +210,6 @@ export class NysRadiobutton extends LitElement {
       new CustomEvent("nys-other-input", {
         detail: {
           id: this.id,
-          checked: this.checked,
           name: this.name,
           value: this.value,
         },
