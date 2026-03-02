@@ -4060,6 +4060,11 @@
               }
             },
             {
+              "kind": "field",
+              "name": "_handleDocumentClick",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "applyInverseTransform",
               "privacy": "private"

@@ -143,6 +143,7 @@ export class NysDropdownMenu extends LitElement {
     if (this.showDropdown) {
       window.addEventListener("scroll", this._handleWindowScroll, true);
       window.addEventListener("resize", this._handleWindowResize);
+      document.addEventListener("click", this._handleDocumentClick);
 
       this._menuElement = this.shadowRoot?.querySelector(
         ".nys-dropdownmenu",
@@ -154,6 +155,7 @@ export class NysDropdownMenu extends LitElement {
     } else {
       window.removeEventListener("scroll", this._handleWindowScroll, true);
       window.removeEventListener("resize", this._handleWindowResize);
+      document.removeEventListener("click", this._handleDocumentClick);
       this._menuElement!.removeEventListener(
         "keydown",
         this._handleMenuKeydown,
@@ -175,6 +177,19 @@ export class NysDropdownMenu extends LitElement {
       (el) => el && !el.hasAttribute("disabled"),
     ) as HTMLElement[];
   }
+
+  private _handleDocumentClick = (event: MouseEvent) => {
+    if (!this.showDropdown) return;
+
+    const path = event?.composedPath();
+
+    const clickedInsideMenu = path.includes(this);
+    const clickedTrigger = this._trigger && path.includes(this._trigger);
+
+    if (!clickedInsideMenu && !clickedTrigger) {
+      this._closeDropdown();
+    }
+  };
 
   // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.
   // This function removes such transforms to prevent them from affecting tooltip positioning calculations.
