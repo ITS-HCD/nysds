@@ -135,7 +135,7 @@ export class NysDropdownMenu extends LitElement {
     this._trigger.addEventListener("keydown", this._handleTriggerKeydown);
   }
 
-  private _toggleDropdown = () => {
+  private _toggleDropdown = async () => {
     this.showDropdown = !this.showDropdown;
 
     this._ariaTarget?.setAttribute("aria-expanded", String(this.showDropdown));
@@ -149,7 +149,8 @@ export class NysDropdownMenu extends LitElement {
       ) as HTMLElement | null;
       this._menuElement!.addEventListener("keydown", this._handleMenuKeydown);
 
-      requestAnimationFrame(() => this._positionMenu());
+      await this.updateComplete;
+      this._positionMenu();
     } else {
       window.removeEventListener("scroll", this._handleWindowScroll, true);
       window.removeEventListener("resize", this._handleWindowResize);

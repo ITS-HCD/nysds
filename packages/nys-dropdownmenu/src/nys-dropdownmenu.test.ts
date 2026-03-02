@@ -45,6 +45,20 @@ describe("nys-dropdownmenu", () => {
     expect(el).to.exist;
   });
 
+  it("applies default position bottom-end when no position specified", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    trigger.click();
+    await menu.updateComplete;
+
+    const menuDiv = menu.shadowRoot!.querySelector(
+      ".nys-dropdownmenu",
+    ) as HTMLElement;
+    expect(menuDiv).to.exist;
+    expect(menuDiv.style.top).to.not.equal("");
+    expect(menuDiv.style.left).to.not.equal("");
+  });
+
   it("position property reflects to attribute", async () => {
     const el = await fixture<NysDropdownMenu>(html`
       <nys-dropdownmenu
@@ -111,6 +125,28 @@ describe("nys-dropdownmenu", () => {
     );
     await menu.updateComplete;
     expect(menu.showDropdown).to.be.false;
+  });
+
+  it("opens menu on Enter key", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+    );
+    await menu.updateComplete;
+
+    expect(menu.showDropdown).to.be.true;
+  });
+
+  it("opens menu on Space key", async () => {
+    const { menu, trigger } = await fixtureWithTrigger();
+
+    trigger.dispatchEvent(
+      new KeyboardEvent("keydown", { key: " ", bubbles: true }),
+    );
+    await menu.updateComplete;
+
+    expect(menu.showDropdown).to.be.true;
   });
 
   it("passes the a11y audit", async () => {
