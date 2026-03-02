@@ -21,6 +21,7 @@ let radiobuttonIdCounter = 0;
  * @fires nys-change - Fired when selection changes. Detail: `{id, checked, name, value}`.
  * @fires nys-focus - Fired when radio gains focus.
  * @fires nys-blur - Fired when radio loses focus.
+ * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
  * @example Radio group
  * ```html
@@ -204,6 +205,20 @@ export class NysRadiobutton extends LitElement {
     );
   }
 
+  private _emitOtherInputEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-other-input", {
+        detail: {
+          id: this.id,
+          name: this.name,
+          value: this.value,
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   // Handle radiobutton change event & un-selection of other radio options in group
   private async _handleChange() {
     this.showOtherError = false;
@@ -263,7 +278,7 @@ export class NysRadiobutton extends LitElement {
       this._validateOtherAndEmitError();
     }
 
-    this._emitChangeEvent();
+    this._emitOtherInputEvent();
   }
 
   private _handleTextInputBlur() {
