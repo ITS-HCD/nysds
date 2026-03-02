@@ -21,6 +21,7 @@ let radiobuttonIdCounter = 0;
  * @fires nys-change - Fired when selection changes. Detail: `{id, checked, name, value}`.
  * @fires nys-focus - Fired when radio gains focus.
  * @fires nys-blur - Fired when radio loses focus.
+ * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
  * @example Radio group
  * ```html
@@ -204,6 +205,20 @@ export class NysRadiobutton extends LitElement {
     );
   }
 
+  private _emitOtherInputEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-other-input", {
+        detail: {
+          id: this.id,
+          name: this.name,
+          value: this.value,
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   // Handle radiobutton change event & un-selection of other radio options in group
   private async _handleChange() {
     this.showOtherError = false;
@@ -222,23 +237,12 @@ export class NysRadiobutton extends LitElement {
   }
 
   // Handle focus event
-  private _handleFocus(event: FocusEvent) {
-    // If the focus event came from the internal nys-textinput, skip
-    const path = event?.composedPath() || [];
-    const isInsideTextInput = path.some(
-      (el) => (el as HTMLElement).tagName?.toLowerCase() === "nys-textinput",
-    );
-
-    if (!isInsideTextInput) {
-      this.classList.add("focused");
-    }
-
+  private _handleFocus() {
     this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.classList.remove("focused");
     this.dispatchEvent(new Event("nys-blur"));
 
     setTimeout(() => {
@@ -274,7 +278,7 @@ export class NysRadiobutton extends LitElement {
       this._validateOtherAndEmitError();
     }
 
-    this._emitChangeEvent();
+    this._emitOtherInputEvent();
   }
 
   private _handleTextInputBlur() {
@@ -349,23 +353,23 @@ export class NysRadiobutton extends LitElement {
             >
           </nys-label> `}
         </div>
-      </div>
-      <div class="nys-radiobutton__other-container">
-        ${this.other && this.checked
-          ? html`
-              <nys-textinput
-                .value=${this.value}
-                id=${"radiobutton-other-" + this.id}
-                @nys-input=${this._handleTextInput}
-                @nys-blur=${this._handleTextInputBlur}
-                @keydown=${this._handleOtherKeydown}
-                @nys-focus=${() => this.classList.remove("focused")}
-                ariaLabel="Other"
-                aria-invalid=${this.showOtherError ? "true" : "false"}
-                width=${this.isMobile ? "full" : "md"}
-              ></nys-textinput>
-            `
-          : ""}
+        <div class="nys-radiobutton__other-container">
+          ${this.other && this.checked
+            ? html`
+                <nys-textinput
+                  .value=${this.value}
+                  id=${"radiobutton-other-" + this.id}
+                  @nys-input=${this._handleTextInput}
+                  @nys-blur=${this._handleTextInputBlur}
+                  @keydown=${this._handleOtherKeydown}
+                  @nys-focus=${() => this.classList.remove("focused")}
+                  ariaLabel="Other"
+                  aria-invalid=${this.showOtherError ? "true" : "false"}
+                  width=${this.isMobile ? "full" : "md"}
+                ></nys-textinput>
+              `
+            : ""}
+        </div>
       </div>
     `;
   }

@@ -405,6 +405,7 @@ export class NysDatepicker extends LitElement {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
     this._setValue(today);
+    this._setFocusOnTodayDate();
   }
 
   private async _setFocusOnTodayDate(visualFocusOnly = false) {
@@ -420,8 +421,6 @@ export class NysDatepicker extends LitElement {
     const datepicker = this.shadowRoot?.querySelector("wc-datepicker");
     if (!datepicker) return;
 
-    datepicker.value = today;
-
     const todayCell = datepicker.querySelector(
       `td[data-date="${yyyyMmDd}"]`,
     ) as HTMLElement | null;
@@ -430,6 +429,16 @@ export class NysDatepicker extends LitElement {
     if (!visualFocusOnly) {
       todayCell.focus();
     }
+  }
+
+  private _dispatchInputEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-input", {
+        detail: { id: this.id, value: this.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   /**
@@ -567,6 +576,7 @@ export class NysDatepicker extends LitElement {
       this._setValue(dateValue);
       this._validate();
 
+      this._dispatchInputEvent();
       datepicker.classList.remove("active");
       this.datepickerIsOpen = false;
       this.removeEventListener("keydown", this._handleFocusTrap);
@@ -622,13 +632,7 @@ export class NysDatepicker extends LitElement {
       this._validate();
     }
 
-    this.dispatchEvent(
-      new CustomEvent("nys-input", {
-        detail: { id: this.id, value: this.value },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    this._dispatchInputEvent();
   }
 
   private _getValidDateFromInput(value: string): Date | null {
