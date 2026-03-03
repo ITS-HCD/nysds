@@ -34,7 +34,7 @@ export class NysDropdownMenuItem extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
   @property({ type: String }) divider = "";
 
-  private _handleClick(e: Event) {
+  private _handleLinkClick(e: Event) {
     if (this.disabled) {
       e.preventDefault();
       return;
@@ -49,18 +49,45 @@ export class NysDropdownMenuItem extends LitElement {
     );
   }
 
+  private _handleActionClick() {
+    this.dispatchEvent(
+      new CustomEvent("nys-dropdownmenuitem-action", {
+        bubbles: true,
+        composed: true,
+        detail: { label: this.label },
+      }),
+    );
+  }
+
   render() {
+    const isLink = !!this.href;
+
     return html`<li class="nys-dropdownmenuitem" role="presentation">
-      <a
-        class=${this.disabled ? "disabled" : ""}
-        href=${this.disabled ? "" : this.href}
-        role="menuitem"
-        aria-disabled="${this.disabled ? "true" : "false"}"
-        aria-label=${this.label}
-        tabindex=${this.disabled ? "-1" : "0"}
-        @click="${this._handleClick}"
-        >${this.label}</a
-      >
+      ${isLink
+        ? html` <a
+            class=${this.disabled ? "disabled" : ""}
+            href=${this.disabled ? "" : this.href}
+            role="menuitem"
+            aria-disabled="${this.disabled ? "true" : "false"}"
+            aria-label=${this.label}
+            tabindex=${this.disabled ? "-1" : "0"}
+            @click="${this._handleLinkClick}"
+            >${this.label}</a
+          >`
+        : html`
+            <button
+              class=${this.disabled ? "disabled" : ""}
+              type="button"
+              role="menuitem"
+              aria-disabled="${this.disabled ? "true" : "false"}"
+              aria-label=${this.label}
+              tabindex=${this.disabled ? "-1" : "0"}
+              ?disabled=${this.disabled}
+              @click="${this._handleActionClick}"
+            >
+              ${this.label}
+            </button>
+          `}
     </li>`;
   }
 }
