@@ -152,6 +152,7 @@ export class NysDropdownMenu extends LitElement {
 
       await this.updateComplete;
       this._positionMenu();
+      this._focusOnFirstItem();
     } else {
       window.removeEventListener("scroll", this._handleWindowScroll, true);
       window.removeEventListener("resize", this._handleWindowResize);
@@ -190,6 +191,11 @@ export class NysDropdownMenu extends LitElement {
       this._closeDropdown();
     }
   };
+
+  private _focusOnFirstItem () {
+    const items = this._getMenuItems();
+    items[0].focus();
+  }
 
   // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.
   // This function removes such transforms to prevent them from affecting tooltip positioning calculations.
