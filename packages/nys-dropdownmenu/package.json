@@ -23,6 +23,7 @@
     "lit-analyze": "lit-analyzer '*.ts'"
   },
   "dependencies": {
+    "@nysds/nys-icon": "^1.14.0"
   },
   "devDependencies": {
     "lit": "^3.3.1",
