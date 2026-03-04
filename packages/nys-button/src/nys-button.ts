@@ -67,6 +67,10 @@ let buttonIdCounter = 0;
 
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /**
    * Unique identifier. Auto-generated if not provided.
