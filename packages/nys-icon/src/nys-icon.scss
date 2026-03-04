@@ -2,6 +2,8 @@
   display: inline-block;
   width: fit-content;
   height: fit-content;
+  min-width: var(--_nys-icon-size, 0.7em);
+  min-height: var(--_nys-icon-size, 0.7em);
 
   --_nys-icon-size: var(
     --nys-icon-size,

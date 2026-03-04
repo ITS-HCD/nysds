@@ -21,6 +21,27 @@ const overrideConfig = {};
 // Externalize Lit and all NYSDS internal packages
 const external = (id) => id === "lit" || id.startsWith("lit/");
 
+// Plugin to copy nys-icon SVG files into dist/icons/
+function copyNysIcons() {
+  return {
+    name: "copy-nys-icons",
+    closeBundle() {
+      const srcDir = path.resolve("packages/nys-icon/src/icons");
+      const destDir = path.resolve("dist/icons");
+      if (!fs.existsSync(srcDir)) return;
+      fs.mkdirSync(destDir, { recursive: true });
+      let count = 0;
+      for (const file of fs.readdirSync(srcDir)) {
+        if (file.endsWith(".svg")) {
+          fs.copyFileSync(path.join(srcDir, file), path.join(destDir, file));
+          count++;
+        }
+      }
+      console.log(`✓ Copied ${count} icon SVGs to dist/icons/`);
+    },
+  };
+}
+
 // Plugin to remove demo HTML files after build
 function removeDemoFiles() {
   return {
@@ -66,6 +87,7 @@ export const defaultConfig = {
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
         removeDemoFiles(), // Add the cleanup plugin
+        copyNysIcons(), // Copy icon SVGs alongside the bundle
       ].filter(Boolean),
     },
   },

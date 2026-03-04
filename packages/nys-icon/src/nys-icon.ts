@@ -1,8 +1,53 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
-import iconLibrary from "./nys-icon.library";
+import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-icon.scss?inline";
+
+// Resolve the default base path at module parse time.
+// ES modules: use import.meta.url. UMD: fall back to document.currentScript.
+const _defaultBasePath = (() => {
+  try {
+    return new URL(/* @vite-ignore */ "./icons/", import.meta.url).href;
+  } catch {
+    if (typeof document !== "undefined" && document.currentScript) {
+      return new URL(
+        "./icons/",
+        (document.currentScript as HTMLScriptElement).src,
+      ).href;
+    }
+    return "./icons/";
+  }
+})();
+
+// Module-level cache: stores Promises so concurrent requests share one fetch.
+const iconCache = new Map<string, Promise<string | null>>();
+
+async function fetchIcon(
+  name: string,
+  basePath: string,
+): Promise<string | null> {
+  const url = `${basePath}${name}.svg`;
+
+  if (iconCache.has(url)) {
+    return iconCache.get(url)!;
+  }
+
+  const promise = fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Icon "${name}" not found (${response.status})`);
+      }
+      return response.text();
+    })
+    .catch((err) => {
+      iconCache.delete(url); // Allow retries on failure
+      console.warn(`[nys-icon] Failed to load icon "${name}": ${err.message}`);
+      return null;
+    });
+
+  iconCache.set(url, promise);
+  return promise;
+}
 
 /**
  * Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).
@@ -26,6 +71,13 @@ import styles from "./nys-icon.scss?inline";
 
 export class NysIcon extends LitElement {
   static styles = unsafeCSS(styles);
+
+  /**
+   * Base URL for loading SVG icon files.
+   * Defaults to resolving relative to the component's own module URL.
+   * Override this static property to point to a CDN or custom path.
+   */
+  static iconsBasePath: string = _defaultBasePath;
 
   /** Icon name from Material Symbols library. Required. */
   @property({ type: String, reflect: true }) name = "";
@@ -66,22 +118,67 @@ export class NysIcon extends LitElement {
     | "40"
     | "50" = "md";
 
+  @state() private _renderedSvg: SVGElement | null = null;
+
+  // Version counter to ignore stale fetch responses when name changes rapidly.
+  private _loadVersion = 0;
+
+  // Public promise that resolves when the current icon has finished loading.
+  private _iconLoadedResolve!: () => void;
+  iconLoaded: Promise<void> = new Promise((r) => {
+    this._iconLoadedResolve = r;
+  });
+
+  override willUpdate(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("name")) {
+      this._loadIcon();
+    }
+  }
+
+  private async _loadIcon() {
+    const name = this.name;
+    if (!name) {
+      this._renderedSvg = null;
+      this._iconLoadedResolve();
+      return;
+    }
+
+    // Reset the iconLoaded promise for a new load cycle.
+    this.iconLoaded = new Promise((r) => {
+      this._iconLoadedResolve = r;
+    });
+
+    const currentVersion = ++this._loadVersion;
+    const svgText = await fetchIcon(name, NysIcon.iconsBasePath);
+
+    // Ignore if name changed while we were fetching.
+    if (currentVersion !== this._loadVersion) return;
+
+    if (svgText === null) {
+      this._renderedSvg = null;
+      this.dispatchEvent(
+        new CustomEvent("nys-icon-error", {
+          detail: { name },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+      this._iconLoadedResolve();
+      return;
+    }
+
+    this._renderedSvg = this._parseSvg(svgText);
+    this._iconLoadedResolve();
+  }
+
   /**
-   * Retrieves the SVG element for the given icon name and applies
-   * accessibility, rotation, flip, color, and size classes.
-   * @returns SVGElement | null
+   * Parses an SVG string and applies accessibility, rotation, flip, color, and size classes.
    */
-  private getIcon(): SVGElement | null {
-    const iconSVG = iconLibrary[this.name];
-
-    if (!iconSVG) return null;
-
-    // Parse the SVG string into an actual SVG DOM element
+  private _parseSvg(svgText: string): SVGElement | null {
     const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(iconSVG, "image/svg+xml");
+    const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
 
-    // Ensure the parsed element is an SVGElement
     if (!(svgElement instanceof SVGElement)) {
       return null;
     }
@@ -110,8 +207,7 @@ export class NysIcon extends LitElement {
   }
 
   render() {
-    const icon = this.getIcon();
-    return icon ? html`${icon}` : null;
+    return this._renderedSvg ? html`${this._renderedSvg}` : null;
   }
 }
 

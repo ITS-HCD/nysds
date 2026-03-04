@@ -12,11 +12,12 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "tsc --emitDeclarationOnly && vite build",
-    "test": "vite build && wtr",
-    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
-    "test:watch": "vite build && wtr --watch",
+    "extract-icons": "node ../../src/scripts/extract-icons.js",
+    "dev": "npm run extract-icons && tsc --emitDeclarationOnly && vite",
+    "build": "npm run extract-icons && tsc --emitDeclarationOnly && vite build",
+    "test": "npm run extract-icons && vite build && wtr",
+    "build:watch": "npm run extract-icons && tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "npm run extract-icons && vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '**/*.ts'"
   },
   "files": [

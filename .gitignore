@@ -1,6 +1,7 @@
 # Ignore generated files
 dist/
 coverage/
+packages/nys-icon/src/icons/
 
 # Ignore Node-specific files
 node_modules/

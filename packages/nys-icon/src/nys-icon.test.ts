@@ -8,6 +8,7 @@ describe("nys-icon", () => {
     const el = await fixture<NysIcon>(
       html`<nys-icon name="ac_unit"></nys-icon>`,
     );
+    await el.iconLoaded;
 
     expect(el.name).to.equal("ac_unit");
 
@@ -23,12 +24,14 @@ describe("nys-icon", () => {
     const el = await fixture<NysIcon>(
       html`<nys-icon name="check" size="2xl"></nys-icon>`,
     );
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
     expect(svg.classList.contains("nys-icon--2xl")).to.be.true;
   });
 
   it("falls back to default size when size is not passed", async () => {
     const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
     expect(svg.classList.contains("nys-icon--md")).to.be.true;
   });
@@ -37,6 +40,7 @@ describe("nys-icon", () => {
     const el = await fixture<NysIcon>(
       html`<nys-icon name="check" color="red"></nys-icon>`,
     );
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
     expect(svg.style.color).to.equal("red");
   });
@@ -45,6 +49,7 @@ describe("nys-icon", () => {
     const el = await fixture<NysIcon>(
       html`<nys-icon name="check" rotate="90"></nys-icon>`,
     );
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
     expect(svg.style.rotate).to.equal("90deg");
   });
@@ -53,6 +58,7 @@ describe("nys-icon", () => {
     const el = await fixture<NysIcon>(
       html`<nys-icon name="check" flip="horizontal"></nys-icon>`,
     );
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
     expect(svg.classList.contains("nys-icon--flip-horizontal")).to.be.true;
   });
@@ -68,6 +74,7 @@ describe("nys-icon", () => {
 describe("nys-icon", () => {
   it("sets role to 'img' on the <svg> element", async () => {
     const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg");
     expect(svg).to.exist;
     expect(svg?.getAttribute("role")).to.equal("img");
@@ -77,6 +84,7 @@ describe("nys-icon", () => {
     const el = await fixture<NysIcon>(
       html`<nys-icon name="unknown"></nys-icon>`,
     );
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg");
     expect(svg).to.be.null;
   });
@@ -85,6 +93,7 @@ describe("nys-icon", () => {
     const el = await fixture<NysIcon>(
       html`<nys-icon ariaLabel="download icon" name="download"></nys-icon>`,
     );
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg");
 
     expect(svg).to.exist;
@@ -93,6 +102,7 @@ describe("nys-icon", () => {
 
   it("hides from screen readers when 'ariaLabel' is not provided", async () => {
     const el = await fixture<NysIcon>(html`<nys-icon name="check"></nys-icon>`);
+    await el.iconLoaded;
     const svg = el.shadowRoot?.querySelector("svg");
 
     expect(svg?.getAttribute("aria-hidden")).to.equal("true");
@@ -102,5 +112,39 @@ describe("nys-icon", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-unavfooter></nys-unavfooter>`);
     await expect(el).shadowDom.to.be.accessible();
+  });
+});
+
+// Fetch & Cache Tests
+describe("nys-icon fetch behavior", () => {
+  it("dispatches nys-icon-error event for invalid icon names", async () => {
+    let errorDetail: { name: string } | null = null;
+    const el = await fixture<NysIcon>(
+      html`<nys-icon
+        name="nonexistent_icon_xyz"
+        @nys-icon-error=${(e: CustomEvent) => {
+          errorDetail = e.detail;
+        }}
+      ></nys-icon>`,
+    );
+    await el.iconLoaded;
+    expect(errorDetail).to.not.be.null;
+    expect(errorDetail!.name).to.equal("nonexistent_icon_xyz");
+  });
+
+  it("shares fetch cache across instances", async () => {
+    const el1 = await fixture<NysIcon>(
+      html`<nys-icon name="check"></nys-icon>`,
+    );
+    const el2 = await fixture<NysIcon>(
+      html`<nys-icon name="check"></nys-icon>`,
+    );
+    await el1.iconLoaded;
+    await el2.iconLoaded;
+
+    const svg1 = el1.shadowRoot?.querySelector("svg");
+    const svg2 = el2.shadowRoot?.querySelector("svg");
+    expect(svg1).to.exist;
+    expect(svg2).to.exist;
   });
 });

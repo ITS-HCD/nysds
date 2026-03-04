@@ -5697,6 +5697,16 @@
           "members": [
             {
               "kind": "field",
+              "name": "iconsBasePath",
+              "type": {
+                "text": "string"
+              },
+              "static": true,
+              "default": "_defaultBasePath",
+              "description": "Base URL for loading SVG icon files.\nDefaults to resolving relative to the component's own module URL.\nOverride this static property to point to a CDN or custom path."
+            },
+            {
+              "kind": "field",
               "name": "name",
               "type": {
                 "text": "string"
@@ -5757,15 +5767,70 @@
               "attribute": "size"
             },
             {
+              "kind": "field",
+              "name": "_renderedSvg",
+              "type": {
+                "text": "SVGElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_loadVersion",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "_iconLoadedResolve",
+              "type": {
+                "text": "() => void"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "iconLoaded",
+              "type": {
+                "text": "Promise<void>"
+              },
+              "default": "new Promise((r) => { this._iconLoadedResolve = r; })"
+            },
+            {
               "kind": "method",
-              "name": "getIcon",
+              "name": "_loadIcon",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_parseSvg",
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": ""
+                  "text": "SVGElement | null"
                 }
               },
-              "description": "Retrieves the SVG element for the given icon name and applies\naccessibility, rotation, flip, color, and size classes."
+              "parameters": [
+                {
+                  "name": "svgText",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Parses an SVG string and applies accessibility, rotation, flip, color, and size classes."
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-icon-error",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
