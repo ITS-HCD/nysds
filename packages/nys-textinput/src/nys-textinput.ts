@@ -49,6 +49,10 @@ let textinputIdCounter = 0;
 
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -209,11 +213,6 @@ export class NysTextinput extends LitElement {
 
       if (input) input.required = this.required && !this.readonly;
     }
-  }
-
-  public focus() {
-    const input = this.shadowRoot?.querySelector("input");
-    input?.focus();
   }
 
   /**

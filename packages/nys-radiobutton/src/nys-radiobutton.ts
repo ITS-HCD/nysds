@@ -34,6 +34,10 @@ let radiobuttonIdCounter = 0;
 
 export class NysRadiobutton extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Whether this radio is selected. Only one per group can be checked. */
   @property({ type: Boolean, reflect: true }) checked = false;

@@ -12,6 +12,12 @@ let componentIdCounter = 0;
 
 export class Nys{{capitalize componentName}} extends LitElement {
   static styles = unsafeCSS(styles);
+  {{#if formRelated}}
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+  {{/if}}
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";

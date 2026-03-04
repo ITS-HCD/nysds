@@ -40,6 +40,10 @@ let checkboxIdCounter = 0;
 
 export class NysCheckbox extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Whether checkbox is checked. */
   @property({ type: Boolean, reflect: true }) checked = false;
