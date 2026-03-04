@@ -185,7 +185,7 @@ describe("nys-dropdownmenuitem", () => {
 
   it("sets aria-disabled=false when not disabled", async () => {
     const el = await fixture<NysDropdownMenuItem>(html`
-      <nys-dropdownmenuitem label="Edit" link="/edit"></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem label="Edit" href="/edit"></nys-dropdownmenuitem>
     `);
     await el.updateComplete;
     const href = el.shadowRoot!.querySelector("a");

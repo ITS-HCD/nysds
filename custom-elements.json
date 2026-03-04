@@ -4066,6 +4066,11 @@
             },
             {
               "kind": "method",
+              "name": "_focusOnFirstItem",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "applyInverseTransform",
               "privacy": "private"
             },
@@ -4350,6 +4355,15 @@
             },
             {
               "kind": "field",
+              "name": "prefixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "prefixIcon"
+            },
+            {
+              "kind": "field",
               "name": "divider",
               "type": {
                 "text": "string"
@@ -4359,7 +4373,7 @@
             },
             {
               "kind": "method",
-              "name": "_handleClick",
+              "name": "_handleLinkClick",
               "privacy": "private",
               "parameters": [
                 {
@@ -4369,11 +4383,22 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleActionClick",
+              "privacy": "private"
             }
           ],
           "events": [
             {
               "name": "nys-dropdownmenuitem-select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-dropdownmenuitem-action",
               "type": {
                 "text": "CustomEvent"
               }
@@ -4403,6 +4428,14 @@
               },
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "prefixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "prefixIcon"
             },
             {
               "name": "divider",

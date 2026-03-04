@@ -192,7 +192,7 @@ export class NysDropdownMenu extends LitElement {
     }
   };
 
-  private _focusOnFirstItem () {
+  private _focusOnFirstItem() {
     const items = this._getMenuItems();
     items[0].focus();
   }

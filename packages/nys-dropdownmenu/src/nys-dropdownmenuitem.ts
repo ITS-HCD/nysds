@@ -32,6 +32,7 @@ export class NysDropdownMenuItem extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: String }) prefixIcon = "";
   @property({ type: String }) divider = "";
 
   private _handleLinkClick(e: Event) {
@@ -72,7 +73,11 @@ export class NysDropdownMenuItem extends LitElement {
             aria-label=${this.label}
             tabindex=${this.disabled ? "-1" : "0"}
             @click="${this._handleLinkClick}"
-            >${this.label}</a
+          >
+            ${this.prefixIcon
+              ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
+              : ""}
+            ${this.label}</a
           >`
         : html`
             <button
@@ -85,6 +90,9 @@ export class NysDropdownMenuItem extends LitElement {
               ?disabled=${this.disabled}
               @click="${this._handleActionClick}"
             >
+              ${this.prefixIcon
+                ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
+                : ""}
               ${this.label}
             </button>
           `}
