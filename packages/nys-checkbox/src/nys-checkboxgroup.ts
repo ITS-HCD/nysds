@@ -30,7 +30,7 @@ let checkboxgroupIdCounter = 0;
 
 export class NysCheckboxgroup extends LitElement {
   static styles = unsafeCSS(styles);
-    static shadowRootOptions = {
+  static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };

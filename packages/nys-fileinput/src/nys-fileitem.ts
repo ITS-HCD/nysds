@@ -16,7 +16,7 @@ import styles from "./nys-fileitem.scss?inline";
  */
 export class NysFileItem extends LitElement {
   static styles = unsafeCSS(styles);
-    static shadowRootOptions = {
+  static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };

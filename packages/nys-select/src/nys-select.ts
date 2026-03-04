@@ -50,7 +50,7 @@ export class NysSelect extends LitElement {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
-  
+
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
 
