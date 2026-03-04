@@ -49,7 +49,11 @@ let textinputIdCounter = 0;
 
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
-
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
+  
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
 
