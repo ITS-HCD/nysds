@@ -329,10 +329,10 @@ export const dropdownWithIcons: Story = {
   for="trigger-id1"
   position="bottom-end"
 >
-    <nys-dropdownmenuitem label="Action 1"></nys-dropdownmenuitem>
-    <nys-dropdownmenuitem label="Action 2"></nys-dropdownmenuitem>
-    <nys-dropdownmenuitem label="Action 3" disabled></nys-dropdownmenuitem>
-    <nys-dropdownmenuitem label="Action 4"></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 1" prefixIcon="lock_filled"></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 2" prefixIcon="social_youtube" ></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 3" prefixIcon="visibility" disabled></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 4" prefixIcon="sms" ></nys-dropdownmenuitem>
 </nys-dropdownmenu>`,
       },
     },

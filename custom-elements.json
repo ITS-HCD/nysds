@@ -4428,7 +4428,7 @@
           ],
           "events": [
             {
-              "name": "nys-dropdownmenuitem-select",
+              "name": "nys-dropdownmenuitem-navigate",
               "type": {
                 "text": "CustomEvent"
               }

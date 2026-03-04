@@ -42,7 +42,7 @@ export class NysDropdownMenuItem extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent("nys-dropdownmenuitem-select", {
+      new CustomEvent("nys-dropdownmenuitem-navigate", {
         bubbles: true,
         composed: true,
         detail: { label: this.label, href: this.href },

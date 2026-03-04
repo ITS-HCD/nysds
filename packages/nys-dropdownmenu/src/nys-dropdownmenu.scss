@@ -119,9 +119,10 @@
     font-size: var(--_nys-dropdownmenu-font-size);
     font-weight: var(--_nys-dropdownmenu-font-weight);
     line-height: var(--_nys-dropdownmenu-line-height);
+    cursor: pointer;
 
     nys-icon {
-      margin-top: -5px;
+      margin-top: -3px;
     }
 
     &:hover:not(.disabled):not([aria-disabled="true"]) {

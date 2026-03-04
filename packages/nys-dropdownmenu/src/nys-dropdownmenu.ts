@@ -192,9 +192,10 @@ export class NysDropdownMenu extends LitElement {
     }
   };
 
-  private _focusOnFirstItem() {
+  private async _focusOnFirstItem() {
+    await new Promise((resolve) => requestAnimationFrame(resolve));
     const items = this._getMenuItems();
-    items[0].focus();
+    if (items.length > 0) items[0].focus();
   }
 
   // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.
@@ -310,12 +311,6 @@ export class NysDropdownMenu extends LitElement {
       horizontal === "start"
         ? space.end >= menuWidth
         : space.start >= menuWidth;
-
-    console.log(
-      "verticalFits && horizontalFits: ",
-      verticalFits,
-      horizontalFits,
-    );
     return verticalFits && horizontalFits;
   }
 
