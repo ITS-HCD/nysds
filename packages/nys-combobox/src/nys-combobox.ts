@@ -60,6 +60,7 @@ export class NysCombobox extends LitElement {
   @state() private _options: ComboboxOption[] = [];
   @state() private _filteredOptions: ComboboxOption[] = [];
   @state() private _dropdownAbove = false;
+  @state() private _announcement = "";
 
   @query("input") private _input!: HTMLInputElement;
   @query(".nys-combobox__listbox") private _listbox?: HTMLElement;
@@ -414,6 +415,12 @@ export class NysCombobox extends LitElement {
 
     this._highlightedIndex = newIndex;
     this._scrollToHighlighted();
+
+    const option = this._filteredOptions[newIndex];
+    const enabledFiltered = this._filteredOptions.filter((opt) => !opt.disabled);
+    const position = enabledFiltered.findIndex((opt) => opt.value === option.value) + 1;
+    const isSelected = option.value === this.value ? "selected" : "unselected";
+    this._announcement = `${option.label} ${position} of ${enabledFiltered.length}, ${isSelected}`;
   }
 
   /**
@@ -430,6 +437,9 @@ export class NysCombobox extends LitElement {
     }
 
     this._highlightedIndex = 0;
+
+    const count = this._filteredOptions.filter((opt) => !opt.disabled).length;
+    this._announcement = count > 0 ? `${count} options available` : "No results found";
 
     if (this._hasUserInteracted) {
       this._validate();
@@ -714,6 +724,11 @@ export class NysCombobox extends LitElement {
           ?showError=${this.showError}
           errorMessage=${this.errorMessage}
         ></nys-errormessage>
+        <div
+          aria-live="polite"
+          aria-atomic="true"
+          style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;"
+        >${this._announcement}</div>
       </div>
     `;
   }
