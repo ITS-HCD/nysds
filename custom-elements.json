@@ -4391,6 +4391,15 @@
             },
             {
               "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"_self\"",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
               "name": "prefixIcon",
               "type": {
                 "text": "string"
@@ -4409,7 +4418,7 @@
             },
             {
               "kind": "method",
-              "name": "_handleLinkClick",
+              "name": "_handleClick",
               "privacy": "private",
               "parameters": [
                 {
@@ -4419,22 +4428,11 @@
                   }
                 }
               ]
-            },
-            {
-              "kind": "method",
-              "name": "_handleActionClick",
-              "privacy": "private"
             }
           ],
           "events": [
             {
-              "name": "nys-dropdownmenuitem-navigate",
-              "type": {
-                "text": "CustomEvent"
-              }
-            },
-            {
-              "name": "nys-dropdownmenuitem-action",
+              "name": "nys-click",
               "type": {
                 "text": "CustomEvent"
               }
@@ -4464,6 +4462,14 @@
               },
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"_self\"",
+              "fieldName": "target"
             },
             {
               "name": "prefixIcon",

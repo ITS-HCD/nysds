@@ -4,6 +4,8 @@ import "./nys-dropdownmenuitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-dropdownmenu.scss?inline";
 
+let dropdownMenuIdCounter = 0;
+
 /**
  * Dropdown menus enable users to select an action from a list of options.
  * They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.
@@ -73,6 +75,10 @@ export class NysDropdownMenu extends LitElement {
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
+
+        if (!this.id) {
+      this.id = `nys-dropdownmenu-${Date.now()}-${dropdownMenuIdCounter++}`;
+    }
   }
 
   disconnectedCallback() {

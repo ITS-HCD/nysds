@@ -3,6 +3,8 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-dropdownmenu.scss?inline";
 
+let dropdownMenuItemIdCounter = 0;
+
 /**
  * **Slotted component.** Displays an individual dropdown item within `nys-dropdown` with label.
  *
@@ -32,30 +34,29 @@ export class NysDropdownMenuItem extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
   @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: String }) target = "_self";
   @property({ type: String }) prefixIcon = "";
   @property({ type: String }) divider = "";
 
-  private _handleLinkClick(e: Event) {
+  // Generate a unique ID if one is not provided
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-fileinput-${Date.now()}-${dropdownMenuItemIdCounter++}`;
+    }
+  }
+
+  private _handleClick(e: Event) {
     if (this.disabled) {
       e.preventDefault();
       return;
     }
 
     this.dispatchEvent(
-      new CustomEvent("nys-dropdownmenuitem-navigate", {
+      new CustomEvent("nys-click", {
         bubbles: true,
         composed: true,
-        detail: { label: this.label, href: this.href },
-      }),
-    );
-  }
-
-  private _handleActionClick() {
-    this.dispatchEvent(
-      new CustomEvent("nys-dropdownmenuitem-action", {
-        bubbles: true,
-        composed: true,
-        detail: { label: this.label },
+        detail: { label: this.label, href: this.href ? this.href : undefined },
       }),
     );
   }
@@ -72,7 +73,8 @@ export class NysDropdownMenuItem extends LitElement {
             aria-disabled="${this.disabled ? "true" : "false"}"
             aria-label=${this.label}
             tabindex=${this.disabled ? "-1" : "0"}
-            @click="${this._handleLinkClick}"
+            @click="${this._handleClick}"
+            target="${this.target}"
           >
             ${this.prefixIcon
               ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
@@ -88,7 +90,7 @@ export class NysDropdownMenuItem extends LitElement {
               aria-label=${this.label}
               tabindex=${this.disabled ? "-1" : "0"}
               ?disabled=${this.disabled}
-              @click="${this._handleActionClick}"
+              @click="${this._handleClick}"
             >
               ${this.prefixIcon
                 ? html`<nys-icon size="16" name=${this.prefixIcon}></nys-icon>`
