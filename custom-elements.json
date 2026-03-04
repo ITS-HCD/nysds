@@ -3353,6 +3353,15 @@
             },
             {
               "kind": "field",
+              "name": "_announcement",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
               "name": "_input",
               "type": {
                 "text": "HTMLInputElement"
