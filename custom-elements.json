@@ -2350,6 +2350,11 @@
             },
             {
               "kind": "method",
+              "name": "_emitOtherInputEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleChange",
               "privacy": "private",
               "parameters": [
@@ -2420,6 +2425,13 @@
                 "text": "CustomEvent"
               },
               "description": "Fired when checked state changes. Detail: `{id, checked, name, value}`."
+            },
+            {
+              "name": "nys-other-input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`."
             },
             {
               "name": "nys-focus",
@@ -6988,6 +7000,11 @@
             },
             {
               "kind": "method",
+              "name": "_emitOtherInputEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleChange",
               "privacy": "private"
             },
@@ -7056,6 +7073,13 @@
                 "text": "CustomEvent"
               },
               "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
+            },
+            {
+              "name": "nys-other-input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`."
             },
             {
               "name": "nys-focus",
