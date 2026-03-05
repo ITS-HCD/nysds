@@ -91,7 +91,7 @@ export class NysDropdownMenu extends LitElement {
     this._connectTrigger();
 
     this.addEventListener("nys-click", () => {
-      this._closeDropdown(false);
+      this._closeDropdown();
     });
   }
   /**
@@ -174,10 +174,10 @@ export class NysDropdownMenu extends LitElement {
     }
   };
 
-  private _closeDropdown(returnFocus = true) {
+  private _closeDropdown() {
     this.showDropdown = false;
     this._ariaTarget?.setAttribute("aria-expanded", "false");
-    if (returnFocus) this._trigger?.focus();
+    this._trigger?.focus();
   }
 
   private _getMenuItems(): HTMLElement[] {
