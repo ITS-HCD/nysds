@@ -76,7 +76,7 @@ export class NysDropdownMenu extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
-        if (!this.id) {
+    if (!this.id) {
       this.id = `nys-dropdownmenu-${Date.now()}-${dropdownMenuIdCounter++}`;
     }
   }
@@ -89,6 +89,10 @@ export class NysDropdownMenu extends LitElement {
     await this.updateComplete;
     this.applyInverseTransform();
     this._connectTrigger();
+
+    this.addEventListener("nys-click", () => {
+      this._closeDropdown(false);
+    });
   }
   /**
    * Functions
@@ -170,10 +174,10 @@ export class NysDropdownMenu extends LitElement {
     }
   };
 
-  private _closeDropdown() {
+  private _closeDropdown(returnFocus = true) {
     this.showDropdown = false;
     this._ariaTarget?.setAttribute("aria-expanded", "false");
-    this._trigger?.focus();
+    if (returnFocus) this._trigger?.focus();
   }
 
   private _getMenuItems(): HTMLElement[] {
@@ -446,7 +450,11 @@ export class NysDropdownMenu extends LitElement {
           currentIndex > 0 ? currentIndex - 1 : items.length - 1;
         items[prevIndex].focus();
         break;
-
+      case "Tab":
+        if (currentIndex >= items.length - 1 && !event.shiftKey) {
+          this._closeDropdown();
+        }
+        break;
       default:
         break;
     }
