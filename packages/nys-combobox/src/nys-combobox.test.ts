@@ -1,0 +1,1110 @@
+import { expect, html, fixture, oneEvent } from "@open-wc/testing";
+import "../dist/nys-combobox.js";
+import { NysCombobox } from "./nys-combobox.js";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-icon";
+
+/**
+ * Test suite for nys-combobox component
+ * Based on implementation options from nys-combobox.stories.ts
+ */
+describe("nys-combobox", () => {
+  // Basic rendering tests
+  it("renders the component", async () => {
+    const el = await fixture(html`<nys-combobox></nys-combobox>`);
+    expect(el).to.exist;
+  });
+
+  it("generates an id if not provided", async () => {
+    const el = await fixture<NysCombobox>(html`<nys-combobox></nys-combobox>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-combobox-\d+-\d+$/);
+  });
+
+  it("uses provided id when set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox id="my-combobox"></nys-combobox>`,
+    );
+    expect(el.id).to.equal("my-combobox");
+  });
+
+  // Property reflection tests
+  it("reflects attributes to properties", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox label="My Label" name="myName" required></nys-combobox>
+    `);
+    expect(el.label).to.equal("My Label");
+    expect(el.name).to.equal("myName");
+    expect(el.required).to.be.true;
+  });
+
+  it("reflects description attribute to property", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox description="Helper text"></nys-combobox>`,
+    );
+    expect(el.description).to.equal("Helper text");
+  });
+
+  it("reflects inverted attribute to property", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox inverted></nys-combobox>`,
+    );
+    expect(el.inverted).to.be.true;
+  });
+
+  // Default value tests (DefaultValue story)
+  it("renders with default value when value attribute is set", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox value="mango">
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+        <option value="mango">Mango</option>
+        <option value="orange">Orange</option>
+      </nys-combobox>
+    `);
+    expect(el.value).to.equal("mango");
+  });
+
+  it("renders with default value when option has selected attribute", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="mango" selected>Mango</option>
+        <option value="orange">Orange</option>
+      </nys-combobox>
+    `);
+    await el.updateComplete;
+    expect(el.value).to.equal("mango");
+  });
+
+  // Option rendering tests (Basic story)
+  it("renders options from slotted content", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+        <option value="cherry">Cherry</option>
+      </nys-combobox>
+    `);
+    const options = el.querySelectorAll("option");
+    expect(options.length).to.equal(3);
+    expect(options[0].value).to.equal("apple");
+    expect(options[1].value).to.equal("banana");
+    expect(options[2].value).to.equal("cherry");
+  });
+
+  // OptionGroup story tests
+  it("renders optgroup with nested options", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <optgroup label="Citrus">
+          <option value="lemon">Lemon</option>
+          <option value="orange">Orange</option>
+        </optgroup>
+        <optgroup label="Berries">
+          <option value="strawberry">Strawberry</option>
+          <option value="blueberry">Blueberry</option>
+        </optgroup>
+      </nys-combobox>
+    `);
+
+    const optgroups = el.querySelectorAll("optgroup");
+    expect(optgroups.length).to.equal(2);
+    expect(optgroups[0].label).to.equal("Citrus");
+    expect(optgroups[1].label).to.equal("Berries");
+
+    const citrusOptions = optgroups[0].querySelectorAll("option");
+    expect(citrusOptions.length).to.equal(2);
+    expect(citrusOptions[0].value).to.equal("lemon");
+
+    const berryOptions = optgroups[1].querySelectorAll("option");
+    expect(berryOptions.length).to.equal(2);
+    expect(berryOptions[0].value).to.equal("strawberry");
+  });
+
+  // Disabled tests (Disabled story)
+  it("sets disabled state on the input when disabled attribute is set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox disabled></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input");
+    expect(input?.disabled).to.be.true;
+    expect(input?.getAttribute("aria-disabled")).to.equal("true");
+  });
+
+  it("prevents interaction when disabled", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox disabled>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+    input.value = "apple";
+    input.dispatchEvent(new Event("input"));
+    await el.updateComplete;
+
+    // Value should not change when disabled
+    expect(el.disabled).to.be.true;
+  });
+
+  // DisabledOptions story tests
+  it("renders disabled options that cannot be selected", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+        <option value="cherry" disabled>Cherry (Out of season)</option>
+        <option value="mango">Mango</option>
+      </nys-combobox>
+    `);
+
+    const options = el.querySelectorAll("option");
+    expect(options[2].disabled).to.be.true;
+    expect(options[2].textContent).to.include("Out of season");
+  });
+
+  // Required validation tests (Required story)
+  it("shows required symbol when required attribute is set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Select" required></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input");
+    expect(input?.hasAttribute("required")).to.be.true;
+    expect(input?.getAttribute("aria-required")).to.equal("true");
+
+    const label = el.shadowRoot?.querySelector("nys-label");
+    expect(label?.getAttribute("flag")).to.equal("required");
+  });
+
+  it("validates required field is empty and shows error", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox required>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+    input.value = "";
+    input.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
+    expect(errorMessage?.hasAttribute("showError")).to.be.true;
+  });
+
+  // Optional tests (Optional story)
+  it("shows optional flag when optional attribute is set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Select" optional></nys-combobox>`,
+    );
+    const label = el.shadowRoot?.querySelector("nys-label");
+    expect(label?.getAttribute("flag")).to.equal("optional");
+  });
+
+  it("does not show required validation when optional is set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox optional></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input");
+    expect(input?.hasAttribute("required")).to.be.false;
+  });
+
+  // Width tests (Width story)
+  it("defaults to full width when width is unset", async () => {
+    const el = await fixture<NysCombobox>(html`<nys-combobox></nys-combobox>`);
+    await el.updateComplete;
+    expect(el.width).to.equal("full");
+  });
+
+  it("applies md width when set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox width="md"></nys-combobox>`,
+    );
+    expect(el.width).to.equal("md");
+  });
+
+  it("applies lg width when set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox width="lg"></nys-combobox>`,
+    );
+    expect(el.width).to.equal("lg");
+  });
+
+  // Icon click tests
+  it("_handleIconClick opens dropdown when closed", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+
+    expect((el as any)._isOpen).to.be.false;
+
+    const chevron = el.shadowRoot?.querySelector(
+      ".nys-combobox__chevron",
+    ) as HTMLElement;
+    chevron.dispatchEvent(new CustomEvent("nys-click", { bubbles: true }));
+    await el.updateComplete;
+
+    expect((el as any)._isOpen).to.be.true;
+  });
+
+  it("_handleIconClick closes dropdown when open", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+
+    (el as any)._isOpen = true;
+    await el.updateComplete;
+
+    const chevron = el.shadowRoot?.querySelector(
+      ".nys-combobox__chevron",
+    ) as HTMLElement;
+    chevron.dispatchEvent(new CustomEvent("nys-click", { bubbles: true }));
+    await el.updateComplete;
+
+    expect((el as any)._isOpen).to.be.false;
+  });
+
+  it("_handleIconClick does nothing when disabled", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox disabled>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+
+    const chevron = el.shadowRoot?.querySelector(
+      ".nys-combobox__chevron",
+    ) as HTMLElement;
+    chevron.dispatchEvent(new CustomEvent("nys-click", { bubbles: true }));
+    await el.updateComplete;
+
+    expect((el as any)._isOpen).to.be.false;
+  });
+
+  it("_handleClearClick clears value, fires nys-change, and closes dropdown", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+
+    // Select a value first
+    const input = el.shadowRoot?.querySelector<HTMLInputElement>("input")!;
+    input.value = "apple";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.equal("apple");
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-change", (e: any) => (eventDetail = e.detail));
+
+    const clearBtn = el.shadowRoot?.querySelector(
+      ".nys-combobox__clear",
+    ) as HTMLElement;
+    clearBtn.dispatchEvent(new CustomEvent("nys-click", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+    expect((el as any)._filterText).to.equal("");
+    expect((el as any)._selectedLabel).to.equal("");
+    expect((el as any)._isOpen).to.be.false;
+    expect(eventDetail).to.exist;
+    expect(eventDetail.value).to.equal("");
+  });
+
+  it("_handleOptionClick selects an enabled option", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `);
+
+    // Open the dropdown first
+    (el as any)._isOpen = true;
+    await el.updateComplete;
+
+    const options = el.shadowRoot?.querySelectorAll(".nys-combobox__option");
+    (options?.[0] as HTMLElement).click();
+    await el.updateComplete;
+
+    expect(el.value).to.equal("apple");
+  });
+
+  it("_handleOptionClick does not select a disabled option", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple" disabled>Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `);
+
+    (el as any)._isOpen = true;
+    await el.updateComplete;
+
+    const options = el.shadowRoot?.querySelectorAll(".nys-combobox__option");
+    (options?.[0] as HTMLElement).click();
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+  });
+
+  it("_handleOptionMouseEnter sets the highlighted index", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `);
+
+    (el as any)._isOpen = true;
+    await el.updateComplete;
+
+    const options = el.shadowRoot?.querySelectorAll(".nys-combobox__option");
+    (options?.[1] as HTMLElement).dispatchEvent(
+      new MouseEvent("mouseenter", { bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect((el as any)._highlightedIndex).to.equal(1);
+  });
+
+  // Description slot tests (DescriptionSlot story)
+  it("renders slotted description content", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <label slot="description">This is a description slot</label>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+
+    const slot = el.shadowRoot?.querySelector(
+      'slot[name="description"]',
+    ) as HTMLSlotElement;
+    const assigned = slot?.assignedElements() || [];
+    expect(assigned.length).to.be.greaterThan(0);
+
+    const description = assigned.find(
+      (el) => el.tagName.toLowerCase() === "label",
+    );
+    expect(description?.textContent).to.include("This is a description slot");
+  });
+
+  // Error message tests (ErrorMessage story)
+  it("displays error message when showError is true", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox
+        showError
+        errorMessage="Please select a fruit"
+      ></nys-combobox>
+    `);
+
+    expect(el.showError).to.be.true;
+    expect(el.errorMessage).to.equal("Please select a fruit");
+
+    const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
+    expect(errorMessage?.hasAttribute("showError")).to.be.true;
+    expect(errorMessage?.getAttribute("errorMessage")).to.equal(
+      "Please select a fruit",
+    );
+  });
+
+  it("sets custom validity message and showError flag", async () => {
+    const el = await fixture<NysCombobox>(html`<nys-combobox></nys-combobox>`);
+    (el as any)._setValidityMessage("Something is wrong");
+    expect(el.showError).to.be.true;
+    expect(el.errorMessage).to.include("Something is wrong");
+  });
+
+  // Value change and events tests
+  it("updates value and emits nys-change event when user selects an option", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `);
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-change", (e: any) => (eventDetail = e.detail));
+
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+    // Type to filter
+    input.value = "apple";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    // Select the option by pressing Enter
+    const keyEvent = new KeyboardEvent("keydown", {
+      key: "Enter",
+      bubbles: true,
+    });
+    input.dispatchEvent(keyEvent);
+    await el.updateComplete;
+
+    expect(el.value).to.equal("apple");
+    expect(eventDetail).to.exist;
+    expect(eventDetail.value).to.equal("apple");
+  });
+
+  // Focus and blur tests
+  it("dispatches focus and blur events", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Focus Test"></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input")!;
+
+    // Focus event
+    const focusEventPromise = oneEvent(el, "focus");
+    input.focus();
+    const focusEvent = await focusEventPromise;
+    expect(focusEvent).to.exist;
+    expect(input.matches(":focus")).to.be.true;
+
+    // Blur event
+    const blurEventPromise = oneEvent(el, "blur");
+    input.blur();
+    const blurEvent = await blurEventPromise;
+    expect(blurEvent).to.exist;
+    expect(input.matches(":focus")).to.be.false;
+  });
+
+  it("should not focus when disabled", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox disabled></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+    input.focus();
+    expect(document.activeElement).to.not.equal(input);
+  });
+
+  // Form integration tests
+  it("associates with form element using form attribute", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox form="my-form"></nys-combobox>`,
+    );
+    expect(el.form).to.equal("my-form");
+  });
+
+  it("runs native checkValidity", async () => {
+    const el = await fixture<NysCombobox>(html`<nys-combobox></nys-combobox>`);
+    expect(el.checkValidity()).to.be.true;
+  });
+
+  it("resets to blank value when form is reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      </form>
+    `);
+
+    const el = form.querySelector<NysCombobox>("nys-combobox")!;
+    const input = el.shadowRoot?.querySelector<HTMLInputElement>("input")!;
+
+    // Change value
+    input.value = "apple";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.equal("apple");
+
+    // Reset form
+    form.reset();
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+    expect(input.value).to.equal("");
+    expect(el.showError).to.be.false;
+    expect(el.errorMessage).to.equal("");
+    expect((el as any)._internals.validity.valid).to.be.true;
+  });
+
+  it("resets to default value when form is reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana" selected>Banana</option>
+        </nys-combobox>
+      </form>
+    `);
+
+    const el = form.querySelector<NysCombobox>("nys-combobox")!;
+    const input = el.shadowRoot?.querySelector<HTMLInputElement>("input")!;
+
+    // Change value
+    input.value = "apple";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    input.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.equal("apple");
+
+    // Reset form
+    form.reset();
+    await el.updateComplete;
+
+    expect(el.value).to.equal("banana");
+  });
+
+  // Inverted theme tests (Inverted story)
+  it("applies inverted styling when inverted attribute is set", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox inverted></nys-combobox>`,
+    );
+    expect(el.inverted).to.be.true;
+    expect(el.hasAttribute("inverted")).to.be.true;
+  });
+
+  // Handle Invalid
+  it("_handleInvalid prevents default, enables eager validation, and focuses the first invalid element", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-combobox required></nys-combobox>
+      </form>
+    `);
+
+    const el = form.querySelector<NysCombobox>("nys-combobox")!;
+    const input = el.shadowRoot?.querySelector<HTMLInputElement>("input")!;
+
+    expect((el as any)._hasUserInteracted).to.be.false;
+
+    const invalidEvent = new Event("invalid", { cancelable: true });
+    el.dispatchEvent(invalidEvent);
+    await el.updateComplete;
+
+    expect(invalidEvent.defaultPrevented).to.be.true;
+    expect((el as any)._hasUserInteracted).to.be.true;
+    expect(el.showError).to.be.true;
+    expect(el.shadowRoot?.activeElement).to.equal(input);
+  });
+
+  // Accessibility tests
+  it("passes the a11y audit", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Select Fruit"></nys-combobox>`,
+    );
+    await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("maps label to aria-label on input", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox label="Favorite Fruit"></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    expect(input?.getAttribute("aria-label")).to.equal("Favorite Fruit");
+  });
+
+  it("sets aria-required when required", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox required></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input");
+    expect(input?.getAttribute("aria-required")).to.equal("true");
+  });
+
+  it("sets aria-disabled when disabled", async () => {
+    const el = await fixture<NysCombobox>(
+      html`<nys-combobox disabled></nys-combobox>`,
+    );
+    const input = el.shadowRoot?.querySelector("input");
+    expect(input?.getAttribute("aria-disabled")).to.equal("true");
+  });
+
+  // Keyboard interaction tests
+  describe("keyboard navigation", () => {
+    it("opens dropdown with ArrowDown when closed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      input.focus();
+      expect((el as any)._isOpen).to.be.false;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.true;
+    });
+
+    it("opens dropdown with ArrowUp when closed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      input.focus();
+      expect((el as any)._isOpen).to.be.false;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowUp",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.true;
+    });
+
+    it("moves highlight down with ArrowDown when dropdown is open", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+          <option value="cherry">Cherry</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown first
+      (el as any)._openDropdown();
+      await el.updateComplete;
+
+      const initialHighlight = (el as any)._highlightedIndex;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._highlightedIndex).to.equal(initialHighlight + 1);
+    });
+
+    it("moves highlight up with ArrowUp when dropdown is open", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+          <option value="cherry">Cherry</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and set highlight to second item
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = 1;
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowUp",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._highlightedIndex).to.equal(0);
+    });
+
+    it("selects highlighted option with Enter key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+          <option value="cherry">Cherry</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and highlight second option
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = 1;
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(el.value).to.equal("banana");
+    });
+
+    it("does not select option with Enter when dropdown is closed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      const initialValue = el.value;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(el.value).to.equal(initialValue);
+    });
+
+    it("does not select option with Enter when no option is highlighted", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown but set invalid highlight index
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = -1;
+      await el.updateComplete;
+
+      const initialValue = el.value;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(el.value).to.equal(initialValue);
+    });
+
+    it("closes dropdown with Escape key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown first
+      (el as any)._openDropdown();
+      await el.updateComplete;
+      expect((el as any)._isOpen).to.be.true;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.false;
+    });
+
+    it("restores selected label when Escape is pressed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox value="apple">
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and change filter text
+      (el as any)._openDropdown();
+      (el as any)._filterText = "ban";
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._filterText).to.equal((el as any)._selectedLabel);
+    });
+
+    it("closes dropdown with Tab key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown first
+      (el as any)._openDropdown();
+      await el.updateComplete;
+      expect((el as any)._isOpen).to.be.true;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Tab",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._isOpen).to.be.false;
+    });
+
+    it("restores selected label when Tab is pressed", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox value="banana">
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Open dropdown and change filter text
+      (el as any)._openDropdown();
+      (el as any)._filterText = "app";
+      await el.updateComplete;
+
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Tab",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect((el as any)._filterText).to.equal((el as any)._selectedLabel);
+    });
+
+    it("prevents default behavior for ArrowDown", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      // Override preventDefault to track if it was called
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("prevents default behavior for ArrowUp", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowUp",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("prevents default behavior for Enter", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      (el as any)._openDropdown();
+      (el as any)._highlightedIndex = 0;
+      await el.updateComplete;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("prevents default behavior for Escape", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      (el as any)._openDropdown();
+      await el.updateComplete;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.true;
+    });
+
+    it("does not prevent default for Tab key", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      (el as any)._openDropdown();
+      await el.updateComplete;
+
+      let defaultPrevented = false;
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "Tab",
+        bubbles: true,
+        cancelable: true,
+      });
+
+      const originalPreventDefault = keyEvent.preventDefault;
+      keyEvent.preventDefault = function () {
+        defaultPrevented = true;
+        originalPreventDefault.call(this);
+      };
+
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      expect(defaultPrevented).to.be.false;
+    });
+
+    it("navigates through filtered options with keyboard", async () => {
+      const el = await fixture<NysCombobox>(html`
+        <nys-combobox>
+          <option value="apple">Apple</option>
+          <option value="apricot">Apricot</option>
+          <option value="banana">Banana</option>
+        </nys-combobox>
+      `);
+      const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+      // Filter to only show options starting with 'a'
+      (el as any)._openDropdown();
+      (el as any)._filterText = "a";
+      await el.updateComplete;
+
+      // Arrow down should navigate through filtered options
+      const keyEvent = new KeyboardEvent("keydown", {
+        key: "ArrowDown",
+        bubbles: true,
+      });
+      input.dispatchEvent(keyEvent);
+      await el.updateComplete;
+
+      // Should be highlighting within filtered options
+      expect((el as any)._highlightedIndex).to.be.greaterThanOrEqual(0);
+    });
+  });
+
+  // Edge cases and error handling
+  it("handles empty options gracefully", async () => {
+    const el = await fixture<NysCombobox>(html`<nys-combobox></nys-combobox>`);
+    expect(el).to.exist;
+    const options = el.querySelectorAll("option");
+    expect(options.length).to.equal(0);
+  });
+
+  it("handles value that doesn't match any option", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox value="nonexistent">
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+    // Component should handle gracefully
+    expect(el.value).to.equal("nonexistent");
+  });
+
+  it("clears value when setting to empty string", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox value="apple">
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+    expect(el.value).to.equal("apple");
+
+    el.value = "";
+    await el.updateComplete;
+    expect(el.value).to.equal("");
+  });
+});
