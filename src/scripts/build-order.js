@@ -14,6 +14,7 @@ const packages = [
   { name: "nys-combobox", path: "packages/nys-combobox" },
   { name: "nys-datepicker", path: "packages/nys-datepicker" },
   { name: "nys-divider", path: "packages/nys-divider" },
+  { name: "nys-dropdownmenu", path: "packages/nys-dropdownmenu" },
   { name: "nys-fileinput", path: "packages/nys-fileinput" },
   { name: "nys-errormessage", path: "packages/nys-errormessage" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },

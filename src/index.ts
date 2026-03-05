@@ -9,6 +9,7 @@ export * from "../packages/nys-checkbox/src/index";
 export * from "../packages/nys-combobox/src/index";
 export * from "../packages/nys-datepicker/src/index";
 export * from "../packages/nys-divider/src/index";
+export * from "../packages/nys-dropdownmenu/src/index";
 export * from "../packages/nys-errormessage/src/index";
 export * from "../packages/nys-fileinput/src/index";
 export * from "../packages/nys-icon/src/index";
