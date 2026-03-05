@@ -12,7 +12,6 @@ interface NysComboboxArgs {
   name: string;
   label: string;
   description: string;
-  placeholder: string;
   value: string;
   disabled: boolean;
   required: boolean;
@@ -33,7 +32,6 @@ const meta: Meta<NysComboboxArgs> = {
     name: { control: "text" },
     label: { control: "text" },
     description: { control: "text" },
-    placeholder: { control: "text" },
     value: { control: "text" },
     disabled: { control: "boolean" },
     required: { control: "boolean" },
@@ -59,7 +57,6 @@ type Story = StoryObj<NysComboboxArgs>;
 export const Basic: Story = {
   args: {
     label: "Select your favorite fruit",
-    placeholder: "Type to search...",
     value: "",
     disabled: false,
     required: false,
@@ -73,7 +70,6 @@ export const Basic: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -110,7 +106,7 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" placeholder="Type to search...">
+<nys-combobox label="Select your favorite fruit">
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
   <option value="cherry">Cherry</option>
@@ -140,7 +136,6 @@ export const Basic: Story = {
 export const DefaultValue: Story = {
   args: {
     label: "Select your favorite fruit",
-    placeholder: "Type to search...",
     value: "mango",
     disabled: false,
     required: false,
@@ -154,7 +149,6 @@ export const DefaultValue: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -177,7 +171,7 @@ export const DefaultValue: Story = {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" placeholder="Type to search..." value="mango">
+<nys-combobox label="Select your favorite fruit" value="mango">
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
   <option value="mango" selected>Mango</option>
@@ -194,7 +188,6 @@ export const OptionGroup: Story = {
   args: {
     label: "Select a fruit",
     description: "Fruits organized by category",
-    placeholder: "Type to search...",
   },
   render: (args) => html`
     <nys-combobox
@@ -202,7 +195,6 @@ export const OptionGroup: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -253,7 +245,7 @@ export const OptionGroup: Story = {
 <nys-combobox
   label="Select a fruit"
   description="Fruits organized by category"
-  placeholder="Type to search..."
+
 >
   <optgroup label="Citrus">
     <option value="lemon">Lemon</option>
@@ -293,7 +285,6 @@ export const OptionGroup: Story = {
 export const Disabled: Story = {
   args: {
     label: "Select your favorite fruit",
-    placeholder: "Type to search...",
     value: "",
     disabled: true,
   },
@@ -303,7 +294,6 @@ export const Disabled: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -325,7 +315,7 @@ export const Disabled: Story = {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" placeholder="Type to search..." disabled>
+<nys-combobox label="Select your favorite fruit" disabled>
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
   <option value="orange">Orange</option>
@@ -340,7 +330,6 @@ export const Disabled: Story = {
 export const Required: Story = {
   args: {
     label: "Select your favorite fruit",
-    placeholder: "Type to search...",
     value: "",
     required: true,
   },
@@ -350,7 +339,6 @@ export const Required: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -372,7 +360,7 @@ export const Required: Story = {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" placeholder="Type to search..." required>
+<nys-combobox label="Select your favorite fruit" required>
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
   <option value="orange">Orange</option>
@@ -387,7 +375,6 @@ export const Required: Story = {
 export const Optional: Story = {
   args: {
     label: "Select your favorite fruit",
-    placeholder: "Type to search...",
     value: "",
     optional: true,
   },
@@ -397,7 +384,6 @@ export const Optional: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -419,7 +405,7 @@ export const Optional: Story = {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" placeholder="Type to search..." optional>
+<nys-combobox label="Select your favorite fruit" optional>
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
   <option value="orange">Orange</option>
@@ -435,7 +421,6 @@ export const Width: Story = {
   args: {
     label: "Select your favorite fruit",
     description: "Valid widths are md, lg, and full",
-    placeholder: "Type to search...",
     value: "",
     width: "md",
   },
@@ -445,7 +430,6 @@ export const Width: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -470,7 +454,7 @@ export const Width: Story = {
 <nys-combobox
   label="Select your favorite fruit"
   description="Valid widths are md, lg, and full"
-  placeholder="Type to search..."
+
   width="md"
 >
   <option value="apple">Apple</option>
@@ -488,7 +472,6 @@ export const DescriptionSlot: Story = {
   args: {
     label: "Select your favorite fruit",
     description: "This is a description slot",
-    placeholder: "Type to search...",
     value: "",
   },
   render: (args) => html`
@@ -496,7 +479,6 @@ export const DescriptionSlot: Story = {
       .id=${args.id}
       .name=${args.name}
       .label=${args.label}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -519,7 +501,7 @@ export const DescriptionSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" placeholder="Type to search...">
+<nys-combobox label="Select your favorite fruit">
   <label slot="description">This is a description slot</label>
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
@@ -535,7 +517,6 @@ export const DescriptionSlot: Story = {
 export const ErrorMessage: Story = {
   args: {
     label: "Select your favorite fruit",
-    placeholder: "Type to search...",
     value: "",
     showError: true,
     errorMessage: "Please select a fruit",
@@ -546,7 +527,6 @@ export const ErrorMessage: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -570,7 +550,7 @@ export const ErrorMessage: Story = {
         code: `
 <nys-combobox
   label="Select your favorite fruit"
-  placeholder="Type to search..."
+
   errorMessage="Please select a fruit"
   showError
 >
@@ -588,7 +568,6 @@ export const ErrorMessage: Story = {
 export const Inverted: Story = {
   args: {
     label: "Select your favorite fruit",
-    placeholder: "Type to search...",
     value: "",
     inverted: true,
   },
@@ -601,7 +580,6 @@ export const Inverted: Story = {
         .name=${args.name}
         .label=${args.label}
         .description=${args.description}
-        .placeholder=${args.placeholder}
         .value=${args.value}
         .disabled=${args.disabled}
         .required=${args.required}
@@ -624,7 +602,7 @@ export const Inverted: Story = {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" placeholder="Type to search..." inverted>
+<nys-combobox label="Select your favorite fruit" inverted>
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
   <option value="orange">Orange</option>
@@ -640,7 +618,6 @@ export const DisabledOptions: Story = {
   args: {
     label: "Select your favorite fruit",
     description: "Some fruits are out of season",
-    placeholder: "Type to search...",
   },
   render: (args) => html`
     <nys-combobox
@@ -648,7 +625,6 @@ export const DisabledOptions: Story = {
       .name=${args.name}
       .label=${args.label}
       .description=${args.description}
-      .placeholder=${args.placeholder}
       .value=${args.value}
       .disabled=${args.disabled}
       .required=${args.required}
@@ -675,7 +651,7 @@ export const DisabledOptions: Story = {
 <nys-combobox
   label="Select your favorite fruit"
   description="Some fruits are out of season"
-  placeholder="Type to search..."
+
 >
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
