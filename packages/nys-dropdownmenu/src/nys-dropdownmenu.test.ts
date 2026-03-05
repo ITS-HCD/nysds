@@ -192,7 +192,7 @@ describe("nys-dropdownmenuitem", () => {
     expect(href?.getAttribute("aria-disabled")).to.equal("false");
   });
 
-  it("dispatches nys-select event on click with correct detail", async () => {
+  it("dispatches nys-click event on click with correct detail", async () => {
     const el = await fixture<NysDropdownMenuItem>(html`
       <nys-dropdownmenuitem label="Edit" href="/edit"></nys-dropdownmenuitem>
     `);
@@ -201,7 +201,7 @@ describe("nys-dropdownmenuitem", () => {
     const anchor = el.shadowRoot!.querySelector("a")!;
     anchor.addEventListener("click", (e) => e.preventDefault());
 
-    const listener = oneEvent(el, "nys-dropdownmenuitem-select");
+    const listener = oneEvent(el, "nys-click");
     anchor.click();
     const { detail } = await listener;
 
