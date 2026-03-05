@@ -4083,13 +4083,7 @@
             {
               "kind": "method",
               "name": "_closeDropdown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "returnFocus",
-                  "default": "true"
-                }
-              ]
+              "privacy": "private"
             },
             {
               "kind": "method",
