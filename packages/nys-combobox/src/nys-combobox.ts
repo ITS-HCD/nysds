@@ -417,13 +417,16 @@ export class NysCombobox extends LitElement {
     this._scrollToHighlighted();
 
     const option = this._filteredOptions[newIndex];
+    const prevOption = this._filteredOptions[newIndex - direction];
     const enabledFiltered = this._filteredOptions.filter(
       (opt) => !opt.disabled,
     );
     const position =
       enabledFiltered.findIndex((opt) => opt.value === option.value) + 1;
     const isSelected = option.value === this.value ? "selected" : "unselected";
-    this._announcement = `${option.label} ${position} of ${enabledFiltered.length}, ${isSelected}`;
+    const groupChanged = option.group && option.group !== prevOption?.group;
+    const groupPrefix = groupChanged ? `${option.group}, ` : "";
+    this._announcement = `${groupPrefix} ${option.label} ${position} of ${enabledFiltered.length}, ${isSelected}`;
   }
 
   /**
@@ -644,6 +647,7 @@ export class NysCombobox extends LitElement {
               class="nys-combobox__input"
               type="text"
               role="combobox"
+              aria-autocomplete="list"
               aria-expanded="${this._isOpen}"
               aria-controls="${this.id}--listbox"
               aria-activedescendant="${this._highlightedIndex >= 0
