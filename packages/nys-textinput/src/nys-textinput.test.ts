@@ -245,6 +245,24 @@ describe("nys-textinput", () => {
     expect(document.activeElement).to.not.equal(textinput);
   });
 
+  it("should focus on the internal textinput via the delegatesFocus", async () => {
+    const el = await fixture<NysTextinput>(html`
+      <nys-textinput label="Test Input"></nys-textinput>
+    `);
+
+    await el.updateComplete;
+
+    el.focus();
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input");
+
+    // Because delegatesFocus is true, focusing the custom element
+    // should automatically focus the internal input
+    expect(document.activeElement).to.equal(el);
+    expect(el.shadowRoot!.activeElement).to.equal(input);
+  });
+
   it("resets value, validation, and UI when form is reset", async () => {
     const form = await fixture<HTMLFormElement>(html`
       <form>
