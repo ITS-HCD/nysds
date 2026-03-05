@@ -644,7 +644,6 @@ export class NysCombobox extends LitElement {
               class="nys-combobox__input"
               type="text"
               role="combobox"
-              aria-autocomplete="list"
               aria-expanded="${this._isOpen}"
               aria-controls="${this.id}--listbox"
               aria-activedescendant="${this._highlightedIndex >= 0
