@@ -288,7 +288,7 @@ export const dropdownWithIcons: Story = {
         prefixIcon="lock_filled"
       ></nys-dropdownmenuitem>
       <nys-dropdownmenuitem
-        label="Action 2 Action 2Action 2Action 2Action 2Action 2Action 2Action 2Action 2"
+        label="Action 2"
         prefixIcon="social_youtube"
       ></nys-dropdownmenuitem>
       <nys-dropdownmenuitem
