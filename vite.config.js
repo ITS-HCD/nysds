@@ -9,7 +9,7 @@ const shouldAnalyze = process.env.ANALYZE === "true";
 
 const banner = `
 /*!
-   * New York State Design System (v1.14.0)
+   * New York State Design System (v1.15.0)
    * Description: A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
@@ -47,23 +47,21 @@ export const defaultConfig = {
     lib: {
       entry: ["./src/index.ts"],
       fileName: () => "nysds.es.js",
+      formats: ["es"],
     },
     minify: 'esbuild',
     sourcemap: true,
     emptyOutDir: false, // Since we're building both ES and UMD formats
     rollupOptions: {
       external,
-      output: [
-        {
-          compact: true,
-          format: "es",
-          banner,
-          dir: "dist",
-          globals: {
-            lit: "Lit",
-          },
+      output: {
+        compact: true,
+        banner,
+        dir: "dist",
+        globals: {
+          lit: "Lit",
         },
-      ],
+      },
       plugins: [
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),

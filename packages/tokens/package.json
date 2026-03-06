@@ -1,6 +1,6 @@
 {
   "name": "@nysds/tokens",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "Design tokens for the New York State Design System in DTCG 2025.10 format",
   "type": "module",
   "main": "src/tokens.json",
@@ -15,7 +15,7 @@
     "css.scss"
   ],
   "scripts": {
-    "build": "tz build",
+    "build": "tz build && node ../../src/scripts/add-banner-tokens.mjs",
     "dev": "tz build --watch"
   },
   "devDependencies": {

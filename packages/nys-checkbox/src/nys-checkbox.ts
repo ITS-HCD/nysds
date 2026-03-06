@@ -22,6 +22,7 @@ let checkboxIdCounter = 0;
  * @fires nys-change - Fired when checked state changes. Detail: `{id, checked, name, value}`.
  * @fires nys-focus - Fired when checkbox gains focus.
  * @fires nys-blur - Fired when checkbox loses focus.
+ * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
  * @example Single checkbox
  * ```html
@@ -39,6 +40,10 @@ let checkboxIdCounter = 0;
 
 export class NysCheckbox extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Whether checkbox is checked. */
   @property({ type: Boolean, reflect: true }) checked = false;
@@ -315,6 +320,20 @@ export class NysCheckbox extends LitElement {
     );
   }
 
+  private _emitOtherInputEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-other-input", {
+        detail: {
+          id: this.id,
+          name: this.name,
+          value: this.value,
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
+
   // Handle checkbox change event
   private async _handleChange(e: Event) {
     const { checked } = e.target as HTMLInputElement;
@@ -380,7 +399,7 @@ export class NysCheckbox extends LitElement {
       this._validateOtherAndEmitError();
     }
 
-    this._emitChangeEvent();
+    this._emitOtherInputEvent();
   }
 
   private _validateOtherAndEmitError() {

@@ -1,6 +1,27 @@
 import { defineConfig } from "vite";
 
+const bannerText = `/*!
+   * New York State Design System (v1.15.0)
+   * Description: A design system for New York State's digital products.
+   * Repository: https://github.com/its-hcd/nysds
+   * License: MIT
+ */`;
+
+function cssBannerPlugin(banner) {
+  return {
+    name: "css-banner",
+    generateBundle(_, bundle) {
+      for (const file of Object.values(bundle)) {
+        if (file.type === "asset" && file.fileName.endsWith(".css")) {
+          file.source = banner + "\n" + file.source;
+        }
+      }
+    },
+  };
+}
+
 export default defineConfig({
+  plugins: [cssBannerPlugin(bannerText)],
   css: {
     preprocessorOptions: {
       scss: {

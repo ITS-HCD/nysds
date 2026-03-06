@@ -34,6 +34,10 @@ let toggleIdCounter = 0;
 
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -139,10 +143,15 @@ export class NysToggle extends LitElement {
     this.dispatchEvent(new Event("nys-blur"));
   }
 
-  private _handleChange(e: Event) {
-    const { checked } = e.target as HTMLInputElement;
-    this.checked = checked;
+  private _handleClick() {
+    if (this.disabled) return;
+    this.checked = !this.checked;
     this._emitChangeEvent();
+  }
+
+  private _handleSliderClick(e: Event) {
+    e.stopPropagation();
+    this._handleClick();
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
@@ -173,12 +182,12 @@ export class NysToggle extends LitElement {
               aria-checked="${this.checked ? "true" : "false"}"
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-label="${this.label || "Toggle switch"}"
-              @change=${this._handleChange}
+              @click=${this._handleClick}
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
               @keydown=${this._handleKeyDown}
             />
-            <span class="slider">
+            <span class="slider" @click=${this._handleSliderClick}>
               <div class="knob">
                 ${this.noIcon
                   ? ""

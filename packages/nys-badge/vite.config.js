@@ -22,7 +22,7 @@ const overrideConfig = {
     },
     
     rollupOptions: {
-      output: [{ banner }],
+      output: { banner },
     },
   },
 };
