@@ -56,7 +56,11 @@ export class NysDropdownMenuItem extends LitElement {
       new CustomEvent("nys-click", {
         bubbles: true,
         composed: true,
-        detail: { label: this.label, href: this.href ? this.href : undefined },
+        detail: {
+          id: this.id,
+          label: this.label,
+          ...(this.href && { href: this.href }),
+        },
       }),
     );
   }
