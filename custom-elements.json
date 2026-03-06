@@ -11393,7 +11393,12 @@
             },
             {
               "kind": "method",
-              "name": "_handleChange",
+              "name": "_handleClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSliderClick",
               "privacy": "private",
               "parameters": [
                 {
