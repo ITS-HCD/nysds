@@ -103,6 +103,12 @@ a:active {
   display: flex;
   align-items: center;
   line-height: 0;
+  color: var(--_nys-unavfooter-color);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--nys-color-accent);
+  }
 }
 
 /* Specific layout for menu links (grouped or singular list of menus) */
