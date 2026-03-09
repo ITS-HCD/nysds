@@ -42,7 +42,7 @@ export class NysDropdownMenuItem extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
-      this.id = `nys-fileinput-${Date.now()}-${dropdownMenuItemIdCounter++}`;
+      this.id = `nys-dropdownmenuitem-${Date.now()}-${dropdownMenuItemIdCounter++}`;
     }
   }
 
