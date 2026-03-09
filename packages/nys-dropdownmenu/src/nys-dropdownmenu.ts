@@ -54,7 +54,7 @@ export class NysDropdownMenu extends LitElement {
 
   /**
    * Preferred position relative to trigger.
-   * @default "bottom-start"
+   * @default "bottom-end"
    */
   @property({ type: String, reflect: true }) position: Position | null = null;
 
