@@ -59,7 +59,11 @@ a {
 a:hover,
 a:focus-visible {
   text-decoration-line: underline;
+  text-decoration-color: var(--nys-color-accent);
   color: var(--nys-color-accent);
+}
+
+a.focus-visible {
   outline: 2px solid var(--nys-color-accent);
   outline-offset: 4px;
   border-radius: var(--nys-radius-xs);
