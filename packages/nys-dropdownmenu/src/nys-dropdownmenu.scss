@@ -14,7 +14,7 @@
   );
   --_nys-dropdownmenu-boxshadow-color-50: var(
     --nys-color-black-transparent-50,
-    rgba(27, 27, 27, 0.01)i
+    rgba(27, 27, 27, 0.01)
   );
   --_nys-dropdownmenu-gap: var(--nys-space-2px, 2px);
   --_nys-dropdownmenu-padding: var(--nys-space-100, 8px);
@@ -61,7 +61,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 1776;
 
   &.active {
     ul {
