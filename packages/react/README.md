@@ -1,10 +1,7 @@
 # `@nysds/react` — Auto-generated React Wrappers
 
 This package is **fully auto-generated** — do not edit files inside it directly.
-It is re-created every time `npm run build:all` which in turn calls `npm run cem` as part of the normal build pipeline.
-
-Consumers import from `@nysds/react` and never need to touch `@lit/react` or
-call `createComponent` themselves.
+Files are regenerated every time `npm run cem` runs, which is called automatically by `npm run build:all`.
 
 ---
 
@@ -13,22 +10,20 @@ call `createComponent` themselves.
 ```
 npm run cem
   └─► cem analyze --config custom-elements-manifest.config.mjs
-        └─► reactWrapper() plugin  (custom-element-react-wrappers)
+        └─► customElementReactWrapperPlugin  (custom-element-react-wrappers)
               └─► packages/react/
                     ├── index.js        ← barrel, one export per component
                     ├── index.d.ts      ← TypeScript types
-                    └── NysButton.js    ← one file per component
-                        NysTextInput.js
-                        … etc.
+                    ├── react-utils.js  ← internal hooks used by wrappers, do not use directly
+                    ├── NysButton.js    ← one file per component
+                    └── … etc.
 ```
 
-The `reactWrapper()` plugin is declared in `custom-elements-manifest.config.mjs`.
-Running `npm run cem` (which is already called by `npm run build:all`) regenerates
-everything automatically. **No separate script, no manual step.**
+The plugin is configured in `custom-elements-manifest.config.mjs` at the repo root.
 
 ---
 
-## Usage (consumer side)
+## Usage
 
 ```tsx
 import { NysButton, NysTextinput } from "@nysds/react";
@@ -50,50 +45,47 @@ function MyForm() {
 }
 ```
 
-All props are typed. Custom events map to `on<EventName>` callbacks with the same
-naming convention as the previous manual wrappers — migrating is a find-and-replace.
+All props are typed. Custom events map to `on<EventName>` React callbacks.
 
 ---
 
 ## Event name convention
 
-| DOM event        | React prop        |
-|------------------|-------------------|
-| `nys-click`      | `onNysClick`      |
-| `nys-change`     | `onNysChange`     |
-| `nys-input`      | `onNysInput`      |
-| `nys-focus`      | `onNysFocus`      |
-| `nys-blur`       | `onNysBlur`       |
-| `nys-open`       | `onNysOpen`       |
-| `nys-close`      | `onNysClose`      |
-| `nys-step-click` | `onNysStepClick`  |
-| *(any new event)*| *(auto-added)*    |
+| DOM event        | React prop       |
+|------------------|------------------|
+| `nys-click`      | `onNysClick`     |
+| `nys-change`     | `onNysChange`    |
+| `nys-input`      | `onNysInput`     |
+| `nys-focus`      | `onNysFocus`     |
+| `nys-blur`       | `onNysBlur`      |
+| `nys-open`       | `onNysOpen`      |
+| `nys-close`      | `onNysClose`     |
+| `nys-step-click` | `onNysStepClick` |
+| *(any new event)*| *(auto-added)*   |
 
 ---
 
 ## Adding a new component
 
-Nothing to do. Once your Lit component is picked up by `cem analyze`, its
-wrapper will be generated on the next `npm run cem` / `npm run build:all`.
+Nothing to do. Once a new Lit component is picked up by `cem analyze`, its wrapper is generated on the next `npm run cem` / `npm run build:all`.
 
 ---
 
 ## Why not React 19 native web component support?
 
-React 19 improves web component interop but still doesn't bridge custom events
-to `on*` callbacks, and provides no TypeScript prop types derived from the element
-class. These wrappers remain the correct ergonomic solution and doesn't take away from how developers normally use components in React.
+React 19 improves web component interop but doesn't bridge custom events to `on*` callbacks, and provides no TypeScript prop types from the element class. These wrappers handle both and keep the same developer experience as any standard React component library.
 
 ---
 
 ## Repo layout
 
 ```
-custom-elements-manifest.config.mjs  ← reactWrapper() plugin configured here
+custom-elements-manifest.config.mjs  ← plugin configured here
 packages/
   react/                             ← this package (auto-generated, do not edit)
     package.json
     index.js
     index.d.ts
-    NysButton.js  …etc.
+    react-utils.js
+    NysButton.js  … etc.
 ```
