@@ -6,6 +6,10 @@
   border: solid pink;
 }
 
+nys-tab[selected] {
+  --nys-button-background-color: purple;
+}
+
 .nys-tabpanel {
   border: solid orange;
 }

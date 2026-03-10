@@ -48,13 +48,26 @@ export class NysTabgroup extends LitElement {
 
     if (!tabsContainer || !panelsContainer) return;
 
+    const tabs: Element[] = [];
+
     assigned.forEach((child) => {
       if (child.tagName.toLowerCase() === "nys-tab") {
         tabsContainer.appendChild(child);
+        tabs.push(child);
       } else if (child.tagName.toLowerCase() === "nys-tabpanel") {
         panelsContainer.appendChild(child);
       }
     });
+
+    // Only honor the first selected tab; remove selected from all others
+    const firstSelected = tabs.find((t) => t.hasAttribute("selected"));
+    tabs.forEach((t) => t.removeAttribute("selected"));
+
+    if (firstSelected) {
+      firstSelected.setAttribute("selected", "");
+    } else if (tabs.length > 0) {
+      tabs[0].setAttribute("selected", "");
+    }
   }
 
   /**

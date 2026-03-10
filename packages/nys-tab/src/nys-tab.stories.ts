@@ -40,9 +40,9 @@ export const Basic: Story = {
     <nys-tabgroup id="test">
       <nys-tab label="Tab One"></nys-tab>
       <nys-tabpanel>Content for Tab One.</nys-tabpanel>
-      <nys-tab label="Tab Two"></nys-tab>
+      <nys-tab selected label="Tab Two"></nys-tab>
       <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
-      <nys-tab label="Tab Three"></nys-tab>
+      <nys-tab selected label="Tab Three"></nys-tab>
       <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
     </nys-tabgroup>
   `,
