@@ -2,6 +2,8 @@ import { mergeConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
 import fs from "fs";
 import path from "path";
+import { version } from "./package.json";
+
 // import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
 // import { minify } from 'rollup-plugin-esbuild-minify';
 
@@ -9,7 +11,7 @@ const shouldAnalyze = process.env.ANALYZE === "true";
 
 const banner = `
 /*!
-   * New York State Design System (v1.15.0)
+   * New York State Design System v${version}
    * Description: A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT

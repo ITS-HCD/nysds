@@ -1,7 +1,8 @@
 import { defineConfig } from "vite";
+import { version } from "./package.json";
 
 const bannerText = `/*!
-   * New York State Design System (v1.15.0)
+   * New York State Design System v${version}
    * Description: A design system for New York State's digital products.
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
