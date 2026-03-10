@@ -14,7 +14,6 @@ export class NysTabpanel extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: Boolean, reflect: true }) hidden = false;
 
   // Lifecycle Methods
   constructor() {
@@ -40,7 +39,7 @@ export class NysTabpanel extends LitElement {
 
   render() {
     return html`
-      <div class="nys-tabpanel" role="tabpanel" ?hidden=${this.hidden}>
+      <div class="nys-tabpanel" role="tabpanel">
         <slot></slot>
       </div>
     `;

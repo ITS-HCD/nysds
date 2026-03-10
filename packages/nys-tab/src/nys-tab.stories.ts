@@ -1,6 +1,8 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-tab";
+import "./nys-tabgroup";
+import "./nys-tabpanel";
 
 interface NysTabArgs {
   label: string;
@@ -17,7 +19,7 @@ const meta: Meta<NysTabArgs> = {
     selected: { control: "boolean" },
     disabled: { control: "boolean" },
     orientation: {
-      control: "radio",
+      control: "select",
       options: ["horizontal", "vertical"],
     },
   },
@@ -33,32 +35,28 @@ export default meta;
 type Story = StoryObj<NysTabArgs>;
 
 export const Basic: Story = {
-  args: {
-    orientation: "horizontal",
-  },
-  render: (args) => html`
-    <nys-tabgroup orientation=${args.orientation}>
+  args: {},
+  render: () => html`
+    <nys-tabgroup id="test">
       <nys-tab label="Tab One"></nys-tab>
-      <nys-tabpanel><p>Content for Tab One.</p></nys-tabpanel>
-
+      <nys-tabpanel>Content for Tab One.</nys-tabpanel>
       <nys-tab label="Tab Two"></nys-tab>
-      <nys-tabpanel><p>Content for Tab Two.</p></nys-tabpanel>
-
+      <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
       <nys-tab label="Tab Three"></nys-tab>
-      <nys-tabpanel><p>Content for Tab Three.</p></nys-tabpanel>
+      <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
     </nys-tabgroup>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-tabgroup orientation="horizontal">
+<nys-tabgroup>
   <nys-tab label="Tab One"></nys-tab>
+  <nys-tabpanel>Content for Tab One.</nys-tabpanel>
   <nys-tab label="Tab Two"></nys-tab>
+  <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
   <nys-tab label="Tab Three"></nys-tab>
-  <nys-tabpanel><p>Content for Tab One.</p></nys-tabpanel>
-  <nys-tabpanel><p>Content for Tab Two.</p></nys-tabpanel>
-  <nys-tabpanel><p>Content for Tab Three.</p></nys-tabpanel>
+  <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
 </nys-tabgroup>`,
         type: "auto",
       },
