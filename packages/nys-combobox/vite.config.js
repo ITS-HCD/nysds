@@ -23,7 +23,7 @@ const overrideConfig = {
     },
     emptyOutDir: true, // Since we're building both ES and UMD formats
     rollupOptions: {
-      output: [{ banner }],
+      output: { banner },
     },
   },
 };
