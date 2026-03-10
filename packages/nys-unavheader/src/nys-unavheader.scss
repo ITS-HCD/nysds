@@ -110,8 +110,7 @@ a#nys-unavheader__logolink {
 
   /* These props ARE NOT publicly overridable */
   --_nys-button-height: var(--nys-font-lineheight-ui-xs, 20px);
-  --_nys-button-border-radius--start: var(--nys-radius-md, 4px);
-  --_nys-button-border-radius--end: var(--nys-radius-md, 4px);
+  --_nys-button-border-radius: var(--nys-radius-md, 4px);
   --_nys-button-padding--y: var(--nys-space-2px, 2px);
   --_nys-button-padding--x: var(--nys-space-50, 4px);
   --_nys-button-border-width: 0px;
@@ -242,13 +241,13 @@ a#nys-unavheader__logolink {
   --nys-button-color: var(--nys-color-state-blue-700, #154973);
   --nys-button-color--hover: var(--nys-color-state-blue-700, #154973);
   --nys-button-color--active: var(--nys-color-state-blue-700, #154973);
-  --_nys-button-border-radius--start: 0;
-  --_nys-button-border-radius--end: 0;
+  --_nys-button-border-radius: 0;
   --_nys-button-justify-content: start;
 }
 
 /* Breakpoints using NYSDS Grid Guidelines */
 @media (width >=0) and (width <=479px) {
+
   /* Mobile (XS) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
@@ -287,6 +286,7 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=480px) and (width <=767px) {
+
   /* Mobile Large (SM - Above 480px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-sm, 20px);
@@ -307,6 +307,7 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=768px) and (width <=1023px) {
+
   /* Tablet (MD - Above 768px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-md, 32px);
@@ -327,6 +328,7 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=1024px) and (width <=1279px) {
+
   /* Desktop (LG - Above 1024px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-lg, 32px);
@@ -355,6 +357,7 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=1280px) {
+
   /* Desktop Large (XL - Above 1280px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);

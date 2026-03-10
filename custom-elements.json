@@ -9721,7 +9721,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>` elements.\nIt parses slotted tabs and panels, wires ARIA relationships, manages selection\nstate, and handles keyboard navigation per the ARIA Tabs Pattern.",
+          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>` elements.\nAccepts tabs and panels as flat children in any order (interleaved or grouped).\nSorts them into __tabs and __panels divs, wires ARIA, and manages selection\nand keyboard navigation per the ARIA Tabs Pattern.",
           "name": "NysTabgroup",
           "members": [
             {
@@ -9755,112 +9755,17 @@
             },
             {
               "kind": "method",
-              "name": "_getTabs",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "HTMLElement[]"
-                }
-              },
-              "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_getPanels",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "HTMLElement[]"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "_wireAria",
-              "privacy": "private",
-              "description": "Pairs tabs to panels by matching tab id to panel aria-labelledby if set,\nfalling back to render order."
-            },
-            {
-              "kind": "method",
-              "name": "_initializeSelection",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_syncPanelVisibility",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_selectTab",
+              "name": "_sortChildren",
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "targetTab",
-                  "type": {
-                    "text": "HTMLElement"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_focusTab",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "index",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_handleTabSelect",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
+                  "name": "e",
                   "type": {
                     "text": "Event"
                   }
                 }
               ],
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_handleKeyDown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_handleSlotChange",
-              "privacy": "private"
-            }
-          ],
-          "events": [
-            {
-              "name": "nys-tab-select",
-              "type": {
-                "text": "CustomEvent"
-              }
-            },
-            {
-              "name": "nys-tab-added",
-              "type": {
-                "text": "CustomEvent"
-              }
+              "description": "Functions\n--------------------------------------------------------------------------"
             }
           ],
           "attributes": [
@@ -9934,16 +9839,6 @@
               "default": "\"\"",
               "attribute": "id",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "hidden",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "hidden",
-              "reflects": true
             }
           ],
           "attributes": [
@@ -9954,14 +9849,6 @@
               },
               "default": "\"\"",
               "fieldName": "id"
-            },
-            {
-              "name": "hidden",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "hidden"
             }
           ],
           "superclass": {
