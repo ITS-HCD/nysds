@@ -1,23 +1,20 @@
-.nys-tabgroup {
-  border: solid green;
+:host([selected]) {
+  nys-button {
+    --nys-button-background-color: var(--nys-color-neutral-10);
+    --_nys-button-border-style: none none solid none;
+    --_nys-button-border-width: 4px;
+    --_nys-button-border-color: var(--nys-color-theme);
+    --_nys-button-border-color--hover: var(--nys-color-theme-strong);
+    --_nys-button-border-color--active: var(--nys-color-theme-stronger);
+  }
 }
 
-.nys-tab {
-  border: solid pink;
-}
+.nys-tab>nys-button {
+  --_nys-button-border-radius: 0;
 
-nys-tab[selected] {
-  --nys-button-background-color: purple;
-}
-
-.nys-tabpanel {
-  border: solid orange;
 }
 
 .nys-tabgroup__tabs {
-  border: red solid;
-}
-
-.nys-tabgroup__panels {
-  border: blue solid;
+  display: flex;
+  gap: var(--nys-space-100)
 }

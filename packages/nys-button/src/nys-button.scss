@@ -11,6 +11,7 @@
   /* remove calc when SASS'd */
   --_nys-button-gap: var(--nys-space-100, 8px);
   --_nys-button-justify-content: center;
+  --_nys-button-border-style: solid;
   --_nys-button-border-width: var(--nys-border-width-md, 2px);
   --_nys-button-outline-width: var(--nys-border-width-md, 2px);
   --_nys-button-outline-offset: var(--nys-space-2px, 2px);
@@ -389,7 +390,9 @@
   box-sizing: border-box;
   background-color: var(--_nys-button-background-color);
   color: var(--_nys-button-color);
-  border: solid var(--_nys-button-border-width) var(--_nys-button-border-color);
+  border-color: var(--_nys-button-border-color);
+  border-style: var(--_nys-button-border-style);
+  border-width: var(--_nys-button-border-width);
   cursor: var(--_nys-button-cursor, pointer);
 }
 

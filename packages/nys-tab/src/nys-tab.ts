@@ -73,20 +73,21 @@ export class NysTab extends LitElement {
 
   render() {
     return html`
-      <nys-button
-        class="nys-tab"
-        variant="ghost"
-        type="button"
-        label=${this.label}
-        ?disabled=${this.disabled}
-        role="tab"
-        aria-selected=${this.selected ? "true" : "false"}
-        aria-disabled=${this.disabled ? "true" : "false"}
-        tabindex=${this.selected ? "0" : "-1"}
-        @nys-click=${this._handleClick}
-        @nys-focus=${this._handleFocus}
-        @nys-blur=${this._handleBlur}
-      ></nys-button>
+      <div class="nys-tab">
+        <nys-button
+          variant="ghost"
+          type="button"
+          label=${this.label}
+          ?disabled=${this.disabled}
+          role="tab"
+          aria-selected=${this.selected ? "true" : "false"}
+          aria-disabled=${this.disabled ? "true" : "false"}
+          tabindex=${this.selected ? "0" : "-1"}
+          @nys-click=${this._handleClick}
+          @nys-focus=${this._handleFocus}
+          @nys-blur=${this._handleBlur}
+        ></nys-button>
+      </div>
     `;
   }
 }
