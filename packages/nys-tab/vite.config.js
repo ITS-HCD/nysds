@@ -8,7 +8,7 @@ const banner = `
    * █ █ █  █▄▄▄█  ▀▀▀▄▄  █   █ ▀▀▀▄▄
    * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
    *
-   * Tab Component v1.15.0
+   * Tab Component v{version}
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
