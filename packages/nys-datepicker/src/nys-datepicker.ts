@@ -483,7 +483,9 @@ export class NysDatepicker extends LitElement {
     this.datepickerIsOpen = false;
 
     this._validate();
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
     this.removeEventListener("keydown", this._handleFocusTrap);
   }
 
