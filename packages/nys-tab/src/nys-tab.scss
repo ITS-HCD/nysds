@@ -12,17 +12,13 @@
   --_nys-tab-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-tab-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-tab-line-height: var(--nys-font-lineheight-ui-md, 24px);
-  --_nys-tab-font-family: var(
-    --nys-font-family-ui,
-    var(
-      --nys-font-family-sans,
-      "Proxima Nova",
-      "Helvetica Neue",
-      "Helvetica",
-      "Arial",
-      sans-serif
-    )
-  );
+  --_nys-tab-font-family: var(--nys-font-family-ui,
+      var(--nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif));
 }
 
 .nys-tab {
@@ -38,4 +34,13 @@
   font-size: var(--_nys-tab-font-size);
   font-weight: var(--_nys-tab-font-weight);
   line-height: var(--_nys-tab-line-height);
+}
+
+.nys-tabgroup__tabs {
+  border: red solid;
+  display: flex;
+}
+
+.nys-tabgroup__panels {
+  border: blue solid;
 }

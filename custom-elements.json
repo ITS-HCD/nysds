@@ -9540,6 +9540,459 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-tab/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-tab/src/nys-tab"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-tab/src/nys-tabgroup"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-tab/src/nys-tabpanel"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-tab/src/nys-tab.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-tab>` is a single tab within a `<nys-tabgroup>`.\nPaired with a `<nys-tabpanel>` by render order or matching id.",
+          "name": "NysTab",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_handleClick",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleBlur",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-tab-select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-tab-focus",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-tab-blur",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-tab",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-tab",
+          "declaration": {
+            "name": "NysTab",
+            "module": "packages/nys-tab/src/nys-tab.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTab",
+          "declaration": {
+            "name": "NysTab",
+            "module": "packages/nys-tab/src/nys-tab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-tab/src/nys-tabgroup.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>` elements.\nIt parses slotted tabs and panels, wires ARIA relationships, manages selection\nstate, and handles keyboard navigation per the ARIA Tabs Pattern.",
+          "name": "NysTabgroup",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "| \"horizontal\"\n    | \"vertical\""
+              },
+              "default": "\"horizontal\"",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_getTabs",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getPanels",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_wireAria",
+              "privacy": "private",
+              "description": "Pairs tabs to panels by matching tab id to panel aria-labelledby if set,\nfalling back to render order."
+            },
+            {
+              "kind": "method",
+              "name": "_initializeSelection",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_syncPanelVisibility",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_selectTab",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "targetTab",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_focusTab",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTabSelect",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeyDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-tab-select",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-tab-added",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "| \"horizontal\"\n    | \"vertical\""
+              },
+              "default": "\"horizontal\"",
+              "fieldName": "orientation"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-tabgroup",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-tabgroup",
+          "declaration": {
+            "name": "NysTabgroup",
+            "module": "packages/nys-tab/src/nys-tabgroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTabgroup",
+          "declaration": {
+            "name": "NysTabgroup",
+            "module": "packages/nys-tab/src/nys-tabgroup.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-tab/src/nys-tabpanel.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a `<nys-tabgroup>`.\nPairing is done by matching tab id if provided, otherwise by render order.\nARIA wiring (aria-labelledby) is applied externally by `<nys-tabgroup>`.",
+          "name": "NysTabpanel",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hidden",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hidden",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id"
+            },
+            {
+              "name": "hidden",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hidden"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-tabpanel",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-tabpanel",
+          "declaration": {
+            "name": "NysTabpanel",
+            "module": "packages/nys-tab/src/nys-tabpanel.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTabpanel",
+          "declaration": {
+            "name": "NysTabpanel",
+            "module": "packages/nys-tab/src/nys-tabpanel.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-table/src/index.ts",
       "declarations": [],
       "exports": [

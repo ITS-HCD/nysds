@@ -26,8 +26,6 @@ describe("nys-tab", () => {
       <nys-tab label="My Label" required optional></nys-tab>
     `);
     expect(el.label).to.equal("My Label");
-    expect(el.required).to.be.true;
-    expect(el.optional).to.be.true;
   });
 
   it("passes the a11y audit", async () => {
@@ -43,4 +41,4 @@ describe("nys-tab", () => {
   // - Test for accessibility
   // - Test for slot content
   // - Test for lifecycle methods
-})
+});

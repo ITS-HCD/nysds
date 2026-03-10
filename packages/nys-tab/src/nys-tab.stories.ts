@@ -2,36 +2,29 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-tab";
 
-// Define the structure of the args used in the stories
 interface NysTabArgs {
-  id: string;
-  name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
   label: string;
-  prefixIcon: string;
-  suffixIcon: string;
+  selected: boolean;
   disabled: boolean;
-  form: string | null;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  orientation: "horizontal" | "vertical";
 }
 
 const meta: Meta<NysTabArgs> = {
   title: "Components/Tab",
   component: "nys-tab",
   argTypes: {
-    id: { control: "text" },
-    name: { control: "text" },
+    label: { control: "text" },
+    selected: { control: "boolean" },
+    disabled: { control: "boolean" },
+    orientation: {
+      control: "radio",
+      options: ["horizontal", "vertical"],
+    },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
@@ -39,24 +32,34 @@ const meta: Meta<NysTabArgs> = {
 export default meta;
 type Story = StoryObj<NysTabArgs>;
 
-// Define stories without using args
-
 export const Basic: Story = {
   args: {
-    id: "tab1",
-    name: "tab1",
+    orientation: "horizontal",
   },
   render: (args) => html`
-    <nys-tab .id=${args.id} .name=${args.name}></nys-tab>
+    <nys-tabgroup orientation=${args.orientation}>
+      <nys-tab label="Tab One"></nys-tab>
+      <nys-tabpanel><p>Content for Tab One.</p></nys-tabpanel>
+
+      <nys-tab label="Tab Two"></nys-tab>
+      <nys-tabpanel><p>Content for Tab Two.</p></nys-tabpanel>
+
+      <nys-tab label="Tab Three"></nys-tab>
+      <nys-tabpanel><p>Content for Tab Three.</p></nys-tabpanel>
+    </nys-tabgroup>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-tab
-  id="tab1"
-  name="tab1"
-></nys-tab>`,
+<nys-tabgroup orientation="horizontal">
+  <nys-tab label="Tab One"></nys-tab>
+  <nys-tab label="Tab Two"></nys-tab>
+  <nys-tab label="Tab Three"></nys-tab>
+  <nys-tabpanel><p>Content for Tab One.</p></nys-tabpanel>
+  <nys-tabpanel><p>Content for Tab Two.</p></nys-tabpanel>
+  <nys-tabpanel><p>Content for Tab Three.</p></nys-tabpanel>
+</nys-tabgroup>`,
         type: "auto",
       },
     },

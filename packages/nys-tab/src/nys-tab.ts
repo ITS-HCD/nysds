@@ -3,26 +3,25 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tab.scss?inline";
 
-
-let componentIdCounter = 0; 
+let componentIdCounter = 0;
 
 /**
- * `<nys-your-component-name>` is ...
+ * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
+ * Paired with a `<nys-tabpanel>` by render order or matching id.
  */
-
 export class NysTab extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) name = "";
-
+  @property({ type: String }) label = "";
+  @property({ type: Boolean, reflect: true }) selected = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
 
   // Lifecycle Methods
   constructor() {
     super();
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -30,23 +29,66 @@ export class NysTab extends LitElement {
     }
   }
 
-
   /**
    * Functions
    * --------------------------------------------------------------------------
    */
-
-  // Placeholder for generic functions (component-specific)
 
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
    */
 
-  // Placeholder for event handlers if needed
+  private _handleClick() {
+    if (this.disabled) return;
+
+    this.dispatchEvent(
+      new CustomEvent("nys-tab-select", {
+        bubbles: true,
+        composed: true,
+        detail: { id: this.id, label: this.label },
+      }),
+    );
+  }
+
+  private _handleFocus() {
+    this.dispatchEvent(
+      new CustomEvent("nys-tab-focus", {
+        bubbles: true,
+        composed: true,
+        detail: { id: this.id },
+      }),
+    );
+  }
+
+  private _handleBlur() {
+    this.dispatchEvent(
+      new CustomEvent("nys-tab-blur", {
+        bubbles: true,
+        composed: true,
+        detail: { id: this.id },
+      }),
+    );
+  }
 
   render() {
-    return html`<div class="nys-tab"></div>`;
+    return html`
+      <div class="nys-tab">
+        <nys-button
+          variant="ghost"
+          type="button"
+          label=${this.label}
+          ?disabled=${this.disabled}
+          role="tab"
+          aria-selected=${this.selected ? "true" : "false"}
+          aria-disabled=${this.disabled ? "true" : "false"}
+          tabindex=${this.selected ? "0" : "-1"}
+          @nys-click=${this._handleClick}
+          @nys-focus=${this._handleFocus}
+          @nys-blur=${this._handleBlur}
+        ></nys-button>
+      </div>
+    `;
   }
 }
 
