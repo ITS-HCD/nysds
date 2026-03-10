@@ -75,9 +75,34 @@ export class NysTabgroup extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  private _getTabs(): HTMLElement[] {
+    const tabsContainer = this.shadowRoot?.querySelector(".nys-tabgroup__tabs");
+    return Array.from(
+      tabsContainer?.querySelectorAll("nys-tab") ?? [],
+    ) as HTMLElement[];
+  }
+
+  private _handleTabSelect(e: Event) {
+    const selectedTab = (e as CustomEvent)
+      .composedPath()
+      .find(
+        (el) => (el as HTMLElement).tagName?.toLowerCase() === "nys-tab",
+      ) as HTMLElement | undefined;
+
+    if (!selectedTab) return;
+
+    this._getTabs().forEach((tab) => {
+      if (tab === selectedTab) {
+        tab.setAttribute("selected", "");
+      } else {
+        tab.removeAttribute("selected");
+      }
+    });
+  }
+
   render() {
     return html`
-      <div class="nys-tabgroup">
+      <div class="nys-tabgroup" @nys-tab-select=${this._handleTabSelect}>
         <div
           class="nys-tabgroup__tabs"
           role="tablist"
