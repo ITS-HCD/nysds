@@ -10,7 +10,7 @@
 }
 
 .nys-tab>nys-button {
-  --_nys-button-border-radius: 0;
+  --_nys-button-border-radius: var(--nys-border-radius-md, 4px) var(--nys-border-radius-md, 4px) 0 0;
 
 }
 
