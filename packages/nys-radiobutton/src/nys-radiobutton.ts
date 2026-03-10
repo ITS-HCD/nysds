@@ -242,12 +242,16 @@ export class NysRadiobutton extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus", { bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.dispatchEvent(new Event("nys-blur", { bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
 
     setTimeout(() => {
       // Only validate if we're blurring away from the component entirely
