@@ -8,7 +8,7 @@ const banner = `
    * █ █ █  █▄▄▄█  ▀▀▀▄▄  █   █ ▀▀▀▄▄
    * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
    *
-   * Tab Component
+   * Tab Component v1.15.0
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
@@ -20,7 +20,7 @@ const overrideConfig = {
     lib: {
       fileName: () => "nys-tab.js",
     },
-    
+
     rollupOptions: {
       output: { banner },
     },
