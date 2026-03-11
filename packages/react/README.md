@@ -1,6 +1,6 @@
-# `@nysds/react` — Auto-generated React Wrappers
+# `@nysds/components/react` — Auto-generated React Wrappers
 
-This package is **fully auto-generated** — do not edit files inside it directly.
+This folder is **fully auto-generated** — do not edit files inside it directly.
 Files are regenerated every time `npm run cem` runs, which is called automatically by `npm run build:all`.
 
 ---
@@ -20,13 +20,14 @@ npm run cem
 ```
 
 The plugin is configured in `custom-elements-manifest.config.mjs` at the repo root.
+The `./react` subpath export is declared in the root `package.json`, pointing at this folder.
 
 ---
 
 ## Usage
 
 ```tsx
-import { NysButton, NysTextinput } from "@nysds/react";
+import { NysButton, NysTextinput } from "@nysds/components/react";
 
 function MyForm() {
   return (
@@ -81,9 +82,9 @@ React 19 improves web component interop but doesn't bridge custom events to `on*
 
 ```
 custom-elements-manifest.config.mjs  ← plugin configured here
+package.json                         ← "./react" subpath export declared here
 packages/
-  react/                             ← this package (auto-generated, do not edit)
-    package.json
+  react/                             ← auto-generated, do not edit
     index.js
     index.d.ts
     react-utils.js
