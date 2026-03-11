@@ -64,7 +64,6 @@
     "url": "https://github.com/ITS-HCD/nysds/issues"
   },
   "homepage": "https://designsystem.ny.gov/",
-  "sideEffects": false,
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.1",
     "@custom-elements-manifest/analyzer": "^0.11.0",
