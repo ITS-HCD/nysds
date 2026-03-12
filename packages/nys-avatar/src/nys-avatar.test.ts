@@ -141,6 +141,22 @@ describe("nys-avatar", () => {
     expect(icon).to.exist;
   });
 
+  it("sets _slotHasContent to false when slot element is not found", async () => {
+    const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
+
+    // Force the slot lookup to fail
+    const originalQuery = el.shadowRoot?.querySelector.bind(el.shadowRoot);
+    (el.shadowRoot as ShadowRoot).querySelector = () => null;
+
+    // Call the internal slot handler
+    (el as any)._handleSlotChange();
+
+    expect((el as any)._slotHasContent).to.be.false;
+
+    // Restore querySelector
+    (el.shadowRoot as ShadowRoot).querySelector = originalQuery!;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
     await expect(el).shadowDom.to.be.accessible();
