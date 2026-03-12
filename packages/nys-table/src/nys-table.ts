@@ -360,9 +360,6 @@ export class NysTable extends LitElement {
       composed: true,
       cancelable: true,
     });
-    console.log(
-      `Dispatching nys-column-sort: columnIndex=${columnIndex}, columnLabel=${columnLabel}, sortDirection=${sortDirection}`,
-    );
 
     this.dispatchEvent(event);
     return event.defaultPrevented;
