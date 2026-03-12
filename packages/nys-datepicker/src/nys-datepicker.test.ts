@@ -203,6 +203,68 @@ describe("nys-datepicker", () => {
     expect(parsed.getDate()).to.equal(15);
   });
 
+  it("focuses input when _toggleDatepicker is called on native datepicker", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    // Force native datepicker path
+    (el as any)._isSafari = () => true;
+    (el as any)._isMobile = () => false;
+
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+    let focused = false;
+    input.focus = () => {
+      focused = true;
+    };
+
+    (el as any)._toggleDatepicker();
+    await el.updateComplete;
+
+    expect(focused).to.be.true;
+  });
+
+  it("does nothing when _toggleDatepicker is called while disabled", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker disabled></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    const before = (el as any).datepickerIsOpen;
+    (el as any)._toggleDatepicker();
+    await el.updateComplete;
+
+    expect((el as any).datepickerIsOpen).to.equal(before);
+  });
+
+  it("does nothing when _openDatepicker is called while disabled", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker disabled></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    (el as any)._openDatepicker();
+    await el.updateComplete;
+
+    expect((el as any).datepickerIsOpen).to.be.false;
+  });
+
+  it("does nothing when _openDatepicker is called on native datepicker", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    (el as any)._isSafari = () => true;
+    (el as any)._isMobile = () => false;
+
+    (el as any)._openDatepicker();
+    await el.updateComplete;
+
+    expect((el as any).datepickerIsOpen).to.be.false;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-datepicker label="My Label"></nys-datepicker>`,
