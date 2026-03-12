@@ -236,7 +236,9 @@ describe("nys-button", () => {
     const btnEl = await fixture<NysButton>(
       html`<nys-button label="Btn"></nys-button>`,
     );
-    const innerButton = btnEl.shadowRoot!.querySelector("button.nys-button")! as HTMLButtonElement;
+    const innerButton = btnEl.shadowRoot!.querySelector(
+      "button.nys-button",
+    )! as HTMLButtonElement;
     let focused = false;
     innerButton.focus = () => {
       focused = true;
@@ -248,7 +250,9 @@ describe("nys-button", () => {
     const linkEl = await fixture<NysButton>(
       html`<nys-button label="Link" href="#"></nys-button>`,
     );
-    const innerLink = linkEl.shadowRoot!.querySelector("a.nys-button")! as HTMLAnchorElement;
+    const innerLink = linkEl.shadowRoot!.querySelector(
+      "a.nys-button",
+    )! as HTMLAnchorElement;
     focused = false;
     innerLink.focus = () => {
       focused = true;
@@ -262,7 +266,7 @@ describe("nys-button", () => {
     );
     const originalSuperFocus = hostEl.focus;
     let superFocused = false;
-    hostEl.focus = (opts?: FocusOptions) => {
+    hostEl.focus = () => {
       superFocused = true;
     };
     // simulate renderRoot has no button or link

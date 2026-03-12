@@ -55,7 +55,7 @@ describe("nys-stepper", () => {
     expect(assignedElements[0].getAttribute("slot")).to.equal("actions");
   });
 
-   it("toggles compact view when counter is clicked", async () => {
+  it("toggles compact view when counter is clicked", async () => {
     const el = await fixture<NysStepper>(html`
       <nys-stepper>
         <nys-step label="Step 1" current selected></nys-step>
@@ -63,7 +63,9 @@ describe("nys-stepper", () => {
       </nys-stepper>
     `);
 
-    const counter = el.shadowRoot?.querySelector(".nys-stepper__counter") as HTMLElement;
+    const counter = el.shadowRoot?.querySelector(
+      ".nys-stepper__counter",
+    ) as HTMLElement;
     counter.click();
     await el.updateComplete;
 
