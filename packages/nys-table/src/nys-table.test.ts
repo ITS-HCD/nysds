@@ -227,4 +227,174 @@ describe("nys-table", () => {
     const el = await fixture(html`<nys-table label="My Label"></nys-table>`);
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  it("dispatches nys-column-sort with correct detail on first click (asc)", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+          <tr>
+            <td>Alice</td>
+            <td>30</td>
+          </tr>
+          <tr>
+            <td>Bob</td>
+            <td>25</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    const table = el.shadowRoot?.querySelector("table");
+    const firstButton = table?.querySelector("th nys-button");
+    expect(firstButton).to.exist;
+
+    let firedEvent: CustomEvent | null = null;
+    el.addEventListener("nys-column-sort", (e) => {
+      firedEvent = e as CustomEvent;
+    });
+
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(firedEvent).to.exist;
+    expect(firedEvent!.detail.columnIndex).to.equal(0);
+    expect(firedEvent!.detail.columnLabel).to.equal("Name");
+    expect(firedEvent!.detail.sortDirection).to.equal("asc");
+  });
+
+  it("dispatches nys-column-sort with sortDirection 'desc' on second click of same column", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+          <tr>
+            <td>Alice</td>
+            <td>30</td>
+          </tr>
+          <tr>
+            <td>Bob</td>
+            <td>25</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    const table = el.shadowRoot?.querySelector("table");
+    const firstButton = table?.querySelector("th nys-button");
+
+    const events: CustomEvent[] = [];
+    el.addEventListener("nys-column-sort", (e) => {
+      events.push(e as CustomEvent);
+    });
+
+    // First click → asc
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    // Second click → desc
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(events.length).to.equal(2);
+    expect(events[1].detail.sortDirection).to.equal("desc");
+    expect(events[1].detail.columnIndex).to.equal(0);
+    expect(events[1].detail.columnLabel).to.equal("Name");
+  });
+
+  it("dispatches only one nys-column-sort event when switching to a new column", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+          <tr>
+            <td>Alice</td>
+            <td>30</td>
+          </tr>
+          <tr>
+            <td>Bob</td>
+            <td>25</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    const table = el.shadowRoot?.querySelector("table");
+    const buttons = table?.querySelectorAll("th nys-button");
+    const firstButton = buttons?.[0];
+    const secondButton = buttons?.[1];
+
+    const events: CustomEvent[] = [];
+    el.addEventListener("nys-column-sort", (e) => {
+      events.push(e as CustomEvent);
+    });
+
+    // Sort first column
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    // Switch to second column — should only fire one event (not two)
+    secondButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(events.length).to.equal(2);
+    expect(events[1].detail.columnIndex).to.equal(1);
+    expect(events[1].detail.columnLabel).to.equal("Age");
+    expect(events[1].detail.sortDirection).to.equal("asc");
+  });
+
+  it("does not sort when preventDefault is called on nys-column-sort", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table sortable>
+        <table>
+          <tr>
+            <th>Name</th>
+          </tr>
+          <tr>
+            <td>B</td>
+          </tr>
+          <tr>
+            <td>A</td>
+          </tr>
+        </table>
+      </nys-table>
+    `);
+
+    const table = el.shadowRoot?.querySelector("table");
+    const firstButton = table?.querySelector("th nys-button");
+
+    el.addEventListener("nys-column-sort", (e) => {
+      e.preventDefault();
+    });
+
+    firstButton?.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    // Row order should be unchanged since sort was prevented
+    const firstRowCell = table
+      ?.querySelectorAll("tbody tr")[0]
+      .querySelectorAll("td")[0];
+    expect(firstRowCell?.textContent).to.equal("B");
+  });
 });

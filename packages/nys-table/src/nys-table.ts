@@ -12,7 +12,8 @@ let componentIdCounter = 0;
  * @slot - Accepts a `<table>` element. Only the first table is rendered.
  *
  * @fires nys-click - Fired when the download button or sortable headers are clicked.
- * @fires nys-column-sort - Fired when a sortable column header is clicked or reset.
+ * @fires nys-column-sort - Fired when a sortable column header is clicked. Cancelable.
+ *   Call `event.preventDefault()` to override default sort behavior.
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
@@ -260,18 +261,26 @@ export class NysTable extends LitElement {
         ?.querySelector("nys-button[part='sort-button']")
         ?.getAttribute("label") ?? "";
 
-    if (this._sortColumn !== columnIndex) {
-      // New column → previous column silently resets, new starts at "asc"
-      this._sortColumn = columnIndex;
-      this._sortDirection = "asc";
-    } else {
-      // Same column → toggle between asc and desc only
-      this._sortDirection = this._sortDirection === "asc" ? "desc" : "asc";
-    }
+    const nextDirection: "asc" | "desc" =
+      this._sortColumn !== columnIndex
+        ? "asc"
+        : this._sortDirection === "asc"
+          ? "desc"
+          : "asc";
+
+    const prevented = this._emitColumnSortEvent(
+      columnIndex,
+      columnLabel,
+      nextDirection,
+    );
+
+    if (prevented) return;
+
+    this._sortColumn = columnIndex;
+    this._sortDirection = nextDirection;
 
     this._updateSortIcons(table);
     this._sortTable(table, columnIndex, this._sortDirection);
-    this._emitColumnSortEvent(columnIndex, columnLabel, this._sortDirection);
   }
 
   _sortTable(
@@ -344,17 +353,19 @@ export class NysTable extends LitElement {
     columnIndex: number,
     columnLabel: string,
     sortDirection: "asc" | "desc" | "none",
-  ) {
+  ): boolean {
+    const event = new CustomEvent("nys-column-sort", {
+      detail: { columnIndex, columnLabel, sortDirection },
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
     console.log(
       `Dispatching nys-column-sort: columnIndex=${columnIndex}, columnLabel=${columnLabel}, sortDirection=${sortDirection}`,
     );
-    this.dispatchEvent(
-      new CustomEvent("nys-column-sort", {
-        detail: { columnIndex, columnLabel, sortDirection },
-        bubbles: true,
-        composed: true,
-      }),
-    );
+
+    this.dispatchEvent(event);
+    return event.defaultPrevented;
   }
 
   /****************** Render ******************/
