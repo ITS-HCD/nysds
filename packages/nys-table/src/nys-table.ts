@@ -236,12 +236,6 @@ export class NysTable extends LitElement {
             icon.style.transform = "rotate(180deg)";
             th.setAttribute("aria-sort", "descending");
             break;
-          case "none":
-            icon.setAttribute("name", "height");
-            icon.setAttribute("color", "var(--nys-color-text-weak, #4a4d4f)");
-            icon.style.transform = "";
-            th.removeAttribute("aria-sort");
-            break;
         }
       } else {
         // Reset for all other columns

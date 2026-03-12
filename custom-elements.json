@@ -9752,12 +9752,50 @@
             {
               "kind": "method",
               "name": "downloadFile"
+            },
+            {
+              "kind": "method",
+              "name": "_emitColumnSortEvent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "columnIndex",
+                  "type": {
+                    "text": "number"
+                  },
+                  "description": "Zero-based index of the sorted column."
+                },
+                {
+                  "name": "columnLabel",
+                  "type": {
+                    "text": "string"
+                  },
+                  "description": "The text label of the sorted column header."
+                },
+                {
+                  "name": "sortDirection",
+                  "type": {
+                    "text": "\"asc\" | \"desc\" | \"none\""
+                  },
+                  "description": "The new sort direction: \"asc\", \"desc\", or \"none\"."
+                }
+              ],
+              "description": "Dispatches the `nys-column-sort` custom event."
             }
           ],
           "events": [
             {
               "description": "Fired when the download button or sortable headers are clicked.",
               "name": "nys-click"
+            },
+            {
+              "description": "Fired when a sortable column header is clicked. Cancelable. Call `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: \"asc\" | \"desc\" | \"none\" }",
+              "name": "nys-column-sort"
             }
           ],
           "attributes": [

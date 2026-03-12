@@ -1,6 +1,7 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-table.js";
 import { NysTable } from "./nys-table.js";
+import sinon from "sinon";
 
 describe("nys-table", () => {
   it("renders the component", async () => {
@@ -396,5 +397,34 @@ describe("nys-table", () => {
       ?.querySelectorAll("tbody tr")[0]
       .querySelectorAll("td")[0];
     expect(firstRowCell?.textContent).to.equal("B");
+  });
+
+  it("triggers a file download when downloadFile is called", async () => {
+    const el = await fixture<NysTable>(html`
+      <nys-table id="download-test" download="data/table-data.csv">
+        <table>
+          <caption>
+            Download Table
+          </caption>
+        </table>
+      </nys-table>
+    `);
+
+    const appendSpy = sinon.spy(document.body, "appendChild");
+    const removeSpy = sinon.spy(document.body, "removeChild");
+    const clickSpy = sinon.stub(HTMLAnchorElement.prototype, "click");
+
+    el.downloadFile();
+
+    const anchor = appendSpy.firstCall.args[0] as HTMLAnchorElement;
+    expect(anchor.tagName).to.equal("A");
+    expect(anchor.href).to.include("data/table-data.csv");
+    expect(anchor.download).to.equal("table-data.csv");
+    expect(clickSpy.calledOnce).to.be.true;
+    expect(removeSpy.calledOnce).to.be.true;
+
+    appendSpy.restore();
+    removeSpy.restore();
+    clickSpy.restore();
   });
 });
