@@ -148,6 +148,61 @@ describe("nys-datepicker", () => {
     expect(errorMessage?.hasAttribute("errorMessage")).to.exist;
   });
 
+  it("fires nys-blur event on blur", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+
+    setTimeout(() => {
+      el.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    });
+
+    const event = await oneEvent(el, "nys-blur");
+    expect(event).to.exist;
+  });
+
+  it("returns true from checkValidity when input is valid", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+
+    const valid = el.checkValidity();
+
+    expect(valid).to.be.true;
+  });
+
+  it("uses custom errorMessage instead of native validation message", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker
+        required
+        errorMessage="Custom error"
+      ></nys-datepicker>`,
+    );
+
+    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
+
+    input.dispatchEvent(new Event("blur"));
+
+    await el.updateComplete;
+
+    const errorMessage = el.shadowRoot?.querySelector("nys-errormessage");
+
+    expect(errorMessage?.getAttribute("errorMessage")).to.equal("Custom error");
+  });
+
+  it("parses a local date string without timezone shift", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+
+    const parsed = (el as any)._parseLocalDate("2026-05-15");
+
+    expect(parsed).to.be.instanceOf(Date);
+    expect(parsed.getFullYear()).to.equal(2026);
+    expect(parsed.getMonth()).to.equal(4);
+    expect(parsed.getDate()).to.equal(15);
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-datepicker label="My Label"></nys-datepicker>`,
