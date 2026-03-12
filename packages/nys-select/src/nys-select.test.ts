@@ -155,4 +155,16 @@ describe("nys-select", () => {
     el.formResetCallback();
     expect(el.value).to.equal("");
   });
+
+  it("always calls event.preventDefault() on invalid", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select required></nys-select>`,
+    );
+    await el.updateComplete;
+
+    const event = new Event("invalid", { cancelable: true });
+    el.dispatchEvent(event);
+
+    expect(event.defaultPrevented).to.be.true;
+  });
 });
