@@ -16,16 +16,16 @@
   --nys-button-color--hover: var(--nys-color-ink);
   --nys-button-color--active: var(--nys-color-ink);
 
-  --_nys-button-border-color: transparent;
-  --_nys-button-border-color--hover: transparent;
-  --_nys-button-border-color--active: transparent;
+  --_nys-button-border-color: var(--nys-color-neutral-50);
+  --_nys-button-border-color--hover: var(--nys-color-theme-weak);
+  --_nys-button-border-color--active: var(--nys-color-theme-mid);
 
   --_nys-button-border-radius: var(--nys-radius-md, 4px) var(--nys-radius-md, 4px) 0 0;
   --_nys-button-border-style: none none solid none;
-  --_nys-button-border-width: 4px;
+  --_nys-button-border-width: 3px;
 
   --_nys-button-padding--x: var(--nys-space-150);
-  --_nys-button-padding--y: var(--nys-space-150);
+  --_nys-button-padding--y: var(--nys-space-200);
 }
 
 .nys-tabgroup__tabs {

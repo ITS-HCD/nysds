@@ -38,11 +38,11 @@ export const Basic: Story = {
   args: {},
   render: () => html`
     <nys-tabgroup id="test">
-      <nys-tab label="Tab One"></nys-tab>
+      <nys-tab label="Tab One Long Name"></nys-tab>
       <nys-tabpanel>Content for Tab One.</nys-tabpanel>
-      <nys-tab selected label="Tab Two"></nys-tab>
+      <nys-tab selected label="Tab Two Longer Name"></nys-tab>
       <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
-      <nys-tab selected label="Tab Three"></nys-tab>
+      <nys-tab selected label="Tab Three Extra Long Name"></nys-tab>
       <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
     </nys-tabgroup>
   `,
