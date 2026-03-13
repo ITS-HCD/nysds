@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.16.0-alpha-1",
+  "version": "1.16.0-alpha-2",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -20,10 +20,10 @@
       "import": "./dist/nysds.es.js",
       "require": "./dist/nysds.js"
     },
-  "./react": {
-    "import": "./packages/react/index.js",
-    "types": "./packages/react/index.d.ts"
-  }
+    "./react": {
+      "import": "./packages/react/index.js",
+      "types": "./packages/react/index.d.ts"
+    }
   },
   "customElements": "custom-elements.json",
   "scripts": {
