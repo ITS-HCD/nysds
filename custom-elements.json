@@ -9698,6 +9698,7 @@
             {
               "kind": "method",
               "name": "_onSortClick",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "columnIndex",
@@ -9794,7 +9795,7 @@
               "name": "nys-click"
             },
             {
-              "description": "Fired when a sortable column header is clicked. Cancelable. Call `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: \"asc\" | \"desc\" | \"none\" }",
+              "description": "Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: \"asc\" | \"desc\" | \"none\" }",
               "name": "nys-column-sort"
             }
           ],

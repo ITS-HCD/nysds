@@ -12,8 +12,7 @@ let componentIdCounter = 0;
  * @slot - Accepts a `<table>` element. Only the first table is rendered.
  *
  * @fires nys-click - Fired when the download button or sortable headers are clicked.
- * @fires nys-column-sort - Fired when a sortable column header is clicked. Cancelable.
- *   Call `event.preventDefault()` to override default sort behavior.
+ * @fires nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
@@ -248,7 +247,7 @@ export class NysTable extends LitElement {
     });
   }
 
-  _onSortClick(columnIndex: number, table: HTMLTableElement) {
+  private _onSortClick(columnIndex: number, table: HTMLTableElement) {
     const ths = Array.from(table.querySelectorAll("thead th"));
     const columnLabel =
       ths[columnIndex]
