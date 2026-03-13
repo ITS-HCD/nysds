@@ -13,7 +13,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "tsc --emitDeclarationOnly && vite build",
+    "build": "vite build",
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
