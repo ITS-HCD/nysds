@@ -97,11 +97,9 @@ export class NysGlobalHeader extends LitElement {
 
     const assignedNodes = slot
       .assignedNodes({ flatten: true })
-      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
+      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[];
 
-    this.hasLinkContent = assignedNodes.length > 0;
-
-    await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
+    const newHasLinkContent = assignedNodes.length > 0;
 
     // Get the containers to append the slotted elements
     const container = this.shadowRoot?.querySelector(
@@ -133,6 +131,12 @@ export class NysGlobalHeader extends LitElement {
     // Highlight active links AFTER DOM is finalized
     this._highlightActiveLink(container);
     this._highlightActiveLink(containerMobile);
+
+    // Update reactive state AFTER the current update cycle has fully completed
+    await this.updateComplete;
+    if (this.hasLinkContent !== newHasLinkContent) {
+      this.hasLinkContent = newHasLinkContent;
+    }
   }
 
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
