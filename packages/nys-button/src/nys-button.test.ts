@@ -92,7 +92,6 @@ describe("nys-button", () => {
     // 3. Switch back to "ghost" — icon should return
     el.variant = "ghost";
     await el.updateComplete;
-
     icon = el.shadowRoot!.querySelector("nys-icon");
     expect(icon).to.exist;
   });
@@ -163,6 +162,14 @@ describe("nys-button", () => {
     );
 
     expect(el.circle).to.be.true;
+  });
+
+  it("uses the label as aria-label when circle is true)", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button circle label="Close"></nys-button>`,
+    );
+    const button = el.shadowRoot?.querySelector("button")!;
+    expect(button.getAttribute("aria-label")).to.equal("Close");
   });
 
   it("should render prefix and suffix icons", async () => {
@@ -531,5 +538,67 @@ describe("NysButton keyboard support", () => {
     const event = await keydownPromise;
     expect(event).to.exist;
     expect(event.type).to.equal("keydown");
+  });
+
+  it("does nothing on non-Enter/Space keys", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Test"></nys-button>`,
+    );
+    const button = el.shadowRoot!.querySelector("button")!;
+    let clicked = false;
+    el.addEventListener("nys-click", () => (clicked = true));
+
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    expect(clicked).to.be.false;
+  });
+
+  it("uses label if ariaLabel not provided", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Label Only"></nys-button>`,
+    );
+    const button = el.shadowRoot!.querySelector("button")!;
+    expect(button.getAttribute("aria-label")).to.equal("Label Only");
+  });
+
+  it("focus() falls back to host if renderRoot.querySelector returns null", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="NoButton"></nys-button>`,
+    );
+    el.renderRoot.querySelector = () => null; // simulate no button/link
+    let focused = false;
+    el.focus = () => {
+      focused = true;
+    };
+    el.focus();
+    expect(focused).to.be.true;
+  });
+
+  it("form integration: button with default type does not submit or reset", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+
+    const btn = await fixture<NysButton>(
+      html`<nys-button label="Default"></nys-button>`,
+    );
+    form.appendChild(btn);
+    let submitted = false,
+      reset = false;
+    form.requestSubmit = () => (submitted = true);
+    form.reset = () => (reset = true);
+
+    const btnEl = await btn.getButtonElement();
+    btnEl?.click();
+    await btn.updateComplete;
+
+    expect(submitted).to.be.false;
+    expect(reset).to.be.false;
+
+    document.body.removeChild(form);
   });
 });

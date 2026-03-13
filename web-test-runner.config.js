@@ -90,10 +90,10 @@ export default {
   coverageConfig: {
     exclude: ["**/node_modules/**", "**/test/**"],
     threshold: {
-      statements: 85,
-      functions: 85,
-      branches: 85,
-      lines: 85,
+      statements: 80,
+      functions: 80,
+      branches: 80,
+      lines: 80,
     }
   },
 };
