@@ -44,6 +44,9 @@ export class NysVideo extends LitElement {
   /** Triggers autoplay when the iframe loads */
   @property({ type: Boolean }) autoplay = false;
 
+  /** Prevents the video from being played */
+  @property({ type: Boolean, reflect: true }) disabled = false;
+
   /** Tracks whether the user has clicked to load the player */
   @state() private _playerActive = false;
 
@@ -51,7 +54,8 @@ export class NysVideo extends LitElement {
   @state() private _autoSize: "full" | "contained" | "compacted" = "full";
 
   private _mediaFull = window.matchMedia("(min-width: 768px)");
-  private _mediaMobileLarge = window.matchMedia("(min-width: 480px");
+  private _mediaMobileLarge = window.matchMedia("(min-width: 480px)");
+  private _onMediaChange = () => this._updateAutoSize();
 
   // Lifecycle Methods
   constructor() {
@@ -77,19 +81,15 @@ export class NysVideo extends LitElement {
 
     if (!this.size) {
       this._updateAutoSize();
-      this._mediaFull.addEventListener("change", () => this._updateAutoSize());
-      this._mediaMobileLarge.addEventListener("change", () =>
-        this._updateAutoSize(),
-      );
+      this._mediaFull.addEventListener("change", this._onMediaChange);
+      this._mediaMobileLarge.addEventListener("change", this._onMediaChange);
     }
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this._mediaFull.removeEventListener("change", () => this._updateAutoSize());
-    this._mediaMobileLarge.removeEventListener("change", () =>
-      this._updateAutoSize(),
-    );
+    this._mediaFull.removeEventListener("change", this._onMediaChange);
+    this._mediaMobileLarge.removeEventListener("change", this._onMediaChange);
   }
 
   /**
@@ -144,6 +144,7 @@ export class NysVideo extends LitElement {
    */
 
   private _handleThumbnailClick() {
+    if (this.disabled) return;
     this._playerActive = true;
   }
 
@@ -164,7 +165,11 @@ export class NysVideo extends LitElement {
      */
     if (!this._playerActive && !this.autoplay) {
       return html`
-        <div class="nys-video nys-video--${effectiveSize}">
+        <div
+          class="nys-video nys-video--${effectiveSize} ${this.disabled
+            ? "nys-video--disabled"
+            : ""}"
+        >
           <div class="nys-video__ratio-box">
             <div
               class="nys-video__thumbnail"
@@ -175,19 +180,34 @@ export class NysVideo extends LitElement {
                 class="nys-video__play-icon"
                 aria-hidden="true"
                 aria-label="Play ${this.ariaLabel}"
+                ?disabled=${this.disabled}
               >
-                <svg
-                  width="31"
-                  height="35"
-                  viewBox="0 0 31 35"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z"
-                    fill="white"
-                  />
-                </svg>
+                ${!this.disabled
+                  ? html`<svg
+                      width="31"
+                      height="35"
+                      viewBox="0 0 31 35"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z"
+                        fill="white"
+                      />
+                    </svg>`
+                  : html`<svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="31"
+                      height="35"
+                      viewBox="0 0 31 35"
+                      fill="none"
+                    >
+                      <path
+                        d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z"
+                        fill="white"
+                        fill-opacity="0.4"
+                      />
+                    </svg>`}
               </button>
             </div>
           </div>
@@ -208,7 +228,9 @@ export class NysVideo extends LitElement {
           loading=${this.loading}
           allowfullscreen
           frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; ${this.autoplay
+            ? "autoplay;"
+            : ""} clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         ></iframe>
       </div>
     </div>`;
