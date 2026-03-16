@@ -1,0 +1,170 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Video Styles */
+  --_nys-video-width: fit-content;
+  --_nys-video-height: var(--nys-size-600, 48px);
+  --_nys-video-radius: var(--nys-radius-lg, 8px);
+  --_nys-video-padding: var(--nys-space-100, 8px);
+  --_nys-video-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-video-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-video-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-video-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-video-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+/* ─── Explicit size overrides ────────────────────────────────────────────── */
+/*
+ * Full — fills its container width, locks 16:9 aspect ratio.
+ * Default size.
+ */
+:host([size="full"]) .nys-video {
+  width: 100%;
+  min-width: 675px;
+}
+
+/*
+ * Contained — capped at 675px wide, minimum 440px.
+ * For screens smaller than 440px, use Compact instead.
+ */
+:host([size="contained"]) .nys-video {
+  width: 100%;
+  max-width: 675px;
+  min-width: 440px;
+}
+
+/*
+ * Compact — for mobile and small screens.
+ */
+:host([size="compacted"]) .nys-video {
+  width: 100%;
+  min-width: 320px;
+  max-width: 439px;
+}
+
+/* ─── Auto size: applied only when no explicit size is set ────────────────────────────────────────────── */
+.nys-video--full {
+  width: 100%;
+  min-width: 675px;
+}
+
+/*
+ * Contained — capped at 675px wide, minimum 440px.
+ * For screens smaller than 440px, use Compact instead.
+ */
+.nys-video--contained {
+  width: 100%;
+  max-width: 675px;
+  min-width: 440px;
+}
+
+/*
+ * Compacted — for mobile and small screens.
+ */
+.nys-video--compacted {
+  width: 100%;
+  min-width: 320px;
+  max-width: 439px;
+}
+
+/* ─── Core video wrapper ─────────────────────────────────────────────────── */
+.nys-video {
+  border-radius: var(--_nys-video-radius);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  .nys-video__ratio-box {
+    aspect-ratio: 16 / 9;
+    position: relative;
+
+    iframe,
+    .nys-video__thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+    }
+
+    .nys-video__thumbnail {
+      cursor: pointer;
+      padding: 0;
+      background: none;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .nys-video__play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 96px;
+        height: 96px;
+        background: var(
+          --nys-color-black-transparent-600,
+          rgba(27, 27, 27, 0.6)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.01);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        svg {
+          display: flex;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .nys-video__title-text {
+    width: 100%;
+    padding: var(--nys-space-250, 20px);
+    background-color: var(
+      --nys-color-ink,
+      var(--nys-color-neutral-900, #1b1b1b)
+    );
+    box-sizing: border-box;
+    color: var(--nys-color-text-reverse, #fff);
+    display: flex;
+    justify-content: start;
+    font-family: var(--_nys-video-font-family);
+    font-size: var(--_nys-video-font-size);
+    font-weight: var(--_nys-video-font-weight);
+    line-height: var(--_nys-video-line-height);
+
+    p {
+      margin: 0;
+    }
+
+    @media (min-width: 480px) {
+      position: absolute;
+      bottom: 0;
+      background-color: var(
+        --nys-color-black-transparent-900,
+        rgba(27, 27, 27, 0.9)
+      );
+    }
+  }
+}
