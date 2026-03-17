@@ -1,7 +1,7 @@
 {
   "name": "@nysds/nys-video",
   "version": "1.15.0",
-  "description": "The Video component from the NYS Design System.",
+  "description": "The Video Player component from the NYS Design System.",
   "module": "dist/nys-video.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -35,8 +35,7 @@
     "web-components",
     "lit",
     "nys",
-    "video",
-    "forms"
+    "video"
   ],
   "author": "New York State Design System Team",
   "license": "MIT"
