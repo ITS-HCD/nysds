@@ -227,9 +227,7 @@ export class NysVideo extends LitElement {
           loading=${this.loading}
           allowfullscreen
           frameborder="0"
-          allow="accelerometer; ${this.autoplay
-            ? "autoplay;"
-            : ""} clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         ></iframe>
       </div>
     </div>`;
