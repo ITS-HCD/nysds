@@ -144,7 +144,6 @@ export class NysVideo extends LitElement {
    */
 
   private _handleThumbnailClick() {
-    console.log("HERE");
     if (this.disabled) return;
     this._playerActive = true;
   }
@@ -175,7 +174,6 @@ export class NysVideo extends LitElement {
             <div
               class="nys-video__thumbnail"
               @click=${this._handleThumbnailClick}
-              role="presentation"
             >
               <img src=${this._getThumbnailUrl()} alt="" />
               <button
