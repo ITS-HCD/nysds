@@ -3,7 +3,7 @@ import "../dist/nys-video.js";
 import { NysVideo } from "./nys-video.js";
 
 const VALID_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-const VALID_ARIA = "Rick Astley - Never Gonna Give You Up";
+const VALID_TITLE_TEXT = "Rick Astley - Never Gonna Give You Up";
 
 describe("nys-video", () => {
   it("renders nothing", async () => {
@@ -16,7 +16,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl="not-a-url"
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
       ></nys-video>`,
     );
     await el.updateComplete;
@@ -27,7 +27,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
       ></nys-video>`,
     );
     await el.updateComplete;
@@ -40,7 +40,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         autoplay
       ></nys-video>`,
     );
@@ -53,7 +53,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
       ></nys-video>`,
     );
     await el.updateComplete;
@@ -72,7 +72,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
       ></nys-video>`,
     );
     await el.updateComplete;
@@ -83,11 +83,7 @@ describe("nys-video", () => {
   // ─── Properties & Attributes ──────────────────────────────────────────────
   it("reflects titleText property", async () => {
     const el = await fixture<NysVideo>(
-      html`<nys-video
-        videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
-        titleText=${"My Title"}
-      ></nys-video>`,
+      html`<nys-video videourl=${VALID_URL} titleText="My Title"></nys-video>`,
     );
     await el.updateComplete;
     expect(el.titleText).to.equal("My Title");
@@ -98,10 +94,7 @@ describe("nys-video", () => {
 
   it("does not render title-text element when titleText is empty", async () => {
     const el = await fixture<NysVideo>(
-      html`<nys-video
-        videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
-      ></nys-video>`,
+      html`<nys-video videourl=${VALID_URL}></nys-video>`,
     );
     await el.updateComplete;
     expect(el.shadowRoot!.querySelector(".nys-video__title-text")).to.be.null;
@@ -111,7 +104,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         size="contained"
       ></nys-video>`,
     );
@@ -124,7 +117,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         disabled
       ></nys-video>`,
     );
@@ -137,7 +130,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         starttime="42"
       ></nys-video>`,
     );
@@ -149,7 +142,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         loading="lazy"
       ></nys-video>`,
     );
@@ -163,7 +156,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         thumbnail=${customThumb}
       ></nys-video>`,
     );
@@ -178,7 +171,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
       ></nys-video>`,
     );
     await el.updateComplete;
@@ -193,7 +186,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         disabled
       ></nys-video>`,
     );
@@ -213,7 +206,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         disabled
       ></nys-video>`,
     );
@@ -229,7 +222,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         starttime="30"
         autoplay
       ></nys-video>`,
@@ -243,7 +236,7 @@ describe("nys-video", () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
+        titleText=${VALID_TITLE_TEXT}
         autoplay
       ></nys-video>`,
     );
@@ -253,21 +246,14 @@ describe("nys-video", () => {
   });
 
   // ─── Accessibility ──────────────────────────────────────────────
-  it("sets aria-label on the iframe", async () => {
+
+  it("passes the a11y audit", async () => {
     const el = await fixture<NysVideo>(
       html`<nys-video
         videourl=${VALID_URL}
-        arialabel=${VALID_ARIA}
-        autoplay
+        titleText=${VALID_TITLE_TEXT}
       ></nys-video>`,
     );
-    await el.updateComplete;
-    const iframe = el.shadowRoot!.querySelector("iframe");
-    expect(iframe!.getAttribute("aria-label")).to.equal(VALID_ARIA);
-  });
-
-  it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-video label="My Label"></nys-video>`);
     await expect(el).shadowDom.to.be.accessible();
   });
 });

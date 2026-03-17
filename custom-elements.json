@@ -12404,16 +12404,6 @@
             },
             {
               "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Accessible label describing the video content *",
-              "attribute": "ariaLabel"
-            },
-            {
-              "kind": "field",
               "name": "starttime",
               "type": {
                 "text": "number"
@@ -12570,15 +12560,6 @@
               },
               "default": "\"eager\"",
               "fieldName": "loading"
-            },
-            {
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Accessible label describing the video content *",
-              "fieldName": "ariaLabel"
             },
             {
               "name": "starttime",

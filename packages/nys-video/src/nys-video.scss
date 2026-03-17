@@ -29,11 +29,11 @@
     --nys-color-black-transparent-600,
     rgba(27, 27, 27, 0.6)
   );
-  --_nys-video-outline-color--play-button: var(--nys-color-focus, #004dd1)
-    --_nys-video-svg-color--play-button: var(
-      --nys-color-white-transparent-400,
-      rgba(255, 255, 255, 0.4)
-    );
+  --_nys-video-outline-color--play-button: var(--nys-color-focus, #004dd1);
+  --_nys-video-svg-color--play-button: var(
+    --nys-color-white-transparent-400,
+    rgba(255, 255, 255, 0.4)
+  );
 
   /* Title Text */
   --_nys-video-color--title-text: var(--nys-color-text-reverse, #ffffff);
