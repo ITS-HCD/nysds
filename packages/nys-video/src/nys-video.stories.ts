@@ -1,4 +1,4 @@
-import { html, nothing } from "lit";
+import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-video";
 
@@ -6,7 +6,7 @@ interface NysVideoArgs {
   id: string;
   titleText: string;
   videourl: string;
-  size: "full" | "contained" | "compacted" | "";
+  size: "full" | "contained" | "compacted";
   loading: "lazy" | "eager";
   ariaLabel: string;
   starttime: number;
@@ -59,7 +59,7 @@ export const Basic: Story = {
   render: (args) => html`
     <nys-video
       videourl=${args.videourl}
-      size=${args.size || nothing}
+      size=${args.size}
       arialabel=${args.ariaLabel}
       .titleText=${args.titleText}
       ?autoplay=${args.autoplay}
@@ -95,10 +95,10 @@ export const WithThumbnail: Story = {
   render: (args) => html`
     <nys-video
       videourl=${args.videourl}
-      size=${args.size || nothing}
+      size=${args.size}
       arialabel=${args.ariaLabel}
       .titleText=${args.titleText}
-      thumbnail=${args.thumbnail || nothing}
+      thumbnail=${args.thumbnail}
       ?autoplay=${args.autoplay}
       ?disabled=${args.disabled}
     ></nys-video>
@@ -133,7 +133,7 @@ export const WithStartTime: Story = {
   render: (args) => html`
     <nys-video
       videourl=${args.videourl}
-      size=${args.size || nothing}
+      size=${args.size}
       arialabel=${args.ariaLabel}
       .titleText=${args.titleText}
       starttime=${args.starttime}
@@ -169,7 +169,7 @@ export const Disabled: Story = {
   render: (args) => html`
     <nys-video
       videourl=${args.videourl}
-      size=${args.size || nothing}
+      size=${args.size}
       arialabel=${args.ariaLabel}
       .titleText=${args.titleText}
       ?disabled=${args.disabled}
@@ -196,7 +196,9 @@ export const Sizes: Story = {
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 24px;">
       <div>
-        <p style="margin: 0 0 8px; font-weight: 600;">Auto (resize window to see changes)</p>
+        <p style="margin: 0 0 8px; font-weight: 600;">
+          Auto (resize window to see changes)
+        </p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           arialabel="Auto size example"
@@ -213,7 +215,9 @@ export const Sizes: Story = {
         ></nys-video>
       </div>
       <div>
-        <p style="margin: 0 0 8px; font-weight: 600;">Contained (440px–675px)</p>
+        <p style="margin: 0 0 8px; font-weight: 600;">
+          Contained (440px–675px)
+        </p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           size="contained"
@@ -222,7 +226,9 @@ export const Sizes: Story = {
         ></nys-video>
       </div>
       <div>
-        <p style="margin: 0 0 8px; font-weight: 600;">Compacted (320px–439px)</p>
+        <p style="margin: 0 0 8px; font-weight: 600;">
+          Compacted (320px–439px)
+        </p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           size="compacted"

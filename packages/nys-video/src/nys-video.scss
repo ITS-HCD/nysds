@@ -26,6 +26,7 @@
 }
 
 /* ─── Explicit size overrides ────────────────────────────────────────────── */
+
 /*
  * Full — fills its container width, locks 16:9 aspect ratio.
  * Default size.
@@ -130,6 +131,7 @@
         align-items: center;
         justify-content: center;
         pointer-events: none;
+
         svg {
           display: flex;
           margin-left: 10px;
@@ -169,6 +171,7 @@
             --nys-color-black-transparent-200,
             rgba(27, 27, 27, 0.2)
           );
+
           svg {
             fill: var(
               --nys-color-white-transparent-400,
@@ -196,7 +199,7 @@
       var(--nys-color-neutral-900, #1b1b1b)
     );
     box-sizing: border-box;
-    color: var(--nys-color-text-reverse, #fff);
+    color: var(--nys-color-text-reverse, #ffffff);
     display: flex;
     justify-content: start;
     font-family: var(--_nys-video-font-family);
@@ -208,7 +211,7 @@
       margin: 0;
     }
 
-    @media (min-width: 480px) {
+    @media (width >= 480px) {
       position: absolute;
       bottom: 0;
       background-color: var(
