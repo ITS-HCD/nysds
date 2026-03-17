@@ -9,9 +9,9 @@ figma.connect("<FIGMA_VIDEO>", {
       Disabled: figma.boolean("Disabled"),
     }),
     size: figma.enum("Size", {
-      "Full": "full",
-      "Contained": "contained",
-      "Compacted": "compacted",
+      Full: "full",
+      Contained: "contained",
+      Compacted: "compacted",
     }),
   },
   example: (props) => html`
