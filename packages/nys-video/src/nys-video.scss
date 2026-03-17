@@ -23,6 +23,12 @@
       sans-serif
     )
   );
+
+  --_nys-video-color--title-text: var(--nys-color-text-reverse, #ffffff);
+  --_nys-video-background-color--title-text: var(
+    --nys-color-ink,
+    var(--nys-color-neutral-900, #1b1b1b)
+  );
 }
 
 /* ─── Explicit size overrides ────────────────────────────────────────────── */
@@ -194,12 +200,9 @@
   .nys-video__title-text {
     width: 100%;
     padding: var(--nys-space-250, 20px);
-    background-color: var(
-      --nys-color-ink,
-      var(--nys-color-neutral-900, #1b1b1b)
-    );
+    background-color: var(--_nys-video-background-color--title-text);
     box-sizing: border-box;
-    color: var(--nys-color-text-reverse, #ffffff);
+    color: var(--_nys-video-color--title-text);
     display: flex;
     justify-content: start;
     font-family: var(--_nys-video-font-family);
@@ -214,7 +217,7 @@
     @media (width >= 480px) {
       position: absolute;
       bottom: 0;
-      background-color: var(
+     --_nys-video-background-color--title-text: var(
         --nys-color-black-transparent-900,
         rgba(27, 27, 27, 0.9)
       );

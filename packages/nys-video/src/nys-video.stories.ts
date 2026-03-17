@@ -8,7 +8,6 @@ interface NysVideoArgs {
   videourl: string;
   size: "full" | "contained" | "compacted";
   loading: "lazy" | "eager";
-  ariaLabel: string;
   starttime: number;
   thumbnail: string;
   autoplay: boolean;
@@ -30,7 +29,6 @@ const meta: Meta<NysVideoArgs> = {
       control: "select",
       options: ["lazy", "eager"],
     },
-    ariaLabel: { control: "text" },
     starttime: { control: "number" },
     thumbnail: { control: "text" },
     autoplay: { control: "boolean" },
@@ -51,7 +49,6 @@ export const Basic: Story = {
   args: {
     videourl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     size: "full",
-    ariaLabel: "Rick Astley - Never Gonna Give You Up",
     titleText: "Rick Astley - Never Gonna Give You Up",
     autoplay: false,
     disabled: false,
@@ -73,7 +70,6 @@ export const Basic: Story = {
 <nys-video
   videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
   size="full"
-  arialabel="Rick Astley - Never Gonna Give You Up"
   titleText="Rick Astley - Never Gonna Give You Up"
 ></nys-video>`,
         type: "auto",
@@ -86,7 +82,6 @@ export const WithThumbnail: Story = {
   args: {
     videourl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     size: "full",
-    ariaLabel: "Rick Astley - Never Gonna Give You Up",
     titleText: "Rick Astley - Never Gonna Give You Up",
     thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
     autoplay: false,
@@ -96,7 +91,6 @@ export const WithThumbnail: Story = {
     <nys-video
       videourl=${args.videourl}
       size=${args.size}
-      arialabel=${args.ariaLabel}
       .titleText=${args.titleText}
       thumbnail=${args.thumbnail}
       ?autoplay=${args.autoplay}
@@ -120,11 +114,48 @@ export const WithThumbnail: Story = {
   },
 };
 
+export const WithAutoplay: Story = {
+  args: {
+    videourl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    size: "full",
+    titleText: "Rick Astley - Never Gonna Give You Up",
+    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+    autoplay: true,
+    disabled: false,
+  },
+  render: (args) => html`
+    <nys-video
+      videourl=${args.videourl}
+      size=${args.size}
+      .titleText=${args.titleText}
+      thumbnail=${args.thumbnail}
+      ?autoplay=${args.autoplay}
+      ?disabled=${args.disabled}
+    ></nys-video>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-video
+  videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  size="full"
+  autoplay
+  arialabel="Rick Astley - Never Gonna Give You Up"
+  titleText="Rick Astley - Never Gonna Give You Up"
+  thumbnail="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+></nys-video>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+
 export const WithStartTime: Story = {
   args: {
     videourl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     size: "full",
-    ariaLabel: "Rick Astley - Never Gonna Give You Up",
     titleText: "Rick Astley - Never Gonna Give You Up",
     starttime: 30,
     autoplay: false,
@@ -134,7 +165,6 @@ export const WithStartTime: Story = {
     <nys-video
       videourl=${args.videourl}
       size=${args.size}
-      arialabel=${args.ariaLabel}
       .titleText=${args.titleText}
       starttime=${args.starttime}
       ?autoplay=${args.autoplay}
@@ -162,7 +192,6 @@ export const Disabled: Story = {
   args: {
     videourl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     size: "full",
-    ariaLabel: "Rick Astley - Never Gonna Give You Up",
     titleText: "Rick Astley - Never Gonna Give You Up",
     disabled: true,
   },
@@ -170,7 +199,6 @@ export const Disabled: Story = {
     <nys-video
       videourl=${args.videourl}
       size=${args.size}
-      arialabel=${args.ariaLabel}
       .titleText=${args.titleText}
       ?disabled=${args.disabled}
     ></nys-video>

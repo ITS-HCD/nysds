@@ -29,8 +29,8 @@ export class NysVideo extends LitElement {
 
   @property({ type: String }) loading: "lazy" | "eager" = "eager";
 
-  /** Accessible label describing the video content **/
-  @property({ type: String }) ariaLabel = "";
+  // /** Accessible label describing the video content **/
+  // @property({ type: String }) ariaLabel = "";
 
   /** Time in seconds where playback begins. **/
   @property({ type: Number }) starttime = 0;
@@ -69,9 +69,9 @@ export class NysVideo extends LitElement {
       this.id = `nys-video-${Date.now()}-${videoIdCounter++}`;
     }
 
-    if (!this.ariaLabel) {
-      console.warn("<nys-video>: arialabel is required for accessibility.");
-    }
+    // if (!this.ariaLabel) {
+    //   console.warn("<nys-video>: arialabel is required for accessibility.");
+    // }
 
     if (this.videourl && !this._isValidYouTubeUrl()) {
       console.error(
@@ -179,7 +179,7 @@ export class NysVideo extends LitElement {
               <button
                 class="nys-video__play-icon"
                 aria-hidden="true"
-                aria-label="Play ${this.ariaLabel}"
+                aria-label="Play ${this.titleText}"
                 ?disabled=${this.disabled}
               >
                 ${!this.disabled
@@ -223,8 +223,8 @@ export class NysVideo extends LitElement {
       <div class="nys-video__ratio-box">
         <iframe
           src=${embedUrl}
-          title=${this.ariaLabel}
-          aria-label=${this.ariaLabel}
+          title=${this.titleText}
+          aria-label=${this.titleText}
           loading=${this.loading}
           allowfullscreen
           frameborder="0"
