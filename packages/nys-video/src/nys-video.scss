@@ -24,11 +24,24 @@
     )
   );
 
+  /* Play Button */
+  --_nys-video-background-color--play-button: var(
+    --nys-color-black-transparent-600,
+    rgba(27, 27, 27, 0.6)
+  );
+  --_nys-video-outline-color--play-button: var(--nys-color-focus, #004dd1)
+    --_nys-video-svg-color--play-button: var(
+      --nys-color-white-transparent-400,
+      rgba(255, 255, 255, 0.4)
+    );
+
+  /* Title Text */
   --_nys-video-color--title-text: var(--nys-color-text-reverse, #ffffff);
   --_nys-video-background-color--title-text: var(
     --nys-color-ink,
     var(--nys-color-neutral-900, #1b1b1b)
   );
+  --_nys-video-padding--title-text: var(--nys-space-250, 20px);
 }
 
 /* ─── Explicit size overrides ────────────────────────────────────────────── */
@@ -127,11 +140,8 @@
         transform: translate(-50%, -50%);
         width: 96px;
         height: 96px;
-        background-color: var(
-          --nys-color-black-transparent-600,
-          rgba(27, 27, 27, 0.6)
-        );
-        border: 1px solid rgba(255, 255, 255, 0.01);
+        background-color: var(--_nys-video-background-color--play-button);
+        border: none;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -144,20 +154,20 @@
         }
 
         &:focus-visible {
-          outline: 3.5px solid var(--nys-color-focus, #004dd1);
+          outline: 3.5px solid var(--_nys-video-outline-color--play-button);
           outline-offset: 1px;
         }
       }
 
       &:hover .nys-video__play-icon {
-        background-color: var(
+        --_nys-video-background-color--play-button: var(
           --nys-color-black-transparent-700,
           rgba(27, 27, 27, 0.7)
         );
       }
 
       &:active .nys-video__play-icon {
-        background-color: var(
+        --_nys-video-background-color--play-button: var(
           --nys-color-black-transparent-800,
           rgba(27, 27, 27, 0.8)
         );
@@ -173,24 +183,13 @@
         pointer-events: none;
 
         .nys-video__play-icon {
-          background: var(
+          --_nys-video-background-color--play-button: var(
             --nys-color-black-transparent-200,
             rgba(27, 27, 27, 0.2)
           );
 
           svg {
-            fill: var(
-              --nys-color-white-transparent-400,
-              rgba(255, 255, 255, 0.4)
-            );
-            filter: drop-shadow(
-                0 4px 6px
-                  var(--nys-color-black-transparent-50, rgba(27, 27, 27, 0.01))
-              )
-              drop-shadow(
-                0 4px 6px
-                  var(--nys-color-black-transparent-100, rgba(27, 27, 27, 0.1))
-              );
+            fill: var(--_nys-video-svg-color--play-button);
           }
         }
       }
@@ -199,7 +198,7 @@
 
   .nys-video__title-text {
     width: 100%;
-    padding: var(--nys-space-250, 20px);
+    padding: var(--_nys-video-padding--title-text);
     background-color: var(--_nys-video-background-color--title-text);
     box-sizing: border-box;
     color: var(--_nys-video-color--title-text);
@@ -214,10 +213,10 @@
       margin: 0;
     }
 
-    @media (width >= 480px) {
+    @media (min-width: 480px) {
       position: absolute;
       bottom: 0;
-     --_nys-video-background-color--title-text: var(
+      --_nys-video-background-color--title-text: var(
         --nys-color-black-transparent-900,
         rgba(27, 27, 27, 0.9)
       );
