@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-table",
-  "version": "1.16.0-alpha-2",
+  "version": "1.16.0-alpha-3",
   "description": "The Table component from the NYS Design System.",
   "module": "dist/nys-table.js",
   "types": "dist/index.d.ts",
@@ -23,8 +23,8 @@
     "lit-analyze": "lit-analyzer '*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.16.0-alpha-2",
-    "@nysds/nys-button": "^1.16.0-alpha-2"
+    "@nysds/nys-icon": "^1.16.0-alpha-3",
+    "@nysds/nys-button": "^1.16.0-alpha-3"
   },
   "devDependencies": {
     "lit": "^3.3.1",
