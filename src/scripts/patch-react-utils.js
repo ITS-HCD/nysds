@@ -1,3 +1,13 @@
+/**
+ * The auto generated react-utils.js file in packages/react is causing
+ * stale closure / duplicate event listener bug caused by 
+ * - useLayoutEffect()
+ * - targetElement.current in the dependency array
+ * 
+ * In response, this script overwrites the auto-generated packages/react/react-utils.js with a
+ * corrected implementation after `npm run cem` has generated it.
+ */
+
 import { writeFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -43,8 +53,6 @@ export function useEventListener(targetElement, eventName, eventHandler) {
     return () => {
       element.removeEventListener(eventName, listener);
     };
-    // Only re-subscribe when the element or event name changes.
-    // Handler changes are handled via the savedHandler ref above.
   }, [eventName, targetElement]);
 }
 `;
