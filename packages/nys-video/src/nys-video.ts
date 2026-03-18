@@ -3,6 +3,13 @@ import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-video.scss?inline";
 
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
 let videoIdCounter = 0;
 
 export class NysVideo extends LitElement {
@@ -53,6 +60,12 @@ export class NysVideo extends LitElement {
   /** Auto-computed size when no explicit size prop is set */
   @state() private _autoSize: "full" | "contained" | "compacted" = "full";
 
+  /** Screen reader announcement text */
+  @state() private _announcement = "";
+
+  /** Tracks whether an ad is currently playing to suppress false "Video is playing" announcements */
+  private _adPlaying = false;
+
   private _mediaFull = window.matchMedia("(min-width: 768px)");
   private _mediaMobileLarge = window.matchMedia("(min-width: 480px)");
   private _onMediaChange = () => this._updateAutoSize();
@@ -69,20 +82,20 @@ export class NysVideo extends LitElement {
       this.id = `nys-video-${Date.now()}-${videoIdCounter++}`;
     }
 
-    // if (!this.ariaLabel) {
-    //   console.warn("<nys-video>: arialabel is required for accessibility.");
+    // if (this.videourl && !this._isValidYouTubeUrl()) {
+    //   console.error(
+    //     "<nys-video>: videourl is not a valid YouTube URL. Component will not render.",
+    //   );
     // }
-
-    if (this.videourl && !this._isValidYouTubeUrl()) {
-      console.error(
-        "<nys-video>: videourl is not a valid YouTube URL. Component will not render.",
-      );
-    }
 
     if (!this.size) {
       this._updateAutoSize();
       this._mediaFull.addEventListener("change", this._onMediaChange);
       this._mediaMobileLarge.addEventListener("change", this._onMediaChange);
+    }
+
+    if (this.autoplay) {
+      this._announceVideoVO();
     }
   }
 
@@ -132,10 +145,64 @@ export class NysVideo extends LitElement {
 
     const params = new URLSearchParams({
       autoplay: "1",
+      enablejsapi: "1",
       ...(this.starttime > 0 && { start: String(this.starttime) }),
     });
 
     return `https://www.youtube.com/embed/${videoId}?${params}`;
+  }
+
+  /**
+   * Because I need to know if Youtube ADs are playing, I need to call YT's API.
+   * Hence, the YT API setup below. The VO has 2 types of announcements:
+   * - "Advertisement is playing"
+   * - "Video is playing"
+   *
+   * YT IFrame Player API: https://developers.google.com/youtube/iframe_api_reference
+   */
+  private _announceVideoVO() {
+    const setup = () => {
+      this.updateComplete.then(() => {
+        const iframe = this.shadowRoot?.querySelector("iframe");
+        if (!iframe) return;
+
+        new window.YT.Player(iframe, {
+          events: {
+            onStateChange: (event: { data: number }) => {
+              if (this._adPlaying) return;
+
+              if (event.data === window.YT.PlayerState.PLAYING) {
+                this._announcement = "Video is playing";
+                setTimeout(() => (this._announcement = ""), 1000);
+              }
+            },
+            // NOTE: onAdStateChange is not officially documented by YouTube.
+            // It is a real event fired by the IFrame player, discovered through community reverse-engineering
+            onAdStateChange: (event: { data: number }) => {
+              this._adPlaying = event.data === window.YT.PlayerState.PLAYING;
+
+              if (this._adPlaying) {
+                this._announcement = "Advertisement is playing";
+                setTimeout(() => (this._announcement = ""), 1000);
+              }
+            },
+          },
+        });
+      });
+    };
+
+    // The window.YT is YouTube's API object. If already loaded, run setup immediately.
+    if (window.YT?.Player) {
+      setup();
+    } else {
+      if (!document.getElementById("yt-iframe-api")) {
+        const script = document.createElement("script");
+        script.id = "yt-iframe-api";
+        script.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(script);
+      }
+      window.onYouTubeIframeAPIReady = setup;
+    }
   }
 
   /**
@@ -146,6 +213,48 @@ export class NysVideo extends LitElement {
   private _handleThumbnailClick() {
     if (this.disabled) return;
     this._playerActive = true;
+    this._announceVideoVO();
+  }
+
+  /**
+   * Render Helpers
+   * --------------------------------------------------------------------------
+   */
+  private _renderAnnouncer() {
+    return html`
+      <div aria-live="polite" aria-atomic="true" class="nys-video__announcer">
+        ${this._announcement}
+      </div>
+    `;
+  }
+
+  private _renderPlayIcon() {
+    return this.disabled
+      ? html`<svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="31"
+          height="35"
+          viewBox="0 0 31 35"
+          fill="none"
+        >
+          <path
+            d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z"
+            fill="white"
+            fill-opacity="0.4"
+          />
+        </svg>`
+      : html`<svg
+          width="31"
+          height="35"
+          viewBox="0 0 31 35"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z"
+            fill="white"
+          />
+        </svg>`;
   }
 
   render() {
@@ -170,43 +279,16 @@ export class NysVideo extends LitElement {
             ? "nys-video--disabled"
             : ""}"
         >
+          ${this._renderAnnouncer()}
           <div class="nys-video__ratio-box">
             <div
               class="nys-video__thumbnail"
               @click=${this._handleThumbnailClick}
             >
               <img src=${this._getThumbnailUrl()} alt="" />
-              <button
-                class="nys-video__play-icon"
-                aria-label="Play ${this.titleText}"
-                ?disabled=${this.disabled}
-              >
-                ${!this.disabled
-                  ? html`<svg
-                      width="31"
-                      height="35"
-                      viewBox="0 0 31 35"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z"
-                        fill="white"
-                      />
-                    </svg>`
-                  : html`<svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="31"
-                      height="35"
-                      viewBox="0 0 31 35"
-                      fill="none"
-                    >
-                      <path
-                        d="M29.4221 15.7357L2.568 0.231711C1.42656 -0.426849 0 0.396831 0 1.71395V32.7229C0 34.041 1.42656 34.8647 2.568 34.2052L29.4221 18.7012C30.5635 18.0426 30.5635 16.3952 29.4221 15.7357Z"
-                        fill="white"
-                        fill-opacity="0.4"
-                      />
-                    </svg>`}
+              <button class="nys-video__play-icon" ?disabled=${this.disabled}>
+                <span class="sr-only">Play ${this.titleText}"</span>
+                ${this._renderPlayIcon()}
               </button>
             </div>
           </div>
@@ -219,6 +301,7 @@ export class NysVideo extends LitElement {
     }
 
     return html`<div class="nys-video nys-video--${effectiveSize}">
+      ${this._renderAnnouncer()}
       <div class="nys-video__ratio-box">
         <iframe
           src=${embedUrl}

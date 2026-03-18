@@ -12465,6 +12465,26 @@
             },
             {
               "kind": "field",
+              "name": "_announcement",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "Screen reader announcement text"
+            },
+            {
+              "kind": "field",
+              "name": "_adPlaying",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Tracks whether an ad is currently playing to suppress false \"Video is playing\" announcements"
+            },
+            {
+              "kind": "field",
               "name": "_mediaFull",
               "privacy": "private"
             },
@@ -12511,9 +12531,26 @@
             },
             {
               "kind": "method",
+              "name": "_announceVideoVO",
+              "privacy": "private",
+              "description": "Because I need to know if Youtube ADs are playing, I need to call YT's API.\nHence, the YT API setup below. The VO has 2 types of announcements:\n- \"Advertisement is playing\"\n- \"Video is playing\""
+            },
+            {
+              "kind": "method",
               "name": "_handleThumbnailClick",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_renderAnnouncer",
+              "privacy": "private",
+              "description": "Render Helpers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_renderPlayIcon",
+              "privacy": "private"
             }
           ],
           "attributes": [
