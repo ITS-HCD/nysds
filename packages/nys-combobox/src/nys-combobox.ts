@@ -462,7 +462,9 @@ export class NysCombobox extends LitElement {
   }
 
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleBlur(event: FocusEvent) {
@@ -485,7 +487,9 @@ export class NysCombobox extends LitElement {
     }
     this._validate();
 
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleDocumentClick = (event: MouseEvent) => {
