@@ -45,14 +45,13 @@ $flex-align-values: (start, end, center, stretch, baseline);
 
 @each $value in $flex-align-values {
   @include responsive-variants("nys-flex-align-#{$value}") {
-    align-items: if(sass($value == "start" or $value == "end"): flex-#{$value}; else: $value);
+    align-items: if($value == start or $value == end, unquote("flex-#{$value}"), $value);
   }
 }
 
-// Align self
 @each $value in $flex-align-values {
   @include responsive-variants("nys-flex-align-self-#{$value}") {
-    align-self: if(sass($value == "start" or $value == "end"): flex-#{$value}; else: $value);
+    align-self: if($value == start or $value == end, unquote("flex-#{$value}"), $value);
   }
 }
 
