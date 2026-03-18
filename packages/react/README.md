@@ -1,6 +1,6 @@
 # `@nysds/components/react` — Auto-generated React Wrappers
 
-This folder is **fully auto-generated** — do not edit files inside it directly.
+⚠️ This folder is **fully auto-generated** — do not edit files inside it directly!
 Files are regenerated every time `npm run cem` runs, which is called automatically by `npm run build:all`.
 
 ---
@@ -12,11 +12,11 @@ npm run cem
   └─► cem analyze --config custom-elements-manifest.config.mjs
         └─► customElementReactWrapperPlugin  (custom-element-react-wrappers)
               └─► packages/react/
-                    ├── index.js        ← barrel, one export per component
-                    ├── index.d.ts      ← TypeScript types
-                    ├── react-utils.js  ← internal hooks used by wrappers, do not use directly
-                    ├── NysButton.js    ← one file per component
-                    └── … etc.
+                    ├── index.js        <= barrel, one export per component
+                    ├── index.d.ts      <= TypeScript types
+                    ├── react-utils.js  <= auto generated internal hooks used by wrappers, do not use directly
+                    ├── NysButton.js    <= one file per component
+                    └── ...etc.
 ```
 
 The plugin is configured in `custom-elements-manifest.config.mjs` at the repo root.
@@ -81,12 +81,12 @@ React 19 improves web component interop but doesn't bridge custom events to `on*
 ## Repo layout
 
 ```
-custom-elements-manifest.config.mjs  ← plugin configured here
-package.json                         ← "./react" subpath export declared here
+custom-elements-manifest.config.mjs  <= plugin configured here
+package.json                         <= "./react" subpath export declared here
 packages/
-  react/                             ← auto-generated, do not edit
+  react/                             <= auto-generated, do not edit
     index.js
     index.d.ts
     react-utils.js
-    NysButton.js  … etc.
+    NysButton.js  ...etc.
 ```

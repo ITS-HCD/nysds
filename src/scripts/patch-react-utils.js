@@ -1,4 +1,11 @@
-import { useEffect, useRef } from "react";
+import { writeFileSync } from "fs";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const outPath = resolve(__dirname, "../../packages/react/react-utils.js");
+
+const patched = `import { useEffect, useRef } from "react";
 
 export function useProperties(targetElement, propName, value) {
   useEffect(() => {
@@ -40,3 +47,7 @@ export function useEventListener(targetElement, eventName, eventHandler) {
     // Handler changes are handled via the savedHandler ref above.
   }, [eventName, targetElement]);
 }
+`;
+
+writeFileSync(outPath, patched, "utf-8");
+console.log("✅  packages/react/react-utils.js patched successfully.");
