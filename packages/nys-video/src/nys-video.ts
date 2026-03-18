@@ -82,12 +82,6 @@ export class NysVideo extends LitElement {
       this.id = `nys-video-${Date.now()}-${videoIdCounter++}`;
     }
 
-    // if (this.videourl && !this._isValidYouTubeUrl()) {
-    //   console.error(
-    //     "<nys-video>: videourl is not a valid YouTube URL. Component will not render.",
-    //   );
-    // }
-
     if (!this.size) {
       this._updateAutoSize();
       this._mediaFull.addEventListener("change", this._onMediaChange);
@@ -176,7 +170,7 @@ export class NysVideo extends LitElement {
                 setTimeout(() => (this._announcement = ""), 1000);
               }
             },
-            // NOTE: onAdStateChange is not officially documented by YouTube.
+            // // NOTE: onAdStateChange is not officially documented by YouTube.
             // It is a real event fired by the IFrame player, discovered through community reverse-engineering
             onAdStateChange: (event: { data: number }) => {
               this._adPlaying = event.data === window.YT.PlayerState.PLAYING;
@@ -213,6 +207,20 @@ export class NysVideo extends LitElement {
   private _handleThumbnailClick() {
     if (this.disabled) return;
     this._playerActive = true;
+
+    this.updateComplete.then(() => {
+      const iframe = this.shadowRoot?.querySelector("iframe");
+      if (!iframe) return;
+
+      iframe.addEventListener(
+        "load",
+        () => {
+          iframe.focus();
+        },
+        { once: true },
+      );
+    });
+
     this._announceVideoVO();
   }
 
@@ -222,7 +230,11 @@ export class NysVideo extends LitElement {
    */
   private _renderAnnouncer() {
     return html`
-      <div aria-live="polite" aria-atomic="true" class="nys-video__announcer">
+      <div
+        aria-live="assertive"
+        aria-atomic="true"
+        class="nys-video__announcer"
+      >
         ${this._announcement}
       </div>
     `;
@@ -231,6 +243,7 @@ export class NysVideo extends LitElement {
   private _renderPlayIcon() {
     return this.disabled
       ? html`<svg
+          aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           width="31"
           height="35"
@@ -244,6 +257,7 @@ export class NysVideo extends LitElement {
           />
         </svg>`
       : html`<svg
+          aria-hidden="true"
           width="31"
           height="35"
           viewBox="0 0 31 35"
@@ -286,8 +300,11 @@ export class NysVideo extends LitElement {
               @click=${this._handleThumbnailClick}
             >
               <img src=${this._getThumbnailUrl()} alt="" />
-              <button class="nys-video__play-icon" ?disabled=${this.disabled}>
-                <span class="sr-only">Play ${this.titleText}"</span>
+              <button
+                class="nys-video__play-icon"
+                aria-label="Play ${this.titleText}"
+                ?disabled=${this.disabled}
+              >
                 ${this._renderPlayIcon()}
               </button>
             </div>
@@ -304,13 +321,14 @@ export class NysVideo extends LitElement {
       ${this._renderAnnouncer()}
       <div class="nys-video__ratio-box">
         <iframe
+          tabindex="0"
           src=${embedUrl}
           title=${this.titleText}
           aria-label=${this.titleText}
           loading=${this.loading}
           allowfullscreen
           frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer;autoplay;clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         ></iframe>
       </div>
     </div>`;

@@ -83,11 +83,20 @@ export const WithThumbnail: Story = {
     videourl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     size: "full",
     titleText: "Rick Astley - Never Gonna Give You Up",
-    thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+    thumbnail:
+      "https://wallpapers.com/images/hd/rick-astley-th6vqytajjixfuqj.jpg",
     autoplay: false,
     disabled: false,
   },
   render: (args) => html`
+    <p>
+      TIP: you can grab a published YT videos thumbnail through
+      <code style="color: green"
+        >https://img.youtube.com/vi/<span style="color: red"
+          >youtube-video-id</span
+        >/maxresdefault.jpg</code
+      >
+    </p>
     <nys-video
       videourl=${args.videourl}
       size=${args.size}

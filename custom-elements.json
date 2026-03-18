@@ -12533,7 +12533,7 @@
               "kind": "method",
               "name": "_announceVideoVO",
               "privacy": "private",
-              "description": "Because I need to know if Youtube ADs are playing, I need to call YT's API.\nHence, the YT API setup below. The VO has 2 types of announcements:\n- \"Advertisement is playing\"\n- \"Video is playing\""
+              "description": "Because I need to know if Youtube ADs are playing, I need to call YT's API.\nHence, the YT API setup below. The VO has 2 types of announcements:\n- \"Advertisement is playing\"\n- \"Video is playing\"\n\nYT IFrame Player API: https://developers.google.com/youtube/iframe_api_reference"
             },
             {
               "kind": "method",
