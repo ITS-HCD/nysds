@@ -149,6 +149,50 @@ describe("nys-dropdownmenu", () => {
     expect(menu.showDropdown).to.be.true;
   });
 
+  it("_findMostAvailableSpace returns bottom-start when bottom > top and start >= end", async () => {
+    const { menu } = await fixtureWithTrigger();
+    const result = (menu as any)._findMostAvailableSpace({
+      top: 100,
+      bottom: 300,
+      start: 400,
+      end: 200,
+    });
+    expect(result).to.equal("bottom-start");
+  });
+
+  it("_findMostAvailableSpace returns bottom-end when bottom > top and end > start", async () => {
+    const { menu } = await fixtureWithTrigger();
+    const result = (menu as any)._findMostAvailableSpace({
+      top: 100,
+      bottom: 300,
+      start: 200,
+      end: 400,
+    });
+    expect(result).to.equal("bottom-end");
+  });
+
+  it("_findMostAvailableSpace returns top-start when top > bottom and start >= end", async () => {
+    const { menu } = await fixtureWithTrigger();
+    const result = (menu as any)._findMostAvailableSpace({
+      top: 300,
+      bottom: 100,
+      start: 400,
+      end: 200,
+    });
+    expect(result).to.equal("top-start");
+  });
+
+  it("_findMostAvailableSpace returns top-end when top > bottom and end > start", async () => {
+    const { menu } = await fixtureWithTrigger();
+    const result = (menu as any)._findMostAvailableSpace({
+      top: 300,
+      bottom: 100,
+      start: 200,
+      end: 400,
+    });
+    expect(result).to.equal("top-end");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-dropdownmenu label="My Label"></nys-dropdownmenu>`,
@@ -207,5 +251,101 @@ describe("nys-dropdownmenuitem", () => {
 
     expect(detail.label).to.equal("Edit");
     expect(detail.href).to.equal("/edit");
+  });
+
+  it("renders a <button> instead of <a> when no href is provided", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action"></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector("button")).to.exist;
+    expect(el.shadowRoot!.querySelector("a")).to.not.exist;
+  });
+
+  it("button renders label text", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Submit"></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    const btn = el.shadowRoot!.querySelector("button")!;
+    expect(btn.textContent?.trim()).to.include("Submit");
+  });
+
+  it("button has aria-disabled=true and tabindex=-1 when disabled", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action" disabled></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    const btn = el.shadowRoot!.querySelector("button")!;
+    expect(btn.getAttribute("aria-disabled")).to.equal("true");
+    expect(btn.getAttribute("tabindex")).to.equal("-1");
+    expect(btn.disabled).to.be.true;
+  });
+
+  it("button has aria-disabled=false and tabindex=0 when not disabled", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action"></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    const btn = el.shadowRoot!.querySelector("button")!;
+    expect(btn.getAttribute("aria-disabled")).to.equal("false");
+    expect(btn.getAttribute("tabindex")).to.equal("0");
+  });
+
+  it("button renders prefixIcon when set", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem
+        label="Edit"
+        prefixIcon="edit"
+      ></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    const icon = el.shadowRoot!.querySelector("button nys-icon");
+    expect(icon).to.exist;
+    expect(icon!.getAttribute("name")).to.equal("edit");
+  });
+
+  it("button does not render nys-icon when prefixIcon is not set", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action"></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    expect(el.shadowRoot!.querySelector("button nys-icon")).to.not.exist;
+  });
+
+  it("disabled button does not fire nys-click", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action" disabled></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    let fired = false;
+    el.addEventListener("nys-click", () => (fired = true));
+
+    const btn = el.shadowRoot!.querySelector("button")!;
+    btn.click();
+    await el.updateComplete;
+
+    expect(fired).to.be.false;
+  });
+
+  it("button fires nys-click with label in detail and no href property", async () => {
+    const el = await fixture<NysDropdownMenuItem>(html`
+      <nys-dropdownmenuitem label="Action"></nys-dropdownmenuitem>
+    `);
+    await el.updateComplete;
+
+    const listener = oneEvent(el, "nys-click");
+    el.shadowRoot!.querySelector("button")!.click();
+    const { detail } = await listener;
+
+    expect(detail.label).to.equal("Action");
+    expect(detail.href).to.be.undefined;
   });
 });
