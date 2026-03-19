@@ -6,7 +6,7 @@ interface NysVideoArgs {
   id: string;
   titleText: string;
   videourl: string;
-  size: "full" | "contained" | "compacted";
+  size: "full" | "contained" | "compact";
   loading: "lazy" | "eager";
   starttime: number;
   thumbnail: string;
@@ -23,7 +23,7 @@ const meta: Meta<NysVideoArgs> = {
     videourl: { control: "text" },
     size: {
       control: "select",
-      options: ["", "full", "contained", "compacted"],
+      options: ["", "full", "contained", "compact"],
     },
     loading: {
       control: "select",
@@ -267,7 +267,7 @@ export const Sizes: Story = {
         </p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          size="compacted"
+          size="compact"
           arialabel="Compact size example"
           titleText="Compact Size"
         ></nys-video>
@@ -284,7 +284,7 @@ export const Sizes: Story = {
 <!-- Explicit sizes -->
 <nys-video videourl="..." size="full" arialabel="Full size example" titleText="Full Size"></nys-video>
 <nys-video videourl="..." size="contained" arialabel="Contained size example" titleText="Contained Size"></nys-video>
-<nys-video videourl="..." size="compacted" arialabel="Compact size example" titleText="Compact Size"></nys-video>`,
+<nys-video videourl="..." size="compact" arialabel="Compact size example" titleText="Compact Size"></nys-video>`,
         type: "auto",
       },
     },

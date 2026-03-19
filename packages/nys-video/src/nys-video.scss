@@ -44,37 +44,7 @@
   --_nys-video-padding--title-text: var(--nys-space-250, 20px);
 }
 
-/* ─── Explicit size overrides ────────────────────────────────────────────── */
-
-/*
- * Full — fills its container width, locks 16:9 aspect ratio.
- * Default size.
- */
-:host([size="full"]) .nys-video {
-  width: 100%;
-  min-width: 675px;
-}
-
-/*
- * Contained — capped at 675px wide, minimum 440px.
- * For screens smaller than 440px, use Compact instead.
- */
-:host([size="contained"]) .nys-video {
-  width: 100%;
-  max-width: 675px;
-  min-width: 440px;
-}
-
-/*
- * Compact — for mobile and small screens.
- */
-:host([size="compacted"]) .nys-video {
-  width: 100%;
-  min-width: 320px;
-  max-width: 439px;
-}
-
-/* ─── Auto size: applied only when no explicit size is set ────────────────────────────────────────────── */
+/* ─── Video Size ────────────────────────────────────────────── */
 .nys-video--full {
   width: 100%;
   min-width: 675px;
@@ -93,10 +63,36 @@
 /*
  * Compacted — for mobile and small screens.
  */
-.nys-video--compacted {
+.nys-video--compact {
   width: 100%;
   min-width: 320px;
   max-width: 439px;
+}
+
+/* ─── Size overrides for title text overlay ────────────────────────────────────────────── */
+// User setting full gets overlay at all responsive sizes 
+:host([size="full"]) .nys-video .nys-video__title-text {
+  position: absolute;
+  bottom: 0;
+
+  --_nys-video-background-color--title-text: var(
+    --nys-color-black-transparent-900,
+    rgba(27, 27, 27, 0.9)
+  );
+}
+
+// No "size=full" means we auto remove overlay for smaller screens
+.nys-video:not(.nys-video--compact):not(.nys-video--contained)
+  .nys-video__title-text{
+  @media (min-width: 480px) {
+    position: absolute;
+    bottom: 0;
+
+    --_nys-video-background-color--title-text: var(
+      --nys-color-black-transparent-900,
+      rgba(27, 27, 27, 0.9)
+    );
+  }
 }
 
 /* ─── Core video wrapper ─────────────────────────────────────────────────── */
@@ -211,16 +207,6 @@
 
     p {
       margin: 0;
-    }
-
-    @media (width >= 480px) {
-      position: absolute;
-      bottom: 0;
-
-      --_nys-video-background-color--title-text: var(
-        --nys-color-black-transparent-900,
-        rgba(27, 27, 27, 0.9)
-      );
     }
   }
 }

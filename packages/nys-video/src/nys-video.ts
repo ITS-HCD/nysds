@@ -58,7 +58,7 @@ export class NysVideo extends LitElement {
   @state() private _playerActive = false;
 
   /** Auto-computed size when no explicit size prop is set */
-  @state() private _autoSize: "full" | "contained" | "compacted" = "full";
+  @state() private _autoSize: "full" | "contained" | "compact" = "full";
 
   /** Screen reader announcement text */
   @state() private _announcement = "";
@@ -110,7 +110,7 @@ export class NysVideo extends LitElement {
     } else if (this._mediaMobileLarge.matches) {
       this._autoSize = "contained";
     } else {
-      this._autoSize = "compacted";
+      this._autoSize = "compact";
     }
   }
 
