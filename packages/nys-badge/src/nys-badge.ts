@@ -35,9 +35,6 @@ export class NysBadge extends LitElement {
   /** Name attribute for form association. */
   @property({ type: String, reflect: true }) name = "";
 
-  /** emily test */
-  @property({ type: Boolean, reflect: true }) emilyTest = false;
-
   /**
    * Badge size: `sm` (smaller text) or `md` (default).
    * @default "md"
