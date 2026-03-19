@@ -18,6 +18,9 @@ export interface NysBadgeProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** emily test */
+  emilyTest?: boolean;
+
   /** undefined */
   prefixIcon?: string | boolean;
 
