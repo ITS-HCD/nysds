@@ -1,0 +1,22 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.scss",
+        "src/**/*.json",
+        "vite.config.js",
+        "tsconfig.json",
+        "terrazzo.config.js"
+      ],
+      "outputs": ["dist/**", ".tsbuildinfo"],
+      "env": ["NODE_ENV", "BUILD_FORMAT"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

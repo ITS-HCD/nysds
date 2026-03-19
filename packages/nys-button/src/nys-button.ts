@@ -275,13 +275,17 @@ export class NysButton extends LitElement {
    */
 
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleBlur() {
     const button = this.shadowRoot?.querySelector(".nys-button");
     button?.classList.remove("active-focus");
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleClick(event: Event) {
@@ -290,7 +294,9 @@ export class NysButton extends LitElement {
       return;
     }
     this._manageFormAction();
-    this.dispatchEvent(new Event("nys-click"));
+    this.dispatchEvent(
+      new Event("nys-click", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleKeydown(e: KeyboardEvent) {
