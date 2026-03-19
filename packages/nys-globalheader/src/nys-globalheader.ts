@@ -33,7 +33,11 @@ export class NysGlobalHeader extends LitElement {
 
   /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
+
+  /** Internal state to track mobile menu open/closed status. */
   @state() private _isMobileMenuOpen = false;
+
+  /** Internal state to track if any navigation links are present in the slot. */
   @state() private _hasLinkContent = false;
 
   /**
