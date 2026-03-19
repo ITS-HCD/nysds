@@ -28,7 +28,7 @@ const SOURCES = {
   tokens: path.join(PROJECT_ROOT, "packages", "tokens", "dist"),
 };
 
-const RELEASE_DIR = path.join(PROJECT_ROOT, "Release");
+const RELEASE_DIR = path.join(PROJECT_ROOT, "release");
 const ZIP_PATH = path.join(PROJECT_ROOT, "release.zip");
 
 // ---------------------------------------------------------------------------
@@ -99,7 +99,7 @@ console.log(`🗜️  Zipping Release/ → release.zip`);
 // Use the native zip command (available on macOS/Linux).
 // The -r flag recurses into subdirectories; -q keeps output quiet.
 // We cd to the project root first so the zip paths are relative.
-execSync(`zip -rq "${ZIP_PATH}" Release`, { cwd: PROJECT_ROOT });
+execSync(`zip -rq "${ZIP_PATH}" release`, { cwd: PROJECT_ROOT });
 
 const zipSizeKB = (fs.statSync(ZIP_PATH).size / 1024).toFixed(1);
 console.log(`✅ release.zip created (${zipSizeKB} KB)`);
