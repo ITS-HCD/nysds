@@ -9,7 +9,6 @@ export const NysTable = forwardRef((props, forwardedRef) => {
 
   /** Event listeners - run once */
   useEventListener(ref, "nys-click", props.onNysClick);
-  useEventListener(ref, "nys-column-sort", props.onNysColumnSort);
 
   return React.createElement(
     "nys-table",

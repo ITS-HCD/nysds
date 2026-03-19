@@ -59,9 +59,6 @@ export interface NysTableProps extends Pick<
 
   /** Fired when the download button or sortable headers are clicked. */
   onNysClick?: (event: CustomEvent) => void;
-
-  /** Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" } */
-  onNysColumnSort?: (event: CustomEvent) => void;
 }
 
 /**
@@ -72,7 +69,6 @@ export interface NysTableProps extends Pick<
  *
  * ### **Events:**
  *  - **nys-click** - Fired when the download button or sortable headers are clicked.
- * - **nys-column-sort** - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * ### **Slots:**
  *  - _default_ - Accepts a `<table>` element. Only the first table is rendered.
