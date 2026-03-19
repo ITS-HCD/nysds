@@ -1,6 +1,8 @@
 # Ignore generated files
 dist/
 coverage/
+release/
+release*.zip
 
 # Ignore Node-specific files
 node_modules/
