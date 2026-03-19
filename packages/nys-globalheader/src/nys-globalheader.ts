@@ -95,48 +95,31 @@ export class NysGlobalHeader extends LitElement {
 
     if (!slot) return;
 
-    const assignedNodes = slot
+    const assignedElements = slot
       .assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[];
 
-    const newHasLinkContent = assignedNodes.length > 0;
-
     // Get the containers to append the slotted elements
-    const container = this.shadowRoot?.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement | null;
+    const containers = [
+      this.shadowRoot?.querySelector(".nys-globalheader__content"),
+      this.shadowRoot?.querySelector(".nys-globalheader__content-mobile"),
+    ] as (HTMLElement | null)[];
 
-    const containerMobile = this.shadowRoot?.querySelector(
-      ".nys-globalheader__content-mobile",
-    ) as HTMLElement | null;
+    // If any container is missing, abort
+    if (containers.some((c) => !c)) return;
 
-    if (!container || !containerMobile) return;
-
-    // Clear existing children in the container
-    container.innerHTML = "";
-    containerMobile.innerHTML = "";
-
-    // Clone and append slotted elements into the shadow DOM container
-    assignedNodes.forEach((node) => {
-      if (node instanceof HTMLElement) {
-        // need to clone the node because cannot have same node in two places in DOM
-        const nodeInline = node.cloneNode(true) as HTMLElement;
-        const nodeMobile = node.cloneNode(true) as HTMLElement;
-
-        container.appendChild(nodeInline);
-        containerMobile.appendChild(nodeMobile);
-      }
-    });
-
-    // Highlight active links AFTER DOM is finalized
-    this._highlightActiveLink(container);
-    this._highlightActiveLink(containerMobile);
+    // Rebuild each container with cloned slotted elements
+    for (const container of containers) {
+      container!.innerHTML = "";
+      assignedElements.forEach((node) => {
+        container!.appendChild(node.cloneNode(true));
+      });
+      this._highlightActiveLink(container!);
+    }
 
     // Update reactive state AFTER the current update cycle has fully completed
     await this.updateComplete;
-    if (this.hasLinkContent !== newHasLinkContent) {
-      this.hasLinkContent = newHasLinkContent;
-    }
+    this.hasLinkContent = assignedElements.length > 0;
   }
 
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
