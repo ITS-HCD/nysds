@@ -5,6 +5,9 @@ on:
     branches:
       - develop
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Run build:all
@@ -13,6 +16,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -25,3 +31,21 @@ jobs:
 
       - name: Build
         run: npm run build:all
+
+      - name: Check for generated changes
+        id: diff
+        run: |
+          git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit generated files
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: commit generated build artifacts [skip ci]"
+          git push
+
+      - name: Notice — no changes
+        if: steps.diff.outputs.changed == 'false'
+        run: echo "::notice::Build ran successfully. No generated files changed."
