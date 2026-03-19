@@ -1180,17 +1180,6 @@
             },
             {
               "kind": "field",
-              "name": "emilyTest",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "emily test",
-              "attribute": "emilyTest",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "size",
               "type": {
                 "text": "\"sm\" | \"md\""
@@ -1328,16 +1317,6 @@
               "description": "Name attribute for form association.",
               "fieldName": "name",
               "propName": "name"
-            },
-            {
-              "name": "emilyTest",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "emily test",
-              "fieldName": "emilyTest",
-              "propName": "emilytest"
             },
             {
               "name": "size",
