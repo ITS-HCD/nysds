@@ -97,7 +97,7 @@ export class NysGlobalHeader extends LitElement {
 
     const assignedNodes = slot
       .assignedNodes({ flatten: true })
-      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[];
+      .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
 
     // Get the containers to append the slotted elements
     const containers = [
