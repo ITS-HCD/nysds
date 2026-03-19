@@ -12740,7 +12740,7 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "| \"full\"\n    | \"contained\"\n    | \"compacted\"\n    | \"\""
+                "text": "| \"full\"\n    | \"contained\"\n    | \"compact\"\n    | \"\""
               },
               "default": "\"\"",
               "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
@@ -12941,7 +12941,7 @@
             {
               "name": "size",
               "type": {
-                "text": "| \"full\"\n    | \"contained\"\n    | \"compacted\"\n    | \"\""
+                "text": "| \"full\"\n    | \"contained\"\n    | \"compact\"\n    | \"\""
               },
               "default": "\"\"",
               "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",

@@ -11,7 +11,7 @@ figma.connect("<FIGMA_VIDEO>", {
     size: figma.enum("Size", {
       Full: "full",
       Contained: "contained",
-      Compacted: "compacted",
+      Compacted: "compact",
     }),
   },
   example: (props) => html`

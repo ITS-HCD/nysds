@@ -31,7 +31,7 @@ export class NysVideo extends LitElement {
   @property({ type: String, reflect: true }) size:
     | "full"
     | "contained"
-    | "compacted"
+    | "compact"
     | "" = "";
 
   @property({ type: String }) loading: "lazy" | "eager" = "lazy";
@@ -167,7 +167,9 @@ export class NysVideo extends LitElement {
               if (this._adPlaying) return;
 
               if (event.data === window.YT.PlayerState.PLAYING) {
-                this._announcement = "Video is playing";
+                this._announcement = this.autoplay
+                  ? "Video is playing, muted"
+                  : "Video is playing";
                 setTimeout(() => (this._announcement = ""), 1000);
               }
             },

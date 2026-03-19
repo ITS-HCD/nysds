@@ -262,9 +262,7 @@ export const Sizes: Story = {
         ></nys-video>
       </div>
       <div>
-        <p style="margin: 0 0 8px; font-weight: 600;">
-          Compacted (320px–439px)
-        </p>
+        <p style="margin: 0 0 8px; font-weight: 600;">Compact (320px–439px)</p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           size="compact"
