@@ -12753,7 +12753,7 @@
               "type": {
                 "text": "\"lazy\" | \"eager\""
               },
-              "default": "\"eager\"",
+              "default": "\"lazy\"",
               "attribute": "loading"
             },
             {
@@ -12915,7 +12915,8 @@
               },
               "default": "\"\"",
               "description": "Full YouTube URL — required. Component will not render if invalid.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "titleText",
@@ -12924,7 +12925,8 @@
               },
               "default": "\"\"",
               "description": "Title text for the thumbnail of the video",
-              "fieldName": "titleText"
+              "fieldName": "titleText",
+              "propName": "titletext"
             },
             {
               "name": "videourl",
@@ -12933,7 +12935,8 @@
               },
               "default": "\"\"",
               "description": "Full YouTube URL — required. Component will not render if invalid.",
-              "fieldName": "videourl"
+              "fieldName": "videourl",
+              "propName": "videourl"
             },
             {
               "name": "size",
@@ -12942,15 +12945,17 @@
               },
               "default": "\"\"",
               "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             },
             {
               "name": "loading",
               "type": {
                 "text": "\"lazy\" | \"eager\""
               },
-              "default": "\"eager\"",
-              "fieldName": "loading"
+              "default": "\"lazy\"",
+              "fieldName": "loading",
+              "propName": "loading"
             },
             {
               "name": "starttime",
@@ -12959,7 +12964,8 @@
               },
               "default": "0",
               "description": "Time in seconds where playback begins. *",
-              "fieldName": "starttime"
+              "fieldName": "starttime",
+              "propName": "starttime"
             },
             {
               "name": "thumbnail",
@@ -12968,7 +12974,8 @@
               },
               "default": "null",
               "description": "Custom thumbnail image path.\nFalls back to YouTube's auto-generated thumbnail if not provided.",
-              "fieldName": "thumbnail"
+              "fieldName": "thumbnail",
+              "propName": "thumbnail"
             },
             {
               "name": "autoplay",
@@ -12977,7 +12984,8 @@
               },
               "default": "false",
               "description": "Triggers autoplay when the iframe loads",
-              "fieldName": "autoplay"
+              "fieldName": "autoplay",
+              "propName": "autoplay"
             },
             {
               "name": "disabled",
@@ -12986,7 +12994,8 @@
               },
               "default": "false",
               "description": "Prevents the video from being played",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             }
           ],
           "superclass": {

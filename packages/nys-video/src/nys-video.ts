@@ -140,6 +140,7 @@ export class NysVideo extends LitElement {
     const params = new URLSearchParams({
       autoplay: "1",
       enablejsapi: "1",
+      ...(this.autoplay && { mute: "1" }),
       ...(this.starttime > 0 && { start: String(this.starttime) }),
     });
 
