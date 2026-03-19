@@ -12457,7 +12457,7 @@
               "kind": "field",
               "name": "_autoSize",
               "type": {
-                "text": "\"full\" | \"contained\" | \"compacted\""
+                "text": "\"full\" | \"contained\" | \"compact\""
               },
               "privacy": "private",
               "default": "\"full\"",
