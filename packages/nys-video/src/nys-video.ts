@@ -34,7 +34,7 @@ export class NysVideo extends LitElement {
     | "compacted"
     | "" = "";
 
-  @property({ type: String }) loading: "lazy" | "eager" = "eager";
+  @property({ type: String }) loading: "lazy" | "eager" = "lazy";
 
   // /** Accessible label describing the video content **/
   // @property({ type: String }) ariaLabel = "";
