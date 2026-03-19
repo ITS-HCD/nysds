@@ -95,7 +95,7 @@ export class NysGlobalHeader extends LitElement {
 
     if (!slot) return;
 
-    const assignedElements = slot
+    const assignedNodes = slot
       .assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[];
 
@@ -111,7 +111,7 @@ export class NysGlobalHeader extends LitElement {
     // Rebuild each container with cloned slotted elements
     for (const container of containers) {
       container!.innerHTML = "";
-      assignedElements.forEach((node) => {
+      assignedNodes.forEach((node) => {
         container!.appendChild(node.cloneNode(true));
       });
       this._highlightActiveLink(container!);
@@ -119,7 +119,7 @@ export class NysGlobalHeader extends LitElement {
 
     // Update reactive state AFTER the current update cycle has fully completed
     await this.updateComplete;
-    this.hasLinkContent = assignedElements.length > 0;
+    this.hasLinkContent = assignedNodes.length > 0;
   }
 
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
