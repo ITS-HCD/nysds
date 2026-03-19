@@ -36,7 +36,5 @@ export function useEventListener(targetElement, eventName, eventHandler) {
     return () => {
       element.removeEventListener(eventName, listener);
     };
-    // Only re-subscribe when the element or event name changes.
-    // Handler changes are handled via the savedHandler ref above.
   }, [eventName, targetElement]);
 }
