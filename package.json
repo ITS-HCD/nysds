@@ -53,7 +53,7 @@
     "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && find packages -type d -name dist ! -path '*/mcp-server/dist' -exec rm -rf {} + 2>/dev/null || true",
     "clean:all": "npm run clean:dist && npm run clean:node && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js"
+    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js && node src/scripts/sort-react-index.js"
   },
   "repository": {
     "type": "git",
