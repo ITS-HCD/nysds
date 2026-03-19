@@ -194,10 +194,16 @@ export class NysTextinput extends LitElement {
 
       if (input) {
         if (mask) {
-          input.maxLength = mask.length;
+          // Only apply mask length if user hasn't explicitly set maxlength
+          if (this.maxlength === null) {
+            input.maxLength = mask.length;
+          }
           this._updateOverlay(input.value, mask);
         } else {
-          input.removeAttribute("maxLength");
+          // Only remove if user hasn't explicitly set maxlength
+          if (this.maxlength === null) {
+            input.removeAttribute("maxLength");
+          }
           const overlay = this.shadowRoot?.querySelector(
             ".nys-textinput__mask-overlay",
           );
@@ -443,7 +449,9 @@ export class NysTextinput extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   // Handle blur event
@@ -453,7 +461,9 @@ export class NysTextinput extends LitElement {
     }
     this._validate();
 
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
   private _validateButtonSlot(slotName: string) {

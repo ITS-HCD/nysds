@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-datepicker",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "description": "The Datepicker component from the NYS Design System.",
   "module": "dist/nys-datepicker.js",
   "types": "dist/index.d.ts",
@@ -16,17 +16,17 @@
   ],
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "tsc --emitDeclarationOnly && vite build",
+    "build": "vite build",
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.15.0",
-    "@nysds/nys-button": "^1.15.0",
-    "@nysds/nys-label": "^1.15.0",
-    "@nysds/nys-errormessage": "^1.15.0",
+    "@nysds/nys-icon": "^1.15.1",
+    "@nysds/nys-button": "^1.15.1",
+    "@nysds/nys-label": "^1.15.1",
+    "@nysds/nys-errormessage": "^1.15.1",
     "wc-datepicker": "^0.9.2"
   },
   "devDependencies": {

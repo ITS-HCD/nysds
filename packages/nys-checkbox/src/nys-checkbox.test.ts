@@ -1,6 +1,7 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-checkbox.js";
 import { NysCheckbox } from "./nys-checkbox";
+import { NysCheckboxgroup } from "./nys-checkboxgroup";
 
 // Below are placeholder examples of test cases for a web component. Add your own tests as needed.
 describe("nys-checkbox", () => {
@@ -389,7 +390,9 @@ describe("nys-checkbox", () => {
       </nys-checkboxgroup>
     `);
 
-    const checkboxes = Array.from(group.querySelectorAll("nys-checkbox"));
+    const checkboxes = Array.from(
+      group.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
     const otherCheckbox = checkboxes.find(
       (checkbox) => checkbox.other,
     ) as NysCheckbox;
@@ -413,7 +416,9 @@ describe("nys-checkbox", () => {
       </nys-checkboxgroup>
     `);
 
-    const checkboxes = Array.from(group.querySelectorAll("nys-checkbox"));
+    const checkboxes = Array.from(
+      group.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
     const otherCheckbox = checkboxes.find(
       (checkbox) => checkbox.other,
     ) as NysCheckbox;
@@ -439,7 +444,9 @@ describe("nys-checkbox", () => {
       </nys-checkboxgroup>
     `);
 
-    const checkboxes = Array.from(group.querySelectorAll("nys-checkbox"));
+    const checkboxes = Array.from(
+      group.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
     const otherCheckbox = checkboxes.find(
       (checkbox) => checkbox.other,
     ) as NysCheckbox;
@@ -462,6 +469,109 @@ describe("nys-checkbox", () => {
     expect(otherCheckbox.showOtherError).to.be.false;
   });
 
+  it("_handleInvalid always calls preventDefault", async () => {
+    const el = await fixture<NysCheckboxgroup>(html`
+      <nys-checkboxgroup required>
+        <nys-checkbox name="x" value="a" label="A"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    await el.updateComplete;
+
+    const event = new Event("invalid", { cancelable: true, bubbles: false });
+    el.dispatchEvent(event);
+
+    expect(event.defaultPrevented).to.be.true;
+  });
+
+  it("_handleInvalid (valueMissing) does not focus when a preceding invalid group exists in the same form", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-checkboxgroup id="first" required>
+          <nys-checkbox name="a" value="1" label="One"></nys-checkbox>
+        </nys-checkboxgroup>
+        <nys-checkboxgroup id="second" required>
+          <nys-checkbox name="b" value="2" label="Two"></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+
+    const second = container.querySelector<any>("#second")!;
+    await second.updateComplete;
+
+    const checkbox = second.querySelector("nys-checkbox") as NysCheckbox;
+    const input = await checkbox.getInputElement();
+    let focused = false;
+    input!.focus = () => {
+      focused = true;
+    };
+
+    second.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await second.updateComplete;
+
+    expect(focused).to.be.false;
+  });
+
+  it("_handleInvalid (customError) focuses the other textinput and returns early", async () => {
+    const el = await fixture<NysCheckboxgroup>(html`
+      <nys-checkboxgroup>
+        <nys-checkbox other checked name="x" value=""></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    await el.updateComplete;
+
+    const checkbox = el.querySelector("nys-checkbox") as NysCheckbox;
+    await checkbox.updateComplete;
+
+    // Manually set customError on the group's internals to trigger that branch
+    const textInput = checkbox.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+
+    let focused = false;
+    (textInput as HTMLElement).focus = () => {
+      focused = true;
+    };
+
+    // Set customError validity so the branch fires
+    (el as any)._internals.setValidity(
+      { customError: true },
+      "Please complete this field.",
+      textInput,
+    );
+
+    const event = new Event("invalid", { cancelable: true });
+    el.dispatchEvent(event);
+    await el.updateComplete;
+    await new Promise((r) => setTimeout(r, 0)); // flush async focus
+
+    expect(focused).to.be.true;
+  });
+
+  it("_handleInvalid (customError) falls through to valueMissing when no checked other checkbox exists", async () => {
+    const el = await fixture<NysCheckboxgroup>(html`
+      <nys-checkboxgroup required>
+        <nys-checkbox name="x" value="a" label="A"></nys-checkbox>
+        <nys-checkbox other name="x" value="" label="Other"></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+    await el.updateComplete;
+
+    // Set customError but leave the other checkbox unchecked — customError branch exits without returning,
+    // falls through to valueMissing
+    const firstCheckbox = el.querySelector("nys-checkbox") as NysCheckbox;
+    const input = await firstCheckbox.getInputElement();
+
+    (el as any)._internals.setValidity(
+      { valueMissing: true },
+      "Required",
+      input,
+    );
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect((el as any).showError).to.be.true;
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
@@ -469,13 +579,4 @@ describe("nys-checkbox", () => {
     );
     await expect(el).shadowDom.to.be.accessible();
   });
-
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
 });
