@@ -60,6 +60,32 @@ describe("nys-backtotop", () => {
     expect(el.visible).to.be.true;
   });
 
+  it("calls window.scrollTo when clicked", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+    const button = el.shadowRoot?.querySelector("nys-button")!;
+
+    // Spy on window.scrollTo
+    let calledWith: any = null;
+    const originalScrollTo = window.scrollTo;
+    window.scrollTo = (options: any) => {
+      calledWith = options;
+    };
+
+    // Trigger click event
+    button.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+
+    await el.updateComplete;
+
+    expect(calledWith).to.deep.equal({ top: 0, behavior: "smooth" });
+
+    // Restore original function
+    window.scrollTo = originalScrollTo;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
     await expect(el).shadowDom.to.be.accessible();

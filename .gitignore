@@ -1,6 +1,8 @@
 # Ignore generated files
 dist/
 coverage/
+release/
+release*.zip
 
 # Ignore Node-specific files
 node_modules/
@@ -47,3 +49,6 @@ Thumbs.db
 CLAUDE.md
 .claude/
 docs/
+
+# Ignore generated react-utils.js
+packages/react/react-utils.js
