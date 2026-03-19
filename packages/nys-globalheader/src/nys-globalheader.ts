@@ -33,8 +33,8 @@ export class NysGlobalHeader extends LitElement {
 
   /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
-  @state() private isMobileMenuOpen = false;
-  @state() private hasLinkContent = false;
+  @state() private _isMobileMenuOpen = false;
+  @state() private _hasLinkContent = false;
 
   /**
    * Lifecycle Methods
@@ -119,7 +119,7 @@ export class NysGlobalHeader extends LitElement {
 
     // Update reactive state AFTER the current update cycle has fully completed
     await this.updateComplete;
-    this.hasLinkContent = assignedNodes.length > 0;
+    this._hasLinkContent = assignedNodes.length > 0;
   }
 
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
@@ -136,7 +136,7 @@ export class NysGlobalHeader extends LitElement {
   }
 
   private _toggleMobileMenu() {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    this._isMobileMenuOpen = !this._isMobileMenuOpen;
   }
 
   // Listens for click events on links to mark them active
@@ -168,19 +168,19 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
-          ${this.hasLinkContent
+          ${this._hasLinkContent
             ? html` <div class="nys-globalheader__button-container">
                 <button
                   class="nys-globalheader__mobile-menu-button"
                   @click="${this._toggleMobileMenu}"
                 >
                   <nys-icon
-                    name="${this.isMobileMenuOpen ? "close" : "menu"}"
+                    name="${this._isMobileMenuOpen ? "close" : "menu"}"
                     size="32"
-                    label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
+                    label="${this._isMobileMenuOpen ? "close" : "menu"} icon"
                   ></nys-icon>
                   <span class="nys-globalheader__mobile-menu-button-text"
-                    >${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span
+                    >${this._isMobileMenuOpen ? "CLOSE" : "MENU"}</span
                   >
                 </button>
               </div>`
@@ -240,7 +240,7 @@ export class NysGlobalHeader extends LitElement {
         </div>
       </header>
       <div
-        class="nys-globalheader__content-mobile ${this.isMobileMenuOpen
+        class="nys-globalheader__content-mobile ${this._isMobileMenuOpen
           ? ""
           : "close"}"
       ></div>
