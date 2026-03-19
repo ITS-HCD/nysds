@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.16.0-alpha-3",
+  "version": "1.15.1",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -42,6 +42,7 @@
     "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish --access public",
     "release:dry-run": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
+    "release:zip": "npm run build:all && node src/scripts/create-release-zip.js",
     "test": "npx playwright install && wtr --node-resolve",
     "test:build": "npm run build:all && npm run test",
     "storybook": "cross-env NODE_ENV=production storybook dev -p 6006",
@@ -106,8 +107,8 @@
     "stylelint-config-standard": "^40.0.0",
     "stylelint-config-standard-scss": "^17.0.0",
     "tslib": "^2.8.1",
+    "turbo": "^2.8.19",
     "typescript": "^5.9.3",
-    "turbo": "^2.8.16",
     "vite": "^7.3.1"
   },
   "eslintConfig": {

@@ -6507,21 +6507,23 @@
             },
             {
               "kind": "field",
-              "name": "isMobileMenuOpen",
+              "name": "_isMobileMenuOpen",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
-              "default": "false"
+              "default": "false",
+              "description": "Internal state to track mobile menu open/closed status."
             },
             {
               "kind": "field",
-              "name": "hasLinkContent",
+              "name": "_hasLinkContent",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
-              "default": "false"
+              "default": "false",
+              "description": "Internal state to track if any navigation links are present in the slot."
             },
             {
               "kind": "method",
