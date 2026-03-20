@@ -994,6 +994,45 @@ These utility classes are used to create a flexbox layout. Flexbox is a one-dime
 </div>
 ```
 
+## nys-flex-gap
+
+<section className="utility" id="utility-flex-gap">
+    <section className="utility-examples">
+
+      <div className="border padding-1 radius-md margin-bottom-2">
+
+        {["1px", , 50, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 1200].map((size) => (
+          <div key={size}>
+            <span className="utility-class">{`.nys-flex-gap-${size}`}</span>
+            <div className={`nys-display-flex nys-flex-row nys-flex-gap-${size} margin-top-2 border-bottom border-base-light padding-bottom-2 margin-bottom-2`}>
+              <div className="minh-7 minw-7 bg-secondary-light nys-display-flex nys-flex-align-center nys-flex-justify-center"></div>
+              <div className="minh-7 minw-7 bg-secondary-light nys-display-flex nys-flex-align-center nys-flex-justify-center"></div>
+              <div className="minh-7 minw-7 bg-secondary-light nys-display-flex nys-flex-align-center nys-flex-justify-center"></div>
+              <div className="minh-7 minw-7 bg-secondary-light nys-display-flex nys-flex-align-center nys-flex-justify-center"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  </section>
+
+```html
+<div class="nys-display-flex nys-flex-gap-1px"></div>
+<div class="nys-display-flex nys-flex-gap-2px"></div>
+<div class="nys-display-flex nys-flex-gap-50"></div>
+<div class="nys-display-flex nys-flex-gap-100"></div>
+<div class="nys-display-flex nys-flex-gap-150"></div>
+<div class="nys-display-flex nys-flex-gap-200"></div>
+<div class="nys-display-flex nys-flex-gap-250"></div>
+<div class="nys-display-flex nys-flex-gap-300"></div>
+<div class="nys-display-flex nys-flex-gap-400"></div>
+<div class="nys-display-flex nys-flex-gap-500"></div>
+<div class="nys-display-flex nys-flex-gap-600"></div>
+<div class="nys-display-flex nys-flex-gap-700"></div>
+<div class="nys-display-flex nys-flex-gap-800"></div>
+<div class="nys-display-flex nys-flex-gap-1200"></div>
+```
+
 ## nys-order
 
 <section className="utility" id="utility-order">
