@@ -236,7 +236,7 @@ export class NysVideo extends LitElement {
       <div
         aria-live="assertive"
         aria-atomic="true"
-        class="nys-video__announcer"
+        class="nys-video__announcer sr-only"
       >
         ${this._announcement}
       </div>
