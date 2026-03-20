@@ -51,14 +51,14 @@ $flex-align-values: (
 
 @each $value in $flex-align-values {
   @include responsive-variants("nys-flex-align-#{$value}") {
-    align-items: if($value ==start or $value ==end, unquote("flex-#{$value}"), $value);
+    align-items: if($value == start or $value ==end, unquote("flex-#{$value}"), $value);
   }
 }
 
 // Align self
 @each $value in $flex-align-values {
   @include responsive-variants("nys-flex-align-self-#{$value}") {
-    align-self: if($value ==start or $value ==end, unquote("flex-#{$value}"), $value);
+    align-self: if($value == start or $value == end, unquote("flex-#{$value}"), $value);
   }
 }
 
