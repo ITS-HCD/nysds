@@ -41,18 +41,24 @@
 }
 
 // Align items
-$flex-align-values: (start, end, center, stretch, baseline);
+$flex-align-values: (
+  start,
+  end,
+  center,
+  stretch,
+  baseline
+);
 
 @each $value in $flex-align-values {
   @include responsive-variants("nys-flex-align-#{$value}") {
-    align-items: if(sass($value == "start" or $value == "end"): flex-#{$value}; else: $value);
+    align-items: if($value == start or $value ==end, unquote("flex-#{$value}"), $value);
   }
 }
 
 // Align self
 @each $value in $flex-align-values {
   @include responsive-variants("nys-flex-align-self-#{$value}") {
-    align-self: if(sass($value == "start" or $value == "end"): flex-#{$value}; else: $value);
+    align-self: if($value == start or $value == end, unquote("flex-#{$value}"), $value);
   }
 }
 
@@ -69,6 +75,51 @@ $flex-align-values: (start, end, center, stretch, baseline);
   justify-content: flex-end;
 }
 
-@include responsive-variants("nys-flex-justify") {
+@include responsive-variants("nys-flex-justify-space-between") {
   justify-content: space-between;
+}
+
+@include responsive-variants("nys-flex-justify-space-around") {
+  justify-content: space-around;
+}
+
+@include responsive-variants("nys-flex-justify-space-evenly") {
+  justify-content: space-evenly;
+}
+
+// Flex gap
+$flex-gap-tokens: (
+  1px,
+  2px,
+  50,
+  100,
+  150,
+  200,
+  250,
+  300,
+  400,
+  500,
+  600,
+  700,
+  800,
+  1200
+);
+
+@each $size in $flex-gap-tokens {
+  @include responsive-variants("nys-flex-gap-#{$size}") {
+    gap: var(--nys-space-#{$size});
+  }
+}
+
+// Flex gap — row/column splits
+@each $size in $flex-gap-tokens {
+  @include responsive-variants("nys-flex-row-gap-#{$size}") {
+    row-gap: var(--nys-space-#{$size});
+  }
+}
+
+@each $size in $flex-gap-tokens {
+  @include responsive-variants("nys-flex-column-gap-#{$size}") {
+    column-gap: var(--nys-space-#{$size});
+  }
 }
