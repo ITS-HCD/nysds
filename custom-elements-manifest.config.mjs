@@ -54,7 +54,6 @@ export default {
     // ── React wrappers ────────────────────────────────────────────────────────
     // Generates packages/react/ automatically on every `npm run cem`.
     // Consumers import from "@nysds/react" — no manual wrapper file required.
-    customElementReactWrapperPlugin(reactOpts),
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
@@ -79,7 +78,7 @@ export default {
       }
     },
     customElementVsCodePlugin(vscodeOpts),
-
+    customElementReactWrapperPlugin(reactOpts),
 ],
   /**
    * Resolution options when using `dependencies: true`

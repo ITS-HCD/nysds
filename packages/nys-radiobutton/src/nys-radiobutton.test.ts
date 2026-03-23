@@ -986,8 +986,16 @@ describe("nys-radiobutton", () => {
   it("Space and Enter keys select the focused radio and fire nys-change", async () => {
     const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Space/Enter nav">
-        <nys-radiobutton name="radioChoice" label="radio1" value="radio1"></nys-radiobutton>
-        <nys-radiobutton name="radioChoice" label="radio2" value="radio2"></nys-radiobutton>
+        <nys-radiobutton
+          name="radioChoice"
+          label="radio1"
+          value="radio1"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="radioChoice"
+          label="radio2"
+          value="radio2"
+        ></nys-radiobutton>
       </nys-radiogroup>
     `);
     await group.updateComplete;
