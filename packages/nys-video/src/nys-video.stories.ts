@@ -6,7 +6,7 @@ interface NysVideoArgs {
   id: string;
   titleText: string;
   videourl: string;
-  size: "full" | "contained" | "compact";
+  size: "full" | "md" | "sm";
   loading: "lazy" | "eager";
   starttime: number;
   thumbnail: string;
@@ -23,7 +23,7 @@ const meta: Meta<NysVideoArgs> = {
     videourl: { control: "text" },
     size: {
       control: "select",
-      options: ["", "full", "contained", "compact"],
+      options: ["", "full", "md", "sm"],
     },
     loading: {
       control: "select",
@@ -251,23 +251,21 @@ export const Sizes: Story = {
         ></nys-video>
       </div>
       <div>
-        <p style="margin: 0 0 8px; font-weight: 600;">
-          Contained (440px–675px)
-        </p>
+        <p style="margin: 0 0 8px; font-weight: 600;">Medium (440px–675px)</p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          size="contained"
-          arialabel="Contained size example"
-          titleText="Contained Size"
+          size="md"
+          arialabel="Medium size example"
+          titleText="Medium Size"
         ></nys-video>
       </div>
       <div>
-        <p style="margin: 0 0 8px; font-weight: 600;">Compact (320px–439px)</p>
+        <p style="margin: 0 0 8px; font-weight: 600;">Small (320px–439px)</p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          size="compact"
-          arialabel="Compact size example"
-          titleText="Compact Size"
+          size="sm"
+          arialabel="Small size example"
+          titleText="Small Size"
         ></nys-video>
       </div>
     </div>
@@ -281,8 +279,8 @@ export const Sizes: Story = {
 
 <!-- Explicit sizes -->
 <nys-video videourl="..." size="full" arialabel="Full size example" titleText="Full Size"></nys-video>
-<nys-video videourl="..." size="contained" arialabel="Contained size example" titleText="Contained Size"></nys-video>
-<nys-video videourl="..." size="compact" arialabel="Compact size example" titleText="Compact Size"></nys-video>`,
+<nys-video videourl="..." size="md" arialabel="Medium size example" titleText="Medium Size"></nys-video>
+<nys-video videourl="..." size="sm" arialabel="Small size example" titleText="Small Size"></nys-video>`,
         type: "auto",
       },
     },

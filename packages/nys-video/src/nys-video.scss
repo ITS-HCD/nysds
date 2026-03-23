@@ -50,19 +50,19 @@
 }
 
 /*
- * Contained — capped at 675px wide, minimum 440px.
- * For screens smaller than 440px, use Compact instead.
+ * Medium (md) — capped at 675px wide, minimum 440px.
+ * For screens smaller than 440px, use Small (sm) instead.
  */
-.nys-video--contained {
+.nys-video--md {
   width: 100%;
   max-width: 675px;
   min-width: 440px;
 }
 
 /*
- * Compact — for mobile and small screens.
+ * Small (sm) — for mobile and small screens.
  */
-.nys-video--compact {
+.nys-video--sm {
   width: 100%;
   min-width: 320px;
   max-width: 439px;
@@ -81,7 +81,7 @@
 }
 
 // No "size=full" means we auto remove overlay for smaller screens
-.nys-video:not(.nys-video--compact):not(.nys-video--contained)
+.nys-video:not(.nys-video--sm):not(.nys-video--md)
   .nys-video__title-text{
   @media (width >= 480px) {
     position: absolute;

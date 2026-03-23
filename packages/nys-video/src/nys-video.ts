@@ -28,11 +28,8 @@ export class NysVideo extends LitElement {
    * Largest size for the video player.
    * If not set, size is determined automatically by viewport width.
    */
-  @property({ type: String, reflect: true }) size:
-    | "full"
-    | "contained"
-    | "compact"
-    | "" = "";
+  @property({ type: String, reflect: true }) size: "full" | "md" | "sm" | "" =
+    "";
 
   @property({ type: String }) loading: "lazy" | "eager" = "lazy";
 
@@ -57,8 +54,8 @@ export class NysVideo extends LitElement {
   /** Tracks whether the user has clicked to load the player */
   @state() private _playerActive = false;
 
-  /** Auto-computed size when no explicit size prop is set */
-  @state() private _autoSize: "full" | "contained" | "compact" = "full";
+  /** Auto-computed size when no explicit size prop is set (default is "md") */
+  @state() private _autoSize: "full" | "md" | "sm" = "md";
 
   /** Screen reader announcement text */
   @state() private _announcement = "";
@@ -108,9 +105,9 @@ export class NysVideo extends LitElement {
     if (this._mediaFull.matches) {
       this._autoSize = "full";
     } else if (this._mediaMobileLarge.matches) {
-      this._autoSize = "contained";
+      this._autoSize = "md";
     } else {
-      this._autoSize = "compact";
+      this._autoSize = "sm";
     }
   }
 

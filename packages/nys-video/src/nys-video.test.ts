@@ -105,12 +105,12 @@ describe("nys-video", () => {
       html`<nys-video
         videourl=${VALID_URL}
         titleText=${VALID_TITLE_TEXT}
-        size="contained"
+        size="md"
       ></nys-video>`,
     );
     await el.updateComplete;
-    expect(el.size).to.equal("contained");
-    expect(el.shadowRoot!.querySelector(".nys-video--contained")).to.exist;
+    expect(el.size).to.equal("md");
+    expect(el.shadowRoot!.querySelector(".nys-video--md")).to.exist;
   });
 
   it("reflects disabled attribute", async () => {

@@ -12740,7 +12740,7 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "| \"full\"\n    | \"contained\"\n    | \"compact\"\n    | \"\""
+                "text": "\"full\" | \"md\" | \"sm\" | \"\""
               },
               "default": "\"\"",
               "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
@@ -12811,11 +12811,11 @@
               "kind": "field",
               "name": "_autoSize",
               "type": {
-                "text": "\"full\" | \"contained\" | \"compact\""
+                "text": "\"full\" | \"md\" | \"sm\""
               },
               "privacy": "private",
-              "default": "\"full\"",
-              "description": "Auto-computed size when no explicit size prop is set"
+              "default": "\"md\"",
+              "description": "Auto-computed size when no explicit size prop is set (default is \"md\")"
             },
             {
               "kind": "field",
@@ -12941,7 +12941,7 @@
             {
               "name": "size",
               "type": {
-                "text": "| \"full\"\n    | \"contained\"\n    | \"compact\"\n    | \"\""
+                "text": "\"full\" | \"md\" | \"sm\" | \"\""
               },
               "default": "\"\"",
               "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
