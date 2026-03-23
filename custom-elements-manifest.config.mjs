@@ -1,5 +1,7 @@
 import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
+import { customElementJsxPlugin } from "custom-element-jsx-integration";
+
 
 const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
@@ -17,6 +19,17 @@ const reactOpts = {
 const vscodeOpts = {
   /** Output directory to write the VSCode autocompletes to- default is the root of the project */
   outdir: "./dist/.vscode",
+};
+
+// Full list of options here: https://github.com/break-stuff/cem-tools/tree/main/packages/jsx-integration#readme
+const jsxOpts = {
+  /** Path to output directory */
+  outdir: "./packages/react",
+  /** File name for the types */
+  fileName: "nysds-jsx.d.ts",
+  componentTypePath: (_name, _tag) => {
+  return `${_name}`;
+},
 };
 
 export default {
@@ -79,7 +92,8 @@ export default {
     },
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
-],
+    customElementJsxPlugin(jsxOpts),
+  ],
   /**
    * Resolution options when using `dependencies: true`
    * For detailed information about each option, please refer to the [oxc-resolver documentation](https://github.com/oxc-project/oxc-resolver?tab=readme-ov-file#options).
