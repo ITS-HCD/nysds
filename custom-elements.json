@@ -3072,6 +3072,11 @@
             },
             {
               "kind": "method",
+              "name": "_handleOtherInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_checkOtherInputs",
               "privacy": "private",
               "parameters": [
