@@ -12809,16 +12809,6 @@
             },
             {
               "kind": "field",
-              "name": "_autoSize",
-              "type": {
-                "text": "\"full\" | \"md\" | \"sm\""
-              },
-              "privacy": "private",
-              "default": "\"md\"",
-              "description": "Auto-computed size when no explicit size prop is set (default is \"md\")"
-            },
-            {
-              "kind": "field",
               "name": "_announcement",
               "type": {
                 "text": "string"
@@ -12838,27 +12828,6 @@
               "description": "Tracks whether an ad is currently playing to suppress false \"Video is playing\" announcements"
             },
             {
-              "kind": "field",
-              "name": "_mediaFull",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_mediaMobileLarge",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_onMediaChange",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateAutoSize",
-              "privacy": "private",
-              "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
               "kind": "method",
               "name": "_isValidYouTubeUrl",
               "privacy": "private",
@@ -12866,7 +12835,8 @@
                 "type": {
                   "text": "boolean"
                 }
-              }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
