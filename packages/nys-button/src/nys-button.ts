@@ -326,10 +326,14 @@ export class NysButton extends LitElement {
   }
 
   /**
-   * Vanilla JS & Native HTML keydown solution:
-   * The <nys-button onClick="doFunction();"></nys-button> onClick is an attribute here.
-   * Thus, we call it here. Otherwise, at this point, this.onClick is null as it isn't props, but a string attribute
-   * In vanilla HTML/JS, clicking with execute the attribute function, BUT now with keydown, hence this solution.
+   * A Solution to the Vanilla JS & Native HTML keydown:
+   *
+   * Handles inline onClick attributes set as strings in vanilla HTML
+   * (e.g. <nys-button onClick="doSomething()">).
+   *
+   * When onClick is set this way, it is a DOM attribute (not a property)
+   * so this.onClick remains null. Native clicks execute the attribute
+   * automatically, but keydown events do not, so we invoke it manually here.
    */
   private _handleAnyAttributeFunction() {
     const onClickAttr = this.getAttribute("onClick");

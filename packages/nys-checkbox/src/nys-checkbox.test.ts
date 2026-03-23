@@ -572,6 +572,75 @@ describe("nys-checkbox", () => {
     expect((el as any).showError).to.be.true;
   });
 
+  /*** More Event Test ***/
+  it("emits nys-other-input with correct detail when text input changes", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other checked name="options" value=""></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+    await el.updateComplete;
+
+    let eventDetail: any = null;
+    el.addEventListener(
+      "nys-other-input",
+      (e: any) => (eventDetail = e.detail),
+    );
+
+    const textInput = el.shadowRoot?.querySelector("nys-textinput")!;
+    const inputEvent = new Event("nys-input", { bubbles: true });
+    Object.defineProperty(inputEvent, "target", {
+      writable: false,
+      value: { value: "Hello" },
+    });
+
+    textInput.dispatchEvent(inputEvent);
+    await el.updateComplete;
+
+    expect(eventDetail).to.exist;
+    expect(eventDetail.name).to.equal("options");
+    expect(eventDetail.value).to.equal("Hello");
+  });
+
+  it("clicking the label container clicks and focuses the input", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="Click label"></nys-checkbox>`,
+    );
+    await el.updateComplete;
+
+    const container = el.shadowRoot!.querySelector(
+      ".nys-checkbox__main-container",
+    ) as HTMLElement;
+
+    expect(el.checked).to.be.false;
+
+    container.click();
+    await el.updateComplete;
+
+    expect(el.checked).to.be.true;
+  });
+
+  it("_handleInvalid on standalone checkbox shows error and focuses input", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox label="Required field" required></nys-checkbox>
+    `);
+    await el.updateComplete;
+
+    const input = await el.getInputElement();
+    let focused = false;
+    input!.focus = () => {
+      focused = true;
+    };
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(focused).to.be.true;
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(

@@ -736,6 +736,66 @@ describe("nys-datepicker", () => {
     expect(firstFocused).to.be.true;
   });
 
+  /*** More Event Test ***/
+  it("_onDocumentClick closes calendar when clicking outside the component", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    (el as any)._isSafari = () => false;
+    (el as any)._isMobile = () => false;
+
+    // Manually open the datepicker and attach the document click handler
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    wc.classList.add("active");
+    (el as any)._onDocumentClick();
+
+    // Simulate an outside click (target is document.body, not inside the component)
+    document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(wc.classList.contains("active")).to.be.false;
+  });
+
+  it("_handleDateChange sets value, fires nys-input, and closes calendar on selectDate", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    (el as any)._isSafari = () => false;
+    (el as any)._isMobile = () => false;
+
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    wc.classList.add("active");
+    (el as any).datepickerIsOpen = true;
+
+    // Attach the handler (normally called in firstUpdated)
+    (el as any)._handleDateChange();
+
+    let inputDetail: any = null;
+    el.addEventListener("nys-input", (e: any) => (inputDetail = e.detail));
+
+    wc.dispatchEvent(
+      new CustomEvent("selectDate", {
+        detail: "2026-04-10",
+        bubbles: true,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.be.instanceOf(Date);
+    expect((el.value as Date).getFullYear()).to.equal(2026);
+    expect((el.value as Date).getMonth()).to.equal(3);
+    expect((el.value as Date).getDate()).to.equal(10);
+    expect(wc.classList.contains("active")).to.be.false;
+    expect((el as any).datepickerIsOpen).to.be.false;
+    expect(inputDetail).to.exist;
+    expect(inputDetail.value).to.be.instanceOf(Date);
+  });
+
+  /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-datepicker label="My Label"></nys-datepicker>`,

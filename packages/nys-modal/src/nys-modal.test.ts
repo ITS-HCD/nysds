@@ -241,6 +241,31 @@ describe("nys-modal", () => {
     expect(event.defaultPrevented).to.be.true;
   });
 
+  /*** More Event Test ***/
+  it("nys-open and nys-close events include correct id in detail", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal id="my-modal" heading="Test"></nys-modal>`,
+    );
+
+    let openDetail: any = null;
+    let closeDetail: any = null;
+    el.addEventListener("nys-open", (e: any) => (openDetail = e.detail));
+    el.addEventListener("nys-close", (e: any) => (closeDetail = e.detail));
+
+    el.open = true;
+    await el.updateComplete;
+
+    expect(openDetail).to.exist;
+    expect(openDetail.id).to.equal("my-modal");
+
+    el.open = false;
+    await el.updateComplete;
+
+    expect(closeDetail).to.exist;
+    expect(closeDetail.id).to.equal("my-modal");
+  });
+
+  /*** Accessibility ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-modal heading="Update Available"></nys-modal>`,

@@ -1158,4 +1158,75 @@ describe("nys-combobox", () => {
     expect(headers[0].textContent?.trim()).to.equal("Citrus");
     expect(headers[1].textContent?.trim()).to.equal("Berries");
   });
+
+  /*** More Event Test ***/
+  it("_handleDocumentClick closes dropdown when clicking outside the component", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `);
+
+    (el as any)._isOpen = true;
+    await el.updateComplete;
+    expect((el as any)._isOpen).to.be.true;
+
+    // Simulate a click outside the component
+    document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await el.updateComplete;
+
+    expect((el as any)._isOpen).to.be.false;
+  });
+
+  it("_handleBlur does not close dropdown when focus moves to the listbox", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `);
+
+    (el as any)._isOpen = true;
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+    const listbox = el.shadowRoot!.querySelector(
+      ".nys-combobox__listbox",
+    ) as HTMLElement;
+
+    // Simulate blur where focus moves to the listbox
+    const blurEvent = new FocusEvent("blur", {
+      bubbles: true,
+      relatedTarget: listbox,
+    });
+    input.dispatchEvent(blurEvent);
+    await el.updateComplete;
+
+    expect((el as any)._isOpen).to.be.true;
+  });
+
+  it("_handleInput emits nys-input with correct detail", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `);
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-input", (e: any) => (eventDetail = e.detail));
+
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+    Object.defineProperty(input, "value", {
+      value: "app",
+      writable: true,
+      configurable: true,
+    });
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(eventDetail).to.exist;
+    expect(eventDetail.value).to.equal("app");
+    expect(eventDetail.id).to.equal(el.id);
+  });
 });

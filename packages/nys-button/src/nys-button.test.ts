@@ -601,4 +601,35 @@ describe("NysButton keyboard support", () => {
 
     document.body.removeChild(form);
   });
+
+  /** More event testing **/
+  it("executes onClick string attribute via keyboard Enter", async () => {
+    // Use a side-effect we can observe without eval risks in test env
+    (window as any)._nysButtonAttrTest = false;
+
+    const el = await fixture<NysButton>(html`
+      <nys-button
+        label="Attr Test"
+        onClick="window._nysButtonAttrTest = true;"
+      ></nys-button>
+    `);
+    await el.updateComplete;
+
+    const button = el.shadowRoot!.querySelector("button")!;
+
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect((window as any)._nysButtonAttrTest).to.be.true;
+
+    delete (window as any)._nysButtonAttrTest;
+  });
 });
