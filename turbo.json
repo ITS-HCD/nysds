@@ -11,8 +11,8 @@
         "tsconfig.json",
         "terrazzo.config.js"
       ],
-      "outputs": ["dist/**"],
-      "env": ["NODE_ENV"]
+      "outputs": ["dist/**", ".tsbuildinfo"],
+      "env": ["NODE_ENV", "BUILD_FORMAT"]
     },
     "dev": {
       "cache": false,

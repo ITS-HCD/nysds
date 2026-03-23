@@ -1107,4 +1107,55 @@ describe("nys-combobox", () => {
     await el.updateComplete;
     expect(el.value).to.equal("");
   });
+
+  it("sets value from selected option nested inside an optgroup", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <optgroup label="Citrus">
+          <option value="lemon">Lemon</option>
+          <option value="orange" selected>Orange</option>
+        </optgroup>
+      </nys-combobox>
+    `);
+    await el.updateComplete;
+    expect(el.value).to.equal("orange");
+  });
+
+  it("uses the first selected option found across optgroups and does not keep scanning", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <optgroup label="Citrus">
+          <option value="lemon">Lemon</option>
+          <option value="orange" selected>Orange</option>
+        </optgroup>
+        <optgroup label="Berries">
+          <option value="strawberry" selected>Strawberry</option>
+        </optgroup>
+      </nys-combobox>
+    `);
+    await el.updateComplete;
+    expect(el.value).to.equal("orange");
+  });
+
+  it("renders optgroup headers in the listbox when options belong to a group", async () => {
+    const el = await fixture<NysCombobox>(html`
+      <nys-combobox>
+        <optgroup label="Citrus">
+          <option value="lemon">Lemon</option>
+          <option value="orange">Orange</option>
+        </optgroup>
+        <optgroup label="Berries">
+          <option value="strawberry">Strawberry</option>
+        </optgroup>
+      </nys-combobox>
+    `);
+
+    (el as any)._isOpen = true;
+    await el.updateComplete;
+
+    const headers = el.shadowRoot!.querySelectorAll(".nys-combobox__optgroup");
+    expect(headers.length).to.equal(2);
+    expect(headers[0].textContent?.trim()).to.equal("Citrus");
+    expect(headers[1].textContent?.trim()).to.equal("Berries");
+  });
 });
