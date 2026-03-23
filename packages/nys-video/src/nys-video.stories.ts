@@ -232,16 +232,6 @@ export const Sizes: Story = {
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 24px;">
       <div>
-        <p style="margin: 0 0 8px; font-weight: 600;">
-          Auto (resize window to see changes)
-        </p>
-        <nys-video
-          videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          arialabel="Auto size example"
-          titleText="Auto Size"
-        ></nys-video>
-      </div>
-      <div>
         <p style="margin: 0 0 8px; font-weight: 600;">Full (min 675px)</p>
         <nys-video
           videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
@@ -274,9 +264,6 @@ export const Sizes: Story = {
     docs: {
       source: {
         code: `
-<!-- Auto sizing (no size attr) -->
-<nys-video videourl="..." arialabel="Auto size example" titleText="Auto Size"></nys-video>
-
 <!-- Explicit sizes -->
 <nys-video videourl="..." size="full" arialabel="Full size example" titleText="Full Size"></nys-video>
 <nys-video videourl="..." size="md" arialabel="Medium size example" titleText="Medium Size"></nys-video>

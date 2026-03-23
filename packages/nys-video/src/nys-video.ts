@@ -54,18 +54,11 @@ export class NysVideo extends LitElement {
   /** Tracks whether the user has clicked to load the player */
   @state() private _playerActive = false;
 
-  /** Auto-computed size when no explicit size prop is set (default is "md") */
-  @state() private _autoSize: "full" | "md" | "sm" = "md";
-
   /** Screen reader announcement text */
   @state() private _announcement = "";
 
   /** Tracks whether an ad is currently playing to suppress false "Video is playing" announcements */
   private _adPlaying = false;
-
-  private _mediaFull = window.matchMedia("(min-width: 768px)");
-  private _mediaMobileLarge = window.matchMedia("(min-width: 480px)");
-  private _onMediaChange = () => this._updateAutoSize();
 
   // Lifecycle Methods
   constructor() {
@@ -79,12 +72,6 @@ export class NysVideo extends LitElement {
       this.id = `nys-video-${Date.now()}-${videoIdCounter++}`;
     }
 
-    if (!this.size) {
-      this._updateAutoSize();
-      this._mediaFull.addEventListener("change", this._onMediaChange);
-      this._mediaMobileLarge.addEventListener("change", this._onMediaChange);
-    }
-
     if (this.autoplay) {
       this._announceVideoVO();
     }
@@ -92,25 +79,12 @@ export class NysVideo extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this._mediaFull.removeEventListener("change", this._onMediaChange);
-    this._mediaMobileLarge.removeEventListener("change", this._onMediaChange);
   }
 
   /**
    * Functions
    * --------------------------------------------------------------------------
    */
-
-  private _updateAutoSize() {
-    if (this._mediaFull.matches) {
-      this._autoSize = "full";
-    } else if (this._mediaMobileLarge.matches) {
-      this._autoSize = "md";
-    } else {
-      this._autoSize = "sm";
-    }
-  }
-
   private _isValidYouTubeUrl(): boolean {
     return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/.test(
       this.videourl,
@@ -280,7 +254,7 @@ export class NysVideo extends LitElement {
     if (!embedUrl) return html``;
 
     // Use explicit size if set, otherwise fall back to auto-computed size
-    const effectiveSize = this.size || this._autoSize;
+    const effectiveSize = this.size || "md";
 
     /**
      * Show thumbnail first, unless until user clicks or developer sets "autoplay".
