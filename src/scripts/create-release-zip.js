@@ -41,7 +41,7 @@ const ZIP_PATH = path.join(PROJECT_ROOT, "release.zip");
  */
 function copyDir(src, dest) {
   if (!fs.existsSync(src)) {
-    console.warn(`  ⚠️  Source not found, skipping: ${src}`);
+    console.warn(`Source not found, skipping: ${src}`);
     return 0;
   }
 
@@ -76,25 +76,25 @@ function removePath(target) {
 // Main
 // ---------------------------------------------------------------------------
 
-console.log("📦 Creating release...\n");
+console.log("Creating release...\n");
 
 // 1. Clean up any previous Release folder and zip
-console.log("🧹 Cleaning previous release artifacts...");
+console.log("Cleaning previous release artifacts...");
 removePath(RELEASE_DIR);
 removePath(ZIP_PATH);
 
 // 2. Copy each source into its Release sub-folder
 for (const [folder, srcDir] of Object.entries(SOURCES)) {
   const destDir = path.join(RELEASE_DIR, folder);
-  console.log(`📂 Copying ${folder}...`);
+  console.log(`Copying ${folder}...`);
   console.log(`   ${srcDir}`);
   console.log(`   → ${destDir}`);
   const count = copyDir(srcDir, destDir);
-  console.log(`   ✅ ${count} file(s) copied\n`);
+  console.log(`     ${count} file(s) copied\n`);
 }
 
 // 3. Zip the Release folder
-console.log(`🗜️  Zipping Release/ → release.zip`);
+console.log(`Zipping Release/ → release.zip`);
 
 // Use the native zip command (available on macOS/Linux).
 // The -r flag recurses into subdirectories; -q keeps output quiet.
@@ -102,7 +102,7 @@ console.log(`🗜️  Zipping Release/ → release.zip`);
 execSync(`zip -rq "${ZIP_PATH}" release`, { cwd: PROJECT_ROOT });
 
 const zipSizeKB = (fs.statSync(ZIP_PATH).size / 1024).toFixed(1);
-console.log(`✅ release.zip created (${zipSizeKB} KB)`);
+console.log(`release.zip created (${zipSizeKB} KB)`);
 console.log(`   ${ZIP_PATH}\n`);
 
-console.log("🎉 Done!");
+console.log("Done!");
