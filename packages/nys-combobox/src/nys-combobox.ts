@@ -215,10 +215,10 @@ export class NysCombobox extends LitElement {
       this.required && (!this.value || this.value?.trim() === "");
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true";
+      this._internals.ariaInvalid = "true";
       this._internals.setValidity({ valueMissing: true }, message, this._input);
     } else {
-      this._internals.ariaRequired = "false";
+      this._internals.ariaInvalid = "false";
       this._internals.setValidity({});
       this._hasUserInteracted = false;
     }
