@@ -328,8 +328,6 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   private async _handleInvalid(event: Event) {
-    console.log("_handleInvalid");
-
     event.preventDefault();
 
     // Priority 1: Focus "other" text input when customError is set
