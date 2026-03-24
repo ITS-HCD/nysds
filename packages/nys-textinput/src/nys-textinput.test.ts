@@ -245,6 +245,24 @@ describe("nys-textinput", () => {
     expect(document.activeElement).to.not.equal(textinput);
   });
 
+  it("should focus on the internal textinput via the delegatesFocus", async () => {
+    const el = await fixture<NysTextinput>(html`
+      <nys-textinput label="Test Input"></nys-textinput>
+    `);
+
+    await el.updateComplete;
+
+    el.focus();
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input");
+
+    // Because delegatesFocus is true, focusing the custom element
+    // should automatically focus the internal input
+    expect(document.activeElement).to.equal(el);
+    expect(el.shadowRoot!.activeElement).to.equal(input);
+  });
+
   it("resets value, validation, and UI when form is reset", async () => {
     const form = await fixture<HTMLFormElement>(html`
       <form>
@@ -280,6 +298,167 @@ describe("nys-textinput", () => {
     expect((el as any)._internals.validity.valid).to.be.true;
   });
 
+  // -------------------------------------------------------------------------
+  // _handleInvalid
+  // -------------------------------------------------------------------------
+
+  it("_handleInvalid prevents default", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput required></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    const event = new Event("invalid", { cancelable: true });
+    el.dispatchEvent(event);
+
+    expect(event.defaultPrevented).to.be.true;
+  });
+
+  it("_handleInvalid sets showError via _validate()", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput required></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
+  it("_handleInvalid enables eager validation on subsequent input", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput required></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    input.dispatchEvent(new Event("input"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
+  it("_handleInvalid focuses the input when not inside a form", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput required></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    let focused = false;
+    input.focus = () => {
+      focused = true;
+    };
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(focused).to.be.true;
+  });
+
+  it("_handleInvalid focuses the input when it is the first invalid element in a form", async () => {
+    const container = await fixture<HTMLElement>(html`
+      <form>
+        <nys-textinput id="only" required></nys-textinput>
+      </form>
+    `);
+    const el = container.querySelector<NysTextinput>("#only")!;
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    let focused = false;
+    input.focus = () => {
+      focused = true;
+    };
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(focused).to.be.true;
+  });
+
+  it("_handleInvalid does not focus when a preceding invalid input exists in the same form", async () => {
+    const container = await fixture<HTMLElement>(html`
+      <form>
+        <nys-textinput id="first" required></nys-textinput>
+        <nys-textinput id="second" required></nys-textinput>
+      </form>
+    `);
+    const second = container.querySelector<NysTextinput>("#second")!;
+    await second.updateComplete;
+
+    const input = second.shadowRoot!.querySelector("input")!;
+    let focused = false;
+    input.focus = () => {
+      focused = true;
+    };
+
+    second.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await second.updateComplete;
+
+    expect(focused).to.be.false;
+  });
+
+  it("_applyMask generic loop fills digit placeholders with input digits", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    // Inject a custom mask pattern using _ as digit placeholder
+    (el as any)._maskPatterns["text"] = "___-___";
+    (el as any).type = "text";
+
+    const result = (el as any)._applyMask("123456", "___-___");
+    expect(result).to.equal("123-456");
+  });
+
+  it("_applyMask generic loop stops when digits run out", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    const result = (el as any)._applyMask("12", "___-___");
+    expect(result).to.equal("12");
+  });
+
+  it("_applyMask generic loop treats 'd' as a digit placeholder", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    const result = (el as any)._applyMask("42", "d/d");
+    expect(result).to.equal("4/2");
+  });
+
+  it("_applyMask generic loop treats '9' as a digit placeholder", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    const result = (el as any)._applyMask("99", "9-9");
+    expect(result).to.equal("9-9");
+  });
+
+  it("_applyMask generic loop passes through literal formatting characters", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    // All characters in mask are literals (no _ or d/9) — they all pass through
+    const result = (el as any)._applyMask("", "XX-XX");
+    expect(result).to.equal("XX-XX");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-textinput label="First Name"></nys-textinput>`,
@@ -290,42 +469,3 @@ describe("nys-textinput", () => {
     expect(input?.getAttribute("aria-label")).to.equal("First Name");
   });
 });
-
-// Test Plan for TDD
-/*
- * NOTE TO SELF: Need further input from Mo on the idea of building out components
- * and best practice to develop tests as we go (from his experience working with TDD).
- * */
-// To Mo: "When looking at something like the nys-textinput, what are your thoughts that we should have been thinking or making a plan during TDD to build this component up?"
-
-// Renders component ✅
-// Check if the component type is correctly rendered as "text" by default ✅
-// Check required props ✅
-// Toggle password visibility (show/hide) ✅
-// Check error message display if required prop is not passed ✅
-// Check error message display if invalid prop is passed ✅
-// Passes a11y audit ✅
-
-// Accessibility Tests
-/*
- * Ensure that the <textinput> element is correctly associated with a label:
- * - Verify that the label is properly read by screen readers when the <textarea> is focused.
- */
-
-/*
- * Ensure textinput is focusable and keyboard accessibility.
- */
-
-/*
- * Placeholder is readable for screen readers.
- */
-
-/*
- * Test for required attribute:
- * - If the textinput is required, ensure that the required message is readable for screen readers.
- */
-
-/*
- * Test for disabled attribute:
- * - If the textinput is disabled, ensure that the disabled state is readable for screen readers. ❌ (we currently do not)
- */

@@ -74,6 +74,33 @@ describe("nys-pagination", () => {
       .to.be.true;
   });
 
+  it("_handlePageClick updates currentPage, clamps it, and fires nys-change with correct detail", async () => {
+    const el = await fixture<NysPagination>(
+      html`<nys-pagination currentPage="3" totalPages="5"></nys-pagination>`,
+    );
+    await el.updateComplete;
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-change", (e: any) => (eventDetail = e.detail));
+
+    // Normal click — page within range
+    const btn = el.shadowRoot!.querySelector("#current-page") as HTMLElement;
+    btn.dispatchEvent(new CustomEvent("nys-click", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(el.currentPage).to.equal(3);
+    expect(eventDetail).to.exist;
+    expect(eventDetail.page).to.equal(3);
+
+    // Out-of-range click — clamp kicks in
+    eventDetail = null;
+    (el as any)._handlePageClick(999);
+    await el.updateComplete;
+
+    expect(el.currentPage).to.equal(5);
+    expect(eventDetail.page).to.equal(5);
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-pagination></nys-pagination>`);
     await expect(el).shadowDom.to.be.accessible();

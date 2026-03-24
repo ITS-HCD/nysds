@@ -94,7 +94,7 @@ export const Basic: Story = {
   },
 };
 
-export const dropdownOnUserAction: Story = {
+export const dropdownNavLink: Story = {
   args: {
     ...Basic.args,
     id: "dropdownmenu1",
@@ -174,6 +174,165 @@ export const dropdownOnUserAction: Story = {
   <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
   <nys-dropdownmenuitem label="Organizations" href="/organizations" disabled></nys-dropdownmenuitem>
   <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
+</nys-dropdownmenu>`,
+      },
+    },
+  },
+};
+
+export const dropdownNavActions: Story = {
+  args: {
+    ...Basic.args,
+    id: "dropdownmenu1",
+    for: "trigger-id1",
+  },
+  render: (args) => html`
+    <nys-globalheader
+      appName="User Registration Form"
+      agencyName="Office of Information Technology Services"
+    >
+      <nys-button
+        id="trigger-id1"
+        slot="user-actions"
+        label="Log out"
+        prefixIcon="slotted"
+      >
+        <nys-avatar
+          slot="prefix-icon"
+          ariaLabel="User avatar"
+          initials="NY"
+        ></nys-avatar>
+      </nys-button>
+    </nys-globalheader>
+
+    <nys-dropdownmenu
+      .id=${args.id}
+      .for=${args.for}
+      .position=${args.position}
+    >
+      <nys-dropdownmenuitem label="Action 1"></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem label="Action 2"></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem label="Action 3" disabled></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem label="Action 4"></nys-dropdownmenuitem>
+    </nys-dropdownmenu>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader
+  appName="User Registration Form"
+  agencyName="Office of Information Technology Services"
+>
+  <nys-button
+    id="trigger-id1"
+    slot="user-actions"
+    label="Log out"
+    prefixIcon="slotted"
+  >
+    <nys-avatar
+      slot="prefix-icon"
+      ariaLabel="User avatar"
+      initials="NY"
+    ></nys-avatar>
+  </nys-button>
+</nys-globalheader>
+
+<nys-dropdownmenu
+  id="dropdownmenu1"
+  for="trigger-id1"
+  position="bottom-end"
+>
+    <nys-dropdownmenuitem label="Action 1"></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 2"></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 3" disabled></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 4"></nys-dropdownmenuitem>
+</nys-dropdownmenu>`,
+      },
+    },
+  },
+};
+
+export const dropdownWithIcons: Story = {
+  args: {
+    ...Basic.args,
+    id: "dropdownmenu1",
+    for: "trigger-id1",
+  },
+  render: (args) => html`
+    <nys-globalheader
+      appName="User Registration Form"
+      agencyName="Office of Information Technology Services"
+    >
+      <nys-button
+        id="trigger-id1"
+        slot="user-actions"
+        label="Log out"
+        prefixIcon="slotted"
+      >
+        <nys-avatar
+          slot="prefix-icon"
+          ariaLabel="User avatar"
+          initials="NY"
+        ></nys-avatar>
+      </nys-button>
+    </nys-globalheader>
+
+    <nys-dropdownmenu
+      .id=${args.id}
+      .for=${args.for}
+      .position=${args.position}
+    >
+      <nys-dropdownmenuitem
+        label="Action 1"
+        prefixIcon="lock_filled"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Action 2"
+        prefixIcon="social_youtube"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Action 3"
+        disabled
+        prefixIcon="visibility"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Action 4"
+        prefixIcon="sms"
+      ></nys-dropdownmenuitem>
+    </nys-dropdownmenu>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader
+  appName="User Registration Form"
+  agencyName="Office of Information Technology Services"
+>
+  <nys-button
+    id="trigger-id1"
+    slot="user-actions"
+    label="Log out"
+    prefixIcon="slotted"
+  >
+    <nys-avatar
+      slot="prefix-icon"
+      ariaLabel="User avatar"
+      initials="NY"
+    ></nys-avatar>
+  </nys-button>
+</nys-globalheader>
+
+<nys-dropdownmenu
+  id="dropdownmenu1"
+  for="trigger-id1"
+  position="bottom-end"
+>
+    <nys-dropdownmenuitem label="Action 1" prefixIcon="lock_filled"></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 2" prefixIcon="social_youtube" ></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 3" prefixIcon="visibility" disabled></nys-dropdownmenuitem>
+    <nys-dropdownmenuitem label="Action 4" prefixIcon="sms" ></nys-dropdownmenuitem>
 </nys-dropdownmenu>`,
       },
     },

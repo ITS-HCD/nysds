@@ -16,8 +16,8 @@
     --nys-color-black-transparent-50,
     rgba(27, 27, 27, 0.01)
   );
-  --_nys-dropdownmenu-gap: var(--size-50, 4px);
-  --_nys-dropdownmenu-padding: var(--size-50, 4px);
+  --_nys-dropdownmenu-gap: var(--nys-space-2px, 2px);
+  --_nys-dropdownmenu-padding: var(--nys-space-100, 8px);
 
   /* Typography */
   --_nys-dropdownmenu-font-size: var(--nys-font-size-ui-md, 16px);
@@ -36,10 +36,11 @@
   );
 
   /* Dropdownmenu Item Styles */
-  --_nys-dropdownmenuitem-color: var(--Text, var(--Color-Text-text, #000000));
-  --_nys-dropdownmenuitem-padding: var(--size-130, 11px) var(--size-100, 8px);
-  --_nys-dropdownmenuitem-border-radius: var(--medium, 6px);
-  --_nys-dropdownmenuitem-background-color: var(--Color-Surface-surface-1, #ffffff);
+  --_nys-dropdownmenuitem-color: var(--nys-color-text, #1b1b1b);
+  --_nys-dropdownmenuitem-gap: var(--nys-space-100, 8px);
+  --_nys-dropdownmenuitem-padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px);
+  --_nys-dropdownmenuitem-border-radius: var(--nys-radius-md, 4px);
+  --_nys-dropdownmenuitem-background-color: var(--nys-color-white, #ffffff);
   --_nys-dropdownmenuitem-background-color--hover: var(
     --nys-color-neutral-10,
     #f6f6f6
@@ -60,6 +61,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 1776;
 
   &.active {
     ul {
@@ -99,10 +101,11 @@
   padding: 0;
   margin: 0;
 
-  a {
+  a,
+  button {
     display: flex;
+    gap: var(--_nys-dropdownmenuitem-gap);
     padding: var(--_nys-dropdownmenuitem-padding);
-    align-items: flex-start;
     border-radius: var(--_nys-dropdownmenuitem-border-radius);
     background-color: var(--_nys-dropdownmenuitem-background-color);
     width: 100%;
@@ -111,6 +114,16 @@
     text-wrap: wrap;
     color: var(--_nys-dropdownmenuitem-color);
     transition: 0.05s ease-in-out all;
+    border: none;
+    font-family: var(--_nys-dropdownmenu-font-family);
+    font-size: var(--_nys-dropdownmenu-font-size);
+    font-weight: var(--_nys-dropdownmenu-font-weight);
+    line-height: var(--_nys-dropdownmenu-line-height);
+    cursor: pointer;
+
+    nys-icon {
+      margin-top: 2px;
+    }
 
     &:hover:not(.disabled):not([aria-disabled="true"]) {
       background-color: var(--_nys-dropdownmenuitem-background-color--hover);
@@ -120,7 +133,7 @@
       background-color: var(--_nys-dropdownmenuitem-background-color--active);
     }
 
-    &:focus:not(.disabled):not([aria-disabled="true"]) {
+    &:focus-visible:not(:focus):not(.disabled):not([aria-disabled="true"]) {
       outline: var(--_nys-dropdownmenuitem-outline-width) solid
         var(--_nys-dropdownmenuitem-outline-color);
     }
