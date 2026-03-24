@@ -42,9 +42,9 @@ export default {
         slowMo: 250, // Optional: slows down operations to make debugging easier
       },
       createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['iPhone 14'], hasTouch: true });
+        return browser.newContext({ ...devices['iPhone 14'], hasTouch: true});
       },
-    }),
+    }),    
     playwrightLauncher({
       product: 'webkit', // Use WebKit for Android simulation
       launchOptions: {
@@ -54,7 +54,7 @@ export default {
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices['Pixel 5'], hasTouch: true });
       },
-    }),
+    }),    
     playwrightLauncher({
       product: 'webkit', // Use WebKit for Edge simulation
       launchOptions: {
@@ -89,11 +89,5 @@ export default {
   ],
   coverageConfig: {
     exclude: ["**/node_modules/**", "**/test/**"],
-    threshold: {
-      statements: 80,
-      functions: 80,
-      branches: 80,
-      lines: 80,
-    }
   },
 };

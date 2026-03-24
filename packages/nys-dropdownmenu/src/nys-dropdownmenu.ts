@@ -4,8 +4,6 @@ import "./nys-dropdownmenuitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-dropdownmenu.scss?inline";
 
-let dropdownMenuIdCounter = 0;
-
 /**
  * Dropdown menus enable users to select an action from a list of options.
  * They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.
@@ -54,7 +52,7 @@ export class NysDropdownMenu extends LitElement {
 
   /**
    * Preferred position relative to trigger.
-   * @default "bottom-end"
+   * @default "bottom-start"
    */
   @property({ type: String, reflect: true }) position: Position | null = null;
 
@@ -75,10 +73,6 @@ export class NysDropdownMenu extends LitElement {
   // Generate a unique ID if one is not provided
   connectedCallback() {
     super.connectedCallback();
-
-    if (!this.id) {
-      this.id = `nys-dropdownmenu-${Date.now()}-${dropdownMenuIdCounter++}`;
-    }
   }
 
   disconnectedCallback() {
@@ -89,10 +83,6 @@ export class NysDropdownMenu extends LitElement {
     await this.updateComplete;
     this.applyInverseTransform();
     this._connectTrigger();
-
-    this.addEventListener("nys-click", () => {
-      this._closeDropdown();
-    });
   }
   /**
    * Functions
@@ -145,7 +135,7 @@ export class NysDropdownMenu extends LitElement {
     this._trigger.addEventListener("keydown", this._handleTriggerKeydown);
   }
 
-  private _toggleDropdown = async () => {
+  private _toggleDropdown = () => {
     this.showDropdown = !this.showDropdown;
 
     this._ariaTarget?.setAttribute("aria-expanded", String(this.showDropdown));
@@ -153,20 +143,16 @@ export class NysDropdownMenu extends LitElement {
     if (this.showDropdown) {
       window.addEventListener("scroll", this._handleWindowScroll, true);
       window.addEventListener("resize", this._handleWindowResize);
-      document.addEventListener("click", this._handleDocumentClick);
 
       this._menuElement = this.shadowRoot?.querySelector(
         ".nys-dropdownmenu",
       ) as HTMLElement | null;
       this._menuElement!.addEventListener("keydown", this._handleMenuKeydown);
 
-      await this.updateComplete;
-      this._positionMenu();
-      this._focusOnFirstItem();
+      requestAnimationFrame(() => this._positionMenu());
     } else {
       window.removeEventListener("scroll", this._handleWindowScroll, true);
       window.removeEventListener("resize", this._handleWindowResize);
-      document.removeEventListener("click", this._handleDocumentClick);
       this._menuElement!.removeEventListener(
         "keydown",
         this._handleMenuKeydown,
@@ -187,25 +173,6 @@ export class NysDropdownMenu extends LitElement {
     return assigned.filter(
       (el) => el && !el.hasAttribute("disabled"),
     ) as HTMLElement[];
-  }
-
-  private _handleDocumentClick = (event: MouseEvent) => {
-    if (!this.showDropdown) return;
-
-    const path = event?.composedPath();
-
-    const clickedInsideMenu = path.includes(this);
-    const clickedTrigger = this._trigger && path.includes(this._trigger);
-
-    if (!clickedInsideMenu && !clickedTrigger) {
-      this._closeDropdown();
-    }
-  };
-
-  private async _focusOnFirstItem() {
-    await new Promise((resolve) => requestAnimationFrame(resolve));
-    const items = this._getMenuItems();
-    if (items.length > 0) items[0].focus();
   }
 
   // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.
@@ -321,6 +288,12 @@ export class NysDropdownMenu extends LitElement {
       horizontal === "start"
         ? space.end >= menuWidth
         : space.start >= menuWidth;
+
+    console.log(
+      "verticalFits && horizontalFits: ",
+      verticalFits,
+      horizontalFits,
+    );
     return verticalFits && horizontalFits;
   }
 
@@ -450,11 +423,7 @@ export class NysDropdownMenu extends LitElement {
           currentIndex > 0 ? currentIndex - 1 : items.length - 1;
         items[prevIndex].focus();
         break;
-      case "Tab":
-        if (currentIndex >= items.length - 1 && !event.shiftKey) {
-          this._closeDropdown();
-        }
-        break;
+
       default:
         break;
     }

@@ -122,20 +122,6 @@ describe("nys-alert", () => {
     expect(slottedContent?.textContent).to.equal("Slot Content");
   });
 
-  it("sets _slotHasContent to false when no slot is found", async () => {
-    const el = await fixture<NysAlert>(html`<nys-alert></nys-alert>`);
-    await el.updateComplete;
-
-    // Manually invoke _checkSlotContent with no slot present by removing the slot
-    const slot = el.shadowRoot?.querySelector("slot");
-    slot?.remove();
-
-    await (el as any)._checkSlotContent();
-    await el.updateComplete;
-
-    expect((el as any)._slotHasContent).to.be.false;
-  });
-
   it("should render primary and secondary actions when URLs provided", async () => {
     const el = await fixture<NysAlert>(
       html`<nys-alert

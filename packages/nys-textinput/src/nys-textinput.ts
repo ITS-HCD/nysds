@@ -49,10 +49,6 @@ let textinputIdCounter = 0;
 
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
-  static shadowRootOptions = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -194,16 +190,10 @@ export class NysTextinput extends LitElement {
 
       if (input) {
         if (mask) {
-          // Only apply mask length if user hasn't explicitly set maxlength
-          if (this.maxlength === null) {
-            input.maxLength = mask.length;
-          }
+          input.maxLength = mask.length;
           this._updateOverlay(input.value, mask);
         } else {
-          // Only remove if user hasn't explicitly set maxlength
-          if (this.maxlength === null) {
-            input.removeAttribute("maxLength");
-          }
+          input.removeAttribute("maxLength");
           const overlay = this.shadowRoot?.querySelector(
             ".nys-textinput__mask-overlay",
           );
@@ -219,6 +209,11 @@ export class NysTextinput extends LitElement {
 
       if (input) input.required = this.required && !this.readonly;
     }
+  }
+
+  public focus() {
+    const input = this.shadowRoot?.querySelector("input");
+    input?.focus();
   }
 
   /**
@@ -449,9 +444,7 @@ export class NysTextinput extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
@@ -461,9 +454,7 @@ export class NysTextinput extends LitElement {
     }
     this._validate();
 
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
   private _validateButtonSlot(slotName: string) {

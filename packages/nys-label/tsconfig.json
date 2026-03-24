@@ -1,19 +1,16 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"composite": true,
-		"outDir": "./dist",
-		"rootDir": "./src"
+	  "outDir": "./dist",
+	  "rootDir": "./src"
 	},
-	"include": [
-		"src/**/*"
-	],
+	"include": ["src/**/*"],
 	"exclude": [
-		"**/*.stories.ts",
-		"**/*.styles.ts",
-		"**/*.test.ts",
-		"packages",
-		"node_modules",
-		"dist"
+	  "**/*.stories.ts",
+	  "**/*.styles.ts",
+	  "**/*.test.ts",
+	  "packages",
+	  "node_modules", 
+	  "dist"
 	]
-}
+ }

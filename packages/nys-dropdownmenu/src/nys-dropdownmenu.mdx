@@ -1,0 +1,102 @@
+import { Meta, Story, Source, Canvas, Controls } from "@storybook/addon-docs/blocks";
+import { html } from "lit";
+import * as NysDropdownmenuStories from "./nys-dropdownmenu.stories";
+import "@nysds/nys-icon"
+import "@nysds/nys-badge"
+
+<Meta of={NysDropdownmenuStories} title="Components/Dropdownmenu/Documentation" />
+
+# Dropdownmenu
+
+The **`nys-dropdownmenu`** component display a list of actions that are triggered by a button or interactive element. They help conserve space while grouping related actions.
+
+If an id is not passed, a unique id will be generated.
+
+<div className="nys-grid-row nys-grid-gap-1">
+  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
+  <nys-badge
+    prefixIcon
+    prefixLabel="WCAG 2.2"
+    label="AA"
+    intent="success"
+  ></nys-badge>
+  <p className="pill pill--uikit">
+    <a href="https://www.figma.com/design/U2QpuSUXRTxbgG64Fzi9bu?node-id=18397-10545" target="_blank">View in Figma</a>
+  </p>
+</div>
+
+---
+
+<Canvas of={NysDropdownmenuStories.Basic} />
+
+<Controls />
+
+## Options
+## With Trigger Inside Global Header
+<Canvas of={NysDropdownmenuStories.dropdownOnUserAction} />
+
+## Usage
+
+### When to use this component
+- To display a short list of related actions
+- For account menus and user actions
+- For overflow or contextual actions
+- When actions are secondary to page content
+
+### When to consider something else
+- When presenting a large list of selectable options
+- When content includes form inputs or complex layouts
+- When actions should remain permanently visible
+- When building primary navigation
+
+
+<div className="nys-grid-row nys-grid-gap-lg">
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--do">
+      ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
+      - Keep menu labels short and action-focused
+      - Group related actions logically
+      - Use clear, descriptive labels
+      - Maintain consistent alignment with the trigger
+    </div>
+  </div>
+  <div className="nys-mobile-lg:nys-grid-col">
+    <div className="usage-card usage-card--dont">
+      ### <nys-icon name="error" color="var(--nys-color-danger)" /> Don't
+      - Overcrowd the menu with too many items
+      - Hide primary navigation inside a dropdown
+      - Include complex interactive components
+      - Place destructive actions without clear labeling
+    </div>
+  </div>
+</div>
+
+## Accessibility
+
+The `nys-dropdownmenu` component includes the following accessibility-focused features:
+
+- Automatic application of `aria-haspopup` and `aria-expanded` to the trigger
+- Keyboard interaction
+  - Enter or Space opens the menu
+  - Escape closes the menu and returns focus to the trigger
+  - Arrow keys move between menu items
+- `role="menu"` applied to the container
+
+## Slots
+<table>
+    <thead>
+    <tr>
+        <th>Slot name</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>default</td>
+        <td>Accepts one or more `nys-dropdownmenuitem` elements</td>
+        <td>none</td>
+    </tr>
+    </tbody>
+</table>
+

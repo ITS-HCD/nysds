@@ -34,61 +34,6 @@ describe("nys-skipnav", () => {
     expect(link?.classList.contains("show")).to.be.false;
   });
 
-  it("_handleClick focuses the default #main-content target and sets tabindex and outline", async () => {
-    const container = await fixture<HTMLElement>(html`
-      <div>
-        <nys-skipnav></nys-skipnav>
-        <main id="main-content" tabindex="-1">Main content</main>
-      </div>
-    `);
-
-    const el = container.querySelector<NysSkipnav>("nys-skipnav")!;
-    await el.updateComplete;
-
-    const link =
-      el.shadowRoot!.querySelector<HTMLElement>(".nys-skipnav__link")!;
-    link.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    await el.updateComplete;
-
-    const target = container.querySelector<HTMLElement>("#main-content")!;
-    expect(target.getAttribute("tabindex")).to.equal("-1");
-    expect(target.getAttribute("style")).to.include("outline");
-  });
-
-  it("_handleClick focuses a custom href target and sets tabindex and outline", async () => {
-    const container = await fixture<HTMLElement>(html`
-      <div>
-        <nys-skipnav href="#custom-target"></nys-skipnav>
-        <section id="custom-target" tabindex="-1">Custom section</section>
-      </div>
-    `);
-
-    const el = container.querySelector<NysSkipnav>("nys-skipnav")!;
-    await el.updateComplete;
-
-    const link =
-      el.shadowRoot!.querySelector<HTMLElement>(".nys-skipnav__link")!;
-    link.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-    await el.updateComplete;
-
-    const target = container.querySelector<HTMLElement>("#custom-target")!;
-    expect(target.getAttribute("tabindex")).to.equal("-1");
-    expect(target.getAttribute("style")).to.include("outline");
-  });
-
-  it("_handleClick does nothing when target element does not exist", async () => {
-    const el = await fixture<NysSkipnav>(
-      html`<nys-skipnav href="#nonexistent"></nys-skipnav>`,
-    );
-    await el.updateComplete;
-
-    const link =
-      el.shadowRoot!.querySelector<HTMLElement>(".nys-skipnav__link")!;
-    expect(() =>
-      link.dispatchEvent(new MouseEvent("click", { bubbles: true })),
-    ).to.not.throw();
-  });
-
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html` <div>

@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-dropdownmenu",
-  "version": "1.15.1",
+  "version": "1.14.0",
   "description": "The Dropdownmenu component from the NYS Design System.",
   "module": "dist/nys-dropdownmenu.js",
   "types": "dist/index.d.ts",
@@ -16,19 +16,18 @@
   ],
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "vite build",
+    "build": "tsc --emitDeclarationOnly && vite build",
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.15.1"
   },
   "devDependencies": {
     "lit": "^3.3.1",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^7.1.12"
   },
   "keywords": [
     "new-york-state",
@@ -43,3 +42,4 @@
   "author": "New York State Design System Team",
   "license": "MIT"
 }
+

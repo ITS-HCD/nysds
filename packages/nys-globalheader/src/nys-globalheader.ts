@@ -33,12 +33,8 @@ export class NysGlobalHeader extends LitElement {
 
   /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
-
-  /** Internal state to track mobile menu open/closed status. */
-  @state() private _isMobileMenuOpen = false;
-
-  /** Internal state to track if any navigation links are present in the slot. */
-  @state() private _hasLinkContent = false;
+  @state() private isMobileMenuOpen = false;
+  @state() private hasLinkContent = false;
 
   /**
    * Lifecycle Methods
@@ -103,27 +99,40 @@ export class NysGlobalHeader extends LitElement {
       .assignedNodes({ flatten: true })
       .filter((node) => node.nodeType === Node.ELEMENT_NODE) as Element[]; // Filter to elements only
 
+    this.hasLinkContent = assignedNodes.length > 0;
+
+    await Promise.resolve(); // Wait for current update cycle to complete before modifying reactive state (solves the lit issue "scheduled an update")
+
     // Get the containers to append the slotted elements
-    const containers = [
-      this.shadowRoot?.querySelector(".nys-globalheader__content"),
-      this.shadowRoot?.querySelector(".nys-globalheader__content-mobile"),
-    ] as (HTMLElement | null)[];
+    const container = this.shadowRoot?.querySelector(
+      ".nys-globalheader__content",
+    ) as HTMLElement | null;
 
-    // If any container is missing, abort
-    if (containers.some((c) => !c)) return;
+    const containerMobile = this.shadowRoot?.querySelector(
+      ".nys-globalheader__content-mobile",
+    ) as HTMLElement | null;
 
-    // Rebuild each container with cloned slotted elements
-    for (const container of containers) {
-      container!.innerHTML = "";
-      assignedNodes.forEach((node) => {
-        container!.appendChild(node.cloneNode(true));
-      });
-      this._highlightActiveLink(container!);
-    }
+    if (!container || !containerMobile) return;
 
-    // Update reactive state AFTER the current update cycle has fully completed
-    await this.updateComplete;
-    this._hasLinkContent = assignedNodes.length > 0;
+    // Clear existing children in the container
+    container.innerHTML = "";
+    containerMobile.innerHTML = "";
+
+    // Clone and append slotted elements into the shadow DOM container
+    assignedNodes.forEach((node) => {
+      if (node instanceof HTMLElement) {
+        // need to clone the node because cannot have same node in two places in DOM
+        const nodeInline = node.cloneNode(true) as HTMLElement;
+        const nodeMobile = node.cloneNode(true) as HTMLElement;
+
+        container.appendChild(nodeInline);
+        containerMobile.appendChild(nodeMobile);
+      }
+    });
+
+    // Highlight active links AFTER DOM is finalized
+    this._highlightActiveLink(container);
+    this._highlightActiveLink(containerMobile);
   }
 
   // Normalize paths so that links like "name", "/name/", and "/" match window.location.pathname.
@@ -140,7 +149,7 @@ export class NysGlobalHeader extends LitElement {
   }
 
   private _toggleMobileMenu() {
-    this._isMobileMenuOpen = !this._isMobileMenuOpen;
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
   // Listens for click events on links to mark them active
@@ -172,19 +181,19 @@ export class NysGlobalHeader extends LitElement {
     return html`
       <header class="nys-globalheader">
         <div class="nys-globalheader__main-container">
-          ${this._hasLinkContent
+          ${this.hasLinkContent
             ? html` <div class="nys-globalheader__button-container">
                 <button
                   class="nys-globalheader__mobile-menu-button"
                   @click="${this._toggleMobileMenu}"
                 >
                   <nys-icon
-                    name="${this._isMobileMenuOpen ? "close" : "menu"}"
+                    name="${this.isMobileMenuOpen ? "close" : "menu"}"
                     size="32"
-                    label="${this._isMobileMenuOpen ? "close" : "menu"} icon"
+                    label="${this.isMobileMenuOpen ? "close" : "menu"} icon"
                   ></nys-icon>
                   <span class="nys-globalheader__mobile-menu-button-text"
-                    >${this._isMobileMenuOpen ? "CLOSE" : "MENU"}</span
+                    >${this.isMobileMenuOpen ? "CLOSE" : "MENU"}</span
                   >
                 </button>
               </div>`
@@ -244,7 +253,7 @@ export class NysGlobalHeader extends LitElement {
         </div>
       </header>
       <div
-        class="nys-globalheader__content-mobile ${this._isMobileMenuOpen
+        class="nys-globalheader__content-mobile ${this.isMobileMenuOpen
           ? ""
           : "close"}"
       ></div>

@@ -16,10 +16,6 @@ import styles from "./nys-fileitem.scss?inline";
  */
 export class NysFileItem extends LitElement {
   static styles = unsafeCSS(styles);
-  static shadowRootOptions = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
 
   /** Name of the file being displayed. */
   @property({ type: String }) filename = "";

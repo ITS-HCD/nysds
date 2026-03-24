@@ -1,7 +1,6 @@
 import { expect, html, fixture, oneEvent } from "@open-wc/testing";
 import "../dist/nys-accordion.js";
 import { NysAccordionItem } from "./nys-accordionitem";
-import { NysAccordion } from "./nys-accordion.js";
 
 describe("nys-accordionitem", () => {
   it("renders the component", async () => {
@@ -34,21 +33,6 @@ describe("nys-accordionitem", () => {
     expect(el.heading).to.equal("My Title");
     expect(el.expanded).to.be.true;
     expect(el.bordered).to.be.true;
-  });
-
-  it("propagates bordered to all child accordionitem elements", async () => {
-    const el = await fixture<NysAccordion>(html`
-      <nys-accordion bordered>
-        <nys-accordionitem heading="Item 1"></nys-accordionitem>
-        <nys-accordionitem heading="Item 2"></nys-accordionitem>
-      </nys-accordion>
-    `);
-    await el.updateComplete;
-
-    const items = el.querySelectorAll("nys-accordionitem");
-    items.forEach((item) => {
-      expect((item as any).bordered).to.be.true;
-    });
   });
 
   it("renders slot content", async () => {
@@ -144,76 +128,19 @@ describe("nys-accordionitem", () => {
     expect(el.expanded).to.be.false;
   });
 
-  it("calls _updateHeight when slot content changes and expanded is true", async () => {
-    const el = await fixture<NysAccordionItem>(html`
-      <nys-accordionitem heading="Item 1" expanded>
-        <p>Initial content</p>
-      </nys-accordionitem>
-    `);
-    await el.updateComplete;
-
-    const contentContainer = (el as any)._contentContainer;
-
-    // Add new slotted content to trigger slotchange
-    const newContent = document.createElement("p");
-    newContent.textContent = "New content";
-    el.appendChild(newContent);
-    await el.updateComplete;
-
-    expect(contentContainer.style.height).to.not.equal("0");
-    expect(contentContainer.style.height).to.equal(
-      `${contentContainer.scrollHeight}px`,
-    );
-  });
-
-  it("does not collapse other items when the toggled item is not expanded", async () => {
-    const el = await fixture<NysAccordion>(html`
-      <nys-accordion singleSelect>
-        <nys-accordionitem heading="Item 1" expanded></nys-accordionitem>
-        <nys-accordionitem heading="Item 2" expanded></nys-accordionitem>
-      </nys-accordion>
-    `);
-    await el.updateComplete;
-
-    const items = el.querySelectorAll("nys-accordionitem");
-    const firstHeader = (items[0] as any).shadowRoot?.querySelector(
-      ".nys-accordionitem__heading",
-    ) as HTMLElement;
-
-    // Click to collapse item 1 (expanded -> false), other items should remain untouched
-    firstHeader.click();
-    await el.updateComplete;
-
-    expect((items[0] as any).expanded).to.be.false;
-    expect((items[1] as any).expanded).to.be.true;
-  });
-
-  it("collapses other expanded items when a new item is expanded in singleSelect mode", async () => {
-    const el = await fixture<NysAccordion>(html`
-      <nys-accordion singleSelect>
-        <nys-accordionitem heading="Item 1" expanded></nys-accordionitem>
-        <nys-accordionitem heading="Item 2"></nys-accordionitem>
-      </nys-accordion>
-    `);
-    await el.updateComplete;
-
-    const items = el.querySelectorAll("nys-accordionitem");
-    const secondHeader = (items[1] as any).shadowRoot?.querySelector(
-      ".nys-accordionitem__heading",
-    ) as HTMLElement;
-
-    // Expand item 2 — item 1 should be collapsed
-    secondHeader.click();
-    await el.updateComplete;
-
-    expect((items[0] as any).expanded).to.be.false;
-    expect((items[1] as any).expanded).to.be.true;
-  });
-
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-accordionitem heading="My Label"></nys-accordionitem>`,
     );
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  // Other test to consider:
+  // - Test for default values
+  // - Test for different attributes
+  // - Test for events
+  // - Test for methods
+  // - Test for accessibility
+  // - Test for slot content
+  // - Test for lifecycle methods
 });

@@ -1,7 +1,6 @@
 import { mergeConfig } from "vite";
 import { defaultConfig } from "../../vite.config.js";
 import { copyFileSync, mkdirSync, readdirSync } from "fs";
-import { version } from "./package.json";
 import { resolve, join } from "path";
 
 // Banner to put at the top of the generated files
@@ -11,7 +10,7 @@ const banner = `
    * █ █ █  █▄▄▄█  ▀▀▀▄▄  █   █ ▀▀▀▄▄
    * █  ▀█    █    █▄▄▄█  █▄▄▀  █▄▄▄█
    *
-   * Icon Component v${version}
+   * Icon Component
    * Part of the New York State Design System
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT

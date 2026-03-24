@@ -19,7 +19,7 @@ export default function (plop) {
         type: "input",
         name: "versionNumber",
         message: "Version Number",
-        default: "1.15.1", //update this to the latest version when new release is made
+        default: "1.14.0", //update this to the latest version when new release is made
       },
       {
         type: "confirm",
@@ -32,57 +32,57 @@ export default function (plop) {
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/index.ts",
-        templateFile: "src/templates/index.template.hbs",
+        templateFile: "templates/index.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.figma.ts",
-        templateFile: "src/templates/figma.template.hbs",
+        templateFile: "templates/figma.template.hbs",
       },
       // {
       //   type: "add",
       //   path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.mdx",
-      //   templateFile: "src/templates/mdx.template.hbs",
+      //   templateFile: "templates/mdx.template.hbs",
       // },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.stories.ts",
-        templateFile: "src/templates/stories.template.hbs",
+        templateFile: "templates/stories.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.scss",
-        templateFile: "src/templates/styles.template.hbs",
+        templateFile: "templates/styles.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.test.ts",
-        templateFile: "src/templates/test.template.hbs",
+        templateFile: "templates/test.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/src/nys-{{componentName}}.ts",
-        templateFile: "src/templates/component.template.hbs",
+        templateFile: "templates/component.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/package.json",
-        templateFile: "src/templates/package.template.hbs",
+        templateFile: "templates/package.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/tsconfig.json",
-        templateFile: "src/templates/tsconfig.template.hbs",
+        templateFile: "templates/tsconfig.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/vite.config.js",
-        templateFile: "src/templates/viteconfig.template.hbs",
+        templateFile: "templates/viteconfig.template.hbs",
       },
       {
         type: "add",
         path: "packages/nys-{{componentName}}/web-test-runner.config.js",
-        templateFile: "src/templates/webtestrunner.template.hbs",
+        templateFile: "templates/webtestrunner.template.hbs",
       },
       {
         type: "modify",

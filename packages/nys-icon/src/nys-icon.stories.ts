@@ -1,10 +1,26 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-icon";
+import { registerIconLibrary } from "./nys-icon.registry";
+
+// Register Font Awesome (free) as an external icon library.
+registerIconLibrary("fa", {
+  resolver: (name) =>
+    `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/svgs/${name}.svg`,
+  mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+});
+
+// Register Google Material Symbols as an external icon library.
+registerIconLibrary("material", {
+  resolver: (name) =>
+    `https://cdn.jsdelivr.net/npm/@material-symbols/svg-400@0.27.2/outlined/${name}.svg`,
+  mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+});
 
 // Define the structure of the args used in the stories
 interface NysIconArgs {
   name: string;
+  library: string;
   ariaLabel: string;
   color: string;
   rotate: string;
@@ -36,6 +52,10 @@ const meta: Meta<NysIconArgs> = {
   argTypes: {
     ariaLabel: { control: "text" },
     name: { control: "text" },
+    library: {
+      control: "select",
+      options: ["default", "fa", "material"],
+    },
     color: { control: "text" },
     rotate: { control: "text" },
     flip: {
@@ -483,6 +503,115 @@ export const Flip: Story = {
   flip="horizontal"
   size="3xl"
   ></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Font Awesome library
+export const FontAwesome: Story = {
+  args: {
+    library: "fa",
+    name: "solid/heart",
+    size: "4xl",
+    color: "#c9302c",
+  },
+  render: (args) => html`
+    <p style="margin-bottom: 8px; font-size: 14px; color: #555;">
+      Icons loaded from
+      <strong>Font Awesome 6 Free</strong> via
+      <code>registerIconLibrary("fa", ...)</code>
+    </p>
+    <div style="display: flex; gap: 24px; align-items: center;">
+      <nys-icon
+        library=${args.library}
+        .name=${args.name}
+        .ariaLabel=${args.ariaLabel}
+        color=${args.color}
+        size=${args.size}
+        rotate=${args.rotate}
+        flip=${args.flip}
+      ></nys-icon>
+      <nys-icon library="fa" name="solid/star" size="4xl" color="#f0ad4e"></nys-icon>
+      <nys-icon library="fa" name="solid/circle-check" size="4xl" color="#5cb85c"></nys-icon>
+      <nys-icon library="fa" name="brands/github" size="4xl"></nys-icon>
+      <nys-icon library="fa" name="solid/bell" size="4xl" color="#337ab7"></nys-icon>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { registerIconLibrary } from "@nysds/nys-icon";
+
+// Register once at app startup
+registerIconLibrary("fa", {
+  resolver: (name) =>
+    \`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/svgs/\${name}.svg\`,
+  mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+});
+
+<!-- Then use in HTML -->
+<nys-icon library="fa" name="solid/heart" size="4xl" color="#c9302c"></nys-icon>
+<nys-icon library="fa" name="solid/star" size="4xl" color="#f0ad4e"></nys-icon>
+<nys-icon library="fa" name="solid/circle-check" size="4xl" color="#5cb85c"></nys-icon>
+<nys-icon library="fa" name="brands/github" size="4xl"></nys-icon>
+<nys-icon library="fa" name="solid/bell" size="4xl" color="#337ab7"></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Google Material Symbols library
+export const MaterialSymbols: Story = {
+  args: {
+    library: "material",
+    name: "home",
+    size: "4xl",
+  },
+  render: (args) => html`
+    <p style="margin-bottom: 8px; font-size: 14px; color: #555;">
+      Icons loaded from
+      <strong>Google Material Symbols</strong> via
+      <code>registerIconLibrary("material", ...)</code>
+    </p>
+    <div style="display: flex; gap: 24px; align-items: center;">
+      <nys-icon
+        library=${args.library}
+        .name=${args.name}
+        .ariaLabel=${args.ariaLabel}
+        color=${args.color}
+        size=${args.size}
+        rotate=${args.rotate}
+        flip=${args.flip}
+      ></nys-icon>
+      <nys-icon library="material" name="favorite" size="4xl" color="#c9302c"></nys-icon>
+      <nys-icon library="material" name="settings" size="4xl"></nys-icon>
+      <nys-icon library="material" name="delete" size="4xl" color="#d9534f"></nys-icon>
+      <nys-icon library="material" name="thumb_up" size="4xl" color="#337ab7"></nys-icon>
+    </div>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+import { registerIconLibrary } from "@nysds/nys-icon";
+
+// Register once at app startup
+registerIconLibrary("material", {
+  resolver: (name) =>
+    \`https://cdn.jsdelivr.net/npm/@material-symbols/svg-400@0.27.2/outlined/\${name}.svg\`,
+  mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+});
+
+<!-- Then use in HTML -->
+<nys-icon library="material" name="home" size="4xl"></nys-icon>
+<nys-icon library="material" name="favorite" size="4xl" color="#c9302c"></nys-icon>
+<nys-icon library="material" name="settings" size="4xl"></nys-icon>
+<nys-icon library="material" name="delete" size="4xl" color="#d9534f"></nys-icon>
+<nys-icon library="material" name="thumb_up" size="4xl" color="#337ab7"></nys-icon>
         `.trim(),
       },
     },

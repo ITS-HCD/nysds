@@ -6,7 +6,6 @@ export * from "../packages/nys-backtotop/src/index";
 export * from "../packages/nys-button/src/index";
 export * from "../packages/nys-badge/src/index";
 export * from "../packages/nys-checkbox/src/index";
-export * from "../packages/nys-combobox/src/index";
 export * from "../packages/nys-datepicker/src/index";
 export * from "../packages/nys-divider/src/index";
 export * from "../packages/nys-dropdownmenu/src/index";

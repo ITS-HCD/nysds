@@ -34,10 +34,6 @@ let toggleIdCounter = 0;
 
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
-  static shadowRootOptions = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -135,27 +131,18 @@ export class NysToggle extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    this.dispatchEvent(new Event("nys-focus"));
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    this.dispatchEvent(new Event("nys-blur"));
   }
 
-  private _handleClick() {
-    if (this.disabled) return;
-    this.checked = !this.checked;
+  private _handleChange(e: Event) {
+    const { checked } = e.target as HTMLInputElement;
+    this.checked = checked;
     this._emitChangeEvent();
-  }
-
-  private _handleSliderClick(e: Event) {
-    e.stopPropagation();
-    this._handleClick();
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
@@ -186,12 +173,12 @@ export class NysToggle extends LitElement {
               aria-checked="${this.checked ? "true" : "false"}"
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-label="${this.label || "Toggle switch"}"
-              @click=${this._handleClick}
+              @change=${this._handleChange}
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
               @keydown=${this._handleKeyDown}
             />
-            <span class="slider" @click=${this._handleSliderClick}>
+            <span class="slider">
               <div class="knob">
                 ${this.noIcon
                   ? ""

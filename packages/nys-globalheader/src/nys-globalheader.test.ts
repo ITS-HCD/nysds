@@ -84,42 +84,6 @@ describe("nys-globalheader", () => {
     expect(testSlot?.textContent).to.include("Services");
   });
 
-  it("updates containers when slot content is added and removed", async () => {
-    const el = await fixture<NysGlobalHeader>(html`
-      <nys-globalheader></nys-globalheader>
-    `);
-
-    await el.updateComplete;
-
-    // --- Add slot content ---
-    const ul = document.createElement("ul");
-    ul.innerHTML = `<li><a href="/one">One</a></li><li><a href="/two">Two</a></li>`;
-    el.appendChild(ul);
-
-    // Wait for slotchange to fire, then for Lit to settle
-    await new Promise((r) => setTimeout(r, 0));
-    await el.updateComplete;
-
-    const desktop = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content",
-    ) as HTMLElement;
-    const mobile = el.shadowRoot!.querySelector(
-      ".nys-globalheader__content-mobile",
-    ) as HTMLElement;
-
-    expect(desktop.querySelectorAll("a").length).to.equal(2);
-    expect(mobile.querySelectorAll("a").length).to.equal(2);
-
-    // --- Remove slot content ---
-    el.removeChild(ul);
-
-    await new Promise((r) => setTimeout(r, 0));
-    await el.updateComplete;
-
-    expect(desktop.innerHTML).to.equal("");
-    expect(mobile.innerHTML).to.equal("");
-  });
-
   it("renders content in the user-actions slot", async () => {
     const el = await fixture<NysGlobalHeader>(html`
       <nys-globalheader appName="Test App" agencyName="Test Agency">

@@ -2,7 +2,6 @@
 dist/
 coverage/
 packages/nys-icon/src/icons/
-release*.zip
 
 # Ignore Node-specific files
 node_modules/
@@ -42,13 +41,7 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Turborepo cache
-.turbo
-
 # Ignore AI assistant files
 CLAUDE.md
 .claude/
 docs/
-
-# Ignore generated react-utils.js
-packages/react/react-utils.js

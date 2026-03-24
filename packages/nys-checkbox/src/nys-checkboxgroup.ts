@@ -30,10 +30,6 @@ let checkboxgroupIdCounter = 0;
 
 export class NysCheckboxgroup extends LitElement {
   static styles = unsafeCSS(styles);
-  static shadowRootOptions = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -467,6 +463,8 @@ export class NysCheckboxgroup extends LitElement {
   }
 
   private async _checkOtherInputs(checkboxes: NysCheckbox[]) {
+    let foundInvalidOther = false;
+
     for (const checkbox of checkboxes) {
       if (checkbox.checked && checkbox.other) {
         const value = checkbox.value.trim();
@@ -483,14 +481,14 @@ export class NysCheckboxgroup extends LitElement {
           this._otherErrorCheckbox = checkbox;
           this._setCustomOtherError();
           this.showError = true;
+          foundInvalidOther = true;
           return;
         }
       }
     }
 
-    // If we reached here, no other invalid "other" was found.
-    // Clear any previous "other" error
-    if (this._hasOtherError) {
+    // If we checked all and found no invalid "other" inputs, clear that error
+    if (!foundInvalidOther && this._hasOtherError) {
       this._hasOtherError = false;
       this._otherErrorCheckbox = null;
 
