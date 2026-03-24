@@ -28,8 +28,8 @@ const jsxOpts = {
   /** File name for the types */
   fileName: "nysds-jsx.d.ts",
   componentTypePath: (_name, _tag) => {
-  return `${_name}`;
-},
+    return `${_name}`;
+  },
 };
 
 export default {
