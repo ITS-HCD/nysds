@@ -45,8 +45,7 @@ export interface NysTabpanelProps extends Pick<
 
 /**
  * `<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a `<nys-tabgroup>`.
- * Pairing is done by matching tab id if provided, otherwise by render order.
- * ARIA wiring (aria-labelledby) is applied externally by `<nys-tabgroup>`.
+ * Pairing is by render order. ARIA wiring (aria-labelledby) is applied externally by `<nys-tabgroup>`.
  * ---
  *
  */

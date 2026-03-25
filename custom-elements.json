@@ -9818,7 +9818,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tab>` is a single tab within a `<nys-tabgroup>`.\nPaired with a `<nys-tabpanel>` by render order or matching id.",
+          "description": "`<nys-tab>` is a single tab within a `<nys-tabgroup>`.\nPaired with a `<nys-tabpanel>` by render order.\nARIA wiring (aria-controls, tabindex, selected) is applied by `<nys-tabgroup>`.",
           "name": "NysTab",
           "members": [
             {
@@ -9863,8 +9863,7 @@
             {
               "kind": "method",
               "name": "_handleClick",
-              "privacy": "private",
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -10002,6 +10001,52 @@
             },
             {
               "kind": "method",
+              "name": "_getTabs",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_getPanels",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_applySelection",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "tabs",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  }
+                },
+                {
+                  "name": "panels",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  }
+                },
+                {
+                  "name": "selectedIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "Single source of truth for ARIA wiring and panel visibility.\nCall any time the selected tab changes."
+            },
+            {
+              "kind": "method",
               "name": "_sortChildren",
               "privacy": "private",
               "parameters": [
@@ -10011,19 +10056,7 @@
                     "text": "Event"
                   }
                 }
-              ],
-              "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_getTabs",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "HTMLElement[]"
-                }
-              },
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
+              ]
             },
             {
               "kind": "method",
@@ -10034,6 +10067,19 @@
                   "name": "e",
                   "type": {
                     "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
                   }
                 }
               ]
@@ -10101,7 +10147,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a `<nys-tabgroup>`.\nPairing is done by matching tab id if provided, otherwise by render order.\nARIA wiring (aria-labelledby) is applied externally by `<nys-tabgroup>`.",
+          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a `<nys-tabgroup>`.\nPairing is by render order. ARIA wiring (aria-labelledby) is applied externally by `<nys-tabgroup>`.",
           "name": "NysTabpanel",
           "members": [
             {

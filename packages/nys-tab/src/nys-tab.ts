@@ -7,7 +7,8 @@ let componentIdCounter = 0;
 
 /**
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
- * Paired with a `<nys-tabpanel>` by render order or matching id.
+ * Paired with a `<nys-tabpanel>` by render order.
+ * ARIA wiring (aria-controls, tabindex, selected) is applied by `<nys-tabgroup>`.
  */
 export class NysTab extends LitElement {
   static styles = unsafeCSS(styles);
@@ -17,17 +18,12 @@ export class NysTab extends LitElement {
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  // Lifecycle Methods
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     super.connectedCallback();
-
     if (!this.id) {
       this.id = `nys-tab-${Date.now()}-${componentIdCounter++}`;
     }
+    this.setAttribute("role", "tab");
   }
 
   /**
@@ -75,20 +71,16 @@ export class NysTab extends LitElement {
 
   render() {
     return html`
-      <div class="nys-tab">
-        <nys-button
-          type="button"
-          label=${this.label}
-          ?disabled=${this.disabled}
-          role="tab"
-          aria-selected=${this.selected ? "true" : "false"}
-          aria-disabled=${this.disabled ? "true" : "false"}
-          tabindex="0"
-          @nys-click=${this._handleClick}
-          @nys-focus=${this._handleFocus}
-          @nys-blur=${this._handleBlur}
-        ></nys-button>
-      </div>
+      <nys-button
+        class="nys-tab"
+        type="button"
+        label=${this.label}
+        ?disabled=${this.disabled}
+        ariaControls=${this.getAttribute("aria-controls") ?? ""}
+        @nys-click=${this._handleClick}
+        @nys-focus=${this._handleFocus}
+        @nys-blur=${this._handleBlur}
+      ></nys-button>
     `;
   }
 }

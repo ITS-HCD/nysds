@@ -20,11 +20,6 @@ export class NysTabgroup extends LitElement {
     | "horizontal"
     | "vertical" = "horizontal";
 
-  // Lifecycle Methods
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -32,53 +27,58 @@ export class NysTabgroup extends LitElement {
     }
   }
 
+  // -------------------------------------------------------------------------
+  // Helpers
+  // -------------------------------------------------------------------------
+
+  private _getTabs(): HTMLElement[] {
+    return Array.from(
+      this.shadowRoot
+        ?.querySelector(".nys-tabgroup__tabs")
+        ?.querySelectorAll("nys-tab") ?? [],
+    ) as HTMLElement[];
+  }
+
+  private _getPanels(): HTMLElement[] {
+    return Array.from(
+      this.shadowRoot
+        ?.querySelector(".nys-tabgroup__panels")
+        ?.querySelectorAll("nys-tabpanel") ?? [],
+    ) as HTMLElement[];
+  }
+
   /**
-   * Functions
-   * --------------------------------------------------------------------------
+   * Single source of truth for ARIA wiring and panel visibility.
+   * Call any time the selected tab changes.
    */
-
-  private _sortChildren(e: Event) {
-    console.log("Sorting children");
-    const slot = e.target as HTMLSlotElement;
-    const assigned = slot.assignedElements();
-
-    const tabsContainer = this.shadowRoot?.querySelector(".nys-tabgroup__tabs");
-    const panelsContainer = this.shadowRoot?.querySelector(
-      ".nys-tabgroup__panels",
-    );
-
-    if (!tabsContainer || !panelsContainer) return;
-
-    const tabs: Element[] = [];
-
-    assigned.forEach((child) => {
-      if (child.tagName.toLowerCase() === "nys-tab") {
-        tabsContainer.appendChild(child);
-        tabs.push(child);
-      } else if (child.tagName.toLowerCase() === "nys-tabpanel") {
-        panelsContainer.appendChild(child);
+  private _applySelection(
+    tabs: HTMLElement[],
+    panels: HTMLElement[],
+    selectedIndex: number,
+  ) {
+    tabs.forEach((tab, i) => {
+      const isSelected = i === selectedIndex;
+      if (isSelected) {
+        tab.setAttribute("selected", "");
+      } else {
+        tab.removeAttribute("selected");
+      }
+      tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+      // Wire aria-controls → matching panel id
+      const panel = panels[i];
+      if (panel) {
+        tab.setAttribute("aria-controls", panel.id);
       }
     });
 
-    // Only honor the first selected tab; remove selected from all others
-    let selectedTab = tabs.find((t) => t.hasAttribute("selected"));
-    tabs.forEach((t) => t.removeAttribute("selected"));
-
-    if (selectedTab) {
-      selectedTab.setAttribute("selected", "");
-    }
-    // If no tabs are selected, select the first one by default
-    else if (tabs.length > 0) {
-      tabs[0].setAttribute("selected", "");
-      selectedTab = tabs[0];
-    }
-
-    console.log("First Selected is: ", selectedTab?.getAttribute("id"));
-
-    // Show the panel that matches the selected tab index
-    const panels = panelsContainer.querySelectorAll("nys-tabpanel");
-    panels.forEach((panel, index) => {
-      if (index === tabs.indexOf(selectedTab!)) {
+    panels.forEach((panel, i) => {
+      const isSelected = i === selectedIndex;
+      const tab = tabs[i];
+      // Wire aria-labelledby → matching tab id
+      if (tab) {
+        panel.setAttribute("aria-labelledby", tab.id);
+      }
+      if (isSelected) {
         panel.removeAttribute("hidden");
       } else {
         panel.setAttribute("hidden", "");
@@ -86,25 +86,42 @@ export class NysTabgroup extends LitElement {
     });
   }
 
-  /**
-   * Event Handlers
-   * --------------------------------------------------------------------------
-   */
+  // -------------------------------------------------------------------------
+  // Event Handlers
+  // -------------------------------------------------------------------------
 
-  private _getTabs(): HTMLElement[] {
+  private _sortChildren(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    const assigned = slot.assignedElements();
+
     const tabsContainer = this.shadowRoot?.querySelector(".nys-tabgroup__tabs");
-    return Array.from(
-      tabsContainer?.querySelectorAll("nys-tab") ?? [],
-    ) as HTMLElement[];
-  }
-
-  private _getPanels(): HTMLElement[] {
     const panelsContainer = this.shadowRoot?.querySelector(
       ".nys-tabgroup__panels",
     );
-    return Array.from(
-      panelsContainer?.querySelectorAll("nys-tabpanel") ?? [],
-    ) as HTMLElement[];
+    if (!tabsContainer || !panelsContainer) return;
+
+    const tabs: HTMLElement[] = [];
+    const panels: HTMLElement[] = [];
+
+    assigned.forEach((child) => {
+      const tag = child.tagName.toLowerCase();
+      if (tag === "nys-tab") {
+        tabsContainer.appendChild(child);
+        tabs.push(child as HTMLElement);
+      } else if (tag === "nys-tabpanel") {
+        panelsContainer.appendChild(child);
+        panels.push(child as HTMLElement);
+      }
+    });
+
+    // Honor the first selected tab; ignore any others
+    const declaredSelectedIndex = tabs.findIndex((t) =>
+      t.hasAttribute("selected"),
+    );
+    const selectedIndex =
+      declaredSelectedIndex !== -1 ? declaredSelectedIndex : 0;
+
+    this._applySelection(tabs, panels, selectedIndex);
   }
 
   private _handleTabSelect(e: Event) {
@@ -113,28 +130,56 @@ export class NysTabgroup extends LitElement {
       .find(
         (el) => (el as HTMLElement).tagName?.toLowerCase() === "nys-tab",
       ) as HTMLElement | undefined;
-
     if (!selectedTab) return;
-    const selectedId = selectedTab.id;
 
-    this._getTabs().forEach((tab) => {
-      if (tab === selectedTab) {
-        tab.setAttribute("selected", "");
-      } else {
-        tab.removeAttribute("selected");
-      }
-    });
-
-    //hide all panels except the one with matching id or index
+    const tabs = this._getTabs();
     const panels = this._getPanels();
-    panels.forEach((panel, index) => {
-      const panelId = panel.getAttribute("aria-labelledby");
-      if (panelId === selectedId || index === this._getTabs().indexOf(selectedTab)) {
-        panel.removeAttribute("hidden");
-      } else {
-        panel.setAttribute("hidden", "");
-      }
-    });
+    const selectedIndex = tabs.indexOf(selectedTab);
+    if (selectedIndex === -1) return;
+
+    this._applySelection(tabs, panels, selectedIndex);
+  }
+
+  private _handleKeydown(e: KeyboardEvent) {
+    const tabs = this._getTabs().filter((t) => !t.hasAttribute("disabled"));
+    if (tabs.length === 0) return;
+
+    const currentIndex = tabs.findIndex((t) => t.hasAttribute("selected"));
+    const isHorizontal = this.orientation === "horizontal";
+
+    const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
+    const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
+
+    let newIndex = currentIndex;
+
+    switch (e.key) {
+      case prevKey:
+        newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        break;
+      case nextKey:
+        newIndex = (currentIndex + 1) % tabs.length;
+        break;
+      case "Home":
+        newIndex = 0;
+        break;
+      case "End":
+        newIndex = tabs.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    e.preventDefault();
+
+    if (newIndex === currentIndex) return;
+
+    const allTabs = this._getTabs();
+    const panels = this._getPanels();
+    const focusTarget = tabs[newIndex];
+    const absoluteIndex = allTabs.indexOf(focusTarget);
+
+    this._applySelection(allTabs, panels, absoluteIndex);
+    (focusTarget as HTMLElement & { focus?: () => void }).focus?.();
   }
 
   render() {
@@ -145,12 +190,10 @@ export class NysTabgroup extends LitElement {
           role="tablist"
           aria-label=${this.name}
           aria-orientation=${this.orientation}
+          @keydown=${this._handleKeydown}
         ></div>
-        <div class="nys-tabgroup__panels" style="border: blue solid;"></div>
-        <slot
-          @slotchange=${this._sortChildren}
-          style="border: red solid;"
-        ></slot>
+        <div class="nys-tabgroup__panels"></div>
+        <slot @slotchange=${this._sortChildren}></slot>
       </div>
     `;
   }

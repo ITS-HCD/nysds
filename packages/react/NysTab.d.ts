@@ -63,7 +63,8 @@ export interface NysTabProps extends Pick<
 
 /**
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
- * Paired with a `<nys-tabpanel>` by render order or matching id.
+ * Paired with a `<nys-tabpanel>` by render order.
+ * ARIA wiring (aria-controls, tabindex, selected) is applied by `<nys-tabgroup>`.
  * ---
  *
  *

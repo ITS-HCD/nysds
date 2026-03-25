@@ -7,7 +7,7 @@
   }
 }
 
-.nys-tab>nys-button {
+nys-button.nys-tab {
   --nys-button-background-color: var(--nys-color-surface);
   --nys-button-background-color--hover: var(--nys-color-theme-weaker);
   --nys-button-background-color--active: var(--nys-color-theme-weak);
