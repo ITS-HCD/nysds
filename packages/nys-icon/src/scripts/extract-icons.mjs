@@ -20,7 +20,9 @@ const outDir = resolve(__dirname, "../../dist/icons");
 const source = readFileSync(srcFile, "utf8");
 
 // Match each icon entry: iconName: `<svg...>...</svg>`,
-const iconRegex = /(\w+):\s*`(<svg[\s\S]*?<\/svg>)`/g;
+// Allow optional whitespace between </svg> and the closing backtick,
+// since some entries have a newline before the backtick.
+const iconRegex = /(\w+):\s*`(<svg[\s\S]*?<\/svg>)\s*`/g;
 let match;
 const names = [];
 
