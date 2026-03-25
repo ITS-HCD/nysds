@@ -9,6 +9,7 @@
   ); /* If cap isn't supported, a fallback value of 0.7em is used, as it closely approximates the height of capital letters in most fonts. */
 
   box-sizing: content-box !important;
+  vertical-align: middle;
 }
 
 /* Use 'cap' if supported */
