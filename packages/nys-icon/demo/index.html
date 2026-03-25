@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nys-icon Demo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>nys-icon Component Demo</h1>
+      <p>Demonstrating the swappable icon library system with three providers.</p>
+    </header>
+
+    <main>
+      <!-- Default NYSDS Library -->
+      <section>
+        <h2>Default Library (NYSDS)</h2>
+        <p>Built-in icons extracted from <code>nys-icon.library.ts</code> at build time. No registration needed.</p>
+        <div class="icon-grid">
+          <div class="icon-card">
+            <nys-icon name="check_circle" size="4xl" color="#1a7a2e"></nys-icon>
+            <span>check_circle</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="warning" size="4xl" color="#c9651b"></nys-icon>
+            <span>warning</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="info" size="4xl" color="#1a5ca6"></nys-icon>
+            <span>info</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="error" size="4xl" color="#b52c2c"></nys-icon>
+            <span>error</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="search" size="4xl"></nys-icon>
+            <span>search</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="download" size="4xl"></nys-icon>
+            <span>download</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="calendar_month" size="4xl"></nys-icon>
+            <span>calendar_month</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="account_circle" size="4xl"></nys-icon>
+            <span>account_circle</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="social_youtube" size="4xl" color="#b2071d"></nys-icon>
+            <span>social_youtube</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="social_facebook" size="4xl" color="#1877F2"></nys-icon>
+            <span>social_facebook</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Font Awesome Library -->
+      <section>
+        <h2>Font Awesome Library</h2>
+        <p>
+          Registered via <code>registerIconLibrary('fa', ...)</code> using the
+          <a href="https://fontawesome.com/" target="_blank">Font Awesome</a> free CDN.
+        </p>
+        <div class="icon-grid">
+          <div class="icon-card">
+            <nys-icon name="house" library="fa" size="4xl" color="#1a5ca6"></nys-icon>
+            <span>house</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="star" library="fa" size="4xl" color="#f5a623"></nys-icon>
+            <span>star</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="heart" library="fa" size="4xl" color="#e74c3c"></nys-icon>
+            <span>heart</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="user" library="fa" size="4xl" color="#2ecc71"></nys-icon>
+            <span>user</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="envelope" library="fa" size="4xl"></nys-icon>
+            <span>envelope</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="gear" library="fa" size="4xl"></nys-icon>
+            <span>gear</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="bell" library="fa" size="4xl"></nys-icon>
+            <span>bell</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="bookmark" library="fa" size="4xl"></nys-icon>
+            <span>bookmark</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="cloud" library="fa" size="4xl" color="#3498db"></nys-icon>
+            <span>cloud</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="bolt" library="fa" size="4xl" color="#f39c12"></nys-icon>
+            <span>bolt</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Material Icons Library -->
+      <section>
+        <h2>Material Symbols Library</h2>
+        <p>
+          Registered via <code>registerIconLibrary('material', ...)</code> using
+          <a href="https://fonts.google.com/icons" target="_blank">Google Material Symbols</a>.
+        </p>
+        <div class="icon-grid">
+          <div class="icon-card">
+            <nys-icon name="home" library="material" size="4xl" color="#4285F4"></nys-icon>
+            <span>home</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="favorite" library="material" size="4xl" color="#EA4335"></nys-icon>
+            <span>favorite</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="settings" library="material" size="4xl" color="#34A853"></nys-icon>
+            <span>settings</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="search" library="material" size="4xl" color="#FBBC05"></nys-icon>
+            <span>search</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="delete" library="material" size="4xl"></nys-icon>
+            <span>delete</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="visibility" library="material" size="4xl"></nys-icon>
+            <span>visibility</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="schedule" library="material" size="4xl"></nys-icon>
+            <span>schedule</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="language" library="material" size="4xl"></nys-icon>
+            <span>language</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="cloud_upload" library="material" size="4xl" color="#4285F4"></nys-icon>
+            <span>cloud_upload</span>
+          </div>
+          <div class="icon-card">
+            <nys-icon name="dashboard" library="material" size="4xl" color="#673AB7"></nys-icon>
+            <span>dashboard</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Code Examples -->
+      <section>
+        <h2>Code</h2>
+
+        <h3>1. Import and register libraries</h3>
+        <pre><code>import { registerIconLibrary } from '@nysds/nys-icon';
+
+// Font Awesome (free solid icons via jsDelivr CDN)
+registerIconLibrary('fa', {
+  resolver: name =&gt;
+    `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
+  mutator: svg =&gt; svg.setAttribute('fill', 'currentColor'),
+});
+
+// Google Material Symbols (outlined)
+registerIconLibrary('material', {
+  resolver: name =&gt;
+    `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
+  mutator: svg =&gt; svg.setAttribute('fill', 'currentColor'),
+});</code></pre>
+
+        <h3>2. Use in HTML</h3>
+        <pre><code>&lt;!-- Default NYSDS icons (no library attribute needed) --&gt;
+&lt;nys-icon name="check_circle" size="lg" color="#1a7a2e"&gt;&lt;/nys-icon&gt;
+
+&lt;!-- Font Awesome --&gt;
+&lt;nys-icon name="house" library="fa" size="lg"&gt;&lt;/nys-icon&gt;
+
+&lt;!-- Material Symbols --&gt;
+&lt;nys-icon name="home" library="material" size="lg"&gt;&lt;/nys-icon&gt;</code></pre>
+      </section>
+    </main>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

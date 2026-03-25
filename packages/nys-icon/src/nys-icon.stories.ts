@@ -1,10 +1,12 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-icon";
+import { registerIconLibrary } from "./icon-library-registry";
 
 // Define the structure of the args used in the stories
 interface NysIconArgs {
   name: string;
+  library: string;
   ariaLabel: string;
   color: string;
   rotate: string;
@@ -36,6 +38,7 @@ const meta: Meta<NysIconArgs> = {
   argTypes: {
     ariaLabel: { control: "text" },
     name: { control: "text" },
+    library: { control: "text" },
     color: { control: "text" },
     rotate: { control: "text" },
     flip: {
@@ -483,6 +486,158 @@ export const Flip: Story = {
   flip="horizontal"
   size="3xl"
   ></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Font Awesome Library
+export const FontAwesome: Story = {
+  args: {
+    name: "house",
+    library: "fa",
+    size: "4xl",
+    color: "#1877F2",
+  },
+  render: (args) => {
+    registerIconLibrary("fa", {
+      resolver: (name) =>
+        `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
+      mutator: (svg) => {
+        svg.setAttribute("fill", "currentColor");
+      },
+    });
+
+    return html`
+      <div>
+        <p style="margin-bottom: 8px;">
+          Icons loaded from
+          <strong>Font Awesome</strong>
+          via a custom icon library:
+        </p>
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <nys-icon
+            name=${args.name}
+            library=${args.library}
+            color=${args.color}
+            size=${args.size}
+          ></nys-icon>
+          <nys-icon
+            name="star"
+            library="fa"
+            color="#f5a623"
+            size=${args.size}
+          ></nys-icon>
+          <nys-icon
+            name="heart"
+            library="fa"
+            color="#e74c3c"
+            size=${args.size}
+          ></nys-icon>
+          <nys-icon
+            name="user"
+            library="fa"
+            color="#2ecc71"
+            size=${args.size}
+          ></nys-icon>
+        </div>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+// Register Font Awesome as a custom icon library
+import { registerIconLibrary } from '@nysds/nys-icon';
+
+registerIconLibrary('fa', {
+  resolver: name =>
+    \`https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/\${name}.svg\`,
+  mutator: svg => svg.setAttribute('fill', 'currentColor'),
+});
+
+<nys-icon name="house" library="fa" size="4xl" color="#1877F2"></nys-icon>
+<nys-icon name="star" library="fa" size="4xl" color="#f5a623"></nys-icon>
+<nys-icon name="heart" library="fa" size="4xl" color="#e74c3c"></nys-icon>
+<nys-icon name="user" library="fa" size="4xl" color="#2ecc71"></nys-icon>
+        `.trim(),
+      },
+    },
+  },
+};
+
+// Story: Material Icons Library
+export const MaterialIcons: Story = {
+  args: {
+    name: "home",
+    library: "material",
+    size: "4xl",
+    color: "#4285F4",
+  },
+  render: (args) => {
+    registerIconLibrary("material", {
+      resolver: (name) =>
+        `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
+      mutator: (svg) => {
+        svg.setAttribute("fill", "currentColor");
+      },
+    });
+
+    return html`
+      <div>
+        <p style="margin-bottom: 8px;">
+          Icons loaded from
+          <strong>Google Material Symbols</strong>
+          via a custom icon library:
+        </p>
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <nys-icon
+            name=${args.name}
+            library=${args.library}
+            color=${args.color}
+            size=${args.size}
+          ></nys-icon>
+          <nys-icon
+            name="favorite"
+            library="material"
+            color="#EA4335"
+            size=${args.size}
+          ></nys-icon>
+          <nys-icon
+            name="settings"
+            library="material"
+            color="#34A853"
+            size=${args.size}
+          ></nys-icon>
+          <nys-icon
+            name="search"
+            library="material"
+            color="#FBBC05"
+            size=${args.size}
+          ></nys-icon>
+        </div>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+// Register Material Symbols as a custom icon library
+import { registerIconLibrary } from '@nysds/nys-icon';
+
+registerIconLibrary('material', {
+  resolver: name =>
+    \`https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/\${name}/default/24px.svg\`,
+  mutator: svg => svg.setAttribute('fill', 'currentColor'),
+});
+
+<nys-icon name="home" library="material" size="4xl" color="#4285F4"></nys-icon>
+<nys-icon name="favorite" library="material" size="4xl" color="#EA4335"></nys-icon>
+<nys-icon name="settings" library="material" size="4xl" color="#34A853"></nys-icon>
+<nys-icon name="search" library="material" size="4xl" color="#FBBC05"></nys-icon>
         `.trim(),
       },
     },

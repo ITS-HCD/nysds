@@ -2,14 +2,23 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysIcon = forwardRef((props, forwardedRef) => {
-  const { name, ariaLabel, rotate, flip, color, size, ...filteredProps } =
-    props;
+  const {
+    name,
+    library,
+    ariaLabel,
+    rotate,
+    flip,
+    color,
+    size,
+    ...filteredProps
+  } = props;
 
   return React.createElement(
     "nys-icon",
     {
       ...filteredProps,
       name: props.name,
+      library: props.library,
       ariaLabel: props.ariaLabel,
       rotate: props.rotate,
       flip: props.flip,

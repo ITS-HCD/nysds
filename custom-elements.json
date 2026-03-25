@@ -6635,6 +6635,223 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-icon/src/icon-cache.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "clearIconCache",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "url",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Clear one or all entries from the cache."
+        },
+        {
+          "kind": "function",
+          "name": "fetchIcon",
+          "return": {
+            "type": {
+              "text": "Promise<SVGElement>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Fetch and parse an SVG from a URL. Returns a cloned SVGElement (safe for multiple consumers)."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "clearIconCache",
+          "declaration": {
+            "name": "clearIconCache",
+            "module": "packages/nys-icon/src/icon-cache.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "fetchIcon",
+          "declaration": {
+            "name": "fetchIcon",
+            "module": "packages/nys-icon/src/icon-cache.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-icon/src/icon-library-registry.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "getIconLibrary",
+          "return": {
+            "type": {
+              "text": "IconLibrary | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Get a registered icon library by name."
+        },
+        {
+          "kind": "function",
+          "name": "registerIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "library",
+              "type": {
+                "text": "IconLibrary"
+              }
+            }
+          ],
+          "description": "Register or replace a named icon library. All watching icons using this library will redraw."
+        },
+        {
+          "kind": "function",
+          "name": "unregisterIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Remove a registered icon library. All watching icons using this library will redraw."
+        },
+        {
+          "kind": "function",
+          "name": "unwatchIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "watcher",
+              "type": {
+                "text": "NysIconWatcher"
+              }
+            }
+          ],
+          "description": "Unsubscribe an icon instance from library change notifications."
+        },
+        {
+          "kind": "function",
+          "name": "watchIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "watcher",
+              "type": {
+                "text": "NysIconWatcher"
+              }
+            }
+          ],
+          "description": "Subscribe an icon instance to library change notifications."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "getIconLibrary",
+          "declaration": {
+            "name": "getIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerIconLibrary",
+          "declaration": {
+            "name": "registerIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unregisterIconLibrary",
+          "declaration": {
+            "name": "unregisterIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unwatchIconLibrary",
+          "declaration": {
+            "name": "unwatchIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "watchIconLibrary",
+          "declaration": {
+            "name": "watchIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-icon/src/index.ts",
       "declarations": [],
       "exports": [
@@ -6645,6 +6862,38 @@
             "name": "*",
             "module": "packages/nys-icon/src/nys-icon"
           }
+        },
+        {
+          "kind": "js",
+          "name": "clearIconCache",
+          "declaration": {
+            "name": "clearIconCache",
+            "module": "./icon-cache"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IconLibrary",
+          "declaration": {
+            "name": "IconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerIconLibrary",
+          "declaration": {
+            "name": "registerIconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unregisterIconLibrary",
+          "declaration": {
+            "name": "unregisterIconLibrary",
+            "module": "./icon-library-registry"
+          }
         }
       ]
     },
@@ -6654,7 +6903,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).\n\nPass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible\n(removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors.",
+          "description": "Renders SVG icons from a registered icon library. The built-in NYSDS icon\nlibrary (Material Symbols) is the default. Custom libraries (Font Awesome,\nMaterial Icons, etc.) can be registered via `registerIconLibrary()`.\n\nPass `name` to select an icon. Use `library` to choose a registered library\n(defaults to `\"default\"` for NYSDS icons). Use `ariaLabel` to make the icon\naccessible (removes `aria-hidden`). Supports size presets, rotation,\nflipping, and custom colors.",
           "name": "NysIcon",
           "members": [
             {
@@ -6664,8 +6913,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Icon name from Material Symbols library. Required.",
+              "description": "Icon name to resolve from the selected library. Required.",
               "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"default\"",
+              "description": "Which registered icon library to use. Defaults to the built-in NYSDS library.",
+              "attribute": "library",
               "reflects": true
             },
             {
@@ -6719,15 +6979,36 @@
               "attribute": "size"
             },
             {
-              "kind": "method",
-              "name": "getIcon",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": ""
-                }
+              "kind": "field",
+              "name": "_svg",
+              "type": {
+                "text": "SVGElement | null"
               },
-              "description": "Retrieves the SVG element for the given icon name and applies\naccessibility, rotation, flip, color, and size classes."
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "redraw",
+              "description": "Called by the icon library registry when the current library changes."
+            },
+            {
+              "kind": "method",
+              "name": "_loadIcon",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_applyAttributes",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "svg",
+                  "type": {
+                    "text": "SVGElement"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -6737,9 +7018,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Icon name from Material Symbols library. Required.",
+              "description": "Icon name to resolve from the selected library. Required.",
               "fieldName": "name",
               "propName": "name"
+            },
+            {
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"default\"",
+              "description": "Which registered icon library to use. Defaults to the built-in NYSDS library.",
+              "fieldName": "library",
+              "propName": "library"
             },
             {
               "name": "ariaLabel",
@@ -6798,7 +7089,7 @@
           },
           "tagName": "nys-icon",
           "customElement": true,
-          "summary": "SVG icon from Material Symbols library with size, rotation, and color options."
+          "summary": "SVG icon with swappable library support, size, rotation, and color options."
         }
       ],
       "exports": [

@@ -1,21 +1,36 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
-import iconLibrary from "./nys-icon.library";
+import { property, state } from "lit/decorators.js";
+import {
+  getIconLibrary,
+  watchIconLibrary,
+  unwatchIconLibrary,
+  NysIconWatcher,
+} from "./icon-library-registry";
+import { fetchIcon } from "./icon-cache";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-icon.scss?inline";
 
 /**
- * Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).
+ * Renders SVG icons from a registered icon library. The built-in NYSDS icon
+ * library (Material Symbols) is the default. Custom libraries (Font Awesome,
+ * Material Icons, etc.) can be registered via `registerIconLibrary()`.
  *
- * Pass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible
- * (removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors.
+ * Pass `name` to select an icon. Use `library` to choose a registered library
+ * (defaults to `"default"` for NYSDS icons). Use `ariaLabel` to make the icon
+ * accessible (removes `aria-hidden`). Supports size presets, rotation,
+ * flipping, and custom colors.
  *
- * @summary SVG icon from Material Symbols library with size, rotation, and color options.
+ * @summary SVG icon with swappable library support, size, rotation, and color options.
  * @element nys-icon
  *
- * @example Basic icon
+ * @example Basic icon (default NYSDS library)
  * ```html
  * <nys-icon name="check_circle" size="lg"></nys-icon>
+ * ```
+ *
+ * @example Font Awesome icon
+ * ```html
+ * <nys-icon name="house" library="fa" size="lg"></nys-icon>
  * ```
  *
  * @example Accessible icon with label
@@ -23,12 +38,14 @@ import styles from "./nys-icon.scss?inline";
  * <nys-icon name="warning" ariaLabel="Warning" color="var(--nys-color-warning)"></nys-icon>
  * ```
  */
-
-export class NysIcon extends LitElement {
+export class NysIcon extends LitElement implements NysIconWatcher {
   static styles = unsafeCSS(styles);
 
-  /** Icon name from Material Symbols library. Required. */
+  /** Icon name to resolve from the selected library. Required. */
   @property({ type: String, reflect: true }) name = "";
+
+  /** Which registered icon library to use. Defaults to the built-in NYSDS library. */
+  @property({ type: String, reflect: true }) library = "default";
 
   /** Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG. */
   @property({ type: String }) ariaLabel = "";
@@ -66,52 +83,92 @@ export class NysIcon extends LitElement {
     | "40"
     | "50" = "md";
 
-  /**
-   * Retrieves the SVG element for the given icon name and applies
-   * accessibility, rotation, flip, color, and size classes.
-   * @returns SVGElement | null
-   */
-  private getIcon(): SVGElement | null {
-    const iconSVG = iconLibrary[this.name];
+  @state() private _svg: SVGElement | null = null;
 
-    if (!iconSVG) return null;
+  connectedCallback() {
+    super.connectedCallback();
+    watchIconLibrary(this.library, this);
+  }
 
-    // Parse the SVG string into an actual SVG DOM element
-    const parser = new DOMParser();
-    const svgDoc = parser.parseFromString(iconSVG, "image/svg+xml");
-    const svgElement = svgDoc.documentElement;
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    unwatchIconLibrary(this.library, this);
+  }
 
-    // Ensure the parsed element is an SVGElement
-    if (!(svgElement instanceof SVGElement)) {
-      return null;
+  /** Called by the icon library registry when the current library changes. */
+  redraw() {
+    this._loadIcon();
+  }
+
+  updated(changedProps: Map<string, unknown>) {
+    if (changedProps.has("name") || changedProps.has("library")) {
+      if (changedProps.has("library")) {
+        const oldLib = changedProps.get("library") as string;
+        if (oldLib) unwatchIconLibrary(oldLib, this);
+        watchIconLibrary(this.library, this);
+      }
+      this._loadIcon();
     }
 
-    // Add accessibility attributes directly to the <svg>
-    svgElement.setAttribute("role", "img");
+    // Re-apply attributes when visual props change (without re-fetching)
+    if (
+      this._svg &&
+      (changedProps.has("ariaLabel") ||
+        changedProps.has("rotate") ||
+        changedProps.has("flip") ||
+        changedProps.has("color") ||
+        changedProps.has("size"))
+    ) {
+      this._applyAttributes(this._svg);
+      this.requestUpdate();
+    }
+  }
+
+  private async _loadIcon() {
+    const lib = getIconLibrary(this.library);
+    if (!lib || !this.name) {
+      this._svg = null;
+      return;
+    }
+
+    const url = lib.resolver(this.name);
+    if (!url) {
+      this._svg = null;
+      return;
+    }
+
+    try {
+      const svg = await fetchIcon(url);
+      lib.mutator?.(svg);
+      this._applyAttributes(svg);
+      this._svg = svg;
+    } catch {
+      this._svg = null;
+    }
+  }
+
+  private _applyAttributes(svg: SVGElement) {
+    svg.setAttribute("role", "img");
     if (this.ariaLabel) {
-      svgElement.setAttribute("aria-label", this.ariaLabel);
-      svgElement.removeAttribute("aria-hidden");
+      svg.setAttribute("aria-label", this.ariaLabel);
+      svg.removeAttribute("aria-hidden");
     } else {
-      svgElement.setAttribute("aria-hidden", "true");
-      svgElement.removeAttribute("aria-label");
+      svg.setAttribute("aria-hidden", "true");
+      svg.removeAttribute("aria-label");
     }
 
-    // Add styles
-    svgElement.style.rotate = `${this.rotate}deg`;
-    svgElement.style.color = this.color || "currentcolor";
-    svgElement.classList.add(`nys-icon--${this.size}`);
-    svgElement.classList.add(`nys-icon--svg`);
+    svg.style.rotate = `${this.rotate}deg`;
+    svg.style.color = this.color || "currentcolor";
+    svg.classList.add(`nys-icon--${this.size}`);
+    svg.classList.add(`nys-icon--svg`);
 
     if (this.flip) {
-      svgElement.classList.add(`nys-icon--flip-${this.flip}`);
+      svg.classList.add(`nys-icon--flip-${this.flip}`);
     }
-
-    return svgElement;
   }
 
   render() {
-    const icon = this.getIcon();
-    return icon ? html`${icon}` : null;
+    return this._svg ? html`${this._svg}` : null;
   }
 }
 
