@@ -24,6 +24,7 @@ export class NysTab extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
     if (!this.id) {
       this.id = `nys-tab-${Date.now()}-${componentIdCounter++}`;
     }
@@ -33,6 +34,7 @@ export class NysTab extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
+
 
   /**
    * Event Handlers

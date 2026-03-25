@@ -38,6 +38,7 @@ export class NysTabgroup extends LitElement {
    */
 
   private _sortChildren(e: Event) {
+    console.log("Sorting children");
     const slot = e.target as HTMLSlotElement;
     const assigned = slot.assignedElements();
 
@@ -60,14 +61,29 @@ export class NysTabgroup extends LitElement {
     });
 
     // Only honor the first selected tab; remove selected from all others
-    const firstSelected = tabs.find((t) => t.hasAttribute("selected"));
+    let selectedTab = tabs.find((t) => t.hasAttribute("selected"));
     tabs.forEach((t) => t.removeAttribute("selected"));
 
-    if (firstSelected) {
-      firstSelected.setAttribute("selected", "");
-    } else if (tabs.length > 0) {
-      tabs[0].setAttribute("selected", "");
+    if (selectedTab) {
+      selectedTab.setAttribute("selected", "");
     }
+    // If no tabs are selected, select the first one by default
+    else if (tabs.length > 0) {
+      tabs[0].setAttribute("selected", "");
+      selectedTab = tabs[0];
+    }
+
+    console.log("First Selected is: ", selectedTab?.getAttribute("id"));
+
+    // Show the panel that matches the selected tab index
+    const panels = panelsContainer.querySelectorAll("nys-tabpanel");
+    panels.forEach((panel, index) => {
+      if (index === tabs.indexOf(selectedTab!)) {
+        panel.removeAttribute("hidden");
+      } else {
+        panel.setAttribute("hidden", "");
+      }
+    });
   }
 
   /**
@@ -82,6 +98,15 @@ export class NysTabgroup extends LitElement {
     ) as HTMLElement[];
   }
 
+  private _getPanels(): HTMLElement[] {
+    const panelsContainer = this.shadowRoot?.querySelector(
+      ".nys-tabgroup__panels",
+    );
+    return Array.from(
+      panelsContainer?.querySelectorAll("nys-tabpanel") ?? [],
+    ) as HTMLElement[];
+  }
+
   private _handleTabSelect(e: Event) {
     const selectedTab = (e as CustomEvent)
       .composedPath()
@@ -90,12 +115,24 @@ export class NysTabgroup extends LitElement {
       ) as HTMLElement | undefined;
 
     if (!selectedTab) return;
+    const selectedId = selectedTab.id;
 
     this._getTabs().forEach((tab) => {
       if (tab === selectedTab) {
         tab.setAttribute("selected", "");
       } else {
         tab.removeAttribute("selected");
+      }
+    });
+
+    //hide all panels except the one with matching id or index
+    const panels = this._getPanels();
+    panels.forEach((panel, index) => {
+      const panelId = panel.getAttribute("aria-labelledby");
+      if (panelId === selectedId || index === this._getTabs().indexOf(selectedTab)) {
+        panel.removeAttribute("hidden");
+      } else {
+        panel.setAttribute("hidden", "");
       }
     });
   }
@@ -109,8 +146,11 @@ export class NysTabgroup extends LitElement {
           aria-label=${this.name}
           aria-orientation=${this.orientation}
         ></div>
-        <div class="nys-tabgroup__panels"></div>
-        <slot @slotchange=${this._sortChildren} style="display:none"></slot>
+        <div class="nys-tabgroup__panels" style="border: blue solid;"></div>
+        <slot
+          @slotchange=${this._sortChildren}
+          style="border: red solid;"
+        ></slot>
       </div>
     `;
   }
