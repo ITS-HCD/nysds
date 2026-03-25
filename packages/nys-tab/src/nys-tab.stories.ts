@@ -44,6 +44,8 @@ export const Basic: Story = {
       <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
       <nys-tab selected label="Tab Three Extra Long Name"></nys-tab>
       <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      <nys-tab disabled label="Tab Four"></nys-tab>
+      <nys-tabpanel>Content for Tab Four.</nys-tabpanel>
     </nys-tabgroup>
   `,
   parameters: {

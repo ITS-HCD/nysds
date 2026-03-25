@@ -9904,7 +9904,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "label",
@@ -9912,7 +9913,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "selected",
@@ -9920,7 +9922,8 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "selected"
+              "fieldName": "selected",
+              "propName": "selected"
             },
             {
               "name": "disabled",
@@ -9928,7 +9931,8 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             }
           ],
           "superclass": {
@@ -10042,7 +10046,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -10050,7 +10055,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "orientation",
@@ -10058,7 +10064,8 @@
                 "text": "| \"horizontal\"\n    | \"vertical\""
               },
               "default": "\"horizontal\"",
-              "fieldName": "orientation"
+              "fieldName": "orientation",
+              "propName": "orientation"
             }
           ],
           "superclass": {
@@ -10115,7 +10122,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             }
           ],
           "superclass": {
