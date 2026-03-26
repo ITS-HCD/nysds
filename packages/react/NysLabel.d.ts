@@ -1,7 +1,10 @@
 import React from "react";
-import { NysLabel as NysLabelElement } from "../../dist/nysds.es.js";
+import {
+  NysLabel as NysLabelElement,
+  CustomEvent,
+} from "../../dist/nysds.es.js";
 
-export type { NysLabelElement };
+export type { NysLabelElement, CustomEvent };
 
 export interface NysLabelProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -53,12 +56,18 @@ export interface NysLabelProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** undefined */
+  onNysLabelClick?: (event: CustomEvent) => void;
 }
 
 /**
  * Internal label component for form fields with flag and tooltip support.
  * ---
  *
+ *
+ * ### **Events:**
+ *  - **nys-label-click**
  *
  * ### **Slots:**
  *  - **description** - Custom HTML description content below the label.

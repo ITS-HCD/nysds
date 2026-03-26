@@ -45,33 +45,40 @@ export class NysLabel extends LitElement {
    * Event Handlers
    * --------------------------------------------------------------------------
    */
-  private _handleLabelClick(event: Event) {
-    if (!this.for) return;
+  // private _handleLabelClick(event: Event) {
+  //   if (!this.for) return;
 
-    const parentShadowDOM = (this.getRootNode() as ShadowRoot).host;
-    let target: HTMLElement | null = null;
+  //   const parentShadowDOM = (this.getRootNode() as ShadowRoot).host;
+  //   let target: HTMLElement | null = null;
 
-    if (parentShadowDOM && parentShadowDOM.shadowRoot) {
-      target = parentShadowDOM.shadowRoot.querySelector(`#${this.for}`);
-    }
+  //   if (parentShadowDOM && parentShadowDOM.shadowRoot) {
+  //     target = parentShadowDOM.shadowRoot.querySelector(`#${this.for}`);
+  //   }
 
-    if (!target) return;
+  //   if (!target) return;
 
-    if (target instanceof HTMLInputElement) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (target.type === "file") {
-        target.click();
-      } else if (target.type === "checkbox" || target.type === "radio") {
-        target.focus();
-        target.click();
-      } else {
-        // For other inputs (text, date, number, email, etc.), just focus
-        target.focus();
-      }
-    } else {
-      (target as HTMLElement).focus();
-    }
+  //   if (target instanceof HTMLInputElement) {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //     if (target.type === "file") {
+  //       target.click();
+  //     } else if (target.type === "checkbox" || target.type === "radio") {
+  //       target.focus();
+  //       target.click();
+  //     } else {
+  //       // For other inputs (text, date, number, email, etc.), just focus
+  //       target.focus();
+  //     }
+  //   } else {
+  //     (target as HTMLElement).focus();
+  //   }
+  // }
+
+  private _dispatchLabelClick() {
+    console.log("Dispatching label")
+    this.dispatchEvent(
+      new CustomEvent("nys-label-click", { bubbles: true, composed: true }),
+    );
   }
 
   render() {
@@ -81,7 +88,7 @@ export class NysLabel extends LitElement {
           <label
             for=${this.for}
             class="nys-label__label"
-            @click=${this._handleLabelClick}
+            @click=${this._dispatchLabelClick}
             >${this.label}
             ${this.flag === "required"
               ? html`<div class="nys-label__required">*</div>`
@@ -109,7 +116,7 @@ export class NysLabel extends LitElement {
         <p
           for=${this.for}
           class="nys-label__description"
-          @click=${this._handleLabelClick}
+          @click=${this._dispatchLabelClick}
         >
           <slot name="description">${this.description}</slot>
         </p>

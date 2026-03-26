@@ -6918,17 +6918,17 @@
             },
             {
               "kind": "method",
-              "name": "_handleLabelClick",
+              "name": "_dispatchLabelClick",
               "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ],
               "description": "Event Handlers\n--------------------------------------------------------------------------"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-label-click",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
