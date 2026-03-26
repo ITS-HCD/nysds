@@ -1787,7 +1787,7 @@
               "kind": "method",
               "name": "_handleAnyAttributeFunction",
               "privacy": "private",
-              "description": "Vanilla JS & Native HTML keydown solution:\nThe <nys-button onClick=\"doFunction();\"></nys-button> onClick is an attribute here.\nThus, we call it here. Otherwise, at this point, this.onClick is null as it isn't props, but a string attribute\nIn vanilla HTML/JS, clicking with execute the attribute function, BUT now with keydown, hence this solution."
+              "description": "A Solution to the Vanilla JS & Native HTML keydown:\n\nHandles inline onClick attributes set as strings in vanilla HTML\n(e.g. <nys-button onClick=\"doSomething()\">).\n\nWhen onClick is set this way, it is a DOM attribute (not a property)\nso this.onClick remains null. Native clicks execute the attribute\nautomatically, but keydown events do not, so we invoke it manually here."
             },
             {
               "kind": "method",
@@ -3059,6 +3059,11 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherInput",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -7791,6 +7796,11 @@
             },
             {
               "kind": "method",
+              "name": "_dispatchClearErrorEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
@@ -8389,6 +8399,24 @@
             {
               "kind": "method",
               "name": "_handleChildError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildErrorClear",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherInput",
               "privacy": "private",
               "parameters": [
                 {

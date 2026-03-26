@@ -214,10 +214,10 @@ export class NysFileinput extends LitElement {
     const isInvalid = this.required && this._selectedFiles.length == 0;
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true"; // Screen readers should announce error
+      this._internals.ariaInvalid = "true"; // Screen readers should announce error
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.ariaInvalid = "false"; // Reset when valid
       this._internals.setValidity({}, "", input);
     }
   }
