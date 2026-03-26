@@ -365,6 +365,10 @@
   --_nys-button-border-color--disabled: var(--nys-color-transparent, #ffffff00);
 }
 
+:host([inverted]) {
+  --_nys-button-outline-color: var(--nys-color-focus-reverse, #7aa5e7);
+}
+
 /* Circle */
 :host([circle]) {
   --_nys-button-width: var(--_nys-button-height);
