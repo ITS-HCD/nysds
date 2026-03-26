@@ -85,6 +85,9 @@ export class NysIcon extends LitElement implements NysIconWatcher {
 
   @state() private _svg: SVGElement | null = null;
 
+  /** Monotonically increasing token so stale async fetches are discarded. */
+  private _loadSeq = 0;
+
   connectedCallback() {
     super.connectedCallback();
     watchIconLibrary(this.library, this);
@@ -97,6 +100,17 @@ export class NysIcon extends LitElement implements NysIconWatcher {
 
   /** Called by the icon library registry when the current library changes. */
   redraw() {
+    this._loadIcon();
+  }
+
+  /**
+   * Lit calls firstUpdated after the first render, once all reactive
+   * properties (including those set from the template) are resolved.
+   * This guarantees the initial _loadIcon runs with the correct name
+   * and library values, avoiding the race where updated() might not
+   * fire for properties that equal their defaults.
+   */
+  firstUpdated() {
     this._loadIcon();
   }
 
@@ -125,6 +139,10 @@ export class NysIcon extends LitElement implements NysIconWatcher {
   }
 
   private async _loadIcon() {
+    // Bump the sequence token; any in-flight fetch with an older token
+    // will be discarded when it resolves.
+    const seq = ++this._loadSeq;
+
     const lib = getIconLibrary(this.library);
     if (!lib || !this.name) {
       this._svg = null;
@@ -139,11 +157,13 @@ export class NysIcon extends LitElement implements NysIconWatcher {
 
     try {
       const svg = await fetchIcon(url);
+      // Discard if a newer _loadIcon call was made while we were fetching.
+      if (seq !== this._loadSeq) return;
       lib.mutator?.(svg);
       this._applyAttributes(svg);
       this._svg = svg;
     } catch {
-      this._svg = null;
+      if (seq === this._loadSeq) this._svg = null;
     }
   }
 

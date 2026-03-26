@@ -3,6 +3,27 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-icon";
 import { registerIconLibrary } from "./icon-library-registry";
 
+// Register external icon libraries at module scope so they are available
+// before any <nys-icon> elements connect. Registering inside render() is
+// too late on the first visit because the elements' connectedCallback and
+// _loadIcon fire before the render body executes, returning null from
+// getIconLibrary().
+registerIconLibrary("fa", {
+  resolver: (name) =>
+    `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
+  mutator: (svg) => {
+    svg.setAttribute("fill", "currentColor");
+  },
+});
+
+registerIconLibrary("material", {
+  resolver: (name) =>
+    `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
+  mutator: (svg) => {
+    svg.setAttribute("fill", "currentColor");
+  },
+});
+
 // Define the structure of the args used in the stories
 interface NysIconArgs {
   name: string;
@@ -500,51 +521,41 @@ export const FontAwesome: Story = {
     size: "4xl",
     color: "#1877F2",
   },
-  render: (args) => {
-    registerIconLibrary("fa", {
-      resolver: (name) =>
-        `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
-      mutator: (svg) => {
-        svg.setAttribute("fill", "currentColor");
-      },
-    });
-
-    return html`
-      <div>
-        <p style="margin-bottom: 8px;">
-          Icons loaded from
-          <strong>Font Awesome</strong>
-          via a custom icon library:
-        </p>
-        <div style="display: flex; gap: 16px; align-items: center;">
-          <nys-icon
-            name=${args.name}
-            library=${args.library}
-            color=${args.color}
-            size=${args.size}
-          ></nys-icon>
-          <nys-icon
-            name="star"
-            library="fa"
-            color="#f5a623"
-            size=${args.size}
-          ></nys-icon>
-          <nys-icon
-            name="heart"
-            library="fa"
-            color="#e74c3c"
-            size=${args.size}
-          ></nys-icon>
-          <nys-icon
-            name="user"
-            library="fa"
-            color="#2ecc71"
-            size=${args.size}
-          ></nys-icon>
-        </div>
+  render: (args) => html`
+    <div>
+      <p style="margin-bottom: 8px;">
+        Icons loaded from
+        <strong>Font Awesome</strong>
+        via a custom icon library:
+      </p>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <nys-icon
+          name=${args.name}
+          library=${args.library}
+          color=${args.color}
+          size=${args.size}
+        ></nys-icon>
+        <nys-icon
+          name="star"
+          library="fa"
+          color="#f5a623"
+          size=${args.size}
+        ></nys-icon>
+        <nys-icon
+          name="heart"
+          library="fa"
+          color="#e74c3c"
+          size=${args.size}
+        ></nys-icon>
+        <nys-icon
+          name="user"
+          library="fa"
+          color="#2ecc71"
+          size=${args.size}
+        ></nys-icon>
       </div>
-    `;
-  },
+    </div>
+  `,
   parameters: {
     docs: {
       source: {
@@ -576,51 +587,41 @@ export const MaterialIcons: Story = {
     size: "4xl",
     color: "#4285F4",
   },
-  render: (args) => {
-    registerIconLibrary("material", {
-      resolver: (name) =>
-        `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
-      mutator: (svg) => {
-        svg.setAttribute("fill", "currentColor");
-      },
-    });
-
-    return html`
-      <div>
-        <p style="margin-bottom: 8px;">
-          Icons loaded from
-          <strong>Google Material Symbols</strong>
-          via a custom icon library:
-        </p>
-        <div style="display: flex; gap: 16px; align-items: center;">
-          <nys-icon
-            name=${args.name}
-            library=${args.library}
-            color=${args.color}
-            size=${args.size}
-          ></nys-icon>
-          <nys-icon
-            name="favorite"
-            library="material"
-            color="#EA4335"
-            size=${args.size}
-          ></nys-icon>
-          <nys-icon
-            name="settings"
-            library="material"
-            color="#34A853"
-            size=${args.size}
-          ></nys-icon>
-          <nys-icon
-            name="search"
-            library="material"
-            color="#FBBC05"
-            size=${args.size}
-          ></nys-icon>
-        </div>
+  render: (args) => html`
+    <div>
+      <p style="margin-bottom: 8px;">
+        Icons loaded from
+        <strong>Google Material Symbols</strong>
+        via a custom icon library:
+      </p>
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <nys-icon
+          name=${args.name}
+          library=${args.library}
+          color=${args.color}
+          size=${args.size}
+        ></nys-icon>
+        <nys-icon
+          name="favorite"
+          library="material"
+          color="#EA4335"
+          size=${args.size}
+        ></nys-icon>
+        <nys-icon
+          name="settings"
+          library="material"
+          color="#34A853"
+          size=${args.size}
+        ></nys-icon>
+        <nys-icon
+          name="search"
+          library="material"
+          color="#FBBC05"
+          size=${args.size}
+        ></nys-icon>
       </div>
-    `;
-  },
+    </div>
+  `,
   parameters: {
     docs: {
       source: {

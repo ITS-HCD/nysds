@@ -7,7 +7,10 @@ import type { NysIcon } from "./nys-icon";
 // Dynamic import from dist to get registry/cache functions from the same module instance
 let registerIconLibrary: (
   name: string,
-  library: { resolver: (name: string) => string | undefined; mutator?: (svg: SVGElement) => void },
+  library: {
+    resolver: (name: string) => string | undefined;
+    mutator?: (svg: SVGElement) => void;
+  },
 ) => void;
 let unregisterIconLibrary: (name: string) => void;
 let clearIconCache: (url?: string) => void;
@@ -177,10 +180,7 @@ describe("nys-icon library system", () => {
 
   it("renders nothing for an unregistered library", async () => {
     const el = await fixture<NysIcon>(
-      html`<nys-icon
-        name="check"
-        library="nonexistent-library"
-      ></nys-icon>`,
+      html`<nys-icon name="check" library="nonexistent-library"></nys-icon>`,
     );
     await waitForIcon(el);
 

@@ -5,6 +5,10 @@
  * NYSDS icons from colocated SVG files extracted at build time.
  * Custom libraries (Font Awesome, Material Icons, etc.) can be
  * registered at runtime via `registerIconLibrary()`.
+ *
+ * The registry and watcher maps are stored on `window` so that even
+ * when bundlers (Storybook Vite, etc.) create duplicate module
+ * instances, every copy shares a single source of truth.
  */
 
 export interface IconLibrary {
@@ -18,24 +22,41 @@ export interface NysIconWatcher {
   redraw(): void;
 }
 
-const registry = new Map<string, IconLibrary>();
-const watchers = new Map<string, Set<NysIconWatcher>>();
+// ---------------------------------------------------------------------------
+// Global singleton storage – survives module duplication by bundlers
+// ---------------------------------------------------------------------------
+interface NysIconGlobals {
+  __nysIconRegistry: Map<string, IconLibrary>;
+  __nysIconWatchers: Map<string, Set<NysIconWatcher>>;
+}
 
-// Default library: resolves NYSDS icons from colocated dist/icons/ folder
-const defaultBaseUrl = new URL(
-  /* @vite-ignore */ "./icons/",
-  import.meta.url,
-).href;
-registry.set("default", {
-  resolver: (name: string) =>
-    name ? `${defaultBaseUrl}${name}.svg` : undefined,
-});
+declare global {
+  interface Window extends NysIconGlobals {}
+}
+
+if (!window.__nysIconRegistry) {
+  window.__nysIconRegistry = new Map<string, IconLibrary>();
+}
+if (!window.__nysIconWatchers) {
+  window.__nysIconWatchers = new Map<string, Set<NysIconWatcher>>();
+}
+
+const registry = window.__nysIconRegistry;
+const watchers = window.__nysIconWatchers;
+
+// Default library: resolves NYSDS icons from colocated dist/icons/ folder.
+// Only register once (the first module instance to run wins).
+if (!registry.has("default")) {
+  const defaultBaseUrl = new URL(/* @vite-ignore */ "./icons/", import.meta.url)
+    .href;
+  registry.set("default", {
+    resolver: (name: string) =>
+      name ? `${defaultBaseUrl}${name}.svg` : undefined,
+  });
+}
 
 /** Register or replace a named icon library. All watching icons using this library will redraw. */
-export function registerIconLibrary(
-  name: string,
-  library: IconLibrary,
-): void {
+export function registerIconLibrary(name: string, library: IconLibrary): void {
   registry.set(name, library);
   watchers.get(name)?.forEach((w) => w.redraw());
 }
@@ -52,10 +73,7 @@ export function getIconLibrary(name: string): IconLibrary | undefined {
 }
 
 /** Subscribe an icon instance to library change notifications. */
-export function watchIconLibrary(
-  name: string,
-  watcher: NysIconWatcher,
-): void {
+export function watchIconLibrary(name: string, watcher: NysIconWatcher): void {
   if (!watchers.has(name)) watchers.set(name, new Set());
   watchers.get(name)!.add(watcher);
 }

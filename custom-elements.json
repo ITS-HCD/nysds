@@ -6988,6 +6988,16 @@
               "default": "null"
             },
             {
+              "kind": "field",
+              "name": "_loadSeq",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0",
+              "description": "Monotonically increasing token so stale async fetches are discarded."
+            },
+            {
               "kind": "method",
               "name": "redraw",
               "description": "Called by the icon library registry when the current library changes."
