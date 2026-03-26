@@ -3072,6 +3072,11 @@
             },
             {
               "kind": "method",
+              "name": "_handleOtherInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_checkOtherInputs",
               "privacy": "private",
               "parameters": [
@@ -7801,6 +7806,11 @@
             },
             {
               "kind": "method",
+              "name": "_dispatchClearErrorEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
@@ -8399,6 +8409,24 @@
             {
               "kind": "method",
               "name": "_handleChildError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildErrorClear",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherInput",
               "privacy": "private",
               "parameters": [
                 {
