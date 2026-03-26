@@ -167,6 +167,29 @@ describe("nys-alert", () => {
     expect(secondaryLink?.textContent?.trim()).to.equal("Cancel");
   });
 
+  it("emits nys-close with correct detail when dismissed", async () => {
+    const el = await fixture<NysAlert>(html`
+      <nys-alert type="warning" heading="Watch out" dismissible></nys-alert>
+    `);
+    await el.updateComplete;
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-close", (e: any) => (eventDetail = e.detail));
+
+    const dismissButton = el.shadowRoot?.getElementById("dismiss-btn");
+    const nativeButton = dismissButton!.shadowRoot?.querySelector(
+      "button",
+    ) as HTMLButtonElement;
+
+    nativeButton.click();
+    await el.updateComplete;
+
+    expect(eventDetail).to.exist;
+    expect(eventDetail.id).to.equal(el.id);
+    expect(eventDetail.type).to.equal("warning");
+    expect(eventDetail.label).to.equal("Watch out");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-textinput label="First Name"></nys-textinput>`,

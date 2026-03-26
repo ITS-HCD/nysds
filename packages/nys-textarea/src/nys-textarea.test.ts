@@ -364,6 +364,70 @@ describe("nys-textarea", () => {
   });
 });
 
+/*** More Event Tests ***/
+it("fires nys-input with correct detail on input", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  await el.updateComplete;
+
+  let eventDetail: any = null;
+  el.addEventListener("nys-input", (e: any) => (eventDetail = e.detail));
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.value = "hello";
+  textarea.dispatchEvent(new Event("input", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(el.value).to.equal("hello");
+  expect(eventDetail).to.exist;
+  expect(eventDetail.value).to.equal("hello");
+  expect(eventDetail.id).to.equal(el.id);
+});
+
+it("fires nys-focus when textarea gains focus", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  let focused = false;
+  el.addEventListener("nys-focus", () => (focused = true));
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.dispatchEvent(new Event("focus", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(focused).to.be.true;
+});
+
+it("fires nys-blur when textarea loses focus", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  let blurred = false;
+  el.addEventListener("nys-blur", () => (blurred = true));
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.dispatchEvent(new Event("blur", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(blurred).to.be.true;
+});
+
+it("fires nys-selectionchange with correct detail on selectionchange", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  await el.updateComplete;
+
+  let eventDetail: any = null;
+  el.addEventListener(
+    "nys-selectionchange",
+    (e: any) => (eventDetail = e.detail),
+  );
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.value = "some selected text";
+  textarea.dispatchEvent(new Event("selectionchange", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(el.value).to.equal("some selected text");
+  expect(eventDetail).to.exist;
+  expect(eventDetail.value).to.equal("some selected text");
+  expect(eventDetail.id).to.equal(el.id);
+});
+
 // Accessibility Tests
 /*
  * Ensure that the <textarea> element is correctly associated with a label:

@@ -261,10 +261,10 @@ export class NysDatepicker extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true";
+      this._internals.ariaInvalid = "true";
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaRequired = "false";
+      this._internals.ariaInvalid = "false";
       this._internals.setValidity({});
     }
   }

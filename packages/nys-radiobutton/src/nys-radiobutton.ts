@@ -176,6 +176,10 @@ export class NysRadiobutton extends LitElement {
     this._hasUserInteracted = false;
 
     // Optional: clear error at the group level
+    this._dispatchClearErrorEvent();
+  }
+
+  private _dispatchClearErrorEvent() {
     this.dispatchEvent(
       new CustomEvent("nys-error-clear", {
         detail: {
@@ -319,6 +323,8 @@ export class NysRadiobutton extends LitElement {
           composed: true,
         }),
       );
+    } else {
+      this._dispatchClearErrorEvent();
     }
   }
 
@@ -349,7 +355,7 @@ export class NysRadiobutton extends LitElement {
         aria-label=${this.label || (this.other ?? "Other")}
       >
         <div class="nys-radiobutton__main-container">
-          <span class="nys-radiobutton__radio"></span>
+          <span class="nys-radiobutton__radio" tabindex="0"></span>
           ${(this.label || this.other) &&
           html`<nys-label
             label="${this.label || (this.other ? "Other" : "")}"
