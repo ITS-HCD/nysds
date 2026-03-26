@@ -32,14 +32,7 @@ export class NysLabel extends LitElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
   /** Tooltip text shown on hover/focus of info icon next to label. */
-  @property({ type: String })
-  get tooltip() {
-    return this._tooltip;
-  }
-  set tooltip(value: string) {
-    this._tooltip = value;
-  }
-  private _tooltip: string = "";
+  @property({ type: String }) tooltip = "";
 
   /**
    * Event Handlers
@@ -75,7 +68,7 @@ export class NysLabel extends LitElement {
   // }
 
   private _dispatchLabelClick() {
-    console.log("Dispatching label")
+    console.log("Dispatching label");
     this.dispatchEvent(
       new CustomEvent("nys-label-click", { bubbles: true, composed: true }),
     );
@@ -97,9 +90,9 @@ export class NysLabel extends LitElement {
               ? html`<div class="nys-label__optional">(Optional)</div>`
               : ""}</label
           >
-          ${this._tooltip
+          ${this.tooltip
             ? html`<nys-tooltip
-                  text="${this._tooltip}"
+                  text="${this.tooltip}"
                   position="top"
                   focusable
                   ?inverted=${this.inverted}
@@ -113,11 +106,7 @@ export class NysLabel extends LitElement {
                 ></nys-icon> `
             : ""}
         </div>
-        <p
-          for=${this.for}
-          class="nys-label__description"
-          @click=${this._dispatchLabelClick}
-        >
+        <p class="nys-label__description" @click=${this._dispatchLabelClick}>
           <slot name="description">${this.description}</slot>
         </p>
       </div>
