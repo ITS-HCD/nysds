@@ -49,6 +49,3 @@ Thumbs.db
 CLAUDE.md
 .claude/
 docs/
-
-# Ignore generated react-utils.js
-packages/react/react-utils.js

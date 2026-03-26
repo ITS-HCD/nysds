@@ -162,9 +162,10 @@ export class NysCheckbox extends LitElement {
     if (!input) return;
 
     if (this.required && !this.checked) {
-      this._internals.ariaRequired = "true";
+      this._internals.ariaInvalid = "true";
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
+      this._internals.ariaInvalid = "false";
       this._internals.setValidity({});
     }
   }
@@ -431,12 +432,15 @@ export class NysCheckbox extends LitElement {
           composed: true,
         }),
       );
+    } else {
+      this._dispatchClearError();
     }
   }
 
   private _dispatchClearError() {
     this.dispatchEvent(
       new CustomEvent("nys-error-clear", {
+        detail: { sourceCheckbox: this },
         bubbles: true,
         composed: true,
       }),

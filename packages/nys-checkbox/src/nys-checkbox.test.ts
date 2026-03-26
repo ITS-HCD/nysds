@@ -572,6 +572,114 @@ describe("nys-checkbox", () => {
     expect((el as any).showError).to.be.true;
   });
 
+  /*** More Event Test ***/
+  it("emits nys-other-input with correct detail when text input changes", async () => {
+    const group = await fixture(html`
+      <nys-checkboxgroup label="Select options">
+        <nys-checkbox other checked name="options" value=""></nys-checkbox>
+      </nys-checkboxgroup>
+    `);
+
+    const el = group.querySelector("nys-checkbox") as NysCheckbox;
+    await el.updateComplete;
+
+    let eventDetail: any = null;
+    el.addEventListener(
+      "nys-other-input",
+      (e: any) => (eventDetail = e.detail),
+    );
+
+    const textInput = el.shadowRoot?.querySelector("nys-textinput")!;
+    const inputEvent = new Event("nys-input", { bubbles: true });
+    Object.defineProperty(inputEvent, "target", {
+      writable: false,
+      value: { value: "Hello" },
+    });
+
+    textInput.dispatchEvent(inputEvent);
+    await el.updateComplete;
+
+    expect(eventDetail).to.exist;
+    expect(eventDetail.name).to.equal("options");
+    expect(eventDetail.value).to.equal("Hello");
+  });
+
+  it("clicking the label container clicks and focuses the input", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="Click label"></nys-checkbox>`,
+    );
+    await el.updateComplete;
+
+    const container = el.shadowRoot!.querySelector(
+      ".nys-checkbox__main-container",
+    ) as HTMLElement;
+
+    expect(el.checked).to.be.false;
+
+    container.click();
+    await el.updateComplete;
+
+    expect(el.checked).to.be.true;
+  });
+
+  it("_handleInvalid on standalone checkbox shows error and focuses input", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox label="Required field" required></nys-checkbox>
+    `);
+    await el.updateComplete;
+
+    const input = await el.getInputElement();
+    let focused = false;
+    input!.focus = () => {
+      focused = true;
+    };
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+    expect(focused).to.be.true;
+  });
+
+  /**+ Form Submission Test ***/
+  it("form submit focuses first checkbox of first invalid required group, not subsequent ones", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-checkboxgroup id="first" required>
+          <nys-checkbox
+            name="landmarks"
+            value="adirondacks"
+            label="Adirondacks"
+          ></nys-checkbox>
+        </nys-checkboxgroup>
+        <nys-checkboxgroup id="second" required>
+          <nys-checkbox
+            name="landmarks"
+            value="niagara"
+            label="Niagara Falls"
+          ></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+
+    const firstInput = await container
+      .querySelector("#first nys-checkbox")
+      .getInputElement();
+    const secondInput = await container
+      .querySelector("#second nys-checkbox")
+      .getInputElement();
+
+    const focused = [];
+    firstInput.focus = () => focused.push("first");
+    secondInput.focus = () => focused.push("second");
+
+    container.requestSubmit();
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(focused).to.include("first");
+    expect(focused).to.not.include("second");
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
