@@ -13,8 +13,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "vite build",
-    "test": "vite build && wtr",
+    "build": "vite build && node src/scripts/extract-icons.mjs",
+    "test": "vite build && node src/scripts/extract-icons.mjs && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '**/*.ts'"

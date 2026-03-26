@@ -14,6 +14,7 @@ const config: StorybookConfig = {
   ],
   staticDirs: [
     { from: "../packages/styles/dist", to: "/assets/css" },
+    { from: "../packages/nys-icon/dist/icons", to: "/assets/icons" },
     { from: "./assets/fonts", to: "/assets/fonts" },
     { from: "./assets/images", to: "/assets/images" }
   ],
