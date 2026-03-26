@@ -210,6 +210,37 @@ describe("nys-accordionitem", () => {
     expect((items[1] as any).expanded).to.be.true;
   });
 
+  it("does not collapse other items when singleSelect is false", async () => {
+    const el = await fixture<NysAccordion>(html`
+      <nys-accordion>
+        <nys-accordionitem heading="Item 1" expanded></nys-accordionitem>
+        <nys-accordionitem heading="Item 2"></nys-accordionitem>
+      </nys-accordion>
+    `);
+    await el.updateComplete;
+
+    const items = el.querySelectorAll("nys-accordionitem");
+    const secondHeader = (items[1] as any).shadowRoot?.querySelector(
+      ".nys-accordionitem__heading",
+    ) as HTMLElement;
+
+    let eventDetail: any = null;
+    el.addEventListener(
+      "nys-accordionitem-toggle",
+      (e: any) => (eventDetail = e.detail),
+    );
+
+    secondHeader.click();
+    await el.updateComplete;
+
+    expect(eventDetail).to.exist;
+    expect(eventDetail.expanded).to.equal(true);
+
+    // Both items should remain expanded — singleSelect is off
+    expect((items[0] as any).expanded).to.be.true;
+    expect((items[1] as any).expanded).to.be.true;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-accordionitem heading="My Label"></nys-accordionitem>`,

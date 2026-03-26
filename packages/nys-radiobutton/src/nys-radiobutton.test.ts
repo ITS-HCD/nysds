@@ -981,6 +981,73 @@ describe("nys-radiobutton", () => {
   });
 
   // -------------------------------------------------------------------------
+  // More Event Tests
+  // -------------------------------------------------------------------------
+  it("Space and Enter keys select the focused radio and fire nys-change", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Space/Enter nav">
+        <nys-radiobutton
+          name="radioChoice"
+          label="radio1"
+          value="radio1"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="radioChoice"
+          label="radio2"
+          value="radio2"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    const radio1 = group.querySelectorAll<NysRadiobutton>("nys-radiobutton")[0];
+    const content = group.shadowRoot!.querySelector(
+      ".nys-radiogroup__content",
+    )!;
+
+    let changeDetail: any = null;
+    group.addEventListener("nys-change", (e: any) => (changeDetail = e.detail));
+
+    content.dispatchEvent(
+      new KeyboardEvent("keydown", { key: " ", bubbles: true }),
+    );
+    await group.updateComplete;
+    await radio1.updateComplete;
+
+    expect(radio1.checked).to.be.true;
+    expect(changeDetail).to.exist;
+    expect(changeDetail.value).to.equal("radio1");
+  });
+
+  it("_handleChildError stops propagation, sets showError and customError validity", async () => {
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup label="Child error">
+        <nys-radiobutton name="ce" other checked value=""></nys-radiobutton>
+      </nys-radiogroup>
+    `);
+    await group.updateComplete;
+
+    const radio = group.querySelector<NysRadiobutton>("nys-radiobutton")!;
+
+    expect(group.showError).to.be.false;
+
+    group.dispatchEvent(
+      new CustomEvent("nys-error", {
+        detail: {
+          message: "Please complete this field.",
+          sourceRadio: radio,
+        },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+    await group.updateComplete;
+
+    expect(group.showError).to.be.true;
+    expect((group as any)._internals.validity.customError).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
   // A11y
   // -------------------------------------------------------------------------
 

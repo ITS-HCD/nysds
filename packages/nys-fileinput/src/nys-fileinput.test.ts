@@ -375,6 +375,29 @@ describe("nys-fileinput", () => {
       expect(fileinput._selectedFiles.length).to.equal(0);
     });
 
+    /*** More Event Test ***/
+    it("<nys-fileitem> emits nys-fileRemove with filename when remove button is clicked", async () => {
+      const el = await fixture<NysFileItem>(html`
+        <nys-fileitem filename="report.pdf"></nys-fileitem>
+      `);
+      await el.updateComplete;
+
+      let eventDetail: any = null;
+      el.addEventListener(
+        "nys-fileRemove",
+        (e: any) => (eventDetail = e.detail),
+      );
+
+      const button = el.shadowRoot!.querySelector("nys-button")!;
+      button.dispatchEvent(
+        new CustomEvent("nys-click", { bubbles: true, composed: true }),
+      );
+      await el.updateComplete;
+
+      expect(eventDetail).to.exist;
+      expect(eventDetail.filename).to.equal("report.pdf");
+    });
+
     /* Accessibility */
     it("passes the a11y audit", async () => {
       const el = await fixture(
