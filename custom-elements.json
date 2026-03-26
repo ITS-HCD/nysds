@@ -1718,16 +1718,6 @@
               "reflects": true
             },
             {
-              "kind": "method",
-              "name": "getButtonElement",
-              "privacy": "public",
-              "return": {
-                "type": {
-                  "text": "Promise<HTMLElement | null>"
-                }
-              }
-            },
-            {
               "kind": "field",
               "name": "_internals",
               "type": {

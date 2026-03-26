@@ -42,12 +42,10 @@
   --_nys-select-border-color--disabled: var(--nys-color-neutral-200, #bec0c1);
   --_nys-select-border-default: var(--nys-border-width-sm, 1px) solid
     var(--nys-color-neutral-400, #909395);
-  --_nys-select-border-focus: var(--nys-border-width-sm, 1px) solid
-    var(--nys-color-focus, var(--nys-color-blue-600, #004dd1));
-  --_nys-select-border-disabled: var(--nys-border-width-sm, 1px) solid
-    var(--nys-color-neutral-200, #bec0c1);
-  --_nys-select-border-hover: var(--nys-border-width-sm, 1px) solid
-    var(--nys-color-neutral-900, #1b1b1b);
+}
+
+:host([inverted]) {
+  --_nys-select-border-color--focus: var(--nys-color-focus-reverse, #7aa5e7);
 }
 
 .nys-select {
