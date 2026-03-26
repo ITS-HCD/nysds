@@ -86,6 +86,10 @@
   --_nys-combobox-border-color: var(--nys-color-danger, #b52c2c);
 }
 
+:host([inverted]) {
+--_nys-combobox-outline-color--focus: var(--nys-color-focus-reverse, #7aa5e7);
+}
+
 .nys-combobox {
   font-weight: var(--_nys-combobox-font-weight);
   font-family: var(--_nys-combobox-font-family);

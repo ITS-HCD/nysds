@@ -64,6 +64,10 @@
   --_nys-textarea-border-color: var(--nys-color-danger, #b52c2c);
 }
 
+:host([inverted]) {
+  --_nys-textarea-outline-color--focus: var(--nys-color-focus-reverse, #7aa5e7);
+}
+
 .nys-textarea {
   font-weight: var(--_nys-textarea-font-weight);
   font-family: var(--_nys-textarea-font-family);
