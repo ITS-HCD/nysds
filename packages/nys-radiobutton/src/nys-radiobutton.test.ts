@@ -1048,6 +1048,78 @@ describe("nys-radiobutton", () => {
   });
 
   // -------------------------------------------------------------------------
+  // Form Submission Test
+  // -------------------------------------------------------------------------
+  it("form submit focuses first radio of first invalid required group, not subsequent ones", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-radiogroup id="first" required>
+          <nys-radiobutton
+            name="borough"
+            value="bronx"
+            label="The Bronx"
+          ></nys-radiobutton>
+        </nys-radiogroup>
+        <nys-radiogroup id="second" required>
+          <nys-radiobutton
+            name="borough"
+            value="brooklyn"
+            label="Brooklyn"
+          ></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+
+    const firstRadio = container.querySelector(
+      "#first nys-radiobutton",
+    ) as NysRadiobutton;
+    const secondRadio = container.querySelector(
+      "#second nys-radiobutton",
+    ) as NysRadiobutton;
+
+    const focused = [];
+    firstRadio.focus = () => focused.push("first");
+    secondRadio.focus = () => focused.push("second");
+
+    container.requestSubmit();
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(focused).to.include("first");
+    expect(focused).to.not.include("second");
+  });
+
+  it("form submit focuses the other textinput when it is checked but empty", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-radiogroup label="Select borough">
+          <nys-radiobutton
+            name="borough"
+            other
+            checked
+            value=""
+          ></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+
+    const radio = container.querySelector("nys-radiobutton") as NysRadiobutton;
+    const textInput = radio.shadowRoot!.querySelector("nys-textinput")!;
+
+    textInput.dispatchEvent(new Event("nys-blur", { bubbles: true }));
+    await container.querySelector("nys-radiogroup")!.updateComplete;
+
+    let focused = false;
+    textInput.focus = () => {
+      focused = true;
+    };
+
+    container.requestSubmit();
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(focused).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
   // A11y
   // -------------------------------------------------------------------------
 

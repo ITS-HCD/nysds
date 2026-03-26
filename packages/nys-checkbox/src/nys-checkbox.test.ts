@@ -641,6 +641,45 @@ describe("nys-checkbox", () => {
     expect(focused).to.be.true;
   });
 
+  /**+ Form Submission Test ***/
+  it("form submit focuses first checkbox of first invalid required group, not subsequent ones", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-checkboxgroup id="first" required>
+          <nys-checkbox
+            name="landmarks"
+            value="adirondacks"
+            label="Adirondacks"
+          ></nys-checkbox>
+        </nys-checkboxgroup>
+        <nys-checkboxgroup id="second" required>
+          <nys-checkbox
+            name="landmarks"
+            value="niagara"
+            label="Niagara Falls"
+          ></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+
+    const firstInput = await container
+      .querySelector("#first nys-checkbox")
+      .getInputElement();
+    const secondInput = await container
+      .querySelector("#second nys-checkbox")
+      .getInputElement();
+
+    const focused = [];
+    firstInput.focus = () => focused.push("first");
+    secondInput.focus = () => focused.push("second");
+
+    container.requestSubmit();
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(focused).to.include("first");
+    expect(focused).to.not.include("second");
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
