@@ -788,6 +788,7 @@ export class NysDatepicker extends LitElement {
         <div class="wc-datepicker--container">
           <wc-datepicker
             id="wc-datepicker-popup"
+            locale="en-US"
             .value=${this.value instanceof Date
               ? this.value
               : this.value
