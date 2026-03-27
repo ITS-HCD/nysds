@@ -13,12 +13,12 @@
         sans-serif));
   --_nys-table-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-table-font-weight: var(--nys-font-weight-regular, 400);
-  --_nys-table-line-height: var(--nys-font-line-height-ui, 24px);
+  --_nys-table-line-height: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-table-padding--caption: var(--nys-space-250, 20px) var(--nys-space-150, 12px);
   --_nys-table-font-size--caption: var(--nys-font-size-ui-lg, 18px);
   --_nys-table-font-weight--caption: var(--nys-font-weight-bold, 700);
   --_nys-table-padding--cell--x: var(--nys-space-150, 12px);
-  --_nys-table-padding--cell--y: var(--nys-space-200, 16px);
+  --_nys-table-padding--cell--y: var(--nys-table-padding--cell--y, var(--nys-space-200, 16px));
   --_nys-table-background-color: var(--nys-color-ink-reverse, #ffffff);
   --_nys-table-background-color--striped: var(--nys-color-neutral-10, #f6f6f6);
   --_nys-table-color--code: var(--nys-color-red-600, #b52c2c);

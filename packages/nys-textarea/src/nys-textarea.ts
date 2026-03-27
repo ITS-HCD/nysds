@@ -180,10 +180,10 @@ export class NysTextarea extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true";
+      this._internals.ariaInvalid = "true";
       this._internals.setValidity({ valueMissing: true }, message, textarea);
     } else {
-      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.ariaInvalid = "false"; // Reset when valid
       this._internals.setValidity({});
       this._hasUserInteracted = false; // Reset lazy validation when valid
     }

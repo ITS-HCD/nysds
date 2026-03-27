@@ -1718,16 +1718,6 @@
               "reflects": true
             },
             {
-              "kind": "method",
-              "name": "getButtonElement",
-              "privacy": "public",
-              "return": {
-                "type": {
-                  "text": "Promise<HTMLElement | null>"
-                }
-              }
-            },
-            {
               "kind": "field",
               "name": "_internals",
               "type": {
@@ -1797,7 +1787,7 @@
               "kind": "method",
               "name": "_handleAnyAttributeFunction",
               "privacy": "private",
-              "description": "Vanilla JS & Native HTML keydown solution:\nThe <nys-button onClick=\"doFunction();\"></nys-button> onClick is an attribute here.\nThus, we call it here. Otherwise, at this point, this.onClick is null as it isn't props, but a string attribute\nIn vanilla HTML/JS, clicking with execute the attribute function, BUT now with keydown, hence this solution."
+              "description": "A Solution to the Vanilla JS & Native HTML keydown:\n\nHandles inline onClick attributes set as strings in vanilla HTML\n(e.g. <nys-button onClick=\"doSomething()\">).\n\nWhen onClick is set this way, it is a DOM attribute (not a property)\nso this.onClick remains null. Native clicks execute the attribute\nautomatically, but keydown events do not, so we invoke it manually here."
             },
             {
               "kind": "method",
@@ -3069,6 +3059,11 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherInput",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -7801,6 +7796,11 @@
             },
             {
               "kind": "method",
+              "name": "_dispatchClearErrorEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
@@ -8399,6 +8399,24 @@
             {
               "kind": "method",
               "name": "_handleChildError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildErrorClear",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherInput",
               "privacy": "private",
               "parameters": [
                 {
@@ -13094,6 +13112,321 @@
           "declaration": {
             "name": "NysUnavHeader",
             "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-video/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-video/src/nys-video"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-video/src/nys-video.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "NysVideo",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "titleText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Title text for the thumbnail of the video",
+              "attribute": "titleText",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "videourl",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "attribute": "videourl"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"full\" | \"md\" | \"sm\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "type": {
+                "text": "\"lazy\" | \"eager\""
+              },
+              "default": "\"lazy\"",
+              "attribute": "loading"
+            },
+            {
+              "kind": "field",
+              "name": "starttime",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Time in seconds where playback begins. *",
+              "attribute": "starttime"
+            },
+            {
+              "kind": "field",
+              "name": "thumbnail",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Custom thumbnail image path.\nFalls back to YouTube's auto-generated thumbnail if not provided.",
+              "attribute": "thumbnail"
+            },
+            {
+              "kind": "field",
+              "name": "autoplay",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Triggers autoplay when the iframe loads",
+              "attribute": "autoplay"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents the video from being played",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_playerActive",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Tracks whether the user has clicked to load the player"
+            },
+            {
+              "kind": "field",
+              "name": "_announcement",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "Screen reader announcement text"
+            },
+            {
+              "kind": "field",
+              "name": "_adPlaying",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Tracks whether an ad is currently playing to suppress false \"Video is playing\" announcements"
+            },
+            {
+              "kind": "method",
+              "name": "_isValidYouTubeUrl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getVideoId",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getThumbnailUrl",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getEmbedUrl",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_announceVideoVO",
+              "privacy": "private",
+              "description": "Because I need to know if Youtube ADs are playing, I need to call YT's API.\nHence, the YT API setup below. The VO has 2 types of announcements:\n- \"Advertisement is playing\"\n- \"Video is playing\"\n\nYT IFrame Player API: https://developers.google.com/youtube/iframe_api_reference"
+            },
+            {
+              "kind": "method",
+              "name": "_handleThumbnailClick",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_renderAnnouncer",
+              "privacy": "private",
+              "description": "Render Helpers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_renderPlayIcon",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "titleText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Title text for the thumbnail of the video",
+              "fieldName": "titleText",
+              "propName": "titletext"
+            },
+            {
+              "name": "videourl",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "fieldName": "videourl",
+              "propName": "videourl"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"full\" | \"md\" | \"sm\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "\"lazy\" | \"eager\""
+              },
+              "default": "\"lazy\"",
+              "fieldName": "loading",
+              "propName": "loading"
+            },
+            {
+              "name": "starttime",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Time in seconds where playback begins. *",
+              "fieldName": "starttime",
+              "propName": "starttime"
+            },
+            {
+              "name": "thumbnail",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Custom thumbnail image path.\nFalls back to YouTube's auto-generated thumbnail if not provided.",
+              "fieldName": "thumbnail",
+              "propName": "thumbnail"
+            },
+            {
+              "name": "autoplay",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Triggers autoplay when the iframe loads",
+              "fieldName": "autoplay",
+              "propName": "autoplay"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents the video from being played",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-video",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-video",
+          "declaration": {
+            "name": "NysVideo",
+            "module": "packages/nys-video/src/nys-video.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVideo",
+          "declaration": {
+            "name": "NysVideo",
+            "module": "packages/nys-video/src/nys-video.ts"
           }
         }
       ]

@@ -104,12 +104,17 @@ export class NysRadiogroup extends LitElement {
     this.addEventListener("nys-change", this._handleRadioButtonChange);
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("nys-error", this._handleChildError);
+    this.addEventListener("nys-error-clear", this._handleChildErrorClear);
+    this.addEventListener("nys-other-input", this._handleOtherInput);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("nys-change", this._handleRadioButtonChange);
     this.removeEventListener("invalid", this._handleInvalid);
+    this.removeEventListener("nys-error", this._handleChildError);
+    this.removeEventListener("nys-error-clear", this._handleChildErrorClear);
+    this.removeEventListener("nys-other-input", this._handleOtherInput);
   }
 
   async firstUpdated() {
@@ -131,7 +136,9 @@ export class NysRadiogroup extends LitElement {
       changedProperties.has("required") ||
       changedProperties.has("selectedValue")
     ) {
-      this._manageRequire();
+      if (!this.showError) {
+        this._manageRequire();
+      }
     }
     if (changedProperties.has("size")) {
       this._updateRadioButtonsSize();
@@ -417,35 +424,30 @@ export class NysRadiogroup extends LitElement {
     }
 
     // Check if the radio group is invalid and set `showError` accordingly
-    if (this._internals.validity.valueMissing) {
-      this.showError = true;
-      this._manageRequire(); // Refresh validation message
+    this.showError = true;
+    await this._manageRequire(); // Refresh validation message
 
-      const firstRadio = this.querySelector(
-        "nys-radiobutton",
-      ) as NysRadiobutton;
+    const firstRadio = this.querySelector("nys-radiobutton") as NysRadiobutton;
+    if (firstRadio) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
 
-      if (firstRadio) {
-        // Focus only if this is the first invalid element (top-down approach)
-        const form = this._internals.form;
-        if (form) {
-          const elements = Array.from(form.elements) as Array<
-            HTMLElement & { checkValidity?: () => boolean }
-          >;
-
-          // Find the first element in the form that is invalid
-          const firstInvalidElement = elements.find(
-            (element) =>
-              typeof element.checkValidity === "function" &&
-              !element.checkValidity(),
-          );
-          if (firstInvalidElement === this) {
-            firstRadio.focus();
-          }
-        } else {
-          // If not part of a form, simply focus.
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find(
+          (element) =>
+            typeof element.checkValidity === "function" &&
+            !element.checkValidity(),
+        );
+        if (firstInvalidElement === this) {
           firstRadio.focus();
         }
+      } else {
+        // If not part of a form, simply focus.
+        firstRadio.focus();
       }
     }
   }
@@ -463,6 +465,17 @@ export class NysRadiogroup extends LitElement {
       message || "Please complete this field.",
       sourceRadio as HTMLElement,
     );
+  }
+
+  private _handleChildErrorClear() {
+    this._internals.setValidity({});
+    this.showError = false;
+  }
+
+  private _handleOtherInput(event: Event) {
+    const { value } = (event as CustomEvent).detail;
+    this.selectedValue = value;
+    this._internals.setFormValue(value);
   }
 
   render() {

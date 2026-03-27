@@ -459,6 +459,60 @@ describe("nys-textinput", () => {
     expect(result).to.equal("XX-XX");
   });
 
+  // -------------------------------------------------------------------------
+  // More Event Tests
+  // -------------------------------------------------------------------------
+  it("fires nys-input with correct detail on input", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    await el.updateComplete;
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-input", (e: any) => (eventDetail = e.detail));
+
+    const input = el.shadowRoot!.querySelector("input");
+    input!.value = "hello";
+    input?.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(el.value).to.equal("hello");
+    expect(eventDetail).to.exist;
+    expect(eventDetail.value).to.equal("hello");
+    expect(eventDetail.id).to.equal(el.id);
+  });
+
+  it("fires nys-focus when input gains focus", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    let focused = false;
+    el.addEventListener("nys-focus", () => (focused = true));
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    input.dispatchEvent(new Event("focus", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(focused).to.be.true;
+  });
+
+  it("fires nys-blur when input loses focus", async () => {
+    const el = await fixture<NysTextinput>(
+      html`<nys-textinput></nys-textinput>`,
+    );
+    let blurred = false;
+    el.addEventListener("nys-blur", () => (blurred = true));
+
+    const input = el.shadowRoot!.querySelector("input")!;
+    input.dispatchEvent(new Event("blur", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(blurred).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // Accessibility
+  // -------------------------------------------------------------------------
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-textinput label="First Name"></nys-textinput>`,
