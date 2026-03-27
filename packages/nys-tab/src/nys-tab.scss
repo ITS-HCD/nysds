@@ -28,3 +28,7 @@ nys-button.nys-tab {
   display: flex;
   gap: var(--nys-space-100)
 }
+
+.nys-tabgroup__panels {
+  padding: var(--nys-space-400);
+}
