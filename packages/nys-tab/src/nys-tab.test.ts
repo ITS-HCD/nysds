@@ -18,8 +18,18 @@ describe("nys-tab", () => {
   });
 
   it("passes the a11y audit", async () => {
-    const el = await fixture(html`<nys-tab label="My Label"></nys-tab>`);
-    await expect(el).shadowDom.to.be.accessible();
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="My Label"></nys-tab>
+        <nys-tabpanel>Content for My Label.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tab = el.shadowRoot!.querySelector("nys-tab")!;
+    const tabPanel = el.shadowRoot!.querySelector("nys-tabpanel")!;
+    await expect(tab).shadowDom.to.be.accessible();
+    await expect(tabPanel).shadowDom.to.be.accessible();
   });
 
   it("sets selected on the first tab if none have selected assigned", async () => {
@@ -35,7 +45,7 @@ describe("nys-tab", () => {
     `);
     await el.updateComplete;
 
-    const tabs = el.querySelectorAll("nys-tab");
+    const tabs = el.shadowRoot!.querySelectorAll("nys-tab");
     expect(tabs[0].hasAttribute("selected")).to.be.true;
     expect(tabs[1].hasAttribute("selected")).to.be.false;
     expect(tabs[2].hasAttribute("selected")).to.be.false;
@@ -54,7 +64,7 @@ describe("nys-tab", () => {
     `);
     await el.updateComplete;
 
-    const tabs = el.querySelectorAll("nys-tab");
+    const tabs = el.shadowRoot!.querySelectorAll("nys-tab");
     expect(tabs[0].hasAttribute("selected")).to.be.true;
     expect(tabs[1].hasAttribute("selected")).to.be.false;
     expect(tabs[2].hasAttribute("selected")).to.be.false;
