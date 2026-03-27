@@ -40,11 +40,13 @@ export const Basic: Story = {
   render: () => html`
     <nys-tabgroup id="test">
       <nys-tab label="Tab One Long Name"></nys-tab>
+      <nys-tab selected label="Tab Two Longer Name"></nys-tab>
+      <nys-tab selected label="Tab Three Extra Long Name"></nys-tab>
+      <nys-tab disabled label="Tab Four Disabled"></nys-tab>
       <nys-tabpanel>
         Content for Tab One.
         <nys-button label="test"></nys-button
       ></nys-tabpanel>
-      <nys-tab label="Tab Two Longer Name"></nys-tab>
       <nys-tabpanel>
         <nys-accordion>
           <nys-accordionitem
@@ -76,9 +78,7 @@ export const Basic: Story = {
           </nys-accordionitem>
         </nys-accordion>
       </nys-tabpanel>
-      <nys-tab label="Tab Three Extra Long Name"></nys-tab>
       <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
-      <nys-tab disabled label="Tab Four"></nys-tab>
       <nys-tabpanel>Content for Tab Four.</nys-tabpanel>
     </nys-tabgroup>
   `,
