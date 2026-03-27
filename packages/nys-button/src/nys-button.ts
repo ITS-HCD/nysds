@@ -126,6 +126,11 @@ export class NysButton extends LitElement {
   @property({ type: String }) ariaControls = "";
 
   /**
+   * Tab index for keyboard navigation. Defaults to 0 (focusable) when not disabled. Set to -1 to make focusable but not tabbable.
+   */
+  @property({ type: Number }) tabIndex = 0;
+
+  /**
    * Material Symbol icon before label. Not shown for `text` variant or `circle` mode.
    */
   @property({ type: String }) prefixIcon = "";
@@ -357,7 +362,7 @@ export class NysButton extends LitElement {
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
-                tabindex="${this.disabled ? -1 : 0}"
+                tabindex="${this.disabled ? -1 : this.tabIndex}"
                 aria-label=${ifDefined(
                   this.ariaLabel ||
                     this.label ||
@@ -407,7 +412,7 @@ export class NysButton extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
-              tabindex="${this.disabled ? -1 : 0}"
+              tabindex="${this.disabled ? -1 : this.tabIndex}"
               aria-label=${ifDefined(
                 this.ariaLabel ||
                   this.label ||

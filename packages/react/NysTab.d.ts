@@ -30,6 +30,9 @@ export interface NysTabProps extends Pick<
   /** undefined */
   label?: NysTabElement["label"];
 
+  /** undefined */
+  tabIndex?: number;
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 
@@ -72,5 +75,9 @@ export interface NysTabProps extends Pick<
  *  - **nys-tab-select**
  * - **nys-tab-focus**
  * - **nys-tab-blur**
+ *
+ * ### **Methods:**
+ *  - **focus(options: _FocusOptions_)** - Functions
+ * --------------------------------------------------------------------------
  */
 export const NysTab: React.ForwardRefExoticComponent<NysTabProps>;

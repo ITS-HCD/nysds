@@ -63,6 +63,7 @@
   --_nys-textinput-width: 100%;
 
   flex: 1;
+
   /* stretches width for flex container */
 }
 
@@ -152,6 +153,7 @@
   --_nys-button-border-width: var(--_nys-textinput-border-width);
 
   z-index: 1;
+
   /* to make sure the button outline renders on top of the input */
 }
 
@@ -178,6 +180,7 @@
 
   /* These props ARE NOT publicly overridable */
   --_nys-button-outline-focus: calc(var(--_nys-button-outline-width) * -1);
+
   /* Needs to be negative of the offset width */
 
   --_nys-button-padding--y: var(--nys-space-50, 4px);

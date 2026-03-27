@@ -56,6 +56,7 @@ export const NysButton = forwardRef((props, forwardedRef) => {
       label: props.label,
       ariaLabel: props.ariaLabel,
       ariaControls: props.ariaControls,
+      tabIndex: props.tabIndex,
       prefixIcon: props.prefixIcon,
       suffixIcon: props.suffixIcon,
       icon: props.icon,

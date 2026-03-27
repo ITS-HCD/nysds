@@ -17,6 +17,7 @@ export class NysTab extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: Boolean, reflect: true }) selected = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Number }) tabIndex = -1;
 
   connectedCallback() {
     super.connectedCallback();
@@ -31,6 +32,16 @@ export class NysTab extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  public focus(options?: FocusOptions) {
+    const button = this.shadowRoot?.querySelector("nys-button") as
+      | (HTMLElement & { focus?: (o?: FocusOptions) => void })
+      | null;
+    if (button?.focus) {
+      button.focus(options);
+    } else {
+      super.focus(options);
+    }
+  }
 
   /**
    * Event Handlers
@@ -40,6 +51,20 @@ export class NysTab extends LitElement {
   private _handleClick() {
     if (this.disabled) return;
 
+    this.dispatchEvent(
+      new CustomEvent("nys-tab-select", {
+        bubbles: true,
+        composed: true,
+        detail: { id: this.id, label: this.label },
+      }),
+    );
+  }
+
+  private _handleKeydown(e: KeyboardEvent) {
+    if (this.disabled) return;
+    if (e.key !== "Enter" && e.key !== " ") return;
+
+    e.preventDefault();
     this.dispatchEvent(
       new CustomEvent("nys-tab-select", {
         bubbles: true,
@@ -76,10 +101,12 @@ export class NysTab extends LitElement {
         type="button"
         label=${this.label}
         ?disabled=${this.disabled}
+        tabIndex=${this.tabIndex}
         ariaControls=${this.getAttribute("aria-controls") ?? ""}
         @nys-click=${this._handleClick}
         @nys-focus=${this._handleFocus}
         @nys-blur=${this._handleBlur}
+        @keypress=${this._handleKeydown}
       ></nys-button>
     `;
   }

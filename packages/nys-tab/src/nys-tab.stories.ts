@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-tab";
 import "./nys-tabgroup";
 import "./nys-tabpanel";
+import "@nysds/nys-accordion";
 
 interface NysTabArgs {
   label: string;
@@ -39,9 +40,42 @@ export const Basic: Story = {
   render: () => html`
     <nys-tabgroup id="test">
       <nys-tab label="Tab One Long Name"></nys-tab>
-      <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+      <nys-tabpanel>
+        Content for Tab One.
+        <nys-button label="test"></nys-button
+      ></nys-tabpanel>
       <nys-tab label="Tab Two Longer Name"></nys-tab>
-      <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+      <nys-tabpanel>
+        <nys-accordion>
+          <nys-accordionitem
+            id="accordionId1"
+            heading="How do I renew my passport or apply for a new one?"
+          >
+            <p>
+              You can apply for or renew a U.S. passport through the U.S.
+              Department of State. Some renewals can be done by mail.
+            </p>
+            <div style="display: flex; gap: 0.5rem; font-size: 1rem;">
+              <a href="https://www.ny.gov" target="_blank"
+                >Check your registration</a
+              >
+              <a href="https://www.ny.gov" target="_blank"
+                >Fill out application</a
+              >
+            </div>
+          </nys-accordionitem>
+          <nys-accordionitem
+            id="accordionId2"
+            heading="How can I find out if I'm registered to vote?"
+          >
+            <p>
+              You can check your registration status, update your information,
+              or find out how to register through the National Association of
+              Secretaries of State.
+            </p>
+          </nys-accordionitem>
+        </nys-accordion>
+      </nys-tabpanel>
       <nys-tab label="Tab Three Extra Long Name"></nys-tab>
       <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
       <nys-tab disabled label="Tab Four"></nys-tab>

@@ -63,7 +63,7 @@ export class NysTabgroup extends LitElement {
       } else {
         tab.removeAttribute("selected");
       }
-      tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+      (tab as any).tabIndex = isSelected ? 0 : -1;
       // Wire aria-controls → matching panel id
       const panel = panels[i];
       if (panel) {
@@ -141,12 +141,22 @@ export class NysTabgroup extends LitElement {
   }
 
   private _handleKeydown(e: KeyboardEvent) {
+    console.log("testing keydown call: ", e.key);
     const tabs = this._getTabs().filter((t) => !t.hasAttribute("disabled"));
     if (tabs.length === 0) return;
 
-    const currentIndex = tabs.findIndex((t) => t.hasAttribute("selected"));
-    const isHorizontal = this.orientation === "horizontal";
+    const focusedTab = (e.composedPath() as HTMLElement[]).find(
+      (el) => el.tagName?.toLowerCase() === "nys-tab",
+    );
+    console.log((e.composedPath() as HTMLElement[]).map((el) => el.tagName));
+    const currentIndex = focusedTab ? tabs.indexOf(focusedTab) : -1;
 
+    console.log("focusedTab", focusedTab);
+    console.log("tabs", tabs);
+    console.log("currentIndex", currentIndex);
+    if (currentIndex === -1) return;
+
+    const isHorizontal = this.orientation === "horizontal";
     const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
     const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
 
@@ -173,13 +183,8 @@ export class NysTabgroup extends LitElement {
 
     if (newIndex === currentIndex) return;
 
-    const allTabs = this._getTabs();
-    const panels = this._getPanels();
-    const focusTarget = tabs[newIndex];
-    const absoluteIndex = allTabs.indexOf(focusTarget);
-
-    this._applySelection(allTabs, panels, absoluteIndex);
-    (focusTarget as HTMLElement & { focus?: () => void }).focus?.();
+    // Move focus only — do not change selection
+    (tabs[newIndex] as HTMLElement & { focus?: () => void }).focus?.();
   }
 
   render() {

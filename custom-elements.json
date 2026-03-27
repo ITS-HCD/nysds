@@ -1595,6 +1595,16 @@
             },
             {
               "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Tab index for keyboard navigation. Defaults to 0 (focusable) when not disabled. Set to -1 to make focusable but not tabbable.",
+              "attribute": "tabIndex"
+            },
+            {
+              "kind": "field",
               "name": "prefixIcon",
               "type": {
                 "text": "string"
@@ -1917,6 +1927,16 @@
               "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.",
               "fieldName": "ariaControls",
               "propName": "ariacontrols"
+            },
+            {
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Tab index for keyboard navigation. Defaults to 0 (focusable) when not disabled. Set to -1 to make focusable but not tabbable.",
+              "fieldName": "tabIndex",
+              "propName": "tabindex"
             },
             {
               "name": "prefixIcon",
@@ -9879,9 +9899,47 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "attribute": "tabIndex"
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "privacy": "public",
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
               "kind": "method",
               "name": "_handleClick",
-              "privacy": "private"
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -9950,6 +10008,15 @@
               "default": "false",
               "fieldName": "disabled",
               "propName": "disabled"
+            },
+            {
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "default": "-1",
+              "fieldName": "tabIndex",
+              "propName": "tabindex"
             }
           ],
           "superclass": {
