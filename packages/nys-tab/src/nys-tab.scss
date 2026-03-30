@@ -34,6 +34,7 @@ nys-button.nys-tab {
   white-space: nowrap;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  padding: 4px;
 
   &::-webkit-scrollbar {
     display: none;
@@ -42,9 +43,9 @@ nys-button.nys-tab {
   &::after {
     content: "";
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
     border-bottom: solid var(--nys-color-neutral-50) 3px;
     z-index: -1;
   }
