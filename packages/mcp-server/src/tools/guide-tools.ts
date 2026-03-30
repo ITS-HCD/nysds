@@ -63,31 +63,19 @@ export function registerGuideTools(server: McpServer): void {
           "styles",
           "fonts",
           "page-structure",
-          "framework",
         ])
         .describe("The guide topic to retrieve"),
       framework: z
         .enum(["angular", "react", "dotnet", "drupal", "vanilla"])
         .optional()
         .describe(
-          "Required when topic is 'framework'. The framework to get setup instructions for.",
+          "When provided, returns framework-specific setup guide instead of the topic guide. Use with topic 'installation' to get framework install instructions.",
         ),
     },
     async ({ topic, framework }) => {
       let content: string;
 
-      if (topic === "framework") {
-        if (!framework) {
-          return {
-            content: [
-              {
-                type: "text",
-                text: "Error: 'framework' parameter is required when topic is 'framework'. Choose from: angular, react, dotnet, drupal, vanilla",
-              },
-            ],
-            isError: true,
-          };
-        }
+      if (framework) {
         content = loadFrameworkGuide(framework);
       } else {
         const filename = TOPIC_TO_FILE[topic];
