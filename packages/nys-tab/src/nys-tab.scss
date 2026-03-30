@@ -30,6 +30,14 @@ nys-button.nys-tab {
   display: flex;
   gap: var(--nys-space-100);
   position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &::after {
     content: "";
