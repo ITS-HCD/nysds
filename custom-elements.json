@@ -33,6 +33,20 @@
           "kind": "class",
           "description": "A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.\n\nPlace `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.\nThe `bordered` style propagates to all children automatically.",
           "name": "NysAccordion",
+          "cssProperties": [
+            {
+              "description": "Background color of the accordion header.",
+              "name": "--nys-accordion-background-color--header"
+            },
+            {
+              "description": "Background hover color of the accordion header.",
+              "name": "--nys-accordion-background-color--header--hover"
+            },
+            {
+              "description": "Maximum readable width of accordion content. Defaults to a character-based width (80ch) for readability.",
+              "name": "--nys-accordion-content-max-width"
+            }
+          ],
           "slots": [
             {
               "description": "Default slot for `nys-accordionitem` elements.",
@@ -111,7 +125,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "singleSelect",
@@ -120,7 +135,8 @@
               },
               "default": "false",
               "description": "Only one item can be expanded at a time. Expanding one collapses others.",
-              "fieldName": "singleSelect"
+              "fieldName": "singleSelect",
+              "propName": "singleselect"
             },
             {
               "name": "bordered",
@@ -129,7 +145,8 @@
               },
               "default": "false",
               "description": "Adds borders around each accordion item. Propagates to all children.",
-              "fieldName": "bordered"
+              "fieldName": "bordered",
+              "propName": "bordered"
             }
           ],
           "superclass": {
@@ -290,7 +307,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "heading",
@@ -299,7 +317,8 @@
               },
               "default": "\"\"",
               "description": "Heading text displayed in the clickable toggle button.",
-              "fieldName": "heading"
+              "fieldName": "heading",
+              "propName": "heading"
             },
             {
               "name": "expanded",
@@ -308,7 +327,8 @@
               },
               "default": "false",
               "description": "Whether the content panel is visible. Toggle via click or keyboard.",
-              "fieldName": "expanded"
+              "fieldName": "expanded",
+              "propName": "expanded"
             },
             {
               "name": "bordered",
@@ -317,7 +337,8 @@
               },
               "default": "false",
               "description": "Adds border styling. Set by parent `nys-accordion`, not directly.",
-              "fieldName": "bordered"
+              "fieldName": "bordered",
+              "propName": "bordered"
             }
           ],
           "superclass": {
@@ -590,7 +611,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "heading",
@@ -599,7 +621,8 @@
               },
               "default": "\"\"",
               "description": "Bold heading text displayed at the top of the alert.",
-              "fieldName": "heading"
+              "fieldName": "heading",
+              "propName": "heading"
             },
             {
               "name": "icon",
@@ -608,7 +631,8 @@
               },
               "default": "\"\"",
               "description": "Custom icon name. Defaults to type-appropriate icon if not set.",
-              "fieldName": "icon"
+              "fieldName": "icon",
+              "propName": "icon"
             },
             {
               "name": "dismissible",
@@ -617,7 +641,8 @@
               },
               "default": "false",
               "description": "Shows close button allowing users to dismiss the alert.",
-              "fieldName": "dismissible"
+              "fieldName": "dismissible",
+              "propName": "dismissible"
             },
             {
               "name": "duration",
@@ -626,7 +651,8 @@
               },
               "default": "0",
               "description": "Auto-dismiss after specified milliseconds. Set to 0 to disable.",
-              "fieldName": "duration"
+              "fieldName": "duration",
+              "propName": "duration"
             },
             {
               "name": "text",
@@ -635,7 +661,8 @@
               },
               "default": "\"\"",
               "description": "Body text content. Ignored if slot content is provided.",
-              "fieldName": "text"
+              "fieldName": "text",
+              "propName": "text"
             },
             {
               "name": "primaryAction",
@@ -644,7 +671,8 @@
               },
               "default": "\"\"",
               "description": "URL for the primary action link.",
-              "fieldName": "primaryAction"
+              "fieldName": "primaryAction",
+              "propName": "primaryaction"
             },
             {
               "name": "secondaryAction",
@@ -653,7 +681,8 @@
               },
               "default": "\"\"",
               "description": "URL for the secondary action link.",
-              "fieldName": "secondaryAction"
+              "fieldName": "secondaryAction",
+              "propName": "secondaryaction"
             },
             {
               "name": "primaryLabel",
@@ -662,7 +691,8 @@
               },
               "default": "\"Learn more\"",
               "description": "Label text for primary action link.",
-              "fieldName": "primaryLabel"
+              "fieldName": "primaryLabel",
+              "propName": "primarylabel"
             },
             {
               "name": "secondaryLabel",
@@ -671,7 +701,8 @@
               },
               "default": "\"Dismiss\"",
               "description": "Label text for secondary action link.",
-              "fieldName": "secondaryLabel"
+              "fieldName": "secondaryLabel",
+              "propName": "secondarylabel"
             },
             {
               "name": "type",
@@ -680,7 +711,8 @@
               },
               "default": "\"base\"",
               "description": "Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region.",
-              "fieldName": "type"
+              "fieldName": "type",
+              "propName": "type"
             }
           ],
           "superclass": {
@@ -881,7 +913,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "ariaLabel",
@@ -890,7 +923,8 @@
               },
               "default": "\"\"",
               "description": "Accessible label for screen readers. Required when no image `alt` is available.",
-              "fieldName": "ariaLabel"
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
             },
             {
               "name": "image",
@@ -899,7 +933,8 @@
               },
               "default": "\"\"",
               "description": "Image URL. Takes priority over initials and icon.",
-              "fieldName": "image"
+              "fieldName": "image",
+              "propName": "image"
             },
             {
               "name": "initials",
@@ -908,7 +943,8 @@
               },
               "default": "\"\"",
               "description": "1-2 character initials. Used when no image is provided.",
-              "fieldName": "initials"
+              "fieldName": "initials",
+              "propName": "initials"
             },
             {
               "name": "icon",
@@ -917,7 +953,8 @@
               },
               "default": "\"\"",
               "description": "Custom icon name. Falls back to `account_circle` if not set.",
-              "fieldName": "icon"
+              "fieldName": "icon",
+              "propName": "icon"
             },
             {
               "name": "color",
@@ -926,7 +963,8 @@
               },
               "default": "\"\"",
               "description": "Background color. Foreground auto-adjusts for contrast. Accepts CSS values or variables.",
-              "fieldName": "color"
+              "fieldName": "color",
+              "propName": "color"
             },
             {
               "name": "interactive",
@@ -935,7 +973,8 @@
               },
               "default": "false",
               "description": "Makes avatar clickable with button role and focus ring.",
-              "fieldName": "interactive"
+              "fieldName": "interactive",
+              "propName": "interactive"
             },
             {
               "name": "disabled",
@@ -944,7 +983,8 @@
               },
               "default": "false",
               "description": "Prevents interaction when `interactive` is true.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "lazy",
@@ -953,7 +993,8 @@
               },
               "default": "false",
               "description": "Enables lazy loading for the image.",
-              "fieldName": "lazy"
+              "fieldName": "lazy",
+              "propName": "lazy"
             }
           ],
           "superclass": {
@@ -1092,7 +1133,8 @@
               },
               "default": "\"right\"",
               "description": "Horizontal position: `left` or `right`.",
-              "fieldName": "position"
+              "fieldName": "position",
+              "propName": "position"
             },
             {
               "name": "visible",
@@ -1101,7 +1143,8 @@
               },
               "default": "false",
               "description": "Force button visibility. Overrides auto-show scroll behavior.",
-              "fieldName": "visible"
+              "fieldName": "visible",
+              "propName": "visible"
             }
           ],
           "superclass": {
@@ -1317,7 +1360,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -1326,7 +1370,8 @@
               },
               "default": "\"\"",
               "description": "Name attribute for form association.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "size",
@@ -1335,7 +1380,8 @@
               },
               "default": "\"md\"",
               "description": "Badge size: `sm` (smaller text) or `md` (default).",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             },
             {
               "name": "intent",
@@ -1344,7 +1390,8 @@
               },
               "default": "\"neutral\"",
               "description": "Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`.",
-              "fieldName": "intent"
+              "fieldName": "intent",
+              "propName": "intent"
             },
             {
               "name": "prefixLabel",
@@ -1353,7 +1400,8 @@
               },
               "default": "\"\"",
               "description": "Secondary label displayed before the main label.",
-              "fieldName": "prefixLabel"
+              "fieldName": "prefixLabel",
+              "propName": "prefixlabel"
             },
             {
               "name": "label",
@@ -1362,7 +1410,8 @@
               },
               "default": "\"\"",
               "description": "Primary label text displayed in the badge.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "variant",
@@ -1370,21 +1419,24 @@
                 "text": "\"strong\" | \"\""
               },
               "default": "\"\"",
-              "fieldName": "variant"
+              "fieldName": "variant",
+              "propName": "variant"
             },
             {
               "name": "prefixicon",
               "type": {
                 "text": "string | boolean"
               },
-              "fieldName": "prefixIcon"
+              "fieldName": "prefixIcon",
+              "propName": "prefixicon"
             },
             {
               "name": "suffixicon",
               "type": {
                 "text": "string | boolean"
               },
-              "fieldName": "suffixIcon"
+              "fieldName": "suffixIcon",
+              "propName": "suffixicon"
             }
           ],
           "superclass": {
@@ -1503,6 +1555,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -1724,16 +1785,6 @@
               "reflects": true
             },
             {
-              "kind": "method",
-              "name": "getButtonElement",
-              "privacy": "public",
-              "return": {
-                "type": {
-                  "text": "Promise<HTMLElement | null>"
-                }
-              }
-            },
-            {
               "kind": "field",
               "name": "_internals",
               "type": {
@@ -1803,7 +1854,7 @@
               "kind": "method",
               "name": "_handleAnyAttributeFunction",
               "privacy": "private",
-              "description": "Vanilla JS & Native HTML keydown solution:\nThe <nys-button onClick=\"doFunction();\"></nys-button> onClick is an attribute here.\nThus, we call it here. Otherwise, at this point, this.onClick is null as it isn't props, but a string attribute\nIn vanilla HTML/JS, clicking with execute the attribute function, BUT now with keydown, hence this solution."
+              "description": "A Solution to the Vanilla JS & Native HTML keydown:\n\nHandles inline onClick attributes set as strings in vanilla HTML\n(e.g. <nys-button onClick=\"doSomething()\">).\n\nWhen onClick is set this way, it is a DOM attribute (not a property)\nso this.onClick remains null. Native clicks execute the attribute\nautomatically, but keydown events do not, so we invoke it manually here."
             },
             {
               "kind": "method",
@@ -1851,7 +1902,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -1860,7 +1912,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "size",
@@ -1869,7 +1922,8 @@
               },
               "default": "\"md\"",
               "description": "Button height: `sm` (40px) for dense UIs, `md` (48px, default) for standard use, `lg` (56px) for prominent CTAs.",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             },
             {
               "name": "fullWidth",
@@ -1878,7 +1932,8 @@
               },
               "default": "false",
               "description": "Expands button to fill container width. Use for mobile layouts or stacked button groups.",
-              "fieldName": "fullWidth"
+              "fieldName": "fullWidth",
+              "propName": "fullwidth"
             },
             {
               "name": "variant",
@@ -1887,7 +1942,8 @@
               },
               "default": "\"filled\"",
               "description": "Visual style: `filled` for primary (one per section), `outline` for secondary, `ghost` for tertiary, `text` for inline actions. Avoid `text` for navigation.",
-              "fieldName": "variant"
+              "fieldName": "variant",
+              "propName": "variant"
             },
             {
               "name": "inverted",
@@ -1896,7 +1952,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "label",
@@ -1905,7 +1962,8 @@
               },
               "default": "\"\"",
               "description": "Visible button text. Use sentence case, action-oriented text (e.g., \"Save Draft\"). Becomes aria-label in `circle` mode.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "ariaLabel",
@@ -1914,7 +1972,8 @@
               },
               "default": "\"\"",
               "description": "Screen reader label. Required for icon-only buttons if `label` is not set.",
-              "fieldName": "ariaLabel"
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
             },
             {
               "name": "ariaControls",
@@ -1923,7 +1982,8 @@
               },
               "default": "\"\"",
               "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.",
-              "fieldName": "ariaControls"
+              "fieldName": "ariaControls",
+              "propName": "ariacontrols"
             },
             {
               "name": "prefixIcon",
@@ -1932,7 +1992,8 @@
               },
               "default": "\"\"",
               "description": "Material Symbol icon before label. Not shown for `text` variant or `circle` mode.",
-              "fieldName": "prefixIcon"
+              "fieldName": "prefixIcon",
+              "propName": "prefixicon"
             },
             {
               "name": "suffixIcon",
@@ -1941,7 +2002,8 @@
               },
               "default": "\"\"",
               "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.",
-              "fieldName": "suffixIcon"
+              "fieldName": "suffixIcon",
+              "propName": "suffixicon"
             },
             {
               "name": "circle",
@@ -1950,7 +2012,8 @@
               },
               "default": "false",
               "description": "Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label.",
-              "fieldName": "circle"
+              "fieldName": "circle",
+              "propName": "circle"
             },
             {
               "name": "icon",
@@ -1959,7 +2022,8 @@
               },
               "default": "\"\"",
               "description": "Icon for circle mode. Required when `circle` is true. Scales with size (sm=24px, md=32px, lg=40px).",
-              "fieldName": "icon"
+              "fieldName": "icon",
+              "propName": "icon"
             },
             {
               "name": "disabled",
@@ -1968,7 +2032,8 @@
               },
               "default": "false",
               "description": "Prevents interaction. Avoid disabling without explanation—show validation errors instead.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "form",
@@ -1977,7 +2042,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with. Use when button is outside the form element.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "value",
@@ -1986,7 +2052,8 @@
               },
               "default": "\"\"",
               "description": "Value submitted with form data. Only used when `type=\"submit\"`.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "ariaDescription",
@@ -1995,7 +2062,8 @@
               },
               "default": "\"\"",
               "description": "Additional screen reader description. Sets `aria-description`.",
-              "fieldName": "ariaDescription"
+              "fieldName": "ariaDescription",
+              "propName": "ariadescription"
             },
             {
               "name": "type",
@@ -2004,7 +2072,8 @@
               },
               "default": "\"button\"",
               "description": "Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.",
-              "fieldName": "type"
+              "fieldName": "type",
+              "propName": "type"
             },
             {
               "name": "href",
@@ -2013,7 +2082,8 @@
               },
               "default": "\"\"",
               "description": "URL to navigate to. Renders as `<a>` tag. Omit for action buttons.",
-              "fieldName": "href"
+              "fieldName": "href",
+              "propName": "href"
             },
             {
               "name": "target",
@@ -2022,7 +2092,8 @@
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon=\"open_in_new\"`), `_parent`, `_top`, or frame name.",
-              "fieldName": "target"
+              "fieldName": "target",
+              "propName": "target"
             }
           ],
           "superclass": {
@@ -2123,6 +2194,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "checked",
@@ -2294,6 +2374,39 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "other",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
               "kind": "method",
               "name": "getInputElement",
               "privacy": "public",
@@ -2385,10 +2498,25 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "_hasDescription",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_handleResize",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_emitOtherInputEvent",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -2415,6 +2543,11 @@
             },
             {
               "kind": "method",
+              "name": "_handleTextInputBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleKeydown",
               "privacy": "private",
               "parameters": [
@@ -2425,6 +2558,29 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_validateOtherAndEmitError",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchClearError",
+              "privacy": "private"
             }
           ],
           "events": [
@@ -2434,6 +2590,13 @@
                 "text": "CustomEvent"
               },
               "description": "Fired when checked state changes. Detail: `{id, checked, name, value}`."
+            },
+            {
+              "name": "nys-other-input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`."
             },
             {
               "name": "nys-focus",
@@ -2448,6 +2611,18 @@
                 "text": "Event"
               },
               "description": "Fired when checkbox loses focus."
+            },
+            {
+              "name": "nys-error",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-error-clear",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
@@ -2458,7 +2633,8 @@
               },
               "default": "false",
               "description": "Whether checkbox is checked.",
-              "fieldName": "checked"
+              "fieldName": "checked",
+              "propName": "checked"
             },
             {
               "name": "disabled",
@@ -2467,7 +2643,8 @@
               },
               "default": "false",
               "description": "Prevents interaction.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "required",
@@ -2476,7 +2653,8 @@
               },
               "default": "false",
               "description": "Marks as required. Validates that checkbox is checked.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "label",
@@ -2485,7 +2663,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text. Required for accessibility.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -2494,7 +2673,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "id",
@@ -2503,7 +2683,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -2512,7 +2693,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission. Use same name for grouped checkboxes.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "value",
@@ -2521,7 +2703,8 @@
               },
               "default": "\"\"",
               "description": "Value submitted when checked.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "form",
@@ -2530,7 +2713,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with when checkbox is outside form element.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "showError",
@@ -2539,7 +2723,8 @@
               },
               "default": "false",
               "description": "Shows error message when true.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -2548,7 +2733,8 @@
               },
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             },
             {
               "name": "groupExist",
@@ -2557,7 +2743,8 @@
               },
               "default": "false",
               "description": "Internal: Set by parent checkboxgroup. Do not set manually.",
-              "fieldName": "groupExist"
+              "fieldName": "groupExist",
+              "propName": "groupexist"
             },
             {
               "name": "tile",
@@ -2566,7 +2753,8 @@
               },
               "default": "false",
               "description": "Renders as tile with larger clickable area. Apply to group for consistency.",
-              "fieldName": "tile"
+              "fieldName": "tile",
+              "propName": "tile"
             },
             {
               "name": "inverted",
@@ -2575,7 +2763,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "tooltip",
@@ -2584,7 +2773,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "size",
@@ -2593,7 +2783,26 @@
               },
               "default": "\"md\"",
               "description": "Checkbox size: `sm` (24px) or `md` (32px, default).",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "other",
+              "propName": "other"
+            },
+            {
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showOtherError",
+              "propName": "showothererror"
             }
           ],
           "superclass": {
@@ -2655,6 +2864,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -2805,6 +3023,24 @@
             },
             {
               "kind": "field",
+              "name": "_hasOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_otherErrorCheckbox",
+              "type": {
+                "text": "NysCheckbox | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
               "name": "_internals",
               "type": {
                 "text": "ElementInternals"
@@ -2823,9 +3059,14 @@
             },
             {
               "kind": "method",
-              "name": "_setGroupExist",
+              "name": "_hasAtLeastOneChecked",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_setGroupExist",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -2835,6 +3076,11 @@
             {
               "kind": "method",
               "name": "_manageRequire",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setCustomOtherError",
               "privacy": "private"
             },
             {
@@ -2898,6 +3144,50 @@
                 }
               ],
               "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildErrorClear",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherInput",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_checkOtherInputs",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "checkboxes",
+                  "type": {
+                    "text": "NysCheckbox[]"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -2908,7 +3198,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -2917,7 +3208,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission. Set on group, not individual checkboxes.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "required",
@@ -2926,7 +3218,8 @@
               },
               "default": "false",
               "description": "Requires at least one checkbox to be checked.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "optional",
@@ -2935,7 +3228,8 @@
               },
               "default": "false",
               "description": "Shows \"Optional\" flag.",
-              "fieldName": "optional"
+              "fieldName": "optional",
+              "propName": "optional"
             },
             {
               "name": "showError",
@@ -2944,7 +3238,8 @@
               },
               "default": "false",
               "description": "Shows error message when true.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -2953,7 +3248,8 @@
               },
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             },
             {
               "name": "label",
@@ -2962,7 +3258,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text for the group.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -2971,7 +3268,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "tile",
@@ -2980,7 +3278,8 @@
               },
               "default": "false",
               "description": "Renders all checkboxes as tiles with larger clickable area.",
-              "fieldName": "tile"
+              "fieldName": "tile",
+              "propName": "tile"
             },
             {
               "name": "tooltip",
@@ -2989,7 +3288,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "inverted",
@@ -2998,7 +3298,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "form",
@@ -3007,7 +3308,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with. Applied to all children.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "size",
@@ -3016,7 +3318,8 @@
               },
               "default": "\"md\"",
               "description": "Checkbox size for all children: `sm` (24px) or `md` (32px, default).",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             }
           ],
           "superclass": {
@@ -3056,7 +3359,7 @@
     },
     {
       "kind": "javascript-module",
-      "path": "packages/nys-datepicker/src/index.ts",
+      "path": "packages/nys-combobox/src/index.ts",
       "declarations": [],
       "exports": [
         {
@@ -3064,19 +3367,29 @@
           "name": "*",
           "declaration": {
             "name": "*",
-            "module": "packages/nys-datepicker/src/nys-datepicker"
+            "module": "packages/nys-combobox/src/nys-combobox"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "packages/nys-datepicker/src/nys-datepicker.ts",
+      "path": "packages/nys-combobox/src/nys-combobox.ts",
       "declarations": [
         {
           "kind": "class",
-          "description": "Form-associated, accessible date picker with custom calendar UI.\nFalls back to native date input on Safari and mobile devices.",
-          "name": "NysDatepicker",
+          "description": "`<nys-combobox>` is a form-enabled combo box combining text input with a filterable dropdown.\n\nFeatures:\n- Type to filter options\n- Keyboard navigation (Arrow keys, Enter, Escape)\n- Mouse and keyboard interaction\n- Clears non-selected text on blur\n- Clear button when value is selected\n- Integrates with forms via ElementInternals\n- Supports native <option> and <optgroup> elements\n- Accessible per W3C ARIA Authoring Practices",
+          "name": "NysCombobox",
+          "slots": [
+            {
+              "description": "Optional custom description content below the label.",
+              "name": "description"
+            },
+            {
+              "description": "Options (<option>, <optgroup>) to populate the dropdown",
+              "name": "default"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -3100,31 +3413,30 @@
             },
             {
               "kind": "field",
-              "name": "width",
+              "name": "label",
               "type": {
-                "text": "\"md\" | \"lg\" | \"full\""
+                "text": "string"
               },
-              "default": "\"md\"",
-              "attribute": "width",
-              "reflects": true
+              "default": "\"\"",
+              "attribute": "label"
             },
             {
               "kind": "field",
-              "name": "hideTodayButton",
+              "name": "description",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "default": "false",
-              "attribute": "hideTodayButton"
+              "default": "\"\"",
+              "attribute": "description"
             },
             {
               "kind": "field",
-              "name": "hideClearButton",
+              "name": "value",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "default": "false",
-              "attribute": "hideClearButton"
+              "default": "\"\"",
+              "attribute": "value"
             },
             {
               "kind": "field",
@@ -3158,6 +3470,45 @@
             },
             {
               "kind": "field",
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "tooltip"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "form",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "type": {
+                "text": "\"md\" | \"lg\" | \"full\""
+              },
+              "default": "\"full\"",
+              "attribute": "width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "inverted",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "showError",
               "type": {
                 "text": "boolean"
@@ -3177,11 +3528,700 @@
             },
             {
               "kind": "field",
+              "name": "_isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_filterText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_highlightedIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "-1"
+            },
+            {
+              "kind": "field",
+              "name": "_options",
+              "type": {
+                "text": "ComboboxOption[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_filteredOptions",
+              "type": {
+                "text": "ComboboxOption[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_dropdownAbove",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_announcement",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_input",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_listbox",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_originalErrorMessage",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_internals",
+              "type": {
+                "text": "ElementInternals"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_selectedLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_defaultValue",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "formAssociated",
+              "type": {
+                "text": "boolean"
+              },
+              "static": true,
+              "default": "true",
+              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private",
+              "description": "Slot handling\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_setValue",
+              "privacy": "private",
+              "description": "Form Integration\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_manageRequire",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setValidityMessage",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "message",
+                  "default": "\"\"",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_validate",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "formResetCallback"
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_handleInvalid",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_positionDropdown",
+              "privacy": "private",
+              "description": "Dropdown positioning\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_filterOptions",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "searchText",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Filtering\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_scrollToHighlighted",
+              "privacy": "private",
+              "description": "Keyboard navigation\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeyDown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_moveHighlight",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "direction",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleBlur",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleDocumentClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleIconClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleClearClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOptionClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "option",
+                  "type": {
+                    "text": "ComboboxOption"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOptionMouseEnter",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_selectOption",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "option",
+                  "type": {
+                    "text": "ComboboxOption"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_openDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_closeDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderOptions",
+              "privacy": "private",
+              "description": "Render helpers\n--------------------------------------------------------------------------"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired on input change. Detail: `{ id, value }`."
+            },
+            {
+              "name": "nys-focus",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when combobox receives focus."
+            },
+            {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when combobox loses focus."
+            },
+            {
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when selection changes. Detail: `{ id, value }`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name",
+              "propName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "description",
+              "propName": "description"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "value",
+              "propName": "value"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required",
+              "propName": "required"
+            },
+            {
+              "name": "optional",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "optional",
+              "propName": "optional"
+            },
+            {
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "tooltip",
+              "propName": "tooltip"
+            },
+            {
               "name": "form",
               "type": {
                 "text": "string | null"
               },
               "default": "null",
+              "fieldName": "form",
+              "propName": "form"
+            },
+            {
+              "name": "width",
+              "type": {
+                "text": "\"md\" | \"lg\" | \"full\""
+              },
+              "default": "\"full\"",
+              "fieldName": "width",
+              "propName": "width"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "inverted",
+              "propName": "inverted"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showError",
+              "propName": "showerror"
+            },
+            {
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-combobox",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-combobox",
+          "declaration": {
+            "name": "NysCombobox",
+            "module": "packages/nys-combobox/src/nys-combobox.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysCombobox",
+          "declaration": {
+            "name": "NysCombobox",
+            "module": "packages/nys-combobox/src/nys-combobox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-datepicker/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-datepicker/src/nys-datepicker"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-datepicker/src/nys-datepicker.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Date picker with calendar popup and form validation. Falls back to native date input\non Safari and mobile.",
+          "name": "NysDatepicker",
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name for form submission.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "width",
+              "type": {
+                "text": "\"md\" | \"lg\" | \"full\""
+              },
+              "default": "\"md\"",
+              "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
+              "attribute": "width",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideTodayButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hide the \"Today\" button in calendar popup.",
+              "attribute": "hideTodayButton"
+            },
+            {
+              "kind": "field",
+              "name": "hideClearButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hide the \"Clear\" button in calendar popup.",
+              "attribute": "hideClearButton"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable interaction.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Mark as required. Shows \"Required\" flag and validates on blur.",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "optional",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show \"Optional\" flag. Use when most fields are required.",
+              "attribute": "optional",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show error state.",
+              "attribute": "showError",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Error message text.",
+              "attribute": "errorMessage"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Form `id` to associate with when input is outside form.",
               "attribute": "form",
               "reflects": true
             },
@@ -3192,6 +4232,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Tooltip text on info icon hover.",
               "attribute": "tooltip"
             },
             {
@@ -3201,6 +4242,7 @@
                 "text": "string"
               },
               "default": "\"date\"",
+              "description": "Input type. Currently only supports `date`.",
               "attribute": "type"
             },
             {
@@ -3210,6 +4252,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Label text. Required for accessibility.",
               "attribute": "label"
             },
             {
@@ -3219,6 +4262,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Helper text below label.",
               "attribute": "description"
             },
             {
@@ -3228,6 +4272,7 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "Initial date when calendar opens (YYYY-MM-DD).",
               "attribute": "startDate"
             },
             {
@@ -3237,6 +4282,7 @@
                 "text": "boolean"
               },
               "default": "false",
+              "description": "Dark background mode.",
               "attribute": "inverted",
               "reflects": true
             },
@@ -3247,7 +4293,17 @@
                 "text": "string | Date | undefined"
               },
               "default": "undefined",
+              "description": "Selected date. Accepts Date object or ISO string (YYYY-MM-DD).",
               "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "datepickerIsOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",
@@ -3374,6 +4430,27 @@
             },
             {
               "kind": "method",
+              "name": "_setTodayDate",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_setFocusOnTodayDate",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "visualFocusOnly",
+                  "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchInputEvent",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleInputKeydown",
               "privacy": "private",
               "parameters": [
@@ -3402,6 +4479,11 @@
             {
               "kind": "method",
               "name": "_onDocumentClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_onKeydownEsc",
               "privacy": "private"
             },
             {
@@ -3462,6 +4544,19 @@
             },
             {
               "kind": "method",
+              "name": "_handleFocusTrap",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_isSafari",
               "privacy": "private",
               "return": {
@@ -3494,18 +4589,18 @@
           ],
           "events": [
             {
-              "name": "nys-blur",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Dispatched when input or calendar loses focus."
-            },
-            {
               "name": "nys-input",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when user selects or types a valid date."
+              "description": "Fired on date selection. Detail: `{id, value}`."
+            },
+            {
+              "name": "nys-blur",
+              "type": {
+                "text": "Event"
+              },
+              "description": "Fired when input or calendar loses focus. Triggers validation."
             }
           ],
           "attributes": [
@@ -3515,7 +4610,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "id"
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -3523,7 +4620,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "name"
+              "description": "Name for form submission.",
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "width",
@@ -3531,7 +4630,9 @@
                 "text": "\"md\" | \"lg\" | \"full\""
               },
               "default": "\"md\"",
-              "fieldName": "width"
+              "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
+              "fieldName": "width",
+              "propName": "width"
             },
             {
               "name": "hideTodayButton",
@@ -3539,7 +4640,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "hideTodayButton"
+              "description": "Hide the \"Today\" button in calendar popup.",
+              "fieldName": "hideTodayButton",
+              "propName": "hidetodaybutton"
             },
             {
               "name": "hideClearButton",
@@ -3547,7 +4650,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "hideClearButton"
+              "description": "Hide the \"Clear\" button in calendar popup.",
+              "fieldName": "hideClearButton",
+              "propName": "hideclearbutton"
             },
             {
               "name": "disabled",
@@ -3555,7 +4660,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "disabled"
+              "description": "Disable interaction.",
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "required",
@@ -3563,7 +4670,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "required"
+              "description": "Mark as required. Shows \"Required\" flag and validates on blur.",
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "optional",
@@ -3571,7 +4680,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "optional"
+              "description": "Show \"Optional\" flag. Use when most fields are required.",
+              "fieldName": "optional",
+              "propName": "optional"
             },
             {
               "name": "showError",
@@ -3579,7 +4690,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "showError"
+              "description": "Show error state.",
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -3587,7 +4700,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "errorMessage"
+              "description": "Error message text.",
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             },
             {
               "name": "form",
@@ -3595,7 +4710,9 @@
                 "text": "string | null"
               },
               "default": "null",
-              "fieldName": "form"
+              "description": "Form `id` to associate with when input is outside form.",
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "tooltip",
@@ -3603,7 +4720,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "tooltip"
+              "description": "Tooltip text on info icon hover.",
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "type",
@@ -3611,7 +4730,9 @@
                 "text": "string"
               },
               "default": "\"date\"",
-              "fieldName": "type"
+              "description": "Input type. Currently only supports `date`.",
+              "fieldName": "type",
+              "propName": "type"
             },
             {
               "name": "label",
@@ -3619,7 +4740,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "label"
+              "description": "Label text. Required for accessibility.",
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -3627,7 +4750,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "description"
+              "description": "Helper text below label.",
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "startDate",
@@ -3635,7 +4760,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "startDate"
+              "description": "Initial date when calendar opens (YYYY-MM-DD).",
+              "fieldName": "startDate",
+              "propName": "startdate"
             },
             {
               "name": "inverted",
@@ -3643,7 +4770,9 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "inverted"
+              "description": "Dark background mode.",
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "value",
@@ -3651,7 +4780,9 @@
                 "text": "string | Date | undefined"
               },
               "default": "undefined",
-              "fieldName": "value"
+              "description": "Selected date. Accepts Date object or ISO string (YYYY-MM-DD).",
+              "fieldName": "value",
+              "propName": "value"
             }
           ],
           "superclass": {
@@ -3660,7 +4791,29 @@
           },
           "tagName": "nys-datepicker",
           "customElement": true,
-          "summary": "Accessible date picker with calendar popup and native fallback."
+          "summary": "Date picker with calendar popup and native fallback.",
+          "examples": [
+            {
+              "title": "Basic date picker",
+              "code": "<nys-datepicker label=\"Birth Date\" required></nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "With width and description",
+              "code": "<nys-datepicker\nlabel=\"Event Date\"\ndescription=\"Select the date of your event\"\nwidth=\"lg\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide buttons, set start date",
+              "code": "<nys-datepicker\nlabel=\"Appointment\"\nhideTodayButton\nhideClearButton\nstartDate=\"2024-01-01\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "With validation error message",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\nrequired\nerrorMessage=\"Please select a valid start date\">\n</nys-datepicker>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -3740,7 +4893,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {
@@ -3774,6 +4928,578 @@
           "declaration": {
             "name": "NysDivider",
             "module": "packages/nys-divider/src/nys-divider.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-dropdownmenu/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "NysDropdownMenu",
+          "members": [
+            {
+              "kind": "field",
+              "name": "for",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "for",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showDropdown",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "showDropdown"
+            },
+            {
+              "kind": "field",
+              "name": "position",
+              "type": {
+                "text": "Position | null"
+              },
+              "default": "null",
+              "description": "Preferred position relative to trigger.",
+              "attribute": "position",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_trigger",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_menuElement",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_ariaTarget",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "GAP",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "readonly": true,
+              "default": "4"
+            },
+            {
+              "kind": "method",
+              "name": "_findTrigger",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_connectTrigger",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_toggleDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_closeDropdown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getMenuItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLElement[]"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_handleDocumentClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_focusOnFirstItem",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "applyInverseTransform",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_positionMenu",
+              "privacy": "private",
+              "description": "The controller function for positioning the dropdown menu.\nThe logic diverts to if user sets position or we auto position the dropdown menu"
+            },
+            {
+              "kind": "method",
+              "name": "_setUserPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "userPosition",
+                  "type": {
+                    "text": "Position"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_autoPosition",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "description": "Auto Positioning of the dropdown menu relies on the best surrounding space available\nto select the desirable position."
+            },
+            {
+              "kind": "method",
+              "name": "_checkSpaceAvailable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "SpaceAvailable"
+                }
+              },
+              "description": "Checks if the dropdown menu fits inside the viewport on the given side of the trigger.\nOverrides user set position for auto-positioning if user's desire space is not available"
+            },
+            {
+              "kind": "method",
+              "name": "_checkPositionFits",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "position",
+                  "type": {
+                    "text": "Position"
+                  }
+                },
+                {
+                  "name": "space",
+                  "type": {
+                    "text": "SpaceAvailable"
+                  }
+                },
+                {
+                  "name": "menuRect",
+                  "type": {
+                    "text": "DOMRect"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_findBestAlternative",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "userPosition",
+                  "type": {
+                    "text": "Position"
+                  }
+                },
+                {
+                  "name": "space",
+                  "type": {
+                    "text": "SpaceAvailable"
+                  }
+                },
+                {
+                  "name": "menuRect",
+                  "type": {
+                    "text": "DOMRect"
+                  }
+                }
+              ],
+              "description": "This position is called for when user's set position didn't fit OR auto positioning when default position doesn't fit\nWe look for the best alternative positions in order of preference base on the set position (e.g. bottom-start => bottom-end)."
+            },
+            {
+              "kind": "method",
+              "name": "_findMostAvailableSpace",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Position"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "space",
+                  "type": {
+                    "text": "SpaceAvailable"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_calculateCoordinates",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "position",
+                  "type": {
+                    "text": "Position"
+                  }
+                }
+              ],
+              "description": "A valid ideal position has been chosen.\nThis function calculates the coordinate of the trigger to properly position the dropdown menu."
+            },
+            {
+              "kind": "method",
+              "name": "_applyPosition",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "coords",
+                  "type": {
+                    "text": "PositionCoordinates"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleTriggerKeydown",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_handleMenuKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleWindowResize",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleWindowScroll",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "for",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "for",
+              "propName": "for"
+            },
+            {
+              "name": "showDropdown",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showDropdown",
+              "propName": "showdropdown"
+            },
+            {
+              "name": "position",
+              "type": {
+                "text": "Position | null"
+              },
+              "default": "null",
+              "description": "Preferred position relative to trigger.",
+              "fieldName": "position",
+              "propName": "position"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-dropdownmenu",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-dropdownmenu",
+          "declaration": {
+            "name": "NysDropdownMenu",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDropdownMenu",
+          "declaration": {
+            "name": "NysDropdownMenu",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenu.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "**Slotted component.** Displays an individual dropdown item within `nys-dropdown` with label.\n\nThe `nys-dropdownitem` is used as customizable item within the dropdown so users don't have to raw code <ul>, <li>, <a href>\nand have the benefit of default customization.",
+          "name": "NysDropdownMenuItem",
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "href"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"_self\"",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "prefixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "prefixIcon"
+            },
+            {
+              "kind": "field",
+              "name": "divider",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "divider"
+            },
+            {
+              "kind": "method",
+              "name": "_handleClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-click",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "href",
+              "propName": "href"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"_self\"",
+              "fieldName": "target",
+              "propName": "target"
+            },
+            {
+              "name": "prefixIcon",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "prefixIcon",
+              "propName": "prefixicon"
+            },
+            {
+              "name": "divider",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "divider",
+              "propName": "divider"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-dropdownmenuitem",
+          "customElement": true,
+          "summary": "Dropdown item to display label and provide href link.",
+          "examples": [
+            {
+              "title": "Basic item",
+              "code": "<nys-dropdownmenuitem label=\"Edit\" link=\"/edit\"></nys-dropdownmenuitem>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled item",
+              "code": "<nys-dropdownmenuitem label=\"Delete\" link=\"/delete\" disabled></nys-dropdownmenuitem>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-dropdownmenuitem",
+          "declaration": {
+            "name": "NysDropdownMenuItem",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysDropdownMenuItem",
+          "declaration": {
+            "name": "NysDropdownMenuItem",
+            "module": "packages/nys-dropdownmenu/src/nys-dropdownmenuitem.ts"
           }
         }
       ]
@@ -3860,7 +5586,8 @@
               },
               "default": "false",
               "description": "Whether to display the error message.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -3869,7 +5596,8 @@
               },
               "default": "\"\"",
               "description": "Error text to display. Falls back to native validation message if available.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             },
             {
               "name": "showDivider",
@@ -3878,7 +5606,8 @@
               },
               "default": "false",
               "description": "Shows a divider line above the error message.",
-              "fieldName": "showDivider"
+              "fieldName": "showDivider",
+              "propName": "showdivider"
             }
           ],
           "superclass": {
@@ -3939,6 +5668,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -4368,7 +6106,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -4377,7 +6116,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "label",
@@ -4386,7 +6126,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -4395,7 +6136,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "multiple",
@@ -4404,7 +6146,8 @@
               },
               "default": "false",
               "description": "Allows selecting multiple files.",
-              "fieldName": "multiple"
+              "fieldName": "multiple",
+              "propName": "multiple"
             },
             {
               "name": "form",
@@ -4413,7 +6156,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "tooltip",
@@ -4422,7 +6166,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "accept",
@@ -4431,7 +6176,8 @@
               },
               "default": "\"\"",
               "description": "Accepted file types. Use MIME types (`image/*`) or extensions (`.pdf`). Validated via magic bytes.",
-              "fieldName": "accept"
+              "fieldName": "accept",
+              "propName": "accept"
             },
             {
               "name": "disabled",
@@ -4440,7 +6186,8 @@
               },
               "default": "false",
               "description": "Prevents interaction.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "required",
@@ -4449,7 +6196,8 @@
               },
               "default": "false",
               "description": "Requires at least one file to be uploaded.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "optional",
@@ -4458,7 +6206,8 @@
               },
               "default": "false",
               "description": "Shows \"Optional\" flag.",
-              "fieldName": "optional"
+              "fieldName": "optional",
+              "propName": "optional"
             },
             {
               "name": "showError",
@@ -4467,7 +6216,8 @@
               },
               "default": "false",
               "description": "Shows error message when true.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -4476,7 +6226,8 @@
               },
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             },
             {
               "name": "dropzone",
@@ -4485,7 +6236,8 @@
               },
               "default": "false",
               "description": "Enables drag-and-drop zone UI.",
-              "fieldName": "dropzone"
+              "fieldName": "dropzone",
+              "propName": "dropzone"
             },
             {
               "name": "width",
@@ -4494,7 +6246,8 @@
               },
               "default": "\"full\"",
               "description": "Component width: `lg` (384px) or `full` (100%, default).",
-              "fieldName": "width"
+              "fieldName": "width",
+              "propName": "width"
             },
             {
               "name": "inverted",
@@ -4503,7 +6256,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             }
           ],
           "superclass": {
@@ -4555,6 +6309,15 @@
           "description": "**Internal component.** Displays an individual file within `nys-fileinput` with status and progress.\n\nRendered automatically by `nys-fileinput` for each selected file. Shows filename, upload status\n(pending/processing/done/error), progress bar during upload, and error messages. Remove button emits event.",
           "name": "NysFileItem",
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "filename",
@@ -4631,7 +6394,8 @@
               },
               "default": "\"\"",
               "description": "Name of the file being displayed.",
-              "fieldName": "filename"
+              "fieldName": "filename",
+              "propName": "filename"
             },
             {
               "name": "status",
@@ -4640,7 +6404,8 @@
               },
               "default": "\"pending\"",
               "description": "Upload status: `pending` (queued), `processing` (uploading), `done` (complete), `error` (failed).",
-              "fieldName": "status"
+              "fieldName": "status",
+              "propName": "status"
             },
             {
               "name": "progress",
@@ -4649,7 +6414,8 @@
               },
               "default": "0",
               "description": "Upload progress percentage (0-100). Only shown when status is `processing`.",
-              "fieldName": "progress"
+              "fieldName": "progress",
+              "propName": "progress"
             },
             {
               "name": "errorMessage",
@@ -4658,7 +6424,8 @@
               },
               "default": "\"\"",
               "description": "Error message displayed when status is `error`.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             }
           ],
           "superclass": {
@@ -4802,7 +6569,8 @@
               },
               "default": "\"\"",
               "description": "Agency name displayed as the footer heading.",
-              "fieldName": "agencyName"
+              "fieldName": "agencyName",
+              "propName": "agencyname"
             },
             {
               "name": "homepageLink",
@@ -4811,7 +6579,8 @@
               },
               "default": "\"\"",
               "description": "URL for the agency name link. If empty, name is not clickable.",
-              "fieldName": "homepageLink"
+              "fieldName": "homepageLink",
+              "propName": "homepagelink"
             }
           ],
           "superclass": {
@@ -4911,21 +6680,23 @@
             },
             {
               "kind": "field",
-              "name": "isMobileMenuOpen",
+              "name": "_isMobileMenuOpen",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
-              "default": "false"
+              "default": "false",
+              "description": "Internal state to track mobile menu open/closed status."
             },
             {
               "kind": "field",
-              "name": "hasLinkContent",
+              "name": "_hasLinkContent",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
-              "default": "false"
+              "default": "false",
+              "description": "Internal state to track if any navigation links are present in the slot."
             },
             {
               "kind": "method",
@@ -4983,7 +6754,8 @@
               },
               "default": "\"\"",
               "description": "Application name displayed prominently.",
-              "fieldName": "appName"
+              "fieldName": "appName",
+              "propName": "appname"
             },
             {
               "name": "agencyName",
@@ -4992,7 +6764,8 @@
               },
               "default": "\"\"",
               "description": "Agency name displayed below app name (or as main title if no appName).",
-              "fieldName": "agencyName"
+              "fieldName": "agencyName",
+              "propName": "agencyname"
             },
             {
               "name": "homepageLink",
@@ -5001,7 +6774,8 @@
               },
               "default": "\"\"",
               "description": "URL for the header title link. If empty, title is not clickable.",
-              "fieldName": "homepageLink"
+              "fieldName": "homepageLink",
+              "propName": "homepagelink"
             }
           ],
           "superclass": {
@@ -5144,7 +6918,8 @@
               },
               "default": "\"\"",
               "description": "Icon name from Material Symbols library. Required.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "ariaLabel",
@@ -5153,7 +6928,8 @@
               },
               "default": "\"\"",
               "description": "Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG.",
-              "fieldName": "ariaLabel"
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
             },
             {
               "name": "rotate",
@@ -5162,7 +6938,8 @@
               },
               "default": "\"0\"",
               "description": "Rotation in degrees. Applied via CSS `rotate`.",
-              "fieldName": "rotate"
+              "fieldName": "rotate",
+              "propName": "rotate"
             },
             {
               "name": "flip",
@@ -5171,7 +6948,8 @@
               },
               "default": "\"\"",
               "description": "Flip direction: `horizontal`, `vertical`, or empty for none.",
-              "fieldName": "flip"
+              "fieldName": "flip",
+              "propName": "flip"
             },
             {
               "name": "color",
@@ -5180,7 +6958,8 @@
               },
               "default": "\"\"",
               "description": "Icon color. Accepts any CSS color value. Defaults to `currentcolor`.",
-              "fieldName": "color"
+              "fieldName": "color",
+              "propName": "color"
             },
             {
               "name": "size",
@@ -5189,7 +6968,8 @@
               },
               "default": "\"md\"",
               "description": "Icon size. Semantic sizes: `xs`-`5xl`. Pixel sizes: `12`-`50`.",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             }
           ],
           "superclass": {
@@ -5327,6 +7107,20 @@
               },
               "privacy": "private",
               "default": "\"\""
+            },
+            {
+              "kind": "method",
+              "name": "_handleLabelClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
             }
           ],
           "attributes": [
@@ -5337,7 +7131,8 @@
               },
               "default": "\"\"",
               "description": "ID of the form element this label is associated with.",
-              "fieldName": "for"
+              "fieldName": "for",
+              "propName": "for"
             },
             {
               "name": "label",
@@ -5346,7 +7141,8 @@
               },
               "default": "\"\"",
               "description": "Label text displayed above the form field.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -5355,7 +7151,8 @@
               },
               "default": "\"\"",
               "description": "Helper text displayed below the label.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "flag",
@@ -5364,7 +7161,8 @@
               },
               "default": "\"\"",
               "description": "Flag type: `required` shows asterisk, `optional` shows \"(Optional)\".",
-              "fieldName": "flag"
+              "fieldName": "flag",
+              "propName": "flag"
             },
             {
               "name": "inverted",
@@ -5373,12 +7171,14 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "tooltip",
               "description": "Tooltip text shown on hover/focus of info icon next to label.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             }
           ],
           "superclass": {
@@ -5658,7 +7458,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "heading",
@@ -5667,7 +7468,8 @@
               },
               "default": "\"\"",
               "description": "Modal heading text. Required for accessibility.",
-              "fieldName": "heading"
+              "fieldName": "heading",
+              "propName": "heading"
             },
             {
               "name": "subheading",
@@ -5676,7 +7478,8 @@
               },
               "default": "\"\"",
               "description": "Secondary heading below the main heading.",
-              "fieldName": "subheading"
+              "fieldName": "subheading",
+              "propName": "subheading"
             },
             {
               "name": "open",
@@ -5685,7 +7488,8 @@
               },
               "default": "false",
               "description": "Controls modal visibility. Set to `true` to show.",
-              "fieldName": "open"
+              "fieldName": "open",
+              "propName": "open"
             },
             {
               "name": "mandatory",
@@ -5694,7 +7498,8 @@
               },
               "default": "false",
               "description": "Prevents dismissal via close button or Escape key. User must take an action.",
-              "fieldName": "mandatory"
+              "fieldName": "mandatory",
+              "propName": "mandatory"
             },
             {
               "name": "width",
@@ -5703,7 +7508,8 @@
               },
               "default": "\"md\"",
               "description": "Modal width: `sm` (400px), `md` (600px), or `lg` (800px).",
-              "fieldName": "width"
+              "fieldName": "width",
+              "propName": "width"
             }
           ],
           "superclass": {
@@ -5876,7 +7682,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -5885,7 +7692,8 @@
               },
               "default": "\"\"",
               "description": "Name attribute for form association.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "currentPage",
@@ -5894,7 +7702,8 @@
               },
               "default": "1",
               "description": "Currently active page (1-indexed). Clamped to valid range.",
-              "fieldName": "currentPage"
+              "fieldName": "currentPage",
+              "propName": "currentpage"
             },
             {
               "name": "totalPages",
@@ -5903,7 +7712,8 @@
               },
               "default": "1",
               "description": "Total number of pages. Must be at least 1.",
-              "fieldName": "totalPages"
+              "fieldName": "totalPages",
+              "propName": "totalpages"
             },
             {
               "name": "_twoBeforeLast",
@@ -5912,7 +7722,8 @@
               },
               "default": "false",
               "description": "Internal state for layout adjustments near the end.",
-              "fieldName": "_twoBeforeLast"
+              "fieldName": "_twoBeforeLast",
+              "propName": "_twobeforelast"
             }
           ],
           "superclass": {
@@ -5988,6 +7799,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "checked",
@@ -6119,6 +7939,39 @@
             },
             {
               "kind": "field",
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "other",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "showOtherError"
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "buttonGroup",
               "type": {
                 "text": "Record<string, NysRadiobutton>"
@@ -6143,10 +7996,30 @@
               "privacy": "public"
             },
             {
+              "kind": "field",
+              "name": "_handleResize",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_clearOtherState",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchClearErrorEvent",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "_emitChangeEvent",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_emitOtherInputEvent",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -6167,15 +8040,64 @@
               "kind": "method",
               "name": "_callInputHandling",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleTextInputBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_validateOtherAndEmitError",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
             }
           ],
           "events": [
+            {
+              "name": "nys-error-clear",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
             {
               "name": "nys-change",
               "type": {
                 "text": "CustomEvent"
               },
               "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
+            },
+            {
+              "name": "nys-other-input",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`."
             },
             {
               "name": "nys-focus",
@@ -6190,6 +8112,12 @@
                 "text": "Event"
               },
               "description": "Fired when radio loses focus."
+            },
+            {
+              "name": "nys-error",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
@@ -6200,7 +8128,8 @@
               },
               "default": "false",
               "description": "Whether this radio is selected. Only one per group can be checked.",
-              "fieldName": "checked"
+              "fieldName": "checked",
+              "propName": "checked"
             },
             {
               "name": "disabled",
@@ -6209,7 +8138,8 @@
               },
               "default": "false",
               "description": "Prevents interaction.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "required",
@@ -6218,7 +8148,8 @@
               },
               "default": "false",
               "description": "Marks group as required. Set on radiogroup, not individual radios.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "label",
@@ -6227,7 +8158,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text. Required for accessibility.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -6236,7 +8168,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "id",
@@ -6245,7 +8178,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -6254,7 +8188,8 @@
               },
               "default": "\"\"",
               "description": "Group name. Radios with same name are mutually exclusive.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "value",
@@ -6263,7 +8198,8 @@
               },
               "default": "\"\"",
               "description": "Value submitted when this radio is selected.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "inverted",
@@ -6272,7 +8208,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "form",
@@ -6281,7 +8218,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "size",
@@ -6290,7 +8228,8 @@
               },
               "default": "\"md\"",
               "description": "Radio size: `sm` (24px) or `md` (32px, default).",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             },
             {
               "name": "tile",
@@ -6299,7 +8238,26 @@
               },
               "default": "false",
               "description": "Renders as tile with larger clickable area.",
-              "fieldName": "tile"
+              "fieldName": "tile",
+              "propName": "tile"
+            },
+            {
+              "name": "other",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "other",
+              "propName": "other"
+            },
+            {
+              "name": "showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "showOtherError",
+              "propName": "showothererror"
             }
           ],
           "superclass": {
@@ -6356,6 +8314,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -6646,6 +8613,37 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleChildErrorClear",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -6656,7 +8654,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -6665,7 +8664,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission. Auto-populated from child radiobuttons.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "required",
@@ -6674,7 +8674,8 @@
               },
               "default": "false",
               "description": "Requires a selection before form submission.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "optional",
@@ -6683,7 +8684,8 @@
               },
               "default": "false",
               "description": "Shows \"Optional\" flag.",
-              "fieldName": "optional"
+              "fieldName": "optional",
+              "propName": "optional"
             },
             {
               "name": "showError",
@@ -6692,7 +8694,8 @@
               },
               "default": "false",
               "description": "Shows error message when true.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -6701,7 +8704,8 @@
               },
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             },
             {
               "name": "label",
@@ -6710,7 +8714,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text for the group.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -6719,7 +8724,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "tile",
@@ -6728,7 +8734,8 @@
               },
               "default": "false",
               "description": "Renders all radiobuttons as tiles with larger clickable area.",
-              "fieldName": "tile"
+              "fieldName": "tile",
+              "propName": "tile"
             },
             {
               "name": "tooltip",
@@ -6737,7 +8744,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "inverted",
@@ -6746,7 +8754,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "form",
@@ -6755,7 +8764,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with. Applied to all children.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "size",
@@ -6764,7 +8774,8 @@
               },
               "default": "\"md\"",
               "description": "Radio size for all children: `sm` (24px) or `md` (32px, default).",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             }
           ],
           "superclass": {
@@ -6902,7 +8913,8 @@
               },
               "default": "false",
               "description": "Prevents selection of this option.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "selected",
@@ -6911,7 +8923,8 @@
               },
               "default": "false",
               "description": "Pre-selects this option.",
-              "fieldName": "selected"
+              "fieldName": "selected",
+              "propName": "selected"
             },
             {
               "name": "value",
@@ -6920,7 +8933,8 @@
               },
               "default": "\"\"",
               "description": "Value submitted when this option is selected.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "label",
@@ -6929,7 +8943,8 @@
               },
               "default": "\"\"",
               "description": "Display text for the option. Auto-populated from slot content if not set.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "hidden",
@@ -6938,7 +8953,8 @@
               },
               "default": "false",
               "description": "Hides the option from the dropdown list.",
-              "fieldName": "hidden"
+              "fieldName": "hidden",
+              "propName": "hidden"
             }
           ],
           "superclass": {
@@ -6995,6 +9011,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -7299,7 +9324,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -7308,7 +9334,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "label",
@@ -7317,7 +9344,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text. Required for accessibility.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -7326,7 +9354,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "value",
@@ -7335,7 +9364,8 @@
               },
               "default": "\"\"",
               "description": "Currently selected option value.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "disabled",
@@ -7344,7 +9374,8 @@
               },
               "default": "false",
               "description": "Prevents interaction.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "required",
@@ -7353,7 +9384,8 @@
               },
               "default": "false",
               "description": "Marks as required. Shows \"Required\" flag and validates on blur.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "optional",
@@ -7362,7 +9394,8 @@
               },
               "default": "false",
               "description": "Shows \"Optional\" flag. Use when most fields are required.",
-              "fieldName": "optional"
+              "fieldName": "optional",
+              "propName": "optional"
             },
             {
               "name": "tooltip",
@@ -7371,7 +9404,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "form",
@@ -7380,7 +9414,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with when select is outside form element.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "inverted",
@@ -7389,7 +9424,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "showError",
@@ -7398,7 +9434,8 @@
               },
               "default": "false",
               "description": "Shows error message when true. Set by validation or manually.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -7407,7 +9444,8 @@
               },
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             },
             {
               "name": "width",
@@ -7416,7 +9454,8 @@
               },
               "default": "\"full\"",
               "description": "Select width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
-              "fieldName": "width"
+              "fieldName": "width",
+              "propName": "width"
             }
           ],
           "superclass": {
@@ -7529,7 +9568,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "href",
@@ -7538,7 +9578,8 @@
               },
               "default": "\"\"",
               "description": "Target element ID (with `#`). Defaults to `#main-content`.",
-              "fieldName": "href"
+              "fieldName": "href",
+              "propName": "href"
             }
           ],
           "superclass": {
@@ -7724,7 +9765,8 @@
               },
               "default": "false",
               "description": "Whether this step is currently being viewed. Set by parent stepper.",
-              "fieldName": "selected"
+              "fieldName": "selected",
+              "propName": "selected"
             },
             {
               "name": "current",
@@ -7733,7 +9775,8 @@
               },
               "default": "false",
               "description": "Marks the furthest reached step. Steps before this are navigable.",
-              "fieldName": "current"
+              "fieldName": "current",
+              "propName": "current"
             },
             {
               "name": "label",
@@ -7742,7 +9785,8 @@
               },
               "default": "\"\"",
               "description": "Step label text displayed alongside the step number.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "href",
@@ -7751,7 +9795,8 @@
               },
               "default": "\"\"",
               "description": "URL for page navigation when step is clicked. Optional for SPA routing.",
-              "fieldName": "href"
+              "fieldName": "href",
+              "propName": "href"
             },
             {
               "name": "isCompactExpanded",
@@ -7760,7 +9805,8 @@
               },
               "default": "false",
               "description": "Internal: Whether parent stepper's compact view is expanded.",
-              "fieldName": "isCompactExpanded"
+              "fieldName": "isCompactExpanded",
+              "propName": "iscompactexpanded"
             },
             {
               "name": "stepNumber",
@@ -7769,7 +9815,8 @@
               },
               "default": "0",
               "description": "Step number (1-indexed). Auto-assigned by parent stepper.",
-              "fieldName": "stepNumber"
+              "fieldName": "stepNumber",
+              "propName": "stepnumber"
             }
           ],
           "superclass": {
@@ -7943,7 +9990,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -7952,7 +10000,8 @@
               },
               "default": "\"\"",
               "description": "Name attribute for form association.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "label",
@@ -7961,7 +10010,8 @@
               },
               "default": "\"\"",
               "description": "Title displayed above the step counter.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "counterText",
@@ -7970,7 +10020,8 @@
               },
               "default": "\"initial\"",
               "description": "Progress text (e.g., \"Step 2 of 5\"). Auto-updated based on selection.",
-              "fieldName": "counterText"
+              "fieldName": "counterText",
+              "propName": "countertext"
             },
             {
               "name": "isCompactExpanded",
@@ -7979,7 +10030,8 @@
               },
               "default": "false",
               "description": "Whether compact mobile view is expanded to show all steps.",
-              "fieldName": "isCompactExpanded"
+              "fieldName": "isCompactExpanded",
+              "propName": "iscompactexpanded"
             }
           ],
           "superclass": {
@@ -8187,6 +10239,7 @@
             {
               "kind": "method",
               "name": "_onSortClick",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "columnIndex",
@@ -8241,12 +10294,50 @@
             {
               "kind": "method",
               "name": "downloadFile"
+            },
+            {
+              "kind": "method",
+              "name": "_emitColumnSortEvent",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "columnIndex",
+                  "type": {
+                    "text": "number"
+                  },
+                  "description": "Zero-based index of the sorted column."
+                },
+                {
+                  "name": "columnLabel",
+                  "type": {
+                    "text": "string"
+                  },
+                  "description": "The text label of the sorted column header."
+                },
+                {
+                  "name": "sortDirection",
+                  "type": {
+                    "text": "\"asc\" | \"desc\" | \"none\""
+                  },
+                  "description": "The new sort direction: \"asc\", \"desc\", or \"none\"."
+                }
+              ],
+              "description": "Dispatches the `nys-column-sort` custom event."
             }
           ],
           "events": [
             {
               "description": "Fired when the download button or sortable headers are clicked.",
               "name": "nys-click"
+            },
+            {
+              "description": "Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: \"asc\" | \"desc\" | \"none\" }",
+              "name": "nys-column-sort"
             }
           ],
           "attributes": [
@@ -8256,7 +10347,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -8264,7 +10356,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "striped",
@@ -8272,7 +10365,8 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "striped"
+              "fieldName": "striped",
+              "propName": "striped"
             },
             {
               "name": "sortable",
@@ -8280,7 +10374,8 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "sortable"
+              "fieldName": "sortable",
+              "propName": "sortable"
             },
             {
               "name": "bordered",
@@ -8288,7 +10383,8 @@
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "bordered"
+              "fieldName": "bordered",
+              "propName": "bordered"
             },
             {
               "name": "download",
@@ -8296,7 +10392,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "download"
+              "fieldName": "download",
+              "propName": "download"
             }
           ],
           "superclass": {
@@ -8356,6 +10453,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -8737,7 +10843,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -8746,7 +10853,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "label",
@@ -8755,7 +10863,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text. Required for accessibility.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -8764,7 +10873,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "placeholder",
@@ -8773,7 +10883,8 @@
               },
               "default": "\"\"",
               "description": "Placeholder text. Don't use as label replacement.",
-              "fieldName": "placeholder"
+              "fieldName": "placeholder",
+              "propName": "placeholder"
             },
             {
               "name": "value",
@@ -8782,7 +10893,8 @@
               },
               "default": "\"\"",
               "description": "Current textarea value.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "disabled",
@@ -8791,7 +10903,8 @@
               },
               "default": "false",
               "description": "Prevents interaction.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "readonly",
@@ -8800,7 +10913,8 @@
               },
               "default": "false",
               "description": "Makes textarea read-only but focusable.",
-              "fieldName": "readonly"
+              "fieldName": "readonly",
+              "propName": "readonly"
             },
             {
               "name": "required",
@@ -8809,7 +10923,8 @@
               },
               "default": "false",
               "description": "Marks as required. Shows \"Required\" flag and validates on blur.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "optional",
@@ -8818,7 +10933,8 @@
               },
               "default": "false",
               "description": "Shows \"Optional\" flag. Use when most fields are required.",
-              "fieldName": "optional"
+              "fieldName": "optional",
+              "propName": "optional"
             },
             {
               "name": "tooltip",
@@ -8827,7 +10943,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "inverted",
@@ -8836,7 +10953,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "form",
@@ -8845,7 +10963,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with when textarea is outside form element.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "maxlength",
@@ -8854,7 +10973,8 @@
               },
               "default": "null",
               "description": "Maximum character length.",
-              "fieldName": "maxlength"
+              "fieldName": "maxlength",
+              "propName": "maxlength"
             },
             {
               "name": "width",
@@ -8863,7 +10983,8 @@
               },
               "default": "\"full\"",
               "description": "Textarea width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
-              "fieldName": "width"
+              "fieldName": "width",
+              "propName": "width"
             },
             {
               "name": "rows",
@@ -8872,7 +10993,8 @@
               },
               "default": "4",
               "description": "Visible height in lines.",
-              "fieldName": "rows"
+              "fieldName": "rows",
+              "propName": "rows"
             },
             {
               "name": "resize",
@@ -8881,7 +11003,8 @@
               },
               "default": "\"vertical\"",
               "description": "Resize behavior: `vertical` (default, user can resize height), `none` (fixed size).",
-              "fieldName": "resize"
+              "fieldName": "resize",
+              "propName": "resize"
             },
             {
               "name": "showError",
@@ -8890,7 +11013,8 @@
               },
               "default": "false",
               "description": "Shows error message when true. Set by validation or manually.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -8899,7 +11023,8 @@
               },
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             }
           ],
           "superclass": {
@@ -8980,6 +11105,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -9137,6 +11271,16 @@
               "default": "null",
               "description": "Maximum character length.",
               "attribute": "maxlength"
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label. When set, assuming \"label\" isn't provided for private special cases (i.e., <checkbox other>).",
+              "attribute": "ariaLabel"
             },
             {
               "kind": "field",
@@ -9440,7 +11584,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -9449,7 +11594,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "type",
@@ -9458,7 +11604,8 @@
               },
               "default": "\"text\"",
               "description": "Input type: `text` (default), `email`, `number`, `password`, `search`, `tel` (auto-masked), `url`.",
-              "fieldName": "type"
+              "fieldName": "type",
+              "propName": "type"
             },
             {
               "name": "label",
@@ -9467,7 +11614,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text. Required for accessibility.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -9476,7 +11624,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "placeholder",
@@ -9485,7 +11634,8 @@
               },
               "default": "\"\"",
               "description": "Placeholder text. Don't use as label replacement.",
-              "fieldName": "placeholder"
+              "fieldName": "placeholder",
+              "propName": "placeholder"
             },
             {
               "name": "value",
@@ -9494,7 +11644,8 @@
               },
               "default": "\"\"",
               "description": "Current input value.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "disabled",
@@ -9503,7 +11654,8 @@
               },
               "default": "false",
               "description": "Prevents interaction.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "readonly",
@@ -9512,7 +11664,8 @@
               },
               "default": "false",
               "description": "Makes input read-only but focusable.",
-              "fieldName": "readonly"
+              "fieldName": "readonly",
+              "propName": "readonly"
             },
             {
               "name": "required",
@@ -9521,7 +11674,8 @@
               },
               "default": "false",
               "description": "Marks as required. Shows \"Required\" flag and validates on blur.",
-              "fieldName": "required"
+              "fieldName": "required",
+              "propName": "required"
             },
             {
               "name": "optional",
@@ -9530,7 +11684,8 @@
               },
               "default": "false",
               "description": "Shows \"Optional\" flag. Use when most fields are required.",
-              "fieldName": "optional"
+              "fieldName": "optional",
+              "propName": "optional"
             },
             {
               "name": "tooltip",
@@ -9539,7 +11694,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon.",
-              "fieldName": "tooltip"
+              "fieldName": "tooltip",
+              "propName": "tooltip"
             },
             {
               "name": "form",
@@ -9548,7 +11704,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with when input is outside form element.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "pattern",
@@ -9557,7 +11714,8 @@
               },
               "default": "\"\"",
               "description": "Regex pattern for validation. Shows error on mismatch.",
-              "fieldName": "pattern"
+              "fieldName": "pattern",
+              "propName": "pattern"
             },
             {
               "name": "maxlength",
@@ -9566,7 +11724,18 @@
               },
               "default": "null",
               "description": "Maximum character length.",
-              "fieldName": "maxlength"
+              "fieldName": "maxlength",
+              "propName": "maxlength"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label. When set, assuming \"label\" isn't provided for private special cases (i.e., <checkbox other>).",
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
             },
             {
               "name": "width",
@@ -9575,7 +11744,8 @@
               },
               "default": "\"full\"",
               "description": "Input width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).",
-              "fieldName": "width"
+              "fieldName": "width",
+              "propName": "width"
             },
             {
               "name": "step",
@@ -9584,7 +11754,8 @@
               },
               "default": "null",
               "description": "Step increment for `type=\"number\"`.",
-              "fieldName": "step"
+              "fieldName": "step",
+              "propName": "step"
             },
             {
               "name": "min",
@@ -9593,7 +11764,8 @@
               },
               "default": "null",
               "description": "Minimum value for `type=\"number\"`.",
-              "fieldName": "min"
+              "fieldName": "min",
+              "propName": "min"
             },
             {
               "name": "max",
@@ -9602,7 +11774,8 @@
               },
               "default": "null",
               "description": "Maximum value for `type=\"number\"`.",
-              "fieldName": "max"
+              "fieldName": "max",
+              "propName": "max"
             },
             {
               "name": "inverted",
@@ -9611,7 +11784,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "showError",
@@ -9620,7 +11794,8 @@
               },
               "default": "false",
               "description": "Shows error message when true. Set by validation or manually.",
-              "fieldName": "showError"
+              "fieldName": "showError",
+              "propName": "showerror"
             },
             {
               "name": "errorMessage",
@@ -9629,7 +11804,8 @@
               },
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
-              "fieldName": "errorMessage"
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
             }
           ],
           "superclass": {
@@ -9646,7 +11822,7 @@
               "lang": "html"
             },
             {
-              "title": "Email with validation",
+              "title": "Required Email",
               "code": "<nys-textinput type=\"email\" label=\"Email Address\" required></nys-textinput>",
               "lang": "html"
             },
@@ -9712,6 +11888,15 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
+            },
             {
               "kind": "field",
               "name": "id",
@@ -9870,7 +12055,12 @@
             },
             {
               "kind": "method",
-              "name": "_handleChange",
+              "name": "_handleClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSliderClick",
               "privacy": "private",
               "parameters": [
                 {
@@ -9926,7 +12116,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "name",
@@ -9935,7 +12126,8 @@
               },
               "default": "\"\"",
               "description": "Name for form submission.",
-              "fieldName": "name"
+              "fieldName": "name",
+              "propName": "name"
             },
             {
               "name": "value",
@@ -9944,7 +12136,8 @@
               },
               "default": "\"\"",
               "description": "Value submitted when toggle is on.",
-              "fieldName": "value"
+              "fieldName": "value",
+              "propName": "value"
             },
             {
               "name": "label",
@@ -9953,7 +12146,8 @@
               },
               "default": "\"\"",
               "description": "Visible label text.",
-              "fieldName": "label"
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "description",
@@ -9962,7 +12156,8 @@
               },
               "default": "\"\"",
               "description": "Helper text below label. Use slot for custom HTML.",
-              "fieldName": "description"
+              "fieldName": "description",
+              "propName": "description"
             },
             {
               "name": "form",
@@ -9971,7 +12166,8 @@
               },
               "default": "null",
               "description": "Form `id` to associate with.",
-              "fieldName": "form"
+              "fieldName": "form",
+              "propName": "form"
             },
             {
               "name": "checked",
@@ -9980,7 +12176,8 @@
               },
               "default": "false",
               "description": "Whether toggle is on.",
-              "fieldName": "checked"
+              "fieldName": "checked",
+              "propName": "checked"
             },
             {
               "name": "disabled",
@@ -9989,7 +12186,8 @@
               },
               "default": "false",
               "description": "Prevents interaction.",
-              "fieldName": "disabled"
+              "fieldName": "disabled",
+              "propName": "disabled"
             },
             {
               "name": "noIcon",
@@ -9998,7 +12196,8 @@
               },
               "default": "false",
               "description": "Hides check/close icon inside toggle knob.",
-              "fieldName": "noIcon"
+              "fieldName": "noIcon",
+              "propName": "noicon"
             },
             {
               "name": "inverted",
@@ -10007,7 +12206,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "size",
@@ -10016,7 +12216,8 @@
               },
               "default": "\"md\"",
               "description": "Toggle size: `sm` or `md` (default).",
-              "fieldName": "size"
+              "fieldName": "size",
+              "propName": "size"
             }
           ],
           "superclass": {
@@ -10389,7 +12590,8 @@
               },
               "default": "\"\"",
               "description": "Unique identifier. Auto-generated if not provided.",
-              "fieldName": "id"
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "text",
@@ -10398,7 +12600,8 @@
               },
               "default": "\"\"",
               "description": "Tooltip content text. Required.",
-              "fieldName": "text"
+              "fieldName": "text",
+              "propName": "text"
             },
             {
               "name": "inverted",
@@ -10407,7 +12610,8 @@
               },
               "default": "false",
               "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted"
+              "fieldName": "inverted",
+              "propName": "inverted"
             },
             {
               "name": "for",
@@ -10416,13 +12620,15 @@
               },
               "default": "\"\"",
               "description": "ID of the trigger element to attach this tooltip to. Required.",
-              "fieldName": "for"
+              "fieldName": "for",
+              "propName": "for"
             },
             {
               "name": "position",
               "description": "Preferred position relative to trigger. Auto-adjusts if space is insufficient.",
               "default": "null (auto-positioned based on available space)",
-              "fieldName": "position"
+              "fieldName": "position",
+              "propName": "position"
             }
           ],
           "superclass": {
@@ -10552,7 +12758,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.\n\nPlace as the first element in `<body>`. Includes \"official site\" trust indicator, NY.gov logo,\nsite search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`\nto remove features if not applicable.",
+          "description": "",
           "name": "NysUnavHeader",
           "members": [
             {
@@ -10622,16 +12828,17 @@
                 "text": "string"
               },
               "default": "\"\"",
+              "description": "The URL endpoint of the search, make sure to include the query param.",
               "attribute": "searchUrl"
             },
             {
               "kind": "field",
               "name": "languages",
               "type": {
-                "text": "[string, string][]"
+                "text": "Language[]"
               },
-              "privacy": "private",
-              "default": "[ [\"English\", \"\"], [\"Español\", \"es\"], [\"中文\", \"zh\"], [\"繁體中文\", \"zh-traditional\"], [\"Русский\", \"ru\"], [\"יידיש\", \"yi\"], [\"বাংলা\", \"bn\"], [\"한국어\", \"ko\"], [\"Kreyòl Ayisyen\", \"ht\"], [\"Italiano\", \"it\"], [\"العربية\", \"ar\"], [\"Polski\", \"pl\"], [\"Français\", \"fr\"], [\"اردو\", \"ur\"], ]",
+              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
+              "description": "The list of languages this site can be translated to, default to use Smartling",
               "attribute": "languages"
             },
             {
@@ -10663,6 +12870,19 @@
               "kind": "method",
               "name": "_toggleSearchDropdown",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_handleLanguageSelect",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "language",
+                  "type": {
+                    "text": "Language"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -10722,7 +12942,8 @@
               },
               "default": "false",
               "description": "Internal: Whether trust bar panel is expanded.",
-              "fieldName": "trustbarVisible"
+              "fieldName": "trustbarVisible",
+              "propName": "trustbarvisible"
             },
             {
               "name": "searchDropdownVisible",
@@ -10731,7 +12952,8 @@
               },
               "default": "false",
               "description": "Internal: Whether search dropdown is visible (mobile).",
-              "fieldName": "searchDropdownVisible"
+              "fieldName": "searchDropdownVisible",
+              "propName": "searchdropdownvisible"
             },
             {
               "name": "languageVisible",
@@ -10740,7 +12962,8 @@
               },
               "default": "false",
               "description": "Internal: Whether language dropdown is visible.",
-              "fieldName": "languageVisible"
+              "fieldName": "languageVisible",
+              "propName": "languagevisible"
             },
             {
               "name": "isSearchFocused",
@@ -10749,7 +12972,8 @@
               },
               "default": "false",
               "description": "Internal: Whether search input is focused.",
-              "fieldName": "isSearchFocused"
+              "fieldName": "isSearchFocused",
+              "propName": "issearchfocused"
             },
             {
               "name": "hideTranslate",
@@ -10758,7 +12982,8 @@
               },
               "default": "false",
               "description": "Hides the translation dropdown.",
-              "fieldName": "hideTranslate"
+              "fieldName": "hideTranslate",
+              "propName": "hidetranslate"
             },
             {
               "name": "hideSearch",
@@ -10767,7 +12992,8 @@
               },
               "default": "false",
               "description": "Hides the search functionality.",
-              "fieldName": "hideSearch"
+              "fieldName": "hideSearch",
+              "propName": "hidesearch"
             },
             {
               "name": "searchUrl",
@@ -10775,15 +13001,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "fieldName": "searchUrl"
+              "description": "The URL endpoint of the search, make sure to include the query param.",
+              "fieldName": "searchUrl",
+              "propName": "searchurl"
             },
             {
               "name": "languages",
               "type": {
-                "text": "[string, string][]"
+                "text": "Language[]"
               },
-              "default": "[ [\"English\", \"\"], [\"Español\", \"es\"], [\"中文\", \"zh\"], [\"繁體中文\", \"zh-traditional\"], [\"Русский\", \"ru\"], [\"יידיש\", \"yi\"], [\"বাংলা\", \"bn\"], [\"한국어\", \"ko\"], [\"Kreyòl Ayisyen\", \"ht\"], [\"Italiano\", \"it\"], [\"العربية\", \"ar\"], [\"Polski\", \"pl\"], [\"Français\", \"fr\"], [\"اردو\", \"ur\"], ]",
-              "fieldName": "languages"
+              "default": "[ { code: \"en\", label: \"English\" }, { code: \"es\", label: \"Español\" }, { code: \"zh\", label: \"中文\" }, { code: \"zh-traditional\", label: \"繁體中文\" }, { code: \"yi\", label: \"יידיש\" }, { code: \"ru\", label: \"Русский\" }, { code: \"bn\", label: \"বাংলা\" }, { code: \"ko\", label: \"한국어\" }, { code: \"ht\", label: \"Kreyòl Ayisyen\" }, { code: \"it\", label: \"Italiano\" }, { code: \"ar\", label: \"العربية\" }, { code: \"pl\", label: \"Polski\" }, { code: \"fr\", label: \"Français\" }, { code: \"ur\", label: \"اردو\" }, ]",
+              "description": "The list of languages this site can be translated to, default to use Smartling",
+              "fieldName": "languages",
+              "propName": "languages"
             }
           ],
           "superclass": {
@@ -10791,20 +13021,7 @@
             "package": "lit"
           },
           "tagName": "nys-unavheader",
-          "customElement": true,
-          "summary": "Universal NYS header with trust bar, search, and translation. Required site-wide.",
-          "examples": [
-            {
-              "title": "Standard usage",
-              "code": "<nys-unavheader></nys-unavheader>\n<nys-globalheader>...</nys-globalheader>",
-              "lang": "html"
-            },
-            {
-              "title": "Without search",
-              "code": "<nys-unavheader hideSearch></nys-unavheader>",
-              "lang": "html"
-            }
-          ]
+          "customElement": true
         }
       ],
       "exports": [
@@ -10822,6 +13039,321 @@
           "declaration": {
             "name": "NysUnavHeader",
             "module": "packages/nys-unavheader/src/nys-unavheader.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-video/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-video/src/nys-video"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-video/src/nys-video.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "NysVideo",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "titleText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Title text for the thumbnail of the video",
+              "attribute": "titleText",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "videourl",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "attribute": "videourl"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"full\" | \"md\" | \"sm\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "type": {
+                "text": "\"lazy\" | \"eager\""
+              },
+              "default": "\"lazy\"",
+              "attribute": "loading"
+            },
+            {
+              "kind": "field",
+              "name": "starttime",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Time in seconds where playback begins. *",
+              "attribute": "starttime"
+            },
+            {
+              "kind": "field",
+              "name": "thumbnail",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Custom thumbnail image path.\nFalls back to YouTube's auto-generated thumbnail if not provided.",
+              "attribute": "thumbnail"
+            },
+            {
+              "kind": "field",
+              "name": "autoplay",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Triggers autoplay when the iframe loads",
+              "attribute": "autoplay"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents the video from being played",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_playerActive",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Tracks whether the user has clicked to load the player"
+            },
+            {
+              "kind": "field",
+              "name": "_announcement",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "\"\"",
+              "description": "Screen reader announcement text"
+            },
+            {
+              "kind": "field",
+              "name": "_adPlaying",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Tracks whether an ad is currently playing to suppress false \"Video is playing\" announcements"
+            },
+            {
+              "kind": "method",
+              "name": "_isValidYouTubeUrl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getVideoId",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getThumbnailUrl",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getEmbedUrl",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_announceVideoVO",
+              "privacy": "private",
+              "description": "Because I need to know if Youtube ADs are playing, I need to call YT's API.\nHence, the YT API setup below. The VO has 2 types of announcements:\n- \"Advertisement is playing\"\n- \"Video is playing\"\n\nYT IFrame Player API: https://developers.google.com/youtube/iframe_api_reference"
+            },
+            {
+              "kind": "method",
+              "name": "_handleThumbnailClick",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_renderAnnouncer",
+              "privacy": "private",
+              "description": "Render Helpers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_renderPlayIcon",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "titleText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Title text for the thumbnail of the video",
+              "fieldName": "titleText",
+              "propName": "titletext"
+            },
+            {
+              "name": "videourl",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Full YouTube URL — required. Component will not render if invalid.",
+              "fieldName": "videourl",
+              "propName": "videourl"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"full\" | \"md\" | \"sm\" | \"\""
+              },
+              "default": "\"\"",
+              "description": "Largest size for the video player.\nIf not set, size is determined automatically by viewport width.",
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "\"lazy\" | \"eager\""
+              },
+              "default": "\"lazy\"",
+              "fieldName": "loading",
+              "propName": "loading"
+            },
+            {
+              "name": "starttime",
+              "type": {
+                "text": "number"
+              },
+              "default": "0",
+              "description": "Time in seconds where playback begins. *",
+              "fieldName": "starttime",
+              "propName": "starttime"
+            },
+            {
+              "name": "thumbnail",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Custom thumbnail image path.\nFalls back to YouTube's auto-generated thumbnail if not provided.",
+              "fieldName": "thumbnail",
+              "propName": "thumbnail"
+            },
+            {
+              "name": "autoplay",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Triggers autoplay when the iframe loads",
+              "fieldName": "autoplay",
+              "propName": "autoplay"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents the video from being played",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-video",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-video",
+          "declaration": {
+            "name": "NysVideo",
+            "module": "packages/nys-video/src/nys-video.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVideo",
+          "declaration": {
+            "name": "NysVideo",
+            "module": "packages/nys-video/src/nys-video.ts"
           }
         }
       ]
