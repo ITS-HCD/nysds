@@ -1,6 +1,6 @@
 import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
-import { jsdocExamplePlugin } from "cem-plugin-jsdoc-example";
+import { cemExamplesPlugin } from "cem-plugin-examples";
 
 const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
@@ -52,6 +52,7 @@ export default {
   stencil: false,
   /** Provide custom plugins */
   plugins: [
+    cemExamplesPlugin(),
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
@@ -77,7 +78,6 @@ export default {
     },
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
-    jsdocExamplePlugin(),
 ],
   /**
    * Resolution options when using `dependencies: true`

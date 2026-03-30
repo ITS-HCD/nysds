@@ -51,6 +51,12 @@ export interface CEMCssPart {
   description?: string;
 }
 
+export interface CEMExample {
+  title: string;
+  code: string;
+  lang?: string;
+}
+
 export interface CEMDeclaration {
   kind: "class";
   name: string;
@@ -64,6 +70,7 @@ export interface CEMDeclaration {
   cssProperties?: CEMCssProperty[];
   cssParts?: CEMCssPart[];
   superclass?: { name: string; package?: string };
+  examples?: CEMExample[];
 }
 
 export interface CEMModule {

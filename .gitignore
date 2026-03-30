@@ -50,3 +50,6 @@ CLAUDE.md
 .mcp.json
 .claude/
 docs/
+
+# Ignore cloned plugin repos
+/cem-plugin-examples/
