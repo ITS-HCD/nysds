@@ -1,5 +1,6 @@
 import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
+import { cemExamplesPlugin } from "cem-plugin-examples";
 
 const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
@@ -51,9 +52,7 @@ export default {
   stencil: false,
   /** Provide custom plugins */
   plugins: [
-    // ── React wrappers ────────────────────────────────────────────────────────
-    // Generates packages/react/ automatically on every `npm run cem`.
-    // Consumers import from "@nysds/react" — no manual wrapper file required.
+    cemExamplesPlugin(),
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
