@@ -45,8 +45,8 @@ npm install @nysds/styles
 Import components individually:
 
 ```javascript
-import '@nysds/components/nys-button';
-import '@nysds/components/nys-alert';
+import '@nysds/nys-button';
+import '@nysds/nys-alert';
 ```
 
 Or import all components:

@@ -30,7 +30,7 @@ export function registerPrompts(server: McpServer): void {
 
 4. **Validation**: You can validate component usage to ensure correct attribute and property usage.
 
-5. **Framework Integration**: You can provide setup guides for various frameworks (React, Angular, Vue, .NET, Drupal).
+5. **Framework Integration**: You can provide setup guides for various frameworks (React, Angular, .NET, Drupal, Vanilla JS).
 
 ## Best Practices
 

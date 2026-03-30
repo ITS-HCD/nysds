@@ -63,7 +63,7 @@ export class MyComponent {}
 Import components in the component or module where they're used:
 
 ```typescript
-import '@nysds/components/nys-button';
+import '@nysds/nys-button';
 ```
 
 ```html

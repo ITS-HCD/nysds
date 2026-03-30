@@ -25,8 +25,8 @@ import '@nysds/styles/dist/nysds-full.min.css';
 Import components and use them in JSX:
 
 ```tsx
-import '@nysds/components/nys-button';
-import '@nysds/components/nys-alert';
+import '@nysds/nys-button';
+import '@nysds/nys-alert';
 
 function App() {
   return (

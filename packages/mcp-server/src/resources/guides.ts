@@ -21,53 +21,49 @@ export function registerGuideResources(server: McpServer): void {
     async () => {
       const guide = `# NYSDS Installation Guide
 
-## Quick Start
-
-Install the NYSDS components package:
+## 1. Install packages
 
 \`\`\`bash
-npm install @nysds/components
+npm install @nysds/components @nysds/styles
 \`\`\`
 
-## Import Components
+## 2. Load styles
 
-### Option 1: Import All Components
+NYSDS components require CSS variables to render correctly. Choose the right stylesheet:
+
+**New project** — includes a CSS reset, typography, and utility/layout classes:
+\`\`\`css
+@import '@nysds/styles/full';
+\`\`\`
+
+**Existing project** — loads only the CSS variables that style the components:
+\`\`\`css
+@import '@nysds/styles';
+\`\`\`
+
+## 3. Import and use components
+
+\`\`\`javascript
+import '@nysds/nys-button';
+import '@nysds/nys-alert';
+\`\`\`
+
+Or import all components:
 
 \`\`\`javascript
 import '@nysds/components';
 \`\`\`
 
-### Option 2: Import Individual Components
-
-\`\`\`javascript
-import '@nysds/components/nys-button';
-import '@nysds/components/nys-alert';
-\`\`\`
-
-## Include Styles
-
-Import the base CSS for design tokens:
-
-\`\`\`css
-@import '@nysds/components/dist/styles.css';
-\`\`\`
-
-## Usage
-
-Once imported, use components as HTML elements:
+Then use them in HTML:
 
 \`\`\`html
-<nys-button label="Submit" variant="primary"></nys-button>
-<nys-alert type="success">Operation completed successfully!</nys-alert>
+<nys-button label="Submit" variant="filled"></nys-button>
+<nys-alert type="info">This is an informational message.</nys-alert>
 \`\`\`
 
 ## Framework Integration
 
-For framework-specific setup (React, Angular, Vue, etc.), use the \`setup_framework\` tool.
-
-## Browser Support
-
-NYSDS components support all modern browsers (Chrome, Firefox, Safari, Edge).
+For framework-specific setup, use the \`get_guide\` tool with \`topic: "framework"\` and a \`framework\` parameter (angular, react, dotnet, drupal, or vanilla).
 
 ## Resources
 

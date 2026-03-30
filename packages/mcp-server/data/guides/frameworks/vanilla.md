@@ -39,7 +39,7 @@ You can also import individual components to reduce bundle size:
 
 ```html
 <script type="module">
-  import '@nysds/components/nys-button';
-  import '@nysds/components/nys-alert';
+  import '@nysds/nys-button';
+  import '@nysds/nys-alert';
 </script>
 ```
