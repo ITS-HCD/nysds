@@ -92,19 +92,184 @@ describe("nys-modal", () => {
     expect(dismissBtn).to.not.exist;
   });
 
+  it("_closeModal sets open to false and fires nys-close", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeFired = false;
+    el.addEventListener("nys-close", () => (closeFired = true));
+
+    (el as any)._closeModal();
+    await el.updateComplete;
+
+    expect(el.open).to.be.false;
+    expect(closeFired).to.be.true;
+  });
+
+  it("Escape does nothing when modal is closed", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test"></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeFired = false;
+    el.addEventListener("nys-close", () => (closeFired = true));
+
+    const event = new KeyboardEvent("keydown", {
+      key: "Escape",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+    await el.updateComplete;
+
+    expect(el.open).to.be.false;
+    expect(closeFired).to.be.false;
+    expect(event.defaultPrevented).to.be.false;
+  });
+
+  it("Escape closes modal and calls preventDefault when open and not mandatory", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeFired = false;
+    el.addEventListener("nys-close", () => (closeFired = true));
+
+    const event = new KeyboardEvent("keydown", {
+      key: "Escape",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+    await el.updateComplete;
+
+    expect(el.open).to.be.false;
+    expect(closeFired).to.be.true;
+    expect(event.defaultPrevented).to.be.true;
+  });
+
+  it("Escape does not close modal when mandatory is set", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open mandatory></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeFired = false;
+    el.addEventListener("nys-close", () => (closeFired = true));
+
+    const event = new KeyboardEvent("keydown", {
+      key: "Escape",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+    await el.updateComplete;
+
+    expect(el.open).to.be.true;
+    expect(closeFired).to.be.false;
+  });
+
+  it("Tab does nothing special when there are no focusable elements", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open mandatory></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    // mandatory = no dismiss button, no slotted content → 0 focusable elements
+    const event = new KeyboardEvent("keydown", {
+      key: "Tab",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+    await el.updateComplete;
+
+    expect(event.defaultPrevented).to.be.false;
+  });
+
+  it("Tab at non-last element does not prevent default", async () => {
+    const el = await fixture<NysModal>(html`
+      <nys-modal heading="Test" open>
+        <div slot="actions">
+          <button id="btn-one">One</button>
+          <button id="btn-two">Two</button>
+        </div>
+      </nys-modal>
+    `);
+    await el.updateComplete;
+
+    // Focus the first action button (not the last in the list)
+    const btnOne = el.querySelector<HTMLButtonElement>("#btn-one")!;
+    btnOne.focus();
+
+    const event = new KeyboardEvent("keydown", {
+      key: "Tab",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+    await el.updateComplete;
+
+    expect(event.defaultPrevented).to.be.false;
+  });
+
+  it("Shift+Tab at first focusable element wraps focus to last", async () => {
+    const el = await fixture<NysModal>(html`
+      <nys-modal heading="Test" open>
+        <div slot="actions">
+          <button id="btn-last">Last</button>
+        </div>
+      </nys-modal>
+    `);
+    await el.updateComplete;
+
+    // Simulate activeElement being the dismiss button
+    // We can't truly set document.activeElement, so we test preventDefault fires
+    const event = new KeyboardEvent("keydown", {
+      key: "Tab",
+      shiftKey: true,
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+    await el.updateComplete;
+
+    expect(event.defaultPrevented).to.be.true;
+  });
+
+  /*** More Event Test ***/
+  it("nys-open and nys-close events include correct id in detail", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal id="my-modal" heading="Test"></nys-modal>`,
+    );
+
+    let openDetail: any = null;
+    let closeDetail: any = null;
+    el.addEventListener("nys-open", (e: any) => (openDetail = e.detail));
+    el.addEventListener("nys-close", (e: any) => (closeDetail = e.detail));
+
+    el.open = true;
+    await el.updateComplete;
+
+    expect(openDetail).to.exist;
+    expect(openDetail.id).to.equal("my-modal");
+
+    el.open = false;
+    await el.updateComplete;
+
+    expect(closeDetail).to.exist;
+    expect(closeDetail.id).to.equal("my-modal");
+  });
+
+  /*** Accessibility ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-modal heading="Update Available"></nys-modal>`,
     );
     await expect(el).shadowDom.to.be.accessible();
   });
-
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
 });

@@ -29,7 +29,7 @@ let textinputIdCounter = 0;
  * <nys-textinput label="Full Name" required></nys-textinput>
  * ```
  *
- * @example Email with validation
+ * @example Required Email
  * ```html
  * <nys-textinput type="email" label="Email Address" required></nys-textinput>
  * ```
@@ -49,6 +49,10 @@ let textinputIdCounter = 0;
 
 export class NysTextinput extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -104,6 +108,9 @@ export class NysTextinput extends LitElement {
 
   /** Maximum character length. */
   @property({ type: Number }) maxlength: number | null = null;
+
+  /** Accessible label. When set, assuming "label" isn't provided for private special cases (i.e., <checkbox other>). */
+  @property({ type: String }) ariaLabel = "";
 
   /**
    * Input width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default).
@@ -187,10 +194,16 @@ export class NysTextinput extends LitElement {
 
       if (input) {
         if (mask) {
-          input.maxLength = mask.length;
+          // Only apply mask length if user hasn't explicitly set maxlength
+          if (this.maxlength === null) {
+            input.maxLength = mask.length;
+          }
           this._updateOverlay(input.value, mask);
         } else {
-          input.removeAttribute("maxLength");
+          // Only remove if user hasn't explicitly set maxlength
+          if (this.maxlength === null) {
+            input.removeAttribute("maxLength");
+          }
           const overlay = this.shadowRoot?.querySelector(
             ".nys-textinput__mask-overlay",
           );
@@ -228,10 +241,10 @@ export class NysTextinput extends LitElement {
       this.required && (!this.value || this.value?.trim() === ""); // Check for blank as well
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true";
+      this._internals.ariaInvalid = "true";
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaRequired = "false";
+      this._internals.ariaInvalid = "false";
       this._internals.setValidity({});
       this._hasUserInteracted = false; // Reset eager/lazy checking
     }
@@ -436,7 +449,9 @@ export class NysTextinput extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   // Handle blur event
@@ -446,7 +461,9 @@ export class NysTextinput extends LitElement {
     }
     this._validate();
 
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
   private _validateButtonSlot(slotName: string) {
@@ -537,7 +554,9 @@ export class NysTextinput extends LitElement {
               aria-disabled="${this.disabled}"
               aria-label="${[this.label, this.description]
                 .filter(Boolean)
-                .join(" ")}"
+                .join(" ") ||
+              ifDefined(this.ariaLabel || undefined) ||
+              "Text input"}"
               .value=${this.value}
               placeholder=${ifDefined(
                 this.placeholder ? this.placeholder : undefined,

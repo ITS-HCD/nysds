@@ -2,6 +2,7 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-checkbox.scss?inline";
+import type { NysCheckbox } from "./nys-checkbox";
 
 let checkboxgroupIdCounter = 0;
 
@@ -29,6 +30,10 @@ let checkboxgroupIdCounter = 0;
 
 export class NysCheckboxgroup extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -73,6 +78,8 @@ export class NysCheckboxgroup extends LitElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   @state() private _slottedDescriptionText = "";
+  @state() private _hasOtherError = false;
+  @state() private _otherErrorCheckbox: NysCheckbox | null = null;
 
   private _internals: ElementInternals;
 
@@ -95,13 +102,19 @@ export class NysCheckboxgroup extends LitElement {
       this.id = `nys-checkboxgroup-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
     this.addEventListener("nys-change", this._handleCheckboxChange);
+    this.addEventListener("nys-other-input", this._handleOtherInput);
     this.addEventListener("invalid", this._handleInvalid);
+    this.addEventListener("nys-error", this._handleChildError);
+    this.addEventListener("nys-error-clear", this._handleChildErrorClear);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("nys-change", this._handleCheckboxChange);
+    this.removeEventListener("nys-other-input", this._handleOtherInput);
     this.removeEventListener("invalid", this._handleInvalid);
+    this.removeEventListener("nys-error", this._handleChildError);
+    this.removeEventListener("nys-error-clear", this._handleChildErrorClear);
   }
 
   firstUpdated() {
@@ -141,6 +154,12 @@ export class NysCheckboxgroup extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  private _hasAtLeastOneChecked() {
+    return Array.from(this.querySelectorAll("nys-checkbox")).some(
+      (checkbox: any) => checkbox.checked,
+    );
+  }
+
   private _setGroupExist() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
     checkboxes.forEach((checkbox: any) => {
@@ -166,31 +185,59 @@ export class NysCheckboxgroup extends LitElement {
 
   // Updates the required attribute of each checkbox in the group
   private async _manageRequire() {
-    if (this.required) {
-      const message = this.errorMessage || "Please select at least one option.";
-      const firstCheckbox = this.querySelector("nys-checkbox");
-      const firstCheckboxInput = firstCheckbox
-        ? await (firstCheckbox as any).getInputElement().catch(() => null)
-        : null;
+    if (!this.required) return;
 
-      const checkboxes = this.querySelectorAll("nys-checkbox");
-      // Loop through each child checkbox to see if one is checked.
-      const atLeastOneChecked = Array.from(checkboxes).some(
-        (checkbox: any) => checkbox.checked,
-      );
+    const message =
+      this.errorMessage || "You must make a selection to proceed.";
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as any[];
 
-      if (atLeastOneChecked) {
-        this._internals.setValidity({});
-        this.showError = false;
-      } else {
+    // Loop through each child checkbox to see if one is checked.
+    const atLeastOneChecked = this._hasAtLeastOneChecked();
+
+    const firstCheckboxInput = checkboxes
+      ? await checkboxes[0].getInputElement().catch(() => null)
+      : null;
+
+    // Always clear validation first to prevent message lingering
+    this._internals.setValidity({});
+    this.showError = false;
+
+    if (!atLeastOneChecked) {
+      // Only set valueMissing if there's no active "other" error
+      // If there IS an "other" error, keep that as the primary error
+      if (!this._hasOtherError) {
         this._internals.setValidity(
           { valueMissing: true },
           message,
-          firstCheckboxInput ? firstCheckboxInput : this,
+          firstCheckboxInput ?? this,
         );
+        this.showError = true;
+      } else {
+        // Re-set the other error since we just cleared everything
+        this._setCustomOtherError();
+        this.showError = true;
+      }
+    } else {
+      // At least one checkbox is checked
+      // If there's an "other" error, reset it since we cleared everything above
+      if (this._hasOtherError && this._otherErrorCheckbox) {
+        this._setCustomOtherError();
         this.showError = true;
       }
     }
+  }
+
+  private _setCustomOtherError() {
+    const textInput =
+      this._otherErrorCheckbox?.shadowRoot?.querySelector("nys-textinput");
+    const targetElement = textInput || this._otherErrorCheckbox;
+    this._internals.setValidity(
+      { customError: true },
+      "Please complete this field.",
+      targetElement as HTMLElement,
+    );
   }
 
   // Updates the size of each checkbox in the group
@@ -283,9 +330,33 @@ export class NysCheckboxgroup extends LitElement {
   private async _handleInvalid(event: Event) {
     event.preventDefault();
 
-    this.showError = true;
-    this._manageRequire(); // Refresh validation message
+    // Priority 1: Focus "other" text input when customError is set
+    if (this._internals.validity.customError) {
+      const checkboxes = Array.from(
+        this.querySelectorAll("nys-checkbox"),
+      ) as NysCheckbox[];
 
+      const otherCheckbox = checkboxes.find(
+        (checkbox) => checkbox.other && checkbox.checked,
+      );
+
+      if (otherCheckbox) {
+        const textInput =
+          otherCheckbox.shadowRoot?.querySelector("nys-textinput");
+
+        if (textInput) {
+          await (textInput as any).updateComplete;
+          (textInput as HTMLElement).focus();
+          return;
+        }
+      }
+    }
+
+    // Priority 2: Handle valueMissing (required validation)
+    this.showError = true;
+    await this._manageRequire(); // Refresh validation message
+
+    // Fallback behavior
     const firstCheckbox = this.querySelector("nys-checkbox");
     const firstCheckboxInput = firstCheckbox
       ? await (firstCheckbox as any).getInputElement()
@@ -300,7 +371,7 @@ export class NysCheckboxgroup extends LitElement {
         >;
         // Find the first element in the form that is invalid
         const firstInvalidElement = elements.find((element) => {
-          // If element is checkboxgroup, we see if anyone checkboxes within the group is checked to fulfill required constraint
+          // If element is <nys-checkboxgroup>, we see if anyone checkboxes within the group is checked to fulfill required constraint
           if (element.tagName.toLowerCase() === "nys-checkboxgroup") {
             const allCheckboxes = Array.from(
               this.querySelectorAll("nys-checkbox"),
@@ -339,7 +410,9 @@ export class NysCheckboxgroup extends LitElement {
   private _handleCheckboxChange(event: Event) {
     const customEvent = event as CustomEvent;
     const { name } = customEvent.detail;
-    const checkboxes = Array.from(this.querySelectorAll("nys-checkbox"));
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
 
     // Filter to only the checked ones and extract their values.
     const selectedValues = checkboxes
@@ -347,15 +420,113 @@ export class NysCheckboxgroup extends LitElement {
       .map((checkbox: any) => checkbox.value);
 
     this.name = name;
-
     this._internals.setFormValue(selectedValues.join(", "));
 
-    this._manageRequire();
+    // Check "other" inputs first (they take priority)
+    this._checkOtherInputs(checkboxes);
+
+    // Only run required validation if no "other" error is active
+    if (!this._hasOtherError) {
+      this._manageRequire();
+    }
+  }
+
+  private async _handleChildError(event: Event) {
+    event.stopPropagation();
+
+    const { sourceCheckbox } = (event as CustomEvent).detail;
+    if (!sourceCheckbox) return;
+
+    // Track which checkbox has the error
+    this._hasOtherError = true;
+    this._otherErrorCheckbox = sourceCheckbox;
+    this.showError = true;
+
+    this._setCustomOtherError();
+  }
+
+  private _handleChildErrorClear(event: Event) {
+    const customEvent = event as CustomEvent;
+    const sourceCheckbox = customEvent.detail?.sourceCheckbox;
+
+    if (
+      this._otherErrorCheckbox &&
+      sourceCheckbox !== this._otherErrorCheckbox
+    ) {
+      return;
+    }
+
+    // Clear the old validation state first so to prevent the old customError message from persisting
+    this._hasOtherError = false;
+    this._otherErrorCheckbox = null;
+    this._internals.setValidity({});
+    this.showError = false;
+
+    // Then check if we need to set a new required error
+    if (this.required && !this._hasAtLeastOneChecked()) {
+      this._manageRequire();
+    }
+  }
+
+  private _handleOtherInput() {
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+    const selectedValues = checkboxes
+      .filter((checkbox: any) => checkbox.checked)
+      .map((checkbox: any) => checkbox.value);
+    this._internals.setFormValue(selectedValues.join(", "));
+  }
+
+  private async _checkOtherInputs(checkboxes: NysCheckbox[]) {
+    for (const checkbox of checkboxes) {
+      if (checkbox.checked && checkbox.other) {
+        const value = checkbox.value.trim();
+
+        const hasUserInteracted = (checkbox as any)._hasUserInteracted;
+
+        if (!hasUserInteracted) {
+          // User hasn't interacted yet, skip validation
+          continue;
+        }
+
+        if (!value || value === "") {
+          this._hasOtherError = true;
+          this._otherErrorCheckbox = checkbox;
+          this._setCustomOtherError();
+          this.showError = true;
+          return;
+        }
+      }
+    }
+
+    // If we reached here, no other invalid "other" was found.
+    // Clear any previous "other" error
+    if (this._hasOtherError) {
+      this._hasOtherError = false;
+      this._otherErrorCheckbox = null;
+
+      // Re-check required constraint
+      if (this.required) {
+        this._manageRequire();
+      } else {
+        this._internals.setValidity({});
+        this.showError = false;
+      }
+    }
   }
 
   render() {
     return html`
-      <div class="nys-checkboxgroup">
+      <fieldset
+        aria-label="${this.label}${this._slottedDescriptionText
+          ? ` ${this._slottedDescriptionText}`
+          : this.description
+            ? ` ${this.description}`
+            : ""}"
+        class="nys-checkboxgroup"
+        role="radiogroup"
+      >
         <nys-label
           for=${this.id + "--native"}
           label=${this.label}
@@ -367,23 +538,14 @@ export class NysCheckboxgroup extends LitElement {
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>
         <div class="nys-checkboxgroup__content">
-          <fieldset>
-            <legend class="sr-only">
-              ${this.label}${this._slottedDescriptionText
-                ? ` ${this._slottedDescriptionText}`
-                : this.description
-                  ? ` ${this.description}`
-                  : ""}
-            </legend>
-            <slot></slot>
-          </fieldset>
+          <slot></slot>
         </div>
         <nys-errormessage
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
           .showDivider=${!this.tile}
         ></nys-errormessage>
-      </div>
+      </fieldset>
     `;
   }
 }

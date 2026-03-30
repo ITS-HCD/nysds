@@ -107,7 +107,7 @@ section + section {
     margin-top: var(--nys-space-300);
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
     section + section {
         margin-bottom: var(--nys-space-600);
     }
@@ -131,12 +131,14 @@ $ul-styles: (disc, circle, square);
 
 @for $i from 1 through list.length($ul-styles) {
     $selector: "ul";
+
     @for $j from 2 through $i {
         $selector: $selector + " ul";
     }
 
     #{$selector} {
         list-style-type: list.nth($ul-styles, $i);
+
         @if $i > 1 {
             padding-left: var(--nys-space-200);
         }
@@ -148,12 +150,14 @@ $ol-styles: (decimal, lower-alpha, lower-roman);
 
 @for $i from 1 through list.length($ol-styles) {
     $selector: "ol";
+
     @for $j from 2 through $i {
         $selector: $selector + " ol";
     }
 
     #{$selector} {
         list-style-type: list.nth($ol-styles, $i);
+
         @if $i > 1 {
             padding-left: var(--nys-space-200);
         }
@@ -167,7 +171,7 @@ li {
 }
 
 li::marker {
-    color: var(--nys-color-theme-primary, #000);
+    color: var(--nys-color-theme-primary, #000000);
 }
 
 /* --- Links --- */

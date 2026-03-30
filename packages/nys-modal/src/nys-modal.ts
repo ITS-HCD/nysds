@@ -137,19 +137,8 @@ export class NysModal extends LitElement {
 
   private async _restorePrevFocused() {
     const prev = this._prevFocusedElement;
+    prev?.focus();
 
-    if (prev && prev.tagName.toLowerCase() === "nys-button") {
-      const nysButton = prev as HTMLElement & {
-        getButtonElement: () => Promise<HTMLButtonElement>;
-      };
-      const innerBtn = await nysButton.getButtonElement();
-      if (innerBtn) {
-        innerBtn.focus();
-        return;
-      }
-    } else {
-      this._prevFocusedElement?.focus();
-    }
     this._prevFocusedElement = null;
   }
 
@@ -302,14 +291,15 @@ export class NysModal extends LitElement {
         // Laying out the starting (i.e. dismiss btn) and ending elements for looping focus elements
         const firstFocusableEl = focusableElements[0];
         const lastFocusableEl = focusableElements[focusableElements.length - 1];
-        let active = document.activeElement as HTMLElement | null;
-        let activeIndex = focusableElements.indexOf(active as HTMLElement);
+        let activeElement = document.activeElement as HTMLElement | null;
+        let activeIndex = focusableElements.indexOf(
+          activeElement as HTMLElement,
+        );
 
         /**
          * Move focus backward when Shift+Tab is pressed.
          * Focus goes to the previous element in focusableElements.
-         * If currently at the first element, wrap around to the last element.
-         * For <nys-button>, focus the internal button. For other elements, focus directly.
+         * If currently at the first element, wrap around to the last element and focus directly.
          */
         if (e.shiftKey) {
           e.preventDefault();
@@ -320,33 +310,12 @@ export class NysModal extends LitElement {
           }
 
           const prevElement = focusableElements[prevIndex];
-          const isNysButton =
-            focusableElements[prevIndex].tagName.toLowerCase() === "nys-button";
-
-          // When users slot in "nys-button", we have to call focus for the native button within its shadowDOM.
-          // Hence the condition statement below
-          if (isNysButton) {
-            const nysButton = prevElement as HTMLElement & {
-              getButtonElement: () => Promise<HTMLButtonElement>;
-            };
-            const innerBtn = await nysButton.getButtonElement();
-            innerBtn?.focus();
-          } else {
-            prevElement.focus();
-          }
+          prevElement.focus();
         } else {
           // Tab (go back to first focusable element if we're at last)
-          if (active === lastFocusableEl) {
+          if (activeElement === lastFocusableEl) {
             e.preventDefault();
-            if (firstFocusableEl.tagName.toLowerCase() === "nys-button") {
-              const nysButton = firstFocusableEl as HTMLElement & {
-                getButtonElement: () => Promise<HTMLButtonElement>;
-              };
-              const innerBtn = await nysButton.getButtonElement();
-              innerBtn?.focus();
-            } else {
-              firstFocusableEl.focus();
-            }
+            firstFocusableEl.focus();
           }
         }
       }

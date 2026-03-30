@@ -5,8 +5,10 @@
   --_nys-button-border-radius--start: var(--nys-radius-xl, 12px);
   --_nys-button-border-radius--end: var(--nys-radius-xl, 12px);
   --_nys-button-padding--y: calc(var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
   --_nys-button-gap: var(--nys-space-100, 8px);
   --_nys-button-justify-content: center;
@@ -22,21 +24,18 @@
       var(--nys-color-text-reverse, #ffffff));
   --_nys-button-border-color: var(--nys-button-border-color,
       var(--nys-color-theme, #154973));
-
   --_nys-button-background-color--hover: var(--nys-button-background-color--hover,
       var(--nys-color-theme-strong, #0e324f));
   --_nys-button-color--hover: var(--nys-button-color--hover,
       var(--nys-color-text-reverse, #ffffff));
   --_nys-button-border-color--hover: var(--nys-button-border-color--hover,
       var(--nys-color-theme-strong, #0e324f));
-
   --_nys-button-background-color--active: var(--nys-button-background-color--active,
       var(--nys-color-theme-stronger, #081b2b));
   --_nys-button-color--active: var(--nys-button-color--active,
       var(--nys-color-text-reverse, #ffffff));
   --_nys-button-border-color--active: var(--nys-button-border-color--active,
       var(--nys-color-theme-stronger, #081b2b));
-
   --_nys-button-background-color--disabled: var(--nys-color-neutral-10,
       #f6f6f6);
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
@@ -55,30 +54,37 @@
         sans-serif));
 
   display: inline-flex;
+  width: fit-content;
 }
 
 /* Sizes */
 :host([size="sm"]) {
   --_nys-button-height: var(--nys-size-500, 40px);
   --_nys-button-padding--y: calc(var(--nys-space-100, 8px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
 }
 
 :host([size="md"]) {
   --_nys-button-height: var(--nys-size-600, 48px);
   --_nys-button-padding--y: calc(var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
 }
 
 :host([size="lg"]) {
   --_nys-button-height: var(--nys-size-700, 56px);
   --_nys-button-padding--y: calc(var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(var(--nys-space-300, 24px) - var(--nys-border-width-md, 2px));
+
   /* remove calc when SASS'd */
 }
 
@@ -107,23 +113,17 @@
       var(--nys-color-theme-strong, #0e324f));
   --_nys-button-color--hover: var(--nys-button-color--hover,
       var(--nys-color-text-reverse, #ffffff));
-  --_nys-button-border-color: var(--nys-button-border-color,
-      var(--nys-color-transparent, #ffffff00));
 
   /* Filled - Pressed/Active */
   --_nys-button-background-color--active: var(--nys-button-background-color--active,
       var(--nys-color-theme-stronger, #081b2b));
   --_nys-button-color--active: var(--nys-button-color--active,
       var(--nys-color-text-reverse, #ffffff));
-  --_nys-button-border-color: var(--nys-button-border-color,
-      var(--nys-color-transparent, #ffffff00));
 
   /* Filled - Disabled */
   --_nys-button-background-color--disabled: var(--nys-color-neutral-10,
       #f6f6f6);
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-button-border-color: var(--nys-button-border-color,
-      var(--nys-color-transparent, #ffffff00));
 }
 
 /* Outline */
@@ -244,19 +244,16 @@
       var(--nys-color-neutral-100, #d0d0ce));
   --_nys-button-color--hover: var(--nys-button-color--hover,
       var(--nys-color-text, #1b1b1b));
-  --_nys-button-border-color--disabled: var(--nys-color-transparent, #ffffff00);
 
   /* Filled Inverted - Pressed/Active */
   --_nys-button-background-color--active: var(--nys-button-background-color--active,
       var(--nys-color-neutral-300, #a7a9ab));
   --_nys-button-color--active: var(--nys-button-color--active,
       var(--nys-color-text, #1b1b1b));
-  --_nys-button-border-color--disabled: var(--nys-color-transparent, #ffffff00);
 
   /* Filled Inverted - Disabled */
   --_nys-button-background-color--disabled: var(--nys-color-text, #1b1b1b);
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #62666a);
-  --_nys-button-border-color--disabled: var(--nys-color-transparent, #ffffff00);
 }
 
 /* Outline Inverted */
@@ -347,7 +344,7 @@
 
   /* Ghost Inverted - Hover */
   --_nys-button-background-color--hover: var(--nys-button-background-color--hover,
-      var(--nys-color-white-transparent-100, #ffffff1a));
+      var(--nys-color-white-transparent-200, #ffffff33));
   --_nys-button-color--hover: var(--nys-button-color--hover,
       var(--nys-color-text-reverse, #ffffff));
   --_nys-button-border-color--hover: var(--nys-button-border-color--hover,
@@ -355,7 +352,7 @@
 
   /* Ghost Inverted - Pressed/Active */
   --_nys-button-background-color--active: var(--nys-button-background-color--active,
-      var(--nys-color-white-transparent-200, #ffffff33));
+      var(--nys-color-white-transparent-300, #ffffff4d));
   --_nys-button-color--active: var(--nys-button-color--active,
       var(--nys-color-text-reverse, #ffffff));
   --_nys-button-border-color--active: var(--nys-button-border-color--active,
@@ -366,6 +363,10 @@
       #ffffff00);
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #62666a);
   --_nys-button-border-color--disabled: var(--nys-color-transparent, #ffffff00);
+}
+
+:host([inverted]) {
+  --_nys-button-outline-color: var(--nys-color-focus-reverse, #7aa5e7);
 }
 
 /* Circle */
@@ -380,6 +381,7 @@
 .nys-button {
   width: var(--_nys-button-width);
   min-height: var(--_nys-button-height);
+
   /* set every corner individually */
   border-start-start-radius: var(--_nys-button-border-radius--start);
   border-end-start-radius: var(--_nys-button-border-radius--start);

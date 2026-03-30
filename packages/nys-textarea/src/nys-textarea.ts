@@ -36,6 +36,10 @@ let textareaIdCounter = 0;
 
 export class NysTextarea extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -176,10 +180,10 @@ export class NysTextarea extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true";
+      this._internals.ariaInvalid = "true";
       this._internals.setValidity({ valueMissing: true }, message, textarea);
     } else {
-      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.ariaInvalid = "false"; // Reset when valid
       this._internals.setValidity({});
       this._hasUserInteracted = false; // Reset lazy validation when valid
     }
@@ -298,7 +302,9 @@ export class NysTextarea extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   // Handle blur event
@@ -308,7 +314,9 @@ export class NysTextarea extends LitElement {
     }
 
     this._validate();
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleSelect(e: Event) {
@@ -337,9 +345,9 @@ export class NysTextarea extends LitElement {
 
   render() {
     return html`
-      <label class="nys-textarea">
+      <div class="nys-textarea">
         <nys-label
-          for=${this.id + "--native"}
+          for=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
@@ -355,7 +363,7 @@ export class NysTextarea extends LitElement {
         <textarea
           class="nys-textarea__textarea ${this.resize}"
           name=${this.name}
-          id=${this.id + "--native"}
+          id=${this.id}
           .value=${this.value}
           ?disabled=${this.disabled}
           ?required=${this.required && !this.readonly}
@@ -380,7 +388,7 @@ export class NysTextarea extends LitElement {
           ?showError=${this.showError}
           errorMessage=${this._internals.validationMessage || this.errorMessage}
         ></nys-errormessage>
-      </label>
+      </div>
     `;
   }
 }

@@ -34,6 +34,10 @@ let toggleIdCounter = 0;
 
 export class NysToggle extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -131,18 +135,27 @@ export class NysToggle extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   // Handle blur event
   private _handleBlur() {
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
-  private _handleChange(e: Event) {
-    const { checked } = e.target as HTMLInputElement;
-    this.checked = checked;
+  private _handleClick() {
+    if (this.disabled) return;
+    this.checked = !this.checked;
     this._emitChangeEvent();
+  }
+
+  private _handleSliderClick(e: Event) {
+    e.stopPropagation();
+    this._handleClick();
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
@@ -158,10 +171,11 @@ export class NysToggle extends LitElement {
 
   render() {
     return html`
-      <label class="nys-toggle">
+      <div class="nys-toggle">
         <div class="nys-toggle__content">
           <div class="nys-toggle__toggle">
             <input
+              id=${this.id}
               type="checkbox"
               name="${ifDefined(this.name ? this.name : undefined)}"
               .value=${this.value}
@@ -172,12 +186,12 @@ export class NysToggle extends LitElement {
               aria-checked="${this.checked ? "true" : "false"}"
               aria-disabled="${this.disabled ? "true" : "false"}"
               aria-label="${this.label || "Toggle switch"}"
-              @change=${this._handleChange}
+              @click=${this._handleClick}
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
               @keydown=${this._handleKeyDown}
             />
-            <span class="slider">
+            <span class="slider" @click=${this._handleSliderClick}>
               <div class="knob">
                 ${this.noIcon
                   ? ""
@@ -191,6 +205,7 @@ export class NysToggle extends LitElement {
           </div>
           ${this.label &&
           html`<nys-label
+            for=${this.id}
             label=${this.label}
             description=${ifDefined(this.description || undefined)}
             ?inverted=${this.inverted}
@@ -200,7 +215,7 @@ export class NysToggle extends LitElement {
             >
           </nys-label> `}
         </div>
-      </label>
+      </div>
     `;
   }
 }

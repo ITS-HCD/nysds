@@ -67,6 +67,10 @@ let buttonIdCounter = 0;
 
 export class NysButton extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /**
    * Unique identifier. Auto-generated if not provided.
@@ -194,23 +198,6 @@ export class NysButton extends LitElement {
     | "_top"
     | "framename" = "_self";
 
-  public async getButtonElement(): Promise<HTMLElement | null> {
-    await this.updateComplete; // Wait for the component to finish rendering
-
-    // if it's a link button
-    const linkEl =
-      this.shadowRoot?.querySelector<HTMLAnchorElement>("a.nys-button") || null;
-    if (linkEl) return linkEl;
-
-    // Otherwise return the native button
-    const btnEl =
-      this.shadowRoot?.querySelector<HTMLButtonElement>("button.nys-button") ||
-      null;
-    if (btnEl) return btnEl;
-
-    return null;
-  }
-
   private _internals: ElementInternals;
 
   /**
@@ -271,13 +258,17 @@ export class NysButton extends LitElement {
    */
 
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleBlur() {
     const button = this.shadowRoot?.querySelector(".nys-button");
     button?.classList.remove("active-focus");
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleClick(event: Event) {
@@ -286,7 +277,9 @@ export class NysButton extends LitElement {
       return;
     }
     this._manageFormAction();
-    this.dispatchEvent(new Event("nys-click"));
+    this.dispatchEvent(
+      new Event("nys-click", { bubbles: true, composed: true }),
+    );
   }
 
   private _handleKeydown(e: KeyboardEvent) {
@@ -316,10 +309,14 @@ export class NysButton extends LitElement {
   }
 
   /**
-   * Vanilla JS & Native HTML keydown solution:
-   * The <nys-button onClick="doFunction();"></nys-button> onClick is an attribute here.
-   * Thus, we call it here. Otherwise, at this point, this.onClick is null as it isn't props, but a string attribute
-   * In vanilla HTML/JS, clicking with execute the attribute function, BUT now with keydown, hence this solution.
+   * A Solution to the Vanilla JS & Native HTML keydown:
+   *
+   * Handles inline onClick attributes set as strings in vanilla HTML
+   * (e.g. <nys-button onClick="doSomething()">).
+   *
+   * When onClick is set this way, it is a DOM attribute (not a property)
+   * so this.onClick remains null. Native clicks execute the attribute
+   * automatically, but keydown events do not, so we invoke it manually here.
    */
   private _handleAnyAttributeFunction() {
     const onClickAttr = this.getAttribute("onClick");

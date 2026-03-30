@@ -142,7 +142,7 @@ export class NysAccordionItem extends LitElement {
         aria-expanded=${this.expanded ? "true" : "false"}
         aria-controls=${contentId}
       >
-        <p class="nys-accordionitem__heading-title">${this.heading}</p>
+        <span class="nys-accordionitem__heading-title">${this.heading}</span>
         <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
       </button>
       </div>

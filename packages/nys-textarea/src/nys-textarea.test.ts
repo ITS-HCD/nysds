@@ -56,7 +56,7 @@ describe("nys-textarea", () => {
     );
 
     const label = el.shadowRoot?.querySelector("nys-label");
-    expect(label?.getAttribute("for")).to.equal("quote--native");
+    expect(label?.getAttribute("for")).to.equal("quote");
 
     const textarea = el.shadowRoot?.querySelector<HTMLTextAreaElement>(
       ".nys-textarea__textarea",
@@ -188,7 +188,7 @@ describe("nys-textarea", () => {
     expect(el.showError).to.be.false;
     expect(textarea.getAttribute("aria-invalid")).to.equal("false");
 
-    expect(el._internals.validity.valid).to.be.true;
+    expect((el as any)._internals.validity.valid).to.be.true;
   });
 
   it("resets value when native form reset is triggered", async () => {
@@ -210,6 +210,222 @@ describe("nys-textarea", () => {
     expect(el.value).to.equal("");
     expect(textarea.value).to.equal("");
   });
+
+  it("checkValidity returns true when textarea is valid", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    expect(el.checkValidity()).to.be.true;
+  });
+
+  it("checkValidity returns false when required field is empty", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea required></nys-textarea>`,
+    );
+    await el.updateComplete;
+    expect(el.checkValidity()).to.be.false;
+  });
+
+  it("_handleInvalid prevents default", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea required></nys-textarea>`,
+    );
+    await el.updateComplete;
+
+    const event = new Event("invalid", { cancelable: true });
+    el.dispatchEvent(event);
+
+    expect(event.defaultPrevented).to.be.true;
+  });
+
+  it("_handleInvalid sets showError via _validate()", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea required></nys-textarea>`,
+    );
+    await el.updateComplete;
+
+    expect(el.showError).to.be.false;
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
+  it("_handleInvalid enables eager validation on subsequent input", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea required></nys-textarea>`,
+    );
+    await el.updateComplete;
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    // Typing something still-invalid should keep showError true
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    textarea.dispatchEvent(new Event("input"));
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
+  it("_handleInvalid focuses the textarea when not inside a form", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea required></nys-textarea>`,
+    );
+    await el.updateComplete;
+
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    let focused = false;
+    textarea.focus = () => {
+      focused = true;
+    };
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(focused).to.be.true;
+  });
+
+  it("_handleInvalid focuses the textarea when it is the first invalid element in a form", async () => {
+    const container = await fixture<HTMLElement>(html`
+      <form>
+        <nys-textarea id="only" required></nys-textarea>
+      </form>
+    `);
+    const el = container.querySelector<NysTextarea>("#only")!;
+    await el.updateComplete;
+
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    let focused = false;
+    textarea.focus = () => {
+      focused = true;
+    };
+
+    el.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await el.updateComplete;
+
+    expect(focused).to.be.true;
+  });
+
+  it("_handleInvalid does not focus when a preceding invalid textarea exists in the same form", async () => {
+    const container = await fixture<HTMLElement>(html`
+      <form>
+        <nys-textarea id="first" required></nys-textarea>
+        <nys-textarea id="second" required></nys-textarea>
+      </form>
+    `);
+    const second = container.querySelector<NysTextarea>("#second")!;
+    await second.updateComplete;
+
+    const textarea = second.shadowRoot!.querySelector("textarea")!;
+    let focused = false;
+    textarea.focus = () => {
+      focused = true;
+    };
+
+    second.dispatchEvent(new Event("invalid", { cancelable: true }));
+    await second.updateComplete;
+
+    expect(focused).to.be.false;
+  });
+
+  it("_handleSelect updates value and fires nys-select with correct detail", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    await el.updateComplete;
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-select", (e: any) => (eventDetail = e.detail));
+
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    textarea.value = "selected text";
+    textarea.dispatchEvent(new Event("select", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(el.value).to.equal("selected text");
+    expect(eventDetail).to.exist;
+    expect(eventDetail.value).to.equal("selected text");
+    expect(eventDetail.id).to.equal(el.id);
+  });
+
+  it("_handleSelect fires nys-select with empty value when nothing is selected", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea value="some text"></nys-textarea>`,
+    );
+    await el.updateComplete;
+
+    let eventDetail: any = null;
+    el.addEventListener("nys-select", (e: any) => (eventDetail = e.detail));
+
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    textarea.value = "";
+    textarea.dispatchEvent(new Event("select", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+    expect(eventDetail.value).to.equal("");
+  });
+});
+
+/*** More Event Tests ***/
+it("fires nys-input with correct detail on input", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  await el.updateComplete;
+
+  let eventDetail: any = null;
+  el.addEventListener("nys-input", (e: any) => (eventDetail = e.detail));
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.value = "hello";
+  textarea.dispatchEvent(new Event("input", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(el.value).to.equal("hello");
+  expect(eventDetail).to.exist;
+  expect(eventDetail.value).to.equal("hello");
+  expect(eventDetail.id).to.equal(el.id);
+});
+
+it("fires nys-focus when textarea gains focus", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  let focused = false;
+  el.addEventListener("nys-focus", () => (focused = true));
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.dispatchEvent(new Event("focus", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(focused).to.be.true;
+});
+
+it("fires nys-blur when textarea loses focus", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  let blurred = false;
+  el.addEventListener("nys-blur", () => (blurred = true));
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.dispatchEvent(new Event("blur", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(blurred).to.be.true;
+});
+
+it("fires nys-selectionchange with correct detail on selectionchange", async () => {
+  const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+  await el.updateComplete;
+
+  let eventDetail: any = null;
+  el.addEventListener(
+    "nys-selectionchange",
+    (e: any) => (eventDetail = e.detail),
+  );
+
+  const textarea = el.shadowRoot!.querySelector("textarea")!;
+  textarea.value = "some selected text";
+  textarea.dispatchEvent(new Event("selectionchange", { bubbles: true }));
+  await el.updateComplete;
+
+  expect(el.value).to.equal("some selected text");
+  expect(eventDetail).to.exist;
+  expect(eventDetail.value).to.equal("some selected text");
+  expect(eventDetail.id).to.equal(el.id);
 });
 
 // Accessibility Tests

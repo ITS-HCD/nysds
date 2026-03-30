@@ -36,30 +36,42 @@ export default {
       },
     }),
     playwrightLauncher({
+      product: 'webkit', // Use WebKit for iOS simulation
+      launchOptions: {
+        headless: true, // Forces the browser to open in non-headless mode
+        slowMo: 250, // Optional: slows down operations to make debugging easier
+      },
+      createBrowserContext({ browser }) {
+        return browser.newContext({ ...devices['iPhone 14'], hasTouch: true });
+      },
+    }),
+    playwrightLauncher({
+      product: 'webkit', // Use WebKit for Android simulation
+      launchOptions: {
+        headless: true, // Forces the browser to open in non-headless mode
+        slowMo: 250, // Optional: slows down operations to make debugging easier
+      },
+      createBrowserContext({ browser }) {
+        return browser.newContext({ ...devices['Pixel 5'], hasTouch: true });
+      },
+    }),
+    playwrightLauncher({
+      product: 'webkit', // Use WebKit for Edge simulation
+      launchOptions: {
+        headless: true, // Forces the browser to open in non-headless mode
+        slowMo: 250, // Optional: slows down operations to make debugging easier
+      },
+      createBrowserContext({ browser }) {
+        return browser.newContext({ ...devices['Desktop Edge'], channel: 'msedge' });
+      },
+    }),
+    playwrightLauncher({
       product: "firefox",
       launchOptions: {
         headless: true, // Forces the browser to open in non-headless mode
         slowMo: 250, // Optional: slows down operations to make debugging easier
       },
     }),
-    playwrightLauncher({
-      product: 'webkit', // Use WebKit for iOS simulation
-      createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['iPhone 14'] });
-      },
-    }),    
-    playwrightLauncher({
-      product: 'webkit', // Use WebKit for Android simulation
-      createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['Pixel 5'] });
-      },
-    }),    
-    playwrightLauncher({
-      product: 'webkit', // Use WebKit for Edge simulation
-      createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['Desktop Edge'], channel: 'msedge' });
-      },
-    }),    
   ],
   coverage: true, // Enable coverage reporting
   testFramework: {
@@ -77,5 +89,11 @@ export default {
   ],
   coverageConfig: {
     exclude: ["**/node_modules/**", "**/test/**"],
+    threshold: {
+      statements: 80,
+      functions: 80,
+      branches: 80,
+      lines: 80,
+    }
   },
 };

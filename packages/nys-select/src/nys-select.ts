@@ -46,6 +46,10 @@ let selectIdCounter = 0;
 
 export class NysSelect extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -241,10 +245,10 @@ export class NysSelect extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true"; // Screen readers should announce error
+      this._internals.ariaInvalid = "true"; // Screen readers should announce error
       this._internals.setValidity({ valueMissing: true }, message, select);
     } else {
-      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.ariaInvalid = "false"; // Reset when valid
       this._internals.setValidity({});
       this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
@@ -371,7 +375,9 @@ export class NysSelect extends LitElement {
 
   // Handle focus event
   private _handleFocus() {
-    this.dispatchEvent(new Event("nys-focus"));
+    this.dispatchEvent(
+      new Event("nys-focus", { bubbles: true, composed: true }),
+    );
   }
 
   // Handle blur event
@@ -380,7 +386,9 @@ export class NysSelect extends LitElement {
       this._hasUserInteracted = true;
     }
     this._validate();
-    this.dispatchEvent(new Event("nys-blur"));
+    this.dispatchEvent(
+      new Event("nys-blur", { bubbles: true, composed: true }),
+    );
   }
 
   // Check if the current value matches any option, and if so, set it as selected

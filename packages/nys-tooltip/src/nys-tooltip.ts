@@ -511,8 +511,8 @@ export class NysTooltip extends LitElement {
     tooltip.style.left = `${left}px`;
   }
 
-  // Like storybook, some user's parent container may contain transform styling, which sets a new coordinate system.
-  // This function reverse any container of that scale to not interfere with tooltip calculation.
+  // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.
+  // This function removes such transforms to prevent them from affecting tooltip positioning calculations.
   private applyInverseTransform() {
     document.querySelectorAll('div[scale="1"]').forEach((el) => {
       (el as HTMLElement).style.transform = "none";

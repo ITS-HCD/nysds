@@ -67,9 +67,9 @@ nys-button {
     --nys-button-border-color: var(--nys-color-link, #004dd1);
     --nys-button-border-color--hover: var(--nys-color-link-strong, #003ba1);
     --nys-button-border-color--active: var(--nys-color-link-strongest, #002971);
-    --nys-button-color: var(--nys-color-ink-reverse, #fff);
-    --nys-button-color--hover: var(--nys-color-ink-reverse, #fff);
-    --nys-button-color--active: var(--nys-color-ink-reverse, #fff);
+    --nys-button-color: var(--nys-color-ink-reverse, #ffffff);
+    --nys-button-color--hover: var(--nys-color-ink-reverse, #ffffff);
+    --nys-button-color--active: var(--nys-color-ink-reverse, #ffffff);
   }
 
   &#previous,
@@ -107,7 +107,7 @@ nys-button {
   display: none;
 }
 
-@media (min-width: 0) and (max-width: 767px) {
+@media (width >= 0) and (width <= 767px) {
   /* Mobile (XS) and Mobile Large (SM) */
 
   /* Hide 1 less and more than currentPage */
@@ -116,7 +116,7 @@ nys-button {
     display: none;
   }
 
-  /* Show spacer instead of 1 less and more than currentPage*/
+  /* Show spacer instead of 1 less and more than currentPage */
   :host([currentPage="3"]) nys-button#first-spacer,
   :host([_twoBeforeLast]) nys-button#last-spacer {
     display: block;
@@ -127,6 +127,7 @@ nys-button {
   nys-button#next--mobile {
     display: block;
   }
+
   nys-button#previous,
   nys-button#next {
     display: none;

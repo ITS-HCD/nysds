@@ -41,6 +41,10 @@ interface FileWithProgress {
 
 export class NysFileinput extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
@@ -210,10 +214,10 @@ export class NysFileinput extends LitElement {
     const isInvalid = this.required && this._selectedFiles.length == 0;
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true"; // Screen readers should announce error
+      this._internals.ariaInvalid = "true"; // Screen readers should announce error
       this._internals.setValidity({ valueMissing: true }, message, input);
     } else {
-      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.ariaInvalid = "false"; // Reset when valid
       this._internals.setValidity({}, "", input);
     }
   }
@@ -527,6 +531,7 @@ export class NysFileinput extends LitElement {
       @nys-fileRemove=${this._handleFileRemove}
     >
       <nys-label
+        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -537,6 +542,7 @@ export class NysFileinput extends LitElement {
       </nys-label>
 
       <input
+        id=${this.id}
         class="hidden-file-input"
         tabindex="-1"
         type="file"

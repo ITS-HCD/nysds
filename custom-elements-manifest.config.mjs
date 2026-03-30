@@ -1,11 +1,19 @@
-// import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
+import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 import { jsdocExamplePlugin } from "cem-plugin-jsdoc-example";
 
-// const reactOpts = {
-//   /** Output directory to write the React wrappers to - default is the root of the project */
-//   outdir: "./dist/react-wrappers",
-// };
+const reactOpts = {
+  /** Output directory for the generated React wrappers — published separately as @nysds/react */
+  outdir: "./packages/react",
+
+  /**
+   * Path to the compiled bundle, relative to the output wrapper files.
+   * packages/react/ is two levels below the root, so ../../dist/nysds.es.js
+   * points at the built ES module. Using dist/ (not raw src/) means the import
+   * path stays stable even if files inside src/ are moved around.
+   */
+  modulePath: () => "../../dist/nysds.es.js",
+};
 
 const vscodeOpts = {
   /** Output directory to write the VSCode autocompletes to- default is the root of the project */
@@ -44,8 +52,6 @@ export default {
   stencil: false,
   /** Provide custom plugins */
   plugins: [
-    // customElementReactWrapperPlugin(reactOpts), // disabling until we get around to testing the react wrappers
-    jsdocExamplePlugin(),
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
@@ -70,7 +76,8 @@ export default {
       }
     },
     customElementVsCodePlugin(vscodeOpts),
-
+    customElementReactWrapperPlugin(reactOpts),
+    jsdocExamplePlugin(),
 ],
   /**
    * Resolution options when using `dependencies: true`

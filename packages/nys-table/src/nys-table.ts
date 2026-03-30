@@ -12,6 +12,8 @@ let componentIdCounter = 0;
  * @slot - Accepts a `<table>` element. Only the first table is rendered.
  *
  * @fires nys-click - Fired when the download button or sortable headers are clicked.
+ * @fires nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
+ *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
  */
@@ -245,15 +247,30 @@ export class NysTable extends LitElement {
     });
   }
 
-  _onSortClick(columnIndex: number, table: HTMLTableElement) {
-    if (this._sortColumn !== columnIndex) {
-      // New column → start with ascending
-      this._sortColumn = columnIndex;
-      this._sortDirection = "asc";
-    } else {
-      // Same column → toggle
-      this._sortDirection = this._sortDirection === "asc" ? "desc" : "asc";
-    }
+  private _onSortClick(columnIndex: number, table: HTMLTableElement) {
+    const ths = Array.from(table.querySelectorAll("thead th"));
+    const columnLabel =
+      ths[columnIndex]
+        ?.querySelector("nys-button[part='sort-button']")
+        ?.getAttribute("label") ?? "";
+
+    const nextDirection: "asc" | "desc" =
+      this._sortColumn !== columnIndex
+        ? "asc"
+        : this._sortDirection === "asc"
+          ? "desc"
+          : "asc";
+
+    const prevented = this._emitColumnSortEvent(
+      columnIndex,
+      columnLabel,
+      nextDirection,
+    );
+
+    if (prevented) return;
+
+    this._sortColumn = columnIndex;
+    this._sortDirection = nextDirection;
 
     this._updateSortIcons(table);
     this._sortTable(table, columnIndex, this._sortDirection);
@@ -317,7 +334,31 @@ export class NysTable extends LitElement {
   }
 
   /****************** Event Handlers ******************/
-  // Placeholder for event handlers if needed
+
+  /**
+   * Dispatches the `nys-column-sort` custom event.
+   *
+   * @param columnIndex - Zero-based index of the sorted column.
+   * @param columnLabel - The text label of the sorted column header.
+   * @param sortDirection - The new sort direction: "asc", "desc", or "none".
+   */
+  private _emitColumnSortEvent(
+    columnIndex: number,
+    columnLabel: string,
+    sortDirection: "asc" | "desc" | "none",
+  ): boolean {
+    const event = new CustomEvent("nys-column-sort", {
+      detail: { columnIndex, columnLabel, sortDirection },
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+
+    this.dispatchEvent(event);
+    return event.defaultPrevented;
+  }
+
+  /****************** Render ******************/
 
   render() {
     return html`

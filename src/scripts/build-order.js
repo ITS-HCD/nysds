@@ -11,8 +11,10 @@ const packages = [
   { name: "nys-badge", path: "packages/nys-badge" },
   { name: "nys-button", path: "packages/nys-button" },
   { name: "nys-checkbox", path: "packages/nys-checkbox" },
+  { name: "nys-combobox", path: "packages/nys-combobox" },
   { name: "nys-datepicker", path: "packages/nys-datepicker" },
   { name: "nys-divider", path: "packages/nys-divider" },
+  { name: "nys-dropdownmenu", path: "packages/nys-dropdownmenu" },
   { name: "nys-fileinput", path: "packages/nys-fileinput" },
   { name: "nys-errormessage", path: "packages/nys-errormessage" },
   { name: "nys-globalheader", path: "packages/nys-globalheader" },
@@ -32,6 +34,7 @@ const packages = [
   { name: "nys-tooltip", path: "packages/nys-tooltip" },
   { name: "nys-unavheader", path: "packages/nys-unavheader" },
   { name: "nys-unavfooter", path: "packages/nys-unavfooter" },
+  { name: "nys-video", path: "packages/nys-video" },
 ];
 
 packages.forEach((pkg) => {

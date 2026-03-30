@@ -11,8 +11,7 @@
   --_nys-toggle-transform--translateX: calc(
     var(--_nys-toggle-width) - var(--_nys-toggle-size--knob) - var(
         --_nys-toggle-margin--knob
-      ) -
-      2px
+      ) - 2px
   );
 
   /* space between toggle and it's label */
@@ -40,8 +39,12 @@
     --nys-color-theme-stronger,
     #081b2b
   );
-  --_nys-toggle-color-ink-reverse: var(--nys-color-ink-reverse, #fff);
+  --_nys-toggle-color-ink-reverse: var(--nys-color-ink-reverse, #ffffff);
   --_nys-toggle-color--disabled: var(--nys-color-neutral-500, #797c7f);
+}
+
+:host([inverted]) {
+  --_nys-toggle-outline-color: var(--nys-color-focus-reverse, #7aa5e7);
 }
 
 /* Toggle switch overall container */
@@ -56,6 +59,7 @@
   &:has(input:disabled) {
     nys-label {
       --_nys-label-color: var(--_nys-toggle-color--disabled);
+
       cursor: not-allowed;
     }
   }
@@ -149,10 +153,7 @@
   border-radius: var(--_nys-toggle-border-radius);
   outline-offset: var(--_nys-toggle-border-width);
   width: var(--_nys-toggle-width);
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: var(--_nys-toggle-background-color);
   display: flex;
   align-items: center;

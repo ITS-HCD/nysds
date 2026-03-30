@@ -26,7 +26,7 @@
     padding-left: 1rem;
     padding-right: 1rem;
 
-    @media all and (min-width: 64em) {
+    @media all and (width >= 64em) {
       padding-left: 2rem;
       padding-right: 2rem;
     }
@@ -48,7 +48,7 @@
   }
 
   // Nested media query for desktop+ padding
-  @media all and (min-width: #{$bp-value}) and (min-width: 64em) {
+  @media all and (min-width: #{$bp-value}) and (width >= 64em) {
     @each $suffix, $max-width in $grid-containers {
       .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
         padding-left: 2rem;
@@ -89,7 +89,7 @@
     padding-right: 0.5rem;
   }
 
-  @media all and (min-width: 64em) {
+  @media all and (width >= 64em) {
     margin-left: -1rem;
     margin-right: -1rem;
 
@@ -103,7 +103,7 @@
 // Sized gaps (compound selectors)
 // Gap values are halved: negative margin on row + padding on children
 @each $suffix, $value in $grid-gaps {
-  $half: if($value == 0, 0, math.div($value, 2));
+  $half: if(sass($value == 0): 0; else: math.div($value, 2));
 
   .nys-grid-row.nys-grid-gap#{$suffix} {
     margin-left: -$half;
@@ -120,7 +120,7 @@
 @each $bp-name, $bp-value in $breakpoints {
   @media all and (min-width: #{$bp-value}) {
     @each $suffix, $value in $grid-gaps {
-      $half: if($value == 0, 0, math.div($value, 2));
+      $half: if(sass($value == 0): 0; else: math.div($value, 2));
 
       .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap#{$suffix} {
         margin-left: -$half;
