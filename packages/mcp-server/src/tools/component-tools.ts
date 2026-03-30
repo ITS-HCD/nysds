@@ -97,17 +97,28 @@ export function registerComponentTools(server: McpServer): void {
 
       // Remove members array to avoid duplication with attributes
       // Attributes contains the HTML API, members duplicates this plus private methods
-      const { members: _members, examples, ...componentWithoutMembers } = component;
+      const {
+        members: _members,
+        examples,
+        ...componentWithoutMembers
+      } = component;
 
       return {
         content: [
           {
             type: "text",
-            text: JSON.stringify({
-              ...componentWithoutMembers,
-              examples: includeExamples && examples && examples.length > 0 ? examples : undefined,
-              resourceUri: `nysds://component/${tagName}`,
-            }, null, 2),
+            text: JSON.stringify(
+              {
+                ...componentWithoutMembers,
+                examples:
+                  includeExamples && examples && examples.length > 0
+                    ? examples
+                    : undefined,
+                resourceUri: `nysds://component/${tagName}`,
+              },
+              null,
+              2,
+            ),
           },
         ],
       };

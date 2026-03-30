@@ -268,7 +268,9 @@ export function registerTokenTools(server: McpServer): void {
           "icon",
         ])
         .optional()
-        .describe("Filter tokens by category (only applies when output='tokens')"),
+        .describe(
+          "Filter tokens by category (only applies when output='tokens')",
+        ),
       layer: z
         .enum(["primitive", "applied", "theme", "appearance"])
         .optional()
@@ -278,13 +280,23 @@ export function registerTokenTools(server: McpServer): void {
       includeResolvedValues: z
         .boolean()
         .default(false)
-        .describe("Include resolved hex/rem values (only applies when output='tokens')"),
+        .describe(
+          "Include resolved hex/rem values (only applies when output='tokens')",
+        ),
       includeDescriptions: z
         .boolean()
         .default(true)
-        .describe("Include token descriptions (only applies when output='tokens')"),
+        .describe(
+          "Include token descriptions (only applies when output='tokens')",
+        ),
     },
-    async ({ output, category, layer, includeResolvedValues, includeDescriptions }) => {
+    async ({
+      output,
+      category,
+      layer,
+      includeResolvedValues,
+      includeDescriptions,
+    }) => {
       // Return categories
       if (output === "categories") {
         const categories = getCSSTokenCategories();
@@ -307,14 +319,14 @@ export function registerTokenTools(server: McpServer): void {
             {
               type: "text",
               text: formatResponse({
-                  themes: AGENCY_THEMES,
-                  usage: {
-                    htmlAttribute: '<html data-theme="admin">',
-                    cssClass: '<body class="nys-theme-admin">',
-                    cssCustomProperty: "Themes modify --nys-color-theme-* tokens",
-                  },
-                  totalThemes: AGENCY_THEMES.length,
-                }),
+                themes: AGENCY_THEMES,
+                usage: {
+                  htmlAttribute: '<html data-theme="admin">',
+                  cssClass: '<body class="nys-theme-admin">',
+                  cssCustomProperty: "Themes modify --nys-color-theme-* tokens",
+                },
+                totalThemes: AGENCY_THEMES.length,
+              }),
             },
           ],
         };
@@ -408,7 +420,11 @@ export function registerTokenTools(server: McpServer): void {
         content: [
           {
             type: "text",
-            text: formatResponse({ query, count: results.length, results: formatted }),
+            text: formatResponse({
+              query,
+              count: results.length,
+              results: formatted,
+            }),
           },
         ],
       };
@@ -443,10 +459,10 @@ export function registerTokenTools(server: McpServer): void {
             {
               type: "text",
               text: formatResponse({
-                  error: `Token not found: ${token}`,
-                  suggestion:
-                    "Try searching with find_tokens to discover available tokens",
-                }),
+                error: `Token not found: ${token}`,
+                suggestion:
+                  "Try searching with find_tokens to discover available tokens",
+              }),
             },
           ],
         };
@@ -476,9 +492,15 @@ export function registerTokenTools(server: McpServer): void {
         result.validation = {
           context,
           valid: validation.valid,
-          recommendations: validation.recommendations.length > 0 ? validation.recommendations : undefined,
+          recommendations:
+            validation.recommendations.length > 0
+              ? validation.recommendations
+              : undefined,
           warnings: validation.warnings,
-          alternatives: validation.alternatives.length > 0 ? validation.alternatives : undefined,
+          alternatives:
+            validation.alternatives.length > 0
+              ? validation.alternatives
+              : undefined,
         };
       }
 
@@ -580,15 +602,15 @@ export function registerTokenTools(server: McpServer): void {
           {
             type: "text",
             text: formatResponse({
-                filter,
-                category: category || "all",
-                nodes: nodes.map((n) => ({
-                  cssVariable: n.cssVariable,
-                  referencesVariable: n.referencesVariable,
-                  usedBy: n.usedBy.length > 0 ? n.usedBy : undefined,
-                })),
-                stats,
-              }),
+              filter,
+              category: category || "all",
+              nodes: nodes.map((n) => ({
+                cssVariable: n.cssVariable,
+                referencesVariable: n.referencesVariable,
+                usedBy: n.usedBy.length > 0 ? n.usedBy : undefined,
+              })),
+              stats,
+            }),
           },
         ],
       };

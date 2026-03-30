@@ -69,7 +69,9 @@ export function registerGuideTools(server: McpServer): void {
       framework: z
         .enum(["angular", "react", "dotnet", "drupal", "vanilla"])
         .optional()
-        .describe("Required when topic is 'framework'. The framework to get setup instructions for."),
+        .describe(
+          "Required when topic is 'framework'. The framework to get setup instructions for.",
+        ),
     },
     async ({ topic, framework }) => {
       let content: string;
