@@ -119,7 +119,6 @@ describe("nys-tab", () => {
   });
 });
 
-// a11y tests
 describe("nys-tab a11y", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture<NysTabgroup>(html`
@@ -151,7 +150,6 @@ describe("nys-tab a11y", () => {
     expect(tabPanel.getAttribute("role")).to.equal("tabpanel");
   });
 
-  //role tablist is set on the tab container
   it("has role=tablist on the tab container", async () => {
     const el = await fixture<NysTabgroup>(html`
       <nys-tabgroup>
