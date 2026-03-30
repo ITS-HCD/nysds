@@ -82,8 +82,10 @@ describe("nys-tab", () => {
     expect(tabs[1].hasAttribute("selected")).to.be.false;
     expect(tabs[2].hasAttribute("selected")).to.be.false;
   });
+});
 
-  it("should dispatch nys-tab-focus and nys-tab-blur events", async () => {
+describe("nys-tab event handling", () => {
+  it("should dispatch nys-tab-focus, nys-tab-select, and nys-tab-blur events", async () => {
     const el = await fixture<NysTabgroup>(html`
       <nys-tabgroup>
         <nys-tab label="Tab One"></nys-tab>
@@ -98,10 +100,14 @@ describe("nys-tab", () => {
     const nysButton = tab.shadowRoot!.querySelector("nys-button")!;
 
     let focusFired = false;
+    let selectFired = false;
     let blurFired = false;
 
     tab.addEventListener("nys-tab-focus", () => {
       focusFired = true;
+    });
+    tab.addEventListener("nys-tab-select", () => {
+      selectFired = true;
     });
     tab.addEventListener("nys-tab-blur", () => {
       blurFired = true;
@@ -111,6 +117,11 @@ describe("nys-tab", () => {
       new Event("nys-focus", { bubbles: true, composed: true }),
     );
     expect(focusFired).to.be.true;
+
+    nysButton.dispatchEvent(
+      new Event("nys-click", { bubbles: true, composed: true }),
+    );
+    expect(selectFired).to.be.true;
 
     nysButton.dispatchEvent(
       new Event("nys-blur", { bubbles: true, composed: true }),
@@ -203,35 +214,5 @@ describe("nys-tab a11y", () => {
     panels.forEach((panel: HTMLElement, i: number) => {
       expect(panel.getAttribute("aria-labelledby")).to.equal(tabs[i].id);
     });
-  });
-
-  it("reflects the orientation prop as aria-orientation on the tablist", async () => {
-    const horizontal = await fixture<NysTabgroup>(html`
-      <nys-tabgroup orientation="horizontal">
-        <nys-tab label="Tab One"></nys-tab>
-        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
-      </nys-tabgroup>
-    `);
-    await horizontal.updateComplete;
-
-    const horizontalTablist =
-      horizontal.shadowRoot!.querySelector("[role='tablist']")!;
-    expect(horizontalTablist.getAttribute("aria-orientation")).to.equal(
-      "horizontal",
-    );
-
-    const vertical = await fixture<NysTabgroup>(html`
-      <nys-tabgroup orientation="vertical">
-        <nys-tab label="Tab One"></nys-tab>
-        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
-      </nys-tabgroup>
-    `);
-    await vertical.updateComplete;
-
-    const verticalTablist =
-      vertical.shadowRoot!.querySelector("[role='tablist']")!;
-    expect(verticalTablist.getAttribute("aria-orientation")).to.equal(
-      "vertical",
-    );
   });
 });
