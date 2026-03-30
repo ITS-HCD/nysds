@@ -17,20 +17,6 @@ describe("nys-tab", () => {
     expect(el.id).to.match(/^nys-tab-\d+-\d+$/);
   });
 
-  it("passes the a11y audit", async () => {
-    const el = await fixture<NysTabgroup>(html`
-      <nys-tabgroup>
-        <nys-tab label="My Label"></nys-tab>
-        <nys-tabpanel>Content for My Label.</nys-tabpanel>
-      </nys-tabgroup>
-    `);
-    await el.updateComplete;
-
-    const tab = el.shadowRoot!.querySelector("nys-tab")!;
-    const tabPanel = el.shadowRoot!.querySelector("nys-tabpanel")!;
-    await expect(tab).shadowDom.to.be.accessible();
-    await expect(tabPanel).shadowDom.to.be.accessible();
-  });
   it("should return the correct tabs and panels from _getTabs and _getPanels", async () => {
     const el = await fixture<NysTabgroup>(html`
       <nys-tabgroup>
@@ -130,5 +116,124 @@ describe("nys-tab", () => {
       new Event("nys-blur", { bubbles: true, composed: true }),
     );
     expect(blurFired).to.be.true;
+  });
+});
+
+// a11y tests
+describe("nys-tab a11y", () => {
+  it("passes the a11y audit", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="My Label"></nys-tab>
+        <nys-tabpanel>Content for My Label.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tab = el.shadowRoot!.querySelector("nys-tab")!;
+    const tabPanel = el.shadowRoot!.querySelector("nys-tabpanel")!;
+    await expect(tab).shadowDom.to.be.accessible();
+    await expect(tabPanel).shadowDom.to.be.accessible();
+  });
+
+  it("has role=tab on nys-tab and role=tabpanel on nys-tabpanel", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="My Label"></nys-tab>
+        <nys-tabpanel>Content for My Label.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tab = el.shadowRoot!.querySelector("nys-tab")!;
+    const tabPanel = el.shadowRoot!.querySelector("nys-tabpanel")!;
+    expect(tab.getAttribute("role")).to.equal("tab");
+    expect(tabPanel.getAttribute("role")).to.equal("tabpanel");
+  });
+
+  //role tablist is set on the tab container
+  it("has role=tablist on the tab container", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="My Label"></nys-tab>
+        <nys-tabpanel>Content for My Label.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabContainer = el.shadowRoot!.querySelector(".nys-tabgroup__tabs")!;
+    expect(tabContainer.getAttribute("role")).to.equal("tablist");
+  });
+
+  it("sets aria-controls on each tab pointing to its paired panel's id", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tab label="Tab Three"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const panels = (el as any)._getPanels();
+
+    tabs.forEach((tab: HTMLElement, i: number) => {
+      expect(tab.getAttribute("aria-controls")).to.equal(panels[i].id);
+    });
+  });
+
+  it("sets aria-labelledby on each panel pointing to its paired tab's id", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tab label="Tab Three"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const panels = (el as any)._getPanels();
+
+    panels.forEach((panel: HTMLElement, i: number) => {
+      expect(panel.getAttribute("aria-labelledby")).to.equal(tabs[i].id);
+    });
+  });
+
+  it("reflects the orientation prop as aria-orientation on the tablist", async () => {
+    const horizontal = await fixture<NysTabgroup>(html`
+      <nys-tabgroup orientation="horizontal">
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await horizontal.updateComplete;
+
+    const horizontalTablist =
+      horizontal.shadowRoot!.querySelector("[role='tablist']")!;
+    expect(horizontalTablist.getAttribute("aria-orientation")).to.equal(
+      "horizontal",
+    );
+
+    const vertical = await fixture<NysTabgroup>(html`
+      <nys-tabgroup orientation="vertical">
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await vertical.updateComplete;
+
+    const verticalTablist =
+      vertical.shadowRoot!.querySelector("[role='tablist']")!;
+    expect(verticalTablist.getAttribute("aria-orientation")).to.equal(
+      "vertical",
+    );
   });
 });
