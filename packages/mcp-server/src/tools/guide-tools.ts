@@ -67,7 +67,7 @@ export function registerGuideTools(server: McpServer): void {
         ])
         .describe("The guide topic to retrieve"),
       framework: z
-        .enum(["angular", "react", "vue", "dotnet", "drupal", "vanilla"])
+        .enum(["angular", "react", "dotnet", "drupal", "vanilla"])
         .optional()
         .describe("Required when topic is 'framework'. The framework to get setup instructions for."),
     },
@@ -80,7 +80,7 @@ export function registerGuideTools(server: McpServer): void {
             content: [
               {
                 type: "text",
-                text: "Error: 'framework' parameter is required when topic is 'framework'. Choose from: angular, react, vue, dotnet, drupal, vanilla",
+                text: "Error: 'framework' parameter is required when topic is 'framework'. Choose from: angular, react, dotnet, drupal, vanilla",
               },
             ],
             isError: true,

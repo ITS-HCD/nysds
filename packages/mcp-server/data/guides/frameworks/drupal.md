@@ -1,5 +1,7 @@
 # NYSDS with Drupal
 
+> **Note:** Drupal integration is currently untested. The guidance below is based on standard web component usage patterns and may require adjustments.
+
 ## Installation
 
 Add the library to your theme's libraries.yml:

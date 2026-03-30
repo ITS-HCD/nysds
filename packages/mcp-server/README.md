@@ -8,7 +8,7 @@ MCP (Model Context Protocol) server for the New York State Design System. Expose
 ## Installation
 
 ```bash
-npx @nysds/mcp-server
+npx -y @nysds/mcp-server
 ```
 
 Or install globally:
@@ -31,7 +31,7 @@ MCP support in GitHub Copilot is available in VS Code. Add to your VS Code setti
   "servers": {
     "nysds": {
       "command": "npx",
-      "args": ["@nysds/mcp-server"]
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
@@ -51,7 +51,7 @@ Add to your Claude Desktop configuration:
   "mcpServers": {
     "nysds": {
       "command": "npx",
-      "args": ["@nysds/mcp-server"]
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
@@ -66,7 +66,7 @@ Add to your project's `.mcp.json`:
   "mcpServers": {
     "nysds": {
       "command": "npx",
-      "args": ["@nysds/mcp-server"]
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
@@ -83,7 +83,7 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
   "mcpServers": {
     "nysds": {
       "command": "npx",
-      "args": ["@nysds/mcp-server"]
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
@@ -113,7 +113,7 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
 | Tool | Description |
 |------|-------------|
 | `get_utility_classes` | Grid, flexbox, spacing, display, and typography utility classes |
-| `get_guide` | Guides for installation, forms, styles, fonts, page structure, or framework setup |
+| `get_guide` | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, dotnet, drupal, vanilla). Angular, React, .NET, and Drupal guides are currently untested. |
 
 ## Available Resources
 
@@ -158,7 +158,7 @@ Once configured, you can ask your AI assistant questions like:
 **Framework integration:**
 - "How do I set up NYSDS components in my Angular project?"
 - "Show me how to use nys-button in React"
-- "What's the recommended way to integrate NYSDS with Vue?"
+- "How do I integrate NYSDS with Drupal?"
 
 **Code review:**
 - "Is this the correct way to use the nys-select component?"

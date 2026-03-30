@@ -1,5 +1,7 @@
 # NYSDS with Angular
 
+> **Note:** Angular integration is currently untested. The guidance below is based on standard web component usage patterns and may require adjustments.
+
 ## Installation
 
 ```bash
