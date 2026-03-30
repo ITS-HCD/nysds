@@ -1,57 +1,48 @@
-# NYSDS Styles Installation Guide
+# NYSDS Styles Guide
 
-## Package Options
+## Choosing a stylesheet
 
-NYSDS provides modular style packages to include only what you need.
+NYSDS provides three CSS bundles. Choose based on your project:
 
-### Full Bundle (Recommended)
-Includes reset, typography, and all utility classes.
+| File | Reset | Typography | Utilities | CSS Variables |
+|------|-------|------------|-----------|---------------|
+| `nysds-full.min.css` | Yes | Yes | Yes | Yes |
+| `nysds-typography.min.css` | No | Yes | No | Yes |
+| `nysds.min.css` | No | No | No | Yes |
+
+**New project?** Use `nysds-full.min.css` — it includes a CSS reset, typography, and utility/layout classes so you can start building immediately.
+
+**Existing project?** Use `nysds.min.css` — it loads only the CSS variables that style NYSDS components, without overriding your existing reset or typography.
+
+## Installation via npm
 
 ```bash
 npm install @nysds/styles
 ```
 
 ```css
-/* Import full bundle */
+/* New project — full bundle */
 @import '@nysds/styles/full';
-```
 
-### CSS Variables Only
-For projects using NYSDS components that need just the design tokens.
-
-```css
-/* Import CSS variables/tokens only */
+/* Existing project — variables only */
 @import '@nysds/styles';
-```
 
-### Typography Only
-Just the typography styles without utilities.
-
-```css
+/* Typography only */
 @import '@nysds/styles/typography';
 ```
 
-## What Each Bundle Includes
+## Agency theming
 
-| Bundle | Reset | Typography | Utility Classes | Design Tokens |
-|--------|-------|------------|-----------------|---------------|
-| `@nysds/styles` | No | No | No | Yes |
-| `@nysds/styles/typography` | No | Yes | No | Yes |
-| `@nysds/styles/full` | Yes | Yes | Yes | Yes |
-
-## CDN Usage
+Apply an agency theme with a `data-theme` attribute:
 
 ```html
-<!-- Full bundle via CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@nysds/styles/dist/nysds.min.css">
+<html data-theme="health">
 ```
 
-## Agency Theming
-
-Apply an agency theme by adding a data attribute to your HTML:
+Or with a CSS class:
 
 ```html
-<html data-theme="excelsior">
+<body class="nys-theme-health">
 ```
 
-Available themes can be retrieved using the `get_tokens` tool with `output: "themes"`.
+Use the `get_tokens` tool with `output: "themes"` to see all available agency themes.
