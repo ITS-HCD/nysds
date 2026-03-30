@@ -91,6 +91,8 @@ export interface CustomElementsManifest {
 }
 
 let cachedCEM: CustomElementsManifest | null = null;
+let cachedComponents: CEMDeclaration[] | null = null;
+let cachedComponentMap: Map<string, CEMDeclaration> | null = null;
 
 /**
  * Get the path to the custom-elements.json file
@@ -137,12 +139,9 @@ export function getCEM(): CustomElementsManifest {
     cachedCEM = JSON.parse(content) as CustomElementsManifest;
     return cachedCEM;
   } catch (error) {
-    // Return empty manifest if file not found (for development/testing)
     console.error("Warning: Could not load custom-elements.json:", error);
-    return {
-      schemaVersion: "1.0.0",
-      modules: [],
-    };
+    cachedCEM = { schemaVersion: "1.0.0", modules: [] };
+    return cachedCEM;
   }
 }
 
@@ -150,6 +149,8 @@ export function getCEM(): CustomElementsManifest {
  * Get all component declarations from the manifest
  */
 export function getAllComponents(): CEMDeclaration[] {
+  if (cachedComponents) return cachedComponents;
+
   const cem = getCEM();
   const components: CEMDeclaration[] = [];
 
@@ -163,19 +164,22 @@ export function getAllComponents(): CEMDeclaration[] {
     }
   }
 
-  return components.sort((a, b) =>
+  cachedComponents = components.sort((a, b) =>
     (a.tagName || "").localeCompare(b.tagName || ""),
   );
+  return cachedComponents;
 }
 
 /**
  * Get a specific component by tag name
  */
 export function getComponent(tagName: string): CEMDeclaration | undefined {
-  const components = getAllComponents();
-  return components.find(
-    (c) => c.tagName?.toLowerCase() === tagName.toLowerCase(),
-  );
+  if (!cachedComponentMap) {
+    cachedComponentMap = new Map(
+      getAllComponents().map((c) => [c.tagName!.toLowerCase(), c]),
+    );
+  }
+  return cachedComponentMap.get(tagName.toLowerCase());
 }
 
 /**
@@ -183,4 +187,6 @@ export function getComponent(tagName: string): CEMDeclaration | undefined {
  */
 export function clearCache(): void {
   cachedCEM = null;
+  cachedComponents = null;
+  cachedComponentMap = null;
 }
