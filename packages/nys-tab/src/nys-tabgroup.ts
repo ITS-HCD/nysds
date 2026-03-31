@@ -3,25 +3,93 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tab.scss?inline";
 
+/** @internal Monotonically increasing counter used to generate unique element IDs. */
 let componentIdCounter = 0;
 
 /**
- * `<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>` elements.
- * Accepts tabs and panels as flat children in any order (interleaved or grouped).
- * Sorts them into __tabs and __panels divs, wires ARIA, and manages selection
- * and keyboard navigation per the ARIA Tabs Pattern.
+ * `<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`
+ * elements.
+ *
+ * Accepts tabs and panels as flat light-DOM children in any order (interleaved
+ * or grouped). On slot change, children are sorted into dedicated shadow-DOM
+ * containers, ARIA relationships are wired, and the first selected (or first)
+ * tab is activated.
+ *
+ * Scroll shadows are rendered on either side of the tab list and toggled via
+ * `ResizeObserver` and a `scroll` listener so they accurately reflect whether
+ * overflow content exists in each direction.
+ *
+ * Keyboard navigation follows the
+ * {@link https://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern}:
+ * - Arrow keys move focus without changing selection.
+ * - Enter / Space confirm selection on the focused tab.
+ * - Only the selected tab holds a tab stop (`tabindex="0"`); all others are
+ *   removed from the tab sequence (`tabindex="-1"`).
+ *
+ * @element nys-tabgroup
+ *
+ * @slot - Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are
+ *   moved into internal shadow-DOM containers on `slotchange`; the slot
+ *   itself is not rendered visibly.
  */
 export class NysTabgroup extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /**
+   * Unique identifier for the tabgroup element.
+   * If not provided, one is auto-generated in `connectedCallback`.
+   * Reflected to the DOM attribute.
+   *
+   * @attr id
+   */
   @property({ type: String, reflect: true }) id = "";
+
+  /**
+   * Accessible label for the tab list (`aria-label` on the inner
+   * `[role="tablist"]`). Should describe the purpose of the tab set
+   * (e.g. `"Account settings"`).
+   *
+   * @attr name
+   */
   @property({ type: String }) name = "";
 
+  /**
+   * Reference to the `[role="tablist"]` scroll container in the shadow DOM.
+   * Cached in `firstUpdated` and used by `_updateScrollShadows` to read
+   * scroll position and dimensions.
+   */
   private _tabsEl!: HTMLElement;
+
+  /**
+   * Reference to the left scroll-shadow overlay element.
+   * Receives the `is-visible` class when the tab list is scrolled away from
+   * its leftmost position.
+   */
   private _shadowLeft!: HTMLElement;
+
+  /**
+   * Reference to the right scroll-shadow overlay element.
+   * Receives the `is-visible` class when overflow content exists to the right
+   * of the current scroll position.
+   */
   private _shadowRight!: HTMLElement;
+
+  /**
+   * `ResizeObserver` instance watching `_tabsEl` for size changes.
+   * Re-evaluates scroll shadow visibility whenever the tab list is resized
+   * (e.g. viewport resize, dynamic tab additions).
+   * Stored so it can be disconnected if needed.
+   */
   private _resizeObserver?: ResizeObserver;
 
+  // ---------------------------------------------------------------------------
+  // Lifecycle
+  // ---------------------------------------------------------------------------
+
+  /**
+   * Called when the element is inserted into the document.
+   * Auto-generates a unique `id` if one was not provided.
+   */
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -29,6 +97,15 @@ export class NysTabgroup extends LitElement {
     }
   }
 
+  /**
+   * Called after the element's shadow DOM has been rendered for the first time.
+   *
+   * Caches references to the tab list and scroll-shadow elements, performs an
+   * initial scroll-shadow evaluation, and attaches:
+   * - A `scroll` event listener on `_tabsEl` to update shadows on scroll.
+   * - A `ResizeObserver` on `_tabsEl` to update shadows when the container
+   *   is resized.
+   */
   firstUpdated() {
     const root = this.shadowRoot!;
     this._tabsEl = root.querySelector(".nys-tabgroup__tabs")!;
@@ -45,11 +122,24 @@ export class NysTabgroup extends LitElement {
     this._resizeObserver.observe(this._tabsEl);
   }
 
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Helpers
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
-  private _updateScrollShadows = () => {
+  /**
+   * Reads the current scroll state of `_tabsEl` and toggles the `is-visible`
+   * class on the left and right shadow overlays accordingly.
+   *
+   * - Left shadow is visible when `scrollLeft > 0`.
+   * - Right shadow is visible when `scrollLeft + clientWidth < scrollWidth`
+   *   (i.e. content exists beyond the right edge).
+   *
+   * Defined as an arrow function so it can be passed directly as an event
+   * listener without losing `this` context.
+   *
+   * @returns void
+   */
+  private _updateScrollShadows = (): void => {
     const { scrollLeft, scrollWidth, clientWidth } = this._tabsEl;
 
     const canScrollLeft = scrollLeft > 0;
@@ -59,6 +149,12 @@ export class NysTabgroup extends LitElement {
     this._shadowRight.classList.toggle("is-visible", canScrollRight);
   };
 
+  /**
+   * Returns all `<nys-tab>` elements currently residing in the shadow-DOM
+   * tabs container, in DOM order.
+   *
+   * @returns An array of `HTMLElement` references to every `<nys-tab>` child.
+   */
   private _getTabs(): HTMLElement[] {
     return Array.from(
       this.shadowRoot
@@ -67,6 +163,12 @@ export class NysTabgroup extends LitElement {
     ) as HTMLElement[];
   }
 
+  /**
+   * Returns all `<nys-tabpanel>` elements currently residing in the
+   * shadow-DOM panels container, in DOM order.
+   *
+   * @returns An array of `HTMLElement` references to every `<nys-tabpanel>` child.
+   */
   private _getPanels(): HTMLElement[] {
     return Array.from(
       this.shadowRoot
@@ -76,14 +178,29 @@ export class NysTabgroup extends LitElement {
   }
 
   /**
-   * Single source of truth for ARIA wiring and panel visibility.
-   * Call any time the selected tab changes.
+   * Single source of truth for ARIA wiring, `tabindex`, and panel visibility.
+   *
+   * For each index `i`:
+   * - Sets `selected` / removes `selected` attribute on `tabs[i]`.
+   * - Sets `tabIndex` property to `0` (selected) or `-1` (others) on `tabs[i]`.
+   * - Sets `aria-controls` on `tabs[i]` to the `id` of `panels[i]`.
+   * - Sets `aria-labelledby` on `panels[i]` to the `id` of `tabs[i]`.
+   * - Removes `hidden` from `panels[selectedIndex]`; adds it to all others.
+   *
+   * Must be called any time the selected tab changes (initial render and
+   * subsequent user interactions).
+   *
+   * @param tabs - Ordered array of `<nys-tab>` elements to update.
+   * @param panels - Ordered array of `<nys-tabpanel>` elements to update.
+   *   Must be the same length as `tabs` for correct pairing.
+   * @param selectedIndex - Zero-based index of the tab/panel pair to activate.
+   * @returns void
    */
   private _applySelection(
     tabs: HTMLElement[],
     panels: HTMLElement[],
     selectedIndex: number,
-  ) {
+  ): void {
     tabs.forEach((tab, i) => {
       const isSelected = i === selectedIndex;
       if (isSelected) {
@@ -114,11 +231,23 @@ export class NysTabgroup extends LitElement {
     });
   }
 
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   // Event Handlers
-  // -------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
 
-  private _sortChildren(e: Event) {
+  /**
+   * Handles `slotchange` on the default slot.
+   *
+   * Iterates over all assigned elements and moves each `<nys-tab>` into
+   * `.nys-tabgroup__tabs` and each `<nys-tabpanel>` into
+   * `.nys-tabgroup__panels`, preserving relative order. After sorting,
+   * calls `_applySelection` using the first element that already has a
+   * `selected` attribute, or index `0` if none is found.
+   *
+   * @param e - The `Event` fired by the `<slot>` element on slot change.
+   * @returns void
+   */
+  private _sortChildren(e: Event): void {
     const slot = e.target as HTMLSlotElement;
     const assigned = slot.assignedElements();
 
@@ -152,7 +281,18 @@ export class NysTabgroup extends LitElement {
     this._applySelection(tabs, panels, selectedIndex);
   }
 
-  private _handleTabSelect(e: Event) {
+  /**
+   * Handles the `nys-tab-select` custom event bubbled up from a child
+   * `<nys-tab>`.
+   *
+   * Resolves the originating `<nys-tab>` via `composedPath()` (required
+   * because the event crosses shadow DOM boundaries), determines its index
+   * among the current tab list, and delegates to `_applySelection`.
+   *
+   * @param e - The `Event` (cast to `CustomEvent`) dispatched by `<nys-tab>`.
+   * @returns void
+   */
+  private _handleTabSelect(e: Event): void {
     const selectedTab = (e as CustomEvent)
       .composedPath()
       .find(
@@ -168,7 +308,27 @@ export class NysTabgroup extends LitElement {
     this._applySelection(tabs, panels, selectedIndex);
   }
 
-  private _handleKeydown(e: KeyboardEvent) {
+  /**
+   * Handles `keydown` events on the `[role="tablist"]` container.
+   *
+   * Implements the ARIA radio-button keyboard pattern:
+   * - `ArrowRight` — moves focus to the next enabled tab (wraps).
+   * - `ArrowLeft` — moves focus to the previous enabled tab (wraps).
+   *
+   * Focus is moved without changing selection; Enter / Space on the newly
+   * focused tab (handled by `<nys-tab>._handleKeydown`) confirm selection.
+   *
+   * The currently focused tab is resolved via `composedPath()` because focus
+   * may sit on a shadow-DOM descendant of `<nys-tab>` rather than the host
+   * itself.
+   *
+   * Disabled tabs are excluded from navigation and will never receive focus
+   * via arrow keys.
+   *
+   * @param e - The `KeyboardEvent` from the tablist `keydown` listener.
+   * @returns void
+   */
+  private _handleKeydown(e: KeyboardEvent): void {
     console.log("testing keydown call: ", e.key);
     const tabs = this._getTabs().filter((t) => !t.hasAttribute("disabled"));
     if (tabs.length === 0) return;
@@ -207,6 +367,10 @@ export class NysTabgroup extends LitElement {
     // Move focus only — do not change selection
     (tabs[newIndex] as HTMLElement & { focus?: () => void }).focus?.();
   }
+
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
 
   render() {
     return html`
