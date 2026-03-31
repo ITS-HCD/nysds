@@ -6680,6 +6680,16 @@
             },
             {
               "kind": "field",
+              "name": "nysLogo",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Toggles the NYS brand mark",
+              "attribute": "nysLogo"
+            },
+            {
+              "kind": "field",
               "name": "_isMobileMenuOpen",
               "type": {
                 "text": "boolean"
@@ -6744,6 +6754,16 @@
               "kind": "method",
               "name": "_listenLinkClicks",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderBrandMark",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getNysLogo",
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -6776,6 +6796,16 @@
               "description": "URL for the header title link. If empty, title is not clickable.",
               "fieldName": "homepageLink",
               "propName": "homepagelink"
+            },
+            {
+              "name": "nysLogo",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Toggles the NYS brand mark",
+              "fieldName": "nysLogo",
+              "propName": "nyslogo"
             }
           ],
           "superclass": {
