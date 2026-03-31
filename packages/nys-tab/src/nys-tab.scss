@@ -11,7 +11,7 @@ nys-button.nys-tab {
   --nys-button-background-color: var(--nys-color-surface);
   --nys-button-background-color--hover: var(--nys-color-theme-weaker);
   --nys-button-background-color--active: var(--nys-color-theme-weak);
-  --_nys-button-background-color--disabled:  var(--nys-color-surface);
+  --_nys-button-background-color--disabled: var(--nys-color-surface);
   --nys-button-color: var(--nys-color-ink);
   --nys-button-color--hover: var(--nys-color-ink);
   --nys-button-color--active: var(--nys-color-ink);
@@ -27,28 +27,29 @@ nys-button.nys-tab {
   --_nys-button-padding--y: var(--nys-space-200);
 }
 
-.nys-tabgroup__tabs {
-  display: flex;
-  gap: var(--nys-space-100);
+.nys-tabgroup__tabs-container {
   position: relative;
-  overflow-x: auto;
-  white-space: nowrap;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  padding: 4px;
 
-  &::-webkit-scrollbar {
-    display: none;
+  .nys-tabgroup__tabs-background {
+    position: absolute;
+    inset: 0;
+    margin: 4px;
+    border-bottom: solid  var(--nys-color-neutral-50) 3px;
   }
 
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 4px;
-    left: 0;
-    right: 0;
-    border-bottom: solid var(--nys-color-neutral-50) 3px;
-    z-index: -1;
+  .nys-tabgroup__tabs {
+    position: relative;
+    display: flex;
+    gap: var(--nys-space-100);
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: 4px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
 

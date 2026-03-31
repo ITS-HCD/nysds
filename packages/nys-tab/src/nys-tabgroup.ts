@@ -180,12 +180,15 @@ export class NysTabgroup extends LitElement {
   render() {
     return html`
       <div class="nys-tabgroup" @nys-tab-select=${this._handleTabSelect}>
-        <div
-          class="nys-tabgroup__tabs"
-          role="tablist"
-          aria-label=${this.name}
-          @keydown=${this._handleKeydown}
-        ></div>
+        <div class="nys-tabgroup__tabs-container">
+          <div class="nys-tabgroup__tabs-background"></div>
+          <div
+            class="nys-tabgroup__tabs"
+            role="tablist"
+            aria-label=${this.name}
+            @keydown=${this._handleKeydown}
+          ></div>
+        </div>
         <div class="nys-tabgroup__panels"></div>
         <slot @slotchange=${this._sortChildren}></slot>
       </div>
