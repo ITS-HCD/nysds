@@ -209,6 +209,7 @@ export class NysToggle extends LitElement {
             label=${this.label}
             description=${ifDefined(this.description || undefined)}
             ?inverted=${this.inverted}
+             @nys-label-click=${this._handleClick}
           >
             <slot name="description" slot="description"
               >${this.description}</slot
