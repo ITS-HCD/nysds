@@ -155,7 +155,19 @@
           },
           "tagName": "nys-accordion",
           "customElement": true,
-          "summary": "Container for accordion items with optional single-select and bordered styling."
+          "summary": "Container for accordion items with optional single-select and bordered styling.",
+          "examples": [
+            {
+              "title": "Basic accordion",
+              "code": "<nys-accordion>\n<nys-accordionitem heading=\"Section 1\">Content for section 1</nys-accordionitem>\n<nys-accordionitem heading=\"Section 2\">Content for section 2</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
+            },
+            {
+              "title": "Single-select accordion",
+              "code": "<nys-accordion singleSelect bordered>\n<nys-accordionitem heading=\"FAQ 1\" expanded>Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -335,7 +347,14 @@
           },
           "tagName": "nys-accordionitem",
           "customElement": true,
-          "summary": "Collapsible panel for use within nys-accordion with keyboard support."
+          "summary": "Collapsible panel for use within nys-accordion with keyboard support.",
+          "examples": [
+            {
+              "title": "Expanded item",
+              "code": "<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -702,7 +721,19 @@
           },
           "tagName": "nys-alert",
           "customElement": true,
-          "summary": "Alert for contextual feedback with semantic types and live region support."
+          "summary": "Alert for contextual feedback with semantic types and live region support.",
+          "examples": [
+            {
+              "title": "Info alert",
+              "code": "<nys-alert type=\"info\" heading=\"Update available\" text=\"A new version is ready to install.\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Dismissible success alert",
+              "code": "<nys-alert type=\"success\" heading=\"Application submitted\" dismissible></nys-alert>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -972,7 +1003,19 @@
           },
           "tagName": "nys-avatar",
           "customElement": true,
-          "summary": "User avatar with image, initials, or icon fallback and contrast-aware colors."
+          "summary": "User avatar with image, initials, or icon fallback and contrast-aware colors.",
+          "examples": [
+            {
+              "title": "Image avatar",
+              "code": "<nys-avatar image=\"/path/to/photo.jpg\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Initials avatar with custom color",
+              "code": "<nys-avatar initials=\"JS\" color=\"var(--nys-color-theme)\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -1110,7 +1153,19 @@
           },
           "tagName": "nys-backtotop",
           "customElement": true,
-          "summary": "Floating back-to-top button with auto-show behavior and smooth scroll."
+          "summary": "Floating back-to-top button with auto-show behavior and smooth scroll.",
+          "examples": [
+            {
+              "title": "Auto-appearing button",
+              "code": "<nys-backtotop></nys-backtotop>",
+              "lang": "html"
+            },
+            {
+              "title": "Always visible, left position",
+              "code": "<nys-backtotop visible position=\"left\"></nys-backtotop>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -1390,7 +1445,19 @@
           },
           "tagName": "nys-badge",
           "customElement": true,
-          "summary": "Compact label for status, counts, or categorization with semantic styling."
+          "summary": "Compact label for status, counts, or categorization with semantic styling.",
+          "examples": [
+            {
+              "title": "Status badge",
+              "code": "<nys-badge intent=\"success\" label=\"Approved\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Count badge",
+              "code": "<nys-badge prefixLabel=\"Messages\" label=\"12\"></nys-badge>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -2055,7 +2122,39 @@
           },
           "tagName": "nys-button",
           "customElement": true,
-          "summary": "Button for actions and CTAs with variants, sizes, and icon support."
+          "summary": "Button for actions and CTAs with variants, sizes, and icon support.",
+          "examples": [
+            {
+              "title": "Basic filled button",
+              "code": "<nys-button label=\"Submit\" variant=\"filled\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Secondary outline button",
+              "code": "<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Button with icons",
+              "code": "<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>\n<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Circle icon button",
+              "code": "<nys-button circle icon=\"close\" label=\"Close dialog\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Link-style button for navigation",
+              "code": "<nys-button label=\"Visit NY.gov\" href=\"https://www.ny.gov/\" target=\"_blank\" suffixIcon=\"open_in_new\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Form submit button",
+              "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -2732,7 +2831,19 @@
           },
           "tagName": "nys-checkbox",
           "customElement": true,
-          "summary": "Checkbox for binary choices or multi-select options."
+          "summary": "Checkbox for binary choices or multi-select options.",
+          "examples": [
+            {
+              "title": "Single checkbox",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" required></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Checkbox group",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -3237,7 +3348,14 @@
           },
           "tagName": "nys-checkboxgroup",
           "customElement": true,
-          "summary": "Container for grouping checkboxes as a single form control."
+          "summary": "Container for grouping checkboxes as a single form control.",
+          "examples": [
+            {
+              "title": "Basic checkbox group",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -4693,7 +4811,29 @@
           },
           "tagName": "nys-datepicker",
           "customElement": true,
-          "summary": "Date picker with calendar popup and native fallback."
+          "summary": "Date picker with calendar popup and native fallback.",
+          "examples": [
+            {
+              "title": "Basic date picker",
+              "code": "<nys-datepicker label=\"Birth Date\" required></nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "With width and description",
+              "code": "<nys-datepicker\nlabel=\"Event Date\"\ndescription=\"Select the date of your event\"\nwidth=\"lg\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Hide buttons, set start date",
+              "code": "<nys-datepicker\nlabel=\"Appointment\"\nhideTodayButton\nhideClearButton\nstartDate=\"2024-01-01\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "With validation error message",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\nrequired\nerrorMessage=\"Please select a valid start date\">\n</nys-datepicker>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -4783,7 +4923,14 @@
           },
           "tagName": "nys-divider",
           "customElement": true,
-          "summary": "Horizontal divider for visual separation of content sections."
+          "summary": "Horizontal divider for visual separation of content sections.",
+          "examples": [
+            {
+              "title": "Basic divider",
+              "code": "<p>Section one content</p>\n<nys-divider></nys-divider>\n<p>Section two content</p>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -5343,7 +5490,19 @@
           },
           "tagName": "nys-dropdownmenuitem",
           "customElement": true,
-          "summary": "Dropdown item to display label and provide href link."
+          "summary": "Dropdown item to display label and provide href link.",
+          "examples": [
+            {
+              "title": "Basic item",
+              "code": "<nys-dropdownmenuitem label=\"Edit\" link=\"/edit\"></nys-dropdownmenuitem>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled item",
+              "code": "<nys-dropdownmenuitem label=\"Delete\" link=\"/delete\" disabled></nys-dropdownmenuitem>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -6127,7 +6286,19 @@
           },
           "tagName": "nys-fileinput",
           "customElement": true,
-          "summary": "File input with drag-and-drop, validation, and progress tracking."
+          "summary": "File input with drag-and-drop, validation, and progress tracking.",
+          "examples": [
+            {
+              "title": "Single file upload",
+              "code": "<nys-fileinput label=\"Upload document\" accept=\".pdf,.doc\" required></nys-fileinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Multiple files with dropzone",
+              "code": "<nys-fileinput label=\"Upload images\" accept=\"image/*\" multiple dropzone></nys-fileinput>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -6438,7 +6609,14 @@
           },
           "tagName": "nys-globalfooter",
           "customElement": true,
-          "summary": "Agency footer with auto-layout for contact info and link sections."
+          "summary": "Agency footer with auto-layout for contact info and link sections.",
+          "examples": [
+            {
+              "title": "Simple footer",
+              "code": "<nys-globalfooter agencyName=\"Department of Health\" homepageLink=\"/\">\n<span>123 Main St, Albany NY</span>\n<span>info@health.ny.gov</span>\n</nys-globalfooter>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -6626,7 +6804,14 @@
           },
           "tagName": "nys-globalheader",
           "customElement": true,
-          "summary": "Agency header with navigation, mobile menu, and active link highlighting."
+          "summary": "Agency header with navigation, mobile menu, and active link highlighting.",
+          "examples": [
+            {
+              "title": "Basic header",
+              "code": "<nys-globalheader appName=\"My App\" agencyName=\"Department of Health\" homepageLink=\"/\">\n<ul><li><a href=\"/about\">About</a></li><li><a href=\"/contact\">Contact</a></li></ul>\n</nys-globalheader>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -6813,7 +6998,19 @@
           },
           "tagName": "nys-icon",
           "customElement": true,
-          "summary": "SVG icon from Material Symbols library with size, rotation, and color options."
+          "summary": "SVG icon from Material Symbols library with size, rotation, and color options.",
+          "examples": [
+            {
+              "title": "Basic icon",
+              "code": "<nys-icon name=\"check_circle\" size=\"lg\"></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Accessible icon with label",
+              "code": "<nys-icon name=\"warning\" ariaLabel=\"Warning\" color=\"var(--nys-color-warning)\"></nys-icon>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -7341,7 +7538,14 @@
           },
           "tagName": "nys-modal",
           "customElement": true,
-          "summary": "Accessible modal dialog with focus trap, keyboard support, and action slots."
+          "summary": "Accessible modal dialog with focus trap, keyboard support, and action slots.",
+          "examples": [
+            {
+              "title": "Basic modal",
+              "code": "<nys-modal id=\"confirm-modal\" heading=\"Confirm action\" open>\n<p>Are you sure you want to proceed?</p>\n<div slot=\"actions\">\n<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>\n<nys-button label=\"Confirm\" variant=\"filled\"></nys-button>\n</div>\n</nys-modal>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -7548,7 +7752,14 @@
           },
           "tagName": "nys-pagination",
           "customElement": true,
-          "summary": "Page navigation with numbered links, prev/next buttons, and responsive layout."
+          "summary": "Page navigation with numbered links, prev/next buttons, and responsive layout.",
+          "examples": [
+            {
+              "title": "Basic pagination",
+              "code": "<nys-pagination currentPage=\"1\" totalPages=\"10\"></nys-pagination>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -8075,7 +8286,14 @@
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
-          "summary": "Radio button for single selection from mutually exclusive options."
+          "summary": "Radio button for single selection from mutually exclusive options.",
+          "examples": [
+            {
+              "title": "Radio group",
+              "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -8586,7 +8804,14 @@
           },
           "tagName": "nys-radiogroup",
           "customElement": true,
-          "summary": "Container for grouping radio buttons as a single form control."
+          "summary": "Container for grouping radio buttons as a single form control.",
+          "examples": [
+            {
+              "title": "Basic radio group",
+              "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -8758,7 +8983,14 @@
           },
           "tagName": "nys-option",
           "customElement": true,
-          "summary": "Option item for nys-select dropdown."
+          "summary": "Option item for nys-select dropdown.",
+          "examples": [
+            {
+              "title": "Basic options",
+              "code": "<nys-select>\n<nys-option value=\"ny\">New York</nys-option>\n<nys-option value=\"ca\" disabled>California</nys-option>\n</nys-select>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -9252,7 +9484,19 @@
           },
           "tagName": "nys-select",
           "customElement": true,
-          "summary": "Dropdown select for choosing one option from a list."
+          "summary": "Dropdown select for choosing one option from a list.",
+          "examples": [
+            {
+              "title": "Basic select",
+              "code": "<nys-select label=\"Select borough\">\n<option value=\"bronx\">The Bronx</option>\n<option value=\"brooklyn\">Brooklyn</option>\n<option value=\"manhattan\">Manhattan</option>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "With option groups",
+              "code": "<nys-select label=\"Select service\">\n<optgroup label=\"Transportation\">\n<option value=\"mta\">MTA</option>\n<option value=\"dmv\">DMV</option>\n</optgroup>\n</nys-select>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -9364,7 +9608,19 @@
           },
           "tagName": "nys-skipnav",
           "customElement": true,
-          "summary": "Skip navigation link for keyboard accessibility. Hidden until focused."
+          "summary": "Skip navigation link for keyboard accessibility. Hidden until focused.",
+          "examples": [
+            {
+              "title": "Default skip link",
+              "code": "<nys-skipnav></nys-skipnav>\n<main id=\"main-content\">...</main>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom target",
+              "code": "<nys-skipnav href=\"#content-area\"></nys-skipnav>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -9415,7 +9671,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation or listen to `nys-step-click` for SPA routing.",
+          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation or listen to `nys-step-click` for SPA routing.\n\n## Step States\n\nUnderstanding the three step states is critical for proper stepper usage:\n\n- **`selected`** - Which step is currently being displayed/viewed. This controls which step's\n  content is shown. Defaults to `current` if not set. Cannot be set on a step after `current`.\n  Users can click previous steps to change `selected` without changing `current`.\n\n- **`current`** - The furthest step the user has reached. This is the progress boundary.\n  Update this as the user completes steps and advances. Steps after `current` are not navigable.\n  Only one step should have `current` at a time.\n\n- **`previous`** - Auto-applied by the stepper to all steps before `current`. Do not set manually.\n  Steps with `previous` are clickable and allow the user to navigate back.\n\n## Common Patterns\n\n**Initial state:** Set `current` on the first step. `selected` will default to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (but progress is still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
           "name": "NysStep",
           "members": [
             {
@@ -9589,7 +9845,14 @@
           },
           "tagName": "nys-step",
           "customElement": true,
-          "summary": "Individual step for use within nys-stepper with navigation support."
+          "summary": "Individual step for use within nys-stepper with navigation support.",
+          "examples": [
+            {
+              "title": "Step with navigation",
+              "code": "<nys-step label=\"Personal Info\" href=\"/step-1\"></nys-step>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -9617,7 +9880,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become\nnavigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.",
+          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become\nnavigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.\nDo not place the stepper inside a form element.",
           "name": "NysStepper",
           "slots": [
             {
@@ -9797,7 +10060,24 @@
           },
           "tagName": "nys-stepper",
           "customElement": true,
-          "summary": "Multi-step progress indicator with navigation and mobile-friendly compact view."
+          "summary": "Multi-step progress indicator with navigation and mobile-friendly compact view.",
+          "examples": [
+            {
+              "title": "Basic stepper",
+              "code": "<nys-stepper label=\"Application Progress\">\n<nys-step label=\"Personal Info\" current></nys-step>\n<nys-step label=\"Contact Details\"></nys-step>\n<nys-step label=\"Review\"></nys-step>\n</nys-stepper>",
+              "lang": "html"
+            },
+            {
+              "title": "Grid layout with sidebar placement",
+              "code": "<div class=\"nys-grid-container\">\n<div class=\"nys-grid-row\">\n<nys-stepper label=\"Application\" class=\"nys-grid-col-12 nys-desktop:nys-grid-col-3\">\n<nys-step label=\"Personal Info\"></nys-step>\n<nys-step label=\"Contact\" current></nys-step>\n<nys-step label=\"Review\"></nys-step>\n</nys-stepper>\n<main class=\"nys-grid-col-12 nys-desktop:nys-grid-col-9\" id=\"main-content\">\n<!-- Form content for current step -->\n<nys-textinput label=\"Email\" required></nys-textinput>\n<nys-textinput label=\"Phone\"></nys-textinput>\n</main>\n</div>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Navigation buttons in actions slot",
+              "code": "<nys-stepper label=\"Application\">\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n<nys-step label=\"Step 3\"></nys-step>\n<div slot=\"actions\">\n<nys-button label=\"Save and Exit\" variant=\"outline\" size=\"sm\" fullWidth></nys-button>\n</div>\n</nys-stepper>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -11219,7 +11499,19 @@
           },
           "tagName": "nys-textarea",
           "customElement": true,
-          "summary": "Multi-line text input for comments, descriptions, and feedback."
+          "summary": "Multi-line text input for comments, descriptions, and feedback.",
+          "examples": [
+            {
+              "title": "Basic textarea",
+              "code": "<nys-textarea label=\"Comments\" rows=\"4\"></nys-textarea>",
+              "lang": "html"
+            },
+            {
+              "title": "Required with description",
+              "code": "<nys-textarea label=\"Describe the incident\" description=\"Please provide details\" required></nys-textarea>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -11988,7 +12280,29 @@
           },
           "tagName": "nys-textinput",
           "customElement": true,
-          "summary": "Text input for short single-line data with validation and masking support."
+          "summary": "Text input for short single-line data with validation and masking support.",
+          "examples": [
+            {
+              "title": "Basic text input",
+              "code": "<nys-textinput label=\"Full Name\" required></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Required Email",
+              "code": "<nys-textinput type=\"email\" label=\"Email Address\" required></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Phone with masking",
+              "code": "<nys-textinput type=\"tel\" label=\"Phone Number\"></nys-textinput>",
+              "lang": "html"
+            },
+            {
+              "title": "Search with button",
+              "code": "<nys-textinput type=\"search\" placeholder=\"Search\">\n<nys-button slot=\"endButton\" label=\"Search\" prefixIcon=\"search\"></nys-button>\n</nys-textinput>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -12378,7 +12692,19 @@
           },
           "tagName": "nys-toggle",
           "customElement": true,
-          "summary": "Toggle switch for binary settings with immediate effect."
+          "summary": "Toggle switch for binary settings with immediate effect.",
+          "examples": [
+            {
+              "title": "Basic toggle",
+              "code": "<nys-toggle label=\"Enable notifications\" name=\"notifications\"></nys-toggle>",
+              "lang": "html"
+            },
+            {
+              "title": "Dark mode toggle",
+              "code": "<nys-toggle label=\"Dark mode\" description=\"Adjust display for low light\" checked></nys-toggle>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -12777,7 +13103,19 @@
           },
           "tagName": "nys-tooltip",
           "customElement": true,
-          "summary": "Contextual tooltip with auto-positioning, keyboard support, and screen reader integration."
+          "summary": "Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.",
+          "examples": [
+            {
+              "title": "Tooltip for button",
+              "code": "<nys-button id=\"help-btn\" label=\"Help\" circle icon=\"help\"></nys-button>\n<nys-tooltip for=\"help-btn\" text=\"Click for assistance\"></nys-tooltip>",
+              "lang": "html"
+            },
+            {
+              "title": "Positioned tooltip",
+              "code": "<nys-icon id=\"info-icon\" name=\"info\"></nys-icon>\n<nys-tooltip for=\"info-icon\" text=\"Additional details\" position=\"right\"></nys-tooltip>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -12836,7 +13174,14 @@
           },
           "tagName": "nys-unavfooter",
           "customElement": true,
-          "summary": "Universal NYS footer with logo and statewide links. Required site-wide."
+          "summary": "Universal NYS footer with logo and statewide links. Required site-wide.",
+          "examples": [
+            {
+              "title": "Standard usage",
+              "code": "<nys-globalfooter>...</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
