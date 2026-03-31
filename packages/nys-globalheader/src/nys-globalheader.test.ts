@@ -41,15 +41,20 @@ describe("nys-globalheader", () => {
   });
 
   it("renders the NYS brand logo when nysLogo property is set", async () => {
-        const el = await fixture<NysGlobalHeader>(
+    const el = await fixture<NysGlobalHeader>(
       html`<nys-globalheader
-        appName="eFile"
-        agencyName="Tax Department"
+        appName="Admin Dashboard"
         homepageLink="https://ny.gov"
+        nysLogo
       ></nys-globalheader>`,
     );
 
-  })
+    await el.updateComplete;
+    const brandMark = el.shadowRoot?.querySelector(
+      "#nys-unavheader__logolink",
+    ) as HTMLElement;
+    expect(brandMark).to.exist;
+  });
 
   it("highlights the active link based on current URL", async () => {
     history.pushState({}, "", "/services");

@@ -216,9 +216,9 @@ export class NysGlobalHeader extends LitElement {
                 </button>
               </div>`
             : ""}
+          ${this._renderBrandMark()}
           ${!this.homepageLink?.trim()
             ? html`
-                ${this._renderBrandMark()}
                 <div class="nys-globalheader__name-container">
                   ${this.appName?.trim().length > 0
                     ? html`<div
