@@ -142,7 +142,7 @@ a#nys-globalheader__logolink {
   max-width: var(--_nys-globalheader-max-width);
   width: 100%;
 
-  @media (min-width: 1024px) {
+  @media (width >= 1024px) {
     align-items: center;
   }
 }
