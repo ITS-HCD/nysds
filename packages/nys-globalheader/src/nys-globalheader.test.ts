@@ -51,7 +51,7 @@ describe("nys-globalheader", () => {
 
     await el.updateComplete;
     const brandMark = el.shadowRoot?.querySelector(
-      "#nys-unavheader__logolink",
+      "#nys-unavheader__logo",
     ) as HTMLElement;
     expect(brandMark).to.exist;
   });

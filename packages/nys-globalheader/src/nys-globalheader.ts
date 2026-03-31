@@ -183,6 +183,7 @@ export class NysGlobalHeader extends LitElement {
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(nysLogo, "image/svg+xml");
     const svgElement = svgDoc.documentElement;
+    svgElement.id = "nys-unavheader__logo";
 
     return svgElement;
   }
