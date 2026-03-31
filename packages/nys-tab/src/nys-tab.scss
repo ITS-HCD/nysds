@@ -86,12 +86,12 @@ nys-button.nys-tab {
 
   .scroll-shadow--left {
     left: 0;
-    background-image: linear-gradient(to left, transparent, var(--nys-color-neutral-300,#A7A9AB));
+    background-image: linear-gradient(to left, transparent, var(--nys-color-neutral-100,#D0D0CE));
   }
 
   .scroll-shadow--right {
     right: 0;
-    background-image: linear-gradient(to right, transparent, var(--nys-color-neutral-300,#A7A9AB));
+    background-image: linear-gradient(to right, transparent, var(--nys-color-neutral-100,#D0D0CE));
   }
 
   .scroll-shadow.is-visible {
