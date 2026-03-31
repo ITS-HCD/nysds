@@ -173,15 +173,7 @@ export class NysGlobalHeader extends LitElement {
   }
 
   private _renderBrandMark() {
-    return this.nysLogo
-      ? html` <a
-          href="https://www.ny.gov"
-          target="_blank"
-          id="nys-unavheader__logolink"
-          aria-label="logo of New York State"
-          >${this._getNysLogo()}</a
-        >`
-      : "";
+    return this.nysLogo ? html`${this._getNysLogo()}` : "";
   }
 
   private _getNysLogo() {
