@@ -12,7 +12,8 @@
         "terrazzo.config.js"
       ],
       "outputs": ["dist/**", ".tsbuildinfo"],
-      "env": ["NODE_ENV", "BUILD_FORMAT"]
+      "env": ["NODE_ENV", "BUILD_FORMAT"],
+      "outputLogs": "new-only"
     },
     "dev": {
       "cache": false,

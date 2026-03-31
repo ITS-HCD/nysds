@@ -47,5 +47,6 @@ Thumbs.db
 
 # Ignore AI assistant files
 CLAUDE.md
+.mcp.json
 .claude/
 docs/

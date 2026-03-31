@@ -11,6 +11,7 @@ let stepperIdCounter = 0;
  *
  * Add `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become
  * navigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.
+ * Do not place the stepper inside a form element.
  *
  * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
  * @element nys-stepper
@@ -24,6 +25,43 @@ let stepperIdCounter = 0;
  *   <nys-step label="Personal Info" current></nys-step>
  *   <nys-step label="Contact Details"></nys-step>
  *   <nys-step label="Review"></nys-step>
+ * </nys-stepper>
+ * ```
+ *
+ * @example Grid layout with sidebar placement
+ * Use NYSDS grid utilities to position the stepper as a sidebar alongside form content.
+ * **Layout requirements:**
+ * - Wrap in `nys-grid-container` > `nys-grid-row`
+ * - Use mobile-first classes: `nys-grid-col-12` (stacks on mobile) plus `nys-desktop:nys-grid-col-*`
+ * - Columns must total 12 (e.g., 3+9 or 4+8)
+ * - Recommended: stepper 3-4 cols, content 8-9 cols
+ * ```html
+ * <div class="nys-grid-container">
+ *   <div class="nys-grid-row">
+ *     <nys-stepper label="Application" class="nys-grid-col-12 nys-desktop:nys-grid-col-3">
+ *       <nys-step label="Personal Info"></nys-step>
+ *       <nys-step label="Contact" current></nys-step>
+ *       <nys-step label="Review"></nys-step>
+ *     </nys-stepper>
+ *     <main class="nys-grid-col-12 nys-desktop:nys-grid-col-9" id="main-content">
+ *       <!-- Form content for current step -->
+ *       <nys-textinput label="Email" required></nys-textinput>
+ *       <nys-textinput label="Phone"></nys-textinput>
+ *     </main>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * @example Navigation buttons in actions slot
+ * Add Previous/Next buttons using the actions slot. Wrap buttons in a `<div>`.
+ * ```html
+ * <nys-stepper label="Application">
+ *   <nys-step label="Step 1"></nys-step>
+ *   <nys-step label="Step 2" current></nys-step>
+ *   <nys-step label="Step 3"></nys-step>
+ *   <div slot="actions">
+ *     <nys-button label="Save and Exit" variant="outline" size="sm" fullWidth></nys-button>
+ *   </div>
  * </nys-stepper>
  * ```
  */

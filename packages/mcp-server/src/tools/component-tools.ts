@@ -3,11 +3,9 @@
  *
  * MCP tools for working with NYSDS components.
  *
- * P0 Tools:
- * - list_components: List all NYSDS components with summaries
- * - get_component_docs: Full documentation for a specific component
- * - find_components: Search by name/description (fuzzy)
- * - get_usage_guide: Installation and usage patterns
+ * Tools:
+ * - find_components: Search or list all components
+ * - get_component: Full documentation for a specific component
  */
 
 import { z } from "zod";
@@ -16,78 +14,45 @@ import { getComponent, getAllComponents } from "../lib/cem-parser.js";
 import { searchComponents } from "../lib/search.js";
 
 export function registerComponentTools(server: McpServer): void {
-  // list_components - List all NYSDS components with summaries
+  // find_components - Search or list all components
   server.tool(
-    "list_components",
-    "List all NYSDS web components with their tag names and brief descriptions",
-    {},
-    async () => {
-      const components = getAllComponents();
-      const list = components.map((c) => ({
-        tagName: c.tagName,
-        name: c.name,
-        summary: c.summary || c.description?.split("\n")[0] || "No description",
-      }));
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(list, null, 2),
-          },
-        ],
-      };
-    },
-  );
-
-  // get_component_docs - Full documentation for a specific component
-  server.tool(
-    "get_component_docs",
-    "Get full documentation for a specific NYSDS component including properties, events, slots, and CSS custom properties",
+    "find_components",
+    "Search for NYSDS components by name or description. Omit query to list all components.",
     {
-      tagName: z
+      query: z
         .string()
-        .describe("The tag name of the component (e.g., 'nys-button')"),
+        .optional()
+        .describe(
+          "Search query to match against component names and descriptions. Omit to list all components.",
+        ),
     },
-    async ({ tagName }) => {
-      const component = getComponent(tagName);
+    async ({ query }) => {
+      // If no query, return all components
+      if (!query || query.trim() === "") {
+        const components = getAllComponents();
+        const list = components.map((c) => ({
+          tagName: c.tagName,
+          name: c.name,
+          summary:
+            c.summary || c.description?.split("\n")[0] || "No description",
+          resourceUri: `nysds://component/${c.tagName}`,
+        }));
 
-      if (!component) {
         return {
           content: [
             {
               type: "text",
-              text: `Component "${tagName}" not found. Use list_components to see available components.`,
+              text: JSON.stringify(list, null, 2),
             },
           ],
-          isError: true,
         };
       }
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(component, null, 2),
-          },
-        ],
-      };
-    },
-  );
-
-  // find_components - Search by name/description
-  server.tool(
-    "find_components",
-    "Search for NYSDS components by name or description",
-    {
-      query: z
-        .string()
-        .describe(
-          "Search query to match against component names and descriptions",
-        ),
-    },
-    async ({ query }) => {
-      const results = searchComponents(query);
+      // Otherwise search
+      const results = searchComponents(query).map((r) => ({
+        ...r,
+        resourceUri: `nysds://component/${r.tagName}`,
+      }));
 
       return {
         content: [
@@ -100,58 +65,60 @@ export function registerComponentTools(server: McpServer): void {
     },
   );
 
-  // get_usage_guide - Installation and usage patterns
+  // get_component - Full documentation for a specific component
   server.tool(
-    "get_usage_guide",
-    "Get installation and usage guide for NYSDS components",
-    {},
-    async () => {
-      const guide = `# NYSDS Component Usage Guide
+    "get_component",
+    "Get full documentation for a specific NYSDS component including properties, events, slots, and CSS custom properties",
+    {
+      tagName: z
+        .string()
+        .describe("The tag name of the component (e.g., 'nys-button')"),
+      includeExamples: z
+        .boolean()
+        .default(false)
+        .describe(
+          "Include HTML code examples from component JSDoc. Set to true when you need usage patterns.",
+        ),
+    },
+    async ({ tagName, includeExamples }) => {
+      const component = getComponent(tagName);
 
-## Installation
+      if (!component) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Component "${tagName}" not found. Use find_components to see available components.`,
+            },
+          ],
+          isError: true,
+        };
+      }
 
-\`\`\`bash
-npm install @nysds/components
-\`\`\`
-
-## Basic Usage
-
-Import components individually:
-
-\`\`\`javascript
-import '@nysds/components/nys-button';
-import '@nysds/components/nys-alert';
-\`\`\`
-
-Or import all components:
-
-\`\`\`javascript
-import '@nysds/components';
-\`\`\`
-
-## Using Components in HTML
-
-\`\`\`html
-<nys-button label="Click me" variant="primary"></nys-button>
-<nys-alert type="info">This is an informational message.</nys-alert>
-\`\`\`
-
-## CSS Custom Properties
-
-NYSDS components use CSS custom properties for theming. Import the base styles:
-
-\`\`\`css
-@import '@nysds/components/dist/styles.css';
-\`\`\`
-
-Use the get_design_tokens tool to explore available tokens.
-`;
+      // Remove members array to avoid duplication with attributes
+      // Attributes contains the HTML API, members duplicates this plus private methods
+      const {
+        members: _members,
+        examples,
+        ...componentWithoutMembers
+      } = component;
 
       return {
         content: [
           {
             type: "text",
-            text: guide,
+            text: JSON.stringify(
+              {
+                ...componentWithoutMembers,
+                examples:
+                  includeExamples && examples && examples.length > 0
+                    ? examples
+                    : undefined,
+                resourceUri: `nysds://component/${tagName}`,
+              },
+              null,
+              2,
+            ),
           },
         ],
       };
