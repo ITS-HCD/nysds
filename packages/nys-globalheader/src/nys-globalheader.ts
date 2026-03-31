@@ -36,7 +36,7 @@ export class NysGlobalHeader extends LitElement {
   @property({ type: String }) homepageLink = "";
 
   /** Toggles the NYS brand mark */
-  @property({ type: Boolean }) showBrandMark = false;
+  @property({ type: Boolean }) nysLogo = false;
 
   /** Internal state to track mobile menu open/closed status. */
   @state() private _isMobileMenuOpen = false;
@@ -173,8 +173,7 @@ export class NysGlobalHeader extends LitElement {
   }
 
   private _renderBrandMark() {
-    console.log(this.showBrandMark)
-    return this.showBrandMark
+    return this.nysLogo
       ? html` <a
           href="https://www.ny.gov"
           target="_blank"

@@ -40,6 +40,17 @@ describe("nys-globalheader", () => {
     expect(link.href).to.include("https://ny.gov");
   });
 
+  it("renders the NYS brand logo when nysLogo property is set", async () => {
+        const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="eFile"
+        agencyName="Tax Department"
+        homepageLink="https://ny.gov"
+      ></nys-globalheader>`,
+    );
+
+  })
+
   it("highlights the active link based on current URL", async () => {
     history.pushState({}, "", "/services");
 

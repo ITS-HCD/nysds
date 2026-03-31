@@ -126,7 +126,7 @@ a {
 
 a#nys-globalheader__logolink {
   outline-offset: var(--nys-space-2px, 2px);
-  outline-color: var(--nys-color-ink-reverse, #ffffff);;
+  outline-color: var(--nys-color-ink-reverse, #ffffff);
   margin: auto 0;
 }
 
@@ -141,6 +141,10 @@ a#nys-globalheader__logolink {
   gap: var(--_nys-globalheader-gap);
   max-width: var(--_nys-globalheader-max-width);
   width: 100%;
+
+  @media (min-width: 1024px) {
+    align-items: center;
+  }
 }
 
 /* Left-hand side Agency and App names */
@@ -336,4 +340,5 @@ a#nys-globalheader__logolink {
     --_nys-globalheader-padding: var(--nys-space-50, 4px)
       var(--nys-space-800, 64px) 0;
   }
+  
 }

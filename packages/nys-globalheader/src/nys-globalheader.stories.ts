@@ -11,7 +11,7 @@ interface NysGlobalHeaderArgs {
   appName: string;
   agencyName: string;
   homepageLink: string;
-  showBrandMark: boolean;
+  nysLogo: boolean;
 }
 
 const meta: Meta<NysGlobalHeaderArgs> = {
@@ -21,7 +21,7 @@ const meta: Meta<NysGlobalHeaderArgs> = {
     appName: { control: "text" },
     agencyName: { control: "text" },
     homepageLink: { control: "text" },
-    showBrandMark: { control: "boolean" },
+    nysLogo: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -38,14 +38,14 @@ export const Basic: Story = {
   args: {
     appName: "User Registration Form",
     agencyName: "Office of Information Technology Services",
-    showBrandMark: false,
+    nysLogo: false,
   },
   render: (args) => html`
     <nys-globalheader
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      ?showBrandMark=${args.showBrandMark}
+      ?nysLogo=${args.nysLogo}
     >
     </nys-globalheader>
   `,
@@ -127,7 +127,7 @@ export const WithLinks: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
-      ?showBrandMark=${args.showBrandMark}
+      ?nysLogo=${args.nysLogo}
     >
       <ul>
         <li><a href="https://its.ny.gov/services">Services</a></li>
@@ -227,14 +227,16 @@ export const UserActions: Story = {
 export const WithBrandMark: Story = {
   args: {
     ...Basic.args,
-    showBrandMark: true,
+    nysLogo: true,
+    appName: "Admin Dashboard",
+    agencyName: "",
   },
   render: Basic.render,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-globalheader appName="User Registration Form" agencyName="Office of Information Technology Services">
+<nys-globalheader nysLogo appName="Admin Dashboard">
 </nys-globalheader>
         `,
         type: "auto",
