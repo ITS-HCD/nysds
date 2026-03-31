@@ -1,5 +1,5 @@
 :host {
-  //tab group
+  // tab group
   --_nys-tabgroup-gap: var(--nys-space-100, 8px);
   --_nys-tabgroup-padding: var(--nys-space-50, 4px);
 
@@ -7,12 +7,11 @@
   --_nys-tab-border-width: 3px;
   --_nys-tab-border-radius: var(--nys-radius-md, 4px);
   --_nys-tab-border-color: var(--nys-color-neutral-50);
-
   --_nys-tab-background-color: var(--nys-color-surface, #ffffff);
   --_nys-tab-background-color--hover: var(--nys-color-theme-weaker, #eff6fb);
   --_nys-tab-background-color--active: var(--nys-color-theme-weak,#cddde9);
   --_nys-tab-background-color--disabled: var(--nys-color-surface, #ffffff);
-
+  --_nys-tab-background-color--selected: var(--nys-color-neutral-10, #f6f6f6);
   --_nys-tab-padding--x: var(--nys-space-150, 12px);
   --_nys-tab-padding--y: var(--nys-space-200, 16px);
 
@@ -22,7 +21,7 @@
 
 :host([selected]) {
   nys-button {
-    --nys-button-background-color: var(--nys-color-neutral-10);
+    --nys-button-background-color: var(--_nys-tab-background-color--selected);
     --_nys-button-border-color: var(--nys-color-theme);
     --_nys-button-border-color--hover: var(--nys-color-theme-strong);
     --_nys-button-border-color--active: var(--nys-color-theme-stronger);
