@@ -106,7 +106,7 @@ export class NysTab extends LitElement {
         @nys-click=${this._handleClick}
         @nys-focus=${this._handleFocus}
         @nys-blur=${this._handleBlur}
-        @keypress=${this._handleKeydown}
+        @keydown=${this._handleKeydown}
       ></nys-button>
     `;
   }

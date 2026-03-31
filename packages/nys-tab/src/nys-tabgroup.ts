@@ -169,12 +169,6 @@ export class NysTabgroup extends LitElement {
       case nextKey:
         newIndex = (currentIndex + 1) % tabs.length;
         break;
-      case "Home":
-        newIndex = 0;
-        break;
-      case "End":
-        newIndex = tabs.length - 1;
-        break;
       default:
         return;
     }

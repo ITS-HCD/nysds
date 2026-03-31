@@ -130,6 +130,85 @@ describe("nys-tab event handling", () => {
   });
 });
 
+describe("nys-tab keyboard navigation", () => {
+  it("ArrowRight moves focus to the next tab, ArrowLeft moves to previous, both wrap around", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tab label="Tab Three"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const focused: string[] = [];
+    tabs.forEach((tab: HTMLElement) => {
+      tab.focus = () => focused.push(tab.id);
+    });
+
+    const fireKey = (key: string, tab: HTMLElement) =>
+      (el as any)._handleKeydown({
+        key,
+        composedPath: () => [tab],
+        preventDefault: () => {},
+      });
+
+    // ArrowRight: 0 → 1
+    fireKey("ArrowRight", tabs[0]);
+    expect(focused[focused.length - 1]).to.equal(tabs[1].id);
+
+    // ArrowRight: 1 → 2
+    fireKey("ArrowRight", tabs[1]);
+    expect(focused[focused.length - 1]).to.equal(tabs[2].id);
+
+    // ArrowRight wraps: 2 → 0
+    fireKey("ArrowRight", tabs[2]);
+    expect(focused[focused.length - 1]).to.equal(tabs[0].id);
+
+    // ArrowLeft wraps: 0 → 2
+    fireKey("ArrowLeft", tabs[0]);
+    expect(focused[focused.length - 1]).to.equal(tabs[2].id);
+
+    // ArrowLeft: 2 → 1
+    fireKey("ArrowLeft", tabs[2]);
+    expect(focused[focused.length - 1]).to.equal(tabs[1].id);
+  });
+
+  it("ArrowRight skips disabled tabs", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two" disabled></nys-tab>
+        <nys-tab label="Tab Three"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const focused: string[] = [];
+    tabs.forEach((tab: HTMLElement) => {
+      tab.focus = () => focused.push(tab.id);
+    });
+
+    // Tab Two is disabled so _getTabs filters it out — ArrowRight from Tab One lands on Tab Three
+    (el as any)._handleKeydown({
+      key: "ArrowRight",
+      composedPath: () => [tabs[0]],
+      preventDefault: () => {},
+    });
+
+    expect(focused[0]).to.equal(tabs[2].id);
+    expect(focused).to.not.include(tabs[1].id);
+  });
+});
+
 describe("nys-tab a11y", () => {
   it("passes the a11y audit", async () => {
     const el = await fixture<NysTabgroup>(html`
