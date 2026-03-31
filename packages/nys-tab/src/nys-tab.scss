@@ -1,3 +1,25 @@
+:host {
+  //tab group
+  --_nys-tabgroup-gap: var(--nys-space-100, 8px);
+  --_nys-tabgroup-padding: var(--nys-space-50, 4px);
+
+  // tab
+  --_nys-tab-border-width: 3px;
+  --_nys-tab-border-radius: var(--nys-radius-md, 4px);
+  --_nys-tab-border-color: var(--nys-color-neutral-50);
+
+  --_nys-tab-background-color: var(--nys-color-surface, #ffffff);
+  --_nys-tab-background-color--hover: var(--nys-color-theme-weaker, #eff6fb);
+  --_nys-tab-background-color--active: var(--nys-color-theme-weak,#cddde9);
+  --_nys-tab-background-color--disabled: var(--nys-color-surface, #ffffff);
+
+  --_nys-tab-padding--x: var(--nys-space-150, 12px);
+  --_nys-tab-padding--y: var(--nys-space-200, 16px);
+
+  // panel
+  --_nys-tabpanel-padding: var(--nys-space-400, 32px);
+}
+
 :host([selected]) {
   nys-button {
     --nys-button-background-color: var(--nys-color-neutral-10);
@@ -8,23 +30,23 @@
 }
 
 nys-button.nys-tab {
-  --nys-button-background-color: var(--nys-color-surface);
-  --nys-button-background-color--hover: var(--nys-color-theme-weaker);
-  --nys-button-background-color--active: var(--nys-color-theme-weak);
-  --_nys-button-background-color--disabled: var(--nys-color-surface);
+  --nys-button-background-color: var(--_nys-tab-background-color);
+  --nys-button-background-color--hover: var(--_nys-tab-background-color--hover);
+  --nys-button-background-color--active: var(--_nys-tab-background-color--active);
+  --_nys-button-background-color--disabled: var(--_nys-tab-background-color--disabled);
   --nys-button-color: var(--nys-color-ink);
   --nys-button-color--hover: var(--nys-color-ink);
   --nys-button-color--active: var(--nys-color-ink);
-  --_nys-button-border-color: var(--nys-color-neutral-50);
-  --_nys-button-border-color--disabled: var(--nys-color-neutral-50);
+  --_nys-button-border-color: var(--_nys-tab-border-color);
+  --_nys-button-border-color--disabled: var(--_nys-tab-border-color);
   --_nys-button-border-color--hover: var(--nys-color-theme-weak);
   --_nys-button-border-color--active: var(--nys-color-theme-mid);
-  --_nys-button-border-radius: var(--nys-radius-md, 4px)
-    var(--nys-radius-md, 4px) 0 0;
+  --_nys-button-border-radius: var(--_nys-tab-border-radius)
+    var(--_nys-tab-border-radius) 0 0;
   --_nys-button-border-style: none none solid none;
-  --_nys-button-border-width: 3px;
-  --_nys-button-padding--x: var(--nys-space-150);
-  --_nys-button-padding--y: var(--nys-space-200);
+  --_nys-button-border-width: var(--_nys-tab-border-width);
+  --_nys-button-padding--x: var(--_nys-tab-padding--x);
+  --_nys-button-padding--y: var(--_nys-tab-padding--y);
 }
 
 .nys-tabgroup__tabs-container {
@@ -33,19 +55,19 @@ nys-button.nys-tab {
   .nys-tabgroup__tabs-background {
     position: absolute;
     inset: 0;
-    margin: 4px;
-    border-bottom: solid  var(--nys-color-neutral-50) 3px;
+    margin: var(--_nys-tabgroup-padding);
+    border-bottom: solid  var(--_nys-tab-border-color) var(--_nys-tab-border-width);
   }
 
   .nys-tabgroup__tabs {
     position: relative;
     display: flex;
-    gap: var(--nys-space-100);
+    gap: var(--_nys-tabgroup-gap);
     overflow-x: auto;
     white-space: nowrap;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    padding: 4px;
+    padding: var(--_nys-tabgroup-padding);
 
     &::-webkit-scrollbar {
       display: none;
@@ -54,5 +76,5 @@ nys-button.nys-tab {
 }
 
 .nys-tabgroup__panels {
-  padding: var(--nys-space-400);
+  padding: var(--_nys-tabpanel-padding);
 }
