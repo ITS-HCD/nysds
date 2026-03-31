@@ -247,7 +247,6 @@ a#nys-unavheader__logolink {
 
 /* Breakpoints using NYSDS Grid Guidelines */
 @media (width >=0) and (width <=479px) {
-
   /* Mobile (XS) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-xs, 20px);
@@ -286,7 +285,6 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=480px) and (width <=767px) {
-
   /* Mobile Large (SM - Above 480px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-sm, 20px);
@@ -307,7 +305,6 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=768px) and (width <=1023px) {
-
   /* Tablet (MD - Above 768px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-md, 32px);
@@ -328,7 +325,6 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=1024px) and (width <=1279px) {
-
   /* Desktop (LG - Above 1024px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-lg, 32px);
@@ -357,7 +353,6 @@ a#nys-unavheader__logolink {
 }
 
 @media (width >=1280px) {
-
   /* Desktop Large (XL - Above 1280px) */
   :host {
     --_nys-unavheader-padding--gutter: var(--nys-gutter-xl, 64px);
