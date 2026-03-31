@@ -17,6 +17,11 @@ export class NysTabgroup extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) name = "";
 
+  private _tabsEl!: HTMLElement;
+  private _shadowLeft!: HTMLElement;
+  private _shadowRight!: HTMLElement;
+  private _resizeObserver?: ResizeObserver;
+
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {
@@ -24,9 +29,35 @@ export class NysTabgroup extends LitElement {
     }
   }
 
+  firstUpdated() {
+    const root = this.shadowRoot!;
+    this._tabsEl = root.querySelector(".nys-tabgroup__tabs")!;
+    this._shadowLeft = root.querySelector(".scroll-shadow--left")!;
+    this._shadowRight = root.querySelector(".scroll-shadow--right")!;
+
+    this._updateScrollShadows();
+
+    this._tabsEl.addEventListener("scroll", this._updateScrollShadows);
+
+    this._resizeObserver = new ResizeObserver(() =>
+      this._updateScrollShadows(),
+    );
+    this._resizeObserver.observe(this._tabsEl);
+  }
+
   // -------------------------------------------------------------------------
   // Helpers
   // -------------------------------------------------------------------------
+
+  private _updateScrollShadows = () => {
+    const { scrollLeft, scrollWidth, clientWidth } = this._tabsEl;
+
+    const canScrollLeft = scrollLeft > 0;
+    const canScrollRight = scrollLeft + clientWidth < scrollWidth;
+
+    this._shadowLeft.classList.toggle("is-visible", canScrollLeft);
+    this._shadowRight.classList.toggle("is-visible", canScrollRight);
+  };
 
   private _getTabs(): HTMLElement[] {
     return Array.from(
@@ -182,12 +213,14 @@ export class NysTabgroup extends LitElement {
       <div class="nys-tabgroup" @nys-tab-select=${this._handleTabSelect}>
         <div class="nys-tabgroup__tabs-container">
           <div class="nys-tabgroup__tabs-background"></div>
+          <div class="scroll-shadow scroll-shadow--left"></div>
           <div
             class="nys-tabgroup__tabs"
             role="tablist"
             aria-label=${this.name}
             @keydown=${this._handleKeydown}
           ></div>
+          <div class="scroll-shadow scroll-shadow--right"></div>
         </div>
         <div class="nys-tabgroup__panels"></div>
         <slot @slotchange=${this._sortChildren}></slot>

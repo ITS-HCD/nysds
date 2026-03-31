@@ -72,6 +72,32 @@ nys-button.nys-tab {
 .nys-tabgroup__tabs-container {
   position: relative;
 
+  .scroll-shadow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    height: 59px; // sorry for the magic #
+    width: var(--nys-space-200, 16px);
+  }
+
+  .scroll-shadow--left {
+    left: 0;
+    background-image: linear-gradient(to left, transparent, var(--nys-color-neutral-300,#A7A9AB));
+  }
+
+  .scroll-shadow--right {
+    right: 0;
+    background-image: linear-gradient(to right, transparent, var(--nys-color-neutral-300,#A7A9AB));
+  }
+
+  .scroll-shadow.is-visible {
+    opacity: 1;
+  }
+
   .nys-tabgroup__tabs-background {
     position: absolute;
     inset: 0;
