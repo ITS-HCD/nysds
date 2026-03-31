@@ -7,11 +7,18 @@
   --_nys-tab-border-width: 3px;
   --_nys-tab-border-radius: var(--nys-radius-md, 4px);
   --_nys-tab-border-color: var(--nys-color-neutral-50);
+  --_nys-tab-border-color--hover: var(--nys-color-theme-weak, #cddde9);
+  --_nys-tab-border-color--active: var(--nys-color-theme-mid, #457aa5);
+  --_nys-tab-border-color--disabled: var(--_nys-tab-border-color);
+  --_nys-tab-border-color--selected: var(--nys-color-theme, #154973);
+  --_nys-tab-border-color--selected--hover: var(--nys-color-theme-strong, #0e324f);
+  --_nys-tab-border-color--selected--active: var(--nys-color-theme-stronger, #081b2b);
   --_nys-tab-background-color: var(--nys-color-surface, #ffffff);
   --_nys-tab-background-color--hover: var(--nys-color-theme-weaker, #eff6fb);
   --_nys-tab-background-color--active: var(--nys-color-theme-weak,#cddde9);
-  --_nys-tab-background-color--disabled: var(--nys-color-surface, #ffffff);
+  --_nys-tab-background-color--disabled: var(--_nys-tab-background-color);
   --_nys-tab-background-color--selected: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-tab-color: var(--nys-color-ink);
   --_nys-tab-padding--x: var(--nys-space-150, 12px);
   --_nys-tab-padding--y: var(--nys-space-200, 16px);
 
@@ -22,9 +29,9 @@
 :host([selected]) {
   nys-button {
     --nys-button-background-color: var(--_nys-tab-background-color--selected);
-    --_nys-button-border-color: var(--nys-color-theme);
-    --_nys-button-border-color--hover: var(--nys-color-theme-strong);
-    --_nys-button-border-color--active: var(--nys-color-theme-stronger);
+    --_nys-button-border-color: var(--_nys-tab-border-color--selected);
+    --_nys-button-border-color--hover: var(--_nys-tab-border-color--selected--hover);
+    --_nys-button-border-color--active: var(--_nys-tab-border-color--selected--active);
   }
 }
 
@@ -33,13 +40,13 @@ nys-button.nys-tab {
   --nys-button-background-color--hover: var(--_nys-tab-background-color--hover);
   --nys-button-background-color--active: var(--_nys-tab-background-color--active);
   --_nys-button-background-color--disabled: var(--_nys-tab-background-color--disabled);
-  --nys-button-color: var(--nys-color-ink);
-  --nys-button-color--hover: var(--nys-color-ink);
-  --nys-button-color--active: var(--nys-color-ink);
+  --nys-button-color: var(--_nys-tab-color);
+  --nys-button-color--hover: var(--_nys-tab-color);
+  --nys-button-color--active: var(--_nys-tab-color);
   --_nys-button-border-color: var(--_nys-tab-border-color);
   --_nys-button-border-color--disabled: var(--_nys-tab-border-color);
-  --_nys-button-border-color--hover: var(--nys-color-theme-weak);
-  --_nys-button-border-color--active: var(--nys-color-theme-mid);
+  --_nys-button-border-color--hover: var(--_nys-tab-border-color--hover);
+  --_nys-button-border-color--active: var(--_nys-tab-border-color--active);
   --_nys-button-border-radius: var(--_nys-tab-border-radius)
     var(--_nys-tab-border-radius) 0 0;
   --_nys-button-border-style: none none solid none;
