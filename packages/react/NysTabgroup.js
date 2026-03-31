@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysTabgroup = forwardRef((props, forwardedRef) => {
-  const { id, name, orientation, ...filteredProps } = props;
+  const { id, name, ...filteredProps } = props;
 
   return React.createElement(
     "nys-tabgroup",
@@ -10,7 +10,6 @@ export const NysTabgroup = forwardRef((props, forwardedRef) => {
       ...filteredProps,
       id: props.id,
       name: props.name,
-      orientation: props.orientation,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

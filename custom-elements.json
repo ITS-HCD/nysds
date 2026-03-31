@@ -10075,16 +10075,6 @@
               "attribute": "name"
             },
             {
-              "kind": "field",
-              "name": "orientation",
-              "type": {
-                "text": "| \"horizontal\"\n    | \"vertical\""
-              },
-              "default": "\"horizontal\"",
-              "attribute": "orientation",
-              "reflects": true
-            },
-            {
               "kind": "method",
               "name": "_getTabs",
               "privacy": "private",
@@ -10188,15 +10178,6 @@
               "default": "\"\"",
               "fieldName": "name",
               "propName": "name"
-            },
-            {
-              "name": "orientation",
-              "type": {
-                "text": "| \"horizontal\"\n    | \"vertical\""
-              },
-              "default": "\"horizontal\"",
-              "fieldName": "orientation",
-              "propName": "orientation"
             }
           ],
           "superclass": {

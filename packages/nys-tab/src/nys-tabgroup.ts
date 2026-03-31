@@ -16,9 +16,6 @@ export class NysTabgroup extends LitElement {
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) name = "";
-  @property({ type: String, reflect: true }) orientation:
-    | "horizontal"
-    | "vertical" = "horizontal";
 
   connectedCallback() {
     super.connectedCallback();
@@ -156,9 +153,8 @@ export class NysTabgroup extends LitElement {
     console.log("currentIndex", currentIndex);
     if (currentIndex === -1) return;
 
-    const isHorizontal = this.orientation === "horizontal";
-    const prevKey = isHorizontal ? "ArrowLeft" : "ArrowUp";
-    const nextKey = isHorizontal ? "ArrowRight" : "ArrowDown";
+    const prevKey = "ArrowLeft";
+    const nextKey = "ArrowRight";
 
     let newIndex = currentIndex;
 
@@ -188,7 +184,6 @@ export class NysTabgroup extends LitElement {
           class="nys-tabgroup__tabs"
           role="tablist"
           aria-label=${this.name}
-          aria-orientation=${this.orientation}
           @keydown=${this._handleKeydown}
         ></div>
         <div class="nys-tabgroup__panels"></div>
