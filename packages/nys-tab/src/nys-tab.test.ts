@@ -233,6 +233,34 @@ describe("nys-tab keyboard navigation", () => {
     expect(focused).to.not.include(tabs[1].id);
   });
 
+  it("does not listen to up and down arrows", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tab label="Tab Three"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const focused: string[] = [];
+    tabs.forEach((tab: HTMLElement) => {
+      tab.focus = () => focused.push(tab.id);
+    });
+
+    // ArrowUp does nothing
+    (el as any)._handleKeydown({
+      key: "ArrowUp",
+      composedPath: () => [tabs[0]],
+      preventDefault: () => {},
+    });
+    expect(focused).to.be.empty;
+  });
+
   it("can be clicked via enter or space", async () => {
     const el = await fixture<NysTabgroup>(html`
       <nys-tabgroup>
