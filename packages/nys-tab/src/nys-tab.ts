@@ -65,13 +65,7 @@ export class NysTab extends LitElement {
     if (e.key !== "Enter" && e.key !== " ") return;
 
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent("nys-tab-select", {
-        bubbles: true,
-        composed: true,
-        detail: { id: this.id, label: this.label },
-      }),
-    );
+    this._handleClick();
   }
 
   private _handleFocus() {

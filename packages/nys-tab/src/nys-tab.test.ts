@@ -2,6 +2,7 @@ import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-tab.js";
 import { NysTab } from "./nys-tab.js";
 import { NysTabgroup } from "./nys-tabgroup.js";
+import { NysButton } from "@nysds/nys-button";
 
 describe("nys-tab", () => {
   it("renders the component", async () => {
@@ -81,6 +82,30 @@ describe("nys-tab", () => {
     expect(tabs[0].hasAttribute("selected")).to.be.true;
     expect(tabs[1].hasAttribute("selected")).to.be.false;
     expect(tabs[2].hasAttribute("selected")).to.be.false;
+  });
+
+  it("focus() on nys-tab delegates to nys-button's focus()", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tab = el.shadowRoot!.querySelector("nys-tab")! as NysTab;
+    await (tab as any).updateComplete;
+
+    const nysButton = tab.shadowRoot!.querySelector("nys-button")! as NysButton;
+
+    let buttonFocusCalled = false;
+    nysButton.focus = () => {
+      buttonFocusCalled = true;
+    };
+
+    tab.focus();
+
+    expect(buttonFocusCalled).to.be.true;
   });
 });
 
@@ -206,6 +231,41 @@ describe("nys-tab keyboard navigation", () => {
 
     expect(focused[0]).to.equal(tabs[2].id);
     expect(focused).to.not.include(tabs[1].id);
+  });
+
+  it("can be clicked via enter or space", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tab label="Tab Three"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const focused: string[] = [];
+    tabs.forEach((tab: HTMLElement) => {
+      tab.focus = () => focused.push(tab.id);
+    });
+
+    // Pressing Enter on Tab should select it
+    let selectFired = false;
+    tabs[0].addEventListener("nys-tab-select", () => {
+      selectFired = true;
+    });
+    (tabs[0] as any)._handleKeydown(
+      new KeyboardEvent("keydown", { key: "Enter" }),
+    );
+    expect(selectFired).to.be.true;
+
+    // Pressing Space on Tab should select it
+    selectFired = false;
+    (tabs[0] as any)._handleKeydown(new KeyboardEvent("keydown", { key: " " }));
+    expect(selectFired).to.be.true;
   });
 });
 
