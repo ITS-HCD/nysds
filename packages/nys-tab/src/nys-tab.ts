@@ -210,6 +210,7 @@ export class NysTab extends LitElement {
         ?disabled=${this.disabled}
         tabIndex=${this.tabIndex}
         ariaControls=${this.getAttribute("aria-controls") ?? ""}
+        aria-disabled=${this.disabled}
         @nys-click=${this._handleClick}
         @nys-focus=${this._handleFocus}
         @nys-blur=${this._handleBlur}

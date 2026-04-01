@@ -203,6 +203,7 @@ export class NysTabgroup extends LitElement {
   ): void {
     tabs.forEach((tab, i) => {
       const isSelected = i === selectedIndex;
+      tab.setAttribute("aria-selected", isSelected ? "true" : "false");
       if (isSelected) {
         tab.setAttribute("selected", "");
       } else {
@@ -381,6 +382,7 @@ export class NysTabgroup extends LitElement {
           <div
             class="nys-tabgroup__tabs"
             role="tablist"
+            aria-orientation="horizontal"
             aria-label=${this.name}
             @keydown=${this._handleKeydown}
           ></div>
