@@ -10573,29 +10573,193 @@
     },
     {
       "kind": "javascript-module",
-      "path": "packages/nys-pagination/src/nys-pagination.figma.ts",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
-      "path": "packages/nys-pagination/src/nys-pagination.stories.ts",
+      "path": "packages/nys-globalheader/src/nys-globalheader.ts",
       "declarations": [
         {
-          "kind": "variable",
-          "name": "meta",
-          "type": {
-            "text": "Meta<NysPaginationArgs>"
+          "kind": "class",
+          "description": "Agency-branded header with app/agency name, navigation, and responsive mobile menu.\n\nPlace below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links\nare auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.",
+          "name": "NysGlobalHeader",
+          "slots": [
+            {
+              "description": "Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "appName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Application name displayed prominently.",
+              "attribute": "appName"
+            },
+            {
+              "kind": "field",
+              "name": "agencyName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Agency name displayed below app name (or as main title if no appName).",
+              "attribute": "agencyName"
+            },
+            {
+              "kind": "field",
+              "name": "homepageLink",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "URL for the header title link. If empty, title is not clickable.",
+              "attribute": "homepageLink"
+            },
+            {
+              "kind": "field",
+              "name": "nysLogo",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Toggles the NYS brand mark",
+              "attribute": "nysLogo"
+            },
+            {
+              "kind": "field",
+              "name": "_isMobileMenuOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Internal state to track mobile menu open/closed status."
+            },
+            {
+              "kind": "field",
+              "name": "_hasLinkContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false",
+              "description": "Internal state to track if any navigation links are present in the slot."
+            },
+            {
+              "kind": "method",
+              "name": "_highlightActiveLink",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "container",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ],
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleListSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_normalizePath",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "href",
+                  "type": {
+                    "text": "string | null"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_toggleMobileMenu",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_listenLinkClicks",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderBrandMark",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_getNysLogo",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "appName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Application name displayed prominently.",
+              "fieldName": "appName",
+              "propName": "appname"
+            },
+            {
+              "name": "agencyName",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Agency name displayed below app name (or as main title if no appName).",
+              "fieldName": "agencyName",
+              "propName": "agencyname"
+            },
+            {
+              "name": "homepageLink",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "URL for the header title link. If empty, title is not clickable.",
+              "fieldName": "homepageLink",
+              "propName": "homepagelink"
+            },
+            {
+              "name": "nysLogo",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Toggles the NYS brand mark",
+              "fieldName": "nysLogo",
+              "propName": "nyslogo"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
           },
-          "default": "{ title: \"Components/Pagination\", component: \"nys-pagination\", argTypes: { id: { control: \"text\" }, name: { control: \"text\" }, currentPage: { control: \"number\" }, totalPages: { control: \"number\" }, }, parameters: { docs: { source: { type: \"dynamic\" }, // Enables live Source code tab inlineStories: true, // Ensures stories are rendered within the docs tab }, }, }"
-        },
-        {
-          "kind": "variable",
-          "name": "Basic",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { id: \"pagination1\", name: \"pagination1\", currentPage: 4, totalPages: 10, }, render: (args) => html` <nys-pagination .id=${args.id} .name=${args.name} .currentPage=${args.currentPage} .totalPages=${args.totalPages} ></nys-pagination> `, parameters: { docs: { source: { code: ` <nys-pagination id=\"pagination1\" name=\"pagination1\" currentPage=4 totalPages=10 ></nys-pagination>`, type: \"auto\", }, }, }, }"
+          "tagName": "nys-globalheader",
+          "customElement": true,
+          "summary": "Agency header with navigation, mobile menu, and active link highlighting.",
+          "examples": [
+            {
+              "title": "Basic header",
+              "code": "<nys-globalheader appName=\"My App\" agencyName=\"Department of Health\" homepageLink=\"/\">\n<ul><li><a href=\"/about\">About</a></li><li><a href=\"/contact\">Contact</a></li></ul>\n</nys-globalheader>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
