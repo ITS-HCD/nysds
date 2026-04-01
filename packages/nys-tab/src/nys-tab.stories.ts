@@ -9,7 +9,6 @@ interface NysTabArgs {
   label: string;
   selected: boolean;
   disabled: boolean;
-  orientation: "horizontal" | "vertical";
 }
 
 const meta: Meta<NysTabArgs> = {
@@ -19,10 +18,6 @@ const meta: Meta<NysTabArgs> = {
     label: { control: "text" },
     selected: { control: "boolean" },
     disabled: { control: "boolean" },
-    orientation: {
-      control: "select",
-      options: ["horizontal", "vertical"],
-    },
   },
   parameters: {
     docs: {
@@ -39,10 +34,10 @@ export const Basic: Story = {
   args: {},
   render: () => html`
     <nys-tabgroup id="test">
-      <nys-tab label="Tab One Long Name"></nys-tab>
-      <nys-tab selected label="Tab Two Longer Name"></nys-tab>
-      <nys-tab selected label="Tab Three Extra Long Name"></nys-tab>
-      <nys-tab disabled label="Tab Four Disabled"></nys-tab>
+      <nys-tab label="Button"></nys-tab>
+      <nys-tab selected label="Some Accordions"></nys-tab>
+      <nys-tab label="Just text content in here"></nys-tab>
+      <nys-tab disabled label="I am disabled and you can't get to me"></nys-tab>
       <nys-tabpanel>
         Content for Tab One.
         <nys-button label="test"></nys-button
