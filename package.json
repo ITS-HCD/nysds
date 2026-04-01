@@ -123,6 +123,7 @@
     "storybook": "$storybook"
   },
   "dependencies": {
+    "custom-element-jsx-integration": "^1.6.0",
     "wc-datepicker": "^0.9.2"
   }
 }
