@@ -380,6 +380,11 @@
   --_nys-button-border-radius--end: var(--nys-radius-round, 1776px);
   --_nys-button-padding--y: 0;
   --_nys-button-padding--x: 0;
+
+  & .nys-button {
+  max-width: var(--_nys-button-height);
+  max-height: var(--_nys-button-height);
+  }
 }
 
 .nys-button {
@@ -406,11 +411,6 @@
   color: var(--_nys-button-color);
   border: solid var(--_nys-button-border-width) var(--_nys-button-border-color);
   cursor: var(--_nys-button-cursor, pointer);
-}
-
-:host([circle]) .nys-button {
-  max-width: var(--_nys-button-height);
-  max-height: var(--_nys-button-height);
 }
 
 .nys-button:hover {
