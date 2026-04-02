@@ -18,6 +18,9 @@ export interface NysGlobalHeaderProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Toggles the NYS brand mark */
+  nysLogo?: boolean;
+
   /** Application name displayed prominently. */
   appName?: NysGlobalHeaderElement["appName"];
 
