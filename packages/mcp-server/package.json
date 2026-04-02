@@ -4,7 +4,7 @@
   "description": "MCP server for the New York State Design System. Exposes components, tokens, and documentation to AI assistants.",
   "type": "module",
   "bin": {
-    "nysds-mcp": "./dist/index.js"
+    "nysds-mcp": "dist/index.js"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
