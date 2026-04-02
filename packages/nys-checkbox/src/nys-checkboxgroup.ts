@@ -102,6 +102,7 @@ export class NysCheckboxgroup extends LitElement {
       this.id = `nys-checkboxgroup-${Date.now()}-${checkboxgroupIdCounter++}`;
     }
     this.addEventListener("nys-change", this._handleCheckboxChange);
+    this.addEventListener("nys-other-input", this._handleOtherInput);
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("nys-error", this._handleChildError);
     this.addEventListener("nys-error-clear", this._handleChildErrorClear);
@@ -110,6 +111,7 @@ export class NysCheckboxgroup extends LitElement {
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("nys-change", this._handleCheckboxChange);
+    this.removeEventListener("nys-other-input", this._handleOtherInput);
     this.removeEventListener("invalid", this._handleInvalid);
     this.removeEventListener("nys-error", this._handleChildError);
     this.removeEventListener("nys-error-clear", this._handleChildErrorClear);
@@ -351,52 +353,50 @@ export class NysCheckboxgroup extends LitElement {
     }
 
     // Priority 2: Handle valueMissing (required validation)
-    if (this._internals.validity.valueMissing) {
-      this.showError = true;
-      this._manageRequire(); // Refresh validation message
+    this.showError = true;
+    await this._manageRequire(); // Refresh validation message
 
-      // Fallback behavior
-      const firstCheckbox = this.querySelector("nys-checkbox");
-      const firstCheckboxInput = firstCheckbox
-        ? await (firstCheckbox as any).getInputElement()
-        : null;
+    // Fallback behavior
+    const firstCheckbox = this.querySelector("nys-checkbox");
+    const firstCheckboxInput = firstCheckbox
+      ? await (firstCheckbox as any).getInputElement()
+      : null;
 
-      if (firstCheckboxInput) {
-        // Focus only if this is the first invalid element (top-down approach)
-        const form = this._internals.form;
-        if (form) {
-          const elements = Array.from(form.elements) as Array<
-            HTMLElement & { checkValidity?: () => boolean }
-          >;
-          // Find the first element in the form that is invalid
-          const firstInvalidElement = elements.find((element) => {
-            // If element is <nys-checkboxgroup>, we see if anyone checkboxes within the group is checked to fulfill required constraint
-            if (element.tagName.toLowerCase() === "nys-checkboxgroup") {
-              const allCheckboxes = Array.from(
-                this.querySelectorAll("nys-checkbox"),
-              ) as any[];
-              const hasCheckedCheckbox = allCheckboxes.filter(
-                (checkbox) => checkbox.checked,
-              );
-              // Required constraint not met, continue logic to have this component be focused
-              if (hasCheckedCheckbox.length === 0) {
-                return element;
-              }
-            } else {
-              return (
-                typeof element.checkValidity === "function" &&
-                !element.checkValidity()
-              );
+    if (firstCheckboxInput) {
+      // Focus only if this is the first invalid element (top-down approach)
+      const form = this._internals.form;
+      if (form) {
+        const elements = Array.from(form.elements) as Array<
+          HTMLElement & { checkValidity?: () => boolean }
+        >;
+        // Find the first element in the form that is invalid
+        const firstInvalidElement = elements.find((element) => {
+          // If element is <nys-checkboxgroup>, we see if anyone checkboxes within the group is checked to fulfill required constraint
+          if (element.tagName.toLowerCase() === "nys-checkboxgroup") {
+            const allCheckboxes = Array.from(
+              this.querySelectorAll("nys-checkbox"),
+            ) as any[];
+            const hasCheckedCheckbox = allCheckboxes.filter(
+              (checkbox) => checkbox.checked,
+            );
+            // Required constraint not met, continue logic to have this component be focused
+            if (hasCheckedCheckbox.length === 0) {
+              return element;
             }
-          });
-
-          if (firstInvalidElement === this) {
-            firstCheckboxInput.focus();
+          } else {
+            return (
+              typeof element.checkValidity === "function" &&
+              !element.checkValidity()
+            );
           }
-        } else {
-          // If not part of a form, simply focus.
+        });
+
+        if (firstInvalidElement === this) {
           firstCheckboxInput.focus();
         }
+      } else {
+        // If not part of a form, simply focus.
+        firstCheckboxInput.focus();
       }
     }
   }
@@ -457,6 +457,8 @@ export class NysCheckboxgroup extends LitElement {
     }
 
     // Clear the old validation state first so to prevent the old customError message from persisting
+    this._hasOtherError = false;
+    this._otherErrorCheckbox = null;
     this._internals.setValidity({});
     this.showError = false;
 
@@ -464,6 +466,16 @@ export class NysCheckboxgroup extends LitElement {
     if (this.required && !this._hasAtLeastOneChecked()) {
       this._manageRequire();
     }
+  }
+
+  private _handleOtherInput() {
+    const checkboxes = Array.from(
+      this.querySelectorAll("nys-checkbox"),
+    ) as NysCheckbox[];
+    const selectedValues = checkboxes
+      .filter((checkbox: any) => checkbox.checked)
+      .map((checkbox: any) => checkbox.value);
+    this._internals.setFormValue(selectedValues.join(", "));
   }
 
   private async _checkOtherInputs(checkboxes: NysCheckbox[]) {

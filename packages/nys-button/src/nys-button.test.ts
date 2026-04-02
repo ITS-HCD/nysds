@@ -22,24 +22,6 @@ describe("nys-button", () => {
     expect(el?.type).to.equal("button");
   });
 
-  it("getButtonElement returns the correct internal element", async () => {
-    // Case 1: standard button
-    const btnEl = await fixture<NysButton>(
-      html`<nys-button label="Click"></nys-button>`,
-    );
-    const internalButton = await btnEl.getButtonElement();
-    expect(internalButton).to.exist;
-    expect(internalButton?.tagName.toLowerCase()).to.equal("button");
-
-    // Case 2: link button
-    const linkEl = await fixture<NysButton>(
-      html`<nys-button label="Go" href="#"></nys-button>`,
-    );
-    const internalLink = await linkEl.getButtonElement();
-    expect(internalLink).to.exist;
-    expect(internalLink?.tagName.toLowerCase()).to.equal("a");
-  });
-
   it("should have role='button' for screen readers", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Accessible Button"></nys-button>`,
@@ -128,7 +110,10 @@ describe("nys-button", () => {
     const el = await fixture<NysButton>(
       html`<nys-button disabled></nys-button>`,
     );
-    const button = await el.getButtonElement();
+    const button =
+      await el.shadowRoot?.querySelector<HTMLButtonElement>(
+        "button.nys-button",
+      );
 
     let prevented = false;
     const event = new MouseEvent("click", {
@@ -463,7 +448,10 @@ describe("<nys-button> form integration", () => {
       submitted = true;
     };
 
-    const btnEl = await submitBtn.getButtonElement();
+    const btnEl =
+      await submitBtn.shadowRoot?.querySelector<HTMLButtonElement>(
+        "button.nys-button",
+      );
     btnEl?.click(); // triggers private _manageFormAction internally
     await submitBtn.updateComplete;
 
@@ -480,7 +468,10 @@ describe("<nys-button> form integration", () => {
       reset = true;
     };
 
-    const resetEl = await resetBtn.getButtonElement();
+    const resetEl =
+      await resetBtn.shadowRoot?.querySelector<HTMLButtonElement>(
+        "button.nys-button",
+      );
     resetEl?.click(); // triggers _manageFormAction
     await resetBtn.updateComplete;
 
@@ -592,7 +583,10 @@ describe("NysButton keyboard support", () => {
     form.requestSubmit = () => (submitted = true);
     form.reset = () => (reset = true);
 
-    const btnEl = await btn.getButtonElement();
+    const btnEl =
+      await btn.shadowRoot?.querySelector<HTMLButtonElement>(
+        "button.nys-button",
+      );
     btnEl?.click();
     await btn.updateComplete;
 
@@ -600,5 +594,36 @@ describe("NysButton keyboard support", () => {
     expect(reset).to.be.false;
 
     document.body.removeChild(form);
+  });
+
+  /** More event testing **/
+  it("executes onClick string attribute via keyboard Enter", async () => {
+    // Use a side-effect we can observe without eval risks in test env
+    (window as any)._nysButtonAttrTest = false;
+
+    const el = await fixture<NysButton>(html`
+      <nys-button
+        label="Attr Test"
+        onClick="window._nysButtonAttrTest = true;"
+      ></nys-button>
+    `);
+    await el.updateComplete;
+
+    const button = el.shadowRoot!.querySelector("button")!;
+
+    button.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        composed: true,
+      }),
+    );
+
+    await el.updateComplete;
+
+    expect((window as any)._nysButtonAttrTest).to.be.true;
+
+    delete (window as any)._nysButtonAttrTest;
   });
 });

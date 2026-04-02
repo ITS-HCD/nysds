@@ -3,40 +3,50 @@
 MCP (Model Context Protocol) server for the New York State Design System. Exposes NYSDS components, design tokens, and documentation to AI assistants.
 
 > [!WARNING]
-> This MCP server is a work-in-progress and the current results are incomplete or inaccurate. The server is functional, but the quality of the output depends on the robustness of the underlying documentation, which requires some updating. Our team is in the process of migrating design tokens to the [DTCG 2025.10 format](https://www.designtokens.org/tr/2025.10/format/) (will be @nysds/tokens) and enhancing component JSDoc with patterns, accessibility guidance, and usage rules based on guidance from ["Effective Writing for AI" by Benny Powers](https://bennypowers.dev/cem/docs/mcp/writing-descriptions/). AI results should improve significantly as tokens and improved documentation rolls out.
+> This MCP server is a work-in-progress and the current tool results are being refined. The server is functional, but the quality of the output depends on the robustness of the underlying documentation, and we're enhancing component JSDoc with patterns, accessibility guidance, and usage rules based on guidance from ["Effective Writing for AI" by Benny Powers](https://bennypowers.dev/cem/docs/mcp/writing-descriptions/).
 
-## Installation
+## Getting Started
 
-> [!CAUTION]
-> This package is not yet published to npm. You must clone the repository and build locally until it is.
+No installation is required. The MCP server runs on-demand via `npx` — your AI assistant downloads and starts it automatically when you add the configuration below. You just need [Node.js](https://nodejs.org/) (v18 or later) installed on your machine.
 
-Once it's cloned, run this command from the `/packages/mcp-server` directory:
+Jump to the configuration for your assistant:
+- [GitHub Copilot](#github-copilot)
+- [Claude Desktop](#claude-desktop)
+- [Claude Code](#claude-code)
+- [Cursor](#cursor)
+- [Gemini CLI](#gemini-cli)
 
-```bash
-# Clone the repository
-git clone https://github.com/ITS-HCD/nysds nysds-mcp
-cd nysds-mcp
+### Using the Next Channel
 
-# Switch to the MCP feature branch
-git checkout feature/mcp-server
+To pull in the latest bleeding-edge changes before they hit the stable release, point to the `next` dist-tag by replacing `@nysds/mcp-server` with `@nysds/mcp-server@next` in any of the configurations below. For example:
 
-# Install dependencies (from repo root)
-npm install
-
-# Build the MCP server
-npm run build --workspace=packages/mcp-server
-
-# Explore the MCP server with the MCP inspector
-cd packages
-npx @modelcontextprotocol/inspector node dist/index.js
+```json
+"args": ["-y", "@nysds/mcp-server@next"]
 ```
 
-## Connecting to the MCP Server
-
-Once the MCP server is set up and built, your AI code assistant can automatically connect and communicate with it. You only need to set up the configuration. Each assistant has its own configuration format, but they all follow the same pattern: tell the assistant how to start the server (via `npx`), and it will automatically connect and use the available tools.
+To go back to stable, just remove `@next`.
 
 > [!NOTE]
-> The "args" in these examples will change after the package is published to npm.
+> Next releases may include breaking changes, incomplete features, or components not fully supported. They're useful for previewing upcoming work, but stick with the stable channel for production use.
+
+### Optional: Local Installation
+
+If you prefer to install the server locally — for example, to use the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) or to pin a specific version — you can install it globally:
+
+```bash
+npm install -g @nysds/mcp-server
+nysds-mcp
+```
+
+Or run it directly without installing:
+
+```bash
+npx -y @nysds/mcp-server
+```
+
+## Connecting to Your AI Assistant
+
+Each assistant has its own configuration format, but they all follow the same pattern: tell the assistant how to start the server (via `npx`), and it handles the rest.
 
 ### GitHub Copilot
 
@@ -46,8 +56,8 @@ MCP support in GitHub Copilot is available in VS Code. Add to your VS Code setti
 {
   "servers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
@@ -59,15 +69,15 @@ See the [Copilot MCP documentation](https://docs.github.com/en/copilot/using-git
 
 Add to your Claude Desktop configuration:
 
-- macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
-- Windows: %APPDATA%\Claude\claude_desktop_config.json
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
@@ -81,8 +91,8 @@ Add to your project's `.mcp.json`:
 {
   "mcpServers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
@@ -98,32 +108,55 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
 {
   "mcpServers": {
     "nysds": {
-      "command": "node",
-      "args": ["/absolute/path/to/nysds-mcp/packages/mcp-server/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "@nysds/mcp-server"]
     }
   }
 }
 ```
 
+### Gemini CLI
+
+Add to your Gemini CLI settings file (`~/.gemini/settings.json`) or your project's `.gemini/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "nysds": {
+      "command": "npx",
+      "args": ["-y", "@nysds/mcp-server"]
+    }
+  }
+}
+```
+
+See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) for the latest setup instructions.
+
 ## Available Tools
 
-### P0 (Core)
+### Components
 
 | Tool | Description |
 |------|-------------|
-| `list_components` | List all NYSDS components with summaries |
-| `get_component_docs` | Full documentation for a specific component |
-| `find_components` | Search components by name/description |
-| `get_design_tokens` | Get token values by category |
-| `get_usage_guide` | Installation and usage patterns |
+| `find_components` | Search for components by name/description, or list all (omit query) |
+| `get_component` | Full documentation for a specific component. Use `includeExamples: true` for code examples. |
+| `validate_component_api` | Validate that attributes/properties are valid for a component |
 
-### P1 (Extended)
+### Design Tokens
 
 | Tool | Description |
 |------|-------------|
-| `validate_component_api` | Validate prop/attribute usage |
-| `setup_framework` | Framework-specific setup guides |
-| `find_tokens` | Search tokens by name/value |
+| `get_tokens` | Get tokens, categories, or agency themes. Filter by category or layer. |
+| `find_tokens` | Search tokens by CSS variable name, value, or description |
+| `get_token_info` | Detailed info for a specific token with optional context validation |
+| `get_token_graph` | Token dependency graph showing references and usage |
+
+### Styles & Guides
+
+| Tool | Description |
+|------|-------------|
+| `get_utility_classes` | Grid, flexbox, spacing, display, and typography utility classes |
+| `get_guide` | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, dotnet, drupal, vanilla). Angular, React, .NET, and Drupal guides are currently untested. |
 
 ## Available Resources
 
@@ -131,7 +164,13 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
 |-----|-------------|
 | `nysds://components` | Component overview list |
 | `nysds://component/{tag}` | Individual component docs |
-| `nysds://tokens` | All design tokens |
+| `nysds://tokens` | All design tokens with CSS variables and descriptions |
+| `nysds://tokens/css` | Raw tokens.css file content |
+| `nysds://tokens/graph` | Token dependency graph with stats |
+| `nysds://tokens/color` | Color tokens only |
+| `nysds://tokens/font` | Typography tokens |
+| `nysds://tokens/space` | Spacing tokens |
+| `nysds://tokens/size` | Size tokens |
 | `nysds://installation` | Installation guide |
 
 ## Prompts
@@ -142,28 +181,40 @@ Add to your Cursor MCP settings (`.cursor/mcp.json`):
 
 ## Example Prompts
 
-Once configured, you can ask your AI assistant questions like:
+Once configured, you can ask your AI assistant to help you build real applications with the design system.
 
-**Discovering components:**
-- "What NYSDS components are available for forms?"
-- "Show me the documentation for the nys-button component"
-- "What properties does nys-alert support?"
+**Building applications from requirements:**
 
-**Building UI:**
-- "Create a contact form using NYSDS components with fields for name, email, and message"
-- "Build a page header with the global header component and navigation"
-- "Add form validation to this input using NYSDS error message components"
+> Read the PDF from this folder and create a PRD for a multi-step front end application. Use the NYS Design System. Build with Vite and TypeScript. Break up the tasks into a step-by-step list. Before you start, ask any clarifying questions to do this task well.
 
-**Working with tokens:**
-- "What color tokens are available in NYSDS?"
-- "Show me the spacing tokens I should use for consistent layouts"
-- "What's the correct token for the primary brand color?"
+> Build out a newsletter signup form using the NYS Design System. Use existing DS components where possible. Where not, build new components using the same approach as existing components, and style with appropriate NYSDS design tokens and utility classes. Afterward, perform a gap analysis that documents everything not in the design system that was created.
 
-**Framework integration:**
-- "How do I set up NYSDS components in my Angular project?"
-- "Show me how to use nys-button in React"
-- "What's the recommended way to integrate NYSDS with Vue?"
+**Scaffolding and setup:**
 
-**Code review:**
-- "Is this the correct way to use the nys-select component?"
-- "Check if I'm using valid attributes on this nys-checkbox"
+> Set up a new Vite project with TypeScript and install the NYS Design System. Configure it with the correct fonts, tokens, and page structure. Show me a working hello world page that follows the NYSDS page layout guide.
+
+> I have an existing .NET Razor Pages app. Walk me through integrating NYSDS components into it step by step.
+
+**Building pages and features:**
+
+> Build a search results page with a text input, filters using checkboxes and selects, and a results list. Use NYSDS components for all form elements and follow the grid system for layout.
+
+> Create an accessible multi-step wizard form for a permit application with validation on each step. Use NYSDS form components and show error states using the design system's error patterns.
+
+**Working with design tokens and theming:**
+
+> I'm building a page for the Department of Health. Show me how to apply their agency theme using NYSDS tokens, and build a dashboard header that uses the correct brand colors.
+
+> Show me all the spacing tokens available and explain the scale. Then refactor this layout to use NYSDS spacing tokens instead of hardcoded values.
+
+**Code review and validation:**
+
+> Review this HTML page and identify everywhere I'm using NYSDS components incorrectly — wrong attributes, missing required properties, or deprecated patterns.
+
+> Check if I'm using the right token layers. I want to make sure my component-level styles reference the correct semantic tokens instead of raw values.
+
+**Exploring the system:**
+
+> What NYSDS components are available for forms? Show me the documentation for each one with code examples.
+
+> Show me the token dependency graph for the primary color. I want to understand how the base, semantic, and component layers connect.

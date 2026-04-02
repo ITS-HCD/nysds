@@ -1,0 +1,221 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Video Styles */
+  --_nys-video-width: fit-content;
+  --_nys-video-height: var(--nys-size-600, 48px);
+  --_nys-video-radius: var(--nys-radius-lg, 8px);
+  --_nys-video-padding: var(--nys-space-100, 8px);
+  --_nys-video-gap: var(--nys-space-100, 8px);
+
+  /* Typography */
+  --_nys-video-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-video-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-video-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-video-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+
+  /* Play Button */
+  --_nys-video-background-color--play-button: var(
+    --nys-color-black-transparent-600,
+    rgba(27, 27, 27, 0.6)
+  );
+  --_nys-video-outline-color--play-button: var(--nys-color-focus, #004dd1);
+  --_nys-video-svg-color--play-button: var(
+    --nys-color-white-transparent-400,
+    rgba(255, 255, 255, 0.4)
+  );
+
+  /* Title Text */
+  --_nys-video-color--title-text: var(--nys-color-text-reverse, #ffffff);
+  --_nys-video-background-color--title-text: var(
+    --nys-color-ink,
+    var(--nys-color-neutral-900, #1b1b1b)
+  );
+  --_nys-video-padding--title-text: var(--nys-space-250, 20px);
+}
+
+/* ─── Video Size ────────────────────────────────────────────── */
+.nys-video--full {
+  width: 100%;
+}
+
+/*
+ * Medium (md) — capped at 675px wide, minimum 440px.
+ * For screens smaller than 440px, use Small (sm) instead.
+ */
+.nys-video--md {
+  width: 100%;
+  max-width: 675px;
+  min-width: 440px;
+}
+
+/*
+ * Small (sm) — for mobile and small screens.
+ */
+.nys-video--sm {
+  width: 100%;
+  min-width: 320px;
+  max-width: 439px;
+}
+
+/* ─── Size overrides for title text overlay ────────────────────────────────────────────── */
+// User setting full gets overlay at all responsive sizes 
+:host([size="full"]) .nys-video .nys-video__title-text {
+  position: absolute;
+  bottom: 0;
+
+  --_nys-video-background-color--title-text: var(
+    --nys-color-black-transparent-900,
+    rgba(27, 27, 27, 0.9)
+  );
+}
+
+// No "size=full" means we auto remove overlay for smaller screens
+.nys-video:not(.nys-video--sm):not(.nys-video--md)
+  .nys-video__title-text{
+  @media (width >= 480px) {
+    position: absolute;
+    bottom: 0;
+
+    --_nys-video-background-color--title-text: var(
+      --nys-color-black-transparent-900,
+      rgba(27, 27, 27, 0.9)
+    );
+  }
+}
+
+/* ─── Core video wrapper ─────────────────────────────────────────────────── */
+.nys-video {
+  border-radius: var(--_nys-video-radius);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  .nys-video__ratio-box {
+    aspect-ratio: 16 / 9;
+    position: relative;
+
+    iframe,
+    .nys-video__thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+    }
+
+    .nys-video__thumbnail {
+      cursor: pointer;
+      padding: 0;
+      background-color: none;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .nys-video__play-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 96px;
+        height: 96px;
+        background-color: var(--_nys-video-background-color--play-button);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+
+        svg {
+          display: flex;
+          margin-left: 10px;
+        }
+
+        &:focus-visible {
+          outline: 3.5px solid var(--_nys-video-outline-color--play-button);
+          outline-offset: 1px;
+        }
+      }
+
+      &:hover .nys-video__play-icon {
+        --_nys-video-background-color--play-button: var(
+          --nys-color-black-transparent-700,
+          rgba(27, 27, 27, 0.7)
+        );
+      }
+
+      &:active .nys-video__play-icon {
+        --_nys-video-background-color--play-button: var(
+          --nys-color-black-transparent-800,
+          rgba(27, 27, 27, 0.8)
+        );
+      }
+    }
+  }
+
+  &--disabled {
+    .nys-video__ratio-box {
+      cursor: not-allowed;
+
+      .nys-video__thumbnail {
+        pointer-events: none;
+
+        .nys-video__play-icon {
+          --_nys-video-background-color--play-button: var(
+            --nys-color-black-transparent-200,
+            rgba(27, 27, 27, 0.2)
+          );
+
+          svg {
+            fill: var(--_nys-video-svg-color--play-button);
+          }
+        }
+      }
+    }
+  }
+
+  .nys-video__title-text {
+    width: 100%;
+    padding: var(--_nys-video-padding--title-text);
+    background-color: var(--_nys-video-background-color--title-text);
+    box-sizing: border-box;
+    color: var(--_nys-video-color--title-text);
+    display: flex;
+    justify-content: start;
+    font-family: var(--_nys-video-font-family);
+    font-size: var(--_nys-video-font-size);
+    font-weight: var(--_nys-video-font-weight);
+    line-height: var(--_nys-video-line-height);
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+}

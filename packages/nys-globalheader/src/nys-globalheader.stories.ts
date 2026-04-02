@@ -4,12 +4,14 @@ import "./nys-globalheader";
 import "@nysds/nys-icon";
 import "@nysds/nys-avatar";
 import "@nysds/nys-button";
+import "@nysds/nys-dropdownmenu";
 
 // Define the structure of the args used in the stories
 interface NysGlobalHeaderArgs {
   appName: string;
   agencyName: string;
   homepageLink: string;
+  nysLogo: boolean;
 }
 
 const meta: Meta<NysGlobalHeaderArgs> = {
@@ -19,6 +21,7 @@ const meta: Meta<NysGlobalHeaderArgs> = {
     appName: { control: "text" },
     agencyName: { control: "text" },
     homepageLink: { control: "text" },
+    nysLogo: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -35,12 +38,14 @@ export const Basic: Story = {
   args: {
     appName: "User Registration Form",
     agencyName: "Office of Information Technology Services",
+    nysLogo: false,
   },
   render: (args) => html`
     <nys-globalheader
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      ?nysLogo=${args.nysLogo}
     >
     </nys-globalheader>
   `,
@@ -62,14 +67,7 @@ export const OnlyAgencyName: Story = {
     agencyName: "Office of Information Technology Services",
     homepageLink: "https://its.ny.gov",
   },
-  render: (args) => html`
-    <nys-globalheader
-      .agencyName=${args.agencyName}
-      .appName=${args.appName}
-      .homepageLink=${args.homepageLink}
-    >
-    </nys-globalheader>
-  `,
+  render: Basic.render,
   parameters: {
     docs: {
       source: {
@@ -87,14 +85,7 @@ export const OnlyAppName: Story = {
   args: {
     appName: "NYS Employee Portal",
   },
-  render: (args) => html`
-    <nys-globalheader
-      .agencyName=${args.agencyName}
-      .appName=${args.appName}
-      .homepageLink=${args.homepageLink}
-    >
-    </nys-globalheader>
-  `,
+  render: Basic.render,
   parameters: {
     docs: {
       source: {
@@ -113,14 +104,7 @@ export const WithBothNames: Story = {
     appName: "Unemployment Insurance Benefits",
     agencyName: "Department of Labor",
   },
-  render: (args) => html`
-    <nys-globalheader
-      .agencyName=${args.agencyName}
-      .appName=${args.appName}
-      .homepageLink=${args.homepageLink}
-    >
-    </nys-globalheader>
-  `,
+  render: Basic.render,
   parameters: {
     docs: {
       source: {
@@ -143,6 +127,7 @@ export const WithLinks: Story = {
       .agencyName=${args.agencyName}
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
+      ?nysLogo=${args.nysLogo}
     >
       <ul>
         <li><a href="https://its.ny.gov/services">Services</a></li>
@@ -185,7 +170,12 @@ export const UserActions: Story = {
       .appName=${args.appName}
       .homepageLink=${args.homepageLink}
     >
-      <nys-button slot="user-actions" label="Log out" prefixIcon="slotted">
+      <nys-button
+        id="my-action-slot"
+        slot="user-actions"
+        label="Log out"
+        prefixIcon="slotted"
+      >
         <nys-avatar
           slot="prefix-icon"
           ariaLabel="User avatar"
@@ -193,6 +183,25 @@ export const UserActions: Story = {
         ></nys-avatar>
       </nys-button>
     </nys-globalheader>
+    <nys-dropdownmenu id="dropdownmenu" for="my-action-slot">
+      <nys-dropdownmenuitem
+        label="Profile"
+        href="/profile"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Repositories & Github Pages"
+        href="/repos"
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Organizations"
+        href="/organizations"
+        disabled
+      ></nys-dropdownmenuitem>
+      <nys-dropdownmenuitem
+        label="Sign out"
+        href="/logout"
+      ></nys-dropdownmenuitem>
+    </nys-dropdownmenu>
   `,
   parameters: {
     docs: {
@@ -207,7 +216,34 @@ export const UserActions: Story = {
     ></nys-avatar>
   </nys-button>
 </nys-globalheader>
+<nys-dropdownmenu id="dropdownmenu" for="my-action-slot">
+  <nys-dropdownmenuitem label="Profile" href="/profile"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Repositories & Github Pages" href="/repos"></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Organizations" href="/organizations" disabled></nys-dropdownmenuitem>
+  <nys-dropdownmenuitem label="Sign out" href="/logout"></nys-dropdownmenuitem>
+</nys-dropdownmenu>
 `.trim(),
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WithBrandMark: Story = {
+  args: {
+    ...Basic.args,
+    nysLogo: true,
+    appName: "Admin Dashboard",
+    agencyName: "",
+  },
+  render: Basic.render,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-globalheader nysLogo appName="Admin Dashboard">
+</nys-globalheader>
+        `,
         type: "auto",
       },
     },

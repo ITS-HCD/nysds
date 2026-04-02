@@ -245,10 +245,10 @@ export class NysSelect extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaRequired = "true"; // Screen readers should announce error
+      this._internals.ariaInvalid = "true"; // Screen readers should announce error
       this._internals.setValidity({ valueMissing: true }, message, select);
     } else {
-      this._internals.ariaRequired = "false"; // Reset when valid
+      this._internals.ariaInvalid = "false"; // Reset when valid
       this._internals.setValidity({});
       this._hasUserInteracted = false; // Reset the interaction flag, make lazy again
     }
