@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-video",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "description": "The Video Player component from the NYS Design System.",
   "module": "dist/nys-video.js",
   "types": "dist/index.d.ts",
