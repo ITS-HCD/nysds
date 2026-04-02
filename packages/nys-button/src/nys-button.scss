@@ -52,7 +52,7 @@
         "Helvetica",
         "Arial",
         sans-serif));
-
+  --_nys-button-text-decoration: none;
   display: inline-flex;
   width: fit-content;
 }
@@ -113,12 +113,16 @@
       var(--nys-color-theme-strong, #0e324f));
   --_nys-button-color--hover: var(--nys-button-color--hover,
       var(--nys-color-text-reverse, #ffffff));
+  --_nys-button-border-color--hover: var(--nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00));
 
   /* Filled - Pressed/Active */
   --_nys-button-background-color--active: var(--nys-button-background-color--active,
       var(--nys-color-theme-stronger, #081b2b));
   --_nys-button-color--active: var(--nys-button-color--active,
       var(--nys-color-text-reverse, #ffffff));
+    --_nys-button-border-color--active: var(--nys-button-border-color,
+      var(--nys-color-transparent, #ffffff00));
 
   /* Filled - Disabled */
   --_nys-button-background-color--disabled: var(--nys-color-neutral-10,
@@ -376,6 +380,11 @@
   --_nys-button-border-radius--end: var(--nys-radius-round, 1776px);
   --_nys-button-padding--y: 0;
   --_nys-button-padding--x: 0;
+
+  & .nys-button {
+  max-width: var(--_nys-button-height);
+  max-height: var(--_nys-button-height);
+  }
 }
 
 .nys-button {
@@ -402,11 +411,6 @@
   color: var(--_nys-button-color);
   border: solid var(--_nys-button-border-width) var(--_nys-button-border-color);
   cursor: var(--_nys-button-cursor, pointer);
-}
-
-:host([circle]) .nys-button {
-  max-width: var(--_nys-button-height);
-  max-height: var(--_nys-button-height);
 }
 
 .nys-button:hover {
