@@ -51,6 +51,9 @@ export interface NysButtonProps extends Pick<
   /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
   ariaControls?: NysButtonElement["ariaControls"];
 
+  /** Tab index for keyboard navigation. Defaults to 0 (focusable) when not disabled. Set to -1 to make focusable but not tabbable. */
+  tabIndex?: number;
+
   /** Material Symbol icon before label. Not shown for `text` variant or `circle` mode. */
   prefixIcon?: NysButtonElement["prefixIcon"];
 
