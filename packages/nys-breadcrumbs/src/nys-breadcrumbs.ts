@@ -161,6 +161,7 @@ export class NysBreadcrumbs extends LitElement {
           this._manuallyExpanded = true;
           this.collapsed = false;
           this._handleSlotChange();
+          this._dispatchExpandEvent();
         });
 
         // Chevron Icon
@@ -179,6 +180,15 @@ export class NysBreadcrumbs extends LitElement {
    * Event Handlers
    * --------------------------------------------------------------------------
    */
+  private _dispatchExpandEvent() {
+    this.dispatchEvent(
+      new CustomEvent("nys-breadcrumbs-expand", {
+        detail: { id: this.id },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
 
   render() {
     return html`<nav class="nys-breadcrumbs" aria-label="A set of breadcrumbs">

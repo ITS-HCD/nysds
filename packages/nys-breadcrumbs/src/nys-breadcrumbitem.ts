@@ -56,7 +56,7 @@ export class NysBreadcrumbItem extends LitElement {
     if (this.isBackToParent) {
       return html`<li class="nys-breadcrumbitem">
         <nys-icon name="arrow_back" size="16"></nys-icon>
-        <a href=${this.link}>${this.label}</a>
+        <a href=${this.link} @click=${this._handleClick}>${this.label}</a>
       </li>`;
     }
 
@@ -65,7 +65,10 @@ export class NysBreadcrumbItem extends LitElement {
     }
 
     return html`<li class="nys-breadcrumbitem">
-      <a href=${this.link} class="${this._isCurrentPage ? "current" : ""}"
+      <a
+        href=${this.link}
+        class="${this._isCurrentPage ? "current" : ""}"
+        @click=${this._handleClick}
         >${this.label}</a
       >
       ${!this.isLast
@@ -78,8 +81,15 @@ export class NysBreadcrumbItem extends LitElement {
    * Event Handlers
    * --------------------------------------------------------------------------
    */
-
-  // Placeholder for event handlers if needed
+  private _handleClick() {
+    this.dispatchEvent(
+      new CustomEvent("nys-breadcrumbitem-click", {
+        detail: { id: this.id, link: this.link },
+        bubbles: true,
+        composed: true,
+      }),
+    );
+  }
 
   render() {
     return this.breadcrumbRender();
