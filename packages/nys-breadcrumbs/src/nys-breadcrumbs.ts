@@ -54,7 +54,7 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: String }) itemsAfterCollapse = "";
   @property({ type: String }) maxItems = "";
 
-  private _resizeObserver: ResizeObserver | null = null;
+  // private _resizeObserver: ResizeObserver | null = null;
   private _collapseThreshold = 5; // default for desktop
   private _manuallyExpanded = false;
 
@@ -74,16 +74,12 @@ export class NysBreadcrumbs extends LitElement {
       this.id = `nys-breadcrumbs-${Date.now()}-${componentIdCounter++}`;
     }
 
-    this._resizeObserver = new ResizeObserver(() => {
-      this._updateCollapseThreshold();
-    });
-    this._resizeObserver.observe(this);
+    window.addEventListener("resize", this._updateCollapseThreshold);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this._resizeObserver?.disconnect();
-    this._resizeObserver = null;
+    window.removeEventListener("resize", this._updateCollapseThreshold);
   }
 
   firstUpdated() {
@@ -101,8 +97,8 @@ export class NysBreadcrumbs extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  private _updateCollapseThreshold() {
-    const isMobile = this.offsetWidth < 768;
+  private _updateCollapseThreshold = () => {
+    const isMobile = window.innerWidth < 768; // NYSDS sets anything below 768px as mobile. Desktop and Tablet is above 768px.
     const newThreshold = isMobile ? 3 : 5;
 
     if (newThreshold !== this._collapseThreshold) {
@@ -110,7 +106,7 @@ export class NysBreadcrumbs extends LitElement {
       this._manuallyExpanded = false;
       this._handleSlotChange();
     }
-  }
+  };
 
   private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
