@@ -6,7 +6,27 @@ import styles from "./nys-breadcrumbs.scss?inline";
 let breadcrumbItemIdCounter = 0;
 
 /**
- * `<nys-breadcrumbitem>` is ...
+ * A single item in a `nys-breadcrumbs` navigation trail. Renders as a link
+ * followed by a chevron separator, or as plain text when it represents the current page
+ * (no `link` provided). When used as the only item inside `nys-breadcrumbs`, renders
+ * as a back-to-parent link with a back arrow icon.
+ *
+ * For use as a direct child of `nys-breadcrumbs` only. Do not use standalone.
+ *
+ * @summary Single breadcrumb trail item with chevron separator and current page support.
+ * @element nys-breadcrumbitem
+ *
+ * @fires nys-breadcrumbitem-click - Fired when the link is clicked. Detail: `{id, link}`.
+ *
+ * @example Linked crumb
+ * ```html
+ * <nys-breadcrumbitem link="/services" label="Services"></nys-breadcrumbitem>
+ * ```
+ *
+ * @example Current page (no link — always last in trail)
+ * ```html
+ * <nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>
+ * ```
  */
 
 export class NysBreadcrumbItem extends LitElement {

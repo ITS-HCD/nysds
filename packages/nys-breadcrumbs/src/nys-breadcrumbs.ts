@@ -8,7 +8,41 @@ import styles from "./nys-breadcrumbs.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * `<nys-breadcrumbs>` is ...
+ * A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.
+ * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
+ * showing the first, last, and item before the current page, with an ellipsis to expand.
+ * A single item renders as a back-to-parent link instead of a trail.
+ *
+ * @summary Breadcrumb navigation trail with responsive collapse support.
+ * @element nys-breadcrumbs
+ *
+ * @slot - One or more `nys-breadcrumbitem` elements defining the trail.
+ *
+ * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
+ *
+ * @example Full trail with current page
+ * ```html
+ * <nys-breadcrumbs>
+ *   <nys-breadcrumbitem href="/" label="Home"></nys-breadcrumbitem>
+ *   <nys-breadcrumbitem href="/services" label="Services"></nys-breadcrumbitem>
+ *   <nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Trail without current page
+ * ```html
+ * <nys-breadcrumbs>
+ *   <nys-breadcrumbitem href="/" label="Home"></nys-breadcrumbitem>
+ *   <nys-breadcrumbitem href="/services" label="Services"></nys-breadcrumbitem>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Single item renders as back-to-parent
+ * ```html
+ * <nys-breadcrumbs>
+ *   <nys-breadcrumbitem href="/services" label="Services"></nys-breadcrumbitem>
+ * </nys-breadcrumbs>
+ * ```
  */
 
 export class NysBreadcrumbs extends LitElement {

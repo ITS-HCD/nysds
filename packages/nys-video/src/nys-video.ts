@@ -12,6 +12,28 @@ declare global {
 
 let videoIdCounter = 0;
 
+/**
+ * A YouTube video player with a thumbnail preview and play button.
+ * Loads the iframe only after the user clicks play, keeping initial page load light.
+ * Supports autoplay (muted), custom thumbnails, start time, lazy loading, and disabled state.
+ * Announces playback state and ad state to screen readers via a live region.
+ *
+ * For use with YouTube URLs only. Component renders nothing if the URL is invalid.
+ *
+ * @summary YouTube video player with thumbnail preview and accessibility announcements.
+ * @element nys-video
+ *
+ * @fires nys-video-play - Fired when the user clicks the thumbnail to load the player.
+ *
+ * @example Basic usage
+ * ```html
+ * <nys-video
+ *   videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+ *   titleText="Video Title"
+ * ></nys-video>
+ * ```
+ */
+
 export class NysVideo extends LitElement {
   static styles = unsafeCSS(styles);
 
