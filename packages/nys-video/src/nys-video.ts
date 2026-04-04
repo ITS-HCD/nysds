@@ -60,7 +60,11 @@ export class NysVideo extends LitElement {
   /** Tracks whether an ad is currently playing to suppress false "Video is playing" announcements */
   private _adPlaying = false;
 
-  // Lifecycle Methods
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+
   constructor() {
     super();
   }

@@ -1,0 +1,44 @@
+{
+  "name": "@nysds/nys-breadcrumbs",
+  "version": "1.15.1",
+  "description": "The Breadcrumbs component from the NYS Design System.",
+  "module": "dist/nys-breadcrumbs.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/nys-breadcrumbs.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "dev": "tsc --emitDeclarationOnly && vite",
+    "build": "vite build",
+    "test": "vite build && wtr",
+    "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
+    "test:watch": "vite build && wtr --watch",
+    "lit-analyze": "lit-analyzer '*.ts'"
+  },
+  "dependencies": {
+    "@nysds/nys-icon": "^1.15.1"
+  },
+  "devDependencies": {
+    "lit": "^3.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "keywords": [
+    "new-york-state",
+    "design-system",
+    "web-components",
+    "lit",
+    "nys",
+    "breadcrumbs"
+  ],
+  "author": "New York State Design System Team",
+  "license": "MIT"
+}
+
