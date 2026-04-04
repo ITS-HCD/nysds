@@ -175,45 +175,6 @@ export class NysBreadcrumbs extends LitElement {
     });
   }
 
-  // private _applyCollapseState() {
-  //   const breadCrumbItems =
-  //     this.querySelectorAll<NysBreadcrumbItem>("nys-breadcrumbitem");
-
-  //   breadCrumbItems.forEach((crumb, index) => {
-  //     const isCurrent = crumb.link.trim().length == 0;
-  //     if (
-  //       this.collapsed &&
-  //       index !== 0 &&
-  //       index !== breadCrumbItems.length - 1 &&
-  //       !isCurrent
-  //     ) {
-  //       crumb.classList.add("hide");
-  //     } else {
-  //       crumb.classList.remove("hide");
-  //     }
-  //   });
-
-  //   this._addEllipsisButton();
-  // }
-
-  // private _addEllipsisButton() {
-  //   this.querySelector(".ellipsis-item")?.remove();
-
-  //   const breadCrumbItems =
-  //     this.querySelectorAll<NysBreadcrumbItem>("nys-breadcrumbitem");
-
-  //   if (this.collapsed && breadCrumbItems.length > 2) {
-  //     const ellipsis = document.createElement("li");
-  //     ellipsis.classList.add("ellipsis-item");
-
-  //     ellipsis.innerHTML = `<button class="ellipsis-btn" aria-label="Show all breadcrumbs">…</button>`;
-  //     ellipsis.querySelector("button")!.addEventListener("click", () => {
-  //       this.collapsed = false;
-  //     });
-  //     breadCrumbItems[0].insertAdjacentElement("afterend", ellipsis);
-  //   }
-  // }
-
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
