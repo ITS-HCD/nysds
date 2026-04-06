@@ -21,7 +21,6 @@ const config: StorybookConfig = {
     getAbsolutePath("@storybook/addon-a11y"),
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-docs"),
-    "storybook-addon-grid-overlay",
   ],
   framework: {
     name: getAbsolutePath("@storybook/web-components-vite"),
