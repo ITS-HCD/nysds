@@ -192,6 +192,7 @@ export class NysBreadcrumbs extends LitElement {
           this.collapsed = false;
           this._handleSlotChange();
           this._dispatchExpandEvent();
+          this._moveFocusToFirstCrumb();
         });
 
         // Chevron Icon
@@ -204,6 +205,14 @@ export class NysBreadcrumbs extends LitElement {
         ol.appendChild(ellipsis);
       }
     });
+  }
+
+  private _moveFocusToFirstCrumb() {
+    const ol = this.shadowRoot?.getElementById("crumb-list");
+    const firstClone = ol?.querySelector<NysBreadcrumbItem>(
+      "nys-breadcrumbitem[data-cloned]",
+    );
+    firstClone?.shadowRoot?.querySelector<HTMLAnchorElement>("a")?.focus();
   }
 
   /**
@@ -221,7 +230,7 @@ export class NysBreadcrumbs extends LitElement {
   }
 
   render() {
-    return html`<nav class="nys-breadcrumbs" aria-label="A set of breadcrumbs">
+    return html`<nav class="nys-breadcrumbs" aria-label="Breadcrumb">
       <ol id="crumb-list">
         <slot
           style="display: none;"
