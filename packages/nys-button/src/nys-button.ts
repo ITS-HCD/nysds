@@ -404,6 +404,7 @@ export class NysButton extends LitElement {
               class="nys-button"
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
+              aria-disabled="${this.disabled ? "true" : "false"}"
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
