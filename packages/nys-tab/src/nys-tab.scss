@@ -2,6 +2,7 @@
   // tab group
   --_nys-tabgroup-gap: var(--nys-space-100, 8px);
   --_nys-tabgroup-padding: var(--nys-space-50, 4px);
+  --_nys-tabgroup-background-color: var(--nys-color-surface, #ffffff);
 
   // tab
   --_nys-tab-border-width: 3px;
@@ -70,6 +71,10 @@ nys-button.nys-tab {
   --_nys-button-line-height: 16px;
 }
 
+.nys-tabgroup {
+  background-color: var(--_nys-tabgroup-background-color);
+}
+
 .nys-tabgroup__tabs-container {
   position: relative;
 
@@ -125,4 +130,5 @@ nys-button.nys-tab {
 
 .nys-tabgroup__panels {
   padding: var(--_nys-tabpanel-padding);
+  background-color: var(--_nys-tabpanel-background-color);
 }
