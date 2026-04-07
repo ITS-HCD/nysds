@@ -243,7 +243,10 @@ export class NysCombobox extends LitElement {
     const validity = this._input.validity;
     let message = "";
 
-    if (validity.valueMissing) {
+    const isInvalid =
+      this._input && !this._options.some((opt) => opt.value === this.value);
+
+    if (validity.valueMissing || isInvalid) {
       message = "This field is required";
     } else {
       message = this._input.validationMessage;
