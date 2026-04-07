@@ -175,6 +175,11 @@ export class NysBreadcrumbs extends LitElement {
         clone.classList.add("hide");
       }
 
+      if (!isAlwaysVisible) {
+        // Assigning which crumb is an intermediate item (aka hidable) allows us to later redirect focus on the first of these intermediates.
+        clone.classList.add("intermediate");
+      }
+
       ol.appendChild(clone);
 
       // Insert ellipsis after first cloned item when collapsed
@@ -185,14 +190,14 @@ export class NysBreadcrumbs extends LitElement {
         // Ellipse button
         const button = document.createElement("button");
         button.classList.add("ellipsis-btn");
-        button.setAttribute("aria-label", "Show all breadcrumbs");
+        button.setAttribute("aria-label", "Show more links");
         button.textContent = "…";
         button.addEventListener("click", () => {
           this._manuallyExpanded = true;
           this.collapsed = false;
           this._handleSlotChange();
           this._dispatchExpandEvent();
-          this._moveFocusToFirstCrumb();
+          this._moveFocusToFirstExpandCrumb();
         });
 
         // Chevron Icon
@@ -207,12 +212,14 @@ export class NysBreadcrumbs extends LitElement {
     });
   }
 
-  private _moveFocusToFirstCrumb() {
-    const ol = this.shadowRoot?.getElementById("crumb-list");
-    const firstClone = ol?.querySelector<NysBreadcrumbItem>(
-      "nys-breadcrumbitem[data-cloned]",
-    );
-    firstClone?.shadowRoot?.querySelector<HTMLAnchorElement>("a")?.focus();
+  private _moveFocusToFirstExpandCrumb() {
+    setTimeout(() => {
+      const ol = this.shadowRoot?.getElementById("crumb-list");
+      const firstClone = ol?.querySelector<NysBreadcrumbItem>(
+        "nys-breadcrumbitem[data-cloned].intermediate",
+      );
+      firstClone?.shadowRoot?.querySelector<HTMLAnchorElement>("a")?.focus();
+    }, 0);
   }
 
   /**
