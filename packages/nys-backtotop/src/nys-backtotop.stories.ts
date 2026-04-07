@@ -93,8 +93,7 @@ export const Left: Story = {
           bottom: 1rem;
           right: 1rem;
           /* These props ARE NOT publicly overridable */
-          --_nys-button-border-radius--start: var(--nys-radius-round);
-          --_nys-button-border-radius--end: var(--nys-radius-round);
+          --_nys-button-border-radius: var(--nys-radius-round);
         }
       </style>
 
