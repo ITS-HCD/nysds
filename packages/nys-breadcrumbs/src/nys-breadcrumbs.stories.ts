@@ -10,7 +10,7 @@ interface NysBreadcrumbsArgs {
   itemsAfterCollapse: string;
   maxItems: string;
   collapsed: boolean;
-  backToParent: boolean;
+  backToParentMobile: boolean;
 }
 
 const meta: Meta<NysBreadcrumbsArgs> = {
@@ -22,7 +22,7 @@ const meta: Meta<NysBreadcrumbsArgs> = {
     itemsAfterCollapse: { control: "text" },
     maxItems: { control: "text" },
     collapsed: { control: "boolean" },
-    backToParent: { control: "boolean" },
+    backToParentMobile: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -44,7 +44,7 @@ export const Basic: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     collapsed: false,
-    backToParent: false,
+    backToParentMobile: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -53,7 +53,7 @@ export const Basic: Story = {
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParent=${args.backToParent}
+      .backToParentMobile=${args.backToParentMobile}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem
@@ -90,7 +90,7 @@ export const WithoutCurrentPage: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     collapsed: false,
-    backToParent: false,
+    backToParentMobile: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -99,7 +99,7 @@ export const WithoutCurrentPage: Story = {
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParent=${args.backToParent}
+      .backToParentMobile=${args.backToParentMobile}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem
@@ -134,7 +134,7 @@ export const SingleCrumb: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     collapsed: false,
-    backToParent: false,
+    backToParentMobile: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -143,7 +143,7 @@ export const SingleCrumb: Story = {
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParent=${args.backToParent}
+      .backToParentMobile=${args.backToParentMobile}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
     </nys-breadcrumbs>
@@ -168,7 +168,7 @@ export const LongTrailOfCrumbs: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     collapsed: false,
-    backToParent: false,
+    backToParentMobile: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -177,7 +177,7 @@ export const LongTrailOfCrumbs: Story = {
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParent=${args.backToParent}
+      .backToParentMobile=${args.backToParentMobile}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem
@@ -234,7 +234,7 @@ export const MaxItems: Story = {
     itemsAfterCollapse: "",
     maxItems: "10",
     collapsed: false,
-    backToParent: false,
+    backToParentMobile: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -243,7 +243,7 @@ export const MaxItems: Story = {
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParent=${args.backToParent}
+      .backToParentMobile=${args.backToParentMobile}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem
@@ -300,7 +300,7 @@ export const BackToParentProp: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     collapsed: false,
-    backToParent: true,
+    backToParentMobile: true,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -309,7 +309,7 @@ export const BackToParentProp: Story = {
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParent=${args.backToParent}
+      .backToParentMobile=${args.backToParentMobile}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem
@@ -366,7 +366,7 @@ export const BeforeAndAfterCollapse: Story = {
     itemsAfterCollapse: "3",
     maxItems: "",
     collapsed: false,
-    backToParent: true,
+    backToParentMobile: true,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -375,7 +375,7 @@ export const BeforeAndAfterCollapse: Story = {
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParent=${args.backToParent}
+      .backToParentMobile=${args.backToParentMobile}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem

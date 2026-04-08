@@ -53,7 +53,7 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: String }) itemsAfterCollapse = "2";
   /** Property overrides default maxItem of 5 breadcrumbs for desktop only **/
   @property({ type: String }) maxItems = "5";
-  @property({ type: Boolean }) backToParent = false;
+  @property({ type: Boolean }) backToParentMobile = false;
   @property({ type: Boolean }) collapsed = false;
 
   // private _resizeObserver: ResizeObserver | null = null;
@@ -91,7 +91,7 @@ export class NysBreadcrumbs extends LitElement {
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (
       changedProperties.has("collapsed") ||
-      changedProperties.has("backToParent") ||
+      changedProperties.has("backToParentMobile") ||
       changedProperties.has("itemsBeforeCollapse") ||
       changedProperties.has("itemsAfterCollapse")
     ) {
@@ -136,11 +136,12 @@ export class NysBreadcrumbs extends LitElement {
           child.remove();
         }
       });
+
+      ol.querySelector(".ellipsis-item")?.remove();
     };
 
     removeClone();
 
-    ol.querySelector(".ellipsis-item")?.remove();
     // ---------------------------------------------------------
 
     const assignedElements = slot
@@ -149,13 +150,32 @@ export class NysBreadcrumbs extends LitElement {
         (el) => el.tagName.toLowerCase() === "nys-breadcrumbitem",
       ) as NysBreadcrumbItem[];
 
-    // Single breadcrumb item OR backToParent=true for mobile - render as backToParent button
-    if (assignedElements.length === 1 || (isMobile && this.backToParent)) {
-      const clone = assignedElements[0].cloneNode(true) as NysBreadcrumbItem;
+    if (assignedElements.length === 0) return;
+
+    const setCrumbAsBackToParentBtn = (index = 0) => {
+      const clone = assignedElements[index].cloneNode(
+        true,
+      ) as NysBreadcrumbItem;
       clone.setAttribute("data-cloned", "true");
 
       clone.isBackToParent = true;
       ol.appendChild(clone);
+    };
+
+    // Single breadcrumb item OR backToParentMobile=true for mobile - render as backToParent button
+    if (assignedElements.length === 1) {
+      setCrumbAsBackToParentBtn();
+      return;
+    }
+
+    if (isMobile && this.backToParentMobile) {
+      const currentPageExist =
+        assignedElements[assignedElements.length - 1].link.trim().length === 0;
+      if (currentPageExist) {
+        setCrumbAsBackToParentBtn(assignedElements.length - 2);
+      } else {
+        setCrumbAsBackToParentBtn(assignedElements.length - 1);
+      }
       return;
     }
 

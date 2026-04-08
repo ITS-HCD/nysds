@@ -33,6 +33,29 @@ describe("nys-breadcrumbitem", () => {
     expect(anchor!.textContent?.trim()).to.equal("Home");
   });
 
+  it("renders as current page (no link) when link is empty", async () => {
+    const el = await fixture<NysBreadcrumbItem>(
+      html`<nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>`,
+    );
+
+    await el.updateComplete;
+    const anchor = el.shadowRoot!.querySelector("a");
+    const li = el.shadowRoot!.querySelector("li");
+    expect(anchor).to.not.exist;
+    expect(li!.textContent?.trim()).to.equal("Current Page");
+  });
+
+  it("renders chevron when not last item", async () => {
+    const el = await fixture<NysBreadcrumbItem>(
+      html`<nys-breadcrumbitem label="Home" link="/"></nys-breadcrumbitem>`,
+    );
+    await el.updateComplete;
+    el.isLast = false;
+    await el.updateComplete;
+    const icon = el.shadowRoot!.querySelector("nys-icon[name='chevron_right']");
+    expect(icon).to.exist;
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(
       html`<nys-breadcrumbs label="My Label"></nys-breadcrumbs>`,
