@@ -6,10 +6,11 @@ import "@nysds/nys-icon";
 // Define the structure of the args used in the stories
 interface NysBreadcrumbsArgs {
   id: string;
-  collapsed: boolean;
   itemsBeforeCollapse: string;
   itemsAfterCollapse: string;
   maxItems: string;
+  collapsed: boolean;
+  backToParent: boolean;
 }
 
 const meta: Meta<NysBreadcrumbsArgs> = {
@@ -17,10 +18,11 @@ const meta: Meta<NysBreadcrumbsArgs> = {
   component: "nys-breadcrumbs",
   argTypes: {
     id: { control: "text" },
-    collapsed: { control: "boolean" },
     itemsBeforeCollapse: { control: "text" },
     itemsAfterCollapse: { control: "text" },
     maxItems: { control: "text" },
+    collapsed: { control: "boolean" },
+    backToParent: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -38,18 +40,20 @@ type Story = StoryObj<NysBreadcrumbsArgs>;
 export const Basic: Story = {
   args: {
     id: "breadcrumbs1",
-    collapsed: false,
     itemsBeforeCollapse: "",
     itemsAfterCollapse: "",
     maxItems: "",
+    collapsed: false,
+    backToParent: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
       .id=${args.id}
-      .collapsed=${args.collapsed}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem
@@ -81,19 +85,21 @@ export const Basic: Story = {
 
 export const WithoutCurrentPage: Story = {
   args: {
-    id: "breadcrumbs1",
-    collapsed: false,
+    id: "breadcrumbs2",
     itemsBeforeCollapse: "",
     itemsAfterCollapse: "",
     maxItems: "",
+    collapsed: false,
+    backToParent: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
       .id=${args.id}
-      .collapsed=${args.collapsed}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem
@@ -121,21 +127,23 @@ export const WithoutCurrentPage: Story = {
   },
 };
 
-export const BackToParentPage: Story = {
+export const SingleCrumb: Story = {
   args: {
-    id: "breadcrumbs1",
-    collapsed: false,
+    id: "breadcrumbs3",
     itemsBeforeCollapse: "",
     itemsAfterCollapse: "",
     maxItems: "",
+    collapsed: false,
+    backToParent: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
       .id=${args.id}
-      .collapsed=${args.collapsed}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
     </nys-breadcrumbs>
@@ -155,19 +163,153 @@ export const BackToParentPage: Story = {
 
 export const LongTrailOfCrumbs: Story = {
   args: {
-    id: "breadcrumbs1",
-    collapsed: false,
+    id: "breadcrumbs4",
     itemsBeforeCollapse: "",
     itemsAfterCollapse: "",
     maxItems: "",
+    collapsed: false,
+    backToParent: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
       .id=${args.id}
-      .collapsed=${args.collapsed}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
+    >
+      <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government"
+        label="Government"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government/agencies"
+        label="Agencies"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government/agencies/parks"
+        label="Parks & Recreation"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks"
+        label="State Parks"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks/delaware"
+        label="Delaware Region"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks/delaware/water-gap"
+        label="Delaware Water Gap"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem label="Trail Conditions"></nys-breadcrumbitem>
+    </nys-breadcrumbs>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-breadcrumbs>
+  <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government" label="Government"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government/agencies" label="Agencies"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government/agencies/parks" label="Parks & Recreation"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks" label="State Parks"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks/delaware" label="Delaware Region"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks/delaware/water-gap" label="Delaware Water Gap"></nys-breadcrumbitem>
+  <nys-breadcrumbitem label="Trail Conditions"></nys-breadcrumbitem>
+</nys-breadcrumbs>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const MaxItems: Story = {
+  args: {
+    id: "breadcrumbs5",
+    itemsBeforeCollapse: "",
+    itemsAfterCollapse: "",
+    maxItems: "10",
+    collapsed: false,
+    backToParent: false,
+  },
+  render: (args) => html`
+    <nys-breadcrumbs
+      .id=${args.id}
+      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
+      .itemsAfterCollapse=${args.itemsAfterCollapse}
+      .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
+    >
+      <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government"
+        label="Government"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government/agencies"
+        label="Agencies"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government/agencies/parks"
+        label="Parks & Recreation"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks"
+        label="State Parks"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks/delaware"
+        label="Delaware Region"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks/delaware/water-gap"
+        label="Delaware Water Gap"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem label="Trail Conditions"></nys-breadcrumbitem>
+    </nys-breadcrumbs>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-breadcrumbs>
+  <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government" label="Government"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government/agencies" label="Agencies"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government/agencies/parks" label="Parks & Recreation"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks" label="State Parks"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks/delaware" label="Delaware Region"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks/delaware/water-gap" label="Delaware Water Gap"></nys-breadcrumbitem>
+  <nys-breadcrumbitem label="Trail Conditions"></nys-breadcrumbitem>
+</nys-breadcrumbs>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const BackToParentProp: Story = {
+  args: {
+    id: "breadcrumbs6",
+    itemsBeforeCollapse: "",
+    itemsAfterCollapse: "",
+    maxItems: "",
+    collapsed: false,
+    backToParent: true,
+  },
+  render: (args) => html`
+    <nys-breadcrumbs
+      .id=${args.id}
+      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
+      .itemsAfterCollapse=${args.itemsAfterCollapse}
+      .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
     >
       <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
       <nys-breadcrumbitem

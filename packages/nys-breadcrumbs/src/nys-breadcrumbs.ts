@@ -49,10 +49,12 @@ export class NysBreadcrumbs extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: Boolean }) collapsed = false;
   @property({ type: String }) itemsBeforeCollapse = "";
   @property({ type: String }) itemsAfterCollapse = "";
-  @property({ type: String }) maxItems = "";
+  /** Property overrides default maxItem of 5 breadcrumbs for desktop only **/
+  @property({ type: String }) maxItems = "5";
+  @property({ type: Boolean }) backToParent = false;
+  @property({ type: Boolean }) collapsed = false;
 
   // private _resizeObserver: ResizeObserver | null = null;
   private _collapseThreshold = 5; // default for desktop
@@ -87,8 +89,15 @@ export class NysBreadcrumbs extends LitElement {
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has("collapsed")) {
+    if (
+      changedProperties.has("collapsed") ||
+      changedProperties.has("backToParent")
+    ) {
       this._handleSlotChange();
+    }
+
+    if (changedProperties.has("maxItems")) {
+      this._updateCollapseThreshold();
     }
   }
 
@@ -99,16 +108,18 @@ export class NysBreadcrumbs extends LitElement {
 
   private _updateCollapseThreshold = () => {
     const isMobile = window.innerWidth < 768; // NYSDS sets anything below 768px as mobile. Desktop and Tablet is above 768px.
-    const newThreshold = isMobile ? 3 : 5;
+    const newThreshold = isMobile ? 3 : Number(this.maxItems);
 
     if (newThreshold !== this._collapseThreshold) {
       this._collapseThreshold = newThreshold;
       this._manuallyExpanded = false;
+
       this._handleSlotChange();
     }
   };
 
   private _handleSlotChange() {
+    const isMobile = window.innerWidth < 768;
     const slot = this.shadowRoot?.querySelector(
       "slot",
     ) as HTMLSlotElement | null;
@@ -117,11 +128,15 @@ export class NysBreadcrumbs extends LitElement {
     if (!slot || !ol) return;
 
     // --- Remove previous cloned child to avoid duplicates ---
-    Array.from(ol.children).forEach((child) => {
-      if ((child as HTMLElement).hasAttribute("data-cloned")) {
-        child.remove();
-      }
-    });
+    const removeClone = () => {
+      Array.from(ol.children).forEach((child) => {
+        if ((child as HTMLElement).hasAttribute("data-cloned")) {
+          child.remove();
+        }
+      });
+    };
+
+    removeClone();
 
     ol.querySelector(".ellipsis-item")?.remove();
     // ---------------------------------------------------------
@@ -132,8 +147,8 @@ export class NysBreadcrumbs extends LitElement {
         (el) => el.tagName.toLowerCase() === "nys-breadcrumbitem",
       ) as NysBreadcrumbItem[];
 
-    // Single breadcrumb item - render as backToParent button
-    if (assignedElements.length === 1) {
+    // Single breadcrumb item OR backToParent=true for mobile - render as backToParent button
+    if (assignedElements.length === 1 || (isMobile && this.backToParent)) {
       const clone = assignedElements[0].cloneNode(true) as NysBreadcrumbItem;
       clone.setAttribute("data-cloned", "true");
 

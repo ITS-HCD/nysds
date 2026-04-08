@@ -1,2 +1,2 @@
 export * from "./nys-breadcrumbs";
-export * from "./nys-breadcrumbitems";
+export * from "./nys-breadcrumbitem";
