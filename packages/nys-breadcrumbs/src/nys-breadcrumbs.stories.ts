@@ -358,3 +358,69 @@ export const BackToParentProp: Story = {
     },
   },
 };
+
+export const BeforeAndAfterCollapse: Story = {
+  args: {
+    id: "breadcrumbs6",
+    itemsBeforeCollapse: "2",
+    itemsAfterCollapse: "3",
+    maxItems: "",
+    collapsed: false,
+    backToParent: true,
+  },
+  render: (args) => html`
+    <nys-breadcrumbs
+      .id=${args.id}
+      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
+      .itemsAfterCollapse=${args.itemsAfterCollapse}
+      .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
+    >
+      <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government"
+        label="Government"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government/agencies"
+        label="Agencies"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/government/agencies/parks"
+        label="Parks & Recreation"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks"
+        label="State Parks"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks/delaware"
+        label="Delaware Region"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem
+        link="/parks/state-parks/delaware/water-gap"
+        label="Delaware Water Gap"
+      ></nys-breadcrumbitem>
+      <nys-breadcrumbitem label="Trail Conditions"></nys-breadcrumbitem>
+    </nys-breadcrumbs>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-breadcrumbs>
+  <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government" label="Government"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government/agencies" label="Agencies"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/government/agencies/parks" label="Parks & Recreation"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks" label="State Parks"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks/delaware" label="Delaware Region"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/parks/state-parks/delaware/water-gap" label="Delaware Water Gap"></nys-breadcrumbitem>
+  <nys-breadcrumbitem label="Trail Conditions"></nys-breadcrumbitem>
+</nys-breadcrumbs>`,
+        type: "auto",
+      },
+    },
+  },
+};

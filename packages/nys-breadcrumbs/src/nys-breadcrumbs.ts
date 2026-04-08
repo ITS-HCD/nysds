@@ -49,8 +49,8 @@ export class NysBreadcrumbs extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: String }) itemsBeforeCollapse = "";
-  @property({ type: String }) itemsAfterCollapse = "";
+  @property({ type: String }) itemsBeforeCollapse = "1";
+  @property({ type: String }) itemsAfterCollapse = "2";
   /** Property overrides default maxItem of 5 breadcrumbs for desktop only **/
   @property({ type: String }) maxItems = "5";
   @property({ type: Boolean }) backToParent = false;
@@ -91,7 +91,9 @@ export class NysBreadcrumbs extends LitElement {
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (
       changedProperties.has("collapsed") ||
-      changedProperties.has("backToParent")
+      changedProperties.has("backToParent") ||
+      changedProperties.has("itemsBeforeCollapse") ||
+      changedProperties.has("itemsAfterCollapse")
     ) {
       this._handleSlotChange();
     }
@@ -108,7 +110,7 @@ export class NysBreadcrumbs extends LitElement {
 
   private _updateCollapseThreshold = () => {
     const isMobile = window.innerWidth < 768; // NYSDS sets anything below 768px as mobile. Desktop and Tablet is above 768px.
-    const newThreshold = isMobile ? 3 : Number(this.maxItems);
+    const newThreshold = isMobile ? 3 : Number(this.maxItems) || 5;
 
     if (newThreshold !== this._collapseThreshold) {
       this._collapseThreshold = newThreshold;
@@ -158,24 +160,29 @@ export class NysBreadcrumbs extends LitElement {
     }
 
     // ---------------------------------------------------------
-    // Current page is always the last item when present (no link).
-    // currentIndex is -1 if the user omitted the current page from the trail.
-    const currentIndex = assignedElements.findIndex(
-      (crumb) => crumb.link.trim().length === 0,
-    );
-
     const shouldAutoCollapse =
       !this._manuallyExpanded &&
       assignedElements.length > this._collapseThreshold;
     const collapseTrail = this.collapsed || shouldAutoCollapse;
 
+    const itemsBeforeCollapse = Math.min(
+      Number(this.itemsBeforeCollapse) || 1,
+      assignedElements.length - 1,
+    );
+    const itemsAfterCollapse = Math.min(
+      Number(this.itemsAfterCollapse) || 2,
+      assignedElements.length - itemsBeforeCollapse,
+    );
+
     // Normal multi-item breadcrumb trail
     assignedElements.forEach((crumb, index) => {
-      const isFirst = index === 0;
       const isLast = index === assignedElements.length - 1;
 
-      const isBeforeCurrent = index === currentIndex - 1;
-      const isAlwaysVisible = isFirst || isLast || isBeforeCurrent;
+      const crumbIsBeforeCollapse = index < itemsBeforeCollapse;
+      const crumbIsAfterCollapse =
+        index >= assignedElements.length - itemsAfterCollapse;
+
+      const isAlwaysVisible = crumbIsBeforeCollapse || crumbIsAfterCollapse;
 
       const shouldHide = collapseTrail && !isAlwaysVisible; // Determines which of the crumbs is hidden
 
@@ -197,8 +204,12 @@ export class NysBreadcrumbs extends LitElement {
 
       ol.appendChild(clone);
 
-      // Insert ellipsis after first cloned item when collapsed
-      if (isFirst && collapseTrail && assignedElements.length > 2) {
+      // Insert ellipsis before the first hidden cloned item when collapsed
+      if (
+        index === itemsBeforeCollapse - 1 &&
+        collapseTrail &&
+        assignedElements.length > 2
+      ) {
         const ellipsis = document.createElement("li");
         ellipsis.classList.add("ellipsis-item");
 
