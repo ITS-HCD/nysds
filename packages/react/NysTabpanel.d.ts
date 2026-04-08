@@ -18,7 +18,10 @@ export interface NysTabpanelProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** undefined */
+  /** Unique identifier for the panel element.
+If not provided, one is auto-generated in `connectedCallback`.
+Reflected to the DOM attribute so `aria-controls` references on sibling
+`<nys-tab>` elements resolve correctly. */
   id?: NysTabpanelElement["id"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
@@ -44,9 +47,17 @@ export interface NysTabpanelProps extends Pick<
 }
 
 /**
- * `<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a `<nys-tabgroup>`.
- * Pairing is by render order. ARIA wiring (aria-labelledby) is applied externally by `<nys-tabgroup>`.
+ * `<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a
+ * `<nys-tabgroup>`.
+ *
+ * Pairing is determined by render order: the Nth `<nys-tabpanel>` child of a
+ * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.
+ * `aria-labelledby` and the `hidden` attribute are managed externally by
+ * `<nys-tabgroup>` via `_applySelection`; do not set them directly.
  * ---
  *
+ *
+ * ### **Slots:**
+ *  - _default_ - Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.
  */
 export const NysTabpanel: React.ForwardRefExoticComponent<NysTabpanelProps>;
