@@ -32,46 +32,46 @@ export class NysLabel extends LitElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
   /** Tooltip text shown on hover/focus of info icon next to label. */
-  @property({ type: String })
-  get tooltip() {
-    return this._tooltip;
-  }
-  set tooltip(value: string) {
-    this._tooltip = value;
-  }
-  private _tooltip: string = "";
+  @property({ type: String }) tooltip = "";
 
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
    */
-  private _handleLabelClick(event: Event) {
-    if (!this.for) return;
+  // private _handleLabelClick(event: Event) {
+  //   if (!this.for) return;
 
-    const parentShadowDOM = (this.getRootNode() as ShadowRoot).host;
-    let target: HTMLElement | null = null;
+  //   const parentShadowDOM = (this.getRootNode() as ShadowRoot).host;
+  //   let target: HTMLElement | null = null;
 
-    if (parentShadowDOM && parentShadowDOM.shadowRoot) {
-      target = parentShadowDOM.shadowRoot.querySelector(`#${this.for}`);
-    }
+  //   if (parentShadowDOM && parentShadowDOM.shadowRoot) {
+  //     target = parentShadowDOM.shadowRoot.querySelector(`#${this.for}`);
+  //   }
 
-    if (!target) return;
+  //   if (!target) return;
 
-    if (target instanceof HTMLInputElement) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (target.type === "file") {
-        target.click();
-      } else if (target.type === "checkbox" || target.type === "radio") {
-        target.focus();
-        target.click();
-      } else {
-        // For other inputs (text, date, number, email, etc.), just focus
-        target.focus();
-      }
-    } else {
-      (target as HTMLElement).focus();
-    }
+  //   if (target instanceof HTMLInputElement) {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //     if (target.type === "file") {
+  //       target.click();
+  //     } else if (target.type === "checkbox" || target.type === "radio") {
+  //       target.focus();
+  //       target.click();
+  //     } else {
+  //       // For other inputs (text, date, number, email, etc.), just focus
+  //       target.focus();
+  //     }
+  //   } else {
+  //     (target as HTMLElement).focus();
+  //   }
+  // }
+
+  private _dispatchLabelClick() {
+    console.log("Dispatching label");
+    this.dispatchEvent(
+      new CustomEvent("nys-label-click", { bubbles: true, composed: true }),
+    );
   }
 
   render() {
@@ -81,7 +81,7 @@ export class NysLabel extends LitElement {
           <label
             for=${this.for}
             class="nys-label__label"
-            @click=${this._handleLabelClick}
+            @click=${this._dispatchLabelClick}
             >${this.label}
             ${this.flag === "required"
               ? html`<div class="nys-label__required">*</div>`
@@ -90,9 +90,9 @@ export class NysLabel extends LitElement {
               ? html`<div class="nys-label__optional">(Optional)</div>`
               : ""}</label
           >
-          ${this._tooltip
+          ${this.tooltip
             ? html`<nys-tooltip
-                  text="${this._tooltip}"
+                  text="${this.tooltip}"
                   position="top"
                   focusable
                   ?inverted=${this.inverted}
@@ -106,11 +106,7 @@ export class NysLabel extends LitElement {
                 ></nys-icon> `
             : ""}
         </div>
-        <p
-          for=${this.for}
-          class="nys-label__description"
-          @click=${this._handleLabelClick}
-        >
+        <p class="nys-label__description" @click=${this._dispatchLabelClick}>
           <slot name="description">${this.description}</slot>
         </p>
       </div>
