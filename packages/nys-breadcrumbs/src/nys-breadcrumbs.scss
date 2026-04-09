@@ -2,10 +2,10 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Breadcrumbs Styles */
-  --_nys-breadcrumbs-radius: var(--nys-radius-xl, 12px);
   --_nys-breadcrumbs-padding: var(--nys-space-150, 12px)
     var(--nys-space-400, 32px);
   --_nys-breadcrumbs-gap: var(--nys-space-100, 8px);
+  --_nys-breadcrumbs-background: transparent;
 
   /* Global Breadcrumb Item Styles */
   --_nys-breadcrumbitem-gap: var(--nys-space-50, 4px);
@@ -37,12 +37,16 @@
 }
 
 .nys-breadcrumbs {
-  border-radius: var(--_nys-breadcrumbs-radius);
   padding: var(--_nys-breadcrumbs-padding);
   font-family: var(--_nys-breadcrumbs-font-family);
   font-size: var(--_nys-breadcrumbs-font-size);
   font-weight: var(--_nys-breadcrumbs-font-weight);
   line-height: var(--_nys-breadcrumbs-line-height);
+  background: var(--_nys-breadcrumbs-background);
+
+  &.nys-breadcrumbs--background-bar {
+    --_nys-breadcrumbs-background: var(--nys-color-theme-faint, #f7fafd);
+  }
 
   ol {
     padding: 0;

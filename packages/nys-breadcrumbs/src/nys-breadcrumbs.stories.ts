@@ -12,6 +12,7 @@ interface NysBreadcrumbsArgs {
   maxItems: string;
   collapsed: boolean;
   backToParentMobile: boolean;
+  backgroundBar: boolean;
 }
 
 const meta: Meta<NysBreadcrumbsArgs> = {
@@ -25,6 +26,7 @@ const meta: Meta<NysBreadcrumbsArgs> = {
     maxItems: { control: "text" },
     collapsed: { control: "boolean" },
     backToParentMobile: { control: "boolean" },
+    backgroundBar: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -48,6 +50,7 @@ export const Basic: Story = {
     size: "",
     collapsed: false,
     backToParentMobile: false,
+    backgroundBar: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -96,6 +99,7 @@ export const WithoutCurrentPage: Story = {
     size: "",
     collapsed: false,
     backToParentMobile: false,
+    backgroundBar: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -142,6 +146,7 @@ export const SingleCrumb: Story = {
     size: "",
     collapsed: false,
     backToParentMobile: false,
+    backgroundBar: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -178,6 +183,7 @@ export const LongTrailOfCrumbs: Story = {
     size: "",
     collapsed: false,
     backToParentMobile: false,
+    backgroundBar: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -245,6 +251,7 @@ export const MaxItems: Story = {
     maxItems: "10",
     collapsed: false,
     backToParentMobile: false,
+    backgroundBar: false,
   },
   render: (args) => html`
     <nys-breadcrumbs
@@ -483,6 +490,49 @@ export const Size: Story = {
   <nys-breadcrumbitem label="Parks & Recreation"></nys-breadcrumbitem>
 </nys-breadcrumbs>`,
         type: "auto",
+      },
+    },
+  },
+};
+
+export const BackgroundBar: Story = {
+  args: {
+    id: "breadcrumbs-bg",
+    size: "",
+    itemsBeforeCollapse: "",
+    itemsAfterCollapse: "",
+    maxItems: "",
+    collapsed: false,
+    backToParentMobile: false,
+    backgroundBar: true,
+  },
+  render: (args) => html`
+    <nys-breadcrumbs
+      .id=${args.id}
+      .size=${args.size}
+      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
+      .itemsAfterCollapse=${args.itemsAfterCollapse}
+      .maxItems=${args.maxItems}
+      .collapsed=${args.collapsed}
+      .backToParentMobile=${args.backToParentMobile}
+      .backgroundBar=${args.backgroundBar}
+    >
+      <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+      <nys-breadcrumbitem link="/services" label="Services"></nys-breadcrumbitem>
+      <nys-breadcrumbitem link="/tickets" label="Ticket System"></nys-breadcrumbitem>
+      <nys-breadcrumbitem label="Del Water Gap"></nys-breadcrumbitem>
+    </nys-breadcrumbs>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-breadcrumbs backgroundBar>
+  <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/services" label="Services"></nys-breadcrumbitem>
+  <nys-breadcrumbitem link="/tickets" label="Ticket System"></nys-breadcrumbitem>
+  <nys-breadcrumbitem label="Del Water Gap"></nys-breadcrumbitem>
+</nys-breadcrumbs>`,
       },
     },
   },

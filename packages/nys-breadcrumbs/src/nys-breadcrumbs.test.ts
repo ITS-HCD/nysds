@@ -60,7 +60,7 @@ describe("nys-breadcrumbitem", () => {
       html`<nys-breadcrumbitem
         label="Services"
         link="/services"
-        isBackToParent=${true}
+        .isBackToParent=${true}
       ></nys-breadcrumbitem>`,
     );
     await el.updateComplete;
@@ -209,7 +209,7 @@ describe("nys-breadcrumbitem", () => {
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs backToParentMobile=${true}>
+      html`<nys-breadcrumbs .backToParentMobile=${true}>
         <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
         <nys-breadcrumbitem
           link="/services"
@@ -238,7 +238,7 @@ describe("nys-breadcrumbitem", () => {
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs backToParentMobile=${true}>
+      html`<nys-breadcrumbs .backToParentMobile=${true}>
         <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
         <nys-breadcrumbitem
           link="/services"
@@ -266,7 +266,7 @@ describe("nys-breadcrumbitem", () => {
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs collapsed=${true} maxItems="10">
+      html`<nys-breadcrumbs .collapsed=${true} maxItems="10">
         <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
         <nys-breadcrumbitem link="/a" label="A"></nys-breadcrumbitem>
         <nys-breadcrumbitem link="/b" label="B"></nys-breadcrumbitem>

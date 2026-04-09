@@ -2,26 +2,24 @@ import React, { forwardRef, useRef, useEffect } from "react";
 import "../../dist/nysds.es.js";
 import { useEventListener } from "./react-utils.js";
 
-export const NysVideo = forwardRef((props, forwardedRef) => {
+export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
   const {
-    autoplay,
-    disabled,
+    backToParentMobile,
+    collapsed,
     id,
-    titleText,
-    videourl,
     size,
-    loading,
-    starttime,
-    thumbnail,
+    itemsBeforeCollapse,
+    itemsAfterCollapse,
+    maxItems,
     ...filteredProps
   } = props;
 
   /** Event listeners - run once */
-  useEventListener(ref, "nys-video-play", props.onNysVideoPlay);
+  useEventListener(ref, "nys-breadcrumbs-expand", props.onNysBreadcrumbsExpand);
 
   return React.createElement(
-    "nys-video",
+    "nys-breadcrumbs",
     {
       ref: (node) => {
         ref.current = node;
@@ -33,19 +31,17 @@ export const NysVideo = forwardRef((props, forwardedRef) => {
       },
       ...filteredProps,
       id: props.id,
-      titleText: props.titleText,
-      videourl: props.videourl,
       size: props.size,
-      loading: props.loading,
-      starttime: props.starttime,
-      thumbnail: props.thumbnail,
+      itemsBeforeCollapse: props.itemsBeforeCollapse,
+      itemsAfterCollapse: props.itemsAfterCollapse,
+      maxItems: props.maxItems,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
-      autoplay: props.autoplay ? true : undefined,
-      disabled: props.disabled ? true : undefined,
+      backToParentMobile: props.backToParentMobile ? true : undefined,
+      collapsed: props.collapsed ? true : undefined,
       style: { ...props.style },
     },
     props.children,

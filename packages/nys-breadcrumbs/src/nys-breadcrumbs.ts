@@ -56,6 +56,7 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: String }) maxItems = "5";
   @property({ type: Boolean }) backToParentMobile = false;
   @property({ type: Boolean }) collapsed = false;
+  @property({ type: Boolean }) backgroundBar = false;
 
   // private _resizeObserver: ResizeObserver | null = null;
   private _collapseThreshold = 5; // default for desktop
@@ -284,7 +285,12 @@ export class NysBreadcrumbs extends LitElement {
   }
 
   render() {
-    return html`<nav class="nys-breadcrumbs" aria-label="Breadcrumb">
+    return html`<nav
+      class="nys-breadcrumbs ${this.backgroundBar
+        ? "nys-breadcrumbs--background-bar"
+        : ""}"
+      aria-label="Breadcrumb"
+    >
       <ol id="crumb-list">
         <slot
           style="display: none;"

@@ -15,10 +15,7 @@
  * ```
  *
  */
-export type ScopedElements<
-  Prefix extends string = "",
-  Suffix extends string = "",
-> = {
+export type ScopedElements<Prefix extends string = "", Suffix extends string = ""> = {
   [Key in keyof CustomElements as `${Prefix}${Key}${Suffix}`]: CustomElements[Key];
 };
 
@@ -172,6 +169,42 @@ export type NysBadgeProps = {
   prefixicon?: string | boolean;
   /**  */
   suffixicon?: string | boolean;
+};
+
+export type NysBreadcrumbItemProps = {
+  /**  */
+  id?: string;
+  /**  */
+  label?: string;
+  /**  */
+  link?: string;
+  /** Private property used by nys-breadcrumbs to indicate this breadcrumb item is the last in the trail * */
+  isLast?: boolean;
+  /**  */
+  isBackToParent?: boolean;
+
+  /** Fired when the link is clicked. Detail: `{id, link}`. */
+  "onnys-breadcrumbitem-click"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
+export type NysBreadcrumbsProps = {
+  /**  */
+  id?: string;
+  /**  */
+  size?: "sm" | "md" | "";
+  /**  */
+  itemsBeforeCollapse?: string;
+  /**  */
+  itemsAfterCollapse?: string;
+  /** Property overrides default maxItem of 5 breadcrumbs for desktop only * */
+  maxItems?: string;
+  /**  */
+  backToParentMobile?: boolean;
+  /**  */
+  collapsed?: boolean;
+
+  /** Fired when the user clicks the ellipsis to expand the trail. */
+  "onnys-breadcrumbs-expand"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
 export type NysButtonProps = {
@@ -964,6 +997,9 @@ Falls back to YouTube's auto-generated thumbnail if not provided. */
   autoplay?: boolean;
   /** Prevents the video from being played */
   disabled?: boolean;
+
+  /** Fired when the user clicks the thumbnail to load the player. */
+  "onnys-video-play"?: (e: CustomEvent<never>) => void;
 };
 
 export type CustomElements = {
@@ -1031,6 +1067,29 @@ export type CustomElements = {
    *
    */
   "nys-badge": Partial<NysBadgeProps & BaseProps & BaseEvents>;
+
+  /**
+   * Single breadcrumb trail item with chevron separator and current page support.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-breadcrumbitem-click** - Fired when the link is clicked. Detail: `{id, link}`.
+   */
+  "nys-breadcrumbitem": Partial<NysBreadcrumbItemProps & BaseProps & BaseEvents>;
+
+  /**
+   * Breadcrumb navigation trail with responsive collapse support.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
+   *
+   * ### **Slots:**
+   *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.
+   */
+  "nys-breadcrumbs": Partial<NysBreadcrumbsProps & BaseProps & BaseEvents>;
 
   /**
    * Button for actions and CTAs with variants, sizes, and icon support.
@@ -1159,9 +1218,7 @@ export type CustomElements = {
    * ### **Events:**
    *  - **nys-click**
    */
-  "nys-dropdownmenuitem": Partial<
-    NysDropdownMenuItemProps & BaseProps & BaseEvents
-  >;
+  "nys-dropdownmenuitem": Partial<NysDropdownMenuItemProps & BaseProps & BaseEvents>;
 
   /**
    * Internal error message display with icon and ARIA alert support.
@@ -1440,9 +1497,12 @@ export type CustomElements = {
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   *
+   * YouTube video player with thumbnail preview and accessibility announcements.
    * ---
    *
+   *
+   * ### **Events:**
+   *  - **nys-video-play** - Fired when the user clicks the thumbnail to load the player.
    */
   "nys-video": Partial<NysVideoProps & BaseProps & BaseEvents>;
 };
