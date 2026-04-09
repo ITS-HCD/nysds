@@ -15,7 +15,10 @@
  * ```
  *
  */
-export type ScopedElements<Prefix extends string = "", Suffix extends string = ""> = {
+export type ScopedElements<
+  Prefix extends string = "",
+  Suffix extends string = "",
+> = {
   [Key in keyof CustomElements as `${Prefix}${Key}${Suffix}`]: CustomElements[Key];
 };
 
@@ -1156,7 +1159,9 @@ export type CustomElements = {
    * ### **Events:**
    *  - **nys-click**
    */
-  "nys-dropdownmenuitem": Partial<NysDropdownMenuItemProps & BaseProps & BaseEvents>;
+  "nys-dropdownmenuitem": Partial<
+    NysDropdownMenuItemProps & BaseProps & BaseEvents
+  >;
 
   /**
    * Internal error message display with icon and ARIA alert support.
