@@ -86,7 +86,9 @@ describe("nys-breadcrumbitem", () => {
       eventDetail = (e as CustomEvent).detail;
     });
 
-    el.shadowRoot!.querySelector<HTMLAnchorElement>("a")?.click();
+    const anchor = el.shadowRoot!.querySelector<HTMLAnchorElement>("a");
+    anchor!.addEventListener("click", (e) => e.preventDefault());
+    anchor!.click();
 
     expect(eventFired).to.be.true;
     expect(eventDetail!.link).to.equal("/");

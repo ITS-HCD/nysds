@@ -28,6 +28,9 @@ export interface NysBreadcrumbsProps extends Pick<
   collapsed?: boolean;
 
   /** undefined */
+  backgroundBar?: boolean;
+
+  /** undefined */
   id?: NysBreadcrumbsElement["id"];
 
   /** undefined */

@@ -202,6 +202,8 @@ export type NysBreadcrumbsProps = {
   backToParentMobile?: boolean;
   /**  */
   collapsed?: boolean;
+  /**  */
+  backgroundBar?: boolean;
 
   /** Fired when the user clicks the ellipsis to expand the trail. */
   "onnys-breadcrumbs-expand"?: (e: CustomEvent<CustomEvent>) => void;

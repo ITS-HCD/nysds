@@ -1762,6 +1762,15 @@
             },
             {
               "kind": "field",
+              "name": "backgroundBar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "backgroundBar"
+            },
+            {
+              "kind": "field",
               "name": "_collapseThreshold",
               "type": {
                 "text": "number"
@@ -1874,6 +1883,15 @@
               "default": "false",
               "fieldName": "collapsed",
               "propName": "collapsed"
+            },
+            {
+              "name": "backgroundBar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "backgroundBar",
+              "propName": "backgroundbar"
             }
           ],
           "superclass": {

@@ -7,6 +7,7 @@ export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
   const {
     backToParentMobile,
     collapsed,
+    backgroundBar,
     id,
     size,
     itemsBeforeCollapse,
@@ -42,6 +43,7 @@ export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
       tabindex: props.tabIndex,
       backToParentMobile: props.backToParentMobile ? true : undefined,
       collapsed: props.collapsed ? true : undefined,
+      backgroundBar: props.backgroundBar ? true : undefined,
       style: { ...props.style },
     },
     props.children,
