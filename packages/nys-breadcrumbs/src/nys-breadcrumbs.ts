@@ -49,6 +49,7 @@ export class NysBreadcrumbs extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
+  @property({ type: String, reflect: true }) size: "sm" | "md" | "" = "md";
   @property({ type: String }) itemsBeforeCollapse = "1";
   @property({ type: String }) itemsAfterCollapse = "2";
   /** Property overrides default maxItem of 5 breadcrumbs for desktop only **/

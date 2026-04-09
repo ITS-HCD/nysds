@@ -59,6 +59,10 @@
   display: none;
 }
 
+:host([size="sm"]) {
+  --_nys-breadcrumbs-font-size: var(--nys-font-size-ui-sm, 14px);
+}
+
 .nys-breadcrumbitem {
   padding: 0;
   display: flex;
