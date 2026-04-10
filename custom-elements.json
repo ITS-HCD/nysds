@@ -10111,6 +10111,584 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-tab/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-tab/src/nys-tab"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-tab/src/nys-tabgroup"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-tab/src/nys-tabpanel"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-tab/src/nys-tab.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-tab>` is a single tab within a `<nys-tabgroup>`.\n\nPaired with a `<nys-tabpanel>` by render order inside the parent\n`<nys-tabgroup>`. ARIA attributes (`aria-controls`, `tabindex`,\n`selected`) are managed externally by `<nys-tabgroup>` via\n`_applySelection`; do not set them directly on this element.",
+          "name": "NysTab",
+          "slots": [
+            {
+              "description": "No slots; content is derived from the `label` property.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier for the tab element.\nIf not provided, one is auto-generated in `connectedCallback`.\nReflected to the DOM attribute so `aria-controls` references on sibling\npanels resolve correctly.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visible text label rendered inside the inner `<nys-button>`.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this tab is the currently active tab.\nManaged by `<nys-tabgroup>`; reflected to the DOM attribute so CSS\nselected-state styles can be applied via the attribute selector.",
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this tab is disabled.\nWhen `true`, click and keyboard activation are suppressed and the inner\n`<nys-button>` renders in its disabled state.\nReflected to the DOM attribute for CSS styling.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "privacy": "public",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  },
+                  "description": "Optional `FocusOptions` (e.g. `{ preventScroll: true }`)\nforwarded verbatim to the inner element."
+                }
+              ],
+              "description": "Moves browser focus to this tab by chaining through the shadow DOM.\n\nFocus is forwarded to the inner `<nys-button>` (which in turn forwards it\nto its own shadow-DOM `<button>`). Falls back to `super.focus()` if\n`<nys-button>` is not yet in the shadow root."
+            },
+            {
+              "kind": "method",
+              "name": "_handleClick",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "description": "Handles click activation of the tab.\nNo-ops when the tab is disabled. Dispatches `nys-tab-select` so the\nparent `<nys-tabgroup>` can update selection state."
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  },
+                  "description": "The `KeyboardEvent` from the inner button's `keydown` listener."
+                }
+              ],
+              "description": "Handles keyboard events on the inner `<nys-button>`.\nOnly Enter and Space trigger activation (per the ARIA Tabs Pattern);\nArrowKey navigation is handled one level up by `<nys-tabgroup>`.\nNo-ops when the tab is disabled."
+            },
+            {
+              "kind": "method",
+              "name": "_handleFocus",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "description": "Handles the `nys-focus` event bubbled up from the inner `<nys-button>`.\nRe-dispatches as `nys-tab-focus` so consumers can observe tab-level focus\nwithout piercing the shadow DOM."
+            },
+            {
+              "kind": "method",
+              "name": "_handleBlur",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "description": "Handles the `nys-blur` event bubbled up from the inner `<nys-button>`.\nRe-dispatches as `nys-tab-blur` so consumers can observe tab-level blur\nwithout piercing the shadow DOM."
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-tab-select",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }`"
+            },
+            {
+              "name": "nys-tab-focus",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Dispatched when the inner `<nys-button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`"
+            },
+            {
+              "name": "nys-tab-blur",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Dispatched when the inner `<nys-button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier for the tab element.\nIf not provided, one is auto-generated in `connectedCallback`.\nReflected to the DOM attribute so `aria-controls` references on sibling\npanels resolve correctly.",
+              "fieldName": "id",
+              "attribute": "id",
+              "propName": "id"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visible text label rendered inside the inner `<nys-button>`.",
+              "fieldName": "label",
+              "attribute": "label",
+              "propName": "label"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this tab is the currently active tab.\nManaged by `<nys-tabgroup>`; reflected to the DOM attribute so CSS\nselected-state styles can be applied via the attribute selector.",
+              "fieldName": "selected",
+              "attribute": "selected",
+              "propName": "selected"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this tab is disabled.\nWhen `true`, click and keyboard activation are suppressed and the inner\n`<nys-button>` renders in its disabled state.\nReflected to the DOM attribute for CSS styling.",
+              "fieldName": "disabled",
+              "attribute": "disabled",
+              "propName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-tab",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-tab",
+          "declaration": {
+            "name": "NysTab",
+            "module": "packages/nys-tab/src/nys-tab.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTab",
+          "declaration": {
+            "name": "NysTab",
+            "module": "packages/nys-tab/src/nys-tab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-tab/src/nys-tabgroup.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`\nelements.\n\nAccepts tabs and panels as flat light-DOM children in any order (interleaved\nor grouped). On slot change, children are sorted into dedicated shadow-DOM\ncontainers, ARIA relationships are wired, and the first selected (or first)\ntab is activated.\n\nScroll shadows are rendered on either side of the tab list and toggled via\n`ResizeObserver` and a `scroll` listener so they accurately reflect whether\noverflow content exists in each direction.\n\nKeyboard navigation follows the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:\n- Arrow keys move focus without changing selection.\n- Enter / Space confirm selection on the focused tab.",
+          "name": "NysTabgroup",
+          "slots": [
+            {
+              "description": "Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are moved into internal shadow-DOM containers on `slotchange`; the slot itself is not rendered visibly.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier for the tabgroup element.\nIf not provided, one is auto-generated in `connectedCallback`.\nReflected to the DOM attribute.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the tab list (`aria-label` on the inner\n`[role=\"tablist\"]`). Should describe the purpose of the tab set\n(e.g. `\"Account settings\"`).",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "_tabsEl",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private",
+              "description": "Reference to the `[role=\"tablist\"]` scroll container in the shadow DOM.\nCached in `firstUpdated` and used by `_updateScrollShadows` to read\nscroll position and dimensions."
+            },
+            {
+              "kind": "field",
+              "name": "_shadowLeft",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private",
+              "description": "Reference to the left scroll-shadow overlay element.\nReceives the `is-visible` class when the tab list is scrolled away from\nits leftmost position."
+            },
+            {
+              "kind": "field",
+              "name": "_shadowRight",
+              "type": {
+                "text": "HTMLElement"
+              },
+              "privacy": "private",
+              "description": "Reference to the right scroll-shadow overlay element.\nReceives the `is-visible` class when overflow content exists to the right\nof the current scroll position."
+            },
+            {
+              "kind": "field",
+              "name": "_resizeObserver",
+              "type": {
+                "text": "ResizeObserver | undefined"
+              },
+              "privacy": "private",
+              "description": "`ResizeObserver` instance watching `_tabsEl` for size changes.\nRe-evaluates scroll shadow visibility whenever the tab list is resized\n(e.g. viewport resize, dynamic tab additions).\nStored so it can be disconnected if needed."
+            },
+            {
+              "kind": "field",
+              "name": "_updateScrollShadows",
+              "privacy": "private",
+              "description": "Reads the current scroll state of `_tabsEl` and toggles the `is-visible`\nclass on the left and right shadow overlays accordingly.\n\n- Left shadow is visible when `scrollLeft > 0`.\n- Right shadow is visible when `scrollLeft + clientWidth < scrollWidth`\n  (i.e. content exists beyond the right edge).\n\nDefined as an arrow function so it can be passed directly as an event\nlistener without losing `this` context.",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_getTabs",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "description": "Returns all `<nys-tab>` elements currently residing in the shadow-DOM\ntabs container, in DOM order."
+            },
+            {
+              "kind": "method",
+              "name": "_getPanels",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "description": "Returns all `<nys-tabpanel>` elements currently residing in the\nshadow-DOM panels container, in DOM order."
+            },
+            {
+              "kind": "method",
+              "name": "_applySelection",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tabs",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  },
+                  "description": "Ordered array of `<nys-tab>` elements to update."
+                },
+                {
+                  "name": "panels",
+                  "type": {
+                    "text": "HTMLElement[]"
+                  },
+                  "description": "Ordered array of `<nys-tabpanel>` elements to update.\nMust be the same length as `tabs` for correct pairing."
+                },
+                {
+                  "name": "selectedIndex",
+                  "type": {
+                    "text": "number"
+                  },
+                  "description": "Zero-based index of the tab/panel pair to activate."
+                }
+              ],
+              "description": "Single source of truth for ARIA wiring, `tabindex`, and panel visibility.\n\nFor each index `i`:\n- Sets `selected` / removes `selected` attribute on `tabs[i]`.\n- Sets `aria-controls` on `tabs[i]` to the `id` of `panels[i]`.\n- Sets `aria-labelledby` on `panels[i]` to the `id` of `tabs[i]`.\n- Removes `hidden` from `panels[selectedIndex]`; adds it to all others.\n\nMust be called any time the selected tab changes (initial render and\nsubsequent user interactions)."
+            },
+            {
+              "kind": "method",
+              "name": "_sortChildren",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  },
+                  "description": "The `Event` fired by the `<slot>` element on slot change."
+                }
+              ],
+              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`, preserving relative order. After sorting,\ncalls `_applySelection` using the first element that already has a\n`selected` attribute, or index `0` if none is found."
+            },
+            {
+              "kind": "method",
+              "name": "_handleTabSelect",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  },
+                  "description": "The `Event` (cast to `CustomEvent`) dispatched by `<nys-tab>`."
+                }
+              ],
+              "description": "Handles the `nys-tab-select` custom event bubbled up from a child\n`<nys-tab>`.\n\nResolves the originating `<nys-tab>` via `composedPath()` (required\nbecause the event crosses shadow DOM boundaries), determines its index\namong the current tab list, and delegates to `_applySelection`."
+            },
+            {
+              "kind": "method",
+              "name": "_handleKeydown",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": ""
+                }
+              },
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  },
+                  "description": "The `KeyboardEvent` from the tablist `keydown` listener."
+                }
+              ],
+              "description": "Handles `keydown` events on the `[role=\"tablist\"]` container.\n\nImplements the ARIA radio-button keyboard pattern:\n- `ArrowRight` — moves focus to the next enabled tab (wraps).\n- `ArrowLeft` — moves focus to the previous enabled tab (wraps).\n\nFocus is moved without changing selection; Enter / Space on the newly\nfocused tab (handled by `<nys-tab>._handleKeydown`) confirm selection.\n\nThe currently focused tab is resolved via `composedPath()` because focus\nmay sit on a shadow-DOM descendant of `<nys-tab>` rather than the host\nitself.\n\nDisabled tabs are excluded from navigation and will never receive focus\nvia arrow keys."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier for the tabgroup element.\nIf not provided, one is auto-generated in `connectedCallback`.\nReflected to the DOM attribute.",
+              "fieldName": "id",
+              "attribute": "id",
+              "propName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the tab list (`aria-label` on the inner\n`[role=\"tablist\"]`). Should describe the purpose of the tab set\n(e.g. `\"Account settings\"`).",
+              "fieldName": "name",
+              "attribute": "name",
+              "propName": "name"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-tabgroup",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-tabgroup",
+          "declaration": {
+            "name": "NysTabgroup",
+            "module": "packages/nys-tab/src/nys-tabgroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTabgroup",
+          "declaration": {
+            "name": "NysTabgroup",
+            "module": "packages/nys-tab/src/nys-tabgroup.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-tab/src/nys-tabpanel.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a\n`<nys-tabgroup>`.\n\nPairing is determined by render order: the Nth `<nys-tabpanel>` child of a\n`<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.\n`aria-labelledby` and the `hidden` attribute are managed externally by\n`<nys-tabgroup>` via `_applySelection`; do not set them directly.",
+          "name": "NysTabpanel",
+          "slots": [
+            {
+              "description": "Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier for the panel element.\nIf not provided, one is auto-generated in `connectedCallback`.\nReflected to the DOM attribute so `aria-controls` references on sibling\n`<nys-tab>` elements resolve correctly.",
+              "attribute": "id",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier for the panel element.\nIf not provided, one is auto-generated in `connectedCallback`.\nReflected to the DOM attribute so `aria-controls` references on sibling\n`<nys-tab>` elements resolve correctly.",
+              "fieldName": "id",
+              "attribute": "id",
+              "propName": "id"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-tabpanel",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-tabpanel",
+          "declaration": {
+            "name": "NysTabpanel",
+            "module": "packages/nys-tab/src/nys-tabpanel.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysTabpanel",
+          "declaration": {
+            "name": "NysTabpanel",
+            "module": "packages/nys-tab/src/nys-tabpanel.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-table/src/index.ts",
       "declarations": [],
       "exports": [
