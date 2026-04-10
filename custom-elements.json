@@ -1662,16 +1662,6 @@
             },
             {
               "kind": "field",
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Tab index for keyboard navigation. Defaults to 0 (focusable) when not disabled. Set to -1 to make focusable but not tabbable.",
-              "attribute": "tabIndex"
-            },
-            {
-              "kind": "field",
               "name": "prefixIcon",
               "type": {
                 "text": "string"
@@ -1994,16 +1984,6 @@
               "description": "ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`.",
               "fieldName": "ariaControls",
               "propName": "ariacontrols"
-            },
-            {
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Tab index for keyboard navigation. Defaults to 0 (focusable) when not disabled. Set to -1 to make focusable but not tabbable.",
-              "fieldName": "tabIndex",
-              "propName": "tabindex"
             },
             {
               "name": "prefixIcon",
@@ -10219,16 +10199,6 @@
               "reflects": true
             },
             {
-              "kind": "field",
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "default": "-1",
-              "description": "Forwarded `tabindex` value passed down to the inner `<nys-button>` and\nultimately to its shadow-DOM `<button>` element, which is the actual\nbrowser focus target.\n\n`<nys-tabgroup>` sets this to `0` for the selected tab and `-1` for all\nothers to implement the ARIA radio-button tab-stop pattern.",
-              "attribute": "tabIndex"
-            },
-            {
               "kind": "method",
               "name": "focus",
               "privacy": "public",
@@ -10370,17 +10340,6 @@
               "fieldName": "disabled",
               "attribute": "disabled",
               "propName": "disabled"
-            },
-            {
-              "name": "tabIndex",
-              "type": {
-                "text": "number"
-              },
-              "default": "-1",
-              "description": "Forwarded `tabindex` value passed down to the inner `<nys-button>` and\nultimately to its shadow-DOM `<button>` element, which is the actual\nbrowser focus target.\n\n`<nys-tabgroup>` sets this to `0` for the selected tab and `-1` for all\nothers to implement the ARIA radio-button tab-stop pattern.",
-              "fieldName": "tabIndex",
-              "attribute": "tabIndex",
-              "propName": "tabindex"
             }
           ],
           "superclass": {
@@ -10416,7 +10375,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`\nelements.\n\nAccepts tabs and panels as flat light-DOM children in any order (interleaved\nor grouped). On slot change, children are sorted into dedicated shadow-DOM\ncontainers, ARIA relationships are wired, and the first selected (or first)\ntab is activated.\n\nScroll shadows are rendered on either side of the tab list and toggled via\n`ResizeObserver` and a `scroll` listener so they accurately reflect whether\noverflow content exists in each direction.\n\nKeyboard navigation follows the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:\n- Arrow keys move focus without changing selection.\n- Enter / Space confirm selection on the focused tab.\n- Only the selected tab holds a tab stop (`tabindex=\"0\"`); all others are\n  removed from the tab sequence (`tabindex=\"-1\"`).",
+          "description": "`<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`\nelements.\n\nAccepts tabs and panels as flat light-DOM children in any order (interleaved\nor grouped). On slot change, children are sorted into dedicated shadow-DOM\ncontainers, ARIA relationships are wired, and the first selected (or first)\ntab is activated.\n\nScroll shadows are rendered on either side of the tab list and toggled via\n`ResizeObserver` and a `scroll` listener so they accurately reflect whether\noverflow content exists in each direction.\n\nKeyboard navigation follows the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:\n- Arrow keys move focus without changing selection.\n- Enter / Space confirm selection on the focused tab.",
           "name": "NysTabgroup",
           "slots": [
             {
@@ -10547,7 +10506,7 @@
                   "description": "Zero-based index of the tab/panel pair to activate."
                 }
               ],
-              "description": "Single source of truth for ARIA wiring, `tabindex`, and panel visibility.\n\nFor each index `i`:\n- Sets `selected` / removes `selected` attribute on `tabs[i]`.\n- Sets `tabIndex` property to `0` (selected) or `-1` (others) on `tabs[i]`.\n- Sets `aria-controls` on `tabs[i]` to the `id` of `panels[i]`.\n- Sets `aria-labelledby` on `panels[i]` to the `id` of `tabs[i]`.\n- Removes `hidden` from `panels[selectedIndex]`; adds it to all others.\n\nMust be called any time the selected tab changes (initial render and\nsubsequent user interactions)."
+              "description": "Single source of truth for ARIA wiring, `tabindex`, and panel visibility.\n\nFor each index `i`:\n- Sets `selected` / removes `selected` attribute on `tabs[i]`.\n- Sets `aria-controls` on `tabs[i]` to the `id` of `panels[i]`.\n- Sets `aria-labelledby` on `panels[i]` to the `id` of `tabs[i]`.\n- Removes `hidden` from `panels[selectedIndex]`; adds it to all others.\n\nMust be called any time the selected tab changes (initial render and\nsubsequent user interactions)."
             },
             {
               "kind": "method",

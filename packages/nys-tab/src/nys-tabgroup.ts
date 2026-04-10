@@ -23,8 +23,6 @@ let componentIdCounter = 0;
  * {@link https://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern}:
  * - Arrow keys move focus without changing selection.
  * - Enter / Space confirm selection on the focused tab.
- * - Only the selected tab holds a tab stop (`tabindex="0"`); all others are
- *   removed from the tab sequence (`tabindex="-1"`).
  *
  * @element nys-tabgroup
  *
@@ -182,7 +180,6 @@ export class NysTabgroup extends LitElement {
    *
    * For each index `i`:
    * - Sets `selected` / removes `selected` attribute on `tabs[i]`.
-   * - Sets `tabIndex` property to `0` (selected) or `-1` (others) on `tabs[i]`.
    * - Sets `aria-controls` on `tabs[i]` to the `id` of `panels[i]`.
    * - Sets `aria-labelledby` on `panels[i]` to the `id` of `tabs[i]`.
    * - Removes `hidden` from `panels[selectedIndex]`; adds it to all others.
@@ -208,12 +205,6 @@ export class NysTabgroup extends LitElement {
         tab.setAttribute("selected", "");
       } else {
         tab.removeAttribute("selected");
-      }
-      (tab as any).tabIndex = isSelected ? 0 : -1;
-      // Wire aria-controls → matching panel id
-      const panel = panels[i];
-      if (panel) {
-        tab.setAttribute("aria-controls", panel.id);
       }
     });
 

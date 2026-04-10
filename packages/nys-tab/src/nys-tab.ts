@@ -67,18 +67,6 @@ export class NysTab extends LitElement {
    */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /**
-   * Forwarded `tabindex` value passed down to the inner `<nys-button>` and
-   * ultimately to its shadow-DOM `<button>` element, which is the actual
-   * browser focus target.
-   *
-   * `<nys-tabgroup>` sets this to `0` for the selected tab and `-1` for all
-   * others to implement the ARIA radio-button tab-stop pattern.
-   *
-   * @attr tabIndex
-   */
-  @property({ type: Number }) tabIndex = -1;
-
   // ---------------------------------------------------------------------------
   // Lifecycle
   // ---------------------------------------------------------------------------
@@ -208,7 +196,6 @@ export class NysTab extends LitElement {
         type="button"
         label=${this.label}
         ?disabled=${this.disabled}
-        tabIndex=${this.tabIndex}
         ariaControls=${this.getAttribute("aria-controls") ?? ""}
         aria-disabled=${this.disabled}
         @nys-click=${this._handleClick}

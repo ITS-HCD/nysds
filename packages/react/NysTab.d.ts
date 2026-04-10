@@ -38,14 +38,6 @@ panels resolve correctly. */
   /** Visible text label rendered inside the inner `<nys-button>`. */
   label?: NysTabElement["label"];
 
-  /** Forwarded `tabindex` value passed down to the inner `<nys-button>` and
-ultimately to its shadow-DOM `<button>` element, which is the actual
-browser focus target.
-
-`<nys-tabgroup>` sets this to `0` for the selected tab and `-1` for all
-others to implement the ARIA radio-button tab-stop pattern. */
-  tabIndex?: number;
-
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

@@ -25,7 +25,6 @@ export const NysTab = forwardRef((props, forwardedRef) => {
       ...filteredProps,
       id: props.id,
       label: props.label,
-      tabIndex: props.tabIndex,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

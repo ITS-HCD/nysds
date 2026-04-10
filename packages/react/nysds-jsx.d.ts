@@ -190,8 +190,6 @@ export type NysButtonProps = {
   ariaLabel?: string;
   /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
   ariaControls?: string;
-  /** Tab index for keyboard navigation. Defaults to 0 (focusable) when not disabled. Set to -1 to make focusable but not tabbable. */
-  tabIndex?: number;
   /** Material Symbol icon before label. Not shown for `text` variant or `circle` mode. */
   prefixIcon?: string;
   /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode. */
@@ -765,13 +763,6 @@ When `true`, click and keyboard activation are suppressed and the inner
 `<nys-button>` renders in its disabled state.
 Reflected to the DOM attribute for CSS styling. */
   disabled?: boolean;
-  /** Forwarded `tabindex` value passed down to the inner `<nys-button>` and
-ultimately to its shadow-DOM `<button>` element, which is the actual
-browser focus target.
-
-`<nys-tabgroup>` sets this to `0` for the selected tab and `-1` for all
-others to implement the ARIA radio-button tab-stop pattern. */
-  tabIndex?: number;
 
   /** Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }` */
   "onnys-tab-select"?: (e: CustomEvent<CustomEvent>) => void;
@@ -1439,8 +1430,6 @@ export type CustomElements = {
    * https://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:
    * - Arrow keys move focus without changing selection.
    * - Enter / Space confirm selection on the focused tab.
-   * - Only the selected tab holds a tab stop (`tabindex="0"`); all others are
-   *   removed from the tab sequence (`tabindex="-1"`).
    * ---
    *
    *

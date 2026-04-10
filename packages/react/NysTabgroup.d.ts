@@ -67,8 +67,6 @@ Reflected to the DOM attribute. */
  * https://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:
  * - Arrow keys move focus without changing selection.
  * - Enter / Space confirm selection on the focused tab.
- * - Only the selected tab holds a tab stop (`tabindex="0"`); all others are
- *   removed from the tab sequence (`tabindex="-1"`).
  * ---
  *
  *
