@@ -1481,6 +1481,466 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-breadcrumbs/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbs"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbitem"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-breadcrumbs/src/nys-breadcrumbitem.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A single item in a `nys-breadcrumbs` navigation trail. Renders as a link\nfollowed by a chevron separator, or as plain text when it represents the current page\n(no `link` provided). When used as the only item inside `nys-breadcrumbs`, renders\nas a back-to-parent link with a back arrow icon.\n\nFor use as a direct child of `nys-breadcrumbs` only. Do not use standalone.",
+          "name": "NysBreadcrumbItem",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "link",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "link",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "isLast",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Private property used by nys-breadcrumbs to indicate this breadcrumb item is the last in the trail *",
+              "attribute": "isLast"
+            },
+            {
+              "kind": "field",
+              "name": "isBackToParent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "isBackToParent"
+            },
+            {
+              "kind": "field",
+              "name": "_isCurrentPage",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "method",
+              "name": "breadcrumbRender",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleClick",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-breadcrumbitem-click",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when the link is clicked. Detail: `{id, link}`."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "link",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "link",
+              "propName": "link"
+            },
+            {
+              "name": "isLast",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Private property used by nys-breadcrumbs to indicate this breadcrumb item is the last in the trail *",
+              "fieldName": "isLast",
+              "propName": "islast"
+            },
+            {
+              "name": "isBackToParent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "isBackToParent",
+              "propName": "isbacktoparent"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-breadcrumbitem",
+          "customElement": true,
+          "summary": "Single breadcrumb trail item with chevron separator and current page support.",
+          "examples": [
+            {
+              "title": "Linked crumb",
+              "code": "<nys-breadcrumbitem link=\"/services\" label=\"Services\"></nys-breadcrumbitem>",
+              "lang": "html"
+            },
+            {
+              "title": "Current page (no link — always last in trail)",
+              "code": "<nys-breadcrumbitem label=\"Current Page\"></nys-breadcrumbitem>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-breadcrumbitem",
+          "declaration": {
+            "name": "NysBreadcrumbItem",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbitem.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysBreadcrumbItem",
+          "declaration": {
+            "name": "NysBreadcrumbItem",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbitem.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-breadcrumbs/src/nys-breadcrumbs.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.",
+          "name": "NysBreadcrumbs",
+          "slots": [
+            {
+              "description": "One or more `nys-breadcrumbitem` elements defining the trail.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"\""
+              },
+              "default": "\"md\"",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "itemsBeforeCollapse",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1\"",
+              "attribute": "itemsBeforeCollapse"
+            },
+            {
+              "kind": "field",
+              "name": "itemsAfterCollapse",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2\"",
+              "attribute": "itemsAfterCollapse"
+            },
+            {
+              "kind": "field",
+              "name": "maxItems",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"5\"",
+              "description": "Property overrides default maxItem of 5 breadcrumbs for desktop only *",
+              "attribute": "maxItems"
+            },
+            {
+              "kind": "field",
+              "name": "backToParentMobile",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "backToParentMobile"
+            },
+            {
+              "kind": "field",
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "collapsed"
+            },
+            {
+              "kind": "field",
+              "name": "backgroundBar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "backgroundBar"
+            },
+            {
+              "kind": "field",
+              "name": "_collapseThreshold",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "5"
+            },
+            {
+              "kind": "field",
+              "name": "_manuallyExpanded",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_updateCollapseThreshold",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_moveFocusToFirstExpandCrumb",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchExpandEvent",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-breadcrumbs-expand",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when the user clicks the ellipsis to expand the trail."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"\""
+              },
+              "default": "\"md\"",
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
+              "name": "itemsBeforeCollapse",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"1\"",
+              "fieldName": "itemsBeforeCollapse",
+              "propName": "itemsbeforecollapse"
+            },
+            {
+              "name": "itemsAfterCollapse",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"2\"",
+              "fieldName": "itemsAfterCollapse",
+              "propName": "itemsaftercollapse"
+            },
+            {
+              "name": "maxItems",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"5\"",
+              "description": "Property overrides default maxItem of 5 breadcrumbs for desktop only *",
+              "fieldName": "maxItems",
+              "propName": "maxitems"
+            },
+            {
+              "name": "backToParentMobile",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "backToParentMobile",
+              "propName": "backtoparentmobile"
+            },
+            {
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "collapsed",
+              "propName": "collapsed"
+            },
+            {
+              "name": "backgroundBar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "backgroundBar",
+              "propName": "backgroundbar"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-breadcrumbs",
+          "customElement": true,
+          "summary": "Breadcrumb navigation trail with responsive collapse support.",
+          "examples": [
+            {
+              "title": "Full trail with current page",
+              "code": "<nys-breadcrumbs>\n<nys-breadcrumbitem href=\"/\" label=\"Home\"></nys-breadcrumbitem>\n<nys-breadcrumbitem href=\"/services\" label=\"Services\"></nys-breadcrumbitem>\n<nys-breadcrumbitem label=\"Current Page\"></nys-breadcrumbitem>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Trail without current page",
+              "code": "<nys-breadcrumbs>\n<nys-breadcrumbitem href=\"/\" label=\"Home\"></nys-breadcrumbitem>\n<nys-breadcrumbitem href=\"/services\" label=\"Services\"></nys-breadcrumbitem>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Single item renders as back-to-parent",
+              "code": "<nys-breadcrumbs>\n<nys-breadcrumbitem href=\"/services\" label=\"Services\"></nys-breadcrumbitem>\n</nys-breadcrumbs>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-breadcrumbs",
+          "declaration": {
+            "name": "NysBreadcrumbs",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbs.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysBreadcrumbs",
+          "declaration": {
+            "name": "NysBreadcrumbs",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbs.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-button/src/index.ts",
       "declarations": [],
       "exports": [
@@ -13094,7 +13554,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A YouTube video player with a thumbnail preview and play button.\nLoads the iframe only after the user clicks play, keeping initial page load light.\nSupports autoplay (muted), custom thumbnails, start time, lazy loading, and disabled state.\nAnnounces playback state and ad state to screen readers via a live region.\n\nFor use with YouTube URLs only. Component renders nothing if the URL is invalid.",
           "name": "NysVideo",
           "members": [
             {
@@ -13270,6 +13730,12 @@
               "privacy": "private"
             }
           ],
+          "events": [
+            {
+              "description": "Fired when the user clicks the thumbnail to load the player.",
+              "name": "nys-video-play"
+            }
+          ],
           "attributes": [
             {
               "name": "id",
@@ -13366,7 +13832,15 @@
             "package": "lit"
           },
           "tagName": "nys-video",
-          "customElement": true
+          "customElement": true,
+          "summary": "YouTube video player with thumbnail preview and accessibility announcements.",
+          "examples": [
+            {
+              "title": "Basic usage",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"\ntitleText=\"Video Title\"\n></nys-video>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
