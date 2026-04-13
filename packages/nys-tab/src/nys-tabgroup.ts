@@ -113,6 +113,9 @@ export class NysTabgroup extends LitElement {
     this._updateScrollShadows();
 
     this._tabsEl.addEventListener("scroll", this._updateScrollShadows);
+    this._tabsEl.addEventListener("wheel", this._handleWheel, {
+      passive: false,
+    });
 
     this._resizeObserver = new ResizeObserver(() =>
       this._updateScrollShadows(),
@@ -354,6 +357,15 @@ export class NysTabgroup extends LitElement {
     // Move focus only — do not change selection
     (tabs[newIndex] as HTMLElement & { focus?: () => void }).focus?.();
   }
+
+  /*
+   * handles the horizontal scroll of the tab list when the user scrolls on the mouse wheel.
+   */
+  private _handleWheel = (e: WheelEvent): void => {
+    if (e.deltaY === 0) return;
+    e.preventDefault();
+    this._tabsEl.scrollLeft += e.deltaY;
+  };
 
   // ---------------------------------------------------------------------------
   // Render
