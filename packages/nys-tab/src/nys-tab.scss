@@ -68,7 +68,7 @@ nys-button.nys-tab {
   --_nys-button-border-width: var(--_nys-tab-border-width);
   --_nys-button-padding--x: var(--_nys-tab-padding--x);
   --_nys-button-padding--y: var(--_nys-tab-padding--y);
-  --_nys-button-line-height: 16px;
+  --_nys-button-line-height: var(--nys-size-200, 16px);
 }
 
 .nys-tabgroup {
