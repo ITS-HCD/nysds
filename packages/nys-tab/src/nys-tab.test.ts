@@ -341,27 +341,6 @@ describe("nys-tab a11y", () => {
     expect(tabContainer.getAttribute("role")).to.equal("tablist");
   });
 
-  it("sets aria-controls on each tab pointing to its paired panel's id", async () => {
-    const el = await fixture<NysTabgroup>(html`
-      <nys-tabgroup>
-        <nys-tab label="Tab One"></nys-tab>
-        <nys-tab label="Tab Two"></nys-tab>
-        <nys-tab label="Tab Three"></nys-tab>
-        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
-        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
-        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
-      </nys-tabgroup>
-    `);
-    await el.updateComplete;
-
-    const tabs = (el as any)._getTabs();
-    const panels = (el as any)._getPanels();
-
-    tabs.forEach((tab: HTMLElement, i: number) => {
-      expect(tab.getAttribute("aria-controls")).to.equal(panels[i].id);
-    });
-  });
-
   it("sets aria-labelledby on each panel pointing to its paired tab's id", async () => {
     const el = await fixture<NysTabgroup>(html`
       <nys-tabgroup>

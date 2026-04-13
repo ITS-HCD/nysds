@@ -321,19 +321,14 @@ export class NysTabgroup extends LitElement {
    * @returns void
    */
   private _handleKeydown(e: KeyboardEvent): void {
-    console.log("testing keydown call: ", e.key);
     const tabs = this._getTabs().filter((t) => !t.hasAttribute("disabled"));
     if (tabs.length === 0) return;
 
     const focusedTab = (e.composedPath() as HTMLElement[]).find(
       (el) => el.tagName?.toLowerCase() === "nys-tab",
     );
-    console.log((e.composedPath() as HTMLElement[]).map((el) => el.tagName));
     const currentIndex = focusedTab ? tabs.indexOf(focusedTab) : -1;
 
-    console.log("focusedTab", focusedTab);
-    console.log("tabs", tabs);
-    console.log("currentIndex", currentIndex);
     if (currentIndex === -1) return;
 
     const prevKey = "ArrowLeft";
