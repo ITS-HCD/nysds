@@ -103,11 +103,24 @@ export class NysDropdownMenu extends LitElement {
     const targetId = this.for;
     if (!targetId) return null;
 
-    // lightDOM search
+    // 1. lightDOM search
     let htmlElement = document.getElementById(targetId);
     if (htmlElement) return htmlElement;
 
-    // Search recursively through shadow DOMs (e.g. for nys-label within other component's shadowDOM)
+    // 2. Search the closest ancestor shadow roots first (e.g. inside nys-globalheader)
+    let node: Node | null = this;
+    while (node) {
+      const root =
+        (node as Element).shadowRoot ??
+        (node instanceof ShadowRoot ? node : null);
+      if (root) {
+        const found = root.getElementById(targetId);
+        if (found) return found;
+      }
+      node = node instanceof ShadowRoot ? node.host : (node as Node).parentNode;
+    }
+
+    // 3. Full document shadow DOM recursive search (e.g. for nys-label within other component's shadowDOM)
     const findInShadows = (root: ParentNode): HTMLElement | null => {
       for (const el of Array.from(root.querySelectorAll("*"))) {
         const shadowElement = el.shadowRoot;
@@ -128,6 +141,7 @@ export class NysDropdownMenu extends LitElement {
   private _connectTrigger() {
     const trigger = this._findTrigger();
     if (!trigger) return;
+    if (trigger === this._trigger) return;
 
     this._trigger = trigger;
 
@@ -464,6 +478,7 @@ export class NysDropdownMenu extends LitElement {
     if (this.showDropdown) {
       this._positionMenu();
     }
+    this._connectTrigger();
   };
 
   private _handleWindowScroll = () => {
