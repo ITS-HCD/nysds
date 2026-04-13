@@ -37,7 +37,6 @@ export class NysBreadcrumbItem extends LitElement {
   @property({ type: String, reflect: true }) link = "";
 
   /** Private property used by nys-breadcrumbs to indicate this breadcrumb item is the last in the trail **/
-  @property({ type: Boolean }) isLast = false;
   @property({ type: Boolean }) isBackToParent = false;
 
   @state() private _isCurrentPage = false;
@@ -91,9 +90,7 @@ export class NysBreadcrumbItem extends LitElement {
         @click=${this._handleClick}
         >${this.label}</a
       >
-      ${!this.isLast
-        ? html`<nys-icon name="chevron_right" size="14"></nys-icon>`
-        : ""}
+      <nys-icon name="chevron_right" size="14"></nys-icon>
     </li>`;
   }
 

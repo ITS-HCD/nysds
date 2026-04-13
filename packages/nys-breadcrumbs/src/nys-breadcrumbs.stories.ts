@@ -10,6 +10,7 @@ interface NysBreadcrumbsArgs {
   itemsBeforeCollapse: string;
   itemsAfterCollapse: string;
   maxItems: string;
+  ariaLabel: string;
   collapsed: boolean;
   backToParentMobile: boolean;
   backgroundBar: boolean;
@@ -48,6 +49,7 @@ export const Basic: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     size: "",
+    ariaLabel: "",
     collapsed: false,
     backToParentMobile: false,
     backgroundBar: false,
@@ -56,6 +58,7 @@ export const Basic: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -97,6 +100,7 @@ export const WithoutCurrentPage: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     size: "",
+    ariaLabel: "",
     collapsed: false,
     backToParentMobile: false,
     backgroundBar: false,
@@ -105,6 +109,7 @@ export const WithoutCurrentPage: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -144,6 +149,7 @@ export const SingleCrumb: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     size: "",
+    ariaLabel: "",
     collapsed: false,
     backToParentMobile: false,
     backgroundBar: false,
@@ -152,6 +158,7 @@ export const SingleCrumb: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -181,6 +188,7 @@ export const LongTrailOfCrumbs: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     size: "",
+    ariaLabel: "",
     collapsed: false,
     backToParentMobile: false,
     backgroundBar: false,
@@ -189,6 +197,7 @@ export const LongTrailOfCrumbs: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -257,6 +266,7 @@ export const MaxItems: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -318,6 +328,7 @@ export const BackToParentProp: Story = {
     itemsAfterCollapse: "",
     maxItems: "",
     size: "",
+    ariaLabel: "",
     collapsed: false,
     backToParentMobile: true,
   },
@@ -325,6 +336,7 @@ export const BackToParentProp: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -386,6 +398,7 @@ export const BeforeAndAfterCollapse: Story = {
     itemsAfterCollapse: "3",
     maxItems: "",
     size: "",
+    ariaLabel: "",
     collapsed: false,
     backToParentMobile: true,
   },
@@ -393,6 +406,7 @@ export const BeforeAndAfterCollapse: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -461,6 +475,7 @@ export const Size: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}
@@ -499,6 +514,7 @@ export const BackgroundBar: Story = {
   args: {
     id: "breadcrumbs-bg",
     size: "",
+    ariaLabel: "",
     itemsBeforeCollapse: "",
     itemsAfterCollapse: "",
     maxItems: "",
@@ -510,6 +526,7 @@ export const BackgroundBar: Story = {
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
       .itemsBeforeCollapse=${args.itemsBeforeCollapse}
       .itemsAfterCollapse=${args.itemsAfterCollapse}
       .maxItems=${args.maxItems}

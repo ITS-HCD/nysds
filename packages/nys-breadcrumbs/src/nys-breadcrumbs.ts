@@ -49,6 +49,7 @@ export class NysBreadcrumbs extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
+  @property({ type: String }) ariaLabel = "";
   @property({ type: String, reflect: true }) size: "sm" | "md" | "" = "md";
   @property({ type: String }) itemsBeforeCollapse = "1";
   @property({ type: String }) itemsAfterCollapse = "2";
@@ -198,8 +199,6 @@ export class NysBreadcrumbs extends LitElement {
 
     // Normal multi-item breadcrumb trail
     assignedElements.forEach((crumb, index) => {
-      const isLast = index === assignedElements.length - 1;
-
       const crumbIsBeforeCollapse = index < itemsBeforeCollapse;
       const crumbIsAfterCollapse =
         index >= assignedElements.length - itemsAfterCollapse;
@@ -210,10 +209,6 @@ export class NysBreadcrumbs extends LitElement {
 
       const clone = crumb.cloneNode(true) as NysBreadcrumbItem;
       clone.setAttribute("data-cloned", "true");
-
-      if (isLast) {
-        clone.isLast = true;
-      }
 
       if (shouldHide) {
         clone.classList.add("hide");
@@ -289,7 +284,7 @@ export class NysBreadcrumbs extends LitElement {
       class="nys-breadcrumbs ${this.backgroundBar
         ? "nys-breadcrumbs--background-bar"
         : ""}"
-      aria-label="Breadcrumb"
+      aria-label=${this.ariaLabel || "path to this page"}
     >
       <ol id="crumb-list">
         <slot
