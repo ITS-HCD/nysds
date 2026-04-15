@@ -1,7 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import "./nys-breadcrumbitem";
-import { NysBreadcrumbItem } from "./nys-breadcrumbitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-breadcrumbs.scss?inline";
 
@@ -23,24 +21,30 @@ let componentIdCounter = 0;
  * @example Full trail with current page
  * ```html
  * <nys-breadcrumbs>
- *   <nys-breadcrumbitem href="/" label="Home"></nys-breadcrumbitem>
- *   <nys-breadcrumbitem href="/services" label="Services"></nys-breadcrumbitem>
- *   <nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/services">Services</a></li>
+ *   <li>Current Page</li>
+ *  </ol>
  * </nys-breadcrumbs>
  * ```
  *
  * @example Trail without current page
  * ```html
  * <nys-breadcrumbs>
- *   <nys-breadcrumbitem href="/" label="Home"></nys-breadcrumbitem>
- *   <nys-breadcrumbitem href="/services" label="Services"></nys-breadcrumbitem>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/services">Services</a></li>
+ *  </ol>
  * </nys-breadcrumbs>
  * ```
  *
  * @example Single item renders as back-to-parent
  * ```html
  * <nys-breadcrumbs>
- *   <nys-breadcrumbitem href="/services" label="Services"></nys-breadcrumbitem>
+ *  <ol>
+ *   <li><a href="/services">Services</a></li>
+ *  </ol>
  * </nys-breadcrumbs>
  * ```
  */
@@ -59,7 +63,6 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: Boolean }) collapsed = false;
   @property({ type: Boolean }) backgroundBar = false;
 
-  // private _resizeObserver: ResizeObserver | null = null;
   private _collapseThreshold = 5; // default for desktop
   private _manuallyExpanded = false;
 
@@ -123,112 +126,197 @@ export class NysBreadcrumbs extends LitElement {
     }
   };
 
-  private _handleSlotChange() {
-    const isMobile = window.innerWidth < 768;
+  private _getSlottedOl(): HTMLOListElement | null {
     const slot = this.shadowRoot?.querySelector(
       "slot",
     ) as HTMLSlotElement | null;
-    const ol = this.shadowRoot?.getElementById("crumb-list");
+    const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+    return (
+      (assigned.find((el) => el.tagName === "OL") as HTMLOListElement) ?? null
+    );
+  }
 
-    if (!slot || !ol) return;
+  private _getSlottedItems(): HTMLLIElement[] {
+    const ol = this._getSlottedOl();
+    if (!ol) return [];
+    return Array.from(ol.children).filter(
+      (el) => el.tagName === "LI",
+    ) as HTMLLIElement[];
+  }
+
+  private _getAnchor(li: HTMLLIElement): HTMLAnchorElement | null {
+    return li.querySelector("a");
+  }
+
+  private _isCurrentPage(li: HTMLLIElement): boolean {
+    const a = this._getAnchor(li);
+    if (!a) return true;
+    return false;
+  }
+
+  private _createBackToParentElement(li: HTMLLIElement) {
+    const anchor = this._getAnchor(li);
+    const link = anchor?.getAttribute("href") ?? "";
+    const label = anchor?.textContent?.trim() ?? li.textContent?.trim();
+
+    const liEL = document.createElement("li");
+    liEL.className = "nys-breadcrumbitem";
+
+    const icon = document.createElement("nys-icon");
+    icon.setAttribute("name", "arrow_back");
+    icon.setAttribute("size", "16");
+
+    const a = document.createElement("a");
+    a.href = link;
+    a.textContent = label;
+
+    liEL.appendChild(icon);
+    liEL.appendChild(a);
+
+    return liEL;
+    // return html`<li class="nys-breadcrumbitem">
+    //   <nys-icon name="arrow_back" size="16"></nys-icon>
+    //   <a href=${this.link} @click=${this._handleClick}>${this.label}</a>
+    // </li>`;
+  }
+
+  private _createCrumbElement(li: HTMLLIElement, isCurrentPage: boolean) {
+    const anchor = this._getAnchor(li);
+    const link = anchor?.getAttribute("href") ?? "";
+    const label = anchor?.textContent?.trim() ?? li.textContent?.trim() ?? "";
+
+    const liEl = document.createElement("li");
+    liEl.className = "nys-breadcrumbitem";
+
+    if (isCurrentPage) {
+      liEl.textContent = label;
+      return liEl;
+    }
+
+    const a = document.createElement("a");
+    a.href = link;
+    a.textContent = label;
+
+    const icon = document.createElement("nys-icon");
+    icon.setAttribute("name", "chevron_right");
+    icon.setAttribute("size", "14");
+
+    liEl.appendChild(a);
+    liEl.appendChild(icon);
+    return liEl;
+  }
+
+  /**
+   * Main logic for cloning and handling user slots.
+   * New <ol>, <li>, and <a> tags are created and rendered out as crumbs for the breadcrumbs trail.
+   */
+  private _handleSlotChange() {
+    const isMobile = window.innerWidth < 768;
+    const ol = this.shadowRoot?.getElementById("crumb-list");
+    if (!ol) return;
+
+    const items = this._getSlottedItems();
+    if (items.length === 0) return;
 
     // --- Remove previous cloned child to avoid duplicates ---
-    const removeClone = () => {
-      Array.from(ol.children).forEach((child) => {
-        if ((child as HTMLElement).hasAttribute("data-cloned")) {
-          child.remove();
-        }
-      });
+    // const crumbNavigation = this.querySelector(".nys-breadcrumbs");
 
-      ol.querySelector(".ellipsis-item")?.remove();
-    };
+    // const removeClone = () => {
+    //   Array.from(crumbNavigation!.children).forEach((child) => {
+    //     if ((child as HTMLOListElement).hasAttribute("data-cloned")) {
+    //       child.remove();
+    //     }
+    //   });
+    // };
 
-    removeClone();
+    // removeClone();
+
+    ol.innerHTML = "";
+
+    // --- Remove previous cloned child to avoid duplicates ---
+    // const removeClone = () => {
+    //   Array.from(crumbNavigation.children).forEach((child) => {
+    //     if ((child as HTMLOListElement).hasAttribute("data-cloned")) {
+    //       child.remove();
+    //     }
+    //   });
+
+    //   crumbNavigation.querySelector(".nys-breadcrumbs__ellipsis")?.remove();
+    // };
+
+    // removeClone();
 
     // ---------------------------------------------------------
 
-    const assignedElements = slot
-      .assignedElements({ flatten: true })
-      .filter(
-        (el) => el.tagName.toLowerCase() === "nys-breadcrumbitem",
-      ) as NysBreadcrumbItem[];
-
-    if (assignedElements.length === 0) return;
-
     const setCrumbAsBackToParentBtn = (index = 0) => {
-      const clone = assignedElements[index].cloneNode(
-        true,
-      ) as NysBreadcrumbItem;
-      clone.setAttribute("data-cloned", "true");
+      const clone = items[index].cloneNode(true) as HTMLLIElement;
 
-      clone.isBackToParent = true;
-      ol.appendChild(clone);
+      const backToParentBtn = this._createBackToParentElement(clone);
+      ol.appendChild(backToParentBtn);
     };
 
     // Single breadcrumb item OR backToParentMobile=true for mobile - render as backToParent button
-    if (assignedElements.length === 1) {
+    if (items.length === 1) {
       setCrumbAsBackToParentBtn();
       return;
     }
 
     if (isMobile && this.backToParentMobile) {
-      const currentPageExist =
-        assignedElements[assignedElements.length - 1].link.trim().length === 0;
+      const currentPageExist = this._isCurrentPage(items[items.length - 1]);
+
       if (currentPageExist) {
-        setCrumbAsBackToParentBtn(assignedElements.length - 2);
+        setCrumbAsBackToParentBtn(items.length - 2);
       } else {
-        setCrumbAsBackToParentBtn(assignedElements.length - 1);
+        setCrumbAsBackToParentBtn(items.length - 1);
       }
       return;
     }
 
     // ---------------------------------------------------------
     const shouldAutoCollapse =
-      !this._manuallyExpanded &&
-      assignedElements.length > this._collapseThreshold;
+      !this._manuallyExpanded && items.length > this._collapseThreshold;
     const collapseTrail = this.collapsed || shouldAutoCollapse;
 
     const itemsBeforeCollapse = Math.min(
       Number(this.itemsBeforeCollapse) || 1,
-      assignedElements.length - 1,
+      items.length - 1,
     );
     const itemsAfterCollapse = Math.min(
       Number(this.itemsAfterCollapse) || 2,
-      assignedElements.length - itemsBeforeCollapse,
+      items.length - itemsBeforeCollapse,
     );
 
     // Normal multi-item breadcrumb trail
-    assignedElements.forEach((crumb, index) => {
+    items.forEach((crumb, index) => {
       const crumbIsBeforeCollapse = index < itemsBeforeCollapse;
-      const crumbIsAfterCollapse =
-        index >= assignedElements.length - itemsAfterCollapse;
-
+      const crumbIsAfterCollapse = index >= items.length - itemsAfterCollapse;
       const isAlwaysVisible = crumbIsBeforeCollapse || crumbIsAfterCollapse;
-
       const shouldHide = collapseTrail && !isAlwaysVisible; // Determines which of the crumbs is hidden
 
-      const clone = crumb.cloneNode(true) as NysBreadcrumbItem;
-      clone.setAttribute("data-cloned", "true");
+      const liEl = this._createCrumbElement(crumb, this._isCurrentPage(crumb));
+      liEl.setAttribute("data-cloned", "true");
+      // const clone = crumb.cloneNode(true) as HTMLLIElement;
+      // clone.setAttribute("data-cloned", "true");
 
       if (shouldHide) {
-        clone.classList.add("hide");
+        liEl.classList.add("hide");
       }
 
       if (!isAlwaysVisible) {
         // Assigning which crumb is an intermediate item (aka hidable) allows us to later redirect focus on the first of these intermediates.
-        clone.classList.add("intermediate");
+        liEl.classList.add("intermediate");
       }
 
-      ol.appendChild(clone);
+      ol.appendChild(liEl);
 
       // Insert ellipsis before the first hidden cloned item when collapsed
       if (
         index === itemsBeforeCollapse - 1 &&
         collapseTrail &&
-        assignedElements.length > 2
+        items.length > 2
       ) {
         const ellipsis = document.createElement("li");
-        ellipsis.classList.add("ellipsis-item");
+        ellipsis.classList.add("nys-breadcrumbs__ellipsis");
 
         // Ellipse button
         const button = document.createElement("button");
@@ -257,10 +345,9 @@ export class NysBreadcrumbs extends LitElement {
 
   private _moveFocusToFirstExpandCrumb() {
     setTimeout(() => {
-      const ol = this.shadowRoot?.getElementById("crumb-list");
-      const firstClone = ol?.querySelector<NysBreadcrumbItem>(
-        "nys-breadcrumbitem[data-cloned].intermediate",
-      );
+      const crumbNavigation = this.shadowRoot?.getElementById("crumb-list");
+      const ol = crumbNavigation?.querySelector("ol");
+      const firstClone = ol?.querySelector("li[data-cloned].intermediate");
       firstClone?.shadowRoot?.querySelector<HTMLAnchorElement>("a")?.focus();
     }, 0);
   }
@@ -286,12 +373,8 @@ export class NysBreadcrumbs extends LitElement {
         : ""}"
       aria-label=${this.ariaLabel || "path to this page"}
     >
-      <ol id="crumb-list">
-        <slot
-          style="display: none;"
-          @slotchange=${this._handleSlotChange}
-        ></slot>
-      </ol>
+      <ol id="crumb-list"></ol>
+      <slot style="display: none;" @slotchange=${this._handleSlotChange}></slot>
     </nav>`;
   }
 }

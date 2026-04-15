@@ -37,6 +37,7 @@ export class NysBreadcrumbItem extends LitElement {
   @property({ type: String, reflect: true }) link = "";
 
   /** Private property used by nys-breadcrumbs to indicate this breadcrumb item is the last in the trail **/
+  @property({ type: Boolean }) isLast = false;
   @property({ type: Boolean }) isBackToParent = false;
 
   @state() private _isCurrentPage = false;

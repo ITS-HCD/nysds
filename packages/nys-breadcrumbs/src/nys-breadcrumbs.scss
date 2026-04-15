@@ -60,10 +60,6 @@
   }
 }
 
-:host(.hide) {
-  display: none;
-}
-
 :host([size="sm"]) {
   --_nys-breadcrumbs-font-size: var(--nys-font-size-ui-sm, 14px);
 }
@@ -77,14 +73,14 @@
   font-weight: var(--_nys-breadcrumbs-font-weight--current);
   white-space: nowrap;
 
+  &.hide {
+    display: none;
+  }
+
   a {
     text-decoration: none;
     color: var(--_nys-breadcrumbitem-color);
     font-weight: var(--_nys-breadcrumbs-font-weight);
-
-    :host {
-      --_nys-breadcrumbitem-color: var(--nys-color-text-weak, #4a4d4f);
-    }
 
     &:hover {
       text-decoration-line: underline;
@@ -111,7 +107,7 @@
   }
 }
 
-.ellipsis-item {
+.nys-breadcrumbs__ellipsis {
   display: flex;
   gap: var(--_nys-breadcrumb-gap--ellipsis);
   margin: 0;
