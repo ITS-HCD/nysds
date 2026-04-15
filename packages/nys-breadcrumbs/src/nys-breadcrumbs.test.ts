@@ -1,113 +1,14 @@
 import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-breadcrumbs.js";
 import { NysBreadcrumbs } from "./nys-breadcrumbs.js";
-import { NysBreadcrumbItem } from "./nys-breadcrumbitem.js";
 
-describe("nys-breadcrumbitem", () => {
-  it("renders the component", async () => {
-    const el = await fixture(
-      html`<nys-breadcrumbitem label="Home" link="/"></nys-breadcrumbitem>`,
-    );
-    expect(el).to.exist;
-  });
-
-  it("generates an id if not provided", async () => {
-    const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbitem label="Home" link="/"></nys-breadcrumbitem>`,
-    );
-    await el.updateComplete;
-
-    expect(el.id).to.not.be.empty;
-    expect(el.id).to.match(/^nys-breadcrumbitem-\d+-\d+$/);
-  });
-
-  it("renders a link when link is provided", async () => {
-    const el = await fixture<NysBreadcrumbItem>(
-      html`<nys-breadcrumbitem label="Home" link="/"></nys-breadcrumbitem>`,
-    );
-    await el.updateComplete;
-    const anchor = el.shadowRoot!.querySelector("a");
-    expect(anchor).to.exist;
-    expect(anchor!.getAttribute("href")).to.equal("/");
-    expect(anchor!.textContent?.trim()).to.equal("Home");
-  });
-
-  it("renders as current page (no link) when link is empty", async () => {
-    const el = await fixture<NysBreadcrumbItem>(
-      html`<nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>`,
-    );
-
-    await el.updateComplete;
-    const anchor = el.shadowRoot!.querySelector("a");
-    const li = el.shadowRoot!.querySelector("li");
-    expect(anchor).to.not.exist;
-    expect(li!.textContent?.trim()).to.equal("Current Page");
-  });
-
-  it("renders chevron when not last item", async () => {
-    const el = await fixture<NysBreadcrumbItem>(
-      html`<nys-breadcrumbitem label="Home" link="/"></nys-breadcrumbitem>`,
-    );
-    await el.updateComplete;
-    el.isLast = false;
-    await el.updateComplete;
-    const icon = el.shadowRoot!.querySelector("nys-icon[name='chevron_right']");
-    expect(icon).to.exist;
-  });
-
-  it("renders as back-to-parent when isBackToParent is true", async () => {
-    const el = await fixture<NysBreadcrumbItem>(
-      html`<nys-breadcrumbitem
-        label="Services"
-        link="/services"
-        .isBackToParent=${true}
-      ></nys-breadcrumbitem>`,
-    );
-    await el.updateComplete;
-    const icon = el.shadowRoot!.querySelector("nys-icon[name='arrow_back']");
-    const anchor = el.shadowRoot!.querySelector("a");
-    expect(icon).to.exist;
-    expect(anchor).to.exist;
-    expect(anchor!.getAttribute("href")).to.equal("/services");
-  });
-
-  /** Event Testing **/
-  it("dispatches nys-breadcrumbitem-click when link is clicked", async () => {
-    const el = await fixture<NysBreadcrumbItem>(
-      html`<nys-breadcrumbitem label="Home" link="/"></nys-breadcrumbitem>`,
-    );
-    await el.updateComplete;
-
-    let eventFired = false;
-    let eventDetail: { id: string; link: string } | null = null;
-
-    el.addEventListener("nys-breadcrumbitem-click", (e: Event) => {
-      eventFired = true;
-      eventDetail = (e as CustomEvent).detail;
-    });
-
-    const anchor = el.shadowRoot!.querySelector<HTMLAnchorElement>("a");
-    anchor!.addEventListener("click", (e) => e.preventDefault());
-    anchor!.click();
-
-    expect(eventFired).to.be.true;
-    expect(eventDetail!.link).to.equal("/");
-  });
-
-  /** Accessibility **/
-  it("passes the a11y audit", async () => {
-    const el = await fixture(
-      html`<nys-breadcrumbs label="My Label"></nys-breadcrumbs>`,
-    );
-    await expect(el).shadowDom.to.be.accessible();
-  });
-});
-
-describe("nys-breadcrumbitem", () => {
+describe("nys-breadcrumbs", () => {
   it("renders the component", async () => {
     const el = await fixture(
       html`<nys-breadcrumbs>
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     expect(el).to.exist;
@@ -116,7 +17,9 @@ describe("nys-breadcrumbitem", () => {
   it("generates an id if not provided", async () => {
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
@@ -127,63 +30,83 @@ describe("nys-breadcrumbitem", () => {
   it("renders single item as back-to-parent", async () => {
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
-        <nys-breadcrumbitem
-          link="/services"
-          label="Services"
-        ></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/services">Services</a></li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
 
     const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const clone = ol.querySelector<NysBreadcrumbItem>(
-      "nys-breadcrumbitem[data-cloned]",
-    );
-    expect(clone).to.exist;
-    expect(clone!.isBackToParent).to.be.true;
+    const li = ol.querySelector("li.nys-breadcrumbitem");
+    const icon = li?.querySelector("nys-icon[name='arrow_back']");
+    const anchor = li?.querySelector("a");
+
+    expect(li).to.exist;
+    expect(icon).to.exist;
+    expect(anchor).to.exist;
+    expect(anchor!.getAttribute("href")).to.equal("/services");
+    expect(anchor!.textContent?.trim()).to.equal("Services");
   });
 
   it("renders multiple items as a trail", async () => {
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
-        <nys-breadcrumbitem
-          link="/services"
-          label="Services"
-        ></nys-breadcrumbitem>
-        <nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
 
     const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const clones = ol.querySelectorAll("nys-breadcrumbitem[data-cloned]");
-    expect(clones.length).to.equal(3);
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+    expect(items.length).to.equal(3);
   });
 
-  it("marks the last cloned item with isLast", async () => {
+  it("renders current page item as plain text", async () => {
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
-        <nys-breadcrumbitem
-          link="/services"
-          label="Services"
-        ></nys-breadcrumbitem>
-        <nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li>Current Page</li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
 
     const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const clones = Array.from(
-      ol.querySelectorAll<NysBreadcrumbItem>("nys-breadcrumbitem[data-cloned]"),
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+    const lastItem = items[items.length - 1];
+
+    expect(lastItem.querySelector("a")).to.not.exist;
+    expect(lastItem.textContent?.trim()).to.equal("Current Page");
+  });
+
+  it("renders chevron_right icon on linked items", async () => {
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
+      </nys-breadcrumbs>`,
     );
-    const lastClone = clones[clones.length - 1];
-    expect(lastClone.isLast).to.be.true;
+    await el.updateComplete;
+
+    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+
+    expect(items[0].querySelector("nys-icon[name='chevron_right']")).to.exist;
+    expect(items[1].querySelector("nys-icon[name='chevron_right']")).to.exist;
+    expect(items[2].querySelector("nys-icon[name='chevron_right']")).to.not
+      .exist;
   });
 
   it("collapses trail and shows ellipsis when items exceed maxItems (desktop)", async () => {
-    // Force desktop width
     Object.defineProperty(window, "innerWidth", {
       writable: true,
       value: 1024,
@@ -192,18 +115,45 @@ describe("nys-breadcrumbitem", () => {
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs maxItems="3">
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/a" label="A"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/b" label="B"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/c" label="C"></nys-breadcrumbitem>
-        <nys-breadcrumbitem label="Current"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/Mission">Mission</a></li>
+          <li><a href="/About">About</a></li>
+          <li>Current</li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
 
     const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const ellipsis = ol.querySelector(".ellipsis-item");
+    const ellipsis = ol.querySelector(".nys-breadcrumbs__ellipsis");
     expect(ellipsis).to.exist;
+  });
+
+  it("hides intermediate items when collapsed", async () => {
+    Object.defineProperty(window, "innerWidth", {
+      writable: true,
+      value: 1024,
+    });
+    window.dispatchEvent(new Event("resize"));
+
+    const el = await fixture<NysBreadcrumbs>(
+      html`<nys-breadcrumbs maxItems="3">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/Mission">Mission</a></li>
+          <li><a href="/About">About</a></li>
+          <li>Current</li>
+        </ol>
+      </nys-breadcrumbs>`,
+    );
+    await el.updateComplete;
+
+    const ol = el.shadowRoot!.getElementById("crumb-list")!;
+    const hidden = ol.querySelectorAll("li.hide");
+    expect(hidden.length).to.be.greaterThan(0);
   });
 
   it("renders back-to-parent on mobile when backToParentMobile is true", async () => {
@@ -212,24 +162,23 @@ describe("nys-breadcrumbitem", () => {
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs .backToParentMobile=${true}>
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
-        <nys-breadcrumbitem
-          link="/services"
-          label="Services"
-        ></nys-breadcrumbitem>
-        <nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
 
     const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const clones = ol.querySelectorAll<NysBreadcrumbItem>(
-      "nys-breadcrumbitem[data-cloned]",
-    );
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
 
-    expect(clones.length).to.equal(1);
-    expect(clones[0].isBackToParent).to.be.true;
-    expect(clones[0].label).to.equal("Services");
+    expect(items.length).to.equal(1);
+    expect(items[0].querySelector("nys-icon[name='arrow_back']")).to.exist;
+    expect(items[0].querySelector("a")?.textContent?.trim()).to.equal(
+      "Services",
+    );
   });
 
   it("does not render back-to-parent on desktop when backToParentMobile is true", async () => {
@@ -241,23 +190,22 @@ describe("nys-breadcrumbitem", () => {
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs .backToParentMobile=${true}>
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
-        <nys-breadcrumbitem
-          link="/services"
-          label="Services"
-        ></nys-breadcrumbitem>
-        <nys-breadcrumbitem label="Current Page"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
 
     const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const clones = ol.querySelectorAll<NysBreadcrumbItem>(
-      "nys-breadcrumbitem[data-cloned]",
-    );
-    // Full trail should render, not a single back-to-parent
-    expect(clones.length).to.equal(3);
-    clones.forEach((crumb) => expect(crumb.isBackToParent).to.not.be.true);
+    const items = ol.querySelectorAll("li.nys-breadcrumbitem");
+
+    expect(items.length).to.equal(3);
+    items.forEach((item) => {
+      expect(item.querySelector("nys-icon[name='arrow_back']")).to.not.exist;
+    });
   });
 
   it("respects collapsed prop even at desktop view", async () => {
@@ -269,20 +217,21 @@ describe("nys-breadcrumbitem", () => {
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs .collapsed=${true} maxItems="10">
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/a" label="A"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/b" label="B"></nys-breadcrumbitem>
-        <nys-breadcrumbitem label="Current"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/Mission">Mission</a></li>
+          <li>Current Page</li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
 
     const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const ellipsis = ol.querySelector(".ellipsis-item");
+    const ellipsis = ol.querySelector(".nys-breadcrumbs__ellipsis");
     expect(ellipsis).to.exist;
   });
 
-  /** Event Testing **/
   it("expands trail when ellipsis is clicked and fires nys-breadcrumbs-expand", async () => {
     Object.defineProperty(window, "innerWidth", {
       writable: true,
@@ -292,11 +241,13 @@ describe("nys-breadcrumbitem", () => {
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs maxItems="3">
-        <nys-breadcrumbitem link="/" label="Home"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/a" label="A"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/b" label="B"></nys-breadcrumbitem>
-        <nys-breadcrumbitem link="/c" label="C"></nys-breadcrumbitem>
-        <nys-breadcrumbitem label="Current"></nys-breadcrumbitem>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/a">A</a></li>
+          <li><a href="/b">B</a></li>
+          <li><a href="/c">C</a></li>
+          <li>Current</li>
+        </ol>
       </nys-breadcrumbs>`,
     );
     await el.updateComplete;
@@ -314,15 +265,20 @@ describe("nys-breadcrumbitem", () => {
     await el.updateComplete;
 
     expect(expandFired).to.be.true;
-    expect(ol.querySelector(".ellipsis-item")).to.not.exist;
-    const hidden = ol.querySelectorAll(".hide");
-    expect(hidden.length).to.equal(0);
+    expect(ol.querySelector(".nys-breadcrumbs__ellipsis")).to.not.exist;
+    expect(ol.querySelectorAll("li.hide").length).to.equal(0);
   });
 
   /** Accessibility **/
   it("passes the a11y audit", async () => {
     const el = await fixture(
-      html`<nys-breadcrumbs label="My Label"></nys-breadcrumbs>`,
+      html`<nys-breadcrumbs>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li>Current Page</li>
+        </ol>
+      </nys-breadcrumbs>`,
     );
     await expect(el).shadowDom.to.be.accessible();
   });
