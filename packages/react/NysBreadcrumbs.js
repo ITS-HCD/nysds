@@ -5,15 +5,12 @@ import { useEventListener } from "./react-utils.js";
 export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
   const {
-    backToParentMobile,
+    backToParent,
     collapsed,
     backgroundBar,
     id,
     ariaLabel,
     size,
-    itemsBeforeCollapse,
-    itemsAfterCollapse,
-    maxItems,
     ...filteredProps
   } = props;
 
@@ -35,15 +32,12 @@ export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
       id: props.id,
       ariaLabel: props.ariaLabel,
       size: props.size,
-      itemsBeforeCollapse: props.itemsBeforeCollapse,
-      itemsAfterCollapse: props.itemsAfterCollapse,
-      maxItems: props.maxItems,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
-      backToParentMobile: props.backToParentMobile ? true : undefined,
+      backToParent: props.backToParent ? true : undefined,
       collapsed: props.collapsed ? true : undefined,
       backgroundBar: props.backgroundBar ? true : undefined,
       style: { ...props.style },

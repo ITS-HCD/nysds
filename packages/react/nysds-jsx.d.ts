@@ -171,22 +171,6 @@ export type NysBadgeProps = {
   suffixicon?: string | boolean;
 };
 
-export type NysBreadcrumbItemProps = {
-  /**  */
-  id?: string;
-  /**  */
-  label?: string;
-  /**  */
-  link?: string;
-  /** Private property used by nys-breadcrumbs to indicate this breadcrumb item is the last in the trail * */
-  isLast?: boolean;
-  /**  */
-  isBackToParent?: boolean;
-
-  /** Fired when the link is clicked. Detail: `{id, link}`. */
-  "onnys-breadcrumbitem-click"?: (e: CustomEvent<CustomEvent>) => void;
-};
-
 export type NysBreadcrumbsProps = {
   /**  */
   id?: string;
@@ -194,14 +178,8 @@ export type NysBreadcrumbsProps = {
   ariaLabel?: string;
   /**  */
   size?: "sm" | "md" | "";
-  /**  */
-  itemsBeforeCollapse?: string;
-  /**  */
-  itemsAfterCollapse?: string;
   /** Property overrides default maxItem of 5 breadcrumbs for desktop only * */
-  maxItems?: string;
-  /**  */
-  backToParentMobile?: boolean;
+  backToParent?: boolean;
   /**  */
   collapsed?: boolean;
   /**  */
@@ -1071,16 +1049,6 @@ export type CustomElements = {
    *
    */
   "nys-badge": Partial<NysBadgeProps & BaseProps & BaseEvents>;
-
-  /**
-   * Single breadcrumb trail item with chevron separator and current page support.
-   * ---
-   *
-   *
-   * ### **Events:**
-   *  - **nys-breadcrumbitem-click** - Fired when the link is clicked. Detail: `{id, link}`.
-   */
-  "nys-breadcrumbitem": Partial<NysBreadcrumbItemProps & BaseProps & BaseEvents>;
 
   /**
    * Breadcrumb navigation trail with responsive collapse support.

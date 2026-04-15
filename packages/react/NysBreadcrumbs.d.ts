@@ -21,8 +21,8 @@ export interface NysBreadcrumbsProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** undefined */
-  backToParentMobile?: boolean;
+  /** Property overrides default maxItem of 5 breadcrumbs for desktop only * */
+  backToParent?: boolean;
 
   /** undefined */
   collapsed?: boolean;
@@ -38,15 +38,6 @@ export interface NysBreadcrumbsProps extends Pick<
 
   /** undefined */
   size?: NysBreadcrumbsElement["size"];
-
-  /** undefined */
-  itemsBeforeCollapse?: NysBreadcrumbsElement["itemsBeforeCollapse"];
-
-  /** undefined */
-  itemsAfterCollapse?: NysBreadcrumbsElement["itemsAfterCollapse"];
-
-  /** Property overrides default maxItem of 5 breadcrumbs for desktop only * */
-  maxItems?: NysBreadcrumbsElement["maxItems"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
