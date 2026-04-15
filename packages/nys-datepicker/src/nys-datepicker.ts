@@ -116,6 +116,12 @@ export class NysDatepicker extends LitElement {
   /** Initial date when calendar opens (YYYY-MM-DD). */
   @property({ type: String }) startDate = "";
 
+  /** The earliest selectable date (YYYY-MM-DD). */
+  @property({ type: String }) minDate = "";
+
+  /** The latest selectable date (YYYY-MM-DD). */
+  @property({ type: String }) maxDate = "";
+
   /** Dark background mode. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
@@ -796,6 +802,8 @@ export class NysDatepicker extends LitElement {
                 : undefined}
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
+            min-date=${ifDefined(this.minDate || undefined)}
+            max-date=${ifDefined(this.maxDate || undefined)}
             role="dialog"
             aria-modal=${this.datepickerIsOpen ? "true" : "false"}
           >
