@@ -174,10 +174,6 @@ export class NysBreadcrumbs extends LitElement {
     liEL.appendChild(a);
 
     return liEL;
-    // return html`<li class="nys-breadcrumbitem">
-    //   <nys-icon name="arrow_back" size="16"></nys-icon>
-    //   <a href=${this.link} @click=${this._handleClick}>${this.label}</a>
-    // </li>`;
   }
 
   private _createCrumbElement(li: HTMLLIElement, isCurrentPage: boolean) {
@@ -218,33 +214,7 @@ export class NysBreadcrumbs extends LitElement {
     const items = this._getSlottedItems();
     if (items.length === 0) return;
 
-    // --- Remove previous cloned child to avoid duplicates ---
-    // const crumbNavigation = this.querySelector(".nys-breadcrumbs");
-
-    // const removeClone = () => {
-    //   Array.from(crumbNavigation!.children).forEach((child) => {
-    //     if ((child as HTMLOListElement).hasAttribute("data-cloned")) {
-    //       child.remove();
-    //     }
-    //   });
-    // };
-
-    // removeClone();
-
     ol.innerHTML = "";
-
-    // --- Remove previous cloned child to avoid duplicates ---
-    // const removeClone = () => {
-    //   Array.from(crumbNavigation.children).forEach((child) => {
-    //     if ((child as HTMLOListElement).hasAttribute("data-cloned")) {
-    //       child.remove();
-    //     }
-    //   });
-
-    //   crumbNavigation.querySelector(".nys-breadcrumbs__ellipsis")?.remove();
-    // };
-
-    // removeClone();
 
     // ---------------------------------------------------------
 
@@ -295,8 +265,6 @@ export class NysBreadcrumbs extends LitElement {
 
       const liEl = this._createCrumbElement(crumb, this._isCurrentPage(crumb));
       liEl.setAttribute("data-cloned", "true");
-      // const clone = crumb.cloneNode(true) as HTMLLIElement;
-      // clone.setAttribute("data-cloned", "true");
 
       if (shouldHide) {
         liEl.classList.add("hide");

@@ -191,6 +191,8 @@ export type NysBreadcrumbsProps = {
   /**  */
   id?: string;
   /**  */
+  ariaLabel?: string;
+  /**  */
   size?: "sm" | "md" | "";
   /**  */
   itemsBeforeCollapse?: string;

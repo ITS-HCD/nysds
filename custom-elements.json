@@ -1491,14 +1491,6 @@
             "name": "*",
             "module": "packages/nys-breadcrumbs/src/nys-breadcrumbs"
           }
-        },
-        {
-          "kind": "js",
-          "name": "*",
-          "declaration": {
-            "name": "*",
-            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbitem"
-          }
         }
       ]
     },
@@ -1706,6 +1698,15 @@
             },
             {
               "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "ariaLabel"
+            },
+            {
+              "kind": "field",
               "name": "size",
               "type": {
                 "text": "\"sm\" | \"md\" | \"\""
@@ -1795,8 +1796,97 @@
             },
             {
               "kind": "method",
+              "name": "_getSlottedOl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLOListElement | null"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_getSlottedItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLLIElement[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_getAnchor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLAnchorElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_isCurrentPage",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_createBackToParentElement",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_createCrumbElement",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                },
+                {
+                  "name": "isCurrentPage",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_handleSlotChange",
-              "privacy": "private"
+              "privacy": "private",
+              "description": "Main logic for cloning and handling user slots.\nNew <ol>, <li>, and <a> tags are created and rendered out as crumbs for the breadcrumbs trail."
             },
             {
               "kind": "method",
@@ -1828,6 +1918,15 @@
               "default": "\"\"",
               "fieldName": "id",
               "propName": "id"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
             },
             {
               "name": "size",
@@ -1904,17 +2003,17 @@
           "examples": [
             {
               "title": "Full trail with current page",
-              "code": "<nys-breadcrumbs>\n<nys-breadcrumbitem href=\"/\" label=\"Home\"></nys-breadcrumbitem>\n<nys-breadcrumbitem href=\"/services\" label=\"Services\"></nys-breadcrumbitem>\n<nys-breadcrumbitem label=\"Current Page\"></nys-breadcrumbitem>\n</nys-breadcrumbs>",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>Current Page</li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             },
             {
               "title": "Trail without current page",
-              "code": "<nys-breadcrumbs>\n<nys-breadcrumbitem href=\"/\" label=\"Home\"></nys-breadcrumbitem>\n<nys-breadcrumbitem href=\"/services\" label=\"Services\"></nys-breadcrumbitem>\n</nys-breadcrumbs>",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             },
             {
               "title": "Single item renders as back-to-parent",
-              "code": "<nys-breadcrumbs>\n<nys-breadcrumbitem href=\"/services\" label=\"Services\"></nys-breadcrumbitem>\n</nys-breadcrumbs>",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             }
           ]

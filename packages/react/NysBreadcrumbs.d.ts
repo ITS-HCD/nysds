@@ -34,6 +34,9 @@ export interface NysBreadcrumbsProps extends Pick<
   id?: NysBreadcrumbsElement["id"];
 
   /** undefined */
+  ariaLabel?: NysBreadcrumbsElement["ariaLabel"];
+
+  /** undefined */
   size?: NysBreadcrumbsElement["size"];
 
   /** undefined */
