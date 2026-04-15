@@ -8,13 +8,13 @@ figma.connect("<FIGMA_BREADCRUMBS>", {
     }),
     collapsed: figma.boolean("Collapsed"),
     backgroundBar: figma.boolean("Background Bar"),
-    backToParentMobile: figma.boolean("Back to Parent"),
+    backToParent: figma.boolean("Back to Parent"),
   },
   example: (props) => html`
     <nys-breadcrumbs
       size="${props.size}"
       collapsed="${props.collapsed}"
-      backToParentMobile="${props.backToParentMobile}"
+      backToParent="${props.backToParent}"
       backgroundBar="${props.backgroundBar}"
     >
       <nys-breadcrumbitem link="/" label="{pageTitle}"></nys-breadcrumbitem>

@@ -55,11 +55,11 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String }) ariaLabel = "";
   @property({ type: String, reflect: true }) size: "sm" | "md" | "" = "md";
-  @property({ type: String }) itemsBeforeCollapse = "1";
-  @property({ type: String }) itemsAfterCollapse = "2";
+  // @property({ type: String }) itemsBeforeCollapse = "1";
+  // @property({ type: String }) itemsAfterCollapse = "2";
   /** Property overrides default maxItem of 5 breadcrumbs for desktop only **/
-  @property({ type: String }) maxItems = "5";
-  @property({ type: Boolean }) backToParentMobile = false;
+  // @property({ type: String }) maxItems = "5";
+  @property({ type: Boolean }) backToParent = false;
   @property({ type: Boolean }) collapsed = false;
   @property({ type: Boolean }) backgroundBar = false;
 
@@ -97,16 +97,16 @@ export class NysBreadcrumbs extends LitElement {
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (
       changedProperties.has("collapsed") ||
-      changedProperties.has("backToParentMobile") ||
+      changedProperties.has("backToParent") ||
       changedProperties.has("itemsBeforeCollapse") ||
       changedProperties.has("itemsAfterCollapse")
     ) {
       this._handleSlotChange();
     }
 
-    if (changedProperties.has("maxItems")) {
-      this._updateCollapseThreshold();
-    }
+    // if (changedProperties.has("maxItems")) {
+    //   this._updateCollapseThreshold();
+    // }
   }
 
   /**
@@ -116,7 +116,8 @@ export class NysBreadcrumbs extends LitElement {
 
   private _updateCollapseThreshold = () => {
     const isMobile = window.innerWidth < 768; // NYSDS sets anything below 768px as mobile. Desktop and Tablet is above 768px.
-    const newThreshold = isMobile ? 3 : Number(this.maxItems) || 5;
+    // const newThreshold = isMobile ? 3 : Number(this.maxItems) || 5;
+    const newThreshold = isMobile ? 3 : 5;
 
     if (newThreshold !== this._collapseThreshold) {
       this._collapseThreshold = newThreshold;
@@ -225,13 +226,13 @@ export class NysBreadcrumbs extends LitElement {
       ol.appendChild(backToParentBtn);
     };
 
-    // Single breadcrumb item OR backToParentMobile=true for mobile - render as backToParent button
+    // Single breadcrumb item OR backToParent=true for mobile - render as backToParent button
     if (items.length === 1) {
       setCrumbAsBackToParentBtn();
       return;
     }
 
-    if (isMobile && this.backToParentMobile) {
+    if (isMobile && this.backToParent) {
       const currentPageExist = this._isCurrentPage(items[items.length - 1]);
 
       if (currentPageExist) {
@@ -247,12 +248,20 @@ export class NysBreadcrumbs extends LitElement {
       !this._manuallyExpanded && items.length > this._collapseThreshold;
     const collapseTrail = this.collapsed || shouldAutoCollapse;
 
-    const itemsBeforeCollapse = Math.min(
-      Number(this.itemsBeforeCollapse) || 1,
-      items.length - 1,
-    );
+    // const itemsBeforeCollapse = Math.min(
+    //   Number(this.itemsBeforeCollapse) || 1,
+    //   items.length - 1,
+    // );
+    // const itemsAfterCollapse = Math.min(
+    //   Number(this.itemsAfterCollapse) || hasCurrentPage ? 2 : 1,
+    //   items.length - itemsBeforeCollapse,
+    // );
+
+    const lastItem = items[items.length - 1];
+    const hasCurrentPage = this._isCurrentPage(lastItem);
+    const itemsBeforeCollapse = Math.min(1, items.length - 1);
     const itemsAfterCollapse = Math.min(
-      Number(this.itemsAfterCollapse) || 2,
+      hasCurrentPage ? 2 : 1,
       items.length - itemsBeforeCollapse,
     );
 

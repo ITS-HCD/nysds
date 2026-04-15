@@ -7,12 +7,12 @@ import "@nysds/nys-icon";
 interface NysBreadcrumbsArgs {
   id: string;
   size: "md" | "sm" | "";
-  itemsBeforeCollapse: string;
-  itemsAfterCollapse: string;
-  maxItems: string;
+  // itemsBeforeCollapse: string;
+  // itemsAfterCollapse: string;
+  // maxItems: string;
   ariaLabel: string;
   collapsed: boolean;
-  backToParentMobile: boolean;
+  backToParent: boolean;
   backgroundBar: boolean;
 }
 
@@ -22,12 +22,12 @@ const meta: Meta<NysBreadcrumbsArgs> = {
   argTypes: {
     id: { control: "text" },
     size: { control: "select", options: ["", "md", "sm"] },
-    itemsBeforeCollapse: { control: "text" },
-    itemsAfterCollapse: { control: "text" },
-    maxItems: { control: "text" },
+    // itemsBeforeCollapse: { control: "text" },
+    // itemsAfterCollapse: { control: "text" },
+    // maxItems: { control: "text" },
     ariaLabel: { control: "text" },
     collapsed: { control: "boolean" },
-    backToParentMobile: { control: "boolean" },
+    backToParent: { control: "boolean" },
     backgroundBar: { control: "boolean" },
   },
   parameters: {
@@ -45,11 +45,11 @@ const defaultArgs: NysBreadcrumbsArgs = {
   id: "",
   size: "",
   ariaLabel: "",
-  itemsBeforeCollapse: "",
-  itemsAfterCollapse: "",
-  maxItems: "",
+  // itemsBeforeCollapse: "",
+  // itemsAfterCollapse: "",
+  // maxItems: "",
   collapsed: false,
-  backToParentMobile: false,
+  backToParent: false,
   backgroundBar: false,
 };
 
@@ -60,11 +60,8 @@ export const Basic: Story = {
       .id=${args.id}
       .size=${args.size}
       .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
+      .backToParent=${args.backToParent}
     >
       <ol>
         <li><a href="/">Home</a></li>
@@ -100,16 +97,14 @@ export const WithoutCurrentPage: Story = {
       .id=${args.id}
       .size=${args.size}
       .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
+      .backToParent=${args.backToParent}
     >
       <ol>
         <li><a href="/">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li><a href="/tickets">Ticket System</a></li>
+        <li><a href="/tickets">Not a clickable</a></li>
       </ol>
     </nys-breadcrumbs>
   `,
@@ -136,11 +131,8 @@ export const SingleCrumb: Story = {
       .id=${args.id}
       .size=${args.size}
       .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
+      .backToParent=${args.backToParent}
     >
       <ol>
         <li><a href="/">Home</a></li>
@@ -168,11 +160,8 @@ export const LongTrailOfCrumbs: Story = {
       .id=${args.id}
       .size=${args.size}
       .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
+      .backToParent=${args.backToParent}
     >
       <ol>
         <li><a href="/">Home</a></li>
@@ -209,18 +198,62 @@ export const LongTrailOfCrumbs: Story = {
   },
 };
 
-export const MaxItems: Story = {
-  args: { ...defaultArgs, id: "breadcrumbs5", maxItems: "10" },
+// export const MaxItems: Story = {
+//   args: { ...defaultArgs, id: "breadcrumbs5", maxItems: "10" },
+//   render: (args) => html`
+//     <nys-breadcrumbs
+//       .id=${args.id}
+//       .size=${args.size}
+//       .ariaLabel=${args.ariaLabel}
+//
+//
+//       .collapsed=${args.collapsed}
+//       .backToParent=${args.backToParent}
+//     >
+//       <ol>
+//         <li><a href="/">Home</a></li>
+//         <li><a href="/government">Government</a></li>
+//         <li><a href="/government/agencies">Agencies</a></li>
+//         <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+//         <li><a href="/parks/state-parks">State Parks</a></li>
+//         <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+//         <li>
+//           <a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a>
+//         </li>
+//         <li>Trail Conditions</li>
+//       </ol>
+//     </nys-breadcrumbs>
+//   `,
+//   parameters: {
+//     docs: {
+//       source: {
+//         code: `
+// <nys-breadcrumbs maxItems="10">
+//   <ol>
+//     <li><a href="/">Home</a></li>
+//     <li><a href="/government">Government</a></li>
+//     <li><a href="/government/agencies">Agencies</a></li>
+//     <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+//     <li><a href="/parks/state-parks">State Parks</a></li>
+//     <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+//     <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
+//     <li>Trail Conditions</li>
+//   </ol>
+// </nys-breadcrumbs>`,
+//       },
+//     },
+//   },
+// };
+
+export const BackToParent: Story = {
+  args: { ...defaultArgs, id: "breadcrumbs6", backToParent: true },
   render: (args) => html`
     <nys-breadcrumbs
       .id=${args.id}
       .size=${args.size}
       .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
+      .backToParent=${args.backToParent}
     >
       <ol>
         <li><a href="/">Home</a></li>
@@ -240,7 +273,7 @@ export const MaxItems: Story = {
     docs: {
       source: {
         code: `
-<nys-breadcrumbs maxItems="10">
+<nys-breadcrumbs backToParent>
   <ol>
     <li><a href="/">Home</a></li>
     <li><a href="/government">Government</a></li>
@@ -257,106 +290,55 @@ export const MaxItems: Story = {
   },
 };
 
-export const BackToParentMobile: Story = {
-  args: { ...defaultArgs, id: "breadcrumbs6", backToParentMobile: true },
-  render: (args) => html`
-    <nys-breadcrumbs
-      .id=${args.id}
-      .size=${args.size}
-      .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
-      .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
-    >
-      <ol>
-        <li><a href="/">Home</a></li>
-        <li><a href="/government">Government</a></li>
-        <li><a href="/government/agencies">Agencies</a></li>
-        <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
-        <li><a href="/parks/state-parks">State Parks</a></li>
-        <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
-        <li>
-          <a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a>
-        </li>
-        <li>Trail Conditions</li>
-      </ol>
-    </nys-breadcrumbs>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-breadcrumbs backToParentMobile>
-  <ol>
-    <li><a href="/">Home</a></li>
-    <li><a href="/government">Government</a></li>
-    <li><a href="/government/agencies">Agencies</a></li>
-    <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
-    <li><a href="/parks/state-parks">State Parks</a></li>
-    <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
-    <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
-    <li>Trail Conditions</li>
-  </ol>
-</nys-breadcrumbs>`,
-      },
-    },
-  },
-};
-
-export const BeforeAndAfterCollapse: Story = {
-  args: {
-    ...defaultArgs,
-    id: "breadcrumbs7",
-    itemsBeforeCollapse: "2",
-    itemsAfterCollapse: "3",
-  },
-  render: (args) => html`
-    <nys-breadcrumbs
-      .id=${args.id}
-      .size=${args.size}
-      .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
-      .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
-    >
-      <ol>
-        <li><a href="/">Home</a></li>
-        <li><a href="/government">Government</a></li>
-        <li><a href="/government/agencies">Agencies</a></li>
-        <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
-        <li><a href="/parks/state-parks">State Parks</a></li>
-        <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
-        <li>
-          <a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a>
-        </li>
-        <li>Trail Conditions</li>
-      </ol>
-    </nys-breadcrumbs>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-breadcrumbs itemsBeforeCollapse="2" itemsAfterCollapse="3">
-  <ol>
-    <li><a href="/">Home</a></li>
-    <li><a href="/government">Government</a></li>
-    <li><a href="/government/agencies">Agencies</a></li>
-    <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
-    <li><a href="/parks/state-parks">State Parks</a></li>
-    <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
-    <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
-    <li>Trail Conditions</li>
-  </ol>
-</nys-breadcrumbs>`,
-      },
-    },
-  },
-};
+// export const BeforeAndAfterCollapse: Story = {
+//   args: {
+//     ...defaultArgs,
+//     id: "breadcrumbs7",
+//     itemsBeforeCollapse: "2",
+//     itemsAfterCollapse: "3",
+//   },
+//   render: (args) => html`
+//     <nys-breadcrumbs
+//       .id=${args.id}
+//       .size=${args.size}
+//       .ariaLabel=${args.ariaLabel}
+//       .collapsed=${args.collapsed}
+//       .backToParent=${args.backToParent}
+//     >
+//       <ol>
+//         <li><a href="/">Home</a></li>
+//         <li><a href="/government">Government</a></li>
+//         <li><a href="/government/agencies">Agencies</a></li>
+//         <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+//         <li><a href="/parks/state-parks">State Parks</a></li>
+//         <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+//         <li>
+//           <a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a>
+//         </li>
+//         <li>Trail Conditions</li>
+//       </ol>
+//     </nys-breadcrumbs>
+//   `,
+//   parameters: {
+//     docs: {
+//       source: {
+//         code: `
+// <nys-breadcrumbs itemsBeforeCollapse="2" itemsAfterCollapse="3">
+//   <ol>
+//     <li><a href="/">Home</a></li>
+//     <li><a href="/government">Government</a></li>
+//     <li><a href="/government/agencies">Agencies</a></li>
+//     <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+//     <li><a href="/parks/state-parks">State Parks</a></li>
+//     <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+//     <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
+//     <li>Trail Conditions</li>
+//   </ol>
+// </nys-breadcrumbs>`,
+//       },
+//     },
+//   },
+// };
 
 export const Size: Story = {
   args: { ...defaultArgs, id: "breadcrumbs8", size: "sm" },
@@ -365,11 +347,8 @@ export const Size: Story = {
       .id=${args.id}
       .size=${args.size}
       .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
+      .backToParent=${args.backToParent}
     >
       <ol>
         <li><a href="/">Home</a></li>
@@ -403,11 +382,8 @@ export const BackgroundBar: Story = {
       .id=${args.id}
       .size=${args.size}
       .ariaLabel=${args.ariaLabel}
-      .itemsBeforeCollapse=${args.itemsBeforeCollapse}
-      .itemsAfterCollapse=${args.itemsAfterCollapse}
-      .maxItems=${args.maxItems}
       .collapsed=${args.collapsed}
-      .backToParentMobile=${args.backToParentMobile}
+      .backToParent=${args.backToParent}
       .backgroundBar=${args.backgroundBar}
     >
       <ol>
