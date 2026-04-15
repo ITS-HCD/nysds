@@ -124,6 +124,6 @@
     "storybook": "$storybook"
   },
   "dependencies": {
-    "wc-datepicker": "^0.9.2"
+    "wc-datepicker": "^0.9.5"
   }
 }
