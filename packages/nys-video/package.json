@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-video",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "The Video Player component from the NYS Design System.",
   "module": "dist/nys-video.js",
   "types": "dist/index.d.ts",
@@ -16,13 +16,11 @@
   ],
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "tsc --emitDeclarationOnly && vite build",
+    "build": "vite build",
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '*.ts'"
-  },
-  "dependencies": {
   },
   "devDependencies": {
     "lit": "^3.3.1",
@@ -40,4 +38,3 @@
   "author": "New York State Design System Team",
   "license": "MIT"
 }
-

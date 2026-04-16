@@ -377,6 +377,10 @@ export type NysDatepickerProps = {
   description?: string;
   /** Initial date when calendar opens (YYYY-MM-DD). */
   startDate?: string;
+  /** The earliest selectable date (YYYY-MM-DD). */
+  minDate?: string;
+  /** The latest selectable date (YYYY-MM-DD). */
+  maxDate?: string;
   /** Dark background mode. */
   inverted?: boolean;
   /** Selected date. Accepts Date object or ISO string (YYYY-MM-DD). */

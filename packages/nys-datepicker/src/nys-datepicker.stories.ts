@@ -21,6 +21,8 @@ interface NysDatepickerArgs {
   label: string;
   description: string;
   startDate: string;
+  minDate: string;
+  maxDate: string;
   hideTodayButton: boolean;
   hideClearButton: boolean;
 }
@@ -42,25 +44,24 @@ const meta: Meta<NysDatepickerArgs> = {
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
     form: { control: "text" },
-
     label: { control: "text" },
     description: { control: "text" },
     startDate: { control: "text" },
+    minDate: { control: "text" },
+    maxDate: { control: "text" },
     hideTodayButton: { control: "boolean" },
     hideClearButton: { control: "boolean" },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
 
 export default meta;
 type Story = StoryObj<NysDatepickerArgs>;
-
-// Define stories without using args
 
 export const Basic: Story = {
   args: {
@@ -76,6 +77,8 @@ export const Basic: Story = {
     label: "Schedule an appointment",
     description: "Enter in MM/DD/YYYY format",
     startDate: "",
+    minDate: "",
+    maxDate: "",
     hideTodayButton: false,
     hideClearButton: false,
   },
@@ -95,6 +98,8 @@ export const Basic: Story = {
         label=${args.label}
         description=${args.description}
         startDate=${args.startDate}
+        minDate=${args.minDate}
+        maxDate=${args.maxDate}
         ?hideTodayButton=${args.hideTodayButton}
         ?hideClearButton=${args.hideClearButton}
       ></nys-datepicker>
@@ -143,6 +148,31 @@ export const CustomStartDate: Story = {
 <nys-datepicker
   label="Project start date"
   startDate="2024-01-01"
+></nys-datepicker>`,
+      },
+    },
+  },
+};
+
+export const DateRange: Story = {
+  args: {
+    ...Basic.args,
+    id: "datepicker-range",
+    name: "datepicker-range",
+    label: "Select a date",
+    description: "Only dates within April 4/5/2026 - 4/15/2026 are selectable",
+    minDate: "2026-04-05",
+    maxDate: "2026-04-15",
+  },
+  render: Basic.render,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker
+  label="Select a date"
+  minDate="2025-04-05"
+  maxDate="2025-04-15"
 ></nys-datepicker>`,
       },
     },
