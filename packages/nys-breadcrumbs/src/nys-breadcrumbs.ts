@@ -66,6 +66,7 @@ export class NysBreadcrumbs extends LitElement {
 
   private _collapseThreshold = 5; // default for desktop
   private _manuallyExpanded = false;
+  private _mediaQuery: MediaQueryList | null = null;
 
   /**
    * Lifecycle methods
@@ -83,25 +84,30 @@ export class NysBreadcrumbs extends LitElement {
       this.id = `nys-breadcrumbs-${Date.now()}-${componentIdCounter++}`;
     }
 
-    window.addEventListener("resize", this._updateCollapseThreshold);
+    this._mediaQuery = window.matchMedia("(max-width: 767px)");
+    this._mediaQuery.addEventListener("change", this._updateCollapseThreshold);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    window.removeEventListener("resize", this._updateCollapseThreshold);
+    this._mediaQuery?.removeEventListener(
+      "change",
+      this._updateCollapseThreshold,
+    );
+    this._mediaQuery = null;
   }
 
   firstUpdated() {
-    this._updateCollapseThreshold();
+    this._handleSlotChange();
   }
 
   updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (
       changedProperties.has("collapsed") ||
       changedProperties.has("backToParent") ||
-      changedProperties.has("disabled") ||
-      changedProperties.has("itemsBeforeCollapse") ||
-      changedProperties.has("itemsAfterCollapse")
+      changedProperties.has("disabled")
+      // changedProperties.has("itemsBeforeCollapse") ||
+      // changedProperties.has("itemsAfterCollapse")
     ) {
       this._handleSlotChange();
     }
@@ -117,14 +123,13 @@ export class NysBreadcrumbs extends LitElement {
    */
 
   private _updateCollapseThreshold = () => {
-    const isMobile = window.innerWidth < 768; // NYSDS sets anything below 768px as mobile. Desktop and Tablet is above 768px.
+    const isMobile = this._mediaQuery?.matches ?? window.innerWidth < 768; // NYSDS sets anything below 768px as mobile. Desktop and Tablet is above 768px.
     // const newThreshold = isMobile ? 3 : Number(this.maxItems) || 5;
     const newThreshold = isMobile ? 3 : 5;
 
     if (newThreshold !== this._collapseThreshold) {
       this._collapseThreshold = newThreshold;
       this._manuallyExpanded = false;
-
       this._handleSlotChange();
     }
   };
@@ -220,7 +225,7 @@ export class NysBreadcrumbs extends LitElement {
    * New <ol>, <li>, and <a> tags are created and rendered out as crumbs for the breadcrumbs trail.
    */
   private _handleSlotChange() {
-    const isMobile = window.innerWidth < 768;
+    const isMobile = this._mediaQuery?.matches ?? window.innerWidth < 768;
     const ol = this.shadowRoot?.getElementById("crumb-list");
     if (!ol) return;
 
