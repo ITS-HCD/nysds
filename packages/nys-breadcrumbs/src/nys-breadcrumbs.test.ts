@@ -2,6 +2,34 @@ import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-breadcrumbs.js";
 import { NysBreadcrumbs } from "./nys-breadcrumbs.js";
 
+const mockMobile = () => {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: query === "(max-width: 767px)",
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+      addListener: () => {},
+      removeListener: () => {},
+    }) as MediaQueryList;
+};
+
+const mockDesktop = () => {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+      addListener: () => {},
+      removeListener: () => {},
+    }) as MediaQueryList;
+};
+
 describe("nys-breadcrumbs", () => {
   it("renders the component", async () => {
     const el = await fixture(
@@ -132,11 +160,7 @@ describe("nys-breadcrumbs", () => {
   // });
 
   it("hides intermediate items when collapsed", async () => {
-    Object.defineProperty(window, "innerWidth", {
-      writable: true,
-      value: 1024,
-    });
-    window.dispatchEvent(new Event("resize"));
+    mockDesktop();
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
@@ -158,8 +182,7 @@ describe("nys-breadcrumbs", () => {
   });
 
   it("renders back-to-parent on mobile when backToParent is true", async () => {
-    Object.defineProperty(window, "innerWidth", { writable: true, value: 375 });
-    window.dispatchEvent(new Event("resize"));
+    mockMobile();
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs .backToParent=${true}>
@@ -183,11 +206,7 @@ describe("nys-breadcrumbs", () => {
   });
 
   it("does not render back-to-parent on desktop when backToParent is true", async () => {
-    Object.defineProperty(window, "innerWidth", {
-      writable: true,
-      value: 1024,
-    });
-    window.dispatchEvent(new Event("resize"));
+    mockDesktop();
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs .backToParent=${true}>
@@ -210,11 +229,7 @@ describe("nys-breadcrumbs", () => {
   });
 
   it("respects collapsed prop even at desktop view", async () => {
-    Object.defineProperty(window, "innerWidth", {
-      writable: true,
-      value: 1024,
-    });
-    window.dispatchEvent(new Event("resize"));
+    mockDesktop();
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs .collapsed=${true}>
@@ -234,11 +249,7 @@ describe("nys-breadcrumbs", () => {
   });
 
   it("expands trail when ellipsis is clicked and fires nys-breadcrumbs-expand", async () => {
-    Object.defineProperty(window, "innerWidth", {
-      writable: true,
-      value: 1024,
-    });
-    window.dispatchEvent(new Event("resize"));
+    mockDesktop();
 
     const el = await fixture<NysBreadcrumbs>(
       html`<nys-breadcrumbs>
