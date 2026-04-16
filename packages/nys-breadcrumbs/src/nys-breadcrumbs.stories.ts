@@ -14,6 +14,7 @@ interface NysBreadcrumbsArgs {
   collapsed: boolean;
   backToParent: boolean;
   backgroundBar: boolean;
+  disabled: boolean;
 }
 
 const meta: Meta<NysBreadcrumbsArgs> = {
@@ -29,6 +30,7 @@ const meta: Meta<NysBreadcrumbsArgs> = {
     collapsed: { control: "boolean" },
     backToParent: { control: "boolean" },
     backgroundBar: { control: "boolean" },
+    disabled: { control: "boolean" },
   },
   parameters: {
     docs: {
@@ -51,6 +53,7 @@ const defaultArgs: NysBreadcrumbsArgs = {
   collapsed: false,
   backToParent: false,
   backgroundBar: false,
+  disabled: false,
 };
 
 export const Basic: Story = {
@@ -385,6 +388,43 @@ export const BackgroundBar: Story = {
       .collapsed=${args.collapsed}
       .backToParent=${args.backToParent}
       .backgroundBar=${args.backgroundBar}
+    >
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/tickets">Ticket System</a></li>
+        <li>Del Water Gap</li>
+      </ol>
+    </nys-breadcrumbs>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-breadcrumbs backgroundBar>
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li><a href="/services">Services</a></li>
+    <li><a href="/tickets">Ticket System</a></li>
+    <li>Del Water Gap</li>
+  </ol>
+</nys-breadcrumbs>`,
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  args: { ...defaultArgs, id: "breadcrumbs9", disabled: true },
+  render: (args) => html`
+    <nys-breadcrumbs
+      .id=${args.id}
+      .size=${args.size}
+      .ariaLabel=${args.ariaLabel}
+      .collapsed=${args.collapsed}
+      .backToParent=${args.backToParent}
+      .backgroundBar=${args.backgroundBar}
+      .disabled=${args.disabled}
     >
       <ol>
         <li><a href="/">Home</a></li>

@@ -9,7 +9,7 @@
 
   /* Global Breadcrumb Item Styles */
   --_nys-breadcrumbitem-gap: var(--nys-space-50, 4px);
-  --_nys-breadcrumbitem-color: var(--nys-color-text-reverse-disabled, #62666a);
+  --_nys-breadcrumbitem-color: var(--nys-color-text-weak, #4a4d4f);
   --_nys-breadcrumbitem-color--focus: var(--nys-color-focus, #004dd1);
   --_nys-breadcrumbitem-outline-width: var(--nys-border-width-md, 2px);
   --_nys-breadcrumbitem-outline-radius: var(--nys-radius-md, 4px);
@@ -64,6 +64,33 @@
   --_nys-breadcrumbs-font-size: var(--nys-font-size-ui-sm, 14px);
 }
 
+:host([disabled]) {
+  .nys-breadcrumbitem {
+    a {
+      cursor: not-allowed;
+      --_nys-breadcrumbitem-color: var(--nys-color-text-disabled, #cec0c1);
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .nys-breadcrumbs__ellipsis {
+    .ellipsis-btn {
+      cursor: not-allowed;
+      opacity: 0.4;
+      pointer-events: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  nys-icon {
+    color: var(--nys-color-text-disabled, #cec0c1);
+  }
+}
+
 .nys-breadcrumbitem {
   padding: 0;
   display: flex;
@@ -92,6 +119,7 @@
 
     &:active {
       text-decoration-thickness: 14%; /* 2.24px */
+      --_nys-breadcrumbitem-color: var(--nys-color-text);
     }
 
     &:focus-visible {

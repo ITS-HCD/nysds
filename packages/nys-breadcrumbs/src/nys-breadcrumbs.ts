@@ -62,6 +62,7 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: Boolean }) backToParent = false;
   @property({ type: Boolean }) collapsed = false;
   @property({ type: Boolean }) backgroundBar = false;
+  @property({ type: Boolean, reflect: true }) disabled = false;
 
   private _collapseThreshold = 5; // default for desktop
   private _manuallyExpanded = false;
@@ -98,6 +99,7 @@ export class NysBreadcrumbs extends LitElement {
     if (
       changedProperties.has("collapsed") ||
       changedProperties.has("backToParent") ||
+      changedProperties.has("disabled") ||
       changedProperties.has("itemsBeforeCollapse") ||
       changedProperties.has("itemsAfterCollapse")
     ) {
@@ -168,8 +170,13 @@ export class NysBreadcrumbs extends LitElement {
     icon.setAttribute("size", "16");
 
     const a = document.createElement("a");
-    a.href = link;
+    if (!this.disabled) {
+      a.href = link;
+    }
     a.textContent = label;
+    if (this.disabled) {
+      a.setAttribute("aria-disabled", "true");
+    }
 
     liEL.appendChild(icon);
     liEL.appendChild(a);
@@ -191,8 +198,13 @@ export class NysBreadcrumbs extends LitElement {
     }
 
     const a = document.createElement("a");
-    a.href = link;
+    if (!this.disabled) {
+      a.href = link;
+    }
     a.textContent = label;
+    if (this.disabled) {
+      a.setAttribute("aria-disabled", "true");
+    }
 
     const icon = document.createElement("nys-icon");
     icon.setAttribute("name", "chevron_right");
