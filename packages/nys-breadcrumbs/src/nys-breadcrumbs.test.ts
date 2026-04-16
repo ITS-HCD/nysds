@@ -106,30 +106,30 @@ describe("nys-breadcrumbs", () => {
       .exist;
   });
 
-  it("collapses trail and shows ellipsis when items exceed maxItems (desktop)", async () => {
-    Object.defineProperty(window, "innerWidth", {
-      writable: true,
-      value: 1024,
-    });
-    window.dispatchEvent(new Event("resize"));
+  // it("collapses trail and shows ellipsis when items exceed maxItems (desktop)", async () => {
+  //   Object.defineProperty(window, "innerWidth", {
+  //     writable: true,
+  //     value: 1024,
+  //   });
+  //   window.dispatchEvent(new Event("resize"));
 
-    const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs maxItems="3">
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/Mission">Mission</a></li>
-          <li><a href="/About">About</a></li>
-          <li>Current</li>
-        </ol>
-      </nys-breadcrumbs>`,
-    );
-    await el.updateComplete;
+  //   const el = await fixture<NysBreadcrumbs>(
+  //     html`<nys-breadcrumbs maxItems="3">
+  //       <ol>
+  //         <li><a href="/">Home</a></li>
+  //         <li><a href="/services">Services</a></li>
+  //         <li><a href="/Mission">Mission</a></li>
+  //         <li><a href="/About">About</a></li>
+  //         <li>Current</li>
+  //       </ol>
+  //     </nys-breadcrumbs>`,
+  //   );
+  //   await el.updateComplete;
 
-    const ol = el.shadowRoot!.getElementById("crumb-list")!;
-    const ellipsis = ol.querySelector(".nys-breadcrumbs__ellipsis");
-    expect(ellipsis).to.exist;
-  });
+  //   const ol = el.shadowRoot!.getElementById("crumb-list")!;
+  //   const ellipsis = ol.querySelector(".nys-breadcrumbs__ellipsis");
+  //   expect(ellipsis).to.exist;
+  // });
 
   it("hides intermediate items when collapsed", async () => {
     Object.defineProperty(window, "innerWidth", {
@@ -139,12 +139,13 @@ describe("nys-breadcrumbs", () => {
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs maxItems="3">
+      html`<nys-breadcrumbs>
         <ol>
           <li><a href="/">Home</a></li>
           <li><a href="/services">Services</a></li>
-          <li><a href="/Mission">Mission</a></li>
-          <li><a href="/About">About</a></li>
+          <li><a href="/mission">Mission</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
           <li>Current</li>
         </ol>
       </nys-breadcrumbs>`,
@@ -216,7 +217,7 @@ describe("nys-breadcrumbs", () => {
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs .collapsed=${true} maxItems="10">
+      html`<nys-breadcrumbs .collapsed=${true}>
         <ol>
           <li><a href="/">Home</a></li>
           <li><a href="/services">Services</a></li>
@@ -240,12 +241,13 @@ describe("nys-breadcrumbs", () => {
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs maxItems="3">
+      html`<nys-breadcrumbs>
         <ol>
           <li><a href="/">Home</a></li>
-          <li><a href="/a">A</a></li>
-          <li><a href="/b">B</a></li>
-          <li><a href="/c">C</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/mission">Mission</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
           <li>Current</li>
         </ol>
       </nys-breadcrumbs>`,

@@ -415,7 +415,7 @@ export const BackgroundBar: Story = {
 };
 
 export const Disabled: Story = {
-  args: { ...defaultArgs, id: "breadcrumbs9", disabled: true },
+  args: { ...defaultArgs, id: "breadcrumbs10", disabled: true },
   render: (args) => html`
     <nys-breadcrumbs
       .id=${args.id}
