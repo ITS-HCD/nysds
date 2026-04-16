@@ -17,9 +17,11 @@ figma.connect("<FIGMA_BREADCRUMBS>", {
       backToParent="${props.backToParent}"
       backgroundBar="${props.backgroundBar}"
     >
-      <nys-breadcrumbitem link="/" label="{pageTitle}"></nys-breadcrumbitem>
-      <nys-breadcrumbitem link="/link" label="{pageTitle}"></nys-breadcrumbitem>
-      <nys-breadcrumbitem label="{currentPageTitle}"></nys-breadcrumbitem>
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/section">Section</a></li>
+        <li>Current Page</li>
+      </ol>
     </nys-breadcrumbs>
   `,
 });
