@@ -4624,6 +4624,26 @@
             },
             {
               "kind": "field",
+              "name": "minDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The earliest selectable date (YYYY-MM-DD).",
+              "attribute": "minDate"
+            },
+            {
+              "kind": "field",
+              "name": "maxDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The latest selectable date (YYYY-MM-DD).",
+              "attribute": "maxDate"
+            },
+            {
+              "kind": "field",
               "name": "inverted",
               "type": {
                 "text": "boolean"
@@ -4766,6 +4786,11 @@
               "kind": "method",
               "name": "_parseLocalDate",
               "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Date"
+                }
+              },
               "parameters": [
                 {
                   "name": "dateString",
@@ -4788,6 +4813,24 @@
                 {
                   "name": "visualFocusOnly",
                   "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_isOutOfRange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
                 }
               ]
             },
@@ -5110,6 +5153,26 @@
               "description": "Initial date when calendar opens (YYYY-MM-DD).",
               "fieldName": "startDate",
               "propName": "startdate"
+            },
+            {
+              "name": "minDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The earliest selectable date (YYYY-MM-DD).",
+              "fieldName": "minDate",
+              "propName": "mindate"
+            },
+            {
+              "name": "maxDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The latest selectable date (YYYY-MM-DD).",
+              "fieldName": "maxDate",
+              "propName": "maxdate"
             },
             {
               "name": "inverted",
