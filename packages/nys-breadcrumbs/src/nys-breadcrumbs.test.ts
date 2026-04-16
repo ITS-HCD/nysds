@@ -156,12 +156,12 @@ describe("nys-breadcrumbs", () => {
     expect(hidden.length).to.be.greaterThan(0);
   });
 
-  it("renders back-to-parent on mobile when backToParentMobile is true", async () => {
+  it("renders back-to-parent on mobile when backToParent is true", async () => {
     Object.defineProperty(window, "innerWidth", { writable: true, value: 375 });
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs .backToParentMobile=${true}>
+      html`<nys-breadcrumbs .backToParent=${true}>
         <ol>
           <li><a href="/">Home</a></li>
           <li><a href="/services">Services</a></li>
@@ -181,7 +181,7 @@ describe("nys-breadcrumbs", () => {
     );
   });
 
-  it("does not render back-to-parent on desktop when backToParentMobile is true", async () => {
+  it("does not render back-to-parent on desktop when backToParent is true", async () => {
     Object.defineProperty(window, "innerWidth", {
       writable: true,
       value: 1024,
@@ -189,7 +189,7 @@ describe("nys-breadcrumbs", () => {
     window.dispatchEvent(new Event("resize"));
 
     const el = await fixture<NysBreadcrumbs>(
-      html`<nys-breadcrumbs .backToParentMobile=${true}>
+      html`<nys-breadcrumbs .backToParent=${true}>
         <ol>
           <li><a href="/">Home</a></li>
           <li><a href="/services">Services</a></li>

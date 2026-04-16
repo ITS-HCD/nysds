@@ -1568,6 +1568,16 @@
             },
             {
               "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "_collapseThreshold",
               "type": {
                 "text": "number"
@@ -1760,6 +1770,15 @@
               "default": "false",
               "fieldName": "backgroundBar",
               "propName": "backgroundbar"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled",
+              "propName": "disabled"
             }
           ],
           "superclass": {
