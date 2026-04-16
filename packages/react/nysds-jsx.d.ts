@@ -178,7 +178,7 @@ export type NysBreadcrumbsProps = {
   ariaLabel?: string;
   /**  */
   size?: "sm" | "md" | "";
-  /** Property overrides default maxItem of 5 breadcrumbs for desktop only * */
+  /**  */
   backToParent?: boolean;
   /**  */
   collapsed?: boolean;

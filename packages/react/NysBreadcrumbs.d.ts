@@ -21,7 +21,7 @@ export interface NysBreadcrumbsProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Property overrides default maxItem of 5 breadcrumbs for desktop only * */
+  /** undefined */
   backToParent?: boolean;
 
   /** undefined */

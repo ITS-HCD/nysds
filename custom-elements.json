@@ -1545,7 +1545,6 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Property overrides default maxItem of 5 breadcrumbs for desktop only *",
               "attribute": "backToParent"
             },
             {
@@ -1593,6 +1592,15 @@
               },
               "privacy": "private",
               "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_mediaQuery",
+              "type": {
+                "text": "MediaQueryList | null"
+              },
+              "privacy": "private",
+              "default": "null"
             },
             {
               "kind": "field",
@@ -1749,7 +1757,6 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Property overrides default maxItem of 5 breadcrumbs for desktop only *",
               "fieldName": "backToParent",
               "propName": "backtoparent"
             },
