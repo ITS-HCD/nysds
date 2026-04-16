@@ -1,0 +1,188 @@
+:host {
+  /* Anything that can be overridden should be defined here */
+
+  /* Global Breadcrumbs Styles */
+  --_nys-breadcrumbs-padding: var(--nys-space-150, 12px)
+    var(--nys-space-400, 32px);
+  --_nys-breadcrumbs-gap: var(--nys-space-100, 8px);
+  --_nys-breadcrumbs-background: transparent;
+
+  /* Global Breadcrumb Item Styles */
+  --_nys-breadcrumbitem-gap: var(--nys-space-50, 4px);
+  --_nys-breadcrumbitem-color: var(--nys-color-text-weak, #4a4d4f);
+  --_nys-breadcrumbitem-color--focus: var(--nys-color-focus, #004dd1);
+  --_nys-breadcrumbitem-outline-width: var(--nys-border-width-md, 2px);
+  --_nys-breadcrumbitem-outline-radius: var(--nys-radius-md, 4px);
+
+  /* Global Breadcrumb Ellipsis Btn Styles */
+  --_nys-breadcrumb-gap--ellipsis: var(--nys-space-100, 8px);
+  --_nys-breadcrumb-color--ellipsis: var(--nys-color-text-weak, #4a4d4f);
+
+  /* Typography */
+  --_nys-breadcrumbs-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-breadcrumbs-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-breadcrumbs-font-weight--current: var(--nys-font-weight-regular, 400);
+  --_nys-breadcrumbs-line-height: var(--nys-font-lineheight-ui-md, 24px);
+  --_nys-breadcrumbs-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+}
+
+.nys-breadcrumbs {
+  padding: var(--_nys-breadcrumbs-padding);
+  font-family: var(--_nys-breadcrumbs-font-family);
+  font-size: var(--_nys-breadcrumbs-font-size);
+  font-weight: var(--_nys-breadcrumbs-font-weight);
+  line-height: var(--_nys-breadcrumbs-line-height);
+  background: var(--_nys-breadcrumbs-background);
+
+  &.nys-breadcrumbs--background-bar {
+    --_nys-breadcrumbs-background: var(--nys-color-theme-faint, #f7fafd);
+  }
+
+  ol {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: var(--_nys-breadcrumbs-gap);
+    list-style: none;
+  }
+}
+
+:host([size="sm"]) {
+  --_nys-breadcrumbs-font-size: var(--nys-font-size-ui-sm, 14px);
+}
+
+:host([disabled]) {
+  .nys-breadcrumbitem {
+    a {
+      cursor: not-allowed;
+
+      --_nys-breadcrumbitem-color: var(--nys-color-text-disabled, #cec0c1);
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .nys-breadcrumbs__ellipsis {
+    .ellipsis-btn {
+      cursor: not-allowed;
+      opacity: 0.4;
+      pointer-events: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  nys-icon {
+    color: var(--nys-color-text-disabled, #cec0c1);
+  }
+}
+
+.nys-breadcrumbitem {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--_nys-breadcrumbitem-gap);
+  color: var(--_nys-breadcrumbitem-color);
+  font-weight: var(--_nys-breadcrumbs-font-weight--current);
+  white-space: nowrap;
+
+  &.hide {
+    display: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--_nys-breadcrumbitem-color);
+    font-weight: var(--_nys-breadcrumbs-font-weight);
+
+    &:hover {
+      text-decoration-line: underline;
+      text-decoration-style: solid;
+      text-decoration-skip-ink: auto;
+      text-decoration-thickness: 14%; /* 2.24px */
+      text-underline-offset: auto;
+    }
+
+    &:active {
+      text-decoration-thickness: 14%; /* 2.24px */
+
+      --_nys-breadcrumbitem-color: var(--nys-color-text);
+    }
+
+    &:focus-visible {
+      border-radius: var(--_nys-breadcrumbitem-outline-radius);
+      outline: var(--_nys-breadcrumbitem-outline-width) solid
+        var(--_nys-breadcrumbitem-color--focus);
+      outline-offset: 2px;
+    }
+  }
+
+  nys-icon {
+    margin-top: -3px;
+  }
+}
+
+.nys-breadcrumbs__ellipsis {
+  display: flex;
+  gap: var(--_nys-breadcrumb-gap--ellipsis);
+  margin: 0;
+  align-items: center;
+  color: var(--_nys-breadcrumb-color--ellipsis);
+
+  .ellipsis-btn {
+    border: none;
+    padding: 0;
+    background-color: inherit;
+    font-family: var(--_nys-breadcrumbs-font-family);
+    font-size: var(--_nys-breadcrumbs-font-size);
+    font-weight: var(--_nys-breadcrumbs-font-weight);
+    line-height: var(--_nys-breadcrumbs-line-height);
+    color: var(--_nys-breadcrumb-color--ellipsis);
+    cursor: pointer;
+
+    &:hover {
+      text-decoration-line: underline;
+      text-decoration-style: solid;
+      text-decoration-skip-ink: auto;
+      text-decoration-thickness: 7%; /* 1.12px */
+      text-underline-offset: auto;
+    }
+
+    &:active {
+      text-decoration-thickness: 14%; /* 2.24px */
+    }
+
+    &:focus-visible {
+      border-radius: var(--_nys-breadcrumbitem-outline-radius);
+      outline: var(--_nys-breadcrumbitem-outline-width) solid
+        var(--_nys-breadcrumbitem-color--focus);
+      outline-offset: 2px;
+    }
+  }
+
+  nys-icon {
+    margin-top: -3px;
+  }
+}
+
+/** RTL support **/
+:host-context([dir="rtl"]) nys-icon {
+  transform: scaleX(-1);
+}
