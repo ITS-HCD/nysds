@@ -319,10 +319,9 @@ export class NysBreadcrumbs extends LitElement {
 
   private _moveFocusToFirstExpandCrumb() {
     setTimeout(() => {
-      const crumbNavigation = this.shadowRoot?.getElementById("crumb-list");
-      const ol = crumbNavigation?.querySelector("ol");
+      const ol = this.shadowRoot?.getElementById("crumb-list");
       const firstClone = ol?.querySelector("li[data-cloned].intermediate");
-      firstClone?.shadowRoot?.querySelector<HTMLAnchorElement>("a")?.focus();
+      firstClone?.querySelector<HTMLAnchorElement>("a")?.focus();
     }, 0);
   }
 

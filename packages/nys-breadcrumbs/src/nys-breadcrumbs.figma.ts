@@ -19,7 +19,8 @@ figma.connect("<FIGMA_BREADCRUMBS>", {
     >
       <ol>
         <li><a href="/">Home</a></li>
-        <li><a href="/section">Section</a></li>
+        <li><a href="/link">{pageTitle}</a></li>
+        <li><a href="/link">{pageTitle}</a></li>
         <li>Current Page</li>
       </ol>
     </nys-breadcrumbs>
