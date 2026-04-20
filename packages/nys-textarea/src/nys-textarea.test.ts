@@ -428,6 +428,33 @@ it("fires nys-selectionchange with correct detail on selectionchange", async () 
   expect(eventDetail.id).to.equal(el.id);
 });
 
+// -------------------------------------------------------------------------
+// Regression test: clearing "value" prop must sync setFormValue()
+// -------------------------------------------------------------------------
+it("programmatically setting value to empty string or null updates FormData", async () => {
+  const form = await fixture<HTMLFormElement>(html`
+    <form>
+      <nys-textarea name="test-field" value="stale-value"></nys-textarea>
+    </form>
+  `);
+
+  const el = form.querySelector<NysTextarea>("nys-textarea")!;
+  await el.updateComplete;
+
+  expect(new FormData(form).get("test-field")).to.equal("stale-value");
+
+  el.value = "";
+  await el.updateComplete;
+  expect(new FormData(form).get("test-field")).to.equal("");
+
+  el.value = "stale-value";
+  await el.updateComplete;
+
+  (el as any).value = null;
+  await el.updateComplete;
+  expect(new FormData(form).get("test-field")).to.equal(null);
+});
+
 // Accessibility Tests
 /*
  * Ensure that the <textarea> element is correctly associated with a label:
