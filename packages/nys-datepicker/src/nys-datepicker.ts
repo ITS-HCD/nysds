@@ -197,16 +197,13 @@ export class NysDatepicker extends LitElement {
 
     if (changedProperties.has("value")) {
       const prev = changedProperties.get("value");
-      const curr = this.value;
-      // Only sync if the value actually changed to empty/null from outside
-      if (
-        (curr === undefined || curr === null || curr === "") &&
-        prev !== curr
-      ) {
+      const current = this.value;
+
+      if (!current && prev !== current) {
         this._internals.setFormValue("");
         this._manageRequire();
-      } else if (curr && !(curr instanceof Date)) {
-        this._setValue(curr);
+      } else if (current) {
+        this._setValue(current); // handles both Date and string
       }
     }
   }

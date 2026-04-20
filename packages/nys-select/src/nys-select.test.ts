@@ -379,4 +379,35 @@ describe("nys-select", () => {
     const select = el.shadowRoot!.querySelector("select")!;
     expect(select.value).to.equal("b");
   });
+  // -------------------------------------------------------------------------
+  // Regression test: clearing "value" prop must sync setFormValue()
+  // -------------------------------------------------------------------------
+  it("programmatically setting value to empty string or null updates FormData", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-select name="test-field">
+          <option value="apple">Apple</option>
+          <option value="banana">Banana</option>
+        </nys-select>
+      </form>
+    `);
+
+    const el = form.querySelector<NysSelect>("nys-select")!;
+    await el.updateComplete;
+
+    el.value = "apple";
+    await el.updateComplete;
+    expect(new FormData(form).get("test-field")).to.equal("apple");
+
+    el.value = "";
+    await el.updateComplete;
+    expect(new FormData(form).get("test-field")).to.not.equal("apple");
+
+    el.value = "banana";
+    await el.updateComplete;
+
+    (el as any).value = null;
+    await el.updateComplete;
+    expect(new FormData(form).get("test-field")).to.not.equal("banana");
+  });
 });
