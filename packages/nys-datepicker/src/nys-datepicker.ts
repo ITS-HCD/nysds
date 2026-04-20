@@ -192,6 +192,25 @@ export class NysDatepicker extends LitElement {
     setTimeout(() => this._onDocumentClick(), 0);
   }
 
+  updated(changedProperties: Map<string | number | symbol, unknown>): void {
+    super.updated(changedProperties);
+
+    if (changedProperties.has("value")) {
+      const prev = changedProperties.get("value");
+      const curr = this.value;
+      // Only sync if the value actually changed to empty/null from outside
+      if (
+        (curr === undefined || curr === null || curr === "") &&
+        prev !== curr
+      ) {
+        this._internals.setFormValue("");
+        this._manageRequire();
+      } else if (curr && !(curr instanceof Date)) {
+        this._setValue(curr);
+      }
+    }
+  }
+
   private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {
     await customElements.whenDefined("wc-datepicker");
 
