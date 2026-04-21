@@ -1,6 +1,6 @@
 {
   "name": "@nysds/tokens",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "Design tokens for the New York State Design System in DTCG 2025.10 format",
   "type": "module",
   "main": "src/tokens.json",
