@@ -137,6 +137,8 @@ export class NysCombobox extends LitElement {
       const option = this._options.find((opt) => opt.value === this.value);
       this._selectedLabel = option ? option.label : "";
       this._filterText = this._selectedLabel;
+
+      this._setValue();
     }
 
     if (changedProperties.has("_isOpen") && this._isOpen) {
