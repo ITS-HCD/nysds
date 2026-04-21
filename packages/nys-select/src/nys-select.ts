@@ -171,7 +171,7 @@ export class NysSelect extends LitElement {
         optionElement.value = node.value;
         optionElement.textContent =
           node.label || node.textContent?.trim() || "";
-        optionElement.disabled = node.disabled;  
+        optionElement.disabled = node.disabled;
         optionElement.selected = node.selected;
         select.appendChild(optionElement);
         return;
