@@ -112,21 +112,6 @@ export class NysTextarea extends LitElement {
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
-  async updated(changedProperties: Map<string | number | symbol, unknown>) {
-    await Promise.resolve();
-    if (changedProperties.has("rows")) {
-      this.rows = this.rows ?? 4;
-    }
-    if (
-      changedProperties.has("readonly") ||
-      changedProperties.has("required")
-    ) {
-      const input = this.shadowRoot?.querySelector("textarea");
-
-      if (input) input.required = this.required && !this.readonly;
-    }
-  }
-
   private _hasUserInteracted = false; // need this flag for "eager mode"
   private _internals: ElementInternals;
 
@@ -159,6 +144,25 @@ export class NysTextarea extends LitElement {
   firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
+  }
+
+  async updated(changedProperties: Map<string | number | symbol, unknown>) {
+    await Promise.resolve();
+
+    if (changedProperties.has("value")) {
+      this._setValue();
+    }
+    if (changedProperties.has("rows")) {
+      this.rows = this.rows ?? 4;
+    }
+    if (
+      changedProperties.has("readonly") ||
+      changedProperties.has("required")
+    ) {
+      const input = this.shadowRoot?.querySelector("textarea");
+
+      if (input) input.required = this.required && !this.readonly;
+    }
   }
 
   /**
