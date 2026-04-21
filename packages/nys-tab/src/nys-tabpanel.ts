@@ -37,12 +37,6 @@ export class NysTabpanel extends LitElement {
   // Lifecycle
   // ---------------------------------------------------------------------------
 
-  /**
-   * Called when the element is inserted into the document.
-   * Auto-generates a unique `id` if one was not provided, then sets
-   * `role="tabpanel"` on the host so the ARIA role is visible outside the
-   * shadow DOM.
-   */
   connectedCallback() {
     super.connectedCallback();
     if (!this.id) {

@@ -43,16 +43,14 @@ export class NysTabgroup extends LitElement {
   @property({ type: String, reflect: true }) id = "";
 
   /**
-   * Accessible label for the tab list (`aria-label` on the inner
-   * `[role="tablist"]`). Should describe the purpose of the tab set
-   * (e.g. `"Account settings"`).
+   * The name of the tab group.
+   * Used for form submission and accessibility purposes.
    *
    * @attr name
    */
   @property({ type: String }) name = "";
 
   /**
-   * Reference to the `[role="tablist"]` scroll container in the shadow DOM.
    * Cached in `firstUpdated` and used by `_updateScrollShadows` to read
    * scroll position and dimensions.
    */
@@ -304,8 +302,6 @@ export class NysTabgroup extends LitElement {
   }
 
   /**
-   * Handles `keydown` events on the `[role="tablist"]` container.
-   *
    * Implements the ARIA radio-button keyboard pattern:
    * - `ArrowRight` — moves focus to the next enabled tab (wraps).
    * - `ArrowLeft` — moves focus to the previous enabled tab (wraps).
