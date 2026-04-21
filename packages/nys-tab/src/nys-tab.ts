@@ -82,7 +82,6 @@ export class NysTab extends LitElement {
     if (!this.id) {
       this.id = `nys-tab-${Date.now()}-${componentIdCounter++}`;
     }
-    this.setAttribute("role", "tab");
   }
 
   // ---------------------------------------------------------------------------

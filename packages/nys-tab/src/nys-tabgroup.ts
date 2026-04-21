@@ -377,8 +377,6 @@ export class NysTabgroup extends LitElement {
           <div class="scroll-shadow scroll-shadow--left"></div>
           <div
             class="nys-tabgroup__tabs"
-            role="tablist"
-            aria-orientation="horizontal"
             aria-label=${this.name}
             @keydown=${this._handleKeydown}
           ></div>
