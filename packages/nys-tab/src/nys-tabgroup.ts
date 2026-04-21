@@ -324,8 +324,6 @@ export class NysTabgroup extends LitElement {
    * @returns void
    */
   private _handleKeydown(e: KeyboardEvent): void {
-    e.preventDefault();
-
     const tabs = this._getTabs().filter((t) => !t.hasAttribute("disabled"));
     if (tabs.length === 0) return;
 
