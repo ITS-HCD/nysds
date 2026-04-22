@@ -324,6 +324,8 @@ export class NysDatepicker extends LitElement {
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
 
+    if (!message && this.showError && this.errorMessage?.trim()) return;
+
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
     // If user sets errorMessage, this will always override the native validation message
