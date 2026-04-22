@@ -137,6 +137,8 @@ export class NysCombobox extends LitElement {
       const option = this._options.find((opt) => opt.value === this.value);
       this._selectedLabel = option ? option.label : "";
       this._filterText = this._selectedLabel;
+
+      this._setValue();
     }
 
     if (changedProperties.has("_isOpen") && this._isOpen) {
@@ -243,7 +245,10 @@ export class NysCombobox extends LitElement {
     const validity = this._input.validity;
     let message = "";
 
-    if (validity.valueMissing) {
+    const isInvalid =
+      this._input && !this._options.some((opt) => opt.value === this.value);
+
+    if (validity.valueMissing || isInvalid) {
       message = "This field is required";
     } else {
       message = this._input.validationMessage;

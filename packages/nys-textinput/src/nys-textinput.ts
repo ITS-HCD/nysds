@@ -186,6 +186,10 @@ export class NysTextinput extends LitElement {
 
   // Ensure the "width" property is valid after updates
   async updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has("value")) {
+      this._setValue();
+    }
+
     if (changedProperties.has("disabled")) {
       this._validateButtonSlot("startButton");
       this._validateButtonSlot("endButton");

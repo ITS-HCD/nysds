@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, readdirSync } from "fs";
 import { join } from "path";
 
 const banner = `/*!
- * New York State Design System v1.15.1
+ * New York State Design System v1.16.1
  * Description: A design system for New York State's digital products.
  * Repository: https://github.com/its-hcd/nysds
  * License: MIT

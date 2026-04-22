@@ -50,13 +50,12 @@
 }
 
 /*
- * Medium (md) — capped at 675px wide, minimum 440px.
+ * Medium (md) — capped at 675px wide,
  * For screens smaller than 440px, use Small (sm) instead.
  */
 .nys-video--md {
   width: 100%;
   max-width: 675px;
-  min-width: 440px;
 }
 
 /*
@@ -120,7 +119,7 @@
     .nys-video__thumbnail {
       cursor: pointer;
       padding: 0;
-      background-color: none;
+      background-color: transparent;
 
       img {
         width: 100%;

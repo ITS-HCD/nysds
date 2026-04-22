@@ -1,11 +1,12 @@
 import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
+import { customElementJsxPlugin } from "custom-element-jsx-integration";
 import { cemExamplesPlugin } from "cem-plugin-examples";
 
 const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
   outdir: "./packages/react",
-
+  // ssrSafe: true, // Commented out but kept here in case we run into any issues with SSR
   /**
    * Path to the compiled bundle, relative to the output wrapper files.
    * packages/react/ is two levels below the root, so ../../dist/nysds.es.js
@@ -20,6 +21,13 @@ const vscodeOpts = {
   outdir: "./dist/.vscode",
 };
 
+// JSX output for React-like libraries like Preact
+const jsxOpts = {
+  /** Output directory to write the VSCode autocompletes to- default is the root of the project */
+  outdir: "./packages/react",
+  fileName: "nysds-jsx.d.ts",
+};
+
 export default {
   /** Globs to analyze */
   globs: ["**/packages/**/*.ts"],
@@ -30,29 +38,17 @@ export default {
     "**/packages/**/*logo.ts",
     "**/packages/**/*library.ts",
     "**/packages/styles/**",
-    "**/packages/mcp-server/**"
+    "**/packages/mcp-server/**",
+    "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],
   /** Directory to output CEM to */
   outdir: "./",
-  /** Run in dev mode, provides extra logging */
-  dev: false,
-  /** Run in watch mode, runs on file changes */
-  watch: false,
-  /** Include third party custom elements manifests */
-  dependencies: false,
   /** Output CEM path to `package.json`, defaults to true */
   packagejson: true,
   /** Enable special handling for litelement */
   litelement: true,
-  /** Enable special handling for catalyst */
-  catalyst: false,
-  /** Enable special handling for fast */
-  fast: false,
-  /** Enable special handling for stencil */
-  stencil: false,
   /** Provide custom plugins */
   plugins: [
-    cemExamplesPlugin(),
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
@@ -76,8 +72,10 @@ export default {
         }
       }
     },
+    cemExamplesPlugin(),
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
+    customElementJsxPlugin(jsxOpts),
 ],
   /**
    * Resolution options when using `dependencies: true`

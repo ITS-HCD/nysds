@@ -6328,6 +6328,26 @@
             },
             {
               "kind": "field",
+              "name": "minDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The earliest selectable date (YYYY-MM-DD).",
+              "attribute": "minDate"
+            },
+            {
+              "kind": "field",
+              "name": "maxDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The latest selectable date (YYYY-MM-DD).",
+              "attribute": "maxDate"
+            },
+            {
+              "kind": "field",
               "name": "inverted",
               "type": {
                 "text": "boolean"
@@ -6471,6 +6491,11 @@
               "kind": "method",
               "name": "_parseLocalDate",
               "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Date"
+                }
+              },
               "parameters": [
                 {
                   "name": "dateString",
@@ -6493,6 +6518,24 @@
                 {
                   "name": "visualFocusOnly",
                   "default": "false"
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_isOutOfRange",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
                 }
               ]
             },
@@ -6659,6 +6702,211 @@
               "description": "Fired when input or calendar loses focus. Triggers validation."
             }
           ],
+<<<<<<< HEAD
+=======
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Name for form submission.",
+              "fieldName": "name",
+              "propName": "name"
+            },
+            {
+              "name": "width",
+              "type": {
+                "text": "\"md\" | \"lg\" | \"full\""
+              },
+              "default": "\"md\"",
+              "description": "Input width: `md` (200px), `lg` (384px), `full` (100%).",
+              "fieldName": "width",
+              "propName": "width"
+            },
+            {
+              "name": "hideTodayButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hide the \"Today\" button in calendar popup.",
+              "fieldName": "hideTodayButton",
+              "propName": "hidetodaybutton"
+            },
+            {
+              "name": "hideClearButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Hide the \"Clear\" button in calendar popup.",
+              "fieldName": "hideClearButton",
+              "propName": "hideclearbutton"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable interaction.",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Mark as required. Shows \"Required\" flag and validates on blur.",
+              "fieldName": "required",
+              "propName": "required"
+            },
+            {
+              "name": "optional",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show \"Optional\" flag. Use when most fields are required.",
+              "fieldName": "optional",
+              "propName": "optional"
+            },
+            {
+              "name": "showError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show error state.",
+              "fieldName": "showError",
+              "propName": "showerror"
+            },
+            {
+              "name": "errorMessage",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Error message text.",
+              "fieldName": "errorMessage",
+              "propName": "errormessage"
+            },
+            {
+              "name": "form",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "description": "Form `id` to associate with when input is outside form.",
+              "fieldName": "form",
+              "propName": "form"
+            },
+            {
+              "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Tooltip text on info icon hover.",
+              "fieldName": "tooltip",
+              "propName": "tooltip"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"date\"",
+              "description": "Input type. Currently only supports `date`.",
+              "fieldName": "type",
+              "propName": "type"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Label text. Required for accessibility.",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Helper text below label.",
+              "fieldName": "description",
+              "propName": "description"
+            },
+            {
+              "name": "startDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Initial date when calendar opens (YYYY-MM-DD).",
+              "fieldName": "startDate",
+              "propName": "startdate"
+            },
+            {
+              "name": "minDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The earliest selectable date (YYYY-MM-DD).",
+              "fieldName": "minDate",
+              "propName": "mindate"
+            },
+            {
+              "name": "maxDate",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The latest selectable date (YYYY-MM-DD).",
+              "fieldName": "maxDate",
+              "propName": "maxdate"
+            },
+            {
+              "name": "inverted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Dark background mode.",
+              "fieldName": "inverted",
+              "propName": "inverted"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string | Date | undefined"
+              },
+              "default": "undefined",
+              "description": "Selected date. Accepts Date object or ISO string (YYYY-MM-DD).",
+              "fieldName": "value",
+              "propName": "value"
+            }
+          ],
+>>>>>>> 97f1eb49a79b7cba9f3ffa576b508f34f0d5fcab
           "superclass": {
             "name": "LitElement",
             "package": "lit"

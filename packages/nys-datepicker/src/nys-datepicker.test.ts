@@ -795,6 +795,35 @@ describe("nys-datepicker", () => {
     expect(inputDetail.value).to.be.instanceOf(Date);
   });
 
+  // -------------------------------------------------------------------------
+  // Regression test: clearing "value" prop must sync setFormValue()
+  // -------------------------------------------------------------------------
+  it("programmatically setting value to undefined or empty string updates FormData", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-datepicker name="test-date"></nys-datepicker>
+      </form>
+    `);
+
+    const el = form.querySelector<NysDatepicker>("nys-datepicker")!;
+    await el.updateComplete;
+
+    el.value = new Date(2026, 0, 10);
+    await el.updateComplete;
+    expect(new FormData(form).get("test-date")).to.equal("2026-01-10");
+
+    el.value = undefined;
+    await el.updateComplete;
+    expect(new FormData(form).get("test-date")).to.not.equal("2026-01-10");
+
+    el.value = new Date(2026, 5, 15);
+    await el.updateComplete;
+
+    (el as any).value = "";
+    await el.updateComplete;
+    expect(new FormData(form).get("test-date")).to.not.equal("2026-06-15");
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(
