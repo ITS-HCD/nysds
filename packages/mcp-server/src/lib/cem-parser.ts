@@ -98,8 +98,9 @@ let cachedComponentMap: Map<string, CEMDeclaration> | null = null;
  * Get the path to the custom-elements.json file
  */
 function getCEMPath(): string {
-  // Try multiple locations
   const possiblePaths = [
+    // Bundled data — works in standalone installs (most reliable)
+    resolve(__dirname, "../../data/cem/custom-elements.json"),
     // Relative to the package (when installed as dependency)
     resolve(
       __dirname,
