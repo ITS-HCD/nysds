@@ -51,7 +51,7 @@ export class NysTabpanel extends LitElement {
 
   render() {
     return html`
-      <div class="nys-tabpanel">
+      <div class="nys-tabpanel" tabindex="0">
         <slot></slot>
       </div>
     `;

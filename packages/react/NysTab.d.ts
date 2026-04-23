@@ -19,20 +19,15 @@ export interface NysTabProps extends Pick<
   | "onBlur"
 > {
   /** Whether this tab is the currently active tab.
-Managed by `<nys-tabgroup>`; reflected to the DOM attribute so CSS
-selected-state styles can be applied via the attribute selector. */
+Managed by `<nys-tabgroup>`; reflected for CSS attribute selectors. */
   selected?: boolean;
 
   /** Whether this tab is disabled.
-When `true`, click and keyboard activation are suppressed and the inner
-`<button>` renders in its disabled state.
 Reflected to the DOM attribute for CSS styling. */
   disabled?: boolean;
 
   /** Unique identifier for the tab element.
-If not provided, one is auto-generated in `connectedCallback`.
-Reflected to the DOM attribute so `aria-controls` references on sibling
-panels resolve correctly. */
+Reflected to the DOM attribute so `aria-controls` references resolve. */
   id?: NysTabElement["id"];
 
   /** Visible text label rendered inside the inner `<button>`. */
@@ -62,32 +57,32 @@ panels resolve correctly. */
   /** Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }` */
   onNysTabSelect?: (event: CustomEvent) => void;
 
-  /** Dispatched when the inner `<button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
   onNysTabFocus?: (event: CustomEvent) => void;
 
-  /** Dispatched when the inner `<button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
   onNysTabBlur?: (event: CustomEvent) => void;
 }
 
 /**
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
  *
- * Paired with a `<nys-tabpanel>` by render order inside the parent
- * `<nys-tabgroup>`. ARIA attributes (`role`, `aria-selected`, `aria-controls`,
- * `tabindex`) are managed externally by `<nys-tabgroup>` via `_applySelection`;
- * do not set them directly on this element.
+ * The host element carries `role="tab"`, `tabindex`, `aria-selected`,
+ * `aria-controls`, and `aria-disabled` so assistive technologies see the
+ * correct ARIA tab semantics on the element that is actually focused.
+ * `<nys-tabgroup>` manages `tabindex`, `aria-selected`, and `aria-controls`
+ * via `_applySelection`; do not set them directly on this element.
  * ---
  *
  *
  * ### **Events:**
  *  - **nys-tab-select** - Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }`
- * - **nys-tab-focus** - Dispatched when the inner `<button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
- * - **nys-tab-blur** - Dispatched when the inner `<button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+ * - **nys-tab-focus** - Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+ * - **nys-tab-blur** - Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
  *
  * ### **Methods:**
- *  - **focus(options: _FocusOptions_): _void_** - Moves browser focus to the inner `<button>`.
- * The host carries `role="tab"` and `tabindex`; `delegatesFocus: true` on
- * the shadow root ensures AT associates the tab role with the focused element.
+ *  - **focus(options: _FocusOptions_): _void_** - Focuses the host element. The host carries `role="tab"` and `tabindex`,
+ * so it is the correct element for AT to land on.
  *
  * ### **Slots:**
  *  - _default_ - No slots; content is derived from the `label` property.
