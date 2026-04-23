@@ -171,6 +171,26 @@ export type NysBadgeProps = {
   suffixicon?: string | boolean;
 };
 
+export type NysBreadcrumbsProps = {
+  /**  */
+  id?: string;
+  /**  */
+  ariaLabel?: string;
+  /**  */
+  size?: "sm" | "md" | "";
+  /**  */
+  backToParent?: boolean;
+  /**  */
+  collapsed?: boolean;
+  /**  */
+  backgroundBar?: boolean;
+  /**  */
+  disabled?: boolean;
+
+  /** Fired when the user clicks the ellipsis to expand the trail. */
+  "onnys-breadcrumbs-expand"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
 export type NysButtonProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
@@ -965,6 +985,9 @@ Falls back to YouTube's auto-generated thumbnail if not provided. */
   autoplay?: boolean;
   /** Prevents the video from being played */
   disabled?: boolean;
+
+  /** Fired when the user clicks the thumbnail to load the player. */
+  "onnys-video-play"?: (e: CustomEvent<never>) => void;
 };
 
 export type CustomElements = {
@@ -1032,6 +1055,19 @@ export type CustomElements = {
    *
    */
   "nys-badge": Partial<NysBadgeProps & BaseProps & BaseEvents>;
+
+  /**
+   * Breadcrumb navigation trail with responsive collapse support.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
+   *
+   * ### **Slots:**
+   *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.
+   */
+  "nys-breadcrumbs": Partial<NysBreadcrumbsProps & BaseProps & BaseEvents>;
 
   /**
    * Button for actions and CTAs with variants, sizes, and icon support.
@@ -1439,9 +1475,12 @@ export type CustomElements = {
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   *
+   * YouTube video player with thumbnail preview and accessibility announcements.
    * ---
    *
+   *
+   * ### **Events:**
+   *  - **nys-video-play** - Fired when the user clicks the thumbnail to load the player.
    */
   "nys-video": Partial<NysVideoProps & BaseProps & BaseEvents>;
 };
