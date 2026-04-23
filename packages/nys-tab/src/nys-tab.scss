@@ -90,11 +90,11 @@ button.nys-tab {
     cursor: not-allowed;
   }
 
-  &:focus-visible {
-    outline: solid var(--nys-border-width-md, 2px)
-      var(--nys-color-focus, #004dd1);
-    outline-offset: var(--nys-space-2px, 2px);
-  }
+}
+
+:host(:focus-visible) button.nys-tab {
+  outline: solid var(--nys-border-width-md, 2px) var(--nys-color-focus, #004dd1);
+  outline-offset: var(--nys-space-2px, 2px);
 }
 
 :host([selected]) {

@@ -9,22 +9,21 @@ let componentIdCounter = 0;
 /**
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
  *
- * Paired with a `<nys-tabpanel>` by render order inside the parent
- * `<nys-tabgroup>`. ARIA attributes (`role`, `aria-selected`, `aria-controls`,
- * `tabindex`) are managed externally by `<nys-tabgroup>` via `_applySelection`;
- * do not set them directly on this element.
+ * The host element carries `role="tab"`, `tabindex`, `aria-selected`,
+ * `aria-controls`, and `aria-disabled` so assistive technologies see the
+ * correct ARIA tab semantics on the element that is actually focused.
+ * `<nys-tabgroup>` manages `tabindex`, `aria-selected`, and `aria-controls`
+ * via `_applySelection`; do not set them directly on this element.
  *
  * @element nys-tab
  *
  * @fires nys-tab-select - Dispatched when the tab is activated via click or
  *   Enter / Space. Bubbles and crosses shadow DOM boundaries.
  *   `detail: { id: string, label: string }`
- * @fires nys-tab-focus - Dispatched when the inner `<button>` receives
- *   focus. Bubbles and crosses shadow DOM boundaries.
- *   `detail: { id: string }`
- * @fires nys-tab-blur - Dispatched when the inner `<button>` loses focus.
- *   Bubbles and crosses shadow DOM boundaries.
- *   `detail: { id: string }`
+ * @fires nys-tab-focus - Dispatched when the host receives focus. Bubbles and
+ *   crosses shadow DOM boundaries. `detail: { id: string }`
+ * @fires nys-tab-blur - Dispatched when the host loses focus. Bubbles and
+ *   crosses shadow DOM boundaries. `detail: { id: string }`
  *
  * @slot - No slots; content is derived from the `label` property.
  */
@@ -32,21 +31,8 @@ export class NysTab extends LitElement {
   static styles = unsafeCSS(styles);
 
   /**
-   * `delegatesFocus: true` ensures that when the host element (which carries
-   * `role="tab"` and `tabindex`) receives focus programmatically or via Tab,
-   * focus is forwarded to the inner `<button>` so the browser renders the
-   * correct focus indicator.
-   */
-  static shadowRootOptions = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
-
-  /**
    * Unique identifier for the tab element.
-   * If not provided, one is auto-generated in `connectedCallback`.
-   * Reflected to the DOM attribute so `aria-controls` references on sibling
-   * panels resolve correctly.
+   * Reflected to the DOM attribute so `aria-controls` references resolve.
    *
    * @attr id
    */
@@ -61,8 +47,7 @@ export class NysTab extends LitElement {
 
   /**
    * Whether this tab is the currently active tab.
-   * Managed by `<nys-tabgroup>`; reflected to the DOM attribute so CSS
-   * selected-state styles can be applied via the attribute selector.
+   * Managed by `<nys-tabgroup>`; reflected for CSS attribute selectors.
    *
    * @attr selected
    */
@@ -70,8 +55,6 @@ export class NysTab extends LitElement {
 
   /**
    * Whether this tab is disabled.
-   * When `true`, click and keyboard activation are suppressed and the inner
-   * `<button>` renders in its disabled state.
    * Reflected to the DOM attribute for CSS styling.
    *
    * @attr disabled
@@ -83,9 +66,12 @@ export class NysTab extends LitElement {
   // ---------------------------------------------------------------------------
 
   /**
-   * Sets `role="tab"` and a default `tabindex="-1"` on the host so the ARIA
-   * tab role is visible outside the shadow DOM. `<nys-tabgroup>` overrides
-   * `tabindex` to `"0"` on the selected tab via `_applySelection`.
+   * Sets `role="tab"` and `tabindex="-1"` on the host (the element that AT
+   * will read and that receives keyboard focus). Attaches host-level listeners
+   * for keydown, focus, and blur so that interaction events work correctly
+   * when the host — not the inner button — is the focused element.
+   *
+   * `<nys-tabgroup>` overrides `tabindex` to `"0"` on the selected tab.
    */
   connectedCallback() {
     super.connectedCallback();
@@ -94,12 +80,22 @@ export class NysTab extends LitElement {
     }
     this.setAttribute("role", "tab");
     this.setAttribute("tabindex", "-1");
+    this.addEventListener("keydown", this._onKeydown);
+    this.addEventListener("focus", this._onFocus);
+    this.addEventListener("blur", this._onBlur);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("keydown", this._onKeydown);
+    this.removeEventListener("focus", this._onFocus);
+    this.removeEventListener("blur", this._onBlur);
   }
 
   /**
    * Keeps `aria-disabled` on the host in sync with the `disabled` property so
-   * assistive technologies can perceive disabled state even when the native
-   * `disabled` attribute is on the inner `<button>` (inside the shadow DOM).
+   * AT can perceive disabled state even though `disabled` is on the inner
+   * `<button>` inside the shadow DOM.
    */
   updated(changed: Map<string, unknown>) {
     if (changed.has("disabled")) {
@@ -116,21 +112,11 @@ export class NysTab extends LitElement {
   // ---------------------------------------------------------------------------
 
   /**
-   * Moves browser focus to the inner `<button>`.
-   * The host carries `role="tab"` and `tabindex`; `delegatesFocus: true` on
-   * the shadow root ensures AT associates the tab role with the focused element.
-   *
-   * @param options - Optional `FocusOptions` forwarded to the inner button.
+   * Focuses the host element. The host carries `role="tab"` and `tabindex`,
+   * so it is the correct element for AT to land on.
    */
   public focus(options?: FocusOptions): void {
-    const button = this.shadowRoot?.querySelector(
-      "button",
-    ) as HTMLButtonElement | null;
-    if (button) {
-      button.focus(options);
-    } else {
-      super.focus(options);
-    }
+    super.focus(options);
   }
 
   // ---------------------------------------------------------------------------
@@ -138,28 +124,20 @@ export class NysTab extends LitElement {
   // ---------------------------------------------------------------------------
 
   /**
-   * Handles click activation of the tab.
-   * No-ops when the tab is disabled. Dispatches `nys-tab-select` so the
-   * parent `<nys-tabgroup>` can update selection state.
+   * Enter / Space on the focused host activate the tab.
+   * Arrow-key navigation is handled one level up by `<nys-tabgroup>`.
    */
-  private _handleClick(): void {
+  private _onKeydown = (e: KeyboardEvent): void => {
     if (this.disabled) return;
-
-    this.dispatchEvent(
-      new CustomEvent("nys-tab-select", {
-        bubbles: true,
-        composed: true,
-        detail: { id: this.id, label: this.label },
-      }),
-    );
-  }
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    this._handleClick();
+  };
 
   /**
-   * Handles focus on the inner `<button>`.
-   * Re-dispatches as `nys-tab-focus` so consumers can observe tab-level focus
-   * without piercing the shadow DOM.
+   * Host focus → dispatch `nys-tab-focus` for external observers.
    */
-  private _handleFocus(): void {
+  private _onFocus = (): void => {
     this.dispatchEvent(
       new CustomEvent("nys-tab-focus", {
         bubbles: true,
@@ -167,19 +145,33 @@ export class NysTab extends LitElement {
         detail: { id: this.id },
       }),
     );
-  }
+  };
 
   /**
-   * Handles blur on the inner `<button>`.
-   * Re-dispatches as `nys-tab-blur` so consumers can observe tab-level blur
-   * without piercing the shadow DOM.
+   * Host blur → dispatch `nys-tab-blur` for external observers.
    */
-  private _handleBlur(): void {
+  private _onBlur = (): void => {
     this.dispatchEvent(
       new CustomEvent("nys-tab-blur", {
         bubbles: true,
         composed: true,
         detail: { id: this.id },
+      }),
+    );
+  };
+
+  /**
+   * Click on the inner button. Focuses the host (so AT sees the tab as
+   * focused) then dispatches `nys-tab-select`.
+   */
+  private _handleClick(): void {
+    if (this.disabled) return;
+    this.focus();
+    this.dispatchEvent(
+      new CustomEvent("nys-tab-select", {
+        bubbles: true,
+        composed: true,
+        detail: { id: this.id, label: this.label },
       }),
     );
   }
@@ -194,10 +186,10 @@ export class NysTab extends LitElement {
         class="nys-tab"
         type="button"
         tabindex="-1"
+        role="presentation"
         ?disabled=${this.disabled}
+        @mousedown=${(e: MouseEvent) => e.preventDefault()}
         @click=${this._handleClick}
-        @focus=${this._handleFocus}
-        @blur=${this._handleBlur}
       >
         ${this.label}
       </button>
