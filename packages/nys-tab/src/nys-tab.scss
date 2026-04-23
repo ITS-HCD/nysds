@@ -33,42 +33,83 @@
   --_nys-tabpanel-padding: var(--nys-space-400, 32px);
 }
 
-:host([selected]) {
-  nys-button {
-    --nys-button-background-color: var(--_nys-tab-background-color--selected);
-    --_nys-button-border-color: var(--_nys-tab-border-color--selected);
-    --_nys-button-border-color--hover: var(
-      --_nys-tab-border-color--selected--hover
-    );
-    --_nys-button-border-color--active: var(
-      --_nys-tab-border-color--selected--active
-    );
+button.nys-tab {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  // Sizing
+  padding: var(--_nys-tab-padding--y) var(--_nys-tab-padding--x);
+
+  // Border
+  border-color: var(--_nys-tab-border-color);
+  border-style: none none solid none;
+  border-width: var(--_nys-tab-border-width);
+  border-radius: var(--_nys-tab-border-radius) var(--_nys-tab-border-radius) 0 0;
+
+  // Colors
+  background-color: var(--_nys-tab-background-color);
+  color: var(--_nys-tab-color);
+
+  // Typography
+  font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+  font-size: var(--nys-font-size-ui-md, 16px);
+  font-weight: var(--nys-font-weight-semibold, 600);
+  line-height: var(--nys-size-200, 16px);
+  text-decoration: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--_nys-tab-background-color--hover);
+    border-color: var(--_nys-tab-border-color--hover);
+    color: var(--_nys-tab-color);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--_nys-tab-background-color--active);
+    border-color: var(--_nys-tab-border-color--active);
+    color: var(--_nys-tab-color);
+  }
+
+  &:disabled {
+    background-color: var(--_nys-tab-background-color--disabled);
+    border-color: var(--_nys-tab-border-color--disabled);
+    color: var(--nys-color-text-disabled, #bec0c1);
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: solid var(--nys-border-width-md, 2px)
+      var(--nys-color-focus, #004dd1);
+    outline-offset: var(--nys-space-2px, 2px);
   }
 }
 
-nys-button.nys-tab {
-  --nys-button-background-color: var(--_nys-tab-background-color);
-  --nys-button-background-color--hover: var(--_nys-tab-background-color--hover);
-  --nys-button-background-color--active: var(
-    --_nys-tab-background-color--active
-  );
-  --_nys-button-background-color--disabled: var(
-    --_nys-tab-background-color--disabled
-  );
-  --nys-button-color: var(--_nys-tab-color);
-  --nys-button-color--hover: var(--_nys-tab-color);
-  --nys-button-color--active: var(--_nys-tab-color);
-  --_nys-button-border-color: var(--_nys-tab-border-color);
-  --_nys-button-border-color--disabled: var(--_nys-tab-border-color);
-  --_nys-button-border-color--hover: var(--_nys-tab-border-color--hover);
-  --_nys-button-border-color--active: var(--_nys-tab-border-color--active);
-  --_nys-button-border-radius: var(--_nys-tab-border-radius)
-    var(--_nys-tab-border-radius) 0 0;
-  --_nys-button-border-style: none none solid none;
-  --_nys-button-border-width: var(--_nys-tab-border-width);
-  --_nys-button-padding--x: var(--_nys-tab-padding--x);
-  --_nys-button-padding--y: var(--_nys-tab-padding--y);
-  --_nys-button-line-height: var(--nys-size-200, 16px);
+:host([selected]) {
+  button.nys-tab {
+    background-color: var(--_nys-tab-background-color--selected);
+    border-color: var(--_nys-tab-border-color--selected);
+
+    &:hover:not(:disabled) {
+      border-color: var(--_nys-tab-border-color--selected--hover);
+    }
+
+    &:active:not(:disabled) {
+      border-color: var(--_nys-tab-border-color--selected--active);
+    }
+  }
 }
 
 .nys-tabgroup {

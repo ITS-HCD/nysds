@@ -23,9 +23,8 @@ If not provided, one is auto-generated in `connectedCallback`.
 Reflected to the DOM attribute. */
   id?: NysTabgroupElement["id"];
 
-  /** Accessible label for the tab list (`aria-label` on the inner
-`[role="tablist"]`). Should describe the purpose of the tab set
-(e.g. `"Account settings"`). */
+  /** The name of the tab group.
+Used for form submission and accessibility purposes. */
   name?: NysTabgroupElement["name"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */

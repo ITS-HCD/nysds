@@ -25,7 +25,7 @@ selected-state styles can be applied via the attribute selector. */
 
   /** Whether this tab is disabled.
 When `true`, click and keyboard activation are suppressed and the inner
-`<nys-button>` renders in its disabled state.
+`<button>` renders in its disabled state.
 Reflected to the DOM attribute for CSS styling. */
   disabled?: boolean;
 
@@ -35,7 +35,7 @@ Reflected to the DOM attribute so `aria-controls` references on sibling
 panels resolve correctly. */
   id?: NysTabElement["id"];
 
-  /** Visible text label rendered inside the inner `<nys-button>`. */
+  /** Visible text label rendered inside the inner `<button>`. */
   label?: NysTabElement["label"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
@@ -62,10 +62,10 @@ panels resolve correctly. */
   /** Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }` */
   onNysTabSelect?: (event: CustomEvent) => void;
 
-  /** Dispatched when the inner `<nys-button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Dispatched when the inner `<button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
   onNysTabFocus?: (event: CustomEvent) => void;
 
-  /** Dispatched when the inner `<nys-button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Dispatched when the inner `<button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
   onNysTabBlur?: (event: CustomEvent) => void;
 }
 
@@ -73,23 +73,21 @@ panels resolve correctly. */
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
  *
  * Paired with a `<nys-tabpanel>` by render order inside the parent
- * `<nys-tabgroup>`. ARIA attributes (`aria-controls`, `tabindex`,
- * `selected`) are managed externally by `<nys-tabgroup>` via
- * `_applySelection`; do not set them directly on this element.
+ * `<nys-tabgroup>`. ARIA attributes (`role`, `aria-selected`, `aria-controls`,
+ * `tabindex`) are managed externally by `<nys-tabgroup>` via `_applySelection`;
+ * do not set them directly on this element.
  * ---
  *
  *
  * ### **Events:**
  *  - **nys-tab-select** - Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }`
- * - **nys-tab-focus** - Dispatched when the inner `<nys-button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
- * - **nys-tab-blur** - Dispatched when the inner `<nys-button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+ * - **nys-tab-focus** - Dispatched when the inner `<button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+ * - **nys-tab-blur** - Dispatched when the inner `<button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
  *
  * ### **Methods:**
- *  - **focus(options: _FocusOptions_): __** - Moves browser focus to this tab by chaining through the shadow DOM.
- *
- * Focus is forwarded to the inner `<nys-button>` (which in turn forwards it
- * to its own shadow-DOM `<button>`). Falls back to `super.focus()` if
- * `<nys-button>` is not yet in the shadow root.
+ *  - **focus(options: _FocusOptions_): _void_** - Moves browser focus to the inner `<button>`.
+ * The host carries `role="tab"` and `tabindex`; `delegatesFocus: true` on
+ * the shadow root ensures AT associates the tab role with the focused element.
  *
  * ### **Slots:**
  *  - _default_ - No slots; content is derived from the `label` property.

@@ -201,7 +201,12 @@ export class NysTabgroup extends LitElement {
   ): void {
     tabs.forEach((tab, i) => {
       const isSelected = i === selectedIndex;
+      const panel = panels[i];
       tab.setAttribute("aria-selected", isSelected ? "true" : "false");
+      tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+      if (panel?.id) {
+        tab.setAttribute("aria-controls", panel.id);
+      }
       if (isSelected) {
         tab.setAttribute("selected", "");
       } else {
@@ -212,7 +217,6 @@ export class NysTabgroup extends LitElement {
     panels.forEach((panel, i) => {
       const isSelected = i === selectedIndex;
       const tab = tabs[i];
-      // Wire aria-labelledby → matching tab id
       if (tab) {
         panel.setAttribute("aria-labelledby", tab.id);
       }
@@ -373,6 +377,7 @@ export class NysTabgroup extends LitElement {
           <div class="scroll-shadow scroll-shadow--left"></div>
           <div
             class="nys-tabgroup__tabs"
+            role="tablist"
             aria-label=${this.name}
             @keydown=${this._handleKeydown}
           ></div>

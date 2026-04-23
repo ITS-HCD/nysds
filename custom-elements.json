@@ -10209,7 +10209,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-tab>` is a single tab within a `<nys-tabgroup>`.\n\nPaired with a `<nys-tabpanel>` by render order inside the parent\n`<nys-tabgroup>`. ARIA attributes (`aria-controls`, `tabindex`,\n`selected`) are managed externally by `<nys-tabgroup>` via\n`_applySelection`; do not set them directly on this element.",
+          "description": "`<nys-tab>` is a single tab within a `<nys-tabgroup>`.\n\nPaired with a `<nys-tabpanel>` by render order inside the parent\n`<nys-tabgroup>`. ARIA attributes (`role`, `aria-selected`, `aria-controls`,\n`tabindex`) are managed externally by `<nys-tabgroup>` via `_applySelection`;\ndo not set them directly on this element.",
           "name": "NysTab",
           "slots": [
             {
@@ -10218,6 +10218,16 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "object"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }",
+              "description": "`delegatesFocus: true` ensures that when the host element (which carries\n`role=\"tab\"` and `tabindex`) receives focus programmatically or via Tab,\nfocus is forwarded to the inner `<button>` so the browser renders the\ncorrect focus indicator."
+            },
             {
               "kind": "field",
               "name": "id",
@@ -10236,7 +10246,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible text label rendered inside the inner `<nys-button>`.",
+              "description": "Visible text label rendered inside the inner `<button>`.",
               "attribute": "label"
             },
             {
@@ -10257,7 +10267,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Whether this tab is disabled.\nWhen `true`, click and keyboard activation are suppressed and the inner\n`<nys-button>` renders in its disabled state.\nReflected to the DOM attribute for CSS styling.",
+              "description": "Whether this tab is disabled.\nWhen `true`, click and keyboard activation are suppressed and the inner\n`<button>` renders in its disabled state.\nReflected to the DOM attribute for CSS styling.",
               "attribute": "disabled",
               "reflects": true
             },
@@ -10267,7 +10277,7 @@
               "privacy": "public",
               "return": {
                 "type": {
-                  "text": ""
+                  "text": "void"
                 }
               },
               "parameters": [
@@ -10277,10 +10287,10 @@
                   "type": {
                     "text": "FocusOptions"
                   },
-                  "description": "Optional `FocusOptions` (e.g. `{ preventScroll: true }`)\nforwarded verbatim to the inner element."
+                  "description": "Optional `FocusOptions` forwarded to the inner button."
                 }
               ],
-              "description": "Moves browser focus to this tab by chaining through the shadow DOM.\n\nFocus is forwarded to the inner `<nys-button>` (which in turn forwards it\nto its own shadow-DOM `<button>`). Falls back to `super.focus()` if\n`<nys-button>` is not yet in the shadow root."
+              "description": "Moves browser focus to the inner `<button>`.\nThe host carries `role=\"tab\"` and `tabindex`; `delegatesFocus: true` on\nthe shadow root ensures AT associates the tab role with the focused element."
             },
             {
               "kind": "method",
@@ -10288,30 +10298,10 @@
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": ""
+                  "text": "void"
                 }
               },
               "description": "Handles click activation of the tab.\nNo-ops when the tab is disabled. Dispatches `nys-tab-select` so the\nparent `<nys-tabgroup>` can update selection state."
-            },
-            {
-              "kind": "method",
-              "name": "_handleKeydown",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": ""
-                }
-              },
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  },
-                  "description": "The `KeyboardEvent` from the inner button's `keydown` listener."
-                }
-              ],
-              "description": "Handles keyboard events on the inner `<nys-button>`.\nOnly Enter and Space trigger activation (per the ARIA Tabs Pattern);\nArrowKey navigation is handled one level up by `<nys-tabgroup>`.\nNo-ops when the tab is disabled."
             },
             {
               "kind": "method",
@@ -10319,10 +10309,10 @@
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": ""
+                  "text": "void"
                 }
               },
-              "description": "Handles the `nys-focus` event bubbled up from the inner `<nys-button>`.\nRe-dispatches as `nys-tab-focus` so consumers can observe tab-level focus\nwithout piercing the shadow DOM."
+              "description": "Handles focus on the inner `<button>`.\nRe-dispatches as `nys-tab-focus` so consumers can observe tab-level focus\nwithout piercing the shadow DOM."
             },
             {
               "kind": "method",
@@ -10330,10 +10320,10 @@
               "privacy": "private",
               "return": {
                 "type": {
-                  "text": ""
+                  "text": "void"
                 }
               },
-              "description": "Handles the `nys-blur` event bubbled up from the inner `<nys-button>`.\nRe-dispatches as `nys-tab-blur` so consumers can observe tab-level blur\nwithout piercing the shadow DOM."
+              "description": "Handles blur on the inner `<button>`.\nRe-dispatches as `nys-tab-blur` so consumers can observe tab-level blur\nwithout piercing the shadow DOM."
             }
           ],
           "events": [
@@ -10349,14 +10339,14 @@
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when the inner `<nys-button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`"
+              "description": "Dispatched when the inner `<button>` receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`"
             },
             {
               "name": "nys-tab-blur",
               "type": {
                 "text": "CustomEvent"
               },
-              "description": "Dispatched when the inner `<nys-button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`"
+              "description": "Dispatched when the inner `<button>` loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`"
             }
           ],
           "attributes": [
@@ -10377,7 +10367,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Visible text label rendered inside the inner `<nys-button>`.",
+              "description": "Visible text label rendered inside the inner `<button>`.",
               "fieldName": "label",
               "attribute": "label",
               "propName": "label"
@@ -10399,7 +10389,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Whether this tab is disabled.\nWhen `true`, click and keyboard activation are suppressed and the inner\n`<nys-button>` renders in its disabled state.\nReflected to the DOM attribute for CSS styling.",
+              "description": "Whether this tab is disabled.\nWhen `true`, click and keyboard activation are suppressed and the inner\n`<button>` renders in its disabled state.\nReflected to the DOM attribute for CSS styling.",
               "fieldName": "disabled",
               "attribute": "disabled",
               "propName": "disabled"
@@ -10465,7 +10455,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accessible label for the tab list (`aria-label` on the inner\n`[role=\"tablist\"]`). Should describe the purpose of the tab set\n(e.g. `\"Account settings\"`).",
+              "description": "The name of the tab group.\nUsed for form submission and accessibility purposes.",
               "attribute": "name"
             },
             {
@@ -10475,7 +10465,7 @@
                 "text": "HTMLElement"
               },
               "privacy": "private",
-              "description": "Reference to the `[role=\"tablist\"]` scroll container in the shadow DOM.\nCached in `firstUpdated` and used by `_updateScrollShadows` to read\nscroll position and dimensions."
+              "description": "Cached in `firstUpdated` and used by `_updateScrollShadows` to read\nscroll position and dimensions."
             },
             {
               "kind": "field",
@@ -10629,7 +10619,12 @@
                   "description": "The `KeyboardEvent` from the tablist `keydown` listener."
                 }
               ],
-              "description": "Handles `keydown` events on the `[role=\"tablist\"]` container.\n\nImplements the ARIA radio-button keyboard pattern:\n- `ArrowRight` — moves focus to the next enabled tab (wraps).\n- `ArrowLeft` — moves focus to the previous enabled tab (wraps).\n\nFocus is moved without changing selection; Enter / Space on the newly\nfocused tab (handled by `<nys-tab>._handleKeydown`) confirm selection.\n\nThe currently focused tab is resolved via `composedPath()` because focus\nmay sit on a shadow-DOM descendant of `<nys-tab>` rather than the host\nitself.\n\nDisabled tabs are excluded from navigation and will never receive focus\nvia arrow keys."
+              "description": "Implements the ARIA radio-button keyboard pattern:\n- `ArrowRight` — moves focus to the next enabled tab (wraps).\n- `ArrowLeft` — moves focus to the previous enabled tab (wraps).\n\nFocus is moved without changing selection; Enter / Space on the newly\nfocused tab (handled by `<nys-tab>._handleKeydown`) confirm selection.\n\nThe currently focused tab is resolved via `composedPath()` because focus\nmay sit on a shadow-DOM descendant of `<nys-tab>` rather than the host\nitself.\n\nDisabled tabs are excluded from navigation and will never receive focus\nvia arrow keys."
+            },
+            {
+              "kind": "field",
+              "name": "_handleWheel",
+              "privacy": "private"
             }
           ],
           "attributes": [
@@ -10650,7 +10645,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accessible label for the tab list (`aria-label` on the inner\n`[role=\"tablist\"]`). Should describe the purpose of the tab set\n(e.g. `\"Account settings\"`).",
+              "description": "The name of the tab group.\nUsed for form submission and accessibility purposes.",
               "fieldName": "name",
               "attribute": "name",
               "propName": "name"
