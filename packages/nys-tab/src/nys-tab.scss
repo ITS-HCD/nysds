@@ -33,8 +33,7 @@
   --_nys-tabpanel-padding: var(--nys-space-400, 32px);
 }
 
-button.nys-tab {
-  appearance: none;
+.nys-tab {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -70,46 +69,43 @@ button.nys-tab {
   font-weight: var(--nys-font-weight-semibold, 600);
   line-height: var(--nys-size-200, 16px);
   text-decoration: none;
-
-  &:hover:not(:disabled) {
-    background-color: var(--_nys-tab-background-color--hover);
-    border-color: var(--_nys-tab-border-color--hover);
-    color: var(--_nys-tab-color);
-  }
-
-  &:active:not(:disabled) {
-    background-color: var(--_nys-tab-background-color--active);
-    border-color: var(--_nys-tab-border-color--active);
-    color: var(--_nys-tab-color);
-  }
-
-  &:disabled {
-    background-color: var(--_nys-tab-background-color--disabled);
-    border-color: var(--_nys-tab-border-color--disabled);
-    color: var(--nys-color-text-disabled, #bec0c1);
-    cursor: not-allowed;
-  }
-
 }
 
-:host(:focus-visible) button.nys-tab {
+:host(:not([disabled])) .nys-tab:hover {
+  background-color: var(--_nys-tab-background-color--hover);
+  border-color: var(--_nys-tab-border-color--hover);
+  color: var(--_nys-tab-color);
+}
+
+:host(:not([disabled])) .nys-tab:active {
+  background-color: var(--_nys-tab-background-color--active);
+  border-color: var(--_nys-tab-border-color--active);
+  color: var(--_nys-tab-color);
+}
+
+:host([disabled]) .nys-tab {
+  background-color: var(--_nys-tab-background-color--disabled);
+  border-color: var(--_nys-tab-border-color--disabled);
+  color: var(--nys-color-text-disabled, #bec0c1);
+  cursor: not-allowed;
+}
+
+:host(:focus-visible) .nys-tab {
   outline: solid var(--nys-border-width-md, 2px) var(--nys-color-focus, #004dd1);
   outline-offset: var(--nys-space-2px, 2px);
 }
 
-:host([selected]) {
-  button.nys-tab {
-    background-color: var(--_nys-tab-background-color--selected);
-    border-color: var(--_nys-tab-border-color--selected);
+:host([selected]) .nys-tab {
+  background-color: var(--_nys-tab-background-color--selected);
+  border-color: var(--_nys-tab-border-color--selected);
+}
 
-    &:hover:not(:disabled) {
-      border-color: var(--_nys-tab-border-color--selected--hover);
-    }
+:host([selected]:not([disabled])) .nys-tab:hover {
+  border-color: var(--_nys-tab-border-color--selected--hover);
+}
 
-    &:active:not(:disabled) {
-      border-color: var(--_nys-tab-border-color--selected--active);
-    }
-  }
+:host([selected]:not([disabled])) .nys-tab:active {
+  border-color: var(--_nys-tab-border-color--selected--active);
 }
 
 .nys-tabgroup {
