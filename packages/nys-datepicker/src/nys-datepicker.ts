@@ -192,6 +192,22 @@ export class NysDatepicker extends LitElement {
     setTimeout(() => this._onDocumentClick(), 0);
   }
 
+  updated(changedProperties: Map<string | number | symbol, unknown>): void {
+    super.updated(changedProperties);
+
+    if (changedProperties.has("value")) {
+      const prev = changedProperties.get("value");
+      const current = this.value;
+
+      if (!current && prev !== current) {
+        this._internals.setFormValue("");
+        this._manageRequire();
+      } else if (current) {
+        this._setValue(current); // handles both Date and string
+      }
+    }
+  }
+
   private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {
     await customElements.whenDefined("wc-datepicker");
 
@@ -307,6 +323,8 @@ export class NysDatepicker extends LitElement {
     if (!this._internals) return;
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
+
+    if (!message && this.showError && this.errorMessage?.trim()) return;
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;

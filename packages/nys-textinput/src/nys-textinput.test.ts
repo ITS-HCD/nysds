@@ -511,6 +511,34 @@ describe("nys-textinput", () => {
   });
 
   // -------------------------------------------------------------------------
+  // Regression test: clearing "value" prop must sync setFormValue()
+  // -------------------------------------------------------------------------
+
+  it("programmatically setting value to empty string or null updates FormData", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-textinput name="test-field" value="stale-value"></nys-textinput>
+      </form>
+    `);
+
+    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    await el.updateComplete;
+
+    expect(new FormData(form).get("test-field")).to.equal("stale-value");
+
+    el.value = "";
+    await el.updateComplete;
+    expect(new FormData(form).get("test-field")).to.equal("");
+
+    el.value = "stale-value";
+    await el.updateComplete;
+
+    (el as any).value = null;
+    await el.updateComplete;
+    expect(new FormData(form).get("test-field")).to.equal(null);
+  });
+
+  // -------------------------------------------------------------------------
   // Accessibility
   // -------------------------------------------------------------------------
   it("passes the a11y audit", async () => {
