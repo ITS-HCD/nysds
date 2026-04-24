@@ -47,34 +47,6 @@ export class NysLabel extends LitElement {
    * Event Handlers
    * --------------------------------------------------------------------------
    */
-  // private _handleLabelClick(event: Event) {
-  //   if (!this.for) return;
-
-  //   const parentShadowDOM = (this.getRootNode() as ShadowRoot).host;
-  //   let target: HTMLElement | null = null;
-
-  //   if (parentShadowDOM && parentShadowDOM.shadowRoot) {
-  //     target = parentShadowDOM.shadowRoot.querySelector(`#${this.for}`);
-  //   }
-
-  //   if (!target) return;
-
-  //   if (target instanceof HTMLInputElement) {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //     if (target.type === "file") {
-  //       target.click();
-  //     } else if (target.type === "checkbox" || target.type === "radio") {
-  //       target.focus();
-  //       target.click();
-  //     } else {
-  //       // For other inputs (text, date, number, email, etc.), just focus
-  //       target.focus();
-  //     }
-  //   } else {
-  //     (target as HTMLElement).focus();
-  //   }
-  // }
 
   /**
    * While most components don't need to listen for this event.

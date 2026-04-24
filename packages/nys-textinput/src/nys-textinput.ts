@@ -141,7 +141,6 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) errorMessage = "";
 
   @query("input") private _inputEl!: HTMLInputElement;
-  // @query("nys-label") private _labelEl!: LitElement;
 
   @state() private showPassword = false;
 
@@ -332,18 +331,6 @@ export class NysTextinput extends LitElement {
 
     // Re-render UI
     this.requestUpdate();
-  }
-
-  private async _setupAriaReferences() {
-    // if (this._labelEl) {
-    //   await this._labelEl.updateComplete;
-    // }
-    // const input = this._inputEl;
-    // if (!input || !this._labelEl) return;
-
-    // if (this.label) {
-    //   (input as any).ariaLabelledByElements = [this._labelEl];
-    // }
   }
 
   /**
