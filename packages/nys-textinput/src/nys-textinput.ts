@@ -141,6 +141,7 @@ export class NysTextinput extends LitElement {
   @property({ type: String }) errorMessage = "";
 
   @query("input") private _inputEl!: HTMLInputElement;
+  // @query("nys-label") private _labelEl!: LitElement;
 
   @state() private showPassword = false;
 
@@ -179,9 +180,10 @@ export class NysTextinput extends LitElement {
     this.removeEventListener("invalid", this._handleInvalid);
   }
 
-  firstUpdated() {
+  async firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
+    await this._setupAriaReferences();
   }
 
   // Ensure the "width" property is valid after updates
@@ -330,6 +332,18 @@ export class NysTextinput extends LitElement {
 
     // Re-render UI
     this.requestUpdate();
+  }
+
+  private async _setupAriaReferences() {
+    // if (this._labelEl) {
+    //   await this._labelEl.updateComplete;
+    // }
+    // const input = this._inputEl;
+    // if (!input || !this._labelEl) return;
+
+    // if (this.label) {
+    //   (input as any).ariaLabelledByElements = [this._labelEl];
+    // }
   }
 
   /**
@@ -528,7 +542,7 @@ export class NysTextinput extends LitElement {
     return html`
       <div class="nys-textinput">
         <nys-label
-          for=${this.id + "--native"}
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
@@ -560,13 +574,14 @@ export class NysTextinput extends LitElement {
               ?disabled=${this.disabled}
               ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
+              aria-label=${ifDefined(
+                [this.label, this.description].filter(Boolean).join(" ") ||
+                  this.ariaLabel ||
+                  undefined,
+              )}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
-              aria-label="${[this.label, this.description]
-                .filter(Boolean)
-                .join(" ") ||
-              ifDefined(this.ariaLabel || undefined) ||
-              "Text input"}"
+              aria-invalid=${this.showError ? "true" : "false"}
               aria-errormessage=${this.id + "--error"}
               .value=${this.value}
               placeholder=${ifDefined(

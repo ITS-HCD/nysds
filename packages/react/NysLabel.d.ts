@@ -24,8 +24,8 @@ export interface NysLabelProps extends Pick<
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
-  /** ID of the form element this label is associated with. */
-  for?: NysLabelElement["for"];
+  /** The ID of the label. */
+  id?: NysLabelElement["id"];
 
   /** Label text displayed above the form field. */
   label?: NysLabelElement["label"];
@@ -44,6 +44,9 @@ export interface NysLabelProps extends Pick<
 
   /** Contains a space-separated list of the part names of the element that should be exposed on the host element. */
   exportparts?: string;
+
+  /** Used for labels to link them with their inputs (using input id). */
+  htmlFor?: string;
 
   /** Used to help React identify which items have changed, are added, or are removed within a list. */
   key?: number | string;

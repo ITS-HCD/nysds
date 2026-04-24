@@ -4,7 +4,7 @@ import { useEventListener } from "./react-utils.js";
 
 export const NysLabel = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
-  const { inverted, label, description, flag, tooltip, ...filteredProps } =
+  const { inverted, id, label, description, flag, tooltip, ...filteredProps } =
     props;
 
   /** Event listeners - run once */
@@ -22,13 +22,14 @@ export const NysLabel = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      for: props.for,
+      id: props.id,
       label: props.label,
       description: props.description,
       flag: props.flag,
       tooltip: props.tooltip,
       class: props.className,
       exportparts: props.exportparts,
+      for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
       inverted: props.inverted ? true : undefined,

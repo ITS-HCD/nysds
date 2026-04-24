@@ -3,6 +3,8 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-label.scss?inline";
 
+let labelIdCounter = 0;
+
 /**
  * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
  *
@@ -17,8 +19,8 @@ import styles from "./nys-label.scss?inline";
 export class NysLabel extends LitElement {
   static styles = unsafeCSS(styles);
 
-  /** ID of the form element this label is associated with. */
-  @property({ type: String }) for = "";
+  /** The ID of the label. */
+  @property({ type: String, reflect: true }) id = "";
 
   /** Label text displayed above the form field. */
   @property({ type: String }) label = "";
@@ -33,6 +35,13 @@ export class NysLabel extends LitElement {
   @property({ type: Boolean, reflect: true }) inverted = false;
   /** Tooltip text shown on hover/focus of info icon next to label. */
   @property({ type: String }) tooltip = "";
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-label-${Date.now()}-${labelIdCounter++}`;
+    }
+  }
 
   /**
    * Event Handlers
@@ -67,8 +76,11 @@ export class NysLabel extends LitElement {
   //   }
   // }
 
+  /**
+   * While most components don't need to listen for this event.
+   * Special components like "nys-fileinput" and "nys-toggle" need to listen for label to execute their specific functionalities.
+   */
   private _dispatchLabelClick() {
-    console.log("Dispatching label");
     this.dispatchEvent(
       new CustomEvent("nys-label-click", { bubbles: true, composed: true }),
     );
@@ -78,10 +90,7 @@ export class NysLabel extends LitElement {
     return html`
       <div class="nys-label ${this.inverted ? "invert" : ""}">
         <div class="nys-label__tooltip-wrapper">
-          <label
-            for=${this.for}
-            class="nys-label__label"
-            @click=${this._dispatchLabelClick}
+          <label class="nys-label__label" @click=${this._dispatchLabelClick}
             >${this.label}
             ${this.flag === "required"
               ? html`<div class="nys-label__required">*</div>`
@@ -96,11 +105,11 @@ export class NysLabel extends LitElement {
                   position="top"
                   focusable
                   ?inverted=${this.inverted}
-                  for="tooltip-icon-${this.for}"
+                  for="tooltip-icon-${this.id}"
                 >
                 </nys-tooltip>
                 <nys-icon
-                  id="tooltip-icon-${this.for}"
+                  id="tooltip-icon-${this.id}"
                   name="info"
                   size="3xl"
                 ></nys-icon> `

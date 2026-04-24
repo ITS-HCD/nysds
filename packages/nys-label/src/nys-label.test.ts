@@ -10,7 +10,6 @@ describe("nys-label", () => {
 
   it("has correct default values", async () => {
     const el = await fixture<NysLabel>(html`<nys-label></nys-label>`);
-    expect(el.for).to.equal("");
     expect(el.label).to.equal("");
     expect(el.description).to.equal("");
     expect(el.flag).to.equal("");
@@ -32,14 +31,6 @@ describe("nys-label", () => {
     );
     const p = el.shadowRoot!.querySelector("p.nys-label__description");
     expect(p!.textContent).to.include("Helper text");
-  });
-
-  it("sets the for attribute on the <label> element", async () => {
-    const el = await fixture<NysLabel>(
-      html`<nys-label for="my-input" label="Name"></nys-label>`,
-    );
-    const labelEl = el.shadowRoot!.querySelector("label");
-    expect(labelEl!.getAttribute("for")).to.equal("my-input");
   });
 
   it("shows asterisk when flag is 'required'", async () => {
@@ -105,11 +96,7 @@ describe("nys-label", () => {
 
   it("renders nys-tooltip and nys-icon when tooltip is provided", async () => {
     const el = await fixture<NysLabel>(
-      html`<nys-label
-        label="Name"
-        tooltip="More info"
-        for="name-input"
-      ></nys-label>`,
+      html`<nys-label label="Name" tooltip="More info"></nys-label>`,
     );
     expect(el.shadowRoot!.querySelector("nys-tooltip")).to.exist;
     expect(el.shadowRoot!.querySelector("nys-icon")).to.exist;
@@ -125,7 +112,7 @@ describe("nys-label", () => {
 
   it("passes tooltip text to nys-tooltip", async () => {
     const el = await fixture<NysLabel>(
-      html`<nys-label label="Name" tooltip="Helpful hint" for="x"></nys-label>`,
+      html`<nys-label label="Name" tooltip="Helpful hint"></nys-label>`,
     );
     const tooltipEl = el.shadowRoot!.querySelector("nys-tooltip");
     expect(tooltipEl!.getAttribute("text")).to.equal("Helpful hint");
@@ -133,7 +120,7 @@ describe("nys-label", () => {
 
   it("scopes tooltip icon id to the 'for' value", async () => {
     const el = await fixture<NysLabel>(
-      html`<nys-label label="Name" tooltip="hint" for="my-field"></nys-label>`,
+      html`<nys-label label="Name" tooltip="hint" id="my-field"></nys-label>`,
     );
     const icon = el.shadowRoot!.querySelector("nys-icon");
     expect(icon!.getAttribute("id")).to.equal("tooltip-icon-my-field");
@@ -141,12 +128,7 @@ describe("nys-label", () => {
 
   it("passes inverted to nys-tooltip", async () => {
     const el = await fixture<NysLabel>(
-      html`<nys-label
-        label="Name"
-        tooltip="hint"
-        for="x"
-        inverted
-      ></nys-label>`,
+      html`<nys-label label="Name" tooltip="hint" inverted></nys-label>`,
     );
     const tooltipEl = el.shadowRoot!.querySelector("nys-tooltip");
     expect(tooltipEl).to.have.attribute("inverted");
@@ -167,19 +149,8 @@ describe("nys-label", () => {
     expect(assigned[0].textContent).to.include("Custom");
   });
 
-  it("does nothing when 'for' is not set", async () => {
-    // Should not throw when the label is clicked without a 'for' target
-    const el = await fixture<NysLabel>(
-      html`<nys-label label="Click me"></nys-label>`,
-    );
-    const labelEl = el.shadowRoot!.querySelector("label")!;
-    expect(() => labelEl.click()).to.not.throw();
-  });
-
   it("passes the a11y audit", async () => {
-    const el = await fixture(
-      html`<nys-label label="Full name" for="full-name"></nys-label>`,
-    );
+    const el = await fixture(html`<nys-label label="Full name"></nys-label>`);
     await expect(el).shadowDom.to.be.accessible();
   });
 });

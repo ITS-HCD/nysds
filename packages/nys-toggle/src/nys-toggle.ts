@@ -205,7 +205,6 @@ export class NysToggle extends LitElement {
           </div>
           ${this.label &&
           html`<nys-label
-            for=${this.id}
             label=${this.label}
             description=${ifDefined(this.description || undefined)}
             ?inverted=${this.inverted}
