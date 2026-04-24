@@ -2,7 +2,6 @@ import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-tab.js";
 import { NysTab } from "./nys-tab.js";
 import { NysTabgroup } from "./nys-tabgroup.js";
-import { NysButton } from "@nysds/nys-button";
 
 describe("nys-tab", () => {
   it("renders the component", async () => {
@@ -84,7 +83,7 @@ describe("nys-tab", () => {
     expect(tabs[2].hasAttribute("selected")).to.be.false;
   });
 
-  it("focus() on nys-tab delegates to nys-button's focus()", async () => {
+  it("focus() on nys-tab dispatches nys-tab-focus", async () => {
     const el = await fixture<NysTabgroup>(html`
       <nys-tabgroup>
         <nys-tab label="Tab One"></nys-tab>
@@ -96,16 +95,14 @@ describe("nys-tab", () => {
     const tab = el.shadowRoot!.querySelector("nys-tab")! as NysTab;
     await (tab as any).updateComplete;
 
-    const nysButton = tab.shadowRoot!.querySelector("nys-button")! as NysButton;
-
-    let buttonFocusCalled = false;
-    nysButton.focus = () => {
-      buttonFocusCalled = true;
-    };
+    let focusFired = false;
+    tab.addEventListener("nys-tab-focus", () => {
+      focusFired = true;
+    });
 
     tab.focus();
 
-    expect(buttonFocusCalled).to.be.true;
+    expect(focusFired).to.be.true;
   });
 });
 
@@ -122,8 +119,6 @@ describe("nys-tab event handling", () => {
     const tab = el.shadowRoot!.querySelector("nys-tab")!;
     await (tab as any).updateComplete;
 
-    const nysButton = tab.shadowRoot!.querySelector("nys-button")!;
-
     let focusFired = false;
     let selectFired = false;
     let blurFired = false;
@@ -138,19 +133,13 @@ describe("nys-tab event handling", () => {
       blurFired = true;
     });
 
-    nysButton.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
+    tab.dispatchEvent(new Event("focus", { bubbles: true, composed: true }));
     expect(focusFired).to.be.true;
 
-    nysButton.dispatchEvent(
-      new Event("nys-click", { bubbles: true, composed: true }),
-    );
+    (tab as any)._handleClick();
     expect(selectFired).to.be.true;
 
-    nysButton.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+    tab.dispatchEvent(new Event("blur", { bubbles: true, composed: true }));
     expect(blurFired).to.be.true;
   });
 });
@@ -285,14 +274,14 @@ describe("nys-tab keyboard navigation", () => {
     tabs[0].addEventListener("nys-tab-select", () => {
       selectFired = true;
     });
-    (tabs[0] as any)._handleKeydown(
+    (tabs[0] as any)._onKeydown(
       new KeyboardEvent("keydown", { key: "Enter" }),
     );
     expect(selectFired).to.be.true;
 
     // Pressing Space on Tab should select it
     selectFired = false;
-    (tabs[0] as any)._handleKeydown(new KeyboardEvent("keydown", { key: " " }));
+    (tabs[0] as any)._onKeydown(new KeyboardEvent("keydown", { key: " " }));
     expect(selectFired).to.be.true;
   });
 });
