@@ -546,8 +546,5 @@ describe("nys-textinput", () => {
       html`<nys-textinput label="First Name"></nys-textinput>`,
     );
     await expect(el).shadowDom.to.be.accessible();
-    // // does label map to aria-label
-    // const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-    // expect(input?.getAttribute("aria-label")).to.equal("First Name");
   });
 });
