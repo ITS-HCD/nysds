@@ -11550,11 +11550,6 @@
             },
             {
               "kind": "method",
-              "name": "_setupAriaReferences",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
               "name": "checkValidity",
               "return": {
                 "type": {

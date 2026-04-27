@@ -182,7 +182,6 @@ export class NysTextinput extends LitElement {
   async firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
-    await this._setupAriaReferences();
   }
 
   // Ensure the "width" property is valid after updates
