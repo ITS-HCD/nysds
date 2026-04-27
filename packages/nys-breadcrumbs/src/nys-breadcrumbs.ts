@@ -52,12 +52,48 @@ let componentIdCounter = 0;
 export class NysBreadcrumbs extends LitElement {
   static styles = unsafeCSS(styles);
 
+  /**
+   * Unique identifier. Auto-generated if not provided.
+   */
   @property({ type: String, reflect: true }) id = "";
+
+  /**
+   * Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+   * Override when multiple crumbs exist on the same page.
+   */
   @property({ type: String }) ariaLabel = "";
+
+  /**
+   * Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.
+   * @default "md"
+   */
   @property({ type: String, reflect: true }) size: "sm" | "md" | "" = "md";
+
+  /**
+   * On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.
+   * Has no effect on desktop or when only one item is present (which always renders as a back link).
+   * @default false
+   */
   @property({ type: Boolean }) backToParent = false;
+
+  /**
+   * Forces the trail into its collapsed state.
+   * It shows only the first item, an ellipsis, and the last two items.
+   * The user can still expand the trail by clicking the ellipsis.
+   * @default false
+   */
   @property({ type: Boolean }) collapsed = false;
+
+  /**
+   * Renders a filled light theme background bar behind the breadcrumb trail.
+   * @default false
+   */
   @property({ type: Boolean }) backgroundBar = false;
+
+  /**
+   * Prevents interaction.
+   * @default false
+   */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   private _collapseThreshold = 5; // default for desktop

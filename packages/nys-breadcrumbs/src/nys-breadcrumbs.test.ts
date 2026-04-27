@@ -134,31 +134,6 @@ describe("nys-breadcrumbs", () => {
       .exist;
   });
 
-  // it("collapses trail and shows ellipsis when items exceed maxItems (desktop)", async () => {
-  //   Object.defineProperty(window, "innerWidth", {
-  //     writable: true,
-  //     value: 1024,
-  //   });
-  //   window.dispatchEvent(new Event("resize"));
-
-  //   const el = await fixture<NysBreadcrumbs>(
-  //     html`<nys-breadcrumbs maxItems="3">
-  //       <ol>
-  //         <li><a href="/">Home</a></li>
-  //         <li><a href="/services">Services</a></li>
-  //         <li><a href="/Mission">Mission</a></li>
-  //         <li><a href="/About">About</a></li>
-  //         <li>Current</li>
-  //       </ol>
-  //     </nys-breadcrumbs>`,
-  //   );
-  //   await el.updateComplete;
-
-  //   const ol = el.shadowRoot!.getElementById("crumb-list")!;
-  //   const ellipsis = ol.querySelector(".nys-breadcrumbs__ellipsis");
-  //   expect(ellipsis).to.exist;
-  // });
-
   it("hides intermediate items when collapsed", async () => {
     mockDesktop();
 
