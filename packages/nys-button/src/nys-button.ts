@@ -126,12 +126,12 @@ export class NysButton extends LitElement {
   @property({ type: String }) ariaControls = "";
 
   /**
-   * Material Symbol icon before label. Not shown for `text` variant or `circle` mode.
+   * Material Symbol icon before label. Not shown for `circle` mode.
    */
   @property({ type: String }) prefixIcon = "";
 
   /**
-   * Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.
+   * Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.
    */
   @property({ type: String }) suffixIcon = "";
 
@@ -366,7 +366,7 @@ export class NysButton extends LitElement {
                 )}
                 aria-description=${ifDefined(this.ariaDescription || undefined)}
               >
-                ${this.prefixIcon && this.variant !== "text"
+                ${this.prefixIcon
                   ? html`<slot name="prefix-icon">
                       <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                     </slot>`
@@ -374,7 +374,7 @@ export class NysButton extends LitElement {
                 ${this.label && !this.circle
                   ? html`<div class="nys-button__text">${this.label}</div>`
                   : ""}
-                ${this.suffixIcon && this.variant !== "text"
+                ${this.suffixIcon
                   ? html`<slot name="suffix-icon">
                       <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                     </slot>`
@@ -420,7 +420,7 @@ export class NysButton extends LitElement {
               aria-description=${ifDefined(this.ariaDescription || undefined)}
               role="button"
             >
-              ${this.prefixIcon && this.variant !== "text"
+              ${this.prefixIcon
                 ? html`<slot name="prefix-icon">
                     <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                   </slot>`
@@ -428,7 +428,7 @@ export class NysButton extends LitElement {
               ${this.label && !this.circle
                 ? html`<div class="nys-button__text">${this.label}</div>`
                 : ""}
-              ${this.suffixIcon && this.variant !== "text"
+              ${this.suffixIcon
                 ? html`<slot name="suffix-icon">
                     <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                   </slot>`

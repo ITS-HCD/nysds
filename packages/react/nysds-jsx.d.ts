@@ -190,9 +190,9 @@ export type NysButtonProps = {
   ariaLabel?: string;
   /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
   ariaControls?: string;
-  /** Material Symbol icon before label. Not shown for `text` variant or `circle` mode. */
+  /** Material Symbol icon before label. Not shown for `circle` mode. */
   prefixIcon?: string;
-  /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode. */
+  /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode. */
   suffixIcon?: string;
   /** Renders circular icon-only button. Requires `icon` prop. `label` becomes aria-label. */
   circle?: boolean;

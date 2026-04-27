@@ -1667,7 +1667,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon before label. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon before label. Not shown for `circle` mode.",
               "attribute": "prefixIcon"
             },
             {
@@ -1677,7 +1677,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
               "attribute": "suffixIcon"
             },
             {
@@ -1991,7 +1991,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon before label. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon before label. Not shown for `circle` mode.",
               "fieldName": "prefixIcon",
               "propName": "prefixicon"
             },
@@ -2001,7 +2001,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
               "fieldName": "suffixIcon",
               "propName": "suffixicon"
             },
