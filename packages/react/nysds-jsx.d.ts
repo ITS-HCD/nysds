@@ -425,6 +425,8 @@ export type NysDropdownMenuItemProps = {
 };
 
 export type NysErrorMessageProps = {
+  /** The "id" of the error message. */
+  id?: string;
   /** Whether to display the error message. */
   showError?: boolean;
   /** Error text to display. Falls back to native validation message if available. */
@@ -537,8 +539,8 @@ export type NysIconProps = {
 };
 
 export type NysLabelProps = {
-  /** ID of the form element this label is associated with. */
-  for?: string;
+  /** The ID of the label. */
+  id?: string;
   /** Label text displayed above the form field. */
   label?: string;
   /** Helper text displayed below the label. */
@@ -549,6 +551,9 @@ export type NysLabelProps = {
   inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon next to label. */
   tooltip?: string;
+
+  /**  */
+  "onnys-label-click"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
 export type NysModalProps = {
@@ -1223,6 +1228,9 @@ export type CustomElements = {
    * Internal label component for form fields with flag and tooltip support.
    * ---
    *
+   *
+   * ### **Events:**
+   *  - **nys-label-click**
    *
    * ### **Slots:**
    *  - **description** - Custom HTML description content below the label.

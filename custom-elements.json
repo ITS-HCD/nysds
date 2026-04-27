@@ -5593,6 +5593,17 @@
           "members": [
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The \"id\" of the error message.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "showError",
               "type": {
                 "text": "boolean"
@@ -5621,27 +5632,19 @@
               "description": "Shows a divider line above the error message.",
               "attribute": "showDivider",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             }
           ],
           "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The \"id\" of the error message.",
+              "fieldName": "id",
+              "propName": "id"
+            },
             {
               "name": "showError",
               "type": {
@@ -7137,13 +7140,14 @@
           "members": [
             {
               "kind": "field",
-              "name": "for",
+              "name": "id",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID of the form element this label is associated with.",
-              "attribute": "for"
+              "description": "The ID of the label.",
+              "attribute": "id",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -7189,43 +7193,38 @@
             {
               "kind": "field",
               "name": "tooltip",
-              "description": "Tooltip text shown on hover/focus of info icon next to label.",
-              "attribute": "tooltip"
-            },
-            {
-              "kind": "field",
-              "name": "_tooltip",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "default": "\"\""
-            },
-            {
-              "kind": "method",
-              "name": "_handleLabelClick",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ],
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "for",
               "type": {
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "ID of the form element this label is associated with.",
-              "fieldName": "for",
-              "propName": "for"
+              "description": "Tooltip text shown on hover/focus of info icon next to label.",
+              "attribute": "tooltip"
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchLabelClick",
+              "privacy": "private",
+              "description": "While most components don't need to listen for this event.\nSpecial components like \"nys-fileinput\" and \"nys-toggle\" need to listen for label to execute their specific functionalities."
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-label-click",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "The ID of the label.",
+              "fieldName": "id",
+              "propName": "id"
             },
             {
               "name": "label",
@@ -7269,6 +7268,10 @@
             },
             {
               "name": "tooltip",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
               "description": "Tooltip text shown on hover/focus of info icon next to label.",
               "fieldName": "tooltip",
               "propName": "tooltip"
@@ -11447,6 +11450,14 @@
               "default": "\"\"",
               "description": "Error message text. Shown only when `showError` is true.",
               "attribute": "errorMessage"
+            },
+            {
+              "kind": "field",
+              "name": "_inputEl",
+              "type": {
+                "text": "HTMLInputElement"
+              },
+              "privacy": "private"
             },
             {
               "kind": "field",
