@@ -7,16 +7,28 @@
 
 // Generate responsive variants for any utility
 // Usage: @include responsive-variants("nys-display-block") { display: block; }
-@mixin responsive-variants($class-name) {
+@mixin base-class($class-name) {
   .#{$class-name} {
     @content;
   }
+}
 
-  @each $bp-name, $bp-value in $breakpoints {
-    @media all and (min-width: #{$bp-value}) {
-      .nys-#{$bp-name}\:#{$class-name} {
-        @content;
-      }
-    }
+@mixin responsive-variants($bp-name, $class-name) {
+  .nys-#{$bp-name}\:#{$class-name} {
+    @content;
   }
 }
+
+// @mixin responsive-variants($class-name) {
+//   .#{$class-name} {
+//     @content;
+//   }
+
+//   @each $bp-name, $bp-value in $breakpoints {
+//     @media all and (min-width: #{$bp-value}) {
+//       .nys-#{$bp-name}\:#{$class-name} {
+//         @content;
+//       }
+//     }
+//   }
+// }

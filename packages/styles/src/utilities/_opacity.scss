@@ -7,9 +7,25 @@
 @use "config" as *;
 @use "mixins" as *;
 
+// @each $value in $opacity-values {
+//   @include responsive-variants("nys-opacity-#{$value}") {
+//     // stylelint-disable-next-line alpha-value-notation
+//     opacity: math.div($value, 100);
+//   }
+// }
+
 @each $value in $opacity-values {
-  @include responsive-variants("nys-opacity-#{$value}") {
+  @include base-class("nys-display-#{$value}") {
     // stylelint-disable-next-line alpha-value-notation
     opacity: math.div($value, 100);
+  }
+
+  @each $bp-name, $bp-value in $breakpoints {
+    @media all and (min-width: #{$bp-value}) {
+      @include responsive-variants($bp-name, "nys-display-#{$value}"){
+    // stylelint-disable-next-line alpha-value-notation
+    opacity: math.div($value, 100);
+      }
+    }
   }
 }
