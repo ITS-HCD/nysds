@@ -1,9 +1,12 @@
 import React from "react";
-import { NysVideo as NysVideoElement } from "../../dist/nysds.es.js";
+import {
+  NysBreadcrumbItem as NysBreadcrumbItemElement,
+  CustomEvent,
+} from "../../dist/nysds.es.js";
 
-export type { NysVideoElement };
+export type { NysBreadcrumbItemElement, CustomEvent };
 
-export interface NysVideoProps extends Pick<
+export interface NysBreadcrumbItemProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
   | "children"
   | "dir"
@@ -18,34 +21,20 @@ export interface NysVideoProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Triggers autoplay when the iframe loads */
-  autoplay?: boolean;
-
-  /** Prevents the video from being played */
-  disabled?: boolean;
-
-  /** Full YouTube URL — required. Component will not render if invalid. */
-  id?: NysVideoElement["id"];
-
-  /** Title text for the thumbnail of the video */
-  titleText?: NysVideoElement["titleText"];
-
-  /** Full YouTube URL — required. Component will not render if invalid. */
-  videourl?: NysVideoElement["videourl"];
-
-  /** Largest size for the video player.
-If not set, size is determined automatically by viewport width. */
-  size?: NysVideoElement["size"];
+  /** Private property used by nys-breadcrumbs to indicate this breadcrumb item is the last in the trail * */
+  isLast?: boolean;
 
   /** undefined */
-  loading?: NysVideoElement["loading"];
+  isBackToParent?: boolean;
 
-  /** Time in seconds where playback begins. * */
-  starttime?: NysVideoElement["starttime"];
+  /** undefined */
+  id?: NysBreadcrumbItemElement["id"];
 
-  /** Custom thumbnail image path.
-Falls back to YouTube's auto-generated thumbnail if not provided. */
-  thumbnail?: NysVideoElement["thumbnail"];
+  /** undefined */
+  label?: NysBreadcrumbItemElement["label"];
+
+  /** undefined */
+  link?: NysBreadcrumbItemElement["link"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -68,16 +57,16 @@ Falls back to YouTube's auto-generated thumbnail if not provided. */
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired when the user clicks the thumbnail to load the player. */
-  onNysVideoPlay?: (event: CustomEvent) => void;
+  /** Fired when the link is clicked. Detail: `{id, link}`. */
+  onNysBreadcrumbitemClick?: (event: CustomEvent) => void;
 }
 
 /**
- * YouTube video player with thumbnail preview and accessibility announcements.
+ * Single breadcrumb trail item with chevron separator and current page support.
  * ---
  *
  *
  * ### **Events:**
- *  - **nys-video-play** - Fired when the user clicks the thumbnail to load the player.
+ *  - **nys-breadcrumbitem-click** - Fired when the link is clicked. Detail: `{id, link}`.
  */
-export const NysVideo: React.ForwardRefExoticComponent<NysVideoProps>;
+export const NysBreadcrumbItem: React.ForwardRefExoticComponent<NysBreadcrumbItemProps>;

@@ -326,7 +326,6 @@ export class NysButton extends LitElement {
     }
   }
 
-  // Public Methods
   public focus(options?: FocusOptions) {
     const innerEl = this.renderRoot.querySelector(
       this.href ? "a.nys-button" : "button.nys-button",
