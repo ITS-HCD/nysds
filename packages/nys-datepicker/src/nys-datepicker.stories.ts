@@ -171,6 +171,7 @@ export const DateRange: Story = {
         code: `
 <nys-datepicker
   label="Select a date"
+  description="Only dates within April 4/5/2026 - 4/15/2026 are selectable"
   minDate="2025-04-05"
   maxDate="2025-04-15"
 ></nys-datepicker>`,
