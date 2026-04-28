@@ -21,25 +21,29 @@ export interface NysBreadcrumbsProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** undefined */
+  /** On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.
+Has no effect on desktop or when only one item is present (which always renders as a back link). */
   backToParent?: boolean;
 
-  /** undefined */
+  /** Forces the trail into its collapsed state.
+It shows only the first item, an ellipsis, and the last two items.
+The user can still expand the trail by clicking the ellipsis. */
   collapsed?: boolean;
 
-  /** undefined */
+  /** Renders a filled light theme background bar behind the breadcrumb trail. */
   backgroundBar?: boolean;
 
-  /** undefined */
+  /** Prevents interaction. */
   disabled?: boolean;
 
-  /** undefined */
+  /** Unique identifier. Auto-generated if not provided. */
   id?: NysBreadcrumbsElement["id"];
 
-  /** undefined */
+  /** Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+Override when multiple crumbs exist on the same page. */
   ariaLabel?: NysBreadcrumbsElement["ariaLabel"];
 
-  /** undefined */
+  /** Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use. */
   size?: NysBreadcrumbsElement["size"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */

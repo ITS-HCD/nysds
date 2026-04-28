@@ -172,19 +172,23 @@ export type NysBadgeProps = {
 };
 
 export type NysBreadcrumbsProps = {
-  /**  */
+  /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /**  */
+  /** Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+Override when multiple crumbs exist on the same page. */
   ariaLabel?: string;
-  /**  */
+  /** Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use. */
   size?: "sm" | "md" | "";
-  /**  */
+  /** On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.
+Has no effect on desktop or when only one item is present (which always renders as a back link). */
   backToParent?: boolean;
-  /**  */
+  /** Forces the trail into its collapsed state.
+It shows only the first item, an ellipsis, and the last two items.
+The user can still expand the trail by clicking the ellipsis. */
   collapsed?: boolean;
-  /**  */
+  /** Renders a filled light theme background bar behind the breadcrumb trail. */
   backgroundBar?: boolean;
-  /**  */
+  /** Prevents interaction. */
   disabled?: boolean;
 
   /** Fired when the user clicks the ellipsis to expand the trail. */
