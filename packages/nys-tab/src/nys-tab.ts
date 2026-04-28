@@ -182,13 +182,16 @@ export class NysTab extends LitElement {
 
   render() {
     return html`
-      <span
+      <button
         class="nys-tab"
+        type="button"
+        tabindex="-1"
+        ?disabled=${this.disabled}
         @mousedown=${(e: MouseEvent) => e.preventDefault()}
         @click=${this._handleClick}
       >
         ${this.label}
-      </span>
+      </button>
     `;
   }
 }

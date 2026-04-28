@@ -39,6 +39,8 @@
   justify-content: center;
   box-sizing: border-box;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
 
   // Sizing
   padding: var(--_nys-tab-padding--y) var(--_nys-tab-padding--x);
@@ -88,6 +90,7 @@
   border-color: var(--_nys-tab-border-color--disabled);
   color: var(--nys-color-text-disabled, #bec0c1);
   cursor: not-allowed;
+  pointer-events: auto;
 }
 
 :host(:focus-visible) {
