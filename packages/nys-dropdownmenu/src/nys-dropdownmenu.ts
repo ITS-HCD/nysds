@@ -204,8 +204,9 @@ export class NysDropdownMenu extends LitElement {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     const items = this._getMenuItems();
     const target = items[Math.min(index, items.length - 1)];
-    console.log("_focusOnItem", target);
-    if (target) target.focus();
+    if (!target) return;
+
+    target.focus();
   }
 
   // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.

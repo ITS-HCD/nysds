@@ -33,8 +33,6 @@
         "Arial",
         sans-serif
       )
-      &: focus,
-    &: focus-visible {outline: none;}
   );
 
   /* Dropdownmenu Item Styles */
@@ -136,7 +134,7 @@
       background-color: var(--_nys-dropdownmenuitem-background-color--active);
     }
 
-    &:focus-visible:not(.disabled):not([aria-disabled="true"]) {
+    &:focus-visible:not(.disabled):not([aria-disabled="true"]):not([focus-ring-false]) {
       position: relative;
       outline: var(--_nys-dropdownmenuitem-outline-width) solid
         var(--_nys-dropdownmenuitem-outline-color);
