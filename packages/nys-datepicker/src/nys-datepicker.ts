@@ -303,7 +303,12 @@ export class NysDatepicker extends LitElement {
 
     this._manageRequire();
 
-    const message = input.validationMessage;
+    let message = "";
+    if (input.validity.valueMissing) {
+      message = this.errorMessage || "This field is required.";
+    } else {
+      message = input.validationMessage;
+    }
     this._setValidityMessage(message);
   }
 
