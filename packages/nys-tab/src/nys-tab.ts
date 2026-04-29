@@ -39,7 +39,7 @@ export class NysTab extends LitElement {
   @property({ type: String, reflect: true }) id = "";
 
   /**
-   * Visible text label rendered inside the inner `<button>`.
+   * Visible text label rendered inside the inner `<span>`.
    *
    * @attr label
    */
@@ -68,8 +68,13 @@ export class NysTab extends LitElement {
   /**
    * Sets `role="tab"` and `tabindex="-1"` on the host (the element that AT
    * will read and that receives keyboard focus). Attaches host-level listeners
-   * for keydown, focus, and blur so that interaction events work correctly
-   * when the host — not the inner button — is the focused element.
+   * for keydown, focus, blur, and click so that interaction events work
+   * correctly on the host element itself.
+   *
+   * Click is handled at the host level so iOS VoiceOver double-tap (which
+   * dispatches `click` directly on the host because of `role="tab"`, bypassing
+   * shadow-DOM children) activates the tab. Normal taps land on the inner
+   * `<span>` and bubble up to this listener.
    *
    * `<nys-tabgroup>` overrides `tabindex` to `"0"` on the selected tab.
    */
@@ -83,6 +88,7 @@ export class NysTab extends LitElement {
     this.addEventListener("keydown", this._onKeydown);
     this.addEventListener("focus", this._onFocus);
     this.addEventListener("blur", this._onBlur);
+    this.addEventListener("click", this._onClick);
   }
 
   disconnectedCallback() {
@@ -90,12 +96,12 @@ export class NysTab extends LitElement {
     this.removeEventListener("keydown", this._onKeydown);
     this.removeEventListener("focus", this._onFocus);
     this.removeEventListener("blur", this._onBlur);
+    this.removeEventListener("click", this._onClick);
   }
 
   /**
    * Keeps `aria-disabled` on the host in sync with the `disabled` property so
-   * AT can perceive disabled state even though `disabled` is on the inner
-   * `<button>` inside the shadow DOM.
+   * AT perceives the disabled state on the element it actually focuses.
    */
   updated(changed: Map<string, unknown>) {
     if (changed.has("disabled")) {
@@ -161,8 +167,18 @@ export class NysTab extends LitElement {
   };
 
   /**
-   * Click on the inner button. Focuses the host (so AT sees the tab as
-   * focused) then dispatches `nys-tab-select`.
+   * Host-level click handler. Activates the tab regardless of whether the
+   * click landed on the inner element (normal pointer/keyboard tap, which
+   * bubbles up) or directly on the host (iOS VoiceOver double-tap dispatches
+   * `click` on the element with `role="tab"`, bypassing shadow-DOM children).
+   */
+  private _onClick = (): void => {
+    this._handleClick();
+  };
+
+  /**
+   * Focuses the host then dispatches `nys-tab-select`. Called from both the
+   * click handler and the keydown handler.
    */
   private _handleClick(): void {
     if (this.disabled) return;
@@ -181,18 +197,12 @@ export class NysTab extends LitElement {
   // ---------------------------------------------------------------------------
 
   render() {
-    return html`
-      <button
-        class="nys-tab"
-        type="button"
-        tabindex="-1"
-        ?disabled=${this.disabled}
-        @mousedown=${(e: MouseEvent) => e.preventDefault()}
-        @click=${this._handleClick}
-      >
-        ${this.label}
-      </button>
-    `;
+    // Inner element is a non-interactive `<span>` (not `<button>`) so that
+    // axe-core's `nested-interactive` rule does not fire — the host already
+    // carries `role="tab"` + `tabindex` and is the interactive control.
+    // Disabled gating, click activation, and keyboard activation all happen
+    // on the host; the span is purely a styling/labeling target.
+    return html`<span class="nys-tab">${this.label}</span>`;
   }
 }
 
