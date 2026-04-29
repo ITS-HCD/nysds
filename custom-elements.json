@@ -1481,6 +1481,374 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-breadcrumbs/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-breadcrumbs/src/nys-breadcrumbs.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.\nCollapses when the trail exceeds 5 items on desktop or 3 items on mobile,\nshowing the first, last, and item before the current page, with an ellipsis to expand.\nA single item renders as a back-to-parent link instead of a trail.",
+          "name": "NysBreadcrumbs",
+          "slots": [
+            {
+              "description": "One or more `nys-breadcrumbitem` elements defining the trail.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the `<nav>` landmark. Defaults to \"path to this page\" if not set.\nOverride when multiple crumbs exist on the same page.",
+              "attribute": "ariaLabel"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"\""
+              },
+              "default": "\"md\"",
+              "description": "Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "backToParent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.\nHas no effect on desktop or when only one item is present (which always renders as a back link).",
+              "attribute": "backToParent"
+            },
+            {
+              "kind": "field",
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Forces the trail into its collapsed state.\nIt shows only the first item, an ellipsis, and the last two items.\nThe user can still expand the trail by clicking the ellipsis.",
+              "attribute": "collapsed"
+            },
+            {
+              "kind": "field",
+              "name": "backgroundBar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders a filled light theme background bar behind the breadcrumb trail.",
+              "attribute": "backgroundBar"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents interaction.",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_collapseThreshold",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "5"
+            },
+            {
+              "kind": "field",
+              "name": "_manuallyExpanded",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_mediaQuery",
+              "type": {
+                "text": "MediaQueryList | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_updateCollapseThreshold",
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_getSlottedOl",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLOListElement | null"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_getSlottedItems",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLLIElement[]"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "_getAnchor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "HTMLAnchorElement | null"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_isCurrentPage",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_createBackToParentElement",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_createCrumbElement",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "li",
+                  "type": {
+                    "text": "HTMLLIElement"
+                  }
+                },
+                {
+                  "name": "isCurrentPage",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private",
+              "description": "Main logic for cloning and handling user slots.\nNew <ol>, <li>, and <a> tags are created and rendered out as crumbs for the breadcrumbs trail."
+            },
+            {
+              "kind": "method",
+              "name": "_moveFocusToFirstExpandCrumb",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_dispatchExpandEvent",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-breadcrumbs-expand",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Fired when the user clicks the ellipsis to expand the trail."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the `<nav>` landmark. Defaults to \"path to this page\" if not set.\nOverride when multiple crumbs exist on the same page.",
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"\""
+              },
+              "default": "\"md\"",
+              "description": "Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.",
+              "fieldName": "size",
+              "propName": "size"
+            },
+            {
+              "name": "backToParent",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.\nHas no effect on desktop or when only one item is present (which always renders as a back link).",
+              "fieldName": "backToParent",
+              "propName": "backtoparent"
+            },
+            {
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Forces the trail into its collapsed state.\nIt shows only the first item, an ellipsis, and the last two items.\nThe user can still expand the trail by clicking the ellipsis.",
+              "fieldName": "collapsed",
+              "propName": "collapsed"
+            },
+            {
+              "name": "backgroundBar",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Renders a filled light theme background bar behind the breadcrumb trail.",
+              "fieldName": "backgroundBar",
+              "propName": "backgroundbar"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Prevents interaction.",
+              "fieldName": "disabled",
+              "propName": "disabled"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-breadcrumbs",
+          "customElement": true,
+          "summary": "Breadcrumb navigation trail with responsive collapse support.",
+          "examples": [
+            {
+              "title": "Full trail with current page",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>Current Page</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Trail without current page",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Single item renders as back-to-parent",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-breadcrumbs",
+          "declaration": {
+            "name": "NysBreadcrumbs",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbs.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysBreadcrumbs",
+          "declaration": {
+            "name": "NysBreadcrumbs",
+            "module": "packages/nys-breadcrumbs/src/nys-breadcrumbs.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-button/src/index.ts",
       "declarations": [],
       "exports": [
@@ -1667,7 +2035,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon before label. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon before label. Not shown for `circle` mode.",
               "attribute": "prefixIcon"
             },
             {
@@ -1677,7 +2045,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
               "attribute": "suffixIcon"
             },
             {
@@ -1991,7 +2359,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon before label. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon before label. Not shown for `circle` mode.",
               "fieldName": "prefixIcon",
               "propName": "prefixicon"
             },
@@ -2001,7 +2369,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.",
+              "description": "Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.",
               "fieldName": "suffixIcon",
               "propName": "suffixicon"
             },
@@ -13157,7 +13525,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "A YouTube video player with a thumbnail preview and play button.\nLoads the iframe only after the user clicks play, keeping initial page load light.\nSupports autoplay (muted), custom thumbnails, start time, lazy loading, and disabled state.\nAnnounces playback state and ad state to screen readers via a live region.\n\nFor use with YouTube URLs only. Component renders nothing if the URL is invalid.",
           "name": "NysVideo",
           "members": [
             {
@@ -13333,6 +13701,12 @@
               "privacy": "private"
             }
           ],
+          "events": [
+            {
+              "description": "Fired when the user clicks the thumbnail to load the player.",
+              "name": "nys-video-play"
+            }
+          ],
           "attributes": [
             {
               "name": "id",
@@ -13429,7 +13803,15 @@
             "package": "lit"
           },
           "tagName": "nys-video",
-          "customElement": true
+          "customElement": true,
+          "summary": "YouTube video player with thumbnail preview and accessibility announcements.",
+          "examples": [
+            {
+              "title": "Basic usage",
+              "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"\ntitleText=\"Video Title\"\n></nys-video>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
