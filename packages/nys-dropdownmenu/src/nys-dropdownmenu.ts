@@ -417,9 +417,9 @@ export class NysDropdownMenu extends LitElement {
    */
 
   private _handleMenuClick() {
-    this.addEventListener("nys-click", (e: CustomEvent) => {
+    this.addEventListener("nys-click", (e: Event) => {
       const items = this._getMenuItems();
-      const targetCrumb = e.detail?.id;
+      const targetCrumb = (e as CustomEvent).detail?.id;
       const index = items.findIndex((item) => item.id === targetCrumb);
       if (index !== -1) this._lastFocusedIndex = index;
       this._closeDropdown();
