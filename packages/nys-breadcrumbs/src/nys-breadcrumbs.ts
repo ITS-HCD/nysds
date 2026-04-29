@@ -329,11 +329,14 @@ export class NysBreadcrumbs extends LitElement {
         ellipsis.classList.add("nys-breadcrumbs__ellipsis");
 
         // Ellipse button
-        const button = document.createElement("button");
+        const button = document.createElement("a");
         button.classList.add("ellipsis-btn");
         button.setAttribute("aria-label", "Show more links");
+        button.setAttribute("role", "button");
+        button.setAttribute("href", "#");
         button.textContent = "…";
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
           this._manuallyExpanded = true;
           this.collapsed = false;
           this._handleSlotChange();
