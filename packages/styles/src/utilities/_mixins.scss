@@ -20,17 +20,3 @@
     @content;
   }
 }
-
-// @mixin responsive-variants($class-name) {
-//   .#{$class-name} {
-//     @content;
-//   }
-
-//   @each $bp-name, $bp-value in $breakpoints {
-//     @media all and (min-width: #{$bp-value}) {
-//       .nys-#{$bp-name}\:#{$class-name} {
-//         @content;
-//       }
-//     }
-//   }
-// }
