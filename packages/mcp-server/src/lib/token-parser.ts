@@ -86,8 +86,9 @@ let cachedRawTokens: Record<string, unknown> | null = null;
  * Uses ESM-compatible path resolution with fallbacks for different contexts
  */
 export function getTokensPath(): string | null {
-  // Fallback paths for different execution contexts
   const possiblePaths = [
+    // Bundled data — works in standalone installs (most reliable)
+    resolve(__dirname, "../../data/tokens/tokens.json"),
     // From lib/ directory (normal execution)
     resolve(__dirname, "../../../../tokens/src/tokens.json"),
     // From mcp-server package root
@@ -114,6 +115,8 @@ export function getTokensPath(): string | null {
  */
 export function getTokensCSSPath(): string | null {
   const possiblePaths = [
+    // Bundled data — works in standalone installs (most reliable)
+    resolve(__dirname, "../../data/tokens/tokens.css"),
     resolve(__dirname, "../../../../tokens/dist/tokens.css"),
     resolve(__dirname, "../../../tokens/dist/tokens.css"),
     resolve(__dirname, "../../../../../packages/tokens/dist/tokens.css"),

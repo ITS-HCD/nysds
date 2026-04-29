@@ -19,7 +19,8 @@
     "data/"
   ],
   "scripts": {
-    "build": "tsc",
+    "copy-data": "mkdir -p data/cem data/tokens && cp ../../custom-elements.json data/cem/ && cp ../tokens/src/tokens.json data/tokens/ && cp ../tokens/dist/tokens.css data/tokens/",
+    "build": "npm run copy-data && tsc",
     "dev": "tsc --watch",
     "start": "node dist/index.js",
     "inspect": "npx -y @modelcontextprotocol/inspector node dist/index.js"
@@ -29,6 +30,9 @@
     "zod": "^3.25"
   },
   "devDependencies": {
+    "@nysds/components": "^1.16.1",
+    "@nysds/styles": "^1.16.1",
+    "@nysds/tokens": "^1.16.1",
     "@types/node": "^22.0.0",
     "typescript": "^5.9.3"
   },
