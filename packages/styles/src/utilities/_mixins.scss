@@ -5,14 +5,16 @@
 
 @use "config" as *;
 
-// Generate responsive variants for any utility
-// Usage: @include responsive-variants("nys-display-block") { display: block; }
+// Generate base variants for any utility
+// Usage: @include base-class("nys-display-block") { display: block; }
 @mixin base-class($class-name) {
   .#{$class-name} {
     @content;
   }
 }
 
+// Generate responsive variants for any utility
+// Usage: @include responsive-variants("nys-display-block") { display: block; }
 @mixin responsive-variants($bp-name, $class-name) {
   .nys-#{$bp-name}\:#{$class-name} {
     @content;

@@ -12,9 +12,9 @@
   }
 }
 
-@each $value in $display-values {
-  @each $bp-name, $bp-value in $breakpoints {
-    @media all and (min-width: #{$bp-value}) {
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $value in $display-values {
       @include responsive-variants($bp-name, "nys-display-#{$value}") {
         display: $value;
       }
