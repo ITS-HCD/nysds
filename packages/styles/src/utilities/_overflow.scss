@@ -8,21 +8,43 @@
 
 // Base overflow (all directions)
 @each $value in $overflow-values {
-  @include responsive-variants("nys-overflow-#{$value}") {
+  @include base-class("nys-overflow-#{$value}") {
     overflow: $value;
   }
 }
 
 // Overflow X
 @each $value in $overflow-values {
-  @include responsive-variants("nys-overflow-x-#{$value}") {
+  @include base-class("nys-overflow-x-#{$value}") {
     overflow-x: $value;
   }
 }
 
 // Overflow Y
 @each $value in $overflow-values {
-  @include responsive-variants("nys-overflow-y-#{$value}") {
+  @include base-class("nys-overflow-y-#{$value}") {
     overflow-y: $value;
+  }
+}
+
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $value in $overflow-values {
+      @include responsive-variants($bp-name, "nys-overflow-#{$value}") {
+        overflow: $value;
+      }
+    }
+
+    @each $value in $overflow-values {
+      @include responsive-variants($bp-name, "nys-overflow-x-#{$value}") {
+        overflow-x: $value;
+      }
+    }
+
+    @each $value in $overflow-values {
+      @include responsive-variants($bp-name, "nys-overflow-y-#{$value}") {
+        overflow-y: $value;
+      }
+    }
   }
 }
