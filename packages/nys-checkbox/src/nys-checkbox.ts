@@ -84,8 +84,8 @@ export class NysCheckbox extends LitElement {
   /** Renders as tile with larger clickable area. Apply to group for consistency. */
   @property({ type: Boolean, reflect: true }) tile = false;
 
-  /** Adjusts colors for dark backgrounds. */
-  @property({ type: Boolean, reflect: true }) inverted = false;
+  // /** Adjusts colors for dark backgrounds. */
+  // @property({ type: Boolean, reflect: true }) inverted = false;
 
   /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
@@ -495,7 +495,6 @@ export class NysCheckbox extends LitElement {
               label="${this.label || (this.other ? "Other" : "")}"
               description=${ifDefined(this.description || undefined)}
               flag=${ifDefined(this.required ? "required" : undefined)}
-              ?inverted=${this.inverted}
             >
               <slot name="description" slot="description"
                 >${this.description}</slot
