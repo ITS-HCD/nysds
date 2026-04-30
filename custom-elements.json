@@ -1248,7 +1248,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Unique identifier.",
+              "description": "Unique identifier. Auto-generated if not provided.",
               "attribute": "id",
               "reflects": true
             },
@@ -1359,7 +1359,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Unique identifier.",
+              "description": "Unique identifier. Auto-generated if not provided.",
               "fieldName": "id",
               "propName": "id"
             },

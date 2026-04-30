@@ -29,7 +29,7 @@ let badgeIdCounter = 0;
 export class NysBadge extends LitElement {
   static styles = unsafeCSS(styles);
 
-  /** Unique identifier. */
+  /** Unique identifier. Auto-generated if not provided. */
   @property({ type: String, reflect: true }) id = "";
 
   /** Name attribute for form association. */

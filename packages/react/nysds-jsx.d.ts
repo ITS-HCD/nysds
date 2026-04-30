@@ -151,7 +151,7 @@ export type NysBacktotopProps = {
 };
 
 export type NysBadgeProps = {
-  /** Unique identifier. */
+  /** Unique identifier. Auto-generated if not provided. */
   id?: string;
   /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
   intent?: "neutral" | "error" | "success" | "warning";

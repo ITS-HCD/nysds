@@ -24,7 +24,7 @@ export interface NysBadgeProps extends Pick<
   /** undefined */
   suffixIcon?: string | boolean;
 
-  /** Unique identifier. */
+  /** Unique identifier. Auto-generated if not provided. */
   id?: NysBadgeElement["id"];
 
   /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
