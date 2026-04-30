@@ -376,7 +376,7 @@ export class NysBreadcrumbs extends LitElement {
    */
   private _dispatchExpandEvent() {
     this.dispatchEvent(
-      new CustomEvent("nys-breadcrumbs-expand", {
+      new CustomEvent("nys-expand", {
         detail: { id: this.id },
         bubbles: true,
         composed: true,
