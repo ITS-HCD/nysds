@@ -489,7 +489,6 @@ export class NysRadiogroup extends LitElement {
       class="nys-radiogroup"
     >
       <nys-label
-        for=${this.id + "--native"}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}

@@ -531,12 +531,12 @@ export class NysFileinput extends LitElement {
       @nys-fileRemove=${this._handleFileRemove}
     >
       <nys-label
-        for=${this.id}
         label=${this.label}
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
         tooltip=${this.tooltip}
         ?inverted=${this.inverted}
+        @nys-label-click=${this._openFileDialog}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>
