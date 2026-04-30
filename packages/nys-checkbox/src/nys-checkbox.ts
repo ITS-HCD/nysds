@@ -84,9 +84,6 @@ export class NysCheckbox extends LitElement {
   /** Renders as tile with larger clickable area. Apply to group for consistency. */
   @property({ type: Boolean, reflect: true }) tile = false;
 
-  // /** Adjusts colors for dark backgrounds. */
-  // @property({ type: Boolean, reflect: true }) inverted = false;
-
   /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
 

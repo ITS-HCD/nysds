@@ -65,9 +65,6 @@ export class NysCheckboxgroup extends LitElement {
   /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
 
-  // /** Adjusts colors for dark backgrounds. Applied to all children. */
-  // @property({ type: Boolean, reflect: true }) inverted = false;
-
   /** Form `id` to associate with. Applied to all children. */
   @property({ type: String, reflect: true }) form: string | null = null;
 
@@ -138,9 +135,6 @@ export class NysCheckboxgroup extends LitElement {
     if (changedProperties.has("tile")) {
       this._updateCheckboxTile();
     }
-    // if (changedProperties.has("inverted")) {
-    //   this._updateCheckboxInvert();
-    // }
     if (changedProperties.has("showError")) {
       this._updateCheckboxShowError();
     }
@@ -258,17 +252,6 @@ export class NysCheckboxgroup extends LitElement {
       }
     });
   }
-
-  // private _updateCheckboxInvert() {
-  //   const checkboxes = this.querySelectorAll("nys-checkbox");
-  //   checkboxes.forEach((checkbox) => {
-  //     if (this.inverted) {
-  //       checkbox.toggleAttribute("inverted", true);
-  //     } else {
-  //       checkbox.removeAttribute("inverted");
-  //     }
-  //   });
-  // }
 
   private _updateCheckboxShowError() {
     const checkboxes = this.querySelectorAll("nys-checkbox");
