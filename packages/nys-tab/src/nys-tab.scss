@@ -31,6 +31,7 @@
 
   // panel
   --_nys-tabpanel-padding: var(--nys-space-400, 32px);
+  --_nys-tabpanel-max-height: var(--nys-tabpanel-max-height);
 }
 
 .nys-tab {
@@ -175,4 +176,6 @@
 .nys-tabgroup__panels {
   padding: var(--_nys-tabpanel-padding);
   background-color: var(--_nys-tabpanel-background-color);
+  max-height: var(--_nys-tabpanel-max-height);
+  overflow-y: auto;
 }
