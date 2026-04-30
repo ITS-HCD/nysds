@@ -5454,6 +5454,15 @@
             },
             {
               "kind": "field",
+              "name": "_lastFocusedIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0"
+            },
+            {
+              "kind": "field",
               "name": "GAP",
               "type": {
                 "text": "number"
@@ -5500,8 +5509,17 @@
             },
             {
               "kind": "method",
-              "name": "_focusOnFirstItem",
-              "privacy": "private"
+              "name": "_focusOnItem",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "index",
+                  "default": "0",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -5666,10 +5684,15 @@
               ]
             },
             {
-              "kind": "field",
-              "name": "_handleTriggerKeydown",
+              "kind": "method",
+              "name": "_handleMenuClick",
               "privacy": "private",
               "description": "Event Handlers\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_handleTriggerKeydown",
+              "privacy": "private"
             },
             {
               "kind": "field",
