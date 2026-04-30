@@ -335,13 +335,19 @@ export class NysBreadcrumbs extends LitElement {
         button.setAttribute("role", "button");
         button.setAttribute("href", "#");
         button.textContent = "…";
-        button.addEventListener("click", (e) => {
+
+        const expandTrail = (e: Event) => {
           e.preventDefault();
           this._manuallyExpanded = true;
           this.collapsed = false;
           this._handleSlotChange();
           this._dispatchExpandEvent();
           this._moveFocusToFirstExpandCrumb();
+        };
+
+        button.addEventListener("click", expandTrail);
+        button.addEventListener("keydown", (e: KeyboardEvent) => {
+          if (e.key === " ") expandTrail(e);
         });
 
         // Chevron Icon
