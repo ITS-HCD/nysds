@@ -21,17 +21,17 @@ export interface NysModalProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Controls modal visibility. Set to `true` to show. */
-  open?: boolean;
-
   /** Prevents dismissal via close button or Escape key. User must take an action. */
   mandatory?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysModalElement["id"];
+  /** Controls modal visibility. Set to `true` to show. */
+  open?: boolean;
 
   /** Modal heading text. Required for accessibility. */
   heading?: NysModalElement["heading"];
+
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysModalElement["id"];
 
   /** Secondary heading below the main heading. */
   subheading?: NysModalElement["subheading"];
@@ -60,11 +60,11 @@ export interface NysModalProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired when modal opens. Detail: `{id}`. */
-  onNysOpen?: (event: CustomEvent) => void;
-
   /** Fired when modal closes. Detail: `{id}`. */
   onNysClose?: (event: CustomEvent) => void;
+
+  /** Fired when modal opens. Detail: `{id}`. */
+  onNysOpen?: (event: CustomEvent) => void;
 }
 
 /**
@@ -73,8 +73,8 @@ export interface NysModalProps extends Pick<
  *
  *
  * ### **Events:**
- *  - **nys-open** - Fired when modal opens. Detail: `{id}`.
- * - **nys-close** - Fired when modal closes. Detail: `{id}`.
+ *  - **nys-close** - Fired when modal closes. Detail: `{id}`.
+ * - **nys-open** - Fired when modal opens. Detail: `{id}`.
  *
  * ### **Slots:**
  *  - _default_ - Default slot for body content.

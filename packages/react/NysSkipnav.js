@@ -2,14 +2,14 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysSkipnav = forwardRef((props, forwardedRef) => {
-  const { id, href, ...filteredProps } = props;
+  const { href, id, ...filteredProps } = props;
 
   return React.createElement(
     "nys-skipnav",
     {
       ...filteredProps,
-      id: props.id,
       href: props.href,
+      id: props.id,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

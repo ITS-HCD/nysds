@@ -24,17 +24,17 @@ export interface NysLabelProps extends Pick<
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
-  /** The ID of the label. */
-  id?: NysLabelElement["id"];
-
-  /** Label text displayed above the form field. */
-  label?: NysLabelElement["label"];
-
   /** Helper text displayed below the label. */
   description?: NysLabelElement["description"];
 
   /** Flag type: `required` shows asterisk, `optional` shows "(Optional)". */
   flag?: NysLabelElement["flag"];
+
+  /** The ID of the label. */
+  id?: NysLabelElement["id"];
+
+  /** Label text displayed above the form field. */
+  label?: NysLabelElement["label"];
 
   /** Tooltip text shown on hover/focus of info icon next to label. */
   tooltip?: NysLabelElement["tooltip"];

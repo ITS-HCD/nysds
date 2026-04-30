@@ -3,14 +3,14 @@ import "../../dist/nysds.es.js";
 
 export const NysUnavHeader = forwardRef((props, forwardedRef) => {
   const {
-    trustbarVisible,
-    searchDropdownVisible,
-    languageVisible,
-    isSearchFocused,
-    hideTranslate,
     hideSearch,
-    searchUrl,
+    hideTranslate,
+    isSearchFocused,
+    languageVisible,
+    searchDropdownVisible,
+    trustbarVisible,
     languages,
+    searchUrl,
     ...filteredProps
   } = props;
 
@@ -18,19 +18,19 @@ export const NysUnavHeader = forwardRef((props, forwardedRef) => {
     "nys-unavheader",
     {
       ...filteredProps,
-      searchUrl: props.searchUrl,
       languages: props.languages,
+      searchUrl: props.searchUrl,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
-      trustbarVisible: props.trustbarVisible ? true : undefined,
-      searchDropdownVisible: props.searchDropdownVisible ? true : undefined,
-      languageVisible: props.languageVisible ? true : undefined,
-      isSearchFocused: props.isSearchFocused ? true : undefined,
-      hideTranslate: props.hideTranslate ? true : undefined,
       hideSearch: props.hideSearch ? true : undefined,
+      hideTranslate: props.hideTranslate ? true : undefined,
+      isSearchFocused: props.isSearchFocused ? true : undefined,
+      languageVisible: props.languageVisible ? true : undefined,
+      searchDropdownVisible: props.searchDropdownVisible ? true : undefined,
+      trustbarVisible: props.trustbarVisible ? true : undefined,
       style: { ...props.style },
     },
     props.children,

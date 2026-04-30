@@ -30,15 +30,15 @@ const jsxOpts = {
 
 export default {
   /** Globs to analyze */
-  globs: ["**/packages/**/*.ts"],
+  globs: ["packages/nys-*/src/**/*.ts"],
   /** Globs to exclude */
   exclude: [
-    "**/packages/**/*figma.ts",
-    "**/packages/**/*stories.ts",
-    "**/packages/**/*logo.ts",
-    "**/packages/**/*library.ts",
-    "**/packages/styles/**",
-    "**/packages/mcp-server/**",
+    "**/*.figma.ts",
+    "**/*.stories.ts",
+    "**/*.logo.ts",
+    "**/*.library.ts",
+    "**/*.test.ts",
+    "**/dist/**",
     "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],
   /** Directory to output CEM to */
@@ -52,22 +52,34 @@ export default {
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
-        // Sort top-level modules
+        const byName = (a, b) => (a.name || "").localeCompare(b.name || "");
+        const nestedKeys = [
+          "members",
+          "attributes",
+          "cssProperties",
+          "cssParts",
+          "events",
+          "slots"
+        ];
+
         customElementsManifest.modules.sort((a, b) =>
           a.path.localeCompare(b.path)
         );
 
         for (const mod of customElementsManifest.modules) {
           if (mod.declarations) {
-            mod.declarations.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
-            );
+            mod.declarations.sort(byName);
+            for (const decl of mod.declarations) {
+              for (const key of nestedKeys) {
+                if (Array.isArray(decl[key])) {
+                  decl[key].sort(byName);
+                }
+              }
+            }
           }
 
           if (mod.exports) {
-            mod.exports.sort((a, b) =>
-              (a.name || "").localeCompare(b.name || "")
-            );
+            mod.exports.sort(byName);
           }
         }
       }

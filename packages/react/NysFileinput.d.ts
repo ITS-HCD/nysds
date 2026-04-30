@@ -21,20 +21,8 @@ export interface NysFileinputProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Allows selecting multiple files. */
-  multiple?: boolean;
-
   /** Prevents interaction. */
   disabled?: boolean;
-
-  /** Requires at least one file to be uploaded. */
-  required?: boolean;
-
-  /** Shows "Optional" flag. */
-  optional?: boolean;
-
-  /** Shows error message when true. */
-  showError?: boolean;
 
   /** Enables drag-and-drop zone UI. */
   dropzone?: boolean;
@@ -42,29 +30,41 @@ export interface NysFileinputProps extends Pick<
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysFileinputElement["id"];
+  /** Allows selecting multiple files. */
+  multiple?: boolean;
 
-  /** Name for form submission. */
-  name?: NysFileinputElement["name"];
+  /** Shows "Optional" flag. */
+  optional?: boolean;
 
-  /** Visible label text. */
-  label?: NysFileinputElement["label"];
+  /** Requires at least one file to be uploaded. */
+  required?: boolean;
 
-  /** Helper text below label. Use slot for custom HTML. */
-  description?: NysFileinputElement["description"];
-
-  /** Form `id` to associate with. */
-  form?: NysFileinputElement["form"];
-
-  /** Tooltip text shown on hover/focus of info icon. */
-  tooltip?: NysFileinputElement["tooltip"];
+  /** Shows error message when true. */
+  showError?: boolean;
 
   /** Accepted file types. Use MIME types (`image/*`) or extensions (`.pdf`). Validated via magic bytes. */
   accept?: NysFileinputElement["accept"];
 
+  /** Helper text below label. Use slot for custom HTML. */
+  description?: NysFileinputElement["description"];
+
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: NysFileinputElement["errorMessage"];
+
+  /** Form `id` to associate with. */
+  form?: NysFileinputElement["form"];
+
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysFileinputElement["id"];
+
+  /** Visible label text. */
+  label?: NysFileinputElement["label"];
+
+  /** Name for form submission. */
+  name?: NysFileinputElement["name"];
+
+  /** Tooltip text shown on hover/focus of info icon. */
+  tooltip?: NysFileinputElement["tooltip"];
 
   /** Component width: `lg` (384px) or `full` (100%, default). */
   width?: NysFileinputElement["width"];

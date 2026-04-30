@@ -1,11 +1,11 @@
 import React from "react";
 import {
   NysDatepicker as NysDatepickerElement,
-  CustomEvent,
   Event,
+  CustomEvent,
 } from "../../dist/nysds.es.js";
 
-export type { NysDatepickerElement, CustomEvent, Event };
+export type { NysDatepickerElement, Event, CustomEvent };
 
 export interface NysDatepickerProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -22,35 +22,29 @@ export interface NysDatepickerProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Hide the "Today" button in calendar popup. */
-  hideTodayButton?: boolean;
+  /** Disable interaction. */
+  disabled?: boolean;
 
   /** Hide the "Clear" button in calendar popup. */
   hideClearButton?: boolean;
 
-  /** Disable interaction. */
-  disabled?: boolean;
-
-  /** Mark as required. Shows "Required" flag and validates on blur. */
-  required?: boolean;
-
-  /** Show "Optional" flag. Use when most fields are required. */
-  optional?: boolean;
-
-  /** Show error state. */
-  showError?: boolean;
+  /** Hide the "Today" button in calendar popup. */
+  hideTodayButton?: boolean;
 
   /** Dark background mode. */
   inverted?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysDatepickerElement["id"];
+  /** Show "Optional" flag. Use when most fields are required. */
+  optional?: boolean;
 
-  /** Name for form submission. */
-  name?: NysDatepickerElement["name"];
+  /** Mark as required. Shows "Required" flag and validates on blur. */
+  required?: boolean;
 
-  /** Input width: `md` (200px), `lg` (384px), `full` (100%). */
-  width?: NysDatepickerElement["width"];
+  /** Show error state. */
+  showError?: boolean;
+
+  /** Helper text below label. */
+  description?: NysDatepickerElement["description"];
 
   /** Error message text. */
   errorMessage?: NysDatepickerElement["errorMessage"];
@@ -58,29 +52,35 @@ export interface NysDatepickerProps extends Pick<
   /** Form `id` to associate with when input is outside form. */
   form?: NysDatepickerElement["form"];
 
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysDatepickerElement["id"];
+
+  /** Label text. Required for accessibility. */
+  label?: NysDatepickerElement["label"];
+
+  /** The latest selectable date (YYYY-MM-DD). */
+  maxDate?: NysDatepickerElement["maxDate"];
+
+  /** The earliest selectable date (YYYY-MM-DD). */
+  minDate?: NysDatepickerElement["minDate"];
+
+  /** Name for form submission. */
+  name?: NysDatepickerElement["name"];
+
+  /** Initial date when calendar opens (YYYY-MM-DD). */
+  startDate?: NysDatepickerElement["startDate"];
+
   /** Tooltip text on info icon hover. */
   tooltip?: NysDatepickerElement["tooltip"];
 
   /** Input type. Currently only supports `date`. */
   type?: NysDatepickerElement["type"];
 
-  /** Label text. Required for accessibility. */
-  label?: NysDatepickerElement["label"];
-
-  /** Helper text below label. */
-  description?: NysDatepickerElement["description"];
-
-  /** Initial date when calendar opens (YYYY-MM-DD). */
-  startDate?: NysDatepickerElement["startDate"];
-
-  /** The earliest selectable date (YYYY-MM-DD). */
-  minDate?: NysDatepickerElement["minDate"];
-
-  /** The latest selectable date (YYYY-MM-DD). */
-  maxDate?: NysDatepickerElement["maxDate"];
-
   /** Selected date. Accepts Date object or ISO string (YYYY-MM-DD). */
   value?: NysDatepickerElement["value"];
+
+  /** Input width: `md` (200px), `lg` (384px), `full` (100%). */
+  width?: NysDatepickerElement["width"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -103,11 +103,11 @@ export interface NysDatepickerProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired on date selection. Detail: `{id, value}`. */
-  onNysInput?: (event: CustomEvent) => void;
-
   /** Fired when input or calendar loses focus. Triggers validation. */
   onNysBlur?: (event: CustomEvent) => void;
+
+  /** Fired on date selection. Detail: `{id, value}`. */
+  onNysInput?: (event: CustomEvent) => void;
 }
 
 /**
@@ -116,8 +116,8 @@ export interface NysDatepickerProps extends Pick<
  *
  *
  * ### **Events:**
- *  - **nys-input** - Fired on date selection. Detail: `{id, value}`.
- * - **nys-blur** - Fired when input or calendar loses focus. Triggers validation.
+ *  - **nys-blur** - Fired when input or calendar loses focus. Triggers validation.
+ * - **nys-input** - Fired on date selection. Detail: `{id, value}`.
  *
  * ### **Methods:**
  *  - **checkValidity(): _boolean_** - Passive check of validity:

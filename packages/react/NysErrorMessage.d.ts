@@ -18,17 +18,17 @@ export interface NysErrorMessageProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Whether to display the error message. */
-  showError?: boolean;
-
   /** Shows a divider line above the error message. */
   showDivider?: boolean;
 
-  /** The "id" of the error message. */
-  id?: NysErrorMessageElement["id"];
+  /** Whether to display the error message. */
+  showError?: boolean;
 
   /** Error text to display. Falls back to native validation message if available. */
   errorMessage?: NysErrorMessageElement["errorMessage"];
+
+  /** The "id" of the error message. */
+  id?: NysErrorMessageElement["id"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

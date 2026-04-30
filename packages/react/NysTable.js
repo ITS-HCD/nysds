@@ -4,7 +4,7 @@ import { useEventListener } from "./react-utils.js";
 
 export const NysTable = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
-  const { striped, sortable, bordered, id, name, download, ...filteredProps } =
+  const { bordered, sortable, striped, download, id, name, ...filteredProps } =
     props;
 
   /** Event listeners - run once */
@@ -23,17 +23,17 @@ export const NysTable = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
+      download: props.download,
       id: props.id,
       name: props.name,
-      download: props.download,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
-      striped: props.striped ? true : undefined,
-      sortable: props.sortable ? true : undefined,
       bordered: props.bordered ? true : undefined,
+      sortable: props.sortable ? true : undefined,
+      striped: props.striped ? true : undefined,
       style: { ...props.style },
     },
     props.children,

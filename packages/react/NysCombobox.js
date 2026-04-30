@@ -6,27 +6,27 @@ export const NysCombobox = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
   const {
     disabled,
-    required,
-    optional,
     inverted,
+    optional,
+    required,
     showError,
-    id,
-    name,
-    label,
     description,
-    value,
-    tooltip,
-    form,
-    width,
     errorMessage,
+    form,
+    id,
+    label,
+    name,
+    tooltip,
+    value,
+    width,
     ...filteredProps
   } = props;
 
   /** Event listeners - run once */
-  useEventListener(ref, "nys-input", props.onNysInput);
-  useEventListener(ref, "nys-focus", props.onNysFocus);
   useEventListener(ref, "nys-blur", props.onNysBlur);
   useEventListener(ref, "nys-change", props.onNysChange);
+  useEventListener(ref, "nys-focus", props.onNysFocus);
+  useEventListener(ref, "nys-input", props.onNysInput);
 
   return React.createElement(
     "nys-combobox",
@@ -40,24 +40,24 @@ export const NysCombobox = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      id: props.id,
-      name: props.name,
-      label: props.label,
       description: props.description,
-      value: props.value,
-      tooltip: props.tooltip,
-      form: props.form,
-      width: props.width,
       errorMessage: props.errorMessage,
+      form: props.form,
+      id: props.id,
+      label: props.label,
+      name: props.name,
+      tooltip: props.tooltip,
+      value: props.value,
+      width: props.width,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
       disabled: props.disabled ? true : undefined,
-      required: props.required ? true : undefined,
-      optional: props.optional ? true : undefined,
       inverted: props.inverted ? true : undefined,
+      optional: props.optional ? true : undefined,
+      required: props.required ? true : undefined,
       showError: props.showError ? true : undefined,
       style: { ...props.style },
     },

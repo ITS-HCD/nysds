@@ -18,32 +18,32 @@ export interface NysAvatarProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Makes avatar clickable with button role and focus ring. */
-  interactive?: boolean;
-
   /** Prevents interaction when `interactive` is true. */
   disabled?: boolean;
+
+  /** Makes avatar clickable with button role and focus ring. */
+  interactive?: boolean;
 
   /** Enables lazy loading for the image. */
   lazy?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysAvatarElement["id"];
-
   /** Accessible label for screen readers. Required when no image `alt` is available. */
   ariaLabel?: NysAvatarElement["ariaLabel"];
+
+  /** Background color. Foreground auto-adjusts for contrast. Accepts CSS values or variables. */
+  color?: NysAvatarElement["color"];
+
+  /** Custom icon name. Falls back to `account_circle` if not set. */
+  icon?: NysAvatarElement["icon"];
+
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysAvatarElement["id"];
 
   /** Image URL. Takes priority over initials and icon. */
   image?: NysAvatarElement["image"];
 
   /** 1-2 character initials. Used when no image is provided. */
   initials?: NysAvatarElement["initials"];
-
-  /** Custom icon name. Falls back to `account_circle` if not set. */
-  icon?: NysAvatarElement["icon"];
-
-  /** Background color. Foreground auto-adjusts for contrast. Accepts CSS values or variables. */
-  color?: NysAvatarElement["color"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

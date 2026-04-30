@@ -21,17 +21,17 @@ export interface NysStepperProps extends Pick<
   /** Whether compact mobile view is expanded to show all steps. */
   isCompactExpanded?: boolean;
 
+  /** Progress text (e.g., "Step 2 of 5"). Auto-updated based on selection. */
+  counterText?: NysStepperElement["counterText"];
+
   /** Unique identifier. */
   id?: NysStepperElement["id"];
-
-  /** Name attribute for form association. */
-  name?: NysStepperElement["name"];
 
   /** Title displayed above the step counter. */
   label?: NysStepperElement["label"];
 
-  /** Progress text (e.g., "Step 2 of 5"). Auto-updated based on selection. */
-  counterText?: NysStepperElement["counterText"];
+  /** Name attribute for form association. */
+  name?: NysStepperElement["name"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

@@ -18,20 +18,20 @@ export interface NysStepProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Whether this step is currently being viewed. Set by parent stepper. */
-  selected?: boolean;
-
   /** Marks the furthest reached step. Steps before this are navigable. */
   current?: boolean;
 
   /** Internal: Whether parent stepper's compact view is expanded. */
   isCompactExpanded?: boolean;
 
-  /** Step label text displayed alongside the step number. */
-  label?: NysStepElement["label"];
+  /** Whether this step is currently being viewed. Set by parent stepper. */
+  selected?: boolean;
 
   /** URL for page navigation when step is clicked. Optional for SPA routing. */
   href?: NysStepElement["href"];
+
+  /** Step label text displayed alongside the step number. */
+  label?: NysStepElement["label"];
 
   /** Step number (1-indexed). Auto-assigned by parent stepper. */
   stepNumber?: NysStepElement["stepNumber"];

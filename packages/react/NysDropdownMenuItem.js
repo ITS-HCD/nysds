@@ -6,11 +6,11 @@ export const NysDropdownMenuItem = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
   const {
     disabled,
-    label,
-    href,
-    target,
-    prefixIcon,
     divider,
+    href,
+    label,
+    prefixIcon,
+    target,
     ...filteredProps
   } = props;
 
@@ -29,11 +29,11 @@ export const NysDropdownMenuItem = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      label: props.label,
-      href: props.href,
-      target: props.target,
-      prefixIcon: props.prefixIcon,
       divider: props.divider,
+      href: props.href,
+      label: props.label,
+      prefixIcon: props.prefixIcon,
+      target: props.target,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

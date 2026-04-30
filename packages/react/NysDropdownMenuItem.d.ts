@@ -25,19 +25,19 @@ export interface NysDropdownMenuItemProps extends Pick<
   disabled?: boolean;
 
   /** undefined */
-  label?: NysDropdownMenuItemElement["label"];
+  divider?: NysDropdownMenuItemElement["divider"];
 
   /** undefined */
   href?: NysDropdownMenuItemElement["href"];
 
   /** undefined */
-  target?: NysDropdownMenuItemElement["target"];
+  label?: NysDropdownMenuItemElement["label"];
 
   /** undefined */
   prefixIcon?: NysDropdownMenuItemElement["prefixIcon"];
 
   /** undefined */
-  divider?: NysDropdownMenuItemElement["divider"];
+  target?: NysDropdownMenuItemElement["target"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

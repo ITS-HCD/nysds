@@ -18,11 +18,11 @@ export interface NysAccordionProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Only one item can be expanded at a time. Expanding one collapses others. */
-  singleSelect?: boolean;
-
   /** Adds borders around each accordion item. Propagates to all children. */
   bordered?: boolean;
+
+  /** Only one item can be expanded at a time. Expanding one collapses others. */
+  singleSelect?: boolean;
 
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysAccordionElement["id"];

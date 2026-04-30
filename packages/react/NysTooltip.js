@@ -2,16 +2,16 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysTooltip = forwardRef((props, forwardedRef) => {
-  const { inverted, id, text, position, ...filteredProps } = props;
+  const { inverted, id, position, text, ...filteredProps } = props;
 
   return React.createElement(
     "nys-tooltip",
     {
       ...filteredProps,
-      id: props.id,
-      text: props.text,
       for: props.for,
+      id: props.id,
       position: props.position,
+      text: props.text,
       class: props.className,
       exportparts: props.exportparts,
       part: props.part,

@@ -18,11 +18,14 @@ export interface NysRadiogroupProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Requires a selection before form submission. */
-  required?: boolean;
+  /** Adjusts colors for dark backgrounds. Applied to all children. */
+  inverted?: boolean;
 
   /** Shows "Optional" flag. */
   optional?: boolean;
+
+  /** Requires a selection before form submission. */
+  required?: boolean;
 
   /** Shows error message when true. */
   showError?: boolean;
@@ -30,32 +33,29 @@ export interface NysRadiogroupProps extends Pick<
   /** Renders all radiobuttons as tiles with larger clickable area. */
   tile?: boolean;
 
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  inverted?: boolean;
-
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysRadiogroupElement["id"];
-
-  /** Name for form submission. Auto-populated from child radiobuttons. */
-  name?: NysRadiogroupElement["name"];
+  /** Helper text below label. Use slot for custom HTML. */
+  description?: NysRadiogroupElement["description"];
 
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: NysRadiogroupElement["errorMessage"];
 
-  /** Visible label text for the group. */
-  label?: NysRadiogroupElement["label"];
-
-  /** Helper text below label. Use slot for custom HTML. */
-  description?: NysRadiogroupElement["description"];
-
-  /** Tooltip text shown on hover/focus of info icon. */
-  tooltip?: NysRadiogroupElement["tooltip"];
-
   /** Form `id` to associate with. Applied to all children. */
   form?: NysRadiogroupElement["form"];
 
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysRadiogroupElement["id"];
+
+  /** Visible label text for the group. */
+  label?: NysRadiogroupElement["label"];
+
+  /** Name for form submission. Auto-populated from child radiobuttons. */
+  name?: NysRadiogroupElement["name"];
+
   /** Radio size for all children: `sm` (24px) or `md` (32px, default). */
   size?: NysRadiogroupElement["size"];
+
+  /** Tooltip text shown on hover/focus of info icon. */
+  tooltip?: NysRadiogroupElement["tooltip"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

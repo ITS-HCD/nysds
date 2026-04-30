@@ -7,22 +7,22 @@ export const NysToggle = forwardRef((props, forwardedRef) => {
   const {
     checked,
     disabled,
-    noIcon,
     inverted,
-    id,
-    name,
-    value,
-    label,
+    noIcon,
     description,
     form,
+    id,
+    label,
+    name,
     size,
+    value,
     ...filteredProps
   } = props;
 
   /** Event listeners - run once */
+  useEventListener(ref, "nys-blur", props.onNysBlur);
   useEventListener(ref, "nys-change", props.onNysChange);
   useEventListener(ref, "nys-focus", props.onNysFocus);
-  useEventListener(ref, "nys-blur", props.onNysBlur);
 
   return React.createElement(
     "nys-toggle",
@@ -36,13 +36,13 @@ export const NysToggle = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      id: props.id,
-      name: props.name,
-      value: props.value,
-      label: props.label,
       description: props.description,
       form: props.form,
+      id: props.id,
+      label: props.label,
+      name: props.name,
       size: props.size,
+      value: props.value,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
@@ -50,8 +50,8 @@ export const NysToggle = forwardRef((props, forwardedRef) => {
       tabindex: props.tabIndex,
       checked: props.checked ? true : undefined,
       disabled: props.disabled ? true : undefined,
-      noIcon: props.noIcon ? true : undefined,
       inverted: props.inverted ? true : undefined,
+      noIcon: props.noIcon ? true : undefined,
       style: { ...props.style },
     },
     props.children,

@@ -24,14 +24,14 @@ export interface NysPaginationProps extends Pick<
   /** Internal state for layout adjustments near the end. */
   _twoBeforeLast?: boolean;
 
+  /** Currently active page (1-indexed). Clamped to valid range. */
+  currentPage?: NysPaginationElement["currentPage"];
+
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysPaginationElement["id"];
 
   /** Name attribute for form association. */
   name?: NysPaginationElement["name"];
-
-  /** Currently active page (1-indexed). Clamped to valid range. */
-  currentPage?: NysPaginationElement["currentPage"];
 
   /** Total number of pages. Must be at least 1. */
   totalPages?: NysPaginationElement["totalPages"];

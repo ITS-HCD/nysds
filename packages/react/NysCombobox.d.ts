@@ -1,11 +1,11 @@
 import React from "react";
 import {
   NysCombobox as NysComboboxElement,
-  CustomEvent,
   Event,
+  CustomEvent,
 } from "../../dist/nysds.es.js";
 
-export type { NysComboboxElement, CustomEvent, Event };
+export type { NysComboboxElement, Event, CustomEvent };
 
 export interface NysComboboxProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -26,43 +26,43 @@ export interface NysComboboxProps extends Pick<
   disabled?: boolean;
 
   /** undefined */
-  required?: boolean;
+  inverted?: boolean;
 
   /** undefined */
   optional?: boolean;
 
   /** undefined */
-  inverted?: boolean;
+  required?: boolean;
 
   /** undefined */
   showError?: boolean;
 
   /** undefined */
-  id?: NysComboboxElement["id"];
-
-  /** undefined */
-  name?: NysComboboxElement["name"];
-
-  /** undefined */
-  label?: NysComboboxElement["label"];
-
-  /** undefined */
   description?: NysComboboxElement["description"];
 
   /** undefined */
-  value?: NysComboboxElement["value"];
-
-  /** undefined */
-  tooltip?: NysComboboxElement["tooltip"];
+  errorMessage?: NysComboboxElement["errorMessage"];
 
   /** undefined */
   form?: NysComboboxElement["form"];
 
   /** undefined */
-  width?: NysComboboxElement["width"];
+  id?: NysComboboxElement["id"];
 
   /** undefined */
-  errorMessage?: NysComboboxElement["errorMessage"];
+  label?: NysComboboxElement["label"];
+
+  /** undefined */
+  name?: NysComboboxElement["name"];
+
+  /** undefined */
+  tooltip?: NysComboboxElement["tooltip"];
+
+  /** undefined */
+  value?: NysComboboxElement["value"];
+
+  /** undefined */
+  width?: NysComboboxElement["width"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -85,17 +85,17 @@ export interface NysComboboxProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired on input change. Detail: `{ id, value }`. */
-  onNysInput?: (event: CustomEvent) => void;
-
-  /** Fired when combobox receives focus. */
-  onNysFocus?: (event: CustomEvent) => void;
-
   /** Fired when combobox loses focus. */
   onNysBlur?: (event: CustomEvent) => void;
 
   /** Fired when selection changes. Detail: `{ id, value }`. */
   onNysChange?: (event: CustomEvent) => void;
+
+  /** Fired when combobox receives focus. */
+  onNysFocus?: (event: CustomEvent) => void;
+
+  /** Fired on input change. Detail: `{ id, value }`. */
+  onNysInput?: (event: CustomEvent) => void;
 }
 
 /**
@@ -114,13 +114,13 @@ export interface NysComboboxProps extends Pick<
  *
  *
  * ### **Events:**
- *  - **nys-input** - Fired on input change. Detail: `{ id, value }`.
- * - **nys-focus** - Fired when combobox receives focus.
- * - **nys-blur** - Fired when combobox loses focus.
+ *  - **nys-blur** - Fired when combobox loses focus.
  * - **nys-change** - Fired when selection changes. Detail: `{ id, value }`.
+ * - **nys-focus** - Fired when combobox receives focus.
+ * - **nys-input** - Fired on input change. Detail: `{ id, value }`.
  *
  * ### **Slots:**
- *  - **description** - Optional custom description content below the label.
- * - **default** - Options (<option>, <optgroup>) to populate the dropdown
+ *  - **default** - Options (<option>, <optgroup>) to populate the dropdown
+ * - **description** - Optional custom description content below the label.
  */
 export const NysCombobox: React.ForwardRefExoticComponent<NysComboboxProps>;

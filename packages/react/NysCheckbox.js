@@ -7,32 +7,32 @@ export const NysCheckbox = forwardRef((props, forwardedRef) => {
   const {
     checked,
     disabled,
-    required,
-    showError,
     groupExist,
-    tile,
     inverted,
     other,
+    required,
+    showError,
     showOtherError,
-    label,
+    tile,
     description,
-    id,
-    name,
-    value,
-    form,
     errorMessage,
-    tooltip,
+    form,
+    id,
+    label,
+    name,
     size,
+    tooltip,
+    value,
     ...filteredProps
   } = props;
 
   /** Event listeners - run once */
-  useEventListener(ref, "nys-change", props.onNysChange);
-  useEventListener(ref, "nys-other-input", props.onNysOtherInput);
-  useEventListener(ref, "nys-focus", props.onNysFocus);
   useEventListener(ref, "nys-blur", props.onNysBlur);
+  useEventListener(ref, "nys-change", props.onNysChange);
   useEventListener(ref, "nys-error", props.onNysError);
   useEventListener(ref, "nys-error-clear", props.onNysErrorClear);
+  useEventListener(ref, "nys-focus", props.onNysFocus);
+  useEventListener(ref, "nys-other-input", props.onNysOtherInput);
 
   return React.createElement(
     "nys-checkbox",
@@ -46,15 +46,15 @@ export const NysCheckbox = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      label: props.label,
       description: props.description,
-      id: props.id,
-      name: props.name,
-      value: props.value,
-      form: props.form,
       errorMessage: props.errorMessage,
-      tooltip: props.tooltip,
+      form: props.form,
+      id: props.id,
+      label: props.label,
+      name: props.name,
       size: props.size,
+      tooltip: props.tooltip,
+      value: props.value,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
@@ -62,13 +62,13 @@ export const NysCheckbox = forwardRef((props, forwardedRef) => {
       tabindex: props.tabIndex,
       checked: props.checked ? true : undefined,
       disabled: props.disabled ? true : undefined,
-      required: props.required ? true : undefined,
-      showError: props.showError ? true : undefined,
       groupExist: props.groupExist ? true : undefined,
-      tile: props.tile ? true : undefined,
       inverted: props.inverted ? true : undefined,
       other: props.other ? true : undefined,
+      required: props.required ? true : undefined,
+      showError: props.showError ? true : undefined,
       showOtherError: props.showOtherError ? true : undefined,
+      tile: props.tile ? true : undefined,
       style: { ...props.style },
     },
     props.children,

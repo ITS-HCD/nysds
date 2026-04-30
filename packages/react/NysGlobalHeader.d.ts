@@ -21,11 +21,11 @@ export interface NysGlobalHeaderProps extends Pick<
   /** Toggles the NYS brand mark */
   nysLogo?: boolean;
 
-  /** Application name displayed prominently. */
-  appName?: NysGlobalHeaderElement["appName"];
-
   /** Agency name displayed below app name (or as main title if no appName). */
   agencyName?: NysGlobalHeaderElement["agencyName"];
+
+  /** Application name displayed prominently. */
+  appName?: NysGlobalHeaderElement["appName"];
 
   /** URL for the header title link. If empty, title is not clickable. */
   homepageLink?: NysGlobalHeaderElement["homepageLink"];

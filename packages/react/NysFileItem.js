@@ -4,7 +4,7 @@ import { useEventListener } from "./react-utils.js";
 
 export const NysFileItem = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
-  const { filename, status, progress, errorMessage, ...filteredProps } = props;
+  const { errorMessage, filename, progress, status, ...filteredProps } = props;
 
   /** Event listeners - run once */
   useEventListener(ref, "nys-fileRemove", props.onNysFileRemove);
@@ -21,10 +21,10 @@ export const NysFileItem = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      filename: props.filename,
-      status: props.status,
-      progress: props.progress,
       errorMessage: props.errorMessage,
+      filename: props.filename,
+      progress: props.progress,
+      status: props.status,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

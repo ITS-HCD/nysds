@@ -1,11 +1,11 @@
 import React from "react";
 import {
   NysSelect as NysSelectElement,
-  CustomEvent,
   Event,
+  CustomEvent,
 } from "../../dist/nysds.es.js";
 
-export type { NysSelectElement, CustomEvent, Event };
+export type { NysSelectElement, Event, CustomEvent };
 
 export interface NysSelectProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -25,41 +25,41 @@ export interface NysSelectProps extends Pick<
   /** Prevents interaction. */
   disabled?: boolean;
 
-  /** Marks as required. Shows "Required" flag and validates on blur. */
-  required?: boolean;
+  /** Adjusts colors for dark backgrounds. */
+  inverted?: boolean;
 
   /** Shows "Optional" flag. Use when most fields are required. */
   optional?: boolean;
 
-  /** Adjusts colors for dark backgrounds. */
-  inverted?: boolean;
+  /** Marks as required. Shows "Required" flag and validates on blur. */
+  required?: boolean;
 
   /** Shows error message when true. Set by validation or manually. */
   showError?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysSelectElement["id"];
-
-  /** Name for form submission. */
-  name?: NysSelectElement["name"];
-
-  /** Visible label text. Required for accessibility. */
-  label?: NysSelectElement["label"];
-
   /** Helper text below label. Use slot for custom HTML. */
   description?: NysSelectElement["description"];
 
-  /** Currently selected option value. */
-  value?: NysSelectElement["value"];
-
-  /** Tooltip text shown on hover/focus of info icon. */
-  tooltip?: NysSelectElement["tooltip"];
+  /** Error message text. Shown only when `showError` is true. */
+  errorMessage?: NysSelectElement["errorMessage"];
 
   /** Form `id` to associate with when select is outside form element. */
   form?: NysSelectElement["form"];
 
-  /** Error message text. Shown only when `showError` is true. */
-  errorMessage?: NysSelectElement["errorMessage"];
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysSelectElement["id"];
+
+  /** Visible label text. Required for accessibility. */
+  label?: NysSelectElement["label"];
+
+  /** Name for form submission. */
+  name?: NysSelectElement["name"];
+
+  /** Tooltip text shown on hover/focus of info icon. */
+  tooltip?: NysSelectElement["tooltip"];
+
+  /** Currently selected option value. */
+  value?: NysSelectElement["value"];
 
   /** Select width: `sm` (88px), `md` (200px), `lg` (384px), `full` (100%, default). */
   width?: NysSelectElement["width"];
@@ -85,14 +85,14 @@ export interface NysSelectProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
+  /** Fired when select loses focus. Triggers validation. */
+  onNysBlur?: (event: CustomEvent) => void;
+
   /** Fired when selection changes. Detail: `{id, value}`. */
   onNysChange?: (event: CustomEvent) => void;
 
   /** Fired when select gains focus. */
   onNysFocus?: (event: CustomEvent) => void;
-
-  /** Fired when select loses focus. Triggers validation. */
-  onNysBlur?: (event: CustomEvent) => void;
 }
 
 /**
@@ -101,9 +101,9 @@ export interface NysSelectProps extends Pick<
  *
  *
  * ### **Events:**
- *  - **nys-change** - Fired when selection changes. Detail: `{id, value}`.
+ *  - **nys-blur** - Fired when select loses focus. Triggers validation.
+ * - **nys-change** - Fired when selection changes. Detail: `{id, value}`.
  * - **nys-focus** - Fired when select gains focus.
- * - **nys-blur** - Fired when select loses focus. Triggers validation.
  *
  * ### **Methods:**
  *  - **checkValidity(): _boolean_** - Functions

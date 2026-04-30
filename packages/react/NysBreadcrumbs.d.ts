@@ -21,6 +21,9 @@ export interface NysBreadcrumbsProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Renders a filled light theme background bar behind the breadcrumb trail. */
+  backgroundBar?: boolean;
+
   /** On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.
 Has no effect on desktop or when only one item is present (which always renders as a back link). */
   backToParent?: boolean;
@@ -30,18 +33,15 @@ It shows only the first item, an ellipsis, and the last two items.
 The user can still expand the trail by clicking the ellipsis. */
   collapsed?: boolean;
 
-  /** Renders a filled light theme background bar behind the breadcrumb trail. */
-  backgroundBar?: boolean;
-
   /** Prevents interaction. */
   disabled?: boolean;
-
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysBreadcrumbsElement["id"];
 
   /** Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
 Override when multiple crumbs exist on the same page. */
   ariaLabel?: NysBreadcrumbsElement["ariaLabel"];
+
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysBreadcrumbsElement["id"];
 
   /** Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use. */
   size?: NysBreadcrumbsElement["size"];
@@ -67,11 +67,11 @@ Override when multiple crumbs exist on the same page. */
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** undefined */
-  onNysExpand?: (event: CustomEvent) => void;
-
   /** Fired when the user clicks the ellipsis to expand the trail. */
   onNysBreadcrumbsExpand?: (event: CustomEvent) => void;
+
+  /** undefined */
+  onNysExpand?: (event: CustomEvent) => void;
 }
 
 /**
@@ -80,8 +80,8 @@ Override when multiple crumbs exist on the same page. */
  *
  *
  * ### **Events:**
- *  - **nys-expand**
- * - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
+ *  - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
+ * - **nys-expand**
  *
  * ### **Slots:**
  *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.

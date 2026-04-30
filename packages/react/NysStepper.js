@@ -2,17 +2,17 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysStepper = forwardRef((props, forwardedRef) => {
-  const { isCompactExpanded, id, name, label, counterText, ...filteredProps } =
+  const { isCompactExpanded, counterText, id, label, name, ...filteredProps } =
     props;
 
   return React.createElement(
     "nys-stepper",
     {
       ...filteredProps,
-      id: props.id,
-      name: props.name,
-      label: props.label,
       counterText: props.counterText,
+      id: props.id,
+      label: props.label,
+      name: props.name,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

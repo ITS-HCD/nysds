@@ -5,19 +5,19 @@ import { useEventListener } from "./react-utils.js";
 export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
   const {
+    backgroundBar,
     backToParent,
     collapsed,
-    backgroundBar,
     disabled,
-    id,
     ariaLabel,
+    id,
     size,
     ...filteredProps
   } = props;
 
   /** Event listeners - run once */
-  useEventListener(ref, "nys-expand", props.onNysExpand);
   useEventListener(ref, "nys-breadcrumbs-expand", props.onNysBreadcrumbsExpand);
+  useEventListener(ref, "nys-expand", props.onNysExpand);
 
   return React.createElement(
     "nys-breadcrumbs",
@@ -31,17 +31,17 @@ export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      id: props.id,
       ariaLabel: props.ariaLabel,
+      id: props.id,
       size: props.size,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
+      backgroundBar: props.backgroundBar ? true : undefined,
       backToParent: props.backToParent ? true : undefined,
       collapsed: props.collapsed ? true : undefined,
-      backgroundBar: props.backgroundBar ? true : undefined,
       disabled: props.disabled ? true : undefined,
       style: { ...props.style },
     },

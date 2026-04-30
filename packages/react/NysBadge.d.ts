@@ -27,20 +27,20 @@ export interface NysBadgeProps extends Pick<
   /** Unique identifier. */
   id?: NysBadgeElement["id"];
 
-  /** Name attribute for form association. */
-  name?: NysBadgeElement["name"];
-
-  /** Badge size: `sm` (smaller text) or `md` (default). */
-  size?: NysBadgeElement["size"];
-
   /** Semantic intent affecting color: `neutral`, `error`, `success`, or `warning`. */
   intent?: NysBadgeElement["intent"];
+
+  /** Primary label text displayed in the badge. */
+  label?: NysBadgeElement["label"];
+
+  /** Name attribute for form association. */
+  name?: NysBadgeElement["name"];
 
   /** Secondary label displayed before the main label. */
   prefixLabel?: NysBadgeElement["prefixLabel"];
 
-  /** Primary label text displayed in the badge. */
-  label?: NysBadgeElement["label"];
+  /** Badge size: `sm` (smaller text) or `md` (default). */
+  size?: NysBadgeElement["size"];
 
   /** undefined */
   variant?: NysBadgeElement["variant"];

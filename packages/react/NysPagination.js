@@ -6,9 +6,9 @@ export const NysPagination = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
   const {
     _twoBeforeLast,
+    currentPage,
     id,
     name,
-    currentPage,
     totalPages,
     ...filteredProps
   } = props;
@@ -28,9 +28,9 @@ export const NysPagination = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
+      currentPage: props.currentPage,
       id: props.id,
       name: props.name,
-      currentPage: props.currentPage,
       totalPages: props.totalPages,
       class: props.className,
       exportparts: props.exportparts,

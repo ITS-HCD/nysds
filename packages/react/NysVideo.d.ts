@@ -27,18 +27,12 @@ export interface NysVideoProps extends Pick<
   /** Full YouTube URL — required. Component will not render if invalid. */
   id?: NysVideoElement["id"];
 
-  /** Title text for the thumbnail of the video */
-  titleText?: NysVideoElement["titleText"];
-
-  /** Full YouTube URL — required. Component will not render if invalid. */
-  videourl?: NysVideoElement["videourl"];
+  /** undefined */
+  loading?: NysVideoElement["loading"];
 
   /** Largest size for the video player.
 If not set, size is determined automatically by viewport width. */
   size?: NysVideoElement["size"];
-
-  /** undefined */
-  loading?: NysVideoElement["loading"];
 
   /** Time in seconds where playback begins. * */
   starttime?: NysVideoElement["starttime"];
@@ -46,6 +40,12 @@ If not set, size is determined automatically by viewport width. */
   /** Custom thumbnail image path.
 Falls back to YouTube's auto-generated thumbnail if not provided. */
   thumbnail?: NysVideoElement["thumbnail"];
+
+  /** Title text for the thumbnail of the video */
+  titleText?: NysVideoElement["titleText"];
+
+  /** Full YouTube URL — required. Component will not render if invalid. */
+  videourl?: NysVideoElement["videourl"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

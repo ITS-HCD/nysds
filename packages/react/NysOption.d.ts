@@ -21,17 +21,17 @@ export interface NysOptionProps extends Pick<
   /** Prevents selection of this option. */
   disabled?: boolean;
 
-  /** Pre-selects this option. */
-  selected?: boolean;
-
   /** Hides the option from the dropdown list. */
   hidden?: boolean;
 
-  /** Value submitted when this option is selected. */
-  value?: NysOptionElement["value"];
+  /** Pre-selects this option. */
+  selected?: boolean;
 
   /** Display text for the option. Auto-populated from slot content if not set. */
   label?: NysOptionElement["label"];
+
+  /** Value submitted when this option is selected. */
+  value?: NysOptionElement["value"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

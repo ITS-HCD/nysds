@@ -21,17 +21,17 @@ export interface NysFileItemProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Error message displayed when status is `error`. */
+  errorMessage?: NysFileItemElement["errorMessage"];
+
   /** Name of the file being displayed. */
   filename?: NysFileItemElement["filename"];
-
-  /** Upload status: `pending` (queued), `processing` (uploading), `done` (complete), `error` (failed). */
-  status?: NysFileItemElement["status"];
 
   /** Upload progress percentage (0-100). Only shown when status is `processing`. */
   progress?: NysFileItemElement["progress"];
 
-  /** Error message displayed when status is `error`. */
-  errorMessage?: NysFileItemElement["errorMessage"];
+  /** Upload status: `pending` (queued), `processing` (uploading), `done` (complete), `error` (failed). */
+  status?: NysFileItemElement["status"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

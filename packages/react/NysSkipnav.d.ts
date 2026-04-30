@@ -18,11 +18,11 @@ export interface NysSkipnavProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysSkipnavElement["id"];
-
   /** Target element ID (with `#`). Defaults to `#main-content`. */
   href?: NysSkipnavElement["href"];
+
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysSkipnavElement["id"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

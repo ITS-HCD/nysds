@@ -24,8 +24,8 @@ export interface NysAlertProps extends Pick<
   /** Shows close button allowing users to dismiss the alert. */
   dismissible?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysAlertElement["id"];
+  /** Auto-dismiss after specified milliseconds. Set to 0 to disable. */
+  duration?: NysAlertElement["duration"];
 
   /** Bold heading text displayed at the top of the alert. */
   heading?: NysAlertElement["heading"];
@@ -33,23 +33,23 @@ export interface NysAlertProps extends Pick<
   /** Custom icon name. Defaults to type-appropriate icon if not set. */
   icon?: NysAlertElement["icon"];
 
-  /** Auto-dismiss after specified milliseconds. Set to 0 to disable. */
-  duration?: NysAlertElement["duration"];
-
-  /** Body text content. Ignored if slot content is provided. */
-  text?: NysAlertElement["text"];
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysAlertElement["id"];
 
   /** URL for the primary action link. */
   primaryAction?: NysAlertElement["primaryAction"];
 
-  /** URL for the secondary action link. */
-  secondaryAction?: NysAlertElement["secondaryAction"];
-
   /** Label text for primary action link. */
   primaryLabel?: NysAlertElement["primaryLabel"];
 
+  /** URL for the secondary action link. */
+  secondaryAction?: NysAlertElement["secondaryAction"];
+
   /** Label text for secondary action link. */
   secondaryLabel?: NysAlertElement["secondaryLabel"];
+
+  /** Body text content. Ignored if slot content is provided. */
+  text?: NysAlertElement["text"];
 
   /** Semantic alert type affecting color and ARIA role. `danger`/`emergency` use assertive live region. */
   type?: NysAlertElement["type"];

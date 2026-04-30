@@ -18,29 +18,29 @@ export interface NysUnavHeaderProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Internal: Whether trust bar panel is expanded. */
-  trustbarVisible?: boolean;
-
-  /** Internal: Whether search dropdown is visible (mobile). */
-  searchDropdownVisible?: boolean;
-
-  /** Internal: Whether language dropdown is visible. */
-  languageVisible?: boolean;
-
-  /** Internal: Whether search input is focused. */
-  isSearchFocused?: boolean;
+  /** Hides the search functionality. */
+  hideSearch?: boolean;
 
   /** Hides the translation dropdown. */
   hideTranslate?: boolean;
 
-  /** Hides the search functionality. */
-  hideSearch?: boolean;
+  /** Internal: Whether search input is focused. */
+  isSearchFocused?: boolean;
 
-  /** The URL endpoint of the search, make sure to include the query param. */
-  searchUrl?: NysUnavHeaderElement["searchUrl"];
+  /** Internal: Whether language dropdown is visible. */
+  languageVisible?: boolean;
+
+  /** Internal: Whether search dropdown is visible (mobile). */
+  searchDropdownVisible?: boolean;
+
+  /** Internal: Whether trust bar panel is expanded. */
+  trustbarVisible?: boolean;
 
   /** The list of languages this site can be translated to, default to use Smartling */
   languages?: NysUnavHeaderElement["languages"];
+
+  /** The URL endpoint of the search, make sure to include the query param. */
+  searchUrl?: NysUnavHeaderElement["searchUrl"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

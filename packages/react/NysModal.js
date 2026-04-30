@@ -4,12 +4,12 @@ import { useEventListener } from "./react-utils.js";
 
 export const NysModal = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
-  const { open, mandatory, id, heading, subheading, width, ...filteredProps } =
+  const { mandatory, open, heading, id, subheading, width, ...filteredProps } =
     props;
 
   /** Event listeners - run once */
-  useEventListener(ref, "nys-open", props.onNysOpen);
   useEventListener(ref, "nys-close", props.onNysClose);
+  useEventListener(ref, "nys-open", props.onNysOpen);
 
   return React.createElement(
     "nys-modal",
@@ -23,8 +23,8 @@ export const NysModal = forwardRef((props, forwardedRef) => {
         }
       },
       ...filteredProps,
-      id: props.id,
       heading: props.heading,
+      id: props.id,
       subheading: props.subheading,
       width: props.width,
       class: props.className,
@@ -32,8 +32,8 @@ export const NysModal = forwardRef((props, forwardedRef) => {
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
-      open: props.open ? true : undefined,
       mandatory: props.mandatory ? true : undefined,
+      open: props.open ? true : undefined,
       style: { ...props.style },
     },
     props.children,

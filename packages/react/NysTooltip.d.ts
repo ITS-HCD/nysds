@@ -21,17 +21,17 @@ export interface NysTooltipProps extends Pick<
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysTooltipElement["id"];
-
-  /** Tooltip content text. Required. */
-  text?: NysTooltipElement["text"];
-
   /** ID of the trigger element to attach this tooltip to. Required. */
   for?: NysTooltipElement["for"];
 
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysTooltipElement["id"];
+
   /** Preferred position relative to trigger. Auto-adjusts if space is insufficient. */
   position?: NysTooltipElement["position"];
+
+  /** Tooltip content text. Required. */
+  text?: NysTooltipElement["text"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

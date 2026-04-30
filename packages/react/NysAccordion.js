@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysAccordion = forwardRef((props, forwardedRef) => {
-  const { singleSelect, bordered, id, ...filteredProps } = props;
+  const { bordered, singleSelect, id, ...filteredProps } = props;
 
   return React.createElement(
     "nys-accordion",
@@ -14,8 +14,8 @@ export const NysAccordion = forwardRef((props, forwardedRef) => {
       for: props.htmlFor,
       part: props.part,
       tabindex: props.tabIndex,
-      singleSelect: props.singleSelect ? true : undefined,
       bordered: props.bordered ? true : undefined,
+      singleSelect: props.singleSelect ? true : undefined,
       style: { ...props.style },
     },
     props.children,

@@ -21,17 +21,17 @@ export interface NysAccordionItemProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Whether the content panel is visible. Toggle via click or keyboard. */
-  expanded?: boolean;
-
   /** Adds border styling. Set by parent `nys-accordion`, not directly. */
   bordered?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysAccordionItemElement["id"];
+  /** Whether the content panel is visible. Toggle via click or keyboard. */
+  expanded?: boolean;
 
   /** Heading text displayed in the clickable toggle button. */
   heading?: NysAccordionItemElement["heading"];
+
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysAccordionItemElement["id"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;

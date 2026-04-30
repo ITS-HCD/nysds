@@ -1,11 +1,11 @@
 import React from "react";
 import {
   NysToggle as NysToggleElement,
-  CustomEvent,
   Event,
+  CustomEvent,
 } from "../../dist/nysds.es.js";
 
-export type { NysToggleElement, CustomEvent, Event };
+export type { NysToggleElement, Event, CustomEvent };
 
 export interface NysToggleProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -28,23 +28,11 @@ export interface NysToggleProps extends Pick<
   /** Prevents interaction. */
   disabled?: boolean;
 
-  /** Hides check/close icon inside toggle knob. */
-  noIcon?: boolean;
-
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
-  /** Unique identifier. Auto-generated if not provided. */
-  id?: NysToggleElement["id"];
-
-  /** Name for form submission. */
-  name?: NysToggleElement["name"];
-
-  /** Value submitted when toggle is on. */
-  value?: NysToggleElement["value"];
-
-  /** Visible label text. */
-  label?: NysToggleElement["label"];
+  /** Hides check/close icon inside toggle knob. */
+  noIcon?: boolean;
 
   /** Helper text below label. Use slot for custom HTML. */
   description?: NysToggleElement["description"];
@@ -52,8 +40,20 @@ export interface NysToggleProps extends Pick<
   /** Form `id` to associate with. */
   form?: NysToggleElement["form"];
 
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysToggleElement["id"];
+
+  /** Visible label text. */
+  label?: NysToggleElement["label"];
+
+  /** Name for form submission. */
+  name?: NysToggleElement["name"];
+
   /** Toggle size: `sm` or `md` (default). */
   size?: NysToggleElement["size"];
+
+  /** Value submitted when toggle is on. */
+  value?: NysToggleElement["value"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -76,14 +76,14 @@ export interface NysToggleProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
+  /** Fired when toggle loses focus. */
+  onNysBlur?: (event: CustomEvent) => void;
+
   /** Fired when toggle state changes. Detail: `{id, checked}`. */
   onNysChange?: (event: CustomEvent) => void;
 
   /** Fired when toggle gains focus. */
   onNysFocus?: (event: CustomEvent) => void;
-
-  /** Fired when toggle loses focus. */
-  onNysBlur?: (event: CustomEvent) => void;
 }
 
 /**
@@ -92,9 +92,9 @@ export interface NysToggleProps extends Pick<
  *
  *
  * ### **Events:**
- *  - **nys-change** - Fired when toggle state changes. Detail: `{id, checked}`.
+ *  - **nys-blur** - Fired when toggle loses focus.
+ * - **nys-change** - Fired when toggle state changes. Detail: `{id, checked}`.
  * - **nys-focus** - Fired when toggle gains focus.
- * - **nys-blur** - Fired when toggle loses focus.
  *
  * ### **Slots:**
  *  - **description** - Custom HTML description content.

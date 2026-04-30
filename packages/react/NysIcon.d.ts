@@ -18,20 +18,20 @@ export interface NysIconProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Icon name from Material Symbols library. Required. */
-  name?: NysIconElement["name"];
-
   /** Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG. */
   ariaLabel?: NysIconElement["ariaLabel"];
 
-  /** Rotation in degrees. Applied via CSS `rotate`. */
-  rotate?: NysIconElement["rotate"];
+  /** Icon color. Accepts any CSS color value. Defaults to `currentcolor`. */
+  color?: NysIconElement["color"];
 
   /** Flip direction: `horizontal`, `vertical`, or empty for none. */
   flip?: NysIconElement["flip"];
 
-  /** Icon color. Accepts any CSS color value. Defaults to `currentcolor`. */
-  color?: NysIconElement["color"];
+  /** Icon name from Material Symbols library. Required. */
+  name?: NysIconElement["name"];
+
+  /** Rotation in degrees. Applied via CSS `rotate`. */
+  rotate?: NysIconElement["rotate"];
 
   /** Icon size. Semantic sizes: `xs`-`5xl`. Pixel sizes: `12`-`50`. */
   size?: NysIconElement["size"];
