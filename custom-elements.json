@@ -1723,11 +1723,14 @@
           ],
           "events": [
             {
-              "name": "nys-breadcrumbs-expand",
+              "name": "nys-expand",
               "type": {
                 "text": "CustomEvent"
-              },
-              "description": "Fired when the user clicks the ellipsis to expand the trail."
+              }
+            },
+            {
+              "description": "Fired when the user clicks the ellipsis to expand the trail.",
+              "name": "nys-breadcrumbs-expand"
             }
           ],
           "attributes": [
