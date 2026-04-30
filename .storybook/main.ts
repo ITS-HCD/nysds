@@ -17,7 +17,11 @@ const config: StorybookConfig = {
     { from: "./assets/fonts", to: "/assets/fonts" },
     { from: "./assets/images", to: "/assets/images" }
   ],
-  addons: [getAbsolutePath("@storybook/addon-a11y"), getAbsolutePath("@storybook/addon-links"), getAbsolutePath("@storybook/addon-docs")],
+  addons: [
+    getAbsolutePath("@storybook/addon-a11y"),
+    getAbsolutePath("@storybook/addon-links"),
+    getAbsolutePath("@storybook/addon-docs"),
+  ],
   framework: {
     name: getAbsolutePath("@storybook/web-components-vite"),
     options: {},

@@ -1,0 +1,181 @@
+:host {
+  // tab group
+  --_nys-tabgroup-gap: var(--nys-space-100, 8px);
+  --_nys-tabgroup-padding: var(--nys-space-50, 4px);
+  --_nys-tabgroup-background-color: var(--nys-color-surface, #ffffff);
+
+  // tab
+  --_nys-tab-border-width: 3px;
+  --_nys-tab-border-radius: var(--nys-radius-md, 4px);
+  --_nys-tab-border-color: var(--nys-color-neutral-50);
+  --_nys-tab-border-color--hover: var(--nys-color-theme-weak, #cddde9);
+  --_nys-tab-border-color--active: var(--nys-color-theme-mid, #457aa5);
+  --_nys-tab-border-color--disabled: var(--_nys-tab-border-color);
+  --_nys-tab-border-color--selected: var(--nys-color-theme, #154973);
+  --_nys-tab-border-color--selected--hover: var(
+    --nys-color-theme-strong,
+    #0e324f
+  );
+  --_nys-tab-border-color--selected--active: var(
+    --nys-color-theme-stronger,
+    #081b2b
+  );
+  --_nys-tab-background-color: var(--nys-color-surface, #ffffff);
+  --_nys-tab-background-color--hover: var(--nys-color-theme-weaker, #eff6fb);
+  --_nys-tab-background-color--active: var(--nys-color-theme-weak, #cddde9);
+  --_nys-tab-background-color--disabled: var(--_nys-tab-background-color);
+  --_nys-tab-background-color--selected: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-tab-color: var(--nys-color-ink);
+  --_nys-tab-padding--x: var(--nys-space-150, 12px);
+  --_nys-tab-padding--y: var(--nys-space-200, 16px);
+
+  // panel
+  --_nys-tabpanel-padding: var(--nys-space-400, 32px);
+  --_nys-tabpanel-max-height: var(--nys-tabpanel-max-height);
+}
+
+.nys-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  // Sizing
+  padding: var(--_nys-tab-padding--y) var(--_nys-tab-padding--x);
+
+  // Border
+  border-color: var(--_nys-tab-border-color);
+  border-style: none none solid none;
+  border-width: var(--_nys-tab-border-width);
+  border-radius: var(--_nys-tab-border-radius) var(--_nys-tab-border-radius) 0 0;
+
+  // Colors
+  background-color: var(--_nys-tab-background-color);
+  color: var(--_nys-tab-color);
+
+  // Typography
+  font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
+  font-size: var(--nys-font-size-ui-md, 16px);
+  font-weight: var(--nys-font-weight-semibold, 600);
+  line-height: var(--nys-size-200, 16px);
+  text-decoration: none;
+}
+
+:host(:not([disabled])) .nys-tab:hover {
+  background-color: var(--_nys-tab-background-color--hover);
+  border-color: var(--_nys-tab-border-color--hover);
+  color: var(--_nys-tab-color);
+}
+
+:host(:not([disabled])) .nys-tab:active {
+  background-color: var(--_nys-tab-background-color--active);
+  border-color: var(--_nys-tab-border-color--active);
+  color: var(--_nys-tab-color);
+}
+
+:host([disabled]) .nys-tab {
+  background-color: var(--_nys-tab-background-color--disabled);
+  border-color: var(--_nys-tab-border-color--disabled);
+  color: var(--nys-color-text-disabled, #bec0c1);
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+
+:host(:focus-visible) {
+  outline: none;
+
+  .nys-tab {
+    outline: solid var(--nys-border-width-md, 2px) var(--nys-color-focus, #004dd1);
+    outline-offset: var(--nys-space-2px, 2px);
+  }
+}
+
+:host([selected]) .nys-tab {
+  background-color: var(--_nys-tab-background-color--selected);
+  border-color: var(--_nys-tab-border-color--selected);
+}
+
+:host([selected]:not([disabled])) .nys-tab:hover {
+  border-color: var(--_nys-tab-border-color--selected--hover);
+}
+
+:host([selected]:not([disabled])) .nys-tab:active {
+  border-color: var(--_nys-tab-border-color--selected--active);
+}
+
+.nys-tabgroup {
+  background-color: var(--_nys-tabgroup-background-color);
+}
+
+.nys-tabgroup__tabs-container {
+  position: relative;
+
+  .scroll-shadow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    height: calc(var(--nys-space-600, 48px) + var(--_nys-tab-border-width));
+    width: var(--nys-space-200, 16px);
+  }
+
+  .scroll-shadow--left {
+    left: 0;
+    background-image: linear-gradient(to left, transparent, var(--nys-color-neutral-100,#D0D0CE));
+  }
+
+  .scroll-shadow--right {
+    right: 0;
+    background-image: linear-gradient(to right, transparent, var(--nys-color-neutral-100,#D0D0CE));
+  }
+
+  .scroll-shadow.is-visible {
+    opacity: 1;
+  }
+
+  .nys-tabgroup__tabs-background {
+    position: absolute;
+    inset: 0;
+    margin: var(--_nys-tabgroup-padding);
+    border-bottom: solid var(--_nys-tab-border-color)
+      var(--_nys-tab-border-width);
+  }
+
+  .nys-tabgroup__tabs {
+    position: relative;
+    display: flex;
+    gap: var(--_nys-tabgroup-gap);
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding: var(--_nys-tabgroup-padding);
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.nys-tabgroup__panels {
+  padding: var(--_nys-tabpanel-padding);
+  background-color: var(--_nys-tabpanel-background-color);
+  max-height: var(--_nys-tabpanel-max-height);
+  overflow-y: auto;
+}
