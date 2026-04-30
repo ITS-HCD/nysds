@@ -67,11 +67,17 @@ Falls back to YouTube's auto-generated thumbnail if not provided. */
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** Fired when the user clicks the thumbnail to load the player. */
+  onNysVideoPlay?: (event: CustomEvent) => void;
 }
 
 /**
- *
+ * YouTube video player with thumbnail preview and accessibility announcements.
  * ---
  *
+ *
+ * ### **Events:**
+ *  - **nys-video-play** - Fired when the user clicks the thumbnail to load the player.
  */
 export const NysVideo: React.ForwardRefExoticComponent<NysVideoProps>;

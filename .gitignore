@@ -45,6 +45,10 @@ Thumbs.db
 # Turborepo cache
 .turbo
 
+# MCP server bundled data (copied at build time)
+packages/mcp-server/data/cem/
+packages/mcp-server/data/tokens/
+
 # Ignore AI assistant files
 CLAUDE.md
 .mcp.json

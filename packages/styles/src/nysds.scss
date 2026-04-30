@@ -7,7 +7,7 @@
    * Part of the New York State Design System (NYSDS)
    * Repository: https://github.com/its-hcd/nysds
    * License: MIT
-   * Version: 1.16.1
+   * Version: 1.17.0
 */
 
 
@@ -15,6 +15,7 @@
 @use "./core/tokens";
 
 /* Hide unstyled components until they are fully loaded */
+nys-breadcrumbs:not(:defined),
 nys-video:not(:defined),
 nys-accordion:not(:defined),
 nys-alert:not(:defined),
