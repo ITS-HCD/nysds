@@ -191,8 +191,10 @@ The user can still expand the trail by clicking the ellipsis. */
   /** Prevents interaction. */
   disabled?: boolean;
 
+  /**  */
+  "onnys-expand"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when the user clicks the ellipsis to expand the trail. */
-  "onnys-breadcrumbs-expand"?: (e: CustomEvent<CustomEvent>) => void;
+  "onnys-breadcrumbs-expand"?: (e: CustomEvent<never>) => void;
 };
 
 export type NysButtonProps = {
@@ -1066,7 +1068,8 @@ export type CustomElements = {
    *
    *
    * ### **Events:**
-   *  - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
+   *  - **nys-expand**
+   * - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
    *
    * ### **Slots:**
    *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.
