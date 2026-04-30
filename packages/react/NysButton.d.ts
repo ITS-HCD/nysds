@@ -51,10 +51,10 @@ export interface NysButtonProps extends Pick<
   /** ID of controlled element (e.g., dropdown or modal). Sets `aria-controls`. */
   ariaControls?: NysButtonElement["ariaControls"];
 
-  /** Material Symbol icon before label. Not shown for `text` variant or `circle` mode. */
+  /** Material Symbol icon before label. Not shown for `circle` mode. */
   prefixIcon?: NysButtonElement["prefixIcon"];
 
-  /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode. */
+  /** Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode. */
   suffixIcon?: NysButtonElement["suffixIcon"];
 
   /** Icon for circle mode. Required when `circle` is true. Scales with size (sm=24px, md=32px, lg=40px). */
