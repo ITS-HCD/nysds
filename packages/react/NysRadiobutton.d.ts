@@ -31,9 +31,6 @@ export interface NysRadiobuttonProps extends Pick<
   /** Marks group as required. Set on radiogroup, not individual radios. */
   required?: boolean;
 
-  /** Adjusts colors for dark backgrounds. */
-  inverted?: boolean;
-
   /** Renders as tile with larger clickable area. */
   tile?: boolean;
 
