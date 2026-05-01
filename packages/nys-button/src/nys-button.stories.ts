@@ -104,6 +104,8 @@ export const Basic: Story = {
       .ariaDescription=${args.ariaDescription}
       @nys-click=${() => alert("Button clicked")}
     ></nys-button>
+    <nys-button suffixIcon="open_in_new" label="Sign in"></nys-button><nys-button prefixIcon="open_in_new" label="Sign out"></nys-button>
+<nys-button suffixIcon="open_in_new" label="Sign in"></nys-button>
   `,
   parameters: {
     docs: {
