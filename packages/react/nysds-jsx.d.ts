@@ -275,8 +275,6 @@ export type NysCheckboxProps = {
   groupExist?: boolean;
   /** Renders as tile with larger clickable area. Apply to group for consistency. */
   tile?: boolean;
-  /** Adjusts colors for dark backgrounds. */
-  inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon. */
   tooltip?: string;
   /** Checkbox size: `sm` (24px) or `md` (32px, default). */
@@ -322,8 +320,6 @@ export type NysCheckboxgroupProps = {
   tile?: boolean;
   /** Tooltip text shown on hover/focus of info icon. */
   tooltip?: string;
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  inverted?: boolean;
   /** Form `id` to associate with. Applied to all children. */
   form?: string | null;
   /** Checkbox size for all children: `sm` (24px) or `md` (32px, default). */
@@ -635,8 +631,6 @@ export type NysRadiobuttonProps = {
   name?: string;
   /** Value submitted when this radio is selected. */
   value?: string;
-  /** Adjusts colors for dark backgrounds. */
-  inverted?: boolean;
   /** Form `id` to associate with. */
   form?: string | null;
   /** Radio size: `sm` (24px) or `md` (32px, default). */
@@ -683,8 +677,6 @@ export type NysRadiogroupProps = {
   tile?: boolean;
   /** Tooltip text shown on hover/focus of info icon. */
   tooltip?: string;
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  inverted?: boolean;
   /** Form `id` to associate with. Applied to all children. */
   form?: string | null;
   /** Radio size for all children: `sm` (24px) or `md` (32px, default). */

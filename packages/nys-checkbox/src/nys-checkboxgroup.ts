@@ -10,7 +10,7 @@ let checkboxgroupIdCounter = 0;
  * A container for grouping multiple `nys-checkbox` components as a single form control.
  * Handles validation, required constraints, and submits comma-separated values.
  *
- * Use to allow users to select multiple options from a list. Apply `tile`, `size`, and `inverted` to the group
+ * Use to allow users to select multiple options from a list. Apply `tile` and `size` to the group
  * and all children inherit these styles automatically.
  *
  * @summary Container for grouping checkboxes as a single form control.
@@ -64,9 +64,6 @@ export class NysCheckboxgroup extends LitElement {
 
   /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
-
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  @property({ type: Boolean, reflect: true }) inverted = false;
 
   /** Form `id` to associate with. Applied to all children. */
   @property({ type: String, reflect: true }) form: string | null = null;
@@ -137,9 +134,6 @@ export class NysCheckboxgroup extends LitElement {
     }
     if (changedProperties.has("tile")) {
       this._updateCheckboxTile();
-    }
-    if (changedProperties.has("inverted")) {
-      this._updateCheckboxInvert();
     }
     if (changedProperties.has("showError")) {
       this._updateCheckboxShowError();
@@ -255,17 +249,6 @@ export class NysCheckboxgroup extends LitElement {
         checkbox.toggleAttribute("tile", true);
       } else {
         checkbox.removeAttribute("tile");
-      }
-    });
-  }
-
-  private _updateCheckboxInvert() {
-    const checkboxes = this.querySelectorAll("nys-checkbox");
-    checkboxes.forEach((checkbox) => {
-      if (this.inverted) {
-        checkbox.toggleAttribute("inverted", true);
-      } else {
-        checkbox.removeAttribute("inverted");
       }
     });
   }
@@ -532,7 +515,6 @@ export class NysCheckboxgroup extends LitElement {
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
           tooltip=${this.tooltip}
-          ?inverted=${this.inverted}
         >
           <slot name="description" slot="description">${this.description}</slot>
         </nys-label>

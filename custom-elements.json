@@ -27,6 +27,12 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-accordion/src/nys-accordion.e2e.ts",
+      "declarations": [],
+      "exports": []
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-accordion/src/nys-accordion.ts",
       "declarations": [
         {
@@ -2714,17 +2720,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "tooltip",
               "type": {
                 "text": "string"
@@ -3128,16 +3123,6 @@
               "propName": "tile"
             },
             {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted",
-              "propName": "inverted"
-            },
-            {
               "name": "tooltip",
               "type": {
                 "text": "string"
@@ -3222,7 +3207,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping multiple `nys-checkbox` components as a single form control.\nHandles validation, required constraints, and submits comma-separated values.\n\nUse to allow users to select multiple options from a list. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically.",
+          "description": "A container for grouping multiple `nys-checkbox` components as a single form control.\nHandles validation, required constraints, and submits comma-separated values.\n\nUse to allow users to select multiple options from a list. Apply `tile` and `size` to the group\nand all children inherit these styles automatically.",
           "name": "NysCheckboxgroup",
           "slots": [
             {
@@ -3352,17 +3337,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -3462,11 +3436,6 @@
             {
               "kind": "method",
               "name": "_updateCheckboxTile",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateCheckboxInvert",
               "privacy": "private"
             },
             {
@@ -3661,16 +3630,6 @@
               "description": "Tooltip text shown on hover/focus of info icon.",
               "fieldName": "tooltip",
               "propName": "tooltip"
-            },
-            {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "fieldName": "inverted",
-              "propName": "inverted"
             },
             {
               "name": "form",
@@ -8394,17 +8353,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -8701,16 +8649,6 @@
               "propName": "value"
             },
             {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted",
-              "propName": "inverted"
-            },
-            {
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -8800,7 +8738,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.\nHandles keyboard navigation (arrow keys), validation, required constraints, and form integration.\n\nUse to let users select exactly one option from 2-6 choices. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically. For 7+ options, use `nys-select`.",
+          "description": "A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.\nHandles keyboard navigation (arrow keys), validation, required constraints, and form integration.\n\nUse to let users select exactly one option from 2-6 choices. Apply `tile` and `size` to the group\nand all children inherit these styles automatically. For 7+ options, use `nys-select`.",
           "name": "NysRadiogroup",
           "slots": [
             {
@@ -8930,17 +8868,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -9064,11 +8991,6 @@
             {
               "kind": "method",
               "name": "_updateRadioButtonsTile",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateRadioButtonsInvert",
               "privacy": "private"
             },
             {
@@ -9245,16 +9167,6 @@
               "description": "Tooltip text shown on hover/focus of info icon.",
               "fieldName": "tooltip",
               "propName": "tooltip"
-            },
-            {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "fieldName": "inverted",
-              "propName": "inverted"
             },
             {
               "name": "form",
