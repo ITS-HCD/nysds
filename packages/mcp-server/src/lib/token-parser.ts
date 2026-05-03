@@ -23,16 +23,6 @@ const __dirname = dirname(__filename);
 // ============================================================================
 
 /**
- * Legacy interface for backward compatibility
- */
-export interface DesignToken {
-  name: string;
-  value: string;
-  category: string;
-  description?: string;
-}
-
-/**
  * CSS-centric token info aligned with tokens.css output
  */
 export interface CSSTokenInfo {
@@ -63,16 +53,10 @@ export interface TokenGraphNode {
   usedBy: string[];
 }
 
-export interface TokenGroup {
-  category: string;
-  tokens: DesignToken[];
-}
-
 // ============================================================================
 // Token Data Cache
 // ============================================================================
 
-let cachedLegacyTokens: DesignToken[] | null = null;
 let cachedCSSTokens: CSSTokenInfo[] | null = null;
 let cachedTokenGraph: Map<string, TokenGraphNode> | null = null;
 let cachedRawTokens: Record<string, unknown> | null = null;
@@ -508,111 +492,85 @@ export function getTokensCSS(): string | null {
   }
 }
 
-// ============================================================================
-// Public API - Legacy (Backward Compatible)
-// ============================================================================
-
 /**
- * Parse DTCG format tokens recursively (legacy format)
+ * Get recommended tokens for everyday use.
+ *
+ * Excludes color primitive tokens (the ~150 palette ramps like neutral-*, red-*,
+ * blue-*) which are low-level raw values. For font tokens, applied aliases
+ * (body-*, h*, ui-*) are sorted before primitives so the most useful tokens
+ * appear first.
  */
-function parseDTCGTokens(
-  obj: Record<string, unknown>,
-  prefix: string = "",
-  category: string = "",
-): DesignToken[] {
-  const tokens: DesignToken[] = [];
+export function getRecommendedTokens(): CSSTokenInfo[] {
+  const tokens = getCSSTokens();
 
-  for (const [key, value] of Object.entries(obj)) {
-    if (key.startsWith("$")) continue; // Skip meta properties
+  const filtered = tokens.filter(
+    (t) => !(t.category === "color" && t.layer === "primitive"),
+  );
 
-    const name = prefix ? `${prefix}.${key}` : key;
-    const currentCategory = category || key;
-
-    if (
-      typeof value === "object" &&
-      value !== null &&
-      "$value" in (value as Record<string, unknown>)
-    ) {
-      // This is a token
-      const tokenObj = value as Record<string, unknown>;
-      tokens.push({
-        name,
-        value: String(tokenObj.$value),
-        category: currentCategory,
-        description: tokenObj.$description as string | undefined,
-      });
-    } else if (typeof value === "object" && value !== null) {
-      // Recurse into nested group
-      tokens.push(
-        ...parseDTCGTokens(
-          value as Record<string, unknown>,
-          name,
-          currentCategory,
-        ),
-      );
+  // For font tokens, sort applied before primitive so named aliases surface first
+  filtered.sort((a, b) => {
+    if (a.category === "font" && b.category === "font") {
+      if (a.layer === "applied" && b.layer !== "applied") return -1;
+      if (a.layer !== "applied" && b.layer === "applied") return 1;
     }
-  }
+    return 0;
+  });
 
-  return tokens;
+  return filtered;
 }
 
 /**
- * Load all design tokens (legacy format)
+ * Get only primitive (raw value) tokens across all categories.
  */
-export function getAllTokens(): DesignToken[] {
-  if (cachedLegacyTokens) {
-    return cachedLegacyTokens;
-  }
-
-  const rawTokens = loadRawTokens();
-  if (!rawTokens) {
-    cachedLegacyTokens = [];
-    return cachedLegacyTokens;
-  }
-
-  cachedLegacyTokens = parseDTCGTokens(rawTokens);
-  return cachedLegacyTokens;
+export function getPrimitiveTokens(): CSSTokenInfo[] {
+  const tokens = getCSSTokens();
+  return tokens.filter((t) => t.layer === "primitive");
 }
 
 /**
- * Get tokens filtered by category (legacy format)
+ * Get alternative tokens in the same category that share the same name prefix.
+ *
+ * First looks for child variants (tokens starting with this token's name + "-"):
+ *   --nys-color-text  →  finds --nys-color-text-weak, --nys-color-text-reverse, etc.
+ *
+ * If no children exist, looks for siblings (tokens sharing the same parent prefix):
+ *   --nys-color-text-weak  →  parent: --nys-color-text  →  finds text, text-weaker, etc.
+ *
+ * Returns an array of cssVariable strings (empty if none found).
  */
-export function getTokensByCategory(category: string): DesignToken[] {
-  const tokens = getAllTokens();
-  return tokens.filter(
-    (t) => t.category.toLowerCase() === category.toLowerCase(),
-  );
-}
+export function getAlternativeTokens(token: CSSTokenInfo): string[] {
+  const varName = token.cssVariable;
+  const tokens = getCSSTokens();
 
-/**
- * Search tokens by name or value (legacy format)
- */
-export function searchTokens(query: string): DesignToken[] {
-  const tokens = getAllTokens();
-  const lowerQuery = query.toLowerCase();
-
-  return tokens.filter(
+  // Look for child variants: tokens starting with this token's name + "-"
+  const children = tokens.filter(
     (t) =>
-      t.name.toLowerCase().includes(lowerQuery) ||
-      t.value.toLowerCase().includes(lowerQuery) ||
-      t.description?.toLowerCase().includes(lowerQuery),
+      t.category === token.category && t.cssVariable.startsWith(varName + "-"),
   );
-}
 
-/**
- * Get available token categories (legacy format)
- */
-export function getTokenCategories(): string[] {
-  const tokens = getAllTokens();
-  const categories = new Set(tokens.map((t) => t.category));
-  return Array.from(categories).sort();
+  if (children.length > 0) {
+    return children.map((t) => t.cssVariable);
+  }
+
+  // No children — look for siblings sharing the same parent prefix
+  const lastDash = varName.lastIndexOf("-");
+  if (lastDash <= 5) return []; // "--nys-" is 6 chars minimum
+
+  const parent = varName.slice(0, lastDash);
+  return tokens
+    .filter(
+      (t) =>
+        t.category === token.category &&
+        t.cssVariable !== varName &&
+        (t.cssVariable === parent || t.cssVariable.startsWith(parent + "-")),
+    )
+    .map((t) => t.cssVariable);
 }
 
 /**
  * Clear all cached tokens (useful for testing)
  */
 export function clearTokenCache(): void {
-  cachedLegacyTokens = null;
   cachedCSSTokens = null;
   cachedTokenGraph = null;
   cachedRawTokens = null;
