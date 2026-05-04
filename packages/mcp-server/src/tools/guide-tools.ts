@@ -49,12 +49,13 @@ const TOPIC_TO_FILE: Record<string, string> = {
   styles: "styles.md",
   fonts: "fonts.md",
   "page-structure": "page-structure.md",
+  themes: "themes.md",
 };
 
 export function registerGuideTools(server: McpServer): void {
   server.tool(
     "get_guide",
-    "Get NYSDS guides for installation, forms, styles, fonts, page structure, or framework setup",
+    "Get NYSDS guides for installation, forms, styles, fonts, page structure, themes, or framework setup",
     {
       topic: z
         .enum([
@@ -63,6 +64,7 @@ export function registerGuideTools(server: McpServer): void {
           "styles",
           "fonts",
           "page-structure",
+          "themes",
         ])
         .describe("The guide topic to retrieve"),
       framework: z
