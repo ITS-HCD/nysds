@@ -211,7 +211,8 @@ export function registerTokenTools(server: McpServer): void {
         tokenCategories.set(t.cssVariable, t.category);
       }
 
-      let nodes = Array.from(graph.values());
+      const allNodes = Array.from(graph.values());
+      let nodes = allNodes;
 
       // Apply category filter
       if (category) {
@@ -232,9 +233,6 @@ export function registerTokenTools(server: McpServer): void {
 
       // Apply limit
       nodes = nodes.slice(0, limit);
-
-      // Calculate stats
-      const allNodes = Array.from(graph.values());
       const stats = {
         totalTokens: allNodes.length,
         aliasTokens: allNodes.filter((n) => n.referencesVariable).length,

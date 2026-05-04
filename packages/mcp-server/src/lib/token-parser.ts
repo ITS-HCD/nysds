@@ -118,6 +118,12 @@ export function getTokensCSSPath(): string | null {
 }
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+const LAYER_PREFIXES = ["primitive", "applied", "appearance", "theme"];
+
+// ============================================================================
 // CSS Variable Transformation
 // ============================================================================
 
@@ -135,7 +141,7 @@ export function toCSSVariable(jsonPath: string): string {
     "--nys-" +
     jsonPath
       // Strip layer prefixes
-      .replace(/^(primitive|applied|appearance|theme)\./, "")
+      .replace(new RegExp(`^(${LAYER_PREFIXES.join("|")})\\.`), "")
       // Dots to hyphens
       .replace(/\./g, "-");
 
@@ -174,11 +180,7 @@ function getCategoryFromPath(jsonPath: string): string {
   const parts = jsonPath.split(".");
 
   // Skip layer prefix if present
-  const startIndex = ["primitive", "applied", "appearance", "theme"].includes(
-    parts[0],
-  )
-    ? 1
-    : 0;
+  const startIndex = LAYER_PREFIXES.includes(parts[0]) ? 1 : 0;
 
   return parts[startIndex] || "unknown";
 }
@@ -196,7 +198,7 @@ function getLayerFromPath(jsonPath: string): string {
   const parts = jsonPath.split(".");
 
   // Check for explicit layer prefixes
-  if (["primitive", "applied", "appearance", "theme"].includes(parts[0])) {
+  if (LAYER_PREFIXES.includes(parts[0])) {
     return parts[0];
   }
 
@@ -419,30 +421,6 @@ export function getCSSTokensByCategory(category: string): CSSTokenInfo[] {
   const tokens = getCSSTokens();
   return tokens.filter(
     (t) => t.category.toLowerCase() === category.toLowerCase(),
-  );
-}
-
-/**
- * Get CSS tokens filtered by layer
- */
-export function getCSSTokensByLayer(layer: string): CSSTokenInfo[] {
-  const tokens = getCSSTokens();
-  return tokens.filter((t) => t.layer.toLowerCase() === layer.toLowerCase());
-}
-
-/**
- * Search CSS tokens by variable name, value, or description
- */
-export function searchCSSTokens(query: string): CSSTokenInfo[] {
-  const tokens = getCSSTokens();
-  const lowerQuery = query.toLowerCase();
-
-  return tokens.filter(
-    (t) =>
-      t.cssVariable.toLowerCase().includes(lowerQuery) ||
-      t.cssValue.toLowerCase().includes(lowerQuery) ||
-      t.resolvedValue?.toLowerCase().includes(lowerQuery) ||
-      t.description?.toLowerCase().includes(lowerQuery),
   );
 }
 
