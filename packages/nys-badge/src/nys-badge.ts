@@ -57,6 +57,9 @@ export class NysBadge extends LitElement {
   /** Primary label text displayed in the badge. */
   @property({ type: String }) label = "";
 
+  /** Screen reader text appended after the label for additional context. */
+  @property({ type: String }) srText = "";
+
   @property({ type: String, reflect: true }) variant: "strong" | "" = "";
 
   // Icons (string or boolean)
@@ -90,9 +93,6 @@ export class NysBadge extends LitElement {
       this._suffixIcon = value;
     }
   }
-
-  /** Visually-hidden text appended after the badge label for screen readers. Authors supply context appropriate for their content (e.g., "concern" for a warning badge). */
-  @property({ type: String }) srText = "";
 
   /**
    * Lifecycle methods

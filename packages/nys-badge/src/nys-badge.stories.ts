@@ -291,7 +291,7 @@ export const ScreenReaderText: Story = {
         type: "auto",
         code: `
 <p>
-  <nys-badge intent="warning" label="Caution" prefixIcon></nys-badge>
+  <nys-badge intent="warning" label="Caution" prefixIcon srText="concern"></nys-badge>
 </p>
 <p>
   <nys-badge intent="error" label="Critical" prefixIcon srText="critical"></nys-badge>
