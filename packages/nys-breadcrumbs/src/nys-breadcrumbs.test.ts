@@ -223,7 +223,7 @@ describe("nys-breadcrumbs", () => {
     expect(ellipsis).to.exist;
   });
 
-  it("expands trail when ellipsis is clicked and fires nys-breadcrumbs-expand", async () => {
+  it("expands trail when ellipsis is clicked and fires nys-expand", async () => {
     mockDesktop();
 
     const el = await fixture<NysBreadcrumbs>(
@@ -241,7 +241,7 @@ describe("nys-breadcrumbs", () => {
     await el.updateComplete;
 
     let expandFired = false;
-    el.addEventListener("nys-breadcrumbs-expand", () => {
+    el.addEventListener("nys-expand", () => {
       expandFired = true;
     });
 

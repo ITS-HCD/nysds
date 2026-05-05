@@ -107,7 +107,6 @@ export const WithoutCurrentPage: Story = {
         <li><a href="/">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li><a href="/tickets">Ticket System</a></li>
-        <li><a href="/tickets">Not a clickable</a></li>
       </ol>
     </nys-breadcrumbs>
   `,

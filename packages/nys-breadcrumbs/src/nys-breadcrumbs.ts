@@ -329,16 +329,25 @@ export class NysBreadcrumbs extends LitElement {
         ellipsis.classList.add("nys-breadcrumbs__ellipsis");
 
         // Ellipse button
-        const button = document.createElement("button");
+        const button = document.createElement("a");
         button.classList.add("ellipsis-btn");
         button.setAttribute("aria-label", "Show more links");
+        button.setAttribute("role", "button");
+        button.setAttribute("href", "#");
         button.textContent = "…";
-        button.addEventListener("click", () => {
+
+        const expandTrail = (e: Event) => {
+          e.preventDefault();
           this._manuallyExpanded = true;
           this.collapsed = false;
           this._handleSlotChange();
           this._dispatchExpandEvent();
           this._moveFocusToFirstExpandCrumb();
+        };
+
+        button.addEventListener("click", expandTrail);
+        button.addEventListener("keydown", (e: KeyboardEvent) => {
+          if (e.key === " ") expandTrail(e);
         });
 
         // Chevron Icon
@@ -367,7 +376,7 @@ export class NysBreadcrumbs extends LitElement {
    */
   private _dispatchExpandEvent() {
     this.dispatchEvent(
-      new CustomEvent("nys-breadcrumbs-expand", {
+      new CustomEvent("nys-expand", {
         detail: { id: this.id },
         bubbles: true,
         composed: true,

@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property, state } from "lit/decorators.js";
+import { property, state, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textinput.scss?inline";
@@ -139,6 +139,9 @@ export class NysTextinput extends LitElement {
 
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
+
+  @query("input") private _inputEl!: HTMLInputElement;
+
   @state() private showPassword = false;
 
   private _originalErrorMessage = "";
@@ -176,7 +179,7 @@ export class NysTextinput extends LitElement {
     this.removeEventListener("invalid", this._handleInvalid);
   }
 
-  firstUpdated() {
+  async firstUpdated() {
     // This ensures our element always participates in the form
     this._setValue();
   }
@@ -194,7 +197,7 @@ export class NysTextinput extends LitElement {
 
     if (changedProperties.has("type")) {
       const mask = this._maskPatterns[this.type];
-      const input = this.shadowRoot?.querySelector("input");
+      const input = this._inputEl;
 
       if (input) {
         if (mask) {
@@ -219,7 +222,7 @@ export class NysTextinput extends LitElement {
       changedProperties.has("readonly") ||
       changedProperties.has("required")
     ) {
-      const input = this.shadowRoot?.querySelector("input");
+      const input = this._inputEl;
 
       if (input) input.required = this.required && !this.readonly;
     }
@@ -236,7 +239,7 @@ export class NysTextinput extends LitElement {
   }
 
   private _manageRequire() {
-    const input = this.shadowRoot?.querySelector("input");
+    const input = this._inputEl;
 
     if (!input) return;
 
@@ -255,7 +258,7 @@ export class NysTextinput extends LitElement {
   }
 
   private _setValidityMessage(message: string = "") {
-    const input = this.shadowRoot?.querySelector("input");
+    const input = this._inputEl;
     if (!input) return;
 
     // Always show the visual error if there is a message
@@ -268,12 +271,14 @@ export class NysTextinput extends LitElement {
       this.errorMessage = message;
     }
 
+    this._internals.ariaInvalid = this.showError ? "true" : "false";
+
     const validityState = message ? { customError: true } : {};
     this._internals.setValidity(validityState, this.errorMessage, input);
   }
 
   private _validate() {
-    const input = this.shadowRoot?.querySelector("input");
+    const input = this._inputEl;
     if (!input) return;
 
     // Get the native validation state
@@ -308,7 +313,7 @@ export class NysTextinput extends LitElement {
   public formResetCallback() {
     this.value = "";
 
-    const input = this.shadowRoot?.querySelector("input");
+    const input = this._inputEl;
     if (input) {
       input.value = "";
     }
@@ -319,6 +324,7 @@ export class NysTextinput extends LitElement {
     this.showError = false;
     this.errorMessage = "";
     this._internals.setValidity({});
+    this._internals.ariaInvalid = "false";
 
     this.showPassword = false;
 
@@ -333,7 +339,7 @@ export class NysTextinput extends LitElement {
 
   // This helper function is called to perform the element's native validation.
   checkValidity(): boolean {
-    const input = this.shadowRoot?.querySelector("input");
+    const input = this._inputEl;
     return input ? input.checkValidity() : true;
   }
 
@@ -342,7 +348,7 @@ export class NysTextinput extends LitElement {
     this._hasUserInteracted = true; // Start aggressive mode due to form submission
     this._validate();
 
-    const input = this.shadowRoot?.querySelector("input");
+    const input = this._inputEl;
     if (input) {
       // Focus only if this is the first invalid element (top-down approach)
       const form = this._internals.form;
@@ -522,7 +528,7 @@ export class NysTextinput extends LitElement {
     return html`
       <div class="nys-textinput">
         <nys-label
-          for=${this.id + "--native"}
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
@@ -554,13 +560,15 @@ export class NysTextinput extends LitElement {
               ?disabled=${this.disabled}
               ?required=${this.required && !this.readonly}
               ?readonly=${this.readonly}
+              aria-label=${ifDefined(
+                [this.label, this.description].filter(Boolean).join(" ") ||
+                  this.ariaLabel ||
+                  undefined,
+              )}
               aria-required=${this.required}
               aria-disabled="${this.disabled}"
-              aria-label="${[this.label, this.description]
-                .filter(Boolean)
-                .join(" ") ||
-              ifDefined(this.ariaLabel || undefined) ||
-              "Text input"}"
+              aria-invalid=${this.showError ? "true" : "false"}
+              aria-errormessage=${this.id + "--error"}
               .value=${this.value}
               placeholder=${ifDefined(
                 this.placeholder ? this.placeholder : undefined,
@@ -602,6 +610,7 @@ export class NysTextinput extends LitElement {
           ></slot>
         </div>
         <nys-errormessage
+          id=${this.id + "--error"}
           ?showError=${this.showError}
           errorMessage=${this.errorMessage}
         ></nys-errormessage>

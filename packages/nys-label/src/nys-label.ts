@@ -3,6 +3,8 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-label.scss?inline";
 
+let labelIdCounter = 0;
+
 /**
  * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
  *
@@ -17,8 +19,8 @@ import styles from "./nys-label.scss?inline";
 export class NysLabel extends LitElement {
   static styles = unsafeCSS(styles);
 
-  /** ID of the form element this label is associated with. */
-  @property({ type: String }) for = "";
+  /** The ID of the label. */
+  @property({ type: String, reflect: true }) id = "";
 
   /** Label text displayed above the form field. */
   @property({ type: String }) label = "";
@@ -32,56 +34,35 @@ export class NysLabel extends LitElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
   /** Tooltip text shown on hover/focus of info icon next to label. */
-  @property({ type: String })
-  get tooltip() {
-    return this._tooltip;
+  @property({ type: String }) tooltip = "";
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.id) {
+      this.id = `nys-label-${Date.now()}-${labelIdCounter++}`;
+    }
   }
-  set tooltip(value: string) {
-    this._tooltip = value;
-  }
-  private _tooltip: string = "";
 
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
    */
-  private _handleLabelClick(event: Event) {
-    if (!this.for) return;
 
-    const parentShadowDOM = (this.getRootNode() as ShadowRoot).host;
-    let target: HTMLElement | null = null;
-
-    if (parentShadowDOM && parentShadowDOM.shadowRoot) {
-      target = parentShadowDOM.shadowRoot.querySelector(`#${this.for}`);
-    }
-
-    if (!target) return;
-
-    if (target instanceof HTMLInputElement) {
-      event.preventDefault();
-      event.stopPropagation();
-      if (target.type === "file") {
-        target.click();
-      } else if (target.type === "checkbox" || target.type === "radio") {
-        target.focus();
-        target.click();
-      } else {
-        // For other inputs (text, date, number, email, etc.), just focus
-        target.focus();
-      }
-    } else {
-      (target as HTMLElement).focus();
-    }
+  /**
+   * While most components don't need to listen for this event.
+   * Special components like "nys-fileinput" and "nys-toggle" need to listen for label to execute their specific functionalities.
+   */
+  private _dispatchLabelClick() {
+    this.dispatchEvent(
+      new CustomEvent("nys-label-click", { bubbles: true, composed: true }),
+    );
   }
 
   render() {
     return html`
       <div class="nys-label ${this.inverted ? "invert" : ""}">
         <div class="nys-label__tooltip-wrapper">
-          <label
-            for=${this.for}
-            class="nys-label__label"
-            @click=${this._handleLabelClick}
+          <label class="nys-label__label" @click=${this._dispatchLabelClick}
             >${this.label}
             ${this.flag === "required"
               ? html`<div class="nys-label__required">*</div>`
@@ -90,27 +71,23 @@ export class NysLabel extends LitElement {
               ? html`<div class="nys-label__optional">(Optional)</div>`
               : ""}</label
           >
-          ${this._tooltip
+          ${this.tooltip
             ? html`<nys-tooltip
-                  text="${this._tooltip}"
+                  text="${this.tooltip}"
                   position="top"
                   focusable
                   ?inverted=${this.inverted}
-                  for="tooltip-icon-${this.for}"
+                  for="tooltip-icon-${this.id}"
                 >
                 </nys-tooltip>
                 <nys-icon
-                  id="tooltip-icon-${this.for}"
+                  id="tooltip-icon-${this.id}"
                   name="info"
                   size="3xl"
                 ></nys-icon> `
             : ""}
         </div>
-        <p
-          for=${this.for}
-          class="nys-label__description"
-          @click=${this._handleLabelClick}
-        >
+        <p class="nys-label__description" @click=${this._dispatchLabelClick}>
           <slot name="description">${this.description}</slot>
         </p>
       </div>

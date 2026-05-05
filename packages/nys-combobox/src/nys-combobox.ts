@@ -37,6 +37,10 @@ interface ComboboxOption {
 
 export class NysCombobox extends LitElement {
   static styles = unsafeCSS(styles);
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
 
   @property({ type: String, reflect: true }) id = "";
   @property({ type: String, reflect: true }) name = "";
@@ -637,7 +641,6 @@ export class NysCombobox extends LitElement {
     return html`
       <div class="nys-combobox">
         <nys-label
-          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
