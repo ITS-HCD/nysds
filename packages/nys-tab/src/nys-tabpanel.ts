@@ -19,6 +19,23 @@ let componentIdCounter = 0;
  *
  * @slot - Default slot for panel content. Rendered inside a wrapper `<div>`
  *   with the `.nys-tabpanel` class for styling.
+ *
+ * @example
+ * ```html
+ * <!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->
+ * <nys-tabgroup name="Steps">
+ *   <nys-tab label="Step 1"></nys-tab>
+ *   <nys-tab label="Step 2"></nys-tab>
+ *   <nys-tabpanel>
+ *     <h2>Step 1: Enter your information</h2>
+ *     <p>Fill out the form below.</p>
+ *   </nys-tabpanel>
+ *   <nys-tabpanel>
+ *     <h2>Step 2: Review and submit</h2>
+ *     <p>Confirm your details before submitting.</p>
+ *   </nys-tabpanel>
+ * </nys-tabgroup>
+ * ```
  */
 export class NysTabpanel extends LitElement {
   static styles = unsafeCSS(styles);

@@ -29,6 +29,28 @@ let componentIdCounter = 0;
  * @slot - Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are
  *   moved into internal shadow-DOM containers on `slotchange`; the slot
  *   itself is not rendered visibly.
+ *
+ * @example
+ * ```html
+ * <nys-tabgroup name="Account Settings">
+ *   <nys-tab label="Profile"></nys-tab>
+ *   <nys-tab label="Security"></nys-tab>
+ *   <nys-tab label="Notifications" disabled></nys-tab>
+ *   <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>
+ * </nys-tabgroup>
+ * ```
+ *
+ * @example Pre-select a tab using the `selected` attribute on `<nys-tab>`.
+ * ```html
+ * <nys-tabgroup name="Reports">
+ *   <nys-tab label="Summary"></nys-tab>
+ *   <nys-tab label="Details" selected></nys-tab>
+ *   <nys-tabpanel><p>Summary view</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>
+ * </nys-tabgroup>
+ * ```
  */
 export class NysTabgroup extends LitElement {
   static styles = unsafeCSS(styles);

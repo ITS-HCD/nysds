@@ -26,6 +26,19 @@ let componentIdCounter = 0;
  *   crosses shadow DOM boundaries. `detail: { id: string }`
  *
  * @slot - No slots; content is derived from the `label` property.
+ *
+ * @example
+ * ```html
+ * <!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->
+ * <nys-tabgroup name="My Tabs">
+ *   <nys-tab label="Overview"></nys-tab>
+ *   <nys-tab label="Details" selected></nys-tab>
+ *   <nys-tab label="Archived" disabled></nys-tab>
+ *   <nys-tabpanel><p>Overview content</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>
+ *   <nys-tabpanel><p>Archived content</p></nys-tabpanel>
+ * </nys-tabgroup>
+ * ```
  */
 export class NysTab extends LitElement {
   static styles = unsafeCSS(styles);
