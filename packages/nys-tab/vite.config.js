@@ -1,5 +1,6 @@
 import { mergeConfig } from "vite";
 import { defaultConfig } from "../../vite.config.js";
+import { version } from "./package.json";
 
 // Banner to put at the top of the generated files
 const banner = `
