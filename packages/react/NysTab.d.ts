@@ -30,7 +30,7 @@ Reflected to the DOM attribute for CSS styling. */
 Reflected to the DOM attribute so `aria-controls` references resolve. */
   id?: NysTabElement["id"];
 
-  /** Visible text label rendered inside the inner `<button>`. */
+  /** Visible text label rendered inside the inner `<span>`. */
   label?: NysTabElement["label"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */

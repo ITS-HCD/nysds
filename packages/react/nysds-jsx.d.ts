@@ -778,7 +778,7 @@ export type NysTabProps = {
   /** Unique identifier for the tab element.
 Reflected to the DOM attribute so `aria-controls` references resolve. */
   id?: string;
-  /** Visible text label rendered inside the inner `<button>`. */
+  /** Visible text label rendered inside the inner `<span>`. */
   label?: string;
   /** Whether this tab is the currently active tab.
 Managed by `<nys-tabgroup>`; reflected for CSS attribute selectors. */
