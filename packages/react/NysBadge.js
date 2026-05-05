@@ -12,6 +12,7 @@ export const NysBadge = forwardRef((props, forwardedRef) => {
     prefixLabel,
     label,
     variant,
+    srText,
     ...filteredProps
   } = props;
 
@@ -26,6 +27,7 @@ export const NysBadge = forwardRef((props, forwardedRef) => {
       prefixLabel: props.prefixLabel,
       label: props.label,
       variant: props.variant,
+      srText: props.srText,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

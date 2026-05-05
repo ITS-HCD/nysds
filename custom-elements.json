@@ -1321,6 +1321,16 @@
             },
             {
               "kind": "field",
+              "name": "srText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visually-hidden text appended after the badge label for screen readers. Authors supply context appropriate for their content (e.g., \"concern\" for a warning badge).",
+              "attribute": "srText"
+            },
+            {
+              "kind": "field",
               "name": "DEFAULT_ICONS",
               "type": {
                 "text": "Record<string, string>"
@@ -1437,6 +1447,16 @@
               },
               "fieldName": "suffixIcon",
               "propName": "suffixicon"
+            },
+            {
+              "name": "srText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Visually-hidden text appended after the badge label for screen readers. Authors supply context appropriate for their content (e.g., \"concern\" for a warning badge).",
+              "fieldName": "srText",
+              "propName": "srtext"
             }
           ],
           "superclass": {

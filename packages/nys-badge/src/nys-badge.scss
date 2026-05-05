@@ -101,3 +101,15 @@
 .nys-badge__prefix {
   font-weight: var(--_nys-badge-prefix-font-weight);
 }
+
+.nys-badge__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

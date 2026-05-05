@@ -91,6 +91,9 @@ export class NysBadge extends LitElement {
     }
   }
 
+  /** Visually-hidden text appended after the badge label for screen readers. Authors supply context appropriate for their content (e.g., "concern" for a warning badge). */
+  @property({ type: String }) srText = "";
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -147,7 +150,7 @@ export class NysBadge extends LitElement {
     const suffixIconName = this.resolveIcon(this.suffixIcon);
 
     return html`
-      <div class="nys-badge">
+      <mark class="nys-badge">
         ${prefixIconName
           ? html`<nys-icon size="16" name=${prefixIconName}></nys-icon>`
           : ""}
@@ -158,7 +161,10 @@ export class NysBadge extends LitElement {
         ${suffixIconName
           ? html`<nys-icon size="16" name=${suffixIconName}></nys-icon>`
           : ""}
-      </div>
+        ${this.srText
+          ? html`<span class="nys-badge__sr-only">${this.srText}</span>`
+          : ""}
+      </mark>
     `;
   }
 }

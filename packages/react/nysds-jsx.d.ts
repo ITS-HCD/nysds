@@ -169,6 +169,8 @@ export type NysBadgeProps = {
   prefixicon?: string | boolean;
   /**  */
   suffixicon?: string | boolean;
+  /** Visually-hidden text appended after the badge label for screen readers. Authors supply context appropriate for their content (e.g., "concern" for a warning badge). */
+  srText?: string;
 };
 
 export type NysBreadcrumbsProps = {

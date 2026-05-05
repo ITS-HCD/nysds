@@ -45,6 +45,9 @@ export interface NysBadgeProps extends Pick<
   /** undefined */
   variant?: NysBadgeElement["variant"];
 
+  /** Visually-hidden text appended after the badge label for screen readers. Authors supply context appropriate for their content (e.g., "concern" for a warning badge). */
+  srText?: NysBadgeElement["srText"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 
