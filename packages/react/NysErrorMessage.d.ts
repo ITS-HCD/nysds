@@ -24,6 +24,9 @@ export interface NysErrorMessageProps extends Pick<
   /** Shows a divider line above the error message. */
   showDivider?: boolean;
 
+  /** The "id" of the error message. */
+  id?: NysErrorMessageElement["id"];
+
   /** Error text to display. Falls back to native validation message if available. */
   errorMessage?: NysErrorMessageElement["errorMessage"];
 

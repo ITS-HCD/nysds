@@ -67,6 +67,9 @@ Override when multiple crumbs exist on the same page. */
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
+  /** undefined */
+  onNysExpand?: (event: CustomEvent) => void;
+
   /** Fired when the user clicks the ellipsis to expand the trail. */
   onNysBreadcrumbsExpand?: (event: CustomEvent) => void;
 }
@@ -77,7 +80,8 @@ Override when multiple crumbs exist on the same page. */
  *
  *
  * ### **Events:**
- *  - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
+ *  - **nys-expand**
+ * - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
  *
  * ### **Slots:**
  *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.

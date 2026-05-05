@@ -784,7 +784,6 @@ export class NysDatepicker extends LitElement {
 
     return html` <div class="nys-datepicker--container">
         <nys-label
-          for=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
