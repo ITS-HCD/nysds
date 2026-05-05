@@ -274,9 +274,7 @@ describe("nys-tab keyboard navigation", () => {
     tabs[0].addEventListener("nys-tab-select", () => {
       selectFired = true;
     });
-    (tabs[0] as any)._onKeydown(
-      new KeyboardEvent("keydown", { key: "Enter" }),
-    );
+    (tabs[0] as any)._onKeydown(new KeyboardEvent("keydown", { key: "Enter" }));
     expect(selectFired).to.be.true;
 
     // Pressing Space on Tab should select it
