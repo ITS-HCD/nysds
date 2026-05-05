@@ -27,12 +27,6 @@
     },
     {
       "kind": "javascript-module",
-      "path": "packages/nys-accordion/src/nys-accordion.e2e.ts",
-      "declarations": [],
-      "exports": []
-    },
-    {
-      "kind": "javascript-module",
       "path": "packages/nys-accordion/src/nys-accordion.ts",
       "declarations": [
         {

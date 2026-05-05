@@ -169,7 +169,6 @@ export const Grouping: Story = {
         description=${args.description}
         size=${args.size}
         .tile=${args.tile}
-
         .showError=${args.showError}
         .errorMessage=${args.errorMessage}
         .form=${args.form}
