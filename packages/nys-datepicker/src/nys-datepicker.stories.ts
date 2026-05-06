@@ -160,9 +160,9 @@ export const DateRange: Story = {
     id: "datepicker-range",
     name: "datepicker-range",
     label: "Select a date",
-    description: "Only dates within April 4/5/2026 - 4/15/2026 are selectable",
+    description: "Only dates within April 4/5/2026 - 6/15/2026 are selectable",
     minDate: "2026-04-05",
-    maxDate: "2026-04-15",
+    maxDate: "2026-07-15",
   },
   render: Basic.render,
   parameters: {
