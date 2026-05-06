@@ -21,6 +21,7 @@ export * from "../packages/nys-radiobutton/src/index";
 export * from "../packages/nys-select/src/index";
 export * from "../packages/nys-skipnav/src/index";
 export * from "../packages/nys-stepper/src/index";
+export * from "../packages/nys-tab/src/index";
 export * from "../packages/nys-table/src/index";
 export * from "../packages/nys-textarea/src/index";
 export * from "../packages/nys-textinput/src/index";
