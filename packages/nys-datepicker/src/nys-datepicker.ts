@@ -442,13 +442,6 @@ export class NysDatepicker extends LitElement {
   }
 
   private async _setFocusOnTodayDate(visualFocusOnly = false) {
-    if (this.minDate) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const min = this._parseLocalDate(this.minDate);
-      if (today < min) return;
-    }
-
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
 
@@ -521,12 +514,6 @@ export class NysDatepicker extends LitElement {
       (this.contains(nextFocused) || this.shadowRoot?.contains(nextFocused));
 
     if (stillInside) return;
-
-    // When datepicker has min/max range, the wc-datepicker nav button re-renders
-    // at the boundary month and loses focus. Return early to prevent wc-datepicker from calling handleBlur again
-    if (this.datepickerIsOpen && !nextFocused) {
-      return;
-    }
 
     if (!this._hasUserInteracted) {
       this._hasUserInteracted = true;
