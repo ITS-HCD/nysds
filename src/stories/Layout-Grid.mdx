@@ -47,7 +47,7 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 <h3 id="additional-functionality"><a id="additional-functionality-2" ></a>Additional functionality</h3>
 <ul>
   <li><strong>Equal-width columns:</strong> With flexbox, grid columns without a specified width will display as equal-width columns. For example, four instances of <code >grid-col</code> will display as one-quarter-width columns across all sizes. Refer to the <a href="#auto-layout-columns">auto-layout columns</a> section for more examples.</li>
-  <li><strong>Gutters:</strong> Rows and columns don’t have any gutters by default, but gutters can be added by including <code >grid-gap-sm</code>, <code >grid-gap</code>, or <code >grid-gap-lg</code> at the row level. Refer to <a href="#gutters">gutters</a> for more info.</li>
+  <li><strong>Gutters:</strong> Rows and columns don't have any gutters by default, but gutters can be added by including a <code>nys-grid-gap</code> modifier (e.g., <code>nys-grid-gap-100</code>, <code>nys-grid-gap-200</code>) at the row level. Refer to <a href="#gutters">gutters</a> for more info.</li>
   <li><strong>Media queries:</strong> Grid breakpoints are based on minimum-width media queries, meaning they apply to that specific width and all greater widths (e.g., <code >tablet:col-4</code> applies to tablet, desktop, and widescreen devices but not at <code >mobile-lg</code> or any width below the tablet breakpoint). Refer to <a href="#responsive-variants">responsive variants</a> for a full list.</li>
 </ul>
 <h2 id="auto-layout-columns"><a id="auto-layout-columns-2" ></a>Auto layout columns</h2>
@@ -85,55 +85,55 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 <p><code>.nys-grid-col-[1-12]</code> sets a fixed width of [n] grid columns in a 12-column grid.</p>
 
 <div className="nys-grid-row border-left">
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">1</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">2</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">3</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">4</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">5</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">6</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">7</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">8</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">9</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">10</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">11</div>
   </div>
-  
+
   <div className="nys-grid-col-1 border-right">
     <div className="text-center">12</div>
   </div>
-  
+
 </div>
 
 <div className="docs-grid-example">
@@ -479,17 +479,23 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 </div>
 ```
 
-<h3><a id="large-gutter"></a>Large gutter</h3>
-<p><code>nys-grid-gap-lg</code> adds a larger gap (or gutter) between each column in a row than `nys-grid-gap`. The default large-gap width is 32px. There is also a <code>.nys-grid-gap-sm</code> (2px). Also, you can add the following system values with <code>nys-grid-gap</code>:</p>
+<h3><a id="large-gutter"></a>Gap sizes</h3>
+<p>Use a sized gap modifier on <code>nys-grid-row</code> to set a fixed gutter. Values follow the NYS size ramp:</p>
 <ul>
-  <li><code>nys-grid-gap-2px</code></li>
-  <li><code>nys-grid-gap-05</code></li>
-  <li><code>nys-grid-gap-1</code></li>
-  <li><code>nys-grid-gap-2</code></li>
-  <li><code>nys-grid-gap-3</code></li>
-  <li><code>nys-grid-gap-4</code></li>
-  <li><code>nys-grid-gap-5</code></li>
-  <li><code>nys-grid-gap-6</code></li>
+  <li><code>nys-grid-gap-1px</code> — 1px</li>
+  <li><code>nys-grid-gap-2px</code> — 2px</li>
+  <li><code>nys-grid-gap-50</code> — 4px</li>
+  <li><code>nys-grid-gap-100</code> — 8px</li>
+  <li><code>nys-grid-gap-150</code> — 12px</li>
+  <li><code>nys-grid-gap-200</code> — 16px</li>
+  <li><code>nys-grid-gap-250</code> — 20px</li>
+  <li><code>nys-grid-gap-300</code> — 24px</li>
+  <li><code>nys-grid-gap-400</code> — 32px</li>
+  <li><code>nys-grid-gap-500</code> — 40px</li>
+  <li><code>nys-grid-gap-600</code> — 48px</li>
+  <li><code>nys-grid-gap-700</code> — 56px</li>
+  <li><code>nys-grid-gap-800</code> — 64px</li>
+  <li><code>nys-grid-gap-1200</code> — 96px</li>
 </ul>
 <div className="nys-grid-row border-left">
   <div className="nys-grid-col-1 border-right">
@@ -532,7 +538,7 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 <div className="docs-grid-example">
 
 
-<div className="nys-grid-row nys-grid-gap-lg">
+<div className="nys-grid-row nys-grid-gap-400">
   <div className="nys-grid-col-4">
     <div>.nys-grid-col-4</div>
   </div>
@@ -547,7 +553,7 @@ The grid system uses a series of containers, rows, and columns to lay out and al
 </div>
 
 ```html
-<div class="nys-grid-row nys-grid-gap-lg">
+<div class="nys-grid-row nys-grid-gap-400">
   <div class="nys-grid-col-4">
     <div>.nys-grid-col-4</div>
   </div>

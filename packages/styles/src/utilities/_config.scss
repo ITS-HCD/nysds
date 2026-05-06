@@ -34,17 +34,20 @@ $grid-containers: (
 // Note: default gap ("") handled separately due to responsive behavior
 $grid-gaps: (
   "-0": 0,
+  "-1px": 1px,
   "-2px": 2px,
-  "-05": 0.25rem,
-  "-1": 0.5rem,
-  "-2": 1rem,
-  "-3": 1.5rem,
-  "-4": 2rem,
-  "-5": 2.5rem,
-  "-6": 3rem,
-  "-sm": 2px,
-  "-md": 1rem,
-  "-lg": 1.5rem
+  "-50": 0.25rem,
+  "-100": 0.5rem,
+  "-150": 0.75rem,
+  "-200": 1rem,
+  "-250": 1.25rem,
+  "-300": 1.5rem,
+  "-400": 2rem,
+  "-500": 2.5rem,
+  "-600": 3rem,
+  "-700": 3.5rem,
+  "-800": 4rem,
+  "-1200": 6rem
 );
 
 // Spacing scale (matches published CSS utility classes)
