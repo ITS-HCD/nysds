@@ -10794,8 +10794,9 @@
           "customElement": true,
           "examples": [
             {
-              "title": "```html",
-              "code": "<!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->\n<nys-tabgroup name=\"My Tabs\">\n  <nys-tab label=\"Overview\"></nys-tab>\n  <nys-tab label=\"Details\" selected></nys-tab>\n  <nys-tab label=\"Archived\" disabled></nys-tab>\n  <nys-tabpanel><p>Overview content</p></nys-tabpanel>\n  <nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>\n  <nys-tabpanel><p>Archived content</p></nys-tabpanel>\n</nys-tabgroup>\n```"
+              "title": "`<nys-tab>` and `<nys-tabpanel>` should always be wrapped by `<nys-tabgroup>`",
+              "code": "<!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->\n<nys-tabgroup name=\"My Tabs\">\n<nys-tab label=\"Overview\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tab label=\"Archived\" disabled></nys-tab>\n<nys-tabpanel><p>Overview content</p></nys-tabpanel>\n<nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>\n<nys-tabpanel><p>Archived content</p></nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
             }
           ]
         }
@@ -11056,8 +11057,9 @@
           "customElement": true,
           "examples": [
             {
-              "title": "```html",
-              "code": "<nys-tabgroup name=\"Account Settings\">\n  <nys-tab label=\"Profile\"></nys-tab>\n  <nys-tab label=\"Security\"></nys-tab>\n  <nys-tab label=\"Notifications\" disabled></nys-tab>\n  <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n  <nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n  <nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>\n```"
+              "title": "Disable a tab using the `disabled` attribute on `<nys-tab>`.",
+              "code": "<nys-tabgroup name=\"Account Settings\">\n<nys-tab label=\"Profile\"></nys-tab>\n<nys-tab label=\"Security\"></nys-tab>\n<nys-tab label=\"Notifications\" disabled></nys-tab>\n<nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n<nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n<nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
             },
             {
               "title": "Pre-select a tab using the `selected` attribute on `<nys-tab>`.",
@@ -11134,8 +11136,9 @@
           "customElement": true,
           "examples": [
             {
-              "title": "```html",
-              "code": "<!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->\n<nys-tabgroup name=\"Steps\">\n  <nys-tab label=\"Step 1\"></nys-tab>\n  <nys-tab label=\"Step 2\"></nys-tab>\n  <nys-tabpanel>\n    <h2>Step 1: Enter your information</h2>\n    <p>Fill out the form below.</p>\n  </nys-tabpanel>\n  <nys-tabpanel>\n    <h2>Step 2: Review and submit</h2>\n    <p>Confirm your details before submitting.</p>\n  </nys-tabpanel>\n</nys-tabgroup>\n```"
+              "title": "Panel content is wrapped by `<nys-tabpanel>`.",
+              "code": "<!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->\n<nys-tabgroup name=\"Steps\">\n<nys-tab label=\"Step 1\"></nys-tab>\n<nys-tab label=\"Step 2\"></nys-tab>\n<nys-tabpanel>\n<h2>Step 1: Enter your information</h2>\n<p>Fill out the form below.</p>\n</nys-tabpanel>\n<nys-tabpanel>\n<h2>Step 2: Review and submit</h2>\n<p>Confirm your details before submitting.</p>\n</nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
             }
           ]
         }
