@@ -20,7 +20,7 @@ let componentIdCounter = 0;
  * @slot - Default slot for panel content. Rendered inside a wrapper `<div>`
  *   with the `.nys-tabpanel` class for styling.
  *
- * @example
+ * @example Panel content is wrapped by `<nys-tabpanel>`.
  * ```html
  * <!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->
  * <nys-tabgroup name="Steps">
