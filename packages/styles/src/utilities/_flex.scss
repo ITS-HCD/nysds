@@ -46,22 +46,16 @@ $flex-align-values: (start, end, center, stretch, baseline);
 
 @each $value in $flex-align-values {
   @include base-class("nys-flex-align-#{$value}") {
-    $computed: $value;
-    @if $value == "start" or $value == "end" {
-      $computed: flex-#{$value};
-    }
-    align-items: $computed;
+    align-items: if(
+      sass($value == "start" or $value == "end"): flex-#{$value}; else: $value
+    );
   }
 }
 
 // Align self
 @each $value in $flex-align-values {
   @include base-class("nys-flex-align-self-#{$value}") {
-    $computed: $value;
-    @if $value == "start" or $value == "end" {
-      $computed: flex-#{$value};
-    }
-    align-self: $computed;
+    align-self: if(sass($value == "start" or $value == "end"): flex-#{$value}; else: $value);
   }
 }
 
