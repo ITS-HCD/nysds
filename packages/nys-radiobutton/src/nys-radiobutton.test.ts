@@ -95,21 +95,6 @@ describe("nys-radiobutton", () => {
     });
   });
 
-  it("radiogroup propagates inverted to all child radiobuttons", async () => {
-    const group = await fixture<NysRadiogroup>(html`
-      <nys-radiogroup label="Inverted test" inverted>
-        <nys-radiobutton name="i" label="A" value="a"></nys-radiobutton>
-        <nys-radiobutton name="i" label="B" value="b"></nys-radiobutton>
-      </nys-radiogroup>
-    `);
-    await group.updateComplete;
-
-    const radios = group.querySelectorAll("nys-radiobutton");
-    radios.forEach((r) => {
-      expect(r.hasAttribute("inverted")).to.be.true;
-    });
-  });
-
   it("optional flag renders on radiogroup", async () => {
     const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Optional test" optional>

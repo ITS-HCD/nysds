@@ -29,7 +29,6 @@ NYSDS provides a 12-column responsive grid system.
 - \`nys-grid-col-fill\` - Column fills remaining space
 
 ### Gap Classes
-- \`nys-grid-gap\` - Default gap between columns (responsive: 8px → 16px at desktop)
 - \`nys-grid-gap-0\` - No gap
 - \`nys-grid-gap-2px\` - 2px gap
 - \`nys-grid-gap-50\` - 4px gap (0.25rem)
@@ -41,6 +40,9 @@ NYSDS provides a 12-column responsive grid system.
 - \`nys-grid-gap-400\` - 32px gap (2rem)
 - \`nys-grid-gap-500\` - 40px gap (2.5rem)
 - \`nys-grid-gap-600\` - 48px gap (3rem)
+- \`nys-grid-gap-700\` - 56px gap (3.5rem)
+- \`nys-grid-gap-800\` - 64px gap (4rem)
+- \`nys-grid-gap-1200\` - 96px gap (6rem)
 
 ### Offset Classes
 - \`nys-grid-offset-[1-12]\` - Offset column by 1-12 columns
