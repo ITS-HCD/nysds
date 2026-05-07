@@ -2714,17 +2714,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "tooltip",
               "type": {
                 "text": "string"
@@ -3128,16 +3117,6 @@
               "propName": "tile"
             },
             {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted",
-              "propName": "inverted"
-            },
-            {
               "name": "tooltip",
               "type": {
                 "text": "string"
@@ -3222,7 +3201,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping multiple `nys-checkbox` components as a single form control.\nHandles validation, required constraints, and submits comma-separated values.\n\nUse to allow users to select multiple options from a list. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically.",
+          "description": "A container for grouping multiple `nys-checkbox` components as a single form control.\nHandles validation, required constraints, and submits comma-separated values.\n\nUse to allow users to select multiple options from a list. Apply `tile` and `size` to the group\nand all children inherit these styles automatically.",
           "name": "NysCheckboxgroup",
           "slots": [
             {
@@ -3352,17 +3331,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -3462,11 +3430,6 @@
             {
               "kind": "method",
               "name": "_updateCheckboxTile",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateCheckboxInvert",
               "privacy": "private"
             },
             {
@@ -3661,16 +3624,6 @@
               "description": "Tooltip text shown on hover/focus of info icon.",
               "fieldName": "tooltip",
               "propName": "tooltip"
-            },
-            {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "fieldName": "inverted",
-              "propName": "inverted"
             },
             {
               "name": "form",
@@ -8394,17 +8347,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -8701,16 +8643,6 @@
               "propName": "value"
             },
             {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds.",
-              "fieldName": "inverted",
-              "propName": "inverted"
-            },
-            {
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -8800,7 +8732,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.\nHandles keyboard navigation (arrow keys), validation, required constraints, and form integration.\n\nUse to let users select exactly one option from 2-6 choices. Apply `tile`, `size`, and `inverted` to the group\nand all children inherit these styles automatically. For 7+ options, use `nys-select`.",
+          "description": "A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.\nHandles keyboard navigation (arrow keys), validation, required constraints, and form integration.\n\nUse to let users select exactly one option from 2-6 choices. Apply `tile` and `size` to the group\nand all children inherit these styles automatically. For 7+ options, use `nys-select`.",
           "name": "NysRadiogroup",
           "slots": [
             {
@@ -8930,17 +8862,6 @@
             },
             {
               "kind": "field",
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "attribute": "inverted",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "form",
               "type": {
                 "text": "string | null"
@@ -9064,11 +8985,6 @@
             {
               "kind": "method",
               "name": "_updateRadioButtonsTile",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateRadioButtonsInvert",
               "privacy": "private"
             },
             {
@@ -9245,16 +9161,6 @@
               "description": "Tooltip text shown on hover/focus of info icon.",
               "fieldName": "tooltip",
               "propName": "tooltip"
-            },
-            {
-              "name": "inverted",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Adjusts colors for dark backgrounds. Applied to all children.",
-              "fieldName": "inverted",
-              "propName": "inverted"
             },
             {
               "name": "form",
@@ -10791,7 +10697,13 @@
             "package": "lit"
           },
           "tagName": "nys-tab",
-          "customElement": true
+          "customElement": true,
+          "examples": [
+            {
+              "title": "```html",
+              "code": "<!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->\n<nys-tabgroup name=\"My Tabs\">\n  <nys-tab label=\"Overview\"></nys-tab>\n  <nys-tab label=\"Details\" selected></nys-tab>\n  <nys-tab label=\"Archived\" disabled></nys-tab>\n  <nys-tabpanel><p>Overview content</p></nys-tabpanel>\n  <nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>\n  <nys-tabpanel><p>Archived content</p></nys-tabpanel>\n</nys-tabgroup>\n```"
+            }
+          ]
         }
       ],
       "exports": [
@@ -11047,7 +10959,18 @@
             "package": "lit"
           },
           "tagName": "nys-tabgroup",
-          "customElement": true
+          "customElement": true,
+          "examples": [
+            {
+              "title": "```html",
+              "code": "<nys-tabgroup name=\"Account Settings\">\n  <nys-tab label=\"Profile\"></nys-tab>\n  <nys-tab label=\"Security\"></nys-tab>\n  <nys-tab label=\"Notifications\" disabled></nys-tab>\n  <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n  <nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n  <nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>\n```"
+            },
+            {
+              "title": "Pre-select a tab using the `selected` attribute on `<nys-tab>`.",
+              "code": "<nys-tabgroup name=\"Reports\">\n<nys-tab label=\"Summary\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tabpanel><p>Summary view</p></nys-tabpanel>\n<nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -11114,7 +11037,13 @@
             "package": "lit"
           },
           "tagName": "nys-tabpanel",
-          "customElement": true
+          "customElement": true,
+          "examples": [
+            {
+              "title": "```html",
+              "code": "<!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->\n<nys-tabgroup name=\"Steps\">\n  <nys-tab label=\"Step 1\"></nys-tab>\n  <nys-tab label=\"Step 2\"></nys-tab>\n  <nys-tabpanel>\n    <h2>Step 1: Enter your information</h2>\n    <p>Fill out the form below.</p>\n  </nys-tabpanel>\n  <nys-tabpanel>\n    <h2>Step 2: Review and submit</h2>\n    <p>Confirm your details before submitting.</p>\n  </nys-tabpanel>\n</nys-tabgroup>\n```"
+            }
+          ]
         }
       ],
       "exports": [
