@@ -55,6 +55,12 @@ export class NysGlobalHeader extends LitElement {
     this._handleListSlotChange(); // run once at startup
 
     this._listenLinkClicks();
+    document.addEventListener("click", this._boundClickOutside);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this._boundClickOutside);
   }
 
   /**
@@ -187,6 +193,15 @@ export class NysGlobalHeader extends LitElement {
 
     return svgElement;
   }
+
+  private _boundClickOutside = (event: Event) => {
+    if (!this._isMobileMenuOpen) return;
+
+    const path = event.composedPath();
+    if (!path.includes(this)) {
+      this._isMobileMenuOpen = false;
+    }
+  };
 
   render() {
     return html`
