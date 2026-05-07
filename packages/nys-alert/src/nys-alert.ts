@@ -235,7 +235,9 @@ export class NysAlert extends LitElement {
               role=${role}
               aria-live=${ifDefined(this.liveRegion)}
             >
-              <p class="nys-alert__header">${this.heading}</p>
+              ${this.heading?.trim()
+                ? html`<p class="nys-alert__header">${this.heading}</p>`
+                : ""}
               ${this._slotHasContent
                 ? html`<slot></slot>`
                 : this.text?.trim().length > 0
