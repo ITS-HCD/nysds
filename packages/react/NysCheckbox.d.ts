@@ -40,9 +40,6 @@ export interface NysCheckboxProps extends Pick<
   /** Renders as tile with larger clickable area. Apply to group for consistency. */
   tile?: boolean;
 
-  /** Adjusts colors for dark backgrounds. */
-  inverted?: boolean;
-
   /** undefined */
   other?: boolean;
 

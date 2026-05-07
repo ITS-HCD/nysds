@@ -30,9 +30,6 @@ export interface NysRadiogroupProps extends Pick<
   /** Renders all radiobuttons as tiles with larger clickable area. */
   tile?: boolean;
 
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  inverted?: boolean;
-
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysRadiogroupElement["id"];
 
