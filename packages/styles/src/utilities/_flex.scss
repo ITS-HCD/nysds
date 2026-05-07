@@ -46,22 +46,22 @@ $flex-align-values: (start, end, center, stretch, baseline);
 
 @each $value in $flex-align-values {
   @include base-class("nys-flex-align-#{$value}") {
-    align-items: if(
-      $value == "start" or $value == "end",
-      flex-#{$value},
-      $value
-    );
+    $computed: $value;
+    @if $value == "start" or $value == "end" {
+      $computed: flex-#{$value};
+    }
+    align-items: $computed;
   }
 }
 
 // Align self
 @each $value in $flex-align-values {
   @include base-class("nys-flex-align-self-#{$value}") {
-    align-self: if(
-      $value == "start" or $value == "end",
-      flex-#{$value},
-      $value
-    );
+    $computed: $value;
+    @if $value == "start" or $value == "end" {
+      $computed: flex-#{$value};
+    }
+    align-self: $computed;
   }
 }
 
@@ -132,63 +132,103 @@ $flex-gap-tokens: (
   @media all and (min-width: #{$bp-value}) {
     // Flex column sizes (1-12)
     @each $i in $flex-columns {
-      @include responsive-variants($bp-name, "nys-flex-#{$i}") { flex: $i; }
+      @include responsive-variants($bp-name, "nys-flex-#{$i}") {
+        flex: $i;
+      }
     }
 
     // Flex auto and fill
-    @include responsive-variants($bp-name, "nys-flex-auto") { flex: auto; }
+    @include responsive-variants($bp-name, "nys-flex-auto") {
+      flex: auto;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-fill") { flex: 1 1 0%; }
+    @include responsive-variants($bp-name, "nys-flex-fill") {
+      flex: 1 1 0%;
+    }
 
     // Flex direction
-    @include responsive-variants($bp-name, "nys-flex-column") { flex-direction: column; }
+    @include responsive-variants($bp-name, "nys-flex-column") {
+      flex-direction: column;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-row") { flex-direction: row; }
+    @include responsive-variants($bp-name, "nys-flex-row") {
+      flex-direction: row;
+    }
 
     // Flex wrap
-    @include responsive-variants($bp-name, "nys-flex-wrap") { flex-wrap: wrap; }
+    @include responsive-variants($bp-name, "nys-flex-wrap") {
+      flex-wrap: wrap;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-no-wrap") { flex-wrap: nowrap; }
+    @include responsive-variants($bp-name, "nys-flex-no-wrap") {
+      flex-wrap: nowrap;
+    }
 
     // Align items
     @each $value in $flex-align-values {
       @include responsive-variants($bp-name, "nys-flex-align-#{$value}") {
-        align-items: if($value == "start" or $value == "end", flex-#{$value}, $value);
+        $computed: $value;
+        @if $value == "start" or $value == "end" {
+          $computed: flex-#{$value};
+        }
+        align-items: $computed;
       }
     }
 
     // Align self
     @each $value in $flex-align-values {
       @include responsive-variants($bp-name, "nys-flex-align-self-#{$value}") {
-        align-self: if($value == "start" or $value == "end", flex-#{$value}, $value);
+        $computed: $value;
+        @if $value == "start" or $value == "end" {
+          $computed: flex-#{$value};
+        }
+        align-self: $computed;
       }
     }
 
     // Justify content
-    @include responsive-variants($bp-name, "nys-flex-justify-start") { justify-content: flex-start; }
+    @include responsive-variants($bp-name, "nys-flex-justify-start") {
+      justify-content: flex-start;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-justify-center") { justify-content: center; }
+    @include responsive-variants($bp-name, "nys-flex-justify-center") {
+      justify-content: center;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-justify-end") { justify-content: flex-end; }
+    @include responsive-variants($bp-name, "nys-flex-justify-end") {
+      justify-content: flex-end;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-justify-space-between") { justify-content: space-between; }
+    @include responsive-variants($bp-name, "nys-flex-justify-space-between") {
+      justify-content: space-between;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-justify-space-around") { justify-content: space-around; }
+    @include responsive-variants($bp-name, "nys-flex-justify-space-around") {
+      justify-content: space-around;
+    }
 
-    @include responsive-variants($bp-name, "nys-flex-justify-space-evenly") { justify-content: space-evenly; }
+    @include responsive-variants($bp-name, "nys-flex-justify-space-evenly") {
+      justify-content: space-evenly;
+    }
 
     // Flex gap
     @each $size in $flex-gap-tokens {
-      @include responsive-variants($bp-name, "nys-flex-gap-#{$size}") { gap: var(--nys-space-#{$size}); }
+      @include responsive-variants($bp-name, "nys-flex-gap-#{$size}") {
+        gap: var(--nys-space-#{$size});
+      }
     }
 
     // Flex gap — row/column splits
     @each $size in $flex-gap-tokens {
-      @include responsive-variants($bp-name, "nys-flex-row-gap-#{$size}") { row-gap: var(--nys-space-#{$size}); }
+      @include responsive-variants($bp-name, "nys-flex-row-gap-#{$size}") {
+        row-gap: var(--nys-space-#{$size});
+      }
     }
 
     @each $size in $flex-gap-tokens {
-      @include responsive-variants($bp-name, "nys-flex-column-gap-#{$size}") { column-gap: var(--nys-space-#{$size}); }
+      @include responsive-variants($bp-name, "nys-flex-column-gap-#{$size}") {
+        column-gap: var(--nys-space-#{$size});
+      }
     }
   }
 }
