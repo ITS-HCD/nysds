@@ -166,10 +166,6 @@
   );
 }
 
-:host([inverted]) {
-  --_nys-radiobutton-outline-color: var(--nys-color-focus-reverse, #7aa5e7);
-}
-
 .nys-radiogroup {
   display: flex;
   flex-direction: column;

@@ -30,7 +30,7 @@ let componentIdCounter = 0;
  *   moved into internal shadow-DOM containers on `slotchange`; the slot
  *   itself is not rendered visibly.
  *
- * @example
+ * @example Disable a tab using the `disabled` attribute on `<nys-tab>`.
  * ```html
  * <nys-tabgroup name="Account Settings">
  *   <nys-tab label="Profile"></nys-tab>

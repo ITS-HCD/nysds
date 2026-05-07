@@ -63,9 +63,6 @@ export class NysRadiobutton extends LitElement {
   /** Value submitted when this radio is selected. */
   @property({ type: String }) value = "";
 
-  /** Adjusts colors for dark backgrounds. */
-  @property({ type: Boolean, reflect: true }) inverted = false;
-
   /** Form `id` to associate with. */
   @property({ type: String, reflect: true }) form: string | null = null;
 
@@ -360,7 +357,6 @@ export class NysRadiobutton extends LitElement {
           html`<nys-label
             label="${this.label || (this.other ? "Other" : "")}"
             description=${ifDefined(this.description || undefined)}
-            ?inverted=${this.inverted}
           >
             <slot name="description" slot="description"
               >${this.description}</slot
