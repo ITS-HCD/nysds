@@ -13,7 +13,11 @@ import styles from "./nys-backtotop.scss?inline";
  * If no footer exists, place at the bottom of the body tag (after main content). Floating
  * positioning allows it to overlay content without taking up layout space.
  *
- * @summary Floating back-to-top button with auto-show behavior and smooth scroll.
+ * **Focus Management:** When clicked, after scrolling to the top, focus is automatically moved
+ * to the `<main>` element (if present), the first heading (`<h1>` or `<h2>`), or the document element.
+ * This ensures keyboard navigation continues naturally from the top of the page.
+ *
+ * @summary Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * @element nys-backtotop
  *
  * @example Auto-appearing button in footer
@@ -88,6 +92,38 @@ export class NysBacktotop extends LitElement {
 
   private _scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    // Move focus to the main content area or first heading after scroll
+    // Use a scroll event listener to detect when smooth scroll completes
+    const handleScrollComplete = () => {
+      window.removeEventListener("scroll", handleScrollComplete);
+      this._moveFocusToTop();
+    };
+    window.addEventListener("scroll", handleScrollComplete, { once: true });
+  }
+
+  private _moveFocusToTop() {
+    // Try to focus main element, then first heading, then body as fallback
+    const mainEl = document.querySelector("main");
+    if (mainEl) {
+      // Ensure main is focusable
+      if (!mainEl.hasAttribute("tabindex")) {
+        mainEl.setAttribute("tabindex", "-1");
+      }
+      (mainEl as HTMLElement).focus();
+      return;
+    }
+
+    const heading = document.querySelector("h1, h2");
+    if (heading) {
+      if (!heading.hasAttribute("tabindex")) {
+        heading.setAttribute("tabindex", "-1");
+      }
+      (heading as HTMLElement).focus();
+      return;
+    }
+
+    // If no main or heading, focus document element as last resort
+    (document.documentElement as HTMLElement).focus();
   }
 
   private _handleResize() {
