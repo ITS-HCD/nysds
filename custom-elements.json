@@ -1058,7 +1058,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A floating \"Back to top\" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).",
+          "description": "A floating \"Back to top\" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).\n\n**Placement:** For best accessibility, place as the first focusable element in the page footer.\nIf no footer exists, place at the bottom of the body tag (after main content). Floating\npositioning allows it to overlay content without taking up layout space.",
           "name": "NysBacktotop",
           "members": [
             {
@@ -1156,8 +1156,8 @@
           "summary": "Floating back-to-top button with auto-show behavior and smooth scroll.",
           "examples": [
             {
-              "title": "Auto-appearing button",
-              "code": "<nys-backtotop></nys-backtotop>",
+              "title": "Auto-appearing button in footer",
+              "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
               "lang": "html"
             },
             {

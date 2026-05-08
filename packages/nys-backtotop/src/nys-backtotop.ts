@@ -9,12 +9,19 @@ import styles from "./nys-backtotop.scss?inline";
  * Auto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.
  * Renders as circle button on mobile. Position with `position` prop (`left` or `right`).
  *
+ * **Placement:** For best accessibility, place as the first focusable element in the page footer.
+ * If no footer exists, place at the bottom of the body tag (after main content). Floating
+ * positioning allows it to overlay content without taking up layout space.
+ *
  * @summary Floating back-to-top button with auto-show behavior and smooth scroll.
  * @element nys-backtotop
  *
- * @example Auto-appearing button
+ * @example Auto-appearing button in footer
  * ```html
- * <nys-backtotop></nys-backtotop>
+ * <footer>
+ *   <nys-backtotop></nys-backtotop>
+ *   <!-- Other footer content -->
+ * </footer>
  * ```
  *
  * @example Always visible, left position
