@@ -25,6 +25,7 @@
     max-width: $max-width;
     padding-left: 1rem;
     padding-right: 1rem;
+    overflow-x: clip;
 
     @media all and (width >= 64em) {
       padding-left: 2rem;
@@ -43,6 +44,7 @@
         max-width: $max-width;
         padding-left: 1rem;
         padding-right: 1rem;
+        overflow-x: clip;
       }
     }
   }
