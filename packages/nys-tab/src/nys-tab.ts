@@ -27,7 +27,7 @@ let componentIdCounter = 0;
  *
  * @slot - No slots; content is derived from the `label` property.
  *
- * @example
+ * @example `<nys-tab>` and `<nys-tabpanel>` should always be wrapped by `<nys-tabgroup>`
  * ```html
  * <!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->
  * <nys-tabgroup name="My Tabs">
