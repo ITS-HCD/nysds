@@ -157,12 +157,15 @@ export class NysBadge extends LitElement {
         ${this.prefixLabel
           ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
           : ""}
-        <div class="nys-badge__label">${this.label}</div>
+        <div class="nys-badge__label">
+          ${this.label}
+          ${this.srText
+            ? html`<span class="nys-badge__sr-only">${this.srText}</span>`
+            : ""}
+        </div>
+
         ${suffixIconName
           ? html`<nys-icon size="16" name=${suffixIconName}></nys-icon>`
-          : ""}
-        ${this.srText
-          ? html`<span class="nys-badge__sr-only">${this.srText}</span>`
           : ""}
       </mark>
     `;
