@@ -11186,12 +11186,29 @@
               "default": "\"\""
             },
             {
+              "kind": "field",
+              "name": "_observer",
+              "type": {
+                "text": "MutationObserver | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
               "kind": "method",
-              "name": "_handleSlotChange"
+              "name": "_handleSlotChange",
+              "privacy": "private",
+              "description": "****************** Functions *******************"
+            },
+            {
+              "kind": "method",
+              "name": "_setupMutationObserver",
+              "privacy": "private"
             },
             {
               "kind": "method",
               "name": "_normalizeTableDOM",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11204,6 +11221,7 @@
             {
               "kind": "method",
               "name": "_addSortIcons",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11216,6 +11234,7 @@
             {
               "kind": "method",
               "name": "_updateSortIcons",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11247,6 +11266,7 @@
             {
               "kind": "method",
               "name": "_sortTable",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11271,6 +11291,7 @@
             {
               "kind": "method",
               "name": "_updateSortedColumnStyles",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11282,7 +11303,8 @@
             },
             {
               "kind": "method",
-              "name": "downloadFile"
+              "name": "downloadFile",
+              "privacy": "public"
             },
             {
               "kind": "method",
