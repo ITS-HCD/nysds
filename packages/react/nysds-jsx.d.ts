@@ -1087,7 +1087,7 @@ export type CustomElements = {
   "nys-avatar": Partial<NysAvatarProps & BaseProps & BaseEvents>;
 
   /**
-   * Floating back-to-top button with auto-show behavior and smooth scroll.
+   * Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
    * ---
    *
    */
