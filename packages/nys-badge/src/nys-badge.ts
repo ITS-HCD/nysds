@@ -160,7 +160,9 @@ export class NysBadge extends LitElement {
         <div class="nys-badge__label">
           ${this.label}
           ${this.srText
-            ? html`<span class="nys-badge__sr-only">${this.srText}</span>`
+            ? html`<span class="nys-badge__sr-only"
+                >${": " + this.srText}</span
+              >`
             : ""}
         </div>
 
