@@ -2,7 +2,17 @@
 @use "mixins" as *;
 
 @each $name, $value in $zindex-values {
-  @include responsive-variants("nys-z-#{$name}") {
+  @include base-class("nys-z-#{$name}") {
     z-index: $value;
+  }
+}
+
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $name, $value in $zindex-values {
+      @include responsive-variants($bp-name, "nys-z-#{$name}") {
+        z-index: $value;
+      }
+    }
   }
 }

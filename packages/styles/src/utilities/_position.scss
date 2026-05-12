@@ -7,7 +7,17 @@
 @use "mixins" as *;
 
 @each $value in $position-values {
-  @include responsive-variants("nys-position-#{$value}") {
+  @include base-class("nys-position-#{$value}") {
     position: $value;
+  }
+}
+
+@each $bp-name, $bp-value in $breakpoints {
+  @media all and (min-width: #{$bp-value}) {
+    @each $value in $position-values {
+      @include responsive-variants($bp-name, "nys-position-#{$value}") {
+        position: $value;
+      }
+    }
   }
 }
