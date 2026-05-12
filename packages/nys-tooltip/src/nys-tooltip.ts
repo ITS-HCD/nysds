@@ -151,6 +151,9 @@ export class NysTooltip extends LitElement {
     // Accounts for tooltip's text change (for code editor changes & VO)
     if (changedProps.has("text")) {
       this._applyTooltipPropToFormComponent(ref);
+      if (this._active) {
+        this.updateComplete.then(() => this._showTooltip());
+      }
     }
   }
 
