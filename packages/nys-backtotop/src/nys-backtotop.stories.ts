@@ -49,7 +49,7 @@ export const Basic: Story = {
 
       <nys-unavheader hideTranslate hideSearch></nys-unavheader>
       <nys-globalheader appName="Back to Top Example"></nys-globalheader>
-      <div style="padding: 0 2rem">
+      <main style="padding: 0 2rem">
         <h1>Sample Content on page</h1>
         <p>
           This is a sample content area used to demonstrate the functionality of
@@ -57,15 +57,20 @@ export const Basic: Story = {
           <code>nys-backtotop</code> would not be visible until the user scrolls
           down the page.
         </p>
-      </div>
-      <nys-unavfooter></nys-unavfooter>
-      <nys-backtotop visible .position=${args.position}></nys-backtotop>
+      </main>
+      <footer>
+        <nys-backtotop visible .position=${args.position}></nys-backtotop>
+        <nys-unavfooter></nys-unavfooter>
+      </footer>
     `;
   },
   parameters: {
     docs: {
       source: {
-        code: `<nys-backtotop></nys-backtotop>`,
+        code: `<footer>
+  <nys-backtotop></nys-backtotop>
+  <!-- Other footer content -->
+</footer>`,
         type: "auto",
       },
     },
@@ -99,7 +104,7 @@ export const Left: Story = {
 
       <nys-unavheader hideTranslate hideSearch></nys-unavheader>
       <nys-globalheader appName="Back to Top Example"></nys-globalheader>
-      <div style="padding: 0 2rem">
+      <main style="padding: 0 2rem">
         <h1>Sample Content on page</h1>
         <p>
           This is a sample content area used to demonstrate the functionality of
@@ -107,21 +112,26 @@ export const Left: Story = {
           <code>nys-backtotop</code> would not be visible until the user scrolls
           down the page.
         </p>
-      </div>
-      <nys-button
-        prefixIcon="sms"
-        variant="outline"
-        label="Chat with us"
-        size="sm"
-      ></nys-button>
-      <nys-unavfooter></nys-unavfooter>
-      <nys-backtotop visible .position=${args.position}></nys-backtotop>
+      </main>
+      <footer>
+        <nys-backtotop visible .position=${args.position}></nys-backtotop>
+        <nys-button
+          prefixIcon="sms"
+          variant="outline"
+          label="Chat with us"
+          size="sm"
+        ></nys-button>
+        <nys-unavfooter></nys-unavfooter>
+      </footer>
     `;
   },
   parameters: {
     docs: {
       source: {
-        code: `<nys-backtotop left></nys-backtotop>`,
+        code: `<footer>
+  <nys-backtotop position="left"></nys-backtotop>
+  <!-- Other footer content -->
+</footer>`,
         type: "auto",
       },
     },

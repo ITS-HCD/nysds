@@ -47,7 +47,7 @@ export interface NysBacktotopProps extends Pick<
 }
 
 /**
- * Floating back-to-top button with auto-show behavior and smooth scroll.
+ * Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * ---
  *
  */
