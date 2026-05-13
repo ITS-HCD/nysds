@@ -163,6 +163,8 @@ export type NysBadgeProps = {
   prefixLabel?: string;
   /** Primary label text displayed in the badge. */
   label?: string;
+  /** Screen reader text appended after the label for additional context. */
+  srText?: string;
   /**  */
   variant?: "strong" | "";
   /**  */
@@ -275,8 +277,6 @@ export type NysCheckboxProps = {
   groupExist?: boolean;
   /** Renders as tile with larger clickable area. Apply to group for consistency. */
   tile?: boolean;
-  /** Adjusts colors for dark backgrounds. */
-  inverted?: boolean;
   /** Tooltip text shown on hover/focus of info icon. */
   tooltip?: string;
   /** Checkbox size: `sm` (24px) or `md` (32px, default). */
@@ -322,8 +322,6 @@ export type NysCheckboxgroupProps = {
   tile?: boolean;
   /** Tooltip text shown on hover/focus of info icon. */
   tooltip?: string;
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  inverted?: boolean;
   /** Form `id` to associate with. Applied to all children. */
   form?: string | null;
   /** Checkbox size for all children: `sm` (24px) or `md` (32px, default). */
@@ -635,8 +633,6 @@ export type NysRadiobuttonProps = {
   name?: string;
   /** Value submitted when this radio is selected. */
   value?: string;
-  /** Adjusts colors for dark backgrounds. */
-  inverted?: boolean;
   /** Form `id` to associate with. */
   form?: string | null;
   /** Radio size: `sm` (24px) or `md` (32px, default). */
@@ -683,8 +679,6 @@ export type NysRadiogroupProps = {
   tile?: boolean;
   /** Tooltip text shown on hover/focus of info icon. */
   tooltip?: string;
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  inverted?: boolean;
   /** Form `id` to associate with. Applied to all children. */
   form?: string | null;
   /** Radio size for all children: `sm` (24px) or `md` (32px, default). */
@@ -779,6 +773,45 @@ export type NysStepperProps = {
   counterText?: string;
   /** Whether compact mobile view is expanded to show all steps. */
   isCompactExpanded?: boolean;
+};
+
+export type NysTabProps = {
+  /** Unique identifier for the tab element.
+Reflected to the DOM attribute so `aria-controls` references resolve. */
+  id?: string;
+  /** Visible text label rendered inside the inner `<span>`. */
+  label?: string;
+  /** Whether this tab is the currently active tab.
+Managed by `<nys-tabgroup>`; reflected for CSS attribute selectors. */
+  selected?: boolean;
+  /** Whether this tab is disabled.
+Reflected to the DOM attribute for CSS styling. */
+  disabled?: boolean;
+
+  /** Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }` */
+  "onnys-tab-select"?: (e: CustomEvent<CustomEvent>) => void;
+  /** Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  "onnys-tab-focus"?: (e: CustomEvent<never>) => void;
+  /** Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  "onnys-tab-blur"?: (e: CustomEvent<never>) => void;
+};
+
+export type NysTabgroupProps = {
+  /** Unique identifier for the tabgroup element.
+If not provided, one is auto-generated in `connectedCallback`.
+Reflected to the DOM attribute. */
+  id?: string;
+  /** The name of the tab group.
+Used for form submission and accessibility purposes. */
+  name?: string;
+};
+
+export type NysTabpanelProps = {
+  /** Unique identifier for the panel element.
+If not provided, one is auto-generated in `connectedCallback`.
+Reflected to the DOM attribute so `aria-controls` references on sibling
+`<nys-tab>` elements resolve correctly. */
+  id?: string;
 };
 
 export type NysTableProps = {
@@ -1054,7 +1087,7 @@ export type CustomElements = {
   "nys-avatar": Partial<NysAvatarProps & BaseProps & BaseEvents>;
 
   /**
-   * Floating back-to-top button with auto-show behavior and smooth scroll.
+   * Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
    * ---
    *
    */
@@ -1395,6 +1428,72 @@ export type CustomElements = {
    * - **actions** - Navigation buttons (e.g., Back, Continue). Must be wrapped in a `<div>`.
    */
   "nys-stepper": Partial<NysStepperProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
+   *
+   * The host element carries `role="tab"`, `tabindex`, `aria-selected`,
+   * `aria-controls`, and `aria-disabled` so assistive technologies see the
+   * correct ARIA tab semantics on the element that is actually focused.
+   * `<nys-tabgroup>` manages `tabindex`, `aria-selected`, and `aria-controls`
+   * via `_applySelection`; do not set them directly on this element.
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-tab-select** - Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }`
+   * - **nys-tab-focus** - Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+   * - **nys-tab-blur** - Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+   *
+   * ### **Methods:**
+   *  - **focus(options: _FocusOptions_): _void_** - Focuses the host element. The host carries `role="tab"` and `tabindex`,
+   * so it is the correct element for AT to land on.
+   *
+   * ### **Slots:**
+   *  - _default_ - No slots; content is derived from the `label` property.
+   */
+  "nys-tab": Partial<NysTabProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-tabgroup>` is the container for `<nys-tab>` and `<nys-tabpanel>`
+   * elements.
+   *
+   * Accepts tabs and panels as flat light-DOM children in any order (interleaved
+   * or grouped). On slot change, children are sorted into dedicated shadow-DOM
+   * containers, ARIA relationships are wired, and the first selected (or first)
+   * tab is activated.
+   *
+   * Scroll shadows are rendered on either side of the tab list and toggled via
+   * `ResizeObserver` and a `scroll` listener so they accurately reflect whether
+   * overflow content exists in each direction.
+   *
+   * Keyboard navigation follows the
+   * https://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern:
+   * - Arrow keys move focus without changing selection.
+   * - Enter / Space confirm selection on the focused tab.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Accepts `<nys-tab>` and `<nys-tabpanel>` children. Elements are moved into internal shadow-DOM containers on `slotchange`; the slot itself is not rendered visibly.
+   */
+  "nys-tabgroup": Partial<NysTabgroupProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-tabpanel>` is a content panel paired with a `<nys-tab>` inside a
+   * `<nys-tabgroup>`.
+   *
+   * Pairing is determined by render order: the Nth `<nys-tabpanel>` child of a
+   * `<nys-tabgroup>` corresponds to the Nth `<nys-tab>` child.
+   * `aria-labelledby` and the `hidden` attribute are managed externally by
+   * `<nys-tabgroup>` via `_applySelection`; do not set them directly.
+   * ---
+   *
+   *
+   * ### **Slots:**
+   *  - _default_ - Default slot for panel content. Rendered inside a wrapper `<div>` with the `.nys-tabpanel` class for styling.
+   */
+  "nys-tabpanel": Partial<NysTabpanelProps & BaseProps & BaseEvents>;
 
   /**
    * `<nys-table>` is a responsive table component that can display native HTML tables,

@@ -72,7 +72,7 @@ figma.connect("<FIGMA_GLOBALHEADER>", {
 
 // // Variant: Application Name Only
 // figma.connect("<FIGMA_GLOBALHEADER>", {
-//   variant: { Content: "Application" },
+//   variant: { "Title Options": "Application" },
 //   props: {
 //     appName: figma.string("Application Name"),
 //   },
@@ -89,7 +89,7 @@ figma.connect("<FIGMA_GLOBALHEADER>", {
 
 // // Variant: Application Name Only
 // figma.connect("<FIGMA_GLOBALHEADER>", {
-//   variant: { Content: "Application" },
+//   variant: { "Title Options": "Application" },
 //   props: {
 //     appName: figma.string("Application Name"),
 //   },
@@ -106,7 +106,7 @@ figma.connect("<FIGMA_GLOBALHEADER>", {
 
 // // Variant: Agency Name Only
 // figma.connect("<FIGMA_GLOBALHEADER>", {
-//   variant: { Content: "Agency" },
+//   variant: { "Title Options": "Agency" },
 //   props: {
 //     agencyName: figma.string("Agency Name"),
 //   },
@@ -123,7 +123,7 @@ figma.connect("<FIGMA_GLOBALHEADER>", {
 
 // // Variant: Application + Agency Name
 // figma.connect("<FIGMA_GLOBALHEADER>", {
-//   variant: { Content: "Application + Agency" },
+//   variant: { "Title Options": "Application + Agency" },
 //   props: {
 //     appName: figma.string("Application Name"),
 //     agencyName: figma.string("Agency Name"),

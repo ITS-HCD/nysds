@@ -30,9 +30,6 @@ export interface NysCheckboxgroupProps extends Pick<
   /** Renders all checkboxes as tiles with larger clickable area. */
   tile?: boolean;
 
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  inverted?: boolean;
-
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysCheckboxgroupElement["id"];
 

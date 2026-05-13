@@ -10,7 +10,7 @@ let radiogroupIdCounter = 0;
  * A container for grouping `nys-radiobutton` elements as a single form control with enforced single selection.
  * Handles keyboard navigation (arrow keys), validation, required constraints, and form integration.
  *
- * Use to let users select exactly one option from 2-6 choices. Apply `tile`, `size`, and `inverted` to the group
+ * Use to let users select exactly one option from 2-6 choices. Apply `tile` and `size` to the group
  * and all children inherit these styles automatically. For 7+ options, use `nys-select`.
  *
  * @summary Container for grouping radio buttons as a single form control.
@@ -65,9 +65,6 @@ export class NysRadiogroup extends LitElement {
 
   /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
-
-  /** Adjusts colors for dark backgrounds. Applied to all children. */
-  @property({ type: Boolean, reflect: true }) inverted = false;
 
   /** Form `id` to associate with. Applied to all children. */
   @property({ type: String, reflect: true }) form: string | null = null;
@@ -145,9 +142,6 @@ export class NysRadiogroup extends LitElement {
     }
     if (changedProperties.has("tile")) {
       this._updateRadioButtonsTile();
-    }
-    if (changedProperties.has("inverted")) {
-      this._updateRadioButtonsInvert();
     }
     if (changedProperties.has("showError")) {
       this._updateRadioButtonsShowError();
@@ -332,17 +326,6 @@ export class NysRadiogroup extends LitElement {
     });
   }
 
-  private _updateRadioButtonsInvert() {
-    const radioButtons = this.querySelectorAll("nys-radiobutton");
-    radioButtons.forEach((radioButton) => {
-      if (this.inverted) {
-        radioButton.toggleAttribute("inverted", true);
-      } else {
-        radioButton.removeAttribute("inverted");
-      }
-    });
-  }
-
   private _updateRadioButtonsShowError() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
@@ -493,7 +476,6 @@ export class NysRadiogroup extends LitElement {
         description=${this.description}
         flag=${this.required ? "required" : this.optional ? "optional" : ""}
         tooltip=${this.tooltip}
-        ?inverted=${this.inverted}
       >
         <slot name="description" slot="description">${this.description}</slot>
       </nys-label>

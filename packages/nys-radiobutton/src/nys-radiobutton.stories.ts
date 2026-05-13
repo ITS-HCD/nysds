@@ -21,7 +21,6 @@ interface NysRadiobuttonArgs {
   form: string | null;
   required: boolean;
   optional: boolean;
-  inverted: boolean;
   showError: boolean;
   errorMessage: string;
 }
@@ -43,7 +42,6 @@ const meta: Meta<NysRadiobuttonArgs> = {
     form: { control: "text" },
     required: { control: "boolean" },
     optional: { control: "boolean" },
-    inverted: { control: "boolean" },
     showError: { control: "boolean" },
     errorMessage: { control: "text" },
   },
@@ -74,7 +72,6 @@ export const Basic: Story = {
     required: false,
     optional: false,
     showError: false,
-    inverted: false,
   },
   render: (args) => html`
     <nys-radiogroup
@@ -86,7 +83,6 @@ export const Basic: Story = {
       .errorMessage=${args.errorMessage}
       .required=${args.required}
       .optional=${args.optional}
-      ?inverted=${args.inverted}
       .form=${args.form}
     >
       <nys-radiobutton
@@ -151,7 +147,6 @@ export const PartialEditableOptions: Story = {
       label="Choose your preferred work operating system."
       size=${args.size}
       .tile=${args.tile}
-      ?inverted=${args.inverted}
     >
       <nys-radiobutton
         .id=${args.id}
@@ -225,7 +220,6 @@ export const DisabledOptions: Story = {
       description="Note: You cannot change your title, if you believe you are ready to be promoted talk to your supervisor."
       size=${args.size}
       .tile=${args.tile}
-      ?inverted=${args.inverted}
     >
       <nys-radiobutton
         .id=${args.id}
@@ -310,7 +304,6 @@ export const Required: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -381,7 +374,6 @@ export const Size: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -458,7 +450,6 @@ export const Tile: Story = {
       .errorMessage=${args.errorMessage}
       .required=${args.required}
       .optional=${args.optional}
-      ?inverted=${args.inverted}
       .form=${args.form}
     >
       <nys-radiobutton
@@ -528,7 +519,6 @@ export const ErrorMessage: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -598,7 +588,6 @@ export const Slot: Story = {
       .tile=${args.tile}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
-      ?inverted=${args.inverted}
     >
       <label slot="description">
         This is the location you use for your in office days.
@@ -675,7 +664,6 @@ export const Optional: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -746,7 +734,6 @@ export const Other: Story = {
       .tile=${args.tile}
       .required=${args.required}
       .optional=${args.optional}
-      ?inverted=${args.inverted}
       .form=${args.form}
       .showError=${args.showError}
       .errorMessage=${args.errorMessage}
@@ -803,83 +790,6 @@ export const Other: Story = {
 </nys-radiogroup>
 `.trim(),
 
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Inverted: Story = {
-  args: {
-    name: "office",
-    label: "Albany",
-    description: "Upstate New York",
-    value: "albany",
-    inverted: true,
-  },
-  render: (args) => html`
-    <div
-      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
-    >
-      <nys-radiogroup
-        label="What is your primary work location?"
-        size=${args.size}
-        .tile=${args.tile}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
-        ?inverted=${args.inverted}
-      >
-        <label slot="description">
-          This is the location you use for your in office days.
-          <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
-        >
-        <nys-radiobutton
-          .name=${args.name}
-          .checked=${args.checked}
-          .label=${args.label}
-          .description=${args.description}
-          .disabled=${args.disabled}
-          .value=${args.value}
-        ></nys-radiobutton>
-        <nys-radiobutton
-          .name=${args.name}
-          .checked=${false}
-          .label=${"Manhattan"}
-          .disabled=${args.disabled}
-          .value=${"manhattan"}
-        >
-          <label slot="description">
-            New York City
-            <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
-          >
-        </nys-radiobutton>
-      </nys-radiogroup>
-    </div>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-radiogroup label="What is your primary work location?" inverted>
-  <label slot="description">
-    This is the location you use for your in office days.
-    <a href="https://www.ny.gov/" target="__blank">(slot)</a></label
-  >
-  <nys-radiobutton
-    name="office"
-    label="Albany"
-    description="Upstate New York (prop)"
-    value="albany"
-  ></nys-radiobutton>
-  <nys-radiobutton
-    name="office"
-    label="Manhattan"
-    value="manhattan"
-  >
-    <label slot="description"> New York City <a href="https://www.ny.gov/" target="__blank">(slot)</a></label>
-  </nys-radiobutton>
-</nys-radiogroup>
-`.trim(),
         type: "auto",
       },
     },
