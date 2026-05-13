@@ -105,7 +105,7 @@ describe("nys-badge", () => {
     await el.updateComplete;
     const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
     expect(srOnly).to.exist;
-    expect(srOnly!.textContent).to.equal("concern");
+    expect(srOnly!.textContent).to.equal(": concern"); // added colon so the words don't get smushed together by screenreaders
   });
 
   it("does not render sr-only span when srText is empty", async () => {
