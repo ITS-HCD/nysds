@@ -1282,6 +1282,16 @@
             },
             {
               "kind": "field",
+              "name": "srText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Screen reader text appended after the label for additional context.",
+              "attribute": "srText"
+            },
+            {
+              "kind": "field",
               "name": "variant",
               "type": {
                 "text": "\"strong\" | \"\""
@@ -1417,6 +1427,16 @@
               "description": "Primary label text displayed in the badge.",
               "fieldName": "label",
               "propName": "label"
+            },
+            {
+              "name": "srText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Screen reader text appended after the label for additional context.",
+              "fieldName": "srText",
+              "propName": "srtext"
             },
             {
               "name": "variant",
