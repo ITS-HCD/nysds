@@ -163,6 +163,8 @@ export type NysBadgeProps = {
   prefixLabel?: string;
   /** Primary label text displayed in the badge. */
   label?: string;
+  /** Screen reader text appended after the label for additional context. */
+  srText?: string;
   /**  */
   variant?: "strong" | "";
   /**  */

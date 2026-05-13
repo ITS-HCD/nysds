@@ -14,6 +14,7 @@ interface NysBadgeArgs {
   label: string;
   prefixIcon: string;
   suffixIcon: string;
+  srText: string;
 }
 
 const meta: Meta<NysBadgeArgs> = {
@@ -47,6 +48,11 @@ const meta: Meta<NysBadgeArgs> = {
       description: "Icon to display after the label",
     },
     label: { control: "text", description: "Label text" },
+    srText: {
+      control: "text",
+      description:
+        "Visually-hidden text appended after the label for screen readers. Authors supply context appropriate for their content (e.g., 'concern' for a warning badge).",
+    },
   },
   parameters: {
     docs: {
@@ -76,6 +82,7 @@ export const Basic: Story = {
       .prefixLabel=${args.prefixLabel}
       .prefixIcon=${args.prefixIcon}
       .suffixIcon=${args.suffixIcon}
+      .srText=${args.srText}
     ></nys-badge>
   `,
   parameters: {
@@ -250,6 +257,48 @@ export const PrefixLabel: Story = {
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
   <nys-badge prefixLabel="WCAG 2.2" label="AA" intent="success" prefixIcon></nys-badge>
 </div>
+`,
+      },
+    },
+  },
+};
+
+export const ScreenReaderText: Story = {
+  render: () => html`
+    <p>
+      <nys-badge
+        intent="warning"
+        label="Caution"
+        prefixIcon
+        srText="concern"
+      ></nys-badge>
+    </p>
+    <p>
+      <nys-badge
+        intent="error"
+        label="Critical"
+        prefixIcon
+        srText="critical"
+      ></nys-badge>
+    </p>
+    <p>
+      <nys-badge intent="success" label="Approved" prefixIcon></nys-badge>
+    </p>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        type: "auto",
+        code: `
+<p>
+  <nys-badge intent="warning" label="Caution" prefixIcon srText="concern"></nys-badge>
+</p>
+<p>
+  <nys-badge intent="error" label="Critical" prefixIcon srText="critical"></nys-badge>
+</p>
+<p>
+  <nys-badge intent="success" label="Approved" prefixIcon></nys-badge>
+</p>
 `,
       },
     },
