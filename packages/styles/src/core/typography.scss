@@ -12,7 +12,9 @@ $body-sizes: (xs, sm, md);
 
 @each $size in $body-sizes {
   .nys-font-body-#{$size} {
-    font: var(--nys-font-size-#{$size}) / var(--nys-font-lineheight-#{$size}) var(--nys-font-family-body);
+    font: var(--nys-font-size-#{$size}) /
+      var(--nys-font-lineheight-#{$size})
+      var(--nys-font-family-body);
   }
 }
 
@@ -20,7 +22,12 @@ $body-sizes: (xs, sm, md);
 
 @for $i from 1 through 6 {
   .nys-font-h#{$i} {
-    font: normal normal var(--nys-font-weight-h#{$i}, bold) var(--nys-font-size-h#{$i}) / var(--nys-font-lineheight-h#{$i}) var(--nys-font-family-heading);
+    font: normal
+      normal
+      var(--nys-font-weight-h#{$i}, bold)
+      var(--nys-font-size-h#{$i}) /
+      var(--nys-font-lineheight-h#{$i})
+      var(--nys-font-family-heading);
   }
 }
 
@@ -30,7 +37,46 @@ $ui-sizes: (xs, sm, md, lg, xl);
 
 @each $size in $ui-sizes {
   .nys-font-ui-#{$size} {
-    font: var(--nys-font-size-ui-#{$size}) / var(--nys-font-lineheight-ui-#{$size}) var(--nys-font-family-ui);
+    font: var(--nys-font-size-ui-#{$size}) /
+      var(--nys-font-lineheight-ui-#{$size})
+      var(--nys-font-family-ui);
+  }
+}
+
+/* --- UI Underline (Regular, 7%) and Underline Strong (14%) --- */
+
+$ui-underline-styles: (
+  (sm, semibold),
+  (md, semibold),
+  (md, regular),
+  (lg, semibold)
+);
+
+@each $size, $weight in $ui-underline-styles {
+  .nys-font-ui-#{$size}-#{$weight}-underline {
+    font: var(--nys-font-weight-#{$weight})
+      var(--nys-font-size-ui-#{$size}) /
+      var(--nys-font-lineheight-ui-#{$size})
+      var(--nys-font-family-ui);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: var(--nys-font-decoration-thickness-regular, 7%);
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+  }
+
+  .nys-font-ui-#{$size}-#{$weight}-underline-strong {
+    font: var(--nys-font-weight-#{$weight})
+      var(--nys-font-size-ui-#{$size}) /
+      var(--nys-font-lineheight-ui-#{$size})
+      var(--nys-font-family-ui);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: var(--nys-font-decoration-thickness-strong, 14%);
+    text-underline-offset: auto;
+    text-underline-position: from-font;
   }
 }
 
@@ -40,14 +86,17 @@ $display-sizes: (sm, md, lg, xl);
 
 @each $size in $display-sizes {
   .nys-font-display-#{$size} {
-    font: var(--nys-font-size-display-#{$size}) / var(--nys-font-lineheight-display-#{$size}) var(--nys-font-family-display);
+    font: var(--nys-font-size-display-#{$size}) /
+      var(--nys-font-lineheight-display-#{$size})
+      var(--nys-font-family-display);
   }
 }
 
 /* --- Agency/Application Title --- */
 
 .nys-font-agency {
-  font: var(--nys-font-size-agency-xl) / var(--nys-font-lineheight-h1) var(--nys-font-family-agency);
+  font: var(--nys-font-size-agency-xl) / var(--nys-font-lineheight-h1)
+    var(--nys-font-family-agency);
 }
 
 /* --- Font Family Attribute Selectors --- */
