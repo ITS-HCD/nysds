@@ -89,12 +89,31 @@ describe("nys-badge", () => {
     await expect(el).shadowDom.to.be.accessible();
   });
 
-  // Other test to consider:
-  // - Test for default values
-  // - Test for different attributes
-  // - Test for events
-  // - Test for methods
-  // - Test for accessibility
-  // - Test for slot content
-  // - Test for lifecycle methods
+  it("renders a mark element as the badge container", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="My Label"></nys-badge>`,
+    );
+    await el.updateComplete;
+    const mark = el.shadowRoot!.querySelector("mark.nys-badge");
+    expect(mark).to.exist;
+  });
+
+  it("renders sr-only span when srText is provided", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Warning" srText="concern"></nys-badge>`,
+    );
+    await el.updateComplete;
+    const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
+    expect(srOnly).to.exist;
+    expect(srOnly!.textContent).to.equal(": concern"); // added colon so the words don't get smushed together by screenreaders
+  });
+
+  it("does not render sr-only span when srText is empty", async () => {
+    const el = await fixture<NysBadge>(
+      html`<nys-badge label="Warning"></nys-badge>`,
+    );
+    await el.updateComplete;
+    const srOnly = el.shadowRoot!.querySelector(".nys-badge__sr-only");
+    expect(srOnly).to.be.null;
+  });
 });

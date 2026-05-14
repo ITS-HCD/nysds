@@ -42,6 +42,9 @@ export interface NysBadgeProps extends Pick<
   /** Primary label text displayed in the badge. */
   label?: NysBadgeElement["label"];
 
+  /** Screen reader text appended after the label for additional context. */
+  srText?: NysBadgeElement["srText"];
+
   /** undefined */
   variant?: NysBadgeElement["variant"];
 
