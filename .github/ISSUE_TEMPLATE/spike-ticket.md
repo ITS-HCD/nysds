@@ -9,7 +9,7 @@ assignees: esteinborn, plasticmind
 
 > After filling in the guidance below, remove managers from the assignment and replace with the designer and engineer responsible for this task.
 
-# COMPONENT_NAME Component Planning
+# General
 
 ## Design Inspiration & References
 
@@ -20,7 +20,12 @@ assignees: esteinborn, plasticmind
 | Variant    | When to use                                                                                | When not to use                                                    |
 | ---------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
 
-## Features
+## Properties
+`nys-component`
+Prop | Type | Default | Description
+-- | -- | -- | --
+
+## Accessibility
 
 ## Events
 
