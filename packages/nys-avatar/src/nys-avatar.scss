@@ -51,6 +51,7 @@
 
 :host([interactive]:not([disabled])) button.nys-avatar__component:active {
   --_nys-avatar-background-color: var(--nys-color-theme-strong, #0e324f);
+  --_nys-avatar-color: var(--nys-color-text-reverse, #ffffff);
 }
 
 :host([interactive]:not([disabled])) button.nys-avatar__component:focus-visible {
