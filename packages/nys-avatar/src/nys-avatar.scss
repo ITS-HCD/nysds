@@ -37,23 +37,25 @@
 }
 
 /* Hover/Active states/Disabled */
-:host([interactive]) .nys-avatar__component:hover,
-:host([interactive]) .nys-avatar__component:active {
-  --_nys-avatar-color: var(
-    --nys-color-text-reverse,
-    --nys-color-ink-reverse,
-    #ffffff
-  );
-
+:host([interactive]:not([disabled])) button.nys-avatar__component {
+  appearance: none;
+  border: var(--_nys-avatar-border-size) solid var(--_nys-avatar-border-color);
+  padding: 0;
   cursor: pointer;
 }
 
-:host([interactive]) .nys-avatar__component:hover {
+:host([interactive]:not([disabled])) button.nys-avatar__component:hover {
   --_nys-avatar-background-color: var(--nys-color-theme-mid, #457aa5);
+  --_nys-avatar-color: var(--nys-color-text-reverse, #ffffff);
 }
 
-:host([interactive]) .nys-avatar__component:active {
+:host([interactive]:not([disabled])) button.nys-avatar__component:active {
   --_nys-avatar-background-color: var(--nys-color-theme-strong, #0e324f);
+}
+
+:host([interactive]:not([disabled])) button.nys-avatar__component:focus-visible {
+  outline: solid var(--_nys-avatar-outline-width) var(--_nys-avatar-outline-color);
+  outline-offset: var(--_nys-avatar-outline-offset);
 }
 
 :host([disabled]) .nys-avatar__component {
