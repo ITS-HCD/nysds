@@ -57,6 +57,24 @@ function renderLogo() {
   return LOGO_LINES.map(line => c(line, NYSDS_BLUE));
 }
 
+// --- Formatting helpers ---
+function formatDuration(ms) {
+  if (ms < 1000) return `${Math.round(ms)}ms`;
+  return `${(ms / 1000).toFixed(2)}s`;
+}
+
+function formatRow(name, passed, failed, skipped, duration) {
+  const icon = failed > 0 ? c('✗', RED) : c('✓', GREEN);
+  const nameCol = name.padEnd(24);
+  const countParts = [];
+  if (passed > 0) countParts.push(c(`${passed} passed`, GREEN));
+  if (failed > 0) countParts.push(c(`${failed} failed`, RED));
+  if (skipped > 0) countParts.push(c(`${skipped} skipped`, YELLOW));
+  const countCol = countParts.join(', ').padEnd(useColor() ? 40 : 20);
+  const timeCol = c(formatDuration(duration), DIM);
+  return `  ${icon} ${nameCol} ${countCol} ${timeCol}`;
+}
+
 // --- Package name extraction ---
 function getPackageName(testFile) {
   const match = testFile.match(/packages\/([^/]+)\//);
@@ -188,8 +206,99 @@ export function nysdsReporter() {
     },
 
     getTestProgress({ sessions, testRun, focusedTestFile, testCoverage }) {
-      // TODO: Task 4 — render branded output
-      return [];
+      const lines = [];
+
+      // Logo (default and compact modes only)
+      if (mode !== 'ai') {
+        lines.push('');
+        lines.push(...renderLogo());
+        lines.push('');
+      }
+
+      // Header
+      if (mode === 'ai') {
+        lines.push('NYSDS Test Results');
+      } else {
+        lines.push(c('  @nysds', `${BOLD}${NYSDS_BLUE}`) + c(': Running test suites...', BOLD));
+      }
+      lines.push('');
+
+      // Determine unique test files (one per package)
+      const totalPackages = new Set(testFiles.map(f => getPackageName(f))).size;
+      const completedCount = packageResults.size;
+
+      if (mode === 'default') {
+        // Default mode: one row per package, sorted alphabetically
+        const sorted = [...packageResults.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+        for (const [pkg, r] of sorted) {
+          lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
+        }
+      } else if (mode === 'compact') {
+        // Compact mode: grouped rows (handled in Task 5)
+        const sorted = [...packageResults.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+        for (const [pkg, r] of sorted) {
+          lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
+        }
+      } else {
+        // AI mode — inline failure details right after the failing package row
+        for (const [pkg, r] of [...packageResults.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+          const status = r.failed > 0 ? 'FAIL' : 'PASS';
+          const total = r.passed + r.failed + r.skipped;
+          lines.push(`${status} ${pkg} ${r.passed}/${total} ${formatDuration(r.duration)}`);
+          if (r.failures.length > 0) {
+            for (const f of r.failures) {
+              const msg = f.error?.message || 'Unknown error';
+              lines.push(`  FAIL "${f.name}" — ${msg}`);
+            }
+          }
+        }
+      }
+
+      // Progress indicator (while still running)
+      if (completedCount < totalPackages) {
+        lines.push('');
+        if (mode === 'ai') {
+          lines.push(`PROGRESS ${completedCount}/${totalPackages} packages`);
+        } else {
+          lines.push(c(`  Running... ${completedCount}/${totalPackages} packages complete`, DIM));
+        }
+      }
+
+      // Summary (when all done)
+      if (completedCount === totalPackages && completedCount > 0) {
+        const totalPassed = [...packageResults.values()].reduce((sum, r) => sum + r.passed, 0);
+        const totalFailed = [...packageResults.values()].reduce((sum, r) => sum + r.failed, 0);
+        const totalSkipped = [...packageResults.values()].reduce((sum, r) => sum + r.skipped, 0);
+        const totalTests = totalPassed + totalFailed + totalSkipped;
+        const durationMs = Date.now() - startTime;
+        const allPassed = totalFailed === 0;
+
+        if (mode === 'ai') {
+          // AI summary (failure details already inline above each FAIL row)
+          lines.push(`TOTAL ${completedCount} files, ${totalPassed}/${totalTests} passed, ${formatDuration(durationMs)}, ${browserNames.length} browsers`);
+          lines.push(`STATUS ${allPassed ? 'PASS' : 'FAIL'}`);
+        } else {
+          // Default/compact summary
+          lines.push('');
+          const passedFiles = [...packageResults.values()].filter(r => r.failed === 0).length;
+          const failedFiles = completedCount - passedFiles;
+
+          lines.push(`  ${c('Test Files:', BOLD)}  ${c(`${passedFiles} passed`, GREEN)}${failedFiles > 0 ? `, ${c(`${failedFiles} failed`, RED)}` : ''} (${completedCount})`);
+          lines.push(`  ${c('Tests:', BOLD)}      ${c(`${totalPassed} passed`, GREEN)}${totalFailed > 0 ? `, ${c(`${totalFailed} failed`, RED)}` : ''}${totalSkipped > 0 ? `, ${c(`${totalSkipped} skipped`, YELLOW)}` : ''} (${totalTests})`);
+          lines.push(`  ${c('Browsers:', BOLD)}   ${browserNames.length}`);
+          lines.push(`  ${c('Duration:', BOLD)}   ${formatDuration(durationMs)}`);
+          lines.push('');
+
+          if (allPassed) {
+            lines.push(`  ${c('✓', GREEN)} ${c('All test suites passed!', `${BOLD}${GREEN}`)}`);
+          } else {
+            lines.push(`  ${c('✗', RED)} ${c(`${totalFailed} test${totalFailed === 1 ? '' : 's'} failed.`, `${BOLD}${RED}`)}`);
+          }
+        }
+      }
+
+      lines.push('');
+      return lines;
     },
   };
 }
