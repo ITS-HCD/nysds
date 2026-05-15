@@ -75,6 +75,41 @@ function formatRow(name, passed, failed, skipped, duration) {
   return `  ${icon} ${nameCol} ${countCol} ${timeCol}`;
 }
 
+// --- Compact mode grouping ---
+const COMPACT_GROUPS = [
+  { name: 'tokens', match: (pkg) => pkg === 'tokens' },
+  { name: 'styles', match: (pkg) => pkg === 'styles' },
+  { name: 'components', match: (pkg) => pkg.startsWith('nys-') },
+];
+
+function groupResults(packageResults) {
+  const groups = COMPACT_GROUPS.map(g => ({
+    name: g.name,
+    passed: 0,
+    failed: 0,
+    skipped: 0,
+    duration: 0,
+    failures: [],
+    failedPackages: [],
+  }));
+
+  for (const [pkg, r] of packageResults) {
+    const groupIndex = COMPACT_GROUPS.findIndex(g => g.match(pkg));
+    if (groupIndex === -1) continue;
+    const group = groups[groupIndex];
+    group.passed += r.passed;
+    group.failed += r.failed;
+    group.skipped += r.skipped;
+    group.duration += r.duration;
+    if (r.failed > 0) {
+      group.failedPackages.push(pkg);
+      group.failures.push(...r.failures);
+    }
+  }
+
+  return groups.filter(g => g.passed + g.failed + g.skipped > 0);
+}
+
 // --- Package name extraction ---
 function getPackageName(testFile) {
   const match = testFile.match(/packages\/([^/]+)\//);
@@ -234,10 +269,16 @@ export function nysdsReporter() {
           lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
         }
       } else if (mode === 'compact') {
-        // Compact mode: grouped rows (handled in Task 5)
-        const sorted = [...packageResults.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-        for (const [pkg, r] of sorted) {
-          lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
+        const groups = groupResults(packageResults);
+        for (const g of groups) {
+          lines.push(formatRow(g.name, g.passed, g.failed, g.skipped, g.duration));
+          // If the group has failures, list failing packages indented below
+          if (g.failedPackages.length > 0) {
+            for (const failedPkg of g.failedPackages) {
+              const r = packageResults.get(failedPkg);
+              lines.push(`      ${c('↳', DIM)} ${c(failedPkg, RED)}: ${r.failed} failed`);
+            }
+          }
         }
       } else {
         // AI mode — inline failure details right after the failing package row
