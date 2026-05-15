@@ -894,6 +894,26 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "_cleanAriaLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_colorStyle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "getContrastForeground",
               "privacy": "private",
