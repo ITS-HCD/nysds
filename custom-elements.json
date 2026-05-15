@@ -10928,7 +10928,7 @@
                   "description": "The `Event` fired by the `<slot>` element on slot change."
                 }
               ],
-              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`, preserving relative order. After sorting,\ncalls `_applySelection` using the first element that already has a\n`selected` attribute, or index `0` if none is found."
+              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`. If a panel has an `aria-labelledby` attribute,\nit is explicitly paired with the tab it references; otherwise panels are\npaired with tabs by index order. After sorting, calls `_applySelection`\nusing the first element that already has a `selected` attribute, or\nindex `0` if none is found."
             },
             {
               "kind": "method",
