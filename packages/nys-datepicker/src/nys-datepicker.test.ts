@@ -824,6 +824,79 @@ describe("nys-datepicker", () => {
     expect(new FormData(form).get("test-date")).to.not.equal("2026-06-15");
   });
 
+  // -------------------------------------------------------------------------
+  // Regression: _handleBlur with min/max range boundary
+  // -------------------------------------------------------------------------
+
+  it("does not close calendar or show error when focusout has null relatedTarget while calendar is open", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker
+        required
+        minDate="2026-05-12"
+        maxDate="2026-07-31"
+      ></nys-datepicker>
+    `);
+    await el.updateComplete;
+
+    (el as any).datepickerIsOpen = true;
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    wc.classList.add("active");
+
+    el.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: null,
+      }),
+    );
+    await el.updateComplete;
+
+    expect((el as any).datepickerIsOpen).to.be.true;
+    expect(wc.classList.contains("active")).to.be.true;
+    expect(el.showError).to.be.false;
+  });
+
+  it("does not show required error when focusout fires before selectDate on first date selection", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker
+        required
+        minDate="2026-05-12"
+        maxDate="2026-07-31"
+      ></nys-datepicker>
+    `);
+    await el.updateComplete;
+
+    (el as any)._isSafari = () => false;
+    (el as any)._isMobile = () => false;
+
+    (el as any).datepickerIsOpen = true;
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    wc.classList.add("active");
+
+    // Step 1: focusout fires with null relatedTarget
+    el.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: null,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el.showError).to.be.false;
+
+    // Step 2: selectDate fires (user selected a valid in-range date)
+    (el as any)._handleDateChange();
+    wc.dispatchEvent(
+      new CustomEvent("selectDate", { detail: "2026-05-15", bubbles: true }),
+    );
+    await el.updateComplete;
+
+    expect(el.showError).to.be.false;
+    expect(el.value).to.be.instanceOf(Date);
+    expect((el.value as Date).getDate()).to.equal(15);
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(

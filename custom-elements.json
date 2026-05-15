@@ -1058,7 +1058,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A floating \"Back to top\" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).",
+          "description": "A floating \"Back to top\" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).\n\n**Placement:** For best accessibility, place as the first focusable element in the page footer.\nIf no footer exists, place at the bottom of the body tag (after main content). Floating\npositioning allows it to overlay content without taking up layout space.\n\n**Focus Management:** When clicked, after scrolling to the top, focus is automatically moved\nto the `<main>` element (if present), the first heading (`<h1>` or `<h2>`), or the document element.\nThis ensures keyboard navigation continues naturally from the top of the page.",
           "name": "NysBacktotop",
           "members": [
             {
@@ -1121,6 +1121,11 @@
             },
             {
               "kind": "method",
+              "name": "_moveFocusToTop",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_handleResize",
               "privacy": "private"
             }
@@ -1153,11 +1158,11 @@
           },
           "tagName": "nys-backtotop",
           "customElement": true,
-          "summary": "Floating back-to-top button with auto-show behavior and smooth scroll.",
+          "summary": "Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.",
           "examples": [
             {
-              "title": "Auto-appearing button",
-              "code": "<nys-backtotop></nys-backtotop>",
+              "title": "Auto-appearing button in footer",
+              "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
               "lang": "html"
             },
             {
@@ -1274,6 +1279,16 @@
               "default": "\"\"",
               "description": "Primary label text displayed in the badge.",
               "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "srText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Screen reader text appended after the label for additional context.",
+              "attribute": "srText"
             },
             {
               "kind": "field",
@@ -1412,6 +1427,16 @@
               "description": "Primary label text displayed in the badge.",
               "fieldName": "label",
               "propName": "label"
+            },
+            {
+              "name": "srText",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Screen reader text appended after the label for additional context.",
+              "fieldName": "srText",
+              "propName": "srtext"
             },
             {
               "name": "variant",
@@ -10883,7 +10908,7 @@
                   "description": "The `Event` fired by the `<slot>` element on slot change."
                 }
               ],
-              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`, preserving relative order. After sorting,\ncalls `_applySelection` using the first element that already has a\n`selected` attribute, or index `0` if none is found."
+              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`. If a panel has an `aria-labelledby` attribute,\nit is explicitly paired with the tab it references; otherwise panels are\npaired with tabs by index order. After sorting, calls `_applySelection`\nusing the first element that already has a `selected` attribute, or\nindex `0` if none is found."
             },
             {
               "kind": "method",
@@ -11186,12 +11211,29 @@
               "default": "\"\""
             },
             {
+              "kind": "field",
+              "name": "_observer",
+              "type": {
+                "text": "MutationObserver | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
               "kind": "method",
-              "name": "_handleSlotChange"
+              "name": "_handleSlotChange",
+              "privacy": "private",
+              "description": "****************** Functions *******************"
+            },
+            {
+              "kind": "method",
+              "name": "_setupMutationObserver",
+              "privacy": "private"
             },
             {
               "kind": "method",
               "name": "_normalizeTableDOM",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11204,6 +11246,7 @@
             {
               "kind": "method",
               "name": "_addSortIcons",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11216,6 +11259,7 @@
             {
               "kind": "method",
               "name": "_updateSortIcons",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11247,6 +11291,7 @@
             {
               "kind": "method",
               "name": "_sortTable",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11271,6 +11316,7 @@
             {
               "kind": "method",
               "name": "_updateSortedColumnStyles",
+              "privacy": "private",
               "parameters": [
                 {
                   "name": "table",
@@ -11282,7 +11328,8 @@
             },
             {
               "kind": "method",
-              "name": "downloadFile"
+              "name": "downloadFile",
+              "privacy": "public"
             },
             {
               "kind": "method",

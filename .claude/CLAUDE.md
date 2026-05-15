@@ -23,6 +23,12 @@ NYSDS (New York State Design System) — a Lit 3 web components monorepo providi
 - `npm run storybook` — Storybook on port 6006
 - `npm run gen` — Scaffold a new component
 
+## Testing
+
+**Do not run tests yourself.** Instead, prompt the user to run tests to avoid unnecessary token consumption. When tests need to be run:
+- Suggest the user run `npm run test` or the appropriate per-package test command
+- Let the user decide whether to run tests and share the output if needed
+
 ## Architecture
 
 ### Monorepo Layout
