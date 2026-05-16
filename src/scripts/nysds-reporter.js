@@ -52,14 +52,14 @@ function formatDuration(ms) {
 
 function formatRow(name, passed, failed, skipped, duration) {
   const icon = failed > 0 ? c('✗', RED) : c('✓', GREEN);
-  const nameCol = name.padEnd(24);
+  const nameCol = name.padEnd(20);
   const countParts = [];
   if (passed > 0) countParts.push(c(`${passed} passed`, GREEN));
   if (failed > 0) countParts.push(c(`${failed} failed`, RED));
   if (skipped > 0) countParts.push(c(`${skipped} skipped`, YELLOW));
-  const countCol = countParts.join(', ').padEnd(useColor() ? 40 : 20);
+  const counts = countParts.join(', ');
   const timeCol = c(formatDuration(duration), DIM);
-  return `  ${icon} ${nameCol} ${countCol} ${timeCol}`;
+  return `  ${icon} ${nameCol} ${counts}  ${timeCol}`;
 }
 
 // --- Compact mode grouping ---
@@ -67,6 +67,7 @@ const COMPACT_GROUPS = [
   { name: 'tokens', match: (pkg) => pkg === 'tokens' },
   { name: 'styles', match: (pkg) => pkg === 'styles' },
   { name: 'components', match: (pkg) => pkg.startsWith('nys-') },
+  { name: 'mcp-server', match: (pkg) => pkg === 'mcp-server' },
 ];
 
 function groupResults(packageResults) {
@@ -147,6 +148,9 @@ function walkDuration(suiteResult) {
   return total;
 }
 
+// --- Spinner ---
+const SPINNER = ['↗️ ', '➡️ ', '↘️ ', '⬇️ ', '↙️ ', '⬅️ ', '↖️ ', '⬆️ '];
+
 // --- Reporter factory ---
 export function nysdsReporter() {
   const mode = getMode();
@@ -154,6 +158,7 @@ export function nysdsReporter() {
   let testFiles = [];
   let browserNames = [];
   const packageResults = new Map();
+  let frame = 0;
 
   return {
     start(args) {
@@ -229,6 +234,7 @@ export function nysdsReporter() {
 
     getTestProgress({ sessions, testRun, focusedTestFile, testCoverage }) {
       const lines = [];
+      const termRows = process.stdout.rows || 40;
 
       // Logo (default and compact modes only)
       if (mode !== 'ai') {
@@ -250,10 +256,48 @@ export function nysdsReporter() {
       const completedCount = packageResults.size;
 
       if (mode === 'default') {
-        // Default mode: one row per package, sorted alphabetically
+        // Default mode: one row per package, sorted alphabetically.
+        // Cap visible rows to fit the terminal (reserve lines for
+        // header/logo above + summary/progress below).
         const sorted = [...packageResults.entries()].sort((a, b) => a[0].localeCompare(b[0]));
-        for (const [pkg, r] of sorted) {
-          lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
+        const reservedLines = lines.length + 10; // logo/header above + summary below
+        const maxRows = Math.max(5, termRows - reservedLines);
+
+        if (sorted.length <= maxRows) {
+          for (const [pkg, r] of sorted) {
+            lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
+          }
+        } else {
+          // Always show failed packages; truncate passing ones from the middle.
+          const failed = sorted.filter(([, r]) => r.failed > 0);
+          const passed = sorted.filter(([, r]) => r.failed === 0);
+          const slotsForPassed = maxRows - 1 - failed.length; // -1 for truncation marker
+
+          if (slotsForPassed >= passed.length || slotsForPassed < 1) {
+            // Everything fits, or so many failures there's no room to truncate
+            for (const [pkg, r] of sorted) {
+              lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
+            }
+          } else {
+            // Build a set of visible packages: all failed + some passed
+            const topCount = Math.floor(slotsForPassed / 2);
+            const bottomCount = slotsForPassed - topCount;
+            const visiblePassed = new Set([
+              ...passed.slice(0, topCount).map(([pkg]) => pkg),
+              ...passed.slice(-bottomCount).map(([pkg]) => pkg),
+            ]);
+            const hidden = passed.length - visiblePassed.size;
+
+            let markerShown = false;
+            for (const [pkg, r] of sorted) {
+              if (r.failed > 0 || visiblePassed.has(pkg)) {
+                lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration));
+              } else if (!markerShown) {
+                lines.push(c(`    ... ${hidden} more passed ...`, DIM));
+                markerShown = true;
+              }
+            }
+          }
         }
       } else if (mode === 'compact') {
         const groups = groupResults(packageResults);
@@ -287,6 +331,9 @@ export function nysdsReporter() {
         lines.push('');
         if (mode === 'ai') {
           lines.push(`PROGRESS ${completedCount}/${totalPackages} packages`);
+        } else if (completedCount === 0) {
+          const spinner = SPINNER[frame++ % SPINNER.length];
+          lines.push(`  ${spinner}Starting browsers...`);
         } else {
           lines.push(c(`  Running... ${completedCount}/${totalPackages} packages complete`, DIM));
         }
