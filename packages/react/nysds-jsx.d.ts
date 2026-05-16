@@ -163,6 +163,8 @@ export type NysBadgeProps = {
   prefixLabel?: string;
   /** Primary label text displayed in the badge. */
   label?: string;
+  /** Screen reader text appended after the label for additional context. */
+  srText?: string;
   /**  */
   variant?: "strong" | "";
   /**  */
@@ -1085,7 +1087,7 @@ export type CustomElements = {
   "nys-avatar": Partial<NysAvatarProps & BaseProps & BaseEvents>;
 
   /**
-   * Floating back-to-top button with auto-show behavior and smooth scroll.
+   * Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
    * ---
    *
    */

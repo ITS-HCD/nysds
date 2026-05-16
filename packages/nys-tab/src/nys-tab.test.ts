@@ -348,4 +348,33 @@ describe("nys-tab a11y", () => {
       expect(panel.getAttribute("aria-labelledby")).to.equal(tabs[i].id);
     });
   });
+
+  it("pairs panels with tabs via explicit aria-labelledby references, ignoring DOM order", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup id="explicit-ordering">
+        <nys-tab label="1st Tab" id="tab-1"></nys-tab>
+        <nys-tab label="2nd Tab" id="tab-2"></nys-tab>
+        <nys-tab label="3rd Tab" id="tab-3"></nys-tab>
+        <nys-tabpanel aria-labelledby="tab-2">Content for tab 2</nys-tabpanel>
+        <nys-tabpanel aria-labelledby="tab-3">Content for tab 3</nys-tabpanel>
+        <nys-tabpanel aria-labelledby="tab-1">Content for tab 1</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const panels = (el as any)._getPanels();
+
+    expect(tabs[0].id).to.equal("tab-1");
+    expect(tabs[1].id).to.equal("tab-2");
+    expect(tabs[2].id).to.equal("tab-3");
+
+    expect(panels[0].textContent?.trim()).to.equal("Content for tab 1");
+    expect(panels[1].textContent?.trim()).to.equal("Content for tab 2");
+    expect(panels[2].textContent?.trim()).to.equal("Content for tab 3");
+
+    expect(panels[0].getAttribute("aria-labelledby")).to.equal("tab-1");
+    expect(panels[1].getAttribute("aria-labelledby")).to.equal("tab-2");
+    expect(panels[2].getAttribute("aria-labelledby")).to.equal("tab-3");
+  });
 });

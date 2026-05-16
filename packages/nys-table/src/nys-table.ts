@@ -31,6 +31,8 @@ export class NysTable extends LitElement {
   @state() private _sortDirection: "asc" | "desc" | "none" = "none";
   @state() private _captionText = "";
 
+  private _observer: MutationObserver | null = null;
+
   /**************** Lifecycle Methods ****************/
   constructor() {
     super();
@@ -44,16 +46,36 @@ export class NysTable extends LitElement {
     }
   }
 
-  /******************** Functions ********************/
-  // Placeholder for generic functions (component-specific)
-
   firstUpdated() {
     const slot = this.shadowRoot?.querySelector("slot");
     slot?.addEventListener("slotchange", () => this._handleSlotChange());
     this._handleSlotChange();
+    this._setupMutationObserver();
   }
 
-  _handleSlotChange() {
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._observer?.disconnect();
+  }
+
+  willUpdate() {
+    const table = Array.from(this.children).find(
+      (el) => el.tagName === "TABLE",
+    ) as HTMLTableElement | undefined;
+
+    if (!table) return;
+
+    const caption = table.querySelector("caption");
+    const nextCaption = caption?.textContent?.trim() ?? "";
+
+    if (this._captionText !== nextCaption) {
+      this._captionText = nextCaption;
+    }
+  }
+
+  /******************** Functions ********************/
+
+  private _handleSlotChange() {
     const slot = this.shadowRoot?.querySelector(
       "slot",
     ) as HTMLSlotElement | null;
@@ -83,7 +105,36 @@ export class NysTable extends LitElement {
     container.appendChild(table);
   }
 
-  _normalizeTableDOM(table: HTMLTableElement) {
+  private _setupMutationObserver() {
+    const slot = this.shadowRoot?.querySelector(
+      "slot",
+    ) as HTMLSlotElement | null;
+    if (!slot) return;
+
+    this._observer = new MutationObserver(() => {
+      this._handleSlotChange();
+    });
+
+    const observeSlottedContent = () => {
+      const assigned = slot.assignedElements({ flatten: true });
+      const tableEl = assigned.find(
+        (el) => el.tagName === "TABLE",
+      ) as HTMLTableElement;
+
+      if (tableEl) {
+        this._observer?.observe(tableEl, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+        });
+      }
+    };
+
+    observeSlottedContent(); // initial observation
+    slot.addEventListener("slotchange", observeSlottedContent);
+  }
+
+  private _normalizeTableDOM(table: HTMLTableElement) {
     const hasThead = table.querySelector("thead");
     const hasTbody = table.querySelector("tbody");
 
@@ -155,22 +206,7 @@ export class NysTable extends LitElement {
     table.appendChild(tbody);
   }
 
-  willUpdate() {
-    const table = Array.from(this.children).find(
-      (el) => el.tagName === "TABLE",
-    ) as HTMLTableElement | undefined;
-
-    if (!table) return;
-
-    const caption = table.querySelector("caption");
-    const nextCaption = caption?.textContent?.trim() ?? "";
-
-    if (this._captionText !== nextCaption) {
-      this._captionText = nextCaption;
-    }
-  }
-
-  _addSortIcons(table: HTMLTableElement) {
+  private _addSortIcons(table: HTMLTableElement) {
     const ths = Array.from(table.querySelectorAll("thead th"));
     if (ths.length === 0) return;
 
@@ -209,7 +245,7 @@ export class NysTable extends LitElement {
     });
   }
 
-  _updateSortIcons(table: HTMLTableElement) {
+  private _updateSortIcons(table: HTMLTableElement) {
     const ths = table.querySelectorAll("thead th");
 
     ths.forEach((th, index) => {
@@ -276,7 +312,7 @@ export class NysTable extends LitElement {
     this._sortTable(table, columnIndex, this._sortDirection);
   }
 
-  _sortTable(
+  private _sortTable(
     table: HTMLTableElement,
     columnIndex: number,
     direction: "asc" | "desc",
@@ -309,7 +345,7 @@ export class NysTable extends LitElement {
     this._updateSortedColumnStyles(table);
   }
 
-  _updateSortedColumnStyles(table: HTMLTableElement) {
+  private _updateSortedColumnStyles(table: HTMLTableElement) {
     const rows = table.querySelectorAll("tbody tr");
 
     rows.forEach((row) => {
@@ -323,7 +359,7 @@ export class NysTable extends LitElement {
     });
   }
 
-  downloadFile() {
+  public downloadFile() {
     // read file from this.download and trigger download
     const link = document.createElement("a");
     link.href = this.download;

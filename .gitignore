@@ -2,7 +2,7 @@
 dist/
 coverage/
 release/
-release*.zip
+*.zip
 
 # Ignore Node-specific files
 node_modules/
