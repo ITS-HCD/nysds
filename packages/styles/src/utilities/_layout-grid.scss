@@ -20,16 +20,12 @@
 // ============================================
 @each $suffix, $max-width in $grid-containers {
   .nys-grid-container#{$suffix} {
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     max-width: $max-width;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    overflow-x: clip;
+    padding: 1rem;
 
     @media all and (width >= 64em) {
-      padding-left: 2rem;
-      padding-right: 2rem;
+      padding: 2rem;
     }
   }
 }
@@ -39,12 +35,9 @@
   @media all and (min-width: #{$bp-value}) {
     @each $suffix, $max-width in $grid-containers {
       .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
-        margin-left: auto;
-        margin-right: auto;
+        margin: auto;
         max-width: $max-width;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        overflow-x: clip;
+        padding: 1rem;
       }
     }
   }
@@ -53,8 +46,7 @@
   @media all and (min-width: #{$bp-value}) and (width >= 64em) {
     @each $suffix, $max-width in $grid-containers {
       .nys-#{$bp-name}\:nys-grid-container#{$suffix} {
-        padding-left: 2rem;
-        padding-right: 2rem;
+        padding: 2rem;
       }
     }
   }
@@ -79,35 +71,43 @@
 
 // ============================================
 // GRID GAPS (negative margin + child padding pattern)
+// Maintains flexbox layout math: negative margin on row + padding on children
+// prevents gaps from consuming space, preserving column width calculations.
+// Native gap would cause column wrapping (e.g., 3×col-4 + gap > 100%)
 // ============================================
 
 // Default gap (responsive: 0.5rem base, 1rem at 64em+)
 .nys-grid-row.nys-grid-gap {
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
+  margin: -0.5rem;
 
   > * {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 0.5rem;
   }
 
   @media all and (width >= 64em) {
-    margin-left: -1rem;
-    margin-right: -1rem;
+    margin: -1rem;
 
     > * {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding: 1rem;
     }
   }
 }
 
 // Sized gaps (compound selectors)
 // Gap values are halved: negative margin on row + padding on children
-@each $suffix, $value in $grid-gaps {
+@each $suffix, $value in $spacing {
   $half: if(sass($value == 0): 0; else: math.div($value, 2));
 
-  .nys-grid-row.nys-grid-gap#{$suffix} {
+  .nys-grid-row.nys-grid-gap-#{$suffix} {
+    margin: -$half;
+
+    > * {
+      padding: $half;
+    }
+  }
+
+  // Horizontal gap (left/right)
+  .nys-grid-row.nys-grid-gap-x-#{$suffix} {
     margin-left: -$half;
     margin-right: -$half;
 
@@ -116,21 +116,52 @@
       padding-right: $half;
     }
   }
+
+  // Vertical gap (top/bottom)
+  .nys-grid-row.nys-grid-gap-y-#{$suffix} {
+    margin-top: -$half;
+    margin-bottom: -$half;
+
+    > * {
+      padding-top: $half;
+      padding-bottom: $half;
+    }
+  }
 }
 
 // Responsive gap variants
 @each $bp-name, $bp-value in $breakpoints {
   @media all and (min-width: #{$bp-value}) {
-    @each $suffix, $value in $grid-gaps {
+    @each $suffix, $value in $spacing {
       $half: if(sass($value == 0): 0; else: math.div($value, 2));
 
-      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap#{$suffix} {
+      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
+        margin: -$half;
+
+        > * {
+          padding: $half;
+        }
+      }
+
+      // Horizontal gap (left/right)
+      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
         margin-left: -$half;
         margin-right: -$half;
 
         > * {
           padding-left: $half;
           padding-right: $half;
+        }
+      }
+
+      // Vertical gap (top/bottom)
+      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
+        margin-top: -$half;
+        margin-bottom: -$half;
+
+        > * {
+          padding-top: $half;
+          padding-bottom: $half;
         }
       }
     }
