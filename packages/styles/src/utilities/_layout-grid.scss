@@ -95,36 +95,100 @@
 
 // Sized gaps (compound selectors)
 // Gap values are halved: negative margin on row + padding on children
+// Gaps >= 400 exceed small-viewport container padding (1rem), so scale down below 64em
+$responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
+
 @each $suffix, $value in $spacing {
   $half: if(sass($value == 0): 0; else: math.div($value, 2));
+  $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
 
-  .nys-grid-row.nys-grid-gap-#{$suffix} {
-    margin: -$half;
+  @if $needs-responsive {
+    .nys-grid-row.nys-grid-gap-#{$suffix} {
+      margin: -1rem;
 
-    > * {
-      padding: $half;
+      > * {
+        padding: 1rem;
+      }
+
+      @media all and (width >= 64em) {
+        margin: -$half;
+
+        > * {
+          padding: $half;
+        }
+      }
     }
-  }
 
-  // Horizontal gap (left/right)
-  .nys-grid-row.nys-grid-gap-x-#{$suffix} {
-    margin-left: -$half;
-    margin-right: -$half;
+    // Horizontal gap (left/right)
+    .nys-grid-row.nys-grid-gap-x-#{$suffix} {
+      margin-left: -1rem;
+      margin-right: -1rem;
 
-    > * {
-      padding-left: $half;
-      padding-right: $half;
+      > * {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      @media all and (width >= 64em) {
+        margin-left: -$half;
+        margin-right: -$half;
+
+        > * {
+          padding-left: $half;
+          padding-right: $half;
+        }
+      }
     }
-  }
 
-  // Vertical gap (top/bottom)
-  .nys-grid-row.nys-grid-gap-y-#{$suffix} {
-    margin-top: -$half;
-    margin-bottom: -$half;
+    // Vertical gap (top/bottom)
+    .nys-grid-row.nys-grid-gap-y-#{$suffix} {
+      margin-top: -1rem;
+      margin-bottom: -1rem;
 
-    > * {
-      padding-top: $half;
-      padding-bottom: $half;
+      > * {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      @media all and (width >= 64em) {
+        margin-top: -$half;
+        margin-bottom: -$half;
+
+        > * {
+          padding-top: $half;
+          padding-bottom: $half;
+        }
+      }
+    }
+  } @else {
+    .nys-grid-row.nys-grid-gap-#{$suffix} {
+      margin: -$half;
+
+      > * {
+        padding: $half;
+      }
+    }
+
+    // Horizontal gap (left/right)
+    .nys-grid-row.nys-grid-gap-x-#{$suffix} {
+      margin-left: -$half;
+      margin-right: -$half;
+
+      > * {
+        padding-left: $half;
+        padding-right: $half;
+      }
+    }
+
+    // Vertical gap (top/bottom)
+    .nys-grid-row.nys-grid-gap-y-#{$suffix} {
+      margin-top: -$half;
+      margin-bottom: -$half;
+
+      > * {
+        padding-top: $half;
+        padding-bottom: $half;
+      }
     }
   }
 }
@@ -134,34 +198,95 @@
   @media all and (min-width: #{$bp-value}) {
     @each $suffix, $value in $spacing {
       $half: if(sass($value == 0): 0; else: math.div($value, 2));
+      $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
 
-      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
-        margin: -$half;
+      @if $needs-responsive {
+        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
+          margin: -1rem;
 
-        > * {
-          padding: $half;
+          > * {
+            padding: 1rem;
+          }
+
+          @media all and (width >= 64em) {
+            margin: -$half;
+
+            > * {
+              padding: $half;
+            }
+          }
         }
-      }
 
-      // Horizontal gap (left/right)
-      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
-        margin-left: -$half;
-        margin-right: -$half;
+        // Horizontal gap (left/right)
+        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
+          margin-left: -1rem;
+          margin-right: -1rem;
 
-        > * {
-          padding-left: $half;
-          padding-right: $half;
+          > * {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+
+          @media all and (width >= 64em) {
+            margin-left: -$half;
+            margin-right: -$half;
+
+            > * {
+              padding-left: $half;
+              padding-right: $half;
+            }
+          }
         }
-      }
 
-      // Vertical gap (top/bottom)
-      .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
-        margin-top: -$half;
-        margin-bottom: -$half;
+        // Vertical gap (top/bottom)
+        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
+          margin-top: -1rem;
+          margin-bottom: -1rem;
 
-        > * {
-          padding-top: $half;
-          padding-bottom: $half;
+          > * {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+          }
+
+          @media all and (width >= 64em) {
+            margin-top: -$half;
+            margin-bottom: -$half;
+
+            > * {
+              padding-top: $half;
+              padding-bottom: $half;
+            }
+          }
+        }
+      } @else {
+        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
+          margin: -$half;
+
+          > * {
+            padding: $half;
+          }
+        }
+
+        // Horizontal gap (left/right)
+        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-x-#{$suffix} {
+          margin-left: -$half;
+          margin-right: -$half;
+
+          > * {
+            padding-left: $half;
+            padding-right: $half;
+          }
+        }
+
+        // Vertical gap (top/bottom)
+        .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-y-#{$suffix} {
+          margin-top: -$half;
+          margin-bottom: -$half;
+
+          > * {
+            padding-top: $half;
+            padding-bottom: $half;
+          }
         }
       }
     }
