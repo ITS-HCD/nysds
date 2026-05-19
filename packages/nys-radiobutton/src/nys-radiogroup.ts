@@ -217,16 +217,36 @@ export class NysRadiogroup extends LitElement {
 
   // Arrow / Space / Enter navigation at group level
   private async _handleKeyDown(event: KeyboardEvent) {
-    const keys = ["ArrowUp", "ArrowDown", " ", "Enter"];
+    const keys = [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      " ",
+      "Enter",
+    ];
+    console.log("HERERERE")
 
     if (!keys.includes(event.key)) return;
+    // Prevent arrow left/right from switching to next radiobutton when focus is within "other" textinput
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      const inTextInput = event
+        .composedPath()
+        .some((el) => (el as HTMLElement).tagName === "NYS-TEXTINPUT");
+      if (inTextInput) return;
+    }
+
     event.preventDefault();
 
     const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
-
+    const fromEvent = radioBtns.find((radio) => radio === event.target); // event.target is the radio VO dispatched black focus outline
     const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
+
     const currentRadio =
-      focusedRadio || radioBtns.find((radio) => radio.checked) || radioBtns[0]; // fallback is checked radio or first radio
+      fromEvent ||
+      focusedRadio ||
+      radioBtns.find((radio) => radio.checked) ||
+      radioBtns[0]; // fallback is checked radio or first radio
 
     let increment = 0;
     if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
@@ -251,6 +271,7 @@ export class NysRadiogroup extends LitElement {
 
     await this.updateComplete;
     this._updateGroupTabIndex();
+    console.log("FOCUSING!!!");
     target.focus();
   }
 
