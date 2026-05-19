@@ -100,7 +100,7 @@
 
 // Sized gaps (compound selectors)
 // Gap values are halved: negative margin on row + padding on children
-// Gaps >= 400 exceed small-viewport container padding (1rem), so scale down below 64em
+// Gaps 400+ exceed small-viewport container padding (1rem), so scale down below 64em
 $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
 
 @each $suffix, $value in $spacing {
@@ -108,6 +108,8 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
   $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
 
   @if $needs-responsive {
+    // On small screens: use fixed -1rem to match container padding (prevents overflow)
+    // On large screens (64em+): use full -$half value (container padding is 2rem)
     .nys-grid-row.nys-grid-gap-#{$suffix} {
       margin-left: -1rem;
       margin-right: -1rem;
@@ -148,6 +150,8 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
       $needs-responsive: index($responsive-gap-suffixes, $suffix) != null;
 
       @if $needs-responsive {
+        // On small screens: use fixed -1rem to match container padding (prevents overflow)
+        // On large screens (64em+): use full -$half value (container padding is 2rem)
         .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
           margin-left: -1rem;
           margin-right: -1rem;
