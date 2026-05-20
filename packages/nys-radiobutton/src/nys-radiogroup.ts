@@ -270,7 +270,6 @@ export class NysRadiogroup extends LitElement {
 
     await this.updateComplete;
     this._updateGroupTabIndex();
-    console.log("FOCUSING!!!");
     target.focus();
   }
 
