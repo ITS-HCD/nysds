@@ -416,7 +416,8 @@
   border-color: var(--_nys-button-border-color--hover);
 }
 
-.nys-button:active {
+.nys-button:active,
+.nys-button.active {
   background-color: var(--_nys-button-background-color--active);
   color: var(--_nys-button-color--active);
   border-color: var(--_nys-button-border-color--active);

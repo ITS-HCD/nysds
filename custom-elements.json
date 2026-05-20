@@ -894,6 +894,26 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "_cleanAriaLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_colorStyle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "getContrastForeground",
               "privacy": "private",
@@ -2779,6 +2799,11 @@
             },
             {
               "kind": "field",
+              "name": "_mobileQuery",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "isMobile",
               "privacy": "private"
             },
@@ -2889,14 +2914,14 @@
             },
             {
               "kind": "field",
-              "name": "_handleResize",
-              "privacy": "private"
+              "name": "_handleMobileQuery",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
               "name": "_emitChangeEvent",
-              "privacy": "private",
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -5462,6 +5487,15 @@
               "default": "4"
             },
             {
+              "kind": "field",
+              "name": "_resizeObserver",
+              "type": {
+                "text": "ResizeObserver | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
               "kind": "method",
               "name": "_findTrigger",
               "privacy": "private",
@@ -5687,11 +5721,6 @@
             {
               "kind": "field",
               "name": "_handleMenuKeydown",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_handleWindowResize",
               "privacy": "private"
             },
             {
@@ -7813,6 +7842,11 @@
             },
             {
               "kind": "field",
+              "name": "_mobileMedia",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "hasBodySlots",
               "type": {
                 "text": "boolean"
@@ -7856,7 +7890,7 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
+              "kind": "field",
               "name": "_handleBodySlotChange",
               "privacy": "private"
             },
@@ -13420,6 +13454,15 @@
               "name": "_position",
               "type": {
                 "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_resizeObserver",
+              "type": {
+                "text": "ResizeObserver | null"
               },
               "privacy": "private",
               "default": "null"
