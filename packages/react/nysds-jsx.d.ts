@@ -744,34 +744,34 @@ export type NysSkipnavProps = {
 };
 
 export type NysStepProps = {
-  /** Whether this step is currently being viewed. Set by parent stepper. */
+  /** Which step is currently being displayed. If not set, defaults to the `current` step.
+Setting this on a step after `current` is silently corrected to match `current`.
+When controlling state from a framework, always set this explicitly. */
   selected?: boolean;
-  /** Marks the furthest reached step. Steps before this are navigable. */
+  /** The furthest step the user has reached (progress boundary). Steps before this are navigable. */
   current?: boolean;
   /** Step label text displayed alongside the step number. */
   label?: string;
-  /** URL for page navigation when step is clicked. Optional for SPA routing. */
+  /** URL navigated to when the step is activated, via `window.location.href`.
+Navigation is suppressed if the `nys-step-click` listener calls `e.preventDefault()`.
+Omit for SPA/framework routing and handle navigation in the event listener instead. */
   href?: string;
-  /** Internal: Whether parent stepper's compact view is expanded. */
-  isCompactExpanded?: boolean;
-  /** Step number (1-indexed). Auto-assigned by parent stepper. */
-  stepNumber?: number;
-  /** Custom click handler. Called before `nys-step-click` event. */
+  /** Optional function called before `nys-step-click` is dispatched. Use for pre-navigation logic. */
   onClick?: (e: Event) => void | undefined;
-  /** Fired when a navigable step is clicked. Detail: `{href, label}`. Cancelable. */
+  /** Fired when a navigable (`previous` or `current`) non-selected step is clicked or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call `e.preventDefault()` to suppress `window.location.href` navigation. */
   "onnys-step-click"?: (e: CustomEvent<never>) => void;
 };
 
 export type NysStepperProps = {
-  /** Unique identifier. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
   id?: string;
   /** Name attribute for form association. */
   name?: string;
-  /** Title displayed above the step counter. */
+  /** Title displayed above the step list and compact counter. */
   label?: string;
-  /** Progress text (e.g., "Step 2 of 5"). Auto-updated based on selection. */
+  /** Progress text displayed in compact mode (e.g., "Step 2 of 5"). Auto-managed — do not set manually. */
   counterText?: string;
-  /** Whether compact mobile view is expanded to show all steps. */
+  /** Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter. */
   isCompactExpanded?: boolean;
 };
 
@@ -1414,7 +1414,7 @@ export type CustomElements = {
    *
    *
    * ### **Events:**
-   *  - **nys-step-click** - Fired when a navigable step is clicked. Detail: `{href, label}`. Cancelable.
+   *  - **nys-step-click** - Fired when a navigable (`previous` or `current`) non-selected step is clicked or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call `e.preventDefault()` to suppress `window.location.href` navigation.
    */
   "nys-step": Partial<NysStepProps & BaseProps & BaseEvents>;
 
@@ -1424,8 +1424,8 @@ export type CustomElements = {
    *
    *
    * ### **Slots:**
-   *  - _default_ - Default slot for `nys-step` elements.
-   * - **actions** - Navigation buttons (e.g., Back, Continue). Must be wrapped in a `<div>`.
+   *  - _default_ - Default slot for `nys-step` elements. Only `nys-step` children are accepted; others are removed.
+   * - **actions** - Persistent navigation buttons. Must contain exactly one `<div>` wrapping only `<nys-button>` elements.
    */
   "nys-stepper": Partial<NysStepperProps & BaseProps & BaseEvents>;
 
