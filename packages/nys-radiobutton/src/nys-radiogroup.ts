@@ -225,7 +225,7 @@ export class NysRadiogroup extends LitElement {
       " ",
       "Enter",
     ];
-    console.log("HERERERE")
+    console.log("HERERERE");
 
     if (!keys.includes(event.key)) return;
     // Prevent arrow left/right from switching to next radiobutton when focus is within "other" textinput
@@ -483,31 +483,10 @@ export class NysRadiogroup extends LitElement {
   }
 
   render() {
-    return html`<fieldset
-      aria-label="${this.label}${this._slottedDescriptionText
-        ? ` ${this._slottedDescriptionText}`
-        : this.description
-          ? ` ${this.description}`
-          : ""}"
-      role="radiogroup"
-      class="nys-radiogroup"
-    >
-      <nys-label
-        label=${this.label}
-        description=${this.description}
-        flag=${this.required ? "required" : this.optional ? "optional" : ""}
-        tooltip=${this.tooltip}
-      >
-        <slot name="description" slot="description">${this.description}</slot>
-      </nys-label>
-      <div class="nys-radiogroup__content" @keydown=${this._handleKeyDown}>
-        <slot></slot>
-      </div>
-      <nys-errormessage
-        ?showError=${this.showError}
-        errorMessage=${this._internals.validationMessage || this.errorMessage}
-        .showDivider=${!this.tile}
-      ></nys-errormessage>
+    return html`<fieldset class="nys-radiogroup">
+      <legend>Select something please</legend>
+      <label><input type="radio" value="huey" name="foo" />Huey</label>
+      <label><input type="radio" value="bob" name="foo" />Bob</label>
     </fieldset>`;
   }
 }
