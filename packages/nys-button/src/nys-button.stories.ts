@@ -417,7 +417,60 @@ export const Icons: Story = {
       .id=${args.id}
       .name=${args.name}
       .size=${args.size}
-      .variant=${args.variant}
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .prefixIcon=${args.prefixIcon}
+      .suffixIcon=${args.suffixIcon}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+      .ariaDescription=${args.ariaDescription}
+    ></nys-button>
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      variant="outline"
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .prefixIcon=${args.prefixIcon}
+      .suffixIcon=${args.suffixIcon}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+      .ariaDescription=${args.ariaDescription}
+    ></nys-button>
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      variant="ghost"
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .prefixIcon=${args.prefixIcon}
+      .suffixIcon=${args.suffixIcon}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+      .ariaDescription=${args.ariaDescription}
+    ></nys-button>
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      variant="text"
       .inverted=${args.inverted}
       .label=${args.label}
       .prefixIcon=${args.prefixIcon}
