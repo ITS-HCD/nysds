@@ -590,19 +590,32 @@ describe("nys-tooltip", () => {
     const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
 
     (tooltip as any)._active = true;
-    (tooltip as any)._addScrollListeners();
 
     let showCalled = false;
     (tooltip as any)._showTooltip = () => {
       showCalled = true;
     };
 
-    window.dispatchEvent(new Event("resize"));
+    // Intercept the ResizeObserver so we can trigger its callback manually
+    const originalResizeObserver = window.ResizeObserver;
+    let capturedCallback: ResizeObserverCallback | null = null;
+
+    window.ResizeObserver = class MockResizeObserver {
+      constructor(callback: ResizeObserverCallback) {
+        capturedCallback = callback;
+      }
+      observe() {}
+      disconnect() {}
+    } as any;
+
+    (tooltip as any)._addScrollListeners();
+    capturedCallback!([], {} as ResizeObserver);
     await tooltip.updateComplete;
 
     expect(showCalled).to.be.true;
 
     (tooltip as any)._removeScrollListeners();
+    window.ResizeObserver = originalResizeObserver;
   });
 
   it("passes the a11y audit", async () => {

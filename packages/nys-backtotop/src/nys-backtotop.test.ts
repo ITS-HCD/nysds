@@ -86,41 +86,7 @@ describe("nys-backtotop", () => {
     window.scrollTo = originalScrollTo;
   });
 
-  it("moves focus to main element after scrolling to top", async () => {
-    const mainEl = document.createElement("main");
-    mainEl.textContent = "Main content";
-    document.body.insertBefore(mainEl, document.body.firstChild);
-
-    const el = await fixture<NysBacktotop>(
-      html`<nys-backtotop></nys-backtotop>`,
-    );
-    const button = el.shadowRoot?.querySelector("nys-button")!;
-
-    // Stub window.scrollTo to trigger scroll event immediately
-    const originalScrollTo = window.scrollTo;
-    window.scrollTo = () => {
-      setTimeout(() => window.dispatchEvent(new Event("scroll")), 0);
-    };
-
-    // Trigger click event
-    button.dispatchEvent(
-      new CustomEvent("nys-click", { bubbles: true, composed: true }),
-    );
-
-    await el.updateComplete;
-    await new Promise((resolve) => setTimeout(resolve, 20));
-
-    expect(document.activeElement).to.equal(mainEl);
-
-    window.scrollTo = originalScrollTo;
-    document.body.removeChild(mainEl);
-  });
-
-  it("moves focus to first heading if no main element", async () => {
-    const h1 = document.createElement("h1");
-    h1.textContent = "Page Title";
-    document.body.insertBefore(h1, document.body.firstChild);
-
+  it("moves focus to document.body after scrolling to top", async () => {
     const el = await fixture<NysBacktotop>(
       html`<nys-backtotop></nys-backtotop>`,
     );
@@ -138,10 +104,10 @@ describe("nys-backtotop", () => {
     await el.updateComplete;
     await new Promise((resolve) => setTimeout(resolve, 20));
 
-    expect(document.activeElement).to.equal(h1);
+    expect(document.activeElement).to.equal(document.body);
 
     window.scrollTo = originalScrollTo;
-    document.body.removeChild(h1);
+    document.body.removeAttribute("tabindex");
   });
 
   it("passes the a11y audit", async () => {
