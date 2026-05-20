@@ -483,10 +483,22 @@ export class NysRadiogroup extends LitElement {
   }
 
   render() {
-    return html`<fieldset class="nys-radiogroup">
-      <legend>Select something please</legend>
-      <label><input type="radio" value="huey" name="foo" />Huey</label>
-      <label><input type="radio" value="bob" name="foo" />Bob</label>
+    return html`<fieldset>
+      <legend>
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          tooltip=${this.tooltip}
+        >
+          <slot name="description" slot="description">${this.description}</slot>
+        </nys-label>
+      </legend>
+
+      <input type="radio" id="html" name="fav_language" value="HTML" />
+      <label for="html">HTML</label><br />
+      <input type="radio" id="my-css" name="fav_language" value="CSS" />
+      <label for="my-css">CSS</label><br />
     </fieldset>`;
   }
 }
