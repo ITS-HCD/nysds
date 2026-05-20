@@ -320,7 +320,7 @@ export class NysRadiogroup extends LitElement {
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
-      radio.setAttribute("role", "radio");
+      // radio.setAttribute("role", "radio");
       radio.setAttribute("aria-checked", String(radio.checked));
       radio.setAttribute("aria-required", String(radio.required));
       radio.setAttribute("aria-disabled", String(radio.disabled));
@@ -492,14 +492,16 @@ export class NysRadiogroup extends LitElement {
       role="radiogroup"
       class="nys-radiogroup"
     >
-      <nys-label
-        label=${this.label}
-        description=${this.description}
-        flag=${this.required ? "required" : this.optional ? "optional" : ""}
-        tooltip=${this.tooltip}
-      >
-        <slot name="description" slot="description">${this.description}</slot>
-      </nys-label>
+      <legend>
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          tooltip=${this.tooltip}
+        >
+          <slot name="description" slot="description">${this.description}</slot>
+        </nys-label>
+      </legend>
       <div class="nys-radiogroup__content" @keydown=${this._handleKeyDown}>
         <slot></slot>
       </div>
