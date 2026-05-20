@@ -115,6 +115,13 @@ export class NysStep extends LitElement {
    */
   @property({ type: String }) href = "";
 
+  /**
+   * @internal Auto-applied by `nys-stepper` to every step that comes before `current`.
+   * Marks the step as navigable and clickable. Do not set this manually — the parent stepper
+   * adds and removes it on every render based on which step has `current`.
+   */
+  @property({ type: Boolean, reflect: true }) previous = false;
+
   /** @internal Propagated by the parent stepper. Do not set manually. */
   @property({ type: Boolean }) isCompactExpanded = false;
 
