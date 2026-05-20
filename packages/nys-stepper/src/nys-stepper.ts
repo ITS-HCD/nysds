@@ -315,12 +315,14 @@ export class NysStepper extends LitElement {
     let currentAssigned = false;
 
     steps.forEach((step, i) => {
-      // Check if multiple "current" exist, respect the first instance
-      if (step.hasAttribute("current")) {
+      // Check if multiple "current" exist, respect the first instance.
+      // Read the Lit property (set synchronously by frameworks) rather than the
+      // DOM attribute (which Lit reflects asynchronously) so this works in React.
+      if (step.current) {
         if (!currentAssigned) {
           currentAssigned = true;
         } else {
-          step.removeAttribute("current");
+          step.current = false;
         }
       }
 
@@ -332,19 +334,19 @@ export class NysStepper extends LitElement {
       }
 
       // Set previous
-      if (step.hasAttribute("current")) {
+      if (step.current) {
         foundCurrent = true;
-        step.removeAttribute("previous");
+        step.previous = false;
       } else if (!foundCurrent) {
-        step.setAttribute("previous", "");
+        step.previous = true;
       } else {
-        step.removeAttribute("previous");
+        step.previous = false;
       }
 
       // Handle selected, respect first instance
-      if (step.hasAttribute("selected")) {
+      if (step.selected) {
         if (foundCurrent || selectedAssigned) {
-          step.removeAttribute("selected");
+          step.selected = false;
         } else {
           selectedAssigned = true;
         }
@@ -362,7 +364,7 @@ export class NysStepper extends LitElement {
     if (!selectedAssigned) {
       if (currentAssigned) {
         steps.forEach((step) => {
-          if (step.hasAttribute("current") && !selectedAssigned) {
+          if (step.current && !selectedAssigned) {
             step.setAttribute("selected", "");
             selectedAssigned = true;
           }

@@ -40,7 +40,6 @@
   flex-direction: column;
   padding: var(--nys-space-400, 32px) var(--nys-space-400, 32px)
     var(--nys-space-150, 12px);
-  border: solid rgb(232, 106, 144);
 }
 
 ::slotted(div[slot="actions"]) {
