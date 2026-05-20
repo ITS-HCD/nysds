@@ -76,7 +76,7 @@ export class NysRadiogroup extends LitElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   @state() private selectedValue: string | null = null;
-  @state() private _slottedDescriptionText = "";
+  // @state() private _slottedDescriptionText = "";
 
   private _internals: ElementInternals;
 
@@ -216,64 +216,64 @@ export class NysRadiogroup extends LitElement {
   }
 
   // Arrow / Space / Enter navigation at group level
-  private async _handleKeyDown(event: KeyboardEvent) {
-    const keys = [
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      " ",
-      "Enter",
-    ];
-    console.log("HERERERE");
+  // private async _handleKeyDown(event: KeyboardEvent) {
+  //   const keys = [
+  //     "ArrowUp",
+  //     "ArrowDown",
+  //     "ArrowLeft",
+  //     "ArrowRight",
+  //     " ",
+  //     "Enter",
+  //   ];
+  //   console.log("HERERERE");
 
-    if (!keys.includes(event.key)) return;
-    // Prevent arrow left/right from switching to next radiobutton when focus is within "other" textinput
-    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-      const inTextInput = event
-        .composedPath()
-        .some((el) => (el as HTMLElement).tagName === "NYS-TEXTINPUT");
-      if (inTextInput) return;
-    }
+  //   if (!keys.includes(event.key)) return;
+  //   // Prevent arrow left/right from switching to next radiobutton when focus is within "other" textinput
+  //   if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+  //     const inTextInput = event
+  //       .composedPath()
+  //       .some((el) => (el as HTMLElement).tagName === "NYS-TEXTINPUT");
+  //     if (inTextInput) return;
+  //   }
 
-    event.preventDefault();
+  //   event.preventDefault();
 
-    const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
-    const fromEvent = radioBtns.find((radio) => radio === event.target); // event.target is the radio VO dispatched black focus outline
-    const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
+  //   const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
+  //   const fromEvent = radioBtns.find((radio) => radio === event.target); // event.target is the radio VO dispatched black focus outline
+  //   const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
 
-    const currentRadio =
-      fromEvent ||
-      focusedRadio ||
-      radioBtns.find((radio) => radio.checked) ||
-      radioBtns[0]; // fallback is checked radio or first radio
+  //   const currentRadio =
+  //     fromEvent ||
+  //     focusedRadio ||
+  //     radioBtns.find((radio) => radio.checked) ||
+  //     radioBtns[0]; // fallback is checked radio or first radio
 
-    let increment = 0;
-    if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
-      increment = -1;
-    } else if (["ArrowDown", "ArrowRight"].includes(event.key)) {
-      increment = 1;
-    }
+  //   let increment = 0;
+  //   if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
+  //     increment = -1;
+  //   } else if (["ArrowDown", "ArrowRight"].includes(event.key)) {
+  //     increment = 1;
+  //   }
 
-    let index = radioBtns.indexOf(currentRadio) + increment;
+  //   let index = radioBtns.indexOf(currentRadio) + increment;
 
-    // Handles the wrap around ends if user is at first or last radiobutton
-    if (index < 0) {
-      index = radioBtns.length - 1;
-    }
-    if (index >= radioBtns.length) {
-      index = 0;
-    }
+  //   // Handles the wrap around ends if user is at first or last radiobutton
+  //   if (index < 0) {
+  //     index = radioBtns.length - 1;
+  //   }
+  //   if (index >= radioBtns.length) {
+  //     index = 0;
+  //   }
 
-    const target = radioBtns[index];
-    const input = await target.getInputElement();
-    input?.click();
+  //   const target = radioBtns[index];
+  //   const input = await target.getInputElement();
+  //   input?.click();
 
-    await this.updateComplete;
-    this._updateGroupTabIndex();
-    console.log("FOCUSING!!!");
-    target.focus();
-  }
+  //   await this.updateComplete;
+  //   this._updateGroupTabIndex();
+  //   console.log("FOCUSING!!!");
+  //   target.focus();
+  // }
 
   private _updateGroupTabIndex() {
     const radios = this._getAllRadios();
@@ -495,10 +495,10 @@ export class NysRadiogroup extends LitElement {
         </nys-label>
       </legend>
 
-      <input type="radio" id="html" name="fav_language" value="HTML" />
-      <label for="html">HTML</label><br />
-      <input type="radio" id="my-css" name="fav_language" value="CSS" />
-      <label for="my-css">CSS</label><br />
+      <input type="radio" id="foo" name="fav_language" value="FOO" />
+      <label for="foo">Foo</label><br />
+      <input type="radio" id="bar" name="fav_language" value="BAR" />
+      <label for="bar">Bar</label><br />
     </fieldset>`;
   }
 }
