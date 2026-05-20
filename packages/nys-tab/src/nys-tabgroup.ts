@@ -143,6 +143,15 @@ export class NysTabgroup extends LitElement {
     this._resizeObserver.observe(this._tabsEl);
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._tabsEl?.removeEventListener("scroll", this._updateScrollShadows);
+    this._tabsEl?.removeEventListener("wheel", this._handleWheel);
+
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = undefined;
+  }
+
   // ---------------------------------------------------------------------------
   // Helpers
   // ---------------------------------------------------------------------------

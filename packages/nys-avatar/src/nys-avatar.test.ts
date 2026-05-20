@@ -192,19 +192,20 @@ describe("nys-avatar", () => {
     await el.updateComplete;
 
     const component = el.shadowRoot!.querySelector(".nys-avatar__component")!;
-    expect(component.getAttribute("role")).to.equal("button");
-    expect(component.getAttribute("tabindex")).to.equal("0");
+    // A native <button> has an implicit role of "button"
+    expect(component.tagName.toLowerCase()).to.equal("button");
+    expect((component as HTMLButtonElement).disabled).to.be.false;
   });
 
-  it("omits tabindex when interactive and disabled", async () => {
+  it("disables button when interactive and disabled", async () => {
     const el = await fixture<NysAvatar>(
       html`<nys-avatar interactive disabled></nys-avatar>`,
     );
     await el.updateComplete;
 
     const component = el.shadowRoot!.querySelector(".nys-avatar__component")!;
-    expect(component.getAttribute("role")).to.equal("button");
-    expect(component.hasAttribute("tabindex")).to.be.false;
+    expect(component.tagName.toLowerCase()).to.equal("button");
+    expect((component as HTMLButtonElement).disabled).to.be.true;
   });
 
   // -------------------------------------------------------------------------
@@ -222,14 +223,14 @@ describe("nys-avatar", () => {
     expect(component.hasAttribute("aria-label")).to.be.false;
   });
 
-  it("falls back to alt=avatar on img when ariaLabel is not set", async () => {
+  it("sets alt to empty string on img when ariaLabel is not set", async () => {
     const el = await fixture<NysAvatar>(
       html`<nys-avatar image="/photo.jpg"></nys-avatar>`,
     );
     await el.updateComplete;
 
     const img = el.shadowRoot!.querySelector("img")!;
-    expect(img.getAttribute("alt")).to.equal("avatar");
+    expect(img.getAttribute("alt")).to.equal("");
   });
 
   it("sets loading=lazy on img when lazy is true", async () => {
@@ -260,12 +261,12 @@ describe("nys-avatar", () => {
   // Render — aria-label default when ariaLabel prop absent and no image
   // -------------------------------------------------------------------------
 
-  it("defaults aria-label to 'avatar' on container when ariaLabel is not set", async () => {
+  it("omits aria-label from container when ariaLabel is not set", async () => {
     const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
     await el.updateComplete;
 
     const component = el.shadowRoot!.querySelector(".nys-avatar__component")!;
-    expect(component.getAttribute("aria-label")).to.equal("avatar");
+    expect(component.hasAttribute("aria-label")).to.be.false;
   });
 
   // -------------------------------------------------------------------------

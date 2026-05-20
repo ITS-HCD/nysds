@@ -233,6 +233,7 @@ export const AvatarInteractive: Story = {
   args: {
     interactive: true,
     icon: "account_circle",
+    ariaLabel: "User avatar",
   },
   render: (args) =>
     html` <div style="display:flex; gap:5px;">
@@ -248,7 +249,7 @@ export const AvatarInteractive: Story = {
       >
       </nys-avatar>
       <nys-avatar
-        ariaLabel="NY"
+        ariaLabel="New York Initial"
         initials="NY"
         .interactive=${args.interactive}
         .disabled=${args.disabled}

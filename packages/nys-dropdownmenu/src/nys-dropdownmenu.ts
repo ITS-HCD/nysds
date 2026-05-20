@@ -63,6 +63,7 @@ export class NysDropdownMenu extends LitElement {
   private _ariaTarget: HTMLElement | null = null;
   private _lastFocusedIndex: number = 0;
   private readonly GAP = 4;
+  private _resizeObserver: ResizeObserver | null = null;
 
   /**
    * Lifecycle Methods
@@ -150,7 +151,13 @@ export class NysDropdownMenu extends LitElement {
 
     if (this.showDropdown) {
       window.addEventListener("scroll", this._handleWindowScroll, true);
-      window.addEventListener("resize", this._handleWindowResize);
+      this._resizeObserver = new ResizeObserver(() => {
+        if (this.showDropdown) {
+          this._positionMenu();
+        }
+      });
+      this._resizeObserver.observe(document.documentElement);
+
       document.addEventListener("click", this._handleDocumentClick);
 
       this._menuElement = this.shadowRoot?.querySelector(
@@ -163,12 +170,14 @@ export class NysDropdownMenu extends LitElement {
       this._focusOnItem(this._lastFocusedIndex);
     } else {
       window.removeEventListener("scroll", this._handleWindowScroll, true);
-      window.removeEventListener("resize", this._handleWindowResize);
       document.removeEventListener("click", this._handleDocumentClick);
       this._menuElement!.removeEventListener(
         "keydown",
         this._handleMenuKeydown,
       );
+
+      this._resizeObserver?.disconnect();
+      this._resizeObserver = null;
     }
   };
 
@@ -470,12 +479,6 @@ export class NysDropdownMenu extends LitElement {
         break;
       default:
         break;
-    }
-  };
-
-  private _handleWindowResize = () => {
-    if (this.showDropdown) {
-      this._positionMenu();
     }
   };
 

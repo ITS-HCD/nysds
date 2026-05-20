@@ -96,6 +96,16 @@ export class NysAvatar extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  private get _cleanAriaLabel(): string {
+    return (this.ariaLabel ?? "").replace(/[\s\u00a0]+/g, " ").trim();
+  }
+
+  private _colorStyle(): string {
+    if (!this.color) return "";
+    const fg = this.getContrastForeground() ?? "";
+    return `--_nys-avatar-background-color: ${this.color}; --_nys-avatar-color: ${fg}; color: ${fg}`;
+  }
+
   /**
    * Computes the appropriate foreground color (icon or initials)
    * based on the avatar's background color for sufficient contrast.
@@ -141,57 +151,59 @@ export class NysAvatar extends LitElement {
   }
 
   render() {
+    const label = this._cleanAriaLabel;
+    const colorStyle = this._colorStyle();
+
+    const avatarContent =
+      this.image?.length > 0
+        ? html`<img
+            part="nys-avatar__image"
+            class="nys-avatar__image"
+            src=${this.image}
+            alt=${label || ""}
+            loading=${this.lazy ? "lazy" : "eager"}
+          />`
+        : this.initials?.length > 0
+          ? html`<span
+              part="nys-avatar__initials"
+              class="nys-avatar__initials"
+              aria-hidden="true"
+              >${this.initials}</span
+            >`
+          : html`<div part="nys-avatar__icon">
+              <slot @slotchange=${this._handleSlotChange}></slot>
+              ${!this._slotHasContent
+                ? html`<nys-icon
+                    label="nys-avatar__icon"
+                    name=${this.icon?.length > 0 ? this.icon : "account_circle"}
+                  ></nys-icon>`
+                : null}
+            </div>`;
+
+    const container = this.interactive
+      ? html`<button
+          part="nys-avatar"
+          class="nys-avatar__component"
+          style=${ifDefined(colorStyle || undefined)}
+          aria-label=${ifDefined(label || undefined)}
+          ?disabled=${this.disabled}
+        >
+          ${avatarContent}
+        </button>`
+      : html`<div
+          part="nys-avatar"
+          class="nys-avatar__component"
+          style=${ifDefined(colorStyle || undefined)}
+          role=${ifDefined(this.image ? undefined : label ? "img" : undefined)}
+          aria-label=${ifDefined(this.image ? undefined : label || undefined)}
+          aria-hidden=${ifDefined(this.image || label ? undefined : "true")}
+        >
+          ${avatarContent}
+        </div>`;
+
     return html`
       <div class="nys-avatar">
-        <div class="nys-avatar__content">
-          <div
-            part="nys-avatar"
-            class="nys-avatar__component"
-            style=${this.color
-              ? `--_nys-avatar-background-color: ${this.color}; color: ${this.getContrastForeground()}`
-              : ""}
-            role=${ifDefined(
-              this.interactive ? "button" : this.image ? undefined : "img",
-            )}
-            aria-label=${ifDefined(
-              this.image
-                ? undefined
-                : this.ariaLabel
-                  ? this.ariaLabel
-                  : "avatar",
-            )}
-            tabindex=${ifDefined(
-              this.interactive && !this.disabled ? 0 : undefined,
-            )}
-          >
-            ${this.image?.length > 0
-              ? html`<img
-                  part="nys-avatar__image"
-                  class="nys-avatar__image"
-                  src=${this.image}
-                  alt=${this.ariaLabel || "avatar"}
-                  loading=${this.lazy ? "lazy" : "eager"}
-                />`
-              : this.initials?.length > 0
-                ? html`<span
-                    part="nys-avatar__initials"
-                    class="nys-avatar__initials"
-                    aria-hidden="true"
-                    >${this.initials}</span
-                  >`
-                : html`<div part="nys-avatar__icon">
-                    <slot @slotchange=${this._handleSlotChange}></slot>
-                    ${!this._slotHasContent
-                      ? html`<nys-icon
-                          label="nys-avatar__icon"
-                          name=${this.icon?.length > 0
-                            ? this.icon
-                            : "account_circle"}
-                        ></nys-icon>`
-                      : null}
-                  </div>`}
-          </div>
-        </div>
+        <div class="nys-avatar__content">${container}</div>
       </div>
     `;
   }

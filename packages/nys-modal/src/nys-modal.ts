@@ -59,6 +59,7 @@ export class NysModal extends LitElement {
   private _actionButtonSlot: HTMLSlotElement | null = null; // cache action button slots (if given) so we can manipulate their widths for mobile vs desktop
   private _prevFocusedElement: HTMLElement | null = null;
   private _originalBodyOverflow: string | null = null;
+  private _mobileMedia = window.matchMedia("(max-width: 480px)");
 
   // Track slot contents to control what HTML is rendered
   @state() private hasBodySlots = false;
@@ -78,13 +79,20 @@ export class NysModal extends LitElement {
     if (!this.id) {
       this.id = `nys-modal-${Date.now()}-${componentIdCounter++}`;
     }
-    window.addEventListener("resize", () => this._updateSlottedButtonWidth());
+    this._mobileMedia.addEventListener(
+      "change",
+      this._updateSlottedButtonWidth,
+    );
     window.addEventListener("keydown", (e) => this._handleKeydown(e));
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this._restoreBodyScroll(); // make sure scroll is restored when modal is removed
+    this._mobileMedia.removeEventListener(
+      "change",
+      this._updateSlottedButtonWidth,
+    );
     window.removeEventListener("keydown", (e) => this._handleKeydown(e));
   }
 
@@ -143,7 +151,7 @@ export class NysModal extends LitElement {
   }
 
   // Check if the slot contains stuff (aka user add texts & action buttons), and render visibility accordingly
-  private async _handleBodySlotChange() {
+  private _handleBodySlotChange = async () => {
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot");
     if (!slot) return;
     this.hasBodySlots = slot
@@ -152,7 +160,7 @@ export class NysModal extends LitElement {
         (node) =>
           node.nodeType === Node.ELEMENT_NODE || node.textContent?.trim(),
       );
-  }
+  };
 
   // Determines whether we hide the action buttons slot container based on if user put in action buttons
   private async _handleActionSlotChange() {
@@ -177,7 +185,7 @@ export class NysModal extends LitElement {
   // Therefore, we need to account for mobile size and screen resizes
   private _updateSlottedButtonWidth() {
     if (!this._actionButtonSlot) return; // use the cached variable
-    const isMobile = window.innerWidth <= 480;
+    const isMobile = this._mobileMedia.matches;
 
     this._actionButtonSlot.assignedElements().forEach((el) => {
       el.querySelectorAll("nys-button").forEach((btn) => {
