@@ -225,7 +225,6 @@ export class NysRadiogroup extends LitElement {
       " ",
       "Enter",
     ];
-    console.log("HERERERE")
 
     if (!keys.includes(event.key)) return;
     // Prevent arrow left/right from switching to next radiobutton when focus is within "other" textinput
@@ -284,7 +283,8 @@ export class NysRadiogroup extends LitElement {
       radios.find((radio) => !radio.disabled);
 
     radios.forEach((radio) => {
-      radio.setAttribute("aria-checked", String(radio.checked));
+      //radio.setAttribute("aria-checked", String(radio.checked));
+
       // Only one radiobutton can be focusable at all times.
       // Due to this, we calculate logic to determine an active radiobutton and call all other as tabindex="-1"
       radio.tabIndex = radio === active && !radio.disabled ? 0 : -1;
@@ -321,9 +321,9 @@ export class NysRadiogroup extends LitElement {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
       // radio.setAttribute("role", "radio");
-      radio.setAttribute("aria-checked", String(radio.checked));
-      radio.setAttribute("aria-required", String(radio.required));
-      radio.setAttribute("aria-disabled", String(radio.disabled));
+      // radio.setAttribute("aria-checked", String(radio.checked));
+      // radio.setAttribute("aria-required", String(radio.required));
+      // radio.setAttribute("aria-disabled", String(radio.disabled));
       radio.setAttribute("tabindex", "-1");
     });
   }

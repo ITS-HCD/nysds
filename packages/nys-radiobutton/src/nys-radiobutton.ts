@@ -356,6 +356,10 @@ export class NysRadiobutton extends LitElement {
             class="nys-radiobutton__radio"
             tabindex="0"
             aria-labelledby="${this.id}-label"
+            aria-checked="${this.checked}"
+            aria-required="${this.required}"
+            aria-disabled="${this.disabled}"
+            title="${this.label}"
           ></span>
           ${(this.label || this.other) &&
           html`<nys-label
