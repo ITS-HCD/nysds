@@ -7253,6 +7253,16 @@
               "kind": "method",
               "name": "_getNysLogo",
               "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundClickOutside",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_boundKeyDown",
+              "privacy": "private"
             }
           ],
           "attributes": [
