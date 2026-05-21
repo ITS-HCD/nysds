@@ -57,6 +57,9 @@ export class NysTooltip extends LitElement {
   // Position Logic
   private _position: "top" | "bottom" | "left" | "right" | null = null;
 
+  // Resize observer to manipulate tooltip position on page
+  private _resizeObserver: ResizeObserver | null = null;
+
   /**
    * Preferred position relative to trigger. Auto-adjusts if space is insufficient.
    * @default null (auto-positioned based on available space)
@@ -240,12 +243,16 @@ export class NysTooltip extends LitElement {
   // Listen to window scroll so a focus tooltip can auto position even when user move across the page
   private _addScrollListeners() {
     window.addEventListener("scroll", this._handleScrollOrResize, true);
-    window.addEventListener("resize", this._handleScrollOrResize);
+    this._resizeObserver = new ResizeObserver(() => {
+      this._handleScrollOrResize();
+    });
+    this._resizeObserver.observe(document.documentElement);
   }
 
   private _removeScrollListeners() {
     window.removeEventListener("scroll", this._handleScrollOrResize, true);
-    window.removeEventListener("resize", this._handleScrollOrResize);
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = null;
   }
 
   private _handleScrollOrResize = () => {
