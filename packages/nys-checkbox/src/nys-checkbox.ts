@@ -490,6 +490,7 @@ export class NysCheckbox extends LitElement {
           ${(this.label || this.other) &&
           html`
             <nys-label
+              aria-hidden="true"
               tooltip=${this.tooltip}
               label="${this.label || (this.other ? "Other" : "")}"
               description=${ifDefined(this.description || undefined)}

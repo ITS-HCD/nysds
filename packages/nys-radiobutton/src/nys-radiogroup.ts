@@ -217,16 +217,35 @@ export class NysRadiogroup extends LitElement {
 
   // Arrow / Space / Enter navigation at group level
   private async _handleKeyDown(event: KeyboardEvent) {
-    const keys = ["ArrowUp", "ArrowDown", " ", "Enter"];
+    const keys = [
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      " ",
+      "Enter",
+    ];
 
     if (!keys.includes(event.key)) return;
+    // Prevent arrow left/right from switching to next radiobutton when focus is within "other" textinput
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      const inTextInput = event
+        .composedPath()
+        .some((el) => (el as HTMLElement).tagName === "NYS-TEXTINPUT");
+      if (inTextInput) return;
+    }
+
     event.preventDefault();
 
     const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
-
+    const fromEvent = radioBtns.find((radio) => radio === event.target); // event.target is the radio VO dispatched black focus outline
     const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
+
     const currentRadio =
-      focusedRadio || radioBtns.find((radio) => radio.checked) || radioBtns[0]; // fallback is checked radio or first radio
+      fromEvent ||
+      focusedRadio ||
+      radioBtns.find((radio) => radio.checked) ||
+      radioBtns[0]; // fallback is checked radio or first radio
 
     let increment = 0;
     if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
@@ -263,7 +282,8 @@ export class NysRadiogroup extends LitElement {
       radios.find((radio) => !radio.disabled);
 
     radios.forEach((radio) => {
-      radio.setAttribute("aria-checked", String(radio.checked));
+      //radio.setAttribute("aria-checked", String(radio.checked));
+
       // Only one radiobutton can be focusable at all times.
       // Due to this, we calculate logic to determine an active radiobutton and call all other as tabindex="-1"
       radio.tabIndex = radio === active && !radio.disabled ? 0 : -1;
@@ -299,10 +319,10 @@ export class NysRadiogroup extends LitElement {
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
-      radio.setAttribute("role", "radio");
-      radio.setAttribute("aria-checked", String(radio.checked));
-      radio.setAttribute("aria-required", String(radio.required));
-      radio.setAttribute("aria-disabled", String(radio.disabled));
+      // radio.setAttribute("role", "radio");
+      // radio.setAttribute("aria-checked", String(radio.checked));
+      // radio.setAttribute("aria-required", String(radio.required));
+      // radio.setAttribute("aria-disabled", String(radio.disabled));
       radio.setAttribute("tabindex", "-1");
     });
   }
@@ -471,14 +491,16 @@ export class NysRadiogroup extends LitElement {
       role="radiogroup"
       class="nys-radiogroup"
     >
-      <nys-label
-        label=${this.label}
-        description=${this.description}
-        flag=${this.required ? "required" : this.optional ? "optional" : ""}
-        tooltip=${this.tooltip}
-      >
-        <slot name="description" slot="description">${this.description}</slot>
-      </nys-label>
+      <legend>
+        <nys-label
+          label=${this.label}
+          description=${this.description}
+          flag=${this.required ? "required" : this.optional ? "optional" : ""}
+          tooltip=${this.tooltip}
+        >
+          <slot name="description" slot="description">${this.description}</slot>
+        </nys-label>
+      </legend>
       <div class="nys-radiogroup__content" @keydown=${this._handleKeyDown}>
         <slot></slot>
       </div>
