@@ -6,27 +6,55 @@ import styles from "./nys-stepper.scss?inline";
 /**
  * A single step within `nys-stepper`. Represents one stage in a multi-step process.
  *
- * Mark as `current` to indicate active progress point. Previous steps become clickable for navigation.
- * Set `href` for page-based navigation or listen to `nys-step-click` for SPA routing.
+ * Mark as `current` to indicate the active progress point. Previous steps become clickable for navigation.
+ * Set `href` for page-based navigation, or omit it and listen to `nys-step-click` for SPA/framework routing.
  *
- * ## Step States
+ * ## Step states
  *
- * Understanding the three step states is critical for proper stepper usage:
+ * Three boolean attributes control step appearance and behavior:
  *
- * - **`selected`** - Which step is currently being displayed/viewed. This controls which step's
- *   content is shown. Defaults to `current` if not set. Cannot be set on a step after `current`.
- *   Users can click previous steps to change `selected` without changing `current`.
+ * - **`current`** — The furthest step the user has reached (the progress boundary). Only one step should
+ *   have `current` at a time; if multiple are set the parent stepper keeps the first and removes the rest.
+ *   Steps after `current` are not navigable and do not fire `nys-step-click`. Update `current` in your
+ *   application state when the user advances.
  *
- * - **`current`** - The furthest step the user has reached. This is the progress boundary.
- *   Update this as the user completes steps and advances. Steps after `current` are not navigable.
- *   Only one step should have `current` at a time.
+ * - **`selected`** — Which step's content is currently displayed. Defaults to the `current` step if not
+ *   explicitly set. If `selected` is placed on a step after `current`, the stepper silently corrects it
+ *   to match `current`. When managing state from a framework, always set `selected` explicitly — without
+ *   it the stepper's fallback will reset in-sidebar navigation on every state update.
  *
- * - **`previous`** - Auto-applied by the stepper to all steps before `current`. Do not set manually.
- *   Steps with `previous` are clickable and allow the user to navigate back.
+ * - **`previous`** — Auto-applied by the parent stepper to every step before `current`. Do not set this
+ *   manually. Steps with `previous` are clickable and fire `nys-step-click`.
  *
- * ## Common Patterns
+ * ## `nys-step-click` firing conditions
  *
- * **Initial state:** Set `current` on the first step. `selected` will default to it.
+ * The event fires only when ALL of the following are true:
+ * 1. The step has `previous` or `current` (i.e. it is navigable).
+ * 2. The step does NOT already have `selected` (clicking the already-viewed step is a no-op).
+ *
+ * Steps that are neither `previous` nor `current` (future steps) never fire the event.
+ *
+ * ## `href` and navigation
+ *
+ * If `href` is set, the stepper calls `window.location.href = href` after dispatching `nys-step-click`
+ * — but only if the event was **not canceled**. To handle navigation yourself (SPA routing, fetch, etc.),
+ * always call `e.preventDefault()` in your listener. Omitting `href` entirely is simpler for SPAs.
+ *
+ * ## `onClick` vs `nys-step-click`
+ *
+ * The `onClick` property (a function reference, not a DOM attribute) is called **before** the
+ * `nys-step-click` event is dispatched. Use it for imperative pre-navigation logic. In React, pass it
+ * as the `onClick` prop on `NysStep`.
+ *
+ * ## Accessibility
+ * - The step label renders with `role="button"` and is keyboard-focusable (`tabindex="0"`) for navigable
+ *   steps (`current`, `previous`). Future steps get `tabindex="-1"` and are not reachable by keyboard.
+ * - Enter and Space activate the step (same as click).
+ * - `aria-label` is set to `"{label} Step"` for screen reader announcement.
+ *
+ * ## Common patterns
+ *
+ * **Initial state:** Set `current` on the first step. `selected` defaults to it.
  * ```html
  * <nys-step label="Step 1" current></nys-step>
  * <nys-step label="Step 2"></nys-step>
@@ -38,7 +66,7 @@ import styles from "./nys-stepper.scss?inline";
  * <nys-step label="Step 2" current></nys-step>
  * ```
  *
- * **User went back to review step 1 (but progress is still at step 2):**
+ * **User went back to review step 1 (progress still at step 2):**
  * ```html
  * <nys-step label="Step 1" selected></nys-step>
  * <nys-step label="Step 2" current></nys-step>
@@ -47,35 +75,60 @@ import styles from "./nys-stepper.scss?inline";
  * @summary Individual step for use within nys-stepper with navigation support.
  * @element nys-step
  *
- * @fires nys-step-click - Fired when a navigable step is clicked. Detail: `{href, label}`. Cancelable.
+ * @fires nys-step-click - Fired when a navigable (`previous` or `current`) non-selected step is clicked
+ *   or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call
+ *   `e.preventDefault()` to suppress `window.location.href` navigation.
  *
- * @example Step with navigation
+ * @example Step with page navigation
  * ```html
  * <nys-step label="Personal Info" href="/step-1"></nys-step>
+ * ```
+ *
+ * @example Step with SPA navigation (no href)
+ * ```js
+ * step.addEventListener('nys-step-click', (e) => {
+ *   e.preventDefault(); // no href set, but good practice
+ *   showStepContent(e.detail.label);
+ * });
  * ```
  */
 export class NysStep extends LitElement {
   static styles = unsafeCSS(styles);
 
-  /** Whether this step is currently being viewed. Set by parent stepper. */
+  /**
+   * Which step is currently being displayed. If not set, defaults to the `current` step.
+   * Setting this on a step after `current` is silently corrected to match `current`.
+   * When controlling state from a framework, always set this explicitly.
+   */
   @property({ type: Boolean, reflect: true }) selected = false;
 
-  /** Marks the furthest reached step. Steps before this are navigable. */
+  /** The furthest step the user has reached (progress boundary). Steps before this are navigable. */
   @property({ type: Boolean, reflect: true }) current = false;
 
   /** Step label text displayed alongside the step number. */
   @property({ type: String }) label = "";
 
-  /** URL for page navigation when step is clicked. Optional for SPA routing. */
+  /**
+   * URL navigated to when the step is activated, via `window.location.href`.
+   * Navigation is suppressed if the `nys-step-click` listener calls `e.preventDefault()`.
+   * Omit for SPA/framework routing and handle navigation in the event listener instead.
+   */
   @property({ type: String }) href = "";
 
-  /** Internal: Whether parent stepper's compact view is expanded. */
+  /**
+   * @internal Auto-applied by `nys-stepper` to every step that comes before `current`.
+   * Marks the step as navigable and clickable. Do not set this manually — the parent stepper
+   * adds and removes it on every render based on which step has `current`.
+   */
+  @property({ type: Boolean, reflect: true }) previous = false;
+
+  /** @internal Propagated by the parent stepper. Do not set manually. */
   @property({ type: Boolean }) isCompactExpanded = false;
 
-  /** Custom click handler. Called before `nys-step-click` event. */
+  /** Optional function called before `nys-step-click` is dispatched. Use for pre-navigation logic. */
   @property({ attribute: false }) onClick?: (e: Event) => void;
 
-  /** Step number (1-indexed). Auto-assigned by parent stepper. */
+  /** @internal 1-indexed position. Auto-assigned by the parent stepper on first render. Do not set manually. */
   @property({ type: Number }) stepNumber = 0;
 
   private _handleActivate(e: Event) {

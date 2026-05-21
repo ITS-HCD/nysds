@@ -894,6 +894,26 @@
               "privacy": "private"
             },
             {
+              "kind": "field",
+              "name": "_cleanAriaLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "description": "Functions\n--------------------------------------------------------------------------",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "_colorStyle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "getContrastForeground",
               "privacy": "private",
@@ -2248,6 +2268,19 @@
             },
             {
               "kind": "method",
+              "name": "_handleKeyup",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "_handleAnyAttributeFunction",
               "privacy": "private",
               "description": "A Solution to the Vanilla JS & Native HTML keydown:\n\nHandles inline onClick attributes set as strings in vanilla HTML\n(e.g. <nys-button onClick=\"doSomething()\">).\n\nWhen onClick is set this way, it is a DOM attribute (not a property)\nso this.onClick remains null. Native clicks execute the attribute\nautomatically, but keydown events do not, so we invoke it manually here."
@@ -2779,6 +2812,11 @@
             },
             {
               "kind": "field",
+              "name": "_mobileQuery",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "isMobile",
               "privacy": "private"
             },
@@ -2889,14 +2927,14 @@
             },
             {
               "kind": "field",
-              "name": "_handleResize",
-              "privacy": "private"
+              "name": "_handleMobileQuery",
+              "privacy": "private",
+              "description": "Event Handlers\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
               "name": "_emitChangeEvent",
-              "privacy": "private",
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -5462,6 +5500,15 @@
               "default": "4"
             },
             {
+              "kind": "field",
+              "name": "_resizeObserver",
+              "type": {
+                "text": "ResizeObserver | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
               "kind": "method",
               "name": "_findTrigger",
               "privacy": "private",
@@ -5687,11 +5734,6 @@
             {
               "kind": "field",
               "name": "_handleMenuKeydown",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_handleWindowResize",
               "privacy": "private"
             },
             {
@@ -7813,6 +7855,11 @@
             },
             {
               "kind": "field",
+              "name": "_mobileMedia",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "hasBodySlots",
               "type": {
                 "text": "boolean"
@@ -7856,7 +7903,7 @@
               "privacy": "private"
             },
             {
-              "kind": "method",
+              "kind": "field",
               "name": "_handleBodySlotChange",
               "privacy": "private"
             },
@@ -10081,7 +10128,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation or listen to `nys-step-click` for SPA routing.\n\n## Step States\n\nUnderstanding the three step states is critical for proper stepper usage:\n\n- **`selected`** - Which step is currently being displayed/viewed. This controls which step's\n  content is shown. Defaults to `current` if not set. Cannot be set on a step after `current`.\n  Users can click previous steps to change `selected` without changing `current`.\n\n- **`current`** - The furthest step the user has reached. This is the progress boundary.\n  Update this as the user completes steps and advances. Steps after `current` are not navigable.\n  Only one step should have `current` at a time.\n\n- **`previous`** - Auto-applied by the stepper to all steps before `current`. Do not set manually.\n  Steps with `previous` are clickable and allow the user to navigate back.\n\n## Common Patterns\n\n**Initial state:** Set `current` on the first step. `selected` will default to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (but progress is still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
+          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate the active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation, or omit it and listen to `nys-step-click` for SPA/framework routing.\n\n## Step states\n\nThree boolean attributes control step appearance and behavior:\n\n- **`current`** — The furthest step the user has reached (the progress boundary). Only one step should\n  have `current` at a time; if multiple are set the parent stepper keeps the first and removes the rest.\n  Steps after `current` are not navigable and do not fire `nys-step-click`. Update `current` in your\n  application state when the user advances.\n\n- **`selected`** — Which step's content is currently displayed. Defaults to the `current` step if not\n  explicitly set. If `selected` is placed on a step after `current`, the stepper silently corrects it\n  to match `current`. When managing state from a framework, always set `selected` explicitly — without\n  it the stepper's fallback will reset in-sidebar navigation on every state update.\n\n- **`previous`** — Auto-applied by the parent stepper to every step before `current`. Do not set this\n  manually. Steps with `previous` are clickable and fire `nys-step-click`.\n\n## `nys-step-click` firing conditions\n\nThe event fires only when ALL of the following are true:\n1. The step has `previous` or `current` (i.e. it is navigable).\n2. The step does NOT already have `selected` (clicking the already-viewed step is a no-op).\n\nSteps that are neither `previous` nor `current` (future steps) never fire the event.\n\n## `href` and navigation\n\nIf `href` is set, the stepper calls `window.location.href = href` after dispatching `nys-step-click`\n— but only if the event was **not canceled**. To handle navigation yourself (SPA routing, fetch, etc.),\nalways call `e.preventDefault()` in your listener. Omitting `href` entirely is simpler for SPAs.\n\n## `onClick` vs `nys-step-click`\n\nThe `onClick` property (a function reference, not a DOM attribute) is called **before** the\n`nys-step-click` event is dispatched. Use it for imperative pre-navigation logic. In React, pass it\nas the `onClick` prop on `NysStep`.\n\n## Accessibility\n- The step label renders with `role=\"button\"` and is keyboard-focusable (`tabindex=\"0\"`) for navigable\n  steps (`current`, `previous`). Future steps get `tabindex=\"-1\"` and are not reachable by keyboard.\n- Enter and Space activate the step (same as click).\n- `aria-label` is set to `\"{label} Step\"` for screen reader announcement.\n\n## Common patterns\n\n**Initial state:** Set `current` on the first step. `selected` defaults to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (progress still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
           "name": "NysStep",
           "members": [
             {
@@ -10091,7 +10138,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Whether this step is currently being viewed. Set by parent stepper.",
+              "description": "Which step is currently being displayed. If not set, defaults to the `current` step.\nSetting this on a step after `current` is silently corrected to match `current`.\nWhen controlling state from a framework, always set this explicitly.",
               "attribute": "selected",
               "reflects": true
             },
@@ -10102,7 +10149,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Marks the furthest reached step. Steps before this are navigable.",
+              "description": "The furthest step the user has reached (progress boundary). Steps before this are navigable.",
               "attribute": "current",
               "reflects": true
             },
@@ -10123,18 +10170,8 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "URL for page navigation when step is clicked. Optional for SPA routing.",
+              "description": "URL navigated to when the step is activated, via `window.location.href`.\nNavigation is suppressed if the `nys-step-click` listener calls `e.preventDefault()`.\nOmit for SPA/framework routing and handle navigation in the event listener instead.",
               "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "isCompactExpanded",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal: Whether parent stepper's compact view is expanded.",
-              "attribute": "isCompactExpanded"
             },
             {
               "kind": "field",
@@ -10142,17 +10179,7 @@
               "type": {
                 "text": "(e: Event) => void | undefined"
               },
-              "description": "Custom click handler. Called before `nys-step-click` event."
-            },
-            {
-              "kind": "field",
-              "name": "stepNumber",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Step number (1-indexed). Auto-assigned by parent stepper.",
-              "attribute": "stepNumber"
+              "description": "Optional function called before `nys-step-click` is dispatched. Use for pre-navigation logic."
             },
             {
               "kind": "method",
@@ -10183,7 +10210,7 @@
           ],
           "events": [
             {
-              "description": "Fired when a navigable step is clicked. Detail: `{href, label}`. Cancelable.",
+              "description": "Fired when a navigable (`previous` or `current`) non-selected step is clicked or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call `e.preventDefault()` to suppress `window.location.href` navigation.",
               "name": "nys-step-click"
             }
           ],
@@ -10194,7 +10221,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Whether this step is currently being viewed. Set by parent stepper.",
+              "description": "Which step is currently being displayed. If not set, defaults to the `current` step.\nSetting this on a step after `current` is silently corrected to match `current`.\nWhen controlling state from a framework, always set this explicitly.",
               "fieldName": "selected",
               "propName": "selected"
             },
@@ -10204,7 +10231,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Marks the furthest reached step. Steps before this are navigable.",
+              "description": "The furthest step the user has reached (progress boundary). Steps before this are navigable.",
               "fieldName": "current",
               "propName": "current"
             },
@@ -10224,29 +10251,9 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "URL for page navigation when step is clicked. Optional for SPA routing.",
+              "description": "URL navigated to when the step is activated, via `window.location.href`.\nNavigation is suppressed if the `nys-step-click` listener calls `e.preventDefault()`.\nOmit for SPA/framework routing and handle navigation in the event listener instead.",
               "fieldName": "href",
               "propName": "href"
-            },
-            {
-              "name": "isCompactExpanded",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "description": "Internal: Whether parent stepper's compact view is expanded.",
-              "fieldName": "isCompactExpanded",
-              "propName": "iscompactexpanded"
-            },
-            {
-              "name": "stepNumber",
-              "type": {
-                "text": "number"
-              },
-              "default": "0",
-              "description": "Step number (1-indexed). Auto-assigned by parent stepper.",
-              "fieldName": "stepNumber",
-              "propName": "stepnumber"
             }
           ],
           "superclass": {
@@ -10258,9 +10265,14 @@
           "summary": "Individual step for use within nys-stepper with navigation support.",
           "examples": [
             {
-              "title": "Step with navigation",
+              "title": "Step with page navigation",
               "code": "<nys-step label=\"Personal Info\" href=\"/step-1\"></nys-step>",
               "lang": "html"
+            },
+            {
+              "title": "Step with SPA navigation (no href)",
+              "code": "step.addEventListener('nys-step-click', (e) => {\ne.preventDefault(); // no href set, but good practice\nshowStepContent(e.detail.label);\n});",
+              "lang": "js"
             }
           ]
         }
@@ -10290,15 +10302,15 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become\nnavigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.\nDo not place the stepper inside a form element.",
+          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary; all steps\nbefore it become navigable. Compact view on mobile expands to show all steps. Use the `actions` slot for\npersistent navigation buttons (e.g., Save & Exit). Do not place the stepper inside a `<form>` element —\nput form fields in the main content area alongside it.\n\n## When to use\n- Linear, ordered forms or wizards with more than 2 sections.\n\n## When not to use\n- Forms with only 1 or 2 sections — use a simpler layout.\n- Non-linear forms where sections can be completed in any order.\n\n## Compact mode (mobile)\nOn small screens the stepper collapses to a compact view: step labels are hidden and progress\nis shown as a bar indicator with a \"Step x of y\" counter. Clicking or pressing Enter/Space on\nthe counter expands the full step list (counter text changes to \"Back to Form\"). Collapsing\nagain returns the user to the form view.\n\n## actions slot constraints\nThe `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only\ncontain `<nys-button>` elements — any other element is removed with a console warning.\nThe stepper automatically forces `size=\"sm\"` on every button in the slot. Buttons with the\n`fullWidth` attribute get `flex: 1 1 0` injected so they share available width equally.\n\n## Multiple `current` conflict\nIf more than one `nys-step` has the `current` attribute, only the first one is kept; the rest\nare silently removed. Always mark exactly one step as `current`.\n\n## id auto-generation\nIf no `id` is provided, a unique id is generated automatically in the form\n`nys-stepper-{n}-{timestamp}`.\n\n## Accessibility\n- The compact counter is rendered as a `role=\"button\"` with `aria-expanded` and a descriptive\n  `aria-label` that announces the current step (e.g., \"Expand step navigation. You are on Step 2 of 4\").\n- Keyboard: Enter or Space toggles the compact view.\n- Each `nys-step` label is keyboard-focusable and activatable for navigable steps.\n- Visual focus indicators are provided on all interactive elements.",
           "name": "NysStepper",
           "slots": [
             {
-              "description": "Default slot for `nys-step` elements.",
+              "description": "Default slot for `nys-step` elements. Only `nys-step` children are accepted; others are removed.",
               "name": ""
             },
             {
-              "description": "Navigation buttons (e.g., Back, Continue). Must be wrapped in a `<div>`.",
+              "description": "Persistent navigation buttons. Must contain exactly one `<div>` wrapping only `<nys-button>` elements.",
               "name": "actions"
             }
           ],
@@ -10310,7 +10322,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Unique identifier.",
+              "description": "Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided.",
               "attribute": "id",
               "reflects": true
             },
@@ -10332,7 +10344,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Title displayed above the step counter.",
+              "description": "Title displayed above the step list and compact counter.",
               "attribute": "label"
             },
             {
@@ -10342,7 +10354,7 @@
                 "text": "string"
               },
               "default": "\"initial\"",
-              "description": "Progress text (e.g., \"Step 2 of 5\"). Auto-updated based on selection.",
+              "description": "Progress text displayed in compact mode (e.g., \"Step 2 of 5\"). Auto-managed — do not set manually.",
               "attribute": "counterText"
             },
             {
@@ -10352,7 +10364,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Whether compact mobile view is expanded to show all steps.",
+              "description": "Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter.",
               "attribute": "isCompactExpanded",
               "reflects": true
             },
@@ -10419,7 +10431,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Unique identifier.",
+              "description": "Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided.",
               "fieldName": "id",
               "propName": "id"
             },
@@ -10439,7 +10451,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Title displayed above the step counter.",
+              "description": "Title displayed above the step list and compact counter.",
               "fieldName": "label",
               "propName": "label"
             },
@@ -10449,7 +10461,7 @@
                 "text": "string"
               },
               "default": "\"initial\"",
-              "description": "Progress text (e.g., \"Step 2 of 5\"). Auto-updated based on selection.",
+              "description": "Progress text displayed in compact mode (e.g., \"Step 2 of 5\"). Auto-managed — do not set manually.",
               "fieldName": "counterText",
               "propName": "countertext"
             },
@@ -10459,7 +10471,7 @@
                 "text": "boolean"
               },
               "default": "false",
-              "description": "Whether compact mobile view is expanded to show all steps.",
+              "description": "Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter.",
               "fieldName": "isCompactExpanded",
               "propName": "iscompactexpanded"
             }
@@ -10486,6 +10498,11 @@
               "title": "Navigation buttons in actions slot",
               "code": "<nys-stepper label=\"Application\">\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n<nys-step label=\"Step 3\"></nys-step>\n<div slot=\"actions\">\n<nys-button label=\"Save and Exit\" variant=\"outline\" size=\"sm\" fullWidth></nys-button>\n</div>\n</nys-stepper>",
               "lang": "html"
+            },
+            {
+              "title": "SPA / programmatic navigation",
+              "code": "let currentStep = 0; // furthest reached\nlet viewingStep = 0; // currently displayed\n\nfunction updateStepper(steps) {\nsteps.forEach((step, i) => {\nstep.toggleAttribute('current', i === currentStep);\nstep.toggleAttribute('selected', i === viewingStep);\n});\n}\n\ndocument.querySelector('nys-stepper').addEventListener('nys-step-click', (e) => {\ne.preventDefault();\nconst steps = Array.from(document.querySelectorAll('nys-step'));\nconst clicked = e.composedPath().find(el => el.tagName?.toLowerCase() === 'nys-step');\nconst index = steps.indexOf(clicked);\nif (index !== -1) { viewingStep = index; updateStepper(steps); }\n});\n\n// Advance to next step (call on form submit / \"Continue\" click)\nfunction advance(steps) {\nif (currentStep < steps.length - 1) {\ncurrentStep++;\nviewingStep = currentStep;\nupdateStepper(steps);\n}\n}",
+              "lang": "js"
             }
           ]
         }
@@ -10908,7 +10925,7 @@
                   "description": "The `Event` fired by the `<slot>` element on slot change."
                 }
               ],
-              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`, preserving relative order. After sorting,\ncalls `_applySelection` using the first element that already has a\n`selected` attribute, or index `0` if none is found."
+              "description": "Handles `slotchange` on the default slot.\n\nIterates over all assigned elements and moves each `<nys-tab>` into\n`.nys-tabgroup__tabs` and each `<nys-tabpanel>` into\n`.nys-tabgroup__panels`. If a panel has an `aria-labelledby` attribute,\nit is explicitly paired with the tab it references; otherwise panels are\npaired with tabs by index order. After sorting, calls `_applySelection`\nusing the first element that already has a `selected` attribute, or\nindex `0` if none is found."
             },
             {
               "kind": "method",
@@ -13420,6 +13437,15 @@
               "name": "_position",
               "type": {
                 "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_resizeObserver",
+              "type": {
+                "text": "ResizeObserver | null"
               },
               "privacy": "private",
               "default": "null"

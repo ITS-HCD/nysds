@@ -292,6 +292,9 @@ export class NysButton extends LitElement {
       if (this.disabled) return;
 
       e.preventDefault();
+      const btn = this.renderRoot.querySelector(".nys-button");
+      btn?.classList.add("active");
+      setTimeout(() => btn?.classList.remove("active"), 150);
 
       if (this.href) {
         // Click the internal <a> so native navigation happens
@@ -305,6 +308,17 @@ export class NysButton extends LitElement {
         this._handleAnyAttributeFunction();
         this._handleClick(e);
       }
+    }
+  }
+
+  private _handleKeyup(e: KeyboardEvent) {
+    if (
+      e.code === "Space" ||
+      e.code === "Enter" ||
+      e.key === " " ||
+      e.key === "Enter"
+    ) {
+      this.renderRoot.querySelector(".nys-button")?.classList.remove("active");
     }
   }
 
@@ -356,6 +370,7 @@ export class NysButton extends LitElement {
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
+                @keyup="${this._handleKeyup}"
                 tabindex="${this.disabled ? -1 : 0}"
                 aria-label=${ifDefined(
                   this.ariaLabel ||
@@ -407,6 +422,7 @@ export class NysButton extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
+              @keyup="${this._handleKeyup}"
               tabindex="${this.disabled ? -1 : 0}"
               aria-label=${ifDefined(
                 this.ariaLabel ||
