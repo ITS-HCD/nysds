@@ -24,5 +24,5 @@ export default {
     // Block
     "block-no-empty": true,
   },
-  extends: ["stylelint-config-standard-scss"],
+  extends: ["stylelint-config-standard-scss", "stylelint-prettier/recommended"],
 };
