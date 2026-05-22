@@ -4,16 +4,7 @@ import { useEventListener, useProperties } from "./react-utils.js";
 
 export const NysStep = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
-  const {
-    selected,
-    current,
-    isCompactExpanded,
-    label,
-    href,
-    stepNumber,
-    onClick,
-    ...filteredProps
-  } = props;
+  const { selected, current, label, href, onClick, ...filteredProps } = props;
 
   /** Event listeners - run once */
   useEventListener(ref, "nys-step-click", props.onNysStepClick);
@@ -35,7 +26,6 @@ export const NysStep = forwardRef((props, forwardedRef) => {
       ...filteredProps,
       label: props.label,
       href: props.href,
-      stepNumber: props.stepNumber,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,
@@ -43,7 +33,6 @@ export const NysStep = forwardRef((props, forwardedRef) => {
       tabindex: props.tabIndex,
       selected: props.selected ? true : undefined,
       current: props.current ? true : undefined,
-      isCompactExpanded: props.isCompactExpanded ? true : undefined,
       style: { ...props.style },
     },
     props.children,

@@ -143,6 +143,15 @@ export class NysTabgroup extends LitElement {
     this._resizeObserver.observe(this._tabsEl);
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._tabsEl?.removeEventListener("scroll", this._updateScrollShadows);
+    this._tabsEl?.removeEventListener("wheel", this._handleWheel);
+
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = undefined;
+  }
+
   // ---------------------------------------------------------------------------
   // Helpers
   // ---------------------------------------------------------------------------
@@ -259,9 +268,11 @@ export class NysTabgroup extends LitElement {
    *
    * Iterates over all assigned elements and moves each `<nys-tab>` into
    * `.nys-tabgroup__tabs` and each `<nys-tabpanel>` into
-   * `.nys-tabgroup__panels`, preserving relative order. After sorting,
-   * calls `_applySelection` using the first element that already has a
-   * `selected` attribute, or index `0` if none is found.
+   * `.nys-tabgroup__panels`. If a panel has an `aria-labelledby` attribute,
+   * it is explicitly paired with the tab it references; otherwise panels are
+   * paired with tabs by index order. After sorting, calls `_applySelection`
+   * using the first element that already has a `selected` attribute, or
+   * index `0` if none is found.
    *
    * @param e - The `Event` fired by the `<slot>` element on slot change.
    * @returns void
@@ -277,7 +288,8 @@ export class NysTabgroup extends LitElement {
     if (!tabsContainer || !panelsContainer) return;
 
     const tabs: HTMLElement[] = [];
-    const panels: HTMLElement[] = [];
+    const panelsByRef = new Map<string, HTMLElement>();
+    const panelsWithoutRef: HTMLElement[] = [];
 
     assigned.forEach((child) => {
       const tag = child.tagName.toLowerCase();
@@ -286,9 +298,33 @@ export class NysTabgroup extends LitElement {
         tabs.push(child as HTMLElement);
       } else if (tag === "nys-tabpanel") {
         panelsContainer.appendChild(child);
-        panels.push(child as HTMLElement);
+        const panel = child as HTMLElement;
+        const ariaLabelledBy = panel.getAttribute("aria-labelledby");
+        if (ariaLabelledBy) {
+          panelsByRef.set(ariaLabelledBy, panel);
+        } else {
+          panelsWithoutRef.push(panel);
+        }
       }
     });
+
+    // Pair panels with tabs: explicit refs first, then remaining panels by index
+    const panels: HTMLElement[] = [];
+    tabs.forEach((tab) => {
+      const tabId = tab.id;
+      if (tabId && panelsByRef.has(tabId)) {
+        panels.push(panelsByRef.get(tabId)!);
+        panelsByRef.delete(tabId);
+      } else if (panelsWithoutRef.length > 0) {
+        panels.push(panelsWithoutRef.shift()!);
+      }
+    });
+
+    // Append any remaining panels with unresolved references
+    panelsByRef.forEach((panel) => panels.push(panel));
+
+    // Re-append panels in correct order so _getPanels() reads them in tab order
+    panels.forEach((panel) => panelsContainer.appendChild(panel));
 
     // Honor the first selected tab; ignore any others
     const declaredSelectedIndex = tabs.findIndex((t) =>

@@ -246,6 +246,7 @@
   --_nys-button-padding--x: var(--nys-space-50, 4px);
   --_nys-button-border-width: 0px;
   --_nys-button-text-decoration: underline;
+<<<<<<< HEAD
   --_nys-button-text-decoration-thickness: var(
     --nys-font-decoration-thickness-regular,
     7%
@@ -258,6 +259,9 @@
     --nys-font-decoration-thickness-strong,
     14%
   );
+=======
+  --_nys-button-gap: var(--nys-space-50, 4px);
+>>>>>>> 3b484155849bfbafbf9d51dbdb08dbfc5f13802d
 
   /* Text - Default */
   --_nys-button-background-color: var(
@@ -309,6 +313,8 @@
 
 /* Ghost */
 :host([variant="ghost"]) {
+  --_nys-button-gap: var(--nys-space-50, 4px);
+
   /* Ghost - Default */
   --_nys-button-background-color: var(
     --nys-button-background-color,
@@ -630,7 +636,8 @@
   );
 }
 
-.nys-button:active {
+.nys-button:active,
+.nys-button.active {
   background-color: var(--_nys-button-background-color--active);
   color: var(--_nys-button-color--active);
   border-color: var(--_nys-button-border-color--active);

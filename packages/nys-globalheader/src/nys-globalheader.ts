@@ -55,6 +55,14 @@ export class NysGlobalHeader extends LitElement {
     this._handleListSlotChange(); // run once at startup
 
     this._listenLinkClicks();
+    document.addEventListener("click", this._boundClickOutside);
+    document.addEventListener("keydown", this._boundKeyDown);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this._boundClickOutside);
+    document.removeEventListener("keydown", this._boundKeyDown);
   }
 
   /**
@@ -187,6 +195,22 @@ export class NysGlobalHeader extends LitElement {
 
     return svgElement;
   }
+
+  private _boundClickOutside = (event: Event) => {
+    if (!this._isMobileMenuOpen) return;
+
+    const path = event.composedPath();
+    if (!path.includes(this)) {
+      this._isMobileMenuOpen = false;
+    }
+  };
+
+  private _boundKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== "Escape" || !this._isMobileMenuOpen) return;
+    if (window.matchMedia("pointer: coarse").matches) return; // skip touch devices
+
+    this._isMobileMenuOpen = false;
+  };
 
   render() {
     return html`

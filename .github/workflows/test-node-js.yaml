@@ -29,7 +29,9 @@ jobs:
       run: npm i
     - name: Install Playwright with Dependencies
       run: npx playwright install --with-deps
+    - name: Build Packages
+      run: npm run build:all
     - name: Test Components
-      run: npm run test:build
+      run: npm run test:ai
     - name: Build Storybook
       run: npm run storybook:cibuild

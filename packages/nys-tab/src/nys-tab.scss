@@ -25,7 +25,9 @@
   --_nys-tab-background-color--active: var(--nys-color-theme-weak, #cddde9);
   --_nys-tab-background-color--disabled: var(--_nys-tab-background-color);
   --_nys-tab-background-color--selected: var(--nys-color-neutral-10, #f6f6f6);
-  --_nys-tab-color: var(--nys-color-ink);
+  --_nys-tab-color: var(--nys-color-text-weak, #4A4D4F);
+  --_nys-tab-color--selected: var(--nys-color-text, #1B1B1B);
+  --_nys-tab-color--disabled: var(--nys-color-text-disabled, #bec0c1);
   --_nys-tab-padding--x: var(--nys-space-150, 12px);
   --_nys-tab-padding--y: var(--nys-space-200, 16px);
 
@@ -89,7 +91,7 @@
 :host([disabled]) .nys-tab {
   background-color: var(--_nys-tab-background-color--disabled);
   border-color: var(--_nys-tab-border-color--disabled);
-  color: var(--nys-color-text-disabled, #bec0c1);
+  color: var(--_nys-tab-color--disabled);
   cursor: not-allowed;
   pointer-events: auto;
 }
@@ -106,6 +108,7 @@
 :host([selected]) .nys-tab {
   background-color: var(--_nys-tab-background-color--selected);
   border-color: var(--_nys-tab-border-color--selected);
+  color: var(--_nys-tab-color--selected);
 }
 
 :host([selected]:not([disabled])) .nys-tab:hover {
