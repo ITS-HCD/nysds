@@ -8,7 +8,7 @@ $breakpoints: (
   "mobile-lg": 30em,
   "tablet": 40em,
   "desktop": 64em,
-  "widescreen": 87.5em
+  "widescreen": 87.5em,
 );
 
 // Grid containers (USWDS scale in rem)
@@ -23,11 +23,10 @@ $grid-containers: (
   "-desktop": 64rem,
   "-desktop-lg": 75rem,
   "-widescreen": 87.5rem,
-  /* NYS-custom scale in ems*/
-  "-nys-mobile-lg": 30rem,
+  /* NYS-custom scale in ems*/ "-nys-mobile-lg": 30rem,
   "-nys-tablet": 40rem,
   "-nys-desktop": 64rem,
-  "-nys-widescreen": 87.5rem
+  "-nys-widescreen": 87.5rem,
 );
 
 // Grid gap scale (actual gap values - layout-grid divides by 2 for application)
@@ -47,7 +46,7 @@ $grid-gaps: (
   "-600": 3rem,
   "-700": 3.5rem,
   "-800": 4rem,
-  "-1200": 6rem
+  "-1200": 6rem,
 );
 
 // Spacing scale (matches published CSS utility classes)
@@ -65,11 +64,21 @@ $spacing: (
   "600": 48px,
   "700": 56px,
   "800": 64px,
-  "1200": 96px
+  "1200": 96px,
 );
 
 // Display values
-$display-values: (block, flex, none, inline, inline-block, inline-flex, table, table-cell, table-row);
+$display-values: (
+  block,
+  flex,
+  none,
+  inline,
+  inline-block,
+  inline-flex,
+  table,
+  table-cell,
+  table-row
+);
 
 // Opacity scale
 $opacity-values: (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100);
@@ -84,7 +93,7 @@ $zindex-values: (
   "200": 200,
   "300": 300,
   "400": 400,
-  "500": 500
+  "500": 500,
 );
 
 // Flex column values (1-12)
@@ -106,7 +115,7 @@ $order-values: (
   "8": 8,
   "9": 9,
   "10": 10,
-  "11": 11
+  "11": 11,
 );
 
 // Float values
@@ -120,10 +129,24 @@ $position-values: (absolute, fixed, relative, static, sticky);
 
 // Spacing direction mappings (used by margin and padding)
 $directions: (
-  "x": (left, right),
-  "y": (top, bottom),
-  "t": (top),
-  "r": (right),
-  "b": (bottom),
-  "l": (left)
+  "x": (
+    left,
+    right,
+  ),
+  "y": (
+    top,
+    bottom,
+  ),
+  "t": (
+    top,
+  ),
+  "r": (
+    right,
+  ),
+  "b": (
+    bottom,
+  ),
+  "l": (
+    left,
+  ),
 );

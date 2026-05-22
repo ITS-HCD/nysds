@@ -16,13 +16,17 @@
   --_nys-badge-font-size: var(--nys-font-size-ui-sm, 14px);
   --_nys-badge-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-badge-line-height: var(--nys-font-lineheight-ui-sm, 24px);
-  --_nys-badge-font-family: var(--nys-font-family-ui,
-      var(--nys-font-family-sans,
-        "Proxima Nova",
-        "Helvetica Neue",
-        "Helvetica",
-        "Arial",
-        sans-serif));
+  --_nys-badge-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
 
   /* Prefix Font Size */
   --_nys-badge-prefix-font-weight: var(--nys-font-weight-regular, 400);
@@ -66,11 +70,11 @@
 }
 
 :host([variant="strong"][intent="success"]) {
-  --_nys-badge-border-color: var(--nys-color-success, #1E752E);
+  --_nys-badge-border-color: var(--nys-color-success, #1e752e);
 }
 
 :host([variant="strong"][intent="warning"]) {
-  --_nys-badge-border-color: var(--nys-color-warning, #FACE00);
+  --_nys-badge-border-color: var(--nys-color-warning, #face00);
   --_nys-badge-color: var(--nys-color-ink, #000000);
 
   .nys-badge {

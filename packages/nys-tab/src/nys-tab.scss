@@ -25,8 +25,8 @@
   --_nys-tab-background-color--active: var(--nys-color-theme-weak, #cddde9);
   --_nys-tab-background-color--disabled: var(--_nys-tab-background-color);
   --_nys-tab-background-color--selected: var(--nys-color-neutral-10, #f6f6f6);
-  --_nys-tab-color: var(--nys-color-text-weak, #4A4D4F);
-  --_nys-tab-color--selected: var(--nys-color-text, #1B1B1B);
+  --_nys-tab-color: var(--nys-color-text-weak, #4a4d4f);
+  --_nys-tab-color--selected: var(--nys-color-text, #1b1b1b);
   --_nys-tab-color--disabled: var(--nys-color-text-disabled, #bec0c1);
   --_nys-tab-padding--x: var(--nys-space-150, 12px);
   --_nys-tab-padding--y: var(--nys-space-200, 16px);
@@ -100,7 +100,8 @@
   outline: none;
 
   .nys-tab {
-    outline: solid var(--nys-border-width-md, 2px) var(--nys-color-focus, #004dd1);
+    outline: solid var(--nys-border-width-md, 2px)
+      var(--nys-color-focus, #004dd1);
     outline-offset: var(--nys-space-2px, 2px);
   }
 }
@@ -140,12 +141,20 @@
 
   .scroll-shadow--left {
     left: 0;
-    background-image: linear-gradient(to left, transparent, var(--nys-color-neutral-100,#D0D0CE));
+    background-image: linear-gradient(
+      to left,
+      transparent,
+      var(--nys-color-neutral-100, #d0d0ce)
+    );
   }
 
   .scroll-shadow--right {
     right: 0;
-    background-image: linear-gradient(to right, transparent, var(--nys-color-neutral-100,#D0D0CE));
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      var(--nys-color-neutral-100, #d0d0ce)
+    );
   }
 
   .scroll-shadow.is-visible {

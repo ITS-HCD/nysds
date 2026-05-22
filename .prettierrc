@@ -3,6 +3,5 @@
   "tabWidth": 2,
   "semi": true,
   "singleQuote": false,
-  "printWidth": 80,
-  "requirePragma": true
+  "printWidth": 80
 }

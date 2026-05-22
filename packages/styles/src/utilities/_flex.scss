@@ -55,7 +55,9 @@ $flex-align-values: (start, end, center, stretch, baseline);
 // Align self
 @each $value in $flex-align-values {
   @include base-class("nys-flex-align-self-#{$value}") {
-    align-self: if(sass($value == "start" or $value == "end"): flex-#{$value}; else: $value);
+    align-self: if(
+      sass($value == "start" or $value == "end"): flex-#{$value}; else: $value
+    );
   }
 }
 
