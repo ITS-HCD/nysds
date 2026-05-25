@@ -336,21 +336,16 @@ export class NysButton extends LitElement {
   }
 
   /**
-   * A Solution to the Vanilla JS & Native HTML keydown:
+   * Handles inline onclick attributes for keyboard activation.
    *
-   * Handles inline onClick attributes set as strings in vanilla HTML
-   * (e.g. <nys-button onClick="doSomething()">).
-   *
-   * When onClick is set this way, it is a DOM attribute (not a property)
-   * so this.onClick remains null. Native clicks execute the attribute
-   * automatically, but keydown events do not, so we invoke it manually here.
+   * Native clicks execute inline onclick attributes automatically, but
+   * keyboard activation of the custom element does not trigger that native
+   * behavior. Dispatching a synthetic click lets the browser's own inline
+   * event handler mechanism execute any onclick attribute safely without
+   * eval() or new Function().
    */
   private _handleAnyAttributeFunction() {
-    const onClickAttr = this.getAttribute("onClick");
-    if (onClickAttr) {
-      const callFunc = new Function("return " + onClickAttr);
-      callFunc();
-    }
+    this.click();
   }
 
   public focus(options?: FocusOptions) {
