@@ -53,6 +53,12 @@ export class NysDropdownMenu extends LitElement {
   @property({ type: Boolean }) showDropdown = false;
 
   /**
+   * Accessible label for the menu. Used as `aria-label` on the `<ul role="menu">` element.
+   * @default ""
+   */
+  @property({ type: String }) label = "";
+
+  /**
    * Preferred position relative to trigger.
    * @default "bottom-end"
    */
@@ -494,7 +500,7 @@ export class NysDropdownMenu extends LitElement {
       for=${this.for}
       ?hidden=${!this.showDropdown}
     >
-      <ul role="menu">
+      <ul role="menu" aria-label=${this.label || "Menu"}>
         <slot></slot>
       </ul>
     </div>`;

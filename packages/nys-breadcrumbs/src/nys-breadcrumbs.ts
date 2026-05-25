@@ -224,6 +224,7 @@ export class NysBreadcrumbs extends LitElement {
 
     if (isCurrentPage) {
       liEl.textContent = label;
+      liEl.setAttribute("aria-current", "page");
       return liEl;
     }
 

@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
@@ -822,6 +822,7 @@ export class NysDatepicker extends LitElement {
             aria-label=${ifDefined(this.label || undefined)}
             aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
             aria-required=${ifDefined(this.required ? "true" : undefined)}
+            aria-describedby=${this.showError ? `${this.id}-error` : nothing}
             @click=${this._openDatepicker}
             @input=${this._handleInputChange}
             @blur=${this._handleBlur}
@@ -895,6 +896,7 @@ export class NysDatepicker extends LitElement {
         </div>
       </div>
       <nys-errormessage
+        id=${`${this.id}-error`}
         ?showError=${this.showError}
         errorMessage=${this._internals.validationMessage || this.errorMessage}
       ></nys-errormessage>`;

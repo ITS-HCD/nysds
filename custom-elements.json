@@ -5509,6 +5509,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the menu. Used as `aria-label` on the `<ul role=\"menu\">` element.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
               "name": "position",
               "type": {
                 "text": "Position | null"
@@ -5825,6 +5835,16 @@
               "default": "false",
               "fieldName": "showDropdown",
               "propName": "showdropdown"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label for the menu. Used as `aria-label` on the `<ul role=\"menu\">` element.",
+              "fieldName": "label",
+              "propName": "label"
             },
             {
               "name": "position",

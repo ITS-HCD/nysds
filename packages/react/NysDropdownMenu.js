@@ -2,13 +2,14 @@ import React, { forwardRef } from "react";
 import "../../dist/nysds.es.js";
 
 export const NysDropdownMenu = forwardRef((props, forwardedRef) => {
-  const { showDropdown, position, ...filteredProps } = props;
+  const { showDropdown, label, position, ...filteredProps } = props;
 
   return React.createElement(
     "nys-dropdownmenu",
     {
       ...filteredProps,
       for: props.for,
+      label: props.label,
       position: props.position,
       class: props.className,
       exportparts: props.exportparts,
