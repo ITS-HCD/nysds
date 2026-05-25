@@ -46,6 +46,7 @@
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
     "release:zip": "npm run build:all && node src/scripts/create-release-zip.js",
     "test": "npm run playwright:install && wtr --node-resolve",
+    "test:ssr": "node scripts/test-ssr.mjs",
     "test:build": "npm run build:all && npm run test",
     "test:compact": "export NYSDS_TEST_OUTPUT=compact && wtr --node-resolve",
     "test:ai": "export NYSDS_TEST_OUTPUT=ai && wtr --node-resolve",
