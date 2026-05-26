@@ -9,6 +9,8 @@ let buttonIdCounter = 0;
 /**
  * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
  * `text` for inline. Set `href` to render as a navigation link.
  *
@@ -66,6 +68,20 @@ let buttonIdCounter = 0;
  * - Avoid unnecessary verbs like "View", "Go", "Read" (the button context is clear).
  * - No articles ("a", "an", "the") or punctuation.
  * - Keep labels short and predictable. Users should know what happens when they click.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Always set the `type` attribute explicitly (`submit`, `reset`, or `button`).
+ * - Use sentence case for button labels, capitalizing only the first word.
+ * - Use `chevron_down` icon on the right for buttons that open a dropdown.
+ * - Use `filled` variant for the primary action (one per page section only).
+ * - Use `outline` variant for secondary actions.
+ *
+ * **Don't:**
+ * - Use buttons for external navigation. Use an HTML `<a>` link or `text` variant instead.
+ * - Use icons in buttons without a text label. Very few icons are universally understood.
+ * - Create custom button styles (color, shape, size). Use only the defined variants and sizes.
+ * - Use `inverted` buttons on light backgrounds—reserve for dark backgrounds only.
  *
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button

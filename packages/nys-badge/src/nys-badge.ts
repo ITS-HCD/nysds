@@ -8,6 +8,8 @@ let badgeIdCounter = 0;
 /**
  * A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Use badges to highlight metadata like status ("Approved"), counts ("3 new"), or categories.
  * Set `intent` to apply semantic meaning. Add `prefixIcon` or `suffixIcon` as boolean for default icons,
  * or pass icon name strings for custom icons. If an id is not passed, a unique id will be generated.
@@ -35,6 +37,21 @@ let badgeIdCounter = 0;
  * `prefixLabel` attribute.
  *
  * Intent options: `neutral`, `error`, `success`, or `warning`. The default intent is `neutral`.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Keep badge labels short—one or two words like "New", "Beta", or "Updated".
+ * - Use the `intent` property to match the badge's visual style to its meaning (e.g., `success` for positive statuses, `warning` for caution).
+ * - Place badges near the element they describe so the relationship is clear.
+ * - Use `prefixIcon` or `suffixIcon` to reinforce meaning when the label alone may be ambiguous.
+ * - Apply the `strong` variant when the badge appears on a raised surface or needs extra emphasis.
+ *
+ * **Don't:**
+ * - Use badges as interactive elements—they are not buttons or links.
+ * - Pack long sentences or multiple values into a single badge label.
+ * - Mix badge sizes within the same group; pick either `md` or `sm` and stay consistent.
+ * - Rely on color alone to convey meaning; always include a text label.
+ * - Stack multiple badges on a single element unless each communicates a distinct, necessary status.
  *
  * @summary Compact label for status, counts, or categorization with semantic styling.
  * @element nys-badge

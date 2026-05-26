@@ -10,6 +10,8 @@ let textareaIdCounter = 0;
  * A multi-line text input for collecting longer responses like comments, descriptions, feedback, or detailed explanations.
  * Form-associated with built-in validation support via ElementInternals. Supports resize control, character limits, and error messaging.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Use for open-ended user input requiring multiple lines. For single-line input, use `nys-textinput` instead.
  * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`. For data selection tasks, never use textarea.
  *
@@ -38,6 +40,15 @@ let textareaIdCounter = 0;
  * - Validation messages announced on blur for eager/lazy validation.
  * - Visual focus indicators meet WCAG 2.2 AA standards.
  * - Character count can be announced for accessible feedback.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use the `<nys-textarea>` for long-form or multi-line input, like descriptions or feedback.
+ * - Use when users need space to write detailed, precise responses.
+ *
+ * **Don't:**
+ * - Use the `<nys-textarea>` for short or single-line inputs (use `<nys-textinput>` instead).
+ * - Use for selecting predefined values (use dropdowns or other inputs).
  *
  * @summary Multi-line text input for comments, descriptions, and feedback with validation.
  * @element nys-textarea

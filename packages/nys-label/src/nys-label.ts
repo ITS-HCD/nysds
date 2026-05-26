@@ -8,6 +8,8 @@ let labelIdCounter = 0;
 /**
  * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Used internally by form components (textinput, select, checkbox, radiobutton, etc.). Not intended for direct use.
  * Handles label association via the `for` attribute, displays asterisk (*) for required fields, "(Optional)" text
  * for optional fields, and integrates optional tooltips via the info icon.
@@ -46,6 +48,19 @@ let labelIdCounter = 0;
  * - Optional fields display "(Optional)" text for clarity.
  * - Tooltips are keyboard accessible (focusable on the info icon) and announced to screen readers.
  * - Label text is properly associated with the input via `aria-labelledby` on the input.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use required/optional flags to indicate field requirement status.
+ * - Provide clear, descriptive label text that explains the form field's purpose.
+ * - Use descriptions for helper text and tooltips for supplementary guidance.
+ * - Ensure labels are properly associated with their form inputs.
+ *
+ * **Don't:**
+ * - Use this component directly in HTML (use form field components instead).
+ * - Use vague or unclear label text that doesn't explain the field's purpose.
+ * - Embed both required and optional flags on the same field.
+ * - Forget to provide labels for form fields—labels are essential for accessibility.
  *
  * @summary Internal label component for form fields with flag, description, tooltip, and dark mode support.
  * @element nys-label

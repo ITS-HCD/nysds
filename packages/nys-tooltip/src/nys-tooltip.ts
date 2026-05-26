@@ -9,6 +9,8 @@ let tooltipIdCounter = 0;
  * Provides short, supplemental contextual help text linked to interactive elements. Auto-positions to stay within viewport.
  * Shows on hover or focus; dismisses on blur, mouse leave, or Escape key. Use for hints, not critical information.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Link to a trigger element via `for` attribute matching the trigger's `id`. Tooltip content appears near the trigger
  * on hover (mouse) or focus (keyboard). Supports NYSDS components and standard elements. Auto-positions to prevent overflow;
  * respects manual position preference when space allows.
@@ -46,6 +48,17 @@ let tooltipIdCounter = 0;
  * - Screen readers announce tooltip text when visible.
  * - Visual focus indicators on trigger elements meet WCAG 2.2 AA standards.
  * - Auto-positioning respects viewport bounds to prevent content loss.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Provide brief and helpful content inside the tooltip.
+ * - Add tooltips to icons that do not have visible labels and require additional context.
+ * - Position tooltips so they don't block related content.
+ *
+ * **Don't:**
+ * - Use tooltips for information that is vital to task completion.
+ * - Use interactive elements such as links or buttons inside a tooltip.
+ * - Rely on tooltips when you have room to provide more explanation.
  *
  * @summary Contextual tooltip with auto-positioning, keyboard support, and assistive technology integration.
  * @element nys-tooltip

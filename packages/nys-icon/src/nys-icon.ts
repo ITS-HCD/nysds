@@ -7,6 +7,8 @@ import styles from "./nys-icon.scss?inline";
 /**
  * Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Pass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible
  * (removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors. Icons inherit
  * text color from their parent by default but can be customized with the `color` prop.
@@ -23,6 +25,19 @@ import styles from "./nys-icon.scss?inline";
  * - When a descriptive label or plain text provides clearer communication.
  * - Do not use icons that lack clarity or context for their intended purpose.
  * - Do not replace meaningful text with an icon unless its meaning is universally recognized or accompanied by a text label.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Include a visual text label paired with the icon. Few icons are universally understood alone.
+ * - Use icons consistently: same icon and label for the same meaning throughout your app.
+ * - Use `ariaLabel` when the icon is focusable and conveys meaning, so screen readers can announce its purpose.
+ * - Align icons properly with text, both visually and semantically.
+ * - Use icons from the NYS Design System library; if unavailable, use Google Material Symbols (rounded, unfilled).
+ * - Match icon size and color to the design system.
+ * - Test icon clarity with real users when possible.
+ *
+ * **Don't:**
+ * - Use icons that lack clarity or context for their intended purpose.
  *
  * ## Icon name and selection
  * The `name` property is the only required attribute. Icons come from the Material Symbols library,

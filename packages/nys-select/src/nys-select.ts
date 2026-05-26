@@ -11,6 +11,8 @@ let selectIdCounter = 0;
  * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
  * Form-associated with validation via ElementInternals. A unique ID is auto-generated if not provided.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Use when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.
  * For multiple selections, use `nys-checkbox` group instead. Keyboard accessible with Tab, Space/Enter, and arrow keys.
  *
@@ -28,6 +30,16 @@ let selectIdCounter = 0;
  * - Do not use the custom `<nys-option>` element; it is deprecated and will be removed in version 2.0.
  * - Do not use `<nys-select multiple>` for multi-select functionality; use a checkbox group instead.
  * - If you need a searchable/filterable dropdown, that functionality is not currently supported.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use the `<nys-select>` component when you need the user to select a single item from a list.
+ * - Use the `<option>` component to define the options in the dropdown.
+ * - Use the native `<optgroup>` to group options in the dropdown.
+ *
+ * **Don't:**
+ * - Use the custom `<nys-option>` element in the `<nys-select>` component (deprecated, will be removed in 2.0).
+ * - Use `<nys-select multiple>` for multi-select (use a checkbox group instead).
  *
  * ## Width variants
  * Control the select's width with the `width` prop:

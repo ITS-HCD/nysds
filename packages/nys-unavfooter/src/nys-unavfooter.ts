@@ -8,6 +8,8 @@ import styles from "./nys-unavfooter.scss?inline";
  * to essential links across all state digital properties. Displays NY.gov logo and links to Agencies, App Directory,
  * Counties, Events, Programs, and Services.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * ## When to use
  * - Required on ALL New York State digital products and websites.
  * - Placed only at the bottom of the page as the final footer element.
@@ -39,6 +41,17 @@ import styles from "./nys-unavfooter.scss?inline";
  * - Links open in same window (no target="_blank") unless external policy requires otherwise.
  * - Visual design meets WCAG 2.2 AA contrast and focus indicator standards.
  * - Footer is not hidden from screen readers and is announced as navigation.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Place the `<nys-unavfooter>` as the last element on every page, immediately after `<nys-globalfooter>`.
+ * - Include it on every page of your site, including error pages, login screens, and landing pages.
+ * - Use it as-is with no configuration. The component handles its own content and styling.
+ *
+ * **Don't:**
+ * - Place the UNav Footer anywhere other than the absolute bottom of the page.
+ * - Attempt to customize, restyle, or override the UNav Footer's content or appearance. Consistency across all state sites is the purpose of this component.
+ * - Omit the UNav Footer from any page on your site.
  *
  * @summary Universal NYS footer with logo and statewide links. Required on all sites.
  * @element nys-unavfooter

@@ -18,6 +18,8 @@ let componentIdCounter = 0;
  * Date picker with calendar popup and form validation. Allows users to select a single calendar date.
  * Falls back to native date input on Safari and mobile. If no id is provided, one will be auto-generated.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * ## When to use
  * - When users need to select a single calendar date
  * - When a form requires consistent date formatting across browsers
@@ -40,6 +42,19 @@ let componentIdCounter = 0;
  * it to `value`. Alternatively, use ISO date strings (`"YYYY-MM-DD"`) which are handled safely.
  *
  * Form submission sends the value as a string in `YYYY-MM-DD` format.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Set the `label` property to clearly describe what date is being collected.
+ * - Add `description` text to specify the expected format or provide context.
+ * - Set `required` when the date is mandatory for form submission.
+ * - Use `startDate` to open the calendar to a relevant month when the expected date is far from today.
+ * - Pass date values as ISO strings (`"YYYY-MM-DD"`) rather than `Date` objects to avoid timezone issues.
+ *
+ * **Don't:**
+ * - Omit the `label`—every datepicker needs one for accessibility.
+ * - Use for dates users know from memory, like date of birth (a text input is more efficient).
+ * - Rely on the calendar popup alone—Safari and mobile browsers use the native date picker.
  *
  * ## Width
  * Supported widths: `md` (200px, default), `lg` (384px), `full` (100% of parent).

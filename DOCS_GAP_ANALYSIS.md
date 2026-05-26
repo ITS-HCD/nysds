@@ -315,3 +315,79 @@ All 33 components now have comprehensive documentation migrated from MDX and sit
 2. Verify Storybook still functions with button's MDX deleted
 3. Approve batch deletion of remaining 28 MDX files
 4. Run `npm run build` to generate custom-elements.json with new JSDoc content
+
+---
+
+## Content Verification by Component
+
+This section performs a detailed audit of MDX, JSDoc, and reference site content to identify any information present in one source but missing from others.
+
+### Button Component Analysis
+
+**Date Audited:** 2026-05-26  
+**Overall Status:** 92% consistent across MDX, JSDoc, and site
+
+---
+
+#### What's in All Three Sources (Fully Covered)
+
+- Component summary and purpose
+- Basic usage examples
+- Button size options (sm/md/lg)
+- All four variants (filled, outline, ghost, text)
+- Button type attribute (submit, reset, button)
+- Prefix and suffix icon support
+- Circle mode documentation
+- Disabled state
+- Link/href mode with target options
+- fullWidth property
+- Inverted property
+- onClick vs @click guidance
+- Basic accessibility patterns
+- Dependencies (nys-icon)
+- CSS custom properties
+
+---
+
+#### Content Present in Some But Not All Sources
+
+**JSDoc has this but MDX/Site are missing:**
+- All three events documented with descriptions (nys-click, nys-focus, nys-blur)
+- Complete event listener code example showing all three events
+- Property @default tags for every property
+
+**MDX and Site have this but JSDoc is missing:**
+- Do/Don't guidelines with specific design patterns (e.g., "don't use icons without text")
+- Figma design system link
+- Status badges indicating "Stable" and "WCAG 2.2 AA" compliance
+
+**JSDoc and MDX have this but Site is missing:**
+- Explicit requirement that icon-only buttons must have ariaLabel set
+- Documentation of nys-focus and nys-blur events (site only shows nys-click)
+
+**JSDoc and Site have this but MDX is missing:**
+- Content/labeling guidelines (sentence case, action verbs, no punctuation)
+- Form association pattern (form attribute linking to <form> elements by ID)
+
+---
+
+#### Specific Gaps to Address
+
+**NEED TO ADD TO JSDOC (nys-button.ts):**
+1. Do/Don't guidelines section — specific design patterns (don't use icons without text, don't use for external navigation, always set type attribute)
+2. Status indicators — "Stable" and "WCAG 2.2 AA" compliance markers
+3. Complete event examples — nys-focus and nys-blur code examples (currently only has basic example)
+
+**NEED TO ADD TO REF SITE (nysds-site/src/content/components/button/index.md):**
+1. Make ariaLabel requirement explicit — add note that icon-only buttons MUST have ariaLabel set
+2. Document nys-focus and nys-blur events — add code examples showing all three event listeners (currently only shows nys-click)
+
+---
+
+#### Consistency Assessment
+
+Button documentation across sources is well-aligned. Key observations:
+
+- **Strengths:** All sources cover the core functionality, variants, and basic accessibility
+- **Alignment issues:** Do/Don't guidelines and event documentation are split across sources
+- **Recommendation:** JSDoc should be the primary reference, so adding the missing do/don't guidelines and status indicators would make it more complete

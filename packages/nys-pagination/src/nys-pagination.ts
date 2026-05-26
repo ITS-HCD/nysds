@@ -10,6 +10,8 @@ let componentIdCounter = 0;
  * Page navigation control for stepping through paginated content. Displays Previous/Next buttons, numbered page links,
  * and automatically collapses with ellipses for many pages.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` event for page changes.
  * Automatically hidden when `totalPages` is 1. Responsive: shows compact icon-only buttons on mobile, full labels on desktop.
  * A unique ID is auto-generated if not provided.
@@ -26,6 +28,17 @@ let componentIdCounter = 0;
  * - When you need to show progress through a series of tasks that must be completed in order (such as an onboarding process), use the `<nys-stepper>` component instead.
  * - For infinite scroll or continuous load-more patterns, pagination is not the right choice.
  * - If the displayed collection can fit on less than 3 or 4 pages, consider displaying all items at once.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Set `totalPages` based on your data set and page size. Update `currentPage` in response to `nys-change` events.
+ * - Position the pagination component below the content it controls, so users see results before navigating.
+ * - Scroll users to the top of the results area when they change pages, so they start reading from the beginning.
+ *
+ * **Don't:**
+ * - Use pagination when content fits on a single scrollable page.
+ * - Use pagination for step-based workflows where users complete tasks in order (use `<nys-stepper>` instead).
+ * - Set `currentPage` to a value greater than `totalPages` (the component clamps it automatically).
  *
  * ## Navigation structure and behavior
  * - **Previous Button**: Navigates to the previous page. Disabled on the first page.

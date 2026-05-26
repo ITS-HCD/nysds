@@ -9,6 +9,8 @@ let avatarIdCounter = 0;
 /**
  * Displays a user representation as image, initials, or icon with automatic fallback chain.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Priority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;
  * foreground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).
  * If an id is not passed, a unique id will be generated.
@@ -43,11 +45,19 @@ let avatarIdCounter = 0;
  * - Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly
  * - An `ariaLabel` property to provide accessible text for screen readers (required for screen reader users)
  *
- * ## Usage Guidance
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use for clear, simple user or entity representation.
+ * - Prefer showing the full name next to the avatar on tablets and larger breakpoints.
+ * - Place the full name to the right of the avatar.
+ * - Ensure the text of initial avatars meets WCAG 2.1 contrast ratio against the avatar's background.
+ * - Use the `nys-icon` slot only when the icon prop isn't sufficient.
  *
- * Use for clear, simple user or entity representation. Use appropriate images, initials, and icons to fit the overall page design.
- * Use `<nys-icon>` as a slot when you need further customizations that the `icon` prop can't provide.
- * Don't overload the avatar with unnecessary customizations or skip the `ariaLabel` attribute.
+ * **Don't:**
+ * - Skip the `ariaLabel` attribute for screen reader users.
+ * - Use the `nys-icon` slot when the icon prop can satisfy your use.
+ * - Overload the avatar with unnecessary customizations.
+ * - Override default avatar icons unless additional context is essential—doing so creates inconsistency.
  * Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
  *
  * @summary User avatar with image, initials, or icon fallback and contrast-aware colors.

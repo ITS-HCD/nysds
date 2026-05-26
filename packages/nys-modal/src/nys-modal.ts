@@ -8,6 +8,8 @@ let componentIdCounter = 0;
 /**
  * An accessible modal dialog with focus trapping, keyboard navigation, scroll management, and optional dismiss button.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Set `open` to show the modal. Content goes in the default slot; action buttons (e.g., `nys-button`) in the `actions` slot.
  * Dismisses via close button (top right, unless `mandatory` is set) or Escape key (unless `mandatory` is set).
  * Focus returns to the triggering element when the modal closes. Background page scrolling is blocked while the modal is open.
@@ -47,6 +49,19 @@ let componentIdCounter = 0;
  * - Avoid overloading with long forms or dense text.
  * - Avoid showing trivial information in a modal.
  * - Avoid forcing a `mandatory` modal unnecessarily; only use when the action is truly critical.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use for actions that need confirmation.
+ * - Keep content short and focused.
+ * - Use the `mandatory` prop to disable the dismiss button when the user must make a critical decision.
+ * - Keep the `subheading` short and use `<p>` tags within the modal for longer information.
+ *
+ * **Don't:**
+ * - Overload with long forms or texts.
+ * - Show trivial information.
+ * - Stack multiple modals.
+ * - Force a mandatory modal unnecessarily.
  *
  * ## Mandatory action modals
  * Set `mandatory="true"` to disable the dismiss button (close icon in header) and prevent closing via Escape key.

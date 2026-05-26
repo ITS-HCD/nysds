@@ -8,6 +8,8 @@ let dividerIdCounter = 0;
 /**
  * A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * ## When to use
  * - To separate content displayed vertically
  * - Use `inverted` property when placing the component on a dark background
@@ -18,6 +20,16 @@ let dividerIdCounter = 0;
  * ## Accessibility
  * - Uses native `<hr>` element to ensure ARIA compliance
  * - Recognized as a separator by assistive technologies
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Ensure consistent padding/margin above and below dividers to avoid crowding.
+ * - Use the `inverted` option on dark backgrounds.
+ *
+ * **Don't:**
+ * - Overuse dividers and clutter the interface, reducing scannability.
+ * - Use the divider to separate content appearing side by side.
+ * - Use the `inverted` option on light backgrounds.
  *
  * @summary Horizontal divider for visual separation of content sections.
  * @element nys-divider

@@ -10,6 +10,8 @@ let radiobuttonIdCounter = 0;
 /**
  * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be checked.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * **Must be used within `nys-radiogroup`** to function properly. Use for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.
  * For multiple selections, use `nys-checkbox` group. A unique ID is auto-generated if not provided.
  *
@@ -27,6 +29,19 @@ let radiobuttonIdCounter = 0;
  * - Do not use radio buttons for yes/no questions; use a toggle or single checkbox instead.
  * - Do not overload the user with too many radio button options; simplify or use a dropdown if needed.
  * - Do not leave all radio buttons unselected if a default selection would help guide users.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Always wrap a group of `<nys-radiobutton>` with a `<nys-radiogroup>`.
+ * - Group radio buttons vertically for easier scanning, especially when labels are lengthy.
+ * - Set a clear default when one choice is recommended or most common.
+ * - Use concise, descriptive labels for each option.
+ * - Group related options under a heading or instruction to provide context.
+ *
+ * **Don't:**
+ * - Use radio buttons for yes/no questions (consider using `<nys-toggle>` or `<nys-checkbox>`).
+ * - Overload users with too many options; simplify or use a dropdown instead.
+ * - Leave all options unselected if a helpful default can guide users.
  *
  * ## Size variants
  * Radio button sizes are controlled by the `size` prop on the parent `nys-radiogroup`:

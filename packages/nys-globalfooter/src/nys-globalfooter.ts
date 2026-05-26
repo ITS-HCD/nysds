@@ -6,6 +6,8 @@ import styles from "./nys-globalfooter.scss?inline";
 /**
  * Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Place above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements
  * to create multi-column layouts; without `<h4>`, renders as compact single section.
  * All slotted content is auto-sanitized to remove dangerous elements (script, iframe, object, embed, img).
@@ -34,6 +36,18 @@ import styles from "./nys-globalfooter.scss?inline";
  * - Proper use of `<footer>` and `<a>` elements ensures compatibility with assistive technologies
  * - Keyboard navigation: Users can tab through all links in the footer
  * - All slotted content is validated and sanitized before rendering
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Set `agencyName` to your agency's full official name (e.g., "Office of Information Technology Services").
+ * - Set `homepageLink` to make the agency name a clickable link back to your site's homepage.
+ * - Keep footer link lists concise. Group related links under `<span>` headings when you have more than 5-6 links.
+ * - Place `<nys-globalfooter>` above `<nys-unavfooter>` and below your page content and `<nys-backtotop>`.
+ *
+ * **Don't:**
+ * - Use the Global Footer for primary navigation or interactive features. Use `<nys-globalheader>` for primary navigation.
+ * - Include page-specific content that only applies to certain sections of your site.
+ * - Embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security.
  *
  * @summary Agency footer with auto-layout for contact info and link sections.
  * @element nys-globalfooter

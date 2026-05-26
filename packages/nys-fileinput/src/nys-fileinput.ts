@@ -20,6 +20,8 @@ interface FileWithProgress {
  * Validates file types via magic bytes (not just extension). Form-associated via ElementInternals.
  * Auto-generates an id if not provided.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Use for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.
  *
  * ## When to use
@@ -49,6 +51,16 @@ interface FileWithProgress {
  * - Implements ARIA attributes for required and invalid states
  * - Keyboard-accessible via standard tab/focus patterns
  * - Drag-and-drop is keyboard-accessible through button interaction
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use when a file is required in a form.
+ * - Use when multiple file selection is needed.
+ *
+ * **Don't:**
+ * - Use when uploading sensitive data without encryption.
+ * - Use when you want to let users preview file content.
+ * - Use when it is not necessary for the task.
  *
  * @summary File input with drag-and-drop, validation, and progress tracking.
  * @element nys-fileinput

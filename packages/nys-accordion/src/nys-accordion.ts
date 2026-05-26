@@ -9,6 +9,8 @@ let accordionIdCounter = 0;
 /**
  * A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Place `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.
  * The `bordered` style propagates to all children automatically. If an id is not passed, a unique id will be generated.
  *
@@ -26,6 +28,17 @@ let accordionIdCounter = 0;
  * The `nys-accordionitem` component includes the following accessibility-focused features:
  * - Keyboard navigation (e.g. Tab to move between headers, Enter or Space to toggle)
  * - Headers are large enough to interact with easily (minimum 44x44px)
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use accordions for FAQs on state services (e.g., DMV procedures, benefits information).
+ * - Use to break up long descriptions into manageable sections without overwhelming users.
+ * - Label headings clearly so users understand the content before expanding.
+ *
+ * **Don't:**
+ * - Hide time-sensitive deadlines or required steps in collapsed sections.
+ * - Use vague or unclear headings that obscure what is inside.
+ * - Overuse accordions for content short enough to display fully on the page.
  *
  * ## Events
  *

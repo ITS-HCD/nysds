@@ -9,6 +9,8 @@ let alertIdCounter = 0;
 /**
  * Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Use `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,
  * and `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.
  * If an id is not passed, a unique id will be generated.
@@ -38,6 +40,23 @@ let alertIdCounter = 0;
  * - `role="alert"`: Important messages that demand the user's immediate attention (danger and emergency alert)
  * - `role="status"`: Messages that provide advisory information but do not have the same urgency as alerts (success alert)
  * - `role="region"`: Messages that provide information the user would want to be able to easily find, but are not important enough to interrupt user workflow (info and warning alert with aria-label)
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use the appropriate type (info, success, warning, danger, emergency) to match the intent.
+ * - Use `dismissible` for non-critical alerts.
+ * - Keep alert content concise and focused on the message.
+ * - Use `success` to confirm positive system status (e.g., form saved).
+ * - Use `danger` for system error messages.
+ * - Use `emergency` only for real emergencies (missing person, severe weather).
+ *
+ * **Don't:**
+ * - Remove the left icon; it is required for accessibility.
+ * - Use alerts to highlight actions that should be clear in the UI itself.
+ * - Use error messages for form field validation; use field error states instead.
+ * - Include more than two link actions in an alert.
+ * - Overuse alerts for low-priority info—this desensitizes users.
+ * - Use alerts as toasts; place them at the top of page content.
  *
  * ## Events
  *

@@ -10,6 +10,8 @@ let stepperIdCounter = 0;
  * A multi-step progress indicator for linear forms or wizards. Manages `nys-step` children with progress tracking and navigation.
  * Displays step progress with the ability to navigate forward and backward through completed steps.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Add `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary (furthest reached);
  * all steps before it become navigable. Mark one step as `selected` to indicate which step's content is displayed.
  * Use the `actions` slot for persistent buttons (e.g., Save & Exit, Continue, Back).
@@ -18,6 +20,16 @@ let stepperIdCounter = 0;
  * - Linear, ordered forms or application wizards with more than 2 sections.
  * - Multi-screen processes where users progress through defined steps (e.g., application, checkout).
  * - Tracking user progress through a complex form.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use a stepper for linear, ordered forms with more than 2 sections.
+ * - Use a stepper to show progress through a multi-step process.
+ * - Ensure that users can navigate back to previous steps to review or change information.
+ *
+ * **Don't:**
+ * - Use the stepper if there are only 1 or 2 sections to the form.
+ * - Use the stepper for forms that are nonlinear and can be completed in any order.
  *
  * ## When not to use
  * - Forms with only 1 or 2 sections — use a simpler layout.

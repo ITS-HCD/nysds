@@ -6,6 +6,8 @@ import styles from "./nys-backtotop.scss?inline";
 /**
  * A floating "Back to top" button that appears after scrolling. Smooth-scrolls to page top when clicked.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Auto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.
  * Renders as circle button on mobile. Position with `position` prop (`left` or `right`).
  *
@@ -33,6 +35,17 @@ import styles from "./nys-backtotop.scss?inline";
  * - Focus management: After scrolling to the top, focus moves to `<body>`, placing the user before the skip-navigation link.
  *   This lets keyboard users re-activate the skip link to jump back to main content, and works reliably regardless of whether
  *   the page uses `<main>` or heading landmarks.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Place exactly one per page, above the `<nys-globalfooter>` in your markup.
+ * - Set `position="left"` when the bottom-right corner is occupied by another floating element.
+ * - Let the component manage its own visibility via auto-show behavior.
+ *
+ * **Don't:**
+ * - Add multiple components to a single page.
+ * - Use on pages where content fits within a single viewport.
+ * - Force visibility on short pages in production—this creates unnecessary clutter.
  *
  * ## Events
  *

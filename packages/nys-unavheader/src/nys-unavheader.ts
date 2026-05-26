@@ -8,6 +8,8 @@ import styles from "./nys-unavheader.scss?inline";
  * Universal NYS header with trust indicator, logo, site search, and 14-language translation. Required on all NYS sites.
  * Provides consistent identification of legitimate NY.gov sites and enables search/translation across all state digital properties.
  *
+ * **Status:** Stable | **WCAG:** 2.2 AA
+ *
  * Place as the first element in `<body>`, before all other page content. Includes:
  * - Trust bar with "official site" indicator and details about ny.gov legitimacy and HTTPS security.
  * - NY.gov logo (links to https://www.ny.gov).
@@ -51,6 +53,15 @@ import styles from "./nys-unavheader.scss?inline";
  * ## Events
  * - `nys-language-select` – Fires when user selects a language. Detail: `{ language }`. Prevent default to suppress navigation.
  * - `nys-search-submit` – Fires when user submits search. Detail: `{ query }`. Prevent default to suppress navigation.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Place it only at the top of the page as the first header element.
+ * - Toggle search (`hideSearch`) and translate (`hideTranslate`) on/off depending on your needs.
+ *
+ * **Don't:**
+ * - Place it anywhere other than the top of the page.
+ * - Modify the universal header.
  *
  * @summary Universal NYS header with trust bar, search, and 14-language translation. Required site-wide.
  * @element nys-unavheader
