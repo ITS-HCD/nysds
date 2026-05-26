@@ -1295,7 +1295,7 @@ export type CustomElements = {
    *  - **nys-label-click**
    *
    * ### **Slots:**
-   *  - **description** - Custom HTML description content below the label.
+   *  - **description** - Custom HTML description content below the label. ## Dependencies This component depends on the following NYS Design System components: - `nys-icon` - `nys-tooltip`
    */
   "nys-label": Partial<NysLabelProps & BaseProps & BaseEvents>;
 
