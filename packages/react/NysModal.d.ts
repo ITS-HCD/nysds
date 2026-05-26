@@ -68,7 +68,7 @@ export interface NysModalProps extends Pick<
 }
 
 /**
- * Accessible modal dialog with focus trap, keyboard support, and action slots.
+ * Accessible modal dialog with focus trap, keyboard support, scroll lock, and mandatory action mode.
  * ---
  *
  *

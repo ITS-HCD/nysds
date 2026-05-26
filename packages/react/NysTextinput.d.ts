@@ -112,7 +112,7 @@ export interface NysTextinputProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired on input change. Detail: `{id, value}`. */
+  /** Fired when input text changes. Detail: `{id, value}`. */
   onNysInput?: (event: CustomEvent) => void;
 
   /** Fired when input gains focus. */
@@ -123,12 +123,12 @@ export interface NysTextinputProps extends Pick<
 }
 
 /**
- * Text input for short single-line data with validation and masking support.
+ * Single-line text input with type variants, masking, validation, and button slots.
  * ---
  *
  *
  * ### **Events:**
- *  - **nys-input** - Fired on input change. Detail: `{id, value}`.
+ *  - **nys-input** - Fired when input text changes. Detail: `{id, value}`.
  * - **nys-focus** - Fired when input gains focus.
  * - **nys-blur** - Fired when input loses focus. Triggers validation.
  *
@@ -137,8 +137,8 @@ export interface NysTextinputProps extends Pick<
  * --------------------------------------------------------------------------
  *
  * ### **Slots:**
- *  - **description** - Custom HTML description content below the label.
- * - **startButton** - Button at input start. Use single `nys-button` only.
- * - **endButton** - Button at input end. Use single `nys-button` only.
+ *  - **description** - Custom HTML description content below the label. Use for rich formatting or links.
+ * - **startButton** - Single `<nys-button>` to appear at input start (left). Will be sized to `sm`.
+ * - **endButton** - Single `<nys-button>` to appear at input end (right). Will be sized to `sm`.
  */
 export const NysTextinput: React.ForwardRefExoticComponent<NysTextinputProps>;

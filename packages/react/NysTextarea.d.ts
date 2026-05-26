@@ -100,7 +100,7 @@ export interface NysTextareaProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired on input change. Detail: `{id, value}`. */
+  /** Fired when textarea text changes. Detail: `{id, value}`. */
   onNysInput?: (event: CustomEvent) => void;
 
   /** Fired when textarea gains focus. */
@@ -117,12 +117,12 @@ export interface NysTextareaProps extends Pick<
 }
 
 /**
- * Multi-line text input for comments, descriptions, and feedback.
+ * Multi-line text input for comments, descriptions, and feedback with validation.
  * ---
  *
  *
  * ### **Events:**
- *  - **nys-input** - Fired on input change. Detail: `{id, value}`.
+ *  - **nys-input** - Fired when textarea text changes. Detail: `{id, value}`.
  * - **nys-focus** - Fired when textarea gains focus.
  * - **nys-blur** - Fired when textarea loses focus. Triggers validation.
  * - **nys-select** - Fired when user selects text. Detail: `{id, value}`.
@@ -133,6 +133,6 @@ export interface NysTextareaProps extends Pick<
  * --------------------------------------------------------------------------
  *
  * ### **Slots:**
- *  - **description** - Custom HTML description content below the label.
+ *  - **description** - Custom HTML description content below the label. Use for rich formatting or links.
  */
 export const NysTextarea: React.ForwardRefExoticComponent<NysTextareaProps>;

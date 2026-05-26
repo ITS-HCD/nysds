@@ -50,6 +50,8 @@ let componentIdCounter = 0;
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
+ */
+
 export class NysTable extends LitElement {
   static styles = unsafeCSS(styles);
 

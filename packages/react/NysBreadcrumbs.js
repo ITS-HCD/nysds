@@ -17,7 +17,6 @@ export const NysBreadcrumbs = forwardRef((props, forwardedRef) => {
 
   /** Event listeners - run once */
   useEventListener(ref, "nys-expand", props.onNysExpand);
-  useEventListener(ref, "nys-breadcrumbs-expand", props.onNysBreadcrumbsExpand);
 
   return React.createElement(
     "nys-breadcrumbs",

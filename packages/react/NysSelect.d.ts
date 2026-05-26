@@ -96,7 +96,7 @@ export interface NysSelectProps extends Pick<
 }
 
 /**
- * Dropdown select for choosing one option from a list.
+ * Dropdown select for choosing one option from a list with native options/optgroups.
  * ---
  *
  *

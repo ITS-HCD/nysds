@@ -57,22 +57,17 @@ export interface NysTableProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired when the download button or sortable headers are clicked. */
-  onNysClick?: (event: CustomEvent) => void;
-
-  /** Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" } */
+  /** Fired when a sortable column header is clicked. Can be prevented with `event.preventDefault()`. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" } */
   onNysColumnSort?: (event: CustomEvent) => void;
 }
 
 /**
- * `<nys-table>` is a responsive table component that can display native HTML tables,
- * supports striped and bordered styling, sortable columns, and CSV download.
+ * Responsive table with striping, borders, sortable columns, and CSV download.
  * ---
  *
  *
  * ### **Events:**
- *  - **nys-click** - Fired when the download button or sortable headers are clicked.
- * - **nys-column-sort** - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
+ *  - **nys-column-sort** - Fired when a sortable column header is clicked. Can be prevented with `event.preventDefault()`. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * ### **Slots:**
  *  - _default_ - Accepts a `<table>` element. Only the first table is rendered.

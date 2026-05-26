@@ -102,7 +102,7 @@ export interface NysRadiobuttonProps extends Pick<
 }
 
 /**
- * Radio button for single selection from mutually exclusive options.
+ * Radio button for single selection from mutually exclusive options within a radiogroup.
  * ---
  *
  *
