@@ -80,6 +80,12 @@ let accordionIdCounter = 0;
  *   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
  * </nys-accordion>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 export class NysAccordion extends LitElement {

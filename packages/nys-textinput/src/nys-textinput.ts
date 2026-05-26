@@ -94,6 +94,14 @@ let textinputIdCounter = 0;
  *   <nys-button slot="endButton" label="Search" prefixIcon="search"></nys-button>
  * </nys-textinput>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-label`
+ *   - `nys-errormessage`
  */
 
 export class NysTextinput extends LitElement {

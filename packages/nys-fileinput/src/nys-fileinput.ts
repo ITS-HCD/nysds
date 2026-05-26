@@ -90,6 +90,15 @@ interface FileWithProgress {
  *   });
  * });
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
+ *   - `nys-label`
+ *   - `nys-errormessage`
  */
 
 export class NysFileinput extends LitElement {

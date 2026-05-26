@@ -117,6 +117,15 @@ let componentIdCounter = 0;
  *   console.log(`Date picker (${id}) changed to:`, value);
  * });
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
+ *   - `nys-label`
+ *   - `nys-errormessage`
  */
 
 export class NysDatepicker extends LitElement {

@@ -74,6 +74,12 @@ let avatarIdCounter = 0;
  * ```html
  * <nys-avatar initials="JS" color="var(--nys-color-theme)" ariaLabel="Jane Smith"></nys-avatar>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 export class NysAvatar extends LitElement {

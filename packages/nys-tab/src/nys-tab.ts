@@ -3,7 +3,13 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tab.scss?inline";
 
-/** @internal Monotonically increasing counter used to generate unique element IDs. */
+/** @internal Monotonically increasing counter used to generate unique element IDs.  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
+ */
 let componentIdCounter = 0;
 
 /**

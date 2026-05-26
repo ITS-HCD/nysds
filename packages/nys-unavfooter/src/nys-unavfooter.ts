@@ -66,6 +66,10 @@ import styles from "./nys-unavfooter.scss?inline";
  *   <nys-unavfooter></nys-unavfooter>
  * </body>
  * ```
+ *
+ * ## Dependencies
+ *  *
+ *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysUnavFooter extends LitElement {

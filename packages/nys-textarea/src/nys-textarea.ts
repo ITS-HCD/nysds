@@ -74,6 +74,14 @@ let textareaIdCounter = 0;
  * ```html
  * <nys-textarea label="Summary" value="Read-only text" readonly></nys-textarea>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-label`
+ *   - `nys-errormessage`
  */
 
 export class NysTextarea extends LitElement {

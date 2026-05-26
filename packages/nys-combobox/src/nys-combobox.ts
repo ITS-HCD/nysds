@@ -98,6 +98,10 @@ interface ComboboxOption {
  *   console.log('User typed:', event.detail.value);
  * });
  * ```
+ *
+ * ## Dependencies
+ *  *
+ *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysCombobox extends LitElement {

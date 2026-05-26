@@ -70,6 +70,12 @@ let dropdownMenuIdCounter = 0;
  *   console.log(‘Menu toggled’);
  * });
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 type Position = "bottom-start" | "bottom-end" | "top-start" | "top-end";

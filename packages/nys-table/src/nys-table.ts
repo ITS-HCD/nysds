@@ -61,6 +61,13 @@ let componentIdCounter = 0;
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
  */
 
 export class NysTable extends LitElement {

@@ -148,6 +148,12 @@ let buttonIdCounter = 0;
  *   console.log('Button blurred');
  * });
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 export class NysButton extends LitElement {

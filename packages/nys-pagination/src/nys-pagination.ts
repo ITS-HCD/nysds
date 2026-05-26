@@ -85,6 +85,12 @@ let componentIdCounter = 0;
  *   // Fetch data for the new page
  * });
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
  */
 
 export class NysPagination extends LitElement {

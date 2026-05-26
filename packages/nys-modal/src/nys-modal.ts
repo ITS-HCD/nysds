@@ -124,6 +124,12 @@ let componentIdCounter = 0;
  *   </div>
  * </nys-modal>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
  */
 
 export class NysModal extends LitElement {

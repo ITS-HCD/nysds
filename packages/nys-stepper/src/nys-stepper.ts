@@ -152,6 +152,12 @@ let stepperIdCounter = 0;
  *   }
  * }
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
  */
 
 export class NysStepper extends LitElement {

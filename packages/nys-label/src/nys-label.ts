@@ -66,6 +66,13 @@ let labelIdCounter = 0;
  * @element nys-label
  *
  * @slot description - Custom HTML description content below the label.
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-tooltip`
  */
 export class NysLabel extends LitElement {
   static styles = unsafeCSS(styles);

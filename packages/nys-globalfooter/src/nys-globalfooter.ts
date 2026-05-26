@@ -94,6 +94,12 @@ import styles from "./nys-globalfooter.scss?inline";
  *   </ul>
  * </nys-globalfooter>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-divider`
  */
 
 export class NysGlobalFooter extends LitElement {

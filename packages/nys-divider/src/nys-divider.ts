@@ -49,6 +49,10 @@ let dividerIdCounter = 0;
  *   <p>More dark content</p>
  * </div>
  * ```
+ *
+ * ## Dependencies
+ *  *
+ *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysDivider extends LitElement {

@@ -65,6 +65,12 @@ let badgeIdCounter = 0;
  * ```html
  * <nys-badge prefixLabel="Messages" label="12"></nys-badge>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 export class NysBadge extends LitElement {

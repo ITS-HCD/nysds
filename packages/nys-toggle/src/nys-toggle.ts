@@ -74,6 +74,12 @@ let toggleIdCounter = 0;
  * ```html
  * <nys-toggle label="Feature enabled" size="sm" noIcon></nys-toggle>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 export class NysToggle extends LitElement {

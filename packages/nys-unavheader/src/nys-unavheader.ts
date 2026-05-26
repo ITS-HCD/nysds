@@ -89,6 +89,14 @@ import styles from "./nys-unavheader.scss?inline";
  * ```html
  * <nys-unavheader hideTranslate></nys-unavheader>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
+ *   - `nys-textinput`
  */
 
 interface Language {

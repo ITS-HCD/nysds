@@ -108,6 +108,10 @@ import styles from "./nys-icon.scss?inline";
  * ```html
  * <nys-icon name="arrow_back" flip="horizontal"></nys-icon>
  * ```
+ *
+ * ## Dependencies
+ *  *
+ *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysIcon extends LitElement {

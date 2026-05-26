@@ -80,6 +80,10 @@ let tooltipIdCounter = 0;
  * <nys-textinput id="email-input" label="Email" type="email"></nys-textinput>
  * <nys-tooltip for="email-input" text="example@domain.com"></nys-tooltip>
  * ```
+ *
+ * ## Dependencies
+ *  *
+ *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysTooltip extends LitElement {

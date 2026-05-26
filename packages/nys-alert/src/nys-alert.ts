@@ -92,6 +92,13 @@ let alertIdCounter = 0;
  * ```html
  * <nys-alert type="success" heading="Application submitted" dismissible></nys-alert>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
  */
 
 export class NysAlert extends LitElement {

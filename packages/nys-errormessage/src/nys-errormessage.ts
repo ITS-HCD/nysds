@@ -44,6 +44,12 @@ let errorMessageIdCounter = 0;
  *
  * @summary Internal error message display with icon and ARIA alert support.
  * @element nys-errormessage
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 export class NysErrorMessage extends LitElement {
   static styles = unsafeCSS(styles);

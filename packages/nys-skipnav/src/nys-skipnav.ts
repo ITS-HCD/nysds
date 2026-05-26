@@ -49,6 +49,10 @@ import styles from "./nys-skipnav.scss?inline";
  * <nys-skipnav href="#content-area"></nys-skipnav>
  * <div id="content-area">Main content goes here</div>
  * ```
+ *
+ * ## Dependencies
+ *  *
+ *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysSkipnav extends LitElement {

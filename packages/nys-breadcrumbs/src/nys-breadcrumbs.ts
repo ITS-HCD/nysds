@@ -78,6 +78,12 @@ let componentIdCounter = 0;
  *   console.log('Trail expanded, id:', event.detail.id);
  * });
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 export class NysBreadcrumbs extends LitElement {

@@ -135,6 +135,13 @@ let radiobuttonIdCounter = 0;
  *   <nys-radiobutton name="choice" other label="Other (please specify)"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-label`
+ *   - `nys-errormessage`
  */
 
 export class NysRadiobutton extends LitElement {

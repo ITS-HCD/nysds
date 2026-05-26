@@ -96,6 +96,12 @@ import styles from "./nys-globalheader.scss?inline";
  * ```html
  * <nys-globalheader appName="My App" agencyName="Department of Health" nysLogo homepageLink="/"></nys-globalheader>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  */
 
 export class NysGlobalHeader extends LitElement {

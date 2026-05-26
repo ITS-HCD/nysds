@@ -91,6 +91,10 @@ let videoIdCounter = 0;
  *   console.log('User clicked play');
  * });
  * ```
+ *
+ * ## Dependencies
+ *  *
+ *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysVideo extends LitElement {

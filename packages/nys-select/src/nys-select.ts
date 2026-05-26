@@ -146,6 +146,14 @@ let selectIdCounter = 0;
  *   <option value="option2">Option 2</option>
  * </nys-select>
  * ```
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-label`
+ *   - `nys-errormessage`
  */
 
 export class NysSelect extends LitElement {
