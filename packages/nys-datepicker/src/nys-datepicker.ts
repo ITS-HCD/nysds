@@ -70,6 +70,14 @@ let componentIdCounter = 0;
  * - Applies aria-required, aria-disabled, and validation messaging
  * - Error messages are announced via associated error messaging
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-label`
+ *   - `nys-button`
+ *
  * @summary Date picker with calendar popup and native fallback.
  * @element nys-datepicker
  *
@@ -117,15 +125,6 @@ let componentIdCounter = 0;
  *   console.log(`Date picker (${id}) changed to:`, value);
  * });
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *   - `nys-button`
- *   - `nys-label`
- *   - `nys-errormessage`
  */
 
 export class NysDatepicker extends LitElement {

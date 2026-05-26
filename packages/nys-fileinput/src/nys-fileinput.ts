@@ -62,6 +62,15 @@ interface FileWithProgress {
  * - Use when you want to let users preview file content.
  * - Use when it is not necessary for the task.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
+ *   - `nys-label`
+ *   - `nys-errormessage`
+ *
  * @summary File input with drag-and-drop, validation, and progress tracking.
  * @element nys-fileinput
  *
@@ -90,15 +99,6 @@ interface FileWithProgress {
  *   });
  * });
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *   - `nys-button`
- *   - `nys-label`
- *   - `nys-errormessage`
  */
 
 export class NysFileinput extends LitElement {

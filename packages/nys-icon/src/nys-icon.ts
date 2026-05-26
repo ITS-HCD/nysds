@@ -86,6 +86,10 @@ import styles from "./nys-icon.scss?inline";
  * making the icon accessible to screen readers. This removes `aria-hidden` to announce the icon's purpose.
  * Always provide an `ariaLabel` if the icon conveys important information or is the sole indicator of an action.
  *
+ * ## Dependencies
+ *
+ * This component has no dependencies on other NYS Design System components.
+ *
  * @summary SVG icon from Material Symbols library with size, rotation, flip, and color options.
  * @element nys-icon
  *
@@ -108,10 +112,6 @@ import styles from "./nys-icon.scss?inline";
  * ```html
  * <nys-icon name="arrow_back" flip="horizontal"></nys-icon>
  * ```
- *
- * ## Dependencies
- *  *
- *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysIcon extends LitElement {

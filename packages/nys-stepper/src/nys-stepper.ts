@@ -64,6 +64,12 @@ let stepperIdCounter = 0;
  * - Visual focus indicators meet WCAG 2.2 AA.
  * - Proper ARIA roles and attributes ensure screen readers announce progress correctly.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
+ *
  * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
  * @element nys-stepper
  *
@@ -152,12 +158,6 @@ let stepperIdCounter = 0;
  *   }
  * }
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-button`
  */
 
 export class NysStepper extends LitElement {

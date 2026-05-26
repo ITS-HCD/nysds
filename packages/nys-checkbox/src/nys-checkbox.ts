@@ -93,6 +93,14 @@ let checkboxIdCounter = 0;
  * });
  * ```
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-label`
+ *   - `nys-errormessage`
+ *
  * @summary Checkbox for binary choices or multi-select options.
  * @element nys-checkbox
  *
@@ -115,14 +123,6 @@ let checkboxIdCounter = 0;
  *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *   - `nys-label`
- *   - `nys-errormessage`
  */
 
 export class NysCheckbox extends LitElement {

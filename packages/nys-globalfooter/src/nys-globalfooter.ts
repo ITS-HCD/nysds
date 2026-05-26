@@ -49,6 +49,12 @@ import styles from "./nys-globalfooter.scss?inline";
  * - Include page-specific content that only applies to certain sections of your site.
  * - Embed `<script>`, `<iframe>`, `<object>`, or `<img>` elements in slotted content. These are sanitized and removed by the component for security.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-divider`
+ *
  * @summary Agency footer with auto-layout for contact info and link sections.
  * @element nys-globalfooter
  *
@@ -94,12 +100,6 @@ import styles from "./nys-globalfooter.scss?inline";
  *   </ul>
  * </nys-globalfooter>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-divider`
  */
 
 export class NysGlobalFooter extends LitElement {

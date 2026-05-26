@@ -51,6 +51,10 @@ let videoIdCounter = 0;
  * - Consider using autoplay sparingly; it can be distracting and uses bandwidth.
  * - Use `starttime` only if a specific section of the video is relevant to the page content.
  *
+ * ## Dependencies
+ *
+ *  This component has no dependencies on other NYS Design System components.
+ *
  * @summary YouTube video player with lazy-loaded iframe and accessibility announcements.
  * @element nys-video
  *
@@ -91,10 +95,6 @@ let videoIdCounter = 0;
  *   console.log('User clicked play');
  * });
  * ```
- *
- * ## Dependencies
- *  *
- *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysVideo extends LitElement {

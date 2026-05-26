@@ -83,6 +83,12 @@ let buttonIdCounter = 0;
  * - Create custom button styles (color, shape, size). Use only the defined variants and sizes.
  * - Use `inverted` buttons on light backgrounds—reserve for dark backgrounds only.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
  *
@@ -148,12 +154,6 @@ let buttonIdCounter = 0;
  *   console.log('Button blurred');
  * });
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  */
 
 export class NysButton extends LitElement {

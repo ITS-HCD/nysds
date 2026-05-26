@@ -62,17 +62,17 @@ let labelIdCounter = 0;
  * - Embed both required and optional flags on the same field.
  * - Forget to provide labels for form fields—labels are essential for accessibility.
  *
- * @summary Internal label component for form fields with flag, description, tooltip, and dark mode support.
- * @element nys-label
- *
- * @slot description - Custom HTML description content below the label.
- *
  * ## Dependencies
  *
  * This component depends on the following NYS Design System components:
  *
  *   - `nys-icon`
  *   - `nys-tooltip`
+ *
+ * @summary Internal label component for form fields with flag, description, tooltip, and dark mode support.
+ * @element nys-label
+ *
+ * @slot description - Custom HTML description content below the label.
  */
 export class NysLabel extends LitElement {
   static styles = unsafeCSS(styles);

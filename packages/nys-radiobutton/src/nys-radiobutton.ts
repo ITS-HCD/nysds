@@ -94,6 +94,13 @@ let radiobuttonIdCounter = 0;
  * - **Visual Focus Indicators**: Clear focus state on the selected radio button.
  * - **Label Association**: Labels are automatically associated with the radio button via the `aria-labelledby` attribute.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-label`
+ *   - `nys-errormessage`
+ *
  * @summary Radio button for single selection from mutually exclusive options within a radiogroup.
  * @element nys-radiobutton
  *
@@ -135,13 +142,6 @@ let radiobuttonIdCounter = 0;
  *   <nys-radiobutton name="choice" other label="Other (please specify)"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-label`
- *   - `nys-errormessage`
  */
 
 export class NysRadiobutton extends LitElement {

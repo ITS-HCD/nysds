@@ -70,6 +70,13 @@ import styles from "./nys-backtotop.scss?inline";
  * });
  * ```
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
+ *
  * @summary Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * @element nys-backtotop
  *
@@ -85,13 +92,6 @@ import styles from "./nys-backtotop.scss?inline";
  * ```html
  * <nys-backtotop visible position="left"></nys-backtotop>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *   - `nys-button`
  */
 export class NysBacktotop extends LitElement {
   static styles = unsafeCSS(styles);

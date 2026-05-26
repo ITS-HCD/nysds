@@ -42,14 +42,14 @@ let errorMessageIdCounter = 0;
  * - Display generic or vague error messages without actionable guidance.
  * - Show dividers on bordered form fields (text inputs, selects) where the border is already present.
  *
- * @summary Internal error message display with icon and ARIA alert support.
- * @element nys-errormessage
- *
  * ## Dependencies
  *
  * This component depends on the following NYS Design System components:
  *
  *   - `nys-icon`
+ *
+ * @summary Internal error message display with icon and ARIA alert support.
+ * @element nys-errormessage
  */
 export class NysErrorMessage extends LitElement {
   static styles = unsafeCSS(styles);

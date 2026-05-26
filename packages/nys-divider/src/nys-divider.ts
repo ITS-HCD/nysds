@@ -31,6 +31,10 @@ let dividerIdCounter = 0;
  * - Use the divider to separate content appearing side by side.
  * - Use the `inverted` option on light backgrounds.
  *
+ * ## Dependencies
+ *
+ * This component has no dependencies on other NYS Design System components.
+ *
  * @summary Horizontal divider for visual separation of content sections.
  * @element nys-divider
  *
@@ -49,10 +53,6 @@ let dividerIdCounter = 0;
  *   <p>More dark content</p>
  * </div>
  * ```
- *
- * ## Dependencies
- *  *
- *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysDivider extends LitElement {

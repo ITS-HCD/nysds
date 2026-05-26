@@ -33,6 +33,12 @@ let componentIdCounter = 0;
  * - Disabled state disables all navigation and link focus.
  * - Screen readers announce the full trail structure via semantic HTML.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *
  * @summary Breadcrumb navigation trail with responsive collapse support.
  * @element nys-breadcrumbs
  *
@@ -78,12 +84,6 @@ let componentIdCounter = 0;
  *   console.log('Trail expanded, id:', event.detail.id);
  * });
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  */
 
 export class NysBreadcrumbs extends LitElement {

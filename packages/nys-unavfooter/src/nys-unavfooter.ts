@@ -53,6 +53,10 @@ import styles from "./nys-unavfooter.scss?inline";
  * - Attempt to customize, restyle, or override the UNav Footer's content or appearance. Consistency across all state sites is the purpose of this component.
  * - Omit the UNav Footer from any page on your site.
  *
+ * ## Dependencies
+ *
+ * This component has no dependencies on other NYS Design System components.
+ *
  * @summary Universal NYS footer with logo and statewide links. Required on all sites.
  * @element nys-unavfooter
  *
@@ -66,10 +70,6 @@ import styles from "./nys-unavfooter.scss?inline";
  *   <nys-unavfooter></nys-unavfooter>
  * </body>
  * ```
- *
- * ## Dependencies
- *  *
- *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysUnavFooter extends LitElement {

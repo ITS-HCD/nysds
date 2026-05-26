@@ -39,6 +39,12 @@ let dropdownMenuIdCounter = 0;
  * - Order items logically (most common/safe actions first, destructive actions last).
  * - Use nys-dropdownmenuitem children to populate the menu.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *
  * @summary Action menu with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-dropdownmenu
  *
@@ -70,12 +76,6 @@ let dropdownMenuIdCounter = 0;
  *   console.log(‘Menu toggled’);
  * });
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  */
 
 type Position = "bottom-start" | "bottom-end" | "top-start" | "top-end";

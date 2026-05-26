@@ -83,6 +83,12 @@ let componentIdCounter = 0;
  * - **ARIA Labeling:** `aria-labelledby` links to the heading; `aria-describedby` links to subheading and body content.
  * - **Background Scroll Prevention:** Prevent background scroll so users don't lose context when the modal is open.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
+ *
  * @summary Accessible modal dialog with focus trap, keyboard support, scroll lock, and mandatory action mode.
  * @element nys-modal
  *
@@ -124,12 +130,6 @@ let componentIdCounter = 0;
  *   </div>
  * </nys-modal>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-button`
  */
 
 export class NysModal extends LitElement {

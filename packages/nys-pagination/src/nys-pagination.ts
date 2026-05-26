@@ -67,6 +67,12 @@ let componentIdCounter = 0;
  * - **Button States**: Previous/Next buttons are properly disabled when at page boundaries, preventing invalid navigation.
  * - **Semantic HTML**: Uses `<nys-button>` components for proper semantics and interaction.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
+ *
  * @summary Page navigation with numbered links, Previous/Next buttons, and responsive mobile-first layout.
  * @element nys-pagination
  *
@@ -85,12 +91,6 @@ let componentIdCounter = 0;
  *   // Fetch data for the new page
  * });
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-button`
  */
 
 export class NysPagination extends LitElement {

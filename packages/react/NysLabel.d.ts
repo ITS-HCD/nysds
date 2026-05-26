@@ -73,6 +73,6 @@ export interface NysLabelProps extends Pick<
  *  - **nys-label-click**
  *
  * ### **Slots:**
- *  - **description** - Custom HTML description content below the label. ## Dependencies This component depends on the following NYS Design System components: - `nys-icon` - `nys-tooltip`
+ *  - **description** - Custom HTML description content below the label.
  */
 export const NysLabel: React.ForwardRefExoticComponent<NysLabelProps>;

@@ -49,6 +49,10 @@ interface ComboboxOption {
  * - Provide a clear, task-focused label (e.g., "Select your favorite fruit" not just "Fruit").
  * - Use the description slot for supporting context or instructions.
  *
+ * ## Dependencies
+ *
+ * This component depends on `nys-icon`.
+ *
  * @summary Filterable combo box with keyboard navigation and form validation.
  * @element nys-combobox
  *
@@ -98,10 +102,6 @@ interface ComboboxOption {
  *   console.log('User typed:', event.detail.value);
  * });
  * ```
- *
- * ## Dependencies
- *  *
- *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysCombobox extends LitElement {

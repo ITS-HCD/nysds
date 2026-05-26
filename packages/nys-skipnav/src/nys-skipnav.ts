@@ -34,6 +34,10 @@ import styles from "./nys-skipnav.scss?inline";
  * - Use if there's nothing to skip over.
  * - Mismatch the `href` and target `id`.
  *
+ * ## Dependencies
+ *
+ * This component has no dependencies on other NYS Design System components.
+ *
  * @summary Skip navigation link for keyboard accessibility. Hidden until focused.
  * @element nys-skipnav
  *
@@ -49,10 +53,6 @@ import styles from "./nys-skipnav.scss?inline";
  * <nys-skipnav href="#content-area"></nys-skipnav>
  * <div id="content-area">Main content goes here</div>
  * ```
- *
- * ## Dependencies
- *  *
- *  * This component has no dependencies on other NYS Design System components.
  */
 
 export class NysSkipnav extends LitElement {

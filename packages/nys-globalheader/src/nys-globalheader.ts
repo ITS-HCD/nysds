@@ -63,6 +63,12 @@ import styles from "./nys-globalheader.scss?inline";
  * - Add navigation links to application headers where the user should remain focused on a task (e.g., a multi-step benefits application form).
  * - Duplicate navigation that already exists in `<nys-globalfooter>`. The header is for primary navigation; the footer is for secondary links.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *
  * @summary Agency header with navigation, mobile menu, and active link highlighting.
  * @element nys-globalheader
  *
@@ -96,12 +102,6 @@ import styles from "./nys-globalheader.scss?inline";
  * ```html
  * <nys-globalheader appName="My App" agencyName="Department of Health" nysLogo homepageLink="/"></nys-globalheader>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  */
 
 export class NysGlobalHeader extends LitElement {

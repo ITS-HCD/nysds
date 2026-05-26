@@ -53,6 +53,12 @@ let badgeIdCounter = 0;
  * - Rely on color alone to convey meaning; always include a text label.
  * - Stack multiple badges on a single element unless each communicates a distinct, necessary status.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *
  * @summary Compact label for status, counts, or categorization with semantic styling.
  * @element nys-badge
  *
@@ -65,12 +71,6 @@ let badgeIdCounter = 0;
  * ```html
  * <nys-badge prefixLabel="Messages" label="12"></nys-badge>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  */
 
 export class NysBadge extends LitElement {

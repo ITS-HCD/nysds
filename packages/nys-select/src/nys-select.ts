@@ -89,6 +89,14 @@ let selectIdCounter = 0;
  * - **Required/Optional Indicators**: Visual flags ("Required" or "Optional") and ARIA attributes clearly indicate the field's status.
  * - **Error Announcement**: Error messages are properly associated with the select for screen reader users.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-label`
+ *   - `nys-errormessage`
+ *
  * @summary Dropdown select for choosing one option from a list with native options/optgroups.
  * @element nys-select
  *
@@ -146,12 +154,6 @@ let selectIdCounter = 0;
  *   <option value="option2">Option 2</option>
  * </nys-select>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  *   - `nys-label`
  *   - `nys-errormessage`
  */
