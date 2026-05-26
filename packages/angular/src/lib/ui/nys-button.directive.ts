@@ -8,7 +8,6 @@ import {
   inject,
 } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-button';` once component dist exists.
 
 /**
  * Wrapper directive for `<nys-button>`.

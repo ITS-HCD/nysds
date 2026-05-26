@@ -1,6 +1,5 @@
 import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-globalheader';` once component dist exists.
 
 /**
  * Wrapper directive for `<nys-globalheader>`.

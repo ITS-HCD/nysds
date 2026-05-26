@@ -1,6 +1,5 @@
 import { Directive } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-tooltip';` once component dist exists.
 
 /**
  * Wrapper directive for `<nys-tooltip>`.

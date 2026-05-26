@@ -9,7 +9,8 @@
   "files": [
     "dist/",
     "custom-elements.json",
-    "packages/react/"
+    "packages/react/",
+    "packages/angular/dist/"
   ],
   "main": "dist/nysds.js",
   "module": "dist/nysds.es.js",
@@ -23,6 +24,10 @@
     "./react": {
       "import": "./packages/react/index.js",
       "types": "./packages/react/index.d.ts"
+    },
+    "./angular": {
+      "import": "./packages/angular/dist/fesm2022/nysds-angular.mjs",
+      "types": "./packages/angular/dist/index.d.ts"
     }
   },
   "customElements": "custom-elements.json",
@@ -40,7 +45,7 @@
     "lint": "eslint --cache --cache-location node_modules/.cache/eslint && stylelint **/*.scss || true",
     "lint:fix": "eslint --fix && stylelint **/*.scss --fix",
     "lit-analyze": "find ./packages/nys-*/ -name '*.ts' ! -name '*.figma.*' | xargs lit-analyzer {}",
-    "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish --access public",
+    "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish ./packages/angular/dist --access public && cross-env NODE_ENV=production npm publish --access public",
     "release:dry-run": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
     "release:zip": "npm run build:all && node src/scripts/create-release-zip.js",
@@ -58,7 +63,7 @@
     "clean:turbo": "find packages -type d -name '.turbo' -exec rm -rf {} + && rm -rf .turbo",
     "clean:all": "npm run clean:dist && npm run clean:node && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js"
+    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js && npm run generate --workspace=@nysds/angular"
   },
   "repository": {
     "type": "git",

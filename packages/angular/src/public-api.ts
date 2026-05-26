@@ -1,6 +1,16 @@
 /*
  * Public API surface of @nysds/angular
+ *
+ * The side-effect import below loads the @nysds/components ES bundle so the
+ * underlying custom elements (`<nys-*>`) are registered exactly once whenever
+ * any directive from this package is imported. This mirrors the pattern used
+ * by the React wrappers (which import `dist/nysds.es.js` per wrapper).
+ *
+ * Bundlers preserve this side-effect because the package declares
+ * `sideEffects: ["./src/lib/**", "./fesm2022/*.mjs"]` in its package.json.
  */
+import '@nysds/components';
+
 
 // Shared types
 export * from './lib/shared/nys-event.types';
@@ -47,3 +57,6 @@ export { NysTooltipDirective } from './lib/ui/nys-tooltip.directive';
 export { NysUnavfooterDirective } from './lib/ui/nys-unavfooter.directive';
 export { NysUnavheaderDirective, type NysUnavheaderLanguage } from './lib/ui/nys-unavheader.directive';
 export { NysVideoDirective } from './lib/ui/nys-video.directive';
+
+// Convenience aggregate
+export { NYS_DIRECTIVES, NysAngularModule } from './lib/nys-angular.module';

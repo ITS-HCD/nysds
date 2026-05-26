@@ -10,7 +10,7 @@
  */
 
 /** Generic detail shape — `id` is always present on NYSDS events. */
-export interface NysEventDetail<T extends object = Record<string, unknown>> {
+export interface NysEventDetail {
   id: string;
 }
 

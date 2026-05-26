@@ -3,7 +3,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NysControlValueAccessorBase } from '../shared/nys-control-value-accessor.base';
 
-// TODO(task-7): add `import '@nysds/nys-fileinput';` once component dist exists.
 
 /**
  * `ControlValueAccessor` for `<nys-fileinput>` — value is `File[]`. The

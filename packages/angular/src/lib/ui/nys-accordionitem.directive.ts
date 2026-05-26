@@ -9,8 +9,6 @@ import {
   inject,
 } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-accordion';` (registers both
-// `nys-accordion` and `nys-accordionitem`) once component dist exists.
 
 /**
  * Wrapper directive for `<nys-accordionitem>` with two-way `[(expanded)]`.

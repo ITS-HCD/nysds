@@ -33,3 +33,10 @@ npm install @nysds/components @nysds/styles
 <script type="module" src="[path-to-dir]/nysds.js"></script>
 <link rel="stylesheet" href="[path-to-dir]/nysds-full.min.css" />
 ```
+
+## Framework integrations
+
+The web components are framework-agnostic, but the design system also ships thin wrapper layers that give React and Angular consumers idiomatic, fully typed APIs:
+
+- **React** — `@nysds/components/react` exposes a React component per `nys-*` element with custom events mapped to `on<EventName>` props. Auto-generated from `custom-elements.json`. See [`packages/react/README.md`](./packages/react/README.md).
+- **Angular** — `@nysds/angular` (also reachable via the `@nysds/components/angular` subpath) provides standalone directives with `ControlValueAccessor` bindings for every form component, typed `@Input()`s/`@Output()`s for everything else, and two-way bindings (`[(open)]`, `[(expanded)]`, `[(currentPage)]`) where applicable. See [`packages/angular/README.md`](./packages/angular/README.md).

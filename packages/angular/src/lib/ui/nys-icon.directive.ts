@@ -1,11 +1,88 @@
-import { Directive } from '@angular/core';
+// ============================================================================
+// GENERATED — Do not edit by hand.
+//
+// This file is regenerated from `custom-elements.json` by
+// `packages/angular/scripts/generate-directives.mjs` (run via `npm run
+// generate --workspace=@nysds/angular`). Modify the script (or promote this
+// tag out of GENERATED_TAGS to hand-edit) instead of editing this file.
+// ============================================================================
+import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-icon';` once component dist exists.
-// TODO(task-8): generator populates typed @Input()s/@Output()s from the CEM.
-
-/** Wrapper directive for `<nys-icon>`. */
+/**
+ * Wrapper directive for `<nys-icon>`.
+ *
+ * SVG icon from Material Symbols library with size, rotation, and color options.
+ */
 @Directive({
   selector: 'nys-icon',
   standalone: true,
 })
-export class NysIconDirective {}
+export class NysIconDirective {
+  private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
+  private readonly renderer: Renderer2 = inject(Renderer2);
+
+  /**
+   * Icon name from Material Symbols library. Required.
+   * @default ""
+   */
+  @Input() set name(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'name', value);
+  }
+
+  /**
+   * Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG.
+   * @default ""
+   */
+  @Input() set ariaLabel(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'ariaLabel', value);
+  }
+
+  /**
+   * Rotation in degrees. Applied via CSS `rotate`.
+   * @default "0"
+   */
+  @Input() set rotate(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'rotate', value);
+  }
+
+  /**
+   * Flip direction: `horizontal`, `vertical`, or empty for none.
+   * @default ""
+   */
+  @Input() set flip(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'flip', value);
+  }
+
+  /**
+   * Icon color. Accepts any CSS color value. Defaults to `currentcolor`.
+   * @default ""
+   */
+  @Input() set color(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'color', value);
+  }
+
+  /**
+   * Icon size. Semantic sizes: `xs`-`5xl`. Pixel sizes: `12`-`50`.
+   * @default "md"
+   */
+  @Input() set size(value: | "xs"
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "12"
+    | "14"
+    | "16"
+    | "18"
+    | "20"
+    | "24"
+    | "32"
+    | "40"
+    | "50") {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'size', value);
+  }
+}

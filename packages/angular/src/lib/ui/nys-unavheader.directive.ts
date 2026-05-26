@@ -1,6 +1,5 @@
 import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-unavheader';` once component dist exists.
 
 /**
  * Typed language entry accepted by `<nys-unavheader>`'s `languages` property.

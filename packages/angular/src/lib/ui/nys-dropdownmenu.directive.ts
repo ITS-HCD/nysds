@@ -1,7 +1,5 @@
 import { Directive } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-dropdownmenu';` (registers both
-// `nys-dropdownmenu` and `nys-dropdownmenuitem`) once component dist exists.
 
 /**
  * Wrapper directive for `<nys-dropdownmenu>`.

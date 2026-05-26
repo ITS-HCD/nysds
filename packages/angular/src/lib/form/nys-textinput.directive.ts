@@ -3,9 +3,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NysControlValueAccessorBase } from '../shared/nys-control-value-accessor.base';
 
-// TODO(task-7): once @nysds/components packages are built, add side-effect
-// import so importing this directive also registers the custom element:
-//   import '@nysds/nys-textinput';
 
 /**
  * Angular `ControlValueAccessor` for the `<nys-textinput>` web component.

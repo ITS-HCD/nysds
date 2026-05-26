@@ -9,7 +9,6 @@ import {
   inject,
 } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-pagination';` once component dist exists.
 
 /**
  * Wrapper directive for `<nys-pagination>` with two-way `[(currentPage)]`.

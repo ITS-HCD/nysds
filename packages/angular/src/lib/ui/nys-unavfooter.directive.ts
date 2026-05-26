@@ -1,9 +1,18 @@
+// ============================================================================
+// GENERATED — Do not edit by hand.
+//
+// This file is regenerated from `custom-elements.json` by
+// `packages/angular/scripts/generate-directives.mjs` (run via `npm run
+// generate --workspace=@nysds/angular`). Modify the script (or promote this
+// tag out of GENERATED_TAGS to hand-edit) instead of editing this file.
+// ============================================================================
 import { Directive } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-unavfooter';` once component dist exists.
-// TODO(task-8): generator populates typed @Input()s/@Output()s from the CEM.
-
-/** Wrapper directive for `<nys-unavfooter>`. */
+/**
+ * Wrapper directive for `<nys-unavfooter>`.
+ *
+ * Universal NYS footer with logo and statewide links. Required site-wide.
+ */
 @Directive({
   selector: 'nys-unavfooter',
   standalone: true,

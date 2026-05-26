@@ -1,11 +1,63 @@
-import { Directive } from '@angular/core';
+// ============================================================================
+// GENERATED — Do not edit by hand.
+//
+// This file is regenerated from `custom-elements.json` by
+// `packages/angular/scripts/generate-directives.mjs` (run via `npm run
+// generate --workspace=@nysds/angular`). Modify the script (or promote this
+// tag out of GENERATED_TAGS to hand-edit) instead of editing this file.
+// ============================================================================
+import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-stepper';` once component dist exists.
-// TODO(task-8): generator populates typed @Input()s/@Output()s from the CEM.
-
-/** Wrapper directive for `<nys-stepper>`. */
+/**
+ * Wrapper directive for `<nys-stepper>`.
+ *
+ * Multi-step progress indicator with navigation and mobile-friendly compact view.
+ */
 @Directive({
   selector: 'nys-stepper',
   standalone: true,
 })
-export class NysStepperDirective {}
+export class NysStepperDirective {
+  private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
+  private readonly renderer: Renderer2 = inject(Renderer2);
+
+  /**
+   * Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided.
+   * @default ""
+   */
+  @Input() set id(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'id', value);
+  }
+
+  /**
+   * Name attribute for form association.
+   * @default ""
+   */
+  @Input() set name(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'name', value);
+  }
+
+  /**
+   * Title displayed above the step list and compact counter.
+   * @default ""
+   */
+  @Input() set label(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'label', value);
+  }
+
+  /**
+   * Progress text displayed in compact mode (e.g., "Step 2 of 5"). Auto-managed — do not set manually.
+   * @default "initial"
+   */
+  @Input() set counterText(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'counterText', value);
+  }
+
+  /**
+   * Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter.
+   * @default false
+   */
+  @Input() set isCompactExpanded(value: boolean) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'isCompactExpanded', value);
+  }
+}

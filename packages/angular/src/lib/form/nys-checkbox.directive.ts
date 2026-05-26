@@ -3,7 +3,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NysControlValueAccessorBase } from '../shared/nys-control-value-accessor.base';
 
-// TODO(task-7): add `import '@nysds/nys-checkbox';` once component dist exists.
 
 /**
  * `ControlValueAccessor` for `<nys-checkbox>` — boolean value lives on the

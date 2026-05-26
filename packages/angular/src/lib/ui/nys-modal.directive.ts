@@ -9,7 +9,6 @@ import {
   inject,
 } from '@angular/core';
 
-// TODO(task-7): add `import '@nysds/nys-modal';` once component dist exists.
 
 /**
  * Wrapper directive for `<nys-modal>` with two-way `[(open)]` support.

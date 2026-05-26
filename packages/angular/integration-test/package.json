@@ -1,0 +1,35 @@
+{
+  "name": "@nysds/angular-integration-test",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Smoke-test harness for @nysds/angular. Not published.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4321",
+    "test": "playwright test",
+    "test:install": "playwright install chromium"
+  },
+  "dependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "@angular/platform-browser": "^21.2.0",
+    "@nysds/angular": "^0.1.0",
+    "@nysds/components": "^1.18.1",
+    "@nysds/styles": "^1.18.1",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.8.1",
+    "zone.js": "~0.16.0"
+  },
+  "devDependencies": {
+    "@analogjs/vite-plugin-angular": "^2.5.2",
+    "@angular/build": "^21.2.0",
+    "@angular/compiler-cli": "^21.2.0",
+    "@playwright/test": "^1.50.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}
