@@ -76,6 +76,13 @@ let alertIdCounter = 0;
  * });
  * ```
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-button`
+ *
  * @summary Alert for contextual feedback with semantic types and live region support.
  * @element nys-alert
  *
@@ -92,13 +99,6 @@ let alertIdCounter = 0;
  * ```html
  * <nys-alert type="success" heading="Application submitted" dismissible></nys-alert>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *   - `nys-button`
  */
 
 export class NysAlert extends LitElement {

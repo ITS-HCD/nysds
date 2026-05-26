@@ -60,6 +60,12 @@ let avatarIdCounter = 0;
  * - Override default avatar icons unless additional context is essential—doing so creates inconsistency.
  * Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *
  * @summary User avatar with image, initials, or icon fallback and contrast-aware colors.
  * @element nys-avatar
  *
@@ -74,12 +80,6 @@ let avatarIdCounter = 0;
  * ```html
  * <nys-avatar initials="JS" color="var(--nys-color-theme)" ariaLabel="Jane Smith"></nys-avatar>
  * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  */
 
 export class NysAvatar extends LitElement {
