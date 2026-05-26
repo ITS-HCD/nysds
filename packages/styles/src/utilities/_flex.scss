@@ -162,6 +162,7 @@ $flex-gap-tokens: (
     @each $value in $flex-align-values {
       @include responsive-variants($bp-name, "nys-flex-align-#{$value}") {
         $computed: $value;
+
         @if $value == "start" or $value == "end" {
           $computed: flex-#{$value};
         }
@@ -173,6 +174,7 @@ $flex-gap-tokens: (
     @each $value in $flex-align-values {
       @include responsive-variants($bp-name, "nys-flex-align-self-#{$value}") {
         $computed: $value;
+
         @if $value == "start" or $value == "end" {
           $computed: flex-#{$value};
         }
