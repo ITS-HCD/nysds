@@ -23,6 +23,9 @@ export default {
 
     // Block
     "block-no-empty": true,
+
+    // Operators
+    "scss/operator-no-newline-after": null,
   },
   extends: ["stylelint-config-standard-scss", "stylelint-prettier/recommended"],
 };
