@@ -5,7 +5,6 @@ import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-button";
 import "@nysds/nys-icon";
-import { NysButton } from "@nysds/nys-button";
 /**
  * Test Tips (Official WTR Doc): Defaults, interactivity, customization, and accessibility, form a great baseline for testing most web UI.
  * When testing web UI it is important to think of your test inputs as a future visitor interacting with your web component or a future developer building with your web component.
