@@ -8,10 +8,46 @@ let labelIdCounter = 0;
 /**
  * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
  *
- * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
- * Handles label association via `for`, displays asterisk for required fields, and integrates tooltips.
+ * Used internally by form components (textinput, select, checkbox, radiobutton, etc.). Not intended for direct use.
+ * Handles label association via the `for` attribute, displays asterisk (*) for required fields, "(Optional)" text
+ * for optional fields, and integrates optional tooltips via the info icon.
  *
- * @summary Internal label component for form fields with flag and tooltip support.
+ * ## When to use
+ * - This component is built into form fields and should not be used alone.
+ * - Use the `required` flag only if the required prop is added to the form field.
+ * - Use the `optional` flag to explicitly mark optional form fields.
+ * - Use clear, descriptive wording for labels that explain the form field's purpose.
+ * - Use the `description` prop or description slot for helper text below the label (e.g., format hints, constraints).
+ * - Use `tooltip` to provide additional context, hints, or guidance for the field (shown on hover/focus of the info icon).
+ *
+ * ## When to consider something else
+ * - Do not use the label alone or without a form field.
+ * - Do not embed the `<nys-label>` component directly in your HTML; it is automatically included in form components.
+ *
+ * ## Label content guidelines
+ * - Write concise, descriptive labels that explain the form field's purpose.
+ * - Use action-oriented or descriptive wording (e.g., "Email address" instead of "Enter email").
+ * - Keep labels short when possible; use descriptions for longer explanations.
+ * - Provide clear visual distinction between required (*) and optional (Optional) fields.
+ * - Use tooltips for supplementary guidance (hover/focus of the info icon next to the label).
+ * - Descriptions provide helper text below the label; use the `description` prop for plain text or the slot for custom HTML.
+ *
+ * ## Flags and indicators
+ * - **Required flag (`flag="required"`)**: Displays an asterisk (*) next to the label to indicate a required field.
+ * - **Optional flag (`flag="optional"`)**: Displays "(Optional)" text next to the label to indicate an optional field.
+ * - Only one flag should be set at a time; if both are set, `required` takes precedence.
+ *
+ * ## Dark mode support
+ * Set the `inverted` prop to `true` when the label is on a dark background to adjust colors for better contrast.
+ *
+ * ## Accessibility
+ * - Labels are automatically associated with form fields via the `for` attribute, linking the label to the input's ID.
+ * - Required fields display an asterisk (*) for visual indication; always pair with ARIA attributes on the input.
+ * - Optional fields display "(Optional)" text for clarity.
+ * - Tooltips are keyboard accessible (focusable on the info icon) and announced to screen readers.
+ * - Label text is properly associated with the input via `aria-labelledby` on the input.
+ *
+ * @summary Internal label component for form fields with flag, description, tooltip, and dark mode support.
  * @element nys-label
  *
  * @slot description - Custom HTML description content below the label.

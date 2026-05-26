@@ -6,21 +6,37 @@ import styles from "./nys-skipnav.scss?inline";
 /**
  * An accessible "Skip to main content" link for keyboard and screen reader users. Visually hidden until focused.
  *
- * Place as the first focusable element in the document. Links to `#main-content` by default, or specify `href`
- * for a custom target. The target element receives focus when activated for proper screen reader announcement.
+ * Place as the first focusable element in the document, ideally right after the opening `<body>` tag, before any headers or navigation.
+ * Links to `#main-content` by default, or specify `href` for a custom target. The target element receives focus when activated for proper
+ * screen reader announcement and navigation bypass. Hidden visually by default and appears on Tab or when focused via keyboard.
+ *
+ * ## When to use
+ * - Pages with large headers or navigation elements before the main content.
+ * - Any site where keyboard users benefit from skipping repeated navigation.
+ *
+ * ## When not to use
+ * - Pages that start directly with main content and have no navigation to skip.
+ *
+ * ## Accessibility features
+ * - First focusable element on page load for keyboard users.
+ * - Visible only on focus with clear focus indicator that meets WCAG 2.2 AA.
+ * - Pressing Enter moves focus to the target element for proper screen reader announcement.
+ * - Correctly announces the link and manages focus on activation for assistive technologies.
  *
  * @summary Skip navigation link for keyboard accessibility. Hidden until focused.
  * @element nys-skipnav
  *
- * @example Default skip link
+ * @example Default skip link targeting main-content
  * ```html
  * <nys-skipnav></nys-skipnav>
+ * <header>...</header>
  * <main id="main-content">...</main>
  * ```
  *
- * @example Custom target
+ * @example Custom href target
  * ```html
  * <nys-skipnav href="#content-area"></nys-skipnav>
+ * <div id="content-area">Main content goes here</div>
  * ```
  */
 

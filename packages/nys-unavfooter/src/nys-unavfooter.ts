@@ -4,18 +4,54 @@ import nysLogo from "./nys-unav.logo";
 import styles from "./nys-unavfooter.scss?inline";
 
 /**
- * Universal NYS footer with logo and statewide navigation links. Required on all NYS sites.
+ * Universal NYS footer with logo and statewide navigation links. Required on all NYS sites to provide consistent access
+ * to essential links across all state digital properties. Displays NY.gov logo and links to Agencies, App Directory,
+ * Counties, Events, Programs, and Services.
  *
- * Place as the last element before `</body>`. Displays NY.gov logo and links to Agencies,
- * App Directory, Counties, Events, Programs, and Services. No configuration needed.
+ * ## When to use
+ * - Required on ALL New York State digital products and websites.
+ * - Placed only at the bottom of the page as the final footer element.
+ * - Provides users with consistent access to essential statewide links.
  *
- * @summary Universal NYS footer with logo and statewide links. Required site-wide.
+ * ## When not to use
+ * - Do not place anywhere other than the bottom of the page.
+ * - Do not modify, remove, or customize the footer links.
+ * - Do not duplicate—use exactly once per page.
+ *
+ * ## Placement
+ * Place as the last element in the `<body>`, after all page content and after any global footer (`nys-globalfooter`).
+ * The component is non-configurable and displays the same content on all sites.
+ *
+ * ## Content
+ * The footer displays:
+ * - NY.gov logo (links to https://www.ny.gov)
+ * - Agencies link
+ * - App Directory link
+ * - Counties link
+ * - Events link
+ * - Programs link
+ * - Services link
+ *
+ * ## Accessibility
+ * - Uses semantic `<footer>` element for assistive technology recognition.
+ * - All links are keyboard-navigable via Tab.
+ * - Proper link text for screen reader users.
+ * - Links open in same window (no target="_blank") unless external policy requires otherwise.
+ * - Visual design meets WCAG 2.2 AA contrast and focus indicator standards.
+ * - Footer is not hidden from screen readers and is announced as navigation.
+ *
+ * @summary Universal NYS footer with logo and statewide links. Required on all sites.
  * @element nys-unavfooter
  *
- * @example Standard usage
+ * @example Standard usage at end of page
  * ```html
- * <nys-globalfooter>...</nys-globalfooter>
- * <nys-unavfooter></nys-unavfooter>
+ * <body>
+ *   <nys-unavheader></nys-unavheader>
+ *   <nys-globalheader>...</nys-globalheader>
+ *   <main id="main-content">...</main>
+ *   <nys-globalfooter>...</nys-globalfooter>
+ *   <nys-unavfooter></nys-unavfooter>
+ * </body>
  * ```
  */
 

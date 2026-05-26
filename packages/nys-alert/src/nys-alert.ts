@@ -11,6 +11,51 @@ let alertIdCounter = 0;
  *
  * Use `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,
  * and `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.
+ * If an id is not passed, a unique id will be generated.
+ *
+ * ## When to use
+ *
+ * Use `nys-alert` to communicate important, time-sensitive information to users in a visually prominent way.
+ * Ideal for messages such as success notifications, danger alerts, warnings, or informational updates.
+ * Use for dismissible or temporary alerts when the message is not critical to user workflow.
+ *
+ * If the information is not time-sensitive or critical, consider using a less intrusive component, such as a tooltip or inline message.
+ * Avoid using alerts for repetitive or non-actionable content that could frustrate users.
+ * For notifications outside the page context, consider using a toast or modal component instead.
+ *
+ * ## Variants
+ *
+ * Keep the alert content concise and focused on the message. Use the appropriate `type` (e.g., `info`, `success`, `warning`, or `danger`)
+ * to match the intent of the alert. Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
+ * Avoid overusing alerts for non-critical information, as this can desensitize users to important messages.
+ *
+ * ## Accessibility
+ *
+ * The `nys-alert` component includes the following accessibility-focused features:
+ * - Keyboard navigation support, allowing users to use voiceover to read the alert using the keyboard
+ * - Visual focus indicators to help users navigate the component
+ * - Each alert type contains an ARIA role attribute that can notify assistive technologies of time-sensitive and important messages
+ * - `role="alert"`: Important messages that demand the user's immediate attention (danger and emergency alert)
+ * - `role="status"`: Messages that provide advisory information but do not have the same urgency as alerts (success alert)
+ * - `role="region"`: Messages that provide information the user would want to be able to easily find, but are not important enough to interrupt user workflow (info and warning alert with aria-label)
+ *
+ * ## Events
+ *
+ * The `nys-alert` component emits the `nys-close` event when the alert is dismissed by the user (via a close button).
+ * The event's `detail` object includes:
+ * - id (string): The id of the alert
+ * - type (string): The alert's type (e.g., "success", "error", "info")
+ * - label (string): The alert's heading text
+ *
+ * Consider persisting dismissal state (e.g., to localStorage or analytics) to prevent the alert from appearing again.
+ *
+ * ```js
+ * const alert = document.querySelector("nys-alert");
+ * alert.addEventListener("nys-close", (event) => {
+ *   const { type, label } = event.detail;
+ *   console.log(`Alert closed. Type: ${type}, Label: ${label}`);
+ * });
+ * ```
  *
  * @summary Alert for contextual feedback with semantic types and live region support.
  * @element nys-alert

@@ -7,30 +7,61 @@ import styles from "./nys-textarea.scss?inline";
 let textareaIdCounter = 0;
 
 /**
- * A multi-line text input for collecting longer responses like comments, descriptions, or feedback.
- * Form-associated with validation support via ElementInternals.
+ * A multi-line text input for collecting longer responses like comments, descriptions, feedback, or detailed explanations.
+ * Form-associated with built-in validation support via ElementInternals. Supports resize control, character limits, and error messaging.
  *
- * Use for detailed responses needing multiple lines. For single-line input, use `nys-textinput`.
- * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.
+ * Use for open-ended user input requiring multiple lines. For single-line input, use `nys-textinput` instead.
+ * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`. For data selection tasks, never use textarea.
  *
- * @summary Multi-line text input for comments, descriptions, and feedback.
+ * ## When to use
+ * - Collecting multiple lines of text input (e.g., comments, descriptions, detailed feedback, personal notes).
+ * - Open-ended input specific to the user that requires longer responses.
+ * - When precise multi-line user input is required.
+ *
+ * ## When not to use
+ * - Single-line input (use `nys-textinput` instead).
+ * - Data selection from predefined options (use `nys-select`, `nys-radiobutton`, or `nys-checkbox`).
+ * - Long-form content better suited to conventional page headers or accordions.
+ *
+ * ## Features
+ * - **Customizable height** – Set `rows` to control visible height (default: 4).
+ * - **Resize control** – `resize="vertical"` (default) allows user resizing; `resize="none"` disables it.
+ * - **Character limit** – Set `maxlength` to enforce a maximum character count.
+ * - **Width options** – `width="sm"`, `"md"`, `"lg"`, or `"full"` (default).
+ * - **Label and description** – Required label for accessibility; optional description below label.
+ * - **Error messaging** – Shows error state and custom message when validation fails.
+ * - **Validation** – Required fields show "Required" flag; optional fields show "Optional" flag.
+ *
+ * ## Accessibility
+ * - Proper ARIA roles and attributes for screen reader interpretation.
+ * - Keyboard navigation: Tab to focus; Tab+Shift to navigate backwards.
+ * - Validation messages announced on blur for eager/lazy validation.
+ * - Visual focus indicators meet WCAG 2.2 AA standards.
+ * - Character count can be announced for accessible feedback.
+ *
+ * @summary Multi-line text input for comments, descriptions, and feedback with validation.
  * @element nys-textarea
  *
- * @slot description - Custom HTML description content below the label.
+ * @slot description - Custom HTML description content below the label. Use for rich formatting or links.
  *
- * @fires nys-input - Fired on input change. Detail: `{id, value}`.
+ * @fires nys-input - Fired when textarea text changes. Detail: `{id, value}`.
  * @fires nys-focus - Fired when textarea gains focus.
  * @fires nys-blur - Fired when textarea loses focus. Triggers validation.
  * @fires nys-select - Fired when user selects text. Detail: `{id, value}`.
  *
- * @example Basic textarea
+ * @example Basic textarea with label
  * ```html
  * <nys-textarea label="Comments" rows="4"></nys-textarea>
  * ```
  *
  * @example Required with description
  * ```html
- * <nys-textarea label="Describe the incident" description="Please provide details" required></nys-textarea>
+ * <nys-textarea label="Describe the incident" description="Please provide details (500 chars max)" required maxlength="500"></nys-textarea>
+ * ```
+ *
+ * @example Read-only textarea
+ * ```html
+ * <nys-textarea label="Summary" value="Read-only text" readonly></nys-textarea>
  * ```
  */
 

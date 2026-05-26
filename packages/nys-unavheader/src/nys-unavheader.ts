@@ -5,24 +5,78 @@ import nysLogo from "./nys-unav.logo";
 import styles from "./nys-unavheader.scss?inline";
 
 /**
- * Universal NYS header with trust bar, logo, search, and language translation. Required on all NYS sites.
+ * Universal NYS header with trust indicator, logo, site search, and 14-language translation. Required on all NYS sites.
+ * Provides consistent identification of legitimate NY.gov sites and enables search/translation across all state digital properties.
  *
- * Place as the first element in `<body>`. Includes "official site" trust indicator, NY.gov logo,
- * site search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`
- * to remove features if not applicable.
+ * Place as the first element in `<body>`, before all other page content. Includes:
+ * - Trust bar with "official site" indicator and details about ny.gov legitimacy and HTTPS security.
+ * - NY.gov logo (links to https://www.ny.gov).
+ * - Site search (default: searches ny.gov via Google Search Appliance; customize with `searchUrl`).
+ * - Language translation dropdown (supports 14 languages; hides via Smartling subdomains or custom URLs).
  *
- * @summary Universal NYS header with trust bar, search, and translation. Required site-wide.
+ * Complies with NYS Information Technology Standard (NYS-S16-001) on universal web navigation.
+ *
+ * ## When to use
+ * - Required on ALL New York State digital products and websites.
+ * - Placed only at the top of the page as the topmost header element.
+ * - Conveys that this is a legitimate ny.gov site.
+ *
+ * ## When not to use
+ * - Do not place anywhere other than the top of the page.
+ * - Do not modify, remove, or customize header links (except search URL and language options).
+ * - Do not duplicate—use exactly once per page.
+ *
+ * ## Features
+ * - **Trust bar** – Expandable panel explaining official site indicators and HTTPS security.
+ * - **Search** – Searches ny.gov by default; customize with `searchUrl` prop (include query param).
+ * - **Translation** – 14-language dropdown (English, Spanish, Chinese, Yiddish, Russian, Bengali, Korean, Haitian, Italian, Arabic, Polish, French, Urdu).
+ * - **Responsive design** – Desktop shows "Translate" button; mobile shows icon. Search adapts to screen size.
+ *
+ * ## Customization options
+ * - `hideSearch` – Removes search if your site has its own search.
+ * - `hideTranslate` – Removes translation if your site uses a different translation service.
+ * - `searchUrl` – Custom search endpoint. Example: `"https://example.com/search?q="` (must include query param).
+ * - `languages` – Override language list (default: 14 languages with Smartling subdomain redirect).
+ *
+ * ## Accessibility
+ * - Semantic `<header>` element ensures assistive technology recognition.
+ * - Trust bar button: `role="button"`, `aria-expanded`, descriptive `aria-label`.
+ * - All links and buttons are keyboard-navigable via Tab.
+ * - Language dropdown announces current language and list on focus.
+ * - Search input announces field purpose and keyboard shortcuts (Enter to submit, Escape to dismiss).
+ * - Visual focus indicators meet WCAG 2.2 AA standards.
+ * - All text has sufficient color contrast (4.5:1 minimum).
+ * - Icons have text labels or `aria-label` attributes.
+ *
+ * ## Events
+ * - `nys-language-select` – Fires when user selects a language. Detail: `{ language }`. Prevent default to suppress navigation.
+ * - `nys-search-submit` – Fires when user submits search. Detail: `{ query }`. Prevent default to suppress navigation.
+ *
+ * @summary Universal NYS header with trust bar, search, and 14-language translation. Required site-wide.
  * @element nys-unavheader
  *
  * @example Standard usage
  * ```html
- * <nys-unavheader></nys-unavheader>
- * <nys-globalheader>...</nys-globalheader>
+ * <body>
+ *   <nys-unavheader></nys-unavheader>
+ *   <nys-globalheader>...</nys-globalheader>
+ *   <main id="main-content">...</main>
+ * </body>
  * ```
  *
- * @example Without search
+ * @example Without search (your site has its own)
  * ```html
  * <nys-unavheader hideSearch></nys-unavheader>
+ * ```
+ *
+ * @example Custom search URL for site-specific search
+ * ```html
+ * <nys-unavheader searchUrl="https://example.com/search?q="></nys-unavheader>
+ * ```
+ *
+ * @example Without translation (using different service)
+ * ```html
+ * <nys-unavheader hideTranslate></nys-unavheader>
  * ```
  */
 

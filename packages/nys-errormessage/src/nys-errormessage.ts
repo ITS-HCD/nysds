@@ -11,6 +11,24 @@ let errorMessageIdCounter = 0;
  * Used internally by form components. Not intended for direct use. Shows error icon and message
  * when `showError` is true. Integrates with ElementInternals for native form validation messages.
  *
+ * ## When to use
+ * This component should not be used alone; it is built into form fields. Use it to convey
+ * clear error messages on form fields when validation fails.
+ *
+ * Avoid for:
+ * - Using the component alone or without a form field
+ * - Adding a divider to bordered form fields (like text inputs and selects)
+ * - Using generalized error messages
+ *
+ * ## Divider option
+ * Add a divider line with `showDivider` to components that are not bordered. Do not show
+ * the divider in bordered form fields (text inputs, selects).
+ *
+ * ## Accessibility
+ * - Uses `role="alert"` with `aria-live="assertive"` for immediate announcement
+ * - `aria-atomic="true"` ensures the entire message is read when it changes
+ * - Integrates with form validation for semantic error handling
+ *
  * @summary Internal error message display with icon and ARIA alert support.
  * @element nys-errormessage
  */

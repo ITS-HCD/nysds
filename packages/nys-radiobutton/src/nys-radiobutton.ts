@@ -8,12 +8,78 @@ import styles from "./nys-radiobutton.scss?inline";
 let radiobuttonIdCounter = 0;
 
 /**
- * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.
+ * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be checked.
  *
- * Use within `nys-radiogroup` for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.
- * For multiple selections, use `nys-checkbox`.
+ * **Must be used within `nys-radiogroup`** to function properly. Use for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.
+ * For multiple selections, use `nys-checkbox` group. A unique ID is auto-generated if not provided.
  *
- * @summary Radio button for single selection from mutually exclusive options.
+ * ## When to use
+ * - When the user needs to select only one option from a list of mutually exclusive choices.
+ * - When there are 2-6 options to choose from (for better usability and visibility).
+ * - Group radio buttons vertically for easier scanning, especially when labels are lengthy.
+ * - Use a clear default selection if applicable (e.g., the most common or recommended choice).
+ * - Provide descriptive and concise labels for each option.
+ * - Group related radio buttons with a heading or contextual instructions to clarify the choice.
+ *
+ * ## When to consider something else
+ * - When users need to select multiple options, use `nys-checkbox` group instead.
+ * - When there are more than 7 options, use `nys-select` (dropdown) for better space utilization.
+ * - Do not use radio buttons for yes/no questions; use a toggle or single checkbox instead.
+ * - Do not overload the user with too many radio button options; simplify or use a dropdown if needed.
+ * - Do not leave all radio buttons unselected if a default selection would help guide users.
+ *
+ * ## Size variants
+ * Radio button sizes are controlled by the `size` prop on the parent `nys-radiogroup`:
+ * - `sm`: 24px in width and height (compact, for dense layouts)
+ * - `md`: 32px in width and height (default, standard size)
+ *
+ * ## Tile variant
+ * The `tile` prop on `nys-radiogroup` changes all radio buttons to a tile style with a larger clickable area.
+ * Useful when you want to make each option more visually distinct and easier to click.
+ * Note: The `tile` prop is applied to the `nys-radiogroup` component, not individual `nys-radiobutton` elements.
+ *
+ * ## Other option
+ * The `other` prop on a `nys-radiobutton` allows users to enter a custom value when none of the listed choices apply.
+ * When selected, a text input appears below the radio button, and the radio's `value` is set to the entered text.
+ * - If no `label` is provided, the default label is "Other".
+ * - You may optionally supply a custom `label` to better match the context (e.g., "Something else", "Other (please specify)").
+ * - Place the "other" option as the **last** `<nys-radiobutton>` within `<nys-radiogroup>`.
+ * - The text input validates on blur; empty text is invalid and emits an `nys-error` event.
+ *
+ * ## Partial editable options
+ * Disable specific radio options while keeping others interactive by setting the `disabled` prop on individual `nys-radiobutton` elements.
+ * Disabled radios cannot be selected but remain visible to the user.
+ *
+ * ## Error handling
+ * Validation and error messages are managed by the parent `nys-radiogroup`. To display an error:
+ * - Pass `showError` to the `nys-radiogroup` component.
+ * - Setting `errorMessage` alone does not display the error; `showError` must be true.
+ *
+ * ## Important rules
+ * - **All `<nys-radiobutton>` elements of the same group must be wrapped in a `<nys-radiogroup>`** component in order to work properly.
+ * - Radio buttons share a `name` attribute within a group, making them mutually exclusive at the HTML level.
+ * - If `checked="true"` is assigned to multiple options in a `radiogroup`, only the **last** option will take the `true` state.
+ * - Each radio button requires a unique `id`; if not provided, a unique ID is auto-generated.
+ *
+ * ## Content guidelines
+ * - Provide clear, concise labels that describe each option.
+ * - Use descriptions for additional context or examples (via the `description` prop or description slot).
+ * - Keep labels short; use descriptions for longer explanations.
+ * - Use the "other" option sparingly; offer specific choices whenever possible.
+ *
+ * ## Accessibility
+ * The `nys-radiobutton` component includes the following accessibility-focused features:
+ * - **ARIA Attributes**: Proper ARIA roles and attributes to ensure screen readers can interpret the radio button correctly:
+ *   - `role="radio"` on the visual radio control
+ *   - `aria-checked` indicates selection state
+ *   - `aria-disabled` indicates disabled state
+ *   - `aria-required` indicates if the group is required
+ *   - `aria-labelledby` links to the label
+ * - **Keyboard Navigation**: Arrow keys to move between radios in a group, Space/Enter to select, Tab to navigate to/from the group.
+ * - **Visual Focus Indicators**: Clear focus state on the selected radio button.
+ * - **Label Association**: Labels are automatically associated with the radio button via the `aria-labelledby` attribute.
+ *
+ * @summary Radio button for single selection from mutually exclusive options within a radiogroup.
  * @element nys-radiobutton
  *
  * @slot description - Custom HTML description content.
@@ -28,6 +94,30 @@ let radiobuttonIdCounter = 0;
  * <nys-radiogroup label="Select borough" required>
  *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
  *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Listen for change events
+ * ```js
+ * const radiobutton = document.querySelector('nys-radiobutton');
+ * radiobutton.addEventListener('nys-change', (event) => {
+ *   const { id, checked, name, value } = event.detail;
+ *   console.log(`Radiobutton (${id}) in group "${name}" is ${value}, checked: ${checked}`);
+ * });
+ * radiobutton.addEventListener('nys-focus', () => {
+ *   console.log('Radiobutton is focused');
+ * });
+ * radiobutton.addEventListener('nys-blur', () => {
+ *   console.log('Radiobutton lost focus');
+ * });
+ * ```
+ *
+ * @example Radio group with "other" option
+ * ```html
+ * <nys-radiogroup label="Select an option">
+ *   <nys-radiobutton name="choice" value="option1" label="Option 1"></nys-radiobutton>
+ *   <nys-radiobutton name="choice" value="option2" label="Option 2"></nys-radiobutton>
+ *   <nys-radiobutton name="choice" other label="Other (please specify)"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
  */

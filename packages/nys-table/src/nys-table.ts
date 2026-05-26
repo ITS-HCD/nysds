@@ -6,17 +6,50 @@ import styles from "./nys-table.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * `<nys-table>` is a responsive table component that can display native HTML tables,
- * supports striped and bordered styling, sortable columns, and CSV download.
+ * A responsive table component for displaying tabular data with optional striped rows, borders, sortable columns, and CSV download.
+ * Accepts a native HTML `<table>` element and automatically normalizes structure. Supports keyboard navigation and screen reader announcement.
+ *
+ * Pass a `<table>` element as a child. The component will normalize its structure if missing `<thead>` or `<tbody>`.
+ * Use `striped` for alternating row colors to improve readability. Use `bordered` to add lines between cells.
+ * Enable `sortable` to allow users to sort columns; add `download` with a CSV file URL to provide export functionality.
+ *
+ * ## When to use
+ * - Displaying tabular data with consistent structure (statistical data, comparisons, lookups).
+ * - Showing directories with similarly structured content (locations, resources, listings).
+ * - When sorting or filtering tabular data improves usability.
+ *
+ * ## When not to use
+ * - Non-tabular data (use other presentation formats like definition lists or hierarchical lists).
+ * - Dashboards or page layouts (don't use tables for layout grids).
+ * - Long-form content within cells (use brief, scannable content only).
+ *
+ * ## Features
+ * - **Striped rows** – Set `striped` to add alternating background colors for better row tracking.
+ * - **Bordered cells** – Set `bordered` to add lines between cells for clarity.
+ * - **Sortable columns** – Set `sortable` to make column headers clickable for ascending/descending/none sort.
+ * - **CSV download** – Set `download` to a CSV file URL to add a download button.
+ * - **Auto-normalization** – Automatically wraps text in `<thead>`/`<tbody>` if missing.
+ *
+ * ## Sort behavior
+ * The `nys-column-sort` event fires when a column is clicked. Call `e.preventDefault()` to prevent default sorting.
+ * Default sort: numeric values sort numerically; text sorts alphabetically.
+ *
+ * ## Accessibility
+ * - Proper `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>` semantic structure.
+ * - Column headers with sort buttons are keyboard-navigable and announced by screen readers.
+ * - Sortable columns announce current sort state (ascending, descending).
+ * - Keyboard navigation: Tab through rows and cells; Enter/Space activates sortable headers.
+ * - Visual focus indicators meet WCAG 2.2 AA standards.
+ *
+ * @summary Responsive table with striping, borders, sortable columns, and CSV download.
+ * @element nys-table
  *
  * @slot - Accepts a `<table>` element. Only the first table is rendered.
  *
- * @fires nys-click - Fired when the download button or sortable headers are clicked.
- * @fires nys-column-sort - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior.
+ * @fires nys-column-sort - Fired when a sortable column header is clicked. Can be prevented with `event.preventDefault()`.
  *   Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
- */
 export class NysTable extends LitElement {
   static styles = unsafeCSS(styles);
 

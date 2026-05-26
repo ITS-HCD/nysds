@@ -7,12 +7,54 @@ import styles from "./nys-pagination.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.
+ * Page navigation control for stepping through paginated content. Displays Previous/Next buttons, numbered page links,
+ * and automatically collapses with ellipses for many pages.
  *
- * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.
- * Hidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.
+ * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` event for page changes.
+ * Automatically hidden when `totalPages` is 1. Responsive: shows compact icon-only buttons on mobile, full labels on desktop.
+ * A unique ID is auto-generated if not provided.
  *
- * @summary Page navigation with numbered links, prev/next buttons, and responsive layout.
+ * ## When to use
+ * - When displaying large data sets or search results that would be overwhelming to display all at once.
+ * - When users need control and orientation to navigate to a specific part of the content (e.g., page 5 of search results).
+ * - When performance and load times matter, since pagination lets you fetch and render smaller chunks of data instead of everything at once.
+ * - For tables, search results, and other paginated lists.
+ * - When you want to allow users to jump to a specific page number.
+ *
+ * ## When to consider something else
+ * - If the collection is shorter than 3-4 screen lengths, display all items at once rather than using pagination.
+ * - When you need to show progress through a series of tasks that must be completed in order (such as an onboarding process), use the `<nys-stepper>` component instead.
+ * - For infinite scroll or continuous load-more patterns, pagination is not the right choice.
+ * - If the displayed collection can fit on less than 3 or 4 pages, consider displaying all items at once.
+ *
+ * ## Navigation structure and behavior
+ * - **Previous Button**: Navigates to the previous page. Disabled on the first page.
+ * - **Page Buttons**: Numbered links for direct page navigation. Current page is highlighted with the `filled` variant.
+ * - **Next Button**: Navigates to the next page. Disabled on the last page.
+ * - **Ellipses (...)**: Collapse long page ranges to keep the UI compact. Shown when there's a gap between page numbers.
+ * - **Responsive Behavior**: On mobile (< 480px), shows Previous and Next buttons only (no page numbers). On desktop, shows full navigation.
+ *
+ * ## Props and behavior
+ * - **`totalPages`**: The total number of pages. Must be at least 1. If set to 1, the component does not render.
+ * - **`currentPage`**: The currently active page number (1-indexed). If a value larger than `totalPages` is passed, it is clamped to the last page.
+ * If a value less than 1 is passed, it is clamped to page 1.
+ * - **`name`**: Optional name attribute for form association.
+ *
+ * ## Compact rendering
+ * The component automatically adjusts rendering based on the number of pages:
+ * - **1 page**: Component is hidden (does not render).
+ * - **2-3 pages**: Shows all page numbers.
+ * - **4+ pages**: Shows first, last, current, and neighboring page numbers; uses ellipses (...) to collapse ranges.
+ *
+ * ## Accessibility
+ * The `nys-pagination` component includes the following accessibility-focused features:
+ * - **Keyboard Navigation**: All pagination buttons are reachable and operable via keyboard (Tab, Enter, Space).
+ * - **Focus Indicators**: Provide a clear, visible focus indicator so users can see the currently focused button.
+ * - **ARIA Labels**: Each page button has an `ariaLabel` indicating the page number and whether it is current (e.g., "Page 5 - Current Page").
+ * - **Button States**: Previous/Next buttons are properly disabled when at page boundaries, preventing invalid navigation.
+ * - **Semantic HTML**: Uses `<nys-button>` components for proper semantics and interaction.
+ *
+ * @summary Page navigation with numbered links, Previous/Next buttons, and responsive mobile-first layout.
  * @element nys-pagination
  *
  * @fires nys-change - Fired when page changes. Detail: `{page}`.
@@ -20,6 +62,15 @@ let componentIdCounter = 0;
  * @example Basic pagination
  * ```html
  * <nys-pagination currentPage="1" totalPages="10"></nys-pagination>
+ * ```
+ *
+ * @example Listen for page changes
+ * ```js
+ * const pagination = document.querySelector("nys-pagination");
+ * pagination.addEventListener("nys-change", (event) => {
+ *   console.log(`Page changed to ${event.detail.page}`);
+ *   // Fetch data for the new page
+ * });
  * ```
  */
 

@@ -18,8 +18,37 @@ interface FileWithProgress {
 /**
  * A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.
  * Validates file types via magic bytes (not just extension). Form-associated via ElementInternals.
+ * Auto-generates an id if not provided.
  *
  * Use for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.
+ *
+ * ## When to use
+ * - When you need to upload a file as part of a form
+ * - When you want to support drag-and-drop file uploads
+ * - When a file is required in a form
+ * - When multiple file selection is needed
+ *
+ * Avoid for:
+ * - Uploading large files requiring resumable upload logic
+ * - Selecting only from camera input or other device-native features
+ * - Uploading sensitive data without encryption
+ * - When you want to let users preview file content
+ *
+ * ## File acceptance and validation
+ * The `accept` attribute sets allowed file types using MIME types or file extensions (e.g., image/png, .pdf).
+ * The component relies on the file extension or MIME type provided by the browser to determine acceptability.
+ * Files that don't match allowed types still appear in the list with an error message but are excluded from form submission.
+ * File type validation uses magic bytes for robust detection, not just extension matching.
+ *
+ * ## Width and layout
+ * Available widths: `full` (100%, default) or `lg` (384px).
+ * Use `inverted` when the component is on a dark background.
+ *
+ * ## Accessibility
+ * - Uses `ElementInternals` for form association and validation
+ * - Implements ARIA attributes for required and invalid states
+ * - Keyboard-accessible via standard tab/focus patterns
+ * - Drag-and-drop is keyboard-accessible through button interaction
  *
  * @summary File input with drag-and-drop, validation, and progress tracking.
  * @element nys-fileinput
@@ -36,6 +65,18 @@ interface FileWithProgress {
  * @example Multiple files with dropzone
  * ```html
  * <nys-fileinput label="Upload images" accept="image/*" multiple dropzone></nys-fileinput>
+ * ```
+ *
+ * @example Listening for file changes
+ * ```js
+ * const fileinput = document.querySelector("nys-fileinput");
+ * fileinput.addEventListener("nys-change", (event) => {
+ *   const { id, files } = event.detail;
+ *   console.log(`Fileinput (${id}) changed:`);
+ *   files.forEach(({ file, progress, status, errorMsg }) => {
+ *     console.log(`- ${file.name} (${status}, ${progress}%)`, errorMsg || "");
+ *   });
+ * });
  * ```
  */
 

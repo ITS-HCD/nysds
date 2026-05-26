@@ -10,7 +10,31 @@ let badgeIdCounter = 0;
  *
  * Use badges to highlight metadata like status ("Approved"), counts ("3 new"), or categories.
  * Set `intent` to apply semantic meaning. Add `prefixIcon` or `suffixIcon` as boolean for default icons,
- * or pass icon name strings for custom icons.
+ * or pass icon name strings for custom icons. If an id is not passed, a unique id will be generated.
+ *
+ * ## When to use
+ *
+ * - To display a small piece of information that is related to another element
+ * - To draw attention to new, important content
+ * - To indicate the status of an item, such as "new", "updated", or "beta"
+ * - To provide additional context or information about an item without cluttering the interface
+ *
+ * Do not use when the information is too complex to be conveyed in a small badge, when the badge would not add
+ * significant value to the user experience, when the badge would clutter the interface or distract from more important
+ * content, or as a link to another page or action (badges are not interactive elements).
+ *
+ * ## Variants
+ *
+ * Badge can include icons as either a prefix or suffix. The icons can be specified using the `prefixIcon` or `suffixIcon`
+ * attributes. Pass in the attribute as a boolean to use the default icon, or pass in a string to use a specific icon.
+ * Icons do not appear by default and must be explicitly specified.
+ *
+ * Badge is available in two sizes: medium (`md`, default) and small (`sm`). Do not mix sizes within a group of badges.
+ *
+ * Badge can include a prefix label, which is a short text that appears before the main label, specified using the
+ * `prefixLabel` attribute.
+ *
+ * Intent options: `neutral`, `error`, `success`, or `warning`. The default intent is `neutral`.
  *
  * @summary Compact label for status, counts, or categorization with semantic styling.
  * @element nys-badge

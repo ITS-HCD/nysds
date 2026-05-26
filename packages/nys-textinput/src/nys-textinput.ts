@@ -7,20 +7,56 @@ import styles from "./nys-textinput.scss?inline";
 let textinputIdCounter = 0;
 
 /**
- * A text input for collecting short, single-line data. Supports validation, input masking (tel),
- * password visibility toggle, and live error messaging. Form-associated via ElementInternals.
+ * A single-line text input for collecting short user-specific data. Supports input types (email, password, tel, number, url, search),
+ * validation, phone number auto-masking, password visibility toggle, and live error messaging. Form-associated via ElementInternals.
  *
- * Use for names, emails, passwords, phone numbers. For multi-line input, use `nys-textarea` instead.
- * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`.
+ * Use for names, emails, passwords, phone numbers, URLs, numeric values. For multi-line input, use `nys-textarea` instead.
+ * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`. Never use for data selection tasks.
  *
- * @summary Text input for short single-line data with validation and masking support.
+ * ## When to use
+ * - Collecting short, single-line text input from users (names, email addresses, short descriptions).
+ * - Open-ended, user-specific input.
+ * - For structured data with specific input types (phone, email, number, password).
+ *
+ * ## When not to use
+ * - Multi-line input (use `nys-textarea` instead).
+ * - Selection from predefined options (use `nys-select`, `nys-radiobutton`, or `nys-checkbox`).
+ * - Data that requires multiple lines.
+ *
+ * ## Input types
+ * Supported types: `text` (default), `email`, `number`, `password`, `search`, `tel` (auto-masked), `url`.
+ * Invalid types default to `text`. Password fields show a visibility toggle button.
+ * Telephone fields auto-apply formatting: `(123) 456-7890`.
+ *
+ * ## Features
+ * - **Input masking** – `type="tel"` auto-formats to `(___) ___-____` pattern.
+ * - **Password toggle** – `type="password"` shows visibility toggle button.
+ * - **Width options** – `width="sm"`, `"md"`, `"lg"`, or `"full"` (default).
+ * - **Button slots** – Add buttons at input start/end with `slot="startButton"` or `slot="endButton"`.
+ * - **Validation** – Pattern matching, min/max for numbers, required/optional flags.
+ * - **Error messaging** – Shows error state and custom message when validation fails.
+ * - **Description** – Optional helper text below label; use slot for custom HTML.
+ *
+ * ## Button slot constraints
+ * Slots accept a single `<nys-button>` element only. Input disabled state propagates to slotted buttons.
+ * Use `width="lg"` or `width="full"` to provide enough space when buttons are present.
+ *
+ * ## Accessibility
+ * - Proper ARIA roles and attributes for screen reader interpretation.
+ * - Keyboard navigation: Tab to focus; Shift+Tab to navigate backwards.
+ * - Password toggle button is keyboard-accessible.
+ * - Validation messages announced on blur for eager/lazy validation.
+ * - Visual focus indicators meet WCAG 2.2 AA standards.
+ * - Clear and concise labels required for all inputs.
+ *
+ * @summary Single-line text input with type variants, masking, validation, and button slots.
  * @element nys-textinput
  *
- * @slot description - Custom HTML description content below the label.
- * @slot startButton - Button at input start. Use single `nys-button` only.
- * @slot endButton - Button at input end. Use single `nys-button` only.
+ * @slot description - Custom HTML description content below the label. Use for rich formatting or links.
+ * @slot startButton - Single `<nys-button>` to appear at input start (left). Will be sized to `sm`.
+ * @slot endButton - Single `<nys-button>` to appear at input end (right). Will be sized to `sm`.
  *
- * @fires nys-input - Fired on input change. Detail: `{id, value}`.
+ * @fires nys-input - Fired when input text changes. Detail: `{id, value}`.
  * @fires nys-focus - Fired when input gains focus.
  * @fires nys-blur - Fired when input loses focus. Triggers validation.
  *
@@ -29,19 +65,19 @@ let textinputIdCounter = 0;
  * <nys-textinput label="Full Name" required></nys-textinput>
  * ```
  *
- * @example Required Email
+ * @example Email input with validation
  * ```html
  * <nys-textinput type="email" label="Email Address" required></nys-textinput>
  * ```
  *
- * @example Phone with masking
+ * @example Phone number with auto-masking
  * ```html
- * <nys-textinput type="tel" label="Phone Number"></nys-textinput>
+ * <nys-textinput type="tel" label="Phone Number" description="Format: (123) 456-7890"></nys-textinput>
  * ```
  *
  * @example Search with button
  * ```html
- * <nys-textinput type="search" placeholder="Search">
+ * <nys-textinput type="search" label="Search" width="lg">
  *   <nys-button slot="endButton" label="Search" prefixIcon="search"></nys-button>
  * </nys-textinput>
  * ```

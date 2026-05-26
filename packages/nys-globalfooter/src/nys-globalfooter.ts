@@ -8,6 +8,32 @@ import styles from "./nys-globalfooter.scss?inline";
  *
  * Place above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements
  * to create multi-column layouts; without `<h4>`, renders as compact single section.
+ * All slotted content is auto-sanitized to remove dangerous elements (script, iframe, object, embed, img).
+ *
+ * ## When to use
+ * - Use `nys-globalfooter` to provide consistent access to essential links (contact details, privacy,
+ *   terms of use) across all pages
+ * - Ideal for displaying organizational information and secondary navigation
+ *
+ * Avoid for:
+ * - Don't use the global footer for primary navigation or highly interactive features
+ * - Avoid adding content that is not relevant or essential for all pages
+ *
+ * ## Content structure
+ * For a simple footer without columns, slot plain content (text, links).
+ * For multi-column layout, use `<h4>` headings to define column groups. Each `<h4>` signals
+ * a new column. Content between headings becomes that column's content.
+ *
+ * Place a `<ul>` with `<li><a>` elements inside the footer for link lists.
+ * Minimize the number of links to keep users focused and avoid distractions.
+ *
+ * ## Agency name linking
+ * Use the `homepageLink` prop to make the `agencyName` clickable and link to your homepage.
+ *
+ * ## Accessibility
+ * - Proper use of `<footer>` and `<a>` elements ensures compatibility with assistive technologies
+ * - Keyboard navigation: Users can tab through all links in the footer
+ * - All slotted content is validated and sanitized before rendering
  *
  * @summary Agency footer with auto-layout for contact info and link sections.
  * @element nys-globalfooter
@@ -19,6 +45,39 @@ import styles from "./nys-globalfooter.scss?inline";
  * <nys-globalfooter agencyName="Department of Health" homepageLink="/">
  *   <span>123 Main St, Albany NY</span>
  *   <span>info@health.ny.gov</span>
+ * </nys-globalfooter>
+ * ```
+ *
+ * @example With menu links
+ * ```html
+ * <nys-globalfooter agencyName="Department of Health" homepageLink="/">
+ *   <ul>
+ *     <li><a href="/about">About Us</a></li>
+ *     <li><a href="/contact">Contact</a></li>
+ *     <li><a href="/privacy">Privacy Policy</a></li>
+ *   </ul>
+ * </nys-globalfooter>
+ * ```
+ *
+ * @example With column links
+ * ```html
+ * <nys-globalfooter agencyName="Department of Health" homepageLink="/">
+ *   <ul>
+ *     <li>
+ *       <span>Services</span>
+ *       <ul>
+ *         <li><a href="/licenses">Licenses</a></li>
+ *         <li><a href="/permits">Permits</a></li>
+ *       </ul>
+ *     </li>
+ *     <li>
+ *       <span>Resources</span>
+ *       <ul>
+ *         <li><a href="/guides">Guides</a></li>
+ *         <li><a href="/faq">FAQ</a></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
  * </nys-globalfooter>
  * ```
  */

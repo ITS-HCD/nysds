@@ -10,7 +10,38 @@ let accordionIdCounter = 0;
  * A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.
  *
  * Place `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.
- * The `bordered` style propagates to all children automatically.
+ * The `bordered` style propagates to all children automatically. If an id is not passed, a unique id will be generated.
+ *
+ * ## When to use
+ *
+ * Use an accordion to organize related information into expandable sections, reducing the need for users to scroll through long content.
+ * Ideal for supplemental details like optional steps, extra instructions, or secondary eligibility notes—similar to FAQs.
+ * Helpful in mobile layouts to keep pages compact while still allowing access to full details.
+ *
+ * Do not hide essential, universal information such as critical deadlines, main eligibility criteria, or urgent alerts inside collapsed panels.
+ * Keep these visible by default. If users need to compare details from multiple sections at once, consider using a table or side-by-side layout instead.
+ *
+ * ## Accessibility
+ *
+ * The `nys-accordionitem` component includes the following accessibility-focused features:
+ * - Keyboard navigation (e.g. Tab to move between headers, Enter or Space to toggle)
+ * - Headers are large enough to interact with easily (minimum 44x44px)
+ *
+ * ## Events
+ *
+ * The `nys-accordionitem` component emits the `nys-accordionitem-toggle` event when the accordion is clicked.
+ * The event's `detail` object includes:
+ * - id (string): The id of the accordion
+ * - heading (string): The accordion's heading text
+ * - expanded (boolean): true if the accordion is expanded, otherwise false
+ *
+ * ```js
+ * const accordion = document.querySelector("nys-accordionitem");
+ * accordion.addEventListener("nys-accordionitem-toggle", (event) => {
+ *   console.log("Accordion toggled");
+ *   console.log("Accordion details:", event.detail);
+ * });
+ * ```
  *
  * @summary Container for accordion items with optional single-select and bordered styling.
  * @element nys-accordion

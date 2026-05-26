@@ -6,24 +6,66 @@ import styles from "./nys-tooltip.scss?inline";
 let tooltipIdCounter = 0;
 
 /**
- * Shows contextual help text on hover/focus. Auto-positions to stay within viewport and supports keyboard dismiss.
+ * Provides short, supplemental contextual help text linked to interactive elements. Auto-positions to stay within viewport.
+ * Shows on hover or focus; dismisses on blur, mouse leave, or Escape key. Use for hints, not critical information.
  *
- * Link to a trigger element via `for` attribute matching the trigger's `id`. Tooltip appears on hover or focus
- * and dismisses on blur, mouse leave, or Escape key. Use for supplementary info only—not critical content.
+ * Link to a trigger element via `for` attribute matching the trigger's `id`. Tooltip content appears near the trigger
+ * on hover (mouse) or focus (keyboard). Supports NYSDS components and standard elements. Auto-positions to prevent overflow;
+ * respects manual position preference when space allows.
  *
- * @summary Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
+ * ## When to use
+ * - Providing supplementary help for unlabeled icons.
+ * - Brief, non-critical contextual information.
+ * - Hints for form fields (appears as icon next to label).
+ * - Tool tips for complex UI elements that benefit from additional context.
+ *
+ * ## When not to use
+ * - Information critical to task completion (use inline text instead).
+ * - Interactive elements like links or buttons (keep tooltips passive).
+ * - Long or detailed content (use modals, sidebars, or expanded sections).
+ * - When space permits more explanation inline.
+ *
+ * ## Supported trigger components
+ * - `nys-button`, `nys-icon` – Tooltip shows near element.
+ * - Form components (`nys-textinput`, `nys-textarea`, `nys-select`, etc.) – Tooltip appears as hint icon next to label.
+ *
+ * ## Positioning
+ * Set `position` to `top`, `bottom`, `left`, or `right` to prefer a direction. If that direction lacks space,
+ * tooltip auto-adjusts to another direction. For form components, positioning is automatic (top/bottom).
+ *
+ * ## Keyboard support
+ * - Hover (mouse) or focus (keyboard) shows tooltip.
+ * - Escape key dismisses tooltip.
+ * - Blur or mouse leave dismisses tooltip with fade-out animation.
+ * - Screen reader announces tooltip content via `role="tooltip"` and `aria-hidden` states.
+ *
+ * ## Accessibility
+ * - Linked to trigger element via `for` attribute (must match trigger's `id`).
+ * - `role="tooltip"` with dynamic `aria-hidden` based on visibility.
+ * - Keyboard accessible: Tab to trigger, Enter/Space shows tooltip, Escape dismisses.
+ * - Screen readers announce tooltip text when visible.
+ * - Visual focus indicators on trigger elements meet WCAG 2.2 AA standards.
+ * - Auto-positioning respects viewport bounds to prevent content loss.
+ *
+ * @summary Contextual tooltip with auto-positioning, keyboard support, and assistive technology integration.
  * @element nys-tooltip
  *
  * @example Tooltip for button
  * ```html
  * <nys-button id="help-btn" label="Help" circle icon="help"></nys-button>
- * <nys-tooltip for="help-btn" text="Click for assistance"></nys-tooltip>
+ * <nys-tooltip for="help-btn" text="Click for more assistance"></nys-tooltip>
  * ```
  *
- * @example Positioned tooltip
+ * @example Positioned tooltip for icon
  * ```html
  * <nys-icon id="info-icon" name="info"></nys-icon>
- * <nys-tooltip for="info-icon" text="Additional details" position="right"></nys-tooltip>
+ * <nys-tooltip for="info-icon" text="This field requires a valid email address" position="right"></nys-tooltip>
+ * ```
+ *
+ * @example Hint for form input
+ * ```html
+ * <nys-textinput id="email-input" label="Email" type="email"></nys-textinput>
+ * <nys-tooltip for="email-input" text="example@domain.com"></nys-tooltip>
  * ```
  */
 

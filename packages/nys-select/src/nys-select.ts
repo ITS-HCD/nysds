@@ -9,12 +9,75 @@ let selectIdCounter = 0;
 
 /**
  * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
- * Form-associated with validation via ElementInternals.
+ * Form-associated with validation via ElementInternals. A unique ID is auto-generated if not provided.
  *
  * Use when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.
- * For multiple selections, use `nys-checkbox` group instead.
+ * For multiple selections, use `nys-checkbox` group instead. Keyboard accessible with Tab, Space/Enter, and arrow keys.
  *
- * @summary Dropdown select for choosing one option from a list.
+ * ## When to use
+ * - When you need to collect data from a dropdown menu.
+ * - When you need to provide a list of options for users to select a single option from.
+ * - When there are more than 7 options (consider radio buttons for fewer options to keep all choices visible).
+ * - For form fields that require single-select from a predefined list.
+ * - Use the native `<option>` element to define options in the dropdown.
+ * - Use the native `<optgroup>` element to group related options in the dropdown.
+ *
+ * ## When to consider something else
+ * - When users need to select multiple items from a list, use a `nys-checkbox` group instead.
+ * - For fewer than 7 options where visibility matters, use `nys-radiobutton` with `nys-radiogroup`.
+ * - Do not use the custom `<nys-option>` element; it is deprecated and will be removed in version 2.0.
+ * - Do not use `<nys-select multiple>` for multi-select functionality; use a checkbox group instead.
+ * - If you need a searchable/filterable dropdown, that functionality is not currently supported.
+ *
+ * ## Width variants
+ * Control the select's width with the `width` prop:
+ * - `sm` (Small): 88px, ideal for compact layouts or narrow sidebars
+ * - `md` (Medium): 200px, ideal for balanced form designs
+ * - `lg` (Large): 384px, suitable for displaying longer option labels
+ * - `full` (Full Width): default size, expands to fill the available space
+ *
+ * ## Options and default values
+ * - Use the native `<option>` element for each choice. Add the `selected` attribute to one option to set it as the default.
+ * - Organize many options with `<optgroup>` elements to create labeled groups (e.g., "Transportation", "Health Services").
+ * - Avoid empty options; if you need a placeholder, use an option with empty value (e.g., `<option value="">-- Select an option --</option>`).
+ *
+ * ## Error handling and validation
+ * To display an error message:
+ * - Set the `showError` prop to `true` on the select component.
+ * - Set the `errorMessage` prop with your error text.
+ * - Setting `errorMessage` alone does not display the error; both `showError` and `errorMessage` are required.
+ * - The component validates on blur when `required` is true.
+ *
+ * ## Dark mode and inverted styling
+ * Set the `inverted` prop to `true` when the select is on a dark background to adjust colors for better contrast.
+ *
+ * ## Description and helper text
+ * Provide additional context or instructions via the `description` prop for plain text.
+ * For more complex descriptions with HTML (links, formatting, etc.), use the description slot with `slot="description"`.
+ *
+ * ## Form association
+ * The select is form-associated via ElementInternals:
+ * - Set the `name` prop to associate with form submission.
+ * - Set the `form` prop to associate with a form by ID (useful when the select is outside the form element).
+ * - The `value` property holds the currently selected option's value.
+ *
+ * ## Content guidelines
+ * - Provide clear, concise option labels that accurately describe each choice.
+ * - Use option groups to organize many options into logical, easily-scannable categories.
+ * - Avoid overly long labels; truncate or use descriptions if needed.
+ * - Supply a helpful description below the label to clarify the purpose of the select.
+ * - Use placeholders sparingly; a meaningful default selection is often better.
+ *
+ * ## Accessibility
+ * The `nys-select` component includes the following accessibility-focused features:
+ * - **Label Association**: Label text is automatically associated with the select via `aria-labelledby`.
+ * - **ARIA Attributes**: Proper roles and attributes ensure screen readers can interpret the select correctly.
+ * - **Keyboard Navigation**: Users can tab to the select, use Space/Enter to open the dropdown, and arrow keys to navigate options.
+ * - **Visual Focus Indicators**: Clear focus state on the select and within the dropdown.
+ * - **Required/Optional Indicators**: Visual flags ("Required" or "Optional") and ARIA attributes clearly indicate the field's status.
+ * - **Error Announcement**: Error messages are properly associated with the select for screen reader users.
+ *
+ * @summary Dropdown select for choosing one option from a list with native options/optgroups.
  * @element nys-select
  *
  * @slot - Default slot for `<option>` and `<optgroup>` elements.
@@ -40,6 +103,35 @@ let selectIdCounter = 0;
  *     <option value="mta">MTA</option>
  *     <option value="dmv">DMV</option>
  *   </optgroup>
+ * </nys-select>
+ * ```
+ *
+ * @example Listen for change events
+ * ```js
+ * const select = document.querySelector('nys-select');
+ * select.addEventListener('nys-change', (event) => {
+ *   const { id, value } = event.detail;
+ *   console.log(`Select (${id}) changed to: ${value}`);
+ * });
+ * select.addEventListener('nys-focus', () => {
+ *   console.log('Select is focused');
+ * });
+ * select.addEventListener('nys-blur', () => {
+ *   console.log('Select lost focus');
+ * });
+ * ```
+ *
+ * @example With validation and error message
+ * ```html
+ * <nys-select
+ *   label="Select an option"
+ *   required
+ *   showError
+ *   errorMessage="This field is required"
+ * >
+ *   <option value="">-- Select --</option>
+ *   <option value="option1">Option 1</option>
+ *   <option value="option2">Option 2</option>
  * </nys-select>
  * ```
  */

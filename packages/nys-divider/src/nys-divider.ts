@@ -8,7 +8,16 @@ let dividerIdCounter = 0;
 /**
  * A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.
  *
- * Use to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.
+ * ## When to use
+ * - To separate content displayed vertically
+ * - Use `inverted` property when placing the component on a dark background
+ *
+ * Avoid for:
+ * - When content is horizontally formatted
+ *
+ * ## Accessibility
+ * - Uses native `<hr>` element to ensure ARIA compliance
+ * - Recognized as a separator by assistive technologies
  *
  * @summary Horizontal divider for visual separation of content sections.
  * @element nys-divider
@@ -18,6 +27,15 @@ let dividerIdCounter = 0;
  * <p>Section one content</p>
  * <nys-divider></nys-divider>
  * <p>Section two content</p>
+ * ```
+ *
+ * @example Inverted on dark background
+ * ```html
+ * <div style="background-color: var(--nys-color-navy);">
+ *   <p>Dark content area</p>
+ *   <nys-divider inverted></nys-divider>
+ *   <p>More dark content</p>
+ * </div>
  * ```
  */
 

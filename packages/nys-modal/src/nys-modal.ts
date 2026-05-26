@@ -6,12 +6,69 @@ import styles from "./nys-modal.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.
+ * An accessible modal dialog with focus trapping, keyboard navigation, scroll management, and optional dismiss button.
  *
- * Set `open` to show the modal. Content goes in the default slot; action buttons in the `actions` slot.
- * Dismisses via close button or Escape key unless `mandatory` is set. Focus returns to trigger on close.
+ * Set `open` to show the modal. Content goes in the default slot; action buttons (e.g., `nys-button`) in the `actions` slot.
+ * Dismisses via close button (top right, unless `mandatory` is set) or Escape key (unless `mandatory` is set).
+ * Focus returns to the triggering element when the modal closes. Background page scrolling is blocked while the modal is open.
  *
- * @summary Accessible modal dialog with focus trap, keyboard support, and action slots.
+ * ## When to use
+ * - Confirmations that require user acknowledgment (e.g., "Are you sure you want to delete this?")
+ * - Inline forms (e.g., login, signup, feedback forms) that don't warrant a full page
+ * - Alerts and notifications that need explicit user acknowledgment before continuing
+ * - Displaying additional information or clarification without leaving the current page
+ * - Critical decisions where the user must make an explicit choice before proceeding
+ *
+ * ## When to consider something else
+ * - Content-heavy modals (> 1 screen of scrollable content) should generally be avoided; use a dedicated page or `nys-stepper` instead.
+ * - For inline status messages (success, info, warning), use a `nys-alert` or banner placed on the page.
+ * - Quick hints for form-related components (e.g., text inputs) use a `nys-tooltip`.
+ * - Do not stack multiple modals; only one modal should be open at a time.
+ *
+ * ## Width variants
+ * Control modal width with the `width` prop:
+ * - `sm` (Small): 400px, for simple confirmations or short forms
+ * - `md` (Medium): 600px, default, suitable for most modals
+ * - `lg` (Large): 800px, for more complex content or wider forms
+ *
+ * ## Content structure
+ * A modal has three main sections:
+ * - **Header**: `heading` (required, displayed as `<h2>`) and optional `subheading` below it
+ * - **Body**: Default slot for main content (text, paragraphs, forms, etc.)
+ * - **Footer**: `actions` slot for action buttons
+ *
+ * By convention, place the secondary/cancel button first in the actions slot, followed by the primary/confirm button.
+ *
+ * ## Content guidelines
+ * - Use clear, concise headings (required for accessibility).
+ * - Keep modals short and focused; avoid overwhelming the user with too much content.
+ * - Use the `mandatory` prop to disable the dismiss button when the user must make a critical decision or acknowledge essential information.
+ * - Keep the `subheading` brief and use `<p>` tags within the modal body for longer information.
+ * - Avoid overloading with long forms or dense text.
+ * - Avoid showing trivial information in a modal.
+ * - Avoid forcing a `mandatory` modal unnecessarily; only use when the action is truly critical.
+ *
+ * ## Mandatory action modals
+ * Set `mandatory="true"` to disable the dismiss button (close icon in header) and prevent closing via Escape key.
+ * Users must take an action (click a button) to close the modal. Use sparingly for critical confirmations only.
+ * You must provide action buttons in the `actions` slot when `mandatory` is true.
+ *
+ * ## Scrolling behavior
+ * The modal grows with content. When content exceeds the available height:
+ * - Header and footer remain fixed
+ * - Only the body section scrolls
+ * - Page scrolling is blocked while the modal is open to keep focus within the modal
+ *
+ * ## Accessibility
+ * The `nys-modal` component includes the following accessibility-focused features:
+ * - **Focus Trapping:** Trap focus inside the modal so keyboard users cannot tab to background content.
+ * - **Focus Restoration:** Return focus to the triggering element when the modal closes.
+ * - **Keyboard Navigation:** Support Escape key to close (unless `mandatory` is set). Tab and Shift+Tab navigate within the modal.
+ * - **ARIA Dialog Role:** Announce the modal to screen readers using `role="dialog"` and `aria-modal="true"`.
+ * - **ARIA Labeling:** `aria-labelledby` links to the heading; `aria-describedby` links to subheading and body content.
+ * - **Background Scroll Prevention:** Prevent background scroll so users don't lose context when the modal is open.
+ *
+ * @summary Accessible modal dialog with focus trap, keyboard support, scroll lock, and mandatory action mode.
  * @element nys-modal
  *
  * @slot - Default slot for body content.
@@ -27,6 +84,28 @@ let componentIdCounter = 0;
  *   <div slot="actions">
  *     <nys-button label="Cancel" variant="outline"></nys-button>
  *     <nys-button label="Confirm" variant="filled"></nys-button>
+ *   </div>
+ * </nys-modal>
+ * ```
+ *
+ * @example Listen for open/close events
+ * ```js
+ * const modal = document.querySelector("nys-modal");
+ * modal.addEventListener("nys-open", (event) => {
+ *   console.log(`Modal ${event.detail.id} opened`);
+ * });
+ * modal.addEventListener("nys-close", (event) => {
+ *   console.log(`Modal ${event.detail.id} closed`);
+ * });
+ * ```
+ *
+ * @example Mandatory action (no dismiss button)
+ * ```html
+ * <nys-modal heading="Important decision" mandatory open>
+ *   <p>You must make a choice before continuing.</p>
+ *   <div slot="actions">
+ *     <nys-button label="Decline" variant="outline"></nys-button>
+ *     <nys-button label="Accept" variant="filled"></nys-button>
  *   </div>
  * </nys-modal>
  * ```

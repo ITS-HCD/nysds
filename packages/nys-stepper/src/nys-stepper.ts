@@ -7,46 +7,50 @@ import styles from "./nys-stepper.scss?inline";
 let stepperIdCounter = 0;
 
 /**
- * A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.
+ * A multi-step progress indicator for linear forms or wizards. Manages `nys-step` children with progress tracking and navigation.
+ * Displays step progress with the ability to navigate forward and backward through completed steps.
  *
- * Add `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary; all steps
- * before it become navigable. Compact view on mobile expands to show all steps. Use the `actions` slot for
- * persistent navigation buttons (e.g., Save & Exit). Do not place the stepper inside a `<form>` element —
- * put form fields in the main content area alongside it.
+ * Add `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary (furthest reached);
+ * all steps before it become navigable. Mark one step as `selected` to indicate which step's content is displayed.
+ * Use the `actions` slot for persistent buttons (e.g., Save & Exit, Continue, Back).
  *
  * ## When to use
- * - Linear, ordered forms or wizards with more than 2 sections.
+ * - Linear, ordered forms or application wizards with more than 2 sections.
+ * - Multi-screen processes where users progress through defined steps (e.g., application, checkout).
+ * - Tracking user progress through a complex form.
  *
  * ## When not to use
  * - Forms with only 1 or 2 sections — use a simpler layout.
  * - Non-linear forms where sections can be completed in any order.
+ * - For simple decision trees or branching flows.
  *
- * ## Compact mode (mobile)
- * On small screens the stepper collapses to a compact view: step labels are hidden and progress
- * is shown as a bar indicator with a "Step x of y" counter. Clicking or pressing Enter/Space on
- * the counter expands the full step list (counter text changes to "Back to Form"). Collapsing
- * again returns the user to the form view.
+ * ## Step attributes (applied by parent stepper)
+ * - `current` – Marks the progress boundary. All steps before this are navigable. Auto-applied to first step if not set.
+ * - `selected` – Marks which step's content is displayed. Defaults to `current` if not set.
+ * - `previous` – Auto-applied to all steps before `current`. Do not set manually.
+ *
+ * ## Compact mobile mode
+ * On small screens, the stepper collapses to compact view: step labels hidden, progress shown as a bar with "Step x of y" counter.
+ * Click or press Enter/Space on the counter to expand the full step list. Counter text changes to "Back to Form" when expanded.
  *
  * ## actions slot constraints
- * The `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only
- * contain `<nys-button>` elements — any other element is removed with a console warning.
- * The stepper automatically forces `size="sm"` on every button in the slot. Buttons with the
- * `fullWidth` attribute get `flex: 1 1 0` injected so they share available width equally.
+ * The `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only contain `<nys-button>` elements.
+ * The stepper automatically forces `size="sm"` on every button in the slot. Buttons with the `fullWidth` attribute get `flex: 1 1 0`.
  *
- * ## Multiple `current` conflict
- * If more than one `nys-step` has the `current` attribute, only the first one is kept; the rest
- * are silently removed. Always mark exactly one step as `current`.
+ * ## Events
+ * The `nys-step-click` event fires from `nys-step` (not `nys-stepper`) but bubbles. Call `e.preventDefault()` to suppress
+ * default href navigation in SPA implementations.
  *
- * ## id auto-generation
- * If no `id` is provided, a unique id is generated automatically in the form
- * `nys-stepper-{n}-{timestamp}`.
+ * ## Layout guidance
+ * Do NOT place inside a `<form>` element. Place form fields in the main content area alongside the stepper.
+ * Use NYSDS grid utilities (e.g., `nys-grid-col-3` for stepper, `nys-grid-col-9` for content) for responsive layout.
  *
  * ## Accessibility
- * - The compact counter is rendered as a `role="button"` with `aria-expanded` and a descriptive
- *   `aria-label` that announces the current step (e.g., "Expand step navigation. You are on Step 2 of 4").
- * - Keyboard: Enter or Space toggles the compact view.
- * - Each `nys-step` label is keyboard-focusable and activatable for navigable steps.
- * - Visual focus indicators are provided on all interactive elements.
+ * - Compact counter is a `role="button"` with `aria-expanded` and descriptive `aria-label` (e.g., "Expand navigation. Step 2 of 4").
+ * - Keyboard: Enter/Space toggles compact view; Arrow keys navigate steps when focused.
+ * - Each step label is keyboard-focusable and activatable for navigable steps.
+ * - Visual focus indicators meet WCAG 2.2 AA.
+ * - Proper ARIA roles and attributes ensure screen readers announce progress correctly.
  *
  * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
  * @element nys-stepper

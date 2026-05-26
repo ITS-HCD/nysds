@@ -7,15 +7,41 @@ import styles from "./nys-toggle.scss?inline";
 let toggleIdCounter = 0;
 
 /**
- * A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.
+ * A toggle switch for binary on/off settings with immediate UI effect. Form-associated via ElementInternals.
+ * Ideal for feature toggles, user preferences, and settings that take effect immediately.
  *
- * Use when changing a setting takes effect immediately (e.g., dark mode, notifications).
- * For binary choices in forms that submit later, use `nys-checkbox` instead.
+ * Use for settings where the change takes immediate effect (e.g., dark mode, notifications, feature toggles).
+ * For binary choices in forms that submit later, use `nys-checkbox` instead. Never use toggles for complex multi-state options.
  *
- * @summary Toggle switch for binary settings with immediate effect.
+ * ## When to use
+ * - Settings with immediate effect (dark mode, notifications, features).
+ * - User preferences and feature toggles.
+ * - When the on/off state is visually distinct and immediately apparent.
+ *
+ * ## When not to use
+ * - Complex multi-state options (use other form controls).
+ * - Binary form choices submitted with form data (use `nys-checkbox` instead).
+ * - Trivial settings that don't impact user experience significantly.
+ *
+ * ## Features
+ * - **Visual state** – Clear on/off positions with check/close icons (removable with `noIcon`).
+ * - **Sizes** – `sm` or `md` (default).
+ * - **Label and description** – Optional label for accessibility; optional description below.
+ * - **Icons** – Check icon when on, close icon when off (can be hidden with `noIcon`).
+ * - **Form association** – Associates with form via `form` attribute if outside form element.
+ *
+ * ## Accessibility
+ * - Proper ARIA roles and attributes: `role="switch"` with `aria-checked`.
+ * - Keyboard navigation: Tab to focus; Space or Enter to toggle.
+ * - Screen readers announce toggle state (on/off) and label correctly.
+ * - Visual focus indicators meet WCAG 2.2 AA standards.
+ * - Disabled state prevents interaction and is announced by assistive technologies.
+ * - Label must be provided for all toggles (visible or via `aria-label`).
+ *
+ * @summary Toggle switch for binary on/off settings with immediate effect and keyboard support.
  * @element nys-toggle
  *
- * @slot description - Custom HTML description content.
+ * @slot description - Custom HTML description content below the label. Use for rich formatting or links.
  *
  * @fires nys-change - Fired when toggle state changes. Detail: `{id, checked}`.
  * @fires nys-focus - Fired when toggle gains focus.
@@ -26,9 +52,14 @@ let toggleIdCounter = 0;
  * <nys-toggle label="Enable notifications" name="notifications"></nys-toggle>
  * ```
  *
- * @example Dark mode toggle
+ * @example Dark mode toggle with description
  * ```html
- * <nys-toggle label="Dark mode" description="Adjust display for low light" checked></nys-toggle>
+ * <nys-toggle label="Dark mode" description="Adjust display for low light environments" checked></nys-toggle>
+ * ```
+ *
+ * @example Small toggle without icons
+ * ```html
+ * <nys-toggle label="Feature enabled" size="sm" noIcon></nys-toggle>
  * ```
  */
 

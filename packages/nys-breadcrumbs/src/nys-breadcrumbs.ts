@@ -6,17 +6,40 @@ import styles from "./nys-breadcrumbs.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.
- * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
+ * A breadcrumb navigation trail helping users understand their location within a site hierarchy.
+ * Composed of `<ol>` and `<li>` elements with optional `<a>` links.
+ * Automatically collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
  * showing the first, last, and item before the current page, with an ellipsis to expand.
  * A single item renders as a back-to-parent link instead of a trail.
+ *
+ * ## When to use
+ * - Use breadcrumbs on sites with hierarchical navigation (3+ levels deep).
+ * - Include an optional current page item (no link) at the end to show the user's exact location.
+ * - For mobile, set `backToParent` to convert long trails to a single "back" link on smaller screens.
+ * - Use `backgroundBar` to visually separate the breadcrumb trail from page content.
+ * - Size options: `md` (default) for most layouts, `sm` for dense or small-screen contexts.
+ *
+ * ## Variants
+ * - **Trail with current page**: Include the current page name (without a link) as the last `<li>`.
+ * - **Trail without current page**: All items are links; the user's location is implied.
+ * - **Single back link**: When only one item is provided, it automatically renders as "Back to [Parent]".
+ * - **Back-to-parent mode**: Set `backToParent` to show a single back link on mobile; full trail on desktop.
+ * - **Collapsed trail**: Set `collapsed` to force the trail into its condensed state with an ellipsis.
+ *
+ * ## Accessibility
+ * - Renders semantic `<nav>` landmark with `aria-label` (defaults to "path to this page").
+ * - Each link is keyboard navigable (Tab key).
+ * - Ellipsis button is properly labeled ("Show more links") and responds to Space and Enter.
+ * - Disabled state disables all navigation and link focus.
+ * - Screen readers announce the full trail structure via semantic HTML.
  *
  * @summary Breadcrumb navigation trail with responsive collapse support.
  * @element nys-breadcrumbs
  *
- * @slot - One or more `nys-breadcrumbitem` elements defining the trail.
+ * @slot - One or more `<li>` elements within an `<ol>` to define the trail.
  *
- * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
+ * @fires nys-expand - Fired when the user clicks the ellipsis to expand the collapsed trail.
+ *   Detail: `{ id: string }`
  *
  * @example Full trail with current page
  * ```html
@@ -46,6 +69,14 @@ let componentIdCounter = 0;
  *   <li><a href="/services">Services</a></li>
  *  </ol>
  * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Listen for expand event
+ * ```javascript
+ * const breadcrumbs = document.querySelector('nys-breadcrumbs');
+ * breadcrumbs.addEventListener('nys-expand', (event) => {
+ *   console.log('Trail expanded, id:', event.detail.id);
+ * });
  * ```
  */
 
