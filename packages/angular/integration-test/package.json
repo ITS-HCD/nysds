@@ -17,7 +17,7 @@
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
-    "@nysds/angular": "^0.1.0",
+    "@nysds/angular": "file:../dist",
     "@nysds/components": "^1.18.1",
     "@nysds/styles": "^1.18.1",
     "rxjs": "^7.8.0",

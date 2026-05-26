@@ -3,6 +3,7 @@ dist/
 coverage/
 release/
 *.zip
+test-results/
 
 # Ignore Node-specific files
 node_modules/

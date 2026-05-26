@@ -16,9 +16,12 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   webServer: {
-    command: 'npm run preview',
+    // Use vite dev rather than preview so the suite is self-contained — no
+    // separate `npm run build` step required before `npm test`. Analog
+    // compiles the Angular standalone components on the first request.
+    command: 'npm run dev',
     port: 4321,
-    timeout: 60_000,
+    timeout: 120_000,
     reuseExistingServer: !process.env['CI'],
   },
   projects: [

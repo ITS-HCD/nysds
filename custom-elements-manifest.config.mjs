@@ -39,7 +39,8 @@ export default {
     "**/packages/**/*library.ts",
     "**/packages/styles/**",
     "**/packages/mcp-server/**",
-    "**/packages/react/nysds-jsx.d.ts" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
+    "**/packages/angular/**", // Angular directives — not Lit custom elements; analyzing them leaves TS AST refs in the manifest that break the JSON.stringify step.
+    "**/packages/react/**" // Exclude the generated JSX file to prevent it from being included in the CEM and causing circular references
   ],
   /** Directory to output CEM to */
   outdir: "./",

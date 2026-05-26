@@ -21,8 +21,7 @@ npm run test:install
 # Manual sanity check (vite dev server on http://localhost:4321)
 npm run dev
 
-# Build + run the Playwright spec
-npm run build
+# Run the Playwright spec — boots `vite dev` automatically via webServer config
 npm test
 ```
 
@@ -32,13 +31,22 @@ CLI scaffolding to maintain — the standalone app bootstraps directly through
 
 ## Prerequisites
 
-Before installing here, the parent `@nysds/angular` package must have been
-built so its `dist/` is available to symlink:
+`@nysds/angular` is referenced as `file:../dist` in [package.json](./package.json),
+so the parent library must be built **before** running `npm install` here.
+The npm registry doesn't have `@nysds/angular` yet (still unpublished), so
+without the local `dist/` you'll see `404 Not Found` during install.
 
 ```bash
-# From the repo root
+# From the repo root — produces packages/angular/dist/ via ng-packagr
+npm run build --workspace=@nysds/angular
+
+# (Or, on a fresh clone, run the full workspace build to get every component
+#  dist too — required for the ng-packagr build to resolve @nysds/components)
 npm run build:packages
 ```
+
+Re-run the angular build whenever you change directive source. After that,
+`npm install --force` (or wipe `node_modules`) here picks up the new copy.
 
 ## Why isn't this in npm workspaces?
 
