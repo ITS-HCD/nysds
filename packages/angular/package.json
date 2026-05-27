@@ -1,7 +1,7 @@
 {
   "name": "@nysds/angular",
-  "version": "1.18.2",
-  "description": "Angular directives for the New York State Design System web components. (NOTE: this is the source package — the publishable artifact is built into ./dist by ng-packagr. `private: true` keeps `npm publish --workspaces` from publishing the source folder; the root `release` script publishes ./dist explicitly.)",
+  "version": "1.18.2-alpha-1",
+  "description": "Angular wrapper components for the New York State Design System web components. Built with ng-packagr — the publishable artifact lives in ./dist.",
   "license": "MIT",
   "author": "NYS Design System Team",
   "repository": {
@@ -17,20 +17,34 @@
     "nysds",
     "angular",
     "web-components",
-    "directives",
+    "components",
     "control-value-accessor",
     "new-york-state",
     "design-system"
   ],
+  "main": "./dist/fesm2022/nysds-angular.mjs",
+  "module": "./dist/fesm2022/nysds-angular.mjs",
+  "typings": "./dist/types/nysds-angular.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/nysds-angular.d.ts",
+      "default": "./dist/fesm2022/nysds-angular.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
   "sideEffects": [
-    "./src/lib/form/*.directive.ts",
-    "./src/lib/ui/*.directive.ts",
-    "./fesm2022/*.mjs"
+    "./dist/fesm2022/*.mjs"
+  ],
+  "files": [
+    "dist",
+    "README.md"
   ],
   "scripts": {
-    "build": "ng-packagr -p ng-package.json && node scripts/strip-private.mjs",
+    "build": "ng-packagr -p ng-package.json",
     "dev": "ng-packagr -p ng-package.json --watch",
-    "generate": "node scripts/generate-directives.mjs"
+    "generate": "node scripts/generate-components.mjs"
   },
   "peerDependencies": {
     "@angular/common": ">=20.0.0",
@@ -40,5 +54,15 @@
   },
   "dependencies": {
     "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/common": "^21.2.0",
+    "@angular/compiler": "^21.2.0",
+    "@angular/compiler-cli": "^21.2.0",
+    "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
+    "ng-packagr": "^21.2.0",
+    "rxjs": "^7.8.0",
+    "zone.js": "~0.16.0"
   }
 }

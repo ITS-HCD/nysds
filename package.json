@@ -9,8 +9,7 @@
   "files": [
     "dist/",
     "custom-elements.json",
-    "packages/react/",
-    "packages/angular/dist/"
+    "packages/react/"
   ],
   "main": "dist/nysds.js",
   "module": "dist/nysds.es.js",
@@ -45,7 +44,7 @@
     "lint": "eslint --cache --cache-location node_modules/.cache/eslint && stylelint **/*.scss || true",
     "lint:fix": "eslint --fix && stylelint **/*.scss --fix",
     "lit-analyze": "find ./packages/nys-*/ -name '*.ts' ! -name '*.figma.*' | xargs lit-analyzer {}",
-    "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish ./packages/angular/dist --access public && cross-env NODE_ENV=production npm publish --access public",
+    "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish --access public",
     "release:dry-run": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && node src/scripts/publish-dry-run.js",
     "release:alpha": "npm run build && npm run build:umd && npm publish --tag next",
     "release:zip": "npm run build:all && node src/scripts/create-release-zip.js",
@@ -77,11 +76,6 @@
   "homepage": "https://designsystem.ny.gov/",
   "packageManager": "npm@11.6.2",
   "devDependencies": {
-    "@angular/common": "^21.2.0",
-    "@angular/compiler": "^21.2.0",
-    "@angular/compiler-cli": "^21.2.0",
-    "@angular/core": "^21.2.0",
-    "@angular/forms": "^21.2.0",
     "@chromatic-com/storybook": "^5.1.2",
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@figma/code-connect": "^1.4.0",
@@ -112,13 +106,11 @@
     "i": "^0.3.7",
     "lit": "^3.3.1",
     "lit-analyzer": "^2.0.3",
-    "ng-packagr": "^21.2.0",
     "plop": "^4.0.4",
     "prettier": "^3.8.1",
     "rollup-plugin-esbuild-minify": "^1.3.0",
     "rollup-plugin-minify-template-literals": "^1.1.7",
     "rollup-plugin-visualizer": "^6.0.5",
-    "rxjs": "^7.8.0",
     "sass": "^1.94.0",
     "sinon": "^21.0.0",
     "storybook": "10.3.5",
@@ -128,8 +120,7 @@
     "tslib": "^2.8.1",
     "turbo": "^2.9.3",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
-    "zone.js": "~0.16.0"
+    "vite": "^7.3.1"
   },
   "eslintConfig": {
     "extends": [
