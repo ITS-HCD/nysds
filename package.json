@@ -37,7 +37,7 @@
     "build:all": "npm run clean:dist && npm run lint && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run build:mcp",
     "build:mcp": "npm run build -w @nysds/mcp-server",
     "build:link": "npm run build:all && npm link && cd packages/styles && npm link",
-    "lint": "eslint --cache --cache-strategy=content --cache-location node_modules/.cache/eslint && stylelint \"**/*.scss\" || true",
+    "lint": "eslint --cache --cache-strategy=content --cache-location node_modules/.cache/eslint && (stylelint \"**/*.scss\" || true)",
     "lint:fix": "eslint --fix && stylelint \"**/*.scss\" --fix",
     "lit-analyze": "find ./packages/nys-*/ -name '*.ts' ! -name '*.figma.*' | xargs lit-analyzer {}",
     "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish --access public",
