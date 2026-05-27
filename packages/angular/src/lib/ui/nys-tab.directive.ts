@@ -5,11 +5,18 @@
 // `packages/angular/scripts/generate-directives.mjs` (run via `npm run
 // generate --workspace=@nysds/angular`). Modify the script (or promote this
 // tag out of GENERATED_TAGS to hand-edit) instead of editing this file.
+//
+// These are emitted as Angular Components (not Directives) so consumer
+// templates don't need CUSTOM_ELEMENTS_SCHEMA — the Component selector
+// satisfies Angular's template type checker for the underlying custom
+// element tag. Host element IS the custom element (the browser upgrades
+// it when Angular creates the host), so all property bindings flow
+// straight through.
 // ============================================================================
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2, inject } from '@angular/core';
 
 /**
- * Wrapper directive for `<nys-tab>`.
+ * Wrapper component for `<nys-tab>`.
  *
  * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
  * 
@@ -19,11 +26,12 @@ import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Rende
  * `<nys-tabgroup>` manages `tabindex`, `aria-selected`, and `aria-controls`
  * via `_applySelection`; do not set them directly on this element.
  */
-@Directive({
+@Component({
   selector: 'nys-tab',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysTabDirective {
+export class NysTabComponent {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 

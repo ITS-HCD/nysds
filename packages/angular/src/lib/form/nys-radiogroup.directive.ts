@@ -1,8 +1,7 @@
-import { Directive, HostListener, forwardRef } from '@angular/core';
+import { Component, HostListener, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NysControlValueAccessorBase } from '../shared/nys-control-value-accessor.base';
-
 
 /**
  * `ControlValueAccessor` for `<nys-radiogroup>`.
@@ -17,18 +16,19 @@ import { NysControlValueAccessorBase } from '../shared/nys-control-value-accesso
  * only a private `selectedValue` field — flagged upstream for a public
  * accessor.
  */
-@Directive({
+@Component({
   selector: 'nys-radiogroup',
   standalone: true,
+  template: '<ng-content></ng-content>',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NysRadiogroupDirective),
+      useExisting: forwardRef(() => NysRadiogroupComponent),
       multi: true,
     },
   ],
 })
-export class NysRadiogroupDirective extends NysControlValueAccessorBase<string> {
+export class NysRadiogroupComponent extends NysControlValueAccessorBase<string> {
   // Value is set via child traversal in writeValue — no single property to
   // mirror on the host element.
   protected readonly valueProperty = '__unused__';

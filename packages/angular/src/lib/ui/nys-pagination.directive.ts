@@ -1,5 +1,5 @@
 import {
-  Directive,
+  Component,
   ElementRef,
   EventEmitter,
   HostListener,
@@ -9,17 +9,13 @@ import {
   inject,
 } from '@angular/core';
 
-
-/**
- * Wrapper directive for `<nys-pagination>` with two-way `[(currentPage)]`.
- *
- * TODO(task-8): generator will populate remaining typed @Input()s/@Output()s.
- */
-@Directive({
+/** Wrapper component for `<nys-pagination>` with two-way `[(currentPage)]`. */
+@Component({
   selector: 'nys-pagination',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysPaginationDirective {
+export class NysPaginationComponent {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 

@@ -4,6 +4,7 @@
   "description": "The Accordion component from the NYS Design System.",
   "module": "dist/nys-accordion.js",
   "types": "dist/index.d.ts",
+  "customElements": "../../custom-elements.json",
   "exports": {
     ".": {
       "import": "./dist/nys-accordion.js",

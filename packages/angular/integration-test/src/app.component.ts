@@ -1,35 +1,33 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
-  NysAlertDirective,
-  NysButtonDirective,
-  NysModalDirective,
-  NysTextinputDirective,
+  NysAlertComponent,
+  NysButtonComponent,
+  NysModalComponent,
+  NysTextinputComponent,
 } from '@nysds/angular';
 
 /**
  * Smoke-test app for `@nysds/angular`.
  *
  * Covers the three integration surfaces the Playwright spec exercises:
- *   1. `ngModel` round-trip through `NysTextinputDirective` (Control­ValueAccessor).
- *   2. Typed event emission through `NysAlertDirective`'s `(nysClose)` output.
- *   3. Two-way binding on `NysModalDirective`'s `[(open)]`.
+ *   1. `ngModel` round-trip through `NysTextinputComponent` (Control­ValueAccessor).
+ *   2. Typed event emission through `NysAlertComponent`'s `(nysClose)` output.
+ *   3. Two-way binding on `NysModalComponent`'s `[(open)]`.
  *
- * Everything is intentionally minimal — this harness exists to prove the
- * library wires correctly inside a real Angular standalone app, not to
- * demonstrate every directive.
+ * No `CUSTOM_ELEMENTS_SCHEMA` is needed — each `<nys-*>` tag in the template
+ * is matched by an Angular Component from `@nysds/angular`.
  */
 @Component({
   selector: 'app-root',
   standalone: true,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     FormsModule,
-    NysAlertDirective,
-    NysButtonDirective,
-    NysModalDirective,
-    NysTextinputDirective,
+    NysAlertComponent,
+    NysButtonComponent,
+    NysModalComponent,
+    NysTextinputComponent,
   ],
   template: `
     <main style="padding: 2rem; font-family: system-ui;">
@@ -89,9 +87,7 @@ export class AppComponent {
   readonly closedAt = signal<string>('');
   readonly modalOpen = signal(false);
 
-  // Bridge for [(open)] — Angular template needs a getter/setter pair for signals,
-  // or a plain property. Using a plain getter/setter pair to keep the template
-  // ergonomic.
+  // Bridge for [(open)] — keeps the template ergonomic.
   get modalOpenValue(): boolean {
     return this.modalOpen();
   }
@@ -102,7 +98,6 @@ export class AppComponent {
   onAlertClose(event: CustomEvent): void {
     this.showAlert.set(false);
     this.closedAt.set(new Date().toISOString());
-    // Surface the detail in the console so devs can confirm the typed payload.
     // eslint-disable-next-line no-console
     console.log('nys-close detail:', event.detail);
   }

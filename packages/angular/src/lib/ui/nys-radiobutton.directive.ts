@@ -5,19 +5,27 @@
 // `packages/angular/scripts/generate-directives.mjs` (run via `npm run
 // generate --workspace=@nysds/angular`). Modify the script (or promote this
 // tag out of GENERATED_TAGS to hand-edit) instead of editing this file.
+//
+// These are emitted as Angular Components (not Directives) so consumer
+// templates don't need CUSTOM_ELEMENTS_SCHEMA — the Component selector
+// satisfies Angular's template type checker for the underlying custom
+// element tag. Host element IS the custom element (the browser upgrades
+// it when Angular creates the host), so all property bindings flow
+// straight through.
 // ============================================================================
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, Renderer2, inject } from '@angular/core';
 
 /**
- * Wrapper directive for `<nys-radiobutton>`.
+ * Wrapper component for `<nys-radiobutton>`.
  *
  * Radio button for single selection from mutually exclusive options.
  */
-@Directive({
+@Component({
   selector: 'nys-radiobutton',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysRadiobuttonDirective {
+export class NysRadiobuttonComponent {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 

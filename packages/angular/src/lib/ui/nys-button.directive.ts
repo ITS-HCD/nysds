@@ -1,5 +1,5 @@
 import {
-  Directive,
+  Component,
   ElementRef,
   HostListener,
   Input,
@@ -8,27 +8,57 @@ import {
   inject,
 } from '@angular/core';
 
-
 /**
- * Wrapper directive for `<nys-button>`.
+ * Wrapper component for `<nys-button>`.
  *
  * The web component's form association does not survive Angular's template
- * boundary, so this directive walks up to the enclosing `<form>` and calls
+ * boundary, so this wrapper walks up to the enclosing `<form>` and calls
  * `requestSubmit()` on click when `type === 'submit'`. That keeps `(ngSubmit)`
  * firing the way Angular consumers expect.
  *
- * TODO(task-8): generator will populate typed @Input()s for every documented
- * property and @Output()s for every `nys-*` event.
+ * TODO: generator could populate additional typed @Input()s for every
+ * documented property; kept hand-written so the requestSubmit bridge isn't
+ * lost on regeneration.
  */
-@Directive({
+@Component({
   selector: 'nys-button',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysButtonDirective implements OnInit {
+export class NysButtonComponent implements OnInit {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 
   @Input() type: 'submit' | 'button' | 'reset' = 'button';
+
+  // Common passthrough @Input()s so consumers can use `[bracket]` bindings under
+  // strictTemplates without errors. Add others here as they're needed (or pick
+  // up the generator-composition pattern described in README → "Why wrappers
+  // and not directives?" to derive these from the CEM).
+  @Input() set disabled(value: boolean) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', value);
+  }
+  @Input() set label(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'label', value);
+  }
+  @Input() set variant(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'variant', value);
+  }
+  @Input() set size(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'size', value);
+  }
+  @Input() set fullWidth(value: boolean) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'fullWidth', value);
+  }
+  @Input() set prefixIcon(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'prefixIcon', value);
+  }
+  @Input() set suffixIcon(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'suffixIcon', value);
+  }
+  @Input() set icon(value: string) {
+    this.renderer.setProperty(this.elementRef.nativeElement, 'icon', value);
+  }
 
   ngOnInit(): void {
     this.renderer.setAttribute(this.elementRef.nativeElement, 'type', this.type);

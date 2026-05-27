@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,10 +7,10 @@ import {
 } from '@angular/forms';
 
 import {
-  NysButtonDirective,
-  NysRadiobuttonDirective,
-  NysRadiogroupDirective,
-  NysTextinputDirective,
+  NysButtonComponent,
+  NysRadiobuttonComponent,
+  NysRadiogroupComponent,
+  NysTextinputComponent,
 } from '@nysds/angular';
 
 interface SignupForm {
@@ -20,7 +20,7 @@ interface SignupForm {
 }
 
 /**
- * Demo app showing `@nysds/angular` directives wired into `ReactiveFormsModule`.
+ * Demo app showing `@nysds/angular` wrappers wired into `ReactiveFormsModule`.
  *
  * Three fields:
  *   1. Name        (`<nys-textinput>` + required validator)
@@ -28,23 +28,26 @@ interface SignupForm {
  *   3. Frequency   (`<nys-radiogroup>` with three `<nys-radiobutton>` children)
  *
  * Submitting prints the typed form value into the result panel.
+ *
+ * Note: no `CUSTOM_ELEMENTS_SCHEMA` is needed. Each `<nys-*>` tag in the
+ * template below is matched by an Angular Component from `@nysds/angular`,
+ * so the template type checker is fully satisfied.
  */
 @Component({
   selector: 'app-root',
   standalone: true,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     ReactiveFormsModule,
-    NysButtonDirective,
-    NysRadiobuttonDirective,
-    NysRadiogroupDirective,
-    NysTextinputDirective,
+    NysButtonComponent,
+    NysRadiobuttonComponent,
+    NysRadiogroupComponent,
+    NysTextinputComponent,
   ],
   template: `
     <h1>Newsletter signup</h1>
     <p class="meta">
-      All three fields below are NYSDS web components bound through
-      <code>@nysds/angular</code> directives — Angular's
+      All three fields below are NYSDS web components wrapped by
+      <code>@nysds/angular</code> components — Angular's
       <code>ReactiveFormsModule</code> handles validation and state.
     </p>
 

@@ -1,5 +1,5 @@
 import {
-  Directive,
+  Component,
   ElementRef,
   EventEmitter,
   HostListener,
@@ -9,21 +9,19 @@ import {
   inject,
 } from '@angular/core';
 
-
 /**
- * Wrapper directive for `<nys-accordionitem>` with two-way `[(expanded)]`.
+ * Wrapper component for `<nys-accordionitem>` with two-way `[(expanded)]`.
  *
- * Note: when nested inside `<nys-accordion>`, the parent component will mutate
- * `expanded` directly on the item. Avoid driving the same property from
- * Angular state in that configuration — pick one source of truth.
- *
- * TODO(task-8): generator will populate remaining typed @Input()s/@Output()s.
+ * Note: when nested inside `<nys-accordion>`, the parent will mutate `expanded`
+ * directly on the item. Avoid driving the same property from Angular state in
+ * that configuration — pick one source of truth.
  */
-@Directive({
+@Component({
   selector: 'nys-accordionitem',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysAccordionitemDirective {
+export class NysAccordionitemComponent {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 

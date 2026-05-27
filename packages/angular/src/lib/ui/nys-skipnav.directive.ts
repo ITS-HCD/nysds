@@ -5,19 +5,27 @@
 // `packages/angular/scripts/generate-directives.mjs` (run via `npm run
 // generate --workspace=@nysds/angular`). Modify the script (or promote this
 // tag out of GENERATED_TAGS to hand-edit) instead of editing this file.
+//
+// These are emitted as Angular Components (not Directives) so consumer
+// templates don't need CUSTOM_ELEMENTS_SCHEMA — the Component selector
+// satisfies Angular's template type checker for the underlying custom
+// element tag. Host element IS the custom element (the browser upgrades
+// it when Angular creates the host), so all property bindings flow
+// straight through.
 // ============================================================================
-import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2, inject } from '@angular/core';
 
 /**
- * Wrapper directive for `<nys-skipnav>`.
+ * Wrapper component for `<nys-skipnav>`.
  *
  * Skip navigation link for keyboard accessibility. Hidden until focused.
  */
-@Directive({
+@Component({
   selector: 'nys-skipnav',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysSkipnavDirective {
+export class NysSkipnavComponent {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 

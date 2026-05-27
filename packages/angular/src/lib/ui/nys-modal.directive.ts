@@ -1,5 +1,5 @@
 import {
-  Directive,
+  Component,
   ElementRef,
   EventEmitter,
   HostListener,
@@ -9,21 +9,18 @@ import {
   inject,
 } from '@angular/core';
 
-
 /**
- * Wrapper directive for `<nys-modal>` with two-way `[(open)]` support.
+ * Wrapper component for `<nys-modal>` with two-way `[(open)]` support.
  *
  * Consumers can write `<nys-modal [(open)]="isOpen">…</nys-modal>` and have
- * the boolean stay in sync as the user dismisses the modal. The `nys-close`
- * event (and any future open/close transitions) flows through `openChange`.
- *
- * TODO(task-8): generator will populate remaining typed @Input()s/@Output()s.
+ * the boolean stay in sync as the user dismisses the modal.
  */
-@Directive({
+@Component({
   selector: 'nys-modal',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysModalDirective {
+export class NysModalComponent {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 

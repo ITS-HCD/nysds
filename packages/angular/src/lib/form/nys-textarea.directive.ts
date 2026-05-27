@@ -1,24 +1,22 @@
-import { Directive, HostListener, forwardRef } from '@angular/core';
+import { Component, HostListener, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NysControlValueAccessorBase } from '../shared/nys-control-value-accessor.base';
 
-
-/**
- * `ControlValueAccessor` for `<nys-textarea>` — string value, `nys-input` event.
- */
-@Directive({
+/** `ControlValueAccessor` for `<nys-textarea>` — string value, `nys-input` event. */
+@Component({
   selector: 'nys-textarea',
   standalone: true,
+  template: '<ng-content></ng-content>',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NysTextareaDirective),
+      useExisting: forwardRef(() => NysTextareaComponent),
       multi: true,
     },
   ],
 })
-export class NysTextareaDirective extends NysControlValueAccessorBase<string> {
+export class NysTextareaComponent extends NysControlValueAccessorBase<string> {
   protected readonly valueProperty = 'value';
 
   @HostListener('nys-input', ['$event'])

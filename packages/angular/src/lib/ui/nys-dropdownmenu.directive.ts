@@ -1,16 +1,14 @@
-import { Directive } from '@angular/core';
-
+import { Component } from '@angular/core';
 
 /**
- * Wrapper directive for `<nys-dropdownmenu>`.
+ * Wrapper component for `<nys-dropdownmenu>`.
  *
  * Like `<nys-tooltip>`, the dropdown trigger is referenced via
  * `for="triggerId"`. Make sure the trigger renders a stable `id` attribute.
- *
- * TODO(task-8): generator will populate typed @Input()s/@Output()s.
  */
-@Directive({
+@Component({
   selector: 'nys-dropdownmenu',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysDropdownmenuDirective {}
+export class NysDropdownmenuComponent {}

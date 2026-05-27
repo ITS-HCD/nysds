@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 export function useProperties(targetElement, propName, value) {
   useEffect(() => {
@@ -7,34 +7,28 @@ export function useProperties(targetElement, propName, value) {
       targetElement.current &&
       targetElement.current[propName] !== value
     ) {
+      // add try catch to avoid errors when setting read-only properties
       try {
         targetElement.current[propName] = value;
       } catch (e) {
         console.warn(e);
       }
     }
-  }, [value, targetElement]);
+  }, [value, targetElement.current]);
 }
 
 export function useEventListener(targetElement, eventName, eventHandler) {
-  // Store the latest handler in a ref so we never need to re-subscribe
-  // just because the consumer passed a new function reference.
-  const savedHandler = useRef(eventHandler);
-  useEffect(() => {
-    savedHandler.current = eventHandler;
-  }, [eventHandler]);
-
-  useEffect(() => {
-    const element = targetElement.current;
-    if (!element || eventHandler === undefined) return;
-
-    // Stable wrapper — identity never changes, so add/remove are always paired.
-    const listener = (event) => savedHandler.current(event);
-
-    element.addEventListener(eventName, listener);
+  useLayoutEffect(() => {
+    if (eventHandler !== undefined) {
+      targetElement?.current?.addEventListener(eventName, eventHandler);
+    }
 
     return () => {
-      element.removeEventListener(eventName, listener);
+      if (eventHandler?.cancel) {
+        eventHandler.cancel();
+      }
+
+      targetElement?.current?.removeEventListener(eventName, eventHandler);
     };
-  }, [eventName, targetElement]);
+  }, [eventName, eventHandler, targetElement.current]);
 }

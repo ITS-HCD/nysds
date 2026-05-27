@@ -1,7 +1,6 @@
 {
   "name": "@nysds/angular",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.18.2",
   "description": "Angular directives for the New York State Design System web components. (NOTE: this is the source package — the publishable artifact is built into ./dist by ng-packagr. `private: true` keeps `npm publish --workspaces` from publishing the source folder; the root `release` script publishes ./dist explicitly.)",
   "license": "MIT",
   "author": "NYS Design System Team",

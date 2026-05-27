@@ -131,7 +131,7 @@ function renderOutput(event) {
 
 function buildDirectiveSource(tag, decl) {
   const pascal = pascalFromTag(tag);
-  const className = `${pascal}Directive`;
+  const className = `${pascal}Component`;
 
   const fields = (decl.members ?? []).filter(isExposedField);
   const events = (decl.events ?? []).filter(isExposedEvent);
@@ -141,7 +141,7 @@ function buildDirectiveSource(tag, decl) {
   const needsInput = fields.length > 0;
   const needsOutput = events.length > 0;
 
-  const coreImports = ['Directive'];
+  const coreImports = ['Component'];
   if (needsRenderer) {
     coreImports.push('ElementRef', 'Renderer2', 'inject');
   }
@@ -152,11 +152,11 @@ function buildDirectiveSource(tag, decl) {
 
   const summary = decl.summary || decl.description || '';
   const summaryDoc = summary
-    ? `\n/**\n * Wrapper directive for \`<${tag}>\`.\n *\n${summary
+    ? `\n/**\n * Wrapper component for \`<${tag}>\`.\n *\n${summary
         .split('\n')
         .map((l) => ` * ${l}`)
         .join('\n')}\n */`
-    : `\n/** Wrapper directive for \`<${tag}>\`. */`;
+    : `\n/** Wrapper component for \`<${tag}>\`. */`;
 
   const bodyParts = [];
   if (needsRenderer) {
@@ -179,12 +179,20 @@ function buildDirectiveSource(tag, decl) {
 // \`packages/angular/scripts/generate-directives.mjs\` (run via \`npm run
 // generate --workspace=@nysds/angular\`). Modify the script (or promote this
 // tag out of GENERATED_TAGS to hand-edit) instead of editing this file.
+//
+// These are emitted as Angular Components (not Directives) so consumer
+// templates don't need CUSTOM_ELEMENTS_SCHEMA — the Component selector
+// satisfies Angular's template type checker for the underlying custom
+// element tag. Host element IS the custom element (the browser upgrades
+// it when Angular creates the host), so all property bindings flow
+// straight through.
 // ============================================================================
 import { ${coreImports.join(', ')} } from '@angular/core';
 ${summaryDoc}
-@Directive({
+@Component({
   selector: '${tag}',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
 export class ${className} {${body ? '\n' + body + '\n' : ''}}
 `;

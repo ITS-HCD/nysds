@@ -1,5 +1,4 @@
-import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
-
+import { Component, ElementRef, Input, Renderer2, inject } from '@angular/core';
 
 /**
  * Typed language entry accepted by `<nys-unavheader>`'s `languages` property.
@@ -14,18 +13,17 @@ export interface NysUnavheaderLanguage {
 }
 
 /**
- * Wrapper directive for `<nys-unavheader>`.
+ * Wrapper component for `<nys-unavheader>`.
  *
  * Exposes the typed `languages` array property so Angular consumers don't have
  * to bind it through `attr.` / cast it to `any`.
- *
- * TODO(task-8): generator will populate remaining typed @Input()s/@Output()s.
  */
-@Directive({
+@Component({
   selector: 'nys-unavheader',
   standalone: true,
+  template: '<ng-content></ng-content>',
 })
-export class NysUnavheaderDirective {
+export class NysUnavheaderComponent {
   private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly renderer: Renderer2 = inject(Renderer2);
 

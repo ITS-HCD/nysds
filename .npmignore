@@ -11,6 +11,7 @@ dist/nys-stepper/
 .eslintrc
 .prettierrc
 .editorconfig
+node_modules
 
 # Don't publish tests
 coverage/

@@ -1,26 +1,26 @@
-import { Directive, HostListener, forwardRef } from '@angular/core';
+import { Component, HostListener, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NysControlValueAccessorBase } from '../shared/nys-control-value-accessor.base';
-
 
 /**
  * `ControlValueAccessor` for `<nys-fileinput>` — value is `File[]`. The
  * component dispatches `nys-change` with `{id, files}` whenever the selection
  * changes (including additions/removals).
  */
-@Directive({
+@Component({
   selector: 'nys-fileinput',
   standalone: true,
+  template: '<ng-content></ng-content>',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NysFileinputDirective),
+      useExisting: forwardRef(() => NysFileinputComponent),
       multi: true,
     },
   ],
 })
-export class NysFileinputDirective extends NysControlValueAccessorBase<File[]> {
+export class NysFileinputComponent extends NysControlValueAccessorBase<File[]> {
   protected readonly valueProperty = 'value';
 
   protected override extractValue(event: Event): File[] {

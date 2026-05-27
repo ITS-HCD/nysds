@@ -1,8 +1,7 @@
-import { Directive, HostListener, forwardRef } from '@angular/core';
+import { Component, HostListener, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NysControlValueAccessorBase } from '../shared/nys-control-value-accessor.base';
-
 
 /**
  * `ControlValueAccessor` for `<nys-checkboxgroup>`.
@@ -15,18 +14,19 @@ import { NysControlValueAccessorBase } from '../shared/nys-control-value-accesso
  * its public API — flagged upstream alongside the equivalent `nys-radiogroup`
  * gap.
  */
-@Directive({
+@Component({
   selector: 'nys-checkboxgroup',
   standalone: true,
+  template: '<ng-content></ng-content>',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NysCheckboxgroupDirective),
+      useExisting: forwardRef(() => NysCheckboxgroupComponent),
       multi: true,
     },
   ],
 })
-export class NysCheckboxgroupDirective extends NysControlValueAccessorBase<string[]> {
+export class NysCheckboxgroupComponent extends NysControlValueAccessorBase<string[]> {
   protected readonly valueProperty = '__unused__';
 
   protected override extractValue(_event: Event): string[] {
