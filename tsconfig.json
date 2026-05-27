@@ -29,5 +29,5 @@
 		"noUncheckedSideEffectImports": true
 	},
 	"include": ["src/**/*", "packages/**/*"],
-	"exclude": ["**/*.stories.ts", "**/*.styles.ts", "**/*.test.ts", "node_modules", "dist", "storybook-static", "coverage"]
+	"exclude": ["**/*.stories.ts", "**/*.styles.ts", "**/*.test.ts", "node_modules", "dist", "storybook-static", "coverage", "packages/angular/demo/**/*", "packages/angular/integration-test/**/*"]
 }
