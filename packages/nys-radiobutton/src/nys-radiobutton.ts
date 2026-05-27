@@ -1,7 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property, state } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-import "./nys-radiogroup";
+import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
@@ -13,7 +11,7 @@ let radiobuttonIdCounter = 0;
  * Use within `nys-radiogroup` for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.
  * For multiple selections, use `nys-checkbox`.
  *
- * @summary Radio button for single selection from mutually exclusive options.
+ * @summary Radio button for single selection from mutually exclusive options. This is a READONLY data component.
  * @element nys-radiobutton
  *
  * @slot description - Custom HTML description content.
@@ -34,10 +32,10 @@ let radiobuttonIdCounter = 0;
 
 export class NysRadiobutton extends LitElement {
   static styles = unsafeCSS(styles);
-  static shadowRootOptions = {
-    ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
-  };
+  // static shadowRootOptions = {
+  //   ...LitElement.shadowRootOptions,
+  //   delegatesFocus: true,
+  // };
 
   /** Whether this radio is selected. Only one per group can be checked. */
   @property({ type: Boolean, reflect: true }) checked = false;
@@ -77,11 +75,11 @@ export class NysRadiobutton extends LitElement {
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
 
-  @state() private isMobile = window.innerWidth < 480;
+  // @state() private isMobile = window.innerWidth < 480;
 
-  private _hasUserInteracted = false; // need this flag for "eager mode"
+  // private _hasUserInteracted = false; // need this flag for "eager mode"
 
-  static buttonGroup: Record<string, NysRadiobutton> = {};
+  // static buttonGroup: Record<string, NysRadiobutton> = {};
 
   /**
    * Lifecycle methods
@@ -93,305 +91,305 @@ export class NysRadiobutton extends LitElement {
       this.id = `nys-radiobutton-${Date.now()}-${radiobuttonIdCounter++}`;
     }
 
-    // If this button is initially checked, set it as the current button in its group
-    if (this.checked) {
-      if (NysRadiobutton.buttonGroup[this.name]) {
-        NysRadiobutton.buttonGroup[this.name].checked = false;
-        NysRadiobutton.buttonGroup[this.name].requestUpdate();
-      }
-      NysRadiobutton.buttonGroup[this.name] = this;
-    }
+    //   // If this button is initially checked, set it as the current button in its group
+    //   if (this.checked) {
+    //     if (NysRadiobutton.buttonGroup[this.name]) {
+    //       NysRadiobutton.buttonGroup[this.name].checked = false;
+    //       NysRadiobutton.buttonGroup[this.name].requestUpdate();
+    //     }
+    //     NysRadiobutton.buttonGroup[this.name] = this;
+    //   }
 
-    this.addEventListener("focus", this._handleFocus);
-    this.addEventListener("blur", this._handleBlur);
-    this.addEventListener("click", this._handleChange);
-    window.addEventListener("resize", this._handleResize);
+    //   this.addEventListener("focus", this._handleFocus);
+    //   this.addEventListener("blur", this._handleBlur);
+    //   this.addEventListener("click", this._handleChange);
+    //   window.addEventListener("resize", this._handleResize);
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback();
+  // disconnectedCallback() {
+  //   super.disconnectedCallback();
 
-    this.removeEventListener("focus", this._handleFocus);
-    this.removeEventListener("blur", this._handleBlur);
-    window.removeEventListener("resize", this._handleResize);
-  }
+  //   this.removeEventListener("focus", this._handleFocus);
+  //   this.removeEventListener("blur", this._handleBlur);
+  //   window.removeEventListener("resize", this._handleResize);
+  // }
 
-  updated(changedProperties: Map<string | number | symbol, unknown>) {
-    // When "checked" changes, update the internals.
-    if (changedProperties.has("checked")) {
-      const wasChecked = changedProperties.get("checked") as
-        | boolean
-        | undefined;
+  // updated(changedProperties: Map<string | number | symbol, unknown>) {
+  //   // When "checked" changes, update the internals.
+  //   if (changedProperties.has("checked")) {
+  //     const wasChecked = changedProperties.get("checked") as
+  //       | boolean
+  //       | undefined;
 
-      // If this radio was unchecked, clear "other" error state
-      if (wasChecked && !this.checked) {
-        this._clearOtherState();
-      }
+  //     // If this radio was unchecked, clear "other" error state
+  //     if (wasChecked && !this.checked) {
+  //       this._clearOtherState();
+  //     }
 
-      // Ensure only one radiobutton per group is checked.
-      if (this.checked && NysRadiobutton.buttonGroup[this.name] !== this) {
-        if (NysRadiobutton.buttonGroup[this.name]) {
-          NysRadiobutton.buttonGroup[this.name].checked = false;
-          NysRadiobutton.buttonGroup[this.name].requestUpdate();
-        }
-        NysRadiobutton.buttonGroup[this.name] = this;
-      }
-    }
-  }
+  //     // Ensure only one radiobutton per group is checked.
+  //     if (this.checked && NysRadiobutton.buttonGroup[this.name] !== this) {
+  //       if (NysRadiobutton.buttonGroup[this.name]) {
+  //         NysRadiobutton.buttonGroup[this.name].checked = false;
+  //         NysRadiobutton.buttonGroup[this.name].requestUpdate();
+  //       }
+  //       NysRadiobutton.buttonGroup[this.name] = this;
+  //     }
+  //   }
+  // }
 
-  /**
-   * Functions
-   * --------------------------------------------------------------------------
-   */
+  // /**
+  //  * Functions
+  //  * --------------------------------------------------------------------------
+  //  */
 
-  public async getInputElement(): Promise<HTMLInputElement | null> {
-    await this.updateComplete; // Wait for the component to finish rendering
-    return this.shadowRoot?.querySelector("input") || null;
-  }
+  // public async getInputElement(): Promise<HTMLInputElement | null> {
+  //   await this.updateComplete; // Wait for the component to finish rendering
+  //   return this.shadowRoot?.querySelector("input") || null;
+  // }
 
-  // This callback is automatically called when the parent form is reset.
-  public formResetUpdate() {
-    this.checked = false;
-    this._clearOtherState();
+  // // This callback is automatically called when the parent form is reset.
+  // public formResetUpdate() {
+  //   this.checked = false;
+  //   this._clearOtherState();
 
-    if (NysRadiobutton.buttonGroup[this.name] === this) {
-      delete NysRadiobutton.buttonGroup[this.name];
-    }
+  //   if (NysRadiobutton.buttonGroup[this.name] === this) {
+  //     delete NysRadiobutton.buttonGroup[this.name];
+  //   }
 
-    // Re-render UI
-    this.requestUpdate();
-  }
+  //   // Re-render UI
+  //   this.requestUpdate();
+  // }
 
-  private _handleResize = () => {
-    this.isMobile = window.innerWidth < 480;
-  };
+  // private _handleResize = () => {
+  //   this.isMobile = window.innerWidth < 480;
+  // };
 
-  private _clearOtherState() {
-    if (!this.other) return;
+  // private _clearOtherState() {
+  //   if (!this.other) return;
 
-    this.showOtherError = false;
-    this._hasUserInteracted = false;
+  //   this.showOtherError = false;
+  //   this._hasUserInteracted = false;
 
-    // Optional: clear error at the group level
-    this._dispatchClearErrorEvent();
-  }
+  //   // Optional: clear error at the group level
+  //   this._dispatchClearErrorEvent();
+  // }
 
-  private _dispatchClearErrorEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-error-clear", {
-        detail: {
-          id: this.id,
-          name: this.name,
-          type: "other",
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
+  // private _dispatchClearErrorEvent() {
+  //   this.dispatchEvent(
+  //     new CustomEvent("nys-error-clear", {
+  //       detail: {
+  //         id: this.id,
+  //         name: this.name,
+  //         type: "other",
+  //       },
+  //       bubbles: true,
+  //       composed: true,
+  //     }),
+  //   );
+  // }
 
-  /**
-   * Event Handlers
-   * --------------------------------------------------------------------------
-   */
+  // /**
+  //  * Event Handlers
+  //  * --------------------------------------------------------------------------
+  //  */
 
-  private _emitChangeEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-change", {
-        detail: {
-          id: this.id,
-          checked: this.checked,
-          name: this.name,
-          value: this.value,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
+  // private _emitChangeEvent() {
+  //   this.dispatchEvent(
+  //     new CustomEvent("nys-change", {
+  //       detail: {
+  //         id: this.id,
+  //         checked: this.checked,
+  //         name: this.name,
+  //         value: this.value,
+  //       },
+  //       bubbles: true,
+  //       composed: true,
+  //     }),
+  //   );
+  // }
 
-  private _emitOtherInputEvent() {
-    this.dispatchEvent(
-      new CustomEvent("nys-other-input", {
-        detail: {
-          id: this.id,
-          name: this.name,
-          value: this.value,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-  }
+  // private _emitOtherInputEvent() {
+  //   this.dispatchEvent(
+  //     new CustomEvent("nys-other-input", {
+  //       detail: {
+  //         id: this.id,
+  //         name: this.name,
+  //         value: this.value,
+  //       },
+  //       bubbles: true,
+  //       composed: true,
+  //     }),
+  //   );
+  // }
 
-  // Handle radiobutton change event & un-selection of other radio options in group
-  private async _handleChange() {
-    this.showOtherError = false;
+  // // Handle radiobutton change event & un-selection of other radio options in group
+  // private async _handleChange() {
+  //   this.showOtherError = false;
 
-    if (!this.checked && !this.disabled) {
-      if (NysRadiobutton.buttonGroup[this.name]) {
-        NysRadiobutton.buttonGroup[this.name].checked = false;
-        NysRadiobutton.buttonGroup[this.name].requestUpdate();
-      }
-      NysRadiobutton.buttonGroup[this.name] = this;
+  //   if (!this.checked && !this.disabled) {
+  //     if (NysRadiobutton.buttonGroup[this.name]) {
+  //       NysRadiobutton.buttonGroup[this.name].checked = false;
+  //       NysRadiobutton.buttonGroup[this.name].requestUpdate();
+  //     }
+  //     NysRadiobutton.buttonGroup[this.name] = this;
 
-      this.checked = true;
-      this._validateOtherAndEmitError();
-      this._emitChangeEvent();
-    }
-  }
+  //     this.checked = true;
+  //     this._validateOtherAndEmitError();
+  //     this._emitChangeEvent();
+  //   }
+  // }
 
-  // Handle focus event
-  private _handleFocus() {
-    this.dispatchEvent(
-      new Event("nys-focus", { bubbles: true, composed: true }),
-    );
-  }
+  // // Handle focus event
+  // private _handleFocus() {
+  //   this.dispatchEvent(
+  //     new Event("nys-focus", { bubbles: true, composed: true }),
+  //   );
+  // }
 
-  // Handle blur event
-  private _handleBlur() {
-    this.dispatchEvent(
-      new Event("nys-blur", { bubbles: true, composed: true }),
-    );
+  // // Handle blur event
+  // private _handleBlur() {
+  //   this.dispatchEvent(
+  //     new Event("nys-blur", { bubbles: true, composed: true }),
+  //   );
 
-    setTimeout(() => {
-      // Only validate if we're blurring away from the component entirely
-      // and this is an "other" radio that's checked
-      if (this.other && this.checked) {
-        this._hasUserInteracted = true;
-        this._validateOtherAndEmitError();
-      }
-    }, 50);
-  }
+  //   setTimeout(() => {
+  //     // Only validate if we're blurring away from the component entirely
+  //     // and this is an "other" radio that's checked
+  //     if (this.other && this.checked) {
+  //       this._hasUserInteracted = true;
+  //       this._validateOtherAndEmitError();
+  //     }
+  //   }, 50);
+  // }
 
-  private _callInputHandling() {
-    if (this.disabled) return;
+  // private _callInputHandling() {
+  //   if (this.disabled) return;
 
-    // Find the hidden input and trigger a click to toggle selection
-    const input = this.shadowRoot?.querySelector(
-      'input[type="radio"]',
-    ) as HTMLInputElement;
-    const span = this.shadowRoot?.querySelector(
-      ".nys-radiobutton__radio",
-    ) as HTMLElement;
+  //   // Find the hidden input and trigger a click to toggle selection
+  //   const input = this.shadowRoot?.querySelector(
+  //     'input[type="radio"]',
+  //   ) as HTMLInputElement;
+  //   const span = this.shadowRoot?.querySelector(
+  //     ".nys-radiobutton__radio",
+  //   ) as HTMLElement;
 
-    if (input) {
-      input.click();
-      span?.focus();
-    }
-  }
+  //   if (input) {
+  //     input.click();
+  //     span?.focus();
+  //   }
+  // }
 
-  private _handleTextInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    let newValue = input.value;
-    this.value = newValue;
+  // private _handleTextInput(event: Event) {
+  //   const input = event.target as HTMLInputElement;
+  //   let newValue = input.value;
+  //   this.value = newValue;
 
-    if (this._hasUserInteracted) {
-      this._validateOtherAndEmitError();
-    }
+  //   if (this._hasUserInteracted) {
+  //     this._validateOtherAndEmitError();
+  //   }
 
-    this._emitOtherInputEvent();
-  }
+  //   this._emitOtherInputEvent();
+  // }
 
-  private _handleTextInputBlur() {
-    this._hasUserInteracted = true;
-    this._validateOtherAndEmitError();
-  }
+  // private _handleTextInputBlur() {
+  //   this._hasUserInteracted = true;
+  //   this._validateOtherAndEmitError();
+  // }
 
-  private _validateOtherAndEmitError() {
-    if (!this.other) return;
+  // private _validateOtherAndEmitError() {
+  //   if (!this.other) return;
 
-    if (!this.checked || !this._hasUserInteracted) {
-      this.showOtherError = false;
-      return;
-    }
+  //   if (!this.checked || !this._hasUserInteracted) {
+  //     this.showOtherError = false;
+  //     return;
+  //   }
 
-    const isInvalid = this.value.trim() === "";
-    this.showOtherError = isInvalid;
+  //   const isInvalid = this.value.trim() === "";
+  //   this.showOtherError = isInvalid;
 
-    if (isInvalid) {
-      this.dispatchEvent(
-        new CustomEvent("nys-error", {
-          detail: {
-            id: this.id,
-            name: this.name,
-            type: "other",
-            message: "Please enter a value for this option.",
-            sourceRadio: this,
-          },
-          bubbles: true,
-          composed: true,
-        }),
-      );
-    } else {
-      this._dispatchClearErrorEvent();
-    }
-  }
+  //   if (isInvalid) {
+  //     this.dispatchEvent(
+  //       new CustomEvent("nys-error", {
+  //         detail: {
+  //           id: this.id,
+  //           name: this.name,
+  //           type: "other",
+  //           message: "Please enter a value for this option.",
+  //           sourceRadio: this,
+  //         },
+  //         bubbles: true,
+  //         composed: true,
+  //       }),
+  //     );
+  //   } else {
+  //     this._dispatchClearErrorEvent();
+  //   }
+  // }
 
-  private _handleOtherKeydown(e: KeyboardEvent) {
-    if (e.key == "Space" || e.key === " ") {
-      e.stopPropagation();
-    }
-  }
+  // private _handleOtherKeydown(e: KeyboardEvent) {
+  //   if (e.key == "Space" || e.key === " ") {
+  //     e.stopPropagation();
+  //   }
+  // }
 
   render() {
-    return html`
-      <input
-        type="radio"
-        name="${ifDefined(this.name ? this.name : undefined)}"
-        .checked=${this.checked}
-        ?disabled=${this.disabled}
-        .value=${this.value}
-        ?required="${this.required}"
-        form=${ifDefined(this.form || undefined)}
-        @change="${this._handleChange}"
-        aria-hidden="true"
-        hidden
-        class="sr-only"
-      />
-      <div class="nys-radiobutton" @click="${this._callInputHandling}">
-        <div class="nys-radiobutton__main-container">
-          <span
-            role="radio"
-            class="nys-radiobutton__radio"
-            tabindex="0"
-            aria-labelledby="${this.id}-label"
-            aria-checked="${this.checked}"
-            aria-required="${this.required}"
-            aria-disabled="${this.disabled}"
-            title="${this.label}"
-          ></span>
-          ${(this.label || this.other) &&
-          html`<nys-label
-            aria-hidden="true"
-            id="${this.id}-label"
-            label="${this.label || (this.other ? "Other" : "")}"
-            description=${ifDefined(this.description || undefined)}
-          >
-            <slot name="description" slot="description"
-              >${this.description}</slot
-            >
-          </nys-label> `}
-        </div>
-        <div class="nys-radiobutton__other-container">
-          ${this.other && this.checked
-            ? html`
-                <nys-textinput
-                  .value=${this.value}
-                  id=${"radiobutton-other-" + this.id}
-                  @nys-input=${this._handleTextInput}
-                  @nys-blur=${this._handleTextInputBlur}
-                  @keydown=${this._handleOtherKeydown}
-                  @nys-focus=${() => this.classList.remove("focused")}
-                  ariaLabel="Other"
-                  aria-invalid=${this.showOtherError ? "true" : "false"}
-                  width=${this.isMobile ? "full" : "md"}
-                ></nys-textinput>
-              `
-            : ""}
-        </div>
-      </div>
-    `;
+    return html``;
+
+    //    return html` <input
+    //   type="radio"
+    //   name="${ifDefined(this.name ? this.name : undefined)}"
+    //   .checked=${this.checked}
+    //   ?disabled=${this.disabled}
+    //   .value=${this.value}
+    //   ?required="${this.required}"
+    //   form=${ifDefined(this.form || undefined)}
+    //   @change="${this._handleChange}"
+    //   aria-hidden="true"
+    //   hidden
+    //   class="sr-only"
+    // />
+    // <div class="nys-radiobutton" @click="${this._callInputHandling}">
+    //   <div class="nys-radiobutton__main-container">
+    //     <span
+    //       role="radio"
+    //       class="nys-radiobutton__radio"
+    //       tabindex="0"
+    //       aria-labelledby="${this.id}-label"
+    //       aria-checked="${this.checked}"
+    //       aria-required="${this.required}"
+    //       aria-disabled="${this.disabled}"
+    //       title="${this.label}"
+    //     ></span>
+    //     ${(this.label || this.other) &&
+    //     html`<nys-label
+    //       aria-hidden="true"
+    //       id="${this.id}-label"
+    //       label="${this.label || (this.other ? "Other" : "")}"
+    //       description=${ifDefined(this.description || undefined)}
+    //     >
+    //       <slot name="description" slot="description"
+    //         >${this.description}</slot
+    //       >
+    //     </nys-label> `}
+    //   </div>
+    //   <div class="nys-radiobutton__other-container">
+    //     ${this.other && this.checked
+    //       ? html`
+    //           <nys-textinput
+    //             .value=${this.value}
+    //             id=${"radiobutton-other-" + this.id}
+    //             @nys-input=${this._handleTextInput}
+    //             @nys-blur=${this._handleTextInputBlur}
+    //             @keydown=${this._handleOtherKeydown}
+    //             @nys-focus=${() => this.classList.remove("focused")}
+    //             ariaLabel="Other"
+    //             aria-invalid=${this.showOtherError ? "true" : "false"}
+    //             width=${this.isMobile ? "full" : "md"}
+    //           ></nys-textinput>
+    //         `
+    //       : ""}
+    //   </div>
+    // </div>`
   }
 }
 
