@@ -391,7 +391,7 @@ export class NysBreadcrumbs extends LitElement {
         : ""}"
       aria-label=${this.ariaLabel || "path to this page"}
     >
-      <ol id="crumb-list"></ol>
+        <ol id="crumb-list"></ol>
       <slot style="display: none;" @slotchange=${this._handleSlotChange}></slot>
     </nav>`;
   }
