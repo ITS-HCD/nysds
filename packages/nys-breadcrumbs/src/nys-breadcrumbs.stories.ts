@@ -452,8 +452,8 @@ export const Disabled: Story = {
   },
 };
 
-export const TESTING: Story = {
-  args: { ...defaultArgs, id: "breadcrumbs10", disabled: true },
+export const Alignment: Story = {
+  args: { ...defaultArgs, id: "breadcrumbs11" },
   render: (args) => html`
     <nys-unavheader></nys-unavheader>
     <nys-globalheader
