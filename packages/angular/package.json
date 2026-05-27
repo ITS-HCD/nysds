@@ -1,6 +1,6 @@
 {
   "name": "@nysds/angular",
-  "version": "1.18.2-alpha-1",
+  "version": "1.18.2-alpha-2",
   "description": "Angular wrapper components for the New York State Design System web components. Built with ng-packagr — the publishable artifact lives in ./dist.",
   "license": "MIT",
   "author": "NYS Design System Team",
