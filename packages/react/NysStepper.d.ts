@@ -18,19 +18,19 @@ export interface NysStepperProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Whether compact mobile view is expanded to show all steps. */
+  /** Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter. */
   isCompactExpanded?: boolean;
 
-  /** Unique identifier. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
   id?: NysStepperElement["id"];
 
   /** Name attribute for form association. */
   name?: NysStepperElement["name"];
 
-  /** Title displayed above the step counter. */
+  /** Title displayed above the step list and compact counter. */
   label?: NysStepperElement["label"];
 
-  /** Progress text (e.g., "Step 2 of 5"). Auto-updated based on selection. */
+  /** Progress text displayed in compact mode (e.g., "Step 2 of 5"). Auto-managed — do not set manually. */
   counterText?: NysStepperElement["counterText"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
@@ -61,7 +61,7 @@ export interface NysStepperProps extends Pick<
  *
  *
  * ### **Slots:**
- *  - _default_ - Default slot for `nys-step` elements.
- * - **actions** - Navigation buttons (e.g., Back, Continue). Must be wrapped in a `<div>`.
+ *  - _default_ - Default slot for `nys-step` elements. Only `nys-step` children are accepted; others are removed.
+ * - **actions** - Persistent navigation buttons. Must contain exactly one `<div>` wrapping only `<nys-button>` elements.
  */
 export const NysStepper: React.ForwardRefExoticComponent<NysStepperProps>;

@@ -170,6 +170,7 @@
   --_nys-button-padding--x: var(--nys-space-50, 4px);
   --_nys-button-border-width: 0px;
   --_nys-button-text-decoration: underline;
+  --_nys-button-gap: var(--nys-space-50, 4px);
 
   /* Text - Default */
   --_nys-button-background-color: var(--nys-button-background-color,
@@ -203,6 +204,8 @@
 
 /* Ghost */
 :host([variant="ghost"]) {
+  --_nys-button-gap: var(--nys-space-50, 4px);
+
   /* Ghost - Default */
   --_nys-button-background-color: var(--nys-button-background-color,
       var(--nys-color-transparent, #ffffff00));
