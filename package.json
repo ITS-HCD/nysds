@@ -37,7 +37,7 @@
     "build:all": "npm run clean:dist && npm run lint && npm run lit-analyze || true && cross-env NODE_ENV=production npm run build:packages && npm run build:root && npm run cem && npm run build:mcp",
     "build:mcp": "npm run build -w @nysds/mcp-server",
     "build:link": "npm run build:all && npm link && cd packages/styles && npm link",
-    "lint": "eslint --cache --cache-location node_modules/.cache/eslint && stylelint \"**/*.scss\" || true",
+    "lint": "eslint --cache --cache-strategy=content --cache-location node_modules/.cache/eslint && stylelint \"**/*.scss\" || true",
     "lint:fix": "eslint --fix && stylelint \"**/*.scss\" --fix",
     "lit-analyze": "find ./packages/nys-*/ -name '*.ts' ! -name '*.figma.*' | xargs lit-analyzer {}",
     "release": "cross-env NODE_ENV=production npm run build:all && cross-env NODE_ENV=production npm run test && npm run cem && cross-env NODE_ENV=production npm publish --workspaces --access public && cross-env NODE_ENV=production npm publish --access public",
@@ -56,7 +56,8 @@
     "clean:node": "rm -rf node_modules && rm -rf packages/*/node_modules && rm -rf packages/**/*/node_modules",
     "clean:dist": "rm -rf storybook-static && rm -rf coverage && rm -rf packages/*/coverage && rm -rf dist && find packages -type d -name dist ! -path '*/mcp-server/dist' -exec rm -rf {} + 2>/dev/null || true",
     "clean:turbo": "find packages -type d -name '.turbo' -exec rm -rf {} + && rm -rf .turbo",
-    "clean:all": "npm run clean:dist && npm run clean:node && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
+    "clean:nodecache": "rm -rf node_modules/.cache",
+    "clean:all": "npm run clean:dist && npm run clean:node && npm run clean:nodecache && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
     "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js"
   },
