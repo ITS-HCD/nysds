@@ -30,26 +30,6 @@ $grid-containers: (
   "-nys-widescreen": 87.5rem
 );
 
-// Grid gap scale (actual gap values - layout-grid divides by 2 for application)
-// Note: default gap ("") handled separately due to responsive behavior
-$grid-gaps: (
-  "-0": 0,
-  "-1px": 1px,
-  "-2px": 2px,
-  "-50": 0.25rem,
-  "-100": 0.5rem,
-  "-150": 0.75rem,
-  "-200": 1rem,
-  "-250": 1.25rem,
-  "-300": 1.5rem,
-  "-400": 2rem,
-  "-500": 2.5rem,
-  "-600": 3rem,
-  "-700": 3.5rem,
-  "-800": 4rem,
-  "-1200": 6rem
-);
-
 // Spacing scale (matches published CSS utility classes)
 $spacing: (
   "1px": 1px,
