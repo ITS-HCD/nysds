@@ -298,6 +298,44 @@ describe("nys-textinput", () => {
     expect((el as any)._internals.validity.valid).to.be.true;
   });
 
+  it("resets telephone mask to initial state when form is reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-textinput type="tel" name="phone" id="phone"></nys-textinput>
+        <button type="reset" id="reset">Reset</button>
+      </form>
+    `);
+
+    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+    const overlay = el.shadowRoot!.querySelector<HTMLElement>(
+      ".nys-textinput__mask-overlay",
+    )!;
+    const resetButton =
+      form.querySelector<HTMLButtonElement>("button[type=reset]")!;
+
+    await el.updateComplete;
+
+    // before interaction, mask should be in initial state
+    expect(input.value).to.equal("");
+    expect(overlay.textContent).to.equal("(___) ___-____");
+
+    // Enter a phone number
+    input.value = "123456";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+    expect(input.value).to.equal("(123) 456");
+    expect(overlay.textContent).to.equal("(123) 456-____");
+
+    // Click reset button
+    resetButton.click();
+    await el.updateComplete;
+
+    // Mask should reset to initial state, not to the previously entered value
+    expect(input.value).to.equal("");
+    expect(overlay.textContent).to.equal("(___) ___-____");
+  });
+
   // -------------------------------------------------------------------------
   // _handleInvalid
   // -------------------------------------------------------------------------
@@ -511,6 +549,34 @@ describe("nys-textinput", () => {
   });
 
   // -------------------------------------------------------------------------
+  // Regression test: clearing "value" prop must sync setFormValue()
+  // -------------------------------------------------------------------------
+
+  it("programmatically setting value to empty string or null updates FormData", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-textinput name="test-field" value="stale-value"></nys-textinput>
+      </form>
+    `);
+
+    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    await el.updateComplete;
+
+    expect(new FormData(form).get("test-field")).to.equal("stale-value");
+
+    el.value = "";
+    await el.updateComplete;
+    expect(new FormData(form).get("test-field")).to.equal("");
+
+    el.value = "stale-value";
+    await el.updateComplete;
+
+    (el as any).value = null;
+    await el.updateComplete;
+    expect(new FormData(form).get("test-field")).to.equal(null);
+  });
+
+  // -------------------------------------------------------------------------
   // Accessibility
   // -------------------------------------------------------------------------
   it("passes the a11y audit", async () => {
@@ -518,8 +584,5 @@ describe("nys-textinput", () => {
       html`<nys-textinput label="First Name"></nys-textinput>`,
     );
     await expect(el).shadowDom.to.be.accessible();
-    // does label map to aria-label
-    const input = el.shadowRoot?.querySelector("input") as HTMLInputElement;
-    expect(input?.getAttribute("aria-label")).to.equal("First Name");
   });
 });

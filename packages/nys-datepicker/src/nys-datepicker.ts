@@ -116,6 +116,12 @@ export class NysDatepicker extends LitElement {
   /** Initial date when calendar opens (YYYY-MM-DD). */
   @property({ type: String }) startDate = "";
 
+  /** The earliest selectable date (YYYY-MM-DD). */
+  @property({ type: String }) minDate = "";
+
+  /** The latest selectable date (YYYY-MM-DD). */
+  @property({ type: String }) maxDate = "";
+
   /** Dark background mode. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
@@ -184,6 +190,22 @@ export class NysDatepicker extends LitElement {
     setTimeout(() => this._addMonthDropdownIcon(), 0);
     setTimeout(() => this._handleDateChange(), 0);
     setTimeout(() => this._onDocumentClick(), 0);
+  }
+
+  updated(changedProperties: Map<string | number | symbol, unknown>): void {
+    super.updated(changedProperties);
+
+    if (changedProperties.has("value")) {
+      const prev = changedProperties.get("value");
+      const current = this.value;
+
+      if (!current && prev !== current) {
+        this._internals.setFormValue("");
+        this._manageRequire();
+      } else if (current) {
+        this._setValue(current); // handles both Date and string
+      }
+    }
   }
 
   private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {
@@ -281,7 +303,12 @@ export class NysDatepicker extends LitElement {
 
     this._manageRequire();
 
-    const message = input.validationMessage;
+    let message = "";
+    if (input.validity.valueMissing) {
+      message = this.errorMessage || "This field is required.";
+    } else {
+      message = input.validationMessage;
+    }
     this._setValidityMessage(message);
   }
 
@@ -301,6 +328,8 @@ export class NysDatepicker extends LitElement {
     if (!this._internals) return;
     const input = this.shadowRoot?.querySelector("input");
     if (!input) return;
+
+    if (!message && this.showError && this.errorMessage?.trim()) return;
 
     // Toggle the HTML <div> tag error message
     this.showError = !!message;
@@ -399,7 +428,7 @@ export class NysDatepicker extends LitElement {
   }
 
   // Creates a Date at local midnight to avoid UTC timezone shifting
-  private _parseLocalDate(dateString: string) {
+  private _parseLocalDate(dateString: string): Date {
     const [year, month, day] = dateString.split("-").map(Number);
     // month is 0-indexed
     return new Date(year, month - 1, day);
@@ -413,6 +442,13 @@ export class NysDatepicker extends LitElement {
   }
 
   private async _setFocusOnTodayDate(visualFocusOnly = false) {
+    if (this.minDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const min = this._parseLocalDate(this.minDate);
+      if (today < min) return;
+    }
+
     const today = new Date();
     today.setHours(0, 0, 0, 0); // force midnight consistency. Setting date start time is at 00:00:00
 
@@ -433,6 +469,18 @@ export class NysDatepicker extends LitElement {
     if (!visualFocusOnly) {
       todayCell.focus();
     }
+  }
+
+  private _isOutOfRange(date: Date): boolean {
+    if (this.minDate) {
+      const min = this._parseLocalDate(this.minDate);
+      if (date < min) return true;
+    }
+    if (this.maxDate) {
+      const max = this._parseLocalDate(this.maxDate);
+      if (date > max) return true;
+    }
+    return false;
   }
 
   private _dispatchInputEvent() {
@@ -473,6 +521,12 @@ export class NysDatepicker extends LitElement {
       (this.contains(nextFocused) || this.shadowRoot?.contains(nextFocused));
 
     if (stillInside) return;
+
+    // When datepicker has min/max range, the wc-datepicker nav button re-renders
+    // at the boundary month and loses focus. Return early to prevent wc-datepicker from calling handleBlur again
+    if (this.datepickerIsOpen && !nextFocused) {
+      return;
+    }
 
     if (!this._hasUserInteracted) {
       this._hasUserInteracted = true;
@@ -579,6 +633,12 @@ export class NysDatepicker extends LitElement {
     datepicker.addEventListener("selectDate", (event: Event) => {
       const dateString = (event as CustomEvent).detail; // format: YYYY-MM-DD
       const dateValue = this._parseLocalDate(dateString);
+
+      if (this._isOutOfRange(dateValue)) {
+        datepicker.classList.add("active");
+        return;
+      }
+
       this._setValue(dateValue);
       this._validate();
 
@@ -737,7 +797,6 @@ export class NysDatepicker extends LitElement {
 
     return html` <div class="nys-datepicker--container">
         <nys-label
-          for=${this.id}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}
@@ -753,7 +812,8 @@ export class NysDatepicker extends LitElement {
             id=${this.id}
             class="nys-datepicker--input"
             type="date"
-            max="9999-12-31"
+            min=${ifDefined(this.minDate || undefined)}
+            max=${this.maxDate || "9999-12-31"}
             ?required=${this.required}
             .value=${this.value instanceof Date
               ? this.value.toISOString().split("T")[0]
@@ -788,6 +848,7 @@ export class NysDatepicker extends LitElement {
         <div class="wc-datepicker--container">
           <wc-datepicker
             id="wc-datepicker-popup"
+            locale="en-US"
             .value=${this.value instanceof Date
               ? this.value
               : this.value
@@ -795,6 +856,8 @@ export class NysDatepicker extends LitElement {
                 : undefined}
             ?disabled=${this.disabled}
             start-date=${ifDefined(this.startDate ? this.startDate : undefined)}
+            min-date=${ifDefined(this.minDate || undefined)}
+            max-date=${ifDefined(this.maxDate || undefined)}
             role="dialog"
             aria-modal=${this.datepickerIsOpen ? "true" : "false"}
           >

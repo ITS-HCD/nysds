@@ -55,29 +55,6 @@ describe("nys-button", () => {
     expect(button.getAttribute("aria-label")).to.equal("button");
   });
 
-  it("should show different variant results based on changing variant prop", async () => {
-    const el = await fixture<NysButton>(
-      html`<nys-button label="Click me" prefixIcon="arrow"></nys-button>`,
-    );
-
-    // 1. Check default variant and icon
-    expect(el.variant).to.equal("filled");
-    let icon = el.shadowRoot?.querySelector("nys-icon");
-    expect(icon).to.exist;
-
-    // 2. Set variant to "text" — icon should disappear
-    el.variant = "text";
-    await el.updateComplete;
-    icon = el.shadowRoot?.querySelector("nys-icon");
-    expect(icon).to.not.exist;
-
-    // 3. Switch back to "ghost" — icon should return
-    el.variant = "ghost";
-    await el.updateComplete;
-    icon = el.shadowRoot!.querySelector("nys-icon");
-    expect(icon).to.exist;
-  });
-
   it("should trigger click event only once", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button label="Button"></nys-button>`,

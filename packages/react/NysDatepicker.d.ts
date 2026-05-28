@@ -73,6 +73,12 @@ export interface NysDatepickerProps extends Pick<
   /** Initial date when calendar opens (YYYY-MM-DD). */
   startDate?: NysDatepickerElement["startDate"];
 
+  /** The earliest selectable date (YYYY-MM-DD). */
+  minDate?: NysDatepickerElement["minDate"];
+
+  /** The latest selectable date (YYYY-MM-DD). */
+  maxDate?: NysDatepickerElement["maxDate"];
+
   /** Selected date. Accepts Date object or ISO string (YYYY-MM-DD). */
   value?: NysDatepickerElement["value"];
 

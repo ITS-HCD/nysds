@@ -22,6 +22,8 @@ export const NysDatepicker = forwardRef((props, forwardedRef) => {
     label,
     description,
     startDate,
+    minDate,
+    maxDate,
     value,
     ...filteredProps
   } = props;
@@ -52,6 +54,8 @@ export const NysDatepicker = forwardRef((props, forwardedRef) => {
       label: props.label,
       description: props.description,
       startDate: props.startDate,
+      minDate: props.minDate,
+      maxDate: props.maxDate,
       value: props.value,
       class: props.className,
       exportparts: props.exportparts,

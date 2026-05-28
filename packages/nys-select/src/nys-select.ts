@@ -165,7 +165,7 @@ export class NysSelect extends LitElement {
     const assignedElements = slot.assignedElements({ flatten: true });
 
     assignedElements.forEach((node) => {
-      // ---- Handle <nys-option> ----
+      // ---- Handle <nys-option> ---- (May consider removing this since depreciated since 2.0 release)
       if (node instanceof NysOption) {
         const optionElement = document.createElement("option");
         optionElement.value = node.value;
@@ -401,6 +401,7 @@ export class NysSelect extends LitElement {
       if (selectElement) {
         selectElement.value = this.value;
       }
+      this._setValue();
     }
   }
 
@@ -408,7 +409,6 @@ export class NysSelect extends LitElement {
     return html`
       <div class="nys-select">
         <nys-label
-          for=${this.id + "--native"}
           label=${this.label}
           description=${this.description}
           flag=${this.required ? "required" : this.optional ? "optional" : ""}

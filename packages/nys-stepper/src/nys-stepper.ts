@@ -9,14 +9,50 @@ let stepperIdCounter = 0;
 /**
  * A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.
  *
- * Add `nys-step` elements as children. Mark one step as `current` to indicate progress; previous steps become
- * navigable. Compact view on mobile expands to show all steps. Use `actions` slot for navigation buttons.
+ * Add `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary; all steps
+ * before it become navigable. Compact view on mobile expands to show all steps. Use the `actions` slot for
+ * persistent navigation buttons (e.g., Save & Exit). Do not place the stepper inside a `<form>` element —
+ * put form fields in the main content area alongside it.
+ *
+ * ## When to use
+ * - Linear, ordered forms or wizards with more than 2 sections.
+ *
+ * ## When not to use
+ * - Forms with only 1 or 2 sections — use a simpler layout.
+ * - Non-linear forms where sections can be completed in any order.
+ *
+ * ## Compact mode (mobile)
+ * On small screens the stepper collapses to a compact view: step labels are hidden and progress
+ * is shown as a bar indicator with a "Step x of y" counter. Clicking or pressing Enter/Space on
+ * the counter expands the full step list (counter text changes to "Back to Form"). Collapsing
+ * again returns the user to the form view.
+ *
+ * ## actions slot constraints
+ * The `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only
+ * contain `<nys-button>` elements — any other element is removed with a console warning.
+ * The stepper automatically forces `size="sm"` on every button in the slot. Buttons with the
+ * `fullWidth` attribute get `flex: 1 1 0` injected so they share available width equally.
+ *
+ * ## Multiple `current` conflict
+ * If more than one `nys-step` has the `current` attribute, only the first one is kept; the rest
+ * are silently removed. Always mark exactly one step as `current`.
+ *
+ * ## id auto-generation
+ * If no `id` is provided, a unique id is generated automatically in the form
+ * `nys-stepper-{n}-{timestamp}`.
+ *
+ * ## Accessibility
+ * - The compact counter is rendered as a `role="button"` with `aria-expanded` and a descriptive
+ *   `aria-label` that announces the current step (e.g., "Expand step navigation. You are on Step 2 of 4").
+ * - Keyboard: Enter or Space toggles the compact view.
+ * - Each `nys-step` label is keyboard-focusable and activatable for navigable steps.
+ * - Visual focus indicators are provided on all interactive elements.
  *
  * @summary Multi-step progress indicator with navigation and mobile-friendly compact view.
  * @element nys-stepper
  *
- * @slot - Default slot for `nys-step` elements.
- * @slot actions - Navigation buttons (e.g., Back, Continue). Must be wrapped in a `<div>`.
+ * @slot - Default slot for `nys-step` elements. Only `nys-step` children are accepted; others are removed.
+ * @slot actions - Persistent navigation buttons. Must contain exactly one `<div>` wrapping only `<nys-button>` elements.
  *
  * @example Basic stepper
  * ```html
@@ -26,24 +62,98 @@ let stepperIdCounter = 0;
  *   <nys-step label="Review"></nys-step>
  * </nys-stepper>
  * ```
+ *
+ * @example Grid layout with sidebar placement
+ * Use NYSDS grid utilities to position the stepper as a sidebar alongside form content.
+ * **Layout requirements:**
+ * - Wrap in `nys-grid-container` > `nys-grid-row`
+ * - Use mobile-first classes: `nys-grid-col-12` (stacks on mobile) plus `nys-desktop:nys-grid-col-*`
+ * - Columns must total 12 (e.g., 3+9 or 4+8)
+ * - Recommended: stepper 3-4 cols, content 8-9 cols
+ * ```html
+ * <div class="nys-grid-container">
+ *   <div class="nys-grid-row">
+ *     <nys-stepper label="Application" class="nys-grid-col-12 nys-desktop:nys-grid-col-3">
+ *       <nys-step label="Personal Info"></nys-step>
+ *       <nys-step label="Contact" current></nys-step>
+ *       <nys-step label="Review"></nys-step>
+ *     </nys-stepper>
+ *     <main class="nys-grid-col-12 nys-desktop:nys-grid-col-9" id="main-content">
+ *       <!-- Form content for current step -->
+ *       <nys-textinput label="Email" required></nys-textinput>
+ *       <nys-textinput label="Phone"></nys-textinput>
+ *     </main>
+ *   </div>
+ * </div>
+ * ```
+ *
+ * @example Navigation buttons in actions slot
+ * Add Previous/Next buttons using the actions slot. Wrap buttons in a `<div>`.
+ * ```html
+ * <nys-stepper label="Application">
+ *   <nys-step label="Step 1"></nys-step>
+ *   <nys-step label="Step 2" current></nys-step>
+ *   <nys-step label="Step 3"></nys-step>
+ *   <div slot="actions">
+ *     <nys-button label="Save and Exit" variant="outline" size="sm" fullWidth></nys-button>
+ *   </div>
+ * </nys-stepper>
+ * ```
+ *
+ * @example SPA / programmatic navigation
+ * Two state variables drive the stepper in any framework or vanilla JS:
+ * - `currentStep` (progress boundary) → set `current` on the matching step
+ * - `viewingStep` (displayed content) → set `selected` on the matching step
+ *
+ * Always set both explicitly. Always call `e.preventDefault()` in the
+ * `nys-step-click` listener to suppress href navigation. Do NOT nest inside a
+ * `<form>` element.
+ * ```js
+ * let currentStep = 0; // furthest reached
+ * let viewingStep = 0; // currently displayed
+ *
+ * function updateStepper(steps) {
+ *   steps.forEach((step, i) => {
+ *     step.toggleAttribute('current', i === currentStep);
+ *     step.toggleAttribute('selected', i === viewingStep);
+ *   });
+ * }
+ *
+ * document.querySelector('nys-stepper').addEventListener('nys-step-click', (e) => {
+ *   e.preventDefault();
+ *   const steps = Array.from(document.querySelectorAll('nys-step'));
+ *   const clicked = e.composedPath().find(el => el.tagName?.toLowerCase() === 'nys-step');
+ *   const index = steps.indexOf(clicked);
+ *   if (index !== -1) { viewingStep = index; updateStepper(steps); }
+ * });
+ *
+ * // Advance to next step (call on form submit / "Continue" click)
+ * function advance(steps) {
+ *   if (currentStep < steps.length - 1) {
+ *     currentStep++;
+ *     viewingStep = currentStep;
+ *     updateStepper(steps);
+ *   }
+ * }
+ * ```
  */
 
 export class NysStepper extends LitElement {
   static styles = unsafeCSS(styles);
 
-  /** Unique identifier. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
   @property({ type: String, reflect: true }) id = "";
 
   /** Name attribute for form association. */
   @property({ type: String, reflect: true }) name = "";
 
-  /** Title displayed above the step counter. */
+  /** Title displayed above the step list and compact counter. */
   @property({ type: String }) label = "";
 
-  /** Progress text (e.g., "Step 2 of 5"). Auto-updated based on selection. */
+  /** Progress text displayed in compact mode (e.g., "Step 2 of 5"). Auto-managed — do not set manually. */
   @property({ type: String }) counterText = "initial";
 
-  /** Whether compact mobile view is expanded to show all steps. */
+  /** Whether compact mobile view is expanded to show all steps. Toggled by clicking the counter. */
   @property({ type: Boolean, reflect: true })
   isCompactExpanded = false;
 
@@ -205,12 +315,14 @@ export class NysStepper extends LitElement {
     let currentAssigned = false;
 
     steps.forEach((step, i) => {
-      // Check if multiple "current" exist, respect the first instance
-      if (step.hasAttribute("current")) {
+      // Check if multiple "current" exist, respect the first instance.
+      // Read the Lit property (set synchronously by frameworks) rather than the
+      // DOM attribute (which Lit reflects asynchronously) so this works in React.
+      if (step.current) {
         if (!currentAssigned) {
           currentAssigned = true;
         } else {
-          step.removeAttribute("current");
+          step.current = false;
         }
       }
 
@@ -222,19 +334,19 @@ export class NysStepper extends LitElement {
       }
 
       // Set previous
-      if (step.hasAttribute("current")) {
+      if (step.current) {
         foundCurrent = true;
-        step.removeAttribute("previous");
+        step.previous = false;
       } else if (!foundCurrent) {
-        step.setAttribute("previous", "");
+        step.previous = true;
       } else {
-        step.removeAttribute("previous");
+        step.previous = false;
       }
 
       // Handle selected, respect first instance
-      if (step.hasAttribute("selected")) {
+      if (step.selected) {
         if (foundCurrent || selectedAssigned) {
-          step.removeAttribute("selected");
+          step.selected = false;
         } else {
           selectedAssigned = true;
         }
@@ -252,7 +364,7 @@ export class NysStepper extends LitElement {
     if (!selectedAssigned) {
       if (currentAssigned) {
         steps.forEach((step) => {
-          if (step.hasAttribute("current") && !selectedAssigned) {
+          if (step.current && !selectedAssigned) {
             step.setAttribute("selected", "");
             selectedAssigned = true;
           }

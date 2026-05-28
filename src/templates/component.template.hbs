@@ -61,8 +61,18 @@ export class Nys{{capitalize componentName}} extends LitElement {
     // This ensures our element always participates in the form
     this._setValue(this.value);
   }
+
+  updated(changedProperties: Map<string | number | symbol, unknown></string>) {
+    if (changedProperties.has("value")) {
+      this._setValue();
+    }
+  }
   {{else}}
-  // Lifecycle Methods
+  /**
+   * Lifecycle methods
+   * --------------------------------------------------------------------------
+   */
+   
   constructor() {
     super();
   }

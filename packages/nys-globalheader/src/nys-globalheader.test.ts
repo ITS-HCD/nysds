@@ -40,6 +40,22 @@ describe("nys-globalheader", () => {
     expect(link.href).to.include("https://ny.gov");
   });
 
+  it("renders the NYS brand logo when nysLogo property is set", async () => {
+    const el = await fixture<NysGlobalHeader>(
+      html`<nys-globalheader
+        appName="Admin Dashboard"
+        homepageLink="https://ny.gov"
+        nysLogo
+      ></nys-globalheader>`,
+    );
+
+    await el.updateComplete;
+    const brandMark = el.shadowRoot?.querySelector(
+      "#nys-unavheader__logo",
+    ) as HTMLElement;
+    expect(brandMark).to.exist;
+  });
+
   it("highlights the active link based on current URL", async () => {
     history.pushState({}, "", "/services");
 

@@ -84,9 +84,6 @@ export class NysCheckbox extends LitElement {
   /** Renders as tile with larger clickable area. Apply to group for consistency. */
   @property({ type: Boolean, reflect: true }) tile = false;
 
-  /** Adjusts colors for dark backgrounds. */
-  @property({ type: Boolean, reflect: true }) inverted = false;
-
   /** Tooltip text shown on hover/focus of info icon. */
   @property({ type: String }) tooltip = "";
 
@@ -97,7 +94,9 @@ export class NysCheckbox extends LitElement {
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
   @property({ type: Boolean, reflect: true }) other = false;
   @property({ type: Boolean }) showOtherError = false;
-  @state() private isMobile = window.innerWidth < 480;
+
+  private _mobileQuery = window.matchMedia("(max-width: 479px)");
+  @state() private isMobile = this._mobileQuery.matches;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
 
@@ -128,14 +127,14 @@ export class NysCheckbox extends LitElement {
     }
     this.addEventListener("invalid", this._handleInvalid);
     this.addEventListener("blur", this._handleBlur);
-    window.addEventListener("resize", this._handleResize);
+    this._mobileQuery.addEventListener("change", this._handleMobileQuery);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.removeEventListener("invalid", this._handleInvalid);
     this.removeEventListener("blur", this._handleBlur);
-    window.removeEventListener("resize", this._handleResize);
+    this._mobileQuery.removeEventListener("change", this._handleMobileQuery);
   }
 
   firstUpdated() {
@@ -297,14 +296,14 @@ export class NysCheckbox extends LitElement {
     return !!this.description || !!slot;
   }
 
-  private _handleResize = () => {
-    this.isMobile = window.innerWidth < 480;
-  };
-
   /**
    * Event Handlers
    * --------------------------------------------------------------------------
    */
+
+  private _handleMobileQuery = () => {
+    this.isMobile = this._mobileQuery.matches;
+  };
 
   private _emitChangeEvent() {
     this.dispatchEvent(
@@ -491,12 +490,11 @@ export class NysCheckbox extends LitElement {
           ${(this.label || this.other) &&
           html`
             <nys-label
+              aria-hidden="true"
               tooltip=${this.tooltip}
-              for=${this.id + "--native"}
               label="${this.label || (this.other ? "Other" : "")}"
               description=${ifDefined(this.description || undefined)}
               flag=${ifDefined(this.required ? "required" : undefined)}
-              ?inverted=${this.inverted}
             >
               <slot name="description" slot="description"
                 >${this.description}</slot
@@ -515,6 +513,7 @@ export class NysCheckbox extends LitElement {
                   ariaLabel="Other"
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width=${this.isMobile ? "full" : "md"}
+                  ?disabled=${this.disabled}
                 ></nys-textinput>
               `
             : ""}

@@ -86,6 +86,30 @@ describe("nys-backtotop", () => {
     window.scrollTo = originalScrollTo;
   });
 
+  it("moves focus to document.body after scrolling to top", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+    const button = el.shadowRoot?.querySelector("nys-button")!;
+
+    const originalScrollTo = window.scrollTo;
+    window.scrollTo = () => {
+      setTimeout(() => window.dispatchEvent(new Event("scroll")), 0);
+    };
+
+    button.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+
+    await el.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve, 20));
+
+    expect(document.activeElement).to.equal(document.body);
+
+    window.scrollTo = originalScrollTo;
+    document.body.removeAttribute("tabindex");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
     await expect(el).shadowDom.to.be.accessible();

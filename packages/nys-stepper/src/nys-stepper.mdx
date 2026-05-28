@@ -10,7 +10,7 @@ The **`nys-stepper`** component is a reusable component indicating to a user how
 
 If an id is not passed, a unique id will be generated.
 
-<div class="nys-grid-row nys-grid-gap-1">
+<div class="nys-grid-row nys-grid-gap-100">
   <nys-badge label="Stable" prefixIcon="code"></nys-badge>
   <nys-badge
     prefixIcon
@@ -62,12 +62,12 @@ Add an `onClick` if the content of the step is retrieved from an API or a functi
 ### Current
 - Represents which step is the user is up to in the stepper's progress.
 - This is the last step the user is able to navigate to.
-- Users can go back and review past completed steps, therefor `current` and `selected` might not be the same at a given moment.
+- Users can go back and review past completed steps, therefore `current` and `selected` might not be the same at a given moment.
 - As the user completes steps, update the `current` flag to the next step, this needs to be done on the user side.
 - if `current` is not defined, the first step is marked by default.
 
 ### Previous
-- This prop is automatically applied to all steps before the `current` step and is used to style the steps peoperly.
+- This prop is automatically applied to all steps before the `current` step and is used to style the steps properly.
 - Do not add `previous` to a step on the implementation side.
 
 ## Usage
@@ -79,7 +79,7 @@ Add an `onClick` if the content of the step is retrieved from an API or a functi
 - If there are only 1 or 2 sections to a form do not use a stepper.
 - Forms that are nonlinear and can be completed in any order should not use a stepper.
 
-<div className="nys-grid-row nys-grid-gap-lg">
+<div className="nys-grid-row nys-grid-gap-400">
   <div className="nys-mobile-lg:nys-grid-col">
     <div className="usage-card usage-card--do">
       ### <nys-icon name="check_circle" color="var(--nys-color-success)" /> Do
@@ -123,21 +123,167 @@ The `nys-stepper` component includes the following accessibility-focused feature
 
 ## Events
 
-The `nys-stepper` component emits the following events:
+The `nys-step-click` event is fired by `nys-step` (not `nys-stepper`) when a navigable step is clicked. It bubbles up through the DOM, so you can listen on the stepper element or on each step individually.
 
-1. `nys-step-click`: Emitted when a `nys-step` is clicked
-
-You can listen to these events using JavaScript:
+Event detail: `{ href: string, label: string }`. The event is cancelable — call `e.preventDefault()` to suppress the default `window.location.href` navigation when using `href`.
 
 ```js
-// Select the stepper component
-const stepper = document.querySelector("nys-stepper");
-
-// Listen for the 'nys-step-click' event
-stepper.addEventListener("nys-step-click", () => {
-	console.log("nys-step clicked");
+document.querySelector("nys-stepper").addEventListener("nys-step-click", (e) => {
+  e.preventDefault(); // prevent href navigation in SPAs
+  console.log("clicked step:", e.detail.label);
 });
 ```
+
+---
+
+## SPA / Framework Integration
+
+These patterns apply to any framework (React, Vue, Angular, Svelte) or vanilla JS. The stepper is a web component, so the same state model and event API are used everywhere.
+
+### State model
+
+Two pieces of application state drive the stepper:
+
+| Concept | Maps to | Purpose |
+|---|---|---|
+| **Progress boundary** (index) | `current` attribute on a `nys-step` | The furthest step the user has reached. Steps at or before this index are navigable. Advance only when the user completes a step and moves forward. |
+| **Viewing step** (index) | `selected` attribute on a `nys-step` | Which step's content is currently displayed. Can be any step ≤ progress boundary. Changes when the user clicks a previous step in the sidebar. |
+
+**Always set both `current` and `selected` from your application state** when managing the stepper programmatically. Without an explicit `selected`, the stepper falls back to using the `current` step — which will override any in-sidebar navigation whenever your state updates.
+
+`previous` is auto-applied by the stepper to all steps before `current`. Never set it yourself.
+
+### Routing strategies
+
+**SPA / programmatic content:** Omit `href`. Listen to `nys-step-click` on the stepper (or each step) and update your state. Render step content alongside the stepper based on your state variable.
+
+**Server-rendered / plain HTML pages:** Add `href` to each step. Listen to `nys-step-click`, call `e.preventDefault()`, then load and render the new content however your app does it (fetch, router, etc.).
+
+### Key rules
+
+- **Do not put `<nys-stepper>` inside a `<form>` element.** Place form fields in the main content area alongside the stepper.
+- **`nys-step-click` fires from `nys-step`**, not `nys-stepper`, but it bubbles — you can listen on either.
+- **Call `e.preventDefault()`** in your `nys-step-click` listener to suppress `window.location.href` navigation when a step has `href`.
+- **Advancing the progress boundary** happens only when the user completes a step (e.g., clicks "Continue"). Going back via sidebar click or a "Back" button should only update the viewing step, not the progress boundary.
+
+### Vanilla JS example
+
+```html
+<nys-stepper label="Application" id="app-stepper">
+  <nys-step label="Personal Info" id="step-0" current selected></nys-step>
+  <nys-step label="Contact Details" id="step-1"></nys-step>
+  <nys-step label="Review" id="step-2"></nys-step>
+</nys-stepper>
+<div id="step-content"></div>
+<button id="btn-back">Back</button>
+<button id="btn-continue">Continue</button>
+
+<script>
+  const steps = Array.from(document.querySelectorAll('nys-step'));
+  let currentStep = 0; // progress boundary
+  let viewingStep = 0; // displayed step
+
+  function updateStepper() {
+    steps.forEach((step, i) => {
+      step.toggleAttribute('current', i === currentStep);
+      step.toggleAttribute('selected', i === viewingStep);
+    });
+    document.getElementById('btn-back').hidden = viewingStep === 0;
+    document.getElementById('btn-continue').hidden =
+      viewingStep !== currentStep || currentStep === steps.length - 1;
+    renderContent(viewingStep);
+  }
+
+  function renderContent(index) {
+    document.getElementById('step-content').textContent =
+      `Content for step ${index + 1}`;
+  }
+
+  document.getElementById('app-stepper').addEventListener('nys-step-click', (e) => {
+    e.preventDefault();
+    const index = steps.indexOf(e.composedPath().find(el => el.tagName?.toLowerCase() === 'nys-step'));
+    if (index !== -1) { viewingStep = index; updateStepper(); }
+  });
+
+  document.getElementById('btn-continue').addEventListener('click', () => {
+    if (currentStep < steps.length - 1) {
+      currentStep++;
+      viewingStep = currentStep;
+      updateStepper();
+    }
+  });
+
+  document.getElementById('btn-back').addEventListener('click', () => {
+    if (viewingStep > 0) { viewingStep--; updateStepper(); }
+  });
+
+  renderContent(0);
+</script>
+```
+
+### React example
+
+Use the React wrappers from `@nysds/components/react` for typed props and idiomatic event callbacks.
+
+```tsx
+import { useState } from 'react';
+import { NysStepper, NysStep, NysButton } from '@nysds/components/react';
+
+const STEPS = [
+  { label: 'Personal Info',   content: <PersonalInfoForm /> },
+  { label: 'Contact Details', content: <ContactForm /> },
+  { label: 'Review',          content: <ReviewForm /> },
+];
+
+export function MultiStepForm() {
+  const [currentStep, setCurrentStep] = useState(0); // progress boundary
+  const [viewingStep, setViewingStep] = useState(0); // displayed step
+
+  function handleContinue() {
+    if (viewingStep < STEPS.length - 1) {
+      setCurrentStep(viewingStep + 1);
+      setViewingStep(viewingStep + 1);
+    }
+  }
+
+  return (
+    <div className="nys-grid-row">
+      <NysStepper label="Application" className="nys-grid-col-12 nys-desktop:nys-grid-col-3">
+        {STEPS.map((step, i) => (
+          <NysStep
+            key={i}
+            label={step.label}
+            current={i === currentStep}
+            selected={i === viewingStep}
+            onNysStepClick={(e) => { e.preventDefault(); setViewingStep(i); }}
+          />
+        ))}
+        <div slot="actions">
+          <NysButton label="Save & Exit" variant="outline" fullWidth />
+        </div>
+      </NysStepper>
+
+      <main className="nys-grid-col-12 nys-desktop:nys-grid-col-9">
+        {STEPS[viewingStep].content}
+        <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+          {viewingStep > 0 && (
+            <NysButton label="Back" variant="outline"
+              onNysClick={() => setViewingStep((v) => v - 1)} />
+          )}
+          {viewingStep === currentStep && currentStep < STEPS.length - 1 && (
+            <NysButton label="Continue" onNysClick={handleContinue} />
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
+```
+
+React-specific notes:
+- Import from `@nysds/components/react`, not `@nysds/nys-stepper`.
+- `onNysStepClick` is a prop on `NysStep` (not `NysStepper`).
+- Always pass `selected` explicitly — see state model above.
 
 ## Dependencies
 

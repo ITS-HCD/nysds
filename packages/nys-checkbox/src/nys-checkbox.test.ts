@@ -469,6 +469,17 @@ describe("nys-checkbox", () => {
     expect(otherCheckbox.showOtherError).to.be.false;
   });
 
+  it("disables textinput when 'other' checkbox is checked and disabled", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox other checked disabled></nys-checkbox>
+    `);
+    await el.updateComplete;
+
+    const textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+    expect(textInput!.hasAttribute("disabled")).to.be.true;
+  });
+
   it("_handleInvalid always calls preventDefault", async () => {
     const el = await fixture<NysCheckboxgroup>(html`
       <nys-checkboxgroup required>
@@ -639,6 +650,45 @@ describe("nys-checkbox", () => {
 
     expect(el.showError).to.be.true;
     expect(focused).to.be.true;
+  });
+
+  /**+ Form Submission Test ***/
+  it("form submit focuses first checkbox of first invalid required group, not subsequent ones", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-checkboxgroup id="first" required>
+          <nys-checkbox
+            name="landmarks"
+            value="adirondacks"
+            label="Adirondacks"
+          ></nys-checkbox>
+        </nys-checkboxgroup>
+        <nys-checkboxgroup id="second" required>
+          <nys-checkbox
+            name="landmarks"
+            value="niagara"
+            label="Niagara Falls"
+          ></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>
+    `);
+
+    const firstInput = await container
+      .querySelector("#first nys-checkbox")
+      .getInputElement();
+    const secondInput = await container
+      .querySelector("#second nys-checkbox")
+      .getInputElement();
+
+    const focused = [];
+    firstInput.focus = () => focused.push("first");
+    secondInput.focus = () => focused.push("second");
+
+    container.requestSubmit();
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(focused).to.include("first");
+    expect(focused).to.not.include("second");
   });
 
   /*** A11y Test ***/

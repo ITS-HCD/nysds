@@ -43,6 +43,10 @@
   --_nys-toggle-color--disabled: var(--nys-color-neutral-500, #797c7f);
 }
 
+:host([inverted]) {
+  --_nys-toggle-outline-color: var(--nys-color-focus-reverse, #7aa5e7);
+}
+
 /* Toggle switch overall container */
 .nys-toggle__content {
   display: flex;

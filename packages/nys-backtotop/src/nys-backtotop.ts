@@ -9,12 +9,23 @@ import styles from "./nys-backtotop.scss?inline";
  * Auto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.
  * Renders as circle button on mobile. Position with `position` prop (`left` or `right`).
  *
- * @summary Floating back-to-top button with auto-show behavior and smooth scroll.
+ * **Placement:** For best accessibility, place as the first focusable element in the page footer.
+ * If no footer exists, place at the bottom of the body tag (after main content). Floating
+ * positioning allows it to overlay content without taking up layout space.
+ *
+ * **Focus Management:** When clicked, after scrolling to the top, focus is moved to `<body>`.
+ * This places the user before the skip-navigation link so they can re-use it to jump directly
+ * back to main content — and works regardless of whether the page uses `<main>` or heading landmarks.
+ *
+ * @summary Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * @element nys-backtotop
  *
- * @example Auto-appearing button
+ * @example Auto-appearing button in footer
  * ```html
- * <nys-backtotop></nys-backtotop>
+ * <footer>
+ *   <nys-backtotop></nys-backtotop>
+ *   <!-- Other footer content -->
+ * </footer>
  * ```
  *
  * @example Always visible, left position
@@ -81,6 +92,22 @@ export class NysBacktotop extends LitElement {
 
   private _scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    // Move focus to the main content area or first heading after scroll
+    // Use a scroll event listener to detect when smooth scroll completes
+    const handleScrollComplete = () => {
+      window.removeEventListener("scroll", handleScrollComplete);
+      this._moveFocusToTop();
+    };
+    window.addEventListener("scroll", handleScrollComplete, { once: true });
+  }
+
+  private _moveFocusToTop() {
+    // Focus <body> so the user lands before the skip-navigation link and can
+    // re-use it to jump back to main content, regardless of page structure.
+    if (!document.body.hasAttribute("tabindex")) {
+      document.body.setAttribute("tabindex", "-1");
+    }
+    document.body.focus();
   }
 
   private _handleResize() {

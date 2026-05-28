@@ -26,19 +26,20 @@
   --_nys-dropdownmenu-font-family: var(
     --nys-font-family-ui,
     var(
-      --nys-font-family-sans,
-      "Proxima Nova",
-      "Helvetica Neue",
-      "Helvetica",
-      "Arial",
-      sans-serif
-    )
+        --nys-font-family-sans,
+        "Proxima Nova",
+        "Helvetica Neue",
+        "Helvetica",
+        "Arial",
+        sans-serif
+      )
   );
 
   /* Dropdownmenu Item Styles */
   --_nys-dropdownmenuitem-color: var(--nys-color-text, #1b1b1b);
   --_nys-dropdownmenuitem-gap: var(--nys-space-100, 8px);
-  --_nys-dropdownmenuitem-padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px);
+  --_nys-dropdownmenuitem-padding: var(--nys-space-200, 16px)
+    var(--nys-space-100, 8px);
   --_nys-dropdownmenuitem-border-radius: var(--nys-radius-md, 4px);
   --_nys-dropdownmenuitem-background-color: var(--nys-color-white, #ffffff);
   --_nys-dropdownmenuitem-background-color--hover: var(
@@ -133,7 +134,8 @@
       background-color: var(--_nys-dropdownmenuitem-background-color--active);
     }
 
-    &:focus-visible:not(:focus):not(.disabled):not([aria-disabled="true"]) {
+    &:focus-visible:not(.disabled):not([aria-disabled="true"]):not([focus-ring-false]) {
+      position: relative;
       outline: var(--_nys-dropdownmenuitem-outline-width) solid
         var(--_nys-dropdownmenuitem-outline-color);
     }

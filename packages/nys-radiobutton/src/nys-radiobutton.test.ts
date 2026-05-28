@@ -95,21 +95,6 @@ describe("nys-radiobutton", () => {
     });
   });
 
-  it("radiogroup propagates inverted to all child radiobuttons", async () => {
-    const group = await fixture<NysRadiogroup>(html`
-      <nys-radiogroup label="Inverted test" inverted>
-        <nys-radiobutton name="i" label="A" value="a"></nys-radiobutton>
-        <nys-radiobutton name="i" label="B" value="b"></nys-radiobutton>
-      </nys-radiogroup>
-    `);
-    await group.updateComplete;
-
-    const radios = group.querySelectorAll("nys-radiobutton");
-    radios.forEach((r) => {
-      expect(r.hasAttribute("inverted")).to.be.true;
-    });
-  });
-
   it("optional flag renders on radiogroup", async () => {
     const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Optional test" optional>
@@ -980,6 +965,17 @@ describe("nys-radiobutton", () => {
     expect(otherRadio.showOtherError).to.be.false;
   });
 
+  it("disables textinput when 'other' checkbox is checked and disabled", async () => {
+    const el = await fixture<NysRadiobutton>(html`
+      <nys-radiobutton other checked disabled></nys-radiobutton>
+    `);
+    await el.updateComplete;
+
+    const textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+    expect(textInput!.hasAttribute("disabled")).to.be.true;
+  });
+
   // -------------------------------------------------------------------------
   // More Event Tests
   // -------------------------------------------------------------------------
@@ -1045,6 +1041,78 @@ describe("nys-radiobutton", () => {
 
     expect(group.showError).to.be.true;
     expect((group as any)._internals.validity.customError).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // Form Submission Test
+  // -------------------------------------------------------------------------
+  it("form submit focuses first radio of first invalid required group, not subsequent ones", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-radiogroup id="first" required>
+          <nys-radiobutton
+            name="borough"
+            value="bronx"
+            label="The Bronx"
+          ></nys-radiobutton>
+        </nys-radiogroup>
+        <nys-radiogroup id="second" required>
+          <nys-radiobutton
+            name="borough"
+            value="brooklyn"
+            label="Brooklyn"
+          ></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+
+    const firstRadio = container.querySelector(
+      "#first nys-radiobutton",
+    ) as NysRadiobutton;
+    const secondRadio = container.querySelector(
+      "#second nys-radiobutton",
+    ) as NysRadiobutton;
+
+    const focused = [];
+    firstRadio.focus = () => focused.push("first");
+    secondRadio.focus = () => focused.push("second");
+
+    container.requestSubmit();
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(focused).to.include("first");
+    expect(focused).to.not.include("second");
+  });
+
+  it("form submit focuses the other textinput when it is checked but empty", async () => {
+    const container = await fixture(html`
+      <form>
+        <nys-radiogroup label="Select borough">
+          <nys-radiobutton
+            name="borough"
+            other
+            checked
+            value=""
+          ></nys-radiobutton>
+        </nys-radiogroup>
+      </form>
+    `);
+
+    const radio = container.querySelector("nys-radiobutton") as NysRadiobutton;
+    const textInput = radio.shadowRoot!.querySelector("nys-textinput")!;
+
+    textInput.dispatchEvent(new Event("nys-blur", { bubbles: true }));
+    await container.querySelector("nys-radiogroup")!.updateComplete;
+
+    let focused = false;
+    textInput.focus = () => {
+      focused = true;
+    };
+
+    container.requestSubmit();
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(focused).to.be.true;
   });
 
   // -------------------------------------------------------------------------

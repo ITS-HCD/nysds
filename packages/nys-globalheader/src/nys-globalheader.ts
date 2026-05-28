@@ -1,4 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
+import nysLogo from "./nys-brand.logo";
 import { property, state } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-globalheader.scss?inline";
@@ -34,6 +35,9 @@ export class NysGlobalHeader extends LitElement {
   /** URL for the header title link. If empty, title is not clickable. */
   @property({ type: String }) homepageLink = "";
 
+  /** Toggles the NYS brand mark */
+  @property({ type: Boolean }) nysLogo = false;
+
   /** Internal state to track mobile menu open/closed status. */
   @state() private _isMobileMenuOpen = false;
 
@@ -51,6 +55,14 @@ export class NysGlobalHeader extends LitElement {
     this._handleListSlotChange(); // run once at startup
 
     this._listenLinkClicks();
+    document.addEventListener("click", this._boundClickOutside);
+    document.addEventListener("keydown", this._boundKeyDown);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this._boundClickOutside);
+    document.removeEventListener("keydown", this._boundKeyDown);
   }
 
   /**
@@ -168,6 +180,38 @@ export class NysGlobalHeader extends LitElement {
     });
   }
 
+  private _renderBrandMark() {
+    return this.nysLogo ? html`${this._getNysLogo()}` : "";
+  }
+
+  private _getNysLogo() {
+    if (!nysLogo) return null;
+
+    // Parse the SVG string into an actual SVG DOM element
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(nysLogo, "image/svg+xml");
+    const svgElement = svgDoc.documentElement;
+    svgElement.id = "nys-unavheader__logo";
+
+    return svgElement;
+  }
+
+  private _boundClickOutside = (event: Event) => {
+    if (!this._isMobileMenuOpen) return;
+
+    const path = event.composedPath();
+    if (!path.includes(this)) {
+      this._isMobileMenuOpen = false;
+    }
+  };
+
+  private _boundKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== "Escape" || !this._isMobileMenuOpen) return;
+    if (window.matchMedia("pointer: coarse").matches) return; // skip touch devices
+
+    this._isMobileMenuOpen = false;
+  };
+
   render() {
     return html`
       <header class="nys-globalheader">
@@ -189,6 +233,7 @@ export class NysGlobalHeader extends LitElement {
                 </button>
               </div>`
             : ""}
+          ${this._renderBrandMark()}
           ${!this.homepageLink?.trim()
             ? html`
                 <div class="nys-globalheader__name-container">

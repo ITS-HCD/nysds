@@ -126,12 +126,12 @@ export class NysButton extends LitElement {
   @property({ type: String }) ariaControls = "";
 
   /**
-   * Material Symbol icon before label. Not shown for `text` variant or `circle` mode.
+   * Material Symbol icon before label. Not shown for `circle` mode.
    */
   @property({ type: String }) prefixIcon = "";
 
   /**
-   * Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `text` variant or `circle` mode.
+   * Material Symbol icon after label. Use `chevron_down` for dropdowns, `open_in_new` for external links. Not shown for `circle` mode.
    */
   @property({ type: String }) suffixIcon = "";
 
@@ -292,6 +292,9 @@ export class NysButton extends LitElement {
       if (this.disabled) return;
 
       e.preventDefault();
+      const btn = this.renderRoot.querySelector(".nys-button");
+      btn?.classList.add("active");
+      setTimeout(() => btn?.classList.remove("active"), 150);
 
       if (this.href) {
         // Click the internal <a> so native navigation happens
@@ -305,6 +308,17 @@ export class NysButton extends LitElement {
         this._handleAnyAttributeFunction();
         this._handleClick(e);
       }
+    }
+  }
+
+  private _handleKeyup(e: KeyboardEvent) {
+    if (
+      e.code === "Space" ||
+      e.code === "Enter" ||
+      e.key === " " ||
+      e.key === "Enter"
+    ) {
+      this.renderRoot.querySelector(".nys-button")?.classList.remove("active");
     }
   }
 
@@ -326,7 +340,6 @@ export class NysButton extends LitElement {
     }
   }
 
-  // Public Methods
   public focus(options?: FocusOptions) {
     const innerEl = this.renderRoot.querySelector(
       this.href ? "a.nys-button" : "button.nys-button",
@@ -357,6 +370,7 @@ export class NysButton extends LitElement {
                 @focus="${this._handleFocus}"
                 @blur="${this._handleBlur}"
                 @keydown="${this._handleKeydown}"
+                @keyup="${this._handleKeyup}"
                 tabindex="${this.disabled ? -1 : 0}"
                 aria-label=${ifDefined(
                   this.ariaLabel ||
@@ -366,7 +380,7 @@ export class NysButton extends LitElement {
                 )}
                 aria-description=${ifDefined(this.ariaDescription || undefined)}
               >
-                ${this.prefixIcon && this.variant !== "text"
+                ${this.prefixIcon
                   ? html`<slot name="prefix-icon">
                       <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                     </slot>`
@@ -374,7 +388,7 @@ export class NysButton extends LitElement {
                 ${this.label && !this.circle
                   ? html`<div class="nys-button__text">${this.label}</div>`
                   : ""}
-                ${this.suffixIcon && this.variant !== "text"
+                ${this.suffixIcon
                   ? html`<slot name="suffix-icon">
                       <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                     </slot>`
@@ -399,6 +413,7 @@ export class NysButton extends LitElement {
               class="nys-button"
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
+              aria-disabled="${this.disabled ? "true" : "false"}"
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
@@ -407,6 +422,7 @@ export class NysButton extends LitElement {
               @focus="${this._handleFocus}"
               @blur="${this._handleBlur}"
               @keydown="${this._handleKeydown}"
+              @keyup="${this._handleKeyup}"
               tabindex="${this.disabled ? -1 : 0}"
               aria-label=${ifDefined(
                 this.ariaLabel ||
@@ -419,7 +435,7 @@ export class NysButton extends LitElement {
               aria-description=${ifDefined(this.ariaDescription || undefined)}
               role="button"
             >
-              ${this.prefixIcon && this.variant !== "text"
+              ${this.prefixIcon
                 ? html`<slot name="prefix-icon">
                     <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
                   </slot>`
@@ -427,7 +443,7 @@ export class NysButton extends LitElement {
               ${this.label && !this.circle
                 ? html`<div class="nys-button__text">${this.label}</div>`
                 : ""}
-              ${this.suffixIcon && this.variant !== "text"
+              ${this.suffixIcon
                 ? html`<slot name="suffix-icon">
                     <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
                   </slot>`

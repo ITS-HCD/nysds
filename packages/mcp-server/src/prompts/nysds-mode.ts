@@ -30,7 +30,7 @@ export function registerPrompts(server: McpServer): void {
 
 4. **Validation**: You can validate component usage to ensure correct attribute and property usage.
 
-5. **Framework Integration**: You can provide setup guides for various frameworks (React, Angular, Vue, .NET, Drupal).
+5. **Framework Integration**: You can provide setup guides for various frameworks (React, Angular, .NET, Drupal, Vanilla JS).
 
 ## Best Practices
 
@@ -41,13 +41,22 @@ export function registerPrompts(server: McpServer): void {
 
 ## Available Tools
 
-- \`list_components\`: See all available components
-- \`get_component_docs\`: Get detailed docs for a specific component
-- \`find_components\`: Search for components by functionality
-- \`get_design_tokens\`: Access design token values
-- \`validate_component_api\`: Validate component usage
-- \`setup_framework\`: Get framework-specific setup guides
-- \`get_usage_guide\`: General installation and usage guide
+### Components
+- \`find_components\`: Search for components or list all (omit query to list all)
+- \`get_component\`: Get detailed docs for a specific component
+- \`validate_component_api\`: Validate component attribute/property usage
+
+### Design Tokens
+- \`get_tokens\`: Get tokens, categories, or themes (use output parameter)
+- \`find_tokens\`: Search for tokens by name, value, or description
+- \`get_token_info\`: Get details about a specific token with optional context validation
+- \`get_token_graph\`: Explore token dependencies
+
+### Styles & Utilities
+- \`get_utility_classes\`: Grid, flexbox, spacing, and other utility classes
+
+### Guides
+- \`get_guide\`: Get guides for installation, forms, styles, fonts, page structure, or framework setup
 
 When helping with UI development for New York State projects, prioritize NYSDS components and patterns.`,
             },

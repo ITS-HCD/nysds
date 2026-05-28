@@ -8,9 +8,13 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { registerComponentTools } from "./component-tools.js";
 import { registerTokenTools } from "./token-tools.js";
 import { registerValidationTools } from "./validation-tools.js";
+import { registerUtilityTools } from "./utility-tools.js";
+import { registerGuideTools } from "./guide-tools.js";
 
 export function registerTools(server: McpServer): void {
   registerComponentTools(server);
   registerTokenTools(server);
   registerValidationTools(server);
+  registerUtilityTools(server);
+  registerGuideTools(server);
 }

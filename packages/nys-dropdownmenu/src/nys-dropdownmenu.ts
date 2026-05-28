@@ -61,7 +61,9 @@ export class NysDropdownMenu extends LitElement {
   private _trigger: HTMLElement | null = null;
   private _menuElement: HTMLElement | null = null;
   private _ariaTarget: HTMLElement | null = null;
+  private _lastFocusedIndex: number = 0;
   private readonly GAP = 4;
+  private _resizeObserver: ResizeObserver | null = null;
 
   /**
    * Lifecycle Methods
@@ -89,10 +91,7 @@ export class NysDropdownMenu extends LitElement {
     await this.updateComplete;
     this.applyInverseTransform();
     this._connectTrigger();
-
-    this.addEventListener("nys-click", () => {
-      this._closeDropdown();
-    });
+    this._handleMenuClick();
   }
   /**
    * Functions
@@ -152,7 +151,13 @@ export class NysDropdownMenu extends LitElement {
 
     if (this.showDropdown) {
       window.addEventListener("scroll", this._handleWindowScroll, true);
-      window.addEventListener("resize", this._handleWindowResize);
+      this._resizeObserver = new ResizeObserver(() => {
+        if (this.showDropdown) {
+          this._positionMenu();
+        }
+      });
+      this._resizeObserver.observe(document.documentElement);
+
       document.addEventListener("click", this._handleDocumentClick);
 
       this._menuElement = this.shadowRoot?.querySelector(
@@ -162,15 +167,17 @@ export class NysDropdownMenu extends LitElement {
 
       await this.updateComplete;
       this._positionMenu();
-      this._focusOnFirstItem();
+      this._focusOnItem(this._lastFocusedIndex);
     } else {
       window.removeEventListener("scroll", this._handleWindowScroll, true);
-      window.removeEventListener("resize", this._handleWindowResize);
       document.removeEventListener("click", this._handleDocumentClick);
       this._menuElement!.removeEventListener(
         "keydown",
         this._handleMenuKeydown,
       );
+
+      this._resizeObserver?.disconnect();
+      this._resizeObserver = null;
     }
   };
 
@@ -202,10 +209,13 @@ export class NysDropdownMenu extends LitElement {
     }
   };
 
-  private async _focusOnFirstItem() {
+  private async _focusOnItem(index: number = 0) {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     const items = this._getMenuItems();
-    if (items.length > 0) items[0].focus();
+    const target = items[Math.min(index, items.length - 1)];
+    if (!target) return;
+
+    target.focus();
   }
 
   // In some iframes (like Storybook's) or embedded containers , parent elements may have CSS transforms applied, creating a new coordinate context.
@@ -415,6 +425,16 @@ export class NysDropdownMenu extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  private _handleMenuClick() {
+    this.addEventListener("nys-click", (e: Event) => {
+      const items = this._getMenuItems();
+      const targetCrumb = (e as CustomEvent).detail?.id;
+      const index = items.findIndex((item) => item.id === targetCrumb);
+      if (index !== -1) this._lastFocusedIndex = index;
+      this._closeDropdown();
+    });
+  }
+
   private _handleTriggerKeydown = (event: KeyboardEvent) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -441,6 +461,7 @@ export class NysDropdownMenu extends LitElement {
         event.preventDefault();
         const nextIndex =
           currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+        this._lastFocusedIndex = nextIndex;
         items[nextIndex].focus();
         break;
       case "ArrowUp":
@@ -448,6 +469,7 @@ export class NysDropdownMenu extends LitElement {
         event.preventDefault();
         const prevIndex =
           currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+        this._lastFocusedIndex = prevIndex;
         items[prevIndex].focus();
         break;
       case "Tab":
@@ -457,12 +479,6 @@ export class NysDropdownMenu extends LitElement {
         break;
       default:
         break;
-    }
-  };
-
-  private _handleWindowResize = () => {
-    if (this.showDropdown) {
-      this._positionMenu();
     }
   };
 
