@@ -469,6 +469,17 @@ describe("nys-checkbox", () => {
     expect(otherCheckbox.showOtherError).to.be.false;
   });
 
+  it("disables textinput when 'other' checkbox is checked and disabled", async () => {
+    const el = await fixture<NysCheckbox>(html`
+      <nys-checkbox other checked disabled></nys-checkbox>
+    `);
+    await el.updateComplete;
+
+    const textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+    expect(textInput!.hasAttribute("disabled")).to.be.true;
+  });
+
   it("_handleInvalid always calls preventDefault", async () => {
     const el = await fixture<NysCheckboxgroup>(html`
       <nys-checkboxgroup required>

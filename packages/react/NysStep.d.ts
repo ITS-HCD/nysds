@@ -18,23 +18,21 @@ export interface NysStepProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Whether this step is currently being viewed. Set by parent stepper. */
+  /** Which step is currently being displayed. If not set, defaults to the `current` step.
+Setting this on a step after `current` is silently corrected to match `current`.
+When controlling state from a framework, always set this explicitly. */
   selected?: boolean;
 
-  /** Marks the furthest reached step. Steps before this are navigable. */
+  /** The furthest step the user has reached (progress boundary). Steps before this are navigable. */
   current?: boolean;
-
-  /** Internal: Whether parent stepper's compact view is expanded. */
-  isCompactExpanded?: boolean;
 
   /** Step label text displayed alongside the step number. */
   label?: NysStepElement["label"];
 
-  /** URL for page navigation when step is clicked. Optional for SPA routing. */
+  /** URL navigated to when the step is activated, via `window.location.href`.
+Navigation is suppressed if the `nys-step-click` listener calls `e.preventDefault()`.
+Omit for SPA/framework routing and handle navigation in the event listener instead. */
   href?: NysStepElement["href"];
-
-  /** Step number (1-indexed). Auto-assigned by parent stepper. */
-  stepNumber?: NysStepElement["stepNumber"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
@@ -57,10 +55,10 @@ export interface NysStepProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Custom click handler. Called before `nys-step-click` event. */
+  /** Optional function called before `nys-step-click` is dispatched. Use for pre-navigation logic. */
   onClick?: NysStepElement["onClick"];
 
-  /** Fired when a navigable step is clicked. Detail: `{href, label}`. Cancelable. */
+  /** Fired when a navigable (`previous` or `current`) non-selected step is clicked or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call `e.preventDefault()` to suppress `window.location.href` navigation. */
   onNysStepClick?: (event: CustomEvent) => void;
 }
 
@@ -70,6 +68,6 @@ export interface NysStepProps extends Pick<
  *
  *
  * ### **Events:**
- *  - **nys-step-click** - Fired when a navigable step is clicked. Detail: `{href, label}`. Cancelable.
+ *  - **nys-step-click** - Fired when a navigable (`previous` or `current`) non-selected step is clicked or activated by keyboard. Detail: `{ href: string, label: string }`. Cancelable — call `e.preventDefault()` to suppress `window.location.href` navigation.
  */
 export const NysStep: React.ForwardRefExoticComponent<NysStepProps>;

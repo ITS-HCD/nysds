@@ -271,10 +271,13 @@ export class NysRadiobutton extends LitElement {
     const input = this.shadowRoot?.querySelector(
       'input[type="radio"]',
     ) as HTMLInputElement;
+    const span = this.shadowRoot?.querySelector(
+      ".nys-radiobutton__radio",
+    ) as HTMLElement;
 
     if (input) {
-      input.focus();
       input.click();
+      span?.focus();
     }
   }
 
@@ -346,15 +349,22 @@ export class NysRadiobutton extends LitElement {
         hidden
         class="sr-only"
       />
-      <div
-        class="nys-radiobutton"
-        @click="${this._callInputHandling}"
-        aria-label=${this.label || (this.other ?? "Other")}
-      >
+      <div class="nys-radiobutton" @click="${this._callInputHandling}">
         <div class="nys-radiobutton__main-container">
-          <span class="nys-radiobutton__radio" tabindex="0"></span>
+          <span
+            role="radio"
+            class="nys-radiobutton__radio"
+            tabindex="0"
+            aria-labelledby="${this.id}-label"
+            aria-checked="${this.checked}"
+            aria-required="${this.required}"
+            aria-disabled="${this.disabled}"
+            title="${this.label}"
+          ></span>
           ${(this.label || this.other) &&
           html`<nys-label
+            aria-hidden="true"
+            id="${this.id}-label"
             label="${this.label || (this.other ? "Other" : "")}"
             description=${ifDefined(this.description || undefined)}
           >
@@ -376,6 +386,7 @@ export class NysRadiobutton extends LitElement {
                   ariaLabel="Other"
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width=${this.isMobile ? "full" : "md"}
+                  ?disabled=${this.disabled}
                 ></nys-textinput>
               `
             : ""}

@@ -10,6 +10,7 @@ MCP (Model Context Protocol) server for the New York State Design System. Expose
 No installation is required. The MCP server runs on-demand via `npx` — your AI assistant downloads and starts it automatically when you add the configuration below. You just need [Node.js](https://nodejs.org/) (v18 or later) installed on your machine.
 
 Jump to the configuration for your assistant:
+
 - [GitHub Copilot](#github-copilot)
 - [Claude Desktop](#claude-desktop)
 - [Claude Code](#claude-code)
@@ -42,6 +43,20 @@ Or run it directly without installing:
 
 ```bash
 npx -y @nysds/mcp-server
+```
+
+## Local Development
+
+If you're working on the NYSDS repo itself and want your changes reflected in the MCP server:
+
+1. **Build** — run `npm run build:link` (or `npm run build:all` for a full production build) from the repo root. This rebuilds the `custom-elements.json` manifest and the MCP server bundle that your AI assistant reads.
+2. **Restart your AI assistant** — the MCP server process is loaded at startup, so changes won't take effect until you restart (e.g. quit and relaunch Claude Desktop, or run `/mcp` → restart in Claude Code).
+
+```bash
+# Fastest rebuild loop during MCP development
+npm run build:link
+
+# Then restart your AI assistant to pick up the changes
 ```
 
 ## Connecting to Your AI Assistant
@@ -136,47 +151,47 @@ See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli) 
 
 ### Components
 
-| Tool | Description |
-|------|-------------|
-| `find_components` | Search for components by name/description, or list all (omit query) |
-| `get_component` | Full documentation for a specific component. Use `includeExamples: true` for code examples. |
-| `validate_component_api` | Validate that attributes/properties are valid for a component |
+| Tool                     | Description                                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------------------- |
+| `find_components`        | Search for components by name/description, or list all (omit query)                         |
+| `get_component`          | Full documentation for a specific component. Use `includeExamples: true` for code examples. |
+| `validate_component_api` | Validate that attributes/properties are valid for a component                               |
 
 ### Design Tokens
 
-| Tool | Description |
-|------|-------------|
-| `get_tokens` | Get tokens, categories, or agency themes. Filter by category or layer. |
-| `find_tokens` | Search tokens by CSS variable name, value, or description |
-| `get_token_info` | Detailed info for a specific token with optional context validation |
-| `get_token_graph` | Token dependency graph showing references and usage |
+| Tool              | Description                                                            |
+| ----------------- | ---------------------------------------------------------------------- |
+| `get_tokens`      | Get tokens, categories, or agency themes. Filter by category or layer. |
+| `find_tokens`     | Search tokens by CSS variable name, value, or description              |
+| `get_token_info`  | Detailed info for a specific token with optional context validation    |
+| `get_token_graph` | Token dependency graph showing references and usage                    |
 
 ### Styles & Guides
 
-| Tool | Description |
-|------|-------------|
-| `get_utility_classes` | Grid, flexbox, spacing, display, and typography utility classes |
-| `get_guide` | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, dotnet, drupal, vanilla). Angular, React, .NET, and Drupal guides are currently untested. |
+| Tool                  | Description                                                                                                                                                                                  |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `get_utility_classes` | Grid, flexbox, spacing, display, and typography utility classes                                                                                                                              |
+| `get_guide`           | Guides for installation, forms, styles, fonts, page structure, or framework setup (angular, react, dotnet, drupal, vanilla). Angular, React, .NET, and Drupal guides are currently untested. |
 
 ## Available Resources
 
-| URI | Description |
-|-----|-------------|
-| `nysds://components` | Component overview list |
-| `nysds://component/{tag}` | Individual component docs |
-| `nysds://tokens` | All design tokens with CSS variables and descriptions |
-| `nysds://tokens/css` | Raw tokens.css file content |
-| `nysds://tokens/graph` | Token dependency graph with stats |
-| `nysds://tokens/color` | Color tokens only |
-| `nysds://tokens/font` | Typography tokens |
-| `nysds://tokens/space` | Spacing tokens |
-| `nysds://tokens/size` | Size tokens |
-| `nysds://installation` | Installation guide |
+| URI                       | Description                                           |
+| ------------------------- | ----------------------------------------------------- |
+| `nysds://components`      | Component overview list                               |
+| `nysds://component/{tag}` | Individual component docs                             |
+| `nysds://tokens`          | All design tokens with CSS variables and descriptions |
+| `nysds://tokens/css`      | Raw tokens.css file content                           |
+| `nysds://tokens/graph`    | Token dependency graph with stats                     |
+| `nysds://tokens/color`    | Color tokens only                                     |
+| `nysds://tokens/font`     | Typography tokens                                     |
+| `nysds://tokens/space`    | Spacing tokens                                        |
+| `nysds://tokens/size`     | Size tokens                                           |
+| `nysds://installation`    | Installation guide                                    |
 
 ## Prompts
 
-| Prompt | Description |
-|--------|-------------|
+| Prompt       | Description                             |
+| ------------ | --------------------------------------- |
 | `nysds_mode` | Activates NYSDS-aware coding assistance |
 
 ## Example Prompts

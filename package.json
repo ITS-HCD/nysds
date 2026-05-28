@@ -1,6 +1,6 @@
 {
   "name": "@nysds/components",
-  "version": "1.18.1",
+  "version": "1.18.3",
   "description": "New York State's design system and code component library.",
   "type": "module",
   "workspaces": [
@@ -46,6 +46,8 @@
     "release:zip": "npm run build:all && node src/scripts/create-release-zip.js",
     "test": "npx playwright install && wtr --node-resolve",
     "test:build": "npm run build:all && npm run test",
+    "test:compact": "export NYSDS_TEST_OUTPUT=compact && npx playwright install && wtr --node-resolve",
+    "test:ai": "export NYSDS_TEST_OUTPUT=ai && npx playwright install && wtr --node-resolve",
     "storybook": "cross-env NODE_ENV=production storybook dev -p 6006",
     "storybook:build:all": "cross-env NODE_ENV=production npm run build:all && npm run storybook",
     "build-storybook": "npm run build:packages && storybook build",

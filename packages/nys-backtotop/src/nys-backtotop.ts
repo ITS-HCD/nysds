@@ -13,9 +13,9 @@ import styles from "./nys-backtotop.scss?inline";
  * If no footer exists, place at the bottom of the body tag (after main content). Floating
  * positioning allows it to overlay content without taking up layout space.
  *
- * **Focus Management:** When clicked, after scrolling to the top, focus is automatically moved
- * to the `<main>` element (if present), the first heading (`<h1>` or `<h2>`), or the document element.
- * This ensures keyboard navigation continues naturally from the top of the page.
+ * **Focus Management:** When clicked, after scrolling to the top, focus is moved to `<body>`.
+ * This places the user before the skip-navigation link so they can re-use it to jump directly
+ * back to main content — and works regardless of whether the page uses `<main>` or heading landmarks.
  *
  * @summary Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * @element nys-backtotop
@@ -102,28 +102,12 @@ export class NysBacktotop extends LitElement {
   }
 
   private _moveFocusToTop() {
-    // Try to focus main element, then first heading, then body as fallback
-    const mainEl = document.querySelector("main");
-    if (mainEl) {
-      // Ensure main is focusable
-      if (!mainEl.hasAttribute("tabindex")) {
-        mainEl.setAttribute("tabindex", "-1");
-      }
-      (mainEl as HTMLElement).focus();
-      return;
+    // Focus <body> so the user lands before the skip-navigation link and can
+    // re-use it to jump back to main content, regardless of page structure.
+    if (!document.body.hasAttribute("tabindex")) {
+      document.body.setAttribute("tabindex", "-1");
     }
-
-    const heading = document.querySelector("h1, h2");
-    if (heading) {
-      if (!heading.hasAttribute("tabindex")) {
-        heading.setAttribute("tabindex", "-1");
-      }
-      (heading as HTMLElement).focus();
-      return;
-    }
-
-    // If no main or heading, focus document element as last resort
-    (document.documentElement as HTMLElement).focus();
+    document.body.focus();
   }
 
   private _handleResize() {
