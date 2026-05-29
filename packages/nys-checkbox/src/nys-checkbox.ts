@@ -600,6 +600,7 @@ export class NysCheckbox extends LitElement {
                   ariaLabel="Other"
                   aria-invalid=${this.showOtherError ? "true" : "false"}
                   width=${this.isMobile ? "full" : "md"}
+                  ?disabled=${this.disabled}
                 ></nys-textinput>
               `
             : ""}

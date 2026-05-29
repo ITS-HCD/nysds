@@ -965,6 +965,17 @@ describe("nys-radiobutton", () => {
     expect(otherRadio.showOtherError).to.be.false;
   });
 
+  it("disables textinput when 'other' checkbox is checked and disabled", async () => {
+    const el = await fixture<NysRadiobutton>(html`
+      <nys-radiobutton other checked disabled></nys-radiobutton>
+    `);
+    await el.updateComplete;
+
+    const textInput = el.shadowRoot?.querySelector("nys-textinput");
+    expect(textInput).to.exist;
+    expect(textInput!.hasAttribute("disabled")).to.be.true;
+  });
+
   // -------------------------------------------------------------------------
   // More Event Tests
   // -------------------------------------------------------------------------

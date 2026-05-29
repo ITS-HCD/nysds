@@ -298,6 +298,44 @@ describe("nys-textinput", () => {
     expect((el as any)._internals.validity.valid).to.be.true;
   });
 
+  it("resets telephone mask to initial state when form is reset", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-textinput type="tel" name="phone" id="phone"></nys-textinput>
+        <button type="reset" id="reset">Reset</button>
+      </form>
+    `);
+
+    const el = form.querySelector<NysTextinput>("nys-textinput")!;
+    const input = el.shadowRoot!.querySelector<HTMLInputElement>("input")!;
+    const overlay = el.shadowRoot!.querySelector<HTMLElement>(
+      ".nys-textinput__mask-overlay",
+    )!;
+    const resetButton =
+      form.querySelector<HTMLButtonElement>("button[type=reset]")!;
+
+    await el.updateComplete;
+
+    // before interaction, mask should be in initial state
+    expect(input.value).to.equal("");
+    expect(overlay.textContent).to.equal("(___) ___-____");
+
+    // Enter a phone number
+    input.value = "123456";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    await el.updateComplete;
+    expect(input.value).to.equal("(123) 456");
+    expect(overlay.textContent).to.equal("(123) 456-____");
+
+    // Click reset button
+    resetButton.click();
+    await el.updateComplete;
+
+    // Mask should reset to initial state, not to the previously entered value
+    expect(input.value).to.equal("");
+    expect(overlay.textContent).to.equal("(___) ___-____");
+  });
+
   // -------------------------------------------------------------------------
   // _handleInvalid
   // -------------------------------------------------------------------------
