@@ -108,12 +108,8 @@ export class NysRadiogroup extends LitElement {
     if (!this.id) {
       this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
     }
-    // this.addEventListener("nys-change", this._handleRadioButtonChange);
-    this.addEventListener("invalid", this._handleInvalid);
-    // this.addEventListener("nys-error", this._handleChildError);
-    // this.addEventListener("nys-error-clear", this._handleChildErrorClear);
-    // this.addEventListener("nys-other-input", this._handleOtherInput);
 
+    this.addEventListener("invalid", this._handleInvalid);
     this._mobileQuery.addEventListener("change", this._handleMobileQuery);
 
     this._childObserver = new MutationObserver(() => {
@@ -128,9 +124,7 @@ export class NysRadiogroup extends LitElement {
     // this.removeEventListener("nys-change", this._handleRadioButtonChange);
     this.removeEventListener("invalid", this._handleInvalid);
     this._mobileQuery.removeEventListener("change", this._handleMobileQuery);
-    // this.removeEventListener("nys-error", this._handleChildError);
-    // this.removeEventListener("nys-error-clear", this._handleChildErrorClear);
-    // this.removeEventListener("nys-other-input", this._handleOtherInput);
+
     this._childObserver?.disconnect();
   }
 
@@ -141,14 +135,10 @@ export class NysRadiogroup extends LitElement {
 
     this._initializeCheckedRadioValue();
     this._setValue(); // This ensures our element always participates in the form
-    // this._setRadioButtonRequire();
-    // this._updateRadioButtonsSize();
-    // this._updateRadioButtonsTile();
-    // this._updateRadioButtonsShowError();
+
     this._getSlotDescriptionForAria();
 
     this._initializeChildAttributes();
-    this._updateGroupTabIndex();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -160,18 +150,7 @@ export class NysRadiogroup extends LitElement {
         this._manageRequire();
       }
     }
-    // if (changedProperties.has("size")) {
-    //   this._updateRadioButtonsSize();
-    // }
-    // if (changedProperties.has("tile")) {
-    //   this._updateRadioButtonsTile();
-    // }
-    // if (changedProperties.has("showError")) {
-    //   this._updateRadioButtonsShowError();
-    // }
-    // if (changedProperties.has("form")) {
-    //   this._updateRadioButtonsForm();
-    // }
+    this._updateGroupTabIndex();
   }
 
   /**
@@ -182,17 +161,6 @@ export class NysRadiogroup extends LitElement {
   private _setValue() {
     this._internals.setFormValue(this.selectedValue);
   }
-
-  // // Updates the "require" attribute of the first radiobutton underneath a radiogroup.
-  // // This will make sure there's a requirement for all radiobutton under the same name/group
-  // private _setRadioButtonRequire() {
-  //   const radioButtons = this.querySelectorAll("nys-radiobutton");
-  //   radioButtons.forEach((radioButton, index) => {
-  //     if (this.required && index === 0) {
-  //       radioButton.setAttribute("required", "required");
-  //     }
-  //   });
-  // }
 
   private async _manageRequire() {
     const message = this.errorMessage || "Please select an option.";
@@ -261,14 +229,23 @@ export class NysRadiogroup extends LitElement {
     event.preventDefault();
 
     const radioBtns = this._getAllRadios().filter((radio) => !radio.disabled);
-    const fromEvent = radioBtns.find((radio) => radio === event.target); // event.target is the radio VO dispatched black focus outline
-    const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
-
+    const focusedInput = event.target as HTMLElement;
     const currentRadio =
-      fromEvent ||
-      focusedRadio ||
+      radioBtns.find(
+        (radio) =>
+          this.shadowRoot?.querySelector(`#input-${radio.id}`) === focusedInput,
+      ) ||
       radioBtns.find((radio) => radio.checked) ||
-      radioBtns[0]; // fallback is checked radio or first radio
+      radioBtns[0];
+
+    // const fromEvent = radioBtns.find((radio) => radio === event.target); // event.target is the radio VO dispatched black focus outline
+    // const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
+
+    // const currentRadio =
+    //   fromEvent ||
+    //   focusedRadio ||
+    //   radioBtns.find((radio) => radio.checked) ||
+    //   radioBtns[0]; // fallback is checked radio or first radio
 
     let increment = 0;
     if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
@@ -288,16 +265,11 @@ export class NysRadiogroup extends LitElement {
     }
 
     const target = radioBtns[index];
-    const input = this.shadowRoot?.querySelector("input");
-    input?.click();
 
+    this._selectRadio(target);
     await this.updateComplete;
     this._updateGroupTabIndex();
-
-    const targetInput = this.shadowRoot?.querySelector(
-      `#input-${target.id}`,
-    ) as HTMLElement;
-    targetInput?.focus();
+    this.shadowRoot?.querySelector<HTMLElement>(`#input-${target.id}`)?.focus();
   }
 
   private _updateGroupTabIndex() {
@@ -309,8 +281,6 @@ export class NysRadiogroup extends LitElement {
       radios.find((radio) => !radio.disabled);
 
     radios.forEach((radio) => {
-      //radio.setAttribute("aria-checked", String(radio.checked));
-
       const input = this.shadowRoot?.querySelector(
         `#input-${radio.id}`,
       ) as HTMLInputElement;
@@ -320,10 +290,6 @@ export class NysRadiogroup extends LitElement {
       if (input) {
         input.tabIndex = radio === active ? 0 : -1;
       }
-
-      // // Only one radiobutton can be focusable at all times.
-      // // Due to this, we calculate logic to determine an active radiobutton and call all other as tabindex="-1"
-      // radio.tabIndex = radio === active && !radio.disabled ? 0 : -1;
     });
   }
 
@@ -361,10 +327,6 @@ export class NysRadiogroup extends LitElement {
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
-      // radio.setAttribute("role", "radio");
-      // radio.setAttribute("aria-checked", String(radio.checked));
-      // radio.setAttribute("aria-required", String(radio.required));
-      // radio.setAttribute("aria-disabled", String(radio.disabled));
       radio.setAttribute("tabindex", "-1");
     });
   }
@@ -400,51 +362,6 @@ export class NysRadiogroup extends LitElement {
     );
   }
 
-  // // Updates the size of each radiobutton underneath a radiogroup to ensure size standardization
-  // private _updateRadioButtonsSize() {
-  //   const radioButtons = this.querySelectorAll("nys-radiobutton");
-  //   radioButtons.forEach((radioButton) => {
-  //     radioButton.setAttribute("size", this.size);
-  //   });
-  // }
-
-  // private _updateRadioButtonsTile() {
-  //   const radioButtons = this.querySelectorAll("nys-radiobutton");
-  //   radioButtons.forEach((radioButton) => {
-  //     if (this.tile) {
-  //       radioButton.toggleAttribute("tile", true);
-  //     } else {
-  //       radioButton.removeAttribute("tile");
-  //     }
-  //   });
-  // }
-
-  // private _updateRadioButtonsShowError() {
-  //   const radioButtons = this.querySelectorAll("nys-radiobutton");
-  //   radioButtons.forEach((radioButton) => {
-  //     if (this.showError) {
-  //       radioButton.setAttribute("showError", "");
-  //     } else {
-  //       radioButton.removeAttribute("showError");
-  //     }
-  //   });
-  // }
-
-  // private _updateRadioButtonsForm() {
-  //   const radioButtons = this.querySelectorAll("nys-radiobutton");
-  //   radioButtons.forEach((radioButton) => {
-  //     if (this.showError) {
-  //       if (this.form !== null) {
-  //         radioButton.setAttribute("form", this.form);
-  //       } else {
-  //         radioButton.removeAttribute("form");
-  //       }
-  //     } else {
-  //       radioButton.removeAttribute("form");
-  //     }
-  //   });
-  // }
-
   // Get the slotted text contents so native VO can attempt to announce it within the legend in the fieldset
   private _getSlotDescriptionForAria() {
     const slot = this.shadowRoot?.querySelector(
@@ -462,22 +379,6 @@ export class NysRadiogroup extends LitElement {
    * Event Handlers
    * --------------------------------------------------------------------------
    */
-
-  // Keeps radiogroup informed of the name and value of its current selected radiobutton at each change
-  // private _handleRadioButtonChange(event: Event) {
-  //   const { name, value } = (event as CustomEvent).detail;
-
-  //   this.name = name;
-  //   this.selectedValue = value;
-  //   this._internals.setFormValue(this.selectedValue);
-
-  //   // selecting anything clears group required error
-  //   this._internals.setValidity({});
-  //   this.showError = false;
-
-  //   // Accounts for tabindex & ARIA on every click/space select
-  //   this._updateGroupTabIndex();
-  // }
 
   private async _handleInvalid(event: Event) {
     event.preventDefault();
@@ -528,38 +429,12 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
-  // private _handleChildError(event: Event) {
-  //   event.stopPropagation();
-
-  //   const { message, sourceRadio } = (event as CustomEvent).detail;
-  //   if (!sourceRadio) return;
-
-  //   this.showError = true;
-
-  //   this._internals.setValidity(
-  //     { customError: true },
-  //     message || "Please complete this field.",
-  //     sourceRadio as HTMLElement,
-  //   );
-  // }
-
-  // private _handleChildErrorClear() {
-  //   this._internals.setValidity({});
-  //   this.showError = false;
-  // }
-
-  // private _handleOtherInput(event: Event) {
-  //   const { value } = (event as CustomEvent).detail;
-  //   this.selectedValue = value;
-  //   this._internals.setFormValue(value);
-  // }
-
   // DELETE LATER !!!!!!
-  private _handleRadioChange(radiobtn: NysRadiobutton) {
-    return (_event: Event) => {
-      this._selectRadio(radiobtn);
-    };
-  }
+  // private _handleRadioChange(radiobtn: NysRadiobutton) {
+  //   return (_event: Event) => {
+  //     this._selectRadio(radiobtn);
+  //   };
+  // }
 
   private _handleTextInput(radiobtn: NysRadiobutton, event: Event) {
     const input = event.target as HTMLInputElement;
@@ -646,29 +521,25 @@ export class NysRadiogroup extends LitElement {
         <div class="nys-radiogroup__content" @keydown=${this._handleKeyDown}>
           ${this._radios.map(
             (radiobtn, index) => html`
-              <input
-                id="input-${radiobtn.id}"
-                type="radio"
-                name="${ifDefined(radiobtn.name || undefined)}"
-                .checked=${radiobtn.checked}
-                ?disabled=${radiobtn.disabled}
-                .value=${radiobtn.value}
-                ?required=${this.required && index === 0}
-                form=${ifDefined(radiobtn.form || undefined)}
-                @change="${this._handleRadioChange(radiobtn)}"
-                aria-hidden="true"
-                hidden
-                class="sr-only"
-              />
-              <div
-                class="nys-radiobutton"
-                @click=${() =>
-                  !radiobtn.disabled && this._selectRadio(radiobtn)}
-              >
+              <div class="nys-radiobutton">
                 <div class="nys-radiobutton__main-container">
-                  <span class="nys-radiobutton__radio" tabindex="-1"></span>
+                  <!-- <span class="nys-radiobutton__radio" tabindex="-1"></span> -->
+                  <input
+                    id="input-${radiobtn.id}"
+                    type="radio"
+                    class="nys-radiobutton__radio"
+                    name="${ifDefined(radiobtn.name || undefined)}"
+                    .checked=${radiobtn.checked}
+                    ?disabled=${radiobtn.disabled}
+                    .value=${radiobtn.value}
+                    ?required=${this.required && index === 0}
+                    form=${ifDefined(radiobtn.form || undefined)}
+                    aria-labelledby="${radiobtn.id}-label"
+                    @change=${() => this._selectRadio(radiobtn)}
+                  />
                   ${(radiobtn.label || radiobtn.other) &&
                   html`<nys-label
+                  aria-hidden="true"
                     id="${radiobtn.id}-label"
                     label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
                     description=${ifDefined(radiobtn.description || undefined)}
