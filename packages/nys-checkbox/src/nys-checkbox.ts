@@ -11,8 +11,6 @@ let checkboxIdCounter = 0;
  * A checkbox input for binary choices or multi-select lists. Can be used standalone or in a `nys-checkboxgroup`.
  * Form-associated with validation via ElementInternals.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use for binary decisions (agree/disagree) or selecting multiple options from a list.
  * For single selection from 2-6 options, use `nys-radiobutton`. For immediate state changes, use `nys-toggle`.
  * If an `id` is not passed, a unique `id` will be generated.

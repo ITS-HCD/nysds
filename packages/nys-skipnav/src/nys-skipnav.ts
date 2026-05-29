@@ -6,8 +6,6 @@ import styles from "./nys-skipnav.scss?inline";
 /**
  * An accessible "Skip to main content" link for keyboard and screen reader users. Visually hidden until focused.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Place as the first focusable element in the document, ideally right after the opening `<body>` tag, before any headers or navigation.
  * Links to `#main-content` by default, or specify `href` for a custom target. The target element receives focus when activated for proper
  * screen reader announcement and navigation bypass. Hidden visually by default and appears on Tab or when focused via keyboard.

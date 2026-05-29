@@ -18,8 +18,6 @@ let componentIdCounter = 0;
  * Date picker with calendar popup and form validation. Allows users to select a single calendar date.
  * Falls back to native date input on Safari and mobile. If no id is provided, one will be auto-generated.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * ## When to use
  * - When users need to select a single calendar date
  * - When a form requires consistent date formatting across browsers

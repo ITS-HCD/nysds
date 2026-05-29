@@ -9,8 +9,6 @@ let buttonIdCounter = 0;
 /**
  * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
  * `text` for inline. Set `href` to render as a navigation link.
  *

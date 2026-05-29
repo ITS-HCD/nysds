@@ -9,8 +9,6 @@ let accordionIdCounter = 0;
 /**
  * A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Place `nys-accordionitem` elements as children. Set `singleSelect` to allow only one item open at a time.
  * The `bordered` style propagates to all children automatically. If an id is not passed, a unique id will be generated.
  *

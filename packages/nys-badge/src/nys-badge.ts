@@ -8,8 +8,6 @@ let badgeIdCounter = 0;
 /**
  * A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use badges to highlight metadata like status ("Approved"), counts ("3 new"), or categories.
  * Set `intent` to apply semantic meaning. Add `prefixIcon` or `suffixIcon` as boolean for default icons,
  * or pass icon name strings for custom icons. If an id is not passed, a unique id will be generated.

@@ -9,8 +9,6 @@ let avatarIdCounter = 0;
 /**
  * Displays a user representation as image, initials, or icon with automatic fallback chain.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Priority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;
  * foreground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).
  * If an id is not passed, a unique id will be generated.

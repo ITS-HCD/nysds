@@ -9,8 +9,6 @@ let alertIdCounter = 0;
 /**
  * Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use `info` for neutral information, `success` for confirmations, `warning` for caution, `danger` for errors,
  * and `emergency` for critical system-wide alerts. Set `dismissible` to let users close the alert.
  * If an id is not passed, a unique id will be generated.

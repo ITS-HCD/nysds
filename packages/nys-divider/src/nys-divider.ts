@@ -8,8 +8,6 @@ let dividerIdCounter = 0;
 /**
  * A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * ## When to use
  * - To separate content displayed vertically
  * - Use `inverted` property when placing the component on a dark background

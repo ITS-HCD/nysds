@@ -10,8 +10,6 @@ let radiobuttonIdCounter = 0;
 /**
  * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be checked.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * **Must be used within `nys-radiogroup`** to function properly. Use for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.
  * For multiple selections, use `nys-checkbox` group. A unique ID is auto-generated if not provided.
  *

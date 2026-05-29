@@ -9,8 +9,6 @@ let tooltipIdCounter = 0;
  * Provides short, supplemental contextual help text linked to interactive elements. Auto-positions to stay within viewport.
  * Shows on hover or focus; dismisses on blur, mouse leave, or Escape key. Use for hints, not critical information.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Link to a trigger element via `for` attribute matching the trigger's `id`. Tooltip content appears near the trigger
  * on hover (mouse) or focus (keyboard). Supports NYSDS components and standard elements. Auto-positions to prevent overflow;
  * respects manual position preference when space allows.

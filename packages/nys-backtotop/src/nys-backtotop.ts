@@ -6,8 +6,6 @@ import styles from "./nys-backtotop.scss?inline";
 /**
  * A floating "Back to top" button that appears after scrolling. Smooth-scrolls to page top when clicked.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Auto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.
  * Renders as circle button on mobile. Position with `position` prop (`left` or `right`).
  *
