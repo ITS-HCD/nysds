@@ -9,8 +9,6 @@ let componentIdCounter = 0;
  * A responsive table component for displaying tabular data with optional striped rows, borders, sortable columns, and CSV download.
  * Accepts a native HTML `<table>` element and automatically normalizes structure. Supports keyboard navigation and screen reader announcement.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Pass a `<table>` element as a child. The component will normalize its structure if missing `<thead>` or `<tbody>`.
  * Use `striped` for alternating row colors to improve readability. Use `bordered` to add lines between cells.
  * Enable `sortable` to allow users to sort columns; add `download` with a CSV file URL to provide export functionality.

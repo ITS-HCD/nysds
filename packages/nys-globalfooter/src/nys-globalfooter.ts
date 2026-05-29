@@ -6,8 +6,6 @@ import styles from "./nys-globalfooter.scss?inline";
 /**
  * Agency-branded footer with agency name and slotted content sections. Auto-layouts based on content structure.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Place above `nys-unavfooter`. Slot contact info, links, or other content. Use `<h4>` elements
  * to create multi-column layouts; without `<h4>`, renders as compact single section.
  * All slotted content is auto-sanitized to remove dangerous elements (script, iframe, object, embed, img).

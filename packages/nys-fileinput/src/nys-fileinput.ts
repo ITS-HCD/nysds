@@ -20,8 +20,6 @@ interface FileWithProgress {
  * Validates file types via magic bytes (not just extension). Form-associated via ElementInternals.
  * Auto-generates an id if not provided.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.
  *
  * ## When to use

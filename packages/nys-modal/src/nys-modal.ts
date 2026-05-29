@@ -8,8 +8,6 @@ let componentIdCounter = 0;
 /**
  * An accessible modal dialog with focus trapping, keyboard navigation, scroll management, and optional dismiss button.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Set `open` to show the modal. Content goes in the default slot; action buttons (e.g., `nys-button`) in the `actions` slot.
  * Dismisses via close button (top right, unless `mandatory` is set) or Escape key (unless `mandatory` is set).
  * Focus returns to the triggering element when the modal closes. Background page scrolling is blocked while the modal is open.

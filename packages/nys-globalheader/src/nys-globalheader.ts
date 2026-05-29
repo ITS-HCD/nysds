@@ -7,8 +7,6 @@ import styles from "./nys-globalheader.scss?inline";
 /**
  * Agency-branded header with app/agency name, navigation, and responsive mobile menu.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Place below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links
  * are auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.
  * All slotted content is auto-sanitized to remove dangerous elements (script, iframe, object, embed, img).

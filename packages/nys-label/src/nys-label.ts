@@ -8,8 +8,6 @@ let labelIdCounter = 0;
 /**
  * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Used internally by form components (textinput, select, checkbox, radiobutton, etc.). Not intended for direct use.
  * Handles label association via the `for` attribute, displays asterisk (*) for required fields, "(Optional)" text
  * for optional fields, and integrates optional tooltips via the info icon.

@@ -7,8 +7,6 @@ import styles from "./nys-icon.scss?inline";
 /**
  * Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Pass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible
  * (removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors. Icons inherit
  * text color from their parent by default but can be customized with the `color` prop.

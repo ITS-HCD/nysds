@@ -10,8 +10,6 @@ let componentIdCounter = 0;
  * Page navigation control for stepping through paginated content. Displays Previous/Next buttons, numbered page links,
  * and automatically collapses with ellipses for many pages.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` event for page changes.
  * Automatically hidden when `totalPages` is 1. Responsive: shows compact icon-only buttons on mobile, full labels on desktop.
  * A unique ID is auto-generated if not provided.

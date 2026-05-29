@@ -10,8 +10,6 @@ let textinputIdCounter = 0;
  * A single-line text input for collecting short user-specific data. Supports input types (email, password, tel, number, url, search),
  * validation, phone number auto-masking, password visibility toggle, and live error messaging. Form-associated via ElementInternals.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use for names, emails, passwords, phone numbers, URLs, numeric values. For multi-line input, use `nys-textarea` instead.
  * For predefined options, use `nys-select`, `nys-radiobutton`, or `nys-checkbox`. Never use for data selection tasks.
  *

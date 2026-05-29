@@ -8,8 +8,6 @@ import styles from "./nys-unavfooter.scss?inline";
  * to essential links across all state digital properties. Displays NY.gov logo and links to Agencies, App Directory,
  * Counties, Events, Programs, and Services.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * ## When to use
  * - Required on ALL New York State digital products and websites.
  * - Placed only at the bottom of the page as the final footer element.

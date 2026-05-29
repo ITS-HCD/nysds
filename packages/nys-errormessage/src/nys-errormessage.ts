@@ -8,8 +8,6 @@ let errorMessageIdCounter = 0;
 /**
  * **Internal component.** Displays error messages for form validation with icon and ARIA alert role.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Used internally by form components. Not intended for direct use. Shows error icon and message
  * when `showError` is true. Integrates with ElementInternals for native form validation messages.
  *

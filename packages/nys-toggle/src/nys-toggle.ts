@@ -10,8 +10,6 @@ let toggleIdCounter = 0;
  * A toggle switch for binary on/off settings with immediate UI effect. Form-associated via ElementInternals.
  * Ideal for feature toggles, user preferences, and settings that take effect immediately.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use for settings where the change takes immediate effect (e.g., dark mode, notifications, feature toggles).
  * For binary choices in forms that submit later, use `nys-checkbox` instead. Never use toggles for complex multi-state options.
  *

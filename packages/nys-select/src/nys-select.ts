@@ -11,8 +11,6 @@ let selectIdCounter = 0;
  * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
  * Form-associated with validation via ElementInternals. A unique ID is auto-generated if not provided.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Use when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.
  * For multiple selections, use `nys-checkbox` group instead. Keyboard accessible with Tab, Space/Enter, and arrow keys.
  *

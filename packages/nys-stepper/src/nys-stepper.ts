@@ -10,8 +10,6 @@ let stepperIdCounter = 0;
  * A multi-step progress indicator for linear forms or wizards. Manages `nys-step` children with progress tracking and navigation.
  * Displays step progress with the ability to navigate forward and backward through completed steps.
  *
- * **Status:** Stable | **WCAG:** 2.2 AA
- *
  * Add `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary (furthest reached);
  * all steps before it become navigable. Mark one step as `selected` to indicate which step's content is displayed.
  * Use the `actions` slot for persistent buttons (e.g., Save & Exit, Continue, Back).
