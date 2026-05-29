@@ -59,7 +59,7 @@ let componentIdCounter = 0;
  * - **2-3 pages**: Shows all page numbers.
  * - **4+ pages**: Shows first, last, current, and neighboring page numbers; uses ellipses (...) to collapse ranges.
  *
- * ## Accessibility
+ * @accessibility
  * The `nys-pagination` component includes the following accessibility-focused features:
  * - **Keyboard Navigation**: All pagination buttons are reachable and operable via keyboard (Tab, Enter, Space).
  * - **Focus Indicators**: Provide a clear, visible focus indicator so users can see the currently focused button.

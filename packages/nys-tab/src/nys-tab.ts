@@ -31,7 +31,7 @@ let componentIdCounter = 0;
  * - **Disabled tab**: Set `disabled` to prevent selection; the tab is hidden from keyboard and mouse interaction.
  * - **Tab with long label**: Labels should be concise (1-3 words); long labels wrap to multiple lines.
  *
- * ## Accessibility
+ * @accessibility
  * - Host element is the interactive control; receives `role="tab"` and `tabindex`.
  * - `aria-selected` indicates the currently active tab.
  * - `aria-controls` links the tab to its corresponding panel.

@@ -26,7 +26,7 @@ let componentIdCounter = 0;
  * - **Back-to-parent mode**: Set `backToParent` to show a single back link on mobile; full trail on desktop.
  * - **Collapsed trail**: Set `collapsed` to force the trail into its condensed state with an ellipsis.
  *
- * ## Accessibility
+ * @accessibility
  * - Renders semantic `<nav>` landmark with `aria-label` (defaults to "path to this page").
  * - Each link is keyboard navigable (Tab key).
  * - Ellipsis button is properly labeled ("Show more links") and responds to Space and Enter.

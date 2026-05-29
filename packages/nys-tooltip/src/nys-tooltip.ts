@@ -41,7 +41,7 @@ let tooltipIdCounter = 0;
  * - Blur or mouse leave dismisses tooltip with fade-out animation.
  * - Screen reader announces tooltip content via `role="tooltip"` and `aria-hidden` states.
  *
- * ## Accessibility
+ * @accessibility
  * - Linked to trigger element via `for` attribute (must match trigger's `id`).
  * - `role="tooltip"` with dynamic `aria-hidden` based on visibility.
  * - Keyboard accessible: Tab to trigger, Enter/Space shows tooltip, Escape dismisses.

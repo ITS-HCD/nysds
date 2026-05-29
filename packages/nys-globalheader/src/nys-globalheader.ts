@@ -44,7 +44,7 @@ import styles from "./nys-globalheader.scss?inline";
  * ## Brand mark
  * Set `nysLogo` to true to display the NYS brand mark in the header.
  *
- * ## Accessibility
+ * @accessibility
  * - Proper use of `<header>` and `<a>` elements ensures compatibility with assistive technologies
  * - Keyboard navigation: Users can tab through all links in the header
  * - Mobile menu is keyboard-accessible with proper focus management

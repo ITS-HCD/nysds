@@ -39,7 +39,7 @@ let avatarIdCounter = 0;
  *   (e.g., `color="var(--nys-color-theme)"`). When an image is provided, it will overlay and fully cover the background color.
  *   The inner foreground (icon or initials) automatically switches to #000 or #fff for contrast.
  *
- * ## Accessibility
+ * @accessibility
  *
  * The `nys-avatar` component includes the following accessibility-focused features:
  * - Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly

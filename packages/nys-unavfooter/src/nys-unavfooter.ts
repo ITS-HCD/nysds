@@ -34,7 +34,7 @@ import styles from "./nys-unavfooter.scss?inline";
  * - Programs link
  * - Services link
  *
- * ## Accessibility
+ * @accessibility
  * - Uses semantic `<footer>` element for assistive technology recognition.
  * - All links are keyboard-navigable via Tab.
  * - Proper link text for screen reader users.

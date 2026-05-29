@@ -32,7 +32,7 @@ import styles from "./nys-globalfooter.scss?inline";
  * ## Agency name linking
  * Use the `homepageLink` prop to make the `agencyName` clickable and link to your homepage.
  *
- * ## Accessibility
+ * @accessibility
  * - Proper use of `<footer>` and `<a>` elements ensures compatibility with assistive technologies
  * - Keyboard navigation: Users can tab through all links in the footer
  * - All slotted content is validated and sanitized before rendering

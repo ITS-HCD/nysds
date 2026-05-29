@@ -46,7 +46,7 @@ import styles from "./nys-stepper.scss?inline";
  * `nys-step-click` event is dispatched. Use it for imperative pre-navigation logic. In React, pass it
  * as the `onClick` prop on `NysStep`.
  *
- * ## Accessibility
+ * @accessibility
  * - The step label renders with `role="button"` and is keyboard-focusable (`tabindex="0"`) for navigable
  *   steps (`current`, `previous`). Future steps get `tabindex="-1"` and are not reachable by keyboard.
  * - Enter and Space activate the step (same as click).

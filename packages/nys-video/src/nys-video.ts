@@ -36,7 +36,7 @@ let videoIdCounter = 0;
  * - **Lazy loading**: Set `loading="lazy"` (default) for deferred iframe load; `"eager"` for immediate load.
  * - **Size variants**: `"full"` (responsive, fills container), `"md"` (medium), `"sm"` (small), or auto-sized if not set.
  *
- * ## Accessibility
+ * @accessibility
  * - Title text is announced to screen readers when the video is not yet loaded.
  * - When the video loads, the iframe title and aria-label are set to the `titleText`.
  * - Live region announces playback state ("Video is playing", "Advertisement is playing").

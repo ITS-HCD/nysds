@@ -34,7 +34,7 @@ let textareaIdCounter = 0;
  * - **Error messaging** – Shows error state and custom message when validation fails.
  * - **Validation** – Required fields show "Required" flag; optional fields show "Optional" flag.
  *
- * ## Accessibility
+ * @accessibility
  * - Proper ARIA roles and attributes for screen reader interpretation.
  * - Keyboard navigation: Tab to focus; Tab+Shift to navigate backwards.
  * - Validation messages announced on blur for eager/lazy validation.

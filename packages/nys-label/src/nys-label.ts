@@ -42,7 +42,7 @@ let labelIdCounter = 0;
  * ## Dark mode support
  * Set the `inverted` prop to `true` when the label is on a dark background to adjust colors for better contrast.
  *
- * ## Accessibility
+ * @accessibility
  * - Labels are automatically associated with form fields via the `for` attribute, linking the label to the input's ID.
  * - Required fields display an asterisk (*) for visual indication; always pair with ARIA attributes on the input.
  * - Optional fields display "(Optional)" text for clarity.

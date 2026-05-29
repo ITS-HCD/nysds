@@ -80,7 +80,7 @@ let selectIdCounter = 0;
  * - Supply a helpful description below the label to clarify the purpose of the select.
  * - Use placeholders sparingly; a meaningful default selection is often better.
  *
- * ## Accessibility
+ * @accessibility
  * The `nys-select` component includes the following accessibility-focused features:
  * - **Label Association**: Label text is automatically associated with the select via `aria-labelledby`.
  * - **ARIA Attributes**: Proper roles and attributes ensure screen readers can interpret the select correctly.

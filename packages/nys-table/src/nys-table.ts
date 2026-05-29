@@ -45,7 +45,7 @@ let componentIdCounter = 0;
  * The `nys-column-sort` event fires when a column is clicked. Call `e.preventDefault()` to prevent default sorting.
  * Default sort: numeric values sort numerically; text sorts alphabetically.
  *
- * ## Accessibility
+ * @accessibility
  * - Proper `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>` semantic structure.
  * - Column headers with sort buttons are keyboard-navigable and announced by screen readers.
  * - Sortable columns announce current sort state (ascending, descending).

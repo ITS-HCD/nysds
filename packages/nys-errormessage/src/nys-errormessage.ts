@@ -26,7 +26,7 @@ let errorMessageIdCounter = 0;
  * Add a divider line with `showDivider` to components that are not bordered. Do not show
  * the divider in bordered form fields (text inputs, selects).
  *
- * ## Accessibility
+ * @accessibility
  * - Uses `role="alert"` with `aria-live="assertive"` for immediate announcement
  * - `aria-atomic="true"` ensures the entire message is read when it changes
  * - Integrates with form validation for semantic error handling

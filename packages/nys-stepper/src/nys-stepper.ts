@@ -57,7 +57,7 @@ let stepperIdCounter = 0;
  * Do NOT place inside a `<form>` element. Place form fields in the main content area alongside the stepper.
  * Use NYSDS grid utilities (e.g., `nys-grid-col-3` for stepper, `nys-grid-col-9` for content) for responsive layout.
  *
- * ## Accessibility
+ * @accessibility
  * - Compact counter is a `role="button"` with `aria-expanded` and descriptive `aria-label` (e.g., "Expand navigation. Step 2 of 4").
  * - Keyboard: Enter/Space toggles compact view; Arrow keys navigate steps when focused.
  * - Each step label is keyboard-focusable and activatable for navigable steps.

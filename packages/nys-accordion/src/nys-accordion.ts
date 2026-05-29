@@ -23,7 +23,7 @@ let accordionIdCounter = 0;
  * Do not hide essential, universal information such as critical deadlines, main eligibility criteria, or urgent alerts inside collapsed panels.
  * Keep these visible by default. If users need to compare details from multiple sections at once, consider using a table or side-by-side layout instead.
  *
- * ## Accessibility
+ * @accessibility
  *
  * The `nys-accordionitem` component includes the following accessibility-focused features:
  * - Keyboard navigation (e.g. Tab to move between headers, Enter or Space to toggle)

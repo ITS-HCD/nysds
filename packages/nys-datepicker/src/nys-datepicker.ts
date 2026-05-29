@@ -64,7 +64,7 @@ let componentIdCounter = 0;
  * Use `minDate` and `maxDate` to set a valid date range. Use `startDate` to guide users to a
  * relevant time period without preselecting a date.
  *
- * ## Accessibility
+ * @accessibility
  * - Uses native `<input type="date">` semantics for screen reader support
  * - Supports keyboard interaction to open and navigate the calendar
  * - Applies aria-required, aria-disabled, and validation messaging

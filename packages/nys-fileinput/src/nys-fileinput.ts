@@ -46,7 +46,7 @@ interface FileWithProgress {
  * Available widths: `full` (100%, default) or `lg` (384px).
  * Use `inverted` when the component is on a dark background.
  *
- * ## Accessibility
+ * @accessibility
  * - Uses `ElementInternals` for form association and validation
  * - Implements ARIA attributes for required and invalid states
  * - Keyboard-accessible via standard tab/focus patterns

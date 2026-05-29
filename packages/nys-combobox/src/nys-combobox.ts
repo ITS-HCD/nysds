@@ -34,7 +34,7 @@ interface ComboboxOption {
  * - **Custom width**: Set `width="md"`, `"lg"`, or `"full"` to control field width.
  * - **Error state**: Set `showError` and `errorMessage` to display validation feedback.
  *
- * ## Accessibility
+ * @accessibility
  * - Renders with semantic HTML: `<input role="combobox">` with `aria-autocomplete="list"`.
  * - Full keyboard support: Arrow Up/Down to navigate, Enter to select, Escape to close, Tab to move focus.
  * - Live region announces option count and position when filtering/navigating.

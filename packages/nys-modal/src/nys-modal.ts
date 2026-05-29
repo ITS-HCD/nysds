@@ -74,7 +74,7 @@ let componentIdCounter = 0;
  * - Only the body section scrolls
  * - Page scrolling is blocked while the modal is open to keep focus within the modal
  *
- * ## Accessibility
+ * @accessibility
  * The `nys-modal` component includes the following accessibility-focused features:
  * - **Focus Trapping:** Trap focus inside the modal so keyboard users cannot tab to background content.
  * - **Focus Restoration:** Return focus to the triggering element when the modal closes.

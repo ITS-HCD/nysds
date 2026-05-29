@@ -82,7 +82,7 @@ let radiobuttonIdCounter = 0;
  * - Keep labels short; use descriptions for longer explanations.
  * - Use the "other" option sparingly; offer specific choices whenever possible.
  *
- * ## Accessibility
+ * @accessibility
  * The `nys-radiobutton` component includes the following accessibility-focused features:
  * - **ARIA Attributes**: Proper ARIA roles and attributes to ensure screen readers can interpret the radio button correctly:
  *   - `role="radio"` on the visual radio control

@@ -82,21 +82,6 @@ Reflected to the DOM attribute so `aria-controls` references resolve. */
  * - **Selected tab**: Set `selected` to mark the active tab (usually the first tab by default).
  * - **Disabled tab**: Set `disabled` to prevent selection; the tab is hidden from keyboard and mouse interaction.
  * - **Tab with long label**: Labels should be concise (1-3 words); long labels wrap to multiple lines.
- *
- * ## Accessibility
- * - Host element is the interactive control; receives `role="tab"` and `tabindex`.
- * - `aria-selected` indicates the currently active tab.
- * - `aria-controls` links the tab to its corresponding panel.
- * - `aria-disabled` reflects the disabled state.
- * - Keyboard support managed by `<nys-tabgroup>`: Arrow Left/Right to navigate, Home/End to jump to first/last.
- * - Enter/Space activates a tab; focus does not activate it (manual, not automatic activation).
- * - Screen readers announce the tab's label, selected state, and position in the tab list.
- *
- * ## Content Guidelines
- * - Keep tab labels short and descriptive (e.g., "Overview", "Details", "Reviews").
- * - Use sentence case or title case consistently.
- * - Avoid special characters or very long labels.
- * - Ensure each tab represents distinct content or functionality.
  * ---
  *
  *

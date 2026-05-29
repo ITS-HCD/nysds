@@ -31,7 +31,7 @@ let alertIdCounter = 0;
  * to match the intent of the alert. Use the `dismissible` property for non-critical alerts, allowing users to clear them from the screen.
  * Avoid overusing alerts for non-critical information, as this can desensitize users to important messages.
  *
- * ## Accessibility
+ * @accessibility
  *
  * The `nys-alert` component includes the following accessibility-focused features:
  * - Keyboard navigation support, allowing users to use voiceover to read the alert using the keyboard

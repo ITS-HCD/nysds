@@ -25,7 +25,7 @@ import styles from "./nys-backtotop.scss?inline";
  *
  * Do not add multiple back to top components to one page or use when the content is designed to fill the size of the screen and is not scrollable.
  *
- * ## Accessibility
+ * @accessibility
  *
  * The `nys-backtotop` component includes the following accessibility-focused features:
  * - Last focusable element on page load for easy keyboard navigation

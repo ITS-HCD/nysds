@@ -54,7 +54,7 @@ let textinputIdCounter = 0;
  * Slots accept a single `<nys-button>` element only. Input disabled state propagates to slotted buttons.
  * Use `width="lg"` or `width="full"` to provide enough space when buttons are present.
  *
- * ## Accessibility
+ * @accessibility
  * - Proper ARIA roles and attributes for screen reader interpretation.
  * - Keyboard navigation: Tab to focus; Shift+Tab to navigate backwards.
  * - Password toggle button is keyboard-accessible.

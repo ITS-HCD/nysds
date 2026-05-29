@@ -43,7 +43,7 @@ let toggleIdCounter = 0;
  * - **Icons** – Check icon when on, close icon when off (can be hidden with `noIcon`).
  * - **Form association** – Associates with form via `form` attribute if outside form element.
  *
- * ## Accessibility
+ * @accessibility
  * - Proper ARIA roles and attributes: `role="switch"` with `aria-checked`.
  * - Keyboard navigation: Tab to focus; Space or Enter to toggle.
  * - Screen readers announce toggle state (on/off) and label correctly.

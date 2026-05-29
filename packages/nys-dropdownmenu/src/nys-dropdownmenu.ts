@@ -25,7 +25,7 @@ let dropdownMenuIdCounter = 0;
  * - **With icon button**: Pair with `nys-button` using an icon for a compact, modern look.
  * - **With text button**: Use a standard button labeled "More" or "Actions".
  *
- * ## Accessibility
+ * @accessibility
  * - Trigger button has `aria-haspopup="menu"` and `aria-expanded` toggled on open/close.
  * - Dropdown renders `role="menu"` with `role="option"` items for screen readers.
  * - Full keyboard support: Enter/Space to open, Escape to close, Arrow Up/Down to navigate items, Tab to move focus.

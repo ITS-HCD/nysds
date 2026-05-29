@@ -55,7 +55,7 @@ let checkboxIdCounter = 0;
  * - **Other:** The `other` option lets users enter a custom value when none of the listed choices apply. When selected, a text input appears.
  *   Place this option as the last `<nys-checkbox>` within `<nys-checkboxgroup>`.
  *
- * ## Accessibility
+ * @accessibility
  *
  * The `nys-checkbox` component includes the following accessibility-focused features:
  * - Proper ARIA roles and attributes to ensure screen readers can interpret the checkbox correctly

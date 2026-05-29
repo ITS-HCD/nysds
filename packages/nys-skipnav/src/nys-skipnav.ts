@@ -19,7 +19,7 @@ import styles from "./nys-skipnav.scss?inline";
  * ## When not to use
  * - Pages that start directly with main content and have no navigation to skip.
  *
- * ## Accessibility features
+ * @accessibility features
  * - First focusable element on page load for keyboard users.
  * - Visible only on focus with clear focus indicator that meets WCAG 2.2 AA.
  * - Pressing Enter moves focus to the target element for proper screen reader announcement.

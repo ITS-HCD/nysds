@@ -17,7 +17,7 @@ let dividerIdCounter = 0;
  * Avoid for:
  * - When content is horizontally formatted
  *
- * ## Accessibility
+ * @accessibility
  * - Uses native `<hr>` element to ensure ARIA compliance
  * - Recognized as a separator by assistive technologies
  *

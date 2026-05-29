@@ -78,7 +78,7 @@ import styles from "./nys-icon.scss?inline";
  * to apply a CSS color value (e.g., `color="var(--nys-color-success)"` or `color="red"`).
  * Use rotation with `rotate` (degrees as a number) and flipping with `flip` (horizontal, vertical, or both).
  *
- * ## Accessibility
+ * @accessibility
  * **ARIA Hidden by Default:** If no `ariaLabel` is provided, the icon is hidden from screen readers by setting `aria-hidden="true"`.
  * This is appropriate for decorative icons or icons that accompany text labels.
  *

@@ -40,7 +40,7 @@ import styles from "./nys-unavheader.scss?inline";
  * - `searchUrl` – Custom search endpoint. Example: `"https://example.com/search?q="` (must include query param).
  * - `languages` – Override language list (default: 14 languages with Smartling subdomain redirect).
  *
- * ## Accessibility
+ * @accessibility
  * - Semantic `<header>` element ensures assistive technology recognition.
  * - Trust bar button: `role="button"`, `aria-expanded`, descriptive `aria-label`.
  * - All links and buttons are keyboard-navigable via Tab.
