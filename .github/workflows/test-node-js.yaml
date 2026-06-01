@@ -35,15 +35,13 @@ jobs:
         sudo systemctl disable apt-daily.timer apt-daily-upgrade.timer || true
         sudo apt-get remove -y needrestart || true
         sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/cache/apt/archives/lock
-    - name: Install Playwright system dependencies
-      run: npx playwright install chromium webkit firefox --with-deps
+    - name: Install Playwright browsers
+      run: node node_modules/.bin/playwright install --with-deps chromium webkit firefox
       env:
         DEBIAN_FRONTEND: noninteractive
-    - name: Install Playwright browsers
-      run: npx playwright install chromium webkit firefox
     - name: Build Packages
       run: npm run build:all
     - name: Test Components
-      run: export NYSDS_TEST_OUTPUT=ai && wtr --node-resolve
+      run: npm run test:all
     - name: Build Storybook
       run: npm run storybook:cibuild
