@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ['24.x']
+        node-version: ['22.x']
 
     steps:
     - uses: actions/checkout@v6
@@ -31,7 +31,6 @@ jobs:
       run: node node_modules/.bin/playwright install --with-deps chromium webkit firefox
       env:
         DEBIAN_FRONTEND: noninteractive
-        NODE_OPTIONS: --dns-result-order=ipv4first
     - name: Build Packages
       run: npm run build:all
     - name: Test Components
