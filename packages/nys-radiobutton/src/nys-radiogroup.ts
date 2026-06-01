@@ -504,6 +504,7 @@ export class NysRadiogroup extends LitElement {
             ? ` ${this.description}`
             : ""}"
         role="radiogroup"
+        aria-required=${this.required ? "true" : "false"}
         class="nys-radiogroup"
       >
         <legend>
