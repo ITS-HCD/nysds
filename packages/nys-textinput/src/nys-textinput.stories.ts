@@ -805,41 +805,46 @@ export const Telephone: Story = {
   },
 
   render: (args) => html`
-    <nys-textinput
-      .id=${args.id}
-      .name=${args.name}
-      .type=${args.type}
-      .label=${args.label}
-      .description=${args.description}
-      .placeholder=${args.placeholder}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .readonly=${args.readonly}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .pattern=${args.pattern}
-      .maxlength=${args.maxlength}
-      .width=${args.width}
-      .step=${args.step}
-      .min=${args.min}
-      .max=${args.max}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-    ></nys-textinput>
+    <form>
+      <nys-textinput
+        .id=${args.id}
+        .name=${args.name}
+        .type=${args.type}
+        .label=${args.label}
+        .description=${args.description}
+        .placeholder=${args.placeholder}
+        .value=${args.value}
+        .disabled=${args.disabled}
+        .readonly=${args.readonly}
+        .required=${args.required}
+        .optional=${args.optional}
+        ?inverted=${args.inverted}
+        .form=${args.form}
+        .pattern=${args.pattern}
+        .maxlength=${args.maxlength}
+        .width=${args.width}
+        .step=${args.step}
+        .min=${args.min}
+        .max=${args.max}
+        .showError=${args.showError}
+        .errorMessage=${args.errorMessage}
+      ></nys-textinput>
+      <nys-button type="reset" label="Reset"></nys-button>
+    </form>
   `,
 
   parameters: {
     docs: {
       source: {
         code: `
-<nys-textinput
-  name="myTextInputDemo"
-  label="Phone Number"
-  type="tel"
->
-</nys-textinput>`,
+<form>
+  <nys-textinput
+    name="myTextInputDemo"
+    label="Phone Number"
+    type="tel"
+  ></nys-textinput>
+  <nys-button type="reset" label="Reset"></nys-button>
+</form>`,
         type: "auto",
       },
     },
