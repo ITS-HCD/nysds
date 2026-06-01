@@ -26,42 +26,42 @@ export default {
     playwrightLauncher({
       product: "chromium",
       launchOptions: {
-        headless: true, // Forces the browser to open in headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+        headless: true,
+        slowMo: 250,
       },
     }),
     playwrightLauncher({
       product: "webkit",
       launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+        headless: true,
+        slowMo: 250,
       },
     }),
     playwrightLauncher({
-      product: 'webkit', // Use WebKit for iOS simulation
+      product: 'webkit',
       launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+        headless: true,
+        slowMo: 250,
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices['iPhone 14'], hasTouch: true });
       },
     }),
     playwrightLauncher({
-      product: 'webkit', // Use WebKit for Android simulation
+      product: 'webkit',
       launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+        headless: true,
+        slowMo: 250,
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices['Pixel 5'], hasTouch: true });
       },
     }),
     playwrightLauncher({
-      product: 'webkit', // Use WebKit for Edge simulation
+      product: 'webkit',
       launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+        headless: true,
+        slowMo: 250,
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices['Desktop Edge'], channel: 'msedge' });
@@ -70,8 +70,8 @@ export default {
     playwrightLauncher({
       product: "firefox",
       launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+        headless: true,
+        slowMo: 250,
       },
     }),
   ],

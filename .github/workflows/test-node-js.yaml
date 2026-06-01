@@ -27,20 +27,11 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: npm i
-    - name: Disable apt background services
-      run: |
-        sudo systemctl stop unattended-upgrades || true
-        sudo systemctl disable unattended-upgrades || true
-        sudo systemctl stop apt-daily.service apt-daily-upgrade.service || true
-        sudo systemctl disable apt-daily.timer apt-daily-upgrade.timer || true
-        sudo apt-get remove -y needrestart || true
-        sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/cache/apt/archives/lock
     - name: Install Playwright browsers
-      run: |
-        node node_modules/.bin/playwright install-deps
-        node node_modules/.bin/playwright install chrome webkit firefox
+      run: node node_modules/.bin/playwright install --with-deps chromium webkit firefox
       env:
         DEBIAN_FRONTEND: noninteractive
+        NODE_OPTIONS: --dns-result-order=ipv4first
     - name: Build Packages
       run: npm run build:all
     - name: Test Components
