@@ -8899,6 +8899,11 @@
             },
             {
               "kind": "method",
+              "name": "_setRadioButtonRequire",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "_manageRequire",
               "privacy": "private"
             },
@@ -8989,19 +8994,6 @@
             },
             {
               "kind": "method",
-              "name": "_handleRadioChange",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "radiobtn",
-                  "type": {
-                    "text": "NysRadiobutton"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
               "name": "_handleTextInput",
               "privacy": "private",
               "parameters": [
@@ -9054,6 +9046,19 @@
                   "name": "e",
                   "type": {
                     "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleGroupFocusout",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "FocusEvent"
                   }
                 }
               ]

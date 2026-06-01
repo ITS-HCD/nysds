@@ -135,6 +135,7 @@ export class NysRadiogroup extends LitElement {
 
     this._initializeCheckedRadioValue();
     this._setValue(); // This ensures our element always participates in the form
+    this._setRadioButtonRequire();
 
     this._getSlotDescriptionForAria();
 
@@ -160,6 +161,15 @@ export class NysRadiogroup extends LitElement {
 
   private _setValue() {
     this._internals.setFormValue(this.selectedValue);
+  }
+
+  private _setRadioButtonRequire() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton, index) => {
+      if (this.required && index === 0) {
+        radioButton.setAttribute("required", "required");
+      }
+    });
   }
 
   private async _manageRequire() {
@@ -383,20 +393,22 @@ export class NysRadiogroup extends LitElement {
   private async _handleInvalid(event: Event) {
     event.preventDefault();
 
-    // Focus "other" text input when customError is set
-    if (this._internals.validity.customError) {
-      const radios = this._getAllRadios();
-      const otherRadio = radios.find((radio) => radio.other && radio.checked);
+    const radios = this._getAllRadios();
+    const otherRadio = radios.find((radio) => radio.other && radio.checked);
 
-      if (otherRadio) {
-        const textInput = this.shadowRoot?.querySelector("nys-textinput");
-        otherRadio.classList.remove("focused");
+    if (otherRadio && otherRadio.value.trim() === "") {
+      console.log("SDSDSDS");
+      this.showError = true;
+      this._hasUserInteracted = true;
+      this._validateOtherAndEmitError(otherRadio);
 
-        if (textInput) {
-          await (textInput as any).updateComplete;
-          (textInput as HTMLElement).focus();
-          return;
-        }
+      await this.updateComplete;
+      const textInput = this.shadowRoot?.querySelector("nys-textinput");
+
+      if (textInput) {
+        await (textInput as any).updateComplete;
+        (textInput as HTMLElement).focus();
+        return;
       }
     }
 
@@ -404,8 +416,16 @@ export class NysRadiogroup extends LitElement {
     this.showError = true;
     await this._manageRequire(); // Refresh validation message
 
-    const firstRadio = this.querySelector("nys-radiobutton") as NysRadiobutton;
-    if (firstRadio) {
+    const firstEnabledRadio = this._getAllRadios().find(
+      (radio) => !radio.disabled,
+    );
+    if (firstEnabledRadio) {
+      const focusFirstInput = () => {
+        this.shadowRoot
+          ?.querySelector<HTMLElement>(`#input-${firstEnabledRadio.id}`)
+          ?.focus();
+      };
+
       // Focus only if this is the first invalid element (top-down approach)
       const form = this._internals.form;
       if (form) {
@@ -420,11 +440,11 @@ export class NysRadiogroup extends LitElement {
             !element.checkValidity(),
         );
         if (firstInvalidElement === this) {
-          firstRadio.focus();
+          focusFirstInput();
         }
       } else {
         // If not part of a form, simply focus.
-        firstRadio.focus();
+        focusFirstInput();
       }
     }
   }
@@ -492,6 +512,19 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  private _handleGroupFocusout(event: FocusEvent) {
+    const relatedTarget = event.relatedTarget as Node | null;
+    if (relatedTarget && this.shadowRoot?.contains(relatedTarget)) return;
+
+    const otherRadio = this._getAllRadios().find(
+      (radio) => radio.other && radio.checked,
+    );
+    if (otherRadio && otherRadio.value.trim() === "") {
+      this._hasUserInteracted = true;
+      this._validateOtherAndEmitError(otherRadio);
+    }
+  }
+
   render() {
     return html` <slot
         style="display:none"
@@ -506,6 +539,7 @@ export class NysRadiogroup extends LitElement {
         role="radiogroup"
         aria-required=${this.required ? "true" : "false"}
         class="nys-radiogroup"
+        @focusout=${this._handleGroupFocusout}
       >
         <legend>
           <nys-label
@@ -540,10 +574,19 @@ export class NysRadiogroup extends LitElement {
                   />
                   ${(radiobtn.label || radiobtn.other) &&
                   html`<nys-label
-                  aria-hidden="true"
+                    aria-hidden="true"
                     id="${radiobtn.id}-label"
                     label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
                     description=${ifDefined(radiobtn.description || undefined)}
+                    @nys-label-click=${() => {
+                      if (!radiobtn.disabled) {
+                        this.shadowRoot
+                          ?.querySelector<HTMLInputElement>(
+                            `#input-${radiobtn.id}`,
+                          )
+                          ?.click();
+                      }
+                    }}
                   >
                     <slot name="description" slot="description"
                       >${radiobtn.description}</slot
