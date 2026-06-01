@@ -38,6 +38,27 @@ function removeDemoFiles() {
   };
 }
 
+function copyIconAssets() {
+  return {
+    name: "copy-icon-assets",
+    closeBundle() {
+      const srcDir = path.resolve("packages/nys-icon/dist/icons");
+      const destDir = path.resolve("dist/icons");
+
+      if (!fs.existsSync(srcDir)) {
+        console.warn(`⚠ Icon source not found: ${srcDir} (run nys-icon build first)`);
+        return;
+      }
+
+      fs.mkdirSync(destDir, { recursive: true });
+      for (const file of fs.readdirSync(srcDir)) {
+        fs.copyFileSync(path.join(srcDir, file), path.join(destDir, file));
+      }
+      console.log(`✓ Copied icon assets to dist/icons/`);
+    },
+  };
+}
+
 // Shared base config — exported for component packages to extend via mergeConfig
 export const defaultConfig = {
   css: {
@@ -77,7 +98,8 @@ export const defaultConfig = {
       plugins: [
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
-        removeDemoFiles(), // Add the cleanup plugin
+        removeDemoFiles(),
+        copyIconAssets(),
       ].filter(Boolean),
     },
   },
@@ -126,6 +148,7 @@ export default isUmd
             shouldAnalyze &&
               visualizer({ filename: "dist/stats-umd.html", open: true }),
             removeDemoFiles(),
+            copyIconAssets(),
           ].filter(Boolean),
         },
       },
