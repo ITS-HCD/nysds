@@ -12,12 +12,10 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-22.04
-
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['22.x']
+        node-version: ['24.16.0']
 
     steps:
     - uses: actions/checkout@v6
@@ -28,7 +26,7 @@ jobs:
     - name: Install dependencies
       run: npm i
     - name: Install Playwright browsers
-      run: node node_modules/.bin/playwright install --with-deps chromium webkit firefox
+      run: npx playwright install --with-deps chromium webkit firefox
       env:
         DEBIAN_FRONTEND: noninteractive
     - name: Build Packages
