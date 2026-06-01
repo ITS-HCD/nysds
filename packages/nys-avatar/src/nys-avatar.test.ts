@@ -214,7 +214,10 @@ describe("nys-avatar", () => {
 
   it("omits role and aria-label from container when image is present", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar image="/photo.jpg" ariaLabel="Jane"></nys-avatar>`,
+      html`<nys-avatar
+        image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        ariaLabel="Jane"
+      ></nys-avatar>`,
     );
     await el.updateComplete;
 
@@ -225,7 +228,9 @@ describe("nys-avatar", () => {
 
   it("sets alt to empty string on img when ariaLabel is not set", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar image="/photo.jpg"></nys-avatar>`,
+      html`<nys-avatar
+        image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+      ></nys-avatar>`,
     );
     await el.updateComplete;
 
@@ -235,7 +240,10 @@ describe("nys-avatar", () => {
 
   it("sets loading=lazy on img when lazy is true", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar image="/photo.jpg" lazy></nys-avatar>`,
+      html`<nys-avatar
+        image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        lazy
+      ></nys-avatar>`,
     );
     await el.updateComplete;
 
