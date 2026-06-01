@@ -36,7 +36,9 @@ jobs:
         sudo apt-get remove -y needrestart || true
         sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/cache/apt/archives/lock
     - name: Install Playwright browsers
-      run: node node_modules/.bin/playwright install --with-deps chromium webkit firefox
+      run: |
+        node node_modules/.bin/playwright install-deps
+        node node_modules/.bin/playwright install chrome webkit firefox
       env:
         DEBIAN_FRONTEND: noninteractive
     - name: Build Packages
