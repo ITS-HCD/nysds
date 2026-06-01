@@ -54,8 +54,10 @@
   --_nys-avatar-color: var(--nys-color-text-reverse, #ffffff);
 }
 
-:host([interactive]:not([disabled])) button.nys-avatar__component:focus-visible {
-  outline: solid var(--_nys-avatar-outline-width) var(--_nys-avatar-outline-color);
+:host([interactive]:not([disabled]))
+  button.nys-avatar__component:focus-visible {
+  outline: solid var(--_nys-avatar-outline-width)
+    var(--_nys-avatar-outline-color);
   outline-offset: var(--_nys-avatar-outline-offset);
 }
 

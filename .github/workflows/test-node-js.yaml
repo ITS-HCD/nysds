@@ -12,12 +12,10 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: ['24.x']
+        node-version: ['24.15.0']
 
     steps:
     - uses: actions/checkout@v4
@@ -27,8 +25,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
       run: npm i
-    - name: Install Playwright with Dependencies
-      run: npx playwright install --with-deps
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps chromium webkit firefox
+      env:
+        DEBIAN_FRONTEND: noninteractive
     - name: Build Packages
       run: npm run build:all
     - name: Test Components

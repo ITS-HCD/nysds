@@ -16,7 +16,7 @@ const config: StorybookConfig = {
     { from: "../packages/styles/dist", to: "/assets/css" },
     { from: "../packages/nys-icon/dist/icons", to: "/assets/icons" },
     { from: "./assets/fonts", to: "/assets/fonts" },
-    { from: "./assets/images", to: "/assets/images" }
+    { from: "./assets/images", to: "/assets/images" },
   ],
   addons: [
     getAbsolutePath("@storybook/addon-a11y"),
