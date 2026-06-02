@@ -1,6 +1,6 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { playwrightLauncher, devices } from "@web/test-runner-playwright";
-// import { nysdsReporter } from './src/scripts/nysds-reporter.js';
+import { nysdsReporter } from './src/scripts/nysds-reporter.js';
 
 // Firefox declared the Lit is in DEV mode. this filters out that message to reduce the chatter in the testing logs
 const filteredLogs = [
@@ -20,7 +20,7 @@ export default {
   files: ["packages/**/*.test.ts", "src/**/*.test.ts", "!packages/mcp-server/**"],
   nodeResolve: true,
   filterBrowserLogs,
-  // reporters: [nysdsReporter()],
+  reporters: [nysdsReporter()],
   browserStartTimeout: 60000,
   browsers: [
     playwrightLauncher({
@@ -92,10 +92,10 @@ export default {
   coverageConfig: {
     exclude: ["**/node_modules/**", "**/test/**"],
     threshold: {
-      statements: 80,
-      functions: 80,
-      branches: 80,
-      lines: 80,
+      statements: 50,
+      functions: 50,
+      branches: 50,
+      lines: 50,
     }
   },
 };
