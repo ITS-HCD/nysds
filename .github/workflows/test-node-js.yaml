@@ -33,6 +33,6 @@ jobs:
       run: npm run build:all
     - name: Test Components
       run: npm run test:ai
-      continue-on-error: true
+      # continue-on-error: true
     - name: Build Storybook
       run: npm run storybook:cibuild
