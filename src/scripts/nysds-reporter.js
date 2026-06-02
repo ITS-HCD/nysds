@@ -178,7 +178,7 @@ function walkDuration(suiteResult) {
 const SPINNER = ['↗️ ', '➡️ ', '↘️ ', '⬇️ ', '↙️ ', '⬅️ ', '↖️ ', '⬆️ '];
 
 // --- Reporter factory ---
-export function nysdsReporter() {
+export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 0, branches: 0, lines: 0 } } = {}) {
   const mode = getMode();
   let startTime;
   let testFiles = [];
@@ -468,17 +468,26 @@ export function nysdsReporter() {
         const totalTimedOut = [...packageResults.values()].filter(r => r.timedOut).length;
         const totalTests = totalPassed + totalFailed + totalSkipped;
         const durationMs = Date.now() - startTime;
-        const allPassed = totalFailed === 0 && totalTimedOut === 0;
         const numBrowsers = browserCount || browserNames.length;
 
-        // Coverage percentage
-        const coveragePct = testCoverage?.summary?.lines?.pct;
-        const hasCoverage = coveragePct != null && coveragePct !== 'Unknown';
+        // Coverage — check all four metrics against thresholds
+        const cov = testCoverage?.summary;
+        const hasCoverage = cov?.lines?.pct != null && cov.lines.pct !== 'Unknown';
+        const coveragePassed = !hasCoverage || (
+          (cov.statements?.pct ?? 100) >= (coverageThreshold.statements ?? 0) &&
+          (cov.functions?.pct   ?? 100) >= (coverageThreshold.functions   ?? 0) &&
+          (cov.branches?.pct    ?? 100) >= (coverageThreshold.branches    ?? 0) &&
+          (cov.lines?.pct       ?? 100) >= (coverageThreshold.lines       ?? 0)
+        );
+        const allPassed = totalFailed === 0 && totalTimedOut === 0 && coveragePassed;
 
         if (mode === 'ai') {
           // AI summary (failure details already inline above each FAIL row)
           lines.push(`TOTAL ${completedCount} files, ${totalPassed}/${totalTests} passed, ${formatDuration(durationMs)}, ${numBrowsers} browsers`);
-          if (hasCoverage) lines.push(`COVERAGE ${coveragePct}%`);
+          if (hasCoverage) {
+            lines.push(`COVERAGE statements=${cov.statements?.pct}% functions=${cov.functions?.pct}% branches=${cov.branches?.pct}% lines=${cov.lines?.pct}%`);
+            if (!coveragePassed) lines.push(`COVERAGE_FAIL thresholds not met (statements=${coverageThreshold.statements}% functions=${coverageThreshold.functions}% branches=${coverageThreshold.branches}% lines=${coverageThreshold.lines}%)`);
+          }
           lines.push(`STATUS ${allPassed ? 'PASS' : 'FAIL'}`);
         } else {
           // Default/compact summary

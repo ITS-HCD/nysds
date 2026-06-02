@@ -16,11 +16,13 @@ const filterBrowserLogs = (log) => {
   return true
 }
 
+const coverageThreshold = { statements: 80, functions: 80, branches: 80, lines: 80 };
+
 export default {
   files: ["packages/**/*.test.ts", "src/**/*.test.ts", "!packages/mcp-server/**"],
   nodeResolve: true,
   filterBrowserLogs,
-  reporters: [nysdsReporter()],
+  reporters: [nysdsReporter({ coverageThreshold })],
   browserStartTimeout: 60000,
   browsers: [
     playwrightLauncher({
@@ -91,11 +93,6 @@ export default {
   ],
   coverageConfig: {
     exclude: ["**/node_modules/**", "**/test/**"],
-    threshold: {
-      statements: 80,
-      functions: 80,
-      branches: 80,
-      lines: 80,
-    }
+    threshold: coverageThreshold,
   },
 };
