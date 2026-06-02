@@ -136,10 +136,10 @@ export class NysRadiogroup extends LitElement {
     this._initializeCheckedRadioValue();
     this._setValue(); // This ensures our element always participates in the form
     this._setRadioButtonRequire();
-
     this._getSlotDescriptionForAria();
-
     this._initializeChildAttributes();
+
+    this._updateGroupTabIndex();
   }
 
   updated(changedProperties: Map<string | symbol, unknown>) {
@@ -525,6 +525,14 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
+  private _handleRadiobtnClick = (radiobtn: NysRadiobutton) => {
+    if (!radiobtn.disabled) {
+      this.shadowRoot
+        ?.querySelector<HTMLInputElement>(`#input-${radiobtn.id}`)
+        ?.click();
+    }
+  };
+
   render() {
     return html` <slot
         style="display:none"
@@ -556,7 +564,10 @@ export class NysRadiogroup extends LitElement {
         <div class="nys-radiogroup__content" @keydown=${this._handleKeyDown}>
           ${this._radios.map(
             (radiobtn, index) => html`
-              <div class="nys-radiobutton">
+              <div
+                class="nys-radiobutton"
+                @click=${() => this._handleRadiobtnClick(radiobtn)}
+              >
                 <div class="nys-radiobutton__main-container">
                   <!-- <span class="nys-radiobutton__radio" tabindex="-1"></span> -->
                   <input
@@ -578,15 +589,6 @@ export class NysRadiogroup extends LitElement {
                     id="${radiobtn.id}-label"
                     label="${radiobtn.label || (radiobtn.other ? "Other" : "")}"
                     description=${ifDefined(radiobtn.description || undefined)}
-                    @nys-label-click=${() => {
-                      if (!radiobtn.disabled) {
-                        this.shadowRoot
-                          ?.querySelector<HTMLInputElement>(
-                            `#input-${radiobtn.id}`,
-                          )
-                          ?.click();
-                      }
-                    }}
                   >
                     <slot name="description" slot="description"
                       >${radiobtn.description}</slot
