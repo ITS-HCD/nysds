@@ -136,6 +136,7 @@ export class NysRadiogroup extends LitElement {
     this._initializeCheckedRadioValue();
     this._setValue(); // This ensures our element always participates in the form
     this._setRadioButtonRequire();
+    this._updateRadioButtonsSize();
     this._getSlotDescriptionForAria();
     this._initializeChildAttributes();
 
@@ -150,6 +151,9 @@ export class NysRadiogroup extends LitElement {
       if (!this.showError) {
         this._manageRequire();
       }
+    }
+    if (changedProperties.has("size")) {
+      this._updateRadioButtonsSize();
     }
     this._updateGroupTabIndex();
   }
@@ -338,6 +342,13 @@ export class NysRadiogroup extends LitElement {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
       radio.setAttribute("tabindex", "-1");
+    });
+  }
+
+  private _updateRadioButtonsSize() {
+    const radioButtons = this.querySelectorAll("nys-radiobutton");
+    radioButtons.forEach((radioButton) => {
+      radioButton.setAttribute("size", this.size);
     });
   }
 
@@ -533,6 +544,18 @@ export class NysRadiogroup extends LitElement {
     }
   };
 
+  private _handleRadiobtnFocus(radiobtn: NysRadiobutton) {
+    radiobtn.dispatchEvent(
+      new CustomEvent("nys-focus", { bubbles: true, composed: true }),
+    );
+  }
+
+  private _handleRadiobtnBlur(radiobtn: NysRadiobutton) {
+    radiobtn.dispatchEvent(
+      new CustomEvent("nys-blur", { bubbles: true, composed: true }),
+    );
+  }
+
   render() {
     return html` <slot
         style="display:none"
@@ -580,8 +603,11 @@ export class NysRadiogroup extends LitElement {
                     .value=${radiobtn.value}
                     ?required=${this.required && index === 0}
                     form=${ifDefined(radiobtn.form || undefined)}
-                    aria-labelledby="${radiobtn.id}-label"
+                    aria-label="${radiobtn.label ||
+                    (radiobtn.other ? "Other" : "")}"
                     @change=${() => this._selectRadio(radiobtn)}
+                    @focus=${() => this._handleRadiobtnFocus(radiobtn)}
+                    @blur=${() => this._handleRadiobtnBlur(radiobtn)}
                   />
                   ${(radiobtn.label || radiobtn.other) &&
                   html`<nys-label
@@ -612,6 +638,7 @@ export class NysRadiogroup extends LitElement {
                             ? "true"
                             : "false"}
                           width=${this.isMobile ? "full" : "md"}
+                          ?disabled=${radiobtn.disabled}
                         ></nys-textinput>
                       `
                     : ""}
