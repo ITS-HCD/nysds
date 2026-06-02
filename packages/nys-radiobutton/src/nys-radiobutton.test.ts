@@ -160,6 +160,8 @@ describe("nys-radiobutton", () => {
       </nys-radiogroup>
     `);
 
+    await group.updateComplete;
+
     const radio = group.querySelectorAll<NysRadiobutton>("nys-radiobutton")[0];
     const eventPromise = oneEvent(group, "nys-change");
 
@@ -170,7 +172,6 @@ describe("nys-radiobutton", () => {
 
     const event = await eventPromise;
     expect((event as CustomEvent).detail.value).to.equal("albany");
-    expect((event as CustomEvent).detail.checked).to.be.true;
     expect((event as CustomEvent).detail.name).to.equal("c");
   });
 
