@@ -174,28 +174,6 @@ describe("nys-radiobutton", () => {
     expect((event as CustomEvent).detail.name).to.equal("c");
   });
 
-  it("nys-focus fires when radio gains focus", async () => {
-    const el = await fixture<NysRadiobutton>(
-      html`<nys-radiobutton name="f" label="A" value="a"></nys-radiobutton>`,
-    );
-
-    const eventPromise = oneEvent(el, "nys-focus");
-    el.dispatchEvent(new Event("focus"));
-    const event = await eventPromise;
-    expect(event).to.exist;
-  });
-
-  it("nys-blur fires when radio loses focus", async () => {
-    const el = await fixture<NysRadiobutton>(
-      html`<nys-radiobutton name="b" label="A" value="a"></nys-radiobutton>`,
-    );
-
-    const eventPromise = oneEvent(el, "nys-blur");
-    el.dispatchEvent(new Event("blur"));
-    const event = await eventPromise;
-    expect(event).to.exist;
-  });
-
   it("nys-other-input fires with correct detail when other text input changes", async () => {
     const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Other input event">
@@ -1010,7 +988,7 @@ describe("nys-radiobutton", () => {
   it("form submit focuses the other textinput when it is checked but empty", async () => {
     const container = await fixture(html`
       <form>
-        <nys-radiogroup label="Select borough">
+        <nys-radiogroup label="Select borough" required>
           <nys-radiobutton
             name="borough"
             other

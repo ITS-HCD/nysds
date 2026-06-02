@@ -341,14 +341,18 @@ export class NysRadiogroup extends LitElement {
   private _initializeChildAttributes() {
     const radios = this._getAllRadios();
     radios.forEach((radio) => {
-      radio.setAttribute("tabindex", "-1");
+      if (radio.getAttribute("tabindex") !== "-1") {
+        radio.setAttribute("tabindex", "-1");
+      }
     });
   }
 
   private _updateRadioButtonsSize() {
     const radioButtons = this.querySelectorAll("nys-radiobutton");
     radioButtons.forEach((radioButton) => {
-      radioButton.setAttribute("size", this.size);
+      if (radioButton.getAttribute("size") !== this.size) {
+        radioButton.setAttribute("size", this.size);
+      }
     });
   }
 
@@ -376,7 +380,12 @@ export class NysRadiogroup extends LitElement {
 
     this.dispatchEvent(
       new CustomEvent("nys-change", {
-        detail: { id: this.id, name: this.name, value: this.selectedValue },
+        detail: {
+          id: radiobtn.id,
+          checked: radiobtn.checked,
+          name: radiobtn.name,
+          value: radiobtn.value,
+        },
         bubbles: true,
         composed: true,
       }),
@@ -408,7 +417,6 @@ export class NysRadiogroup extends LitElement {
     const otherRadio = radios.find((radio) => radio.other && radio.checked);
 
     if (otherRadio && otherRadio.value.trim() === "") {
-      console.log("SDSDSDS");
       this.showError = true;
       this._hasUserInteracted = true;
       this._validateOtherAndEmitError(otherRadio);
