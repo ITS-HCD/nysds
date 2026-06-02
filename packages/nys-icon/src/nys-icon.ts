@@ -114,7 +114,14 @@ export class NysIcon extends LitElement implements NysIconWatcher {
     this._loadIcon();
   }
 
+  private static _validName = /^[a-zA-Z0-9_-]+$/;
+
   updated(changedProps: Map<string, unknown>) {
+    if (changedProps.has("name") && !NysIcon._validName.test(this.name)) {
+      console.warn(`nys-icon: invalid name "${this.name}" — ignored`);
+      this._svg = null;
+      return;
+    }
     if (changedProps.has("name") || changedProps.has("library")) {
       if (changedProps.has("library")) {
         const oldLib = changedProps.get("library") as string;

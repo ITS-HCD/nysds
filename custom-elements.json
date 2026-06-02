@@ -7447,7 +7447,14 @@
               }
             }
           ],
-          "description": "Register or replace a named icon library. All watching icons using this library will redraw."
+          "description": "Register or replace a named icon library. All watching icons using this library will redraw.",
+          "examples": [
+            {
+              "title": "Register a Font Awesome library with a custom resolver:",
+              "code": "registerIconLibrary(\"fa\", {\nresolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});",
+              "lang": "ts"
+            }
+          ]
         },
         {
           "kind": "function",
@@ -7710,6 +7717,13 @@
               "kind": "method",
               "name": "redraw",
               "description": "Called by the icon library registry when the current library changes."
+            },
+            {
+              "kind": "field",
+              "name": "_validName",
+              "privacy": "private",
+              "static": true,
+              "default": "/^[a-zA-Z0-9_-]+$/"
             },
             {
               "kind": "method",

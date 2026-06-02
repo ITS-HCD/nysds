@@ -130,6 +130,7 @@
     "storybook": "$storybook"
   },
   "dependencies": {
+    "dompurify": "^3.4.7",
     "wc-datepicker": "^0.10.0"
   }
 }

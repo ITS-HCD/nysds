@@ -38,7 +38,7 @@ function removeDemoFiles() {
   };
 }
 
-function copyIconAssets() {
+export function copyIconAssets() {
   return {
     name: "copy-icon-assets",
     closeBundle() {
@@ -99,7 +99,6 @@ export const defaultConfig = {
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
         removeDemoFiles(),
-        copyIconAssets(),
       ].filter(Boolean),
     },
   },
@@ -153,4 +152,10 @@ export default isUmd
         },
       },
     })
-  : mergeConfig(defaultConfig, {});
+  : mergeConfig(defaultConfig, {
+      build: {
+        rollupOptions: {
+          plugins: [copyIconAssets()],
+        },
+      },
+    });
