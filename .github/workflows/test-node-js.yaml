@@ -26,7 +26,7 @@ jobs:
     - name: Install dependencies
       run: npm i
     - name: Install Playwright browsers
-      run: npx playwright install --with-deps chromium webkit firefox
+      run: npx playwright install --with-deps
       env:
         DEBIAN_FRONTEND: noninteractive
     - name: Build Packages
