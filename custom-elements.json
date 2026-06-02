@@ -8849,12 +8849,19 @@
             {
               "kind": "field",
               "name": "_mobileQuery",
+              "type": {
+                "text": "MediaQueryList"
+              },
               "privacy": "private"
             },
             {
               "kind": "field",
               "name": "isMobile",
-              "privacy": "private"
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
             },
             {
               "kind": "field",

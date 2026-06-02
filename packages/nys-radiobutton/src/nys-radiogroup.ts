@@ -81,8 +81,8 @@ export class NysRadiogroup extends LitElement {
   @state() private _slottedDescriptionText = "";
   @state() private _radios: NysRadiobutton[] = [];
 
-  private _mobileQuery = window.matchMedia("(max-width: 479px)");
-  @state() private isMobile = this._mobileQuery.matches;
+  private _mobileQuery!: MediaQueryList;
+  @state() private isMobile = false;
 
   private _hasUserInteracted = false; // need this flag for "eager mode"
 
@@ -109,8 +109,11 @@ export class NysRadiogroup extends LitElement {
       this.id = `nys-radiogroup-${Date.now()}-${radiogroupIdCounter++}`;
     }
 
-    this.addEventListener("invalid", this._handleInvalid);
+    this._mobileQuery = window.matchMedia("(max-width: 479px)");
+    this.isMobile = this._mobileQuery.matches;
     this._mobileQuery.addEventListener("change", this._handleMobileQuery);
+
+    this.addEventListener("invalid", this._handleInvalid);
 
     this._childObserver = new MutationObserver(() => {
       this._radios = this._getAllRadios();
@@ -121,7 +124,6 @@ export class NysRadiogroup extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    // this.removeEventListener("nys-change", this._handleRadioButtonChange);
     this.removeEventListener("invalid", this._handleInvalid);
     this._mobileQuery.removeEventListener("change", this._handleMobileQuery);
 
@@ -183,11 +185,14 @@ export class NysRadiogroup extends LitElement {
     const firstRadio = radioButtons[0] as HTMLElement;
 
     if (firstRadio) {
+      const shadowInput = this.shadowRoot?.querySelector<HTMLElement>(
+        `#input-${(firstRadio as NysRadiobutton).id}`,
+      );
       if (this.required && !this.selectedValue) {
         this._internals.setValidity(
           { valueMissing: true },
           message,
-          firstRadio, // pass the custom element, not shadow input
+          shadowInput ?? firstRadio, // pass the custom element, not shadow input
         );
       } else {
         this.showError = false;
@@ -251,15 +256,6 @@ export class NysRadiogroup extends LitElement {
       ) ||
       radioBtns.find((radio) => radio.checked) ||
       radioBtns[0];
-
-    // const fromEvent = radioBtns.find((radio) => radio === event.target); // event.target is the radio VO dispatched black focus outline
-    // const focusedRadio = radioBtns.find((radio) => radio.matches(":focus"));
-
-    // const currentRadio =
-    //   fromEvent ||
-    //   focusedRadio ||
-    //   radioBtns.find((radio) => radio.checked) ||
-    //   radioBtns[0]; // fallback is checked radio or first radio
 
     let increment = 0;
     if (["ArrowUp", "ArrowLeft"].includes(event.key)) {
@@ -468,13 +464,6 @@ export class NysRadiogroup extends LitElement {
     }
   }
 
-  // DELETE LATER !!!!!!
-  // private _handleRadioChange(radiobtn: NysRadiobutton) {
-  //   return (_event: Event) => {
-  //     this._selectRadio(radiobtn);
-  //   };
-  // }
-
   private _handleTextInput(radiobtn: NysRadiobutton, event: Event) {
     const input = event.target as HTMLInputElement;
     radiobtn.value = input.value;
@@ -509,6 +498,9 @@ export class NysRadiogroup extends LitElement {
 
     const isInvalid = radiobtn.value.trim() === "";
     this._showOtherError = isInvalid;
+    const shadowInput = this.shadowRoot?.querySelector<HTMLElement>(
+      `#input-${radiobtn.id}`,
+    );
 
     if (isInvalid) {
       this._internals.setValidity(
@@ -516,7 +508,7 @@ export class NysRadiogroup extends LitElement {
           customError: true,
         },
         "Please enter a value for this option.",
-        radiobtn as HTMLElement,
+        shadowInput ?? (radiobtn as HTMLElement),
       );
       this.showError = true;
     } else {
