@@ -1,6 +1,5 @@
 import { expect, html, fixture } from "@open-wc/testing";
-// Import from dist bundle so the registry, cache, and component share the same module instance.
-// The dist bundle's import.meta.url resolves icons correctly from dist/icons/.
+
 import "../dist/nys-icon.js";
 import type { NysIcon } from "./nys-icon";
 
@@ -323,5 +322,438 @@ describe("nys-icon library system", () => {
     expect(svg?.getAttribute("fill")).to.equal("currentColor");
     expect(svg?.getAttribute("role")).to.equal("img");
     expect(svg?.classList.contains("nys-icon--4xl")).to.be.true;
+  });
+});
+
+// Font Awesome library tests
+describe("nys-icon — Font Awesome library", () => {
+  const houseSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path data-icon="house" d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2H416V336h-80v112H160V287.6H32c-18 0-32-14-32-32.1L266.4 8 564.8 231.5c8 7 12 15 11 24z"/></svg>`;
+  const userSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path data-icon="user" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3 0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>`;
+
+  const faResolver = (name: string): string | undefined => {
+    if (name === "house") return svgDataUri(houseSvg);
+    if (name === "user") return svgDataUri(userSvg);
+    return undefined;
+  };
+
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("fa-icons");
+  });
+
+  it('renders "house" icon with correct SVG content', async () => {
+    registerIconLibrary("fa-icons", {
+      resolver: faResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="house" library="fa-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("path[data-icon='house']")).to.exist;
+  });
+
+  it('renders "user" icon with correct SVG content', async () => {
+    registerIconLibrary("fa-icons", {
+      resolver: faResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="user" library="fa-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("path[data-icon='user']")).to.exist;
+  });
+
+  it("applies the FA mutator (sets fill=currentColor)", async () => {
+    registerIconLibrary("fa-icons", {
+      resolver: faResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="house" library="fa-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.getAttribute("fill")).to.equal("currentColor");
+  });
+
+  it("renders nothing for an unrecognized FA icon name", async () => {
+    registerIconLibrary("fa-icons", {
+      resolver: faResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="unknown-fa-icon" library="fa-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.be.null;
+  });
+});
+
+// Material Icons library tests
+describe("nys-icon — Material Icons library", () => {
+  const homeSvg = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path data-icon="home" d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"/></svg>`;
+  const starSvg = `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path data-icon="star" d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM480-200l-168 102 45-190-149-129 196-17 76-180 76 180 196 17-149 130 45 190L480-200Zm0-280Z"/></svg>`;
+
+  const materialResolver = (name: string): string | undefined => {
+    if (name === "home") return svgDataUri(homeSvg);
+    if (name === "star") return svgDataUri(starSvg);
+    return undefined;
+  };
+
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("material-icons");
+  });
+
+  it('renders "home" icon with correct SVG content', async () => {
+    registerIconLibrary("material-icons", {
+      resolver: materialResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="home" library="material-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("path[data-icon='home']")).to.exist;
+  });
+
+  it('renders "star" icon with correct SVG content', async () => {
+    registerIconLibrary("material-icons", {
+      resolver: materialResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="star" library="material-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("path[data-icon='star']")).to.exist;
+  });
+
+  it("applies the Material mutator (sets fill=currentColor)", async () => {
+    registerIconLibrary("material-icons", {
+      resolver: materialResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="home" library="material-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.getAttribute("fill")).to.equal("currentColor");
+  });
+
+  it("renders nothing for an unrecognized Material icon name", async () => {
+    registerIconLibrary("material-icons", {
+      resolver: materialResolver,
+      mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="unknown-material-icon" library="material-icons"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.be.null;
+  });
+});
+
+// Fetch failure tests
+describe("nys-icon — fetch failure", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("bad-lib");
+  });
+
+  it("renders nothing when the resolver returns an invalid URL", async () => {
+    registerIconLibrary("bad-lib", {
+      resolver: () => "data:image/svg+xml,INVALID_SVG_CONTENT_NOT_PARSEABLE!!!",
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="some-icon" library="bad-lib"></nys-icon>`,
+    );
+    // Wait generously for the fetch + error path to complete
+    await el.updateComplete;
+    for (let i = 0; i < 40; i++) {
+      await new Promise<void>((r) => setTimeout(r, 50));
+      await el.updateComplete;
+    }
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.be.null;
+  });
+});
+
+// Stale fetch cancellation tests
+describe("nys-icon — stale fetch cancellation", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("seq-lib");
+  });
+
+  it("discards a stale fetch when name changes synchronously", async () => {
+    const rectSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect data-shape="rect" width="24" height="24"/></svg>`;
+    const circleSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle data-shape="circle" cx="12" cy="12" r="12"/></svg>`;
+
+    registerIconLibrary("seq-lib", {
+      resolver: (name) => {
+        if (name === "icon-a") return svgDataUri(rectSvg);
+        if (name === "icon-b") return svgDataUri(circleSvg);
+        return undefined;
+      },
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon-a" library="seq-lib"></nys-icon>`,
+    );
+
+    // Synchronously change to icon-b before icon-a fetch resolves
+    el.name = "icon-b";
+
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    // Only icon-b (circle) should be rendered; icon-a (rect) was stale
+    expect(svg?.querySelector("[data-shape='circle']")).to.exist;
+    expect(svg?.querySelector("[data-shape='rect']")).to.be.null;
+  });
+});
+
+// Visual prop updates after load tests
+describe("nys-icon — visual prop updates after load", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("prop-lib");
+  });
+
+  it("updates aria-label without re-fetching the SVG", async () => {
+    registerIconLibrary("prop-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="prop-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svgBefore = el.shadowRoot?.querySelector("svg");
+    expect(svgBefore?.getAttribute("aria-hidden")).to.equal("true");
+    expect(svgBefore?.getAttribute("aria-label")).to.be.null;
+
+    // Set ariaLabel
+    el.ariaLabel = "descriptive label";
+    await el.updateComplete;
+
+    const svgAfter = el.shadowRoot?.querySelector("svg");
+    expect(svgAfter?.getAttribute("aria-label")).to.equal("descriptive label");
+    expect(svgAfter?.hasAttribute("aria-hidden")).to.be.false;
+
+    // Clear ariaLabel — should revert to aria-hidden
+    el.ariaLabel = "";
+    await el.updateComplete;
+
+    const svgFinal = el.shadowRoot?.querySelector("svg");
+    expect(svgFinal?.getAttribute("aria-hidden")).to.equal("true");
+    expect(svgFinal?.getAttribute("aria-label")).to.be.null;
+  });
+
+  it("updates rotation without re-fetching", async () => {
+    registerIconLibrary("prop-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="prop-lib" rotate="0"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    el.rotate = "180";
+    await el.updateComplete;
+
+    const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
+    expect(svg.style.rotate).to.equal("180deg");
+  });
+
+  it("updates color without re-fetching", async () => {
+    registerIconLibrary("prop-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="prop-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    el.color = "blue";
+    await el.updateComplete;
+
+    const svg = el.shadowRoot?.querySelector("svg") as SVGElement;
+    expect(svg.style.color).to.equal("blue");
+  });
+
+  it("adds flip class without re-fetching", async () => {
+    registerIconLibrary("prop-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="prop-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    el.flip = "vertical";
+    await el.updateComplete;
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.classList.contains("nys-icon--flip-vertical")).to.be.true;
+  });
+
+  it("adds new size class when size changes (classList.add is cumulative)", async () => {
+    registerIconLibrary("prop-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="prop-lib" size="md"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svgBefore = el.shadowRoot?.querySelector("svg");
+    expect(svgBefore?.classList.contains("nys-icon--md")).to.be.true;
+
+    el.size = "xl";
+    await el.updateComplete;
+
+    const svgAfter = el.shadowRoot?.querySelector("svg");
+    expect(svgAfter?.classList.contains("nys-icon--xl")).to.be.true;
+  });
+});
+
+// Pixel sizes tests
+describe("nys-icon — pixel sizes", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("px-lib");
+  });
+
+  it('applies class "nys-icon--12" for size="12"', async () => {
+    registerIconLibrary("px-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="px-lib" size="12"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.classList.contains("nys-icon--12")).to.be.true;
+  });
+
+  it('applies class "nys-icon--24" for size="24"', async () => {
+    registerIconLibrary("px-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="px-lib" size="24"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.classList.contains("nys-icon--24")).to.be.true;
+  });
+
+  it('applies class "nys-icon--50" for size="50"', async () => {
+    registerIconLibrary("px-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="px-lib" size="50"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.classList.contains("nys-icon--50")).to.be.true;
+  });
+});
+
+// Flip direction tests
+describe("nys-icon — flip directions", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("flip-lib");
+  });
+
+  it('applies "nys-icon--flip-vertical" class for flip="vertical"', async () => {
+    registerIconLibrary("flip-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="flip-lib" flip="vertical"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.classList.contains("nys-icon--flip-vertical")).to.be.true;
+  });
+
+  it('applies "nys-icon--flip-horizontal" class for flip="horizontal"', async () => {
+    registerIconLibrary("flip-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="flip-lib" flip="horizontal"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg?.classList.contains("nys-icon--flip-horizontal")).to.be.true;
+  });
+
+  it("does not apply any flip class when flip is not set", async () => {
+    registerIconLibrary("flip-lib", {
+      resolver: () => svgDataUri(testSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="flip-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    const classes = Array.from(svg?.classList ?? []);
+    const flipClasses = classes.filter((c) => c.startsWith("nys-icon--flip-"));
+    expect(flipClasses).to.have.length(0);
   });
 });

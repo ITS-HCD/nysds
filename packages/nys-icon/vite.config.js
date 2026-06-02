@@ -1,5 +1,5 @@
 import { mergeConfig } from "vite";
-import { defaultConfig, copyIconAssets } from "../../vite.config.js";
+import { defaultConfig, copyIconAssets, extractIcons } from "../../vite.config.js";
 import { version } from "./package.json";
 
 // Banner to put at the top of the generated files
@@ -24,7 +24,7 @@ const overrideConfig = {
     
     rollupOptions: {
       output: { banner },
-      plugins: [copyIconAssets()],
+      plugins: [extractIcons(), copyIconAssets()],
     },
   },
 };
