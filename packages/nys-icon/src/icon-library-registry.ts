@@ -55,7 +55,7 @@ if (!registry.has("default")) {
   });
 }
 
-/** Register or replace a named icon library. All watching icons using this library will redraw. 
+/** Register or replace a named icon library. All watching icons using this library will redraw.
  * @example Register a Font Awesome library with a custom resolver:
  * ```ts
  * registerIconLibrary("fa", {

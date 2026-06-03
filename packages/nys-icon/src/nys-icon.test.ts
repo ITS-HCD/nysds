@@ -474,7 +474,10 @@ describe("nys-icon — Material Icons library", () => {
     });
 
     const el = await fixture<NysIcon>(
-      html`<nys-icon name="unknown-material-icon" library="material-icons"></nys-icon>`,
+      html`<nys-icon
+        name="unknown-material-icon"
+        library="material-icons"
+      ></nys-icon>`,
     );
     await waitForIcon(el);
 
@@ -874,9 +877,8 @@ describe("nys-icon — DOMPurify branch coverage", () => {
     const image = svg?.querySelector("image");
     if (image) {
       expect(image.hasAttribute("xlink:href")).to.be.false;
-      expect(
-        image.getAttributeNS("http://www.w3.org/1999/xlink", "href"),
-      ).to.be.null;
+      expect(image.getAttributeNS("http://www.w3.org/1999/xlink", "href")).to.be
+        .null;
     }
   });
 
@@ -1212,7 +1214,11 @@ describe("nys-icon — flip directions", () => {
     });
 
     const el = await fixture<NysIcon>(
-      html`<nys-icon name="icon" library="flip-lib" flip="vertical"></nys-icon>`,
+      html`<nys-icon
+        name="icon"
+        library="flip-lib"
+        flip="vertical"
+      ></nys-icon>`,
     );
     await waitForIcon(el);
 
@@ -1226,7 +1232,11 @@ describe("nys-icon — flip directions", () => {
     });
 
     const el = await fixture<NysIcon>(
-      html`<nys-icon name="icon" library="flip-lib" flip="horizontal"></nys-icon>`,
+      html`<nys-icon
+        name="icon"
+        library="flip-lib"
+        flip="horizontal"
+      ></nys-icon>`,
     );
     await waitForIcon(el);
 
