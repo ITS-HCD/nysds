@@ -328,6 +328,12 @@ export class NysTextinput extends LitElement {
 
     this.showPassword = false;
 
+    // Reset mask overlay if applicable
+    const mask = this._maskPatterns[this.type];
+    if (mask) {
+      this._updateOverlay("", mask);
+    }
+
     // Re-render UI
     this.requestUpdate();
   }

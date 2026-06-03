@@ -11,13 +11,17 @@
   --_nys-pagination-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-pagination-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-pagination-line-height: var(--nys-font-lineheight-ui-md, 24px);
-  --_nys-pagination-font-family: var(--nys-font-family-ui,
-      var(--nys-font-family-sans,
-        "Proxima Nova",
-        "Helvetica Neue",
-        "Helvetica",
-        "Arial",
-        sans-serif));
+  --_nys-pagination-font-family: var(
+    --nys-font-family-ui,
+    var(
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
+  );
 }
 
 .nys-pagination {
@@ -55,8 +59,10 @@ nys-button {
   &[variant="filled"] {
     --nys-button-background-color: var(--nys-color-link, #004dd1);
     --nys-button-background-color--hover: var(--nys-color-link-strong, #003ba1);
-    --nys-button-background-color--active: var(--nys-color-link-strongest,
-        #002971);
+    --nys-button-background-color--active: var(
+      --nys-color-link-strongest,
+      #002971
+    );
     --nys-button-border-color: var(--nys-color-link, #004dd1);
     --nys-button-border-color--hover: var(--nys-color-link-strong, #003ba1);
     --nys-button-border-color--active: var(--nys-color-link-strongest, #002971);
