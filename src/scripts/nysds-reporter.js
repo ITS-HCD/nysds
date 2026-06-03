@@ -500,7 +500,7 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
           lines.push(`  ${c('Browsers:', BOLD)}   ${numBrowsers}`);
           lines.push(`  ${c('Duration:', BOLD)}   ${formatDuration(durationMs)}`);
           if (hasCoverage) {
-            lines.push(`  ${c('Coverage:', BOLD)}   ${cov.lines?.pct}%`);
+            lines.push(`  ${c('Coverage:', BOLD)}   statements=${cov.statements?.pct}%  functions=${cov.functions?.pct}%  branches=${cov.branches?.pct}%  lines=${cov.lines?.pct}%`);
             lines.push(`  ${c('Report:', BOLD)}     coverage/lcov-report/index.html`);
           }
           lines.push('');
