@@ -44,7 +44,7 @@ export function copyIconAssets() {
   return {
     name: "copy-icon-assets",
     closeBundle() {
-      const srcDir = path.resolve("./dist/icons");
+      const srcDir = path.resolve(__dirname, "./packages/nys-icon/dist/icons");
       const destDir = path.resolve("dist/icons");
 
       if (!fs.existsSync(srcDir)) {

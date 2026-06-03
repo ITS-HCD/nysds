@@ -33,7 +33,6 @@ async function _doFetch(url: string): Promise<SVGElement> {
 
 /** Fetch and parse an SVG from a URL. Returns a cloned SVGElement (safe for multiple consumers). */
 export async function fetchIcon(url: string): Promise<SVGElement> {
-
   if (!cache.has(url)) {
     cache.set(url, _doFetch(url));
   }

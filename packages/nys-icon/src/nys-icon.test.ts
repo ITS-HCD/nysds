@@ -706,6 +706,499 @@ describe("nys-icon — pixel sizes", () => {
   });
 });
 
+// DOMPurify branch coverage tests
+// These test specific internal branches in the bundled DOMPurify 3.x code.
+describe("nys-icon — DOMPurify branch coverage", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("branch-lib");
+  });
+
+  // --- Comment node branches (be() function) ---
+
+  // Exercises: ft && t.nodeType === F.comment && b(/<[/\w]/g, t.data) → TRUE path (early removal)
+  it("removes SVG comments whose data contains HTML markup (early-return path in be())", async () => {
+    const svgWithBadComment = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- <script>alert('xss')</script> --><circle cx="12" cy="12" r="10"/></svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithBadComment),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const hasScriptComment = Array.from(svg?.childNodes ?? []).some(
+      (n) =>
+        n.nodeType === Node.COMMENT_NODE &&
+        (n as Comment).data?.includes("<script>"),
+    );
+    expect(hasScriptComment).to.be.false;
+    expect(svg?.querySelector("circle")).to.exist;
+  });
+
+  // Exercises: ft && t.nodeType === F.comment && b(/<[/\w]/g, t.data) → FALSE path (falls through to tag-not-allowed removal)
+  it("removes safe comments (no HTML markup) via the generic tag-not-allowed path", async () => {
+    const svgWithSafeComment = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><!-- safe metadata --><circle data-safe="yes" cx="12" cy="12" r="10"/></svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithSafeComment),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const hasAnyComment = Array.from(svg?.childNodes ?? []).some(
+      (n) => n.nodeType === Node.COMMENT_NODE,
+    );
+    expect(hasAnyComment).to.be.false;
+    expect(svg?.querySelector("circle")).to.exist;
+  });
+
+  // --- data-* attribute branch (Re() function) ---
+
+  // Exercises: Ht && !It[n] && b(tn, n) → TRUE path (data-* allowed through)
+  it("preserves data-* attributes on SVG elements (ALLOW_DATA_ATTR branch)", async () => {
+    const svgWithData = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle data-icon="my-icon" data-size="24" cx="12" cy="12" r="10"/></svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithData),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const circle = el.shadowRoot?.querySelector("circle");
+    expect(circle).to.exist;
+    expect(circle?.getAttribute("data-icon")).to.equal("my-icon");
+    expect(circle?.getAttribute("data-size")).to.equal("24");
+  });
+
+  // --- aria-* attribute branch (Re() function) ---
+
+  // Exercises: le && b(en, n) → TRUE path (aria-* allowed through)
+  it("preserves aria-* attributes on SVG child elements (ALLOW_ARIA_ATTR branch)", async () => {
+    const svgWithAria = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g aria-label="shapes group" aria-hidden="false"><circle cx="12" cy="12" r="10"/></g></svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithAria),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const g = el.shadowRoot?.querySelector("g");
+    expect(g).to.exist;
+    expect(g?.getAttribute("aria-label")).to.equal("shapes group");
+    expect(g?.getAttribute("aria-hidden")).to.equal("false");
+  });
+
+  // --- svgFilters profile branch (Kt() function) ---
+
+  // Exercises: Z.svgFilters === true → c(g, te) (filter elements added to allowed-tags set)
+  it("preserves SVG filter primitive elements allowed by the svgFilters profile", async () => {
+    const svgWithFilter = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <defs><filter id="f1">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+        <feBlend in="SourceGraphic" in2="blur" mode="multiply"/>
+        <feColorMatrix type="saturate" values="0"/>
+      </filter></defs>
+      <circle cx="12" cy="12" r="10" filter="url(#f1)"/>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithFilter),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("feGaussianBlur")).to.exist;
+    expect(svg?.querySelector("feBlend")).to.exist;
+    expect(svg?.querySelector("feColorMatrix")).to.exist;
+  });
+
+  // --- FORBID_ATTR branches ---
+
+  // Exercises: It[n] → TRUE for "onbegin"
+  it("strips onbegin event handler from SVG animation elements", async () => {
+    const svgWithOnbegin = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10">
+        <animateMotion dur="1s" onbegin="alert('xss')" repeatCount="indefinite"/>
+      </circle>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithOnbegin),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const animateMotion = svg?.querySelector("animateMotion");
+    if (animateMotion) {
+      expect(animateMotion.hasAttribute("onbegin")).to.be.false;
+    }
+  });
+
+  // Exercises: It[n] → TRUE for "xlink:href" (namespaced attribute)
+  it("strips xlink:href attribute from image elements via FORBID_ATTR", async () => {
+    const svgWithXlinkHref = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+      <image xlink:href="//evil.com/payload.svg" width="24" height="24"/>
+      <circle cx="12" cy="12" r="10"/>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithXlinkHref),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const image = svg?.querySelector("image");
+    if (image) {
+      expect(image.hasAttribute("xlink:href")).to.be.false;
+      expect(
+        image.getAttributeNS("http://www.w3.org/1999/xlink", "href"),
+      ).to.be.null;
+    }
+  });
+
+  // --- URL validation branch (Re() function) ---
+
+  // Exercises: !$t[n] → !b(se, value) → if (o) return false (URI validation strips bad scheme)
+  it("strips SVG attributes whose values use a javascript: URI scheme", async () => {
+    const svgWithJsUri = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" fill="javascript:evil()"/>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithJsUri),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const circle = svg?.querySelector("circle");
+    expect(circle).to.exist;
+    expect(circle?.getAttribute("fill") ?? "").to.not.include("javascript");
+  });
+
+  // --- Attribute value HTML-close-tag branch (we() function) ---
+
+  // Exercises: ft && b(/((--!?|])>)|<\/(style|script|...)/i, S) → attribute stripped
+  it("strips attributes whose values contain HTML close-tag sequences (SAFE_FOR_XML check)", async () => {
+    const svgWithBadAttrValue = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" data-desc="text</style>injection"/>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithBadAttrValue),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const circle = svg?.querySelector("circle");
+    expect(circle).to.exist;
+    expect(circle?.getAttribute("data-desc") ?? "").to.not.include("</style>");
+  });
+
+  // --- attributeName="href" mXSS protection branch (we() function) ---
+
+  // Exercises: v === "attributename" && xe(S, "href") → attribute stripped
+  it("strips attributeName attribute when its value contains 'href' (mXSS protection)", async () => {
+    const svgWithAttrNameHref = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10">
+        <animateTransform attributeName="href" type="translate" from="0 0" to="10 10" dur="1s"/>
+      </circle>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithAttrNameHref),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const animateTransform = svg?.querySelector("animateTransform");
+    if (animateTransform) {
+      expect(animateTransform.hasAttribute("attributeName")).to.be.false;
+      expect(animateTransform.hasAttribute("attributename")).to.be.false;
+    }
+  });
+
+  // --- SANITIZE_DOM / DOM-clobbering branch (Re() function) ---
+
+  // Exercises: ue && (n === "id") && (o in document) → attribute stripped
+  it("strips id attributes whose value shadows a document property (DOM-clobbering protection)", async () => {
+    // 'body' is a property of document so id="body" would clobber document.body
+    const svgWithClobberingId = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle id="body" cx="12" cy="12" r="10"/>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgWithClobberingId),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const circle = svg?.querySelector("circle");
+    expect(circle).to.exist;
+    expect(circle?.hasAttribute("id")).to.be.false;
+  });
+
+  // --- Multiple forbidden attributes on a single element ---
+
+  it("strips all forbidden attributes when several are present on the same element", async () => {
+    const svgMultiForbidden = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" onload="evil()" onerror="evil()" onbegin="evil()"/>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(svgMultiForbidden),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const circle = svg?.querySelector("circle");
+    expect(circle).to.exist;
+    expect(circle?.hasAttribute("onload")).to.be.false;
+    expect(circle?.hasAttribute("onerror")).to.be.false;
+    expect(circle?.hasAttribute("onbegin")).to.be.false;
+    expect(circle?.getAttribute("cx")).to.equal("12");
+  });
+
+  // --- Mixed safe + unsafe content ---
+
+  it("preserves allowed SVG elements while stripping all forbidden ones in a mixed document", async () => {
+    const mixedSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <circle data-keep="yes" cx="12" cy="12" r="10"/>
+      <script>alert('xss')<\/script>
+      <use href="//evil.com/x.svg"/>
+      <path d="M0 0 L24 24" stroke="black"/>
+    </svg>`;
+    registerIconLibrary("branch-lib", {
+      resolver: () => svgDataUri(mixedSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="branch-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("circle")).to.exist;
+    expect(svg?.querySelector("path")).to.exist;
+    expect(svg?.querySelector("circle")?.getAttribute("data-keep")).to.equal(
+      "yes",
+    );
+    expect(svg?.querySelector("script")).to.be.null;
+    expect(svg?.querySelector("use")).to.be.null;
+  });
+});
+
+// DOMPurify sanitization tests
+describe("nys-icon — DOMPurify sanitization", () => {
+  afterEach(() => {
+    clearIconCache();
+    unregisterIconLibrary("sanitize-lib");
+  });
+
+  it("strips <script> tags embedded in SVG content", async () => {
+    const maliciousSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><script>alert('xss')<\/script></svg>`;
+    registerIconLibrary("sanitize-lib", {
+      resolver: () => svgDataUri(maliciousSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="sanitize-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("script")).to.be.null;
+  });
+
+  it("strips onload event handler attributes from the <svg> element", async () => {
+    const maliciousSvg = `<svg xmlns="http://www.w3.org/2000/svg" onload="alert('xss')" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>`;
+    registerIconLibrary("sanitize-lib", {
+      resolver: () => svgDataUri(maliciousSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="sanitize-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.hasAttribute("onload")).to.be.false;
+  });
+
+  it("strips onerror event handler attributes from SVG child elements", async () => {
+    const maliciousSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><image onerror="alert('xss')" href="x"/><circle cx="12" cy="12" r="10"/></svg>`;
+    registerIconLibrary("sanitize-lib", {
+      resolver: () => svgDataUri(maliciousSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="sanitize-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const image = svg?.querySelector("image");
+    if (image) {
+      expect(image.hasAttribute("onerror")).to.be.false;
+    }
+  });
+
+  it("strips <use> elements that could reference external resources", async () => {
+    const maliciousSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><use href="//evil.com/payload.svg"/><circle cx="12" cy="12" r="10"/></svg>`;
+    registerIconLibrary("sanitize-lib", {
+      resolver: () => svgDataUri(maliciousSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="sanitize-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("use")).to.be.null;
+  });
+
+  it("strips href attributes from SVG anchor elements", async () => {
+    const maliciousSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><a href="javascript:alert('xss')"><circle cx="12" cy="12" r="10"/></a></svg>`;
+    registerIconLibrary("sanitize-lib", {
+      resolver: () => svgDataUri(maliciousSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="sanitize-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    const anchor = svg?.querySelector("a");
+    if (anchor) {
+      expect(anchor.hasAttribute("href")).to.be.false;
+    }
+  });
+
+  it("preserves safe SVG content after sanitization", async () => {
+    const safeSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle data-shape="circle" cx="12" cy="12" r="10" fill="blue"/></svg>`;
+    registerIconLibrary("sanitize-lib", {
+      resolver: () => svgDataUri(safeSvg),
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="sanitize-lib"></nys-icon>`,
+    );
+    await waitForIcon(el);
+
+    const svg = el.shadowRoot?.querySelector("svg");
+    expect(svg).to.exist;
+    expect(svg?.querySelector("[data-shape='circle']")).to.exist;
+  });
+});
+
+// HTTP fetch error tests
+describe("nys-icon — HTTP fetch errors", () => {
+  let originalFetch: typeof window.fetch;
+
+  beforeEach(() => {
+    originalFetch = window.fetch;
+  });
+
+  afterEach(() => {
+    window.fetch = originalFetch;
+    clearIconCache();
+    unregisterIconLibrary("error-lib");
+  });
+
+  it("renders nothing when the server returns a non-OK HTTP status", async () => {
+    window.fetch = async () => new Response("Not Found", { status: 404 });
+
+    registerIconLibrary("error-lib", {
+      resolver: () => "https://example.invalid/icon.svg",
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="error-lib"></nys-icon>`,
+    );
+    await el.updateComplete;
+    for (let i = 0; i < 20; i++) {
+      await new Promise<void>((r) => setTimeout(r, 50));
+      await el.updateComplete;
+    }
+
+    expect(el.shadowRoot?.querySelector("svg")).to.be.null;
+  });
+
+  it("renders nothing when the server returns non-SVG content", async () => {
+    window.fetch = async () =>
+      new Response("<p>This is not SVG content</p>", {
+        status: 200,
+        headers: { "Content-Type": "text/html" },
+      });
+
+    registerIconLibrary("error-lib", {
+      resolver: () => "https://example.invalid/not-svg.svg",
+    });
+
+    const el = await fixture<NysIcon>(
+      html`<nys-icon name="icon" library="error-lib"></nys-icon>`,
+    );
+    await el.updateComplete;
+    for (let i = 0; i < 20; i++) {
+      await new Promise<void>((r) => setTimeout(r, 50));
+      await el.updateComplete;
+    }
+
+    expect(el.shadowRoot?.querySelector("svg")).to.be.null;
+  });
+});
+
 // Flip direction tests
 describe("nys-icon — flip directions", () => {
   afterEach(() => {
