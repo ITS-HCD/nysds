@@ -4,10 +4,7 @@
     --nys-color-link-reverse-neutral,
     var(--nys-color-white, #ffffff)
   );
-  --_nys-unavfooter-background-color: var(
-    --nys-color-surface-reverse,
-    #1b1b1b
-  );
+  --_nys-unavfooter-background-color: var(--nys-color-surface-reverse, #1b1b1b);
   --_nys-unavfooter-gap: var(--nys-space-200, 16px);
   --_nys-unavfooter-padding: var(--nys-space-250, 20px);
   --_nys-unavfooter-padding--gutter: var(--nys-gutter-sm, 20px);
@@ -101,8 +98,7 @@ a:active {
   align-items: center;
   width: 100%;
   max-width: var(--_nys-unavfooter-max-width);
-  padding: var(--_nys-unavfooter-padding)
-    var(--_nys-unavfooter-padding--gutter);
+  padding: var(--_nys-unavfooter-padding) var(--_nys-unavfooter-padding--gutter);
   gap: var(--_nys-unavfooter-gap);
   box-sizing: border-box;
 }

@@ -11,7 +11,8 @@
   --_nys-toggle-transform--translateX: calc(
     var(--_nys-toggle-width) - var(--_nys-toggle-size--knob) - var(
         --_nys-toggle-margin--knob
-      ) - 2px
+      ) -
+      2px
   );
 
   /* space between toggle and it's label */

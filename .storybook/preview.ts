@@ -62,7 +62,7 @@ const preview: Preview = {
   parameters: {
     options: {
       storySort: {
-        method: 'alphabetical',
+        method: "alphabetical",
         order: [
           "About",
           "Styles",
