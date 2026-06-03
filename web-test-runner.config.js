@@ -29,21 +29,18 @@ export default {
       product: "chromium",
       launchOptions: {
         headless: true,
-        slowMo: 250,
       },
     }),
     playwrightLauncher({
       product: "webkit",
       launchOptions: {
         headless: true,
-        slowMo: 250,
       },
     }),
     playwrightLauncher({
       product: 'webkit',
       launchOptions: {
         headless: true,
-        slowMo: 250,
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices['iPhone 14'], hasTouch: true });
@@ -53,7 +50,6 @@ export default {
       product: 'webkit',
       launchOptions: {
         headless: true,
-        slowMo: 250,
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices['Pixel 5'], hasTouch: true });
@@ -63,7 +59,6 @@ export default {
       product: 'webkit',
       launchOptions: {
         headless: true,
-        slowMo: 250,
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices['Desktop Edge'], channel: 'msedge' });
@@ -73,7 +68,6 @@ export default {
       product: "firefox",
       launchOptions: {
         headless: true,
-        slowMo: 250,
       },
     }),
   ],
