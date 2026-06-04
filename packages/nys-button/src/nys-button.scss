@@ -8,7 +8,6 @@
   );
   --_nys-button-cursor: pointer;
 
-  /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(
     var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)
   );
@@ -32,7 +31,7 @@
   );
   --_nys-button-border-color: var(
     --nys-button-border-color,
-    var(--nys-color-theme, #154973)
+    var(--nys-color-transparent, #ffffff00)
   );
   --_nys-button-background-color--hover: var(
     --nys-button-background-color--hover,
@@ -44,7 +43,7 @@
   );
   --_nys-button-border-color--hover: var(
     --nys-button-border-color--hover,
-    var(--nys-color-theme-strong, #0e324f)
+    var(--nys-color-transparent, #ffffff00)
   );
   --_nys-button-background-color--active: var(
     --nys-button-background-color--active,
@@ -56,14 +55,14 @@
   );
   --_nys-button-border-color--active: var(
     --nys-button-border-color--active,
-    var(--nys-color-theme-stronger, #081b2b)
+    var(--nys-color-transparent, #ffffff00)
   );
   --_nys-button-background-color--disabled: var(
     --nys-color-neutral-10,
     #f6f6f6
   );
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-button-border-color--disabled: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-button-border-color--disabled: var(--nys-color-transparent, #ffffff00);
 
   /* Typography */
   --_nys-button-font-size: var(--nys-font-size-ui-md, 16px);
@@ -93,7 +92,6 @@
     var(--nys-space-100, 8px) - var(--nys-border-width-md, 2px)
   );
 
-  /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(
     var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)
   );
@@ -105,7 +103,6 @@
     var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)
   );
 
-  /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(
     var(--nys-space-300, 24px) - var(--nys-border-width-md, 2px)
   );
@@ -542,22 +539,9 @@ a[disabled] {
   --_nys-button-cursor: not-allowed;
 }
 
-.nys-button__linkwrapper:has([disabled]) {
-  --_nys-button-cursor: not-allowed;
-  width: fit-content;
-}
-
 /* Remove click functionality from disabled link button */
 a[disabled] {
   pointer-events: none;
-}
-
-.nys-button * {
-  --_nys-button-cursor: pointer;
-}
-
-.nys-button:disabled * {
-  --_nys-button-cursor: not-allowed;
 }
 
 .nys-button:focus-visible {
