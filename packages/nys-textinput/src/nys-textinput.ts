@@ -595,7 +595,6 @@ export class NysTextinput extends LitElement {
               ? html` <nys-button
                   class="eye-icon"
                   id="password-toggle"
-                  suffixIcon="slotted"
                   ariaLabel="password toggle"
                   variant="ghost"
                   size="sm"

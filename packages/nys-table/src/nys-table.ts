@@ -225,7 +225,6 @@ export class NysTable extends LitElement {
       button.setAttribute("part", "sort-button");
       button.setAttribute("variant", "ghost");
       button.setAttribute("label", label);
-      button.setAttribute("suffixIcon", "slotted");
       button.setAttribute("fullWidth", "true");
 
       const icon = document.createElement("nys-icon");
