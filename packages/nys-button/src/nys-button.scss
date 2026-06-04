@@ -111,6 +111,10 @@
 :host([fullWidth]) {
   width: 100%;
 
+  .nys-button__linkwrapper {
+    width: 100%;
+  }
+
   .nys-button {
     width: 100%;
   }

@@ -686,7 +686,6 @@ export class NysCombobox extends LitElement {
                 ? html`
                     <nys-button
                       class="nys-combobox__clear"
-                      suffixIcon="slotted"
                       ariaLabel="clear selection"
                       variant="ghost"
                       size="sm"
@@ -704,7 +703,6 @@ export class NysCombobox extends LitElement {
                 : ""}
               <nys-button
                 class="nys-combobox__chevron"
-                suffixIcon="slotted"
                 ariaLabel="toggle dropdown"
                 variant="ghost"
                 size="sm"
