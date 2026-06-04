@@ -129,29 +129,17 @@
 
 // Both horizontal + vertical
 .nys-grid-row.nys-grid-gap {
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-  margin-top: -0.5rem;
-  margin-bottom: -0.5rem;
+  margin: -0.5rem;
 
   > * {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem;
   }
 
   @media all and (width >= 64em) {
-    margin-left: -1rem;
-    margin-right: -1rem;
-    margin-top: -1rem;
-    margin-bottom: -1rem;
+    margin: -1rem;
 
     > * {
-      padding-left: 1rem;
-      padding-right: 1rem;
-      padding-top: 1rem;
-      padding-bottom: 1rem;
+      padding: 1rem;
     }
   }
 }
@@ -211,29 +199,17 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
     }
 
     .nys-grid-row.nys-grid-gap-#{$suffix} {
-      margin-left: -1rem;
-      margin-right: -1rem;
-      margin-top: -1rem;
-      margin-bottom: -1rem;
+      margin: -1rem;
 
       > * {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding: 1rem;
       }
 
       @media all and (width >= 64em) {
-        margin-left: -$half;
-        margin-right: -$half;
-        margin-top: -$half;
-        margin-bottom: -$half;
+        margin: -$half;
 
         > * {
-          padding-left: $half;
-          padding-right: $half;
-          padding-top: $half;
-          padding-bottom: $half;
+          padding: $half;
         }
       }
     }
@@ -259,16 +235,10 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
     }
 
     .nys-grid-row.nys-grid-gap-#{$suffix} {
-      margin-left: -$half;
-      margin-right: -$half;
-      margin-top: -$half;
-      margin-bottom: -$half;
+      margin: -$half;
 
       > * {
-        padding-left: $half;
-        padding-right: $half;
-        padding-top: $half;
-        padding-bottom: $half;
+        padding: $half;
       }
     }
   }
@@ -323,29 +293,17 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
         }
 
         .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
-          margin-left: -1rem;
-          margin-right: -1rem;
-          margin-top: -1rem;
-          margin-bottom: -1rem;
+          margin: -1rem;
 
           > * {
-            padding-left: 1rem;
-            padding-right: 1rem;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            padding: 1rem;
           }
 
           @media all and (width >= 64em) {
-            margin-left: -$half;
-            margin-right: -$half;
-            margin-top: -$half;
-            margin-bottom: -$half;
+            margin: -$half;
 
             > * {
-              padding-left: $half;
-              padding-right: $half;
-              padding-top: $half;
-              padding-bottom: $half;
+              padding: $half;
             }
           }
         }
@@ -371,16 +329,10 @@ $responsive-gap-suffixes: ("400", "500", "600", "700", "800", "1200");
         }
 
         .nys-grid-row.nys-#{$bp-name}\:nys-grid-gap-#{$suffix} {
-          margin-left: -$half;
-          margin-right: -$half;
-          margin-top: -$half;
-          margin-bottom: -$half;
+          margin: -$half;
 
           > * {
-            padding-left: $half;
-            padding-right: $half;
-            padding-top: $half;
-            padding-bottom: $half;
+            padding: $half;
           }
         }
       }
