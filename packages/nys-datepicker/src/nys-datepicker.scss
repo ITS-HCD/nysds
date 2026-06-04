@@ -132,7 +132,10 @@
 }
 
 :host([inverted]) {
---_nys-datepicker-outline-color--focus: var(--nys-color-focus-reverse, #7aa5e7);
+  --_nys-datepicker-outline-color--focus: var(
+    --nys-color-focus-reverse,
+    #7aa5e7
+  );
 }
 
 .nys-datepicker--container {
