@@ -45,14 +45,14 @@ export default {
       product: "webkit",
       launchOptions: {
         headless: true,
-        args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+        args: ["--no-sandbox", "--disable-gpu"],
       },
     }),
     playwrightLauncher({
       product: "webkit",
       launchOptions: {
         headless: true,
-        args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+        args: ["--no-sandbox", "--disable-gpu"],
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices["iPhone 14"], hasTouch: true });
@@ -62,7 +62,7 @@ export default {
       product: "webkit",
       launchOptions: {
         headless: true,
-        args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+        args: ["--no-sandbox", "--disable-gpu"],
       },
       createBrowserContext({ browser }) {
         return browser.newContext({ ...devices["Pixel 5"], hasTouch: true });
@@ -72,7 +72,7 @@ export default {
       product: "webkit",
       launchOptions: {
         headless: true,
-        args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+        args: ["--no-sandbox", "--disable-gpu"],
       },
       createBrowserContext({ browser }) {
         return browser.newContext({
@@ -85,7 +85,7 @@ export default {
       product: "firefox",
       launchOptions: {
         headless: true,
-        args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+        args: ["--no-sandbox", "--disable-gpu"],
       },
     }),
   ],
