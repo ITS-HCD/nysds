@@ -1,7 +1,10 @@
 import React from "react";
-import { NysRadiogroup as NysRadiogroupElement } from "../../dist/nysds.es.js";
+import {
+  NysRadiogroup as NysRadiogroupElement,
+  CustomEvent,
+} from "../../dist/nysds.es.js";
 
-export type { NysRadiogroupElement };
+export type { NysRadiogroupElement, CustomEvent };
 
 export interface NysRadiogroupProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -29,6 +32,9 @@ export interface NysRadiogroupProps extends Pick<
 
   /** Renders all radiobuttons as tiles with larger clickable area. */
   tile?: boolean;
+
+  /** undefined */
+  _showOtherError?: boolean;
 
   /** Unique identifier. Auto-generated if not provided. */
   id?: NysRadiogroupElement["id"];
@@ -74,12 +80,22 @@ export interface NysRadiogroupProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** undefined */
+  onNysChange?: (event: CustomEvent) => void;
+
+  /** undefined */
+  onNysOtherInput?: (event: CustomEvent) => void;
 }
 
 /**
  * Container for grouping radio buttons as a single form control.
  * ---
  *
+ *
+ * ### **Events:**
+ *  - **nys-change**
+ * - **nys-other-input**
  *
  * ### **Slots:**
  *  - _default_ - Default slot for `nys-radiobutton` elements.

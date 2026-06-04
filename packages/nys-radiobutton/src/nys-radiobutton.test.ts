@@ -130,7 +130,9 @@ describe("nys-radiobutton", () => {
       changed = true;
     });
 
-    const input = await radio.getInputElement();
+    const input = group.shadowRoot?.querySelector<HTMLInputElement>(
+      `#input-${radio.id}`,
+    );
     input?.click();
     await radio.updateComplete;
 
@@ -158,39 +160,19 @@ describe("nys-radiobutton", () => {
       </nys-radiogroup>
     `);
 
+    await group.updateComplete;
+
     const radio = group.querySelectorAll<NysRadiobutton>("nys-radiobutton")[0];
     const eventPromise = oneEvent(group, "nys-change");
 
-    const input = await radio.getInputElement();
-    input?.click();
+    group.shadowRoot
+      ?.querySelector<HTMLInputElement>(`#input-${radio.id}`)
+      ?.click();
     await radio.updateComplete;
 
     const event = await eventPromise;
     expect((event as CustomEvent).detail.value).to.equal("albany");
-    expect((event as CustomEvent).detail.checked).to.be.true;
     expect((event as CustomEvent).detail.name).to.equal("c");
-  });
-
-  it("nys-focus fires when radio gains focus", async () => {
-    const el = await fixture<NysRadiobutton>(
-      html`<nys-radiobutton name="f" label="A" value="a"></nys-radiobutton>`,
-    );
-
-    const eventPromise = oneEvent(el, "nys-focus");
-    el.dispatchEvent(new Event("focus"));
-    const event = await eventPromise;
-    expect(event).to.exist;
-  });
-
-  it("nys-blur fires when radio loses focus", async () => {
-    const el = await fixture<NysRadiobutton>(
-      html`<nys-radiobutton name="b" label="A" value="a"></nys-radiobutton>`,
-    );
-
-    const eventPromise = oneEvent(el, "nys-blur");
-    el.dispatchEvent(new Event("blur"));
-    const event = await eventPromise;
-    expect(event).to.exist;
   });
 
   it("nys-other-input fires with correct detail when other text input changes", async () => {
@@ -206,8 +188,8 @@ describe("nys-radiobutton", () => {
     )!;
     await otherRadio.updateComplete;
 
-    const textInput = otherRadio.shadowRoot!.querySelector("nys-textinput")!;
-    const eventPromise = oneEvent(otherRadio, "nys-other-input");
+    const textInput = group.shadowRoot!.querySelector("nys-textinput")!;
+    const eventPromise = oneEvent(group, "nys-other-input");
 
     const inputEvent = new Event("nys-input", { bubbles: true });
     Object.defineProperty(inputEvent, "target", {
@@ -233,15 +215,12 @@ describe("nys-radiobutton", () => {
     )!;
     await otherRadio.updateComplete;
 
-    const textInput = otherRadio.shadowRoot!.querySelector("nys-textinput")!;
-    const eventPromise = oneEvent(otherRadio, "nys-error");
-
-    const blurEvent = new Event("nys-blur", { bubbles: true });
-    textInput.dispatchEvent(blurEvent);
+    const textInput = group.shadowRoot!.querySelector("nys-textinput")!;
+    textInput.dispatchEvent(new Event("nys-blur", { bubbles: true }));
     await otherRadio.updateComplete;
 
-    const event = await eventPromise;
-    expect((event as CustomEvent).detail.type).to.equal("other");
+    expect((group as any)._showOtherError).to.be.true;
+    expect(group.showError).to.be.true;
   });
 
   it("nys-error-clear fires when other state is cleared by unchecking", async () => {
@@ -259,59 +238,17 @@ describe("nys-radiobutton", () => {
       group.querySelectorAll<NysRadiobutton>("nys-radiobutton")[0];
 
     // Trigger an error first
-    const textInput = otherRadio.shadowRoot!.querySelector("nys-textinput")!;
-    textInput.dispatchEvent(new Event("nys-blur", { bubbles: true }));
+    const textInput = group.shadowRoot?.querySelector("nys-textinput");
+    textInput!.dispatchEvent(new Event("nys-blur", { bubbles: true }));
     await otherRadio.updateComplete;
-    expect(otherRadio.showOtherError).to.be.true;
+    expect((group as any)._showOtherError).to.be.true;
 
-    const eventPromise = oneEvent(otherRadio, "nys-error-clear");
-
-    const input = await regularRadio.getInputElement();
-    input?.click();
-    await otherRadio.updateComplete;
-
-    const event = await eventPromise;
-    expect((event as CustomEvent).detail.type).to.equal("other");
-  });
-
-  // -------------------------------------------------------------------------
-  // getInputElement()
-  // -------------------------------------------------------------------------
-
-  it("getInputElement() returns the internal <input>", async () => {
-    const el = await fixture<NysRadiobutton>(
-      html`<nys-radiobutton name="g" label="A" value="a"></nys-radiobutton>`,
+    const input = group.shadowRoot?.querySelector<HTMLInputElement>(
+      `#input-${regularRadio.id}`,
     );
-    const input = await el.getInputElement();
-    expect(input).to.exist;
-    expect(input?.tagName.toLowerCase()).to.equal("input");
-    expect(input?.type).to.equal("radio");
-  });
-
-  // -------------------------------------------------------------------------
-  // formResetUpdate()
-  // -------------------------------------------------------------------------
-
-  it("formResetUpdate() resets checked and clears other state", async () => {
-    const group = await fixture<NysRadiogroup>(html`
-      <nys-radiogroup label="Reset individual">
-        <nys-radiobutton
-          name="ru"
-          other
-          checked
-          value="something"
-        ></nys-radiobutton>
-      </nys-radiogroup>
-    `);
-
-    const otherRadio = group.querySelector<NysRadiobutton>("nys-radiobutton")!;
-    await otherRadio.updateComplete;
-
-    otherRadio.formResetUpdate();
-    await otherRadio.updateComplete;
-
-    expect(otherRadio.checked).to.be.false;
-    expect(otherRadio.showOtherError).to.be.false;
+    input?.click();
+    await group.updateComplete;
+    expect((group as any)._showOtherError).to.be.false;
   });
 
   // -------------------------------------------------------------------------
@@ -392,10 +329,10 @@ describe("nys-radiobutton", () => {
 
     expect(radioA.checked).to.be.true;
 
-    const input = await radioB.getInputElement();
-    input?.click();
-    await radioB.updateComplete;
-    await radioA.updateComplete;
+    group.shadowRoot
+      ?.querySelector<HTMLInputElement>(`#input-${radioB.id}`)
+      ?.click();
+    await group.updateComplete;
 
     expect(radioB.checked).to.be.true;
     expect(radioA.checked).to.be.false;
@@ -604,7 +541,8 @@ describe("nys-radiobutton", () => {
     )!;
     await otherRadio.updateComplete;
 
-    const textInput = otherRadio.shadowRoot!.querySelector("nys-textinput")!;
+    const textInput = group.shadowRoot!.querySelector("nys-textinput")!;
+    await group.updateComplete;
 
     let propagated = false;
     group.addEventListener("keydown", () => {
@@ -660,14 +598,16 @@ describe("nys-radiobutton", () => {
     await group.updateComplete;
 
     const firstRadio = group.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    const shadowInput = group.shadowRoot?.querySelector<HTMLElement>(
+      `#input-${firstRadio.id}`,
+    )!;
     let focused = false;
-    firstRadio.focus = () => {
+    shadowInput.focus = () => {
       focused = true;
     };
 
     group.dispatchEvent(new Event("invalid", { cancelable: true }));
-    await group.updateComplete;
-
+    await new Promise((radio) => setTimeout(radio, 0));
     expect(focused).to.be.true;
   });
 
@@ -682,16 +622,16 @@ describe("nys-radiobutton", () => {
 
     const group = container.querySelector<NysRadiogroup>("#only-group")!;
     await group.updateComplete;
-
     const firstRadio = group.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    const shadowInput = group.shadowRoot?.querySelector<HTMLElement>(
+      `#input-${firstRadio.id}`,
+    )!;
     let focused = false;
-    firstRadio.focus = () => {
+    shadowInput.focus = () => {
       focused = true;
     };
-
     group.dispatchEvent(new Event("invalid", { cancelable: true }));
-    await group.updateComplete;
-
+    await new Promise((r) => setTimeout(r, 0));
     expect(focused).to.be.true;
   });
 
@@ -757,7 +697,7 @@ describe("nys-radiobutton", () => {
       (radio) => (radio as any).other,
     ) as NysRadiobutton;
 
-    const nysLabel = otherRadio.shadowRoot?.querySelector("nys-label");
+    const nysLabel = group.shadowRoot?.querySelector(`#${otherRadio.id}-label`);
     expect(nysLabel).to.exist;
     expect(nysLabel?.getAttribute("label")).to.equal("Other");
   });
@@ -775,7 +715,7 @@ describe("nys-radiobutton", () => {
       (radio) => (radio as any).other,
     ) as NysRadiobutton;
 
-    const nysLabel = otherRadio.shadowRoot!.querySelector("nys-label");
+    const nysLabel = group.shadowRoot?.querySelector(`#${otherRadio.id}-label`);
     expect(nysLabel?.getAttribute("label")).to.equal("Custom Other Label");
   });
 
@@ -792,14 +732,14 @@ describe("nys-radiobutton", () => {
       (radio) => (radio as any).other,
     ) as NysRadiobutton;
 
-    let textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+    let textInput = group.shadowRoot?.querySelector("nys-textinput");
     expect(textInput).to.not.exist;
 
-    const input = await otherRadio.getInputElement();
-    input?.click();
-    await otherRadio.updateComplete;
-
-    textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+    group.shadowRoot
+      ?.querySelector<HTMLInputElement>(`#input-${otherRadio.id}`)
+      ?.click();
+    await (group as NysRadiogroup).updateComplete;
+    textInput = group.shadowRoot?.querySelector("nys-textinput");
     expect(textInput).to.exist;
   });
 
@@ -812,66 +752,51 @@ describe("nys-radiobutton", () => {
     `);
 
     const radios = Array.from(group.querySelectorAll("nys-radiobutton"));
-    const otherRadio = radios.find(
-      (radio) => (radio as any).other,
-    ) as NysRadiobutton;
     const regularRadio = radios.find(
       (radio) => !(radio as any).other,
     ) as NysRadiobutton;
 
-    let textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+    let textInput = group.shadowRoot?.querySelector("nys-textinput");
     expect(textInput).to.exist;
+    group.shadowRoot
+      ?.querySelector<HTMLInputElement>(`#input-${regularRadio.id}`)
+      ?.click();
 
-    const input = await regularRadio.getInputElement();
-    input?.click();
-    await otherRadio.updateComplete;
-    await regularRadio.updateComplete;
-
-    textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+    await (group as NysRadiogroup).updateComplete;
+    textInput = group.shadowRoot?.querySelector("nys-textinput");
     expect(textInput).to.not.exist;
   });
 
   it("shows error when 'other' radio is selected but text input is empty after blur", async () => {
-    const group = await fixture(html`
+    const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1"></nys-radiobutton>
         <nys-radiobutton other checked></nys-radiobutton>
       </nys-radiogroup>
     `);
 
-    const radios = Array.from(group.querySelectorAll("nys-radiobutton"));
-    const otherRadio = radios.find(
-      (radio) => (radio as any).other,
-    ) as NysRadiobutton;
-    const textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
-
-    expect(otherRadio.showOtherError).to.be.false;
-
+    const textInput = group.shadowRoot?.querySelector("nys-textinput");
+    expect(group._showOtherError).to.be.false;
     textInput?.dispatchEvent(new Event("nys-blur", { bubbles: true }));
-    await otherRadio.updateComplete;
-
-    expect(otherRadio.showOtherError).to.be.true;
+    await group.updateComplete;
+    expect(group._showOtherError).to.be.true;
   });
 
   it("clears 'other' validation error when valid text is entered", async () => {
-    const group = await fixture(html`
+    const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1"></nys-radiobutton>
         <nys-radiobutton other checked></nys-radiobutton>
       </nys-radiogroup>
     `);
 
-    const radios = Array.from(group.querySelectorAll("nys-radiobutton"));
-    const otherRadio = radios.find(
-      (radio) => (radio as any).other,
-    ) as NysRadiobutton;
-    const textInput = otherRadio.shadowRoot!.querySelector("nys-textinput");
+    const textInput = group.shadowRoot!.querySelector("nys-textinput");
 
     const blurEvent = new Event("nys-blur", { bubbles: true });
     textInput?.dispatchEvent(blurEvent);
-    await otherRadio.updateComplete;
+    await group.updateComplete;
 
-    expect(otherRadio.showOtherError).to.be.true;
+    expect(group._showOtherError).to.be.true;
 
     const inputEvent = new Event("nys-input", { bubbles: true });
     Object.defineProperty(inputEvent, "target", {
@@ -881,9 +806,9 @@ describe("nys-radiobutton", () => {
 
     textInput?.dispatchEvent(inputEvent);
     textInput?.dispatchEvent(blurEvent);
-    await otherRadio.updateComplete;
+    await group.updateComplete;
 
-    expect(otherRadio.showOtherError).to.be.false;
+    expect(group._showOtherError).to.be.false;
   });
 
   it("clicking 'other' produces the textbox with no error", async () => {
@@ -899,39 +824,34 @@ describe("nys-radiobutton", () => {
       (radio) => (radio as any).other,
     ) as NysRadiobutton;
 
-    const input = await otherRadio.getInputElement();
-    input?.click();
-    await otherRadio.updateComplete;
-
-    const textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+    group.shadowRoot
+      ?.querySelector<HTMLInputElement>(`#input-${otherRadio.id}`)
+      ?.click();
+    await (group as NysRadiogroup).updateComplete;
+    const textInput = group.shadowRoot?.querySelector("nys-textinput");
     expect(textInput).to.exist;
-    expect(otherRadio.showOtherError).to.be.false;
+    expect((group as any)._showOtherError).to.be.false;
   });
 
   it("clicking off 'other' textbox while still selected produces an error", async () => {
-    const group = await fixture(html`
+    const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton label="Option 1" value="1"></nys-radiobutton>
         <nys-radiobutton other checked value=""></nys-radiobutton>
       </nys-radiogroup>
     `);
+    const textInput = group.shadowRoot?.querySelector("nys-textinput");
 
-    const radios = Array.from(group.querySelectorAll("nys-radiobutton"));
-    const otherRadio = radios.find(
-      (radio) => (radio as any).other,
-    ) as NysRadiobutton;
-    const textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
-
-    expect(otherRadio.showOtherError).to.be.false;
+    expect(group._showOtherError).to.be.false;
 
     textInput?.dispatchEvent(new Event("nys-blur", { bubbles: true }));
-    await otherRadio.updateComplete;
+    await group.updateComplete;
 
-    expect(otherRadio.showOtherError).to.be.true;
+    expect(group._showOtherError).to.be.true;
   });
 
   it("unselecting 'other' clears any errors for the 'other' field", async () => {
-    const group = await fixture(html`
+    const group = await fixture<NysRadiogroup>(html`
       <nys-radiogroup label="Select option">
         <nys-radiobutton
           name="choice"
@@ -943,35 +863,33 @@ describe("nys-radiobutton", () => {
     `);
 
     const radios = Array.from(group.querySelectorAll("nys-radiobutton"));
-    const otherRadio = radios.find(
-      (radio) => (radio as any).other,
-    ) as NysRadiobutton;
     const regularRadio = radios.find(
       (radio) => !(radio as any).other,
     ) as NysRadiobutton;
 
-    const textInput = otherRadio.shadowRoot?.querySelector("nys-textinput");
+    const textInput = group.shadowRoot?.querySelector("nys-textinput");
 
     textInput?.dispatchEvent(new Event("nys-blur", { bubbles: true }));
-    await otherRadio.updateComplete;
+    await group.updateComplete;
 
-    expect(otherRadio.showOtherError).to.be.true;
+    expect((group as any)._showOtherError).to.be.true;
 
-    const input = await regularRadio.getInputElement();
-    input?.click();
-    await otherRadio.updateComplete;
-    await regularRadio.updateComplete;
+    group.shadowRoot
+      ?.querySelector<HTMLInputElement>(`#input-${regularRadio.id}`)
+      ?.click();
+    await group.updateComplete;
 
-    expect(otherRadio.showOtherError).to.be.false;
+    expect((group as any)._showOtherError).to.be.false;
   });
 
   it("disables textinput when 'other' checkbox is checked and disabled", async () => {
-    const el = await fixture<NysRadiobutton>(html`
-      <nys-radiobutton other checked disabled></nys-radiobutton>
+    const group = await fixture<NysRadiogroup>(html`
+      <nys-radiogroup>
+        <nys-radiobutton other checked disabled></nys-radiobutton>
+      </nys-radiogroup>
     `);
-    await el.updateComplete;
-
-    const textInput = el.shadowRoot?.querySelector("nys-textinput");
+    await group.updateComplete;
+    const textInput = group.shadowRoot?.querySelector("nys-textinput");
     expect(textInput).to.exist;
     expect(textInput!.hasAttribute("disabled")).to.be.true;
   });
@@ -1015,34 +933,6 @@ describe("nys-radiobutton", () => {
     expect(changeDetail.value).to.equal("radio1");
   });
 
-  it("_handleChildError stops propagation, sets showError and customError validity", async () => {
-    const group = await fixture<NysRadiogroup>(html`
-      <nys-radiogroup label="Child error">
-        <nys-radiobutton name="ce" other checked value=""></nys-radiobutton>
-      </nys-radiogroup>
-    `);
-    await group.updateComplete;
-
-    const radio = group.querySelector<NysRadiobutton>("nys-radiobutton")!;
-
-    expect(group.showError).to.be.false;
-
-    group.dispatchEvent(
-      new CustomEvent("nys-error", {
-        detail: {
-          message: "Please complete this field.",
-          sourceRadio: radio,
-        },
-        bubbles: true,
-        composed: true,
-      }),
-    );
-    await group.updateComplete;
-
-    expect(group.showError).to.be.true;
-    expect((group as any)._internals.validity.customError).to.be.true;
-  });
-
   // -------------------------------------------------------------------------
   // Form Submission Test
   // -------------------------------------------------------------------------
@@ -1066,16 +956,28 @@ describe("nys-radiobutton", () => {
       </form>
     `);
 
-    const firstRadio = container.querySelector(
-      "#first nys-radiobutton",
-    ) as NysRadiobutton;
-    const secondRadio = container.querySelector(
-      "#second nys-radiobutton",
-    ) as NysRadiobutton;
+    const firstGroup = container.querySelector<NysRadiogroup>("#first")!;
+    const secondGroup = container.querySelector<NysRadiogroup>("#second")!;
+    await firstGroup.updateComplete;
+    await secondGroup.updateComplete;
 
-    const focused = [];
-    firstRadio.focus = () => focused.push("first");
-    secondRadio.focus = () => focused.push("second");
+    const firstRadio =
+      firstGroup.querySelector<NysRadiobutton>("nys-radiobutton")!;
+    const secondRadio =
+      secondGroup.querySelector<NysRadiobutton>("nys-radiobutton")!;
+
+    const focused: string[] = [];
+
+    const firstShadowInput = firstGroup.shadowRoot?.querySelector<HTMLElement>(
+      `#input-${firstRadio.id}`,
+    );
+    const secondShadowInput =
+      secondGroup.shadowRoot?.querySelector<HTMLElement>(
+        `#input-${secondRadio.id}`,
+      );
+    if (firstShadowInput) firstShadowInput.focus = () => focused.push("first");
+    if (secondShadowInput)
+      secondShadowInput.focus = () => focused.push("second");
 
     container.requestSubmit();
     await new Promise((r) => setTimeout(r, 0));
@@ -1087,7 +989,7 @@ describe("nys-radiobutton", () => {
   it("form submit focuses the other textinput when it is checked but empty", async () => {
     const container = await fixture(html`
       <form>
-        <nys-radiogroup label="Select borough">
+        <nys-radiogroup label="Select borough" required>
           <nys-radiobutton
             name="borough"
             other
@@ -1098,12 +1000,10 @@ describe("nys-radiobutton", () => {
       </form>
     `);
 
-    const radio = container.querySelector("nys-radiobutton") as NysRadiobutton;
-    const textInput = radio.shadowRoot!.querySelector("nys-textinput")!;
-
-    textInput.dispatchEvent(new Event("nys-blur", { bubbles: true }));
-    await container.querySelector("nys-radiogroup")!.updateComplete;
-
+    const group = container.querySelector<NysRadiogroup>("nys-radiogroup")!;
+    await group.updateComplete;
+    const textInput =
+      group.shadowRoot!.querySelector<HTMLElement>("nys-textinput")!;
     let focused = false;
     textInput.focus = () => {
       focused = true;

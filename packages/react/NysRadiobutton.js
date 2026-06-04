@@ -22,12 +22,10 @@ export const NysRadiobutton = forwardRef((props, forwardedRef) => {
   } = props;
 
   /** Event listeners - run once */
-  useEventListener(ref, "nys-error-clear", props.onNysErrorClear);
   useEventListener(ref, "nys-change", props.onNysChange);
-  useEventListener(ref, "nys-other-input", props.onNysOtherInput);
   useEventListener(ref, "nys-focus", props.onNysFocus);
   useEventListener(ref, "nys-blur", props.onNysBlur);
-  useEventListener(ref, "nys-error", props.onNysError);
+  useEventListener(ref, "nys-other-input", props.onNysOtherInput);
 
   return React.createElement(
     "nys-radiobutton",
