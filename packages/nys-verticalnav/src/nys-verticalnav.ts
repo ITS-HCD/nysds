@@ -1,5 +1,6 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
 
@@ -15,10 +16,9 @@ export class NysVerticalnav extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) label = "";
-  @property({ type: String, reflect: true }) ariaLabel = "";
+  @property({ type: String, reflect: true }) navHeader = "Page navigation";
+  @property({ type: Boolean, reflect: true }) hideHeader = false;
   @property({ type: String, reflect: true }) headerLevel: HeaderLevel = "h2";
-  @property({ type: String, reflect: true }) accordionHeading = "On this page";
 
   @state() private _isMobile = false;
   private _mediaQuery: MediaQueryList | null = null;
@@ -54,32 +54,102 @@ export class NysVerticalnav extends LitElement {
    * --------------------------------------------------------------------------
    */
 
+  private _handleSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    const container = this.shadowRoot?.querySelector(
+      ".nys-verticalnav__content",
+    );
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    // Clone assigned node into the vertical nav's shadow DOM
+    slot.assignedNodes({ flatten: true }).forEach((node) => {
+      container.appendChild(node.cloneNode(true));
+    });
+
+    if (this._isMobile) {
+      this._injectDividers(container);
+    }
+  }
+
   private _handleResize = (e: MediaQueryListEvent) => {
     this._isMobile = e.matches;
   };
 
+  /**
+   * Helper Render Functions
+   * --------------------------------------------------------------------------
+   */
+  private _renderHeader() {
+    if (this.hideHeader) return html``;
+
+    const headingId = `${this.id}-heading`;
+
+    const headingTag = {
+      h1: html`<h1 id=${headingId} class="nys-verticalnav__header">
+        ${this.navHeader}
+      </h1>`,
+      h2: html`<h2 id=${headingId} class="nys-verticalnav__header">
+        ${this.navHeader}
+      </h2>`,
+      h3: html`<h3 id=${headingId} class="nys-verticalnav__header">
+        ${this.navHeader}
+      </h3>`,
+      h4: html`<h4 id=${headingId} class="nys-verticalnav__header">
+        ${this.navHeader}
+      </h4>`,
+      h5: html`<h5 id=${headingId} class="nys-verticalnav__header">
+        ${this.navHeader}
+      </h5>`,
+      h6: html`<h6 id=${headingId} class="nys-verticalnav__header">
+        ${this.navHeader}
+      </h6>`,
+    };
+
+    return html`<slot name="header">${headingTag[this.headerLevel]}</slot>`;
+  }
+
   private renderContentDesktop() {
+    const headingId = `${this.id}-heading`;
+
     return html` <nav
       class="nys-verticalnav nys-verticalnav--desktop"
-      aria-label=${this.ariaLabel || this.label || "Page navigation"}
+      aria-labelledby=${ifDefined(!this.hideHeader ? headingId : undefined)}
+      aria-label=${ifDefined(this.hideHeader ? "Page navigation" : undefined)}
     >
-      <!-- <slot name="verticalnav__header"></slot> -->
-      <slot></slot>
+      ${this._renderHeader()}
+      <slot @slotchange=${this._handleSlotChange} style="display:none"></slot>
+      <div class="nys-verticalnav__content"></div>
+      <slot name="footer"></slot>
     </nav>`;
   }
 
   private renderContentMobile() {
-    return html` <div class="nys-verticalnav nys-verticalnav--mobile">
-      <nys-accordion>
+    return html` <nav class="nys-verticalnav nys-verticalnav--mobile">
+      <nys-accordion bordered>
         <nys-accordionitem
           id="${this.id}-accordion"
-          heading="${this.accordionHeading}"
+          heading="${this.navHeader}"
         >
-          <slot name="verticalnav__header"></slot>
-          <slot></slot>
+          <slot
+            @slotchange=${this._handleSlotChange}
+            style="display:none"
+          ></slot>
+          <div class="nys-verticalnav__content"></div>
+          <slot name="footer"></slot>
         </nys-accordionitem>
       </nys-accordion>
-    </div>`;
+    </nav>`;
+  }
+
+  private _injectDividers(container: Element) {
+    container.querySelectorAll("li").forEach((li) => {
+      if (li.nextElementSibling) {
+        const divider = document.createElement("nys-divider");
+        li.insertAdjacentElement("afterend", divider);
+      }
+    });
   }
 
   /**

@@ -23,8 +23,10 @@
   );
   --_nys-accordionitem-gap: var(--nys-space-200, 16px);
   --_nys-accordionitem-background-color: var(--nys-color-ink-reverse, #ffffff);
-  --_nys-accordionitem-padding: var(--nys-space-200, 16px)
-    var(--local-xx-spacing-205, 20px);
+  --_nys-accordionitem-padding: var(
+    --nys-accordionitem-padding,
+    var(--nys-space-200, 16px) var(--nys-space-250, 20px)
+  );
   --_nys-accordion-content-max-width: var(
     --nys-accordion-content-max-width,
     80ch
@@ -108,7 +110,6 @@ p {
 .nys-accordionitem__content-slot-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: var(--_nys-accordion-gap);
   align-self: stretch;
   padding: var(--_nys-accordionitem-padding);

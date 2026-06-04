@@ -3,24 +3,14 @@ import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-verticalnav";
 import "@nysds/nys-icon";
 import "@nysds/nys-accordion";
+import "@nysds/nys-divider";
 
 // Define the structure of the args used in the stories
 interface NysVerticalnavArgs {
   id: string;
-  name: string;
-  size: string;
-  fullWidth: boolean;
-  variant: string;
-  inverted: boolean;
-  label: string;
-  prefixIcon: string;
-  suffixIcon: string;
-  disabled: boolean;
-  form: string | null;
-  value: string;
-  type: string;
-  href: string;
-  onClick: () => void;
+  hideHeader: boolean;
+  headerLevel: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  navHeader: string;
 }
 
 const meta: Meta<NysVerticalnavArgs> = {
@@ -28,12 +18,17 @@ const meta: Meta<NysVerticalnavArgs> = {
   component: "nys-verticalnav",
   argTypes: {
     id: { control: "text" },
-    name: { control: "text" },
+    navHeader: { control: "text" },
+    hideHeader: { control: "boolean" },
+    headerLevel: {
+      control: "select",
+      options: ["h1", "h2", "h3", "h4", "h5", "h6"],
+    },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
@@ -46,17 +41,23 @@ type Story = StoryObj<NysVerticalnavArgs>;
 export const Basic: Story = {
   args: {
     id: "verticalnav1",
-    name: "verticalnav1",
+    navHeader: "Freshwater Fishing",
+    hideHeader: false,
+    headerLevel: "h2",
   },
   render: (args) => html`
-    <nys-verticalnav>
-      <div slot="verticalnav__header">Freshwater Fishing</div>
+    <nys-verticalnav
+      id=${args.id}
+      navHeader=${args.navHeader}
+      ?hideHeader=${args.hideHeader}
+      headerLevel=${args.headerLevel}
+    >
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/services">Services</a></li>
         <li><nys-divider></nys-divider></li>
         <li>
-          <p>Freshwater Fishing Regulations</p>
+          <h3>Freshwater Fishing Regulations</h3>
           <ul>
             <li><a href="">Places to Fish</a></li>
             <li><a href="">Learn to Fish</a></li>
@@ -64,31 +65,28 @@ export const Basic: Story = {
           </ul>
         </li>
       </ul>
-      <div slot="verticalnav__footer">...Footer Content...</div>
     </nys-verticalnav>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-verticalnav>
-   <div slot="verticalnav__header">
-       ...Header Content...
-   </div>
-   <ul>
-       <li><a href="/">Home</a></li>
-       <li><a href="/services"><nys-icon></nys-icon> Services</a></li>
-       <li><nys-divider></nys-divider></li>
-       <li><p>{{Section Header}}</p>
-         <ul>
-           <li><a href="">{{sublinktext}}</a></li>
-           <li><a href="">{{sublinktext}}</a></li>
-         </ul>
-       </li>
-   </ul>
-   <div slot="verticalnav__footer">
-     ...Footer Content...
-   </div>
+<nys-verticalnav
+  navHeader="Freshwater Fishing"
+  headerLevel="h2"
+>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/services"><nys-icon></nys-icon> Services</a></li>
+    <li><nys-divider></nys-divider></li>
+    <li>
+      <p>{{Section Header}}</p>
+      <ul>
+        <li><a href="">{{sublinktext}}</a></li>
+        <li><a href="">{{sublinktext}}</a></li>
+      </ul>
+    </li>
+  </ul>
 </nys-verticalnav>`,
         type: "auto",
       },

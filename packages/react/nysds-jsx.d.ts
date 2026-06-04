@@ -1008,6 +1008,17 @@ export type NysUnavHeaderProps = {
   languages?: Language[];
 };
 
+export type NysVerticalnavProps = {
+  /**  */
+  id?: string;
+  /**  */
+  navHeader?: string;
+  /**  */
+  hideHeader?: boolean;
+  /**  */
+  headerLevel?: HeaderLevel;
+};
+
 export type NysVideoProps = {
   /** Full YouTube URL — required. Component will not render if invalid. */
   id?: string;
@@ -1587,6 +1598,13 @@ export type CustomElements = {
    *
    */
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-verticalnav>` is ...
+   * ---
+   *
+   */
+  "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
 
   /**
    * YouTube video player with thumbnail preview and accessibility announcements.

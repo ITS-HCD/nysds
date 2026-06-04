@@ -2,14 +2,16 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Verticalnav Styles */
-  --_nys-verticalnav-width: fit-content;
-  --_nys-verticalnav-height: var(--nys-size-600, 48px);
-  --_nys-verticalnav-radius: var(--nys-radius-xl, 12px);
-  --_nys-verticalnav-padding: var(--nys-space-100, 8px);
-  --_nys-verticalnav-gap: var(--nys-space-100, 8px);
+  // --_nys-verticalnav-width: fit-content;
+  // --_nys-verticalnav-height: var(--nys-size-600, 48px);
+  // --_nys-verticalnav-radius: var(--nys-radius-xl, 12px);
+  // --_nys-verticalnav-padding: var(--nys-space-100, 8px);
+  // --_nys-verticalnav-gap: var(--nys-space-100, 8px);
 
   /* Typography */
   --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
+  --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
+  --_nys-verticalnav-font-size--subheader: var(--nys-font-size-ui-sm, 14px);
   --_nys-verticalnav-font-weight: var(--nys-font-weight-semibold, 600);
   --_nys-verticalnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-verticalnav-font-family: var(
@@ -25,17 +27,49 @@
   );
 }
 
+nys-accordion {
+  --nys-accordionitem-padding: var(--nys-space-100, 8px)
+    var(--nys-space-150, 12px);
+  --nys-accordion-content-max-width: 100%;
+}
+
 .nys-verticalnav {
-  width: var(--_nys-verticalnav-width);
-  height: var(--_nys-verticalnav-height);
-  border-radius: var(--_nys-verticalnav-radius);
-  padding: var(--_nys-verticalnav-padding);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--_nys-verticalnav-gap);
+
   font-family: var(--_nys-verticalnav-font-family);
   font-size: var(--_nys-verticalnav-font-size);
   font-weight: var(--_nys-verticalnav-font-weight);
   line-height: var(--_nys-verticalnav-line-height);
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgb(118, 212, 240);
+    li {
+      display: flex;
+      flex-direction: column;
+      a {
+        display: flex;
+        padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
+          var(--nys-space-100, 8px) var(--nys-space-150, 12px);
+        background-color: rgb(201, 180, 222);
+      }
+    }
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: var(--_nys-verticalnav-font-size--subheader);
+    padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px)
+      var(--nys-space-50, 4px) var(--nys-space-150, 12px);
+      margin: 0;
+  }
+
+  .nys-verticalnav__header {
+    font-size: var(--_nys-verticalnav-font-size--header);
+    font-weight: 700;
+  }
 }

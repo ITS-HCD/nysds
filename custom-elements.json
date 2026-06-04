@@ -14125,6 +14125,189 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-verticalnav/src/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-verticalnav/src/nys-verticalnav"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-verticalnav/src/nys-verticalnav.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-verticalnav>` is ...",
+          "name": "NysVerticalnav",
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "navHeader",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Page navigation\"",
+              "attribute": "navHeader",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideHeader",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hideHeader",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "headerLevel",
+              "type": {
+                "text": "HeaderLevel"
+              },
+              "default": "\"h2\"",
+              "attribute": "headerLevel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_isMobile",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_mediaQuery",
+              "type": {
+                "text": "MediaQueryList | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ],
+              "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "field",
+              "name": "_handleResize",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_renderHeader",
+              "privacy": "private",
+              "description": "Helper Render Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "renderContentDesktop",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderContentMobile",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
+              "name": "navHeader",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Page navigation\"",
+              "fieldName": "navHeader",
+              "propName": "navheader"
+            },
+            {
+              "name": "hideHeader",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideHeader",
+              "propName": "hideheader"
+            },
+            {
+              "name": "headerLevel",
+              "type": {
+                "text": "HeaderLevel"
+              },
+              "default": "\"h2\"",
+              "fieldName": "headerLevel",
+              "propName": "headerlevel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-verticalnav",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-verticalnav",
+          "declaration": {
+            "name": "NysVerticalnav",
+            "module": "packages/nys-verticalnav/src/nys-verticalnav.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVerticalnav",
+          "declaration": {
+            "name": "NysVerticalnav",
+            "module": "packages/nys-verticalnav/src/nys-verticalnav.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-video/src/index.ts",
       "declarations": [],
       "exports": [
