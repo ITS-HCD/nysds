@@ -243,7 +243,7 @@
   --_nys-button-height: fit-content;
   --_nys-button-border-radius: var(--nys-radius-md, 4px);
   --_nys-button-padding--y: var(--nys-space-2px, 2px);
-  --_nys-button-padding--x: var(--nys-space-50, 4px);
+  --_nys-button-padding--x: 0;
   --_nys-button-border-width: 0px;
   --_nys-button-text-decoration: underline;
   --_nys-button-gap: var(--nys-space-50, 4px);
@@ -446,7 +446,7 @@
   --_nys-button-height: fit-content;
   --_nys-button-border-radius: var(--nys-radius-md, 4px);
   --_nys-button-padding--y: var(--nys-space-2px, 2px);
-  --_nys-button-padding--x: var(--nys-space-50, 4px);
+  --_nys-button-padding--x: 0;
   --_nys-button-border-width: 0px;
   --_nys-button-text-decoration: underline;
 
