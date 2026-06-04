@@ -38,7 +38,7 @@ export default {
       product: "chromium",
       launchOptions: {
         headless: true,
-        args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
+        args: ["--no-sandbox", "--disable-gpu"],
       },
     }),
     playwrightLauncher({
