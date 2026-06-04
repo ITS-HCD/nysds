@@ -65,7 +65,9 @@ export class NysLabel extends LitElement {
           <label class="nys-label__label" @click=${this._dispatchLabelClick}
             >${this.label}
             ${this.flag === "required"
-              ? html`<div class="nys-label__required">*</div>`
+              ? html`<div class="nys-label__required" aria-hidden="true">
+                  *
+                </div>`
               : ""}
             ${this.flag === "optional"
               ? html`<div class="nys-label__optional">(Optional)</div>`
