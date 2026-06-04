@@ -1,6 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
-import "./nys-radiobutton";
+import "./index";
 import "@nysds/nys-label";
 import "@nysds/nys-errormessage";
 import "@nysds/nys-textinput";
