@@ -3,24 +3,24 @@
 // --- Mode detection ---
 function getMode() {
   const env = process.env.NYSDS_TEST_OUTPUT;
-  if (env === 'compact') return 'compact';
-  if (env === 'ai') return 'ai';
-  return 'default';
+  if (env === "compact") return "compact";
+  if (env === "ai") return "ai";
+  return "default";
 }
 
 // --- Color utilities ---
 // Respect NO_COLOR convention: https://no-color.org/
 function useColor() {
-  return !process.env.NO_COLOR && getMode() !== 'ai';
+  return !process.env.NO_COLOR && getMode() !== "ai";
 }
 
-const NYSDS_BLUE = '\x1b[38;2;36;95;194m'; // #245FC2
-const GREEN = '\x1b[32m';
-const RED = '\x1b[31m';
-const DIM = '\x1b[90m';
-const BOLD = '\x1b[1m';
-const RESET = '\x1b[0m';
-const YELLOW = '\x1b[33m';
+const NYSDS_BLUE = "\x1b[38;2;36;95;194m"; // #245FC2
+const GREEN = "\x1b[32m";
+const RED = "\x1b[31m";
+const DIM = "\x1b[90m";
+const BOLD = "\x1b[1m";
+const RESET = "\x1b[0m";
+const YELLOW = "\x1b[33m";
 
 function c(text, color) {
   if (!useColor()) return text;
@@ -48,15 +48,15 @@ const LOGO_LINES = [
 
 // Plain-text fallback for NO_COLOR / AI mode
 const LOGO_PLAIN = [
-  '      \u2584\u2584\u2584\u2584',
-  '   \u2584\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2584',
-  '  \u2588\u2588\u2588\u2580\u2580\u2580\u2580\u2580\u2580\u2580\u2588\u2588',
-  ' \u2588\u2588\u2588\u2588\u2584\u2584\u2584    \u2588\u2588\u2588',
-  '\u2590\u2588\u2588\u2588\u2588\u2588\u2580  \u2584  \u2588\u2588\u2588\u258C',
-  ' \u2588\u2588\u2588\u2580  \u2584\u2588\u2588  \u2588\u2588\u2588',
-  ' \u2580\u2580  \u2584\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588',
-  '    \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2580',
-  '      \u2580\u2580\u2580\u2580',
+  "      \u2584\u2584\u2584\u2584",
+  "   \u2584\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2584",
+  "  \u2588\u2588\u2588\u2580\u2580\u2580\u2580\u2580\u2580\u2580\u2588\u2588",
+  " \u2588\u2588\u2588\u2588\u2584\u2584\u2584    \u2588\u2588\u2588",
+  "\u2590\u2588\u2588\u2588\u2588\u2588\u2580  \u2584  \u2588\u2588\u2588\u258C",
+  " \u2588\u2588\u2588\u2580  \u2584\u2588\u2588  \u2588\u2588\u2588",
+  " \u2580\u2580  \u2584\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588",
+  "    \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2580",
+  "      \u2580\u2580\u2580\u2580",
 ];
 
 function renderLogo() {
@@ -71,31 +71,31 @@ function formatDuration(ms) {
 
 function formatRow(name, passed, failed, skipped, duration, timedOut) {
   if (timedOut) {
-    const icon = c('✗', RED);
+    const icon = c("✗", RED);
     const nameCol = name.padEnd(20);
-    return `  ${icon} ${nameCol} ${c('timed out', RED)}`;
+    return `  ${icon} ${nameCol} ${c("timed out", RED)}`;
   }
-  const icon = failed > 0 ? c('✗', RED) : c('✓', GREEN);
+  const icon = failed > 0 ? c("✗", RED) : c("✓", GREEN);
   const nameCol = name.padEnd(20);
   const countParts = [];
   if (passed > 0) countParts.push(c(`${passed} passed`, GREEN));
   if (failed > 0) countParts.push(c(`${failed} failed`, RED));
   if (skipped > 0) countParts.push(c(`${skipped} skipped`, YELLOW));
-  const counts = countParts.join(', ');
+  const counts = countParts.join(", ");
   const timeCol = c(formatDuration(duration), DIM);
   return `  ${icon} ${nameCol} ${counts}  ${timeCol}`;
 }
 
 // --- Compact mode grouping ---
 const COMPACT_GROUPS = [
-  { name: 'tokens', match: (pkg) => pkg === 'tokens' },
-  { name: 'styles', match: (pkg) => pkg === 'styles' },
-  { name: 'components', match: (pkg) => pkg.startsWith('nys-') },
-  { name: 'mcp-server', match: (pkg) => pkg === 'mcp-server' },
+  { name: "tokens", match: (pkg) => pkg === "tokens" },
+  { name: "styles", match: (pkg) => pkg === "styles" },
+  { name: "components", match: (pkg) => pkg.startsWith("nys-") },
+  { name: "mcp-server", match: (pkg) => pkg === "mcp-server" },
 ];
 
 function groupResults(packageResults) {
-  const groups = COMPACT_GROUPS.map(g => ({
+  const groups = COMPACT_GROUPS.map((g) => ({
     name: g.name,
     passed: 0,
     failed: 0,
@@ -106,7 +106,7 @@ function groupResults(packageResults) {
   }));
 
   for (const [pkg, r] of packageResults) {
-    const groupIndex = COMPACT_GROUPS.findIndex(g => g.match(pkg));
+    const groupIndex = COMPACT_GROUPS.findIndex((g) => g.match(pkg));
     if (groupIndex === -1) continue;
     const group = groups[groupIndex];
     group.passed += r.passed;
@@ -119,7 +119,7 @@ function groupResults(packageResults) {
     }
   }
 
-  return groups.filter(g => g.passed + g.failed + g.skipped > 0);
+  return groups.filter((g) => g.passed + g.failed + g.skipped > 0);
 }
 
 // --- Package name extraction ---
@@ -144,7 +144,7 @@ function countResults(suiteResult) {
         passed++;
       } else {
         failed++;
-        const fullName = [...suitePath, test.name].join(' → ');
+        const fullName = [...suitePath, test.name].join(" → ");
         failures.push({
           name: fullName,
           error: test.error,
@@ -175,10 +175,12 @@ function walkDuration(suiteResult) {
 }
 
 // --- Spinner ---
-const SPINNER = ['↗️ ', '➡️ ', '↘️ ', '⬇️ ', '↙️ ', '⬅️ ', '↖️ ', '⬆️ '];
+const SPINNER = ["↗️ ", "➡️ ", "↘️ ", "⬇️ ", "↙️ ", "⬅️ ", "↖️ ", "⬆️ "];
 
 // --- Reporter factory ---
-export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 0, branches: 0, lines: 0 } } = {}) {
+export function nysdsReporter({
+  coverageThreshold = { statements: 0, functions: 0, branches: 0, lines: 0 },
+} = {}) {
   const mode = getMode();
   let startTime;
   let testFiles = [];
@@ -186,6 +188,8 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
   const packageResults = new Map();
   let frame = 0;
   let browserCount = 0;
+  let lastRender = 0;
+  let lastLines = [];
 
   return {
     start(args) {
@@ -211,7 +215,7 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
       let skipped = 0;
       let duration = 0;
       const failures = [];
-      let timedOut = !sessionsForTestFile.some(s => s.testResults);
+      let timedOut = !sessionsForTestFile.some((s) => s.testResults);
 
       for (const session of sessionsForTestFile) {
         if (!session.testResults) continue;
@@ -224,8 +228,8 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
 
         // Collect failures with browser info
         for (const f of counts.failures) {
-          const browserName = session.browser?.name || 'unknown';
-          const existing = failures.find(e => e.name === f.name);
+          const browserName = session.browser?.name || "unknown";
+          const existing = failures.find((e) => e.name === f.name);
           if (existing) {
             if (!existing.browsers.includes(browserName)) {
               existing.browsers.push(browserName);
@@ -254,21 +258,28 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
         existing.duration += duration;
         existing.failures.push(...failures);
       } else {
-        packageResults.set(pkg, { passed, failed, skipped, duration, failures, timedOut });
+        packageResults.set(pkg, {
+          passed,
+          failed,
+          skipped,
+          duration,
+          failures,
+          timedOut,
+        });
       }
 
       // Log details to the buffered logger so they appear above the
       // progress area and persist (not cleared on re-render).
-      const sep = '-----------';
-      const fileName = testFile.split('/').pop();
+      const sep = "-----------";
+      const fileName = testFile.split("/").pop();
 
       // Format browser list with counts: ["Chromium","Webkit","Webkit","Webkit"] → "Chromium, Webkit (3)"
       function formatBrowserList(browsers) {
         const counts = {};
         for (const b of browsers) counts[b] = (counts[b] || 0) + 1;
         return Object.entries(counts)
-          .map(([name, count]) => count > 1 ? `${name} (${count})` : name)
-          .join(', ');
+          .map(([name, count]) => (count > 1 ? `${name} (${count})` : name))
+          .join(", ");
       }
 
       // 404 network requests
@@ -279,14 +290,14 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
         }
       }
       if (all404s.size > 0) {
-        logger.log('');
+        logger.log("");
         logger.log(`🟡 Warning: ${fileName}`);
         logger.log(sep);
-        logger.log('404 network requests:');
+        logger.log("404 network requests:");
         for (const url of all404s) {
           logger.log(`  - ${url}`);
         }
-        logger.log('');
+        logger.log("");
       }
 
       // Browser warning logs
@@ -294,104 +305,149 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
       for (const session of sessionsForTestFile) {
         if (session.logs) {
           for (const logArgs of session.logs) {
-            const text = logArgs.map(a => String(a)).join(' ');
+            const text = logArgs.map((a) => String(a)).join(" ");
             browserLogs.add(text);
           }
         }
       }
       if (browserLogs.size > 0) {
-        logger.log('');
+        logger.log("");
         logger.log(`🟡 Warning: ${fileName}`);
         logger.log(sep);
         for (const text of browserLogs) {
           logger.log(text);
         }
-        logger.log('');
+        logger.log("");
       }
 
       // Timed out
       if (timedOut) {
-        const allBrowsers = sessionsForTestFile.map(s => s.browser?.name || 'unknown');
-        logger.log('');
+        const allBrowsers = sessionsForTestFile.map(
+          (s) => s.browser?.name || "unknown",
+        );
+        logger.log("");
         logger.log(`⏱️  Timeout: ${fileName}`);
         logger.log(sep);
-        logger.log('Browser tests did not finish within the timeout.');
+        logger.log("Browser tests did not finish within the timeout.");
         logger.log(sep);
         logger.log(`👨‍💻 Browsers:  ${formatBrowserList(allBrowsers)}`);
-        logger.log('');
+        logger.log("");
       } else if (failures.length > 0) {
         for (const f of failures) {
           const err = f.error || {};
-          const errName = err.name ? `${err.name}: ` : '';
-          logger.log('');
+          const errName = err.name ? `${err.name}: ` : "";
+          logger.log("");
           logger.log(`❌ Failure: ${fileName}`);
           logger.log(sep);
           logger.log(f.name);
           logger.log(sep);
           if (f.browsers?.length) {
-            logger.log(`👨‍💻 Browsers:  ${f.browsers.length > 1 ? c(formatBrowserList(f.browsers), YELLOW) : formatBrowserList(f.browsers)}`);
+            logger.log(
+              `👨‍💻 Browsers:  ${f.browsers.length > 1 ? c(formatBrowserList(f.browsers), YELLOW) : formatBrowserList(f.browsers)}`,
+            );
           }
-          logger.log(`🚫 Error:     ${c(`${errName}${err.message || 'Unknown error'}`, RED)}`);
+          logger.log(
+            `🚫 Error:     ${c(`${errName}${err.message || "Unknown error"}`, RED)}`,
+          );
           if (err.expected != null && err.actual != null) {
             logger.log(`🟢 Expected:  ${c(`+${err.expected}`, GREEN)}`);
             logger.log(`🔴 Actual:    ${c(`-${err.actual}`, RED)}`);
           }
           if (err.stack) {
-            const stackLines = err.stack.split('\n');
-            const locationLine = stackLines.find(l => l.includes('packages/'));
+            const stackLines = err.stack.split("\n");
+            const locationLine = stackLines.find((l) =>
+              l.includes("packages/"),
+            );
             if (locationLine) {
               logger.log(`👾 Stack:     ${c(locationLine.trim(), DIM)}`);
             }
           }
-          logger.log('');
+          logger.log("");
         }
       }
     },
 
     getTestProgress({ sessions, testRun, focusedTestFile, testCoverage }) {
+      // Throttle to ~10 renders/sec. Without this, WTR calls getTestProgress
+      // on every browser session completion (packages × browsers = 200+ calls),
+      // and each call triggers a full terminal clear+rewrite that blocks Node's
+      // event loop — doubling overall test time.
+      const now = Date.now();
+      const completedCount = packageResults.size;
+      const totalPackages = new Set(testFiles.map((f) => getPackageName(f)))
+        .size;
+      const isFinal = completedCount === totalPackages && completedCount > 0;
+      if (!isFinal && now - lastRender < 100) {
+        return lastLines;
+      }
+      lastRender = now;
+
       const lines = [];
       const termRows = process.stdout.rows || 40;
 
       // Logo (default and compact modes only)
-      if (mode !== 'ai') {
-        lines.push('');
+      if (mode !== "ai") {
+        lines.push("");
         lines.push(...renderLogo());
-        lines.push('');
+        lines.push("");
       }
 
       // Header
-      if (mode === 'ai') {
-        lines.push('NYSDS Test Results');
+      if (mode === "ai") {
+        lines.push("NYSDS Test Results");
       } else {
-        lines.push(c('  @nysds', `${BOLD}${NYSDS_BLUE}`) + c(': Running test suites...', BOLD));
+        lines.push(
+          c("  @nysds", `${BOLD}${NYSDS_BLUE}`) +
+            c(": Running test suites...", BOLD),
+        );
       }
-      lines.push('');
+      lines.push("");
 
-      // Determine unique test files (one per package)
-      const totalPackages = new Set(testFiles.map(f => getPackageName(f))).size;
-      const completedCount = packageResults.size;
+      // totalPackages and completedCount are already computed above for throttle check
 
-      if (mode === 'default') {
+      if (mode === "default") {
         // Default mode: one row per package, sorted alphabetically.
         // Cap visible rows to fit the terminal (reserve lines for
         // header/logo above + summary/progress below).
-        const sorted = [...packageResults.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+        const sorted = [...packageResults.entries()].sort((a, b) =>
+          a[0].localeCompare(b[0]),
+        );
         const reservedLines = lines.length + 10; // logo/header above + summary below
         const maxRows = Math.max(5, termRows - reservedLines);
 
         if (sorted.length <= maxRows) {
           for (const [pkg, r] of sorted) {
-            lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration, r.timedOut));
+            lines.push(
+              formatRow(
+                pkg,
+                r.passed,
+                r.failed,
+                r.skipped,
+                r.duration,
+                r.timedOut,
+              ),
+            );
           }
         } else {
           // Always show failed/timed-out packages; truncate passing ones from the middle.
-          const problematic = sorted.filter(([, r]) => r.failed > 0 || r.timedOut);
+          const problematic = sorted.filter(
+            ([, r]) => r.failed > 0 || r.timedOut,
+          );
           const ok = sorted.filter(([, r]) => r.failed === 0 && !r.timedOut);
           const slotsForOk = maxRows - 1 - problematic.length; // -1 for truncation marker
 
           if (slotsForOk >= ok.length || slotsForOk < 1) {
             for (const [pkg, r] of sorted) {
-              lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration, r.timedOut));
+              lines.push(
+                formatRow(
+                  pkg,
+                  r.passed,
+                  r.failed,
+                  r.skipped,
+                  r.duration,
+                  r.timedOut,
+                ),
+              );
             }
           } else {
             const topCount = Math.floor(slotsForOk / 2);
@@ -405,7 +461,16 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
             let markerShown = false;
             for (const [pkg, r] of sorted) {
               if (r.failed > 0 || r.timedOut || visibleOk.has(pkg)) {
-                lines.push(formatRow(pkg, r.passed, r.failed, r.skipped, r.duration, r.timedOut));
+                lines.push(
+                  formatRow(
+                    pkg,
+                    r.passed,
+                    r.failed,
+                    r.skipped,
+                    r.duration,
+                    r.timedOut,
+                  ),
+                );
               } else if (!markerShown) {
                 lines.push(c(`    ... ${hidden} more passed ...`, DIM));
                 markerShown = true;
@@ -413,27 +478,35 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
             }
           }
         }
-      } else if (mode === 'compact') {
+      } else if (mode === "compact") {
         const groups = groupResults(packageResults);
         for (const g of groups) {
-          lines.push(formatRow(g.name, g.passed, g.failed, g.skipped, g.duration));
+          lines.push(
+            formatRow(g.name, g.passed, g.failed, g.skipped, g.duration),
+          );
           // If the group has failures, list failing packages indented below
           if (g.failedPackages.length > 0) {
             for (const failedPkg of g.failedPackages) {
               const r = packageResults.get(failedPkg);
-              lines.push(`      ${c('↳', DIM)} ${c(failedPkg, RED)}: ${r.failed} failed`);
+              lines.push(
+                `      ${c("↳", DIM)} ${c(failedPkg, RED)}: ${r.failed} failed`,
+              );
             }
           }
         }
       } else {
         // AI mode — inline failure details right after the failing package row
-        for (const [pkg, r] of [...packageResults.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
-          const status = r.failed > 0 ? 'FAIL' : 'PASS';
+        for (const [pkg, r] of [...packageResults.entries()].sort((a, b) =>
+          a[0].localeCompare(b[0]),
+        )) {
+          const status = r.failed > 0 ? "FAIL" : "PASS";
           const total = r.passed + r.failed + r.skipped;
-          lines.push(`${status} ${pkg} ${r.passed}/${total} ${formatDuration(r.duration)}`);
+          lines.push(
+            `${status} ${pkg} ${r.passed}/${total} ${formatDuration(r.duration)}`,
+          );
           if (r.failures.length > 0) {
             for (const f of r.failures) {
-              const msg = f.error?.message || 'Unknown error';
+              const msg = f.error?.message || "Unknown error";
               lines.push(`  FAIL "${f.name}" — ${msg}`);
             }
           }
@@ -442,78 +515,125 @@ export function nysdsReporter({ coverageThreshold = { statements: 0, functions: 
 
       // Progress indicator (while still running)
       if (completedCount < totalPackages) {
-        lines.push('');
-        if (mode === 'ai') {
+        lines.push("");
+        if (mode === "ai") {
           lines.push(`PROGRESS ${completedCount}/${totalPackages} packages`);
         } else if (completedCount === 0) {
           const spinner = SPINNER[frame++ % SPINNER.length];
           // Check session statuses to show what's actually happening
           const allSessions = sessions ? [...sessions] : [];
-          const testing = allSessions.filter(s => s.status === 'TEST_STARTED').length;
+          const testing = allSessions.filter(
+            (s) => s.status === "TEST_STARTED",
+          ).length;
           if (testing > 0) {
-            lines.push(`  ${spinner}Running tests across ${testing} browser sessions...`);
+            lines.push(
+              `  ${spinner}Running tests across ${testing} browser sessions...`,
+            );
           } else {
             lines.push(`  ${spinner}Starting browsers...`);
           }
         } else {
-          lines.push(c(`  Running... ${completedCount}/${totalPackages} packages complete`, DIM));
+          lines.push(
+            c(
+              `  Running... ${completedCount}/${totalPackages} packages complete`,
+              DIM,
+            ),
+          );
         }
       }
 
       // Summary (when all done)
       if (completedCount === totalPackages && completedCount > 0) {
-        const totalPassed = [...packageResults.values()].reduce((sum, r) => sum + r.passed, 0);
-        const totalFailed = [...packageResults.values()].reduce((sum, r) => sum + r.failed, 0);
-        const totalSkipped = [...packageResults.values()].reduce((sum, r) => sum + r.skipped, 0);
-        const totalTimedOut = [...packageResults.values()].filter(r => r.timedOut).length;
+        const totalPassed = [...packageResults.values()].reduce(
+          (sum, r) => sum + r.passed,
+          0,
+        );
+        const totalFailed = [...packageResults.values()].reduce(
+          (sum, r) => sum + r.failed,
+          0,
+        );
+        const totalSkipped = [...packageResults.values()].reduce(
+          (sum, r) => sum + r.skipped,
+          0,
+        );
+        const totalTimedOut = [...packageResults.values()].filter(
+          (r) => r.timedOut,
+        ).length;
         const totalTests = totalPassed + totalFailed + totalSkipped;
         const durationMs = Date.now() - startTime;
         const numBrowsers = browserCount || browserNames.length;
 
         // Coverage — check all four metrics against thresholds
         const cov = testCoverage?.summary;
-        const hasCoverage = cov?.lines?.pct != null && cov.lines.pct !== 'Unknown';
-        const coveragePassed = !hasCoverage || (
-          (cov.statements?.pct ?? 100) >= (coverageThreshold.statements ?? 0) &&
-          (cov.functions?.pct   ?? 100) >= (coverageThreshold.functions   ?? 0) &&
-          (cov.branches?.pct    ?? 100) >= (coverageThreshold.branches    ?? 0) &&
-          (cov.lines?.pct       ?? 100) >= (coverageThreshold.lines       ?? 0)
-        );
-        const allPassed = totalFailed === 0 && totalTimedOut === 0 && coveragePassed;
+        const hasCoverage =
+          cov?.lines?.pct != null && cov.lines.pct !== "Unknown";
+        const coveragePassed =
+          !hasCoverage ||
+          ((cov.statements?.pct ?? 100) >=
+            (coverageThreshold.statements ?? 0) &&
+            (cov.functions?.pct ?? 100) >= (coverageThreshold.functions ?? 0) &&
+            (cov.branches?.pct ?? 100) >= (coverageThreshold.branches ?? 0) &&
+            (cov.lines?.pct ?? 100) >= (coverageThreshold.lines ?? 0));
+        const allPassed =
+          totalFailed === 0 && totalTimedOut === 0 && coveragePassed;
 
-        if (mode === 'ai') {
+        if (mode === "ai") {
           // AI summary (failure details already inline above each FAIL row)
-          lines.push(`TOTAL ${completedCount} files, ${totalPassed}/${totalTests} passed, ${formatDuration(durationMs)}, ${numBrowsers} browsers`);
+          lines.push(
+            `TOTAL ${completedCount} files, ${totalPassed}/${totalTests} passed, ${formatDuration(durationMs)}, ${numBrowsers} browsers`,
+          );
           if (hasCoverage) {
-            lines.push(`COVERAGE statements=${cov.statements?.pct}% functions=${cov.functions?.pct}% branches=${cov.branches?.pct}% lines=${cov.lines?.pct}%`);
-            if (!coveragePassed) lines.push(`COVERAGE_FAIL thresholds not met (statements=${coverageThreshold.statements}% functions=${coverageThreshold.functions}% branches=${coverageThreshold.branches}% lines=${coverageThreshold.lines}%)`);
+            lines.push(
+              `COVERAGE statements=${cov.statements?.pct}% functions=${cov.functions?.pct}% branches=${cov.branches?.pct}% lines=${cov.lines?.pct}%`,
+            );
+            if (!coveragePassed)
+              lines.push(
+                `COVERAGE_FAIL thresholds not met (statements=${coverageThreshold.statements}% functions=${coverageThreshold.functions}% branches=${coverageThreshold.branches}% lines=${coverageThreshold.lines}%)`,
+              );
           }
-          lines.push(`STATUS ${allPassed ? 'PASS' : 'FAIL'}`);
+          lines.push(`STATUS ${allPassed ? "PASS" : "FAIL"}`);
         } else {
           // Default/compact summary
-          lines.push('');
-          const passedFiles = [...packageResults.values()].filter(r => r.failed === 0 && !r.timedOut).length;
+          lines.push("");
+          const passedFiles = [...packageResults.values()].filter(
+            (r) => r.failed === 0 && !r.timedOut,
+          ).length;
           const failedFiles = completedCount - passedFiles;
 
-          lines.push(`  ${c('Test Files:', BOLD)}  ${c(`${passedFiles} passed`, GREEN)}${failedFiles > 0 ? `, ${c(`${failedFiles} failed`, RED)}` : ''} (${completedCount})`);
-          lines.push(`  ${c('Tests:', BOLD)}      ${c(`${totalPassed} passed`, GREEN)}${totalFailed > 0 ? `, ${c(`${totalFailed} failed`, RED)}` : ''}${totalSkipped > 0 ? `, ${c(`${totalSkipped} skipped`, YELLOW)}` : ''}${totalTimedOut > 0 ? `, ${c(`${totalTimedOut} timed out`, RED)}` : ''} (${totalTests})`);
-          lines.push(`  ${c('Browsers:', BOLD)}   ${numBrowsers}`);
-          lines.push(`  ${c('Duration:', BOLD)}   ${formatDuration(durationMs)}`);
+          lines.push(
+            `  ${c("Test Files:", BOLD)}  ${c(`${passedFiles} passed`, GREEN)}${failedFiles > 0 ? `, ${c(`${failedFiles} failed`, RED)}` : ""} (${completedCount})`,
+          );
+          lines.push(
+            `  ${c("Tests:", BOLD)}      ${c(`${totalPassed} passed`, GREEN)}${totalFailed > 0 ? `, ${c(`${totalFailed} failed`, RED)}` : ""}${totalSkipped > 0 ? `, ${c(`${totalSkipped} skipped`, YELLOW)}` : ""}${totalTimedOut > 0 ? `, ${c(`${totalTimedOut} timed out`, RED)}` : ""} (${totalTests})`,
+          );
+          lines.push(`  ${c("Browsers:", BOLD)}   ${numBrowsers}`);
+          lines.push(
+            `  ${c("Duration:", BOLD)}   ${formatDuration(durationMs)}`,
+          );
           if (hasCoverage) {
-            lines.push(`  ${c('Coverage:', BOLD)}   statements=${cov.statements?.pct}%  functions=${cov.functions?.pct}%  branches=${cov.branches?.pct}%  lines=${cov.lines?.pct}%`);
-            lines.push(`  ${c('Report:', BOLD)}     coverage/lcov-report/index.html`);
+            lines.push(
+              `  ${c("Coverage:", BOLD)}   statements=${cov.statements?.pct}%  functions=${cov.functions?.pct}%  branches=${cov.branches?.pct}%  lines=${cov.lines?.pct}%`,
+            );
+            lines.push(
+              `  ${c("Report:", BOLD)}     coverage/lcov-report/index.html`,
+            );
           }
-          lines.push('');
+          lines.push("");
 
           if (allPassed) {
-            lines.push(`  ${c('✓', GREEN)} ${c('All test suites passed!', `${BOLD}${GREEN}`)}`);
+            lines.push(
+              `  ${c("✓", GREEN)} ${c("All test suites passed!", `${BOLD}${GREEN}`)}`,
+            );
           } else {
-            lines.push(`  ${c('✗', RED)} ${c(`${totalFailed} test${totalFailed === 1 ? '' : 's'} failed.`, `${BOLD}${RED}`)}`);
+            lines.push(
+              `  ${c("✗", RED)} ${c(`${totalFailed} test${totalFailed === 1 ? "" : "s"} failed.`, `${BOLD}${RED}`)}`,
+            );
           }
         }
       }
 
-      lines.push('');
+      lines.push("");
+      lastLines = lines;
       return lines;
     },
   };
