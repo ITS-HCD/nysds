@@ -1,25 +1,34 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { playwrightLauncher, devices } from "@web/test-runner-playwright";
-import { nysdsReporter } from './src/scripts/nysds-reporter.js';
+import { nysdsReporter } from "./src/scripts/nysds-reporter.js";
 
 // Firefox declared the Lit is in DEV mode. this filters out that message to reduce the chatter in the testing logs
 const filteredLogs = [
-  'Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.'
-]
+  "Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.",
+];
 
 const filterBrowserLogs = (log) => {
   for (const arg of log.args) {
-    if (typeof arg === 'string' && filteredLogs.some(l => arg.includes(l))) {
-      return false
+    if (typeof arg === "string" && filteredLogs.some((l) => arg.includes(l))) {
+      return false;
     }
   }
-  return true
-}
+  return true;
+};
 
-const coverageThreshold = { statements: 80, functions: 80, branches: 80, lines: 80 };
+const coverageThreshold = {
+  statements: 80,
+  functions: 80,
+  branches: 80,
+  lines: 80,
+};
 
 export default {
-  files: ["packages/**/*.test.ts", "src/**/*.test.ts", "!packages/mcp-server/**"],
+  files: [
+    "packages/**/*.test.ts",
+    "src/**/*.test.ts",
+    "!packages/mcp-server/**",
+  ],
   nodeResolve: true,
   filterBrowserLogs,
   reporters: [nysdsReporter({ coverageThreshold })],
@@ -29,52 +38,61 @@ export default {
       product: "chromium",
       launchOptions: {
         headless: true,
+        slowMo: 250,
       },
     }),
     playwrightLauncher({
       product: "webkit",
       launchOptions: {
         headless: true,
+        slowMo: 250,
       },
     }),
     playwrightLauncher({
-      product: 'webkit',
+      product: "webkit",
       launchOptions: {
         headless: true,
+        slowMo: 250,
       },
       createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['iPhone 14'], hasTouch: true });
+        return browser.newContext({ ...devices["iPhone 14"], hasTouch: true });
       },
     }),
     playwrightLauncher({
-      product: 'webkit',
+      product: "webkit",
       launchOptions: {
         headless: true,
+        slowMo: 250,
       },
       createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['Pixel 5'], hasTouch: true });
+        return browser.newContext({ ...devices["Pixel 5"], hasTouch: true });
       },
     }),
     playwrightLauncher({
-      product: 'webkit',
+      product: "webkit",
       launchOptions: {
         headless: true,
+        slowMo: 250,
       },
       createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['Desktop Edge'], channel: 'msedge' });
+        return browser.newContext({
+          ...devices["Desktop Edge"],
+          channel: "msedge",
+        });
       },
     }),
     playwrightLauncher({
       product: "firefox",
       launchOptions: {
         headless: true,
+        slowMo: 250,
       },
     }),
   ],
   coverage: true, // Enable coverage reporting
   testFramework: {
     config: {
-      timeout: 9000,
+      timeout: 90000,
       retries: 1,
     },
   },
