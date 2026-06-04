@@ -17,10 +17,10 @@ const filterBrowserLogs = (log) => {
 };
 
 const coverageThreshold = {
-  statements: 70,
-  functions: 70,
-  branches: 70,
-  lines: 70,
+  statements: 80,
+  functions: 80,
+  branches: 80,
+  lines: 80,
 };
 
 export default {
