@@ -203,6 +203,10 @@ export class NysButton extends LitElement {
 
   private _internals: ElementInternals;
 
+  // Tracks the press-animation timeout so it can be cleared on re-press or
+  // unmount, preventing overlapping timers and orphaned-timeout leaks.
+  private _activeClassTimeout?: ReturnType<typeof setTimeout>;
+
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
 
@@ -225,6 +229,13 @@ export class NysButton extends LitElement {
     if (!this.id) {
       this.id = this._generateUniqueId();
     }
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // Cancel any pending press-animation timeout so it doesn't fire against a
+    // detached node after the element is removed.
+    clearTimeout(this._activeClassTimeout);
   }
 
   /**
@@ -326,7 +337,11 @@ export class NysButton extends LitElement {
       e.preventDefault();
       const btn = this.renderRoot.querySelector(".nys-button");
       btn?.classList.add("active");
-      setTimeout(() => btn?.classList.remove("active"), 150);
+      clearTimeout(this._activeClassTimeout);
+      this._activeClassTimeout = setTimeout(
+        () => btn?.classList.remove("active"),
+        150,
+      );
 
       if (this.href) {
         // Click the internal <a> so native navigation happens

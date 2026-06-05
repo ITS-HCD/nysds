@@ -2208,6 +2208,14 @@
             },
             {
               "kind": "field",
+              "name": "_activeClassTimeout",
+              "type": {
+                "text": "ReturnType<typeof setTimeout> | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
               "name": "_hasPrefixSlot",
               "type": {
                 "text": "boolean"
