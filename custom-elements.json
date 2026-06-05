@@ -8333,17 +8333,9 @@
               "description": "This exist to prevent the VO for dismiss button from announcing itself between the heading & subheading/slot content.\nWe add the \"Close this window\" ariaLabel after the initial VO is done"
             },
             {
-              "kind": "method",
+              "kind": "field",
               "name": "_handleKeydown",
               "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ],
               "description": "Event Handlers\n--------------------------------------------------------------------------"
             },
             {
