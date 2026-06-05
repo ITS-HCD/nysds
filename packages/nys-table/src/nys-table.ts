@@ -58,21 +58,6 @@ export class NysTable extends LitElement {
     this._observer?.disconnect();
   }
 
-  willUpdate() {
-    const table = Array.from(this.children).find(
-      (el) => el.tagName === "TABLE",
-    ) as HTMLTableElement | undefined;
-
-    if (!table) return;
-
-    const caption = table.querySelector("caption");
-    const nextCaption = caption?.textContent?.trim() ?? "";
-
-    if (this._captionText !== nextCaption) {
-      this._captionText = nextCaption;
-    }
-  }
-
   /******************** Functions ********************/
 
   private _handleSlotChange() {
@@ -91,6 +76,11 @@ export class NysTable extends LitElement {
       | undefined;
 
     if (!tableEl) return;
+
+    // Update the cached caption text here (on slotchange / mutation) instead of
+    // querying the DOM in willUpdate on every reactive update cycle.
+    const caption = tableEl.querySelector("caption");
+    this._captionText = caption?.textContent?.trim() ?? "";
 
     // Build the entire replacement table off-DOM (clone + normalize + icons),
     // then swap it in with a single replaceChildren() call. This performs the
