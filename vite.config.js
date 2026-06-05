@@ -13,6 +13,13 @@ const shouldAnalyze = process.env.ANALYZE === "true";
 const buildFormat = process.env.BUILD_FORMAT || "es";
 const isUmd = buildFormat === "umd";
 
+// Build a named entry map from every nys-* package that has a src/index.ts
+const componentEntries = Object.fromEntries(
+  fs.readdirSync("./packages")
+    .filter((name) => name.startsWith("nys-") && fs.existsSync(`./packages/${name}/src/index.ts`))
+    .map((name) => [name, `./packages/${name}/src/index.ts`])
+);
+
 const banner = `
 /*!
    * New York State Design System v${version}
@@ -114,8 +121,7 @@ export const defaultConfig = {
   },
   build: {
     lib: {
-      entry: ["./src/index.ts"],
-      fileName: () => "nysds.es.js",
+      entry: componentEntries,
       formats: ["es"],
     },
     minify: 'esbuild',
@@ -136,6 +142,8 @@ export const defaultConfig = {
         compact: true,
         banner,
         dir: "dist",
+        entryFileNames: "[name].js",
+        chunkFileNames: "[name].js",
         globals: {
           lit: "Lit",
         },
