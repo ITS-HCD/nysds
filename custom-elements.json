@@ -2163,12 +2163,11 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "| \"submit\"\n    | \"reset\"\n    | \"button\""
+                "text": "\"submit\" | \"reset\" | \"button\""
               },
               "default": "\"button\"",
               "description": "Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.",
-              "attribute": "type",
-              "reflects": true
+              "attribute": "type"
             },
             {
               "kind": "field",
@@ -2197,8 +2196,7 @@
               },
               "default": "\"_self\"",
               "description": "Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon=\"open_in_new\"`), `_parent`, `_top`, or frame name.",
-              "attribute": "target",
-              "reflects": true
+              "attribute": "target"
             },
             {
               "kind": "field",
@@ -2541,7 +2539,7 @@
             {
               "name": "type",
               "type": {
-                "text": "| \"submit\"\n    | \"reset\"\n    | \"button\""
+                "text": "\"submit\" | \"reset\" | \"button\""
               },
               "default": "\"button\"",
               "description": "Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.",

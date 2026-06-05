@@ -171,10 +171,10 @@ export class NysButton extends LitElement {
    * Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.
    * @default "button"
    */
-  @property({ type: String, reflect: true }) type:
-    | "submit"
-    | "reset"
-    | "button" = "button";
+  // Not reflected: consumed only as a property for the inner <button type>,
+  // never via CSS or host-attribute. Avoids an attribute write on every
+  // button instance (default "button" would otherwise always reflect).
+  @property({ type: String }) type: "submit" | "reset" | "button" = "button";
 
   /**
    * Click handler. Use instead of `@click` to ensure keyboard accessibility.
@@ -191,7 +191,10 @@ export class NysButton extends LitElement {
    * Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon="open_in_new"`), `_parent`, `_top`, or frame name.
    * @default "_self"
    */
-  @property({ type: String, reflect: true }) target:
+  // Not reflected: consumed only as a property for the inner <a target>,
+  // never via CSS or host-attribute. Avoids an attribute write on every
+  // button instance (default "_self" would otherwise always reflect).
+  @property({ type: String }) target:
     | "_self"
     | "_blank"
     | "_parent"

@@ -85,8 +85,6 @@ export class NysTable extends LitElement {
 
     if (!slot || !container) return;
 
-    container.innerHTML = "";
-
     const assigned = slot.assignedElements({ flatten: true });
     const tableEl = assigned.find((el) => el.tagName === "TABLE") as
       | HTMLTableElement
@@ -94,6 +92,10 @@ export class NysTable extends LitElement {
 
     if (!tableEl) return;
 
+    // Build the entire replacement table off-DOM (clone + normalize + icons),
+    // then swap it in with a single replaceChildren() call. This performs the
+    // teardown and insertion as one operation, triggering a single reflow
+    // instead of the separate clear (innerHTML = "") and append reflows.
     const table = tableEl.cloneNode(true) as HTMLTableElement;
 
     this._normalizeTableDOM(table);
@@ -102,7 +104,7 @@ export class NysTable extends LitElement {
       this._addSortIcons(table);
     }
 
-    container.appendChild(table);
+    container.replaceChildren(table);
   }
 
   private _setupMutationObserver() {
