@@ -236,14 +236,30 @@ export class NysButton extends LitElement {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
 
+  // Debounce slot-change handling to one read+update per frame. Batch DOM
+  // updates can emit several slotchange events in quick succession; coalescing
+  // them avoids redundant reactive re-renders.
+  private _prefixSlotScheduled = false;
+  private _suffixSlotScheduled = false;
+
   private _onPrefixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
-    this._hasPrefixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    if (this._prefixSlotScheduled) return;
+    this._prefixSlotScheduled = true;
+    requestAnimationFrame(() => {
+      this._prefixSlotScheduled = false;
+      this._hasPrefixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    });
   }
 
   private _onSuffixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
-    this._hasSuffixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    if (this._suffixSlotScheduled) return;
+    this._suffixSlotScheduled = true;
+    requestAnimationFrame(() => {
+      this._suffixSlotScheduled = false;
+      this._hasSuffixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    });
   }
 
   private _manageFormAction() {

@@ -2241,6 +2241,24 @@
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
+              "kind": "field",
+              "name": "_prefixSlotScheduled",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_suffixSlotScheduled",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
               "kind": "method",
               "name": "_onPrefixSlotChange",
               "privacy": "private",
