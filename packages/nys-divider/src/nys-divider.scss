@@ -12,6 +12,11 @@
   --_nys-divider-color: var(--nys-color-ink-reverse, #ffffff);
 }
 
+/* Subtle */
+:host([subtle]) {
+  --_nys-divider-color: var(--nys-color-neutral-100, #e4e5e6);
+}
+
 .nys-divider {
   width: var(--_nys-divider-width);
   height: var(--_nys-divider-size);
