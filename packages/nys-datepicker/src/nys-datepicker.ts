@@ -5,12 +5,10 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-datepicker.scss?inline";
 
-import { WcDatepicker } from "wc-datepicker/dist/components/wc-datepicker";
-
-// Register the WC datepicker
-if (!customElements.get("wc-datepicker")) {
-  customElements.define("wc-datepicker", WcDatepicker);
-}
+// Type-only import — erased at build time, so it adds no runtime weight.
+// The implementation is loaded lazily via dynamic import (see
+// _ensureWcDatepickerDefined) so native-fallback users never download it.
+import type { WcDatepicker } from "wc-datepicker/dist/components/wc-datepicker";
 
 let componentIdCounter = 0;
 
@@ -182,6 +180,8 @@ export class NysDatepicker extends LitElement {
 
     if (this._shouldUseNativeDatepicker()) return;
 
+    await NysDatepicker._ensureWcDatepickerDefined();
+
     const datepicker = await this._whenWcDatepickerReady();
     if (!datepicker) return;
 
@@ -206,6 +206,24 @@ export class NysDatepicker extends LitElement {
         this._setValue(current); // handles both Date and string
       }
     }
+  }
+
+  // Shared loader promise so the wc-datepicker chunk is fetched/defined once,
+  // no matter how many nys-datepicker instances are on the page.
+  private static _wcDatepickerLoader?: Promise<void>;
+
+  private static _ensureWcDatepickerDefined(): Promise<void> {
+    if (customElements.get("wc-datepicker")) return Promise.resolve();
+    if (!NysDatepicker._wcDatepickerLoader) {
+      NysDatepicker._wcDatepickerLoader = import(
+        "wc-datepicker/dist/components/wc-datepicker"
+      ).then(({ WcDatepicker }) => {
+        if (!customElements.get("wc-datepicker")) {
+          customElements.define("wc-datepicker", WcDatepicker);
+        }
+      });
+    }
+    return NysDatepicker._wcDatepickerLoader;
   }
 
   private async _whenWcDatepickerReady(): Promise<WcDatepicker | null> {

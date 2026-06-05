@@ -4793,6 +4793,26 @@
               "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
+              "kind": "field",
+              "name": "_wcDatepickerLoader",
+              "type": {
+                "text": "Promise<void> | undefined"
+              },
+              "privacy": "private",
+              "static": true
+            },
+            {
+              "kind": "method",
+              "name": "_ensureWcDatepickerDefined",
+              "privacy": "private",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              }
+            },
+            {
               "kind": "method",
               "name": "_whenWcDatepickerReady",
               "privacy": "private",
