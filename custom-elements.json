@@ -5382,6 +5382,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "attribute": "subtle",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_generateUniqueId",
               "privacy": "private",
@@ -5398,6 +5409,16 @@
               "description": "Adjusts colors for dark backgrounds.",
               "fieldName": "inverted",
               "propName": "inverted"
+            },
+            {
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "fieldName": "subtle",
+              "propName": "subtle"
             }
           ],
           "superclass": {

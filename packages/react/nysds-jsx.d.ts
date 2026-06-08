@@ -419,6 +419,8 @@ export type NysDatepickerProps = {
 export type NysDividerProps = {
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
+  /** If true, the divider will use a lighter color. */
+  subtle?: boolean;
 };
 
 export type NysDropdownMenuProps = {
