@@ -26,13 +26,13 @@
   --_nys-dropdownmenu-font-family: var(
     --nys-font-family-ui,
     var(
-        --nys-font-family-sans,
-        "Proxima Nova",
-        "Helvetica Neue",
-        "Helvetica",
-        "Arial",
-        sans-serif
-      )
+      --nys-font-family-sans,
+      "Proxima Nova",
+      "Helvetica Neue",
+      "Helvetica",
+      "Arial",
+      sans-serif
+    )
   );
 
   /* Dropdownmenu Item Styles */
@@ -134,7 +134,9 @@
       background-color: var(--_nys-dropdownmenuitem-background-color--active);
     }
 
-    &:focus-visible:not(.disabled):not([aria-disabled="true"]):not([focus-ring-false]) {
+    &:focus-visible:not(.disabled):not([aria-disabled="true"]):not(
+        [focus-ring-false]
+      ) {
       position: relative;
       outline: var(--_nys-dropdownmenuitem-outline-width) solid
         var(--_nys-dropdownmenuitem-outline-color);

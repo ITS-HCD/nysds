@@ -4,15 +4,18 @@
   --_nys-button-height: var(--nys-size-600, 48px);
   --_nys-button-border-radius: var(--nys-radius-xl, 12px);
   --_nys-button-padding--y: calc(
+    
     var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px)
+  
   );
+  --_nys-button-cursor: pointer;
 
-  /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(
+    
     var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)
+  
   );
 
-  /* remove calc when SASS'd */
   --_nys-button-gap: var(--nys-space-100, 8px);
   --_nys-button-justify-content: center;
   --_nys-button-border-style: solid;
@@ -32,7 +35,7 @@
   );
   --_nys-button-border-color: var(
     --nys-button-border-color,
-    var(--nys-color-theme, #154973)
+    var(--nys-color-transparent, #ffffff00)
   );
   --_nys-button-background-color--hover: var(
     --nys-button-background-color--hover,
@@ -44,7 +47,7 @@
   );
   --_nys-button-border-color--hover: var(
     --nys-button-border-color--hover,
-    var(--nys-color-theme-strong, #0e324f)
+    var(--nys-color-transparent, #ffffff00)
   );
   --_nys-button-background-color--active: var(
     --nys-button-background-color--active,
@@ -56,14 +59,14 @@
   );
   --_nys-button-border-color--active: var(
     --nys-button-border-color--active,
-    var(--nys-color-theme-stronger, #081b2b)
+    var(--nys-color-transparent, #ffffff00)
   );
   --_nys-button-background-color--disabled: var(
     --nys-color-neutral-10,
     #f6f6f6
   );
   --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
-  --_nys-button-border-color--disabled: var(--nys-color-neutral-10, #f6f6f6);
+  --_nys-button-border-color--disabled: var(--nys-color-transparent, #ffffff00);
 
   /* Typography */
   --_nys-button-font-size: var(--nys-font-size-ui-md, 16px);
@@ -82,7 +85,7 @@
   );
   --_nys-button-text-decoration: none;
   display: inline-flex;
-  width: fit-content;
+  width: var(--_nys-button-width);
   vertical-align: middle;
 }
 
@@ -93,26 +96,9 @@
     var(--nys-space-100, 8px) - var(--nys-border-width-md, 2px)
   );
 
-  /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(
     var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)
   );
-
-  /* remove calc when SASS'd */
-}
-
-:host([size="md"]) {
-  --_nys-button-height: var(--nys-size-600, 48px);
-  --_nys-button-padding--y: calc(
-    var(--nys-space-150, 12px) - var(--nys-border-width-md, 2px)
-  );
-
-  /* remove calc when SASS'd */
-  --_nys-button-padding--x: calc(
-    var(--nys-space-250, 20px) - var(--nys-border-width-md, 2px)
-  );
-
-  /* remove calc when SASS'd */
 }
 
 :host([size="lg"]) {
@@ -121,16 +107,17 @@
     var(--nys-space-200, 16px) - var(--nys-border-width-md, 2px)
   );
 
-  /* remove calc when SASS'd */
   --_nys-button-padding--x: calc(
     var(--nys-space-300, 24px) - var(--nys-border-width-md, 2px)
   );
-
-  /* remove calc when SASS'd */
 }
 
 :host([fullWidth]) {
   width: 100%;
+
+  .nys-button__linkwrapper {
+    width: 100%;
+  }
 
   .nys-button {
     width: 100%;
@@ -138,58 +125,6 @@
 }
 
 /* VARIANTS */
-
-/* Filled */
-:host([variant="filled"]) {
-  /* Filled - Default */
-  --_nys-button-background-color: var(
-    --nys-button-background-color,
-    var(--nys-color-theme, #154973)
-  );
-  --_nys-button-color: var(
-    --nys-button-color,
-    var(--nys-color-text-reverse, #ffffff)
-  );
-  --_nys-button-border-color: var(
-    --nys-button-border-color,
-    var(--nys-color-transparent, #ffffff00)
-  );
-
-  /* Filled - Hover */
-  --_nys-button-background-color--hover: var(
-    --nys-button-background-color--hover,
-    var(--nys-color-theme-strong, #0e324f)
-  );
-  --_nys-button-color--hover: var(
-    --nys-button-color--hover,
-    var(--nys-color-text-reverse, #ffffff)
-  );
-  --_nys-button-border-color--hover: var(
-    --nys-button-border-color,
-    var(--nys-color-transparent, #ffffff00)
-  );
-
-  /* Filled - Pressed/Active */
-  --_nys-button-background-color--active: var(
-    --nys-button-background-color--active,
-    var(--nys-color-theme-stronger, #081b2b)
-  );
-  --_nys-button-color--active: var(
-    --nys-button-color--active,
-    var(--nys-color-text-reverse, #ffffff)
-  );
-  --_nys-button-border-color--active: var(
-    --nys-button-border-color,
-    var(--nys-color-transparent, #ffffff00)
-  );
-
-  /* Filled - Disabled */
-  --_nys-button-background-color--disabled: var(
-    --nys-color-neutral-10,
-    #f6f6f6
-  );
-  --_nys-button-color--disabled: var(--nys-color-text-disabled, #bec0c1);
-}
 
 /* Outline */
 :host([variant="outline"]) {
@@ -243,7 +178,7 @@
   --_nys-button-height: fit-content;
   --_nys-button-border-radius: var(--nys-radius-md, 4px);
   --_nys-button-padding--y: var(--nys-space-2px, 2px);
-  --_nys-button-padding--x: var(--nys-space-50, 4px);
+  --_nys-button-padding--x: 0;
   --_nys-button-border-width: 0px;
   --_nys-button-text-decoration: underline;
   --_nys-button-text-decoration-thickness: var(
@@ -601,7 +536,6 @@
   width: var(--_nys-button-width);
   min-height: var(--_nys-button-height);
 
-  /* set every corner individually */
   border-radius: var(--_nys-button-border-radius);
   padding: var(--_nys-button-padding--y) var(--_nys-button-padding--x);
   display: flex;
@@ -619,7 +553,7 @@
   border-color: var(--_nys-button-border-color);
   border-style: var(--_nys-button-border-style);
   border-width: var(--_nys-button-border-width);
-  cursor: var(--_nys-button-cursor, pointer);
+  cursor: var(--_nys-button-cursor);
 }
 
 .nys-button:hover {
@@ -648,31 +582,12 @@ a[disabled] {
   background-color: var(--_nys-button-background-color--disabled);
   color: var(--_nys-button-color--disabled);
   border-color: var(--_nys-button-border-color--disabled);
-  cursor: not-allowed;
-}
-
-.nys-button__linkwrapper:has([disabled]) {
-  cursor: not-allowed;
-  width: fit-content;
+  --_nys-button-cursor: not-allowed;
 }
 
 /* Remove click functionality from disabled link button */
 a[disabled] {
   pointer-events: none;
-}
-
-a[disabled]:hover {
-  background-color: var(--_nys-button-background-color--disabled);
-  color: var(--_nys-button-color--disabled);
-  border-color: var(--_nys-button-border-color--disabled);
-}
-
-.nys-button * {
-  cursor: var(--_nys-button-cursor, pointer);
-}
-
-.nys-button:disabled * {
-  cursor: not-allowed;
 }
 
 .nys-button:focus-visible {

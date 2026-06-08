@@ -2210,6 +2210,24 @@
             },
             {
               "kind": "field",
+              "name": "_hasPrefixSlot",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_hasSuffixSlot",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "formAssociated",
               "type": {
                 "text": "boolean"
@@ -2223,6 +2241,32 @@
               "name": "_generateUniqueId",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_onPrefixSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_onSuffixSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -5338,6 +5382,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "attribute": "subtle",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_generateUniqueId",
               "privacy": "private",
@@ -5354,6 +5409,16 @@
               "description": "Adjusts colors for dark backgrounds.",
               "fieldName": "inverted",
               "propName": "inverted"
+            },
+            {
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "fieldName": "subtle",
+              "propName": "subtle"
             }
           ],
           "superclass": {
@@ -8335,15 +8400,6 @@
           "members": [
             {
               "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "object"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
-            },
-            {
-              "kind": "field",
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -8478,169 +8534,24 @@
               },
               "default": "false",
               "attribute": "showOtherError"
-            },
-            {
-              "kind": "field",
-              "name": "isMobile",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_hasUserInteracted",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "buttonGroup",
-              "type": {
-                "text": "Record<string, NysRadiobutton>"
-              },
-              "static": true,
-              "default": "{}"
-            },
-            {
-              "kind": "method",
-              "name": "getInputElement",
-              "privacy": "public",
-              "return": {
-                "type": {
-                  "text": "Promise<HTMLInputElement | null>"
-                }
-              },
-              "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "formResetUpdate",
-              "privacy": "public"
-            },
-            {
-              "kind": "field",
-              "name": "_handleResize",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_clearOtherState",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_dispatchClearErrorEvent",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_emitChangeEvent",
-              "privacy": "private",
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_emitOtherInputEvent",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleChange",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleFocus",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleBlur",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_callInputHandling",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleTextInput",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_handleTextInputBlur",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_validateOtherAndEmitError",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleOtherKeydown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ]
             }
           ],
           "events": [
             {
-              "name": "nys-error-clear",
-              "type": {
-                "text": "CustomEvent"
-              }
+              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`.",
+              "name": "nys-change"
             },
             {
-              "name": "nys-change",
-              "type": {
-                "text": "CustomEvent"
-              },
-              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
+              "description": "Fired when radio gains focus.",
+              "name": "nys-focus"
             },
             {
-              "name": "nys-other-input",
-              "type": {
-                "text": "CustomEvent"
-              },
-              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`."
+              "description": "Fired when radio loses focus.",
+              "name": "nys-blur"
             },
             {
-              "name": "nys-focus",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Fired when radio gains focus."
-            },
-            {
-              "name": "nys-blur",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Fired when radio loses focus."
-            },
-            {
-              "name": "nys-error",
-              "type": {
-                "text": "CustomEvent"
-              }
+              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`.",
+              "name": "nys-other-input"
             }
           ],
           "attributes": [
@@ -8779,7 +8690,7 @@
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
-          "summary": "Radio button for single selection from mutually exclusive options.",
+          "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
           "examples": [
             {
               "title": "Radio group",
@@ -8966,6 +8877,15 @@
             },
             {
               "kind": "field",
+              "name": "_showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "_showOtherError"
+            },
+            {
+              "kind": "field",
               "name": "selectedValue",
               "type": {
                 "text": "string | null"
@@ -8981,6 +8901,49 @@
               },
               "privacy": "private",
               "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_radios",
+              "type": {
+                "text": "NysRadiobutton[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_mobileQuery",
+              "type": {
+                "text": "MediaQueryList"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_childObserver",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private"
             },
             {
               "kind": "field",
@@ -9054,10 +9017,20 @@
               "privacy": "public"
             },
             {
-              "kind": "method",
-              "name": "_initializeChildAttributes",
+              "kind": "field",
+              "name": "_handleMobileQuery",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_initializeChildAttributes",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -9066,18 +9039,16 @@
             },
             {
               "kind": "method",
-              "name": "_updateRadioButtonsTile",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateRadioButtonsShowError",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateRadioButtonsForm",
-              "privacy": "private"
+              "name": "_selectRadio",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -9086,7 +9057,7 @@
             },
             {
               "kind": "method",
-              "name": "_handleRadioButtonChange",
+              "name": "_handleInvalid",
               "privacy": "private",
               "parameters": [
                 {
@@ -9100,9 +9071,15 @@
             },
             {
               "kind": "method",
-              "name": "_handleInvalid",
+              "name": "_handleTextInput",
               "privacy": "private",
               "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                },
                 {
                   "name": "event",
                   "type": {
@@ -9113,34 +9090,100 @@
             },
             {
               "kind": "method",
-              "name": "_handleChildError",
+              "name": "_handleTextInputBlur",
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "event",
+                  "name": "radiobtn",
                   "type": {
-                    "text": "Event"
+                    "text": "NysRadiobutton"
                   }
                 }
               ]
             },
             {
               "kind": "method",
-              "name": "_handleChildErrorClear",
+              "name": "_validateOtherAndEmitError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleGroupFocusout",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleRadiobtnClick",
               "privacy": "private"
             },
             {
               "kind": "method",
-              "name": "_handleOtherInput",
+              "name": "_handleRadiobtnFocus",
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "event",
+                  "name": "radiobtn",
                   "type": {
-                    "text": "Event"
+                    "text": "NysRadiobutton"
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleRadiobtnBlur",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-other-input",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
@@ -9263,6 +9306,15 @@
               "description": "Radio size for all children: `sm` (24px) or `md` (32px, default).",
               "fieldName": "size",
               "propName": "size"
+            },
+            {
+              "name": "_showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "_showOtherError",
+              "propName": "_showothererror"
             }
           ],
           "superclass": {

@@ -8,26 +8,35 @@
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 /* Margin/Padding for Text Elements */
 
 body,
-h1, h2, h3, h4, h5, h6,
-p, ul, ol,
-blockquote, figure, pre {
-    margin: 0;
-    padding: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+blockquote,
+figure,
+pre {
+  margin: 0;
+  padding: 0;
 }
 
 /* Lists */
 
 ul,
 ol {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* === Global Styles */
@@ -35,154 +44,193 @@ ol {
 /* === Typography */
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-family-body);
-    color: var(--nys-color-ink);
+  margin: 0;
+  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
+    var(--nys-font-family-body);
+  color: var(--nys-color-ink);
 }
 
 small {
-    font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs) var(--nys-font-family-body);
+  font: var(--nys-font-size-xs) / var(--nys-font-lineheight-xs)
+    var(--nys-font-family-body);
 }
 
 /* --- Headings --- */
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--nys-font-family-heading);
-    font-weight: 700;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--nys-font-family-heading);
+  font-weight: 700;
 }
 
 // Heading configuration map
 $headings: (
-    h1: (letterspacing: negative-300, margin-top: 600, margin-bottom: 250),
-    h2: (letterspacing: negative-200, margin-top: 500, margin-bottom: 200),
-    h3: (letterspacing: negative-200, margin-top: 400, margin-bottom: 150),
-    h4: (letterspacing: null, margin-top: 300, margin-bottom: 100),
-    h5: (letterspacing: null, margin-top: 250, margin-bottom: 100),
-    h6: (letterspacing: null, margin-top: 200, margin-bottom: 100)
+  h1: (
+    letterspacing: negative-300,
+    margin-top: 600,
+    margin-bottom: 250,
+  ),
+  h2: (
+    letterspacing: negative-200,
+    margin-top: 500,
+    margin-bottom: 200,
+  ),
+  h3: (
+    letterspacing: negative-200,
+    margin-top: 400,
+    margin-bottom: 150,
+  ),
+  h4: (
+    letterspacing: null,
+    margin-top: 300,
+    margin-bottom: 100,
+  ),
+  h5: (
+    letterspacing: null,
+    margin-top: 250,
+    margin-bottom: 100,
+  ),
+  h6: (
+    letterspacing: null,
+    margin-top: 200,
+    margin-bottom: 100,
+  ),
 );
 
 @each $heading, $props in $headings {
-    #{$heading} {
-        font-size: var(--nys-font-size-#{$heading});
-        line-height: var(--nys-font-lineheight-#{$heading});
+  #{$heading} {
+    font-size: var(--nys-font-size-#{$heading});
+    line-height: var(--nys-font-lineheight-#{$heading});
 
-        @if map.get($props, letterspacing) {
-            letter-spacing: var(--nys-font-letterspacing-#{map.get($props, letterspacing)});
-        }
-
-        margin-top: var(--nys-space-#{map.get($props, margin-top)});
-        margin-bottom: var(--nys-space-#{map.get($props, margin-bottom)});
+    @if map.get($props, letterspacing) {
+      letter-spacing: var(
+        --nys-font-letterspacing-#{map.get($props, letterspacing)}
+      );
     }
+
+    margin-top: var(--nys-space-#{map.get($props, margin-top)});
+    margin-bottom: var(--nys-space-#{map.get($props, margin-bottom)});
+  }
 }
 
 /* Adjacent heading spacing */
 $heading-pairs: (h1 h2, h2 h3, h3 h4, h4 h5, h5 h6);
 
 @each $pair in $heading-pairs {
-    #{list.nth($pair, 1)} + #{list.nth($pair, 2)} {
-        margin-top: var(--nys-space-150);
-    }
+  #{list.nth($pair, 1)} + #{list.nth($pair, 2)} {
+    margin-top: var(--nys-space-150);
+  }
 }
 
 /* --- Body Text --- */
 
-p, ul, ol, dl, blockquote {
-    font: var(--nys-font-size-md) / var(--nys-font-lineheight-md) var(--nys-font-family-body);
-    margin-bottom: var(--nys-space-150);
+p,
+ul,
+ol,
+dl,
+blockquote {
+  font: var(--nys-font-size-md) / var(--nys-font-lineheight-md)
+    var(--nys-font-family-body);
+  margin-bottom: var(--nys-space-150);
 }
 
 small {
-    margin-bottom: var(--nys-space-100);
+  margin-bottom: var(--nys-space-100);
 }
 
 p + p {
-    margin-top: var(--nys-space-150);
+  margin-top: var(--nys-space-150);
 }
 
 section + section {
-    margin-top: var(--nys-space-300);
+  margin-top: var(--nys-space-300);
 }
 
 @media (width >= 768px) {
-    section + section {
-        margin-bottom: var(--nys-space-600);
-    }
+  section + section {
+    margin-bottom: var(--nys-space-600);
+  }
 }
 
 /* --- Lists --- */
 
-ul, ol {
-    margin-top: 0;
-    padding-left: var(--nys-space-200);
+ul,
+ol {
+  margin-top: 0;
+  padding-left: var(--nys-space-200);
 }
 
 blockquote > ul,
 blockquote > ol {
-    margin-top: 0;
-    margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Unordered Lists (Bullets) */
 $ul-styles: (disc, circle, square);
 
 @for $i from 1 through list.length($ul-styles) {
-    $selector: "ul";
+  $selector: "ul";
 
-    @for $j from 2 through $i {
-        $selector: $selector + " ul";
+  @for $j from 2 through $i {
+    $selector: $selector + " ul";
+  }
+
+  #{$selector} {
+    list-style-type: list.nth($ul-styles, $i);
+
+    @if $i > 1 {
+      padding-left: var(--nys-space-200);
     }
-
-    #{$selector} {
-        list-style-type: list.nth($ul-styles, $i);
-
-        @if $i > 1 {
-            padding-left: var(--nys-space-200);
-        }
-    }
+  }
 }
 
 /* Ordered Lists (Numbers) */
 $ol-styles: (decimal, lower-alpha, lower-roman);
 
 @for $i from 1 through list.length($ol-styles) {
-    $selector: "ol";
+  $selector: "ol";
 
-    @for $j from 2 through $i {
-        $selector: $selector + " ol";
+  @for $j from 2 through $i {
+    $selector: $selector + " ol";
+  }
+
+  #{$selector} {
+    list-style-type: list.nth($ol-styles, $i);
+
+    @if $i > 1 {
+      padding-left: var(--nys-space-200);
     }
-
-    #{$selector} {
-        list-style-type: list.nth($ol-styles, $i);
-
-        @if $i > 1 {
-            padding-left: var(--nys-space-200);
-        }
-    }
+  }
 }
 
 /* List Items */
 
 li {
-    margin-bottom: var(--nys-space-100);
+  margin-bottom: var(--nys-space-100);
 }
 
 li::marker {
-    color: var(--nys-color-theme-primary, #000000);
+  color: var(--nys-color-theme-primary, #000000);
 }
 
 /* --- Links --- */
 
 a {
-    color: var(--nys-color-link);
+  color: var(--nys-color-link);
 }
 
 a:hover,
 a:focus {
-    color: var(--nys-color-link-strong);
+  color: var(--nys-color-link-strong);
     text-decoration-line: underline;
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;
@@ -192,7 +240,7 @@ a:focus {
 }
 
 a:active {
-    color: var(--nys-color-link-strongest);
+  color: var(--nys-color-link-strongest);
     text-decoration-line: underline;
     text-decoration-style: solid;
     text-decoration-skip-ink: auto;

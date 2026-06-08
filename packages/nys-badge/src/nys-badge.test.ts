@@ -63,8 +63,8 @@ describe("nys-badge", () => {
     const borderColor = computed.getPropertyValue("--_nys-badge-border-color");
     const color = computed.getPropertyValue("--_nys-badge-color");
 
-    expect(backgroundColor).to.equal("#1E752E");
-    expect(borderColor).to.equal("#1E752E");
+    expect(backgroundColor).to.equal("#1e752e");
+    expect(borderColor).to.equal("#1e752e");
     expect(color).to.equal("#ffffff");
   });
 
