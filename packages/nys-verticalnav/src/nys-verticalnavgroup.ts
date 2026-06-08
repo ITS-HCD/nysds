@@ -4,7 +4,50 @@ import { property } from "lit/decorators.js";
 import styles from "./nys-verticalnav.scss?inline";
 
 /**
- * `<nys-verticalnavgroup>` is collapsible dropdown group within a vertical nav
+ * Collapsible dropdown group for use inside `<nys-verticalnav>`.
+ *
+ * Renders a toggle button and an expandable panel for a nested `<ul>` of links.
+ * Designed to be placed as a direct child of a `<li>` inside the vertical nav's
+ * default slot. Use `expanded` to open it by default, and `disabled` to prevent
+ * interaction.
+ *
+ * @summary Collapsible link group for use within `<nys-verticalnav>`.
+ * @element nys-verticalnavgroup
+ *
+ * @example Basic usage
+ * ```html
+ * <nys-verticalnav navHeader="NYS Design System">
+ *   <ul>
+ *     <li><a href="/foundations">Foundations</a></li>
+ *     <li>
+ *       <nys-verticalnavgroup label="Accessibility">
+ *         <ul>
+ *           <li><a href="/wcag">WCAG Guidelines</a></li>
+ *           <li><a href="/screen-readers">Screen Readers</a></li>
+ *         </ul>
+ *       </nys-verticalnavgroup>
+ *     </li>
+ *   </ul>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example Expanded by default
+ * ```html
+ * <nys-verticalnavgroup label="Resources" expanded>
+ *   <ul>
+ *     <li><a href="/tokens">Design Tokens</a></li>
+ *   </ul>
+ * </nys-verticalnavgroup>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-verticalnavgroup label="Coming Soon" disabled>
+ *   <ul>
+ *     <li><a href="/future">Future Feature</a></li>
+ *   </ul>
+ * </nys-verticalnavgroup>
+ * ```
  */
 
 export class NysVerticalnavGroup extends LitElement {

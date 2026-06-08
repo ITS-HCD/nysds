@@ -10,7 +10,57 @@ let componentIdCounter = 0;
 type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 /**
- * `<nys-verticalnav>` is ...
+ * Vertical navigation component with responsive desktop/mobile behavior.
+ *
+ * Renders as a side vertical navigation with heading and slotted link list on desktop. On tablet/mobile
+ * it collapses into a `<nys-accordion>`. The default slot accepts a
+ * `<ul>` of links; subheader `<li>` items (containing `<h2>`-`<h6>`). Use the `header` slot to replace the
+ * auto-generated heading, and the `footer` slot for metadata or extra actions
+ * below the link list.
+ *
+ * @summary Responsive vertical navigation — nav on desktop, accordion on mobile.
+ * @element nys-verticalnav
+ *
+ * @example Basic usage
+ * ```html
+ * <nys-verticalnav navHeader="Freshwater Fishing">
+ *   <ul>
+ *     <li><a href="/home">Home</a></li>
+ *     <li>
+ *       <h3>Regulations</h3>
+ *       <ul>
+ *         <li><a href="/places">Places to Fish</a></li>
+ *       </ul>
+ *     </li>
+ *   </ul>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example With custom header and footer slots
+ * ```html
+ * <nys-verticalnav navHeader="Freshwater Fishing">
+ *   <div slot="header">
+ *     <h2>🎣 Freshwater Fishing</h2>
+ *     <p>2024 Season Guide</p>
+ *   </div>
+ *   <ul>
+ *     <li><a href="/home">Home</a></li>
+ *   </ul>
+ *   <div slot="footer">
+ *     <nys-divider></nys-divider>
+ *     <p>Last updated: January 2024</p>
+ *   </div>
+ * </nys-verticalnav>
+ * ```
+ *
+ * @example Hidden header (aria-label used instead)
+ * ```html
+ * <nys-verticalnav navHeader="Section nav" hideHeader>
+ *   <ul>
+ *     <li><a href="/home">Home</a></li>
+ *   </ul>
+ * </nys-verticalnav>
+ * ```
  */
 
 export class NysVerticalnav extends LitElement {
