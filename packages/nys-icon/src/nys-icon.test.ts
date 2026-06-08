@@ -24,13 +24,6 @@ function svgDataUri(svg: string): string {
 // Helper: wait for async icon load to complete (fetch + Lit re-render)
 async function waitForIcon(el: NysIcon): Promise<void> {
   await el.updateComplete;
-  // Poll until the SVG appears (max 2s) to handle async file fetches across browsers.
-  for (let i = 0; i < 40; i++) {
-    await new Promise<void>((r) => setTimeout(r, 50));
-    await el.updateComplete;
-    if (el.shadowRoot?.querySelector("svg") !== null) break;
-  }
-  await el.updateComplete;
 }
 
 before(async () => {

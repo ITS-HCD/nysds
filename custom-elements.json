@@ -7758,6 +7758,25 @@
               "description": "Monotonically increasing token so stale async fetches are discarded."
             },
             {
+              "kind": "field",
+              "name": "_loadPromise",
+              "type": {
+                "text": "Promise<void> | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Promise for the in-flight icon load."
+            },
+            {
+              "kind": "field",
+              "name": "updateComplete",
+              "type": {
+                "text": "Promise<boolean>"
+              },
+              "description": "Resolves when the current icon load (if any) is complete.",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "redraw",
               "description": "Called by the icon library registry when the current library changes."

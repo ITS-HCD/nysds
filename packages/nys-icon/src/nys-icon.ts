@@ -88,6 +88,18 @@ export class NysIcon extends LitElement implements NysIconWatcher {
   /** Monotonically increasing token so stale async fetches are discarded. */
   private _loadSeq = 0;
 
+  /** Promise for the in-flight icon load. */
+  private _loadPromise: Promise<void> | null = null;
+
+  /** Resolves when the current icon load (if any) is complete. */
+  get updateComplete(): Promise<boolean> {
+    return (async () => {
+      const result = await super.updateComplete;
+      await this._loadPromise;
+      return result;
+    })();
+  }
+
   connectedCallback() {
     super.connectedCallback();
     watchIconLibrary(this.library, this);
@@ -141,37 +153,38 @@ export class NysIcon extends LitElement implements NysIconWatcher {
         changedProps.has("size"))
     ) {
       this._applyAttributes(this._svg);
-      this.requestUpdate();
     }
   }
 
-  private async _loadIcon() {
+  private _loadIcon() {
     // Bump the sequence token; any in-flight fetch with an older token
     // will be discarded when it resolves.
     const seq = ++this._loadSeq;
 
-    const lib = getIconLibrary(this.library);
-    if (!lib || !this.name) {
-      this._svg = null;
-      return;
-    }
+    this._loadPromise = (async () => {
+      const lib = getIconLibrary(this.library);
+      if (!lib || !this.name) {
+        this._svg = null;
+        return;
+      }
 
-    const url = lib.resolver(this.name);
-    if (!url) {
-      this._svg = null;
-      return;
-    }
+      const url = lib.resolver(this.name);
+      if (!url) {
+        this._svg = null;
+        return;
+      }
 
-    try {
-      const svg = await fetchIcon(url);
-      // Discard if a newer _loadIcon call was made while we were fetching.
-      if (seq !== this._loadSeq) return;
-      lib.mutator?.(svg);
-      this._applyAttributes(svg);
-      this._svg = svg;
-    } catch {
-      if (seq === this._loadSeq) this._svg = null;
-    }
+      try {
+        const svg = await fetchIcon(url);
+        // Discard if a newer _loadIcon call was made while we were fetching.
+        if (seq !== this._loadSeq) return;
+        lib.mutator?.(svg);
+        this._applyAttributes(svg);
+        this._svg = svg;
+      } catch {
+        if (seq === this._loadSeq) this._svg = null;
+      }
+    })();
   }
 
   private _applyAttributes(svg: SVGElement) {

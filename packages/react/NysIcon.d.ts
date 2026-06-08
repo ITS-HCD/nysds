@@ -59,6 +59,9 @@ export interface NysIconProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** Resolves when the current icon load (if any) is complete. */
+  updateComplete?: NysIconElement["updateComplete"];
 }
 
 /**

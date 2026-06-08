@@ -562,6 +562,8 @@ export type NysIconProps = {
     | "32"
     | "40"
     | "50";
+  /** Resolves when the current icon load (if any) is complete. */
+  updateComplete?: Promise<boolean>;
 };
 
 export type NysLabelProps = {
