@@ -14135,6 +14135,14 @@
             "name": "*",
             "module": "packages/nys-verticalnav/src/nys-verticalnav"
           }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "packages/nys-verticalnav/src/nys-verticalnavgroup"
+          }
         }
       ]
     },
@@ -14239,6 +14247,32 @@
               "kind": "method",
               "name": "renderContentMobile",
               "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_injectDividers",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "container",
+                  "type": {
+                    "text": "Element"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_injectSubheaderDividers",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "container",
+                  "type": {
+                    "text": "Element"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -14302,6 +14336,95 @@
           "declaration": {
             "name": "NysVerticalnav",
             "module": "packages/nys-verticalnav/src/nys-verticalnav.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-verticalnav/src/nys-verticalnavgroup.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`<nys-verticalnavgroup>` is collapsible dropdown group within a vertical nav",
+          "name": "NysVerticalnavGroup",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "expanded",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "_toggle",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-child-resize",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
+              "name": "expanded",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "expanded",
+              "propName": "expanded"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "nys-verticalnavgroup",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "nys-verticalnavgroup",
+          "declaration": {
+            "name": "NysVerticalnavGroup",
+            "module": "packages/nys-verticalnav/src/nys-verticalnavgroup.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "NysVerticalnavGroup",
+          "declaration": {
+            "name": "NysVerticalnavGroup",
+            "module": "packages/nys-verticalnav/src/nys-verticalnavgroup.ts"
           }
         }
       ]

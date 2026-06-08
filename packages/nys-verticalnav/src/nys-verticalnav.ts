@@ -3,6 +3,7 @@ import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
+import "./nys-verticalnavgroup";
 
 let componentIdCounter = 0;
 
@@ -39,7 +40,7 @@ export class NysVerticalnav extends LitElement {
       this.id = `nys-verticalnav-${Date.now()}-${componentIdCounter++}`;
     }
 
-    this._mediaQuery = window.matchMedia("(max-width: 767px)"); // Tablet size and below
+    this._mediaQuery = window.matchMedia("(max-width: 1023px)"); // Tablet size and below
     this._isMobile = this._mediaQuery.matches;
     this._mediaQuery.addEventListener("change", this._handleResize);
   }
@@ -70,6 +71,10 @@ export class NysVerticalnav extends LitElement {
 
     if (this._isMobile) {
       this._injectDividers(container);
+    }
+
+    if (!this._isMobile) {
+      this._injectSubheaderDividers(container);
     }
   }
 
@@ -144,11 +149,40 @@ export class NysVerticalnav extends LitElement {
   }
 
   private _injectDividers(container: Element) {
-    container.querySelectorAll("li").forEach((li) => {
+    container.querySelectorAll("ul > li").forEach((li) => {
+      // Skip if this <li> lives inside a subheader's sub-list
+      const parentLi = li.parentElement?.closest("li");
+      if (parentLi?.querySelector(":scope > :is(h1,h2,h3,h4,h5,h6)")) return;
+
       if (li.nextElementSibling) {
         const divider = document.createElement("nys-divider");
         li.insertAdjacentElement("afterend", divider);
       }
+    });
+  }
+
+  private _injectSubheaderDividers(container: Element) {
+    container.querySelectorAll("ul > li").forEach((li) => {
+      const hasSubheader = li.querySelector(
+        ":scope > :is(h1, h2, h3, h4, h5, h6)",
+      );
+
+      if (!hasSubheader) return;
+
+      // Don't double-up if previous sibling is already a divider
+      const prev = li.previousElementSibling;
+      if (!prev) return;
+      const prevIsDivider = prev.tagName.toLowerCase() === "nys-divider";
+      const prevIsDividerLi =
+        prev.tagName === "LI" &&
+        prev.children.length === 1 &&
+        prev.children[0].tagName.toLowerCase() === "nys-divider";
+      if (prevIsDivider || prevIsDividerLi) return;
+
+      li.insertAdjacentElement(
+        "beforebegin",
+        document.createElement("nys-divider"),
+      );
     });
   }
 

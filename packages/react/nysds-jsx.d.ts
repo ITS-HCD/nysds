@@ -1019,6 +1019,16 @@ export type NysVerticalnavProps = {
   headerLevel?: HeaderLevel;
 };
 
+export type NysVerticalnavGroupProps = {
+  /**  */
+  label?: string;
+  /**  */
+  expanded?: boolean;
+
+  /**  */
+  "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
+};
+
 export type NysVideoProps = {
   /** Full YouTube URL — required. Component will not render if invalid. */
   id?: string;
@@ -1605,6 +1615,16 @@ export type CustomElements = {
    *
    */
   "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
+
+  /**
+   * `<nys-verticalnavgroup>` is collapsible dropdown group within a vertical nav
+   * ---
+   *
+   *
+   * ### **Events:**
+   *  - **nys-child-resize**
+   */
+  "nys-verticalnavgroup": Partial<NysVerticalnavGroupProps & BaseProps & BaseEvents>;
 
   /**
    * YouTube video player with thumbnail preview and accessibility announcements.
