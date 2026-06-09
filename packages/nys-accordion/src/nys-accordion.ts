@@ -21,7 +21,7 @@ let accordionIdCounter = 0;
  * @cssprop [--nys-accordion-background-color--header--hover] - Background hover color of the accordion header.
  * @cssprop [--nys-accordion-content-max-width] - Maximum readable width of accordion content. Defaults to a character-based width (80ch) for readability.
  *
- * @example Basic accordion
+ * @example Basic
  * ```html
  * <nys-accordion>
  *   <nys-accordionitem heading="Section 1">Content for section 1</nys-accordionitem>
@@ -29,11 +29,19 @@ let accordionIdCounter = 0;
  * </nys-accordion>
  * ```
  *
- * @example Single-select accordion
+ * @example Single Select
  * ```html
  * <nys-accordion singleSelect bordered>
  *   <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
  *   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
+ * </nys-accordion>
+ * ```
+ *
+ * @example Bordered
+ * ```html
+ * <nys-accordion bordered>
+ *   <nys-accordionitem heading="Section A">Content for section A</nys-accordionitem>
+ *   <nys-accordionitem heading="Section B">Content for section B</nys-accordionitem>
  * </nys-accordion>
  * ```
  */

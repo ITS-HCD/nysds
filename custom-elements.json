@@ -158,13 +158,18 @@
           "summary": "Container for accordion items with optional single-select and bordered styling.",
           "examples": [
             {
-              "title": "Basic accordion",
+              "title": "Basic",
               "code": "<nys-accordion>\n<nys-accordionitem heading=\"Section 1\">Content for section 1</nys-accordionitem>\n<nys-accordionitem heading=\"Section 2\">Content for section 2</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             },
             {
-              "title": "Single-select accordion",
+              "title": "Single Select",
               "code": "<nys-accordion singleSelect bordered>\n<nys-accordionitem heading=\"FAQ 1\" expanded>Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
+            },
+            {
+              "title": "Bordered",
+              "code": "<nys-accordion bordered>\n<nys-accordionitem heading=\"Section A\">Content for section A</nys-accordionitem>\n<nys-accordionitem heading=\"Section B\">Content for section B</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
