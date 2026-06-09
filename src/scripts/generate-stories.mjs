@@ -5,10 +5,14 @@
  * Parses @example blocks from a web component's main .ts source file and
  * generates a .stories.ts file in the same directory.
  *
- * Usage:
- *   node generate-stories.mjs <path-to-component.ts>
+ * Accepts one or more file paths (glob-expanded by the shell).
+ * Only processes root components — files whose basename matches the package
+ * folder name 2 levels up (e.g. packages/nys-accordion/src/nys-accordion.ts).
+ * Subcomponents in the same directory (e.g. nys-accordionitem.ts) are detected
+ * automatically and their @example stories are appended to the root stories file.
  *
- * Example:
+ * Usage:
+ *   node generate-stories.mjs packages/nys-accordion/src/nys-accordion.ts
  *   node generate-stories.mjs packages/nys-accordion/src/nys-accordion.ts
  */
 
@@ -19,10 +23,6 @@ import path from "path";
 // Helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Parse @example blocks from a JSDoc comment string.
- * Returns an array of { name: string, html: string }.
- */
 function parseExamples(source) {
   const examples = [];
   const exampleRegex =
@@ -48,10 +48,6 @@ function parseExamples(source) {
   return examples;
 }
 
-/**
- * Convert an @example name to a valid TS export identifier.
- * e.g. "Single Select" -> "SingleSelect"
- */
 function toStoryName(name) {
   return name
     .replace(/[^a-zA-Z0-9 ]/g, "")
@@ -61,27 +57,16 @@ function toStoryName(name) {
     .join("");
 }
 
-/**
- * Parse attributes from the raw attribute string of a single opening tag.
- * Receives ONLY the attr portion (everything between tag name and >).
- *
- * Returns:
- *   booleans: string[]           — presence-only attrs, e.g. singleSelect, bordered
- *   strings:  Record<string,string> — key="value" attrs
- */
 function parseTagAttrs(attrStr) {
   const booleans = [];
   const strings = {};
 
-  // First extract key="value" or key='value', remove them from consideration
   const stringAttrRe = /([\w-]+)=["']([^"']*)["']/g;
   const remaining = attrStr.replace(stringAttrRe, (_, k, v) => {
     strings[k] = v;
-    return ""; // remove matched portion
+    return "";
   });
 
-  // What's left: standalone words are boolean attrs
-  // Match whole words that look like valid HTML attribute names (camelCase or kebab)
   const boolAttrRe = /\b([a-zA-Z][\w-]*)\b/g;
   let m;
   while ((m = boolAttrRe.exec(remaining)) !== null) {
@@ -91,12 +76,8 @@ function parseTagAttrs(attrStr) {
   return { booleans, strings };
 }
 
-/**
- * Extract all opening tags from an HTML string as { tagName, attrStr } pairs.
- */
 function extractTags(html) {
   const tags = [];
-  // Match <tagName ...attrs...> — non-greedy, stops at >
   const tagRe = /<([\w-]+)((?:\s[^>]*)?)\s*\/?>/g;
   let m;
   while ((m = tagRe.exec(html)) !== null) {
@@ -105,12 +86,6 @@ function extractTags(html) {
   return tags;
 }
 
-/**
- * Collect ALL nys- component attrs across all tags in all examples.
- * Returns { booleans: Set<string>, strings: Set<string> }
- *
- * Filters out non-argType attrs: id, style, href, target, class
- */
 const SKIP_ATTRS = new Set(["id", "style", "href", "target", "class"]);
 
 function collectAllAttrs(examples) {
@@ -131,15 +106,10 @@ function collectAllAttrs(examples) {
   return { booleans: allBooleans, strings: allStrings };
 }
 
-/**
- * Build the args object for the Basic story from the first example's HTML.
- * Pulls from root component tag + first child item tag.
- */
 function buildBasicArgs(html) {
   const args = {};
   const tags = extractTags(html);
 
-  // Root tag (first tag)
   if (tags.length > 0) {
     const { booleans, strings } = parseTagAttrs(tags[0].attrStr);
     booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => (args[b] = true));
@@ -148,7 +118,6 @@ function buildBasicArgs(html) {
       .forEach(([k, v]) => (args[k] = v));
   }
 
-  // First child item tag
   const childTag = tags.find((t) => t.tagName !== tags[0].tagName);
   if (childTag) {
     const { booleans, strings } = parseTagAttrs(childTag.attrStr);
@@ -161,9 +130,6 @@ function buildBasicArgs(html) {
   return args;
 }
 
-/**
- * Build argTypes block string.
- */
 function buildArgTypes(booleans, strings) {
   const entries = [];
   entries.push(`    id: { control: "text" }`);
@@ -176,9 +142,6 @@ function buildArgTypes(booleans, strings) {
   return entries.join(",\n");
 }
 
-/**
- * Build interface fields string.
- */
 function buildInterfaceFields(booleans, strings) {
   const lines = [];
   lines.push("  id: string;");
@@ -191,10 +154,6 @@ function buildInterfaceFields(booleans, strings) {
   return lines.join("\n");
 }
 
-/**
- * Infer Storybook title from component name.
- * nys-accordion -> Components/Accordion
- */
 function inferTitle(componentName) {
   const base = componentName
     .replace(/^nys-/, "")
@@ -204,9 +163,6 @@ function inferTitle(componentName) {
   return `Components/${base}`;
 }
 
-/**
- * Indent every non-empty line by n spaces.
- */
 function indent(str, n) {
   const pad = " ".repeat(n);
   return str
@@ -215,22 +171,12 @@ function indent(str, n) {
     .join("\n");
 }
 
-/**
- * Build the Basic (dynamic) story.
- *
- * Strategy:
- *  - Replace root tag's attrs with dynamic bindings
- *  - Replace first child item tag's attrs with dynamic bindings
- *  - Leave the rest of the HTML untouched
- */
 function buildBasicStory(example, args) {
   const html = example.html;
 
-  // --- Replace root opening tag ---
   const rootTagRe = /^(<)([\w-]+)((?:\s[^>]*)?)(\/?>)/;
   const rootTagMatch = html.match(rootTagRe);
   if (!rootTagMatch) {
-    // Fallback: fully static
     return buildStaticStory(example, "Basic");
   }
 
@@ -252,8 +198,6 @@ function buildBasicStory(example, args) {
 
   let remaining = html.slice(rootTagMatch[0].length);
 
-  // --- Replace first child item opening tag ---
-  // Match the first nys-*item or nys-*-item tag
   const childTagRe = /<([\w-]+-item|[\w-]+item)((?:\s[^>]*)?)(\/?>)/;
   const childTagMatch = remaining.match(childTagRe);
 
@@ -282,7 +226,6 @@ function buildBasicStory(example, args) {
 
   const renderHtml = `${rootReplacement}${beforeChild}${childReplacement}${afterChild}`;
 
-  // Format args block
   const argsLines = Object.entries(args)
     .map(([k, v]) => `    ${k}: ${typeof v === "boolean" ? v : `"${v}"`}`)
     .join(",\n");
@@ -306,9 +249,6 @@ ${example.html}\`,
 };`;
 }
 
-/**
- * Build a static story.
- */
 function buildStaticStory(example, nameOverride) {
   const storyName = nameOverride || toStoryName(example.name);
 
@@ -328,34 +268,89 @@ ${example.html}\`,
 };`;
 }
 
+function findSubcomponents(rootFilePath) {
+  const dir = path.dirname(rootFilePath);
+  const rootBase = path.basename(rootFilePath);
+
+  const subcomponents = [];
+
+  const entries = fs.readdirSync(dir).filter(
+    (f) =>
+      f.endsWith(".ts") &&
+      !f.endsWith(".stories.ts") &&
+      !f.endsWith(".d.ts") &&
+      f !== rootBase
+  );
+
+  for (const entry of entries) {
+    const filePath = path.join(dir, entry);
+    const source = fs.readFileSync(filePath, "utf8");
+    const examples = parseExamples(source);
+    if (examples.length > 0) {
+      subcomponents.push({
+        filePath,
+        componentName: path.basename(entry, ".ts"),
+        examples,
+      });
+    }
+  }
+
+  return subcomponents;
+}
+
+/**
+ * A file is a root component if its basename (without .ts) matches the
+ * package folder name two levels up:
+ *   packages/nys-accordion/src/nys-accordion.ts  -> nys-accordion == nys-accordion ✓
+ *   packages/nys-accordion/src/nys-accordionitem.ts -> nys-accordionitem != nys-accordion ✗
+ */
+function isRootComponent(resolvedFilePath) {
+  const fileName = path.basename(resolvedFilePath, ".ts");
+  const packageDir = path.dirname(path.dirname(resolvedFilePath));
+  const packageName = path.basename(packageDir);
+  return fileName === packageName;
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
-function main() {
-  const inputPath = process.argv[2];
-  if (!inputPath) {
-    console.error("Usage: node generate-stories.mjs <path-to-component.ts>");
-    process.exit(1);
-  }
-
+function processComponent(inputPath) {
   const resolvedInput = path.resolve(inputPath);
   if (!fs.existsSync(resolvedInput)) {
     console.error(`File not found: ${resolvedInput}`);
-    process.exit(1);
+    return;
+  }
+
+  if (!isRootComponent(resolvedInput)) {
+    console.log(`  Skipping ${path.basename(resolvedInput)} (not a root component)`);
+    return;
   }
 
   const source = fs.readFileSync(resolvedInput, "utf8");
   const componentName = path.basename(resolvedInput, ".ts");
 
-  const examples = parseExamples(source);
-  if (examples.length === 0) {
-    console.warn(`No @example blocks found in ${resolvedInput}. Skipping.`);
-    process.exit(0);
+  const rootExamples = parseExamples(source);
+  if (rootExamples.length === 0) {
+    console.warn(`  No @example blocks found in ${path.basename(resolvedInput)}. Skipping.`);
+    return;
   }
 
-  // Collect all attrs across all examples
-  const { booleans: allBooleans, strings: allStrings } = collectAllAttrs(examples);
+  const subcomponents = findSubcomponents(resolvedInput);
+  if (subcomponents.length > 0) {
+    console.log(
+      `  Found subcomponents: ${subcomponents.map((s) => s.componentName).join(", ")}`
+    );
+  }
+
+  const allExamples = [
+    ...rootExamples.map((e) => ({ ...e, isRoot: true })),
+    ...subcomponents.flatMap(({ examples }) =>
+      examples.map((e) => ({ ...e, isRoot: false }))
+    ),
+  ];
+
+  const { booleans: allBooleans, strings: allStrings } = collectAllAttrs(allExamples);
 
   const title = inferTitle(componentName);
   const interfaceName =
@@ -364,9 +359,8 @@ function main() {
       .map((w) => w[0].toUpperCase() + w.slice(1))
       .join("") + "Args";
 
-  // Collect sibling nys- component imports from all example HTML
   const usedTags = new Set();
-  examples.forEach(({ html }) => {
+  allExamples.forEach(({ html }) => {
     const tagRe = /<(nys-[\w-]+)/g;
     let m;
     while ((m = tagRe.exec(html)) !== null) {
@@ -414,8 +408,7 @@ ${buildArgTypes(allBooleans, allStrings)}
 export default meta;
 type Story = StoryObj<${interfaceName}>;`;
 
-  // Build stories
-  const storyBlocks = examples.map((example, i) => {
+  const storyBlocks = allExamples.map((example, i) => {
     if (i === 0) {
       const args = buildBasicArgs(example.html);
       return buildBasicStory(example, args);
@@ -432,6 +425,18 @@ type Story = StoryObj<${interfaceName}>;`;
 
   fs.writeFileSync(outputPath, output, "utf8");
   console.log(`✓ Generated ${outputPath}`);
+}
+
+function main() {
+  const inputPaths = process.argv.slice(2);
+  if (inputPaths.length === 0) {
+    console.error("Usage: node generate-stories.mjs <path-to-component.ts> [...]");
+    process.exit(1);
+  }
+
+  for (const inputPath of inputPaths) {
+    processComponent(inputPath);
+  }
 }
 
 main();

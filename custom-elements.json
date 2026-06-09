@@ -356,7 +356,7 @@
           "examples": [
             {
               "title": "Expanded item",
-              "code": "<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>",
+              "code": "<nys-accordion>\n<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"What documents do I need?\">\n<p>You will need a valid ID and proof of residency.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
