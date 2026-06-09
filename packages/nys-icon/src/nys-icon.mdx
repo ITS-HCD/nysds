@@ -219,6 +219,69 @@ Available values are `horizontal`, `vertical`, and `both`.
 
 <Canvas of={NysIconStories.Flip} />
 
+## Custom Icon Libraries
+
+`nys-icon` supports swappable icon libraries via `registerIconLibrary()`. Call it
+**before** your icons connect to the DOM so the resolver is in place on first render.
+
+`registerIconLibrary` accepts a library name and an object with:
+- **`resolver(name)`** — returns the full HTTP URL to the SVG for a given icon name.
+- **`mutator(svg)`** *(optional)* — post-processes the parsed `SVGElement` (e.g. set `fill="currentColor"`).
+
+The function is a named export from both the ES module and the UMD bundle:
+
+```js
+// ES module (npm / bundler)
+import { registerIconLibrary } from '@nysds/nys-icon';
+
+// UMD script tag
+// <script src="nysds.js"></script>
+// NYSDS.registerIconLibrary(...)
+```
+
+> **No npm packages required.** Point the resolver at any public CDN or your own
+> hosted path — the component fetches and caches SVGs at runtime.
+
+### Font Awesome (via jsDelivr CDN)
+
+<Canvas of={NysIconStories.FontAwesome} />
+
+### Google Material Symbols (via Google Fonts CDN)
+
+<Canvas of={NysIconStories.MaterialIcons} />
+
+### Hosting your own icons
+
+Point the resolver at any HTTP URL, including your own server or a private CDN:
+
+```js
+import { registerIconLibrary } from '@nysds/nys-icon';
+
+registerIconLibrary('brand', {
+  resolver: (name) => `https://assets.example.gov/icons/${name}.svg`,
+});
+```
+
+```html
+<nys-icon name="seal" library="brand"></nys-icon>
+```
+
+### Overriding the default NYSDS library
+
+By default, `nys-icon` resolves NYSDS icons relative to where `nysds.es.js` (or
+`nys-icon.js`) is served from, using `import.meta.url`. If your deployment copies
+the bundle to a CDN or a path where the `icons/` folder is not co-located, override
+the `"default"` library with an explicit base URL:
+
+```js
+import { registerIconLibrary } from '@nysds/nys-icon';
+
+registerIconLibrary('default', {
+  resolver: (name) =>
+    `https://cdn.example.gov/nysds/icons/${name}.svg`,
+});
+```
+
 ## Usage
 
 ### When to use this component

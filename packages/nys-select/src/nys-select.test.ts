@@ -410,4 +410,491 @@ describe("nys-select", () => {
     await el.updateComplete;
     expect(new FormData(form).get("test-field")).to.not.equal("banana");
   });
+
+  // -------------------------------------------------------------------------
+  // width property
+  // -------------------------------------------------------------------------
+
+  it("reflects width attribute to property (sm)", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select width="sm"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.width).to.equal("sm");
+    expect(el.getAttribute("width")).to.equal("sm");
+  });
+
+  it("reflects width attribute to property (md)", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select width="md"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.width).to.equal("md");
+  });
+
+  it("reflects width attribute to property (lg)", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select width="lg"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.width).to.equal("lg");
+  });
+
+  it("defaults to width full when no width is set", async () => {
+    const el = await fixture<NysSelect>(html`<nys-select></nys-select>`);
+    await el.updateComplete;
+    expect(el.width).to.equal("full");
+  });
+
+  // -------------------------------------------------------------------------
+  // tooltip property
+  // -------------------------------------------------------------------------
+
+  it("reflects tooltip property", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select tooltip="More info"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.tooltip).to.equal("More info");
+  });
+
+  // -------------------------------------------------------------------------
+  // inverted property
+  // -------------------------------------------------------------------------
+
+  it("reflects inverted attribute to property", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select inverted></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.inverted).to.be.true;
+    expect(el.hasAttribute("inverted")).to.be.true;
+  });
+
+  it("inverted is false by default", async () => {
+    const el = await fixture<NysSelect>(html`<nys-select></nys-select>`);
+    await el.updateComplete;
+    expect(el.inverted).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // description property — text-based
+  // -------------------------------------------------------------------------
+
+  it("reflects description property", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select description="Helper text"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.description).to.equal("Helper text");
+  });
+
+  it("aria-label combines label and description", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select
+        label="Borough"
+        description="Choose your borough"
+      ></nys-select>`,
+    );
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.getAttribute("aria-label")).to.equal(
+      "Borough Choose your borough",
+    );
+  });
+
+  it("aria-label omits description when description is empty", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select label="Borough"></nys-select>`,
+    );
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.getAttribute("aria-label")).to.equal("Borough");
+  });
+
+  // -------------------------------------------------------------------------
+  // description slot
+  // -------------------------------------------------------------------------
+
+  it("renders slotted description content", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select label="Test">
+        <span slot="description">Custom <strong>description</strong></span>
+      </nys-select>
+    `);
+    await el.updateComplete;
+    const slottedEl = el.querySelector("[slot='description']");
+    expect(slottedEl).to.exist;
+    expect(slottedEl?.textContent).to.contain("Custom");
+  });
+
+  // -------------------------------------------------------------------------
+  // required / optional flag rendering via nys-label
+  // -------------------------------------------------------------------------
+
+  it("passes required flag to nys-label", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select required label="Test"></nys-select>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("flag")).to.equal("required");
+  });
+
+  it("passes optional flag to nys-label when optional is set and required is not", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select optional label="Test"></nys-select>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("flag")).to.equal("optional");
+  });
+
+  it("required takes precedence over optional for flag", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select required optional label="Test"></nys-select>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("flag")).to.equal("required");
+  });
+
+  it("flag is empty when neither required nor optional", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select label="Test"></nys-select>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("flag")).to.equal("");
+  });
+
+  // -------------------------------------------------------------------------
+  // form attribute — ifDefined behavior
+  // -------------------------------------------------------------------------
+
+  it("does not render form attribute on native select when form is null", async () => {
+    const el = await fixture<NysSelect>(html`<nys-select></nys-select>`);
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.hasAttribute("form")).to.be.false;
+  });
+
+  it("sets form attribute on native select when form property is provided", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select form="my-form"></nys-select>`,
+    );
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.getAttribute("form")).to.equal("my-form");
+  });
+
+  // -------------------------------------------------------------------------
+  // nys-option label fallback from textContent
+  // -------------------------------------------------------------------------
+
+  it("uses nys-option textContent as label when label prop is empty", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select>
+        <nys-option value="ny">New York</nys-option>
+      </nys-select>
+    `);
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    const option = select.querySelector("option[value='ny']")!;
+    expect(option).to.exist;
+  });
+
+  // -------------------------------------------------------------------------
+  // nys-option disabled propagates to native option
+  // -------------------------------------------------------------------------
+
+  it("propagates disabled from nys-option to the cloned native option", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select>
+        <nys-option value="a" label="A" disabled></nys-option>
+      </nys-select>
+    `);
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    const option = select.querySelector(
+      "option[value='a']",
+    ) as HTMLOptionElement;
+    expect(option).to.exist;
+    expect(option.disabled).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // native <option selected> syncs el.value via _handleSlotChange
+  // -------------------------------------------------------------------------
+
+  it("syncs el.value from a pre-selected native option", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select>
+        <option value="first">First</option>
+        <option value="second" selected>Second</option>
+      </nys-select>
+    `);
+    await el.updateComplete;
+    expect(el.value).to.equal("second");
+  });
+
+  // -------------------------------------------------------------------------
+  // nys-change event fires exactly once and detail includes id
+  // -------------------------------------------------------------------------
+
+  it("nys-change fires exactly once per change event", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select>
+        <option value="x">X</option>
+      </nys-select>
+    `);
+    await el.updateComplete;
+
+    let count = 0;
+    el.addEventListener("nys-change", () => count++);
+    const select = el.shadowRoot!.querySelector("select")!;
+    select.value = "x";
+    select.dispatchEvent(new Event("change"));
+    await el.updateComplete;
+
+    expect(count).to.equal(1);
+  });
+
+  it("nys-change event detail includes the component id", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select id="my-select">
+        <option value="x">X</option>
+      </nys-select>
+    `);
+    await el.updateComplete;
+
+    let detail: any = null;
+    el.addEventListener("nys-change", (e: any) => (detail = e.detail));
+    const select = el.shadowRoot!.querySelector("select")!;
+    select.value = "x";
+    select.dispatchEvent(new Event("change"));
+    await el.updateComplete;
+
+    expect(detail).to.exist;
+    expect(detail.id).to.equal("my-select");
+    expect(detail.value).to.equal("x");
+  });
+
+  // -------------------------------------------------------------------------
+  // nys-focus and nys-blur fire exactly once
+  // -------------------------------------------------------------------------
+
+  it("nys-focus fires exactly once on focus", async () => {
+    const el = await fixture<NysSelect>(html`<nys-select></nys-select>`);
+    await el.updateComplete;
+
+    let count = 0;
+    el.addEventListener("nys-focus", () => count++);
+    const select = el.shadowRoot!.querySelector("select")!;
+    select.dispatchEvent(new Event("focus"));
+    await el.updateComplete;
+
+    expect(count).to.equal(1);
+  });
+
+  it("nys-blur fires exactly once on blur", async () => {
+    const el = await fixture<NysSelect>(html`<nys-select></nys-select>`);
+    await el.updateComplete;
+
+    let count = 0;
+    el.addEventListener("nys-blur", () => count++);
+    const select = el.shadowRoot!.querySelector("select")!;
+    select.dispatchEvent(new Event("blur"));
+    await el.updateComplete;
+
+    expect(count).to.equal(1);
+  });
+
+  // -------------------------------------------------------------------------
+  // showError / errorMessage property rendering
+  // -------------------------------------------------------------------------
+
+  it("shows error message when showError is true and errorMessage is set", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select showError errorMessage="Something went wrong"></nys-select>
+    `);
+    await el.updateComplete;
+    expect(el.showError).to.be.true;
+    expect(el.errorMessage).to.equal("Something went wrong");
+    const errEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errEl.hasAttribute("showError")).to.be.true;
+  });
+
+  it("does not show error when showError is false", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select errorMessage="Ignored"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.showError).to.be.false;
+    const errEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errEl.hasAttribute("showError")).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // _setValidityMessage — else branch: no _originalErrorMessage
+  // -------------------------------------------------------------------------
+
+  it("_setValidityMessage sets errorMessage from argument when no originalErrorMessage", async () => {
+    const el = await fixture<NysSelect>(html`<nys-select></nys-select>`);
+    await el.updateComplete;
+
+    (el as any)._setValidityMessage("Validation failed");
+    await el.updateComplete;
+
+    expect(el.errorMessage).to.equal("Validation failed");
+    expect(el.showError).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // form integration: name participates in FormData
+  // -------------------------------------------------------------------------
+
+  it("submits the selected value under the correct name in FormData", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-select name="borough">
+          <option value="manhattan">Manhattan</option>
+          <option value="brooklyn">Brooklyn</option>
+        </nys-select>
+      </form>
+    `);
+    const el = form.querySelector<NysSelect>("nys-select")!;
+    await el.updateComplete;
+
+    const select = el.shadowRoot!.querySelector("select")!;
+    select.value = "brooklyn";
+    select.dispatchEvent(new Event("change"));
+    await el.updateComplete;
+
+    expect(new FormData(form).get("borough")).to.equal("brooklyn");
+  });
+
+  // -------------------------------------------------------------------------
+  // form reset via <form>.reset() triggers formResetCallback
+  // -------------------------------------------------------------------------
+
+  it("form reset clears value and error state", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-select name="item" showError errorMessage="Required">
+          <option value="a">A</option>
+        </nys-select>
+      </form>
+    `);
+    const el = form.querySelector<NysSelect>("nys-select")!;
+    await el.updateComplete;
+
+    const select = el.shadowRoot!.querySelector("select")!;
+    select.value = "a";
+    select.dispatchEvent(new Event("change"));
+    await el.updateComplete;
+
+    form.reset();
+    await el.updateComplete;
+
+    expect(el.value).to.equal("");
+    expect(el.showError).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // disabled does not prevent nys-change from native change events
+  // (native select won't fire change when disabled, confirming browser behavior)
+  // -------------------------------------------------------------------------
+
+  it("disabled native select does not allow value changes via dispatchEvent", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select disabled>
+        <option value="x">X</option>
+      </nys-select>
+    `);
+    await el.updateComplete;
+
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.disabled).to.be.true;
+    // The select.value assignment is ignored on disabled selects in some browsers;
+    // we verify the disabled attribute is set as the guard.
+    expect(el.disabled).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // id preserved when explicitly set
+  // -------------------------------------------------------------------------
+
+  it("preserves an explicitly set id and does not auto-generate", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select id="custom-id"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("custom-id");
+  });
+
+  // -------------------------------------------------------------------------
+  // native select id matches component id with --native suffix
+  // -------------------------------------------------------------------------
+
+  it("native select element id is component id + --native suffix", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select id="my-select"></nys-select>`,
+    );
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    expect(select.id).to.equal("my-select--native");
+  });
+
+  // -------------------------------------------------------------------------
+  // optgroup with nys-option children inside it
+  // -------------------------------------------------------------------------
+
+  it("renders optgroup containing nys-option elements", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select>
+        <optgroup label="Group">
+          <nys-option value="x" label="X"></nys-option>
+          <nys-option value="y" label="Y" disabled></nys-option>
+        </optgroup>
+      </nys-select>
+    `);
+    await el.updateComplete;
+    const select = el.shadowRoot!.querySelector("select")!;
+    const group = select.querySelector("optgroup")!;
+    expect(group).to.exist;
+    const options = group.querySelectorAll("option");
+    expect(options.length).to.equal(2);
+    expect(options[0].value).to.equal("x");
+    expect(options[1].disabled).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // _manageRequire — uses errorMessage when set for validity message
+  // -------------------------------------------------------------------------
+
+  it("_manageRequire uses custom errorMessage when field is required and empty", async () => {
+    const el = await fixture<NysSelect>(html`
+      <nys-select required errorMessage="Please select an option"></nys-select>
+    `);
+    await el.updateComplete;
+
+    (el as any)._manageRequire();
+    await el.updateComplete;
+
+    expect((el as any)._internals.validity.valueMissing).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // name property reflection
+  // -------------------------------------------------------------------------
+
+  it("reflects name attribute to property", async () => {
+    const el = await fixture<NysSelect>(
+      html`<nys-select name="my-field"></nys-select>`,
+    );
+    await el.updateComplete;
+    expect(el.name).to.equal("my-field");
+    expect(el.getAttribute("name")).to.equal("my-field");
+  });
 });

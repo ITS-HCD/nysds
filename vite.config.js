@@ -1,9 +1,11 @@
 import { mergeConfig, defineConfig } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
+import { version } from "./package.json";
 import fs from "fs";
 import path from "path";
-import { version } from "./package.json";
-
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "fs";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 // import { minifyTemplateLiterals } from "rollup-plugin-minify-template-literals";
 // import { minify } from 'rollup-plugin-esbuild-minify';
 
@@ -37,6 +39,70 @@ function removeDemoFiles() {
     },
   };
 }
+
+export function copyIconAssets() {
+  return {
+    name: "copy-icon-assets",
+    closeBundle() {
+      const srcDir = path.resolve(__dirname, "./packages/nys-icon/dist/icons");
+      const destDir = path.resolve("dist/icons");
+
+      if (!fs.existsSync(srcDir)) {
+        console.warn(`⚠ Icon source not found: ${srcDir} (run nys-icon build first)`);
+        return;
+      }
+
+      fs.mkdirSync(destDir, { recursive: true });
+      for (const file of fs.readdirSync(srcDir)) {
+        fs.copyFileSync(path.join(srcDir, file), path.join(destDir, file));
+      }
+      console.log(`✓ Copied icon assets to dist/icons/`);
+    },
+  };
+}
+
+
+export function extractIcons() {
+  return {
+    name: "extract-icons",
+    closeBundle() {
+      const __dirname = dirname(fileURLToPath(import.meta.url));
+      const srcFile = resolve(__dirname, "./packages/nys-icon/src/nys-icon.library.ts");
+      const outDir = resolve(__dirname, "./packages/nys-icon/dist/icons");
+
+      const source = readFileSync(srcFile, "utf8");
+
+      // Match each icon entry: iconName: `<svg...>...</svg>`,
+      // Allow optional whitespace between </svg> and the closing backtick,
+      // since some entries have a newline before the backtick.
+      const iconRegex = /(\w+):\s*`(<svg[\s\S]*?<\/svg>)\s*`/g;
+      let match;
+      const names = [];
+
+      if (!existsSync(outDir)) {
+        mkdirSync(outDir, { recursive: true });
+      }
+
+      while ((match = iconRegex.exec(source)) !== null) {
+        const [, name, svg] = match;
+        // Clean up leading whitespace from template literal indentation
+        const cleaned = svg.replace(/^\s+/gm, "").trim();
+        writeFileSync(resolve(outDir, `${name}.svg`), cleaned, "utf8");
+        names.push(name);
+      }
+
+      // Write manifest with sorted icon names
+      writeFileSync(
+        resolve(outDir, "manifest.json"),
+        JSON.stringify({ icons: names.sort() }, null, 2),
+        "utf8",
+      );
+
+      console.log(`Extracted ${names.length} icons to dist/icons/`);
+    },
+  };
+}
+
 
 // Shared base config — exported for component packages to extend via mergeConfig
 export const defaultConfig = {
@@ -77,7 +143,7 @@ export const defaultConfig = {
       plugins: [
         shouldAnalyze &&
           visualizer({ filename: "dist/stats-es.html", open: true }),
-        removeDemoFiles(), // Add the cleanup plugin
+        removeDemoFiles(),
       ].filter(Boolean),
     },
   },
@@ -126,8 +192,15 @@ export default isUmd
             shouldAnalyze &&
               visualizer({ filename: "dist/stats-umd.html", open: true }),
             removeDemoFiles(),
+            copyIconAssets(),
           ].filter(Boolean),
         },
       },
     })
-  : mergeConfig(defaultConfig, {});
+  : mergeConfig(defaultConfig, {
+      build: {
+        rollupOptions: {
+          plugins: [copyIconAssets()],
+        },
+      },
+    });

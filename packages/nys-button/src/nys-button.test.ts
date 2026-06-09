@@ -138,23 +138,23 @@ describe("nys-button", () => {
     const el = await fixture<NysButton>(
       html`<nys-button
         label="With Icons"
-        prefixIcon="arrow-left"
-        suffixIcon="arrow-right"
+        prefixIcon="arrow_back"
+        suffixIcon="arrow_forward"
       ></nys-button>`,
     );
 
     const prefixIcon = el.shadowRoot?.querySelector(
-      "nys-icon[name='arrow-left']",
+      "nys-icon[name='arrow_back']",
     );
     const suffixIcon = el.shadowRoot?.querySelector(
-      "nys-icon[name='arrow-right']",
+      "nys-icon[name='arrow_forward']",
     );
     expect(prefixIcon).to.exist;
-    expect(prefixIcon!.getAttribute("name")).to.equal("arrow-left");
+    expect(prefixIcon!.getAttribute("name")).to.equal("arrow_back");
     expect(prefixIcon!.getAttribute("size")).to.equal("16");
 
     expect(suffixIcon).to.exist;
-    expect(suffixIcon!.getAttribute("name")).to.equal("arrow-right");
+    expect(suffixIcon!.getAttribute("name")).to.equal("arrow_forward");
     expect(suffixIcon!.getAttribute("size")).to.equal("16");
   });
 
@@ -175,7 +175,7 @@ describe("nys-button", () => {
     const regularEl = await fixture<NysButton>(
       html`<nys-button
         label="Regular"
-        prefixIcon="arrow"
+        prefixIcon="arrow_back"
         size="sm"
       ></nys-button>`,
     );
