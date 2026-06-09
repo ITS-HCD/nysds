@@ -29,7 +29,7 @@
   "scripts": {
     "dev": "vite",
     "gen": "plop",
-    "generate-stories": "node generate-stories.mjs packages/nys-accordion/src/nys-accordion.ts",
+    "generate-stories": "node src/scripts/generate-stories.mjs packages/nys-*/src/nys-*.ts",
     "build": "tsc --emitDeclarationOnly && vite build",
     "build:umd": "cross-env BUILD_FORMAT=umd vite build",
     "tsc:packages": "tsc -b tsconfig.build.json",
