@@ -3,6 +3,58 @@ import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 import { customElementJsxPlugin } from "custom-element-jsx-integration";
 import { cemExamplesPlugin } from "cem-plugin-examples";
 
+// Plugin to extract custom JSDoc tags (@accessibility, @usage, etc.) from source files
+import fs from "fs";
+import path from "path";
+
+const customJsDocTagsPlugin = () => ({
+  name: "nysds-jsdoc-tags",
+  packageLinkPhase({ customElementsManifest }) {
+    for (const mod of customElementsManifest.modules) {
+      if (!mod.declarations) continue;
+
+      const sourceFile = mod.path;
+      if (!fs.existsSync(sourceFile)) continue;
+
+      const content = fs.readFileSync(sourceFile, "utf-8");
+
+      for (const decl of mod.declarations) {
+        if (decl.kind !== "class") continue;
+
+        // Find the class documentation comment
+        const classNameRegex = new RegExp(
+          `(\\/\\*\\*[\\s\\S]*?\\*\\/)?\\s*export\\s+class\\s+${decl.name}`,
+          "m"
+        );
+        const match = content.match(classNameRegex);
+        if (!match || !match[1]) continue;
+
+        const docComment = match[1];
+
+        // Extract @accessibility tag
+        const accessMatch = docComment.match(
+          /@accessibility\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
+        );
+        if (accessMatch) {
+          decl.accessibility = accessMatch[1]
+            .replace(/\n\s*\*\s*/g, " ")
+            .trim();
+        }
+
+        // Extract @usage tag
+        const usageMatch = docComment.match(
+          /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
+        );
+        if (usageMatch) {
+          decl.usage = usageMatch[1]
+            .replace(/\n\s*\*\s*/g, " ")
+            .trim();
+        }
+      }
+    }
+  },
+});
+
 const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
   outdir: "./packages/react",
@@ -49,6 +101,7 @@ export default {
   litelement: true,
   /** Provide custom plugins */
   plugins: [
+    customJsDocTagsPlugin(),
     {
       name: "nysds-sorter",
       packageLinkPhase({ customElementsManifest }) {
