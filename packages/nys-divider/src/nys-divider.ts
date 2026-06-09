@@ -8,7 +8,7 @@ let dividerIdCounter = 0;
 /**
  * A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.
  *
- * * Use to separate distinct content areas within a page.
+ * Use to separate distinct content areas within a page.
  * Set `inverted` for use on dark backgrounds.
  * Set `subtle` for a lighter divider when less emphasis is needed.
  *
