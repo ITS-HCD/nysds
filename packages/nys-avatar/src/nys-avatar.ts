@@ -11,58 +11,6 @@ let avatarIdCounter = 0;
  *
  * Priority: `image` > `initials` > `icon` > default icon. Set `color` to customize background;
  * foreground auto-adjusts for contrast. Use `interactive` for clickable avatars (e.g., profile menus).
- * If an id is not passed, a unique id will be generated.
- *
- * By default, a generic icon is displayed. Personalize avatars with custom props like `icon`, `initials`, or `image`,
- * and always include an `ariaLabel` for accessibility.
- *
- * ## When to use
- *
- * To visually represent users, objects, or entities in a UI. Ideal for profiles, account settings, or comment threads.
- *
- * If the avatar doesn't add value to the context or when a simple label or text works better, consider an alternative.
- *
- * ## Variants
- *
- * - **Images:** To display an image in the avatar, set the `image` and `ariaLabel` attributes. Images will take priority and override initials and icons.
- *   You can also enable lazy loading for avatar images by setting the `lazy` boolean attribute.
- * - **Initials:** If an image is unavailable, set the `initials` attribute to display a personalized placeholder instead of an icon.
- *   Initials will take priority and override icons.
- * - **Custom Icons:** When no image or initials are set, an icon will be shown. The default avatar shows an icon called "account_circle",
- *   but you can customize this with any other name found in `<nys-icon>` using the `icon` prop or customize directly within
- *   `nys-avatar` with the icon slot.
- * - **Interactive:** Enable the `interactive` prop to apply interactive styling states and keyboard focus.
- * - **Disabled:** Use the `disabled` prop to prevent interaction and remove focusability.
- * - **Background Color:** The background color can be customized using the color attribute, accepting any valid color value or design tokens
- *   (e.g., `color="var(--nys-color-theme)"`). When an image is provided, it will overlay and fully cover the background color.
- *   The inner foreground (icon or initials) automatically switches to #000 or #fff for contrast.
- *
- * @accessibility
- *
- * The `nys-avatar` component includes the following accessibility-focused features:
- * - Proper ARIA roles and attributes to ensure screen readers can interpret the avatar correctly
- * - An `ariaLabel` property to provide accessible text for screen readers (required for screen reader users)
- *
- * ## Do's and Don'ts
- * **Do:**
- * - Use for clear, simple user or entity representation.
- * - Prefer showing the full name next to the avatar on tablets and larger breakpoints.
- * - Place the full name to the right of the avatar.
- * - Ensure the text of initial avatars meets WCAG 2.1 contrast ratio against the avatar's background.
- * - Use the `nys-icon` slot only when the icon prop isn't sufficient.
- *
- * **Don't:**
- * - Skip the `ariaLabel` attribute for screen reader users.
- * - Use the `nys-icon` slot when the icon prop can satisfy your use.
- * - Overload the avatar with unnecessary customizations.
- * - Override default avatar icons unless additional context is essential—doing so creates inconsistency.
- * Don't use the `<nys-icon>` as a slot when `icon` prop can satisfy your use.
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
  *
  * @summary User avatar with image, initials, or icon fallback and contrast-aware colors.
  * @element nys-avatar

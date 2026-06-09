@@ -17,64 +17,6 @@ import styles from "./nys-backtotop.scss?inline";
  * This places the user before the skip-navigation link so they can re-use it to jump directly
  * back to main content — and works regardless of whether the page uses `<main>` or heading landmarks.
  *
- * ## When to use
- *
- * Only use 1 back to top component on a page. Use the component when the content is designed to be longer than the height of the screen.
- *
- * Do not add multiple back to top components to one page or use when the content is designed to fill the size of the screen and is not scrollable.
- *
- * @accessibility
- *
- * The `nys-backtotop` component includes the following accessibility-focused features:
- * - Last focusable element on page load for easy keyboard navigation
- * - Keyboard navigable with Tab key
- * - Pressing Enter or Space activates the backtotop functionality
- * - Visible only when the user scrolls down the page, ensuring it does not distract from the content
- * - Focus management: After scrolling to the top, focus moves to `<body>`, placing the user before the skip-navigation link.
- *   This lets keyboard users re-activate the skip link to jump back to main content, and works reliably regardless of whether
- *   the page uses `<main>` or heading landmarks.
- *
- * ## Do's and Don'ts
- * **Do:**
- * - Place exactly one per page, above the `<nys-globalfooter>` in your markup.
- * - Set `position="left"` when the bottom-right corner is occupied by another floating element.
- * - Let the component manage its own visibility via auto-show behavior.
- *
- * **Don't:**
- * - Add multiple components to a single page.
- * - Use on pages where content fits within a single viewport.
- * - Force visibility on short pages in production—this creates unnecessary clutter.
- *
- * ## Events
- *
- * The `nys-backtotop` component emits the following events:
- * - `click`: Emitted when the backtotop is clicked
- * - `focus`: Emitted when the backtotop receives focus
- * - `blur`: Emitted when the backtotop loses focus
- *
- * ```js
- * const backtotop = document.querySelector("nys-backtotop");
- *
- * backtotop.addEventListener("click", () => {
- *   console.log("Backtotop clicked");
- * });
- *
- * backtotop.addEventListener("focus", () => {
- *   console.log("Backtotop is focused");
- * });
- *
- * backtotop.addEventListener("blur", () => {
- *   console.log("Backtotop lost focus");
- * });
- * ```
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *   - `nys-button`
- *
  * @summary Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * @element nys-backtotop
  *
