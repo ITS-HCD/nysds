@@ -21,7 +21,6 @@ const customJsDocTagsPlugin = () => ({
       for (const decl of mod.declarations) {
         if (decl.kind !== "class") continue;
 
-        // Find the class documentation comment
         const classNameRegex = new RegExp(
           `(\\/\\*\\*[\\s\\S]*?\\*\\/)?\\s*export\\s+class\\s+${decl.name}`,
           "m"
@@ -31,24 +30,31 @@ const customJsDocTagsPlugin = () => ({
 
         const docComment = match[1];
 
-        // Extract @accessibility tag
+        const extractBullets = (raw) =>
+          raw
+            .split(/\n\s*\*\s*-\s*/)
+            .map((s) => s.replace(/^\*?\s*-?\s*/, "").replace(/\n\s*\*\s*/g, " ").trim())
+            .filter(Boolean);
+
         const accessMatch = docComment.match(
           /@accessibility\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
         );
         if (accessMatch) {
-          decl.accessibility = accessMatch[1]
-            .replace(/\n\s*\*\s*/g, " ")
-            .trim();
+          decl.accessibility = extractBullets(accessMatch[1]);
         }
 
-        // Extract @usage tag
+        const contentMatch = docComment.match(
+          /@contentguide\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
+        );
+        if (contentMatch) {
+          decl.contentguide = extractBullets(contentMatch[1]);
+        }
+
         const usageMatch = docComment.match(
           /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
         );
         if (usageMatch) {
-          decl.usage = usageMatch[1]
-            .replace(/\n\s*\*\s*/g, " ")
-            .trim();
+          decl.usage = extractBullets(usageMatch[1]);
         }
       }
     }
@@ -129,7 +135,7 @@ export default {
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
     customElementJsxPlugin(jsxOpts),
-],
+  ],
   /**
    * Resolution options when using `dependencies: true`
    * For detailed information about each option, please refer to the [oxc-resolver documentation](https://github.com/oxc-project/oxc-resolver?tab=readme-ov-file#options).
