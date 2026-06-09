@@ -141,6 +141,7 @@ export const Bordered: Story = {
     docs: {
       source: {
         code: `
+
 <nys-accordion singleSelect bordered>
  <nys-accordionitem heading="We are a group of accordions" expanded>
   <p>Stronger together! Learn more at
