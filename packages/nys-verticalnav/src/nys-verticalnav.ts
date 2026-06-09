@@ -70,6 +70,7 @@ export class NysVerticalnav extends LitElement {
   @property({ type: String, reflect: true }) navHeader = "Page navigation";
   @property({ type: Boolean, reflect: true }) hideHeader = false;
   @property({ type: String, reflect: true }) headerLevel: HeaderLevel = "h2";
+  @property({ type: String, reflect: true }) activeHref = "";
 
   @state() private _isMobile = false;
   private _mediaQuery: MediaQueryList | null = null;
@@ -200,9 +201,8 @@ export class NysVerticalnav extends LitElement {
 
   private _injectDividers(container: Element) {
     container.querySelectorAll("ul > li").forEach((li) => {
-      // Skip if this <li> lives inside a subheader's sub-list
-      const parentLi = li.parentElement?.closest("li");
-      if (parentLi?.querySelector(":scope > :is(h1,h2,h3,h4,h5,h6)")) return;
+      // Skip if this <li> lives inside a nys-verticalnavgroup
+      if (li.parentElement?.closest("nys-verticalnavgroup")) return;
 
       if (li.nextElementSibling) {
         const divider = document.createElement("nys-divider");

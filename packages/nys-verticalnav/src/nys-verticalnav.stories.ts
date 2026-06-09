@@ -378,7 +378,11 @@ export const PageLayout: Story = {
               <nys-verticalnavgroup label="Accessibility">
                 <ul>
                   <li><a href="">WCAG Guidelines</a></li>
-                  <li><a href="">Screen Readers</a></li>
+                  <li>
+                    <a aria-disabled="true" tabindex="-1" href=""
+                      >Screen Readers</a
+                    >
+                  </li>
                   <li><a href="">Color Contrast</a></li>
                 </ul>
               </nys-verticalnavgroup>
@@ -387,9 +391,7 @@ export const PageLayout: Story = {
               <h3>Resources</h3>
               <ul>
                 <li>
-                  <a aria-disabled="true" tabindex="-1">
-                    href="">Design Tokens</a
-                  >
+                  <a href="">Design Tokens</a>
                 </li>
                 <li><a href="">Utilities</a></li>
                 <li><a href="">Learn</a></li>
