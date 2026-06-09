@@ -13781,6 +13781,14 @@
               "code": "<nys-icon id=\"info-icon\" name=\"info\"></nys-icon>\n<nys-tooltip for=\"info-icon\" text=\"Additional details\" position=\"right\"></nys-tooltip>",
               "lang": "html"
             }
+          ],
+          "accessibility": [
+            "Linked to trigger element via `for` attribute (must match trigger's `id`).",
+            "`role=\"tooltip\"` with dynamic `aria-hidden` based on visibility.",
+            "Keyboard accessible: Tab to trigger, Enter/Space shows tooltip, Escape dismisses.",
+            "Screen readers announce tooltip text when visible.",
+            "Visual focus indicators on trigger elements meet WCAG 2.2 AA standards.",
+            "Auto-positioning respects viewport bounds to prevent content loss."
           ]
         }
       ],
@@ -13847,6 +13855,14 @@
               "code": "<nys-globalfooter>...</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>",
               "lang": "html"
             }
+          ],
+          "accessibility": [
+            "Uses semantic `<footer>` element for assistive technology recognition.",
+            "All links are keyboard-navigable via Tab.",
+            "Proper link text for screen reader users.",
+            "Links open in same window (no target=\"_blank\") unless external policy requires otherwise.",
+            "Visual design meets WCAG 2.2 AA contrast and focus indicator standards.",
+            "Footer is not hidden from screen readers and is announced as navigation. *"
           ]
         }
       ],
@@ -14490,13 +14506,6 @@
             "Play button is properly labeled and keyboard accessible.",
             "Disabled state prevents play button interaction.",
             "Focus is transferred to the iframe once the video is loaded (for keyboard users)."
-          ],
-          "contentguide": [
-            "Keep video titles concise and descriptive (e.g., \"How to Apply for a License\" not just \"Video\").",
-            "Always provide a custom thumbnail if the auto-generated one is unclear or unappealing.",
-            "Ensure the video content is related to the page context and aligns with user expectations.",
-            "Consider using autoplay sparingly; it can be distracting and uses bandwidth.",
-            "Use `starttime` only if a specific section of the video is relevant to the page content."
           ]
         }
       ],

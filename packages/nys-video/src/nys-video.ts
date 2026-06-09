@@ -28,13 +28,6 @@ let videoIdCounter = 0;
  * - Disabled state prevents play button interaction.
  * - Focus is transferred to the iframe once the video is loaded (for keyboard users).
  *
- * @contentguide
- * - Keep video titles concise and descriptive (e.g., "How to Apply for a License" not just "Video").
- * - Always provide a custom thumbnail if the auto-generated one is unclear or unappealing.
- * - Ensure the video content is related to the page context and aligns with user expectations.
- * - Consider using autoplay sparingly; it can be distracting and uses bandwidth.
- * - Use `starttime` only if a specific section of the video is relevant to the page content.
- *
  * @summary YouTube video player with thumbnail preview and accessibility announcements.
  * @element nys-video
  *
