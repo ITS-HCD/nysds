@@ -65,25 +65,6 @@ let accordionIdCounter = 0;
  *   </nys-accordionitem>
  * </nys-accordion>
  * ```
- *
- *  *
- * @example Custom CSS Properties
- * ```html
- * <style>
- *   nys-accordion {
- *     --nys-accordion-background-color--header: var(--nys-color-theme-weaker);
- *     --nys-accordion-background-color--header--hover: var(--nys-color-theme-weak);
- *   }
- * </style>
- * <nys-accordion>
- *   <nys-accordionitem heading="Custom Styled Accordion" expanded>
- *     <p>This accordion uses custom CSS properties for header background colors and content max width.</p>
- *  </nys-accordionitem>
- *  <nys-accordionitem heading="Another Item">
- *    <p>Notice the consistent styling across items, even with custom properties.</p>
- *  </nys-accordionitem>
- * </nys-accordion>
- * ```
  */
 
 export class NysAccordion extends LitElement {
