@@ -171,6 +171,11 @@
               "title": "Bordered",
               "code": "<nys-accordion singleSelect bordered>\n<nys-accordionitem heading=\"We are a group of accordions\" expanded>\n<p>Stronger together! Learn more at\n<a href=\"https://www.ny.gov\" target=\"_blank\">ny.gov</a>\n</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Liberty Ipsum: Bridges & Boroughs\">\n<p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Hudson Ipsum: Riverfront Stories\">\n<p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
+            },
+            {
+              "title": "Custom CSS Properties",
+              "code": "<style>\nnys-accordion {\n--nys-accordion-background-color--header: var(--nys-color-theme-weaker);\n--nys-accordion-background-color--header--hover: var(--nys-color-theme-weak);\n}\n</style>\n<nys-accordion>\n<nys-accordionitem heading=\"Custom Styled Accordion\" expanded>\n<p>This accordion uses custom CSS properties for header background colors and content max width.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Another Item\">\n<p>Notice the consistent styling across items, even with custom properties.</p>\n</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
             }
           ]
         }
