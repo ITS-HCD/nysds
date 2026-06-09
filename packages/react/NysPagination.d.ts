@@ -62,7 +62,7 @@ export interface NysPaginationProps extends Pick<
 }
 
 /**
- * Page navigation with numbered links, prev/next buttons, and responsive layout.
+ * Page navigation with numbered links, Previous/Next buttons, and responsive mobile-first layout.
  * ---
  *
  *

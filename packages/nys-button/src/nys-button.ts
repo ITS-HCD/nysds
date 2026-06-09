@@ -12,6 +12,81 @@ let buttonIdCounter = 0;
  * Use `filled` for primary actions (one per section), `outline` for secondary, `ghost` for tertiary,
  * `text` for inline. Set `href` to render as a navigation link.
  *
+ * ## When to use
+ * - Buttons for the most important actions users need to take, such as Download, Sign up, or Log out.
+ * - Use `filled` for the primary action on the page (only one per section).
+ * - Use `outline` for secondary actions alongside the primary action.
+ * - Use `ghost` for additional actions beyond primary and secondary.
+ * - Use `text` for inline actions within text blocks (not for external navigation—use links instead).
+ * - Use `circle` for compact icon-only actions (like close, menu, or edit buttons).
+ *
+ * ## Variants
+ * - `filled` (default): Primary action. Use sparingly, only one per page section.
+ * - `outline`: Secondary action. Place next to or near the primary action.
+ * - `ghost`: Tertiary or uncommon actions.
+ * - `text`: Inline actions. Do NOT use for external navigation.
+ *
+ * ## Size and Layout
+ * - `sm` (40px): Dense UIs or mobile layouts.
+ * - `md` (48px, default): Standard button height.
+ * - `lg` (56px): Prominent CTAs or touch targets.
+ * - `fullWidth`: Expands button to fill container. Use for mobile stacks or single-button layouts.
+ *
+ * ## Icons
+ * - `prefixIcon`: Icon before label (hidden for `text` variant). Use Material Symbol icon names.
+ * - `suffixIcon`: Icon after label (hidden for `text` variant). Use `chevron_down` for dropdowns,
+ *   `open_in_new` for external links (when href is set).
+ * - `circle` mode: Renders a compact circular button. Requires `icon` prop. `label` is used as aria-label.
+ *   Note: `prefixIcon` and `suffixIcon` are not supported in circle mode.
+ * - Icon-only buttons without `label`: Always provide `ariaLabel` for screen reader users.
+ *
+ * ## Form behavior and accessibility
+ * - **Always set `type` explicitly** to avoid unintended form submissions. Default is `button` (no submit).
+ *   - `button`: Standard button, does not submit the form.
+ *   - `submit`: Submits the nearest form when clicked.
+ *   - `reset`: Resets form inputs to default values.
+ * - **Use `onClick` prop, not `@click` or `@keydown`**: The `onClick` handler ensures both mouse and
+ *   keyboard interactions (Enter, Space) are handled consistently, maintaining accessibility.
+ * - `aria-label`: Auto-set to `label` prop if provided, or `ariaLabel` prop if set, or defaults to "button".
+ * - Keyboard support: Enter and Space keys trigger the button.
+ * - Visual focus indicators and disabled state handling built in.
+ *
+ * ## Navigation (Link mode)
+ * - Set `href` to render as `<a>` tag instead of `<button>`.
+ * - `target` prop controls link behavior: `_self` (default), `_blank` (new tab),
+ *   `_parent`, `_top`, or a frame name.
+ * - When `target="_blank"`, add `suffixIcon="open_in_new"` for visual clarity.
+ *
+ * ## Dark backgrounds
+ * - Set `inverted` prop when the button is on a dark background to adjust colors.
+ *
+ * ## Content guidelines
+ * - Use sentence case: capitalize first word only (unless it's a proper noun).
+ * - Use action verbs: "Save", "Download", "Sign up", "Close", "Edit".
+ * - Avoid unnecessary verbs like "View", "Go", "Read" (the button context is clear).
+ * - No articles ("a", "an", "the") or punctuation.
+ * - Keep labels short and predictable. Users should know what happens when they click.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Always set the `type` attribute explicitly (`submit`, `reset`, or `button`).
+ * - Use sentence case for button labels, capitalizing only the first word.
+ * - Use `chevron_down` icon on the right for buttons that open a dropdown.
+ * - Use `filled` variant for the primary action (one per page section only).
+ * - Use `outline` variant for secondary actions.
+ *
+ * **Don't:**
+ * - Use buttons for external navigation. Use an HTML `<a>` link or `text` variant instead.
+ * - Use icons in buttons without a text label. Very few icons are universally understood.
+ * - Create custom button styles (color, shape, size). Use only the defined variants and sizes.
+ * - Use `inverted` buttons on light backgrounds—reserve for dark backgrounds only.
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *
  * @summary Button for actions and CTAs with variants, sizes, and icon support.
  * @element nys-button
  *
@@ -62,6 +137,20 @@ let buttonIdCounter = 0;
  * @example Form submit button
  * ```html
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
+ * ```
+ *
+ * @example Listening to click events
+ * ```js
+ * const button = document.querySelector('nys-button');
+ * button.addEventListener('nys-click', () => {
+ *   console.log('Button clicked');
+ * });
+ * button.addEventListener('nys-focus', () => {
+ *   console.log('Button focused');
+ * });
+ * button.addEventListener('nys-blur', () => {
+ *   console.log('Button blurred');
+ * });
  * ```
  */
 

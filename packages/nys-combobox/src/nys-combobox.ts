@@ -14,25 +14,59 @@ interface ComboboxOption {
 }
 
 /**
- * `<nys-combobox>` is a form-enabled combo box combining text input with a filterable dropdown.
+ * A form-enabled combo box combining a text input with a filterable dropdown list.
+ * Users can type to search/filter options, navigate with keyboard, and select from the list.
+ * Integrates with HTML forms via ElementInternals and handles validation.
  *
- * Features:
- * - Type to filter options
- * - Keyboard navigation (Arrow keys, Enter, Escape)
- * - Mouse and keyboard interaction
- * - Clears non-selected text on blur
- * - Clear button when value is selected
- * - Integrates with forms via ElementInternals
- * - Supports native <option> and <optgroup> elements
- * - Accessible per W3C ARIA Authoring Practices
+ * @summary Filterable combo box with keyboard navigation and form validation.
+ * @element nys-combobox
  *
  * @slot description - Optional custom description content below the label.
- * @slot default - Options (<option>, <optgroup>) to populate the dropdown
+ * @slot default - Options (`<option>`, `<optgroup>`) to populate the dropdown
  *
- * @fires nys-change - Fired when selection changes. Detail: `{ id, value }`.
- * @fires nys-input - Fired on input change. Detail: `{ id, value }`.
- * @fires nys-focus - Fired when combobox receives focus.
- * @fires nys-blur - Fired when combobox loses focus.
+ * @fires nys-change - Fired when an option is selected. Detail: `{ id, value }`.
+ * @fires nys-input - Fired while the user is typing. Detail: `{ id, value }`.
+ * @fires nys-focus - Fired when the input receives focus.
+ * @fires nys-blur - Fired when the input loses focus.
+ *
+ * @example Basic combobox
+ * ```html
+ * <nys-combobox label="Select your favorite fruit">
+ *   <option value="apple">Apple</option>
+ *   <option value="banana">Banana</option>
+ *   <option value="orange">Orange</option>
+ * </nys-combobox>
+ * ```
+ *
+ * @example With option groups
+ * ```html
+ * <nys-combobox label="Select a fruit">
+ *   <optgroup label="Citrus">
+ *     <option value="lemon">Lemon</option>
+ *     <option value="orange">Orange</option>
+ *   </optgroup>
+ *   <optgroup label="Berries">
+ *     <option value="strawberry">Strawberry</option>
+ *     <option value="blueberry">Blueberry</option>
+ *   </optgroup>
+ * </nys-combobox>
+ * ```
+ *
+ * @example Listen for selection changes
+ * ```javascript
+ * const combobox = document.querySelector('nys-combobox');
+ * combobox.addEventListener('nys-change', (event) => {
+ *   console.log('Selected value:', event.detail.value);
+ * });
+ * ```
+ *
+ * @example Listen for typing (input events)
+ * ```javascript
+ * const combobox = document.querySelector('nys-combobox');
+ * combobox.addEventListener('nys-input', (event) => {
+ *   console.log('User typed:', event.detail.value);
+ * });
+ * ```
  */
 
 export class NysCombobox extends LitElement {

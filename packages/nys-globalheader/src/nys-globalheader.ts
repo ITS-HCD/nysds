@@ -9,17 +9,96 @@ import styles from "./nys-globalheader.scss?inline";
  *
  * Place below `nys-unavheader`. Slot navigation links as `<ul><li><a>` elements; active links
  * are auto-highlighted based on current URL. Mobile menu toggles automatically on narrow screens.
+ * All slotted content is auto-sanitized to remove dangerous elements (script, iframe, object, embed, img).
+ *
+ * ## When to use
+ * - `nys-globalheader` application header should be used at the top of all agency-related sites
+ *   and applications
+ * - Place below `nys-unavheader` for consistent NYS branding
+ *
+ * Avoid for:
+ * - If an application is not for a single agency, the Agency Name can be removed
+ * - Don't use `appName` if an application is not for a single agency
+ * - Avoid adding unnecessary or unrelated content
+ *
+ * ## Naming conventions
+ * - Use `agencyName` alone for public-facing sites not tied to a specific application
+ * - Use `appName` when the application serves a single agency
+ * - Use both `appName` and `agencyName` when showing both the application and agency context
+ *
+ * ## Navigation and links
+ * For public-facing content sites, include menu links in the slot as a `<ul>` with `<li><a>` elements.
+ * Each link item should contain an anchor tag pointing to the desired destination.
+ * Applications using the Global Header typically do not include links in the header to avoid
+ * distractions and keep users on task.
+ *
+ * Active links are automatically highlighted based on the current URL path. The component performs
+ * best-match path comparison to highlight the most specific matching link.
+ *
+ * ## User actions slot
+ * Use the named slot `user-actions` to insert custom HTML content like user profile links,
+ * settings, or logout buttons into the header.
+ *
+ * ## Brand mark
+ * Set `nysLogo` to true to display the NYS brand mark in the header.
+ *
+ * @accessibility
+ * - Proper use of `<header>` and `<a>` elements ensures compatibility with assistive technologies
+ * - Keyboard navigation: Users can tab through all links in the header
+ * - Mobile menu is keyboard-accessible with proper focus management
+ * - All slotted content is validated and sanitized before rendering
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Use `agencyName` alone for public-facing agency websites that are not tied to a specific application.
+ * - Use `appName` for named applications (e.g., "Employee Time Tracker" or "License Renewal Portal").
+ * - Combine `appName` and `agencyName` when an application belongs to a specific agency.
+ * - Set `homepageLink` to make the header title clickable. On public-facing sites, this is the primary path back to the homepage.
+ * - Keep navigation link lists to 6 items or fewer. On mobile, these collapse into a full-width menu.
+ *
+ * **Don't:**
+ * - Use `appName` for an agency name. Use the `agencyName` prop instead.
+ * - Add navigation links to application headers where the user should remain focused on a task (e.g., a multi-step benefits application form).
+ * - Duplicate navigation that already exists in `<nys-globalfooter>`. The header is for primary navigation; the footer is for secondary links.
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
  *
  * @summary Agency header with navigation, mobile menu, and active link highlighting.
  * @element nys-globalheader
  *
  * @slot - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ * @slot user-actions - Custom HTML for user profile, settings, or logout buttons.
  *
  * @example Basic header
  * ```html
  * <nys-globalheader appName="My App" agencyName="Department of Health" homepageLink="/">
  *   <ul><li><a href="/about">About</a></li><li><a href="/contact">Contact</a></li></ul>
  * </nys-globalheader>
+ * ```
+ *
+ * @example Agency name only
+ * ```html
+ * <nys-globalheader agencyName="Department of Health" homepageLink="/"></nys-globalheader>
+ * ```
+ *
+ * @example With user actions
+ * ```html
+ * <nys-globalheader appName="My App" agencyName="Department of Health" homepageLink="/">
+ *   <ul><li><a href="/about">About</a></li></ul>
+ *   <div slot="user-actions">
+ *     <a href="/profile">Profile</a>
+ *     <button>Logout</button>
+ *   </div>
+ * </nys-globalheader>
+ * ```
+ *
+ * @example With brand mark
+ * ```html
+ * <nys-globalheader appName="My App" agencyName="Department of Health" nysLogo homepageLink="/"></nys-globalheader>
  * ```
  */
 

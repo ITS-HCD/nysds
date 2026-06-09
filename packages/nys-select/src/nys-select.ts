@@ -9,12 +9,12 @@ let selectIdCounter = 0;
 
 /**
  * A dropdown for selecting a single option from a list. Supports native `<option>` and `<optgroup>` elements.
- * Form-associated with validation via ElementInternals.
+ * Form-associated with validation via ElementInternals. A unique ID is auto-generated if not provided.
  *
  * Use when users must choose one option from 7+ items. For fewer options, consider `nys-radiobutton`.
- * For multiple selections, use `nys-checkbox` group instead.
+ * For multiple selections, use `nys-checkbox` group instead. Keyboard accessible with Tab, Space/Enter, and arrow keys.
  *
- * @summary Dropdown select for choosing one option from a list.
+ * @summary Dropdown select for choosing one option from a list with native options/optgroups.
  * @element nys-select
  *
  * @slot - Default slot for `<option>` and `<optgroup>` elements.
@@ -42,6 +42,37 @@ let selectIdCounter = 0;
  *   </optgroup>
  * </nys-select>
  * ```
+ *
+ * @example Listen for change events
+ * ```js
+ * const select = document.querySelector('nys-select');
+ * select.addEventListener('nys-change', (event) => {
+ *   const { id, value } = event.detail;
+ *   console.log(`Select (${id}) changed to: ${value}`);
+ * });
+ * select.addEventListener('nys-focus', () => {
+ *   console.log('Select is focused');
+ * });
+ * select.addEventListener('nys-blur', () => {
+ *   console.log('Select lost focus');
+ * });
+ * ```
+ *
+ * @example With validation and error message
+ * ```html
+ * <nys-select
+ *   label="Select an option"
+ *   required
+ *   showError
+ *   errorMessage="This field is required"
+ * >
+ *   <option value="">-- Select --</option>
+ *   <option value="option1">Option 1</option>
+ *   <option value="option2">Option 2</option>
+ * </nys-select>
+ * ```
+ *   - `nys-label`
+ *   - `nys-errormessage`
  */
 
 export class NysSelect extends LitElement {

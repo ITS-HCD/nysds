@@ -15,8 +15,66 @@ if (!customElements.get("wc-datepicker")) {
 let componentIdCounter = 0;
 
 /**
- * Date picker with calendar popup and form validation. Falls back to native date input
- * on Safari and mobile.
+ * Date picker with calendar popup and form validation. Allows users to select a single calendar date.
+ * Falls back to native date input on Safari and mobile. If no id is provided, one will be auto-generated.
+ *
+ * ## When to use
+ * - When users need to select a single calendar date
+ * - When a form requires consistent date formatting across browsers
+ * - When native date picker behavior needs to be replaced with a controlled, accessible experience
+ * - For birth dates, deadlines, and scheduling
+ *
+ * Avoid for:
+ * - Familiar dates where users know the value without a calendar (e.g., date of birth)
+ * - When the day of the week is irrelevant (e.g., birthdays, document issue dates)
+ * - When users need to select multiple dates or a span of time (consider date range component)
+ * - When time selection is required
+ *
+ * ## Value handling
+ * The value prop can be set as a Date object or an ISO date string (`YYYY-MM-DD`).
+ * Outwards, the input displays as `mm/dd/yyyy`. Internally, the component stores and submits
+ * the value as a string in ISO format.
+ *
+ * WARNING: Using `new Date("YYYY-MM-DD")` directly can produce an unexpected day due to timezone
+ * conversion (UTC vs local). Ensure your Date object represents the correct local date before passing
+ * it to `value`. Alternatively, use ISO date strings (`"YYYY-MM-DD"`) which are handled safely.
+ *
+ * Form submission sends the value as a string in `YYYY-MM-DD` format.
+ *
+ * ## Do's and Don'ts
+ * **Do:**
+ * - Set the `label` property to clearly describe what date is being collected.
+ * - Add `description` text to specify the expected format or provide context.
+ * - Set `required` when the date is mandatory for form submission.
+ * - Use `startDate` to open the calendar to a relevant month when the expected date is far from today.
+ * - Pass date values as ISO strings (`"YYYY-MM-DD"`) rather than `Date` objects to avoid timezone issues.
+ *
+ * **Don't:**
+ * - Omit the `label`—every datepicker needs one for accessibility.
+ * - Use for dates users know from memory, like date of birth (a text input is more efficient).
+ * - Rely on the calendar popup alone—Safari and mobile browsers use the native date picker.
+ *
+ * ## Width
+ * Supported widths: `md` (200px, default), `lg` (384px), `full` (100% of parent).
+ *
+ * ## Buttons and date range
+ * Use `hideTodayButton` and `hideClearButton` to hide buttons and require intentional date selection.
+ * Use `minDate` and `maxDate` to set a valid date range. Use `startDate` to guide users to a
+ * relevant time period without preselecting a date.
+ *
+ * @accessibility
+ * - Uses native `<input type="date">` semantics for screen reader support
+ * - Supports keyboard interaction to open and navigate the calendar
+ * - Applies aria-required, aria-disabled, and validation messaging
+ * - Error messages are announced via associated error messaging
+ *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-icon`
+ *   - `nys-label`
+ *   - `nys-button`
  *
  * @summary Date picker with calendar popup and native fallback.
  * @element nys-datepicker
@@ -55,6 +113,15 @@ let componentIdCounter = 0;
  *   required
  *   errorMessage="Please select a valid start date">
  * </nys-datepicker>
+ * ```
+ *
+ * @example Listening for date changes
+ * ```js
+ * const datepicker = document.querySelector("nys-datepicker");
+ * datepicker.addEventListener('nys-input', (event) => {
+ *   const { id, value } = event.detail;
+ *   console.log(`Date picker (${id}) changed to:`, value);
+ * });
  * ```
  */
 

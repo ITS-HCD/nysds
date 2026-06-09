@@ -6,10 +6,10 @@ import styles from "./nys-radiobutton.scss?inline";
 let radiobuttonIdCounter = 0;
 
 /**
- * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.
+ * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be checked.
  *
- * Use within `nys-radiogroup` for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.
- * For multiple selections, use `nys-checkbox`.
+ * **Must be used within `nys-radiogroup`** to function properly. Use for 2-6 mutually exclusive options. For 7+ options, use `nys-select`.
+ * For multiple selections, use `nys-checkbox` group. A unique ID is auto-generated if not provided.
  *
  * @summary Radio button for single selection from mutually exclusive options. This is a READONLY data component.
  * @element nys-radiobutton
@@ -26,6 +26,30 @@ let radiobuttonIdCounter = 0;
  * <nys-radiogroup label="Select borough" required>
  *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
  *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Listen for change events
+ * ```js
+ * const radiobutton = document.querySelector('nys-radiobutton');
+ * radiobutton.addEventListener('nys-change', (event) => {
+ *   const { id, checked, name, value } = event.detail;
+ *   console.log(`Radiobutton (${id}) in group "${name}" is ${value}, checked: ${checked}`);
+ * });
+ * radiobutton.addEventListener('nys-focus', () => {
+ *   console.log('Radiobutton is focused');
+ * });
+ * radiobutton.addEventListener('nys-blur', () => {
+ *   console.log('Radiobutton lost focus');
+ * });
+ * ```
+ *
+ * @example Radio group with "other" option
+ * ```html
+ * <nys-radiogroup label="Select an option">
+ *   <nys-radiobutton name="choice" value="option1" label="Option 1"></nys-radiobutton>
+ *   <nys-radiobutton name="choice" value="option2" label="Option 2"></nys-radiobutton>
+ *   <nys-radiobutton name="choice" other label="Other (please specify)"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
  */

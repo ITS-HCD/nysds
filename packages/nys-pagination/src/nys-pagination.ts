@@ -7,12 +7,14 @@ import styles from "./nys-pagination.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.
+ * Page navigation control for stepping through paginated content. Displays Previous/Next buttons, numbered page links,
+ * and automatically collapses with ellipses for many pages.
  *
- * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` for page selection.
- * Hidden automatically when `totalPages` is 1. Responsive: shows compact controls on mobile.
+ * Set `totalPages` and `currentPage` to control state. Listen to `nys-change` event for page changes.
+ * Automatically hidden when `totalPages` is 1. Responsive: shows compact icon-only buttons on mobile, full labels on desktop.
+ * A unique ID is auto-generated if not provided.
  *
- * @summary Page navigation with numbered links, prev/next buttons, and responsive layout.
+ * @summary Page navigation with numbered links, Previous/Next buttons, and responsive mobile-first layout.
  * @element nys-pagination
  *
  * @fires nys-change - Fired when page changes. Detail: `{page}`.
@@ -20,6 +22,15 @@ let componentIdCounter = 0;
  * @example Basic pagination
  * ```html
  * <nys-pagination currentPage="1" totalPages="10"></nys-pagination>
+ * ```
+ *
+ * @example Listen for page changes
+ * ```js
+ * const pagination = document.querySelector("nys-pagination");
+ * pagination.addEventListener("nys-change", (event) => {
+ *   console.log(`Page changed to ${event.detail.page}`);
+ *   // Fetch data for the new page
+ * });
  * ```
  */
 

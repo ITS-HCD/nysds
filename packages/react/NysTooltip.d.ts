@@ -53,7 +53,7 @@ export interface NysTooltipProps extends Pick<
 }
 
 /**
- * Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
+ * Contextual tooltip with auto-positioning, keyboard support, and assistive technology integration.
  * ---
  *
  */

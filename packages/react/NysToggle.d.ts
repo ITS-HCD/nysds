@@ -87,7 +87,7 @@ export interface NysToggleProps extends Pick<
 }
 
 /**
- * Toggle switch for binary settings with immediate effect.
+ * Toggle switch for binary on/off settings with immediate effect and keyboard support.
  * ---
  *
  *
@@ -97,6 +97,6 @@ export interface NysToggleProps extends Pick<
  * - **nys-blur** - Fired when toggle loses focus.
  *
  * ### **Slots:**
- *  - **description** - Custom HTML description content.
+ *  - **description** - Custom HTML description content below the label. Use for rich formatting or links.
  */
 export const NysToggle: React.ForwardRefExoticComponent<NysToggleProps>;

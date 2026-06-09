@@ -41,7 +41,7 @@ export interface NysUnavFooterProps extends Pick<
 }
 
 /**
- * Universal NYS footer with logo and statewide links. Required site-wide.
+ * Universal NYS footer with logo and statewide links. Required on all sites.
  * ---
  *
  */

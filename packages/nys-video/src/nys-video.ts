@@ -13,24 +13,87 @@ declare global {
 let videoIdCounter = 0;
 
 /**
- * A YouTube video player with a thumbnail preview and play button.
- * Loads the iframe only after the user clicks play, keeping initial page load light.
- * Supports autoplay (muted), custom thumbnails, start time, lazy loading, and disabled state.
+ * A YouTube video player with a thumbnail preview and play button overlay.
+ * Loads the YouTube iframe only after the user clicks play, keeping initial page load fast and reducing data usage.
+ * Supports autoplay (muted for browser policies), custom thumbnails, start time, lazy loading, and disabled state.
  * Announces playback state and ad state to screen readers via a live region.
  *
- * For use with YouTube URLs only. Component renders nothing if the URL is invalid.
+ * For use with YouTube URLs only (youtube.com, youtu.be, youtube.com/shorts).
+ * Component renders nothing if the URL is invalid or malformed.
  *
- * @summary YouTube video player with thumbnail preview and accessibility announcements.
+ * ## When to use
+ * - Embed YouTube videos on pages where bandwidth or load time matters.
+ * - Provide context with a title and thumbnail; users must explicitly consent to load the video.
+ * - Use `autoplay` sparingly; only for hero videos or when the video is the primary page content (muted by default).
+ * - Set `starttime` to begin playback at a specific timestamp (in seconds).
+ * - Use `disabled` to prevent playback in certain contexts (e.g., when content is restricted).
+ *
+ * ## Variants
+ * - **Preview thumbnail**: Shows YouTube's auto-generated thumbnail with a play button overlay.
+ * - **Custom thumbnail**: Provide a `thumbnail` URL to override YouTube's default thumbnail.
+ * - **Autoplay muted**: Set `autoplay` to load and auto-play the video on page load (muted for browser policy compliance).
+ * - **Start time**: Set `starttime` (in seconds) to skip to a specific point in the video.
+ * - **Lazy loading**: Set `loading="lazy"` (default) for deferred iframe load; `"eager"` for immediate load.
+ * - **Size variants**: `"full"` (responsive, fills container), `"md"` (medium), `"sm"` (small), or auto-sized if not set.
+ *
+ * @accessibility
+ * - Title text is announced to screen readers when the video is not yet loaded.
+ * - When the video loads, the iframe title and aria-label are set to the `titleText`.
+ * - Live region announces playback state ("Video is playing", "Advertisement is playing").
+ * - Play button is properly labeled and keyboard accessible.
+ * - Disabled state prevents play button interaction.
+ * - Focus is transferred to the iframe once the video is loaded (for keyboard users).
+ *
+ * ## Content Guidelines
+ * - Keep video titles concise and descriptive (e.g., "How to Apply for a License" not just "Video").
+ * - Always provide a custom thumbnail if the auto-generated one is unclear or unappealing.
+ * - Ensure the video content is related to the page context and aligns with user expectations.
+ * - Consider using autoplay sparingly; it can be distracting and uses bandwidth.
+ * - Use `starttime` only if a specific section of the video is relevant to the page content.
+ *
+ * ## Dependencies
+ *
+ *  This component has no dependencies on other NYS Design System components.
+ *
+ * @summary YouTube video player with lazy-loaded iframe and accessibility announcements.
  * @element nys-video
  *
- * @fires nys-video-play - Fired when the user clicks the thumbnail to load the player.
+ * @fires nys-video-play - Fired when the user clicks the thumbnail to load and play the video.
+ *   Does not fire if `autoplay` is set (video loads automatically).
  *
- * @example Basic usage
+ * @example Basic usage with auto-generated thumbnail
  * ```html
  * <nys-video
  *   videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
  *   titleText="Video Title"
  * ></nys-video>
+ * ```
+ *
+ * @example With custom thumbnail and start time
+ * ```html
+ * <nys-video
+ *   videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+ *   titleText="Rick Astley - Never Gonna Give You Up"
+ *   thumbnail="https://custom-thumbnail.jpg"
+ *   starttime="30"
+ * ></nys-video>
+ * ```
+ *
+ * @example With autoplay (muted)
+ * ```html
+ * <nys-video
+ *   videourl="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+ *   titleText="Hero Video"
+ *   autoplay
+ * ></nys-video>
+ * ```
+ *
+ * @example Listen for video play
+ * ```javascript
+ * const video = document.querySelector('nys-video');
+ * video.addEventListener('nys-video-play', () => {
+ *   console.log('User clicked play');
+ * });
  * ```
  */
 

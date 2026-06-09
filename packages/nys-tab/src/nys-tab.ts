@@ -3,33 +3,62 @@ import { property } from "lit/decorators.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-tab.scss?inline";
 
-/** @internal Monotonically increasing counter used to generate unique element IDs. */
+/** @internal Monotonically increasing counter used to generate unique element IDs.  *
+ * ## Dependencies
+ *
+ * This component depends on the following NYS Design System components:
+ *
+ *   - `nys-button`
+ */
 let componentIdCounter = 0;
 
 /**
- * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
+ * A single tab within a `<nys-tabgroup>` container. Each tab has a label and is associated with a panel via `<nys-tabpanel>`.
+ * The host element carries `role="tab"`, `tabindex`, `aria-selected`, `aria-controls`, and `aria-disabled`
+ * so assistive technologies see the correct ARIA tab semantics on the element that is actually focused.
+ * `<nys-tabgroup>` manages tab selection, focus, and keyboard navigation; do not set these attributes directly.
  *
- * The host element carries `role="tab"`, `tabindex`, `aria-selected`,
- * `aria-controls`, and `aria-disabled` so assistive technologies see the
- * correct ARIA tab semantics on the element that is actually focused.
- * `<nys-tabgroup>` manages `tabindex`, `aria-selected`, and `aria-controls`
- * via `_applySelection`; do not set them directly on this element.
+ * ## When to use
+ * - Organize related content into logical sections/views.
+ * - Allow users to switch between views without navigating away from the page.
+ * - Use for tabbed interfaces with 2-6 logical categories (more tabs may overwhelm users).
+ * - Each tab should represent a distinct topic or context, not steps in a workflow (use Stepper for that).
+ * - Always wrap tabs in a `<nys-tabgroup>` container; do not use tabs standalone.
+ *
+ * ## Variants
+ * - **Default tab**: Label is visible; not selected, not disabled.
+ * - **Selected tab**: Set `selected` to mark the active tab (usually the first tab by default).
+ * - **Disabled tab**: Set `disabled` to prevent selection; the tab is hidden from keyboard and mouse interaction.
+ * - **Tab with long label**: Labels should be concise (1-3 words); long labels wrap to multiple lines.
+ *
+ * @accessibility
+ * - Host element is the interactive control; receives `role="tab"` and `tabindex`.
+ * - `aria-selected` indicates the currently active tab.
+ * - `aria-controls` links the tab to its corresponding panel.
+ * - `aria-disabled` reflects the disabled state.
+ * - Keyboard support managed by `<nys-tabgroup>`: Arrow Left/Right to navigate, Home/End to jump to first/last.
+ * - Enter/Space activates a tab; focus does not activate it (manual, not automatic activation).
+ * - Screen readers announce the tab's label, selected state, and position in the tab list.
+ *
+ * ## Content Guidelines
+ * - Keep tab labels short and descriptive (e.g., "Overview", "Details", "Reviews").
+ * - Use sentence case or title case consistently.
+ * - Avoid special characters or very long labels.
+ * - Ensure each tab represents distinct content or functionality.
  *
  * @element nys-tab
  *
- * @fires nys-tab-select - Dispatched when the tab is activated via click or
- *   Enter / Space. Bubbles and crosses shadow DOM boundaries.
- *   `detail: { id: string, label: string }`
- * @fires nys-tab-focus - Dispatched when the host receives focus. Bubbles and
- *   crosses shadow DOM boundaries. `detail: { id: string }`
- * @fires nys-tab-blur - Dispatched when the host loses focus. Bubbles and
- *   crosses shadow DOM boundaries. `detail: { id: string }`
+ * @fires nys-tab-select - Fired when the tab is activated via click or Enter / Space.
+ *   Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string, label: string }`
+ * @fires nys-tab-focus - Fired when the tab receives keyboard focus (does not activate the tab).
+ *   Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }`
+ * @fires nys-tab-blur - Fired when the tab loses keyboard focus.
+ *   Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }`
  *
  * @slot - No slots; content is derived from the `label` property.
  *
- * @example `<nys-tab>` and `<nys-tabpanel>` should always be wrapped by `<nys-tabgroup>`
+ * @example Basic tab group (always use with nys-tabgroup)
  * ```html
- * <!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->
  * <nys-tabgroup name="My Tabs">
  *   <nys-tab label="Overview"></nys-tab>
  *   <nys-tab label="Details" selected></nys-tab>
@@ -38,6 +67,22 @@ let componentIdCounter = 0;
  *   <nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>
  *   <nys-tabpanel><p>Archived content</p></nys-tabpanel>
  * </nys-tabgroup>
+ * ```
+ *
+ * @example Listen for tab selection
+ * ```javascript
+ * const tabgroup = document.querySelector('nys-tabgroup');
+ * tabgroup.addEventListener('nys-tab-select', (event) => {
+ *   console.log('Tab selected:', event.detail.id, event.detail.label);
+ * });
+ * ```
+ *
+ * @example Listen for focus changes
+ * ```javascript
+ * const tabgroup = document.querySelector('nys-tabgroup');
+ * tabgroup.addEventListener('nys-tab-focus', (event) => {
+ *   console.log('Tab focused:', event.detail.id);
+ * });
  * ```
  */
 export class NysTab extends LitElement {

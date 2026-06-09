@@ -59,7 +59,7 @@ export interface NysIconProps extends Pick<
 }
 
 /**
- * SVG icon from Material Symbols library with size, rotation, and color options.
+ * SVG icon from Material Symbols library with size, rotation, flip, and color options.
  * ---
  *
  */

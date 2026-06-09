@@ -193,10 +193,8 @@ The user can still expand the trail by clicking the ellipsis. */
   /** Prevents interaction. */
   disabled?: boolean;
 
-  /**  */
+  /** Fired when the user clicks the ellipsis to expand the collapsed trail. Detail: `{ id: string }` */
   "onnys-expand"?: (e: CustomEvent<CustomEvent>) => void;
-  /** Fired when the user clicks the ellipsis to expand the trail. */
-  "onnys-breadcrumbs-expand"?: (e: CustomEvent<never>) => void;
 };
 
 export type NysButtonProps = {
@@ -358,13 +356,13 @@ export type NysComboboxProps = {
   /**  */
   errorMessage?: string;
 
-  /** Fired on input change. Detail: `{ id, value }`. */
+  /** Fired while the user is typing. Detail: `{ id, value }`. */
   "onnys-input"?: (e: CustomEvent<CustomEvent>) => void;
-  /** Fired when combobox receives focus. */
+  /** Fired when the input receives focus. */
   "onnys-focus"?: (e: CustomEvent<Event>) => void;
-  /** Fired when combobox loses focus. */
+  /** Fired when the input loses focus. */
   "onnys-blur"?: (e: CustomEvent<Event>) => void;
-  /** Fired when selection changes. Detail: `{ id, value }`. */
+  /** Fired when an option is selected. Detail: `{ id, value }`. */
   "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
@@ -793,11 +791,11 @@ Managed by `<nys-tabgroup>`; reflected for CSS attribute selectors. */
 Reflected to the DOM attribute for CSS styling. */
   disabled?: boolean;
 
-  /** Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }` */
+  /** Fired when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string, label: string }` */
   "onnys-tab-select"?: (e: CustomEvent<CustomEvent>) => void;
-  /** Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Fired when the tab receives keyboard focus (does not activate the tab). Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }` */
   "onnys-tab-focus"?: (e: CustomEvent<never>) => void;
-  /** Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Fired when the tab loses keyboard focus. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }` */
   "onnys-tab-blur"?: (e: CustomEvent<never>) => void;
 };
 
@@ -833,9 +831,7 @@ export type NysTableProps = {
   /**  */
   download?: string;
 
-  /** Fired when the download button or sortable headers are clicked. */
-  "onnys-click"?: (e: CustomEvent<never>) => void;
-  /** Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" } */
+  /** Fired when a sortable column header is clicked. Can be prevented with `event.preventDefault()`. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" } */
   "onnys-column-sort"?: (e: CustomEvent<never>) => void;
 };
 
@@ -879,7 +875,7 @@ export type NysTextareaProps = {
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: string;
 
-  /** Fired on input change. Detail: `{id, value}`. */
+  /** Fired when textarea text changes. Detail: `{id, value}`. */
   "onnys-input"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when textarea gains focus. */
   "onnys-focus"?: (e: CustomEvent<Event>) => void;
@@ -939,7 +935,7 @@ export type NysTextinputProps = {
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: string;
 
-  /** Fired on input change. Detail: `{id, value}`. */
+  /** Fired when input text changes. Detail: `{id, value}`. */
   "onnys-input"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when input gains focus. */
   "onnys-focus"?: (e: CustomEvent<Event>) => void;
@@ -1035,7 +1031,7 @@ Falls back to YouTube's auto-generated thumbnail if not provided. */
   /** Prevents the video from being played */
   disabled?: boolean;
 
-  /** Fired when the user clicks the thumbnail to load the player. */
+  /** Fired when the user clicks the thumbnail to load and play the video. Does not fire if `autoplay` is set (video loads automatically). */
   "onnys-video-play"?: (e: CustomEvent<never>) => void;
 };
 
@@ -1111,11 +1107,10 @@ export type CustomElements = {
    *
    *
    * ### **Events:**
-   *  - **nys-expand**
-   * - **nys-breadcrumbs-expand** - Fired when the user clicks the ellipsis to expand the trail.
+   *  - **nys-expand** - Fired when the user clicks the ellipsis to expand the collapsed trail. Detail: `{ id: string }`
    *
    * ### **Slots:**
-   *  - _default_ - One or more `nys-breadcrumbitem` elements defining the trail.
+   *  - _default_ - One or more `<li>` elements within an `<ol>` to define the trail.
    */
   "nys-breadcrumbs": Partial<NysBreadcrumbsProps & BaseProps & BaseEvents>;
 
@@ -1181,29 +1176,19 @@ export type CustomElements = {
   "nys-checkboxgroup": Partial<NysCheckboxgroupProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-combobox>` is a form-enabled combo box combining text input with a filterable dropdown.
-   *
-   * Features:
-   * - Type to filter options
-   * - Keyboard navigation (Arrow keys, Enter, Escape)
-   * - Mouse and keyboard interaction
-   * - Clears non-selected text on blur
-   * - Clear button when value is selected
-   * - Integrates with forms via ElementInternals
-   * - Supports native <option> and <optgroup> elements
-   * - Accessible per W3C ARIA Authoring Practices
+   * Filterable combo box with keyboard navigation and form validation.
    * ---
    *
    *
    * ### **Events:**
-   *  - **nys-input** - Fired on input change. Detail: `{ id, value }`.
-   * - **nys-focus** - Fired when combobox receives focus.
-   * - **nys-blur** - Fired when combobox loses focus.
-   * - **nys-change** - Fired when selection changes. Detail: `{ id, value }`.
+   *  - **nys-input** - Fired while the user is typing. Detail: `{ id, value }`.
+   * - **nys-focus** - Fired when the input receives focus.
+   * - **nys-blur** - Fired when the input loses focus.
+   * - **nys-change** - Fired when an option is selected. Detail: `{ id, value }`.
    *
    * ### **Slots:**
    *  - **description** - Optional custom description content below the label.
-   * - **default** - Options (<option>, <optgroup>) to populate the dropdown
+   * - **default** - Options (`<option>`, `<optgroup>`) to populate the dropdown
    */
   "nys-combobox": Partial<NysComboboxProps & BaseProps & BaseEvents>;
 
@@ -1295,18 +1280,19 @@ export type CustomElements = {
    *
    * ### **Slots:**
    *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+   * - **user-actions** - Custom HTML for user profile, settings, or logout buttons.
    */
   "nys-globalheader": Partial<NysGlobalHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   * SVG icon from Material Symbols library with size, rotation, and color options.
+   * SVG icon from Material Symbols library with size, rotation, flip, and color options.
    * ---
    *
    */
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
-   * Internal label component for form fields with flag and tooltip support.
+   * Internal label component for form fields with flag, description, tooltip, and dark mode support.
    * ---
    *
    *
@@ -1319,7 +1305,7 @@ export type CustomElements = {
   "nys-label": Partial<NysLabelProps & BaseProps & BaseEvents>;
 
   /**
-   * Accessible modal dialog with focus trap, keyboard support, and action slots.
+   * Accessible modal dialog with focus trap, keyboard support, scroll lock, and mandatory action mode.
    * ---
    *
    *
@@ -1334,7 +1320,7 @@ export type CustomElements = {
   "nys-modal": Partial<NysModalProps & BaseProps & BaseEvents>;
 
   /**
-   * Page navigation with numbered links, prev/next buttons, and responsive layout.
+   * Page navigation with numbered links, Previous/Next buttons, and responsive mobile-first layout.
    * ---
    *
    *
@@ -1385,7 +1371,7 @@ export type CustomElements = {
   "nys-option": Partial<NysOptionProps & BaseProps & BaseEvents>;
 
   /**
-   * Dropdown select for choosing one option from a list.
+   * Dropdown select for choosing one option from a list with native options/optgroups.
    * ---
    *
    *
@@ -1433,20 +1419,30 @@ export type CustomElements = {
   "nys-stepper": Partial<NysStepperProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
+   * A single tab within a `<nys-tabgroup>` container. Each tab has a label and is associated with a panel via `<nys-tabpanel>`.
+   * The host element carries `role="tab"`, `tabindex`, `aria-selected`, `aria-controls`, and `aria-disabled`
+   * so assistive technologies see the correct ARIA tab semantics on the element that is actually focused.
+   * `<nys-tabgroup>` manages tab selection, focus, and keyboard navigation; do not set these attributes directly.
    *
-   * The host element carries `role="tab"`, `tabindex`, `aria-selected`,
-   * `aria-controls`, and `aria-disabled` so assistive technologies see the
-   * correct ARIA tab semantics on the element that is actually focused.
-   * `<nys-tabgroup>` manages `tabindex`, `aria-selected`, and `aria-controls`
-   * via `_applySelection`; do not set them directly on this element.
+   * ## When to use
+   * - Organize related content into logical sections/views.
+   * - Allow users to switch between views without navigating away from the page.
+   * - Use for tabbed interfaces with 2-6 logical categories (more tabs may overwhelm users).
+   * - Each tab should represent a distinct topic or context, not steps in a workflow (use Stepper for that).
+   * - Always wrap tabs in a `<nys-tabgroup>` container; do not use tabs standalone.
+   *
+   * ## Variants
+   * - **Default tab**: Label is visible; not selected, not disabled.
+   * - **Selected tab**: Set `selected` to mark the active tab (usually the first tab by default).
+   * - **Disabled tab**: Set `disabled` to prevent selection; the tab is hidden from keyboard and mouse interaction.
+   * - **Tab with long label**: Labels should be concise (1-3 words); long labels wrap to multiple lines.
    * ---
    *
    *
    * ### **Events:**
-   *  - **nys-tab-select** - Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }`
-   * - **nys-tab-focus** - Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
-   * - **nys-tab-blur** - Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+   *  - **nys-tab-select** - Fired when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string, label: string }`
+   * - **nys-tab-focus** - Fired when the tab receives keyboard focus (does not activate the tab). Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }`
+   * - **nys-tab-blur** - Fired when the tab loses keyboard focus. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }`
    *
    * ### **Methods:**
    *  - **focus(options: _FocusOptions_): _void_** - Focuses the host element. The host carries `role="tab"` and `tabindex`,
@@ -1499,14 +1495,12 @@ export type CustomElements = {
   "nys-tabpanel": Partial<NysTabpanelProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-table>` is a responsive table component that can display native HTML tables,
-   * supports striped and bordered styling, sortable columns, and CSV download.
+   * Responsive table with striping, borders, sortable columns, and CSV download.
    * ---
    *
    *
    * ### **Events:**
-   *  - **nys-click** - Fired when the download button or sortable headers are clicked.
-   * - **nys-column-sort** - Fired when a sortable column header is clicked.  Can be prevented by calling `event.preventDefault()` to override default sort behavior. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
+   *  - **nys-column-sort** - Fired when a sortable column header is clicked. Can be prevented with `event.preventDefault()`. Detail: { columnIndex: number, columnLabel: string, sortDirection: "asc" | "desc" | "none" }
    *
    * ### **Slots:**
    *  - _default_ - Accepts a `<table>` element. Only the first table is rendered.
@@ -1514,12 +1508,12 @@ export type CustomElements = {
   "nys-table": Partial<NysTableProps & BaseProps & BaseEvents>;
 
   /**
-   * Multi-line text input for comments, descriptions, and feedback.
+   * Multi-line text input for comments, descriptions, and feedback with validation.
    * ---
    *
    *
    * ### **Events:**
-   *  - **nys-input** - Fired on input change. Detail: `{id, value}`.
+   *  - **nys-input** - Fired when textarea text changes. Detail: `{id, value}`.
    * - **nys-focus** - Fired when textarea gains focus.
    * - **nys-blur** - Fired when textarea loses focus. Triggers validation.
    * - **nys-select** - Fired when user selects text. Detail: `{id, value}`.
@@ -1530,17 +1524,17 @@ export type CustomElements = {
    * --------------------------------------------------------------------------
    *
    * ### **Slots:**
-   *  - **description** - Custom HTML description content below the label.
+   *  - **description** - Custom HTML description content below the label. Use for rich formatting or links.
    */
   "nys-textarea": Partial<NysTextareaProps & BaseProps & BaseEvents>;
 
   /**
-   * Text input for short single-line data with validation and masking support.
+   * Single-line text input with type variants, masking, validation, and button slots.
    * ---
    *
    *
    * ### **Events:**
-   *  - **nys-input** - Fired on input change. Detail: `{id, value}`.
+   *  - **nys-input** - Fired when input text changes. Detail: `{id, value}`.
    * - **nys-focus** - Fired when input gains focus.
    * - **nys-blur** - Fired when input loses focus. Triggers validation.
    *
@@ -1549,14 +1543,14 @@ export type CustomElements = {
    * --------------------------------------------------------------------------
    *
    * ### **Slots:**
-   *  - **description** - Custom HTML description content below the label.
-   * - **startButton** - Button at input start. Use single `nys-button` only.
-   * - **endButton** - Button at input end. Use single `nys-button` only.
+   *  - **description** - Custom HTML description content below the label. Use for rich formatting or links.
+   * - **startButton** - Single `<nys-button>` to appear at input start (left). Will be sized to `sm`.
+   * - **endButton** - Single `<nys-button>` to appear at input end (right). Will be sized to `sm`.
    */
   "nys-textinput": Partial<NysTextinputProps & BaseProps & BaseEvents>;
 
   /**
-   * Toggle switch for binary settings with immediate effect.
+   * Toggle switch for binary on/off settings with immediate effect and keyboard support.
    * ---
    *
    *
@@ -1566,19 +1560,19 @@ export type CustomElements = {
    * - **nys-blur** - Fired when toggle loses focus.
    *
    * ### **Slots:**
-   *  - **description** - Custom HTML description content.
+   *  - **description** - Custom HTML description content below the label. Use for rich formatting or links.
    */
   "nys-toggle": Partial<NysToggleProps & BaseProps & BaseEvents>;
 
   /**
-   * Contextual tooltip with auto-positioning, keyboard support, and screen reader integration.
+   * Contextual tooltip with auto-positioning, keyboard support, and assistive technology integration.
    * ---
    *
    */
   "nys-tooltip": Partial<NysTooltipProps & BaseProps & BaseEvents>;
 
   /**
-   * Universal NYS footer with logo and statewide links. Required site-wide.
+   * Universal NYS footer with logo and statewide links. Required on all sites.
    * ---
    *
    */
@@ -1592,12 +1586,12 @@ export type CustomElements = {
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   * YouTube video player with thumbnail preview and accessibility announcements.
+   * YouTube video player with lazy-loaded iframe and accessibility announcements.
    * ---
    *
    *
    * ### **Events:**
-   *  - **nys-video-play** - Fired when the user clicks the thumbnail to load the player.
+   *  - **nys-video-play** - Fired when the user clicks the thumbnail to load and play the video. Does not fire if `autoplay` is set (video loads automatically).
    */
   "nys-video": Partial<NysVideoProps & BaseProps & BaseEvents>;
 };

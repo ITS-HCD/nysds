@@ -13,6 +13,7 @@ let checkboxIdCounter = 0;
  *
  * Use for binary decisions (agree/disagree) or selecting multiple options from a list.
  * For single selection from 2-6 options, use `nys-radiobutton`. For immediate state changes, use `nys-toggle`.
+ * If an `id` is not passed, a unique `id` will be generated.
  *
  * @summary Checkbox for binary choices or multi-select options.
  * @element nys-checkbox

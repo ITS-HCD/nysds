@@ -6,17 +6,19 @@ import styles from "./nys-breadcrumbs.scss?inline";
 let componentIdCounter = 0;
 
 /**
- * A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.
- * Collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
+ * A breadcrumb navigation trail helping users understand their location within a site hierarchy.
+ * Composed of `<ol>` and `<li>` elements with optional `<a>` links.
+ * Automatically collapses when the trail exceeds 5 items on desktop or 3 items on mobile,
  * showing the first, last, and item before the current page, with an ellipsis to expand.
  * A single item renders as a back-to-parent link instead of a trail.
  *
  * @summary Breadcrumb navigation trail with responsive collapse support.
  * @element nys-breadcrumbs
  *
- * @slot - One or more `nys-breadcrumbitem` elements defining the trail.
+ * @slot - One or more `<li>` elements within an `<ol>` to define the trail.
  *
- * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
+ * @fires nys-expand - Fired when the user clicks the ellipsis to expand the collapsed trail.
+ *   Detail: `{ id: string }`
  *
  * @example Full trail with current page
  * ```html
@@ -46,6 +48,14 @@ let componentIdCounter = 0;
  *   <li><a href="/services">Services</a></li>
  *  </ol>
  * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Listen for expand event
+ * ```javascript
+ * const breadcrumbs = document.querySelector('nys-breadcrumbs');
+ * breadcrumbs.addEventListener('nys-expand', (event) => {
+ *   console.log('Trail expanded, id:', event.detail.id);
+ * });
  * ```
  */
 

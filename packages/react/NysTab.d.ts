@@ -54,31 +54,41 @@ Reflected to the DOM attribute so `aria-controls` references resolve. */
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }` */
+  /** Fired when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string, label: string }` */
   onNysTabSelect?: (event: CustomEvent) => void;
 
-  /** Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Fired when the tab receives keyboard focus (does not activate the tab). Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }` */
   onNysTabFocus?: (event: CustomEvent) => void;
 
-  /** Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }` */
+  /** Fired when the tab loses keyboard focus. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }` */
   onNysTabBlur?: (event: CustomEvent) => void;
 }
 
 /**
- * `<nys-tab>` is a single tab within a `<nys-tabgroup>`.
+ * A single tab within a `<nys-tabgroup>` container. Each tab has a label and is associated with a panel via `<nys-tabpanel>`.
+ * The host element carries `role="tab"`, `tabindex`, `aria-selected`, `aria-controls`, and `aria-disabled`
+ * so assistive technologies see the correct ARIA tab semantics on the element that is actually focused.
+ * `<nys-tabgroup>` manages tab selection, focus, and keyboard navigation; do not set these attributes directly.
  *
- * The host element carries `role="tab"`, `tabindex`, `aria-selected`,
- * `aria-controls`, and `aria-disabled` so assistive technologies see the
- * correct ARIA tab semantics on the element that is actually focused.
- * `<nys-tabgroup>` manages `tabindex`, `aria-selected`, and `aria-controls`
- * via `_applySelection`; do not set them directly on this element.
+ * ## When to use
+ * - Organize related content into logical sections/views.
+ * - Allow users to switch between views without navigating away from the page.
+ * - Use for tabbed interfaces with 2-6 logical categories (more tabs may overwhelm users).
+ * - Each tab should represent a distinct topic or context, not steps in a workflow (use Stepper for that).
+ * - Always wrap tabs in a `<nys-tabgroup>` container; do not use tabs standalone.
+ *
+ * ## Variants
+ * - **Default tab**: Label is visible; not selected, not disabled.
+ * - **Selected tab**: Set `selected` to mark the active tab (usually the first tab by default).
+ * - **Disabled tab**: Set `disabled` to prevent selection; the tab is hidden from keyboard and mouse interaction.
+ * - **Tab with long label**: Labels should be concise (1-3 words); long labels wrap to multiple lines.
  * ---
  *
  *
  * ### **Events:**
- *  - **nys-tab-select** - Dispatched when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. `detail: { id: string, label: string }`
- * - **nys-tab-focus** - Dispatched when the host receives focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
- * - **nys-tab-blur** - Dispatched when the host loses focus. Bubbles and crosses shadow DOM boundaries. `detail: { id: string }`
+ *  - **nys-tab-select** - Fired when the tab is activated via click or Enter / Space. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string, label: string }`
+ * - **nys-tab-focus** - Fired when the tab receives keyboard focus (does not activate the tab). Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }`
+ * - **nys-tab-blur** - Fired when the tab loses keyboard focus. Bubbles and crosses shadow DOM boundaries. Detail: `{ id: string }`
  *
  * ### **Methods:**
  *  - **focus(options: _FocusOptions_): _void_** - Focuses the host element. The host carries `role="tab"` and `tabindex`,

@@ -7,11 +7,14 @@ import styles from "./nys-dropdownmenu.scss?inline";
 let dropdownMenuIdCounter = 0;
 
 /**
- * Dropdown menus enable users to select an action from a list of options.
- * They’re commonly used to save space by grouping related actions, or to provide actions in a confined space.
+ * A dropdown menu that displays a list of actions or options attached to a trigger button.
+ * Opens and closes via click or keyboard, positions itself intelligently to avoid viewport edges,
+ * and closes when an item is selected or the user clicks outside.
  *
  * @summary Action menu with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-dropdownmenu
+ *
+ * @slot - One or more `nys-dropdownmenuitem` elements defining the actions.
  *
  * @example Basic dropdown
  * ```html
@@ -29,6 +32,15 @@ let dropdownMenuIdCounter = 0;
  *   <nys-dropdownmenuitem label="Profile" link="/profile"></nys-dropdownmenuitem>
  *   <nys-dropdownmenuitem label="Logout" link="/logout"></nys-dropdownmenuitem>
  * </nys-dropdownmenu>
+ * ```
+ *
+ * @example Listen for menu close event
+ * ```javascript
+ * const menu = document.querySelector(‘nys-dropdownmenu’);
+ * const trigger = document.querySelector(‘#my-trigger’);
+ * trigger.addEventListener(‘click’, () => {
+ *   console.log(‘Menu toggled’);
+ * });
  * ```
  */
 

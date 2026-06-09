@@ -65,7 +65,7 @@ export interface NysLabelProps extends Pick<
 }
 
 /**
- * Internal label component for form fields with flag and tooltip support.
+ * Internal label component for form fields with flag, description, tooltip, and dark mode support.
  * ---
  *
  *

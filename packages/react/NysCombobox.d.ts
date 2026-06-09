@@ -85,42 +85,32 @@ export interface NysComboboxProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** Fired on input change. Detail: `{ id, value }`. */
+  /** Fired while the user is typing. Detail: `{ id, value }`. */
   onNysInput?: (event: CustomEvent) => void;
 
-  /** Fired when combobox receives focus. */
+  /** Fired when the input receives focus. */
   onNysFocus?: (event: CustomEvent) => void;
 
-  /** Fired when combobox loses focus. */
+  /** Fired when the input loses focus. */
   onNysBlur?: (event: CustomEvent) => void;
 
-  /** Fired when selection changes. Detail: `{ id, value }`. */
+  /** Fired when an option is selected. Detail: `{ id, value }`. */
   onNysChange?: (event: CustomEvent) => void;
 }
 
 /**
- * `<nys-combobox>` is a form-enabled combo box combining text input with a filterable dropdown.
- *
- * Features:
- * - Type to filter options
- * - Keyboard navigation (Arrow keys, Enter, Escape)
- * - Mouse and keyboard interaction
- * - Clears non-selected text on blur
- * - Clear button when value is selected
- * - Integrates with forms via ElementInternals
- * - Supports native <option> and <optgroup> elements
- * - Accessible per W3C ARIA Authoring Practices
+ * Filterable combo box with keyboard navigation and form validation.
  * ---
  *
  *
  * ### **Events:**
- *  - **nys-input** - Fired on input change. Detail: `{ id, value }`.
- * - **nys-focus** - Fired when combobox receives focus.
- * - **nys-blur** - Fired when combobox loses focus.
- * - **nys-change** - Fired when selection changes. Detail: `{ id, value }`.
+ *  - **nys-input** - Fired while the user is typing. Detail: `{ id, value }`.
+ * - **nys-focus** - Fired when the input receives focus.
+ * - **nys-blur** - Fired when the input loses focus.
+ * - **nys-change** - Fired when an option is selected. Detail: `{ id, value }`.
  *
  * ### **Slots:**
  *  - **description** - Optional custom description content below the label.
- * - **default** - Options (<option>, <optgroup>) to populate the dropdown
+ * - **default** - Options (`<option>`, `<optgroup>`) to populate the dropdown
  */
 export const NysCombobox: React.ForwardRefExoticComponent<NysComboboxProps>;

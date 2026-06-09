@@ -59,5 +59,6 @@ export interface NysGlobalHeaderProps extends Pick<
  *
  * ### **Slots:**
  *  - _default_ - Navigation content (typically `<ul>` with `<li><a>` links). Auto-sanitized.
+ * - **user-actions** - Custom HTML for user profile, settings, or logout buttons.
  */
 export const NysGlobalHeader: React.ForwardRefExoticComponent<NysGlobalHeaderProps>;

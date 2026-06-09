@@ -18,6 +18,7 @@ interface FileWithProgress {
 /**
  * A file input for uploading files with support for multiple files, drag-and-drop, and progress tracking.
  * Validates file types via magic bytes (not just extension). Form-associated via ElementInternals.
+ * Auto-generates an id if not provided.
  *
  * Use for document uploads, image uploads, or any file submission. Enable `dropzone` for drag-and-drop UI.
  *
@@ -36,6 +37,18 @@ interface FileWithProgress {
  * @example Multiple files with dropzone
  * ```html
  * <nys-fileinput label="Upload images" accept="image/*" multiple dropzone></nys-fileinput>
+ * ```
+ *
+ * @example Listening for file changes
+ * ```js
+ * const fileinput = document.querySelector("nys-fileinput");
+ * fileinput.addEventListener("nys-change", (event) => {
+ *   const { id, files } = event.detail;
+ *   console.log(`Fileinput (${id}) changed:`);
+ *   files.forEach(({ file, progress, status, errorMsg }) => {
+ *     console.log(`- ${file.name} (${status}, ${progress}%)`, errorMsg || "");
+ *   });
+ * });
  * ```
  */
 
