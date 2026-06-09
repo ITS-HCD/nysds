@@ -51,6 +51,13 @@ let dividerIdCounter = 0;
  *   <p>More dark content</p>
  * </div>
  * ```
+ *
+ * @example Subtle divider
+ * ```html
+ * <p>Section one content</p>
+ * <nys-divider subtle></nys-divider>
+ * <p>Section two content</p>
+ * ```
  */
 
 export class NysDivider extends LitElement {
