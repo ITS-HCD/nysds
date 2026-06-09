@@ -12,33 +12,6 @@ let componentIdCounter = 0;
  * showing the first, last, and item before the current page, with an ellipsis to expand.
  * A single item renders as a back-to-parent link instead of a trail.
  *
- * ## When to use
- * - Use breadcrumbs on sites with hierarchical navigation (3+ levels deep).
- * - Include an optional current page item (no link) at the end to show the user's exact location.
- * - For mobile, set `backToParent` to convert long trails to a single "back" link on smaller screens.
- * - Use `backgroundBar` to visually separate the breadcrumb trail from page content.
- * - Size options: `md` (default) for most layouts, `sm` for dense or small-screen contexts.
- *
- * ## Variants
- * - **Trail with current page**: Include the current page name (without a link) as the last `<li>`.
- * - **Trail without current page**: All items are links; the user's location is implied.
- * - **Single back link**: When only one item is provided, it automatically renders as "Back to [Parent]".
- * - **Back-to-parent mode**: Set `backToParent` to show a single back link on mobile; full trail on desktop.
- * - **Collapsed trail**: Set `collapsed` to force the trail into its condensed state with an ellipsis.
- *
- * @accessibility
- * - Renders semantic `<nav>` landmark with `aria-label` (defaults to "path to this page").
- * - Each link is keyboard navigable (Tab key).
- * - Ellipsis button is properly labeled ("Show more links") and responds to Space and Enter.
- * - Disabled state disables all navigation and link focus.
- * - Screen readers announce the full trail structure via semantic HTML.
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *
  * @summary Breadcrumb navigation trail with responsive collapse support.
  * @element nys-breadcrumbs
  *
