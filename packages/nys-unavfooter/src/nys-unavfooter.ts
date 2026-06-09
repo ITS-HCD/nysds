@@ -9,6 +9,15 @@ import styles from "./nys-unavfooter.scss?inline";
  * Place as the last element before `</body>`. Displays NY.gov logo and links to Agencies,
  * App Directory, Counties, Events, Programs, and Services. No configuration needed.
  *
+ * @accessibility
+ * - Uses semantic `<footer>` element for assistive technology recognition.
+ * - All links are keyboard-navigable via Tab.
+ * - Proper link text for screen reader users.
+ * - Links open in same window (no target="_blank") unless external policy requires otherwise.
+ * - Visual design meets WCAG 2.2 AA contrast and focus indicator standards.
+ * - Footer is not hidden from screen readers and is announced as navigation.
+ *
+ *
  * @summary Universal NYS footer with logo and statewide links. Required site-wide.
  * @element nys-unavfooter
  *

@@ -11,6 +11,16 @@ import styles from "./nys-unavheader.scss?inline";
  * site search (searches ny.gov), and 14-language translation dropdown. Use `hideSearch` or `hideTranslate`
  * to remove features if not applicable.
  *
+ * @accessibility
+ * - Semantic `<header>` element ensures assistive technology recognition.
+ * - Trust bar button: `role="button"`, `aria-expanded`, descriptive `aria-label`.
+ * - All links and buttons are keyboard-navigable via Tab.
+ * - Language dropdown announces current language and list on focus.
+ * - Search input announces field purpose and keyboard shortcuts (Enter to submit, Escape to dismiss).
+ * - Visual focus indicators meet WCAG 2.2 AA standards.
+ * - All text has sufficient color contrast (4.5:1 minimum).
+ * - Icons have text labels or `aria-label` attributes.
+ *
  * @summary Universal NYS header with trust bar, search, and translation. Required site-wide.
  * @element nys-unavheader
  *
