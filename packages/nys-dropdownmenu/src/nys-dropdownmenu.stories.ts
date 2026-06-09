@@ -105,12 +105,7 @@ export const dropdownNavLink: Story = {
       appName="User Registration Form"
       agencyName="Office of Information Technology Services"
     >
-      <nys-button
-        id="trigger-id1"
-        slot="user-actions"
-        label="Log out"
-        prefixIcon="slotted"
-      >
+      <nys-button id="trigger-id1" slot="user-actions" label="Log out">
         <nys-avatar
           slot="prefix-icon"
           ariaLabel="User avatar"
@@ -155,7 +150,6 @@ export const dropdownNavLink: Story = {
     id="trigger-id1"
     slot="user-actions"
     label="Log out"
-    prefixIcon="slotted"
   >
     <nys-avatar
       slot="prefix-icon"
@@ -191,12 +185,7 @@ export const dropdownNavActions: Story = {
       appName="User Registration Form"
       agencyName="Office of Information Technology Services"
     >
-      <nys-button
-        id="trigger-id1"
-        slot="user-actions"
-        label="Log out"
-        prefixIcon="slotted"
-      >
+      <nys-button id="trigger-id1" slot="user-actions" label="Log out">
         <nys-avatar
           slot="prefix-icon"
           ariaLabel="User avatar"
@@ -228,7 +217,6 @@ export const dropdownNavActions: Story = {
     id="trigger-id1"
     slot="user-actions"
     label="Log out"
-    prefixIcon="slotted"
   >
     <nys-avatar
       slot="prefix-icon"
@@ -264,12 +252,7 @@ export const dropdownWithIcons: Story = {
       appName="User Registration Form"
       agencyName="Office of Information Technology Services"
     >
-      <nys-button
-        id="trigger-id1"
-        slot="user-actions"
-        label="Log out"
-        prefixIcon="slotted"
-      >
+      <nys-button id="trigger-id1" slot="user-actions" label="Log out">
         <nys-avatar
           slot="prefix-icon"
           ariaLabel="User avatar"
@@ -314,7 +297,6 @@ export const dropdownWithIcons: Story = {
     id="trigger-id1"
     slot="user-actions"
     label="Log out"
-    prefixIcon="slotted"
   >
     <nys-avatar
       slot="prefix-icon"

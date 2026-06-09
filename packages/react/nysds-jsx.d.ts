@@ -419,6 +419,8 @@ export type NysDatepickerProps = {
 export type NysDividerProps = {
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
+  /** If true, the divider will use a lighter color. */
+  subtle?: boolean;
 };
 
 export type NysDropdownMenuProps = {
@@ -530,8 +532,10 @@ export type NysGlobalHeaderProps = {
 };
 
 export type NysIconProps = {
-  /** Icon name from Material Symbols library. Required. */
+  /** Icon name to resolve from the selected library. Required. */
   name?: string;
+  /** Which registered icon library to use. Defaults to the built-in NYSDS library. */
+  library?: string;
   /** Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG. */
   ariaLabel?: string;
   /** Rotation in degrees. Applied via CSS `rotate`. */
@@ -560,6 +564,8 @@ export type NysIconProps = {
     | "32"
     | "40"
     | "50";
+  /** Resolves when the current icon load (if any) is complete. */
+  updateComplete?: Promise<boolean>;
 };
 
 export type NysLabelProps = {
@@ -644,18 +650,14 @@ export type NysRadiobuttonProps = {
   /**  */
   showOtherError?: boolean;
 
-  /**  */
-  "onnys-error-clear"?: (e: CustomEvent<CustomEvent>) => void;
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
-  "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
-  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
-  "onnys-other-input"?: (e: CustomEvent<CustomEvent>) => void;
+  "onnys-change"?: (e: CustomEvent<never>) => void;
   /** Fired when radio gains focus. */
-  "onnys-focus"?: (e: CustomEvent<Event>) => void;
+  "onnys-focus"?: (e: CustomEvent<never>) => void;
   /** Fired when radio loses focus. */
-  "onnys-blur"?: (e: CustomEvent<Event>) => void;
-  /**  */
-  "onnys-error"?: (e: CustomEvent<CustomEvent>) => void;
+  "onnys-blur"?: (e: CustomEvent<never>) => void;
+  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
+  "onnys-other-input"?: (e: CustomEvent<never>) => void;
 };
 
 export type NysRadiogroupProps = {
@@ -683,6 +685,13 @@ export type NysRadiogroupProps = {
   form?: string | null;
   /** Radio size for all children: `sm` (24px) or `md` (32px, default). */
   size?: "sm" | "md";
+  /**  */
+  _showOtherError?: boolean;
+
+  /**  */
+  "onnys-change"?: (e: CustomEvent<CustomEvent>) => void;
+  /**  */
+  "onnys-other-input"?: (e: CustomEvent<CustomEvent>) => void;
 };
 
 export type NysOptionProps = {
@@ -1315,9 +1324,12 @@ export type CustomElements = {
   "nys-globalheader": Partial<NysGlobalHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   * SVG icon from Material Symbols library with size, rotation, and color options.
+   * SVG icon with swappable library support, size, rotation, and color options.
    * ---
    *
+   *
+   * ### **Methods:**
+   *  - **redraw()** - Called by the icon library registry when the current library changes.
    */
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
@@ -1360,21 +1372,15 @@ export type CustomElements = {
   "nys-pagination": Partial<NysPaginationProps & BaseProps & BaseEvents>;
 
   /**
-   * Radio button for single selection from mutually exclusive options.
+   * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
    * ---
    *
    *
    * ### **Events:**
-   *  - **nys-error-clear**
-   * - **nys-change** - Fired when selection changes. Detail: `{id, checked, name, value}`.
-   * - **nys-other-input** - Fired when "other" text input value changes. Detail: `{id, name, value}`.
+   *  - **nys-change** - Fired when selection changes. Detail: `{id, checked, name, value}`.
    * - **nys-focus** - Fired when radio gains focus.
    * - **nys-blur** - Fired when radio loses focus.
-   * - **nys-error**
-   *
-   * ### **Methods:**
-   *  - **getInputElement(): _Promise<HTMLInputElement | null>_** - Functions
-   * --------------------------------------------------------------------------
+   * - **nys-other-input** - Fired when "other" text input value changes. Detail: `{id, name, value}`.
    *
    * ### **Slots:**
    *  - **description** - Custom HTML description content.
@@ -1385,6 +1391,10 @@ export type CustomElements = {
    * Container for grouping radio buttons as a single form control.
    * ---
    *
+   *
+   * ### **Events:**
+   *  - **nys-change**
+   * - **nys-other-input**
    *
    * ### **Slots:**
    *  - _default_ - Default slot for `nys-radiobutton` elements.

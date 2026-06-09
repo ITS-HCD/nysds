@@ -2210,6 +2210,24 @@
             },
             {
               "kind": "field",
+              "name": "_hasPrefixSlot",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_hasSuffixSlot",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
               "name": "formAssociated",
               "type": {
                 "text": "boolean"
@@ -2223,6 +2241,32 @@
               "name": "_generateUniqueId",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_onPrefixSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_onSuffixSlotChange",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -5338,6 +5382,17 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "attribute": "subtle",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_generateUniqueId",
               "privacy": "private",
@@ -5354,6 +5409,16 @@
               "description": "Adjusts colors for dark backgrounds.",
               "fieldName": "inverted",
               "propName": "inverted"
+            },
+            {
+              "name": "subtle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true, the divider will use a lighter color.",
+              "fieldName": "subtle",
+              "propName": "subtle"
             }
           ],
           "superclass": {
@@ -7344,6 +7409,230 @@
     },
     {
       "kind": "javascript-module",
+      "path": "packages/nys-icon/src/icon-cache.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "clearIconCache",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "url",
+              "optional": true,
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Clear one or all entries from the cache."
+        },
+        {
+          "kind": "function",
+          "name": "fetchIcon",
+          "return": {
+            "type": {
+              "text": "Promise<SVGElement>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "url",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Fetch and parse an SVG from a URL. Returns a cloned SVGElement (safe for multiple consumers)."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "clearIconCache",
+          "declaration": {
+            "name": "clearIconCache",
+            "module": "packages/nys-icon/src/icon-cache.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "fetchIcon",
+          "declaration": {
+            "name": "fetchIcon",
+            "module": "packages/nys-icon/src/icon-cache.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "packages/nys-icon/src/icon-library-registry.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "getIconLibrary",
+          "return": {
+            "type": {
+              "text": "IconLibrary | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Get a registered icon library by name."
+        },
+        {
+          "kind": "function",
+          "name": "registerIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "library",
+              "type": {
+                "text": "IconLibrary"
+              }
+            }
+          ],
+          "description": "Register or replace a named icon library. All watching icons using this library will redraw.",
+          "examples": [
+            {
+              "title": "Register a Font Awesome library with a custom resolver:",
+              "code": "registerIconLibrary(\"fa\", {\nresolver: (name) => `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svg/${name}.svg`\n});",
+              "lang": "ts"
+            }
+          ]
+        },
+        {
+          "kind": "function",
+          "name": "unregisterIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ],
+          "description": "Remove a registered icon library. All watching icons using this library will redraw."
+        },
+        {
+          "kind": "function",
+          "name": "unwatchIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "watcher",
+              "type": {
+                "text": "NysIconWatcher"
+              }
+            }
+          ],
+          "description": "Unsubscribe an icon instance from library change notifications."
+        },
+        {
+          "kind": "function",
+          "name": "watchIconLibrary",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "watcher",
+              "type": {
+                "text": "NysIconWatcher"
+              }
+            }
+          ],
+          "description": "Subscribe an icon instance to library change notifications."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "getIconLibrary",
+          "declaration": {
+            "name": "getIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerIconLibrary",
+          "declaration": {
+            "name": "registerIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unregisterIconLibrary",
+          "declaration": {
+            "name": "unregisterIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unwatchIconLibrary",
+          "declaration": {
+            "name": "unwatchIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "watchIconLibrary",
+          "declaration": {
+            "name": "watchIconLibrary",
+            "module": "packages/nys-icon/src/icon-library-registry.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "packages/nys-icon/src/index.ts",
       "declarations": [],
       "exports": [
@@ -7354,6 +7643,38 @@
             "name": "*",
             "module": "packages/nys-icon/src/nys-icon"
           }
+        },
+        {
+          "kind": "js",
+          "name": "clearIconCache",
+          "declaration": {
+            "name": "clearIconCache",
+            "module": "./icon-cache"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IconLibrary",
+          "declaration": {
+            "name": "IconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "registerIconLibrary",
+          "declaration": {
+            "name": "registerIconLibrary",
+            "module": "./icon-library-registry"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "unregisterIconLibrary",
+          "declaration": {
+            "name": "unregisterIconLibrary",
+            "module": "./icon-library-registry"
+          }
         }
       ]
     },
@@ -7363,7 +7684,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Renders SVG icons from the NYSDS icon library (Material Symbols). Decorative by default (`aria-hidden`).\n\nPass `name` to select an icon from the library. Use `ariaLabel` to make the icon accessible\n(removes `aria-hidden`). Supports size presets, rotation, flipping, and custom colors.",
+          "description": "Renders SVG icons from a registered icon library. The built-in NYSDS icon\nlibrary (Material Symbols) is the default. Custom libraries (Font Awesome,\nMaterial Icons, etc.) can be registered via `registerIconLibrary()`.\n\nPass `name` to select an icon. Use `library` to choose a registered library\n(defaults to `\"default\"` for NYSDS icons). Use `ariaLabel` to make the icon\naccessible (removes `aria-hidden`). Supports size presets, rotation,\nflipping, and custom colors.",
           "name": "NysIcon",
           "members": [
             {
@@ -7373,8 +7694,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Icon name from Material Symbols library. Required.",
+              "description": "Icon name to resolve from the selected library. Required.",
               "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"default\"",
+              "description": "Which registered icon library to use. Defaults to the built-in NYSDS library.",
+              "attribute": "library",
               "reflects": true
             },
             {
@@ -7428,15 +7760,72 @@
               "attribute": "size"
             },
             {
-              "kind": "method",
-              "name": "getIcon",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": ""
-                }
+              "kind": "field",
+              "name": "_svg",
+              "type": {
+                "text": "SVGElement | null"
               },
-              "description": "Retrieves the SVG element for the given icon name and applies\naccessibility, rotation, flip, color, and size classes."
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "field",
+              "name": "_loadSeq",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private",
+              "default": "0",
+              "description": "Monotonically increasing token so stale async fetches are discarded."
+            },
+            {
+              "kind": "field",
+              "name": "_loadPromise",
+              "type": {
+                "text": "Promise<void> | null"
+              },
+              "privacy": "private",
+              "default": "null",
+              "description": "Promise for the in-flight icon load."
+            },
+            {
+              "kind": "field",
+              "name": "updateComplete",
+              "type": {
+                "text": "Promise<boolean>"
+              },
+              "description": "Resolves when the current icon load (if any) is complete.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "redraw",
+              "description": "Called by the icon library registry when the current library changes."
+            },
+            {
+              "kind": "field",
+              "name": "_validName",
+              "privacy": "private",
+              "static": true,
+              "default": "/^[a-zA-Z0-9_-]+$/"
+            },
+            {
+              "kind": "method",
+              "name": "_loadIcon",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_applyAttributes",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "svg",
+                  "type": {
+                    "text": "SVGElement"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -7446,9 +7835,19 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Icon name from Material Symbols library. Required.",
+              "description": "Icon name to resolve from the selected library. Required.",
               "fieldName": "name",
               "propName": "name"
+            },
+            {
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"default\"",
+              "description": "Which registered icon library to use. Defaults to the built-in NYSDS library.",
+              "fieldName": "library",
+              "propName": "library"
             },
             {
               "name": "ariaLabel",
@@ -7507,11 +7906,16 @@
           },
           "tagName": "nys-icon",
           "customElement": true,
-          "summary": "SVG icon from Material Symbols library with size, rotation, and color options.",
+          "summary": "SVG icon with swappable library support, size, rotation, and color options.",
           "examples": [
             {
-              "title": "Basic icon",
+              "title": "Basic icon (default NYSDS library)",
               "code": "<nys-icon name=\"check_circle\" size=\"lg\"></nys-icon>",
+              "lang": "html"
+            },
+            {
+              "title": "Font Awesome icon",
+              "code": "<nys-icon name=\"house\" library=\"fa\" size=\"lg\"></nys-icon>",
               "lang": "html"
             },
             {
@@ -8335,15 +8739,6 @@
           "members": [
             {
               "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "object"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, }"
-            },
-            {
-              "kind": "field",
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -8478,169 +8873,24 @@
               },
               "default": "false",
               "attribute": "showOtherError"
-            },
-            {
-              "kind": "field",
-              "name": "isMobile",
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_hasUserInteracted",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "buttonGroup",
-              "type": {
-                "text": "Record<string, NysRadiobutton>"
-              },
-              "static": true,
-              "default": "{}"
-            },
-            {
-              "kind": "method",
-              "name": "getInputElement",
-              "privacy": "public",
-              "return": {
-                "type": {
-                  "text": "Promise<HTMLInputElement | null>"
-                }
-              },
-              "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "formResetUpdate",
-              "privacy": "public"
-            },
-            {
-              "kind": "field",
-              "name": "_handleResize",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_clearOtherState",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_dispatchClearErrorEvent",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_emitChangeEvent",
-              "privacy": "private",
-              "description": "Event Handlers\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_emitOtherInputEvent",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleChange",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleFocus",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleBlur",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_callInputHandling",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleTextInput",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "_handleTextInputBlur",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_validateOtherAndEmitError",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_handleOtherKeydown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "KeyboardEvent"
-                  }
-                }
-              ]
             }
           ],
           "events": [
             {
-              "name": "nys-error-clear",
-              "type": {
-                "text": "CustomEvent"
-              }
+              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`.",
+              "name": "nys-change"
             },
             {
-              "name": "nys-change",
-              "type": {
-                "text": "CustomEvent"
-              },
-              "description": "Fired when selection changes. Detail: `{id, checked, name, value}`."
+              "description": "Fired when radio gains focus.",
+              "name": "nys-focus"
             },
             {
-              "name": "nys-other-input",
-              "type": {
-                "text": "CustomEvent"
-              },
-              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`."
+              "description": "Fired when radio loses focus.",
+              "name": "nys-blur"
             },
             {
-              "name": "nys-focus",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Fired when radio gains focus."
-            },
-            {
-              "name": "nys-blur",
-              "type": {
-                "text": "Event"
-              },
-              "description": "Fired when radio loses focus."
-            },
-            {
-              "name": "nys-error",
-              "type": {
-                "text": "CustomEvent"
-              }
+              "description": "Fired when \"other\" text input value changes. Detail: `{id, name, value}`.",
+              "name": "nys-other-input"
             }
           ],
           "attributes": [
@@ -8779,7 +9029,7 @@
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
-          "summary": "Radio button for single selection from mutually exclusive options.",
+          "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
           "examples": [
             {
               "title": "Radio group",
@@ -8966,6 +9216,15 @@
             },
             {
               "kind": "field",
+              "name": "_showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "_showOtherError"
+            },
+            {
+              "kind": "field",
               "name": "selectedValue",
               "type": {
                 "text": "string | null"
@@ -8981,6 +9240,49 @@
               },
               "privacy": "private",
               "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "_radios",
+              "type": {
+                "text": "NysRadiobutton[]"
+              },
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_mobileQuery",
+              "type": {
+                "text": "MediaQueryList"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_hasUserInteracted",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_childObserver",
+              "type": {
+                "text": "MutationObserver | undefined"
+              },
+              "privacy": "private"
             },
             {
               "kind": "field",
@@ -9054,10 +9356,20 @@
               "privacy": "public"
             },
             {
-              "kind": "method",
-              "name": "_initializeChildAttributes",
+              "kind": "field",
+              "name": "_handleMobileQuery",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
+            },
+            {
+              "kind": "method",
+              "name": "_handleSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_initializeChildAttributes",
+              "privacy": "private"
             },
             {
               "kind": "method",
@@ -9066,18 +9378,16 @@
             },
             {
               "kind": "method",
-              "name": "_updateRadioButtonsTile",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateRadioButtonsShowError",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "_updateRadioButtonsForm",
-              "privacy": "private"
+              "name": "_selectRadio",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
             },
             {
               "kind": "method",
@@ -9086,7 +9396,7 @@
             },
             {
               "kind": "method",
-              "name": "_handleRadioButtonChange",
+              "name": "_handleInvalid",
               "privacy": "private",
               "parameters": [
                 {
@@ -9100,9 +9410,15 @@
             },
             {
               "kind": "method",
-              "name": "_handleInvalid",
+              "name": "_handleTextInput",
               "privacy": "private",
               "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                },
                 {
                   "name": "event",
                   "type": {
@@ -9113,34 +9429,100 @@
             },
             {
               "kind": "method",
-              "name": "_handleChildError",
+              "name": "_handleTextInputBlur",
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "event",
+                  "name": "radiobtn",
                   "type": {
-                    "text": "Event"
+                    "text": "NysRadiobutton"
                   }
                 }
               ]
             },
             {
               "kind": "method",
-              "name": "_handleChildErrorClear",
+              "name": "_validateOtherAndEmitError",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleOtherKeydown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "KeyboardEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleGroupFocusout",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "FocusEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "field",
+              "name": "_handleRadiobtnClick",
               "privacy": "private"
             },
             {
               "kind": "method",
-              "name": "_handleOtherInput",
+              "name": "_handleRadiobtnFocus",
               "privacy": "private",
               "parameters": [
                 {
-                  "name": "event",
+                  "name": "radiobtn",
                   "type": {
-                    "text": "Event"
+                    "text": "NysRadiobutton"
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleRadiobtnBlur",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "radiobtn",
+                  "type": {
+                    "text": "NysRadiobutton"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "nys-change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "nys-other-input",
+              "type": {
+                "text": "CustomEvent"
+              }
             }
           ],
           "attributes": [
@@ -9263,6 +9645,15 @@
               "description": "Radio size for all children: `sm` (24px) or `md` (32px, default).",
               "fieldName": "size",
               "propName": "size"
+            },
+            {
+              "name": "_showOtherError",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "_showOtherError",
+              "propName": "_showothererror"
             }
           ],
           "superclass": {

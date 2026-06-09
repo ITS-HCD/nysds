@@ -18,8 +18,11 @@ export interface NysIconProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  /** Icon name from Material Symbols library. Required. */
+  /** Icon name to resolve from the selected library. Required. */
   name?: NysIconElement["name"];
+
+  /** Which registered icon library to use. Defaults to the built-in NYSDS library. */
+  library?: NysIconElement["library"];
 
   /** Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG. */
   ariaLabel?: NysIconElement["ariaLabel"];
@@ -56,11 +59,17 @@ export interface NysIconProps extends Pick<
 
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
+
+  /** Resolves when the current icon load (if any) is complete. */
+  updateComplete?: NysIconElement["updateComplete"];
 }
 
 /**
- * SVG icon from Material Symbols library with size, rotation, and color options.
+ * SVG icon with swappable library support, size, rotation, and color options.
  * ---
  *
+ *
+ * ### **Methods:**
+ *  - **redraw()** - Called by the icon library registry when the current library changes.
  */
 export const NysIcon: React.ForwardRefExoticComponent<NysIconProps>;

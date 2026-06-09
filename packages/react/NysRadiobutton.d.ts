@@ -1,11 +1,7 @@
 import React from "react";
-import {
-  NysRadiobutton as NysRadiobuttonElement,
-  CustomEvent,
-  Event,
-} from "../../dist/nysds.es.js";
+import { NysRadiobutton as NysRadiobuttonElement } from "../../dist/nysds.es.js";
 
-export type { NysRadiobuttonElement, CustomEvent, Event };
+export type { NysRadiobuttonElement };
 
 export interface NysRadiobuttonProps extends Pick<
   React.AllHTMLAttributes<HTMLElement>,
@@ -82,14 +78,8 @@ export interface NysRadiobuttonProps extends Pick<
   /** Allows developers to make HTML elements focusable, allow or prevent them from being sequentially focusable (usually with the `Tab` key, hence the name) and determine their relative ordering for sequential focus navigation. */
   tabIndex?: number;
 
-  /** undefined */
-  onNysErrorClear?: (event: CustomEvent) => void;
-
   /** Fired when selection changes. Detail: `{id, checked, name, value}`. */
   onNysChange?: (event: CustomEvent) => void;
-
-  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
-  onNysOtherInput?: (event: CustomEvent) => void;
 
   /** Fired when radio gains focus. */
   onNysFocus?: (event: CustomEvent) => void;
@@ -97,26 +87,20 @@ export interface NysRadiobuttonProps extends Pick<
   /** Fired when radio loses focus. */
   onNysBlur?: (event: CustomEvent) => void;
 
-  /** undefined */
-  onNysError?: (event: CustomEvent) => void;
+  /** Fired when "other" text input value changes. Detail: `{id, name, value}`. */
+  onNysOtherInput?: (event: CustomEvent) => void;
 }
 
 /**
- * Radio button for single selection from mutually exclusive options.
+ * Radio button for single selection from mutually exclusive options. This is a READONLY data component.
  * ---
  *
  *
  * ### **Events:**
- *  - **nys-error-clear**
- * - **nys-change** - Fired when selection changes. Detail: `{id, checked, name, value}`.
- * - **nys-other-input** - Fired when "other" text input value changes. Detail: `{id, name, value}`.
+ *  - **nys-change** - Fired when selection changes. Detail: `{id, checked, name, value}`.
  * - **nys-focus** - Fired when radio gains focus.
  * - **nys-blur** - Fired when radio loses focus.
- * - **nys-error**
- *
- * ### **Methods:**
- *  - **getInputElement(): _Promise<HTMLInputElement | null>_** - Functions
- * --------------------------------------------------------------------------
+ * - **nys-other-input** - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
  * ### **Slots:**
  *  - **description** - Custom HTML description content.
