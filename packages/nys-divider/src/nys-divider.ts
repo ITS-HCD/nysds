@@ -59,6 +59,9 @@ export class NysDivider extends LitElement {
   /** Adjusts colors for dark backgrounds. */
   @property({ type: Boolean, reflect: true }) inverted = false;
 
+  /** If true, the divider will use a lighter color. */
+  @property({ type: Boolean, reflect: true }) subtle = false;
+
   constructor() {
     super();
   }

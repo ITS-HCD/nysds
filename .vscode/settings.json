@@ -8,7 +8,5 @@
   "css.customData": [
     ".vscode/vscode.css-custom-data.json"
   ],
-  "[scss]": {
-    "editor.formatOnSave": false
-  }
+  "editor.formatOnSave": true
 }

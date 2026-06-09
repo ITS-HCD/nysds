@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { property } from "lit/decorators.js";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-button.scss?inline";
@@ -289,6 +289,9 @@ export class NysButton extends LitElement {
 
   private _internals: ElementInternals;
 
+  @state() private _hasPrefixSlot = false;
+  @state() private _hasSuffixSlot = false;
+
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
@@ -317,6 +320,16 @@ export class NysButton extends LitElement {
 
   private _generateUniqueId() {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
+  }
+
+  private _onPrefixSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    this._hasPrefixSlot = slot.assignedElements({ flatten: true }).length > 0;
+  }
+
+  private _onSuffixSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    this._hasSuffixSlot = slot.assignedElements({ flatten: true }).length > 0;
   }
 
   private _manageFormAction() {
@@ -469,19 +482,33 @@ export class NysButton extends LitElement {
                 )}
                 aria-description=${ifDefined(this.ariaDescription || undefined)}
               >
-                ${this.prefixIcon
-                  ? html`<slot name="prefix-icon">
-                      <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
-                    </slot>`
-                  : ""}
+                <slot
+                  name="prefix-icon"
+                  @slotchange=${this._onPrefixSlotChange}
+                  ?hidden=${!this.prefixIcon && !this._hasPrefixSlot}
+                >
+                  ${this.prefixIcon
+                    ? html`<nys-icon
+                        size="16"
+                        name=${this.prefixIcon}
+                      ></nys-icon>`
+                    : ""}
+                </slot>
                 ${this.label && !this.circle
                   ? html`<div class="nys-button__text">${this.label}</div>`
                   : ""}
-                ${this.suffixIcon
-                  ? html`<slot name="suffix-icon">
-                      <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
-                    </slot>`
-                  : ""}
+                <slot
+                  name="suffix-icon"
+                  @slotchange=${this._onSuffixSlotChange}
+                  ?hidden=${!this.suffixIcon && !this._hasSuffixSlot}
+                >
+                  ${this.suffixIcon
+                    ? html`<nys-icon
+                        size="16"
+                        name=${this.suffixIcon}
+                      ></nys-icon>`
+                    : ""}
+                </slot>
                 ${this.circle && this.icon
                   ? html`<slot name="circle-icon"
                       ><nys-icon
@@ -524,19 +551,33 @@ export class NysButton extends LitElement {
               aria-description=${ifDefined(this.ariaDescription || undefined)}
               role="button"
             >
-              ${this.prefixIcon
-                ? html`<slot name="prefix-icon">
-                    <nys-icon size="16" name=${this.prefixIcon}></nys-icon>
-                  </slot>`
-                : ""}
+              <slot
+                name="prefix-icon"
+                @slotchange=${this._onPrefixSlotChange}
+                ?hidden=${!this.prefixIcon && !this._hasPrefixSlot}
+              >
+                ${this.prefixIcon
+                  ? html`<nys-icon
+                      size="16"
+                      name=${this.prefixIcon}
+                    ></nys-icon>`
+                  : ""}
+              </slot>
               ${this.label && !this.circle
                 ? html`<div class="nys-button__text">${this.label}</div>`
                 : ""}
-              ${this.suffixIcon
-                ? html`<slot name="suffix-icon">
-                    <nys-icon size="16" name=${this.suffixIcon}></nys-icon>
-                  </slot>`
-                : ""}
+              <slot
+                name="suffix-icon"
+                @slotchange=${this._onSuffixSlotChange}
+                ?hidden=${!this.suffixIcon && !this._hasSuffixSlot}
+              >
+                ${this.suffixIcon
+                  ? html`<nys-icon
+                      size="16"
+                      name=${this.suffixIcon}
+                    ></nys-icon>`
+                  : ""}
+              </slot>
               ${this.circle && this.icon
                 ? html`<slot name="circle-icon">
                     <nys-icon

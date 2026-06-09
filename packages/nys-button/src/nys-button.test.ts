@@ -134,7 +134,7 @@ describe("nys-button", () => {
     expect(button.getAttribute("aria-label")).to.equal("Close");
   });
 
-  it("should render prefix and suffix icons", async () => {
+  it("should render prefix and suffix icons as props", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button
         label="With Icons"
@@ -160,7 +160,7 @@ describe("nys-button", () => {
 
   it(" should allow for the icon to be slotted in", async () => {
     const el = await fixture<NysButton>(
-      html`<nys-button suffixIcon="slotted" size="sm">
+      html`<nys-button size="sm">
         <nys-icon slot="suffix-icon" size="2xl" name="visibility"></nys-icon>
       </nys-button>`,
     );

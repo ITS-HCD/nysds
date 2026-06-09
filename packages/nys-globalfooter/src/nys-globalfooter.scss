@@ -20,10 +20,7 @@
     var(--nys-font-size-md, 16px)
   );
   --_nys-globalfooter-line-height--agency: normal;
-  --_nys-globalfooter-font-weight--regular: var(
-    --nys-font-weight-regular,
-    400
-  );
+  --_nys-globalfooter-font-weight--regular: var(--nys-font-weight-regular, 400);
   --_nys-globalfooter-font-weight--semibold: var(
     --nys-font-weight-semibold,
     600
@@ -41,10 +38,7 @@
   /* Links */
   --_nys-globalfooter-column-gap: var(--nys-space-400, 32px);
   --_nys-globalfooter-row-gap: var(--nys-space-400, 32px);
-  --_nys-globalfooter-line-height--link: var(
-    --nys-font-lineheight-ui-md,
-    24px
-  );
+  --_nys-globalfooter-line-height--link: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-globalfooter-letter-spacing: var(
     --nys-font-letterspacing-ui-md,
     var(--nys-font-letterspacing-400, 0.044px)
@@ -133,9 +127,7 @@ a:hover {
 }
 
 a:active {
-  text-decoration-thickness: var(
-    --_nys-globalfooter-text-decoration-thickness
-  );
+  text-decoration-thickness: var(--_nys-globalfooter-text-decoration-thickness);
 }
 
 /** Specific layout for menu links (grouped or singular list of menus) **/

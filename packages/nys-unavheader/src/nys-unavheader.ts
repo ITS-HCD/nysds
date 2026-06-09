@@ -315,7 +315,6 @@ export class NysUnavHeader extends LitElement {
               label="Here's how you know"
               variant="ghost"
               size="sm"
-              suffixIcon="slotted"
               @nys-click="${(e: CustomEvent) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -395,7 +394,6 @@ export class NysUnavHeader extends LitElement {
                 aria-expanded="${this.trustbarVisible}"
                 variant="ghost"
                 size="sm"
-                suffixIcon="slotted"
                 @nys-click="${() =>
                   this._toggleTrustbar("nys-unavheader__know--inline")}"
               >
@@ -412,7 +410,6 @@ export class NysUnavHeader extends LitElement {
                   <nys-button
                     variant="ghost"
                     circle
-                    icon="slotted"
                     ariaLabel="Translate"
                     aria-expanded="${this.languageVisible}"
                     id="nys-unavheader__translate--mobile"
