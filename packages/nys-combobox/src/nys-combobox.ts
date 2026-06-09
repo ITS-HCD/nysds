@@ -18,41 +18,6 @@ interface ComboboxOption {
  * Users can type to search/filter options, navigate with keyboard, and select from the list.
  * Integrates with HTML forms via ElementInternals and handles validation.
  *
- * ## When to use
- * - Use when users need to select from a medium-to-large list of pre-defined options (10+).
- * - Allow free-form typing with filtering to help users find options quickly.
- * - Mark as `required` to enforce selection; `optional` to indicate an empty value is allowed.
- * - Use `width="full"` for responsive layouts, or `"md"` / `"lg"` for fixed widths.
- * - Set `inverted` for dark-background contexts (dark theme mode).
- * - Use `disabled` to prevent user interaction entirely.
- *
- * ## Variants
- * - **Basic combobox**: Flat list of `<option>` elements.
- * - **Grouped options**: Use `<optgroup label="...">` to organize options by category.
- * - **Default value**: Set the `value` property to pre-select an option.
- * - **Required field**: Set `required` to enforce a selection; `optional` for no-selection allowed.
- * - **Custom width**: Set `width="md"`, `"lg"`, or `"full"` to control field width.
- * - **Error state**: Set `showError` and `errorMessage` to display validation feedback.
- *
- * @accessibility
- * - Renders with semantic HTML: `<input role="combobox">` with `aria-autocomplete="list"`.
- * - Full keyboard support: Arrow Up/Down to navigate, Enter to select, Escape to close, Tab to move focus.
- * - Live region announces option count and position when filtering/navigating.
- * - Label and description are associated via `aria-label` for screen readers.
- * - Disabled options are skipped during keyboard navigation.
- * - Maintains focus on the input; dropdown does not receive focus.
- * - Form validation integrates with constraint validation API.
- *
- * ## Content Guidelines
- * - Keep option labels concise and descriptive.
- * - Use optgroups to logically categorize options (e.g., "Citrus", "Berries", "Tropical").
- * - Provide a clear, task-focused label (e.g., "Select your favorite fruit" not just "Fruit").
- * - Use the description slot for supporting context or instructions.
- *
- * ## Dependencies
- *
- * This component depends on `nys-icon`.
- *
  * @summary Filterable combo box with keyboard navigation and form validation.
  * @element nys-combobox
  *

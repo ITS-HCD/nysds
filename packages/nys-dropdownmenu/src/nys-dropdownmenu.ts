@@ -11,40 +11,6 @@ let dropdownMenuIdCounter = 0;
  * Opens and closes via click or keyboard, positions itself intelligently to avoid viewport edges,
  * and closes when an item is selected or the user clicks outside.
  *
- * ## When to use
- * - Group related actions (Edit, Delete, Archive) under a single menu button to save space.
- * - Use for contextual actions on items in a list or table.
- * - Provide quick access to account settings or user profile actions (common in global headers).
- * - Use with an icon button (e.g., three-dot menu) for compact interfaces.
- * - Allow the menu to auto-position; only set `position` if you need a specific placement.
- *
- * ## Variants
- * - **Auto-positioned**: Default; menu positions itself based on available viewport space.
- * - **Explicit position**: Set `position="top-start"`, `"top-end"`, `"bottom-start"`, or `"bottom-end"`.
- *   If the specified position doesn’t fit, the menu will find the best alternative.
- * - **With icon button**: Pair with `nys-button` using an icon for a compact, modern look.
- * - **With text button**: Use a standard button labeled "More" or "Actions".
- *
- * @accessibility
- * - Trigger button has `aria-haspopup="menu"` and `aria-expanded` toggled on open/close.
- * - Dropdown renders `role="menu"` with `role="option"` items for screen readers.
- * - Full keyboard support: Enter/Space to open, Escape to close, Arrow Up/Down to navigate items, Tab to move focus.
- * - Items are keyboard focusable; arrow keys wrap around the menu.
- * - Clicking outside the menu or selecting an item closes it automatically.
- * - Focus is restored to the trigger button when the menu closes.
- *
- * ## Content Guidelines
- * - Keep action labels concise and action-oriented (use verbs: "Edit", "Delete", "View Details").
- * - Limit to 5-8 items; if more items are needed, consider a different UI pattern.
- * - Order items logically (most common/safe actions first, destructive actions last).
- * - Use nys-dropdownmenuitem children to populate the menu.
- *
- * ## Dependencies
- *
- * This component depends on the following NYS Design System components:
- *
- *   - `nys-icon`
- *
  * @summary Action menu with auto-positioning, keyboard support, and screen reader integration.
  * @element nys-dropdownmenu
  *
