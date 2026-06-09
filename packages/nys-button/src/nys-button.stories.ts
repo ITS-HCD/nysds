@@ -498,7 +498,141 @@ export const Icons: Story = {
   prefixIcon="chevron_left"
   suffixIcon="chevron_right"
 ></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+export const SlottedIcons: Story = {
+  args: {
+    label: "Click Me",
+    prefixIcon: "chevron_left",
+    suffixIcon: "chevron_right",
+    ariaLabel: "click me",
+  },
 
+  render: (args) => html`
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+      .ariaDescription=${args.ariaDescription}
+    >
+      <nys-icon
+        color="#db117d"
+        slot="prefix-icon"
+        name=${args.prefixIcon}
+      ></nys-icon>
+      <nys-icon
+        color="#db117d"
+        slot="suffix-icon"
+        name=${args.suffixIcon}
+      ></nys-icon>
+    </nys-button>
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      variant="outline"
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+      .ariaDescription=${args.ariaDescription}
+    >
+      <nys-icon
+        color="#db117d"
+        slot="prefix-icon"
+        name=${args.prefixIcon}
+      ></nys-icon>
+      <nys-icon
+        color="#db117d"
+        slot="suffix-icon"
+        name=${args.suffixIcon}
+      ></nys-icon>
+    </nys-button>
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      variant="ghost"
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+      .ariaDescription=${args.ariaDescription}
+    >
+      <nys-icon
+        color="#db117d"
+        slot="prefix-icon"
+        name=${args.prefixIcon}
+      ></nys-icon>
+      <nys-icon
+        color="#db117d"
+        slot="suffix-icon"
+        name=${args.suffixIcon}
+      ></nys-icon>
+    </nys-button>
+    <nys-button
+      .id=${args.id}
+      .name=${args.name}
+      .size=${args.size}
+      variant="text"
+      .inverted=${args.inverted}
+      .label=${args.label}
+      .disabled=${args.disabled}
+      .form=${args.form}
+      .value=${args.value}
+      .href=${args.href}
+      .target=${args.target}
+      .type=${args.type}
+      .ariaLabel=${args.ariaLabel}
+      .ariaDescription=${args.ariaDescription}
+    >
+      <nys-icon
+        color="#db117d"
+        slot="prefix-icon"
+        name=${args.prefixIcon}
+      ></nys-icon>
+      <nys-icon
+        color="#db117d"
+        slot="suffix-icon"
+        name=${args.suffixIcon}
+      ></nys-icon>
+    </nys-button>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button
+  id="button1"
+  name="button1"
+  label="Click Me"
+  ariaLabel="click me"
+>
+  <nys-icon color="#db117d" slot="prefix-icon" name="chevron_left"></nys-icon>
+  <nys-icon color="#db117d" slot="suffix-icon" name="chevron_right"></nys-icon>
+</nys-button>`,
         type: "auto",
       },
     },
