@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-breadcrumbs",
-  "version": "1.18.3",
+  "version": "1.19.0",
   "description": "The Breadcrumbs component from the NYS Design System.",
   "module": "dist/nys-breadcrumbs.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
     "lit-analyze": "lit-analyzer '*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.18.3"
+    "@nysds/nys-icon": "^1.19.0"
   },
   "devDependencies": {
     "lit": "^3.3.1",
@@ -41,4 +41,3 @@
   "author": "New York State Design System Team",
   "license": "MIT"
 }
-
