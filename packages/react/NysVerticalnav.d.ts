@@ -25,7 +25,7 @@ export interface NysVerticalnavProps extends Pick<
   id?: NysVerticalnavElement["id"];
 
   /** undefined */
-  navHeader?: NysVerticalnavElement["navHeader"];
+  header?: NysVerticalnavElement["header"];
 
   /** undefined */
   headerLevel?: NysVerticalnavElement["headerLevel"];
@@ -53,7 +53,7 @@ export interface NysVerticalnavProps extends Pick<
 }
 
 /**
- * `<nys-verticalnav>` is ...
+ * Responsive vertical navigation — nav on desktop, accordion on mobile.
  * ---
  *
  */

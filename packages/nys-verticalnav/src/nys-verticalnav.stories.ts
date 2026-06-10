@@ -13,7 +13,7 @@ interface NysVerticalnavArgs {
   id: string;
   hideHeader: boolean;
   headerLevel: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-  navHeader: string;
+  header: string;
 }
 
 const meta: Meta<NysVerticalnavArgs> = {
@@ -21,7 +21,7 @@ const meta: Meta<NysVerticalnavArgs> = {
   component: "nys-verticalnav",
   argTypes: {
     id: { control: "text" },
-    navHeader: { control: "text" },
+    header: { control: "text" },
     hideHeader: { control: "boolean" },
     headerLevel: {
       control: "select",
@@ -42,14 +42,14 @@ type Story = StoryObj<NysVerticalnavArgs>;
 export const Basic: Story = {
   args: {
     id: "verticalnav1",
-    navHeader: "Freshwater Fishing",
+    header: "Freshwater Fishing",
     hideHeader: false,
     headerLevel: "h2",
   },
   render: (args) => html`
     <nys-verticalnav
       id=${args.id}
-      navHeader=${args.navHeader}
+      header=${args.header}
       ?hideHeader=${args.hideHeader}
       headerLevel=${args.headerLevel}
     >
@@ -71,7 +71,7 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-<nys-verticalnav navHeader="Freshwater Fishing" headerLevel="h2">
+<nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/services"><nys-icon></nys-icon> Services</a></li>
@@ -93,14 +93,14 @@ export const Basic: Story = {
 export const WithHeaderSlot: Story = {
   args: {
     id: "verticalnav2",
-    navHeader: "Freshwater Fishing",
+    header: "Freshwater Fishing",
     hideHeader: false,
     headerLevel: "h2",
   },
   render: (args) => html`
     <nys-verticalnav
       id=${args.id}
-      navHeader=${args.navHeader}
+      header=${args.header}
       ?hideHeader=${args.hideHeader}
       headerLevel=${args.headerLevel}
     >
@@ -126,7 +126,7 @@ export const WithHeaderSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-verticalnav navHeader="Freshwater Fishing" headerLevel="h2">
+<nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
   <div slot="header">
     <h2>🎣 Freshwater Fishing</h2>
     <p>2024 Season Guide</p>
@@ -152,14 +152,14 @@ export const WithHeaderSlot: Story = {
 export const WithFooterSlot: Story = {
   args: {
     id: "verticalnav3",
-    navHeader: "Freshwater Fishing",
+    header: "Freshwater Fishing",
     hideHeader: false,
     headerLevel: "h2",
   },
   render: (args) => html`
     <nys-verticalnav
       id=${args.id}
-      navHeader=${args.navHeader}
+      header=${args.header}
       ?hideHeader=${args.hideHeader}
       headerLevel=${args.headerLevel}
     >
@@ -188,7 +188,7 @@ export const WithFooterSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-verticalnav navHeader="Freshwater Fishing" headerLevel="h2">
+<nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/services">Services</a></li>
@@ -214,14 +214,14 @@ export const WithFooterSlot: Story = {
 export const WithHeaderAndFooterSlot: Story = {
   args: {
     id: "verticalnav4",
-    navHeader: "Freshwater Fishing",
+    header: "Freshwater Fishing",
     hideHeader: false,
     headerLevel: "h2",
   },
   render: (args) => html`
     <nys-verticalnav
       id=${args.id}
-      navHeader=${args.navHeader}
+      header=${args.header}
       ?hideHeader=${args.hideHeader}
       headerLevel=${args.headerLevel}
     >
@@ -254,7 +254,7 @@ export const WithHeaderAndFooterSlot: Story = {
     docs: {
       source: {
         code: `
-<nys-verticalnav navHeader="Freshwater Fishing" headerLevel="h2">
+<nys-verticalnav header="Freshwater Fishing" headerLevel="h2">
   <div slot="header">
     <h2>🎣 Freshwater Fishing</h2>
     <p>2024 Season Guide</p>
@@ -284,14 +284,14 @@ export const WithHeaderAndFooterSlot: Story = {
 export const WithDropdownGroup: Story = {
   args: {
     id: "verticalnav5",
-    navHeader: "NYS Design System",
+    header: "NYS Design System",
     hideHeader: false,
     headerLevel: "h2",
   },
   render: (args) => html`
     <nys-verticalnav
       id=${args.id}
-      navHeader=${args.navHeader}
+      header=${args.header}
       ?hideHeader=${args.hideHeader}
       headerLevel=${args.headerLevel}
     >
@@ -322,7 +322,7 @@ export const WithDropdownGroup: Story = {
 export const PageLayout: Story = {
   args: {
     id: "verticalnav-layout",
-    navHeader: "NYS Design System",
+    header: "NYS Design System",
     hideHeader: false,
     headerLevel: "h2",
   },
@@ -343,6 +343,13 @@ export const PageLayout: Story = {
       .story-page__main {
         flex: 1;
         padding: var(--nys-space-400, 32px);
+      }
+
+      @media (max-width: 1023px) {
+        .story-page__body {
+          flex-direction: column;
+          padding: var(--nys-size-400, 32px);
+        }
       }
     </style>
 
@@ -367,7 +374,7 @@ export const PageLayout: Story = {
       <div class="story-page__body">
         <nys-verticalnav
           id=${args.id}
-          navHeader=${args.navHeader}
+          header=${args.header}
           ?hideHeader=${args.hideHeader}
           headerLevel=${args.headerLevel}
         >
@@ -379,11 +386,13 @@ export const PageLayout: Story = {
                 <ul>
                   <li><a href="">WCAG Guidelines</a></li>
                   <li>
+                    <a href="" aria-current="page">Screen Readers</a>
+                  </li>
+                  <li>
                     <a aria-disabled="true" tabindex="-1" href=""
-                      >Screen Readers</a
+                      >Color Contrast</a
                     >
                   </li>
-                  <li><a href="">Color Contrast</a></li>
                 </ul>
               </nys-verticalnavgroup>
             </li>

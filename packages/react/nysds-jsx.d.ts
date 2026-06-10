@@ -1021,7 +1021,7 @@ export type NysVerticalnavProps = {
   /**  */
   id?: string;
   /**  */
-  navHeader?: string;
+  header?: string;
   /**  */
   hideHeader?: boolean;
   /**  */
@@ -1033,6 +1033,8 @@ export type NysVerticalnavGroupProps = {
   label?: string;
   /**  */
   expanded?: boolean;
+  /**  */
+  disabled?: boolean;
 
   /**  */
   "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;
@@ -1620,14 +1622,14 @@ export type CustomElements = {
   "nys-unavheader": Partial<NysUnavHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-verticalnav>` is ...
+   * Responsive vertical navigation — nav on desktop, accordion on mobile.
    * ---
    *
    */
   "nys-verticalnav": Partial<NysVerticalnavProps & BaseProps & BaseEvents>;
 
   /**
-   * `<nys-verticalnavgroup>` is collapsible dropdown group within a vertical nav
+   * Collapsible link group for use within `<nys-verticalnav>`.
    * ---
    *
    *

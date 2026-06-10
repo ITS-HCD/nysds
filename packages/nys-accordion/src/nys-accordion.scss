@@ -138,6 +138,7 @@ p {
 :host([bordered]) .nys-accordionitem__content-slot-container {
   border: var(--_nys-accordion-border-width) solid
     var(--_nys-accordion-border-color);
+  border-top: none;
   border-radius: 0 0 var(--_nys-accordion-border-radius)
     var(--_nys-accordion-border-radius);
 }

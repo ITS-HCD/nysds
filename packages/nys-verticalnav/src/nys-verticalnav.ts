@@ -23,7 +23,7 @@ type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Basic usage
  * ```html
- * <nys-verticalnav navHeader="Freshwater Fishing">
+ * <nys-verticalnav header="Freshwater Fishing">
  *   <ul>
  *     <li><a href="/home">Home</a></li>
  *     <li>
@@ -38,7 +38,7 @@ type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example With custom header and footer slots
  * ```html
- * <nys-verticalnav navHeader="Freshwater Fishing">
+ * <nys-verticalnav header="Freshwater Fishing">
  *   <div slot="header">
  *     <h2>🎣 Freshwater Fishing</h2>
  *     <p>2024 Season Guide</p>
@@ -55,7 +55,7 @@ type HeaderLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @example Hidden header (aria-label used instead)
  * ```html
- * <nys-verticalnav navHeader="Section nav" hideHeader>
+ * <nys-verticalnav header="Section nav" hideHeader>
  *   <ul>
  *     <li><a href="/home">Home</a></li>
  *   </ul>
@@ -67,10 +67,9 @@ export class NysVerticalnav extends LitElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
-  @property({ type: String, reflect: true }) navHeader = "Page navigation";
+  @property({ type: String, reflect: true }) header = "Page navigation";
   @property({ type: Boolean, reflect: true }) hideHeader = false;
   @property({ type: String, reflect: true }) headerLevel: HeaderLevel = "h2";
-  @property({ type: String, reflect: true }) activeHref = "";
 
   @state() private _isMobile = false;
   private _mediaQuery: MediaQueryList | null = null;
@@ -120,6 +119,8 @@ export class NysVerticalnav extends LitElement {
       container.appendChild(node.cloneNode(true));
     });
 
+    this._applyActiveState(container);
+
     if (this._isMobile) {
       this._injectDividers(container);
     }
@@ -144,22 +145,22 @@ export class NysVerticalnav extends LitElement {
 
     const headingTag = {
       h1: html`<h1 id=${headingId} class="nys-verticalnav__header">
-        ${this.navHeader}
+        ${this.header}
       </h1>`,
       h2: html`<h2 id=${headingId} class="nys-verticalnav__header">
-        ${this.navHeader}
+        ${this.header}
       </h2>`,
       h3: html`<h3 id=${headingId} class="nys-verticalnav__header">
-        ${this.navHeader}
+        ${this.header}
       </h3>`,
       h4: html`<h4 id=${headingId} class="nys-verticalnav__header">
-        ${this.navHeader}
+        ${this.header}
       </h4>`,
       h5: html`<h5 id=${headingId} class="nys-verticalnav__header">
-        ${this.navHeader}
+        ${this.header}
       </h5>`,
       h6: html`<h6 id=${headingId} class="nys-verticalnav__header">
-        ${this.navHeader}
+        ${this.header}
       </h6>`,
     };
 
@@ -184,10 +185,7 @@ export class NysVerticalnav extends LitElement {
   private renderContentMobile() {
     return html` <nav class="nys-verticalnav nys-verticalnav--mobile">
       <nys-accordion bordered>
-        <nys-accordionitem
-          id="${this.id}-accordion"
-          heading="${this.navHeader}"
-        >
+        <nys-accordionitem id="${this.id}-accordion" heading="${this.header}">
           <slot
             @slotchange=${this._handleSlotChange}
             style="display:none"
@@ -206,6 +204,7 @@ export class NysVerticalnav extends LitElement {
 
       if (li.nextElementSibling) {
         const divider = document.createElement("nys-divider");
+        divider.setAttribute("subtle", "");
         li.insertAdjacentElement("afterend", divider);
       }
     });
@@ -219,9 +218,10 @@ export class NysVerticalnav extends LitElement {
 
       if (!hasSubheader) return;
 
-      // Don't double-up if previous sibling is already a divider
+      // Prevent double-up if previous sibling is already a divider
       const prev = li.previousElementSibling;
       if (!prev) return;
+
       const prevIsDivider = prev.tagName.toLowerCase() === "nys-divider";
       const prevIsDividerLi =
         prev.tagName === "LI" &&
@@ -229,10 +229,23 @@ export class NysVerticalnav extends LitElement {
         prev.children[0].tagName.toLowerCase() === "nys-divider";
       if (prevIsDivider || prevIsDividerLi) return;
 
-      li.insertAdjacentElement(
-        "beforebegin",
-        document.createElement("nys-divider"),
-      );
+      const divider = document.createElement("nys-divider");
+      divider.setAttribute("subtle", "");
+      li.insertAdjacentElement("beforebegin", divider);
+    });
+  }
+
+  private _applyActiveState(container: Element) {
+    container.querySelectorAll('a[aria-current="page"]').forEach((a) => {
+      a.classList.add("nys-verticalnav__link--active");
+    });
+
+    // Auto-expand any group that contains an active link
+    container.querySelectorAll("nys-verticalnavgroup").forEach((group) => {
+      if (group.querySelector('a[aria-current="page"]')) {
+        group.setAttribute("expanded", "");
+        group.setAttribute("active", "");
+      }
     });
   }
 

@@ -14543,7 +14543,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-verticalnav>` is ...",
+          "description": "Vertical navigation component with responsive desktop/mobile behavior.\n\nRenders as a side vertical navigation with heading and slotted link list on desktop. On tablet/mobile\nit collapses into a `<nys-accordion>`. The default slot accepts a\n`<ul>` of links; subheader `<li>` items (containing `<h2>`-`<h6>`). Use the `header` slot to replace the\nauto-generated heading, and the `footer` slot for metadata or extra actions\nbelow the link list.",
           "name": "NysVerticalnav",
           "members": [
             {
@@ -14558,12 +14558,12 @@
             },
             {
               "kind": "field",
-              "name": "navHeader",
+              "name": "header",
               "type": {
                 "text": "string"
               },
               "default": "\"Page navigation\"",
-              "attribute": "navHeader",
+              "attribute": "header",
               "reflects": true
             },
             {
@@ -14677,13 +14677,13 @@
               "propName": "id"
             },
             {
-              "name": "navHeader",
+              "name": "header",
               "type": {
                 "text": "string"
               },
               "default": "\"Page navigation\"",
-              "fieldName": "navHeader",
-              "propName": "navheader"
+              "fieldName": "header",
+              "propName": "header"
             },
             {
               "name": "hideHeader",
@@ -14709,7 +14709,25 @@
             "package": "lit"
           },
           "tagName": "nys-verticalnav",
-          "customElement": true
+          "customElement": true,
+          "summary": "Responsive vertical navigation — nav on desktop, accordion on mobile.",
+          "examples": [
+            {
+              "title": "Basic usage",
+              "code": "<nys-verticalnav header=\"Freshwater Fishing\">\n<ul>\n<li><a href=\"/home\">Home</a></li>\n<li>\n<h3>Regulations</h3>\n<ul>\n<li><a href=\"/places\">Places to Fish</a></li>\n</ul>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "With custom header and footer slots",
+              "code": "<nys-verticalnav header=\"Freshwater Fishing\">\n<div slot=\"header\">\n<h2>🎣 Freshwater Fishing</h2>\n<p>2024 Season Guide</p>\n</div>\n<ul>\n<li><a href=\"/home\">Home</a></li>\n</ul>\n<div slot=\"footer\">\n<nys-divider></nys-divider>\n<p>Last updated: January 2024</p>\n</div>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Hidden header (aria-label used instead)",
+              "code": "<nys-verticalnav header=\"Section nav\" hideHeader>\n<ul>\n<li><a href=\"/home\">Home</a></li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -14737,7 +14755,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "`<nys-verticalnavgroup>` is collapsible dropdown group within a vertical nav",
+          "description": "Collapsible dropdown group for use inside `<nys-verticalnav>`.\n\nRenders a toggle button and an expandable panel for a nested `<ul>` of links.\nDesigned to be placed as a direct child of a `<li>` inside the vertical nav's\ndefault slot. Use `expanded` to open it by default, and `disabled` to prevent\ninteraction.",
           "name": "NysVerticalnavGroup",
           "members": [
             {
@@ -14757,6 +14775,16 @@
               },
               "default": "false",
               "attribute": "expanded",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
               "reflects": true
             },
             {
@@ -14791,6 +14819,15 @@
               "default": "false",
               "fieldName": "expanded",
               "propName": "expanded"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled",
+              "propName": "disabled"
             }
           ],
           "superclass": {
@@ -14798,7 +14835,25 @@
             "package": "lit"
           },
           "tagName": "nys-verticalnavgroup",
-          "customElement": true
+          "customElement": true,
+          "summary": "Collapsible link group for use within `<nys-verticalnav>`.",
+          "examples": [
+            {
+              "title": "Basic usage",
+              "code": "<nys-verticalnav header=\"NYS Design System\">\n<ul>\n<li><a href=\"/foundations\">Foundations</a></li>\n<li>\n<nys-verticalnavgroup label=\"Accessibility\">\n<ul>\n <li><a href=\"/wcag\">WCAG Guidelines</a></li>\n <li><a href=\"/screen-readers\">Screen Readers</a></li>\n</ul>\n</nys-verticalnavgroup>\n</li>\n</ul>\n</nys-verticalnav>",
+              "lang": "html"
+            },
+            {
+              "title": "Expanded by default",
+              "code": "<nys-verticalnavgroup label=\"Resources\" expanded>\n<ul>\n<li><a href=\"/tokens\">Design Tokens</a></li>\n</ul>\n</nys-verticalnavgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-verticalnavgroup label=\"Coming Soon\" disabled>\n<ul>\n<li><a href=\"/future\">Future Feature</a></li>\n</ul>\n</nys-verticalnavgroup>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [

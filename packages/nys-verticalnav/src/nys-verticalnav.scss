@@ -2,7 +2,8 @@
   /* Anything that can be overridden should be defined here */
 
   /* Global Verticalnav Styles */
-  // --_nys-verticalnav-width: fit-content;
+  --_nys-verticalnav-color: var(--nys-color-text-weak, #4a4d4f);
+  --_nys-verticalnav-color--subheader: var(--nys-color-text, #1b1b1b);
   // --_nys-verticalnav-height: var(--nys-size-600, 48px);
   // --_nys-verticalnav-radius: var(--nys-radius-xl, 12px);
   // --_nys-verticalnav-padding: var(--nys-space-100, 8px);
@@ -12,7 +13,11 @@
   --_nys-verticalnav-font-size: var(--nys-font-size-ui-md, 16px);
   --_nys-verticalnav-font-size--header: var(--nys-font-size-ui-lg, 18px);
   --_nys-verticalnav-font-size--subheader: var(--nys-font-size-ui-sm, 14px);
-  --_nys-verticalnav-font-weight: var(--nys-font-weight-semibold, 600);
+  --_nys-verticalnav-font-weight: var(--nys-font-weight-regular, 400);
+  --_nys-verticalnav-font-weight--subheader: var(
+    --nys-font-weight-semibold,
+    600
+  );
   --_nys-verticalnav-line-height: var(--nys-font-lineheight-ui-md, 24px);
   --_nys-verticalnav-font-family: var(
     --nys-font-family-ui,
@@ -66,17 +71,19 @@ nys-accordion {
       display: flex;
       flex-direction: column;
       a {
-        color: var(--nys-color-text);
+        color: var(--_nys-verticalnav-color);
         display: flex;
         padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
-          var(--nys-space-100, 8px) var(--nys-space-250, 20px);
+          var(--nys-space-100, 8px)
+          var(--_nys-verticalnav-link-indent, var(--nys-space-150, 12px));
+
         // background-color: rgb(201, 180, 222);
         text-decoration: none;
         &:hover {
-          background: var(--nys-color-neutral-10, #f6f6f6);
+          background-color: var(--nys-color-neutral-10, #f6f6f6);
         }
         &:active {
-          background: var(--nys-color-neutral-50, #ededed);
+          background-color: var(--nys-color-neutral-50, #ededed);
         }
         &:focus-visible {
           outline: var(--nys-border-width-md, 2px) solid
@@ -86,6 +93,19 @@ nys-accordion {
         &[aria-disabled="true"] {
           color: var(--nys-color-text-disabled, #bec0c1);
           pointer-events: none;
+        }
+        &[aria-current="page"] {
+          background-color: var(--nys-color-theme-faint, #f7fafd);
+
+          border-left: var(--nys-border-width-md, 2px) solid
+            var(--nys-color-theme, #154973);
+          &:hover {
+            background-color: var(--nys-color-theme-weaker, #eff6fb);
+          }
+
+          &:active {
+            background-color: var(--nys-color-theme-weak, #cddde9);
+          }
         }
       }
     }
@@ -103,12 +123,16 @@ nys-accordion {
     padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px)
       var(--nys-space-50, 4px) var(--nys-space-150, 12px);
     margin: 0;
+    text-transform: uppercase;
+    font-weight: 700;
   }
 
   .nys-verticalnav__header {
+    color: var(--_nys-verticalnav-color--subheader);
     border-top: none;
     font-size: var(--_nys-verticalnav-font-size--header);
     font-weight: 700;
+    text-transform: none;
   }
 }
 
@@ -120,17 +144,27 @@ nys-accordion {
     width: 100%;
     padding: var(--nys-space-100, 8px) var(--nys-space-200, 16px)
       var(--nys-space-100, 8px) var(--nys-space-150, 12px);
-    background: none;
+    background-color: none;
     border: none;
     cursor: pointer;
+    color: var(--_nys-verticalnav-color);
     font-family: var(--_nys-verticalnav-font-family);
     font-size: var(--_nys-verticalnav-font-size);
-    font-weight: var(--_nys-verticalnav-font-weight);
+    font-weight: var(--_nys-verticalnav-font-weight--subheader);
     line-height: var(--_nys-verticalnav-line-height);
+    &:hover {
+      background-color: var(--nys-color-neutral-10, #f6f6f6);
+    }
+    &:active {
+      background-color: var(--nys-color-neutral-50, #ededed);
+    }
     &:focus-visible {
       outline: var(--nys-border-width-md, 2px) solid
         var(--nys-color-focus, #004dd1);
       outline-offset: -2px;
+    }
+    &:disabled {
+      color: var(--nys-color-text-disabled, #bec0c1);
     }
   }
 
@@ -140,6 +174,7 @@ nys-accordion {
 
   &__items {
     display: none;
+    --_nys-verticalnav-link-indent: var(--nys-space-300, 24px);
   }
 }
 
@@ -161,5 +196,19 @@ nys-accordion {
 
   .nys-verticalnavgroup__items {
     display: block;
+  }
+}
+
+:host([active]) {
+  .nys-verticalnavgroup {
+    &__trigger {
+      background-color: var(--nys-color-theme-faint, #f7fafd);
+      &:hover {
+        background-color: var(--nys-color-theme-weaker, #eff6fb);
+      }
+      &:active {
+        background-color: var(--nys-color-theme-weak, #cddde9);
+      }
+    }
   }
 }

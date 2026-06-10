@@ -25,6 +25,9 @@ export interface NysVerticalnavGroupProps extends Pick<
   expanded?: boolean;
 
   /** undefined */
+  disabled?: boolean;
+
+  /** undefined */
   label?: NysVerticalnavGroupElement["label"];
 
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
@@ -53,7 +56,7 @@ export interface NysVerticalnavGroupProps extends Pick<
 }
 
 /**
- * `<nys-verticalnavgroup>` is collapsible dropdown group within a vertical nav
+ * Collapsible link group for use within `<nys-verticalnav>`.
  * ---
  *
  *

@@ -16,7 +16,7 @@ import styles from "./nys-verticalnav.scss?inline";
  *
  * @example Basic usage
  * ```html
- * <nys-verticalnav navHeader="NYS Design System">
+ * <nys-verticalnav header="NYS Design System">
  *   <ul>
  *     <li><a href="/foundations">Foundations</a></li>
  *     <li>
@@ -56,6 +56,7 @@ export class NysVerticalnavGroup extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: Boolean, reflect: true }) expanded = false;
   @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true }) active = false;
 
   private _toggle() {
     if (this.disabled) return;
