@@ -19,6 +19,11 @@ let alertIdCounter = 0;
  *
  * @fires nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
  *
+ * @example Basic alert
+ * ```html
+ * <nys-alert heading="This is a heading"></nys-alert>
+ * ```
+ *
  * @example Info alert
  * ```html
  * <nys-alert type="info" heading="Update available" text="A new version is ready to install."></nys-alert>

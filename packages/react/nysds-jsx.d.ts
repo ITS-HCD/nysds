@@ -532,8 +532,10 @@ export type NysGlobalHeaderProps = {
 };
 
 export type NysIconProps = {
-  /** Icon name from Material Symbols library. Required. */
+  /** Icon name to resolve from the selected library. Required. */
   name?: string;
+  /** Which registered icon library to use. Defaults to the built-in NYSDS library. */
+  library?: string;
   /** Accessible label. When set, removes `aria-hidden` and adds `aria-label` to the SVG. */
   ariaLabel?: string;
   /** Rotation in degrees. Applied via CSS `rotate`. */
@@ -562,6 +564,8 @@ export type NysIconProps = {
     | "32"
     | "40"
     | "50";
+  /** Resolves when the current icon load (if any) is complete. */
+  updateComplete?: Promise<boolean>;
 };
 
 export type NysLabelProps = {
@@ -1299,9 +1303,12 @@ export type CustomElements = {
   "nys-globalheader": Partial<NysGlobalHeaderProps & BaseProps & BaseEvents>;
 
   /**
-   * SVG icon from Material Symbols library with size, rotation, and color options.
+   * SVG icon with swappable library support, size, rotation, and color options.
    * ---
    *
+   *
+   * ### **Methods:**
+   *  - **redraw()** - Called by the icon library registry when the current library changes.
    */
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 

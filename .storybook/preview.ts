@@ -1,7 +1,15 @@
 import type { Preview } from "@storybook/web-components-vite";
 import { MINIMAL_VIEWPORTS } from "storybook/viewport";
+import { registerIconLibrary } from "../packages/nys-icon/src/icon-library-registry";
 
 import "./preview.css"; // Custom Storybook styles
+
+// Override the default icon library resolver for Storybook.
+// The built-in resolver uses import.meta.url which doesn't resolve correctly
+// in Storybook's bundled environment. Point to the staticDirs-served path instead.
+registerIconLibrary("default", {
+  resolver: (name) => (name ? `/assets/icons/${name}.svg` : undefined),
+});
 
 const loadTheme = (() => {
   let themeLink: HTMLLinkElement | null;
