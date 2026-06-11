@@ -729,53 +729,33 @@
           "summary": "Alert for contextual feedback with semantic types and live region support.",
           "examples": [
             {
-              "title": "Basic alert",
+              "title": "Basic",
               "code": "<nys-alert heading=\"This is a heading\"></nys-alert>",
               "lang": "html"
             },
             {
               "title": "Text",
-              "code": "<nys-alert>\nheading=\"This is a heading\"\ntext=\"This is additional information passed in through the text property\"\n</nys-alert>",
+              "code": "<nys-alert\nheading=\"This is a heading\"\ntext=\"This is additional information passed in through the text property\"\n></nys-alert>",
               "lang": "html"
             },
             {
               "title": "Rich Text",
-              "code": "<nys-alert type=\"success\" heading=\"Rich Text\">\n<p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>\n<a href=\"https://www.ny.gov/\" target=\"_blank\">Learn more about our accessibility services</a>\n</nys-alert>",
+              "code": "<nys-alert heading=\"Rich Text\">\n<p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>\n<a href=\"https://www.ny.gov/\" target=\"_blank\">Learn more about our accessibility services</a>\n</nys-alert>",
               "lang": "html"
             },
             {
-              "title": "Type Info",
-              "code": "<nys-alert type=\"info\" heading=\"Update available\" text=\"A new version is ready to install.\"></nys-alert>",
-              "lang": "html"
-            },
-            {
-              "title": "Type Success",
-              "code": "<nys-alert type=\"success\" heading=\"Operation completed\" text=\"Your changes have been saved.\"></nys-alert>",
-              "lang": "html"
-            },
-            {
-              "title": "Type Warning",
-              "code": "<nys-alert type=\"warning\" heading=\"Your application is pending\" text=\"Check your status by calling our office at (999) 999-9999.\"></nys-alert>",
-              "lang": "html"
-            },
-            {
-              "title": "Type Danger",
-              "code": "<nys-alert type=\"danger\" heading=\"Your registration has expired\" text=\"Please visit your local DMV to renew your license.\"></nys-alert>",
-              "lang": "html"
-            },
-            {
-              "title": "Type Emergency",
-              "code": "<nys-alert type=\"emergency\" heading=\"There is severe weather in your area\" text=\"Remain indoors until more information is made available.\"></nys-alert>",
+              "title": "Type",
+              "code": "<div class=\"nys-display-flex nys-flex-column nys-flex-gap-100\">\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>\n</div>",
               "lang": "html"
             },
             {
               "title": "Dismissible",
-              "code": "<nys-alert type=\"info\" heading=\"Information status\" dismissible>\n<p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href=\"https://www.ny.gov/\" target=\"_blank\">https://www.ny.gov/</a> for more info.</p>\n</nys-alert>",
+              "code": "<nys-alert heading=\"This alert is dismisable\" text=\"Close it by clicking on the X in the corner.\" dismissible>\n</nys-alert>",
               "lang": "html"
             },
             {
               "title": "Duration",
-              "code": "// -- render --\n<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>\n// -- code --\n<nys-alert type=\"info\" heading=\"Information status\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
+              "code": "// -- render --\n<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>\n// -- code --\n<nys-alert heading=\"Disappearing alert\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
               "lang": "html"
             },
             {

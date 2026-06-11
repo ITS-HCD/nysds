@@ -79,19 +79,19 @@ export const Basic: Story = {
 
 export const Text: Story = {
   render: () => html`
-    <nys-alert>
-      heading="This is a heading" text="This is additional information passed in
-      through the text property"
-    </nys-alert>
+    <nys-alert
+      heading="This is a heading"
+      text="This is additional information passed in through the text property"
+    ></nys-alert>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-alert>
-  heading="This is a heading" text="This is additional information passed in through the text
-  property"
-</nys-alert>`,
+<nys-alert
+  heading="This is a heading"
+  text="This is additional information passed in through the text property"
+></nys-alert>`,
         type: "auto",
       },
     },
@@ -100,7 +100,7 @@ export const Text: Story = {
 
 export const RichText: Story = {
   render: () => html`
-    <nys-alert type="success" heading="Rich Text">
+    <nys-alert heading="Rich Text">
       <p>
         This is a custom alert with
         <strong>HTML content</strong>
@@ -115,7 +115,7 @@ export const RichText: Story = {
     docs: {
       source: {
         code: `
-<nys-alert type="success" heading="Rich Text">
+<nys-alert heading="Rich Text">
   <p>
     This is a custom alert with
     <strong>HTML content</strong>
@@ -129,115 +129,27 @@ export const RichText: Story = {
   },
 };
 
-export const TypeInfo: Story = {
+export const Type: Story = {
   render: () => html`
-    <nys-alert
-      type="info"
-      heading="Update available"
-      text="A new version is ready to install."
-    ></nys-alert>
+    <div class="nys-display-flex nys-flex-column nys-flex-gap-100">
+      <nys-alert type="info" heading="Info alert type"></nys-alert>
+      <nys-alert type="success" heading="Success alert type"></nys-alert>
+      <nys-alert type="warning" heading="Warning alert type"></nys-alert>
+      <nys-alert type="danger" heading="Danger alert type"></nys-alert>
+      <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
+    </div>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-alert
-  type="info"
-  heading="Update available"
-  text="A new version is ready to install."
-></nys-alert>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const TypeSuccess: Story = {
-  render: () => html`
-    <nys-alert
-      type="success"
-      heading="Operation completed"
-      text="Your changes have been saved."
-    ></nys-alert>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-alert
-  type="success"
-  heading="Operation completed"
-  text="Your changes have been saved."
-></nys-alert>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const TypeWarning: Story = {
-  render: () => html`
-    <nys-alert
-      type="warning"
-      heading="Your application is pending"
-      text="Check your status by calling our office at (999) 999-9999."
-    ></nys-alert>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-alert
-  type="warning"
-  heading="Your application is pending"
-  text="Check your status by calling our office at (999) 999-9999."
-></nys-alert>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const TypeDanger: Story = {
-  render: () => html`
-    <nys-alert
-      type="danger"
-      heading="Your registration has expired"
-      text="Please visit your local DMV to renew your license."
-    ></nys-alert>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-alert
-  type="danger"
-  heading="Your registration has expired"
-  text="Please visit your local DMV to renew your license."
-></nys-alert>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const TypeEmergency: Story = {
-  render: () => html`
-    <nys-alert
-      type="emergency"
-      heading="There is severe weather in your area"
-      text="Remain indoors until more information is made available."
-    ></nys-alert>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-alert
-  type="emergency"
-  heading="There is severe weather in your area"
-  text="Remain indoors until more information is made available."
-></nys-alert>`,
+<div class="nys-display-flex nys-flex-column nys-flex-gap-100">
+  <nys-alert type="info" heading="Info alert type"></nys-alert>
+  <nys-alert type="success" heading="Success alert type"></nys-alert>
+  <nys-alert type="warning" heading="Warning alert type"></nys-alert>
+  <nys-alert type="danger" heading="Danger alert type"></nys-alert>
+  <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
+</div>`,
         type: "auto",
       },
     },
@@ -246,29 +158,21 @@ export const TypeEmergency: Story = {
 
 export const Dismissible: Story = {
   render: () => html`
-    <nys-alert type="info" heading="Information status" dismissible>
-      <p>
-        Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.
-        <br />
-        Click here for more info:
-        <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
-        for more info.
-      </p>
-    </nys-alert>
+    <nys-alert
+      heading="This alert is dismisable"
+      text="Close it by clicking on the X in the corner."
+      dismissible
+    ></nys-alert>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-alert type="info" heading="Information status" dismissible>
-  <p>
-    Adirondack peaks auctor Hudson River flows semper Statue of Liberty est.
-    <br />
-    Click here for more info:
-    <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a>
-    for more info.
-  </p>
-</nys-alert>`,
+<nys-alert
+  heading="This alert is dismisable"
+  text="Close it by clicking on the X in the corner."
+  dismissible
+></nys-alert>`,
         type: "auto",
       },
     },
@@ -283,8 +187,7 @@ export const Duration: Story = {
       onclick="
         document.body.appendChild(
           Object.assign(document.createElement('nys-alert'), {
-            type: 'info',
-            heading: 'Information status',
+            heading: 'Disappearing alert',
             text: 'This alert will disappear after 3 seconds.',
             duration: 3000,
           }),
@@ -297,8 +200,7 @@ export const Duration: Story = {
       source: {
         code: `
 <nys-alert
-  type="info"
-  heading="Information status"
+  heading="Disappearing alert"
   text="This alert will disappear after 3 seconds."
   duration="3000"
 ></nys-alert>`,

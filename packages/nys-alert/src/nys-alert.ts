@@ -19,55 +19,41 @@ let alertIdCounter = 0;
  *
  * @fires nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
  *
- * @example Basic alert
+ * @example Basic
  * ```html
  * <nys-alert heading="This is a heading"></nys-alert>
  * ```
  *
  * @example Text
  * ```html
- * <nys-alert>
+ * <nys-alert
  *  heading="This is a heading"
  *  text="This is additional information passed in through the text property"
- * </nys-alert>
+ * ></nys-alert>
  * ```
  *
  * @example Rich Text
  * ```html
- * <nys-alert type="success" heading="Rich Text">
+ * <nys-alert heading="Rich Text">
  *  <p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>
  *  <a href="https://www.ny.gov/" target="_blank">Learn more about our accessibility services</a>
  * </nys-alert>
  * ```
  *
- * @example Type Info
+ * @example Type
  * ```html
- * <nys-alert type="info" heading="Update available" text="A new version is ready to install."></nys-alert>
- * ```
- * @example Type Success
- * ```html
- * <nys-alert type="success" heading="Operation completed" text="Your changes have been saved."></nys-alert>
- * ```
- *
- * @example Type Warning
- * ```html
- * <nys-alert type="warning" heading="Your application is pending" text="Check your status by calling our office at (999) 999-9999."></nys-alert>
- * ```
- *
- * @example Type Danger
- * ```html
- * <nys-alert type="danger" heading="Your registration has expired" text="Please visit your local DMV to renew your license."></nys-alert>
- * ```
- *
- * @example Type Emergency
- * ```html
- * <nys-alert type="emergency" heading="There is severe weather in your area" text="Remain indoors until more information is made available."></nys-alert>
+ * <div class="nys-display-flex nys-flex-column nys-flex-gap-100">
+ *   <nys-alert type="info" heading="Info alert type"></nys-alert>
+ *   <nys-alert type="success" heading="Success alert type"></nys-alert>
+ *   <nys-alert type="warning" heading="Warning alert type"></nys-alert>
+ *   <nys-alert type="danger" heading="Danger alert type"></nys-alert>
+ *   <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
+ * </div>
  * ```
  *
  * @example Dismissible
  * ```html
- * <nys-alert type="info" heading="Information status" dismissible>
- *  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
+ * <nys-alert heading="This alert is dismisable" text="Close it by clicking on the X in the corner." dismissible>
  * </nys-alert>
  * ```
  *
@@ -77,10 +63,10 @@ let alertIdCounter = 0;
  * <nys-button
  *  class="nys-margin-b-100"
  *  label="Show alert"
- *  onclick="document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))"
+ *  onclick="document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))"
  * ></nys-button>
  * // -- code --
- * <nys-alert type="info" heading="Information status" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
+ * <nys-alert heading="Disappearing alert" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
  * ```
  *
  * @example Custom Icon
