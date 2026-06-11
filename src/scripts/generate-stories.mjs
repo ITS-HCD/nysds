@@ -41,7 +41,7 @@ function toStoryName(name) {
     .join("");
 }
 
-function parseTagAttrs(attrStr) {
+function parseTagAttrs(attrStr, componentName, allAttributesMap) {
   const booleans = [];
   const strings = {};
 
@@ -51,10 +51,18 @@ function parseTagAttrs(attrStr) {
     return "";
   });
 
+  const componentAttrs = allAttributesMap[componentName] || [];
+  const componentBooleans = componentAttrs
+    .filter((a) => a.type && a.type.text === "boolean")
+    .map((a) => a.name);
+
   const boolAttrRe = /\b([a-zA-Z][\w-]*)\b/g;
   let m;
   while ((m = boolAttrRe.exec(remaining)) !== null) {
-    booleans.push(m[1]);
+    const attr = m[1];
+    if (componentBooleans.includes(attr)) {
+      booleans.push(attr);
+    }
   }
 
   return { booleans, strings };
@@ -72,7 +80,7 @@ function extractTags(html) {
 
 const SKIP_ATTRS = new Set(["id", "style", "href", "target", "class"]);
 
-function collectAllAttrs(examples, allAttributesMap, primaryTagName) {
+function collectAllAttrs(examples, allAttributesMap, primaryTagName, componentDir, tagToModule) {
   const allBooleans = new Set();
   const allStrings = new Map();
 
@@ -95,11 +103,21 @@ function collectAllAttrs(examples, allAttributesMap, primaryTagName) {
     }
   });
 
-  // 2. Add attributes found in examples (this handles secondary components)
+  // Identify allowed child components based on directory
+  const allowedTags = new Set([primaryTagName]);
+  for (const [tag, modPath] of Object.entries(tagToModule)) {
+    if (path.dirname(modPath) === componentDir) {
+      allowedTags.add(tag);
+    }
+  }
+
+  // 2. Add attributes found in examples (this handles children)
+  // Include attributes from the primary component and its child components
   for (const { code } of examples) {
     for (const { tagName, attrStr } of extractTags(code)) {
-      if (!tagName.startsWith("nys-")) continue;
-      const { booleans, strings } = parseTagAttrs(attrStr);
+      if (!allowedTags.has(tagName)) continue;
+
+      const { booleans, strings } = parseTagAttrs(attrStr, tagName, allAttributesMap);
       booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => {
         const type = getType(tagName, b);
         if (type === "boolean") {
@@ -125,12 +143,12 @@ function collectAllAttrs(examples, allAttributesMap, primaryTagName) {
   return { booleans: allBooleans, strings: allStrings };
 }
 
-function buildBasicArgs(html) {
+function buildBasicArgs(html, allAttributesMap) {
   const args = {};
   const tags = extractTags(html);
 
   if (tags.length > 0) {
-    const { booleans, strings } = parseTagAttrs(tags[0].attrStr);
+    const { booleans, strings } = parseTagAttrs(tags[0].attrStr, tags[0].tagName, allAttributesMap);
     booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => (args[b] = true));
     Object.entries(strings)
       .filter(([k]) => !SKIP_ATTRS.has(k))
@@ -139,7 +157,7 @@ function buildBasicArgs(html) {
 
   const childTag = tags.find((t) => t.tagName !== tags[0].tagName);
   if (childTag) {
-    const { booleans, strings } = parseTagAttrs(childTag.attrStr);
+    const { booleans, strings } = parseTagAttrs(childTag.attrStr, childTag.tagName, allAttributesMap);
     booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => (args[b] = true));
     Object.entries(strings)
       .filter(([k]) => !SKIP_ATTRS.has(k))
@@ -214,7 +232,7 @@ function isHtml(code) {
   return code.trim().startsWith("<");
 }
 
-function buildBasicStory(example, args, allBooleans, allStrings) {
+function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap) {
   const html = example.code;
 
   const rootTagRe = /^(<)([\w-]+)((?:\s[^>]*)?)(\/?>)/;
@@ -248,7 +266,7 @@ function buildBasicStory(example, args, allBooleans, allStrings) {
   if (childTagMatch) {
     const childTagName = childTagMatch[1];
     const childAttrStr = childTagMatch[2];
-    const { booleans: cb, strings: cs } = parseTagAttrs(childAttrStr);
+    const { booleans: cb, strings: cs } = parseTagAttrs(childAttrStr, childTagName, allAttributesMap);
 
     beforeChild = remaining.slice(0, childTagMatch.index);
     afterChild = remaining.slice(childTagMatch.index + childTagMatch[0].length);
@@ -293,19 +311,32 @@ function buildStaticStory(example, nameOverride) {
   const storyName = nameOverride || toStoryName(example.title);
   const code = example.code;
 
+  // Heuristic: check if it contains JS imperative code
+  const isImperative = code.includes("const ") || code.includes("function ") || code.includes("=> ");
+
   let renderTemplate;
-  if (isHtml(code)) {
-    renderTemplate = `html\`
+  if (isImperative) {
+    // Split the example into logic and HTML
+    const parts = code.split(/(?=const |function |let |var )/);
+    const htmlPart = parts.find((p) => p.trim().startsWith("<")) || "";
+    const jsPart = parts.filter((p) => !p.trim().startsWith("<")).join("\n");
+
+    renderTemplate = `(args) => {
+${indent(jsPart.trim(), 4)}
+    return html\`${indent(htmlPart.trim(), 6)}\`;
+  }`;
+  } else if (isHtml(code)) {
+    renderTemplate = `() => html\`
 ${indent(escapeCode(code), 4)}
   \``;
   } else {
-    renderTemplate = `html\`<pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"><code>\${${JSON.stringify(
+    renderTemplate = `() => html\`<pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"><code>\${${JSON.stringify(
       code
     )}}</code></pre>\``;
   }
 
   return `export const ${storyName}: Story = {
-  render: () => ${renderTemplate},
+  render: ${renderTemplate},
   parameters: {
     docs: {
       source: {
@@ -331,6 +362,15 @@ async function main() {
     for (const decl of mod.declarations || []) {
       if (decl.tagName) {
         allAttributesMap[decl.tagName] = decl.attributes || [];
+      }
+    }
+  }
+
+  const tagToModule = {};
+  for (const mod of cem.modules) {
+    for (const decl of mod.declarations || []) {
+      if (decl.tagName) {
+        tagToModule[decl.tagName] = mod.path;
       }
     }
   }
@@ -381,7 +421,9 @@ async function main() {
     const { booleans: allBooleans, strings: allStrings } = collectAllAttrs(
       allExamples,
       allAttributesMap,
-      componentName
+      componentName,
+      dir,
+      tagToModule
     );
 
     const title = inferTitle(componentName);
@@ -402,11 +444,13 @@ async function main() {
 
     const siblingImports = [...usedTags]
       .filter((t) => t !== componentName)
-      .map((t) =>
-        t === "nys-icon"
-          ? `import "@nysds/nys-icon";`
-          : `import "./${t}";`
-      )
+      .map((t) => {
+        const modPath = tagToModule[t];
+        if (modPath && path.dirname(modPath) === dir) {
+          return `import "./${t}";`;
+        }
+        return `import "@nysds/${t}";`;
+      })
       .join("\n");
 
     const importsBlock = [
@@ -442,8 +486,8 @@ type Story = StoryObj<${interfaceName}>;`;
 
     const storyBlocks = allExamples.map((example, i) => {
       if (i === 0) {
-        const args = buildBasicArgs(example.code);
-        return buildBasicStory(example, args, allBooleans, allStrings);
+        const args = buildBasicArgs(example.code, allAttributesMap);
+        return buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap);
       }
       return buildStaticStory(example);
     });

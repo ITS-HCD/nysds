@@ -54,6 +54,16 @@ let alertIdCounter = 0;
  *   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
  * </nys-alert>
  * ```
+ *
+ * @example Duration
+ * ```html
+ * <nys-button
+ *  label="Show alert"
+ *  onclick="document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))"
+ * ></nys-button>
+ * <br/>
+ * <nys-alert type="info" heading="Information status" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
+ * ```
  */
 
 export class NysAlert extends LitElement {

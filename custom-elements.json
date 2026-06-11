@@ -761,6 +761,11 @@
             {
               "title": "Dismissible",
               "code": "<nys-alert type=\"info\" heading=\"Information status\" dismissible>\n<p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href=\"https://www.ny.gov/\" target=\"_blank\">https://www.ny.gov/</a> for more info.</p>\n</nys-alert>"
+            },
+            {
+              "title": "Duration",
+              "code": "<nys-button\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>\n<br/>\n<nys-alert type=\"info\" heading=\"Information status\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
+              "lang": "html"
             }
           ]
         }
