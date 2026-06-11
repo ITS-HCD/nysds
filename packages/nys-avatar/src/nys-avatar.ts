@@ -19,7 +19,7 @@ let avatarIdCounter = 0;
  *
  * @example Basic
  * ```html
- * <nys-avatar ariaLabel="User Avatar"></nys-avatar>
+ * <nys-avatar ariaLabel="User avatar"></nys-avatar>
  * ```
  *
  * @example Image
@@ -36,9 +36,29 @@ let avatarIdCounter = 0;
  * ></nys-avatar>
  * ```
  *
- * @example Initials avatar with custom color
+ * @example Initials
  * ```html
- * <nys-avatar initials="JS" color="var(--nys-color-theme)" ariaLabel="Jane Smith"></nys-avatar>
+ * <nys-avatar initials="JS" ariaLabel="Jane Smith"></nys-avatar>
+ * ```
+ *
+ * @example Icon
+ * ```html
+ * <nys-avatar icon="account_circle"></nys-avatar>
+ * ```
+ *
+ * @example Interactive
+ * ```html
+ * <nys-avatar interactive></nys-avatar>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-avatar disabled></nys-avatar>
+ * ```
+ *
+ * @example Custom Background Color
+ * ```html
+ * <nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>
  * ```
  */
 

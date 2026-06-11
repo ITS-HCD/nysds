@@ -1062,7 +1062,7 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-avatar ariaLabel=\"User Avatar\"></nys-avatar>",
+              "code": "<nys-avatar ariaLabel=\"User avatar\"></nys-avatar>",
               "lang": "html"
             },
             {
@@ -1071,8 +1071,28 @@
               "lang": "html"
             },
             {
-              "title": "Initials avatar with custom color",
-              "code": "<nys-avatar initials=\"JS\" color=\"var(--nys-color-theme)\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "title": "Initials",
+              "code": "<nys-avatar initials=\"JS\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Icon",
+              "code": "<nys-avatar icon=\"account_circle\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Interactive",
+              "code": "<nys-avatar interactive></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-avatar disabled></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Background Color",
+              "code": "<nys-avatar color=\"var(--nys-color-red-500)\" interactive></nys-avatar>",
               "lang": "html"
             }
           ]
