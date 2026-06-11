@@ -49,7 +49,7 @@ export const Basic: Story = {
           You can apply for or renew a U.S. passport through the U.S. Department
           of State. Some renewals can be done by mail.
         </p>
-        <div style="display: flex; gap: 0.5rem; font-size: 1rem;">
+        <div style="display: flex; gap: 0.5rem; font-size: 1rem">
           <a href="https://www.ny.gov" target="_blank"
             >Check your registration</a
           >
@@ -73,18 +73,25 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-accordion>
-  <nys-accordionitem expanded id="accordionId1" heading="How do I renew my passport or apply for a new one?">
+  <nys-accordionitem
+    expanded
+    id="accordionId1"
+    heading="How do I renew my passport or apply for a new one?"
+  >
     <p>
-      You can apply for or renew a U.S. passport through the U.S. Department
-      of State. Some renewals can be done by mail.
+      You can apply for or renew a U.S. passport through the U.S. Department of State. Some renewals
+      can be done by mail.
     </p>
-    <div style="display: flex; gap: 0.5rem; font-size: 1rem;">
-     <a href="https://www.ny.gov" target="_blank">Check your registration</a>
-     <a href="https://www.ny.gov" target="_blank">Fill out application</a>
-   </div>
- </nys-accordionitem>
- <nys-accordionitem id="accordionId2" heading="How can I find out if I’m registered to vote?">
-   <p>You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.</p>
+    <div style="display: flex; gap: 0.5rem; font-size: 1rem">
+      <a href="https://www.ny.gov" target="_blank">Check your registration</a>
+      <a href="https://www.ny.gov" target="_blank">Fill out application</a>
+    </div>
+  </nys-accordionitem>
+  <nys-accordionitem id="accordionId2" heading="How can I find out if I’m registered to vote?">
+    <p>
+      You can check your registration status, update your information, or find out how to register
+      through the National Association of Secretaries of State.
+    </p>
   </nys-accordionitem>
 </nys-accordion>`,
         type: "auto",
@@ -141,18 +148,24 @@ export const Bordered: Story = {
     docs: {
       source: {
         code: `
-
 <nys-accordion singleSelect bordered>
- <nys-accordionitem heading="We are a group of accordions" expanded>
-  <p>Stronger together! Learn more at
-     <a href="https://www.ny.gov" target="_blank">ny.gov</a>
-   </p>
- </nys-accordionitem>
+  <nys-accordionitem heading="We are a group of accordions" expanded>
+    <p>
+      Stronger together! Learn more at
+      <a href="https://www.ny.gov" target="_blank">ny.gov</a>
+    </p>
+  </nys-accordionitem>
   <nys-accordionitem heading="Liberty Ipsum: Bridges & Boroughs">
-   <p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>
+    <p>
+      Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur
+      adipiscing elit.
+    </p>
   </nys-accordionitem>
   <nys-accordionitem heading="Hudson Ipsum: Riverfront Stories">
-    <p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p>
+      From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt
+      ut labore et dolore magna aliqua.
+    </p>
   </nys-accordionitem>
 </nys-accordion>`,
         type: "auto",
