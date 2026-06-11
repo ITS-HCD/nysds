@@ -171,10 +171,10 @@ export class NysButton extends LitElement {
    * Form behavior: `button` (default, no form action), `submit` (submits form), `reset` (resets form). Always set explicitly to avoid unintended submissions.
    * @default "button"
    */
-  @property({ type: String, reflect: true }) type:
-    | "submit"
-    | "reset"
-    | "button" = "button";
+  // Not reflected: consumed only as a property for the inner <button type>,
+  // never via CSS or host-attribute. Avoids an attribute write on every
+  // button instance (default "button" would otherwise always reflect).
+  @property({ type: String }) type: "submit" | "reset" | "button" = "button";
 
   /**
    * Click handler. Use instead of `@click` to ensure keyboard accessibility.
@@ -191,7 +191,10 @@ export class NysButton extends LitElement {
    * Link target: `_self` (same tab), `_blank` (new tab—add `suffixIcon="open_in_new"`), `_parent`, `_top`, or frame name.
    * @default "_self"
    */
-  @property({ type: String, reflect: true }) target:
+  // Not reflected: consumed only as a property for the inner <a target>,
+  // never via CSS or host-attribute. Avoids an attribute write on every
+  // button instance (default "_self" would otherwise always reflect).
+  @property({ type: String }) target:
     | "_self"
     | "_blank"
     | "_parent"
@@ -199,6 +202,10 @@ export class NysButton extends LitElement {
     | "framename" = "_self";
 
   private _internals: ElementInternals;
+
+  // Tracks the press-animation timeout so it can be cleared on re-press or
+  // unmount, preventing overlapping timers and orphaned-timeout leaks.
+  private _activeClassTimeout?: ReturnType<typeof setTimeout>;
 
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
@@ -224,6 +231,13 @@ export class NysButton extends LitElement {
     }
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    // Cancel any pending press-animation timeout so it doesn't fire against a
+    // detached node after the element is removed.
+    clearTimeout(this._activeClassTimeout);
+  }
+
   /**
    * Functions
    * --------------------------------------------------------------------------
@@ -233,14 +247,30 @@ export class NysButton extends LitElement {
     return `nys-button-${Date.now()}-${buttonIdCounter++}`;
   }
 
+  // Debounce slot-change handling to one read+update per frame. Batch DOM
+  // updates can emit several slotchange events in quick succession; coalescing
+  // them avoids redundant reactive re-renders.
+  private _prefixSlotScheduled = false;
+  private _suffixSlotScheduled = false;
+
   private _onPrefixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
-    this._hasPrefixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    if (this._prefixSlotScheduled) return;
+    this._prefixSlotScheduled = true;
+    requestAnimationFrame(() => {
+      this._prefixSlotScheduled = false;
+      this._hasPrefixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    });
   }
 
   private _onSuffixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
-    this._hasSuffixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    if (this._suffixSlotScheduled) return;
+    this._suffixSlotScheduled = true;
+    requestAnimationFrame(() => {
+      this._suffixSlotScheduled = false;
+      this._hasSuffixSlot = slot.assignedElements({ flatten: true }).length > 0;
+    });
   }
 
   private _manageFormAction() {
@@ -307,7 +337,11 @@ export class NysButton extends LitElement {
       e.preventDefault();
       const btn = this.renderRoot.querySelector(".nys-button");
       btn?.classList.add("active");
-      setTimeout(() => btn?.classList.remove("active"), 150);
+      clearTimeout(this._activeClassTimeout);
+      this._activeClassTimeout = setTimeout(
+        () => btn?.classList.remove("active"),
+        150,
+      );
 
       if (this.href) {
         // Click the internal <a> so native navigation happens

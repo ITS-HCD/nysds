@@ -116,6 +116,9 @@ export class NysTooltip extends LitElement {
       tooltip.removeEventListener("mouseleave", this._handleBlurOrMouseLeave);
     }
     window.removeEventListener("keydown", this._handleEscapeKey);
+    // Ensure the ResizeObserver and scroll listener are torn down even if the
+    // tooltip is removed from the DOM while still showing.
+    this._removeScrollListeners();
   }
 
   async firstUpdated() {

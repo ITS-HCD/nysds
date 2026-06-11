@@ -85,6 +85,13 @@ export class NysDropdownMenu extends LitElement {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    // Tear down observer and global listeners even if the menu is removed from
+    // the DOM while still open (otherwise they accumulate across SPA navigations).
+    window.removeEventListener("scroll", this._handleWindowScroll, true);
+    document.removeEventListener("click", this._handleDocumentClick);
+    this._menuElement?.removeEventListener("keydown", this._handleMenuKeydown);
+    this._resizeObserver?.disconnect();
+    this._resizeObserver = null;
   }
 
   async firstUpdated() {

@@ -58,21 +58,6 @@ export class NysTable extends LitElement {
     this._observer?.disconnect();
   }
 
-  willUpdate() {
-    const table = Array.from(this.children).find(
-      (el) => el.tagName === "TABLE",
-    ) as HTMLTableElement | undefined;
-
-    if (!table) return;
-
-    const caption = table.querySelector("caption");
-    const nextCaption = caption?.textContent?.trim() ?? "";
-
-    if (this._captionText !== nextCaption) {
-      this._captionText = nextCaption;
-    }
-  }
-
   /******************** Functions ********************/
 
   private _handleSlotChange() {
@@ -85,8 +70,6 @@ export class NysTable extends LitElement {
 
     if (!slot || !container) return;
 
-    container.innerHTML = "";
-
     const assigned = slot.assignedElements({ flatten: true });
     const tableEl = assigned.find((el) => el.tagName === "TABLE") as
       | HTMLTableElement
@@ -94,6 +77,15 @@ export class NysTable extends LitElement {
 
     if (!tableEl) return;
 
+    // Update the cached caption text here (on slotchange / mutation) instead of
+    // querying the DOM in willUpdate on every reactive update cycle.
+    const caption = tableEl.querySelector("caption");
+    this._captionText = caption?.textContent?.trim() ?? "";
+
+    // Build the entire replacement table off-DOM (clone + normalize + icons),
+    // then swap it in with a single replaceChildren() call. This performs the
+    // teardown and insertion as one operation, triggering a single reflow
+    // instead of the separate clear (innerHTML = "") and append reflows.
     const table = tableEl.cloneNode(true) as HTMLTableElement;
 
     this._normalizeTableDOM(table);
@@ -102,7 +94,7 @@ export class NysTable extends LitElement {
       this._addSortIcons(table);
     }
 
-    container.appendChild(table);
+    container.replaceChildren(table);
   }
 
   private _setupMutationObserver() {
