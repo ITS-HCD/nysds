@@ -24,7 +24,7 @@ let accordionIdCounter = 0;
  * @example Basic
  * ```html
  * <nys-accordion>
- *   <nys-accordionitem expanded id="accordionId1" heading="How do I renew my passport or apply for a new one?">
+ *   <nys-accordionitem id="accordionId1" heading="How do I renew my passport or apply for a new one?">
  *     <p>
  *       You can apply for or renew a U.S. passport through the U.S. Department
  *       of State. Some renewals can be done by mail.

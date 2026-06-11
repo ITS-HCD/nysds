@@ -159,7 +159,7 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-accordion>\n<nys-accordionitem expanded id=\"accordionId1\" heading=\"How do I renew my passport or apply for a new one?\">\n<p>\nYou can apply for or renew a U.S. passport through the U.S. Department\nof State. Some renewals can be done by mail.\n</p>\n<div style=\"display: flex; gap: 0.5rem; font-size: 1rem;\">\n<a href=\"https://www.ny.gov\" target=\"_blank\">Check your registration</a>\n<a href=\"https://www.ny.gov\" target=\"_blank\">Fill out application</a>\n</div>\n</nys-accordionitem>\n<nys-accordionitem id=\"accordionId2\" heading=\"How can I find out if I’m registered to vote?\">\n<p>You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.</p>\n</nys-accordionitem>\n</nys-accordion>",
+              "code": "<nys-accordion>\n<nys-accordionitem id=\"accordionId1\" heading=\"How do I renew my passport or apply for a new one?\">\n<p>\nYou can apply for or renew a U.S. passport through the U.S. Department\nof State. Some renewals can be done by mail.\n</p>\n<div style=\"display: flex; gap: 0.5rem; font-size: 1rem;\">\n<a href=\"https://www.ny.gov\" target=\"_blank\">Check your registration</a>\n<a href=\"https://www.ny.gov\" target=\"_blank\">Fill out application</a>\n</div>\n</nys-accordionitem>\n<nys-accordionitem id=\"accordionId2\" heading=\"How can I find out if I’m registered to vote?\">\n<p>You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             },
             {

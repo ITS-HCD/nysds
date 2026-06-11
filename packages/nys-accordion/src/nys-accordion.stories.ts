@@ -7,9 +7,9 @@ import "./nys-accordionitem";
 interface NysAccordionArgs {
   id: string;
   heading: string;
-  expanded: boolean;
   singleSelect: boolean;
   bordered: boolean;
+  expanded: boolean;
 }
 
 const meta: Meta<NysAccordionArgs> = {
@@ -18,9 +18,9 @@ const meta: Meta<NysAccordionArgs> = {
   argTypes: {
     id: { control: "text" },
     heading: { control: "text" },
-    expanded: { control: "boolean", default: false },
     singleSelect: { control: "boolean", default: false },
     bordered: { control: "boolean", default: false },
+    expanded: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
@@ -35,16 +35,17 @@ type Story = StoryObj<NysAccordionArgs>;
 
 export const Basic: Story = {
   args: {
-    expanded: true,
     heading: "How do I renew my passport or apply for a new one?",
   },
   render: (args) => html`
-    <nys-accordion>
-      <nys-accordionitem
-        .id=${args.id}
-        .expanded=${args.expanded}
-        .heading=${args.heading}
-      >
+    <nys-accordion
+      .id=${args.id}
+      ?singleSelect=${args.singleSelect}
+      ?bordered=${args.bordered}
+      ?expanded=${args.expanded}
+      .heading=${args.heading}
+    >
+      <nys-accordionitem .id=${args.id} .heading=${args.heading}>
         <p>
           You can apply for or renew a U.S. passport through the U.S. Department
           of State. Some renewals can be done by mail.
@@ -73,11 +74,7 @@ export const Basic: Story = {
       source: {
         code: `
 <nys-accordion>
-  <nys-accordionitem
-    expanded
-    id="accordionId1"
-    heading="How do I renew my passport or apply for a new one?"
-  >
+  <nys-accordionitem id="accordionId1" heading="How do I renew my passport or apply for a new one?">
     <p>
       You can apply for or renew a U.S. passport through the U.S. Department of State. Some renewals
       can be done by mail.

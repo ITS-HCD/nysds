@@ -72,23 +72,50 @@ function extractTags(html) {
 
 const SKIP_ATTRS = new Set(["id", "style", "href", "target", "class"]);
 
-function collectAllAttrs(examples, allAttributesMap) {
+function collectAllAttrs(examples, allAttributesMap, primaryTagName) {
   const allBooleans = new Set();
   const allStrings = new Map();
 
+  // Helper to get type from the attribute list
+  const getType = (tagName, attrName) => {
+    const attrs = allAttributesMap[tagName] || [];
+    const attr = attrs.find((a) => a.name === attrName);
+    return attr && attr.type ? attr.type.text : "string";
+  };
+
+  // 1. Seed with all attributes from the primary component
+  const primaryAttrs = allAttributesMap[primaryTagName] || [];
+  primaryAttrs.forEach((attr) => {
+    if (SKIP_ATTRS.has(attr.name)) return;
+    const typeText = attr.type ? attr.type.text : "string";
+    if (typeText === "boolean") {
+      allBooleans.add(attr.name);
+    } else {
+      allStrings.set(attr.name, typeText);
+    }
+  });
+
+  // 2. Add attributes found in examples (this handles secondary components)
   for (const { code } of examples) {
     for (const { tagName, attrStr } of extractTags(code)) {
       if (!tagName.startsWith("nys-")) continue;
       const { booleans, strings } = parseTagAttrs(attrStr);
-      booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => allBooleans.add(b));
-
-      const componentTypes = allAttributesMap[tagName] || {};
+      booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => {
+        const type = getType(tagName, b);
+        if (type === "boolean") {
+          allBooleans.add(b);
+        } else if (!allStrings.has(b) || allStrings.get(b) === "string") {
+          allStrings.set(b, type);
+        }
+      });
 
       Object.keys(strings)
         .filter((k) => !SKIP_ATTRS.has(k))
         .forEach((k) => {
-          const type = componentTypes[k] || "string";
-          if (!allStrings.has(k) || allStrings.get(k) === "string") {
+          const type = getType(tagName, k);
+          if (type === "boolean") {
+            allBooleans.add(k);
+          } else if (!allStrings.has(k) || allStrings.get(k) === "string") {
             allStrings.set(k, type);
           }
         });
@@ -187,7 +214,7 @@ function isHtml(code) {
   return code.trim().startsWith("<");
 }
 
-function buildBasicStory(example, args) {
+function buildBasicStory(example, args, allBooleans, allStrings) {
   const html = example.code;
 
   const rootTagRe = /^(<)([\w-]+)((?:\s[^>]*)?)(\/?>)/;
@@ -197,14 +224,11 @@ function buildBasicStory(example, args) {
   }
 
   const rootTagName = rootTagMatch[2];
-  const rootAttrStr = rootTagMatch[3];
-  const { booleans: rb, strings: rs } = parseTagAttrs(rootAttrStr);
 
   const rootDynamicAttrs = [
-    ...rb.filter((b) => !SKIP_ATTRS.has(b)).map((b) => `      ?${b}=\${args.${b}}`),
-    ...Object.keys(rs)
-      .filter((k) => !SKIP_ATTRS.has(k))
-      .map((k) => `      .${k}=\${args.${k}}`),
+    `      .id=\${args.id}`,
+    ...Array.from(allBooleans).map((b) => `      ?${b}=\${args.${b}}`),
+    ...Array.from(allStrings.keys()).map((k) => `      .${k}=\${args.${k}}`),
   ];
 
   const rootReplacement =
@@ -306,10 +330,7 @@ async function main() {
   for (const mod of cem.modules) {
     for (const decl of mod.declarations || []) {
       if (decl.tagName) {
-        allAttributesMap[decl.tagName] = allAttributesMap[decl.tagName] || {};
-        (decl.attributes || []).forEach((attr) => {
-          allAttributesMap[decl.tagName][attr.name] = attr.type ? attr.type.text : "string";
-        });
+        allAttributesMap[decl.tagName] = decl.attributes || [];
       }
     }
   }
@@ -359,7 +380,8 @@ async function main() {
 
     const { booleans: allBooleans, strings: allStrings } = collectAllAttrs(
       allExamples,
-      allAttributesMap
+      allAttributesMap,
+      componentName
     );
 
     const title = inferTitle(componentName);
@@ -421,7 +443,7 @@ type Story = StoryObj<${interfaceName}>;`;
     const storyBlocks = allExamples.map((example, i) => {
       if (i === 0) {
         const args = buildBasicArgs(example.code);
-        return buildBasicStory(example, args);
+        return buildBasicStory(example, args, allBooleans, allStrings);
       }
       return buildStaticStory(example);
     });
