@@ -61,7 +61,7 @@
     "clean:cache": "rm -rf node_modules/.cache",
     "clean:all": "npm run clean:dist && npm run clean:node && npm run clean:cache && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js"
+    "cem": "npx cem analyze --config src/scripts/custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js"
   },
   "repository": {
     "type": "git",

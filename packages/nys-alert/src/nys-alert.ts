@@ -47,6 +47,13 @@ let alertIdCounter = 0;
  * ```html
  * <nys-alert type="emergency" heading="There is severe weather in your area" text="Remain indoors until more information is made available."></nys-alert>
  * ```
+ *
+ * @example Dismissible
+ * ```
+ * <nys-alert type="info" heading="Information status" dismissible>
+ *   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
+ * </nys-alert>
+ * ```
  */
 
 export class NysAlert extends LitElement {

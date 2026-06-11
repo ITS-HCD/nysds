@@ -757,6 +757,10 @@
               "title": "Type Emergency",
               "code": "<nys-alert type=\"emergency\" heading=\"There is severe weather in your area\" text=\"Remain indoors until more information is made available.\"></nys-alert>",
               "lang": "html"
+            },
+            {
+              "title": "Dismissible",
+              "code": "<nys-alert type=\"info\" heading=\"Information status\" dismissible>\n<p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href=\"https://www.ny.gov/\" target=\"_blank\">https://www.ny.gov/</a> for more info.</p>\n</nys-alert>"
             }
           ]
         }
