@@ -57,11 +57,13 @@ let alertIdCounter = 0;
  *
  * @example Duration
  * ```html
+ * // -- render --
  * <nys-button
+ *  class="nys-margin-b-100"
  *  label="Show alert"
  *  onclick="document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))"
  * ></nys-button>
- * <br/>
+ * // -- code --
  * <nys-alert type="info" heading="Information status" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
  * ```
  */

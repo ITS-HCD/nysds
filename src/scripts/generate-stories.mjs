@@ -78,7 +78,7 @@ function extractTags(html) {
   return tags;
 }
 
-const SKIP_ATTRS = new Set(["id", "style", "href", "target", "class"]);
+const SKIP_ATTRS = new Set(["id", "href", "target"]);
 
 function collectAllAttrs(examples, allAttributesMap, primaryTagName, componentDir, tagToModule) {
   const allBooleans = new Set();
@@ -233,7 +233,7 @@ function isHtml(code) {
 }
 
 function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap) {
-  const html = example.code;
+  const html = example.renderCode;
 
   const rootTagRe = /^(<)([\w-]+)((?:\s[^>]*)?)(\/?>)/;
   const rootTagMatch = html.match(rootTagRe);
@@ -309,7 +309,7 @@ ${escapeCode(example.code.trim())}\`,
 
 function buildStaticStory(example, nameOverride) {
   const storyName = nameOverride || toStoryName(example.title);
-  const code = example.code;
+  const code = example.renderCode;
 
   // Heuristic: check if it contains JS imperative code
   const isImperative = code.includes("const ") || code.includes("function ") || code.includes("=> ");
@@ -354,6 +354,7 @@ ${escapeCode(example.code.trim())}\`,
 // ---------------------------------------------------------------------------
 
 async function main() {
+  const componentFilter = process.argv[2];
   const cem = JSON.parse(fs.readFileSync("custom-elements.json", "utf8"));
 
   // Build a map of all component attributes and their types for lookups
@@ -391,6 +392,11 @@ async function main() {
 
   for (const mod of rootModules) {
     const componentName = path.basename(mod.path, ".ts");
+
+    if (componentFilter && componentName !== componentFilter) {
+      continue;
+    }
+
     const dir = path.dirname(mod.path);
 
     // Collect all examples from all declarations in the same module directory
@@ -410,7 +416,18 @@ async function main() {
 
     // Format all examples
     for (const example of allExamples) {
-      example.code = await formatCode(example.code);
+      const code = example.code;
+      const renderMatch = code.match(/\/\/\s*--\s*render\s*--([\s\S]*?)\/\/\s*--\s*code\s*--/);
+      const codeMatch = code.match(/\/\/\s*--\s*code\s*--([\s\S]*)/);
+
+      if (renderMatch && codeMatch) {
+        example.renderCode = await formatCode(renderMatch[1]);
+        example.code = await formatCode(codeMatch[1]);
+      } else {
+        const formatted = await formatCode(code);
+        example.renderCode = formatted;
+        example.code = formatted;
+      }
     }
 
     if (allExamples.length === 0) {

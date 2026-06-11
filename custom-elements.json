@@ -764,7 +764,7 @@
             },
             {
               "title": "Duration",
-              "code": "<nys-button\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>\n<br/>\n<nys-alert type=\"info\" heading=\"Information status\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
+              "code": "// -- render --\n<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>\n// -- code --\n<nys-alert type=\"info\" heading=\"Information status\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
               "lang": "html"
             }
           ]
