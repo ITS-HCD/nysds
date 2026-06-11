@@ -13,7 +13,6 @@
  *
  * Usage:
  *   node generate-stories.mjs packages/nys-accordion/src/nys-accordion.ts
- *   node generate-stories.mjs packages/nys-accordion/src/nys-accordion.ts
  */
 
 import fs from "fs";

@@ -24,14 +24,28 @@ let alertIdCounter = 0;
  * <nys-alert heading="This is a heading"></nys-alert>
  * ```
  *
- * @example Info alert
+ * @example Type Info
  * ```html
  * <nys-alert type="info" heading="Update available" text="A new version is ready to install."></nys-alert>
  * ```
- *
- * @example Dismissible success alert
+ * @example Type Success
  * ```html
- * <nys-alert type="success" heading="Application submitted" dismissible></nys-alert>
+ * <nys-alert type="success" heading="Operation completed" text="Your changes have been saved."></nys-alert>
+ * ```
+ *
+ * @example Type Warning
+ * ```html
+ * <nys-alert type="warning" heading="Your application is pending" text="Check your status by calling our office at (999) 999-9999."></nys-alert>
+ * ```
+ *
+ * @example Type Danger
+ * ```html
+ * <nys-alert type="danger" heading="Your registration has expired" text="Please visit your local DMV to renew your license."></nys-alert>
+ * ```
+ *
+ * @example Type Emergency
+ * ```html
+ * <nys-alert type="emergency" heading="There is severe weather in your area" text="Remain indoors until more information is made available."></nys-alert>
  * ```
  */
 

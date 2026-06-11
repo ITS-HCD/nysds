@@ -729,13 +729,33 @@
           "summary": "Alert for contextual feedback with semantic types and live region support.",
           "examples": [
             {
-              "title": "Info alert",
+              "title": "Basic alert",
+              "code": "<nys-alert heading=\"This is a heading\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Type Info",
               "code": "<nys-alert type=\"info\" heading=\"Update available\" text=\"A new version is ready to install.\"></nys-alert>",
               "lang": "html"
             },
             {
-              "title": "Dismissible success alert",
-              "code": "<nys-alert type=\"success\" heading=\"Application submitted\" dismissible></nys-alert>",
+              "title": "Type Success",
+              "code": "<nys-alert type=\"success\" heading=\"Operation completed\" text=\"Your changes have been saved.\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Type Warning",
+              "code": "<nys-alert type=\"warning\" heading=\"Your application is pending\" text=\"Check your status by calling our office at (999) 999-9999.\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Type Danger",
+              "code": "<nys-alert type=\"danger\" heading=\"Your registration has expired\" text=\"Please visit your local DMV to renew your license.\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Type Emergency",
+              "code": "<nys-alert type=\"emergency\" heading=\"There is severe weather in your area\" text=\"Remain indoors until more information is made available.\"></nys-alert>",
               "lang": "html"
             }
           ]
