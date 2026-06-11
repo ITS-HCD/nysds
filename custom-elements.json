@@ -734,6 +734,16 @@
               "lang": "html"
             },
             {
+              "title": "Text",
+              "code": "<nys-alert>\nheading=\"This is a heading\"\ntext=\"This is additional information passed in through the text property\"\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Rich Text",
+              "code": "<nys-alert type=\"success\" heading=\"Rich Text\">\n<p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>\n<a href=\"https://www.ny.gov/\" target=\"_blank\">Learn more about our accessibility services</a>\n</nys-alert>",
+              "lang": "html"
+            },
+            {
               "title": "Type Info",
               "code": "<nys-alert type=\"info\" heading=\"Update available\" text=\"A new version is ready to install.\"></nys-alert>",
               "lang": "html"
@@ -760,11 +770,22 @@
             },
             {
               "title": "Dismissible",
-              "code": "<nys-alert type=\"info\" heading=\"Information status\" dismissible>\n<p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href=\"https://www.ny.gov/\" target=\"_blank\">https://www.ny.gov/</a> for more info.</p>\n</nys-alert>"
+              "code": "<nys-alert type=\"info\" heading=\"Information status\" dismissible>\n<p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href=\"https://www.ny.gov/\" target=\"_blank\">https://www.ny.gov/</a> for more info.</p>\n</nys-alert>",
+              "lang": "html"
             },
             {
               "title": "Duration",
               "code": "// -- render --\n<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {type: 'info', heading: 'Information status', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>\n// -- code --\n<nys-alert type=\"info\" heading=\"Information status\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Icon",
+              "code": "<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"help\">\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Action Links",
+              "code": "<nys-alert\nheading=\"Alert with links\"\nprimaryLabel=\"{primaryAction}\"\nsecondaryLabel=\"{secondaryAction}\"\nprimaryAction=\"https://www.ny.gov/\"\nsecondaryAction=\"https://www.ny.gov/\"\n></nys-alert>",
               "lang": "html"
             }
           ]

@@ -24,6 +24,22 @@ let alertIdCounter = 0;
  * <nys-alert heading="This is a heading"></nys-alert>
  * ```
  *
+ * @example Text
+ * ```html
+ * <nys-alert>
+ *  heading="This is a heading"
+ *  text="This is additional information passed in through the text property"
+ * </nys-alert>
+ * ```
+ *
+ * @example Rich Text
+ * ```html
+ * <nys-alert type="success" heading="Rich Text">
+ *  <p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>
+ *  <a href="https://www.ny.gov/" target="_blank">Learn more about our accessibility services</a>
+ * </nys-alert>
+ * ```
+ *
  * @example Type Info
  * ```html
  * <nys-alert type="info" heading="Update available" text="A new version is ready to install."></nys-alert>
@@ -49,9 +65,9 @@ let alertIdCounter = 0;
  * ```
  *
  * @example Dismissible
- * ```
+ * ```html
  * <nys-alert type="info" heading="Information status" dismissible>
- *   <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
+ *  <p>Adirondack peaks auctor Hudson River flows semper Statue of Liberty est. <br/>Click here for more info: <a href="https://www.ny.gov/" target="_blank">https://www.ny.gov/</a> for more info.</p>
  * </nys-alert>
  * ```
  *
@@ -66,6 +82,27 @@ let alertIdCounter = 0;
  * // -- code --
  * <nys-alert type="info" heading="Information status" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
  * ```
+ *
+ * @example Custom Icon
+ * ```html
+ * <nys-alert
+ *   type="emergency"
+ *   heading="Winter storm warning: Dec 10th, 2024."
+ *   text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+ *   icon="help">
+ * </nys-alert>
+ *```
+
+ * @example Action Links
+ * ```html
+ * <nys-alert
+ *  heading="Alert with links"
+ *  primaryLabel="{primaryAction}"
+ *  secondaryLabel="{secondaryAction}"
+ *  primaryAction="https://www.ny.gov/"
+ *  secondaryAction="https://www.ny.gov/"
+ * ></nys-alert>
+ *```
  */
 
 export class NysAlert extends LitElement {
