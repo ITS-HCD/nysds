@@ -231,26 +231,16 @@ a {
 a:hover,
 a:focus {
   color: var(--nys-color-link-strong);
-<<<<<<< HEAD
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-skip-ink: auto;
   text-decoration-thickness: var(--nys-font-decoration-thickness-strong, 14%);
   text-underline-offset: auto;
   text-underline-position: from-font;
-=======
-    text-decoration-line: underline;
-    text-decoration-style: solid;
-    text-decoration-skip-ink: auto;
-    text-decoration-thickness: var(--nys-font-decoration-thickness-strong, 14%);
-    text-underline-offset: auto;
-    text-underline-position: from-font;
->>>>>>> 420ee95fae593ed28a08092e196d5a473607482c
 }
 
 a:active {
   color: var(--nys-color-link-strongest);
-<<<<<<< HEAD
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-skip-ink: auto;
@@ -258,12 +248,3 @@ a:active {
   text-underline-offset: auto;
   text-underline-position: from-font;
 }
-=======
-    text-decoration-line: underline;
-    text-decoration-style: solid;
-    text-decoration-skip-ink: auto;
-    text-decoration-thickness: var(--nys-font-decoration-thickness-strong, 14%);
-    text-underline-offset: auto;
-    text-underline-position: from-font;
-}
->>>>>>> 420ee95fae593ed28a08092e196d5a473607482c

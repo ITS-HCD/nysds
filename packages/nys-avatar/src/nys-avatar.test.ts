@@ -214,10 +214,7 @@ describe("nys-avatar", () => {
 
   it("omits role and aria-label from container when image is present", async () => {
     const el = await fixture<NysAvatar>(
-      html`<nys-avatar
-        image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        ariaLabel="Jane"
-      ></nys-avatar>`,
+      html`<nys-avatar image="/photo.jpg" ariaLabel="Jane"></nys-avatar>`,
     );
     await el.updateComplete;
 
