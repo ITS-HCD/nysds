@@ -68,7 +68,7 @@
 }
 
 /* ─── Size overrides for title text overlay ────────────────────────────────────────────── */
-// User setting full gets overlay at all responsive sizes 
+// User setting full gets overlay at all responsive sizes
 :host([size="full"]) .nys-video .nys-video__title-text {
   position: absolute;
   bottom: 0;
@@ -80,8 +80,7 @@
 }
 
 // No "size=full" means we auto remove overlay for smaller screens
-.nys-video:not(.nys-video--sm):not(.nys-video--md)
-  .nys-video__title-text{
+.nys-video:not(.nys-video--sm):not(.nys-video--md) .nys-video__title-text {
   @media (width >= 480px) {
     position: absolute;
     bottom: 0;

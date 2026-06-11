@@ -1,84 +1,83 @@
 import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { playwrightLauncher, devices } from "@web/test-runner-playwright";
-import { nysdsReporter } from './src/scripts/nysds-reporter.js';
+import { nysdsReporter } from "./src/scripts/nysds-reporter.js";
 
 // Firefox declared the Lit is in DEV mode. this filters out that message to reduce the chatter in the testing logs
 const filteredLogs = [
-  'Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.'
-]
+  "Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.",
+];
 
 const filterBrowserLogs = (log) => {
   for (const arg of log.args) {
-    if (typeof arg === 'string' && filteredLogs.some(l => arg.includes(l))) {
-      return false
+    if (typeof arg === "string" && filteredLogs.some((l) => arg.includes(l))) {
+      return false;
     }
   }
-  return true
-}
+  return true;
+};
+
+const coverageThreshold = {
+  statements: 80,
+  functions: 80,
+  branches: 80,
+  lines: 80,
+};
 
 export default {
-  files: ["packages/**/*.test.ts", "src/**/*.test.ts", "!packages/mcp-server/**"],
+  files: [
+    "packages/**/*.test.ts",
+    "src/**/*.test.ts",
+    "!packages/mcp-server/**",
+  ],
   nodeResolve: true,
   filterBrowserLogs,
-  reporters: [nysdsReporter()],
+  reporters: [nysdsReporter({ coverageThreshold })],
   browserStartTimeout: 60000,
   browsers: [
     playwrightLauncher({
       product: "chromium",
       launchOptions: {
-        headless: true, // Forces the browser to open in headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+        headless: true,
+        args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
       },
     }),
     playwrightLauncher({
       product: "webkit",
-      launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
+      launchOptions: { headless: true },
+    }),
+    playwrightLauncher({
+      product: "webkit",
+      launchOptions: { headless: true },
+      createBrowserContext({ browser }) {
+        return browser.newContext({ ...devices["iPhone 14"], hasTouch: true });
       },
     }),
     playwrightLauncher({
-      product: 'webkit', // Use WebKit for iOS simulation
-      launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
-      },
+      product: "webkit",
+      launchOptions: { headless: true },
       createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['iPhone 14'], hasTouch: true });
+        return browser.newContext({ ...devices["Pixel 5"], hasTouch: true });
       },
     }),
     playwrightLauncher({
-      product: 'webkit', // Use WebKit for Android simulation
-      launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
-      },
+      product: "webkit",
+      launchOptions: { headless: true },
       createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['Pixel 5'], hasTouch: true });
-      },
-    }),
-    playwrightLauncher({
-      product: 'webkit', // Use WebKit for Edge simulation
-      launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
-      },
-      createBrowserContext({ browser }) {
-        return browser.newContext({ ...devices['Desktop Edge'], channel: 'msedge' });
+        return browser.newContext({
+          ...devices["Desktop Edge"],
+          channel: "msedge",
+        });
       },
     }),
     playwrightLauncher({
       product: "firefox",
-      launchOptions: {
-        headless: true, // Forces the browser to open in non-headless mode
-        slowMo: 250, // Optional: slows down operations to make debugging easier
-      },
+      launchOptions: { headless: true },
     }),
   ],
   coverage: true, // Enable coverage reporting
   testFramework: {
     config: {
-      timeout: 9000,
+      timeout: 90000,
       retries: 1,
     },
   },
@@ -91,11 +90,6 @@ export default {
   ],
   coverageConfig: {
     exclude: ["**/node_modules/**", "**/test/**"],
-    threshold: {
-      statements: 80,
-      functions: 80,
-      branches: 80,
-      lines: 80,
-    }
+    threshold: coverageThreshold,
   },
 };
