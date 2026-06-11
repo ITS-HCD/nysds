@@ -745,7 +745,7 @@
             },
             {
               "title": "Type",
-              "code": "<div class=\"nys-display-flex nys-flex-column nys-flex-gap-100\">\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>\n</div>",
+              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-column nys-flex-gap-100\">\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>\n</div>\n// -- code --\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>",
               "lang": "html"
             },
             {
@@ -1061,8 +1061,13 @@
           "summary": "User avatar with image, initials, or icon fallback and contrast-aware colors.",
           "examples": [
             {
-              "title": "Image avatar",
-              "code": "<nys-avatar image=\"/path/to/photo.jpg\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "title": "Basic",
+              "code": "<nys-avatar ariaLabel=\"User Avatar\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Image",
+              "code": "// -- render --\n<nys-avatar\nimage=\"https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>\n// -- code --\n<nys-avatar\nimage=\"path/to/img.png\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>",
               "lang": "html"
             },
             {

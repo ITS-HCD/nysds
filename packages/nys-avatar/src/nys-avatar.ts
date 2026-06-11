@@ -17,9 +17,23 @@ let avatarIdCounter = 0;
  *
  * @slot - Custom icon content. Overrides default icon when no image or initials.
  *
- * @example Image avatar
+ * @example Basic
  * ```html
- * <nys-avatar image="/path/to/photo.jpg" ariaLabel="Jane Smith"></nys-avatar>
+ * <nys-avatar ariaLabel="User Avatar"></nys-avatar>
+ * ```
+ *
+ * @example Image
+ * ```html
+ * // -- render --
+ * <nys-avatar
+ *  image="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+ *  ariaLabel="Jane Smith"
+ * ></nys-avatar>
+ * // -- code --
+ * <nys-avatar
+ *  image="path/to/img.png"
+ *  ariaLabel="Jane Smith"
+ * ></nys-avatar>
  * ```
  *
  * @example Initials avatar with custom color

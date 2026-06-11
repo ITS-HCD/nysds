@@ -143,13 +143,11 @@ export const Type: Story = {
     docs: {
       source: {
         code: `
-<div class="nys-display-flex nys-flex-column nys-flex-gap-100">
-  <nys-alert type="info" heading="Info alert type"></nys-alert>
-  <nys-alert type="success" heading="Success alert type"></nys-alert>
-  <nys-alert type="warning" heading="Warning alert type"></nys-alert>
-  <nys-alert type="danger" heading="Danger alert type"></nys-alert>
-  <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
-</div>`,
+<nys-alert type="info" heading="Info alert type"></nys-alert>
+<nys-alert type="success" heading="Success alert type"></nys-alert>
+<nys-alert type="warning" heading="Warning alert type"></nys-alert>
+<nys-alert type="danger" heading="Danger alert type"></nys-alert>
+<nys-alert type="emergency" heading="Emergency alert type"></nys-alert>`,
         type: "auto",
       },
     },
