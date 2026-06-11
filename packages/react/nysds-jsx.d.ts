@@ -1035,6 +1035,8 @@ export type NysVerticalnavGroupProps = {
   expanded?: boolean;
   /**  */
   disabled?: boolean;
+  /**  */
+  active?: boolean;
 
   /**  */
   "onnys-child-resize"?: (e: CustomEvent<CustomEvent>) => void;

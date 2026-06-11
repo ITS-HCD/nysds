@@ -14664,6 +14664,19 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_applyActiveState",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "container",
+                  "type": {
+                    "text": "Element"
+                  }
+                }
+              ]
             }
           ],
           "attributes": [
@@ -14788,6 +14801,16 @@
               "reflects": true
             },
             {
+              "kind": "field",
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "active",
+              "reflects": true
+            },
+            {
               "kind": "method",
               "name": "_toggle",
               "privacy": "private"
@@ -14828,6 +14851,15 @@
               "default": "false",
               "fieldName": "disabled",
               "propName": "disabled"
+            },
+            {
+              "name": "active",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "active",
+              "propName": "active"
             }
           ],
           "superclass": {

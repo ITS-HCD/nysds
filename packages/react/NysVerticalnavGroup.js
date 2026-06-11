@@ -4,7 +4,7 @@ import { useEventListener } from "./react-utils.js";
 
 export const NysVerticalnavGroup = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
-  const { expanded, disabled, label, ...filteredProps } = props;
+  const { expanded, disabled, active, label, ...filteredProps } = props;
 
   /** Event listeners - run once */
   useEventListener(ref, "nys-child-resize", props.onNysChildResize);
@@ -29,6 +29,7 @@ export const NysVerticalnavGroup = forwardRef((props, forwardedRef) => {
       tabindex: props.tabIndex,
       expanded: props.expanded ? true : undefined,
       disabled: props.disabled ? true : undefined,
+      active: props.active ? true : undefined,
       style: { ...props.style },
     },
     props.children,
