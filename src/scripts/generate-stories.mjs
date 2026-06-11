@@ -72,18 +72,26 @@ function extractTags(html) {
 
 const SKIP_ATTRS = new Set(["id", "style", "href", "target", "class"]);
 
-function collectAllAttrs(examples) {
+function collectAllAttrs(examples, allAttributesMap) {
   const allBooleans = new Set();
-  const allStrings = new Set();
+  const allStrings = new Map();
 
   for (const { code } of examples) {
     for (const { tagName, attrStr } of extractTags(code)) {
       if (!tagName.startsWith("nys-")) continue;
       const { booleans, strings } = parseTagAttrs(attrStr);
       booleans.filter((b) => !SKIP_ATTRS.has(b)).forEach((b) => allBooleans.add(b));
+
+      const componentTypes = allAttributesMap[tagName] || {};
+
       Object.keys(strings)
         .filter((k) => !SKIP_ATTRS.has(k))
-        .forEach((k) => allStrings.add(k));
+        .forEach((k) => {
+          const type = componentTypes[k] || "string";
+          if (!allStrings.has(k) || allStrings.get(k) === "string") {
+            allStrings.set(k, type);
+          }
+        });
     }
   }
 
@@ -114,11 +122,24 @@ function buildBasicArgs(html) {
   return args;
 }
 
-function buildArgTypes(booleans, strings) {
+function buildArgTypes(booleans, stringsMap) {
   const entries = [];
   entries.push(`    id: { control: "text" }`);
-  strings.forEach((s) => {
-    if (s !== "id") entries.push(`    ${s}: { control: "text" }`);
+  stringsMap.forEach((type, name) => {
+    if (name === "id") return;
+
+    const cleanType = type.replace(/\s+/g, " ").replace(/^\|\s*/, "").trim();
+    if (cleanType.includes("|") && cleanType.includes("\"")) {
+      const options = cleanType
+        .split("|")
+        .map((s) => s.trim().replace(/^"|"$/g, ""))
+        .filter(Boolean);
+      entries.push(`    ${name}: { control: "select", options: ${JSON.stringify(options)} }`);
+    } else if (cleanType === "number") {
+      entries.push(`    ${name}: { control: "number" }`);
+    } else {
+      entries.push(`    ${name}: { control: "text" }`);
+    }
   });
   booleans.forEach((b) => {
     entries.push(`    ${b}: { control: "boolean", default: false }`);
@@ -126,11 +147,14 @@ function buildArgTypes(booleans, strings) {
   return entries.join(",\n");
 }
 
-function buildInterfaceFields(booleans, strings) {
+function buildInterfaceFields(booleans, stringsMap) {
   const lines = [];
   lines.push("  id: string;");
-  strings.forEach((s) => {
-    if (s !== "id") lines.push(`  ${s}: string;`);
+  stringsMap.forEach((type, name) => {
+    if (name !== "id") {
+      const cleanType = type.replace(/\s+/g, " ").replace(/^\|\s*/, "").trim();
+      lines.push(`  ${name}: ${cleanType};`);
+    }
   });
   booleans.forEach((b) => {
     lines.push(`  ${b}: boolean;`);
@@ -153,6 +177,14 @@ function indent(str, n) {
     .split("\n")
     .map((l) => (l.trim() === "" ? "" : pad + l))
     .join("\n");
+}
+
+function escapeCode(code) {
+  return code.split("`").join("\\`").split("${").join("${");
+}
+
+function isHtml(code) {
+  return code.trim().startsWith("<");
 }
 
 function buildBasicStory(example, args) {
@@ -219,13 +251,13 @@ function buildBasicStory(example, args) {
 ${argsLines}
   },
   render: (args) => html\`
-    ${renderHtml.trim()}
+    ${escapeCode(renderHtml.trim())}
   \`,
   parameters: {
     docs: {
       source: {
         code: \`
-${example.code.trim()}\`,
+${escapeCode(example.code.trim())}\`,
         type: "auto",
       },
     },
@@ -235,16 +267,26 @@ ${example.code.trim()}\`,
 
 function buildStaticStory(example, nameOverride) {
   const storyName = nameOverride || toStoryName(example.title);
+  const code = example.code;
+
+  let renderTemplate;
+  if (isHtml(code)) {
+    renderTemplate = `html\`
+${indent(escapeCode(code), 4)}
+  \``;
+  } else {
+    renderTemplate = `html\`<pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"><code>\${${JSON.stringify(
+      code
+    )}}</code></pre>\``;
+  }
 
   return `export const ${storyName}: Story = {
-  render: () => html\`
-${indent(example.code, 4)}
-  \`,
+  render: () => ${renderTemplate},
   parameters: {
     docs: {
       source: {
         code: \`
-${example.code.trim()}\`,
+${escapeCode(example.code.trim())}\`,
         type: "auto",
       },
     },
@@ -258,6 +300,19 @@ ${example.code.trim()}\`,
 
 async function main() {
   const cem = JSON.parse(fs.readFileSync("custom-elements.json", "utf8"));
+
+  // Build a map of all component attributes and their types for lookups
+  const allAttributesMap = {};
+  for (const mod of cem.modules) {
+    for (const decl of mod.declarations || []) {
+      if (decl.tagName) {
+        allAttributesMap[decl.tagName] = allAttributesMap[decl.tagName] || {};
+        (decl.attributes || []).forEach((attr) => {
+          allAttributesMap[decl.tagName][attr.name] = attr.type ? attr.type.text : "string";
+        });
+      }
+    }
+  }
 
   // Group declarations by module path to maintain bundling
   const modulesByPath = {};
@@ -302,7 +357,10 @@ async function main() {
       continue;
     }
 
-    const { booleans: allBooleans, strings: allStrings } = collectAllAttrs(allExamples);
+    const { booleans: allBooleans, strings: allStrings } = collectAllAttrs(
+      allExamples,
+      allAttributesMap
+    );
 
     const title = inferTitle(componentName);
     const interfaceName =
