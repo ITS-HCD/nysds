@@ -416,15 +416,11 @@ async function main() {
 
     // Format all examples
     for (const example of allExamples) {
-      const code = example.code;
-      const renderMatch = code.match(/\/\/\s*--\s*render\s*--([\s\S]*?)\/\/\s*--\s*code\s*--/);
-      const codeMatch = code.match(/\/\/\s*--\s*code\s*--([\s\S]*)/);
-
-      if (renderMatch && codeMatch) {
-        example.renderCode = await formatCode(renderMatch[1]);
-        example.code = await formatCode(codeMatch[1]);
+      if (example.render) {
+        example.renderCode = await formatCode(example.render);
+        example.code = await formatCode(example.code);
       } else {
-        const formatted = await formatCode(code);
+        const formatted = await formatCode(example.code);
         example.renderCode = formatted;
         example.code = formatted;
       }

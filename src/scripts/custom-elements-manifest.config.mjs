@@ -125,6 +125,29 @@ export default {
       }
     },
     cemExamplesPlugin(),
+    {
+      name: "nysds-examples-cleaner",
+      packageLinkPhase({ customElementsManifest }) {
+        for (const mod of customElementsManifest.modules) {
+          if (!mod.declarations) continue;
+          for (const decl of mod.declarations) {
+            if (decl.examples) {
+              for (const example of decl.examples) {
+                if (example.code && example.code.includes("// -- render --")) {
+                  const renderMatch = example.code.match(/\/\/\s*--\s*render\s*--([\s\S]*?)\/\/\s*--\s*code\s*--/);
+                  const codeMatch = example.code.match(/\/\/\s*--\s*code\s*--([\s\S]*)/);
+
+                  if (renderMatch && codeMatch) {
+                    example.render = renderMatch[1].trim();
+                    example.code = codeMatch[1].trim();
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    },
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
     customElementJsxPlugin(jsxOpts),

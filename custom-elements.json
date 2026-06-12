@@ -745,8 +745,9 @@
             },
             {
               "title": "Type",
-              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-column nys-flex-gap-100\">\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>\n</div>\n// -- code --\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>",
-              "lang": "html"
+              "code": "<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>",
+              "lang": "html",
+              "render": "<div class=\"nys-display-flex nys-flex-column nys-flex-gap-100\">\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>\n</div>"
             },
             {
               "title": "Dismissible",
@@ -755,8 +756,9 @@
             },
             {
               "title": "Duration",
-              "code": "// -- render --\n<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>\n// -- code --\n<nys-alert heading=\"Disappearing alert\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
-              "lang": "html"
+              "code": "<nys-alert heading=\"Disappearing alert\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
+              "lang": "html",
+              "render": "<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>"
             },
             {
               "title": "Custom Icon",
@@ -1067,8 +1069,9 @@
             },
             {
               "title": "Image",
-              "code": "// -- render --\n<nys-avatar\nimage=\"https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>\n// -- code --\n<nys-avatar\nimage=\"path/to/img.png\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>",
-              "lang": "html"
+              "code": "<nys-avatar\nimage=\"path/to/img.png\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>",
+              "lang": "html",
+              "render": "<nys-avatar\nimage=\"https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>"
             },
             {
               "title": "Initials",
@@ -1564,18 +1567,21 @@
             },
             {
               "title": "Intent",
-              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>\n// -- code --\n<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
-              "lang": "html"
+              "code": "<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html",
+              "render": "<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>"
             },
             {
               "title": "Strong Variant",
-              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>\n// -- code --\n<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
-              "lang": "html"
+              "code": "<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html",
+              "render": "<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>"
             },
             {
               "title": "Custom icons",
-              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>\n</div>\n// -- code --\n<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>",
-              "lang": "html"
+              "code": "<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>",
+              "lang": "html",
+              "render": "<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>\n</div>"
             },
             {
               "title": "Size",
