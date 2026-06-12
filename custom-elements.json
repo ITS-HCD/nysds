@@ -164,12 +164,12 @@
             },
             {
               "title": "Single Select",
-              "code": "<nys-accordion singleSelect>\n<nys-accordionitem heading=\"FAQ 1\" expanded>Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
+              "code": "<nys-accordion singleSelect>\n<nys-accordionitem heading=\"FAQ 1\">Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             },
             {
               "title": "Bordered",
-              "code": "<nys-accordion singleSelect bordered>\n<nys-accordionitem heading=\"We are a group of accordions\" expanded>\n<p>Stronger together! Learn more at\n<a href=\"https://www.ny.gov\" target=\"_blank\">ny.gov</a>\n</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Liberty Ipsum: Bridges & Boroughs\">\n<p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Hudson Ipsum: Riverfront Stories\">\n<p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</nys-accordionitem>\n</nys-accordion>",
+              "code": "<nys-accordion bordered>\n<nys-accordionitem heading=\"We are a group of accordions\">\n<p>Stronger together! Learn more at\n<a href=\"https://www.ny.gov\" target=\"_blank\">ny.gov</a>\n</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Liberty Ipsum: Bridges & Boroughs\">\n<p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Hudson Ipsum: Riverfront Stories\">\n<p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
@@ -781,7 +781,7 @@
             },
             {
               "title": "Custom Icon",
-              "code": "<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"help\">\n</nys-alert>",
+              "code": "<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>",
               "lang": "html"
             },
             {

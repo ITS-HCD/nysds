@@ -83,9 +83,11 @@ export const Basic: Story = {
 };
 
 export const ErrorIntent: Story = {
-  render: () => html`
-    <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -98,9 +100,11 @@ export const ErrorIntent: Story = {
 };
 
 export const WarningIntent: Story = {
-  render: () => html`
-    <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -113,9 +117,11 @@ export const WarningIntent: Story = {
 };
 
 export const SuccessIntent: Story = {
-  render: () => html`
-    <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -128,9 +134,11 @@ export const SuccessIntent: Story = {
 };
 
 export const StrongNeutral: Story = {
-  render: () => html`
-    <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -143,14 +151,16 @@ export const StrongNeutral: Story = {
 };
 
 export const StrongError: Story = {
-  render: () => html`
-    <nys-badge
-      variant="strong"
-      label="Error"
-      intent="error"
-      prefixIcon
-    ></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge
+        variant="strong"
+        label="Error"
+        intent="error"
+        prefixIcon
+      ></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -163,14 +173,16 @@ export const StrongError: Story = {
 };
 
 export const StrongWarning: Story = {
-  render: () => html`
-    <nys-badge
-      variant="strong"
-      label="Warning"
-      intent="warning"
-      prefixIcon
-    ></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge
+        variant="strong"
+        label="Warning"
+        intent="warning"
+        prefixIcon
+      ></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -183,14 +195,16 @@ export const StrongWarning: Story = {
 };
 
 export const StrongSuccess: Story = {
-  render: () => html`
-    <nys-badge
-      variant="strong"
-      label="Success"
-      intent="success"
-      prefixIcon
-    ></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge
+        variant="strong"
+        label="Success"
+        intent="success"
+        prefixIcon
+      ></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -203,9 +217,11 @@ export const StrongSuccess: Story = {
 };
 
 export const CustomPrefixIcon: Story = {
-  render: () => html`
-    <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -218,9 +234,11 @@ export const CustomPrefixIcon: Story = {
 };
 
 export const CustomSuffixIcon: Story = {
-  render: () => html`
-    <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -233,7 +251,9 @@ export const CustomSuffixIcon: Story = {
 };
 
 export const Size: Story = {
-  render: () => html` <nys-badge label="Small" size="sm"></nys-badge> `,
+  render: () => {
+    return html` <nys-badge label="Small" size="sm"></nys-badge> `;
+  },
   parameters: {
     docs: {
       source: {
@@ -246,14 +266,16 @@ export const Size: Story = {
 };
 
 export const ScreenReaderText: Story = {
-  render: () => html`
-    <nys-badge
-      intent="warning"
-      label="Caution"
-      prefixIcon
-      srText="concern"
-    ></nys-badge>
-  `,
+  render: () => {
+    return html`
+      <nys-badge
+        intent="warning"
+        label="Caution"
+        prefixIcon
+        srText="concern"
+      ></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {

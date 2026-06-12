@@ -71,12 +71,14 @@ export const Basic: Story = {
 };
 
 export const Image: Story = {
-  render: () => html`
-    <nys-avatar
-      image="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      ariaLabel="Jane Smith"
-    ></nys-avatar>
-  `,
+  render: () => {
+    return html`
+      <nys-avatar
+        image="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        ariaLabel="Jane Smith"
+      ></nys-avatar>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -89,9 +91,11 @@ export const Image: Story = {
 };
 
 export const Initials: Story = {
-  render: () => html`
-    <nys-avatar initials="JS" ariaLabel="Jane Smith"></nys-avatar>
-  `,
+  render: () => {
+    return html`
+      <nys-avatar initials="JS" ariaLabel="Jane Smith"></nys-avatar>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -104,7 +108,9 @@ export const Initials: Story = {
 };
 
 export const Icon: Story = {
-  render: () => html` <nys-avatar icon="account_circle"></nys-avatar> `,
+  render: () => {
+    return html` <nys-avatar icon="account_circle"></nys-avatar> `;
+  },
   parameters: {
     docs: {
       source: {
@@ -117,7 +123,9 @@ export const Icon: Story = {
 };
 
 export const Interactive: Story = {
-  render: () => html` <nys-avatar interactive></nys-avatar> `,
+  render: () => {
+    return html` <nys-avatar interactive></nys-avatar> `;
+  },
   parameters: {
     docs: {
       source: {
@@ -130,7 +138,9 @@ export const Interactive: Story = {
 };
 
 export const Disabled: Story = {
-  render: () => html` <nys-avatar disabled></nys-avatar> `,
+  render: () => {
+    return html` <nys-avatar disabled></nys-avatar> `;
+  },
   parameters: {
     docs: {
       source: {
@@ -143,9 +153,11 @@ export const Disabled: Story = {
 };
 
 export const CustomBackgroundColor: Story = {
-  render: () => html`
-    <nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>
-  `,
+  render: () => {
+    return html`
+      <nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -158,7 +170,9 @@ export const CustomBackgroundColor: Story = {
 };
 
 export const LazyLoading: Story = {
-  render: () => html` <nys-avatar lazy></nys-avatar> `,
+  render: () => {
+    return html` <nys-avatar lazy></nys-avatar> `;
+  },
   parameters: {
     docs: {
       source: {

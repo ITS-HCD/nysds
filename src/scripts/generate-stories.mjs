@@ -327,18 +327,22 @@ function buildStaticStory(example, nameOverride) {
     const htmlPart = parts.find((p) => p.trim().startsWith("<")) || "";
     const jsPart = parts.filter((p) => !p.trim().startsWith("<")).join("\n");
 
-    renderTemplate = `(args) => {
+    renderTemplate = `() => {
 ${indent(jsPart.trim(), 4)}
     return html\`${indent(htmlPart.trim(), 6)}\`;
   }`;
   } else if (isHtml(code)) {
-    renderTemplate = `() => html\`
-${indent(escapeCode(code), 4)}
-  \``;
+    renderTemplate = `() => {
+    return html\`
+${indent(escapeCode(code), 6)}
+    \`;
+  }`;
   } else {
-    renderTemplate = `() => html\`<pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"><code>\${${JSON.stringify(
+    renderTemplate = `() => {
+    return html\`<pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"><code>\${${JSON.stringify(
       code
-    )}}</code></pre>\``;
+    )}}</code></pre>\`;
+  }`;
   }
 
   return `export const ${storyName}: Story = {

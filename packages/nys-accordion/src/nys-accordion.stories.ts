@@ -102,18 +102,20 @@ export const Basic: Story = {
 };
 
 export const SingleSelect: Story = {
-  render: () => html`
-    <nys-accordion singleSelect>
-      <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
-      <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
-    </nys-accordion>
-  `,
+  render: () => {
+    return html`
+      <nys-accordion singleSelect>
+        <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
+        <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
+      </nys-accordion>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
 <nys-accordion singleSelect>
-  <nys-accordionitem heading="FAQ 1" expanded>Answer 1</nys-accordionitem>
+  <nys-accordionitem heading="FAQ 1">Answer 1</nys-accordionitem>
   <nys-accordionitem heading="FAQ 2">Answer 2</nys-accordionitem>
 </nys-accordion>`,
         type: "auto",
@@ -123,34 +125,36 @@ export const SingleSelect: Story = {
 };
 
 export const Bordered: Story = {
-  render: () => html`
-    <nys-accordion singleSelect bordered>
-      <nys-accordionitem heading="We are a group of accordions" expanded>
-        <p>
-          Stronger together! Learn more at
-          <a href="https://www.ny.gov" target="_blank">ny.gov</a>
-        </p>
-      </nys-accordionitem>
-      <nys-accordionitem heading="Liberty Ipsum: Bridges & Boroughs">
-        <p>
-          Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
-          Park, consectetur adipiscing elit.
-        </p>
-      </nys-accordionitem>
-      <nys-accordionitem heading="Hudson Ipsum: Riverfront Stories">
-        <p>
-          From the banks of the Hudson to the peaks of the Adirondacks, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p>
-      </nys-accordionitem>
-    </nys-accordion>
-  `,
+  render: () => {
+    return html`
+      <nys-accordion bordered>
+        <nys-accordionitem heading="We are a group of accordions">
+          <p>
+            Stronger together! Learn more at
+            <a href="https://www.ny.gov" target="_blank">ny.gov</a>
+          </p>
+        </nys-accordionitem>
+        <nys-accordionitem heading="Liberty Ipsum: Bridges & Boroughs">
+          <p>
+            Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central
+            Park, consectetur adipiscing elit.
+          </p>
+        </nys-accordionitem>
+        <nys-accordionitem heading="Hudson Ipsum: Riverfront Stories">
+          <p>
+            From the banks of the Hudson to the peaks of the Adirondacks, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </nys-accordionitem>
+      </nys-accordion>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-accordion singleSelect bordered>
-  <nys-accordionitem heading="We are a group of accordions" expanded>
+<nys-accordion bordered>
+  <nys-accordionitem heading="We are a group of accordions">
     <p>
       Stronger together! Learn more at
       <a href="https://www.ny.gov" target="_blank">ny.gov</a>
@@ -176,16 +180,18 @@ export const Bordered: Story = {
 };
 
 export const ExpandedItem: Story = {
-  render: () => html`
-    <nys-accordion>
-      <nys-accordionitem heading="How do I apply?" expanded>
-        <p>Visit ny.gov and complete the online application.</p>
-      </nys-accordionitem>
-      <nys-accordionitem heading="What documents do I need?">
-        <p>You will need a valid ID and proof of residency.</p>
-      </nys-accordionitem>
-    </nys-accordion>
-  `,
+  render: () => {
+    return html`
+      <nys-accordion>
+        <nys-accordionitem heading="How do I apply?" expanded>
+          <p>Visit ny.gov and complete the online application.</p>
+        </nys-accordionitem>
+        <nys-accordionitem heading="What documents do I need?">
+          <p>You will need a valid ID and proof of residency.</p>
+        </nys-accordionitem>
+      </nys-accordion>
+    `;
+  },
   parameters: {
     docs: {
       source: {

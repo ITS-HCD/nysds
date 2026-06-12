@@ -81,12 +81,14 @@ export const Basic: Story = {
 };
 
 export const Text: Story = {
-  render: () => html`
-    <nys-alert
-      heading="This is a heading"
-      text="This is additional information passed in through the text property"
-    ></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert
+        heading="This is a heading"
+        text="This is additional information passed in through the text property"
+      ></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -102,18 +104,20 @@ export const Text: Story = {
 };
 
 export const RichText: Story = {
-  render: () => html`
-    <nys-alert heading="Rich Text">
-      <p>
-        This is a custom alert with
-        <strong>HTML content</strong>
-        passed in through the slot.
-      </p>
-      <a href="https://www.ny.gov/" target="_blank"
-        >Learn more about our accessibility services</a
-      >
-    </nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert heading="Rich Text">
+        <p>
+          This is a custom alert with
+          <strong>HTML content</strong>
+          passed in through the slot.
+        </p>
+        <a href="https://www.ny.gov/" target="_blank"
+          >Learn more about our accessibility services</a
+        >
+      </nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -133,9 +137,11 @@ export const RichText: Story = {
 };
 
 export const InfoType: Story = {
-  render: () => html`
-    <nys-alert type="info" heading="Info alert type"></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert type="info" heading="Info alert type"></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -148,9 +154,11 @@ export const InfoType: Story = {
 };
 
 export const SuccessType: Story = {
-  render: () => html`
-    <nys-alert type="success" heading="Success alert type"></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert type="success" heading="Success alert type"></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -163,9 +171,11 @@ export const SuccessType: Story = {
 };
 
 export const WarningType: Story = {
-  render: () => html`
-    <nys-alert type="warning" heading="Warning alert type"></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert type="warning" heading="Warning alert type"></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -178,9 +188,11 @@ export const WarningType: Story = {
 };
 
 export const DangerType: Story = {
-  render: () => html`
-    <nys-alert type="danger" heading="Danger alert type"></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert type="danger" heading="Danger alert type"></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -193,9 +205,11 @@ export const DangerType: Story = {
 };
 
 export const EmergencyType: Story = {
-  render: () => html`
-    <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -208,13 +222,15 @@ export const EmergencyType: Story = {
 };
 
 export const Dismissible: Story = {
-  render: () => html`
-    <nys-alert
-      heading="This alert is dismisable"
-      text="Close it by clicking on the X in the corner."
-      dismissible
-    ></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert
+        heading="This alert is dismisable"
+        text="Close it by clicking on the X in the corner."
+        dismissible
+      ></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -231,21 +247,23 @@ export const Dismissible: Story = {
 };
 
 export const Duration: Story = {
-  render: () => html`
-    <nys-button
-      class="nys-margin-b-100"
-      label="Show alert"
-      onclick="
-        document.body.appendChild(
-          Object.assign(document.createElement('nys-alert'), {
-            heading: 'Disappearing alert',
-            text: 'This alert will disappear after 3 seconds.',
-            duration: 3000,
-          }),
-        )
-      "
-    ></nys-button>
-  `,
+  render: () => {
+    return html`
+      <nys-button
+        class="nys-margin-b-100"
+        label="Show alert"
+        onclick="
+          document.body.appendChild(
+            Object.assign(document.createElement('nys-alert'), {
+              heading: 'Disappearing alert',
+              text: 'This alert will disappear after 3 seconds.',
+              duration: 3000,
+            }),
+          )
+        "
+      ></nys-button>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -262,14 +280,16 @@ export const Duration: Story = {
 };
 
 export const CustomIcon: Story = {
-  render: () => html`
-    <nys-alert
-      type="emergency"
-      heading="Winter storm warning: Dec 10th, 2024."
-      text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
-      icon="help"
-    ></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert
+        type="emergency"
+        heading="Winter storm warning: Dec 10th, 2024."
+        text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+        icon="ac_unit"
+      ></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -278,7 +298,7 @@ export const CustomIcon: Story = {
   type="emergency"
   heading="Winter storm warning: Dec 10th, 2024."
   text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
-  icon="help"
+  icon="ac_unit"
 ></nys-alert>`,
         type: "auto",
       },
@@ -287,15 +307,17 @@ export const CustomIcon: Story = {
 };
 
 export const ActionLinks: Story = {
-  render: () => html`
-    <nys-alert
-      heading="Alert with links"
-      primaryLabel="{primaryAction}"
-      secondaryLabel="{secondaryAction}"
-      primaryAction="https://www.ny.gov/"
-      secondaryAction="https://www.ny.gov/"
-    ></nys-alert>
-  `,
+  render: () => {
+    return html`
+      <nys-alert
+        heading="Alert with links"
+        primaryLabel="{primaryAction}"
+        secondaryLabel="{secondaryAction}"
+        primaryAction="https://www.ny.gov/"
+        secondaryAction="https://www.ny.gov/"
+      ></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {
