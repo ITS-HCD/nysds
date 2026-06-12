@@ -23,8 +23,8 @@
     "lit-analyze": "lit-analyzer 'src/**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.19.0",
-    "@nysds/nys-button": "^1.19.0"
+    "@nysds/nys-button": "^1.19.0",
+    "@nysds/nys-icon": "^1.19.0"
   },
   "devDependencies": {
     "lit": "^3.3.1",
@@ -41,5 +41,6 @@
     "forms"
   ],
   "author": "New York State Design System Team",
-  "license": "MIT"
+  "license": "MIT",
+  "sideEffects": true
 }
