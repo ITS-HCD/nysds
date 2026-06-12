@@ -1124,9 +1124,10 @@
               "kind": "field",
               "name": "mediaQuery",
               "type": {
-                "text": "MediaQueryList"
+                "text": "MediaQueryList | null"
               },
-              "privacy": "private"
+              "privacy": "private",
+              "default": "null"
             },
             {
               "kind": "method",
@@ -2327,7 +2328,7 @@
               "kind": "method",
               "name": "_handleAnyAttributeFunction",
               "privacy": "private",
-              "description": "A Solution to the Vanilla JS & Native HTML keydown:\n\nHandles inline onClick attributes set as strings in vanilla HTML\n(e.g. <nys-button onClick=\"doSomething()\">).\n\nWhen onClick is set this way, it is a DOM attribute (not a property)\nso this.onClick remains null. Native clicks execute the attribute\nautomatically, but keydown events do not, so we invoke it manually here."
+              "description": "Handles inline onclick attributes for keyboard activation.\n\nNative clicks execute inline onclick attributes automatically, but\nkeyboard activation of the custom element does not trigger that native\nbehavior. Dispatching a synthetic click lets the browser's own inline\nevent handler mechanism execute any onclick attribute safely without\neval() or new Function()."
             },
             {
               "kind": "method",
