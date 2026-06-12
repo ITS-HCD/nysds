@@ -20,19 +20,18 @@ let badgeIdCounter = 0;
  * <nys-badge label="Basic badge"></nys-badge>
  * ```
  *
- * @example Intent
+ * @example Error Intent
  * ```html
- * // -- render --
- * <div class="nys-display-flex nys-flex-gap-100">
- *   <nys-badge label="Neutral" prefixIcon></nys-badge>
- *   <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
- *   <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
- *   <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
- * </div>
- * // -- code --
- * <nys-badge label="Neutral" prefixIcon></nys-badge>
  * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Warning Intent
+ * ```html
  * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Success Intent
+ * ```html
  * <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *

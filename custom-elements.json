@@ -744,10 +744,29 @@
               "lang": "html"
             },
             {
-              "title": "Type",
-              "code": "<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>",
-              "lang": "html",
-              "render": "<div class=\"nys-display-flex nys-flex-column nys-flex-gap-100\">\n<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>\n<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>\n<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>\n<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>\n<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>\n</div>"
+              "title": "Info Type",
+              "code": "<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Success Type",
+              "code": "<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Warning Type",
+              "code": "<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Danger Type",
+              "code": "<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Emergency Type",
+              "code": "<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>",
+              "lang": "html"
             },
             {
               "title": "Dismissible",
@@ -1566,10 +1585,19 @@
               "lang": "html"
             },
             {
-              "title": "Intent",
-              "code": "<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
-              "lang": "html",
-              "render": "<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>"
+              "title": "Error Intent",
+              "code": "<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Warning Intent",
+              "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Success Intent",
+              "code": "<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
             },
             {
               "title": "Strong Variant",
@@ -14211,14 +14239,6 @@
               "code": "<nys-icon id=\"info-icon\" name=\"info\"></nys-icon>\n<nys-tooltip for=\"info-icon\" text=\"Additional details\" position=\"right\"></nys-tooltip>",
               "lang": "html"
             }
-          ],
-          "accessibility": [
-            "Linked to trigger element via `for` attribute (must match trigger's `id`).",
-            "`role=\"tooltip\"` with dynamic `aria-hidden` based on visibility.",
-            "Keyboard accessible: Tab to trigger, Enter/Space shows tooltip, Escape dismisses.",
-            "Screen readers announce tooltip text when visible.",
-            "Visual focus indicators on trigger elements meet WCAG 2.2 AA standards.",
-            "Auto-positioning respects viewport bounds to prevent content loss."
           ]
         }
       ],
@@ -14285,14 +14305,6 @@
               "code": "<nys-globalfooter>...</nys-globalfooter>\n<nys-unavfooter></nys-unavfooter>",
               "lang": "html"
             }
-          ],
-          "accessibility": [
-            "Uses semantic `<footer>` element for assistive technology recognition.",
-            "All links are keyboard-navigable via Tab.",
-            "Proper link text for screen reader users.",
-            "Links open in same window (no target=\"_blank\") unless external policy requires otherwise.",
-            "Visual design meets WCAG 2.2 AA contrast and focus indicator standards.",
-            "Footer is not hidden from screen readers and is announced as navigation. *"
           ]
         }
       ],
@@ -14928,14 +14940,6 @@
               "code": "<nys-video\nvideourl=\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"\ntitleText=\"Video Title\"\n></nys-video>",
               "lang": "html"
             }
-          ],
-          "accessibility": [
-            "Title text is announced to screen readers when the video is not yet loaded.",
-            "When the video loads, the iframe title and aria-label are set to the `titleText`.",
-            "Live region announces playback state (\"Video is playing\", \"Advertisement is playing\").",
-            "Play button is properly labeled and keyboard accessible.",
-            "Disabled state prevents play button interaction.",
-            "Focus is transferred to the iframe once the video is loaded (for keyboard users)."
           ]
         }
       ],

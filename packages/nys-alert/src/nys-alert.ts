@@ -40,21 +40,28 @@ let alertIdCounter = 0;
  * </nys-alert>
  * ```
  *
- * @example Type
+ * @example Info Type
  * ```html
- * // -- render --
- * <div class="nys-display-flex nys-flex-column nys-flex-gap-100">
- *   <nys-alert type="info" heading="Info alert type"></nys-alert>
- *   <nys-alert type="success" heading="Success alert type"></nys-alert>
- *   <nys-alert type="warning" heading="Warning alert type"></nys-alert>
- *   <nys-alert type="danger" heading="Danger alert type"></nys-alert>
- *   <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
- * </div>
- * // -- code --
  * <nys-alert type="info" heading="Info alert type"></nys-alert>
+ * ```
+ *
+ * @example Success Type
+ * ```html
  * <nys-alert type="success" heading="Success alert type"></nys-alert>
+ * ```
+ *
+ * @example Warning Type
+ * ```html
  * <nys-alert type="warning" heading="Warning alert type"></nys-alert>
+ * ```
+ *
+ * @example Danger Type
+ * ```html
  * <nys-alert type="danger" heading="Danger alert type"></nys-alert>
+ * ```
+ *
+ * @example Emergency Type
+ * ```html
  * <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
  * ```
  *

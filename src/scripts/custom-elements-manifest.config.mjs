@@ -36,13 +36,6 @@ const customJsDocTagsPlugin = () => ({
             .map((s) => s.replace(/^\*?\s*-?\s*/, "").replace(/\n\s*\*\s*/g, " ").trim())
             .filter(Boolean);
 
-        const accessMatch = docComment.match(
-          /@accessibility\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
-        );
-        if (accessMatch) {
-          decl.accessibility = extractBullets(accessMatch[1]);
-        }
-
         const usageMatch = docComment.match(
           /@usage\s+([\s\S]*?)(?=\n\s*\*?\s*@|\n\s*\*\/)/
         );

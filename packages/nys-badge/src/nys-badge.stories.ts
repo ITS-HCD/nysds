@@ -80,22 +80,44 @@ export const Basic: Story = {
   },
 };
 
-export const Intent: Story = {
+export const ErrorIntent: Story = {
   render: () => html`
-    <div class="nys-display-flex nys-flex-gap-100">
-      <nys-badge label="Neutral" prefixIcon></nys-badge>
-      <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
-      <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
-      <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
-    </div>
+    <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge label="Neutral" prefixIcon></nys-badge>
-<nys-badge label="Error" intent="error" prefixIcon></nys-badge>
-<nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+<nys-badge label="Error" intent="error" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WarningIntent: Story = {
+  render: () => html`
+    <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SuccessIntent: Story = {
+  render: () => html`
+    <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
 <nys-badge label="Success" intent="success" prefixIcon></nys-badge>`,
         type: "auto",
       },

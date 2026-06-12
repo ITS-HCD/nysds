@@ -129,24 +129,74 @@ export const RichText: Story = {
   },
 };
 
-export const Type: Story = {
+export const InfoType: Story = {
   render: () => html`
-    <div class="nys-display-flex nys-flex-column nys-flex-gap-100">
-      <nys-alert type="info" heading="Info alert type"></nys-alert>
-      <nys-alert type="success" heading="Success alert type"></nys-alert>
-      <nys-alert type="warning" heading="Warning alert type"></nys-alert>
-      <nys-alert type="danger" heading="Danger alert type"></nys-alert>
-      <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
-    </div>
+    <nys-alert type="info" heading="Info alert type"></nys-alert>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-alert type="info" heading="Info alert type"></nys-alert>
-<nys-alert type="success" heading="Success alert type"></nys-alert>
-<nys-alert type="warning" heading="Warning alert type"></nys-alert>
-<nys-alert type="danger" heading="Danger alert type"></nys-alert>
+<nys-alert type="info" heading="Info alert type"></nys-alert>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SuccessType: Story = {
+  render: () => html`
+    <nys-alert type="success" heading="Success alert type"></nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert type="success" heading="Success alert type"></nys-alert>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WarningType: Story = {
+  render: () => html`
+    <nys-alert type="warning" heading="Warning alert type"></nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert type="warning" heading="Warning alert type"></nys-alert>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DangerType: Story = {
+  render: () => html`
+    <nys-alert type="danger" heading="Danger alert type"></nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-alert type="danger" heading="Danger alert type"></nys-alert>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const EmergencyType: Story = {
+  render: () => html`
+    <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
 <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>`,
         type: "auto",
       },
