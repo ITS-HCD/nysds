@@ -105,6 +105,17 @@ export default function (plop) {
           return content.trimEnd() + insertLine;
         },
       },
+      {
+        type: "modify",
+        path: "tsconfig.build.json",
+        transform: (content, data) => {
+          const tsconfig = JSON.parse(content);
+          const newRef = { path: `packages/nys-${data.componentName}` };
+          tsconfig.references.push(newRef);
+          tsconfig.references.sort((a, b) => a.path.localeCompare(b.path));
+          return JSON.stringify(tsconfig, null, 2) + "\n";
+        },
+      },
     ],
   });
 

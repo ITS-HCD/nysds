@@ -36,5 +36,6 @@
     "type": "git",
     "url": "git+https://github.com/ITS-HCD/nysds.git",
     "directory": "packages/tokens"
-  }
+  },
+  "sideEffects": false
 }

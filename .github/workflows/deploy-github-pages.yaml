@@ -1,19 +1,19 @@
 # .github/workflows/deploy-github-pages.yaml
- 
+
 # Workflow name
 name: Build and Publish Storybook to GitHub Pages
- 
+
 on:
   # Event for the workflow to run on
   push:
     branches:
       - 'develop' # Replace with the branch you want to deploy from
- 
+
 permissions:
   contents: read
   pages: write
   id-token: write
- 
+
 # List of jobs
 jobs:
   deploy:
@@ -21,18 +21,18 @@ jobs:
     # Job steps
     steps:
       # Manual Checkout
-      - uses: actions/checkout@v6
- 
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
       # Set up Node
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '24.x'
- 
+
       #👇 Add Storybook build and deploy to GitHub Pages as a step in the workflow
-      - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+      - uses: bitovi/github-actions-storybook-to-github-pages@b75ece8f984a32b2adb322065d7a8a2cc8db2d52 # v1.0.3
         # continue-on-error: true
         with:
-          install_command: npm install # default: npm ci
+          install_command: npm ci
           build_command: npm run build-storybook && cp favicon.svg storybook-static/ # default: npm run build-storybook
           path: storybook-static # default: dist/storybook
           checkout: false # default: true

@@ -45,7 +45,7 @@ export class NysBacktotop extends LitElement {
   @state() private isMobile = false;
   @state() private forceVisible = false;
 
-  private mediaQuery: MediaQueryList;
+  private mediaQuery: MediaQueryList | null = null;
 
   /**
    * Lifecycle methods
@@ -56,11 +56,12 @@ export class NysBacktotop extends LitElement {
     super();
     this._handleScroll = this._handleScroll.bind(this);
     this._handleResize = this._handleResize.bind(this);
-    this.mediaQuery = window.matchMedia("(max-width: 480px)");
   }
 
   connectedCallback() {
     super.connectedCallback();
+    if (typeof window === "undefined") return;
+    this.mediaQuery = window.matchMedia("(max-width: 480px)");
     this.forceVisible = this.hasAttribute("visible"); // true only if passed in markup
     window.addEventListener("scroll", this._handleScroll);
     this.mediaQuery.addEventListener("change", this._handleResize);
@@ -68,8 +69,10 @@ export class NysBacktotop extends LitElement {
   }
 
   disconnectedCallback() {
-    window.removeEventListener("scroll", this._handleScroll);
-    this.mediaQuery.removeEventListener("change", this._handleResize);
+    if (typeof window !== "undefined") {
+      window.removeEventListener("scroll", this._handleScroll);
+      this.mediaQuery?.removeEventListener("change", this._handleResize);
+    }
     super.disconnectedCallback();
   }
 
@@ -79,6 +82,7 @@ export class NysBacktotop extends LitElement {
    */
 
   private _handleScroll() {
+    if (typeof window === "undefined") return;
     // If visible was explicitly set by user, don't override it
     if (this.forceVisible) return;
 
@@ -91,6 +95,7 @@ export class NysBacktotop extends LitElement {
   }
 
   private _scrollToTop() {
+    if (typeof window === "undefined") return;
     window.scrollTo({ top: 0, behavior: "smooth" });
     // Move focus to the main content area or first heading after scroll
     // Use a scroll event listener to detect when smooth scroll completes
@@ -111,7 +116,9 @@ export class NysBacktotop extends LitElement {
   }
 
   private _handleResize() {
-    this.isMobile = this.mediaQuery.matches;
+    if (this.mediaQuery) {
+      this.isMobile = this.mediaQuery.matches;
+    }
   }
 
   render() {

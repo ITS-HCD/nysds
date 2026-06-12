@@ -20,13 +20,13 @@
     "test": "vite build && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
-    "lit-analyze": "lit-analyzer '*.ts'"
+    "lit-analyze": "lit-analyzer 'src/**/*.ts'"
   },
   "dependencies": {
-    "@nysds/nys-icon": "^1.19.0",
     "@nysds/nys-button": "^1.19.0",
-    "@nysds/nys-label": "^1.19.0",
     "@nysds/nys-errormessage": "^1.19.0",
+    "@nysds/nys-icon": "^1.19.0",
+    "@nysds/nys-label": "^1.19.0",
     "wc-datepicker": "^0.10.0"
   },
   "devDependencies": {
@@ -44,5 +44,6 @@
     "forms"
   ],
   "author": "New York State Design System Team",
-  "license": "MIT"
+  "license": "MIT",
+  "sideEffects": true
 }
