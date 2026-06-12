@@ -1094,6 +1094,11 @@
               "title": "Custom Background Color",
               "code": "<nys-avatar color=\"var(--nys-color-red-500)\" interactive></nys-avatar>",
               "lang": "html"
+            },
+            {
+              "title": "Lazy Loading",
+              "code": "<nys-avatar lazy></nys-avatar>",
+              "lang": "html"
             }
           ]
         }

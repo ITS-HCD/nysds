@@ -154,3 +154,16 @@ export const CustomBackgroundColor: Story = {
     },
   },
 };
+
+export const LazyLoading: Story = {
+  render: () => html` <nys-avatar lazy></nys-avatar> `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-avatar lazy></nys-avatar>`,
+        type: "auto",
+      },
+    },
+  },
+};

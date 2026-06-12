@@ -60,6 +60,11 @@ let avatarIdCounter = 0;
  * ```html
  * <nys-avatar color="var(--nys-color-red-500)" interactive></nys-avatar>
  * ```
+ *
+ * @example Lazy Loading
+ * ```html
+ * <nys-avatar lazy></nys-avatar>
+ * ```
  */
 
 export class NysAvatar extends LitElement {
