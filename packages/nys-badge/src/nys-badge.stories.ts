@@ -125,37 +125,74 @@ export const SuccessIntent: Story = {
   },
 };
 
-export const StrongVariant: Story = {
+export const StrongNeutral: Story = {
   render: () => html`
-    <div class="nys-display-flex nys-flex-gap-100">
-      <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
-      <nys-badge
-        variant="strong"
-        label="Error"
-        intent="error"
-        prefixIcon
-      ></nys-badge>
-      <nys-badge
-        variant="strong"
-        label="Warning"
-        intent="warning"
-        prefixIcon
-      ></nys-badge>
-      <nys-badge
-        variant="strong"
-        label="Success"
-        intent="success"
-        prefixIcon
-      ></nys-badge>
-    </div>
+    <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
-<nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
-<nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
+<nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongError: Story = {
+  render: () => html`
+    <nys-badge
+      variant="strong"
+      label="Error"
+      intent="error"
+      prefixIcon
+    ></nys-badge>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongWarning: Story = {
+  render: () => html`
+    <nys-badge
+      variant="strong"
+      label="Warning"
+      intent="warning"
+      prefixIcon
+    ></nys-badge>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongSuccess: Story = {
+  render: () => html`
+    <nys-badge
+      variant="strong"
+      label="Success"
+      intent="success"
+      prefixIcon
+    ></nys-badge>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
 <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>`,
         type: "auto",
       },

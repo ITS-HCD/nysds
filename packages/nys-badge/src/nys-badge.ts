@@ -35,19 +35,23 @@ let badgeIdCounter = 0;
  * <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *
- * @example Strong Variant
+ * @example Strong Neutral
  * ```html
- * // -- render --
- * <div class="nys-display-flex nys-flex-gap-100">
- *   <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
- *   <nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
- *   <nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
- *   <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
- * </div>
- * // -- code --
  * <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Error
+ * ```html
  * <nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Warning
+ * ```html
  * <nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Success
+ * ```html
  * <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *

@@ -1600,10 +1600,24 @@
               "lang": "html"
             },
             {
-              "title": "Strong Variant",
-              "code": "<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
-              "lang": "html",
-              "render": "<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>"
+              "title": "Strong Neutral",
+              "code": "<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Error",
+              "code": "<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Warning",
+              "code": "<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Success",
+              "code": "<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
             },
             {
               "title": "Custom icons",
