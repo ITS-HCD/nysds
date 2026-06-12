@@ -200,18 +200,29 @@ export const StrongSuccess: Story = {
   },
 };
 
-export const CustomIcons: Story = {
+export const CustomPrefixIcon: Story = {
   render: () => html`
-    <div class="nys-display-flex nys-flex-gap-100">
-      <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
-      <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
-    </div>
+    <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
   `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
+<nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomSuffixIcon: Story = {
+  render: () => html`
+    <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
+  `,
+  parameters: {
+    docs: {
+      source: {
+        code: `
 <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>`,
         type: "auto",
       },

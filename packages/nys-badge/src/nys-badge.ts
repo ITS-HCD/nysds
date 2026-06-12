@@ -55,15 +55,13 @@ let badgeIdCounter = 0;
  * <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
  * ```
  *
- * @example Custom icons
+ * @example Custom Prefix Icon
  * ```html
- * // -- render --
- * <div class="nys-display-flex nys-flex-gap-100">
- *   <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
- *   <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
- * </div>
- * // -- code --
  * <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
+ * ```
+ *
+ * @example Custom Suffix Icon
+ * ```html
  * <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
  * ```
  *

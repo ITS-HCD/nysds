@@ -1620,10 +1620,14 @@
               "lang": "html"
             },
             {
-              "title": "Custom icons",
-              "code": "<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>",
-              "lang": "html",
-              "render": "<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>\n</div>"
+              "title": "Custom Prefix Icon",
+              "code": "<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Suffix Icon",
+              "code": "<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>",
+              "lang": "html"
             },
             {
               "title": "Size",
