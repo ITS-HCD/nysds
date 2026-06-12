@@ -20,6 +20,14 @@ let videoIdCounter = 0;
  *
  * For use with YouTube URLs only. Component renders nothing if the URL is invalid.
  *
+ * @accessibility
+ * - Title text is announced to screen readers when the video is not yet loaded.
+ * - When the video loads, the iframe title and aria-label are set to the `titleText`.
+ * - Live region announces playback state ("Video is playing", "Advertisement is playing").
+ * - Play button is properly labeled and keyboard accessible.
+ * - Disabled state prevents play button interaction.
+ * - Focus is transferred to the iframe once the video is loaded (for keyboard users).
+ *
  * @summary YouTube video player with thumbnail preview and accessibility announcements.
  * @element nys-video
  *

@@ -1,7 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-badge";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysBadgeArgs {
@@ -9,12 +8,14 @@ interface NysBadgeArgs {
   name: string;
   size: "sm" | "md";
   intent: "neutral" | "error" | "success" | "warning";
-  variant: "" | "strong";
   prefixLabel: string;
   label: string;
+  srText: string;
+  variant: "strong" | "";
+  prefixicon: string | boolean;
+  suffixicon: string | boolean;
   prefixIcon: string;
   suffixIcon: string;
-  srText: string;
 }
 
 const meta: Meta<NysBadgeArgs> = {
@@ -23,41 +24,24 @@ const meta: Meta<NysBadgeArgs> = {
   argTypes: {
     id: { control: "text" },
     name: { control: "text" },
-    size: {
-      control: "select",
-      options: ["sm", "md"],
-      description: "Size of the badge",
-    },
+    size: { control: "select", options: ["sm", "md"] },
     intent: {
       control: "select",
       options: ["neutral", "error", "success", "warning"],
-      description: "Intent of the badge",
     },
-    variant: {
-      control: "select",
-      options: ["", "strong"],
-      description: "Variant of the badge",
-    },
-    prefixLabel: { control: "text", description: "Prefix text" },
-    prefixIcon: {
-      control: "text",
-      description: "Icon to display before the label",
-    },
-    suffixIcon: {
-      control: "text",
-      description: "Icon to display after the label",
-    },
-    label: { control: "text", description: "Label text" },
-    srText: {
-      control: "text",
-      description:
-        "Visually-hidden text appended after the label for screen readers. Authors supply context appropriate for their content (e.g., 'concern' for a warning badge).",
-    },
+    prefixLabel: { control: "text" },
+    label: { control: "text" },
+    srText: { control: "text" },
+    variant: { control: "select", options: ["strong"] },
+    prefixicon: { control: "text" },
+    suffixicon: { control: "text" },
+    prefixIcon: { control: "text" },
+    suffixIcon: { control: "text" },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
@@ -65,241 +49,239 @@ const meta: Meta<NysBadgeArgs> = {
 export default meta;
 type Story = StoryObj<NysBadgeArgs>;
 
-// Define stories without using args
-
 export const Basic: Story = {
   args: {
     label: "Basic badge",
   },
-  render: (args) => html`
-    <nys-badge
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .size=${args.size}
-      .intent=${args.intent}
-      .variant=${args.variant}
-      .prefixLabel=${args.prefixLabel}
-      .prefixIcon=${args.prefixIcon}
-      .suffixIcon=${args.suffixIcon}
-      .srText=${args.srText}
-    ></nys-badge>
-  `,
+  render: (args) => {
+    return html`
+      <nys-badge
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        .intent=${args.intent}
+        .prefixLabel=${args.prefixLabel}
+        .label=${args.label}
+        .srText=${args.srText}
+        .variant=${args.variant}
+        .prefixicon=${args.prefixicon}
+        .suffixicon=${args.suffixicon}
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+      ></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
+        code: `
+<nys-badge label="Basic badge"></nys-badge>`,
         type: "auto",
-        code: `<nys-badge label="Basic badge"></nys-badge>`,
       },
     },
   },
 };
 
-export const Intent: Story = {
-  render: () => html`
-    <div class="nys-grid-row nys-grid-gap-100">
-      <nys-badge label="Neutral" prefixIcon></nys-badge>
+export const ErrorIntent: Story = {
+  render: () => {
+    return html`
       <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge label="Error" intent="error" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WarningIntent: Story = {
+  render: () => {
+    return html`
       <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SuccessIntent: Story = {
+  render: () => {
+    return html`
       <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
-    </div>
-  `,
+    `;
+  },
   parameters: {
     docs: {
       source: {
-        type: "auto",
         code: `
-<div class="nys-grid-row nys-grid-gap-100">
-  <nys-badge label="Neutral" prefixIcon></nys-badge>
-  <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
-  <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
-  <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
-</div>
-`,
+<nys-badge label="Success" intent="success" prefixIcon></nys-badge>`,
+        type: "auto",
       },
     },
   },
 };
 
-export const Strong: Story = {
-  render: () => html`
-    <div class="nys-grid-row nys-grid-gap-100">
-      <nys-badge
-        label="Neutral"
-        prefixIcon
-        prefixLabel="prefix"
-        suffixicon
-        variant="strong"
-      ></nys-badge>
-      <nys-badge
-        label="Error"
-        intent="error"
-        prefixIcon
-        prefixLabel="prefix"
-        suffixicon
-        variant="strong"
-      ></nys-badge>
-      <nys-badge
-        label="Warning"
-        intent="warning"
-        prefixIcon
-        prefixLabel="prefix"
-        suffixicon
-        variant="strong"
-      ></nys-badge>
-      <nys-badge
-        label="Success"
-        intent="success"
-        prefixIcon
-        prefixLabel="prefix"
-        suffixicon
-        variant="strong"
-      ></nys-badge>
-    </div>
-  `,
+export const StrongNeutral: Story = {
+  render: () => {
+    return html`
+      <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
-        type: "auto",
         code: `
-<div class="nys-grid-row nys-grid-gap-100">
-      <nys-badge
-        label="Error"
-        intent="error"
-        prefixIcon
-        variant="strong"
-      ></nys-badge>
-      <nys-badge
-        label="Warning"
-        intent="warning"
-        prefixIcon
-        variant="strong"
-      ></nys-badge>
-      <nys-badge
-        label="Success"
-        intent="success"
-        prefixIcon
-        variant="strong"
-      ></nys-badge>
-</div>
-`,
+<nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>`,
+        type: "auto",
       },
     },
   },
 };
 
-export const Icons: Story = {
-  render: () => html`
-    <div class="nys-grid-row nys-grid-gap-100">
-      <nys-badge label="Default neutral" prefixIcon></nys-badge>
-      <nys-badge label="Default neutral" suffixIcon></nys-badge>
-      <nys-badge label="Custom neutral" prefixIcon="check"></nys-badge>
-      <nys-badge label="Custom neutral" suffixIcon="check"></nys-badge>
-    </div>
-  `,
+export const StrongError: Story = {
+  render: () => {
+    return html`
+      <nys-badge
+        variant="strong"
+        label="Error"
+        intent="error"
+        prefixIcon
+      ></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {
-        type: "auto",
         code: `
-<div class="nys-grid-row nys-grid-gap-100">
-  <nys-badge label="Default neutral" prefixIcon></nys-badge>
-  <nys-badge label="Default neutral" suffixIcon></nys-badge>
-  <nys-badge label="Custom neutral" prefixIcon="check"></nys-badge>
-  <nys-badge label="Custom neutral" suffixIcon="check"></nys-badge>
-</div>
-`,
+<nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongWarning: Story = {
+  render: () => {
+    return html`
+      <nys-badge
+        variant="strong"
+        label="Warning"
+        intent="warning"
+        prefixIcon
+      ></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const StrongSuccess: Story = {
+  render: () => {
+    return html`
+      <nys-badge
+        variant="strong"
+        label="Success"
+        intent="success"
+        prefixIcon
+      ></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomPrefixIcon: Story = {
+  render: () => {
+    return html`
+      <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const CustomSuffixIcon: Story = {
+  render: () => {
+    return html`
+      <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>`,
+        type: "auto",
       },
     },
   },
 };
 
 export const Size: Story = {
-  render: () => html`
-    <div class="nys-grid-row nys-grid-gap-100">
-      <nys-badge label="Medium"></nys-badge>
-      <nys-badge label="Small" size="sm"></nys-badge>
-    </div>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        type: "auto",
-        code: `
-<div class="nys-grid-row nys-grid-gap-100">
-  <nys-badge label="Medium"></nys-badge>
-  <nys-badge label="Small" size="sm"></nys-badge>
-</div>
-`,
-      },
-    },
+  render: () => {
+    return html` <nys-badge label="Small" size="sm"></nys-badge> `;
   },
-};
-
-export const PrefixLabel: Story = {
-  render: () => html`
-    <div class="nys-grid-row nys-grid-gap-100">
-      <nys-badge label="Stable" prefixIcon="code"></nys-badge>
-      <nys-badge
-        prefixIcon
-        prefixLabel="WCAG 2.2"
-        label="AA"
-        intent="success"
-      ></nys-badge>
-    </div>
-  `,
   parameters: {
     docs: {
       source: {
-        type: "auto",
         code: `
-<div class="nys-grid-row nys-grid-gap-100">
-  <nys-badge label="Stable" prefixIcon="code"></nys-badge>
-  <nys-badge prefixLabel="WCAG 2.2" label="AA" intent="success" prefixIcon></nys-badge>
-</div>
-`,
+<nys-badge label="Small" size="sm"></nys-badge>`,
+        type: "auto",
       },
     },
   },
 };
 
 export const ScreenReaderText: Story = {
-  render: () => html`
-    <p>
+  render: () => {
+    return html`
       <nys-badge
         intent="warning"
         label="Caution"
         prefixIcon
         srText="concern"
       ></nys-badge>
-    </p>
-    <p>
-      <nys-badge
-        intent="error"
-        label="Critical"
-        prefixIcon
-        srText="critical"
-      ></nys-badge>
-    </p>
-    <p>
-      <nys-badge intent="success" label="Approved" prefixIcon></nys-badge>
-    </p>
-  `,
+    `;
+  },
   parameters: {
     docs: {
       source: {
-        type: "auto",
         code: `
-<p>
-  <nys-badge intent="warning" label="Caution" prefixIcon srText="concern"></nys-badge>
-</p>
-<p>
-  <nys-badge intent="error" label="Critical" prefixIcon srText="critical"></nys-badge>
-</p>
-<p>
-  <nys-badge intent="success" label="Approved" prefixIcon></nys-badge>
-</p>
-`,
+<nys-badge intent="warning" label="Caution" prefixIcon srText="concern"></nys-badge>`,
+        type: "auto",
       },
     },
   },

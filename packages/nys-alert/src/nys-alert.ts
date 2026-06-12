@@ -19,15 +19,92 @@ let alertIdCounter = 0;
  *
  * @fires nys-close - Fired when alert is dismissed. Detail: `{id, type, label}`.
  *
- * @example Info alert
+ * @example Basic
  * ```html
- * <nys-alert type="info" heading="Update available" text="A new version is ready to install."></nys-alert>
+ * <nys-alert heading="This is a heading"></nys-alert>
  * ```
  *
- * @example Dismissible success alert
+ * @example Text
  * ```html
- * <nys-alert type="success" heading="Application submitted" dismissible></nys-alert>
+ * <nys-alert
+ *  heading="This is a heading"
+ *  text="This is additional information passed in through the text property"
+ * ></nys-alert>
  * ```
+ *
+ * @example Rich Text
+ * ```html
+ * <nys-alert heading="Rich Text">
+ *  <p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>
+ *  <a href="https://www.ny.gov/" target="_blank">Learn more about our accessibility services</a>
+ * </nys-alert>
+ * ```
+ *
+ * @example Info Type
+ * ```html
+ * <nys-alert type="info" heading="Info alert type"></nys-alert>
+ * ```
+ *
+ * @example Success Type
+ * ```html
+ * <nys-alert type="success" heading="Success alert type"></nys-alert>
+ * ```
+ *
+ * @example Warning Type
+ * ```html
+ * <nys-alert type="warning" heading="Warning alert type"></nys-alert>
+ * ```
+ *
+ * @example Danger Type
+ * ```html
+ * <nys-alert type="danger" heading="Danger alert type"></nys-alert>
+ * ```
+ *
+ * @example Emergency Type
+ * ```html
+ * <nys-alert type="emergency" heading="Emergency alert type"></nys-alert>
+ * ```
+ *
+ * @example Dismissible
+ * ```html
+ * <nys-alert heading="This alert is dismisable" text="Close it by clicking on the X in the corner." dismissible>
+ * </nys-alert>
+ * ```
+ *
+ * @example Duration
+ * ```html
+ * <nys-alert heading="Disappearing alert" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
+ * ```
+ *
+ * @render Duration
+ * ```html
+ * <nys-button
+ *  class="nys-margin-b-100"
+ *  label="Show alert"
+ *  onclick="document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))"
+ * ></nys-button>
+ * ```
+ *
+ * @example Custom Icon
+ * ```html
+ * <nys-alert
+ *   type="emergency"
+ *   heading="Winter storm warning: Dec 10th, 2024."
+ *   text="A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving."
+ *   icon="ac_unit">
+ * </nys-alert>
+ *```
+
+ * @example Action Links
+ * ```html
+ * <nys-alert
+ *  heading="Alert with links"
+ *  primaryLabel="{primaryAction}"
+ *  secondaryLabel="{secondaryAction}"
+ *  primaryAction="https://www.ny.gov/"
+ *  secondaryAction="https://www.ny.gov/"
+ * ></nys-alert>
+ *```
  */
 
 export class NysAlert extends LitElement {

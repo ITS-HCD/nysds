@@ -20,7 +20,7 @@ import styles from "./nys-backtotop.scss?inline";
  * @summary Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.
  * @element nys-backtotop
  *
- * @example Auto-appearing button in footer
+ * @example Basic
  * ```html
  * <footer>
  *   <nys-backtotop></nys-backtotop>
@@ -28,9 +28,76 @@ import styles from "./nys-backtotop.scss?inline";
  * </footer>
  * ```
  *
- * @example Always visible, left position
+ * @render Basic
  * ```html
- * <nys-backtotop visible position="left"></nys-backtotop>
+ * <style>
+ *   code {
+ *     white-space: nowrap;
+ *     padding: var(--nys-space-1px) var(--nys-space-2px);
+ *     border-radius: var(--nys-radius-md);
+ *     color: var(--nys-color-red-600);
+ *     background: var(--nys-color-neutral-10);
+ *     font-size: var(--nys-font-size-sm);
+ *   }
+ * </style>
+ * <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+ * <nys-globalheader appName="Back to Top Example"></nys-globalheader>
+ * <main style="padding: 0 2rem">
+ *   <h1>Sample Content on page</h1>
+ *   <p>
+ *     This is a sample content area used to demonstrate the functionality of
+ *     the Back to Top button. In an actual application,
+ *     <code>nys-backtotop</code> would not be visible until the user scrolls
+ *     down the page.
+ *   </p>
+ * </main>
+ * <footer>
+ *   <nys-backtotop visible .position=${args.position}></nys-backtotop>
+ *   <nys-unavfooter></nys-unavfooter>
+ * </footer>
+ * ```
+ * @example Left
+ * ```html
+ * <footer>
+ *   <nys-backtotop position="left"></nys-backtotop>
+ *   <!-- Other footer content -->
+ * </footer>
+ * ```
+ *
+ * @render Left
+ * ```html
+ * <style>
+ *   code {
+ *     white-space: nowrap;
+ *     padding: var(--nys-space-1px) var(--nys-space-2px);
+ *     border-radius: var(--nys-radius-md);
+ *     color: var(--nys-color-red-600);
+ *     background: var(--nys-color-neutral-10);
+ *     font-size: var(--nys-font-size-sm);
+ *   }
+ *   nys-button {
+ *     position: fixed;
+ *     bottom: 1rem;
+ *     right: 1rem;
+ *     --_nys-button-border-radius: var(--nys-radius-round);
+ *  }
+ * </style>
+ * <nys-unavheader hideTranslate hideSearch></nys-unavheader>
+ * <nys-globalheader appName="Back to Top Example"></nys-globalheader>
+ * <main style="padding: 0 2rem">
+ *   <h1>Sample Content on page</h1>
+ *   <p>
+ *     This is a sample content area used to demonstrate the functionality of
+ *     the Back to Top button. In an actual application,
+ *     <code>nys-backtotop</code> would not be visible until the user scrolls
+ *     down the page.
+ *   </p>
+ * </main>
+ * <footer>
+ *   <nys-backtotop visible position="left"></nys-backtotop>
+ *   <nys-button prefixIcon="sms" variant="outline" label="Chat with us" size="sm"></nys-button>
+ *   <nys-unavfooter></nys-unavfooter>
+ * </footer>
  * ```
  */
 export class NysBacktotop extends LitElement {

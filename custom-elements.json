@@ -158,13 +158,18 @@
           "summary": "Container for accordion items with optional single-select and bordered styling.",
           "examples": [
             {
-              "title": "Basic accordion",
-              "code": "<nys-accordion>\n<nys-accordionitem heading=\"Section 1\">Content for section 1</nys-accordionitem>\n<nys-accordionitem heading=\"Section 2\">Content for section 2</nys-accordionitem>\n</nys-accordion>",
+              "title": "Basic",
+              "code": "<nys-accordion>\n<nys-accordionitem id=\"accordionId1\" heading=\"How do I renew my passport or apply for a new one?\">\n<p>\nYou can apply for or renew a U.S. passport through the U.S. Department\nof State. Some renewals can be done by mail.\n</p>\n<div style=\"display: flex; gap: 0.5rem; font-size: 1rem;\">\n<a href=\"https://www.ny.gov\" target=\"_blank\">Check your registration</a>\n<a href=\"https://www.ny.gov\" target=\"_blank\">Fill out application</a>\n</div>\n</nys-accordionitem>\n<nys-accordionitem id=\"accordionId2\" heading=\"How can I find out if I’m registered to vote?\">\n<p>You can check your registration status, update your information, or find out how to register through the National Association of Secretaries of State.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             },
             {
-              "title": "Single-select accordion",
-              "code": "<nys-accordion singleSelect bordered>\n<nys-accordionitem heading=\"FAQ 1\" expanded>Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
+              "title": "Single Select",
+              "code": "<nys-accordion singleSelect>\n<nys-accordionitem heading=\"FAQ 1\">Answer 1</nys-accordionitem>\n<nys-accordionitem heading=\"FAQ 2\">Answer 2</nys-accordionitem>\n</nys-accordion>",
+              "lang": "html"
+            },
+            {
+              "title": "Bordered",
+              "code": "<nys-accordion bordered>\n<nys-accordionitem heading=\"We are a group of accordions\">\n<p>Stronger together! Learn more at\n<a href=\"https://www.ny.gov\" target=\"_blank\">ny.gov</a>\n</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Liberty Ipsum: Bridges & Boroughs\">\n<p>Empire ipsum dolor sit amet, across the Brooklyn Bridge to Central Park, consectetur adipiscing elit.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"Hudson Ipsum: Riverfront Stories\">\n<p>From the banks of the Hudson to the peaks of the Adirondacks, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
@@ -351,7 +356,7 @@
           "examples": [
             {
               "title": "Expanded item",
-              "code": "<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>",
+              "code": "<nys-accordion>\n<nys-accordionitem heading=\"How do I apply?\" expanded>\n<p>Visit ny.gov and complete the online application.</p>\n</nys-accordionitem>\n<nys-accordionitem heading=\"What documents do I need?\">\n<p>You will need a valid ID and proof of residency.</p>\n</nys-accordionitem>\n</nys-accordion>",
               "lang": "html"
             }
           ]
@@ -724,13 +729,64 @@
           "summary": "Alert for contextual feedback with semantic types and live region support.",
           "examples": [
             {
-              "title": "Info alert",
-              "code": "<nys-alert type=\"info\" heading=\"Update available\" text=\"A new version is ready to install.\"></nys-alert>",
+              "title": "Basic",
+              "code": "<nys-alert heading=\"This is a heading\"></nys-alert>",
               "lang": "html"
             },
             {
-              "title": "Dismissible success alert",
-              "code": "<nys-alert type=\"success\" heading=\"Application submitted\" dismissible></nys-alert>",
+              "title": "Text",
+              "code": "<nys-alert\nheading=\"This is a heading\"\ntext=\"This is additional information passed in through the text property\"\n></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Rich Text",
+              "code": "<nys-alert heading=\"Rich Text\">\n<p>This is a custom alert with <strong>HTML content</strong> passed in through the slot.</p>\n<a href=\"https://www.ny.gov/\" target=\"_blank\">Learn more about our accessibility services</a>\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Info Type",
+              "code": "<nys-alert type=\"info\" heading=\"Info alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Success Type",
+              "code": "<nys-alert type=\"success\" heading=\"Success alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Warning Type",
+              "code": "<nys-alert type=\"warning\" heading=\"Warning alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Danger Type",
+              "code": "<nys-alert type=\"danger\" heading=\"Danger alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Emergency Type",
+              "code": "<nys-alert type=\"emergency\" heading=\"Emergency alert type\"></nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Dismissible",
+              "code": "<nys-alert heading=\"This alert is dismisable\" text=\"Close it by clicking on the X in the corner.\" dismissible>\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Duration",
+              "code": "<nys-alert heading=\"Disappearing alert\" text=\"This alert will disappear after 3 seconds.\" duration=\"3000\"></nys-alert>",
+              "lang": "html",
+              "render": "<nys-button\nclass=\"nys-margin-b-100\"\nlabel=\"Show alert\"\nonclick=\"document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))\"\n></nys-button>"
+            },
+            {
+              "title": "Custom Icon",
+              "code": "<nys-alert\ntype=\"emergency\"\nheading=\"Winter storm warning: Dec 10th, 2024.\"\ntext=\"A major snowfall is expected across the state of New York for the weekend of Dec 7th. Stay home if possible and use extreme caution when driving.\"\nicon=\"ac_unit\">\n</nys-alert>",
+              "lang": "html"
+            },
+            {
+              "title": "Action Links",
+              "code": "<nys-alert\nheading=\"Alert with links\"\nprimaryLabel=\"{primaryAction}\"\nsecondaryLabel=\"{secondaryAction}\"\nprimaryAction=\"https://www.ny.gov/\"\nsecondaryAction=\"https://www.ny.gov/\"\n></nys-alert>",
               "lang": "html"
             }
           ]
@@ -1026,13 +1082,44 @@
           "summary": "User avatar with image, initials, or icon fallback and contrast-aware colors.",
           "examples": [
             {
-              "title": "Image avatar",
-              "code": "<nys-avatar image=\"/path/to/photo.jpg\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "title": "Basic",
+              "code": "<nys-avatar ariaLabel=\"User avatar\"></nys-avatar>",
               "lang": "html"
             },
             {
-              "title": "Initials avatar with custom color",
-              "code": "<nys-avatar initials=\"JS\" color=\"var(--nys-color-theme)\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "title": "Image",
+              "code": "<nys-avatar\nimage=\"path/to/img.png\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>",
+              "lang": "html",
+              "render": "<nys-avatar\nimage=\"https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D\"\nariaLabel=\"Jane Smith\"\n></nys-avatar>"
+            },
+            {
+              "title": "Initials",
+              "code": "<nys-avatar initials=\"JS\" ariaLabel=\"Jane Smith\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Icon",
+              "code": "<nys-avatar icon=\"account_circle\"></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Interactive",
+              "code": "<nys-avatar interactive></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-avatar disabled></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Background Color",
+              "code": "<nys-avatar color=\"var(--nys-color-red-500)\" interactive></nys-avatar>",
+              "lang": "html"
+            },
+            {
+              "title": "Lazy Loading",
+              "code": "<nys-avatar lazy></nys-avatar>",
               "lang": "html"
             }
           ]
@@ -1181,14 +1268,16 @@
           "summary": "Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.",
           "examples": [
             {
-              "title": "Auto-appearing button in footer",
+              "title": "Basic",
               "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible .position=${args.position}></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             },
             {
-              "title": "Always visible, left position",
-              "code": "<nys-backtotop visible position=\"left\"></nys-backtotop>",
-              "lang": "html"
+              "title": "Left",
+              "code": "<footer>\n<nys-backtotop position=\"left\"></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible position=\"left\"></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             }
           ]
         }
@@ -1493,13 +1582,63 @@
           "summary": "Compact label for status, counts, or categorization with semantic styling.",
           "examples": [
             {
-              "title": "Status badge",
-              "code": "<nys-badge intent=\"success\" label=\"Approved\" prefixIcon></nys-badge>",
+              "title": "Basic",
+              "code": "<nys-badge label=\"Basic badge\"></nys-badge>",
               "lang": "html"
             },
             {
-              "title": "Count badge",
-              "code": "<nys-badge prefixLabel=\"Messages\" label=\"12\"></nys-badge>",
+              "title": "Error Intent",
+              "code": "<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Warning Intent",
+              "code": "<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Success Intent",
+              "code": "<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Neutral",
+              "code": "<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Error",
+              "code": "<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Warning",
+              "code": "<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Success",
+              "code": "<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Prefix Icon",
+              "code": "<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom Suffix Icon",
+              "code": "<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Size",
+              "code": "<nys-badge label=\"Small\" size=\"sm\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Screen reader text",
+              "code": "<nys-badge intent=\"warning\" label=\"Caution\" prefixIcon srText=\"concern\"></nys-badge>",
               "lang": "html"
             }
           ]

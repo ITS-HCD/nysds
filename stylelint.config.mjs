@@ -26,6 +26,9 @@ export default {
 
     // Operators
     "scss/operator-no-newline-after": null,
+
+    // Functions
+    "scss/no-global-function-names": null,
   },
   extends: ["stylelint-config-standard-scss", "stylelint-prettier/recommended"],
 };

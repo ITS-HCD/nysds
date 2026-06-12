@@ -15,14 +15,64 @@ let badgeIdCounter = 0;
  * @summary Compact label for status, counts, or categorization with semantic styling.
  * @element nys-badge
  *
- * @example Status badge
+ * @example Basic
  * ```html
- * <nys-badge intent="success" label="Approved" prefixIcon></nys-badge>
+ * <nys-badge label="Basic badge"></nys-badge>
  * ```
  *
- * @example Count badge
+ * @example Error Intent
  * ```html
- * <nys-badge prefixLabel="Messages" label="12"></nys-badge>
+ * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Warning Intent
+ * ```html
+ * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Success Intent
+ * ```html
+ * <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Neutral
+ * ```html
+ * <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Error
+ * ```html
+ * <nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Warning
+ * ```html
+ * <nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Success
+ * ```html
+ * <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Custom Prefix Icon
+ * ```html
+ * <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
+ * ```
+ *
+ * @example Custom Suffix Icon
+ * ```html
+ * <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
+ * ```
+ *
+ * @example Size
+ * ```html
+ * <nys-badge label="Small" size="sm"></nys-badge>
+ * ```
+ *
+ * @example Screen reader text
+ * ```html
+ * <nys-badge intent="warning" label="Caution" prefixIcon srText="concern"></nys-badge>
  * ```
  */
 
