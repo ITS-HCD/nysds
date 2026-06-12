@@ -123,17 +123,28 @@ export default {
       packageLinkPhase({ customElementsManifest }) {
         for (const mod of customElementsManifest.modules) {
           if (!mod.declarations) continue;
+
+          // Read content to extract @render blocks
+          const sourceFile = mod.path;
+          if (!fs.existsSync(sourceFile)) continue;
+          const content = fs.readFileSync(sourceFile, "utf-8");
+
+          // Regex to extract @render tags: @render <Name> <Content>
+          const renderBlocks = {};
+          const renderRegex = /@render\s+([^\n]+)\s*([\s\S]*?)(?=\n\s*\*?\s*@render|\n\s*\*?\s*@example|\n\s*\*\/)/g;
+          let match;
+          while ((match = renderRegex.exec(content)) !== null) {
+            // match[1] is the example name, match[2] is the code block
+            // Clean up the markdown code block wrapper
+            const cleanedCode = match[2].trim().replace(/^\s*```html\s*/, "").replace(/\s*```\s*$/, "");
+            renderBlocks[match[1].trim()] = cleanedCode;
+          }
+
           for (const decl of mod.declarations) {
             if (decl.examples) {
               for (const example of decl.examples) {
-                if (example.code && example.code.includes("// -- render --")) {
-                  const renderMatch = example.code.match(/\/\/\s*--\s*render\s*--([\s\S]*?)\/\/\s*--\s*code\s*--/);
-                  const codeMatch = example.code.match(/\/\/\s*--\s*code\s*--([\s\S]*)/);
-
-                  if (renderMatch && codeMatch) {
-                    example.render = renderMatch[1].trim();
-                    example.code = codeMatch[1].trim();
-                  }
+                if (renderBlocks[example.name]) {
+                  example.render = renderBlocks[example.name];
                 }
               }
             }

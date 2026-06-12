@@ -73,14 +73,16 @@ let alertIdCounter = 0;
  *
  * @example Duration
  * ```html
- * // -- render --
+ * <nys-alert heading="Disappearing alert" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
+ * ```
+ *
+ * @render Duration
+ * ```html
  * <nys-button
  *  class="nys-margin-b-100"
  *  label="Show alert"
  *  onclick="document.body.appendChild(Object.assign(document.createElement('nys-alert'), {heading: 'Disappearing alert', text: 'This alert will disappear after 3 seconds.', duration: 3000}))"
  * ></nys-button>
- * // -- code --
- * <nys-alert heading="Disappearing alert" text="This alert will disappear after 3 seconds." duration="3000"></nys-alert>
  * ```
  *
  * @example Custom Icon
