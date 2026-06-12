@@ -1268,14 +1268,16 @@
           "summary": "Floating back-to-top button with auto-show behavior, smooth scroll, and focus management.",
           "examples": [
             {
-              "title": "Auto-appearing button in footer",
+              "title": "Basic",
               "code": "<footer>\n<nys-backtotop></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
-              "lang": "html"
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible .position=${args.position}></nys-backtotop>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             },
             {
-              "title": "Always visible, left position",
-              "code": "<nys-backtotop visible position=\"left\"></nys-backtotop>",
-              "lang": "html"
+              "title": "Left",
+              "code": "<footer>\n<nys-backtotop left></nys-backtotop>\n<!-- Other footer content -->\n</footer>",
+              "lang": "html",
+              "render": "<style>\ncode {\nwhite-space: nowrap;\npadding: var(--nys-space-1px) var(--nys-space-2px);\nborder-radius: var(--nys-radius-md);\ncolor: var(--nys-color-red-600);\nbackground: var(--nys-color-neutral-10);\nfont-size: var(--nys-font-size-sm);\n}\nnys-button {\nposition: fixed;\nbottom: 1rem;\nright: 1rem;\n--_nys-button-border-radius: var(--nys-radius-round);\n}\n</style>\n<nys-unavheader hideTranslate hideSearch></nys-unavheader>\n<nys-globalheader appName=\"Back to Top Example\"></nys-globalheader>\n<main style=\"padding: 0 2rem\">\n<h1>Sample Content on page</h1>\n<p>\nThis is a sample content area used to demonstrate the functionality of\nthe Back to Top button. In an actual application,\n<code>nys-backtotop</code> would not be visible until the user scrolls\ndown the page.\n</p>\n</main>\n<footer>\n<nys-backtotop visible .position=${args.position}></nys-backtotop>\n<nys-button prefixIcon=\"sms\" variant=\"outline\" label=\"Chat with us\" size=\"sm\"></nys-button>\n<nys-unavfooter></nys-unavfooter>\n</footer>"
             }
           ]
         }

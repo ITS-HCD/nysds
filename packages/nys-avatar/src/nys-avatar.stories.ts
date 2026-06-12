@@ -44,19 +44,21 @@ export const Basic: Story = {
   args: {
     ariaLabel: "User avatar",
   },
-  render: (args) => html`
-    <nys-avatar
-      .id=${args.id}
-      ?interactive=${args.interactive}
-      ?disabled=${args.disabled}
-      ?lazy=${args.lazy}
-      .ariaLabel=${args.ariaLabel}
-      .image=${args.image}
-      .initials=${args.initials}
-      .icon=${args.icon}
-      .color=${args.color}
-    ></nys-avatar>
-  `,
+  render: (args) => {
+    return html`
+      <nys-avatar
+        .id=${args.id}
+        ?interactive=${args.interactive}
+        ?disabled=${args.disabled}
+        ?lazy=${args.lazy}
+        .ariaLabel=${args.ariaLabel}
+        .image=${args.image}
+        .initials=${args.initials}
+        .icon=${args.icon}
+        .color=${args.color}
+      ></nys-avatar>
+    `;
+  },
   parameters: {
     docs: {
       source: {

@@ -53,22 +53,24 @@ export const Basic: Story = {
   args: {
     label: "Basic badge",
   },
-  render: (args) => html`
-    <nys-badge
-      .id=${args.id}
-      .name=${args.name}
-      .size=${args.size}
-      .intent=${args.intent}
-      .prefixLabel=${args.prefixLabel}
-      .label=${args.label}
-      .srText=${args.srText}
-      .variant=${args.variant}
-      .prefixicon=${args.prefixicon}
-      .suffixicon=${args.suffixicon}
-      .prefixIcon=${args.prefixIcon}
-      .suffixIcon=${args.suffixIcon}
-    ></nys-badge>
-  `,
+  render: (args) => {
+    return html`
+      <nys-badge
+        .id=${args.id}
+        .name=${args.name}
+        .size=${args.size}
+        .intent=${args.intent}
+        .prefixLabel=${args.prefixLabel}
+        .label=${args.label}
+        .srText=${args.srText}
+        .variant=${args.variant}
+        .prefixicon=${args.prefixicon}
+        .suffixicon=${args.suffixicon}
+        .prefixIcon=${args.prefixIcon}
+        .suffixIcon=${args.suffixIcon}
+      ></nys-badge>
+    `;
+  },
   parameters: {
     docs: {
       source: {

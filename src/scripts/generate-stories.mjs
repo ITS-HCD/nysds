@@ -243,16 +243,20 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
 
   const rootTagName = rootTagMatch[2];
 
-  const rootDynamicAttrs = [
-    `      .id=\${args.id}`,
-    ...Array.from(allBooleans).map((b) => `      ?${b}=\${args.${b}}`),
-    ...Array.from(allStrings.keys()).map((k) => `      .${k}=\${args.${k}}`),
-  ];
-
-  const rootReplacement =
-    rootDynamicAttrs.length > 0
-      ? `<${rootTagName}\n${rootDynamicAttrs.join("\n")}\n    >`
-      : `<${rootTagName}>`;
+  let rootReplacement;
+  if (rootTagName === 'style') {
+    rootReplacement = rootTagMatch[0];
+  } else {
+    const rootDynamicAttrs = [
+      `      .id=\${args.id}`,
+      ...Array.from(allBooleans).map((b) => `      ?${b}=\${args.${b}}`),
+      ...Array.from(allStrings.keys()).map((k) => `      .${k}=\${args.${k}}`),
+    ];
+    rootReplacement =
+      rootDynamicAttrs.length > 0
+        ? `<${rootTagName}\n${rootDynamicAttrs.join("\n")}\n    >`
+        : `<${rootTagName}>`;
+  }
 
   let remaining = html.slice(rootTagMatch[0].length);
 
@@ -292,9 +296,11 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
   args: {
 ${argsLines}
   },
-  render: (args) => html\`
-    ${escapeCode(renderHtml.trim())}
-  \`,
+  render: (args) => {
+    return html\`
+      ${escapeCode(renderHtml.trim())}
+    \`;
+  },
   parameters: {
     docs: {
       source: {
@@ -447,11 +453,17 @@ async function main() {
         .join("") + "Args";
 
     const usedTags = new Set();
-    allExamples.forEach(({ code }) => {
+    allExamples.forEach(({ code, renderCode }) => {
       const tagRe = /<(nys-[\w-]+)/g;
       let m;
       while ((m = tagRe.exec(code)) !== null) {
         usedTags.add(m[1]);
+      }
+      if (renderCode) {
+        tagRe.lastIndex = 0;
+        while ((m = tagRe.exec(renderCode)) !== null) {
+          usedTags.add(m[1]);
+        }
       }
     });
 
@@ -459,9 +471,15 @@ async function main() {
       .filter((t) => t !== componentName)
       .map((t) => {
         const modPath = tagToModule[t];
-        if (modPath && path.dirname(modPath) === dir) {
-          return `import "./${t}";`;
+        if (modPath) {
+          // If in the same directory, import locally
+          if (path.dirname(modPath) === dir) {
+            return `import "./${t}";`;
+          }
+          // Otherwise use the package path
+          return `import "@nysds/${t}";`;
         }
+        // Fallback if not found in CEM
         return `import "@nysds/${t}";`;
       })
       .join("\n");

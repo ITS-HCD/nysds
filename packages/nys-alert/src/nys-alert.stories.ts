@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-alert";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysAlertArgs {
@@ -51,21 +52,23 @@ export const Basic: Story = {
   args: {
     heading: "This is a heading",
   },
-  render: (args) => html`
-    <nys-alert
-      .id=${args.id}
-      ?dismissible=${args.dismissible}
-      .heading=${args.heading}
-      .icon=${args.icon}
-      .duration=${args.duration}
-      .text=${args.text}
-      .primaryAction=${args.primaryAction}
-      .secondaryAction=${args.secondaryAction}
-      .primaryLabel=${args.primaryLabel}
-      .secondaryLabel=${args.secondaryLabel}
-      .type=${args.type}
-    ></nys-alert>
-  `,
+  render: (args) => {
+    return html`
+      <nys-alert
+        .id=${args.id}
+        ?dismissible=${args.dismissible}
+        .heading=${args.heading}
+        .icon=${args.icon}
+        .duration=${args.duration}
+        .text=${args.text}
+        .primaryAction=${args.primaryAction}
+        .secondaryAction=${args.secondaryAction}
+        .primaryLabel=${args.primaryLabel}
+        .secondaryLabel=${args.secondaryLabel}
+        .type=${args.type}
+      ></nys-alert>
+    `;
+  },
   parameters: {
     docs: {
       source: {

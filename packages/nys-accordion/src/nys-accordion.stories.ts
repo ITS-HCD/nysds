@@ -37,38 +37,42 @@ export const Basic: Story = {
   args: {
     heading: "How do I renew my passport or apply for a new one?",
   },
-  render: (args) => html`
-    <nys-accordion
-      .id=${args.id}
-      ?singleSelect=${args.singleSelect}
-      ?bordered=${args.bordered}
-      ?expanded=${args.expanded}
-      .heading=${args.heading}
-    >
-      <nys-accordionitem .id=${args.id} .heading=${args.heading}>
-        <p>
-          You can apply for or renew a U.S. passport through the U.S. Department
-          of State. Some renewals can be done by mail.
-        </p>
-        <div style="display: flex; gap: 0.5rem; font-size: 1rem">
-          <a href="https://www.ny.gov" target="_blank"
-            >Check your registration</a
-          >
-          <a href="https://www.ny.gov" target="_blank">Fill out application</a>
-        </div>
-      </nys-accordionitem>
-      <nys-accordionitem
-        id="accordionId2"
-        heading="How can I find out if I’m registered to vote?"
+  render: (args) => {
+    return html`
+      <nys-accordion
+        .id=${args.id}
+        ?singleSelect=${args.singleSelect}
+        ?bordered=${args.bordered}
+        ?expanded=${args.expanded}
+        .heading=${args.heading}
       >
-        <p>
-          You can check your registration status, update your information, or
-          find out how to register through the National Association of
-          Secretaries of State.
-        </p>
-      </nys-accordionitem>
-    </nys-accordion>
-  `,
+        <nys-accordionitem .id=${args.id} .heading=${args.heading}>
+          <p>
+            You can apply for or renew a U.S. passport through the U.S.
+            Department of State. Some renewals can be done by mail.
+          </p>
+          <div style="display: flex; gap: 0.5rem; font-size: 1rem">
+            <a href="https://www.ny.gov" target="_blank"
+              >Check your registration</a
+            >
+            <a href="https://www.ny.gov" target="_blank"
+              >Fill out application</a
+            >
+          </div>
+        </nys-accordionitem>
+        <nys-accordionitem
+          id="accordionId2"
+          heading="How can I find out if I’m registered to vote?"
+        >
+          <p>
+            You can check your registration status, update your information, or
+            find out how to register through the National Association of
+            Secretaries of State.
+          </p>
+        </nys-accordionitem>
+      </nys-accordion>
+    `;
+  },
   parameters: {
     docs: {
       source: {
