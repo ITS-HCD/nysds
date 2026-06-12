@@ -15,14 +15,63 @@ let badgeIdCounter = 0;
  * @summary Compact label for status, counts, or categorization with semantic styling.
  * @element nys-badge
  *
- * @example Status badge
+ * @example Basic
  * ```html
- * <nys-badge intent="success" label="Approved" prefixIcon></nys-badge>
+ * <nys-badge label="Basic badge"></nys-badge>
  * ```
  *
- * @example Count badge
+ * @example Intent
  * ```html
- * <nys-badge prefixLabel="Messages" label="12"></nys-badge>
+ * // -- render --
+ * <div class="nys-display-flex nys-flex-gap-100">
+ *   <nys-badge label="Neutral" prefixIcon></nys-badge>
+ *   <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+ *   <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+ *   <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+ * </div>
+ * // -- code --
+ * <nys-badge label="Neutral" prefixIcon></nys-badge>
+ * <nys-badge label="Error" intent="error" prefixIcon></nys-badge>
+ * <nys-badge label="Warning" intent="warning" prefixIcon></nys-badge>
+ * <nys-badge label="Success" intent="success" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Strong Variant
+ * ```html
+ * // -- render --
+ * <div class="nys-display-flex nys-flex-gap-100">
+ *   <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+ *   <nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
+ *   <nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
+ *   <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
+ * </div>
+ * // -- code --
+ * <nys-badge variant="strong" label="Neutral" prefixIcon></nys-badge>
+ * <nys-badge variant="strong" label="Error" intent="error" prefixIcon></nys-badge>
+ * <nys-badge variant="strong" label="Warning" intent="warning" prefixIcon></nys-badge>
+ * <nys-badge variant="strong" label="Success" intent="success" prefixIcon></nys-badge>
+ * ```
+ *
+ * @example Custom icons
+ * ```html
+ * // -- render --
+ * <div class="nys-display-flex nys-flex-gap-100">
+ *   <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
+ *   <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
+ * </div>
+ * // -- code --
+ * <nys-badge label="Custom prefixIcon" prefixIcon="check"></nys-badge>
+ * <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
+ * ```
+ *
+ * @example Size
+ * ```html
+ * <nys-badge label="Small" size="sm"></nys-badge>
+ * ```
+ *
+ * @example Screen reader text
+ * ```html
+ * <nys-badge intent="warning" label="Caution" prefixIcon srText="concern"></nys-badge>
  * ```
  */
 

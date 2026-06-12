@@ -1558,13 +1558,33 @@
           "summary": "Compact label for status, counts, or categorization with semantic styling.",
           "examples": [
             {
-              "title": "Status badge",
-              "code": "<nys-badge intent=\"success\" label=\"Approved\" prefixIcon></nys-badge>",
+              "title": "Basic",
+              "code": "<nys-badge label=\"Basic badge\"></nys-badge>",
               "lang": "html"
             },
             {
-              "title": "Count badge",
-              "code": "<nys-badge prefixLabel=\"Messages\" label=\"12\"></nys-badge>",
+              "title": "Intent",
+              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>\n// -- code --\n<nys-badge label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Strong Variant",
+              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>\n</div>\n// -- code --\n<nys-badge variant=\"strong\" label=\"Neutral\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Error\" intent=\"error\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Warning\" intent=\"warning\" prefixIcon></nys-badge>\n<nys-badge variant=\"strong\" label=\"Success\" intent=\"success\" prefixIcon></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Custom icons",
+              "code": "// -- render --\n<div class=\"nys-display-flex nys-flex-gap-100\">\n<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>\n</div>\n// -- code --\n<nys-badge label=\"Custom prefixIcon\" prefixIcon=\"check\"></nys-badge>\n<nys-badge label=\"Custom suffixIcon\" suffixIcon=\"check\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Size",
+              "code": "<nys-badge label=\"Small\" size=\"sm\"></nys-badge>",
+              "lang": "html"
+            },
+            {
+              "title": "Screen reader text",
+              "code": "<nys-badge intent=\"warning\" label=\"Caution\" prefixIcon srText=\"concern\"></nys-badge>",
               "lang": "html"
             }
           ]
