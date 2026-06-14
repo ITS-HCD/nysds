@@ -110,6 +110,78 @@ describe("nys-backtotop", () => {
     document.body.removeAttribute("tabindex");
   });
 
+  it("auto-generates an id in the format /^nys-backtotop-\\d+-\\d+$/ when none is provided", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+    expect(el.id).to.match(/^nys-backtotop-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop id="custom-btt"></nys-backtotop>`,
+    );
+    expect(el.id).to.equal("custom-btt");
+  });
+
+  it("gives the inner button an accessible name via the label prop", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+    const button = el.shadowRoot?.querySelector("nys-button")!;
+    expect(button.getAttribute("label")).to.equal("Back to top");
+  });
+
+  it("does not hardcode a duplicate id on the inner button", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+    const button = el.shadowRoot?.querySelector("nys-button")!;
+    // The inner button must not reuse the host tag name as a static id,
+    // which would collide across multiple instances.
+    expect(button.getAttribute("id")).to.not.equal("nys-backtotop");
+  });
+
+  it("respects prefers-reduced-motion by using instant scroll", async () => {
+    const el = await fixture<NysBacktotop>(
+      html`<nys-backtotop></nys-backtotop>`,
+    );
+    const button = el.shadowRoot?.querySelector("nys-button")!;
+
+    // Force a non-top scroll position so _scrollToTop performs a scroll.
+    Object.defineProperty(window, "scrollY", {
+      value: 500,
+      configurable: true,
+    });
+
+    // Stub matchMedia to report reduced-motion preference.
+    const originalMatchMedia = window.matchMedia;
+    window.matchMedia = ((query: string) =>
+      ({
+        matches: query.includes("prefers-reduced-motion"),
+        media: query,
+        addEventListener() {},
+        removeEventListener() {},
+      }) as unknown as MediaQueryList) as typeof window.matchMedia;
+
+    let calledWith: any = null;
+    const originalScrollTo = window.scrollTo;
+    window.scrollTo = ((options: any) => {
+      calledWith = options;
+    }) as typeof window.scrollTo;
+
+    button.dispatchEvent(
+      new CustomEvent("nys-click", { bubbles: true, composed: true }),
+    );
+    await el.updateComplete;
+
+    expect(calledWith).to.deep.equal({ top: 0, behavior: "auto" });
+
+    window.scrollTo = originalScrollTo;
+    window.matchMedia = originalMatchMedia;
+    document.body.removeAttribute("tabindex");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-backtotop></nys-backtotop>`);
     await expect(el).shadowDom.to.be.accessible();

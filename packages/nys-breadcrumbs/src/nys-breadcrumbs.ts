@@ -1,9 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-breadcrumbs.scss?inline";
-
-let componentIdCounter = 0;
 
 /**
  * A breadcrumb navigation trail composed of `nys-breadcrumbitem` elements.
@@ -49,7 +48,7 @@ let componentIdCounter = 0;
  * ```
  */
 
-export class NysBreadcrumbs extends LitElement {
+export class NysBreadcrumbs extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -58,7 +57,7 @@ export class NysBreadcrumbs extends LitElement {
   @property({ type: String, reflect: true }) id = "";
 
   /**
-   * Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+   * Accessible label for the `<nav>` landmark. Defaults to "Breadcrumb" if not set.
    * Override when multiple crumbs exist on the same page.
    */
   @property({ type: String }) ariaLabel = "";
@@ -109,12 +108,12 @@ export class NysBreadcrumbs extends LitElement {
     super();
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id when
+    // one is not provided (prefix = localName, shape "nys-breadcrumbs-<ts>-<n>").
+    // The breadcrumb's navigation role lives on the inner <nav> landmark (with an
+    // accessible name), so defaultRole stays null and no host role is reflected.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-breadcrumbs-${Date.now()}-${componentIdCounter++}`;
-    }
 
     this._mediaQuery = window.matchMedia("(max-width: 767px)");
     this._mediaQuery.addEventListener("change", this._updateCollapseThreshold);
@@ -223,6 +222,9 @@ export class NysBreadcrumbs extends LitElement {
     liEl.className = "nys-breadcrumbitem";
 
     if (isCurrentPage) {
+      // WCAG 4.1.2 / WAI-ARIA breadcrumb pattern: the current page must be
+      // programmatically identified so assistive tech announces "current page".
+      liEl.setAttribute("aria-current", "page");
       liEl.textContent = label;
       return liEl;
     }
@@ -389,7 +391,7 @@ export class NysBreadcrumbs extends LitElement {
       class="nys-breadcrumbs ${this.backgroundBar
         ? "nys-breadcrumbs--background-bar"
         : ""}"
-      aria-label=${this.ariaLabel || "path to this page"}
+      aria-label=${this.ariaLabel || "Breadcrumb"}
     >
       <ol id="crumb-list"></ol>
       <slot style="display: none;" @slotchange=${this._handleSlotChange}></slot>

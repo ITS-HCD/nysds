@@ -1,5 +1,7 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-stepper.scss?inline";
 
@@ -47,10 +49,14 @@ import styles from "./nys-stepper.scss?inline";
  * as the `onClick` prop on `NysStep`.
  *
  * ## Accessibility
- * - The step label renders with `role="button"` and is keyboard-focusable (`tabindex="0"`) for navigable
- *   steps (`current`, `previous`). Future steps get `tabindex="-1"` and are not reachable by keyboard.
+ * - The interactive step row renders with `role="button"` and is keyboard-focusable (`tabindex="0"`)
+ *   for navigable steps (`current`, `previous`, `selected`). Future steps get `tabindex="-1"`,
+ *   `aria-disabled="true"`, and are not reachable by keyboard.
  * - Enter and Space activate the step (same as click).
- * - `aria-label` is set to `"{label} Step"` for screen reader announcement.
+ * - `aria-label` announces the step name and 1-indexed position, e.g. `"Personal Info, step 1"`.
+ * - The `current` step (progress boundary) is marked with `aria-current="step"` so assistive
+ *   technology announces the user's current position.
+ * - The visual step number is `aria-hidden` (its meaning is folded into the row's accessible name).
  *
  * ## Common patterns
  *
@@ -92,7 +98,7 @@ import styles from "./nys-stepper.scss?inline";
  * });
  * ```
  */
-export class NysStep extends LitElement {
+export class NysStep extends NysElement {
   static styles = unsafeCSS(styles);
 
   /**
@@ -131,6 +137,12 @@ export class NysStep extends LitElement {
   /** @internal 1-indexed position. Auto-assigned by the parent stepper on first render. Do not set manually. */
   @property({ type: Number }) stepNumber = 0;
 
+  /** A step is navigable (focusable + activatable) when it is the displayed,
+   * current, or a previously-reached step. Future steps are inert. */
+  private get _navigable(): boolean {
+    return this.selected || this.current || this.hasAttribute("previous");
+  }
+
   private _handleActivate(e: Event) {
     // Run user-supplied onClick first (if present)
     if (typeof this.onClick === "function") {
@@ -163,6 +175,8 @@ export class NysStep extends LitElement {
   }
 
   render() {
+    const navigable = this._navigable;
+
     return html`
       <div class="nys-step">
         <div class="nys-step__linewrapper">
@@ -172,31 +186,20 @@ export class NysStep extends LitElement {
           class="nys-step__contentwrapper"
           @click=${this._handleActivate}
           @keydown=${this._handleKeydown}
-          ?disabled=${!(
-            this.selected ||
-            this.current ||
-            this.hasAttribute("previous")
-          )}
+          role="button"
+          aria-label=${this.stepNumber
+            ? `${this.label}, step ${this.stepNumber}`
+            : `${this.label} Step`}
+          aria-current=${ifDefined(this.current ? "step" : undefined)}
+          aria-disabled=${navigable ? "false" : "true"}
+          tabindex=${navigable ? "0" : "-1"}
+          ?disabled=${!navigable}
         >
-          <div class="nys-step__number" tabindex="-1" aria-hidden="true">
+          <div class="nys-step__number" aria-hidden="true">
             ${this.stepNumber}
           </div>
-          <div class="nys-step__content" tabindex="-1" aria-hidden="true">
-            <div
-              class="nys-step__label"
-              role="button"
-              aria-label="${this.label} Step"
-              tabindex=${!(
-                this.selected ||
-                this.current ||
-                this.hasAttribute("previous")
-              )
-                ? "-1"
-                : "0"}
-              aria-hidden="true"
-            >
-              ${this.label}
-            </div>
+          <div class="nys-step__content">
+            <div class="nys-step__label">${this.label}</div>
           </div>
         </div>
       </div>

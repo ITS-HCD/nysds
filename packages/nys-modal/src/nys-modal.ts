@@ -1,9 +1,9 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-modal.scss?inline";
-
-let componentIdCounter = 0;
 
 /**
  * An accessible modal dialog with focus trapping, keyboard navigation, and scroll management.
@@ -32,7 +32,7 @@ let componentIdCounter = 0;
  * ```
  */
 
-export class NysModal extends LitElement {
+export class NysModal extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -74,16 +74,20 @@ export class NysModal extends LitElement {
     super();
   }
 
+  // Bound reference so the same function is used for both add/removeEventListener.
+  // (Previously two distinct arrow wrappers were used, so the listener was never
+  // actually removed on disconnect — a leak that left stale handlers firing.)
+  private _boundHandleKeydown = (e: KeyboardEvent) => this._handleKeydown(e);
+
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an id when one
+    // is not provided, using the element's localName as prefix ("nys-modal-...").
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-modal-${Date.now()}-${componentIdCounter++}`;
-    }
     this._mobileMedia.addEventListener(
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.addEventListener("keydown", (e) => this._handleKeydown(e));
+    window.addEventListener("keydown", this._boundHandleKeydown);
   }
 
   disconnectedCallback() {
@@ -93,7 +97,7 @@ export class NysModal extends LitElement {
       "change",
       this._updateSlottedButtonWidth,
     );
-    window.removeEventListener("keydown", (e) => this._handleKeydown(e));
+    window.removeEventListener("keydown", this._boundHandleKeydown);
   }
 
   async updated(changeProps: Map<string, any>) {
@@ -336,13 +340,19 @@ export class NysModal extends LitElement {
   }
 
   render() {
+    // Only advertise aria-labelledby when there is a heading to point at;
+    // otherwise the dialog would expose an empty accessible name (WCAG 4.1.2).
+    const labelledBy = this.heading?.trim() ? `${this.id}-heading` : undefined;
+    // Omit aria-describedby entirely when there is nothing to describe.
+    const describedBy = this._getAriaDescribedBy() || undefined;
+
     return this.open
       ? html`<div
           class="nys-modal-overlay"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="${this.id}-heading"
-          aria-describedby="${this._getAriaDescribedBy()}"
+          aria-labelledby="${ifDefined(labelledBy)}"
+          aria-describedby="${ifDefined(describedBy)}"
         >
           <div class="nys-modal" tabindex="-1">
             <div class="nys-modal_header">

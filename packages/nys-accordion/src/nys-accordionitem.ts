@@ -1,9 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, query } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
-
-let accordionItemIdCounter = 0;
 
 /**
  * A collapsible content panel used within `nys-accordion`. Supports keyboard navigation and smooth animations.
@@ -26,7 +25,7 @@ let accordionItemIdCounter = 0;
  * ```
  */
 
-export class NysAccordionItem extends LitElement {
+export class NysAccordionItem extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -34,6 +33,12 @@ export class NysAccordionItem extends LitElement {
 
   /** Heading text displayed in the clickable toggle button. */
   @property({ type: String }) heading = "";
+
+  /**
+   * ARIA heading level (1-6) applied to the wrapper around the toggle button,
+   * per the WAI-ARIA Accordion pattern. Defaults to 3.
+   */
+  @property({ type: Number }) headingLevel = 3;
 
   /** Whether the content panel is visible. Toggle via click or keyboard. */
   @property({ type: Boolean, reflect: true }) expanded = false;
@@ -46,17 +51,12 @@ export class NysAccordionItem extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns a unique id
+    // when one is not provided. The accordion item host carries no role: the
+    // semantics live on the inner heading/button (toggle) and the region panel,
+    // so defaultRole stays null.
     super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
   }
 
   firstUpdated() {
@@ -85,10 +85,6 @@ export class NysAccordionItem extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
-
-  private _generateUniqueId() {
-    return `nys-accordionitem-${Date.now()}-${accordionItemIdCounter++}`;
-  }
 
   private _dispatchEvent() {
     this.dispatchEvent(
@@ -131,29 +127,57 @@ export class NysAccordionItem extends LitElement {
 
   render() {
     const contentId = `${this.id}-content`;
+    const buttonId = `${this.id}-button`;
+    // Clamp the heading level to the valid ARIA range (1-6).
+    const level = Math.min(6, Math.max(1, this.headingLevel || 3));
 
     return html`
-    <div class="nys-accordionitem">
-      <button
-        class="nys-accordionitem__heading"
-        type="button"
-        @click=${this._handleExpand}
-        @keydown=${this._handleKeydown}
-        aria-expanded=${this.expanded ? "true" : "false"}
-        aria-controls=${contentId}
-      >
-        <span class="nys-accordionitem__heading-title">${this.heading}</span>
-        <nys-icon class="expand-icon" name="chevron_down" size="24"></nys-icon>
-      </button>
-      </div>
-      <div id=${contentId} class="nys-accordionitem__content ${this.expanded ? "expanded" : "collapsed"}" role="region">
-        <div class="nys-accordionitem__content-slot-container">
-          <div class="nys-accordionitem__content-slot-container-text">
-            <slot></slot>
+      <div class="nys-accordionitem">
+        <!--
+          WAI-ARIA Accordion pattern: the toggle button must be contained in an
+          element with role="heading" and an appropriate aria-level so screen
+          reader users can navigate the accordion by heading.
+        -->
+        <div
+          role="heading"
+          aria-level=${level}
+          class="nys-accordionitem__title"
+        >
+          <button
+            id=${buttonId}
+            class="nys-accordionitem__heading"
+            type="button"
+            @click=${this._handleExpand}
+            @keydown=${this._handleKeydown}
+            aria-expanded=${this.expanded ? "true" : "false"}
+            aria-controls=${contentId}
+          >
+            <span class="nys-accordionitem__heading-title"
+              >${this.heading}</span
+            >
+            <nys-icon
+              class="expand-icon"
+              name="chevron_down"
+              size="24"
+            ></nys-icon>
+          </button>
+        </div>
+        <div
+          id=${contentId}
+          class="nys-accordionitem__content ${this.expanded
+            ? "expanded"
+            : "collapsed"}"
+          role="region"
+          aria-labelledby=${buttonId}
+        >
+          <div class="nys-accordionitem__content-slot-container">
+            <div class="nys-accordionitem__content-slot-container-text">
+              <slot></slot>
+            </div>
           </div>
         </div>
       </div>
-    </div>`;
+    `;
   }
 }
 

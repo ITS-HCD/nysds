@@ -272,4 +272,76 @@ describe("nys-modal", () => {
     );
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  /*** Regression: id auto-generation format (mixin uses localName prefix) ***/
+  it("auto-generates an id matching /^nys-modal-\\d+-\\d+$/", async () => {
+    const el = await fixture<NysModal>(html`<nys-modal></nys-modal>`);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-modal-\d+-\d+$/);
+  });
+
+  it("does not overwrite a consumer-provided id", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal id="custom-modal"></nys-modal>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("custom-modal");
+  });
+
+  /*** Regression (WCAG 4.1.2): dialog accessible name wiring ***/
+  it("sets aria-labelledby to the heading element when a heading is provided", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Update Available" open></nys-modal>`,
+    );
+    await el.updateComplete;
+    const overlay = el.shadowRoot?.querySelector(".nys-modal-overlay");
+    expect(overlay?.getAttribute("aria-labelledby")).to.equal(
+      `${el.id}-heading`,
+    );
+    // The referenced element must actually exist for the name to resolve.
+    expect(el.shadowRoot?.querySelector(`#${el.id}-heading`)).to.exist;
+  });
+
+  it("omits aria-labelledby (no empty accessible name) when heading is absent", async () => {
+    const el = await fixture<NysModal>(html`<nys-modal open></nys-modal>`);
+    await el.updateComplete;
+    const overlay = el.shadowRoot?.querySelector(".nys-modal-overlay");
+    // Must not point at an empty heading element.
+    expect(overlay?.hasAttribute("aria-labelledby")).to.be.false;
+  });
+
+  it("omits aria-describedby when there is nothing to describe", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+    const overlay = el.shadowRoot?.querySelector(".nys-modal-overlay");
+    expect(overlay?.hasAttribute("aria-describedby")).to.be.false;
+  });
+
+  /*** Regression (WCAG 2.1.2): global keydown listener is removed on disconnect ***/
+  it("removes the global keydown listener when disconnected", async () => {
+    const el = await fixture<NysModal>(
+      html`<nys-modal heading="Test" open></nys-modal>`,
+    );
+    await el.updateComplete;
+
+    let closeFired = false;
+    el.addEventListener("nys-close", () => (closeFired = true));
+
+    // Disconnect the element; its keydown handler should no longer be active.
+    el.remove();
+    await el.updateComplete;
+
+    const event = new KeyboardEvent("keydown", {
+      key: "Escape",
+      cancelable: true,
+      bubbles: true,
+    });
+    window.dispatchEvent(event);
+
+    // Stale handler would have closed the (still-open) modal and fired nys-close.
+    expect(closeFired).to.be.false;
+    expect(event.defaultPrevented).to.be.false;
+  });
 });

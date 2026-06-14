@@ -1,10 +1,9 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 import "./nys-accordionitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-accordion.scss?inline";
-
-let accordionIdCounter = 0;
 
 /**
  * A container for grouping `nys-accordionitem` components with coordinated expand/collapse behavior.
@@ -38,7 +37,7 @@ let accordionIdCounter = 0;
  * ```
  */
 
-export class NysAccordion extends LitElement {
+export class NysAccordion extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -55,17 +54,11 @@ export class NysAccordion extends LitElement {
    * --------------------------------------------------------------------------
    */
 
-  constructor() {
-    super();
-  }
-
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns a unique id
+    // when one is not provided. The accordion container is a presentational
+    // grouping wrapper with no required ARIA role, so defaultRole stays null.
     super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
   }
 
   updated(changedProperties: Map<string, any>) {
@@ -78,10 +71,6 @@ export class NysAccordion extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
-
-  private _generateUniqueId() {
-    return `nys-accordion-${Date.now()}-${accordionIdCounter++}`;
-  }
 
   private _getAccordionItems() {
     const slot = this.shadowRoot?.querySelector("slot");

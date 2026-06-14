@@ -58,10 +58,10 @@ describe("nys-video", () => {
     );
     await el.updateComplete;
 
-    const thumbnail = el.shadowRoot!.querySelector<HTMLElement>(
-      ".nys-video__thumbnail",
+    const playButton = el.shadowRoot!.querySelector<HTMLButtonElement>(
+      ".nys-video__play-icon",
     );
-    thumbnail!.click();
+    playButton!.click();
     await el.updateComplete;
 
     expect(el.shadowRoot!.querySelector("iframe")).to.exist;
@@ -78,6 +78,75 @@ describe("nys-video", () => {
     await el.updateComplete;
     expect(el.id).to.not.be.empty;
     expect(el.id).to.match(/^nys-video-\d+-\d+$/);
+  });
+
+  it("auto-generates ids with the <tag>-n-n shape from the mixin", async () => {
+    const a = await fixture<NysVideo>(
+      html`<nys-video videourl=${VALID_URL}></nys-video>`,
+    );
+    const b = await fixture<NysVideo>(
+      html`<nys-video videourl=${VALID_URL}></nys-video>`,
+    );
+    await a.updateComplete;
+    await b.updateComplete;
+    expect(a.id).to.match(/^nys-video-\d+-\d+$/);
+    expect(b.id).to.match(/^nys-video-\d+-\d+$/);
+    expect(a.id).to.not.equal(b.id);
+  });
+
+  it("respects a consumer-provided id", async () => {
+    const el = await fixture<NysVideo>(
+      html`<nys-video id="my-video" videourl=${VALID_URL}></nys-video>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("my-video");
+  });
+
+  // ─── WCAG: play control is a native, named, operable button ────────────────
+  it("uses a native <button> as the play control (WCAG 4.1.2)", async () => {
+    const el = await fixture<NysVideo>(
+      html`<nys-video
+        videourl=${VALID_URL}
+        titleText=${VALID_TITLE_TEXT}
+      ></nys-video>`,
+    );
+    await el.updateComplete;
+    const btn = el.shadowRoot!.querySelector(".nys-video__play-icon");
+    expect(btn).to.exist;
+    expect(btn!.tagName).to.equal("BUTTON");
+  });
+
+  it("the play button carries an accessible name (WCAG 4.1.2)", async () => {
+    const el = await fixture<NysVideo>(
+      html`<nys-video
+        videourl=${VALID_URL}
+        titleText=${VALID_TITLE_TEXT}
+      ></nys-video>`,
+    );
+    await el.updateComplete;
+    const btn = el.shadowRoot!.querySelector<HTMLButtonElement>(
+      ".nys-video__play-icon",
+    );
+    expect(btn!.getAttribute("aria-label")).to.equal(
+      `Play ${VALID_TITLE_TEXT}`,
+    );
+  });
+
+  it("activates the player via keyboard activation of the play button (WCAG 2.1.1)", async () => {
+    const el = await fixture<NysVideo>(
+      html`<nys-video
+        videourl=${VALID_URL}
+        titleText=${VALID_TITLE_TEXT}
+      ></nys-video>`,
+    );
+    await el.updateComplete;
+    const btn = el.shadowRoot!.querySelector<HTMLButtonElement>(
+      ".nys-video__play-icon",
+    );
+    // Keyboard activation of a native button dispatches a click on the button.
+    btn!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await el.updateComplete;
+    expect(el.shadowRoot!.querySelector("iframe")).to.exist;
   });
 
   // ─── Properties & Attributes ──────────────────────────────────────────────
@@ -192,10 +261,10 @@ describe("nys-video", () => {
     );
     await el.updateComplete;
 
-    const thumbnail = el.shadowRoot!.querySelector<HTMLElement>(
-      ".nys-video__thumbnail",
+    const playButton = el.shadowRoot!.querySelector<HTMLButtonElement>(
+      ".nys-video__play-icon",
     );
-    thumbnail!.click();
+    playButton!.click();
     await el.updateComplete;
 
     expect(el.shadowRoot!.querySelector("iframe")).to.be.null;

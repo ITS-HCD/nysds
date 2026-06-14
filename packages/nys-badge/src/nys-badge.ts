@@ -1,9 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-badge.scss?inline";
-
-let badgeIdCounter = 0;
 
 /**
  * A compact label for status, counts, or categorization. Supports semantic intents with auto-selected icons.
@@ -26,7 +25,7 @@ let badgeIdCounter = 0;
  * ```
  */
 
-export class NysBadge extends LitElement {
+export class NysBadge extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. */
@@ -100,11 +99,11 @@ export class NysBadge extends LitElement {
    */
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) auto-assigns an id when
+    // one is not provided, preserving the "nys-badge-<ts>-<n>" shape. A badge is
+    // static, non-interactive label content, so no host role is reflected
+    // (defaultRole stays null).
     super.connectedCallback();
-
-    if (!this.id) {
-      this.id = `nys-badge-${Date.now()}-${badgeIdCounter++}`;
-    }
 
     const attr = this.getAttribute("prefixicon");
     if (attr !== null && this.prefixIcon === "") {
@@ -130,6 +129,25 @@ export class NysBadge extends LitElement {
     warning: "warning",
   };
 
+  // WCAG 1.4.1 (Use of Color): intent is otherwise conveyed only by color and a
+  // decorative (aria-hidden) icon. Provide a screen-reader-only text alternative
+  // so the semantic meaning is not color-only. Skipped for "neutral" (no
+  // semantic meaning) and when the author supplies their own srText override.
+  private static readonly INTENT_SR_TEXT: Record<string, string> = {
+    error: "Error",
+    success: "Success",
+    warning: "Warning",
+  };
+
+  /**
+   * Resolves the screen-reader-only text describing the badge's semantic intent.
+   * Returns null when no intent description should be announced.
+   */
+  private resolveIntentSrText(): string | null {
+    if (this.srText) return null; // author-provided text takes precedence
+    return NysBadge.INTENT_SR_TEXT[this.intent] ?? null;
+  }
+
   /**
    * Resolves which icon should be rendered.
    * @param icon The icon property value (string or boolean)
@@ -148,6 +166,7 @@ export class NysBadge extends LitElement {
   render() {
     const prefixIconName = this.resolveIcon(this.prefixIcon);
     const suffixIconName = this.resolveIcon(this.suffixIcon);
+    const intentSrText = this.resolveIntentSrText();
 
     return html`
       <mark class="nys-badge">
@@ -158,6 +177,11 @@ export class NysBadge extends LitElement {
           ? html`<div class="nys-badge__prefix">${this.prefixLabel}</div>`
           : ""}
         <div class="nys-badge__label">
+          ${intentSrText
+            ? html`<span class="nys-badge__sr-only"
+                >${intentSrText + ": "}</span
+              >`
+            : ""}
           ${this.label}
           ${this.srText
             ? html`<span class="nys-badge__sr-only"

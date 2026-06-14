@@ -1,10 +1,9 @@
-import { LitElement, TemplateResult, html, unsafeCSS } from "lit";
+import { TemplateResult, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-pagination.scss?inline";
-
-let componentIdCounter = 0;
 
 /**
  * Page navigation with Previous/Next buttons and numbered page links. Auto-collapses with ellipses for many pages.
@@ -23,7 +22,7 @@ let componentIdCounter = 0;
  * ```
  */
 
-export class NysPagination extends LitElement {
+export class NysPagination extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -67,10 +66,12 @@ export class NysPagination extends LitElement {
   }
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an auto-generated
+    // id (prefix = localName "nys-pagination") when one is not provided. The
+    // navigation landmark role lives on the inner <nav> element (so it carries the
+    // accessible name), so this component intentionally keeps defaultRole = null
+    // and does not move a role onto the host.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-pagination-${Date.now()}-${componentIdCounter++}`;
-    }
   }
 
   /**
@@ -88,14 +89,14 @@ export class NysPagination extends LitElement {
     const buttons: TemplateResult[] = [];
 
     const addPageButton = (page: number, id?: string) => {
+      const isCurrent = page === this.currentPage;
       buttons.push(html`
         <nys-button
           label=${String(page)}
-          ariaLabel="Page ${page}${page === this.currentPage
-            ? " - Current Page"
-            : ""}"
+          ariaLabel="Page ${page}${isCurrent ? " - Current Page" : ""}"
+          aria-current=${ifDefined(isCurrent ? "page" : undefined)}
           id=${ifDefined(id)}
-          variant=${this.currentPage === page ? "filled" : "outline"}
+          variant=${isCurrent ? "filled" : "outline"}
           size="sm"
           @nys-click="${() => this._handlePageClick(page)}"
         ></nys-button>
@@ -177,7 +178,7 @@ export class NysPagination extends LitElement {
       return null;
     }
 
-    return html`<div class="nys-pagination">
+    return html`<nav class="nys-pagination" aria-label="Pagination">
       <nys-button
         id="previous"
         label="Previous"
@@ -217,7 +218,7 @@ export class NysPagination extends LitElement {
         ?disabled=${this.currentPage === this.totalPages}
         @nys-click="${() => this._handlePageClick(this.currentPage + 1)}"
       ></nys-button>
-    </div>`;
+    </nav>`;
   }
   /****************** 🪡 in the Haystack Release ******/
   /****************** designsystem@its.ny.gov ********/

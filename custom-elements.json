@@ -89,14 +89,9 @@
             },
             {
               "kind": "method",
-              "name": "_generateUniqueId",
+              "name": "_getAccordionItems",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_getAccordionItems",
-              "privacy": "private"
             },
             {
               "kind": "method",
@@ -150,8 +145,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-accordion",
           "customElement": true,
@@ -227,6 +222,16 @@
             },
             {
               "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "description": "ARIA heading level (1-6) applied to the wrapper around the toggle button,\nper the WAI-ARIA Accordion pattern. Defaults to 3.",
+              "attribute": "headingLevel"
+            },
+            {
+              "kind": "field",
               "name": "expanded",
               "type": {
                 "text": "boolean"
@@ -249,14 +254,9 @@
             },
             {
               "kind": "method",
-              "name": "_generateUniqueId",
+              "name": "_dispatchEvent",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_dispatchEvent",
-              "privacy": "private"
             },
             {
               "kind": "method",
@@ -321,6 +321,16 @@
               "propName": "heading"
             },
             {
+              "name": "headingLevel",
+              "type": {
+                "text": "number"
+              },
+              "default": "3",
+              "description": "ARIA heading level (1-6) applied to the wrapper around the toggle button,\nper the WAI-ARIA Accordion pattern. Defaults to 3.",
+              "fieldName": "headingLevel",
+              "propName": "headinglevel"
+            },
+            {
               "name": "expanded",
               "type": {
                 "text": "boolean"
@@ -342,8 +352,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-accordionitem",
           "customElement": true,
@@ -568,14 +578,9 @@
             },
             {
               "kind": "method",
-              "name": "_generateUniqueId",
+              "name": "_resolveIconName",
               "privacy": "private",
               "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_resolveIconName",
-              "privacy": "private"
             },
             {
               "kind": "method",
@@ -716,8 +721,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-alert",
           "customElement": true,
@@ -1018,8 +1023,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-avatar",
           "customElement": true,
@@ -1081,6 +1086,17 @@
           "description": "A floating \"Back to top\" button that appears after scrolling. Smooth-scrolls to page top when clicked.\n\nAuto-shows after scrolling 1.5 viewports on pages 4+ screens tall. Set `visible` to force display.\nRenders as circle button on mobile. Position with `position` prop (`left` or `right`).\n\n**Placement:** For best accessibility, place as the first focusable element in the page footer.\nIf no footer exists, place at the bottom of the body tag (after main content). Floating\npositioning allows it to overlay content without taking up layout space.\n\n**Focus Management:** When clicked, after scrolling to the top, focus is moved to `<body>`.\nThis places the user before the skip-navigation link so they can re-use it to jump directly\nback to main content — and works regardless of whether the page uses `<main>` or heading landmarks.",
           "name": "NysBacktotop",
           "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
             {
               "kind": "field",
               "name": "position",
@@ -1152,6 +1168,16 @@
           ],
           "attributes": [
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
               "name": "position",
               "type": {
                 "text": "string"
@@ -1173,8 +1199,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-backtotop",
           "customElement": true,
@@ -1367,6 +1393,28 @@
               "description": "Functions\n--------------------------------------------------------------------------"
             },
             {
+              "kind": "field",
+              "name": "INTENT_SR_TEXT",
+              "type": {
+                "text": "Record<string, string>"
+              },
+              "privacy": "private",
+              "static": true,
+              "readonly": true,
+              "default": "{ error: \"Error\", success: \"Success\", warning: \"Warning\", }"
+            },
+            {
+              "kind": "method",
+              "name": "resolveIntentSrText",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string | null"
+                }
+              },
+              "description": "Resolves the screen-reader-only text describing the badge's semantic intent.\nReturns null when no intent description should be announced."
+            },
+            {
               "kind": "method",
               "name": "resolveIcon",
               "privacy": "private",
@@ -1485,8 +1533,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-badge",
           "customElement": true,
@@ -1572,7 +1620,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accessible label for the `<nav>` landmark. Defaults to \"path to this page\" if not set.\nOverride when multiple crumbs exist on the same page.",
+              "description": "Accessible label for the `<nav>` landmark. Defaults to \"Breadcrumb\" if not set.\nOverride when multiple crumbs exist on the same page.",
               "attribute": "ariaLabel"
             },
             {
@@ -1795,7 +1843,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Accessible label for the `<nav>` landmark. Defaults to \"path to this page\" if not set.\nOverride when multiple crumbs exist on the same page.",
+              "description": "Accessible label for the `<nav>` landmark. Defaults to \"Breadcrumb\" if not set.\nOverride when multiple crumbs exist on the same page.",
               "fieldName": "ariaLabel",
               "propName": "arialabel"
             },
@@ -1851,8 +1899,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-breadcrumbs",
           "customElement": true,
@@ -5272,7 +5320,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.\n\nUse to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.",
+          "description": "A horizontal rule for visual separation between content sections. The host\nelement carries `role=\"separator\"` via ElementInternals.\n\nUse to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.",
           "name": "NysDivider",
           "members": [
             {
@@ -5298,10 +5346,14 @@
               "reflects": true
             },
             {
-              "kind": "method",
-              "name": "_generateUniqueId",
-              "privacy": "private",
-              "description": "Functions\n--------------------------------------------------------------------------"
+              "kind": "field",
+              "name": "defaultRole",
+              "type": {
+                "text": "string | null"
+              },
+              "privacy": "protected",
+              "description": "The host element IS the separator, so reflect role=\"separator\" onto the host\nvia internals. A horizontal separator's implicit aria-orientation is\n\"horizontal\", which matches this component, so no explicit orientation is set.",
+              "readonly": true
             }
           ],
           "attributes": [
@@ -5327,8 +5379,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysReflectsAriaElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-divider",
           "customElement": true,
@@ -5411,6 +5463,16 @@
               },
               "default": "false",
               "attribute": "showDropdown"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Menu\"",
+              "description": "Accessible name for the menu (`role=\"menu\"`) container. Screen readers use\nthis to announce the purpose of the menu. Defaults to \"Menu\".",
+              "attribute": "label"
             },
             {
               "kind": "field",
@@ -5732,6 +5794,16 @@
               "propName": "showdropdown"
             },
             {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Menu\"",
+              "description": "Accessible name for the menu (`role=\"menu\"`) container. Screen readers use\nthis to announce the purpose of the menu. Defaults to \"Menu\".",
+              "fieldName": "label",
+              "propName": "label"
+            },
+            {
               "name": "position",
               "type": {
                 "text": "Position | null"
@@ -5743,8 +5815,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-dropdownmenu",
           "customElement": true
@@ -5921,8 +5993,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-dropdownmenuitem",
           "customElement": true,
@@ -6968,6 +7040,17 @@
           "members": [
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "agencyName",
               "type": {
                 "text": "string"
@@ -7004,6 +7087,16 @@
           ],
           "attributes": [
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
               "name": "agencyName",
               "type": {
                 "text": "string"
@@ -7025,8 +7118,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-globalfooter",
           "customElement": true,
@@ -7089,6 +7182,17 @@
             }
           ],
           "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "attribute": "id",
+              "reflects": true
+            },
             {
               "kind": "field",
               "name": "appName",
@@ -7219,6 +7323,16 @@
           ],
           "attributes": [
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Unique identifier. Auto-generated if not provided.",
+              "fieldName": "id",
+              "propName": "id"
+            },
+            {
               "name": "appName",
               "type": {
                 "text": "string"
@@ -7260,8 +7374,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-globalheader",
           "customElement": true,
@@ -7713,6 +7827,12 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_reflectHostSemantics",
+              "privacy": "private",
+              "description": "Reflects the icon's accessible state onto the host:\n- Labeled icon  -> role=\"img\" + aria-label, no aria-hidden.\n- Decorative    -> aria-hidden=\"true\", no role/label.\n\nThese are reflected as host *attributes* (rather than via\nElementInternals) on purpose: aria-hidden / role / aria-label in\nattribute form have universal, consistent assistive-technology support,\nwhereas AT support for these states set through ElementInternals is still\nuneven across browser/screen-reader combinations. The host role/label\ntherefore depend on runtime state (ariaLabel), so defaultRole stays null."
             }
           ],
           "attributes": [
@@ -7788,8 +7908,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-icon",
           "customElement": true,
@@ -8178,6 +8298,11 @@
               "default": "false"
             },
             {
+              "kind": "field",
+              "name": "_boundHandleKeydown",
+              "privacy": "private"
+            },
+            {
               "kind": "method",
               "name": "_hideBodyScroll",
               "privacy": "private",
@@ -8338,8 +8463,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-modal",
           "customElement": true,
@@ -8552,8 +8677,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-pagination",
           "customElement": true,
@@ -8911,7 +9036,7 @@
             }
           ],
           "superclass": {
-            "name": "NysReflectsAriaElement",
+            "name": "NysElement",
             "package": "@nysds/internals"
           },
           "tagName": "nys-radiobutton",
@@ -10332,8 +10457,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-skipnav",
           "customElement": true,
@@ -10400,7 +10525,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate the active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation, or omit it and listen to `nys-step-click` for SPA/framework routing.\n\n## Step states\n\nThree boolean attributes control step appearance and behavior:\n\n- **`current`** — The furthest step the user has reached (the progress boundary). Only one step should\n  have `current` at a time; if multiple are set the parent stepper keeps the first and removes the rest.\n  Steps after `current` are not navigable and do not fire `nys-step-click`. Update `current` in your\n  application state when the user advances.\n\n- **`selected`** — Which step's content is currently displayed. Defaults to the `current` step if not\n  explicitly set. If `selected` is placed on a step after `current`, the stepper silently corrects it\n  to match `current`. When managing state from a framework, always set `selected` explicitly — without\n  it the stepper's fallback will reset in-sidebar navigation on every state update.\n\n- **`previous`** — Auto-applied by the parent stepper to every step before `current`. Do not set this\n  manually. Steps with `previous` are clickable and fire `nys-step-click`.\n\n## `nys-step-click` firing conditions\n\nThe event fires only when ALL of the following are true:\n1. The step has `previous` or `current` (i.e. it is navigable).\n2. The step does NOT already have `selected` (clicking the already-viewed step is a no-op).\n\nSteps that are neither `previous` nor `current` (future steps) never fire the event.\n\n## `href` and navigation\n\nIf `href` is set, the stepper calls `window.location.href = href` after dispatching `nys-step-click`\n— but only if the event was **not canceled**. To handle navigation yourself (SPA routing, fetch, etc.),\nalways call `e.preventDefault()` in your listener. Omitting `href` entirely is simpler for SPAs.\n\n## `onClick` vs `nys-step-click`\n\nThe `onClick` property (a function reference, not a DOM attribute) is called **before** the\n`nys-step-click` event is dispatched. Use it for imperative pre-navigation logic. In React, pass it\nas the `onClick` prop on `NysStep`.\n\n## Accessibility\n- The step label renders with `role=\"button\"` and is keyboard-focusable (`tabindex=\"0\"`) for navigable\n  steps (`current`, `previous`). Future steps get `tabindex=\"-1\"` and are not reachable by keyboard.\n- Enter and Space activate the step (same as click).\n- `aria-label` is set to `\"{label} Step\"` for screen reader announcement.\n\n## Common patterns\n\n**Initial state:** Set `current` on the first step. `selected` defaults to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (progress still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
+          "description": "A single step within `nys-stepper`. Represents one stage in a multi-step process.\n\nMark as `current` to indicate the active progress point. Previous steps become clickable for navigation.\nSet `href` for page-based navigation, or omit it and listen to `nys-step-click` for SPA/framework routing.\n\n## Step states\n\nThree boolean attributes control step appearance and behavior:\n\n- **`current`** — The furthest step the user has reached (the progress boundary). Only one step should\n  have `current` at a time; if multiple are set the parent stepper keeps the first and removes the rest.\n  Steps after `current` are not navigable and do not fire `nys-step-click`. Update `current` in your\n  application state when the user advances.\n\n- **`selected`** — Which step's content is currently displayed. Defaults to the `current` step if not\n  explicitly set. If `selected` is placed on a step after `current`, the stepper silently corrects it\n  to match `current`. When managing state from a framework, always set `selected` explicitly — without\n  it the stepper's fallback will reset in-sidebar navigation on every state update.\n\n- **`previous`** — Auto-applied by the parent stepper to every step before `current`. Do not set this\n  manually. Steps with `previous` are clickable and fire `nys-step-click`.\n\n## `nys-step-click` firing conditions\n\nThe event fires only when ALL of the following are true:\n1. The step has `previous` or `current` (i.e. it is navigable).\n2. The step does NOT already have `selected` (clicking the already-viewed step is a no-op).\n\nSteps that are neither `previous` nor `current` (future steps) never fire the event.\n\n## `href` and navigation\n\nIf `href` is set, the stepper calls `window.location.href = href` after dispatching `nys-step-click`\n— but only if the event was **not canceled**. To handle navigation yourself (SPA routing, fetch, etc.),\nalways call `e.preventDefault()` in your listener. Omitting `href` entirely is simpler for SPAs.\n\n## `onClick` vs `nys-step-click`\n\nThe `onClick` property (a function reference, not a DOM attribute) is called **before** the\n`nys-step-click` event is dispatched. Use it for imperative pre-navigation logic. In React, pass it\nas the `onClick` prop on `NysStep`.\n\n## Accessibility\n- The interactive step row renders with `role=\"button\"` and is keyboard-focusable (`tabindex=\"0\"`)\n  for navigable steps (`current`, `previous`, `selected`). Future steps get `tabindex=\"-1\"`,\n  `aria-disabled=\"true\"`, and are not reachable by keyboard.\n- Enter and Space activate the step (same as click).\n- `aria-label` announces the step name and 1-indexed position, e.g. `\"Personal Info, step 1\"`.\n- The `current` step (progress boundary) is marked with `aria-current=\"step\"` so assistive\n  technology announces the user's current position.\n- The visual step number is `aria-hidden` (its meaning is folded into the row's accessible name).\n\n## Common patterns\n\n**Initial state:** Set `current` on the first step. `selected` defaults to it.\n```html\n<nys-step label=\"Step 1\" current></nys-step>\n<nys-step label=\"Step 2\"></nys-step>\n```\n\n**User completed step 1, now on step 2:**\n```html\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```\n\n**User went back to review step 1 (progress still at step 2):**\n```html\n<nys-step label=\"Step 1\" selected></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n```",
           "name": "NysStep",
           "members": [
             {
@@ -10452,6 +10577,16 @@
                 "text": "(e: Event) => void | undefined"
               },
               "description": "Optional function called before `nys-step-click` is dispatched. Use for pre-navigation logic."
+            },
+            {
+              "kind": "field",
+              "name": "_navigable",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "description": "A step is navigable (focusable + activatable) when it is the displayed,\ncurrent, or a previously-reached step. Future steps are inert.",
+              "readonly": true
             },
             {
               "kind": "method",
@@ -10529,8 +10664,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-step",
           "customElement": true,
@@ -10574,7 +10709,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary; all steps\nbefore it become navigable. Compact view on mobile expands to show all steps. Use the `actions` slot for\npersistent navigation buttons (e.g., Save & Exit). Do not place the stepper inside a `<form>` element —\nput form fields in the main content area alongside it.\n\n## When to use\n- Linear, ordered forms or wizards with more than 2 sections.\n\n## When not to use\n- Forms with only 1 or 2 sections — use a simpler layout.\n- Non-linear forms where sections can be completed in any order.\n\n## Compact mode (mobile)\nOn small screens the stepper collapses to a compact view: step labels are hidden and progress\nis shown as a bar indicator with a \"Step x of y\" counter. Clicking or pressing Enter/Space on\nthe counter expands the full step list (counter text changes to \"Back to Form\"). Collapsing\nagain returns the user to the form view.\n\n## actions slot constraints\nThe `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only\ncontain `<nys-button>` elements — any other element is removed with a console warning.\nThe stepper automatically forces `size=\"sm\"` on every button in the slot. Buttons with the\n`fullWidth` attribute get `flex: 1 1 0` injected so they share available width equally.\n\n## Multiple `current` conflict\nIf more than one `nys-step` has the `current` attribute, only the first one is kept; the rest\nare silently removed. Always mark exactly one step as `current`.\n\n## id auto-generation\nIf no `id` is provided, a unique id is generated automatically in the form\n`nys-stepper-{n}-{timestamp}`.\n\n## Accessibility\n- The compact counter is rendered as a `role=\"button\"` with `aria-expanded` and a descriptive\n  `aria-label` that announces the current step (e.g., \"Expand step navigation. You are on Step 2 of 4\").\n- Keyboard: Enter or Space toggles the compact view.\n- Each `nys-step` label is keyboard-focusable and activatable for navigable steps.\n- Visual focus indicators are provided on all interactive elements.",
+          "description": "A multi-step progress indicator for forms or wizards. Manages `nys-step` children with selection and navigation.\n\nAdd `nys-step` elements as children. Mark one step as `current` to indicate the progress boundary; all steps\nbefore it become navigable. Compact view on mobile expands to show all steps. Use the `actions` slot for\npersistent navigation buttons (e.g., Save & Exit). Do not place the stepper inside a `<form>` element —\nput form fields in the main content area alongside it.\n\n## When to use\n- Linear, ordered forms or wizards with more than 2 sections.\n\n## When not to use\n- Forms with only 1 or 2 sections — use a simpler layout.\n- Non-linear forms where sections can be completed in any order.\n\n## Compact mode (mobile)\nOn small screens the stepper collapses to a compact view: step labels are hidden and progress\nis shown as a bar indicator with a \"Step x of y\" counter. Clicking or pressing Enter/Space on\nthe counter expands the full step list (counter text changes to \"Back to Form\"). Collapsing\nagain returns the user to the form view.\n\n## actions slot constraints\nThe `actions` slot must contain exactly one `<div>` as its direct child. That `<div>` may only\ncontain `<nys-button>` elements — any other element is removed with a console warning.\nThe stepper automatically forces `size=\"sm\"` on every button in the slot. Buttons with the\n`fullWidth` attribute get `flex: 1 1 0` injected so they share available width equally.\n\n## Multiple `current` conflict\nIf more than one `nys-step` has the `current` attribute, only the first one is kept; the rest\nare silently removed. Always mark exactly one step as `current`.\n\n## id auto-generation\nIf no `id` is provided, a unique id is generated automatically in the form\n`nys-stepper-{timestamp}-{n}`.\n\n## Accessibility\n- The compact counter is rendered as a `role=\"button\"` with `aria-expanded` and a descriptive\n  `aria-label` that announces the current step (e.g., \"Expand step navigation. You are on Step 2 of 4\").\n- Keyboard: Enter or Space toggles the compact view.\n- Each `nys-step` label is keyboard-focusable and activatable for navigable steps.\n- Visual focus indicators are provided on all interactive elements.",
           "name": "NysStepper",
           "slots": [
             {
@@ -10594,7 +10729,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided.",
+              "description": "Unique identifier. Auto-generated as `nys-stepper-{timestamp}-{n}` if not provided.",
               "attribute": "id",
               "reflects": true
             },
@@ -10703,7 +10838,7 @@
                 "text": "string"
               },
               "default": "\"\"",
-              "description": "Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided.",
+              "description": "Unique identifier. Auto-generated as `nys-stepper-{timestamp}-{n}` if not provided.",
               "fieldName": "id",
               "propName": "id"
             },
@@ -10749,8 +10884,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-stepper",
           "customElement": true,
@@ -11007,8 +11142,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-tab",
           "customElement": true,
@@ -11237,7 +11372,7 @@
                   "description": "The `KeyboardEvent` from the tablist `keydown` listener."
                 }
               ],
-              "description": "Implements the ARIA radio-button keyboard pattern:\n- `ArrowRight` — moves focus to the next enabled tab (wraps).\n- `ArrowLeft` — moves focus to the previous enabled tab (wraps).\n\nFocus is moved without changing selection; Enter / Space on the newly\nfocused tab (handled by `<nys-tab>._handleKeydown`) confirm selection.\n\nThe currently focused tab is resolved via `composedPath()` because focus\nmay sit on a shadow-DOM descendant of `<nys-tab>` rather than the host\nitself.\n\nDisabled tabs are excluded from navigation and will never receive focus\nvia arrow keys."
+              "description": "Implements the\nhttps://www.w3.org/WAI/ARIA/apg/patterns/tabs/ ARIA Tabs Pattern\nkeyboard interaction for a horizontal tablist:\n- `ArrowRight` — moves focus to the next enabled tab (wraps).\n- `ArrowLeft` — moves focus to the previous enabled tab (wraps).\n- `Home` — moves focus to the first enabled tab.\n- `End` — moves focus to the last enabled tab.\n\nHandled keys call `preventDefault()` so they don't trigger the browser's\ndefault behavior (e.g. Home/End scrolling the page) — WCAG 2.1.1 Keyboard.\n\nFocus is moved without changing selection; Enter / Space on the newly\nfocused tab (handled by `<nys-tab>._onKeydown`) confirm selection.\n\nThe currently focused tab is resolved via `composedPath()` because focus\nmay sit on a shadow-DOM descendant of `<nys-tab>` rather than the host\nitself.\n\nDisabled tabs are excluded from navigation and will never receive focus\nvia arrow keys."
             },
             {
               "kind": "field",
@@ -11270,8 +11405,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-tabgroup",
           "customElement": true,
@@ -11349,8 +11484,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-tabpanel",
           "customElement": true,
@@ -11531,6 +11666,20 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "_applyHeaderScopes",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "table",
+                  "type": {
+                    "text": "HTMLTableElement"
+                  }
+                }
+              ],
+              "description": "Adds scope=\"col\" to every column-header cell in the table head. Header cells\ninside the body (row headers) are left untouched so authors can still mark\nthem scope=\"row\" themselves; we only set a scope where one is missing."
             },
             {
               "kind": "method",
@@ -11722,8 +11871,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-table",
           "customElement": true
@@ -13753,6 +13902,20 @@
             },
             {
               "kind": "method",
+              "name": "_associateTrigger",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "el",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ],
+              "description": "Programmatically associates the trigger with the tooltip via\n`aria-describedby`, per the WAI-ARIA Tooltip pattern. The tooltip bubble\n(`.nys-tooltip__content`) carries `role=\"tooltip\"` and `id={this.id}`, so we\npoint the trigger's `aria-describedby` at that id. Preserves any existing\n`aria-describedby` tokens the consumer already set, and avoids duplicates."
+            },
+            {
+              "kind": "method",
               "name": "_passAria",
               "privacy": "private",
               "parameters": [
@@ -13940,8 +14103,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-tooltip",
           "customElement": true,
@@ -14011,8 +14174,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-unavfooter",
           "customElement": true,
@@ -14325,8 +14488,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-unavheader",
           "customElement": true
@@ -14646,8 +14809,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-video",
           "customElement": true,

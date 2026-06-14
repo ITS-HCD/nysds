@@ -247,4 +247,95 @@ describe("nys-accordionitem", () => {
     );
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  // --- Accessibility regression tests (WAI-ARIA Accordion pattern) ---
+
+  it("auto-generates an id on the accordion container in the <tag>-n-n format", async () => {
+    const el = await fixture<NysAccordion>(
+      html`<nys-accordion></nys-accordion>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-accordion-\d+-\d+$/);
+  });
+
+  it("auto-generates an id on the accordion item in the <tag>-n-n format", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.match(/^nys-accordionitem-\d+-\d+$/);
+  });
+
+  it("wraps the toggle button in a heading element with a default aria-level of 3", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Heading test"></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const headingWrapper = el.shadowRoot?.querySelector('[role="heading"]');
+    expect(headingWrapper, "heading wrapper exists").to.exist;
+    expect(headingWrapper?.getAttribute("aria-level")).to.equal("3");
+
+    // The button must be contained within the heading element.
+    const button = headingWrapper?.querySelector(".nys-accordionitem__heading");
+    expect(button, "button is inside the heading element").to.exist;
+  });
+
+  it("honors a custom headingLevel via aria-level", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem
+        heading="Heading test"
+        .headingLevel=${2}
+      ></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const headingWrapper = el.shadowRoot?.querySelector('[role="heading"]');
+    expect(headingWrapper?.getAttribute("aria-level")).to.equal("2");
+  });
+
+  it("clamps an out-of-range headingLevel into the valid 1-6 range", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem
+        heading="Heading test"
+        .headingLevel=${9}
+      ></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const headingWrapper = el.shadowRoot?.querySelector('[role="heading"]');
+    expect(headingWrapper?.getAttribute("aria-level")).to.equal("6");
+  });
+
+  it("labels the region panel via aria-labelledby pointing at the toggle button", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Region label"></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const region = el.shadowRoot?.querySelector('[role="region"]');
+    const button = el.shadowRoot?.querySelector(".nys-accordionitem__heading");
+
+    expect(region, "region exists").to.exist;
+    expect(button?.id, "button has an id").to.not.be.empty;
+
+    const labelledby = region?.getAttribute("aria-labelledby");
+    expect(labelledby).to.equal(button?.id);
+  });
+
+  it("keeps aria-controls on the button wired to the region panel id", async () => {
+    const el = await fixture<NysAccordionItem>(
+      html`<nys-accordionitem heading="Controls test"></nys-accordionitem>`,
+    );
+    await el.updateComplete;
+
+    const button = el.shadowRoot?.querySelector(".nys-accordionitem__heading");
+    const region = el.shadowRoot?.querySelector('[role="region"]');
+
+    const controls = button?.getAttribute("aria-controls");
+    expect(controls).to.equal(region?.id);
+  });
 });

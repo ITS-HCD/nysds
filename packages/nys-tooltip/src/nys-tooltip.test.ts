@@ -55,6 +55,57 @@ describe("nys-tooltip", () => {
     expect(tooltip).to.exist;
   });
 
+  it("auto-generated id matches the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysTooltip>(html`<nys-tooltip></nys-tooltip>`);
+    await el.updateComplete;
+    expect(el.id).to.match(/^nys-tooltip-\d+-\d+$/);
+  });
+
+  it("the role=tooltip element carries the host id (describedby target)", async () => {
+    const el = await fixture<NysTooltip>(
+      html`<nys-tooltip text="Info"></nys-tooltip>`,
+    );
+    await el.updateComplete;
+    const tooltip = el.shadowRoot?.querySelector('[role="tooltip"]');
+    expect(tooltip).to.exist;
+    expect(tooltip?.getAttribute("id")).to.equal(el.id);
+  });
+
+  it("associates the trigger via aria-describedby pointing at the tooltip", async () => {
+    const el = await fixture(html`
+      <div>
+        <button id="trigger-btn">Trigger</button>
+        <nys-tooltip for="trigger-btn" text="Helpful hint"></nys-tooltip>
+      </div>
+    `);
+
+    const button = el.querySelector("#trigger-btn") as HTMLElement;
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+
+    const describedby = button.getAttribute("aria-describedby");
+    expect(describedby).to.exist;
+    expect(describedby?.split(/\s+/)).to.include(tooltip.id);
+  });
+
+  it("preserves an existing aria-describedby token on the trigger", async () => {
+    const el = await fixture(html`
+      <div>
+        <span id="existing-desc">existing</span>
+        <button id="trigger2" aria-describedby="existing-desc">Trigger</button>
+        <nys-tooltip for="trigger2" text="Extra hint"></nys-tooltip>
+      </div>
+    `);
+
+    const button = el.querySelector("#trigger2") as HTMLElement;
+    const tooltip = el.querySelector("nys-tooltip") as NysTooltip;
+    await tooltip.updateComplete;
+
+    const tokens = (button.getAttribute("aria-describedby") || "").split(/\s+/);
+    expect(tokens).to.include("existing-desc");
+    expect(tokens).to.include(tooltip.id);
+  });
+
   it("links tooltip to nys-icon and passes tooltip text to the icon", async () => {
     const el = await fixture(html`
       <div>

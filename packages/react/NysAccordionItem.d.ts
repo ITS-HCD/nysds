@@ -33,6 +33,10 @@ export interface NysAccordionItemProps extends Pick<
   /** Heading text displayed in the clickable toggle button. */
   heading?: NysAccordionItemElement["heading"];
 
+  /** ARIA heading level (1-6) applied to the wrapper around the toggle button,
+per the WAI-ARIA Accordion pattern. Defaults to 3. */
+  headingLevel?: NysAccordionItemElement["headingLevel"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

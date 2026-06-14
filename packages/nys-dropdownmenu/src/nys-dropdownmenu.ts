@@ -1,10 +1,9 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 import "./nys-dropdownmenuitem";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-dropdownmenu.scss?inline";
-
-let dropdownMenuIdCounter = 0;
 
 /**
  * Dropdown menus enable users to select an action from a list of options.
@@ -46,11 +45,17 @@ interface SpaceAvailable {
   end: number;
 }
 
-export class NysDropdownMenu extends LitElement {
+export class NysDropdownMenu extends NysElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) for = "";
   @property({ type: Boolean }) showDropdown = false;
+
+  /**
+   * Accessible name for the menu (`role="menu"`) container. Screen readers use
+   * this to announce the purpose of the menu. Defaults to "Menu".
+   */
+  @property({ type: String }) label = "Menu";
 
   /**
    * Preferred position relative to trigger.
@@ -74,13 +79,12 @@ export class NysDropdownMenu extends LitElement {
     super();
   }
 
-  // Generate a unique ID if one is not provided
+  // super.connectedCallback() (NysElement) auto-assigns this.id when
+  // one is not provided (prefix = localName, i.e. "nys-dropdownmenu-<ts>-<n>").
+  // The menu/menuitem roles intentionally stay on the inner <ul>/items, so this
+  // component keeps defaultRole = null and does not move a role onto the host.
   connectedCallback() {
     super.connectedCallback();
-
-    if (!this.id) {
-      this.id = `nys-dropdownmenu-${Date.now()}-${dropdownMenuIdCounter++}`;
-    }
   }
 
   disconnectedCallback() {
@@ -494,7 +498,7 @@ export class NysDropdownMenu extends LitElement {
       for=${this.for}
       ?hidden=${!this.showDropdown}
     >
-      <ul role="menu">
+      <ul role="menu" aria-label=${this.label}>
         <slot></slot>
       </ul>
     </div>`;

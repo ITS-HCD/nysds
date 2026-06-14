@@ -1,6 +1,6 @@
 import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
-import { NysReflectsAriaElement } from "@nysds/internals";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
 
@@ -29,7 +29,7 @@ import styles from "./nys-radiobutton.scss?inline";
  * ```
  */
 
-export class NysRadiobutton extends NysReflectsAriaElement {
+export class NysRadiobutton extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Whether this radio is selected. Only one per group can be checked. */
@@ -73,7 +73,7 @@ export class NysRadiobutton extends NysReflectsAriaElement {
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
-   * Id generation is provided by NysReflectsAriaElement (@nysds/internals);
+   * Id generation is provided by NysElement (@nysds/internals);
    * super.connectedCallback() assigns an id (prefix = localName) when absent.
    */
 

@@ -730,4 +730,97 @@ describe("nys-unavheader", () => {
     const el = await fixture(html`<nys-unavheader></nys-unavheader>`);
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  // --- Regression: auto-generated host id (NysReflectsAriaElement) ---
+  it("auto-generates a host id when none is provided", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    expect(el.id).to.match(/^nys-unavheader-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided host id", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader id="my-header"></nys-unavheader>`,
+    );
+    expect(el.id).to.equal("my-header");
+  });
+
+  // --- Regression: banner landmark stays on the inner <header> element ---
+  it("keeps the banner landmark on the inner <header>, not the host", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const header = el.shadowRoot?.querySelector("header.nys-unavheader");
+    expect(header).to.exist;
+    // Host must not carry a role (landmark belongs to the inner header).
+    expect(el.getAttribute("role")).to.be.null;
+  });
+
+  // --- Regression: WCAG 4.1.1 / 1.3.1 — no duplicate IDs in shadow DOM ---
+  it("does not duplicate the 'official website' element id", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const officialById = el.shadowRoot?.querySelectorAll(
+      "#nys-unavheader__official",
+    );
+    // Only the inline (styled) instance retains the id; the top trustbar uses a class.
+    expect(officialById?.length).to.equal(1);
+    const officialByClass = el.shadowRoot?.querySelectorAll(
+      ".nys-unavheader__official",
+    );
+    expect(officialByClass?.length).to.equal(1);
+  });
+
+  // --- Regression: WCAG 1.3.1 — no misused <label> for non-form text ---
+  it("does not use <label> elements for static (non-form) trust text", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+    const labels = el.shadowRoot?.querySelectorAll("label");
+    expect(labels?.length ?? 0).to.equal(0);
+  });
+
+  // --- Regression: WCAG 4.1.2 — aria-controls targets the controlled panel ---
+  it("points trustbar toggle aria-controls at the trust panel", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const panel = el.shadowRoot?.getElementById("nys-unavheader__trustpanel");
+    expect(panel).to.exist;
+
+    const knowBtn = el.shadowRoot?.getElementById("nys-unavheader__know");
+    const inlineBtn = el.shadowRoot?.getElementById(
+      "nys-unavheader__know--inline",
+    );
+
+    expect(knowBtn?.getAttribute("aria-controls")).to.equal(
+      "nys-unavheader__trustpanel",
+    );
+    expect(inlineBtn?.getAttribute("aria-controls")).to.equal(
+      "nys-unavheader__trustpanel",
+    );
+  });
+
+  it("reflects aria-expanded on both trustbar toggles as the panel opens/closes", async () => {
+    const el = await fixture<NysUnavHeader>(
+      html`<nys-unavheader></nys-unavheader>`,
+    );
+
+    const knowBtn = el.shadowRoot?.getElementById("nys-unavheader__know");
+    const inlineBtn = el.shadowRoot?.getElementById(
+      "nys-unavheader__know--inline",
+    );
+
+    expect(knowBtn?.getAttribute("aria-expanded")).to.equal("false");
+    expect(inlineBtn?.getAttribute("aria-expanded")).to.equal("false");
+
+    el.trustbarVisible = true;
+    await el.updateComplete;
+
+    expect(knowBtn?.getAttribute("aria-expanded")).to.equal("true");
+    expect(inlineBtn?.getAttribute("aria-expanded")).to.equal("true");
+  });
 });

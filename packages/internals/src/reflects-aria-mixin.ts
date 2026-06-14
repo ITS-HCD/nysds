@@ -1,39 +1,41 @@
 import { LitElement } from "lit";
-import { generateId } from "./id";
+import {
+  IdentifiedMixin,
+  type Constructor,
+  type IdentifiedInterface,
+} from "./identified-mixin";
 
-export type Constructor<T = object> = new (...args: any[]) => T;
+export type { Constructor };
 
 /**
- * Public/protected surface added by {@link ReflectsAriaMixin}. Declared
- * separately so consuming components and the composed FormControl layer get
- * correct types.
+ * Public/protected surface added by {@link ReflectsAriaMixin}, on top of
+ * {@link IdentifiedInterface}. Declared separately so consuming components and
+ * the composed FormControl layer get correct types.
  */
-export declare class ReflectsAriaInterface {
+export declare class ReflectsAriaInterface extends IdentifiedInterface {
   /** Lazily-attached ElementInternals, or null in non-DOM (SSR) contexts. */
   protected readonly internals: ElementInternals | null;
-  /** Prefix used for auto-generated ids. Defaults to the element's tag name. */
-  protected get idPrefix(): string;
   /** Default implicit role applied to the host via internals. Override per component. */
   protected get defaultRole(): string | null;
   /** Apply the default role (and any static semantics) to the host. */
   protected reflectDefaultSemantics(): void;
   /** Set a host-level ARIA state property via internals, with attribute fallback. */
   protected setHostAria(name: string, value: string | null): void;
-  /** Assign an auto-generated id if the consumer did not supply one. */
-  protected ensureId(): void;
 }
 
 /**
- * Mixin that gives an element ElementInternals-based accessibility semantics:
- * a default role, host-level ARIA state reflection, and stable id generation —
- * without form association. Use for presentational components. For name/
- * description association, import the `associateHost` / `associateControl`
+ * Mixin that adds ElementInternals-based accessibility semantics on top of
+ * {@link IdentifiedMixin}: a default host role and host-level ARIA state
+ * reflection. Use for presentational components that the host element itself
+ * should expose a role/state for (e.g. a separator). Components that only need
+ * id generation should use {@link IdentifiedMixin} / NysElement instead. For
+ * name/description association, import the `associateHost` / `associateControl`
  * helpers directly (they tree-shake out of components that don't use them).
  */
 export const ReflectsAriaMixin = <T extends Constructor<LitElement>>(
   Base: T,
 ) => {
-  class ReflectsAria extends Base {
+  class ReflectsAria extends IdentifiedMixin(Base) {
     private __internals: ElementInternals | null = null;
 
     protected get internals(): ElementInternals | null {
@@ -49,16 +51,8 @@ export const ReflectsAriaMixin = <T extends Constructor<LitElement>>(
       return this.__internals;
     }
 
-    protected get idPrefix(): string {
-      return this.localName || "nys-element";
-    }
-
     protected get defaultRole(): string | null {
       return null;
-    }
-
-    protected ensureId(): void {
-      if (!this.id) this.id = generateId(this.idPrefix);
     }
 
     protected setHostAria(name: string, value: string | null): void {
@@ -79,8 +73,7 @@ export const ReflectsAriaMixin = <T extends Constructor<LitElement>>(
     }
 
     connectedCallback(): void {
-      super.connectedCallback();
-      this.ensureId();
+      super.connectedCallback(); // IdentifiedMixin assigns the auto id
       this.reflectDefaultSemantics();
     }
   }
@@ -95,5 +88,9 @@ function ariaAttr(name: string): string {
   return "aria-" + stripped.charAt(0).toLowerCase() + stripped.slice(1);
 }
 
-/** Concrete base class: `extends NysReflectsAriaElement` for presentational components. */
-export class NysReflectsAriaElement extends ReflectsAriaMixin(LitElement) {}
+/**
+ * Concrete base class for components that reflect a host role/state. Declared as
+ * a pure const so bundlers tree-shake it out of packages that don't use it.
+ */
+export const NysReflectsAriaElement =
+  /*@__PURE__*/ ReflectsAriaMixin(LitElement);

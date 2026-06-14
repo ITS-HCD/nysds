@@ -4,7 +4,8 @@ import { useEventListener } from "./react-utils.js";
 
 export const NysAccordionItem = forwardRef((props, forwardedRef) => {
   const ref = useRef(null);
-  const { expanded, bordered, id, heading, ...filteredProps } = props;
+  const { expanded, bordered, id, heading, headingLevel, ...filteredProps } =
+    props;
 
   /** Event listeners - run once */
   useEventListener(
@@ -27,6 +28,7 @@ export const NysAccordionItem = forwardRef((props, forwardedRef) => {
       ...filteredProps,
       id: props.id,
       heading: props.heading,
+      headingLevel: props.headingLevel,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

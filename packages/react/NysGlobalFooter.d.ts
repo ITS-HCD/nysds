@@ -18,6 +18,9 @@ export interface NysGlobalFooterProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysGlobalFooterElement["id"];
+
   /** Agency name displayed as the footer heading. */
   agencyName?: NysGlobalFooterElement["agencyName"];
 

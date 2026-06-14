@@ -1,9 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-table.scss?inline";
-
-let componentIdCounter = 0;
 
 /**
  * `<nys-table>` is a responsive table component that can display native HTML tables,
@@ -17,7 +16,7 @@ let componentIdCounter = 0;
  *
  * @method downloadFile - Triggers download of the CSV file if `download` is set.
  */
-export class NysTable extends LitElement {
+export class NysTable extends NysElement {
   static styles = unsafeCSS(styles);
 
   @property({ type: String, reflect: true }) id = "";
@@ -38,12 +37,13 @@ export class NysTable extends LitElement {
     super();
   }
 
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns a unique id
+    // (prefixed with the element's localName) when one is not provided. The host
+    // is a presentational wrapper: native table semantics live on the inner
+    // cloned <table>, so this component keeps defaultRole = null and never moves
+    // a role onto the host.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-table-${Date.now()}-${componentIdCounter++}`;
-    }
   }
 
   firstUpdated() {
@@ -97,6 +97,12 @@ export class NysTable extends LitElement {
     const table = tableEl.cloneNode(true) as HTMLTableElement;
 
     this._normalizeTableDOM(table);
+
+    // WCAG 1.3.1 (Info and Relationships): ensure column header cells carry
+    // scope="col" so assistive tech reliably associates each data cell with its
+    // header. Applied after normalization so it covers both pre-structured
+    // (thead/tbody) and auto-normalized tables.
+    this._applyHeaderScopes(table);
 
     if (this.sortable) {
       this._addSortIcons(table);
@@ -204,6 +210,20 @@ export class NysTable extends LitElement {
 
     table.appendChild(thead);
     table.appendChild(tbody);
+  }
+
+  /**
+   * Adds scope="col" to every column-header cell in the table head. Header cells
+   * inside the body (row headers) are left untouched so authors can still mark
+   * them scope="row" themselves; we only set a scope where one is missing.
+   */
+  private _applyHeaderScopes(table: HTMLTableElement) {
+    const headerCells = table.querySelectorAll("thead th");
+    headerCells.forEach((th) => {
+      if (!th.hasAttribute("scope")) {
+        th.setAttribute("scope", "col");
+      }
+    });
   }
 
   private _addSortIcons(table: HTMLTableElement) {

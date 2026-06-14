@@ -1,12 +1,12 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysReflectsAriaElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-divider.scss?inline";
 
-let dividerIdCounter = 0;
-
 /**
- * A horizontal rule for visual separation between content sections. Renders a semantic `<hr>` element.
+ * A horizontal rule for visual separation between content sections. The host
+ * element carries `role="separator"` via ElementInternals.
  *
  * Use to separate distinct content areas within a page. Set `inverted` for use on dark backgrounds.
  *
@@ -21,7 +21,7 @@ let dividerIdCounter = 0;
  * ```
  */
 
-export class NysDivider extends LitElement {
+export class NysDivider extends NysReflectsAriaElement {
   static styles = unsafeCSS(styles);
 
   /** Adjusts colors for dark backgrounds. */
@@ -30,30 +30,29 @@ export class NysDivider extends LitElement {
   /** If true, the divider will use a lighter color. */
   @property({ type: Boolean, reflect: true }) subtle = false;
 
-  constructor() {
-    super();
+  /**
+   * The host element IS the separator, so reflect role="separator" onto the host
+   * via internals. A horizontal separator's implicit aria-orientation is
+   * "horizontal", which matches this component, so no explicit orientation is set.
+   */
+  protected get defaultRole(): string | null {
+    return "separator";
   }
 
   connectedCallback() {
+    // super.connectedCallback() (NysReflectsAriaElement) assigns an id when one
+    // is not provided and reflects the default role onto the host.
     super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
-  }
-
-  /**
-   * Functions
-   * --------------------------------------------------------------------------
-   */
-
-  private _generateUniqueId() {
-    return `nys-divider-${Date.now()}-${dividerIdCounter++}`;
   }
 
   render() {
-    return html`<hr class="nys-divider" />`;
+    // The host carries role="separator"; the inner <hr> is purely presentational
+    // so the separator is not announced twice in the accessibility tree.
+    return html`<hr
+      class="nys-divider"
+      role="presentation"
+      aria-hidden="true"
+    />`;
   }
 }
 

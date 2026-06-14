@@ -1,10 +1,9 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-alert.scss?inline";
-
-let alertIdCounter = 0;
 
 /**
  * Displays contextual feedback messages with semantic styling. Uses ARIA live regions for screen reader announcements.
@@ -30,7 +29,7 @@ let alertIdCounter = 0;
  * ```
  */
 
-export class NysAlert extends LitElement {
+export class NysAlert extends NysElement {
   static styles = unsafeCSS(styles);
 
   /** Unique identifier. Auto-generated if not provided. */
@@ -120,12 +119,12 @@ export class NysAlert extends LitElement {
   private _timeoutId: any = null;
 
   connectedCallback() {
+    // super.connectedCallback() (NysElement) assigns an id when one
+    // is not provided. The live-region role/aria-live stay on the inner
+    // .nys-alert__texts element (so only the message text is announced), so this
+    // component intentionally keeps defaultRole = null and does not move role to
+    // the host.
     super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
 
     // For alerts that have durations, we set a timer to close them.
     if (this.duration > 0) {
@@ -150,10 +149,6 @@ export class NysAlert extends LitElement {
    * Functions
    * --------------------------------------------------------------------------
    */
-  private _generateUniqueId() {
-    return `nys-alert-${Date.now()}-${alertIdCounter++}`;
-  }
-
   private _resolveIconName() {
     return this.icon || this._checkAltNaming();
   }

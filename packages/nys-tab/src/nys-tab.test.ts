@@ -2,6 +2,7 @@ import { expect, html, fixture } from "@open-wc/testing";
 import "../dist/nys-tab.js";
 import { NysTab } from "./nys-tab.js";
 import { NysTabgroup } from "./nys-tabgroup.js";
+import { NysTabpanel } from "./nys-tabpanel.js";
 
 describe("nys-tab", () => {
   it("renders the component", async () => {
@@ -15,6 +16,50 @@ describe("nys-tab", () => {
 
     expect(el.id).to.not.be.empty;
     expect(el.id).to.match(/^nys-tab-\d+-\d+$/);
+  });
+
+  it("nys-tabgroup auto-generates an id in the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysTabgroup>(html`<nys-tabgroup></nys-tabgroup>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-tabgroup-\d+-\d+$/);
+  });
+
+  it("nys-tabpanel auto-generates an id in the <tag>-<ts>-<n> format", async () => {
+    const el = await fixture<NysTabpanel>(html`<nys-tabpanel></nys-tabpanel>`);
+    await el.updateComplete;
+
+    expect(el.id).to.not.be.empty;
+    expect(el.id).to.match(/^nys-tabpanel-\d+-\d+$/);
+  });
+
+  it("respects a consumer-supplied id (does not overwrite it)", async () => {
+    const el = await fixture<NysTab>(
+      html`<nys-tab id="my-custom-tab"></nys-tab>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.equal("my-custom-tab");
+  });
+
+  it("a standalone nys-tab exposes aria-selected (WAI-ARIA Tabs Pattern)", async () => {
+    const el = await fixture<NysTab>(html`<nys-tab label="Solo"></nys-tab>`);
+    await el.updateComplete;
+
+    // Even outside a tabgroup, role=tab must carry a selected state.
+    expect(el.getAttribute("role")).to.equal("tab");
+    expect(el.hasAttribute("aria-selected")).to.be.true;
+    expect(el.getAttribute("aria-selected")).to.equal("false");
+  });
+
+  it("a standalone selected nys-tab reflects aria-selected=true", async () => {
+    const el = await fixture<NysTab>(
+      html`<nys-tab label="Solo" selected></nys-tab>`,
+    );
+    await el.updateComplete;
+
+    expect(el.getAttribute("aria-selected")).to.equal("true");
   });
 
   it("should return the correct tabs and panels from _getTabs and _getPanels", async () => {
@@ -222,6 +267,132 @@ describe("nys-tab keyboard navigation", () => {
     expect(focused).to.not.include(tabs[1].id);
   });
 
+  it("Home moves focus to the first enabled tab, End to the last", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tab label="Tab Three"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    const focused: string[] = [];
+    tabs.forEach((tab: HTMLElement) => {
+      tab.focus = () => focused.push(tab.id);
+    });
+
+    // End from the first tab → last tab
+    (el as any)._handleKeydown({
+      key: "End",
+      composedPath: () => [tabs[0]],
+      preventDefault: () => {},
+    });
+    expect(focused[focused.length - 1]).to.equal(tabs[2].id);
+
+    // Home from the last tab → first tab
+    (el as any)._handleKeydown({
+      key: "Home",
+      composedPath: () => [tabs[2]],
+      preventDefault: () => {},
+    });
+    expect(focused[focused.length - 1]).to.equal(tabs[0].id);
+  });
+
+  it("Home/End skip disabled tabs", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One" disabled></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tab label="Tab Three" disabled></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Three.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const enabled = (el as any)
+      ._getTabs()
+      .filter((t: HTMLElement) => !t.hasAttribute("disabled"));
+    const allTabs = (el as any)._getTabs();
+    const focused: string[] = [];
+    allTabs.forEach((tab: HTMLElement) => {
+      tab.focus = () => focused.push(tab.id);
+    });
+
+    // Only Tab Two is enabled; Home and End both resolve to it.
+    (el as any)._handleKeydown({
+      key: "End",
+      composedPath: () => [enabled[0]],
+      preventDefault: () => {},
+    });
+    (el as any)._handleKeydown({
+      key: "Home",
+      composedPath: () => [enabled[0]],
+      preventDefault: () => {},
+    });
+    // No navigation away from the single enabled tab; no disabled id focused.
+    expect(focused).to.not.include(allTabs[0].id);
+    expect(focused).to.not.include(allTabs[2].id);
+  });
+
+  it("calls preventDefault for handled navigation keys", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    tabs.forEach((tab: HTMLElement) => {
+      tab.focus = () => {};
+    });
+
+    for (const key of ["ArrowRight", "ArrowLeft", "Home", "End"]) {
+      let prevented = false;
+      (el as any)._handleKeydown({
+        key,
+        composedPath: () => [tabs[0]],
+        preventDefault: () => {
+          prevented = true;
+        },
+      });
+      expect(prevented, `preventDefault for ${key}`).to.be.true;
+    }
+  });
+
+  it("does not call preventDefault for unhandled keys", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="Tab One"></nys-tab>
+        <nys-tab label="Tab Two"></nys-tab>
+        <nys-tabpanel>Content for Tab One.</nys-tabpanel>
+        <nys-tabpanel>Content for Tab Two.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabs = (el as any)._getTabs();
+    let prevented = false;
+    (el as any)._handleKeydown({
+      key: "ArrowUp",
+      composedPath: () => [tabs[0]],
+      preventDefault: () => {
+        prevented = true;
+      },
+    });
+    expect(prevented).to.be.false;
+  });
+
   it("does not listen to up and down arrows", async () => {
     const el = await fixture<NysTabgroup>(html`
       <nys-tabgroup>
@@ -326,6 +497,21 @@ describe("nys-tab a11y", () => {
 
     const tabContainer = el.shadowRoot!.querySelector(".nys-tabgroup__tabs")!;
     expect(tabContainer.getAttribute("role")).to.equal("tablist");
+  });
+
+  it("sets aria-orientation=horizontal on the tablist", async () => {
+    const el = await fixture<NysTabgroup>(html`
+      <nys-tabgroup>
+        <nys-tab label="My Label"></nys-tab>
+        <nys-tabpanel>Content for My Label.</nys-tabpanel>
+      </nys-tabgroup>
+    `);
+    await el.updateComplete;
+
+    const tabContainer = el.shadowRoot!.querySelector(".nys-tabgroup__tabs")!;
+    expect(tabContainer.getAttribute("aria-orientation")).to.equal(
+      "horizontal",
+    );
   });
 
   it("sets aria-labelledby on each panel pointing to its paired tab's id", async () => {

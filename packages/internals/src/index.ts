@@ -10,10 +10,15 @@ export {
   associateHost,
 } from "./aria-associate";
 export {
+  IdentifiedMixin,
+  NysElement,
+  type IdentifiedInterface,
+  type Constructor,
+} from "./identified-mixin";
+export {
   ReflectsAriaMixin,
   NysReflectsAriaElement,
   type ReflectsAriaInterface,
-  type Constructor,
 } from "./reflects-aria-mixin";
 export {
   FormControlMixin,

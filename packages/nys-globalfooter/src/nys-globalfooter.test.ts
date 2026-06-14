@@ -81,4 +81,44 @@ describe("nys-globalfooter", () => {
     expect(testSlot).to.exist;
     expect(testSlot?.textContent).to.include("Services");
   });
+
+  it("exposes a contentinfo landmark named by the agency name", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter
+        agencyName="Department of Health"
+      ></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer).to.exist;
+    // The inner <footer> is the contentinfo landmark; it must carry an
+    // accessible name so multiple footers on a page are distinguishable.
+    expect(footer?.getAttribute("aria-label")).to.equal("Department of Health");
+  });
+
+  it("omits the footer aria-label when no agency name is provided", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter></nys-globalfooter>`,
+    );
+
+    const footer = el.shadowRoot?.querySelector("footer");
+    expect(footer).to.exist;
+    expect(footer?.hasAttribute("aria-label")).to.be.false;
+  });
+
+  it("auto-generates a valid id when none is provided", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter></nys-globalfooter>`,
+    );
+
+    expect(el.id).to.match(/^nys-globalfooter-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysGlobalFooter>(
+      html`<nys-globalfooter id="my-footer"></nys-globalfooter>`,
+    );
+
+    expect(el.id).to.equal("my-footer");
+  });
 });

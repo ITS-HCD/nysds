@@ -63,6 +63,14 @@ p {
   display: flex;
 }
 
+/* Heading wrapper (role="heading") around the toggle button. Carries the flex
+   sizing so the button still stretches to fill the row. */
+.nys-accordionitem__title {
+  display: flex;
+  flex: 1;
+  align-self: stretch;
+}
+
 .nys-accordionitem__heading {
   all: unset;
   flex: 1;

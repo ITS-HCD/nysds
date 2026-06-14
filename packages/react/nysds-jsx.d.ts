@@ -74,6 +74,9 @@ export type NysAccordionItemProps = {
   id?: string;
   /** Heading text displayed in the clickable toggle button. */
   heading?: string;
+  /** ARIA heading level (1-6) applied to the wrapper around the toggle button,
+per the WAI-ARIA Accordion pattern. Defaults to 3. */
+  headingLevel?: number;
   /** Whether the content panel is visible. Toggle via click or keyboard. */
   expanded?: boolean;
   /** Adds border styling. Set by parent `nys-accordion`, not directly. */
@@ -144,6 +147,8 @@ export type NysAvatarProps = {
 };
 
 export type NysBacktotopProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Horizontal position: `left` or `right`. */
   position?: string;
   /** Force button visibility. Overrides auto-show scroll behavior. */
@@ -176,7 +181,7 @@ export type NysBadgeProps = {
 export type NysBreadcrumbsProps = {
   /** Unique identifier. Auto-generated if not provided. */
   id?: string;
-  /** Accessible label for the `<nav>` landmark. Defaults to "path to this page" if not set.
+  /** Accessible label for the `<nav>` landmark. Defaults to "Breadcrumb" if not set.
 Override when multiple crumbs exist on the same page. */
   ariaLabel?: string;
   /** Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use. */
@@ -428,6 +433,9 @@ export type NysDropdownMenuProps = {
   for?: string;
   /**  */
   showDropdown?: boolean;
+  /** Accessible name for the menu (`role="menu"`) container. Screen readers use
+this to announce the purpose of the menu. Defaults to "Menu". */
+  label?: string;
   /** Preferred position relative to trigger. */
   position?: Position | null;
 };
@@ -514,6 +522,8 @@ export type NysFileItemProps = {
 };
 
 export type NysGlobalFooterProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Agency name displayed as the footer heading. */
   agencyName?: string;
   /** URL for the agency name link. If empty, name is not clickable. */
@@ -521,6 +531,8 @@ export type NysGlobalFooterProps = {
 };
 
 export type NysGlobalHeaderProps = {
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: string;
   /** Application name displayed prominently. */
   appName?: string;
   /** Agency name displayed below app name (or as main title if no appName). */
@@ -774,7 +786,7 @@ Omit for SPA/framework routing and handle navigation in the event listener inste
 };
 
 export type NysStepperProps = {
-  /** Unique identifier. Auto-generated as `nys-stepper-{n}-{timestamp}` if not provided. */
+  /** Unique identifier. Auto-generated as `nys-stepper-{timestamp}-{n}` if not provided. */
   id?: string;
   /** Name attribute for form association. */
   name?: string;

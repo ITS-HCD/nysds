@@ -21,6 +21,9 @@ export interface NysBacktotopProps extends Pick<
   /** Force button visibility. Overrides auto-show scroll behavior. */
   visible?: boolean;
 
+  /** Unique identifier. Auto-generated if not provided. */
+  id?: NysBacktotopElement["id"];
+
   /** Horizontal position: `left` or `right`. */
   position?: NysBacktotopElement["position"];
 

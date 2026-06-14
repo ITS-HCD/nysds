@@ -16,6 +16,37 @@ describe("nys-divider", () => {
     expect(el.id).to.match(/^nys-divider-\d+-\d+$/);
   });
 
+  it("does not override a provided id", async () => {
+    const el = await fixture<NysDivider>(
+      html`<nys-divider id="custom-divider"></nys-divider>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.equal("custom-divider");
+  });
+
+  it("reflects role='separator' on the host via internals", async () => {
+    const el = await fixture<NysDivider>(html`<nys-divider></nys-divider>`);
+    await el.updateComplete;
+
+    // ElementInternals reflects role; some engines expose it via the host
+    // attribute fallback. Accept either source.
+    const internalsRole = (el as unknown as { internals?: ElementInternals })
+      .internals?.role;
+    const role = internalsRole ?? el.getAttribute("role");
+    expect(role).to.equal("separator");
+  });
+
+  it("marks the inner <hr> as presentational so the separator is not announced twice", async () => {
+    const el = await fixture<NysDivider>(html`<nys-divider></nys-divider>`);
+    await el.updateComplete;
+
+    const hr = el.shadowRoot?.querySelector("hr");
+    expect(hr).to.exist;
+    expect(hr?.getAttribute("role")).to.equal("presentation");
+    expect(hr?.getAttribute("aria-hidden")).to.equal("true");
+  });
+
   it("reflects inverted property correctly", async () => {
     const el = await fixture<NysDivider>(html`
       <nys-divider inverted></nys-divider>

@@ -5,6 +5,7 @@ import {
   supportsElementRefs,
   associateControl,
   associateHost,
+  IdentifiedMixin,
   ReflectsAriaMixin,
   FormControlMixin,
 } from "./index";
@@ -60,6 +61,13 @@ class PlainReflectsEl extends ReflectsAriaMixin(LitElement) {
   }
 }
 customElements.define("plain-reflects-el", PlainReflectsEl);
+
+class IdOnlyEl extends IdentifiedMixin(LitElement) {
+  render() {
+    return html`<span></span>`;
+  }
+}
+customElements.define("id-only-el", IdOnlyEl);
 
 /* -------------------------------------------------------------------------- */
 /* generateId                                                                 */
@@ -195,6 +203,24 @@ describe("associateHost", () => {
 /* -------------------------------------------------------------------------- */
 /* ReflectsAriaMixin                                                          */
 /* -------------------------------------------------------------------------- */
+
+describe("IdentifiedMixin", () => {
+  it("auto-generates an id and is not form-associated", async () => {
+    const el = await fixture(html`<id-only-el></id-only-el>`);
+    expect(el.id).to.match(/^id-only-el-/);
+    const form = await fixture<HTMLFormElement>(
+      html`<form><id-only-el></id-only-el></form>`,
+    );
+    expect(Array.from(form.elements)).to.not.include(
+      form.querySelector("id-only-el")!,
+    );
+  });
+
+  it("respects a consumer-provided id", async () => {
+    const el = await fixture(html`<id-only-el id="keep"></id-only-el>`);
+    expect(el.id).to.equal("keep");
+  });
+});
 
 describe("ReflectsAriaMixin", () => {
   it("auto-generates an id and reflects the default role", async () => {

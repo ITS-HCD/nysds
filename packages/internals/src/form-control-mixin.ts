@@ -82,5 +82,8 @@ export const FormControlMixin = <T extends Constructor<LitElement>>(
   return FormControl as unknown as Constructor<FormControlInterface> & T;
 };
 
-/** Concrete base class: `extends NysFormControlElement` for form controls. */
-export class NysFormControlElement extends FormControlMixin(LitElement) {}
+/**
+ * Concrete base class for form controls. Declared as a pure const so bundlers
+ * tree-shake it out of packages that don't use it.
+ */
+export const NysFormControlElement = /*@__PURE__*/ FormControlMixin(LitElement);

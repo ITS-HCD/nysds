@@ -24,6 +24,10 @@ export interface NysDropdownMenuProps extends Pick<
   /** undefined */
   for?: NysDropdownMenuElement["for"];
 
+  /** Accessible name for the menu (`role="menu"`) container. Screen readers use
+this to announce the purpose of the menu. Defaults to "Menu". */
+  label?: NysDropdownMenuElement["label"];
+
   /** Preferred position relative to trigger. */
   position?: NysDropdownMenuElement["position"];
 

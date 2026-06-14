@@ -288,6 +288,72 @@ describe("nys-avatar", () => {
     expect(el.shadowRoot!.querySelector("nys-icon")).to.exist;
   });
 
+  // -------------------------------------------------------------------------
+  // WCAG 4.1.2 — interactive avatar (<button>) must always have an accessible name
+  // -------------------------------------------------------------------------
+
+  it("interactive button has a fallback accessible name when ariaLabel is not set", async () => {
+    const el = await fixture<NysAvatar>(
+      html`<nys-avatar interactive></nys-avatar>`,
+    );
+    await el.updateComplete;
+
+    const button = el.shadowRoot!.querySelector(
+      "button.nys-avatar__component",
+    ) as HTMLButtonElement;
+    expect(button).to.exist;
+    // Button must not be nameless: the decorative icon is aria-hidden, so a
+    // fallback aria-label is required.
+    expect(button.getAttribute("aria-label")).to.equal("Avatar");
+  });
+
+  it("interactive button uses the provided ariaLabel when set", async () => {
+    const el = await fixture<NysAvatar>(
+      html`<nys-avatar interactive ariaLabel="Jane Smith"></nys-avatar>`,
+    );
+    await el.updateComplete;
+
+    const button = el.shadowRoot!.querySelector(
+      "button.nys-avatar__component",
+    ) as HTMLButtonElement;
+    expect(button.getAttribute("aria-label")).to.equal("Jane Smith");
+  });
+
+  // -------------------------------------------------------------------------
+  // WCAG 1.1.1 — default fallback icon is decorative (must not add a bogus name)
+  // -------------------------------------------------------------------------
+
+  it("renders the default fallback icon as decorative (aria-hidden, no bogus label)", async () => {
+    const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
+    await el.updateComplete;
+
+    const icon = el.shadowRoot!.querySelector("nys-icon")!;
+    expect(icon).to.exist;
+    expect(icon.getAttribute("aria-hidden")).to.equal("true");
+    // Should not carry the old meaningless "label" attribute.
+    expect(icon.hasAttribute("label")).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // id auto-generation (mixin) — format /^<tag>-\d+-\d+$/
+  // -------------------------------------------------------------------------
+
+  it("auto-generates an id with the tag-prefixed format when none is provided", async () => {
+    const el = await fixture<NysAvatar>(html`<nys-avatar></nys-avatar>`);
+    await el.updateComplete;
+
+    expect(el.id).to.match(/^nys-avatar-\d+-\d+$/);
+  });
+
+  it("preserves a consumer-provided id", async () => {
+    const el = await fixture<NysAvatar>(
+      html`<nys-avatar id="my-avatar"></nys-avatar>`,
+    );
+    await el.updateComplete;
+
+    expect(el.id).to.equal("my-avatar");
+  });
+
   it("passes the a11y audit", async () => {
     const el = await fixture(html`<nys-avatar></nys-avatar>`);
     await expect(el).shadowDom.to.be.accessible();
