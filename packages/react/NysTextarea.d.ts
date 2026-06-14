@@ -79,6 +79,9 @@ export interface NysTextareaProps extends Pick<
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: NysTextareaElement["errorMessage"];
 
+  /** Accessible label used only when no visible `label` is provided. */
+  ariaLabel?: NysTextareaElement["ariaLabel"];
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

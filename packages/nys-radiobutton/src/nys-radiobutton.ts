@@ -1,9 +1,8 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
+import { NysReflectsAriaElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-radiobutton.scss?inline";
-
-let radiobuttonIdCounter = 0;
 
 /**
  * A radio button for single selection within a `nys-radiogroup`. Only one radio with the same `name` can be selected.
@@ -30,7 +29,7 @@ let radiobuttonIdCounter = 0;
  * ```
  */
 
-export class NysRadiobutton extends LitElement {
+export class NysRadiobutton extends NysReflectsAriaElement {
   static styles = unsafeCSS(styles);
 
   /** Whether this radio is selected. Only one per group can be checked. */
@@ -74,13 +73,9 @@ export class NysRadiobutton extends LitElement {
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Id generation is provided by NysReflectsAriaElement (@nysds/internals);
+   * super.connectedCallback() assigns an id (prefix = localName) when absent.
    */
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-radiobutton-${Date.now()}-${radiobuttonIdCounter++}`;
-    }
-  }
 
   render() {
     return html``;

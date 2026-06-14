@@ -185,7 +185,7 @@ describe("nys-textarea", () => {
     expect(el.showError).to.be.false;
     expect(textarea.getAttribute("aria-invalid")).to.equal("false");
 
-    expect((el as any)._internals.validity.valid).to.be.true;
+    expect((el as any).internals.validity.valid).to.be.true;
   });
 
   it("resets value when native form reset is triggered", async () => {
@@ -466,5 +466,60 @@ describe("nys-textarea", () => {
       html`<nys-textarea label="Inspirational Quote"></nys-textarea>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it("associates the textarea with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea label="Comments" id="cm"></nys-textarea>`,
+    );
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    // Name comes from the real visible <nys-label>, not a duplicated string.
+    expect(textarea.getAttribute("aria-labelledby")).to.equal("cm--label");
+    expect(textarea.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot!.getElementById("cm--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("falls back to aria-label only when no visible label is provided", async () => {
+    const el = await fixture<NysTextarea>(html`<nys-textarea></nys-textarea>`);
+    el.ariaLabel = "Comments field";
+    await el.updateComplete;
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    expect(textarea.getAttribute("aria-label")).to.equal("Comments field");
+    expect(textarea.hasAttribute("aria-labelledby")).to.equal(false);
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("associates the error message with the textarea via aria-errormessage", async () => {
+    const el = await fixture<NysTextarea>(
+      html`<nys-textarea
+        label="Comments"
+        id="em"
+        showError
+        errorMessage="Required"
+      ></nys-textarea>`,
+    );
+    const textarea = el.shadowRoot!.querySelector("textarea")!;
+    expect(textarea.getAttribute("aria-errormessage")).to.equal("em--error");
+    expect(el.shadowRoot!.getElementById("em--error")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form>
+        <nys-textarea name="field" label="Name"></nys-textarea>
+      </form>`,
+    );
+    const el = form.querySelector<NysTextarea>("nys-textarea")!;
+    el.value = "Ada";
+    await el.updateComplete;
+    expect(new FormData(form).get("field")).to.equal("Ada");
+    expect(Array.from(form.elements)).to.include(el);
   });
 });

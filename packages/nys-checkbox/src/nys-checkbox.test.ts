@@ -543,7 +543,7 @@ describe("nys-checkbox", () => {
     };
 
     // Set customError validity so the branch fires
-    (el as any)._internals.setValidity(
+    (el as any).internals.setValidity(
       { customError: true },
       "Please complete this field.",
       textInput,
@@ -571,7 +571,7 @@ describe("nys-checkbox", () => {
     const firstCheckbox = el.querySelector("nys-checkbox") as NysCheckbox;
     const input = await firstCheckbox.getInputElement();
 
-    (el as any)._internals.setValidity(
+    (el as any).internals.setValidity(
       { valueMissing: true },
       "Required",
       input,
@@ -697,5 +697,105 @@ describe("nys-checkbox", () => {
       html`<nys-checkbox label="My Label"></nys-checkbox>`,
     );
     await expect(el).shadowDom.to.be.accessible();
+  });
+
+  /*** @nysds/internals migration regression tests ***/
+  it("names the native checkbox via aria-labelledby to the visible label (no synthetic aria-label)", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="I agree" id="cb"></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Accessible name comes from the real visible <nys-label>, not a string copy.
+    expect(input.getAttribute("aria-labelledby")).to.equal("cb--label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot!.getElementById("cb--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("preserves aria-checked on the native checkbox", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox label="Pick me" checked></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-checked")).to.equal("true");
+  });
+
+  it("associates the error message with the input via aria-errormessage", async () => {
+    const el = await fixture<NysCheckbox>(
+      html`<nys-checkbox
+        label="Terms"
+        id="cberr"
+        showError
+        errorMessage="Required"
+      ></nys-checkbox>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-errormessage")).to.equal("cberr--error");
+    expect(el.shadowRoot!.getElementById("cberr--error")).to.exist;
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin (standalone checkbox)", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form>
+        <nys-checkbox
+          name="agree"
+          value="yes"
+          label="Agree"
+          checked
+        ></nys-checkbox>
+      </form>`,
+    );
+    const el = form.querySelector<NysCheckbox>("nys-checkbox")!;
+    await el.updateComplete;
+    expect(new FormData(form).get("agree")).to.equal("yes");
+    expect(Array.from(form.elements)).to.include(el);
+  });
+
+  it("group names the fieldset via aria-labelledby to the visible label", async () => {
+    const el = await fixture<NysCheckboxgroup>(
+      html`<nys-checkboxgroup label="Choose" id="grp">
+        <nys-checkbox name="x" value="a" label="A"></nys-checkbox>
+      </nys-checkboxgroup>`,
+    );
+    await el.updateComplete;
+    const fieldset = el.shadowRoot!.querySelector("fieldset")!;
+    expect(fieldset.getAttribute("aria-labelledby")).to.equal("grp--label");
+    expect(fieldset.hasAttribute("aria-label")).to.equal(false);
+    expect(fieldset.getAttribute("role")).to.equal("radiogroup");
+    const label = el.shadowRoot!.getElementById("grp--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("group remains form-associated through the shared mixin (FormData round-trip)", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form>
+        <nys-checkboxgroup label="Pick" name="picks">
+          <nys-checkbox name="picks" value="a" label="A" checked></nys-checkbox>
+          <nys-checkbox name="picks" value="b" label="B" checked></nys-checkbox>
+        </nys-checkboxgroup>
+      </form>`,
+    );
+    const group = form.querySelector<NysCheckboxgroup>("nys-checkboxgroup")!;
+    await group.updateComplete;
+    const firstCheckbox = group.querySelector<NysCheckbox>("nys-checkbox")!;
+    await firstCheckbox.updateComplete;
+    // Trigger the group's change aggregation by toggling a child.
+    const input = firstCheckbox.shadowRoot!.querySelector("input")!;
+    input.click();
+    input.click();
+    await group.updateComplete;
+    expect(Array.from(form.elements)).to.include(group);
+    expect(new FormData(form).get("picks")).to.be.a("string");
   });
 });

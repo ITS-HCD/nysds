@@ -1,10 +1,9 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-button.scss?inline";
-
-let buttonIdCounter = 0;
 
 /**
  * A button for actions like saving, submitting, or navigating. Form-associated with full keyboard support.
@@ -65,7 +64,7 @@ let buttonIdCounter = 0;
  * ```
  */
 
-export class NysButton extends LitElement {
+export class NysButton extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -198,40 +197,17 @@ export class NysButton extends LitElement {
     | "_top"
     | "framename" = "_self";
 
-  private _internals: ElementInternals;
-
   @state() private _hasPrefixSlot = false;
   @state() private _hasSuffixSlot = false;
 
   /**
-   * Lifecycle methods
-   * --------------------------------------------------------------------------
-   */
-
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    // Generate a unique ID if not provided
-    if (!this.id) {
-      this.id = this._generateUniqueId();
-    }
-  }
-
-  /**
    * Functions
    * --------------------------------------------------------------------------
+   *
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals). super.connectedCallback() assigns
+   * an id when one is not provided (prefix = the element's localName).
    */
-
-  private _generateUniqueId() {
-    return `nys-button-${Date.now()}-${buttonIdCounter++}`;
-  }
 
   private _onPrefixSlotChange(e: Event) {
     const slot = e.target as HTMLSlotElement;
@@ -250,7 +226,7 @@ export class NysButton extends LitElement {
     }
 
     // If part of a form, perform the corresponding action based on button's "type"
-    const form = this._internals.form;
+    const form = this.internals?.form;
 
     if (form) {
       switch (this.type) {
@@ -440,7 +416,6 @@ export class NysButton extends LitElement {
               class="nys-button"
               name=${ifDefined(this.name ? this.name : undefined)}
               ?disabled=${this.disabled}
-              aria-disabled="${this.disabled ? "true" : "false"}"
               form=${ifDefined(this.form || undefined)}
               value=${ifDefined(this.value ? this.value : undefined)}
               type=${this.type}
@@ -460,7 +435,6 @@ export class NysButton extends LitElement {
                   "button",
               )}
               aria-description=${ifDefined(this.ariaDescription || undefined)}
-              role="button"
             >
               <slot
                 name="prefix-icon"

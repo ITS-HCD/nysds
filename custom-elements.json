@@ -2202,14 +2202,6 @@
             },
             {
               "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
               "name": "_hasPrefixSlot",
               "type": {
                 "text": "boolean"
@@ -2227,22 +2219,6 @@
               "default": "false"
             },
             {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
-            },
-            {
-              "kind": "method",
-              "name": "_generateUniqueId",
-              "privacy": "private",
-              "description": "Functions\n--------------------------------------------------------------------------"
-            },
-            {
               "kind": "method",
               "name": "_onPrefixSlotChange",
               "privacy": "private",
@@ -2253,7 +2229,8 @@
                     "text": "Event"
                   }
                 }
-              ]
+              ],
+              "description": "Functions\n--------------------------------------------------------------------------\n\nForm association, ElementInternals, and id generation are provided by\nNysFormControlElement (@nysds/internals). super.connectedCallback() assigns\nan id when one is not provided (prefix = the element's localName)."
             },
             {
               "kind": "method",
@@ -2570,8 +2547,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-button",
           "customElement": true,
@@ -2882,24 +2859,6 @@
                   "text": "Promise<HTMLInputElement | null>"
                 }
               }
-            },
-            {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -3263,8 +3222,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-checkbox",
           "customElement": true,
@@ -3484,24 +3443,6 @@
               },
               "privacy": "private",
               "default": "null"
-            },
-            {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -3754,8 +3695,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-checkboxgroup",
           "customElement": true,
@@ -4065,14 +4006,6 @@
             },
             {
               "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
               "name": "_selectedLabel",
               "type": {
                 "text": "string"
@@ -4088,16 +4021,6 @@
               },
               "privacy": "private",
               "default": "\"\""
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -4488,8 +4411,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-combobox",
           "customElement": true
@@ -4773,24 +4696,6 @@
               },
               "privacy": "private",
               "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -5289,8 +5194,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-datepicker",
           "customElement": true,
@@ -6455,24 +6360,6 @@
               "readonly": true
             },
             {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
-            },
-            {
               "kind": "method",
               "name": "_setValue",
               "privacy": "private",
@@ -6815,8 +6702,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-fileinput",
           "customElement": true,
@@ -9024,8 +8911,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysReflectsAriaElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-radiobutton",
           "customElement": true,
@@ -9283,24 +9170,6 @@
                 "text": "MutationObserver | undefined"
               },
               "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -9657,8 +9526,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-radiogroup",
           "customElement": true,
@@ -9942,6 +9811,16 @@
             },
             {
               "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label. Used as a fallback when `label` is not provided.",
+              "attribute": "ariaLabel"
+            },
+            {
+              "kind": "field",
               "name": "value",
               "type": {
                 "text": "string"
@@ -10064,24 +9943,6 @@
               },
               "privacy": "private",
               "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -10236,6 +10097,16 @@
               "propName": "description"
             },
             {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label. Used as a fallback when `label` is not provided.",
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
+            },
+            {
               "name": "value",
               "type": {
                 "text": "string"
@@ -10337,8 +10208,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-select",
           "customElement": true,
@@ -12119,30 +11990,22 @@
             },
             {
               "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label used only when no visible `label` is provided.",
+              "attribute": "ariaLabel"
+            },
+            {
+              "kind": "field",
               "name": "_hasUserInteracted",
               "type": {
                 "text": "boolean"
               },
               "privacy": "private",
               "default": "false"
-            },
-            {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -12479,11 +12342,21 @@
               "description": "Error message text. Shown only when `showError` is true.",
               "fieldName": "errorMessage",
               "propName": "errormessage"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Accessible label used only when no visible `label` is provided.",
+              "fieldName": "ariaLabel",
+              "propName": "arialabel"
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-textarea",
           "customElement": true,
@@ -12846,30 +12719,12 @@
             },
             {
               "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
               "name": "_maskPatterns",
               "type": {
                 "text": "Record<string, string>"
               },
               "privacy": "private",
               "default": "{ tel: \"(___) ___-____\", }"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
             },
             {
               "kind": "method",
@@ -13271,8 +13126,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-textinput",
           "customElement": true,
@@ -13477,24 +13332,6 @@
               "reflects": true
             },
             {
-              "kind": "field",
-              "name": "_internals",
-              "type": {
-                "text": "ElementInternals"
-              },
-              "privacy": "private"
-            },
-            {
-              "kind": "field",
-              "name": "formAssociated",
-              "type": {
-                "text": "boolean"
-              },
-              "static": true,
-              "default": "true",
-              "description": "Lifecycle methods\n--------------------------------------------------------------------------"
-            },
-            {
               "kind": "method",
               "name": "formResetCallback",
               "privacy": "public"
@@ -13683,8 +13520,8 @@
             }
           ],
           "superclass": {
-            "name": "LitElement",
-            "package": "lit"
+            "name": "NysFormControlElement",
+            "package": "@nysds/internals"
           },
           "tagName": "nys-toggle",
           "customElement": true,

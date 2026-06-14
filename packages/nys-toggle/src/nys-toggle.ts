@@ -1,10 +1,14 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// This internal element is rendered inside this component's shadow DOM, so it
+// must be registered whenever nys-toggle is used. Importing it here
+// (intentional side effect) guarantees the visible label — which the
+// accessible name association depends on — always renders.
+import "@nysds/nys-label";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-toggle.scss?inline";
-
-let toggleIdCounter = 0;
 
 /**
  * A toggle switch for binary settings with immediate effect. Form-associated via ElementInternals.
@@ -32,7 +36,7 @@ let toggleIdCounter = 0;
  * ```
  */
 
-export class NysToggle extends LitElement {
+export class NysToggle extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -75,27 +79,13 @@ export class NysToggle extends LitElement {
    */
   @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
-  private _internals: ElementInternals;
-
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals). super.connectedCallback() assigns
+   * an id (prefix = localName) when one is not provided.
    */
-
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
-  connectedCallback() {
-    super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-toggle-${Date.now()}-${toggleIdCounter++}`;
-    }
-  }
 
   /**
    * Form Integration
@@ -105,14 +95,14 @@ export class NysToggle extends LitElement {
   // Update the internals whenever `checked` or `value` changes.
   updated(changedProperties: Map<string, any>) {
     if (changedProperties.has("checked") || changedProperties.has("value")) {
-      this._internals.setFormValue(this.checked ? this.value : null);
+      this.setFormValue(this.checked ? this.value : null);
     }
   }
 
   public formResetCallback() {
     this.checked = false;
 
-    this._internals.setFormValue(this.checked ? this.value : null);
+    this.setFormValue(this.checked ? this.value : null);
 
     // Re-render UI
     this.requestUpdate();
@@ -185,7 +175,10 @@ export class NysToggle extends LitElement {
               role="switch"
               aria-checked="${this.checked ? "true" : "false"}"
               aria-disabled="${this.disabled ? "true" : "false"}"
-              aria-label="${this.label || "Toggle switch"}"
+              aria-labelledby=${ifDefined(
+                this.label ? this.id + "--label" : undefined,
+              )}
+              aria-label=${ifDefined(!this.label ? "Toggle switch" : undefined)}
               @click=${this._handleClick}
               @focus=${this._handleFocus}
               @blur=${this._handleBlur}
@@ -205,6 +198,7 @@ export class NysToggle extends LitElement {
           </div>
           ${this.label &&
           html`<nys-label
+            id="${this.id}--label"
             label=${this.label}
             description=${ifDefined(this.description || undefined)}
             ?inverted=${this.inverted}

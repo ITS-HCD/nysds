@@ -24,6 +24,7 @@ export const NysTextarea = forwardRef((props, forwardedRef) => {
     rows,
     resize,
     errorMessage,
+    ariaLabel,
     ...filteredProps
   } = props;
 
@@ -59,6 +60,7 @@ export const NysTextarea = forwardRef((props, forwardedRef) => {
       rows: props.rows,
       resize: props.resize,
       errorMessage: props.errorMessage,
+      ariaLabel: props.ariaLabel,
       class: props.className,
       exportparts: props.exportparts,
       for: props.htmlFor,

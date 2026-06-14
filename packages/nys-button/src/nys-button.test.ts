@@ -22,13 +22,17 @@ describe("nys-button", () => {
     expect(el?.type).to.equal("button");
   });
 
-  it("should have role='button' for screen readers", async () => {
+  it("exposes button semantics to screen readers without a redundant role", async () => {
+    // WCAG fix: the native <button> carries its implicit role; an explicit
+    // role="button" was removed as redundant. The element must still be a
+    // <button> (implicit role) and must not re-declare the role.
     const el = await fixture<NysButton>(
       html`<nys-button label="Accessible Button"></nys-button>`,
     );
     const button = el.shadowRoot?.querySelector("button, a")!;
 
-    expect(button.getAttribute("role")).to.equal("button");
+    expect(button.tagName.toLowerCase()).to.equal("button");
+    expect(button.hasAttribute("role")).to.be.false;
   });
 
   it("should reflect 'label' prop", async () => {
@@ -602,5 +606,69 @@ describe("NysButton keyboard support", () => {
     expect((window as any)._nysButtonAttrTest).to.be.true;
 
     delete (window as any)._nysButtonAttrTest;
+  });
+});
+
+// Regression tests for the @nysds/internals migration + seeded WCAG fixes.
+describe("nys-button internals migration", () => {
+  it("native button derives its accessible name from label (no redundant role)", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Save Changes"></nys-button>`,
+    );
+    const button = el.shadowRoot!.querySelector("button.nys-button")!;
+
+    // Accessible name comes from the label-derived aria-label.
+    expect(button.getAttribute("aria-label")).to.equal("Save Changes");
+    // Implicit <button> role only; the redundant explicit role was removed.
+    expect(button.hasAttribute("role")).to.be.false;
+  });
+
+  it("relies on native disabled, not a redundant aria-disabled, on the button", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Disabled" disabled></nys-button>`,
+    );
+    const button =
+      el.shadowRoot!.querySelector<HTMLButtonElement>("button.nys-button")!;
+
+    expect(button.disabled).to.be.true;
+    // Native disabled conveys the state; aria-disabled was removed as redundant.
+    expect(button.hasAttribute("aria-disabled")).to.be.false;
+  });
+
+  it("exposes ElementInternals via the mixin (internals, not _internals)", async () => {
+    const el = await fixture<NysButton>(
+      html`<nys-button label="Btn"></nys-button>`,
+    );
+    expect((el as any).internals).to.exist;
+    expect((el.constructor as typeof NysButton).formAssociated).to.be.true;
+  });
+
+  it("participates in a <form> and routes submit through internals.form", async () => {
+    const form = document.createElement("form");
+    document.body.appendChild(form);
+
+    const submitBtn = await fixture<NysButton>(
+      html`<nys-button type="submit" label="Submit"></nys-button>`,
+    );
+    form.appendChild(submitBtn);
+
+    // The mixin's ElementInternals must resolve the owning form.
+    expect((submitBtn as any).internals.form).to.equal(form);
+
+    let submitted = false;
+    form.requestSubmit = () => {
+      submitted = true;
+    };
+
+    const btnEl =
+      submitBtn.shadowRoot!.querySelector<HTMLButtonElement>(
+        "button.nys-button",
+      )!;
+    btnEl.click();
+    await submitBtn.updateComplete;
+
+    expect(submitted).to.be.true;
+
+    document.body.removeChild(form);
   });
 });

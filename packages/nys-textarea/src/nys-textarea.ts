@@ -1,10 +1,15 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { NysFormControlElement } from "@nysds/internals";
+// These internal elements are rendered inside this component's shadow DOM, so
+// they must be registered whenever nys-textarea is used. Importing them here
+// (intentional side effect) guarantees the visible label and error message —
+// which the accessible name/error association depends on — always render.
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-textarea.scss?inline";
-
-let textareaIdCounter = 0;
 
 /**
  * A multi-line text input for collecting longer responses like comments, descriptions, or feedback.
@@ -34,7 +39,7 @@ let textareaIdCounter = 0;
  * ```
  */
 
-export class NysTextarea extends LitElement {
+export class NysTextarea extends NysFormControlElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,
@@ -112,27 +117,22 @@ export class NysTextarea extends LitElement {
   /** Error message text. Shown only when `showError` is true. */
   @property({ type: String }) errorMessage = "";
 
+  /** Accessible label used only when no visible `label` is provided. */
+  @property({ type: String }) ariaLabel = "";
+
   private _hasUserInteracted = false; // need this flag for "eager mode"
-  private _internals: ElementInternals;
 
   /**
    * Lifecycle methods
    * --------------------------------------------------------------------------
+   * Form association, ElementInternals, and id generation are provided by
+   * NysFormControlElement (@nysds/internals).
    */
 
-  static formAssociated = true; // allows use of elementInternals' API
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
-  // Generate a unique ID if one is not provided
   connectedCallback() {
+    // super.connectedCallback() (NysFormControlElement) assigns an id when one
+    // is not provided and reflects default semantics.
     super.connectedCallback();
-    if (!this.id) {
-      this.id = `nys-textarea-${Date.now()}-${textareaIdCounter++}`;
-    }
     this.addEventListener("invalid", this._handleInvalid);
   }
 
@@ -171,7 +171,7 @@ export class NysTextarea extends LitElement {
    */
 
   private _setValue() {
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
     this._manageRequire();
   }
 
@@ -184,11 +184,9 @@ export class NysTextarea extends LitElement {
     const isInvalid = this.required && !this.value;
 
     if (isInvalid) {
-      this._internals.ariaInvalid = "true";
-      this._internals.setValidity({ valueMissing: true }, message, textarea);
+      this.setValidityFromState({ valueMissing: true }, message, textarea);
     } else {
-      this._internals.ariaInvalid = "false"; // Reset when valid
-      this._internals.setValidity({});
+      this.clearValidity();
       this._hasUserInteracted = false; // Reset lazy validation when valid
     }
   }
@@ -204,11 +202,11 @@ export class NysTextarea extends LitElement {
       message = this.errorMessage;
     }
 
-    this._internals.setValidity(
-      message ? { customError: true } : {},
-      message,
-      textarea,
-    );
+    if (message) {
+      this.setValidityFromState({ customError: true }, message, textarea);
+    } else {
+      this.clearValidity();
+    }
   }
 
   private _validate() {
@@ -233,7 +231,7 @@ export class NysTextarea extends LitElement {
 
     // Reset validation UI
     this.showError = false;
-    this._internals.setValidity({});
+    this.clearValidity();
 
     // Re-render UI
     this.requestUpdate();
@@ -258,7 +256,7 @@ export class NysTextarea extends LitElement {
     const textarea = this.shadowRoot?.querySelector("textarea");
     if (textarea) {
       // Focus only if this is the first invalid element (top-down approach)
-      const form = this._internals.form;
+      const form = this.internals?.form;
       if (form) {
         const elements = Array.from(form.elements) as Array<
           HTMLElement & { checkValidity?: () => boolean }
@@ -288,7 +286,7 @@ export class NysTextarea extends LitElement {
   private _handleInput(event: Event) {
     const textarea = event.target as HTMLInputElement;
     this.value = textarea.value;
-    this._internals.setFormValue(this.value);
+    this.setFormValue(this.value);
 
     // Field is invalid after unfocused, validate aggressively on each input (e.g. Eager mode: a combination of aggressive and lazy.)
     if (this._hasUserInteracted) {
@@ -351,6 +349,7 @@ export class NysTextarea extends LitElement {
     return html`
       <div class="nys-textarea">
         <nys-label
+          id="${this.id}--label"
           label=${this.label}
           description=${this.description}
           flag=${this.required && !this.readonly
@@ -373,8 +372,15 @@ export class NysTextarea extends LitElement {
           ?readonly=${this.readonly}
           aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
           aria-required=${ifDefined(this.required ? "true" : undefined)}
-          aria-label=${ifDefined(this.label || undefined)}
+          aria-labelledby=${ifDefined(
+            this.label ? this.id + "--label" : undefined,
+          )}
+          aria-label=${ifDefined(
+            !this.label && this.ariaLabel ? this.ariaLabel : undefined,
+          )}
           aria-description=${ifDefined(this.description || undefined)}
+          aria-invalid=${this.showError ? "true" : "false"}
+          aria-errormessage=${this.id + "--error"}
           placeholder=${ifDefined(
             this.placeholder ? this.placeholder : undefined,
           )}
@@ -388,8 +394,9 @@ export class NysTextarea extends LitElement {
           @selectionchange="${this._handleSelectionChange}"
         ></textarea>
         <nys-errormessage
+          id=${this.id + "--error"}
           ?showError=${this.showError}
-          errorMessage=${this._internals.validationMessage || this.errorMessage}
+          errorMessage=${this.internals!.validationMessage || this.errorMessage}
         ></nys-errormessage>
       </div>
     `;

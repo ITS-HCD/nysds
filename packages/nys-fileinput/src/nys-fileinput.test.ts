@@ -180,9 +180,71 @@ describe("nys-fileinput", () => {
     el["_validate"]();
 
     expect(el.showError).to.be.true;
-    expect(el["_internals"].validationMessage).to.include(
+    expect((el as any).internals.validationMessage).to.include(
       "Please upload a file",
     );
+  });
+
+  // Accessibility / shared-mixin regression tests
+  // -------------------------------------------------------------------------
+  it("associates the native input with the visible label via aria-labelledby (not a synthetic aria-label)", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput label="My Label" id="fi"></nys-fileinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    // Name comes from the real visible <nys-label>, not a duplicated string.
+    expect(input.getAttribute("aria-labelledby")).to.equal("fi--label");
+    expect(input.hasAttribute("aria-label")).to.equal(false);
+    const label = el.shadowRoot!.getElementById("fi--label");
+    expect(label).to.exist;
+    expect(label!.tagName.toLowerCase()).to.equal("nys-label");
+  });
+
+  it("falls back to aria-label only when no visible label is provided", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput aria-label="Upload"></nys-fileinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-label")).to.equal("Upload");
+    expect(input.hasAttribute("aria-labelledby")).to.equal(false);
+  });
+
+  it("self-registers its internal label and error-message elements", () => {
+    // The accessible-name/error association depends on these being defined.
+    expect(customElements.get("nys-label")).to.exist;
+    expect(customElements.get("nys-errormessage")).to.exist;
+  });
+
+  it("associates the error message with the native input via aria-errormessage", async () => {
+    const el = await fixture<NysFileinput>(
+      html`<nys-fileinput
+        label="Doc"
+        id="dc"
+        showError
+        errorMessage="Required"
+      ></nys-fileinput>`,
+    );
+    const input = el.shadowRoot!.querySelector("input")!;
+    expect(input.getAttribute("aria-errormessage")).to.equal("dc--error");
+    expect(el.shadowRoot!.getElementById("dc--error")).to.exist;
+  });
+
+  it("remains form-associated through the shared mixin (FormData round-trip)", async () => {
+    const form = await fixture<HTMLFormElement>(
+      html`<form>
+        <nys-fileinput name="upload" label="Upload"></nys-fileinput>
+      </form>`,
+    );
+    const el = form.querySelector<NysFileinput>("nys-fileinput")!;
+
+    const file = new File(["hello"], "hello.txt", { type: "text/plain" });
+    await el["_saveSelectedFiles"](file);
+    await el.updateComplete;
+
+    const submitted = new FormData(form).get("upload");
+    expect(submitted).to.be.instanceOf(File);
+    expect((submitted as File).name).to.equal("hello.txt");
+    expect(Array.from(form.elements)).to.include(el);
   });
 
   describe("nys-fileinput dropzone", () => {
@@ -357,7 +419,7 @@ describe("nys-fileinput", () => {
       expect(el._selectedFiles.length).to.equal(0);
       expect(el.showError).to.be.false;
       expect(el.errorMessage).to.equal("");
-      expect(el._internals.validity.valid).to.be.true;
+      expect((el as any).internals.validity.valid).to.be.true;
     });
 
     it("resets when native form reset is triggered", async () => {

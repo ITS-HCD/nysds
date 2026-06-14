@@ -5,9 +5,6 @@
 		"outDir": "./dist",
 		"rootDir": "./src"
 	},
-	"references": [
-		{ "path": "../internals" }
-	],
 	"include": [
 		"src/**/*"
 	],

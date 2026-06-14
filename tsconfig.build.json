@@ -1,6 +1,7 @@
 {
   "files": [],
   "references": [
+    { "path": "packages/internals" },
     { "path": "packages/nys-accordion" },
     { "path": "packages/nys-alert" },
     { "path": "packages/nys-avatar" },

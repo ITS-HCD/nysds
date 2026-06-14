@@ -716,6 +716,8 @@ export type NysSelectProps = {
   label?: string;
   /** Helper text below label. Use slot for custom HTML. */
   description?: string;
+  /** Accessible label. Used as a fallback when `label` is not provided. */
+  ariaLabel?: string;
   /** Currently selected option value. */
   value?: string;
   /** Prevents interaction. */
@@ -882,6 +884,8 @@ export type NysTextareaProps = {
   showError?: boolean;
   /** Error message text. Shown only when `showError` is true. */
   errorMessage?: string;
+  /** Accessible label used only when no visible `label` is provided. */
+  ariaLabel?: string;
 
   /** Fired on input change. Detail: `{id, value}`. */
   "onnys-input"?: (e: CustomEvent<CustomEvent>) => void;
