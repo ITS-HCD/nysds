@@ -8386,9 +8386,25 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "examples": [
+            {
+              "title": "Basic label",
+              "code": "<nys-label label=\"This is a basic nys-label\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Required label",
+              "code": "<nys-label label=\"This form is required\" flag=\"required\"></nys-label>",
+              "lang": "html"
+            },
+            {
+              "title": "Label with tooltip",
+              "code": "<nys-label label=\"This label has a tooltip\" tooltip=\"Helpful tooltip text\"></nys-label>",
+              "lang": "html"
+            }
+          ],
           "tagName": "nys-label",
-          "customElement": true,
-          "summary": "Internal label component for form fields with flag and tooltip support."
+          "customElement": true
         }
       ],
       "exports": [

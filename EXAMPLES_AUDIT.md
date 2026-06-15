@@ -267,5 +267,53 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 - **Lazy Loading**: Example demonstrating the `lazy` property for images to showcase performance optimization options.
 - **Custom ID**: Example explicitly setting a custom `id` property.
-  howcase performance optimization options.
-- **Custom ID**: Example explicitly setting a custom `id` property.
+
+### `nys-icon`
+
+| JSDoc Example       | Storybook Story                | Status   | Notes |
+| :------------------ | :----------------------------- | :------- | :---- |
+| `Basic icon`        | `BasicIconDefaultNYSDSLibrary` | ✅ Match |       |
+| `Font Awesome icon` | `FontAwesomeIcon`              | ✅ Match |       |
+| `Accessible icon`   | `AccessibleIconWithLabel`      | ✅ Match |       |
+
+#### To Add
+
+- **Rotate/Flip**: Examples for `rotate` and `flip` properties.
+
+### `nys-label`
+
+| JSDoc Example | Storybook Story   | Status     | Notes |
+| :------------ | :---------------- | :--------- | :---- |
+| None          | `Basic`           | ⚠️ Missing |       |
+| None          | `Description`     | ⚠️ Missing |       |
+| None          | `DescriptionSlot` | ⚠️ Missing |       |
+| None          | `Required`        | ⚠️ Missing |       |
+| None          | `Optional`        | ⚠️ Missing |       |
+| None          | `Tooltip`         | ⚠️ Missing |       |
+
+#### To Add
+
+- Add examples for `Basic`, `Description`, `DescriptionSlot`, `Required`, `Optional`, `Tooltip`.
+- **Inverted**: Example for `inverted` property.
+
+### `nys-modal`
+
+| JSDoc Example | Storybook Story | Status   | Notes |
+| :------------ | :-------------- | :------- | :---- |
+| `Basic modal` | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- **Subheading**: Example for `subheading` property.
+- **Mandatory**: Example for `mandatory` property.
+- **Width**: Examples for `sm`, `md`, `lg` widths.
+
+### `nys-pagination`
+
+| JSDoc Example      | Storybook Story | Status   | Notes |
+| :----------------- | :-------------- | :------- | :---- |
+| `Basic pagination` | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).

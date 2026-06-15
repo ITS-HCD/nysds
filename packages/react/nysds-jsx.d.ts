@@ -1313,7 +1313,10 @@ export type CustomElements = {
   "nys-icon": Partial<NysIconProps & BaseProps & BaseEvents>;
 
   /**
-   * Internal label component for form fields with flag and tooltip support.
+   * **Internal component.** Renders form labels with description, required/optional flag, and tooltip.
+   *
+   * Used internally by form components (textinput, select, checkbox, etc.). Not intended for direct use.
+   * Handles label association via `for`, displays asterisk for required fields, and integrates tooltips.
    * ---
    *
    *
