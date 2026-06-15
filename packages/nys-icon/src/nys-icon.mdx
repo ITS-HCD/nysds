@@ -268,10 +268,16 @@ registerIconLibrary('brand', {
 
 ### Overriding the default NYSDS library
 
-By default, `nys-icon` resolves NYSDS icons relative to where `nysds.es.js` (or
-`nys-icon.js`) is served from, using `import.meta.url`. If your deployment copies
-the bundle to a CDN or a path where the `icons/` folder is not co-located, override
-the `"default"` library with an explicit base URL:
+When you install NYSDS with **vanilla JS** — copying `dist/` and referencing
+the bundle with a `<script>` tag — `nys-icon` resolves NYSDS icons relative to
+the bundle's own URL, so the colocated `icons/` folder is found automatically no
+matter where the bundle is served from (and regardless of `type="module"`).
+
+**React, Angular, and other bundler-driven setups** inline the component source,
+so there is no served bundle to anchor to. In those environments you must
+register the `"default"` library yourself, pointing at wherever you serve the
+`icons/` folder. You'll also want to override it if your deployment moves the
+bundle to a CDN or a path where the `icons/` folder is not co-located:
 
 ```js
 import { registerIconLibrary } from '@nysds/nys-icon';
