@@ -19,7 +19,7 @@ let checkboxgroupIdCounter = 0;
  * @slot - Default slot for `nys-checkbox` elements.
  * @slot description - Custom HTML description content.
  *
- * @example Basic checkbox group
+ * @example Basic
  * ```html
  * <nys-checkboxgroup label="Select landmarks" required>
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
@@ -27,32 +27,31 @@ let checkboxgroupIdCounter = 0;
  * </nys-checkboxgroup>
  * ```
  *
- * @example Optional checkbox group
+ * @example Optional
  * ```html
  * <nys-checkboxgroup label="Select landmarks" optional>
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *
- * @example Small checkbox group
+ * @example Required
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" required>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Size Small
  * ```html
  * <nys-checkboxgroup label="Select landmarks" size="sm">
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *
- * @example Tile checkbox group
+ * @example Tile
  * ```html
  * <nys-checkboxgroup label="Select landmarks" tile>
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- * </nys-checkboxgroup>
- * ```
- *
- * @example Other checkbox option
- * ```html
- * <nys-checkboxgroup label="Select landmarks">
- *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- *   <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *

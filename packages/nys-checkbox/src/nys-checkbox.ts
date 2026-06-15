@@ -29,11 +29,11 @@ let checkboxIdCounter = 0;
  * <nys-checkbox label="I agree to the terms" name="terms" required></nys-checkbox>
  * ```
  *
- * @example Checkbox group
+ * @example Other option
  * ```html
  * <nys-checkboxgroup label="Select landmarks">
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
- *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
  *

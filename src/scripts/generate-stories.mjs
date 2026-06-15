@@ -232,13 +232,13 @@ function isHtml(code) {
   return code.trim().startsWith("<");
 }
 
-function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap) {
+function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap, storyName) {
   const html = example.renderCode;
 
   const rootTagRe = /^(<)([\w-]+)((?:\s[^>]*)?)(\/?>)/;
   const rootTagMatch = html.match(rootTagRe);
   if (!rootTagMatch) {
-    return buildStaticStory(example, "Basic");
+    return buildStaticStory(example, storyName);
   }
 
   const rootTagName = rootTagMatch[2];
@@ -294,7 +294,7 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
 
   const argsBlock = argsLines ? `args: {\n${argsLines}\n  },` : `args: {},`;
 
-  return `export const Basic: Story = {
+  return `export const ${storyName}: Story = {
 ${argsBlock}
   render: (args) => {
     return html\`
@@ -519,12 +519,26 @@ ${buildArgTypes(allBooleans, allStrings)}
 export default meta;
 type Story = StoryObj<${interfaceName}>;`;
 
+    const usedNames = new Set();
     const storyBlocks = allExamples.map((example, i) => {
       if (i === 0) {
         const args = buildBasicArgs(example.code, allAttributesMap);
-        return buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap);
+        let name = "Basic";
+        if (usedNames.has(name)) {
+            name = toStoryName(example.title || "Story");
+            while(usedNames.has(name)) {
+                name += "Alt";
+            }
+        }
+        usedNames.add(name);
+        return buildBasicStory(example, args, allBooleans, allStrings, allAttributesMap, name);
       }
-      return buildStaticStory(example);
+      let name = toStoryName(example.title || "Story");
+      while (usedNames.has(name)) {
+        name += "Alt";
+      }
+      usedNames.add(name);
+      return buildStaticStory(example, name);
     });
 
     const output = [importsBlock, "", metaBlock, "", storyBlocks.join("\n\n"), ""].join("\n");

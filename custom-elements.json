@@ -3486,8 +3486,8 @@
               "lang": "html"
             },
             {
-              "title": "Checkbox group",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "title": "Other option",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" other label=\"Other\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
@@ -3982,28 +3982,28 @@
           "summary": "Container for grouping checkboxes as a single form control.",
           "examples": [
             {
-              "title": "Basic checkbox group",
+              "title": "Basic",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
-              "title": "Optional checkbox group",
+              "title": "Optional",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
-              "title": "Small checkbox group",
+              "title": "Required",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Small",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" size=\"sm\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
-              "title": "Tile checkbox group",
+              "title": "Tile",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" tile>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
-              "lang": "html"
-            },
-            {
-              "title": "Other checkbox option",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" other label=\"Other\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             },
             {
