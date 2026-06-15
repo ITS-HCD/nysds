@@ -4,6 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // @ts-ignore: SCSS module imported via bundler as inline
 import styles from "./nys-verticalnav.scss?inline";
 import "./nys-verticalnavgroup";
+import globalStyles from "./nys-verticalnav.global.scss?inline";
 
 let componentIdCounter = 0;
 
@@ -81,7 +82,8 @@ export class NysVerticalnav extends LitElement {
 
   constructor() {
     super();
-  }
+  }private static _globalStylesInjected = false;
+
 
   // Generate a unique ID if one is not provided
   connectedCallback() {
@@ -93,6 +95,16 @@ export class NysVerticalnav extends LitElement {
     this._mediaQuery = window.matchMedia("(max-width: 1023px)"); // Tablet size and below
     this._isMobile = this._mediaQuery.matches;
     this._mediaQuery.addEventListener("change", this._handleResize);
+
+      // Inject global styles once into document head
+  if (!NysVerticalnav._globalStylesInjected) {
+    const styleEl = document.createElement("style");
+    styleEl.setAttribute("data-nys-verticalnav-global", "");
+    styleEl.textContent = globalStyles;
+    document.head.appendChild(styleEl);
+    NysVerticalnav._globalStylesInjected = true;
+  }
+
   }
 
   disconnectedCallback() {
@@ -100,35 +112,46 @@ export class NysVerticalnav extends LitElement {
     this._mediaQuery?.removeEventListener("change", this._handleResize);
   }
 
+  firstUpdated() {
+    const slot = this.shadowRoot?.querySelector(
+      "slot:not([name])",
+    ) as HTMLSlotElement;
+    slot?.addEventListener("slotchange", () => {
+      this._applyActiveState();
+      if (this._isMobile) this._injectDividers();
+      else this._injectSubheaderDividers();
+    });
+  }
+
   /**
    * Functions
    * --------------------------------------------------------------------------
    */
 
-  private _handleSlotChange(e: Event) {
-    const slot = e.target as HTMLSlotElement;
-    const container = this.shadowRoot?.querySelector(
-      ".nys-verticalnav__content",
-    );
-    if (!container) return;
+  // private _handleSlotChange(e: Event) {
+  //   const slot = e.target as HTMLSlotElement;
+  //   const container = this.shadowRoot?.querySelector(
+  //     ".nys-verticalnav__content",
+  //   );
+  //   if (!container) return;
 
-    container.innerHTML = "";
+  //   container.innerHTML = "";
 
-    // Clone assigned node into the vertical nav's shadow DOM
-    slot.assignedNodes({ flatten: true }).forEach((node) => {
-      container.appendChild(node.cloneNode(true));
-    });
+  //   // Clone assigned node into the vertical nav's shadow DOM
+  //   slot.assignedNodes({ flatten: true }).forEach((node) => {
+  //     container.appendChild(node.cloneNode(true));
+  //   });
 
-    this._applyActiveState(container);
+  //   this._applyActiveState(container);
 
-    if (this._isMobile) {
-      this._injectDividers(container);
-    }
+  //   if (this._isMobile) {
+  //     this._injectDividers(container);
+  //   }
 
-    if (!this._isMobile) {
-      this._injectSubheaderDividers(container);
-    }
-  }
+  //   if (!this._isMobile) {
+  //     this._injectSubheaderDividers(container);
+  //   }
+  // }
 
   private _handleResize = (e: MediaQueryListEvent) => {
     this._isMobile = e.matches;
@@ -176,8 +199,8 @@ export class NysVerticalnav extends LitElement {
       aria-label=${ifDefined(this.hideHeader ? "Page navigation" : undefined)}
     >
       ${this._renderHeader()}
-      <slot @slotchange=${this._handleSlotChange} style="display:none"></slot>
-      <div class="nys-verticalnav__content"></div>
+      <slot></slot>
+      <!-- <div class="nys-verticalnav__content"></div> -->
       <slot name="footer"></slot>
     </nav>`;
   }
@@ -186,22 +209,19 @@ export class NysVerticalnav extends LitElement {
     return html` <nav class="nys-verticalnav nys-verticalnav--mobile">
       <nys-accordion bordered>
         <nys-accordionitem id="${this.id}-accordion" heading="${this.header}">
-          <slot
-            @slotchange=${this._handleSlotChange}
-            style="display:none"
-          ></slot>
-          <div class="nys-verticalnav__content"></div>
+          <slot></slot>
+          <!-- <div class="nys-verticalnav__content"></div> -->
           <slot name="footer"></slot>
         </nys-accordionitem>
       </nys-accordion>
     </nav>`;
   }
 
-  private _injectDividers(container: Element) {
-    container.querySelectorAll("ul > li").forEach((li) => {
-      // Skip if this <li> lives inside a nys-verticalnavgroup
+  private _injectDividers() {
+    this.querySelectorAll("ul > li").forEach((li) => {
       if (li.parentElement?.closest("nys-verticalnavgroup")) return;
-
+      if (li.nextElementSibling?.tagName.toLowerCase() === "nys-divider")
+        return;
       if (li.nextElementSibling) {
         const divider = document.createElement("nys-divider");
         divider.setAttribute("subtle", "");
@@ -210,8 +230,8 @@ export class NysVerticalnav extends LitElement {
     });
   }
 
-  private _injectSubheaderDividers(container: Element) {
-    container.querySelectorAll("ul > li").forEach((li) => {
+  private _injectSubheaderDividers() {
+    this.querySelectorAll("ul > li").forEach((li) => {
       const hasSubheader = li.querySelector(
         ":scope > :is(h1, h2, h3, h4, h5, h6)",
       );
@@ -235,13 +255,13 @@ export class NysVerticalnav extends LitElement {
     });
   }
 
-  private _applyActiveState(container: Element) {
-    container.querySelectorAll('a[aria-current="page"]').forEach((a) => {
+  private _applyActiveState() {
+    this.querySelectorAll('a[aria-current="page"]').forEach((a) => {
       a.classList.add("nys-verticalnav__link--active");
     });
 
     // Auto-expand any group that contains an active link
-    container.querySelectorAll("nys-verticalnavgroup").forEach((group) => {
+    this.querySelectorAll("nys-verticalnavgroup").forEach((group) => {
       if (group.querySelector('a[aria-current="page"]')) {
         group.setAttribute("expanded", "");
         group.setAttribute("active", "");

@@ -1,0 +1,73 @@
+nys-verticalnav {
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--nys-space-100, 8px);
+
+    @media (width >= 1024px) {
+      gap: 0;
+    }
+
+    // Nested ul (inside nys-verticalnavgroup or subheader sections)
+    ul {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    // ⚠️ --_nys-verticalnav-color is private to shadow DOM, use public token directly
+    color: var(--nys-color-text-weak, #4a4d4f);
+    display: flex;
+    padding: var(--nys-space-100, 8px) var(--nys-space-100, 8px)
+      var(--nys-space-100, 8px)
+      var(--nys-space-150, 12px);
+    text-decoration: none;
+
+    &:hover {
+      background-color: var(--nys-color-neutral-10, #f6f6f6);
+    }
+    &:active {
+      background-color: var(--nys-color-neutral-50, #ededed);
+    }
+    &:focus-visible {
+      outline: var(--nys-border-width-md, 2px) solid var(--nys-color-focus, #004dd1);
+      outline-offset: -2px;
+    }
+    &[aria-disabled="true"] {
+      color: var(--nys-color-text-disabled, #bec0c1);
+      pointer-events: none;
+    }
+    &[aria-current="page"] {
+      background-color: var(--nys-color-theme-faint, #f7fafd);
+      border-left: var(--nys-border-width-md, 2px) solid var(--nys-color-theme, #154973);
+
+      &:hover {
+        background-color: var(--nys-color-theme-weaker, #eff6fb);
+      }
+      &:active {
+        background-color: var(--nys-color-theme-weak, #cddde9);
+      }
+    }
+  }
+
+  // Subheader headings inside li items
+  h1, h2, h3, h4, h5, h6 {
+    font-size: var(--nys-font-size-ui-sm, 14px);
+    padding: var(--nys-space-200, 16px) var(--nys-space-100, 8px)
+      var(--nys-space-50, 4px) var(--nys-space-150, 12px);
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 700;
+    // ⚠️ color was missing from original for subheaders — adding for completeness
+    color: var(--nys-color-text, #1b1b1b);
+  }
+}
