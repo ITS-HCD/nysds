@@ -193,6 +193,59 @@ export const Required: Story = {
   },
 };
 
+export const OptionalAlt: Story = {
+  render: () => {
+    return html`<pre
+      style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"
+    ><code>${'```html\n<nys-checkboxgroup label="Select landmarks" optional>\n  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>\n</nys-checkboxgroup>'}</code></pre>`;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+\`\`\`html
+<nys-checkboxgroup label="Select landmarks" optional>
+  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+</nys-checkboxgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  render: () => {
+    return html`
+      <nys-checkboxgroup label="Select landmarks">
+        <nys-checkbox
+          name="landmarks"
+          value="adirondacks"
+          label="Adirondacks"
+          disabled
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+          disabled
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup label="Select landmarks">
+  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks" disabled></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls" disabled></nys-checkbox>
+</nys-checkboxgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const SizeSmall: Story = {
   render: () => {
     return html`
@@ -218,6 +271,71 @@ export const SizeSmall: Story = {
   },
 };
 
+export const OtherOption: Story = {
+  render: () => {
+    return html`
+      <nys-checkboxgroup label="Select landmarks">
+        <nys-checkbox
+          name="landmarks"
+          value="adirondacks"
+          label="Adirondacks"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="other"
+          label="Other"
+          other
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup label="Select landmarks">
+  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="other" label="Other" other></nys-checkbox>
+</nys-checkboxgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const ErrorMessage: Story = {
+  render: () => {
+    return html`
+      <nys-checkboxgroup
+        label="Select landmarks"
+        showError
+        errorMessage="Please select at least one landmark"
+      >
+        <nys-checkbox
+          name="landmarks"
+          value="adirondacks"
+          label="Adirondacks"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup
+  label="Select landmarks"
+  showError
+  errorMessage="Please select at least one landmark"
+>
+  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+</nys-checkboxgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const SingleCheckbox: Story = {
   render: () => {
     return html`
@@ -233,37 +351,6 @@ export const SingleCheckbox: Story = {
       source: {
         code: `
 <nys-checkbox label="I agree to the terms" name="terms" required></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const CheckboxGroup: Story = {
-  render: () => {
-    return html`
-      <nys-checkboxgroup label="Select landmarks">
-        <nys-checkbox
-          name="landmarks"
-          value="adirondacks"
-          label="Adirondacks"
-        ></nys-checkbox>
-        <nys-checkbox
-          name="landmarks"
-          value="niagara"
-          label="Niagara Falls"
-        ></nys-checkbox>
-      </nys-checkboxgroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkboxgroup label="Select landmarks">
-  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
-  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
-</nys-checkboxgroup>`,
         type: "auto",
       },
     },

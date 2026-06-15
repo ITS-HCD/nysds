@@ -3484,11 +3484,6 @@
               "title": "Single checkbox",
               "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" required></nys-checkbox>",
               "lang": "html"
-            },
-            {
-              "title": "Checkbox group",
-              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
-              "lang": "html"
             }
           ]
         }
@@ -3992,8 +3987,27 @@
               "lang": "html"
             },
             {
+              "title": "Optional",
+              "code": "```html\n<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\" disabled></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\" disabled></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
               "title": "Size Small",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" size=\"sm\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Other Option",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"other\" label=\"Other\" other></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" showError errorMessage=\"Please select at least one landmark\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
           ]

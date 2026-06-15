@@ -48,12 +48,42 @@ let checkboxgroupIdCounter = 0;
  * </nys-checkboxgroup>
  * ```
  *
+ * @example Optional
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" optional>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ * </nys-checkboxgroup>
+ *
+ * @example Disabled
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks" disabled></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls" disabled></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
  * @example Size Small
  * ```html
  * <nys-checkboxgroup label="Select landmarks" size="sm">
  *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
  * </nys-checkboxgroup>
  * ```
+ *
+ * @example Other Option
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="other" label="Other" other></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
+ * @example Error Message
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks" showError errorMessage="Please select at least one landmark">
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
+ *
  */
 
 export class NysCheckboxgroup extends LitElement {
