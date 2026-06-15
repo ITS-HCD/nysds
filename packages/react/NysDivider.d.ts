@@ -21,6 +21,9 @@ export interface NysDividerProps extends Pick<
   /** Adjusts colors for dark backgrounds. */
   inverted?: boolean;
 
+  /** If true, the divider will use a lighter color. */
+  subtle?: boolean;
+
   /** A space-separated list of the classes of the element. Classes allows CSS and JavaScript to select and access specific elements via the class selectors or functions like the method `Document.getElementsByClassName()`. */
   className?: string;
 

@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, readdirSync } from "fs";
 import { join } from "path";
 
 const banner = `/*!
- * New York State Design System v1.18.1
+ * New York State Design System v1.19.0
  * Description: A design system for New York State's digital products.
  * Repository: https://github.com/its-hcd/nysds
  * License: MIT
@@ -24,7 +24,7 @@ for (const dir of dirs) {
     const filePath = join(dir, file);
     const contents = readFileSync(filePath, "utf8");
     // if (!contents.startsWith("/*!")) {
-      writeFileSync(filePath, banner + contents, "utf8");
+    writeFileSync(filePath, banner + contents, "utf8");
     // }
   }
 }

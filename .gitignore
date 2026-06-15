@@ -54,4 +54,5 @@ packages/mcp-server/data/tokens/
 CLAUDE.md
 .mcp.json
 .claude/
+.gemini/
 docs/

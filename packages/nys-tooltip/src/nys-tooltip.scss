@@ -112,8 +112,6 @@
 
 @media (width <= 400px) {
   .nys-tooltip__content {
-    max-width: calc(
-      100vw - 2rem
-    ); /* 2rem = 32px = 16px margin on each side */
+    max-width: calc(100vw - 2rem); /* 2rem = 32px = 16px margin on each side */
   }
 }

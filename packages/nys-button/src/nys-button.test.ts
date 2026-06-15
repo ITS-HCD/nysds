@@ -134,33 +134,33 @@ describe("nys-button", () => {
     expect(button.getAttribute("aria-label")).to.equal("Close");
   });
 
-  it("should render prefix and suffix icons", async () => {
+  it("should render prefix and suffix icons as props", async () => {
     const el = await fixture<NysButton>(
       html`<nys-button
         label="With Icons"
-        prefixIcon="arrow-left"
-        suffixIcon="arrow-right"
+        prefixIcon="arrow_back"
+        suffixIcon="arrow_forward"
       ></nys-button>`,
     );
 
     const prefixIcon = el.shadowRoot?.querySelector(
-      "nys-icon[name='arrow-left']",
+      "nys-icon[name='arrow_back']",
     );
     const suffixIcon = el.shadowRoot?.querySelector(
-      "nys-icon[name='arrow-right']",
+      "nys-icon[name='arrow_forward']",
     );
     expect(prefixIcon).to.exist;
-    expect(prefixIcon!.getAttribute("name")).to.equal("arrow-left");
+    expect(prefixIcon!.getAttribute("name")).to.equal("arrow_back");
     expect(prefixIcon!.getAttribute("size")).to.equal("16");
 
     expect(suffixIcon).to.exist;
-    expect(suffixIcon!.getAttribute("name")).to.equal("arrow-right");
+    expect(suffixIcon!.getAttribute("name")).to.equal("arrow_forward");
     expect(suffixIcon!.getAttribute("size")).to.equal("16");
   });
 
   it(" should allow for the icon to be slotted in", async () => {
     const el = await fixture<NysButton>(
-      html`<nys-button suffixIcon="slotted" size="sm">
+      html`<nys-button size="sm">
         <nys-icon slot="suffix-icon" size="2xl" name="visibility"></nys-icon>
       </nys-button>`,
     );
@@ -175,7 +175,7 @@ describe("nys-button", () => {
     const regularEl = await fixture<NysButton>(
       html`<nys-button
         label="Regular"
-        prefixIcon="arrow"
+        prefixIcon="arrow_back"
         size="sm"
       ></nys-button>`,
     );

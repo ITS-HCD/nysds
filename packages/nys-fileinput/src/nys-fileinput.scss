@@ -75,8 +75,8 @@ ul {
   gap: 12px;
   align-self: stretch;
   border-radius: var(--_nys-fileinput-border-radius--dropzone);
-  outline: var(--_nys-fileinput-border-width)
-    var(--_nys-fileinput-border-style) var(--_nys-fileinput-border-color);
+  outline: var(--_nys-fileinput-border-width) var(--_nys-fileinput-border-style)
+    var(--_nys-fileinput-border-color);
   background-color: var(--_nys-fileinput-background-color--dropzone);
   transition: all 60ms ease-in-out;
 }
@@ -109,9 +109,7 @@ ul {
   --_nys-fileinput-border-color: var(--nys-color-neutral-300, #a7a9ab);
   --_nys-fileinput-border-width: var(--nys-border-width-sm, 1px);
 
-  background-color: var(
-    --_nys-fileinput-background-color--dropzone--disabled
-  );
+  background-color: var(--_nys-fileinput-background-color--dropzone--disabled);
   color: var(--_nys-fileinput-color--dropzone--disabled);
 }
 

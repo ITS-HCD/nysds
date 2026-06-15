@@ -1,6 +1,6 @@
 {
   "name": "@nysds/nys-icon",
-  "version": "1.18.1",
+  "version": "1.19.0",
   "description": "The Icon component from the NYS Design System.",
   "module": "dist/nys-icon.js",
   "types": "dist/index.d.ts",
@@ -13,8 +13,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsc --emitDeclarationOnly && vite",
-    "build": "vite build",
-    "test": "vite build && wtr",
+    "build": "vite build && node src/scripts/extract-icons.mjs",
+    "test": "vite build && node src/scripts/extract-icons.mjs && wtr",
     "build:watch": "tsc --emitDeclarationOnly && vite build --watch",
     "test:watch": "vite build && wtr --watch",
     "lit-analyze": "lit-analyzer '**/*.ts'"

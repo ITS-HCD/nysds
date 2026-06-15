@@ -897,6 +897,511 @@ describe("nys-datepicker", () => {
     expect((el.value as Date).getDate()).to.equal(15);
   });
 
+  // -------------------------------------------------------------------------
+  // id preservation
+  // -------------------------------------------------------------------------
+
+  it("preserves an explicit id and does not overwrite it", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker id="my-custom-id"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    expect(el.id).to.equal("my-custom-id");
+  });
+
+  // -------------------------------------------------------------------------
+  // name / disabled property reflection
+  // -------------------------------------------------------------------------
+
+  it("reflects name attribute to property", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker name="birth-date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    expect(el.name).to.equal("birth-date");
+  });
+
+  it("sets disabled attribute on inner input when disabled", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker disabled></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const input = el.shadowRoot!.querySelector("input") as HTMLInputElement;
+    expect(input.disabled).to.be.true;
+  });
+
+  it("sets tabindex=-1 on calendar button when disabled", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker disabled></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const btn = el.shadowRoot!.querySelector(
+      "#calendar-button",
+    ) as HTMLButtonElement | null;
+    if (btn) {
+      expect(btn.getAttribute("tabindex")).to.equal("-1");
+    }
+  });
+
+  // -------------------------------------------------------------------------
+  // required vs optional flag routing to nys-label
+  // -------------------------------------------------------------------------
+
+  it("passes flag='required' to nys-label when required is set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker required label="Date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("flag")).to.equal("required");
+  });
+
+  it("passes flag='optional' to nys-label when optional is set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker optional label="Date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("flag")).to.equal("optional");
+  });
+
+  it("passes flag='' to nys-label when neither required nor optional is set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker label="Date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("flag")).to.equal("");
+  });
+
+  // -------------------------------------------------------------------------
+  // tooltip and description pass-through to nys-label
+  // -------------------------------------------------------------------------
+
+  it("passes tooltip and description to nys-label", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker
+        label="Date"
+        description="Pick a date"
+        tooltip="Helpful hint"
+      ></nys-datepicker>
+    `);
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.getAttribute("description")).to.equal("Pick a date");
+    expect(label.getAttribute("tooltip")).to.equal("Helpful hint");
+  });
+
+  // -------------------------------------------------------------------------
+  // showError / errorMessage DOM rendering
+  // -------------------------------------------------------------------------
+
+  it("renders nys-errormessage with showError and errorMessage when showError is set", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker
+        showError
+        errorMessage="Something went wrong"
+      ></nys-datepicker>
+    `);
+    await el.updateComplete;
+    const errEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errEl).to.exist;
+    expect(errEl.hasAttribute("showError")).to.be.true;
+    expect(errEl.getAttribute("errorMessage")).to.equal("Something went wrong");
+  });
+
+  it("hides nys-errormessage when showError is false", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const errEl = el.shadowRoot!.querySelector("nys-errormessage")!;
+    expect(errEl.hasAttribute("showError")).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // minDate / maxDate reflected to wc-datepicker attributes
+  // -------------------------------------------------------------------------
+
+  it("passes minDate and maxDate to wc-datepicker attributes", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker
+        minDate="2025-01-01"
+        maxDate="2025-12-31"
+      ></nys-datepicker>
+    `);
+    await el.updateComplete;
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    expect(wc.getAttribute("min-date")).to.equal("2025-01-01");
+    expect(wc.getAttribute("max-date")).to.equal("2025-12-31");
+  });
+
+  it("does not set min-date attribute when minDate is empty", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    expect(wc.hasAttribute("min-date")).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // hideTodayButton / hideClearButton DOM rendering
+  // -------------------------------------------------------------------------
+
+  it("does not render Today button when hideTodayButton is set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker hideTodayButton></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const btn = el.shadowRoot!.querySelector("nys-button[label='Today']");
+    expect(btn).to.not.exist;
+  });
+
+  it("does not render Clear button when hideClearButton is set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker hideClearButton></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const btn = el.shadowRoot!.querySelector("nys-button[label='Clear']");
+    expect(btn).to.not.exist;
+  });
+
+  it("renders neither button when both hideTodayButton and hideClearButton are set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker hideTodayButton hideClearButton></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const today = el.shadowRoot!.querySelector("nys-button[label='Today']");
+    const clear = el.shadowRoot!.querySelector("nys-button[label='Clear']");
+    expect(today).to.not.exist;
+    expect(clear).to.not.exist;
+  });
+
+  // -------------------------------------------------------------------------
+  // _isOutOfRange
+  // -------------------------------------------------------------------------
+
+  it("_isOutOfRange returns false when no minDate or maxDate is set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const date = new Date(2026, 5, 15);
+    expect((el as any)._isOutOfRange(date)).to.be.false;
+  });
+
+  it("_isOutOfRange returns true when date is before minDate", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker minDate="2026-06-01"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const date = new Date(2026, 4, 31); // May 31
+    expect((el as any)._isOutOfRange(date)).to.be.true;
+  });
+
+  it("_isOutOfRange returns false when date equals minDate", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker minDate="2026-06-01"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const date = new Date(2026, 5, 1);
+    expect((el as any)._isOutOfRange(date)).to.be.false;
+  });
+
+  it("_isOutOfRange returns true when date is after maxDate", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker maxDate="2026-06-30"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const date = new Date(2026, 6, 1); // July 1
+    expect((el as any)._isOutOfRange(date)).to.be.true;
+  });
+
+  it("_isOutOfRange returns false when date equals maxDate", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker maxDate="2026-06-30"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const date = new Date(2026, 5, 30);
+    expect((el as any)._isOutOfRange(date)).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // selectDate out-of-range guard: calendar stays open
+  // -------------------------------------------------------------------------
+
+  it("selectDate with out-of-range date keeps calendar open and does not update value", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker
+        minDate="2026-06-01"
+        maxDate="2026-06-30"
+      ></nys-datepicker>
+    `);
+    await el.updateComplete;
+
+    (el as any)._isSafari = () => false;
+    (el as any)._isMobile = () => false;
+
+    const wc = el.shadowRoot!.querySelector("wc-datepicker")!;
+    wc.classList.add("active");
+    (el as any).datepickerIsOpen = true;
+
+    (el as any)._handleDateChange();
+
+    wc.dispatchEvent(
+      new CustomEvent("selectDate", {
+        detail: "2026-07-01",
+        bubbles: true,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(el.value).to.be.undefined;
+    expect(wc.classList.contains("active")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // _handleClearClick with _hasUserInteracted triggers validation
+  // -------------------------------------------------------------------------
+
+  it("_handleClearClick with _hasUserInteracted=true triggers validation and shows error when required", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker required value="2026-01-01"></nys-datepicker>
+    `);
+    await el.updateComplete;
+
+    (el as any)._hasUserInteracted = true;
+    (el as any)._handleClearClick();
+    await el.updateComplete;
+
+    expect(el.value).to.be.undefined;
+    expect(el.showError).to.be.true;
+  });
+
+  it("_handleClearClick without _hasUserInteracted does not show error", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker required value="2026-01-01"></nys-datepicker>
+    `);
+    await el.updateComplete;
+
+    (el as any)._hasUserInteracted = false;
+    (el as any)._handleClearClick();
+    await el.updateComplete;
+
+    expect(el.value).to.be.undefined;
+    expect(el.showError).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // _handleTodayClick with _hasUserInteracted clears error
+  // -------------------------------------------------------------------------
+
+  it("_handleTodayClick with _hasUserInteracted=true clears showError when required", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker required></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    el.showError = true;
+    (el as any)._hasUserInteracted = true;
+    (el as any)._handleTodayClick();
+    await el.updateComplete;
+
+    expect(el.value).to.be.instanceOf(Date);
+    expect(el.showError).to.be.false;
+  });
+
+  // -------------------------------------------------------------------------
+  // _setValidityMessage early-return branch:
+  // when no message but showError is already true with a custom errorMessage
+  // -------------------------------------------------------------------------
+
+  it("_setValidityMessage does not clear showError when no message but showError+errorMessage are already set", async () => {
+    const el = await fixture<NysDatepicker>(html`
+      <nys-datepicker showError errorMessage="Preset error"></nys-datepicker>
+    `);
+    await el.updateComplete;
+
+    // Calling with empty string should hit the early-return guard
+    (el as any)._setValidityMessage("");
+    await el.updateComplete;
+
+    expect(el.showError).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // FormData integration (name + value)
+  // -------------------------------------------------------------------------
+
+  it("includes name and formatted date in FormData when value is set", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-datepicker name="event-date" value="2026-03-15"></nys-datepicker>
+      </form>
+    `);
+    const el = form.querySelector<NysDatepicker>("nys-datepicker")!;
+    await el.updateComplete;
+
+    const data = new FormData(form);
+    expect(data.get("event-date")).to.equal("2026-03-15");
+  });
+
+  it("FormData entry is empty string when no value is set", async () => {
+    const form = await fixture<HTMLFormElement>(html`
+      <form>
+        <nys-datepicker name="event-date"></nys-datepicker>
+      </form>
+    `);
+    const el = form.querySelector<NysDatepicker>("nys-datepicker")!;
+    await el.updateComplete;
+
+    const data = new FormData(form);
+    expect(data.get("event-date")).to.equal("");
+  });
+
+  // -------------------------------------------------------------------------
+  // nys-blur fires exactly once per focusout
+  // -------------------------------------------------------------------------
+
+  it("nys-blur fires exactly once per focusout", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    let count = 0;
+    el.addEventListener("nys-blur", () => count++);
+
+    el.dispatchEvent(new FocusEvent("focusout", { bubbles: true }));
+    await el.updateComplete;
+
+    expect(count).to.equal(1);
+  });
+
+  // -------------------------------------------------------------------------
+  // _handleBlur: stillInside guard returns early (no blur event)
+  // -------------------------------------------------------------------------
+
+  it("_handleBlur does not fire nys-blur when focus moves to an element inside the component", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    const input = el.shadowRoot!.querySelector("input") as HTMLInputElement;
+    let blurCount = 0;
+    el.addEventListener("nys-blur", () => blurCount++);
+
+    // Dispatch focusout with relatedTarget pointing inside the component's shadow DOM
+    el.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: input,
+      }),
+    );
+    await el.updateComplete;
+
+    expect(blurCount).to.equal(0);
+  });
+
+  // -------------------------------------------------------------------------
+  // _handleInputChange: partial / non-empty invalid input returns without clearing
+  // -------------------------------------------------------------------------
+
+  it("_handleInputChange ignores partial invalid input and does not clear value", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    el.value = new Date(2026, 4, 10); // May 10 2026
+    await el.updateComplete;
+
+    // Browsers normalize invalid date strings to "" on type="date" inputs, so
+    // we invoke the handler directly with a mock event whose target has a
+    // non-empty, non-ISO value — the only way to reach the "partial" branch.
+    const mockInput = { value: "2026-05" } as HTMLInputElement;
+    (el as any)._handleInputChange({ target: mockInput } as unknown as Event);
+    await el.updateComplete;
+
+    // value should remain unchanged — the partial branch returns early
+    expect(el.value).to.be.instanceOf(Date);
+    expect((el.value as Date).getFullYear()).to.equal(2026);
+    expect((el.value as Date).getMonth()).to.equal(4);
+    expect((el.value as Date).getDate()).to.equal(10);
+  });
+
+  // -------------------------------------------------------------------------
+  // inverted attribute
+  // -------------------------------------------------------------------------
+
+  it("passes inverted to nys-label when inverted is set", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker inverted label="Date"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const label = el.shadowRoot!.querySelector("nys-label")!;
+    expect(label.hasAttribute("inverted")).to.be.true;
+  });
+
+  // -------------------------------------------------------------------------
+  // wc-datepicker element exists in shadow DOM
+  // -------------------------------------------------------------------------
+
+  it("renders a wc-datepicker element in the shadow DOM", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const wc = el.shadowRoot!.querySelector("wc-datepicker");
+    expect(wc).to.exist;
+  });
+
+  it("wc-datepicker receives the correct value when set via attribute", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker value="2026-07-04"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+    const wc = el.shadowRoot!.querySelector("wc-datepicker") as any;
+    expect(wc).to.exist;
+    expect(wc.value).to.be.instanceOf(Date);
+    expect((wc.value as Date).getFullYear()).to.equal(2026);
+    expect((wc.value as Date).getMonth()).to.equal(6);
+    expect((wc.value as Date).getDate()).to.equal(4);
+  });
+
+  // -------------------------------------------------------------------------
+  // _setValue with string value (not Date instance)
+  // -------------------------------------------------------------------------
+
+  it("_setValue accepts a plain ISO string and converts it to a Date", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    (el as any)._setValue("2026-09-01");
+    await el.updateComplete;
+
+    expect(el.value).to.be.instanceOf(Date);
+    expect((el.value as Date).getFullYear()).to.equal(2026);
+    expect((el.value as Date).getMonth()).to.equal(8);
+    expect((el.value as Date).getDate()).to.equal(1);
+  });
+
+  // -------------------------------------------------------------------------
+  // _manageRequire: valid state when required and value is present
+  // -------------------------------------------------------------------------
+
+  it("_manageRequire sets valid state when required and value is present", async () => {
+    const el = await fixture<NysDatepicker>(
+      html`<nys-datepicker required value="2026-01-01"></nys-datepicker>`,
+    );
+    await el.updateComplete;
+
+    expect(el.checkValidity()).to.be.true;
+  });
+
   /*** A11y Test ***/
   it("passes the a11y audit", async () => {
     const el = await fixture(

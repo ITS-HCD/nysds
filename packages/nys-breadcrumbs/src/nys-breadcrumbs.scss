@@ -3,7 +3,7 @@
 
   /* Global Breadcrumbs Styles */
   --_nys-breadcrumbs-padding: var(--nys-space-150, 12px)
-    var(--nys-space-400, 32px);
+    var(--nys-space-250, 20px);
   --_nys-breadcrumbs-gap: var(--nys-space-100, 8px);
   --_nys-breadcrumbs-background: transparent;
 
@@ -34,6 +34,7 @@
       sans-serif
     )
   );
+  --_nys-breadcrumbs-max-width: var(--nys-max-content-width, 1280px);
 }
 
 .nys-breadcrumbs {
@@ -43,6 +44,8 @@
   font-weight: var(--_nys-breadcrumbs-font-weight);
   line-height: var(--_nys-breadcrumbs-line-height);
   background: var(--_nys-breadcrumbs-background);
+  display: flex;
+  justify-content: center;
 
   &.nys-breadcrumbs--background-bar {
     --_nys-breadcrumbs-background: var(--nys-color-theme-faint, #f7fafd);
@@ -57,6 +60,8 @@
     flex-wrap: wrap;
     gap: var(--_nys-breadcrumbs-gap);
     list-style: none;
+    max-width: var(--_nys-breadcrumbs-max-width);
+    width: 100%;
   }
 }
 
@@ -182,4 +187,36 @@
 /** RTL support **/
 :host-context([dir="rtl"]) nys-icon {
   transform: scaleX(-1);
+}
+
+/* Mobile Large — 480px and above */
+@media (width >= 480px) {
+  :host {
+    --_nys-breadcrumbs-padding: var(--nys-space-150, 12px)
+      var(--nys-space-250, 20px);
+  }
+}
+
+/* Tablet — 768px and above */
+@media (width >= 768px) {
+  :host {
+    --_nys-breadcrumbs-padding: var(--nys-space-150, 12px)
+      var(--nys-space-400, 32px);
+  }
+}
+
+/* Desktop — 1024px and above */
+@media (width >= 1024px) {
+  :host {
+    --_nys-breadcrumbs-padding: var(--nys-space-150, 12px)
+      var(--nys-space-400, 32px);
+  }
+}
+
+/* Desktop Large — 1280px and above */
+@media (width >= 1280px) {
+  :host {
+    --_nys-breadcrumbs-padding: var(--nys-space-150, 12px)
+      var(--nys-space-800, 64px);
+  }
 }

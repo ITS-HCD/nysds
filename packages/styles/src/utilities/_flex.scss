@@ -55,7 +55,9 @@ $flex-align-values: (start, end, center, stretch, baseline);
 // Align self
 @each $value in $flex-align-values {
   @include base-class("nys-flex-align-self-#{$value}") {
-    align-self: if(sass($value == "start" or $value == "end"): flex-#{$value}; else: $value);
+    align-self: if(
+      sass($value == "start" or $value == "end"): flex-#{$value}; else: $value
+    );
   }
 }
 
@@ -162,6 +164,7 @@ $flex-gap-tokens: (
     @each $value in $flex-align-values {
       @include responsive-variants($bp-name, "nys-flex-align-#{$value}") {
         $computed: $value;
+
         @if $value == "start" or $value == "end" {
           $computed: flex-#{$value};
         }
@@ -173,6 +176,7 @@ $flex-gap-tokens: (
     @each $value in $flex-align-values {
       @include responsive-variants($bp-name, "nys-flex-align-self-#{$value}") {
         $computed: $value;
+
         @if $value == "start" or $value == "end" {
           $computed: flex-#{$value};
         }

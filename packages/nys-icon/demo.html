@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>nys-icon Library Demo</title>
+    <!-- Import map resolves bare "lit" specifiers used by the dist bundle -->
+    <script type="importmap">
+    {
+      "imports": {
+        "lit": "https://esm.sh/lit@3",
+        "lit/": "https://esm.sh/lit@3/",
+        "@lit/reactive-element": "https://esm.sh/@lit/reactive-element@2",
+        "@lit/reactive-element/": "https://esm.sh/@lit/reactive-element@2/",
+        "lit-html": "https://esm.sh/lit-html@3",
+        "lit-html/": "https://esm.sh/lit-html@3/",
+        "lit-element/": "https://esm.sh/lit-element@4/"
+      }
+    }
+    </script>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1b1b1b;
+      }
+
+      h1 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+      h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; border-bottom: 2px solid #d3d3d3; padding-bottom: 0.25rem; }
+
+      .icon-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: flex-end;
+      }
+
+      .icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        min-width: 80px;
+      }
+
+      .icon-item span {
+        font-size: 0.7rem;
+        color: #555;
+        text-align: center;
+        word-break: break-all;
+      }
+
+      .size-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .size-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .size-item span {
+        font-size: 0.7rem;
+        color: #555;
+      }
+
+      .color-row {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .status {
+        font-size: 0.85rem;
+        color: #555;
+        margin-top: 0.5rem;
+      }
+
+      .status.loaded { color: #1a7f37; }
+      .status.error  { color: #c0392b; }
+
+      code {
+        background: #f0f0f0;
+        padding: 0.15rem 0.35rem;
+        border-radius: 3px;
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>nys-icon Demo</h1>
+    <p>Demonstrates <code>&lt;nys-icon&gt;</code> with the built-in NYSDS library, Google Material Symbols, and Font Awesome — all wired up with <code>registerIconLibrary()</code>.</p>
+
+    <!-- ── 1. Default NYSDS library ─────────────────────────────────────── -->
+    <h2>Default NYSDS Library</h2>
+    <p>Icons served from the co-located <code>dist/icons/</code> folder. No registration needed — this is the out-of-the-box default.</p>
+
+    <div class="icon-grid">
+      <div class="icon-item"><nys-icon name="check_circle" size="xl"></nys-icon><span>check_circle</span></div>
+      <div class="icon-item"><nys-icon name="search" size="xl"></nys-icon><span>search</span></div>
+      <div class="icon-item"><nys-icon name="mail" size="xl"></nys-icon><span>mail</span></div>
+      <div class="icon-item"><nys-icon name="menu" size="xl"></nys-icon><span>menu</span></div>
+      <div class="icon-item"><nys-icon name="help" size="xl"></nys-icon><span>help</span></div>
+      <div class="icon-item"><nys-icon name="download" size="xl"></nys-icon><span>download</span></div>
+      <div class="icon-item"><nys-icon name="language" size="xl"></nys-icon><span>language</span></div>
+      <div class="icon-item"><nys-icon name="cancel" size="xl"></nys-icon><span>cancel</span></div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;font-size:1rem">Sizes</h3>
+    <div class="size-row">
+      <div class="size-item"><nys-icon name="check_circle" size="xs"></nys-icon><span>xs</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="sm"></nys-icon><span>sm</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="md"></nys-icon><span>md</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="lg"></nys-icon><span>lg</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="xl"></nys-icon><span>xl</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="2xl"></nys-icon><span>2xl</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="3xl"></nys-icon><span>3xl</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="4xl"></nys-icon><span>4xl</span></div>
+      <div class="size-item"><nys-icon name="check_circle" size="5xl"></nys-icon><span>5xl</span></div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;font-size:1rem">Colors &amp; transforms</h3>
+    <div class="color-row">
+      <nys-icon name="check_circle" size="2xl" color="#154973"></nys-icon>
+      <nys-icon name="check_circle" size="2xl" color="#c0392b"></nys-icon>
+      <nys-icon name="check_circle" size="2xl" color="#1a7f37"></nys-icon>
+      <nys-icon name="check_circle" size="2xl" color="#f39c12"></nys-icon>
+      <nys-icon name="arrow_forward" size="2xl" rotate="90"></nys-icon>
+      <nys-icon name="arrow_forward" size="2xl" flip="horizontal"></nys-icon>
+    </div>
+
+    <!-- ── 2. Material Symbols library ───────────────────────────────────── -->
+    <h2>Google Material Symbols <span id="material-status" class="status">loading…</span></h2>
+    <p>Registered as <code>"material"</code> — resolves icons from <code>fonts.gstatic.com</code>.</p>
+
+    <div class="icon-grid" id="material-icons">
+      <div class="icon-item"><nys-icon name="home" library="material" size="xl"></nys-icon><span>home</span></div>
+      <div class="icon-item"><nys-icon name="settings" library="material" size="xl"></nys-icon><span>settings</span></div>
+      <div class="icon-item"><nys-icon name="favorite" library="material" size="xl"></nys-icon><span>favorite</span></div>
+      <div class="icon-item"><nys-icon name="notifications" library="material" size="xl"></nys-icon><span>notifications</span></div>
+      <div class="icon-item"><nys-icon name="search" library="material" size="xl"></nys-icon><span>search</span></div>
+      <div class="icon-item"><nys-icon name="person" library="material" size="xl"></nys-icon><span>person</span></div>
+      <div class="icon-item"><nys-icon name="star" library="material" size="xl"></nys-icon><span>star</span></div>
+      <div class="icon-item"><nys-icon name="delete" library="material" size="xl"></nys-icon><span>delete</span></div>
+    </div>
+
+    <!-- ── 3. Font Awesome library ───────────────────────────────────────── -->
+    <h2>Font Awesome (Solid) <span id="fa-status" class="status">loading…</span></h2>
+    <p>Registered as <code>"fa"</code> — resolves icons from the Font Awesome Free CDN on jsDelivr.</p>
+
+    <div class="icon-grid" id="fa-icons">
+      <div class="icon-item"><nys-icon name="house" library="fa" size="xl"></nys-icon><span>house</span></div>
+      <div class="icon-item"><nys-icon name="gear" library="fa" size="xl"></nys-icon><span>gear</span></div>
+      <div class="icon-item"><nys-icon name="heart" library="fa" size="xl"></nys-icon><span>heart</span></div>
+      <div class="icon-item"><nys-icon name="bell" library="fa" size="xl"></nys-icon><span>bell</span></div>
+      <div class="icon-item"><nys-icon name="magnifying-glass" library="fa" size="xl"></nys-icon><span>magnifying-glass</span></div>
+      <div class="icon-item"><nys-icon name="user" library="fa" size="xl"></nys-icon><span>user</span></div>
+      <div class="icon-item"><nys-icon name="star" library="fa" size="xl"></nys-icon><span>star</span></div>
+      <div class="icon-item"><nys-icon name="trash" library="fa" size="xl"></nys-icon><span>trash</span></div>
+    </div>
+
+    <!-- ── Scripts ──────────────────────────────────────────────────────── -->
+    <!--
+      Import the nys-icon component and the registerIconLibrary utility from
+      the built dist bundle. registerIconLibrary must be called BEFORE the
+      custom elements connect so icons resolve correctly on first paint.
+    -->
+    <script type="module">
+      import { registerIconLibrary } from "./dist/nys-icon.js";
+
+      // ── Material Symbols ──────────────────────────────────────────────
+      registerIconLibrary("material", {
+        resolver: (name) =>
+          `https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/${name}/default/24px.svg`,
+        mutator: (svg) => {
+          svg.setAttribute("fill", "currentColor");
+        },
+      });
+
+      // ── Font Awesome Free (solid) ──────────────────────────────────────
+      registerIconLibrary("fa", {
+        resolver: (name) =>
+          `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/${name}.svg`,
+        mutator: (svg) => {
+          svg.setAttribute("fill", "currentColor");
+        },
+      });
+
+
+    </script>
+  </body>
+</html>
