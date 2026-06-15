@@ -53,7 +53,7 @@ const meta: Meta<NysSelectArgs> = {
 export default meta;
 type Story = StoryObj<NysSelectArgs>;
 
-export const Basic: Story = {
+export const BasicOptions: Story = {
   args: {
     value: "ny",
   },

@@ -45,7 +45,7 @@ const meta: Meta<NysToggleArgs> = {
 export default meta;
 type Story = StoryObj<NysToggleArgs>;
 
-export const Basic: Story = {
+export const BasicToggle: Story = {
   args: {
     label: "Enable notifications",
     name: "notifications",

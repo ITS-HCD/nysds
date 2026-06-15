@@ -35,7 +35,7 @@ const meta: Meta<NysModalArgs> = {
 export default meta;
 type Story = StoryObj<NysModalArgs>;
 
-export const Basic: Story = {
+export const BasicModal: Story = {
   args: {
     open: true,
     heading: "Confirm action",

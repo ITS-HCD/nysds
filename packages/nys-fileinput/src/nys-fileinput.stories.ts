@@ -56,7 +56,7 @@ const meta: Meta<NysFileinputArgs> = {
 export default meta;
 type Story = StoryObj<NysFileinputArgs>;
 
-export const Basic: Story = {
+export const SingleFileUpload: Story = {
   args: {
     required: true,
     label: "Upload document",

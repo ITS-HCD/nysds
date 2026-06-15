@@ -34,7 +34,7 @@ const meta: Meta<NysLabelArgs> = {
 export default meta;
 type Story = StoryObj<NysLabelArgs>;
 
-export const Basic: Story = {
+export const BasicLabel: Story = {
   args: {
     label: "This is a basic nys-label",
   },

@@ -74,7 +74,7 @@ const meta: Meta<NysTextinputArgs> = {
 export default meta;
 type Story = StoryObj<NysTextinputArgs>;
 
-export const Basic: Story = {
+export const BasicTextInput: Story = {
   args: {
     required: true,
     label: "Full Name",

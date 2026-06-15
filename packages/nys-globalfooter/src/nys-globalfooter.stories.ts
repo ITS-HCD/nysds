@@ -28,7 +28,7 @@ const meta: Meta<NysGlobalfooterArgs> = {
 export default meta;
 type Story = StoryObj<NysGlobalfooterArgs>;
 
-export const Basic: Story = {
+export const SimpleFooter: Story = {
   args: {
     agencyName: "Department of Health",
     homepageLink: "/",

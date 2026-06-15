@@ -34,7 +34,7 @@ const meta: Meta<NysTooltipArgs> = {
 export default meta;
 type Story = StoryObj<NysTooltipArgs>;
 
-export const Basic: Story = {
+export const TooltipForButton: Story = {
   args: {
     circle: true,
     label: "Help",

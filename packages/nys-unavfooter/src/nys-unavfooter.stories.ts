@@ -25,7 +25,7 @@ const meta: Meta<NysUnavfooterArgs> = {
 export default meta;
 type Story = StoryObj<NysUnavfooterArgs>;
 
-export const Basic: Story = {
+export const StandardUsage: Story = {
   args: {},
   render: (args) => {
     return html`

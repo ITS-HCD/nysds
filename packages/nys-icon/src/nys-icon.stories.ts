@@ -78,7 +78,7 @@ const meta: Meta<NysIconArgs> = {
 export default meta;
 type Story = StoryObj<NysIconArgs>;
 
-export const Basic: Story = {
+export const RegisterAFontAwesomeLibraryWithACustomResolver: Story = {
   render: () => {
     registerIconLibrary("fa", {
       resolver: (name) =>

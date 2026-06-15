@@ -28,7 +28,7 @@ const meta: Meta<NysDividerArgs> = {
 export default meta;
 type Story = StoryObj<NysDividerArgs>;
 
-export const Basic: Story = {
+export const BasicDivider: Story = {
   args: {},
   render: (args) => {
     return html`

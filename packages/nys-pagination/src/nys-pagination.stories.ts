@@ -32,7 +32,7 @@ const meta: Meta<NysPaginationArgs> = {
 export default meta;
 type Story = StoryObj<NysPaginationArgs>;
 
-export const Basic: Story = {
+export const BasicPagination: Story = {
   args: {
     currentPage: "1",
     totalPages: "10",

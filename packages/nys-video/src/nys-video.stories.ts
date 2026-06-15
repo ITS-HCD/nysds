@@ -40,7 +40,7 @@ const meta: Meta<NysVideoArgs> = {
 export default meta;
 type Story = StoryObj<NysVideoArgs>;
 
-export const Basic: Story = {
+export const BasicUsage: Story = {
   args: {
     videourl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     titleText: "Video Title",

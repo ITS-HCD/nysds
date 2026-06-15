@@ -24,7 +24,7 @@ const meta: Meta<NysSkipnavArgs> = {
 export default meta;
 type Story = StoryObj<NysSkipnavArgs>;
 
-export const Basic: Story = {
+export const DefaultSkipLink: Story = {
   args: {},
   render: (args) => {
     return html`

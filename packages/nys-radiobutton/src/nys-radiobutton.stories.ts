@@ -52,7 +52,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
 export default meta;
 type Story = StoryObj<NysRadiobuttonArgs>;
 
-export const Basic: Story = {
+export const BasicRadioGroup: Story = {
   args: {
     required: true,
     label: "The Bronx",
@@ -76,6 +76,43 @@ export const Basic: Story = {
         .form=${args.form}
         .size=${args.size}
       >
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="manhattan"
+          label="Manhattan"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough" required>
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="manhattan" label="Manhattan"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const RadioGroup: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough" required>
         <nys-radiobutton
           name="borough"
           value="bronx"
@@ -122,43 +159,6 @@ export const DisabledRadio: Story = {
         code: `
 <nys-radiogroup label="Select borough">
   <nys-radiobutton name="borough" value="bronx" label="The Bronx" disabled></nys-radiobutton>
-</nys-radiogroup>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const BasicRadioGroup: Story = {
-  render: () => {
-    return html`
-      <nys-radiogroup label="Select borough" required>
-        <nys-radiobutton
-          name="borough"
-          value="bronx"
-          label="The Bronx"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          name="borough"
-          value="brooklyn"
-          label="Brooklyn"
-        ></nys-radiobutton>
-        <nys-radiobutton
-          name="borough"
-          value="manhattan"
-          label="Manhattan"
-        ></nys-radiobutton>
-      </nys-radiogroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-radiogroup label="Select borough" required>
-  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
-  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
-  <nys-radiobutton name="borough" value="manhattan" label="Manhattan"></nys-radiobutton>
 </nys-radiogroup>`,
         type: "auto",
       },

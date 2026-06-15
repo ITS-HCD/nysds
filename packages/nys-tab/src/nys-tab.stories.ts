@@ -34,6 +34,78 @@ const meta: Meta<NysTabArgs> = {
 export default meta;
 type Story = StoryObj<NysTabArgs>;
 
+export const DisableATabUsingTheDisabledAttributeOnNystab: Story = {
+  args: {
+    name: "Account Settings",
+    label: "Profile",
+  },
+  render: (args) => {
+    return html`
+      <nys-tabgroup
+        .id=${args.id}
+        ?selected=${args.selected}
+        ?disabled=${args.disabled}
+        .label=${args.label}
+        .name=${args.name}
+      >
+        <nys-tab label="Profile"></nys-tab>
+        <nys-tab label="Security"></nys-tab>
+        <nys-tab label="Notifications" disabled></nys-tab>
+        <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>
+        <nys-tabpanel
+          ><p>Update your password and 2FA settings.</p></nys-tabpanel
+        >
+        <nys-tabpanel
+          ><p>Notification preferences (coming soon).</p></nys-tabpanel
+        >
+      </nys-tabgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-tabgroup name="Account Settings">
+  <nys-tab label="Profile"></nys-tab>
+  <nys-tab label="Security"></nys-tab>
+  <nys-tab label="Notifications" disabled></nys-tab>
+  <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>
+  <nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>
+  <nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>
+</nys-tabgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const PreselectATabUsingTheSelectedAttributeOnNystab: Story = {
+  render: () => {
+    return html`
+      <nys-tabgroup name="Reports">
+        <nys-tab label="Summary"></nys-tab>
+        <nys-tab label="Details" selected></nys-tab>
+        <nys-tabpanel><p>Summary view</p></nys-tabpanel>
+        <nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>
+      </nys-tabgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-tabgroup name="Reports">
+  <nys-tab label="Summary"></nys-tab>
+  <nys-tab label="Details" selected></nys-tab>
+  <nys-tabpanel><p>Summary view</p></nys-tabpanel>
+  <nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>
+</nys-tabgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Basic: Story = {
   render: () => {
     return html`
@@ -163,68 +235,6 @@ export const WithTabPanels: Story = {
     <h2>Step 2: Review and submit</h2>
     <p>Confirm your details before submitting.</p>
   </nys-tabpanel>
-</nys-tabgroup>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const DisableATabUsingTheDisabledAttributeOnNystab: Story = {
-  render: () => {
-    return html`
-      <nys-tabgroup name="Account Settings">
-        <nys-tab label="Profile"></nys-tab>
-        <nys-tab label="Security"></nys-tab>
-        <nys-tab label="Notifications" disabled></nys-tab>
-        <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>
-        <nys-tabpanel
-          ><p>Update your password and 2FA settings.</p></nys-tabpanel
-        >
-        <nys-tabpanel
-          ><p>Notification preferences (coming soon).</p></nys-tabpanel
-        >
-      </nys-tabgroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-tabgroup name="Account Settings">
-  <nys-tab label="Profile"></nys-tab>
-  <nys-tab label="Security"></nys-tab>
-  <nys-tab label="Notifications" disabled></nys-tab>
-  <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>
-  <nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>
-  <nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>
-</nys-tabgroup>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const PreselectATabUsingTheSelectedAttributeOnNystab: Story = {
-  render: () => {
-    return html`
-      <nys-tabgroup name="Reports">
-        <nys-tab label="Summary"></nys-tab>
-        <nys-tab label="Details" selected></nys-tab>
-        <nys-tabpanel><p>Summary view</p></nys-tabpanel>
-        <nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>
-      </nys-tabgroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-tabgroup name="Reports">
-  <nys-tab label="Summary"></nys-tab>
-  <nys-tab label="Details" selected></nys-tab>
-  <nys-tabpanel><p>Summary view</p></nys-tabpanel>
-  <nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>
 </nys-tabgroup>`,
         type: "auto",
       },

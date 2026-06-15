@@ -62,7 +62,7 @@ const meta: Meta<NysTextareaArgs> = {
 export default meta;
 type Story = StoryObj<NysTextareaArgs>;
 
-export const Basic: Story = {
+export const BasicTextarea: Story = {
   args: {
     label: "Comments",
     rows: "4",

@@ -37,7 +37,7 @@ const meta: Meta<NysDropdownmenuArgs> = {
 export default meta;
 type Story = StoryObj<NysDropdownmenuArgs>;
 
-export const Basic: Story = {
+export const BasicItem: Story = {
   args: {
     label: "Edit",
     link: "/edit",

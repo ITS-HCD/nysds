@@ -39,7 +39,7 @@ const meta: Meta<NysStepperArgs> = {
 export default meta;
 type Story = StoryObj<NysStepperArgs>;
 
-export const Basic: Story = {
+export const StepWithPageNavigation: Story = {
   args: {
     label: "Personal Info",
   },

@@ -32,7 +32,7 @@ const meta: Meta<NysGlobalheaderArgs> = {
 export default meta;
 type Story = StoryObj<NysGlobalheaderArgs>;
 
-export const Basic: Story = {
+export const BasicHeader: Story = {
   args: {
     appName: "My App",
     agencyName: "Department of Health",

@@ -34,7 +34,7 @@ const meta: Meta<NysTableArgs> = {
 export default meta;
 type Story = StoryObj<NysTableArgs>;
 
-export const Basic: Story = {
+export const BasicTable: Story = {
   args: {
     name: "table1",
   },

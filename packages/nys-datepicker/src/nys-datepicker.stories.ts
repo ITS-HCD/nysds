@@ -64,7 +64,7 @@ const meta: Meta<NysDatepickerArgs> = {
 export default meta;
 type Story = StoryObj<NysDatepickerArgs>;
 
-export const Basic: Story = {
+export const BasicDatePicker: Story = {
   args: {
     required: true,
     label: "Birth Date",
