@@ -4,24 +4,24 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ## Summary
 
-| Component           | Status     | Last Audited | Notes                                                                                    |
-| :------------------ | :--------- | :----------- | :--------------------------------------------------------------------------------------- |
-| `nys-accordion`     | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.                                                |
-| `nys-accordionitem` | ✅ Match   | 2026-06-12   | Example is included in `nys-accordion` stories.                                          |
-| `nys-alert`         | ✅ Match   | 2026-06-12   | Comprehensive coverage of all functional states.                                         |
-| `nys-avatar`        | ✅ Match   | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.                                           |
-| `nys-backtotop`     | ✅ Match   | 2026-06-12   | All JSDoc e xamples have matching stories.                                               |
-| `nys-badge`         | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.                                                |
-| `nys-breadcrumbs`   | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.                                                |
-| `nys-button`        | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories. Stories are now granular (one demo per story). |
-| `nys-checkbox`      | ✅ Match   | 2026-06-15   | Examples granularized to fix violations.                                                 |
-| `nys-checkboxgroup` | ✅ Match   | 2026-06-15   | Examples granularized to fix violations.                                                 |
-| `nys-combobox`      | ❌ Missing | 2026-06-12   | No JSDoc examples present.                                                               |
+| Component           | Status      | Last Audited | Notes                                                                                    |
+| :------------------ | :---------- | :----------- | :--------------------------------------------------------------------------------------- |
+| `nys-accordion`     | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-accordionitem` | ✅ Match    | 2026-06-12   | Example is included in `nys-accordion` stories.                                          |
+| `nys-alert`         | ✅ Match    | 2026-06-12   | Comprehensive coverage of all functional states.                                         |
+| `nys-avatar`        | ✅ Match    | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.                                           |
+| `nys-backtotop`     | ✅ Match    | 2026-06-12   | All JSDoc e xamples have matching stories.                                               |
+| `nys-badge`         | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-breadcrumbs`   | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories.                                                |
+| `nys-button`        | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories. Stories are now granular (one demo per story). |
+| `nys-checkbox`      | ✅ Match    | 2026-06-15   | Examples granularized to fix violations.                                                 |
+| `nys-checkboxgroup` | ✅ Match    | 2026-06-15   | Examples granularized to fix violations.                                                 |
+| `nys-combobox`      | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.                                                |
 | `nys-datepicker`    | ✅ Match   | 2026-06-12   | Good coverage; missing minDate/maxDate examples.                                         |
-| `nys-divider`       | ✅ Match   | 2026-06-12   | Basic coverage; missing subtle/inverted.                                                 |
-| `nys-dropdownmenu`  | ✅ Match   | 2026-06-12   | Good coverage; missing icon/disabled examples.                                           |
-| `nys-errormessage`  | ❌ Missing | 2026-06-12   | No JSDoc examples present.                                                               |
-| `nys-fileinput`     | ✅ Match   | 2026-06-12   | Good coverage; missing width/inverted examples.                                          |
+| `nys-divider`       | ✅ Match    | 2026-06-12   | Basic coverage; missing subtle/inverted.                                                 |
+| `nys-dropdownmenu`  | ✅ Match    | 2026-06-12   | Good coverage; missing icon/disabled examples.                                           |
+| `nys-errormessage`  | ❌ Missing  | 2026-06-12   | No JSDoc examples present.                                                               |
+| `nys-fileinput`     | ✅ Match    | 2026-06-12   | Good coverage; missing width/inverted examples.                                          |
 
 ---
 
@@ -94,23 +94,25 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-combobox`
 
-| JSDoc Example   | Storybook Story   | Status     | Notes |
-| :-------------- | :---------------- | :--------- | :---- |
-| `Basic`         | `Basic`           | ✅ Match   |       |
-| None            | `DefaultValue`    | ⚠️ Missing |       |
-| `Option Groups` | `OptionGroup`     | ✅ Match   |       |
-| `Disabled`      | `Disabled`        | ✅ Match   |       |
-| None            | `Required`        | ⚠️ Missing |       |
-| None            | `Optional`        | ⚠️ Missing |       |
-| None            | `Width`           | ⚠️ Missing |       |
-| None            | `DescriptionSlot` | ⚠️ Missing |       |
-| `Error State`   | `ErrorMessage`    | ✅ Match   |       |
-| None            | `Inverted`        | ⚠️ Missing |       |
-| None            | `DisabledOptions` | ⚠️ Missing |       |
+| JSDoc Example | Storybook Story | Status | Notes |
+| :--- | :--- | :--- | :--- |
+| `Basic` | `Basic` | ✅ Match | |
+| `Default Value` | `DefaultValue` | ✅ Match | |
+| `Option Group` | `OptionGroup` | ✅ Match | |
+| `Disabled` | `Disabled` | ✅ Match | |
+| `Required` | `Required` | ✅ Match | |
+| `Optional` | `Optional` | ✅ Match | |
+| `Width` | `Width` | ✅ Match | |
+| `Description Slot` | `DescriptionSlot` | ✅ Match | |
+| `Error Message` | `ErrorMessage` | ✅ Match | |
+| `Inverted` | `Inverted` | ✅ Match | |
+| `Disabled Options` | `DisabledOptions` | ✅ Match | |
+| `Tooltip` | None | ✅ Match | Manually added to JSDoc. |
+| `Form Integration` | None | ✅ Match | Manually added to JSDoc. |
 
 #### To Add
 
-- Add JSDoc `@example` tags for remaining identified stories: `DefaultValue`, `Required`, `Optional`, `Width`, `DescriptionSlot`, `Inverted`, `DisabledOptions`.
+- None (All properties covered).
 
 ### `nys-checkbox`
 
@@ -406,10 +408,10 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-radiobutton`
 
-| JSDoc Example    | Storybook Story   | Status     | Notes |
-| :--------------- | :---------------- | :--------- | :---- |
-| `Radio group`    | `BasicRadioGroup` | ✅ Match   |       |
-| `Disabled radio` | `DisabledRadio`   | ✅ Match   |       |
+| JSDoc Example    | Storybook Story   | Status     | Notes                            |
+| :--------------- | :---------------- | :--------- | :------------------------------- |
+| `Radio group`    | `BasicRadioGroup` | ✅ Match   |                                  |
+| `Disabled radio` | `DisabledRadio`   | ✅ Match   |                                  |
 | `Pre-selected`   | None              | ⚠️ Missing | Storybook missing granular demo. |
 | `Other Option`   | None              | ⚠️ Missing | Storybook missing granular demo. |
 
@@ -419,10 +421,10 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-radiogroup`
 
-| JSDoc Example       | Storybook Story   | Status     | Notes |
-| :------------------ | :---------------- | :--------- | :---- |
-| `Basic radio group` | `BasicRadioGroup` | ✅ Match   |       |
-| `Disabled`          | `DisabledRadio`   | ✅ Match   |       |
+| JSDoc Example       | Storybook Story   | Status     | Notes                            |
+| :------------------ | :---------------- | :--------- | :------------------------------- |
+| `Basic radio group` | `BasicRadioGroup` | ✅ Match   |                                  |
+| `Disabled`          | `DisabledRadio`   | ✅ Match   |                                  |
 | `Optional`          | None              | ⚠️ Missing | Storybook missing granular demo. |
 | `Tile`              | None              | ⚠️ Missing | Storybook missing granular demo. |
 | `Size Small`        | None              | ⚠️ Missing | Storybook missing granular demo. |

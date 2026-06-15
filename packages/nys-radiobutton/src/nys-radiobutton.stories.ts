@@ -286,7 +286,7 @@ export const OtherOption: Story = {
         ></nys-radiobutton>
         <nys-radiobutton
           name="borough"
-          value="other"
+          value=""
           label="Other"
           other
         ></nys-radiobutton>
@@ -299,7 +299,7 @@ export const OtherOption: Story = {
         code: `
 <nys-radiogroup label="Select borough">
   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
-  <nys-radiobutton name="borough" value="other" label="Other" other></nys-radiobutton>
+  <nys-radiobutton name="borough" value="" label="Other" other></nys-radiobutton>
 </nys-radiogroup>`,
         type: "auto",
       },

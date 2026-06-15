@@ -4744,22 +4744,62 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<nys-combobox label=\"Select your favorite fruit\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n</nys-combobox>",
+              "code": "<nys-combobox label=\"Select your favorite fruit\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"cherry\">Cherry</option>\n<option value=\"date\">Date</option>\n<option value=\"elderberry\">Elderberry</option>\n<option value=\"fig\">Fig</option>\n<option value=\"grape\">Grape</option>\n<option value=\"honeydew\">Honeydew</option>\n<option value=\"kiwi\">Kiwi</option>\n<option value=\"lemon\">Lemon</option>\n<option value=\"mango\">Mango</option>\n<option value=\"nectarine\">Nectarine</option>\n<option value=\"orange\">Orange</option>\n<option value=\"papaya\">Papaya</option>\n<option value=\"quince\">Quince</option>\n<option value=\"raspberry\">Raspberry</option>\n<option value=\"strawberry\">Strawberry</option>\n<option value=\"tangerine\">Tangerine</option>\n<option value=\"watermelon\">Watermelon</option>\n</nys-combobox>",
               "lang": "html"
             },
             {
-              "title": "Option Groups",
-              "code": "<nys-combobox label=\"Select a fruit\">\n<optgroup label=\"Citrus\">\n<option value=\"lemon\">Lemon</option>\n<option value=\"orange\">Orange</option>\n</optgroup>\n</nys-combobox>",
+              "title": "Default Value",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" value=\"mango\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"mango\" selected>Mango</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Option Group",
+              "code": "<nys-combobox label=\"Select a fruit\" description=\"Fruits organized by category\">\n<optgroup label=\"Citrus\">\n<option value=\"lemon\">Lemon</option>\n<option value=\"lime\">Lime</option>\n<option value=\"orange\">Orange</option>\n<option value=\"grapefruit\">Grapefruit</option>\n<option value=\"tangerine\">Tangerine</option>\n</optgroup>\n<optgroup label=\"Berries\">\n<option value=\"strawberry\">Strawberry</option>\n<option value=\"blueberry\">Blueberry</option>\n<option value=\"raspberry\">Raspberry</option>\n<option value=\"blackberry\">Blackberry</option>\n<option value=\"cranberry\">Cranberry</option>\n</optgroup>\n<optgroup label=\"Tropical\">\n<option value=\"mango\">Mango</option>\n<option value=\"pineapple\">Pineapple</option>\n<option value=\"papaya\">Papaya</option>\n<option value=\"coconut\">Coconut</option>\n<option value=\"passionfruit\">Passionfruit</option>\n</optgroup>\n<optgroup label=\"Stone Fruits\">\n<option value=\"peach\">Peach</option>\n<option value=\"plum\">Plum</option>\n<option value=\"cherry\">Cherry</option>\n<option value=\"apricot\">Apricot</option>\n<option value=\"nectarine\">Nectarine</option>\n</optgroup>\n</nys-combobox>",
               "lang": "html"
             },
             {
               "title": "Disabled",
-              "code": "<nys-combobox label=\"Select your favorite fruit\" disabled>\n<option value=\"apple\">Apple</option>\n</nys-combobox>",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" disabled>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
               "lang": "html"
             },
             {
-              "title": "Error State",
-              "code": "<nys-combobox label=\"Select your favorite fruit\" showError errorMessage=\"Error message\">\n<option value=\"apple\">Apple</option>\n</nys-combobox>",
+              "title": "Required",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" required>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" optional>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Medium",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" width=\"md\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Width Large",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" width=\"lg\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-combobox label=\"Select your favorite fruit\">\n<label slot=\"description\">This is a description slot</label>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" showError errorMessage=\"Please select a fruit\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" inverted>\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"orange\">Orange</option>\n<option value=\"strawberry\">Strawberry</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled Options",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" description=\"Some fruits are out of season\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n<option value=\"cherry\" disabled>Cherry (Out of season)</option>\n<option value=\"mango\">Mango</option>\n<option value=\"strawberry\" disabled>Strawberry (Out of season)</option>\n<option value=\"orange\">Orange</option>\n</nys-combobox>",
               "lang": "html"
             }
           ],
@@ -9996,7 +10036,7 @@
             },
             {
               "title": "Other Option",
-              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"other\" label=\"Other\" other></nys-radiobutton>\n</nys-radiogroup>",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"\" label=\"Other\" other></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             },
             {
