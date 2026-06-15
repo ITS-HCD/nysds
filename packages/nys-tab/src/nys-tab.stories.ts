@@ -36,9 +36,9 @@ const meta: Meta<NysTabArgs> = {
 export default meta;
 type Story = StoryObj<NysTabArgs>;
 
-export const ExplicitOrdering: Story = {
+export const Basic: Story = {
   args: {
-    label: "1st Tab",
+    label: "Marcy",
   },
   render: (args) => {
     return html`
@@ -50,37 +50,6 @@ export const ExplicitOrdering: Story = {
         .aria-labelledby=${args["aria-labelledby"]}
         .name=${args["name"]}
       >
-        <nys-tab label="1st Tab" id="tab1"></nys-tab>
-        <nys-tab label="2nd Tab" id="tab2"></nys-tab>
-        <nys-tab label="3rd Tab" id="tab3"></nys-tab>
-        <nys-tabpanel aria-labelledby="tab2">Content for tab 2</nys-tabpanel>
-        <nys-tabpanel aria-labelledby="tab3">Content for tab 3</nys-tabpanel>
-        <nys-tabpanel aria-labelledby="tab1">Content for tab 1</nys-tabpanel>
-      </nys-tabgroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-tabgroup id="explicit-ordering">
-  <nys-tab label="1st Tab" id="tab1"></nys-tab>
-  <nys-tab label="2nd Tab" id="tab2"></nys-tab>
-  <nys-tab label="3rd Tab" id="tab3"></nys-tab>
-  <nys-tabpanel aria-labelledby="tab2">Content for tab 2</nys-tabpanel>
-  <nys-tabpanel aria-labelledby="tab3">Content for tab 3</nys-tabpanel>
-  <nys-tabpanel aria-labelledby="tab1">Content for tab 1</nys-tabpanel>
-</nys-tabgroup>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Basic: Story = {
-  render: () => {
-    return html`
-      <nys-tabgroup>
         <nys-tab label="Marcy"></nys-tab>
         <nys-tab label="Algonquin"></nys-tab>
         <nys-tab label="Haystack"></nys-tab>
@@ -148,6 +117,37 @@ export const Basic: Story = {
     route.
   </nys-tabpanel>
   // rest of tab panel content
+</nys-tabgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const ExplicitOrdering: Story = {
+  render: () => {
+    return html`
+      <nys-tabgroup id="explicit-ordering">
+        <nys-tab label="1st Tab" id="tab1"></nys-tab>
+        <nys-tab label="2nd Tab" id="tab2"></nys-tab>
+        <nys-tab label="3rd Tab" id="tab3"></nys-tab>
+        <nys-tabpanel aria-labelledby="tab2">Content for tab 2</nys-tabpanel>
+        <nys-tabpanel aria-labelledby="tab3">Content for tab 3</nys-tabpanel>
+        <nys-tabpanel aria-labelledby="tab1">Content for tab 1</nys-tabpanel>
+      </nys-tabgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-tabgroup id="explicit-ordering">
+  <nys-tab label="1st Tab" id="tab1"></nys-tab>
+  <nys-tab label="2nd Tab" id="tab2"></nys-tab>
+  <nys-tab label="3rd Tab" id="tab3"></nys-tab>
+  <nys-tabpanel aria-labelledby="tab2">Content for tab 2</nys-tabpanel>
+  <nys-tabpanel aria-labelledby="tab3">Content for tab 3</nys-tabpanel>
+  <nys-tabpanel aria-labelledby="tab1">Content for tab 1</nys-tabpanel>
 </nys-tabgroup>`,
         type: "auto",
       },
