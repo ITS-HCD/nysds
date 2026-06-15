@@ -471,6 +471,17 @@ async function main() {
       }
     });
 
+    // Also scan source files for internal usage of common components
+    const componentSourceFiles = fs.readdirSync(dir).filter(
+      (f) => f.endsWith(".ts") && !f.endsWith(".stories.ts") && !f.endsWith(".test.ts")
+    );
+    for (const f of componentSourceFiles) {
+      const content = fs.readFileSync(path.join(dir, f), "utf8");
+      if (content.includes("<nys-label")) usedTags.add("nys-label");
+      if (content.includes("<nys-errormessage")) usedTags.add("nys-errormessage");
+      if (content.includes("<nys-textinput")) usedTags.add("nys-textinput");
+    }
+
     const siblingImports = [...usedTags]
       .filter((t) => t !== componentName)
       .map((t) => {

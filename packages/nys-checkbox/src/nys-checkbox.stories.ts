@@ -2,6 +2,9 @@ import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-checkbox";
 import "./nys-checkboxgroup";
+import "@nysds/nys-label";
+import "@nysds/nys-errormessage";
+import "@nysds/nys-textinput";
 
 // Define the structure of the args used in the stories
 interface NysCheckboxArgs {
@@ -131,134 +134,6 @@ export const CheckboxGroup: Story = {
   },
 };
 
-export const Disabled: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox label="Disabled checkbox" disabled></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="Disabled checkbox" disabled></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Size: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox label="Small checkbox" size="sm"></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="Small checkbox" size="sm"></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Tile: Story = {
-  render: () => {
-    return html` <nys-checkbox label="Tile checkbox" tile></nys-checkbox> `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="Tile checkbox" tile></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const ErrorMessage: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox
-        label="Subscribe"
-        showError
-        errorMessage="You must select this box to continue"
-      ></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox
-  label="Subscribe"
-  showError
-  errorMessage="You must select this box to continue"
-></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SlotDescription: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox label="Subscribe">
-        <p slot="description">
-          Read about previous updates
-          <a href="https://www.ny.gov/" target="__blank">here</a>
-        </p>
-      </nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="Subscribe">
-  <p slot="description">
-    Read about previous updates
-    <a href="https://www.ny.gov/" target="__blank">here</a>
-  </p>
-</nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const OtherOption: Story = {
-  render: () => {
-    return html`
-      <nys-checkboxgroup label="Select landmarks">
-        <nys-checkbox
-          name="landmarks"
-          value="adirondacks"
-          label="Adirondacks"
-        ></nys-checkbox>
-        <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
-      </nys-checkboxgroup>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkboxgroup label="Select landmarks">
-  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
-  <nys-checkbox name="landmarks" other label="Other"></nys-checkbox>
-</nys-checkboxgroup>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const BasicAlt: Story = {
   render: () => {
     return html`
@@ -365,7 +240,7 @@ export const SizeSmall: Story = {
   },
 };
 
-export const TileAlt: Story = {
+export const Tile: Story = {
   render: () => {
     return html`
       <nys-checkboxgroup label="Select landmarks" tile>
