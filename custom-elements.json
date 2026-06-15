@@ -2028,7 +2028,7 @@
               "lang": "html"
             },
             {
-              "title": "With background bar",
+              "title": "Background bar",
               "code": "<nys-breadcrumbs backgroundBar>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li><a href=\"/tickets\">Ticket System</a></li>\n<li>Del Water Gap</li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             },

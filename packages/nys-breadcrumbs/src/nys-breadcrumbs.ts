@@ -18,7 +18,17 @@ let componentIdCounter = 0;
  *
  * @fires nys-breadcrumbs-expand - Fired when the user clicks the ellipsis to expand the trail.
  *
- * @example Full trail with current page
+ * @example Basic
+ * ```html
+ * <nys-breadcrumbs>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/services">Services</a></li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Current page
  * ```html
  * <nys-breadcrumbs>
  *  <ol>
@@ -29,21 +39,79 @@ let componentIdCounter = 0;
  * </nys-breadcrumbs>
  * ```
  *
- * @example Trail without current page
+ * @example Single item list
  * ```html
  * <nys-breadcrumbs>
  *  <ol>
- *   <li><a href="/">Home</a></li>
  *   <li><a href="/services">Services</a></li>
  *  </ol>
  * </nys-breadcrumbs>
  * ```
  *
- * @example Single item renders as back-to-parent
+ * @example Long list
  * ```html
  * <nys-breadcrumbs>
+ *   <ol>
+ *     <li><a href="/">Home</a></li>
+ *     <li><a href="/government">Government</a></li>
+ *     <li><a href="/government/agencies">Agencies</a></li>
+ *     <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+ *     <li><a href="/parks/state-parks">State Parks</a></li>
+ *     <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+ *     <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
+ *     <li>Trail Conditions</li>
+ *   </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Size small
+ * ```html
+ * <nys-breadcrumbs size="sm">
  *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/government">Government</a></li>
+ *   <li><a href="/government/agencies">Agencies</a></li>
+ *   <li>Parks & Recreation</li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Back to parent (mobile)
+ * ```html
+ * <nys-breadcrumbs backToParent>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/government">Government</a></li>
+ *   <li><a href="/government/agencies">Agencies</a></li>
+ *   <li><a href="/government/agencies/parks">Parks & Recreation</a></li>
+ *   <li><a href="/parks/state-parks">State Parks</a></li>
+ *   <li><a href="/parks/state-parks/delaware">Delaware Region</a></li>
+ *   <li><a href="/parks/state-parks/delaware/water-gap">Delaware Water Gap</a></li>
+ *   <li>Trail Conditions</li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Background bar
+ * ```html
+ * <nys-breadcrumbs backgroundBar>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
  *   <li><a href="/services">Services</a></li>
+ *   <li><a href="/tickets">Ticket System</a></li>
+ *   <li>Del Water Gap</li>
+ *  </ol>
+ * </nys-breadcrumbs>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-breadcrumbs disabled>
+ *  <ol>
+ *   <li><a href="/">Home</a></li>
+ *   <li><a href="/services">Services</a></li>
+ *   <li><a href="/tickets">Ticket System</a></li>
+ *   <li>Del Water Gap</li>
  *  </ol>
  * </nys-breadcrumbs>
  * ```
