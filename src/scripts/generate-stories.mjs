@@ -174,20 +174,22 @@ function buildArgTypes(booleans, stringsMap) {
     if (name === "id") return;
 
     const cleanType = type.replace(/\s+/g, " ").replace(/^\|\s*/, "").trim();
+    const key = name.includes("-") ? `"${name}"` : name;
     if (cleanType.includes("|") && cleanType.includes("\"")) {
       const options = cleanType
         .split("|")
         .map((s) => s.trim().replace(/^"|"$/g, ""))
         .filter(Boolean);
-      entries.push(`${name}: { control: "select", options: [${options.map(o => JSON.stringify(o)).join(", ")}] },`);
+      entries.push(`${key}: { control: "select", options: [${options.map(o => JSON.stringify(o)).join(", ")}] },`);
     } else if (cleanType === "number") {
-      entries.push(`${name}: { control: "number" },`);
+      entries.push(`${key}: { control: "number" },`);
     } else {
-      entries.push(`${name}: { control: "text" },`);
+      entries.push(`${key}: { control: "text" },`);
     }
   });
   booleans.forEach((b) => {
-    entries.push(`${b}: { control: "boolean", default: false },`);
+    const key = b.includes("-") ? `"${b}"` : b;
+    entries.push(`${key}: { control: "boolean", default: false },`);
   });
   return entries.join("\n");
 }
@@ -198,11 +200,13 @@ function buildInterfaceFields(booleans, stringsMap) {
   stringsMap.forEach((type, name) => {
     if (name !== "id") {
       const cleanType = type.replace(/\s+/g, " ").replace(/^\|\s*/, "").trim();
-      lines.push(`${name}: ${cleanType};`);
+      const key = name.includes("-") ? `"${name}"` : name;
+      lines.push(`${key}: ${cleanType};`);
     }
   });
   booleans.forEach((b) => {
-    lines.push(`${b}: boolean;`);
+    const key = b.includes("-") ? `"${b}"` : b;
+    lines.push(`${key}: boolean;`);
   });
   return lines.join("\n");
 }
@@ -249,8 +253,8 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
   } else {
     const rootDynamicAttrs = [
       `.id=\${args.id}`,
-      ...Array.from(allBooleans).map((b) => `?${b}=\${args.${b}}`),
-      ...Array.from(allStrings.keys()).map((k) => `.${k}=\${args.${k}}`),
+      ...Array.from(allBooleans).map((b) => `?${b}=\${args['${b}']}`),
+      ...Array.from(allStrings.keys()).map((k) => `.${k}=\${args['${k}']}`),
     ];
     rootReplacement =
       rootDynamicAttrs.length > 0
@@ -277,10 +281,10 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
 
     const childDynamicAttrs = [
       "        .id=${args.id}",
-      ...cb.filter((b) => !SKIP_ATTRS.has(b)).map((b) => `.${b}=\${args.${b}}`),
+      ...cb.filter((b) => !SKIP_ATTRS.has(b)).map((b) => `.${b}=\${args['${b}']}`),
       ...Object.keys(cs)
         .filter((k) => !SKIP_ATTRS.has(k))
-        .map((k) => `.${k}=\${args.${k}}`),
+        .map((k) => `.${k}=\${args['${k}']}`),
     ];
 
     childReplacement = `<${childTagName}\n${childDynamicAttrs.join("\n")}\n>`;

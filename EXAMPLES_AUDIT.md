@@ -4,24 +4,27 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ## Summary
 
-| Component           | Status     | Last Audited | Notes                                                                                    |
-| :------------------ | :--------- | :----------- | :--------------------------------------------------------------------------------------- |
-| `nys-accordion`     | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.                                                |
-| `nys-accordionitem` | ✅ Match   | 2026-06-12   | Example is included in `nys-accordion` stories.                                          |
-| `nys-alert`         | ✅ Match   | 2026-06-12   | Comprehensive coverage of all functional states.                                         |
-| `nys-avatar`        | ✅ Match   | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.                                           |
-| `nys-backtotop`     | ✅ Match   | 2026-06-12   | All JSDoc e xamples have matching stories.                                               |
-| `nys-badge`         | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.                                                |
-| `nys-breadcrumbs`   | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.                                                |
-| `nys-button`        | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories. Stories are now granular (one demo per story). |
-| `nys-checkbox`      | ✅ Match   | 2026-06-15   | Examples granularized to fix violations.                                                 |
-| `nys-checkboxgroup` | ✅ Match   | 2026-06-15   | Examples granularized to fix violations.                                                 |
-| `nys-combobox`      | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.                                                |
-| `nys-datepicker`    | ✅ Match   | 2026-06-15   | All JSDoc examples added; Storybook story 'WidthVariants' still needs granularization.   |
-| `nys-divider`       | ✅ Match   | 2026-06-12   | Basic coverage; missing subtle/inverted.                                                 |
-| `nys-dropdownmenu`  | ✅ Match   | 2026-06-12   | Good coverage; missing icon/disabled examples.                                           |
-| `nys-errormessage`  | ❌ Missing | 2026-06-12   | No JSDoc examples present.                                                               |
-| `nys-fileinput`     | ✅ Match   | 2026-06-12   | Good coverage; missing width/inverted examples.                                          |
+| Component           | Status      | Last Audited | Notes                                                                                    |
+| :------------------ | :---------- | :----------- | :--------------------------------------------------------------------------------------- |
+| `nys-accordion`     | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-accordionitem` | ✅ Match    | 2026-06-12   | Example is included in `nys-accordion` stories.                                          |
+| `nys-alert`         | ✅ Match    | 2026-06-12   | Comprehensive coverage of all functional states.                                         |
+| `nys-avatar`        | ✅ Match    | 2026-06-12   | JSDoc matches stories; missing 'lazy' example.                                           |
+| `nys-backtotop`     | ✅ Match    | 2026-06-12   | All JSDoc e xamples have matching stories.                                               |
+| `nys-badge`         | ✅ Match    | 2026-06-12   | All JSDoc examples have matching stories.                                                |
+| `nys-breadcrumbs`   | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories.                                                |
+| `nys-button`        | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories. Stories are now granular (one demo per story). |
+| `nys-checkbox`      | ✅ Match    | 2026-06-15   | Examples granularized to fix violations.                                                 |
+| `nys-checkboxgroup` | ✅ Match    | 2026-06-15   | Examples granularized to fix violations.                                                 |
+| `nys-combobox`      | ✅ Match    | 2026-06-15   | All JSDoc examples have matching stories.                                                |
+| `nys-datepicker`    | ✅ Match    | 2026-06-15   | All JSDoc examples added; Storybook story 'WidthVariants' still needs granularization.   |
+| `nys-divider`       | ✅ Match    | 2026-06-12   | Basic coverage; missing subtle/inverted.                                                 |
+| `nys-dropdownmenu`  | ✅ Match    | 2026-06-12   | Good coverage; missing icon/disabled examples.                                           |
+| `nys-errormessage`  | ❌ Missing  | 2026-06-12   | No JSDoc examples present.                                                               |
+| `nys-fileinput`     | ✅ Match    | 2026-06-12   | Good coverage; missing width/inverted examples.                                          |
+| `nys-tab`           | ❌ Mismatch | 2026-06-15   | JSDoc examples exist but Storybook only has one non-granular "Mega Demo".                |
+| `nys-tabgroup`      | ⚠️ Missing  | 2026-06-15   | No Storybook stories for this specific component; included in `nys-tab` stories.         |
+| `nys-tabpanel`      | ⚠️ Missing  | 2026-06-15   | No Storybook stories for this specific component; included in `nys-tab` stories.         |
 
 ---
 
@@ -316,16 +319,40 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-tab`
 
-| JSDoc Example | Storybook Story | Status     | Notes |
-| :------------ | :-------------- | :--------- | :---- |
-| `Basic`       | `Basic`         | ✅ Match   |       |
-| None          | `Disabled`      | ⚠️ Missing |       |
-| None          | `Preselect`     | ⚠️ Missing |       |
-| None          | `PanelContent`  | ⚠️ Missing |       |
+| JSDoc Example     | Storybook Story | Status      | Notes                                                                            |
+| :---------------- | :-------------- | :---------- | :------------------------------------------------------------------------------- |
+| `Basic`           | `Basic`         | ❌ Mismatch | JSDoc has 3 tabs (Overview/Details/Archived); Storybook has 6 tabs (High Peaks). |
+| `Disabled tab`    | None            | ⚠️ Missing  | Storybook missing granular demo.                                                 |
+| `Preselected tab` | None            | ⚠️ Missing  | Storybook missing granular demo.                                                 |
+| `With tab panels` | None            | ⚠️ Missing  | Storybook missing granular demo.                                                 |
 
 #### To Add
 
-- Add examples for `Disabled`, `Preselect`, `PanelContent`.
+- **Granularity**: Split Storybook `Basic` story into granular stories: `Basic`, `Disabled`, `Preselected`, and `TabPanels`.
+- **Properties**: Example for `id` property on `nys-tab`.
+
+### `nys-tabgroup`
+
+| JSDoc Example      | Storybook Story | Status     | Notes                              |
+| :----------------- | :-------------- | :--------- | :--------------------------------- |
+| `Disable a tab`    | None            | ⚠️ Missing | Included in `nys-tab` "Mega Demo". |
+| `Pre-select a tab` | None            | ⚠️ Missing | Included in `nys-tab` "Mega Demo". |
+
+#### To Add
+
+- **Properties**: Example for `name` property.
+- **Granularity**: Add granular Storybook stories for `DisabledTab` and `PreselectedTab`.
+
+### `nys-tabpanel`
+
+| JSDoc Example                 | Storybook Story | Status     | Notes                              |
+| :---------------------------- | :-------------- | :--------- | :--------------------------------- |
+| `Panel content is wrapped...` | None            | ⚠️ Missing | Included in `nys-tab` "Mega Demo". |
+
+#### To Add
+
+- **Properties**: Example for `id` property.
+- **Granularity**: Add granular Storybook story for `TabPanel`.
 
 ### `nys-table`
 

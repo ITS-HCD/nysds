@@ -69,21 +69,21 @@ export const Basic: Story = {
     return html`
       <nys-radiogroup
         .id=${args.id}
-        ?checked=${args.checked}
-        ?disabled=${args.disabled}
-        ?required=${args.required}
-        ?tile=${args.tile}
-        ?other=${args.other}
-        ?showOtherError=${args.showOtherError}
-        ?optional=${args.optional}
-        ?showError=${args.showError}
-        .label=${args.label}
-        .description=${args.description}
-        .name=${args.name}
-        .value=${args.value}
-        .form=${args.form}
-        .size=${args.size}
-        .errorMessage=${args.errorMessage}
+        ?checked=${args["checked"]}
+        ?disabled=${args["disabled"]}
+        ?required=${args["required"]}
+        ?tile=${args["tile"]}
+        ?other=${args["other"]}
+        ?showOtherError=${args["showOtherError"]}
+        ?optional=${args["optional"]}
+        ?showError=${args["showError"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .name=${args["name"]}
+        .value=${args["value"]}
+        .form=${args["form"]}
+        .size=${args["size"]}
+        .errorMessage=${args["errorMessage"]}
       >
         <nys-radiobutton
           name="borough"

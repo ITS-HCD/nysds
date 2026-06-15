@@ -74,25 +74,25 @@ export const Basic: Story = {
     return html`
       <nys-datepicker
         .id=${args.id}
-        ?hideTodayButton=${args.hideTodayButton}
-        ?hideClearButton=${args.hideClearButton}
-        ?disabled=${args.disabled}
-        ?required=${args.required}
-        ?optional=${args.optional}
-        ?showError=${args.showError}
-        ?inverted=${args.inverted}
-        .name=${args.name}
-        .width=${args.width}
-        .errorMessage=${args.errorMessage}
-        .form=${args.form}
-        .tooltip=${args.tooltip}
-        .type=${args.type}
-        .label=${args.label}
-        .description=${args.description}
-        .startDate=${args.startDate}
-        .minDate=${args.minDate}
-        .maxDate=${args.maxDate}
-        .value=${args.value}
+        ?hideTodayButton=${args["hideTodayButton"]}
+        ?hideClearButton=${args["hideClearButton"]}
+        ?disabled=${args["disabled"]}
+        ?required=${args["required"]}
+        ?optional=${args["optional"]}
+        ?showError=${args["showError"]}
+        ?inverted=${args["inverted"]}
+        .name=${args["name"]}
+        .width=${args["width"]}
+        .errorMessage=${args["errorMessage"]}
+        .form=${args["form"]}
+        .tooltip=${args["tooltip"]}
+        .type=${args["type"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .startDate=${args["startDate"]}
+        .minDate=${args["minDate"]}
+        .maxDate=${args["maxDate"]}
+        .value=${args["value"]}
       ></nys-datepicker>
     `;
   },

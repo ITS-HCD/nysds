@@ -11554,22 +11554,18 @@
           "examples": [
             {
               "title": "Basic",
-              "code": "<!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->\n<nys-tabgroup name=\"My Tabs\">\n<nys-tab label=\"Overview\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tab label=\"Archived\" disabled></nys-tab>\n<nys-tabpanel><p>Overview content</p></nys-tabpanel>\n<nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>\n<nys-tabpanel><p>Archived content</p></nys-tabpanel>\n</nys-tabgroup>",
-              "lang": "html"
+              "code": "<nys-tabgroup>\n<nys-tab label=\"Marcy\"></nys-tab>\n<nys-tab label=\"Algonquin\"></nys-tab>\n<nys-tab label=\"Haystack\"></nys-tab>\n// rest of tabs\n<nys-tabpanel\n>Mount Marcy is the tallest peak in the Adirondacks. It has an elevation\nof 5344 feet with 3166 feet of elevation gain. The roundtrip hike to the\ntop is 14.8 miles and is an out-and-back route.\n</nys-tabpanel>\n<nys-tabpanel\n>Algonquin Peak is the 2nd tallest peak in the Adirondacks. It has an\nelevation of 5114 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.8 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Haystack is the 3rd tallest peak in the Adirondacks. It has an\nelevation of 4960 feet with 4000 feet of elevation gain. The roundtrip\nhike to the top is 16.4 miles and is an out-and-back\nroute.</nys-tabpanel\n>\n// rest of tab panel content\n</nys-tabgroup>",
+              "lang": "html",
+              "render": "<nys-tabgroup>\n<nys-tab label=\"Marcy\"></nys-tab>\n<nys-tab label=\"Algonquin\"></nys-tab>\n<nys-tab label=\"Haystack\"></nys-tab>\n<nys-tab label=\"Skylight\" id=\"tab4\"></nys-tab>\n<nys-tab label=\"Whiteface\" id=\"tab5\"></nys-tab>\n<nys-tabpanel\n>Mount Marcy is the tallest peak in the Adirondacks. It has an elevation\nof 5344 feet with 3166 feet of elevation gain. The roundtrip hike to the\ntop is 14.8 miles and is an out-and-back route.\n</nys-tabpanel>\n<nys-tabpanel\n>Algonquin Peak is the 2nd tallest peak in the Adirondacks. It has an\nelevation of 5114 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.8 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Haystack is the 3rd tallest peak in the Adirondacks. It has an\nelevation of 4960 feet with 4000 feet of elevation gain. The roundtrip\nhike to the top is 16.4 miles and is an out-and-back\nroute.</nys-tabpanel\n>\n<nys-tabpanel\n>Mount Skylight is the 4th tallest peak in the Adirondacks. It has an\nelevation of 4926 feet with 5100 feet of elevation gain. The roundtrip\nhike to the top is 16 miles and is an out-and-back route.</nys-tabpanel\n>\n<nys-tabpanel\n>Whiteface is the 5th tallest peak in the Adirondacks. It has an\nelevation of 4867 feet with 3050 feet of elevation gain. The roundtrip\nhike to the top is 7.2 miles and is an out-and-back route.</nys-tabpanel\n>\n<p style=\"padding: 1rem;\">\n<strong>Note:</strong> The content in the tab panels was gathered from\n<a href=\"https://www.lakeplacid.com/do/outdoors/summerfall/hiking\"\n>lakeplacid.com</a\n>\nand may not be completely accurate. This is meant to be a demo of how\nthe component works, not a hiking guide.\n</p>\n</nys-tabgroup>"
             },
             {
-              "title": "Disabled tab",
+              "title": "Disabled",
               "code": "<nys-tabgroup name=\"Account Settings\">\n<nys-tab label=\"Profile\"></nys-tab>\n<nys-tab label=\"Security\"></nys-tab>\n<nys-tab label=\"Notifications\" disabled></nys-tab>\n<nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n<nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n<nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             },
             {
-              "title": "Preselected tab",
+              "title": "Preselected",
               "code": "<nys-tabgroup name=\"Reports\">\n<nys-tab label=\"Summary\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tabpanel><p>Summary view</p></nys-tabpanel>\n<nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>\n</nys-tabgroup>",
-              "lang": "html"
-            },
-            {
-              "title": "With tab panels",
-              "code": "<!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->\n<nys-tabgroup name=\"Steps\">\n<nys-tab label=\"Step 1\"></nys-tab>\n<nys-tab label=\"Step 2\"></nys-tab>\n<nys-tabpanel>\n<h2>Step 1: Enter your information</h2>\n<p>Fill out the form below.</p>\n</nys-tabpanel>\n<nys-tabpanel>\n<h2>Step 2: Review and submit</h2>\n<p>Confirm your details before submitting.</p>\n</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             }
           ]
@@ -11831,13 +11827,8 @@
           "customElement": true,
           "examples": [
             {
-              "title": "Disable a tab using the `disabled` attribute on `<nys-tab>`.",
-              "code": "<nys-tabgroup name=\"Account Settings\">\n<nys-tab label=\"Profile\"></nys-tab>\n<nys-tab label=\"Security\"></nys-tab>\n<nys-tab label=\"Notifications\" disabled></nys-tab>\n<nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n<nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n<nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>",
-              "lang": "html"
-            },
-            {
-              "title": "Pre-select a tab using the `selected` attribute on `<nys-tab>`.",
-              "code": "<nys-tabgroup name=\"Reports\">\n<nys-tab label=\"Summary\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tabpanel><p>Summary view</p></nys-tabpanel>\n<nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>\n</nys-tabgroup>",
+              "title": "Explicit Ordering",
+              "code": "<nys-tabgroup id=\"explicit-ordering\">\n<nys-tab label=\"1st Tab\" id=\"tab1\"></nys-tab>\n<nys-tab label=\"2nd Tab\" id=\"tab2\"></nys-tab>\n<nys-tab label=\"3rd Tab\" id=\"tab3\"></nys-tab>\n<nys-tabpanel aria-labelledby=\"tab2\">Content for tab 2</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab3\">Content for tab 3</nys-tabpanel>\n<nys-tabpanel aria-labelledby=\"tab1\">Content for tab 1</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             }
           ]
@@ -11907,14 +11898,7 @@
             "package": "lit"
           },
           "tagName": "nys-tabpanel",
-          "customElement": true,
-          "examples": [
-            {
-              "title": "Panel content is wrapped by `<nys-tabpanel>`.",
-              "code": "<!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->\n<nys-tabgroup name=\"Steps\">\n<nys-tab label=\"Step 1\"></nys-tab>\n<nys-tab label=\"Step 2\"></nys-tab>\n<nys-tabpanel>\n<h2>Step 1: Enter your information</h2>\n<p>Fill out the form below.</p>\n</nys-tabpanel>\n<nys-tabpanel>\n<h2>Step 2: Review and submit</h2>\n<p>Confirm your details before submitting.</p>\n</nys-tabpanel>\n</nys-tabgroup>",
-              "lang": "html"
-            }
-          ]
+          "customElement": true
         }
       ],
       "exports": [

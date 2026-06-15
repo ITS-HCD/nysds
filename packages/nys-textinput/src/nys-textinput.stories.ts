@@ -83,28 +83,28 @@ export const BasicTextInput: Story = {
     return html`
       <nys-textinput
         .id=${args.id}
-        ?disabled=${args.disabled}
-        ?readonly=${args.readonly}
-        ?required=${args.required}
-        ?optional=${args.optional}
-        ?inverted=${args.inverted}
-        ?showError=${args.showError}
-        .name=${args.name}
-        .type=${args.type}
-        .label=${args.label}
-        .description=${args.description}
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .tooltip=${args.tooltip}
-        .form=${args.form}
-        .pattern=${args.pattern}
-        .maxlength=${args.maxlength}
-        .ariaLabel=${args.ariaLabel}
-        .width=${args.width}
-        .step=${args.step}
-        .min=${args.min}
-        .max=${args.max}
-        .errorMessage=${args.errorMessage}
+        ?disabled=${args["disabled"]}
+        ?readonly=${args["readonly"]}
+        ?required=${args["required"]}
+        ?optional=${args["optional"]}
+        ?inverted=${args["inverted"]}
+        ?showError=${args["showError"]}
+        .name=${args["name"]}
+        .type=${args["type"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .placeholder=${args["placeholder"]}
+        .value=${args["value"]}
+        .tooltip=${args["tooltip"]}
+        .form=${args["form"]}
+        .pattern=${args["pattern"]}
+        .maxlength=${args["maxlength"]}
+        .ariaLabel=${args["ariaLabel"]}
+        .width=${args["width"]}
+        .step=${args["step"]}
+        .min=${args["min"]}
+        .max=${args["max"]}
+        .errorMessage=${args["errorMessage"]}
       ></nys-textinput>
     `;
   },

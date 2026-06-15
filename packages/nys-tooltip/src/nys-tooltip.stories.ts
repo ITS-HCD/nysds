@@ -46,10 +46,10 @@ export const TooltipForButton: Story = {
     return html`
       <nys-button
         .id=${args.id}
-        ?inverted=${args.inverted}
-        .text=${args.text}
-        .for=${args.for}
-        .position=${args.position}
+        ?inverted=${args["inverted"]}
+        .text=${args["text"]}
+        .for=${args["for"]}
+        .position=${args["position"]}
       ></nys-button>
       <nys-tooltip for="help-btn" text="Click for assistance"></nys-tooltip>
     `;

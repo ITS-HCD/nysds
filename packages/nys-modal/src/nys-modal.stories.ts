@@ -44,11 +44,11 @@ export const BasicModal: Story = {
     return html`
       <nys-modal
         .id=${args.id}
-        ?open=${args.open}
-        ?mandatory=${args.mandatory}
-        .heading=${args.heading}
-        .subheading=${args.subheading}
-        .width=${args.width}
+        ?open=${args["open"]}
+        ?mandatory=${args["mandatory"]}
+        .heading=${args["heading"]}
+        .subheading=${args["subheading"]}
+        .width=${args["width"]}
       >
         <p>Are you sure you want to proceed?</p>
         <div slot="actions">

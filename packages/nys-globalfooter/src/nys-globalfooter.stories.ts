@@ -37,8 +37,8 @@ export const SimpleFooter: Story = {
     return html`
       <nys-globalfooter
         .id=${args.id}
-        .agencyName=${args.agencyName}
-        .homepageLink=${args.homepageLink}
+        .agencyName=${args["agencyName"]}
+        .homepageLink=${args["homepageLink"]}
       >
         <span>123 Main St, Albany NY</span>
         <span>info@health.ny.gov</span>

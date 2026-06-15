@@ -71,24 +71,24 @@ export const BasicTextarea: Story = {
     return html`
       <nys-textarea
         .id=${args.id}
-        ?disabled=${args.disabled}
-        ?readonly=${args.readonly}
-        ?required=${args.required}
-        ?optional=${args.optional}
-        ?inverted=${args.inverted}
-        ?showError=${args.showError}
-        .name=${args.name}
-        .label=${args.label}
-        .description=${args.description}
-        .placeholder=${args.placeholder}
-        .value=${args.value}
-        .tooltip=${args.tooltip}
-        .form=${args.form}
-        .maxlength=${args.maxlength}
-        .width=${args.width}
-        .rows=${args.rows}
-        .resize=${args.resize}
-        .errorMessage=${args.errorMessage}
+        ?disabled=${args["disabled"]}
+        ?readonly=${args["readonly"]}
+        ?required=${args["required"]}
+        ?optional=${args["optional"]}
+        ?inverted=${args["inverted"]}
+        ?showError=${args["showError"]}
+        .name=${args["name"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .placeholder=${args["placeholder"]}
+        .value=${args["value"]}
+        .tooltip=${args["tooltip"]}
+        .form=${args["form"]}
+        .maxlength=${args["maxlength"]}
+        .width=${args["width"]}
+        .rows=${args["rows"]}
+        .resize=${args["resize"]}
+        .errorMessage=${args["errorMessage"]}
       ></nys-textarea>
     `;
   },

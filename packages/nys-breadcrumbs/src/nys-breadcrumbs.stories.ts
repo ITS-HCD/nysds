@@ -42,12 +42,12 @@ export const Basic: Story = {
     return html`
       <nys-breadcrumbs
         .id=${args.id}
-        ?backToParent=${args.backToParent}
-        ?collapsed=${args.collapsed}
-        ?backgroundBar=${args.backgroundBar}
-        ?disabled=${args.disabled}
-        .ariaLabel=${args.ariaLabel}
-        .size=${args.size}
+        ?backToParent=${args["backToParent"]}
+        ?collapsed=${args["collapsed"]}
+        ?backgroundBar=${args["backgroundBar"]}
+        ?disabled=${args["disabled"]}
+        .ariaLabel=${args["ariaLabel"]}
+        .size=${args["size"]}
       >
         <ol>
           <li><a href="/">Home</a></li>

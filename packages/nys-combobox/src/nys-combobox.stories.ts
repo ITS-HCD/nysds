@@ -61,19 +61,19 @@ export const Basic: Story = {
     return html`
       <nys-combobox
         .id=${args.id}
-        ?disabled=${args.disabled}
-        ?required=${args.required}
-        ?optional=${args.optional}
-        ?inverted=${args.inverted}
-        ?showError=${args.showError}
-        .name=${args.name}
-        .label=${args.label}
-        .description=${args.description}
-        .value=${args.value}
-        .tooltip=${args.tooltip}
-        .form=${args.form}
-        .width=${args.width}
-        .errorMessage=${args.errorMessage}
+        ?disabled=${args["disabled"]}
+        ?required=${args["required"]}
+        ?optional=${args["optional"]}
+        ?inverted=${args["inverted"]}
+        ?showError=${args["showError"]}
+        .name=${args["name"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .value=${args["value"]}
+        .tooltip=${args["tooltip"]}
+        .form=${args["form"]}
+        .width=${args["width"]}
+        .errorMessage=${args["errorMessage"]}
       >
         <option value="apple">Apple</option>
         <option value="banana">Banana</option>

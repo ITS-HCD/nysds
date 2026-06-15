@@ -39,9 +39,9 @@ export const Basic: Story = {
     return html`
       <nys-errormessage
         .id=${args.id}
-        ?showError=${args.showError}
-        ?showDivider=${args.showDivider}
-        .errorMessage=${args.errorMessage}
+        ?showError=${args["showError"]}
+        ?showDivider=${args["showDivider"]}
+        .errorMessage=${args["errorMessage"]}
       ></nys-errormessage>
     `;
   },

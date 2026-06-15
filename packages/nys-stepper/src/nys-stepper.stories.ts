@@ -47,12 +47,12 @@ export const StepWithPageNavigation: Story = {
     return html`
       <nys-step
         .id=${args.id}
-        ?isCompactExpanded=${args.isCompactExpanded}
-        ?current=${args.current}
-        .name=${args.name}
-        .label=${args.label}
-        .counterText=${args.counterText}
-        .class=${args.class}
+        ?isCompactExpanded=${args["isCompactExpanded"]}
+        ?current=${args["current"]}
+        .name=${args["name"]}
+        .label=${args["label"]}
+        .counterText=${args["counterText"]}
+        .class=${args["class"]}
       ></nys-step>
     `;
   },

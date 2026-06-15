@@ -30,25 +30,15 @@ let componentIdCounter = 0;
  *   moved into internal shadow-DOM containers on `slotchange`; the slot
  *   itself is not rendered visibly.
  *
- * @example Disable a tab using the `disabled` attribute on `<nys-tab>`.
+ * @example Explicit Ordering
  * ```html
- * <nys-tabgroup name="Account Settings">
- *   <nys-tab label="Profile"></nys-tab>
- *   <nys-tab label="Security"></nys-tab>
- *   <nys-tab label="Notifications" disabled></nys-tab>
- *   <nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>
- *   <nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>
- *   <nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>
- * </nys-tabgroup>
- * ```
- *
- * @example Pre-select a tab using the `selected` attribute on `<nys-tab>`.
- * ```html
- * <nys-tabgroup name="Reports">
- *   <nys-tab label="Summary"></nys-tab>
- *   <nys-tab label="Details" selected></nys-tab>
- *   <nys-tabpanel><p>Summary view</p></nys-tabpanel>
- *   <nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>
+ * <nys-tabgroup id="explicit-ordering">
+ *   <nys-tab label="1st Tab" id="tab1"></nys-tab>
+ *   <nys-tab label="2nd Tab" id="tab2"></nys-tab>
+ *   <nys-tab label="3rd Tab" id="tab3"></nys-tab>
+ *   <nys-tabpanel aria-labelledby="tab2">Content for tab 2</nys-tabpanel>
+ *   <nys-tabpanel aria-labelledby="tab3">Content for tab 3</nys-tabpanel>
+ *   <nys-tabpanel aria-labelledby="tab1">Content for tab 1</nys-tabpanel>
  * </nys-tabgroup>
  * ```
  */

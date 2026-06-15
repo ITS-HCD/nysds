@@ -42,10 +42,10 @@ export const BasicHeader: Story = {
     return html`
       <nys-globalheader
         .id=${args.id}
-        ?nysLogo=${args.nysLogo}
-        .appName=${args.appName}
-        .agencyName=${args.agencyName}
-        .homepageLink=${args.homepageLink}
+        ?nysLogo=${args["nysLogo"]}
+        .appName=${args["appName"]}
+        .agencyName=${args["agencyName"]}
+        .homepageLink=${args["homepageLink"]}
       >
         <ul>
           <li><a href="/about">About</a></li>

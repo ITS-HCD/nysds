@@ -61,19 +61,19 @@ export const BasicOptions: Story = {
     return html`
       <nys-select
         .id=${args.id}
-        ?disabled=${args.disabled}
-        ?required=${args.required}
-        ?optional=${args.optional}
-        ?inverted=${args.inverted}
-        ?showError=${args.showError}
-        .name=${args.name}
-        .label=${args.label}
-        .description=${args.description}
-        .value=${args.value}
-        .tooltip=${args.tooltip}
-        .form=${args.form}
-        .errorMessage=${args.errorMessage}
-        .width=${args.width}
+        ?disabled=${args["disabled"]}
+        ?required=${args["required"]}
+        ?optional=${args["optional"]}
+        ?inverted=${args["inverted"]}
+        ?showError=${args["showError"]}
+        .name=${args["name"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .value=${args["value"]}
+        .tooltip=${args["tooltip"]}
+        .form=${args["form"]}
+        .errorMessage=${args["errorMessage"]}
+        .width=${args["width"]}
       >
         <nys-option value="ny">New York</nys-option>
         <nys-option value="ca" disabled>California</nys-option>

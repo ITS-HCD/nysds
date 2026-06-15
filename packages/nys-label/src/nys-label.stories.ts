@@ -42,11 +42,11 @@ export const BasicLabel: Story = {
     return html`
       <nys-label
         .id=${args.id}
-        ?inverted=${args.inverted}
-        .label=${args.label}
-        .description=${args.description}
-        .flag=${args.flag}
-        .tooltip=${args.tooltip}
+        ?inverted=${args["inverted"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .flag=${args["flag"]}
+        .tooltip=${args["tooltip"]}
       ></nys-label>
     `;
   },

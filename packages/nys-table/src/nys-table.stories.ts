@@ -42,11 +42,11 @@ export const BasicTable: Story = {
     return html`
       <nys-table
         .id=${args.id}
-        ?striped=${args.striped}
-        ?sortable=${args.sortable}
-        ?bordered=${args.bordered}
-        .name=${args.name}
-        .download=${args.download}
+        ?striped=${args["striped"]}
+        ?sortable=${args["sortable"]}
+        ?bordered=${args["bordered"]}
+        .name=${args["name"]}
+        .download=${args["download"]}
       >
         <table>
           <caption>

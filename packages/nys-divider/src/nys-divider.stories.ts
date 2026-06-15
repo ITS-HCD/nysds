@@ -32,7 +32,7 @@ export const BasicDivider: Story = {
   args: {},
   render: (args) => {
     return html`
-      <p .id=${args.id} ?inverted=${args.inverted} ?subtle=${args.subtle}>
+      <p .id=${args.id} ?inverted=${args["inverted"]} ?subtle=${args["subtle"]}>
         Section one content
       </p>
       <nys-divider></nys-divider>

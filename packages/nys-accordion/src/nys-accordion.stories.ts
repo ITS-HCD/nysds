@@ -41,12 +41,12 @@ export const Basic: Story = {
     return html`
       <nys-accordion
         .id=${args.id}
-        ?singleSelect=${args.singleSelect}
-        ?bordered=${args.bordered}
-        ?expanded=${args.expanded}
-        .heading=${args.heading}
+        ?singleSelect=${args["singleSelect"]}
+        ?bordered=${args["bordered"]}
+        ?expanded=${args["expanded"]}
+        .heading=${args["heading"]}
       >
-        <nys-accordionitem .id=${args.id} .heading=${args.heading}>
+        <nys-accordionitem .id=${args.id} .heading=${args["heading"]}>
           <p>
             You can apply for or renew a U.S. passport through the U.S.
             Department of State. Some renewals can be done by mail.

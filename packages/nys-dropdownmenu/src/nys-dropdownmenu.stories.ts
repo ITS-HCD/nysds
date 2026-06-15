@@ -46,12 +46,12 @@ export const BasicItem: Story = {
     return html`
       <nys-dropdownmenuitem
         .id=${args.id}
-        ?showDropdown=${args.showDropdown}
-        ?disabled=${args.disabled}
-        .for=${args.for}
-        .position=${args.position}
-        .label=${args.label}
-        .link=${args.link}
+        ?showDropdown=${args["showDropdown"]}
+        ?disabled=${args["disabled"]}
+        .for=${args["for"]}
+        .position=${args["position"]}
+        .label=${args["label"]}
+        .link=${args["link"]}
       ></nys-dropdownmenuitem>
     `;
   },

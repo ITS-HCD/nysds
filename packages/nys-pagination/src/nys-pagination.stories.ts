@@ -41,10 +41,10 @@ export const BasicPagination: Story = {
     return html`
       <nys-pagination
         .id=${args.id}
-        ?_twoBeforeLast=${args._twoBeforeLast}
-        .name=${args.name}
-        .currentPage=${args.currentPage}
-        .totalPages=${args.totalPages}
+        ?_twoBeforeLast=${args["_twoBeforeLast"]}
+        .name=${args["name"]}
+        .currentPage=${args["currentPage"]}
+        .totalPages=${args["totalPages"]}
       ></nys-pagination>
     `;
   },

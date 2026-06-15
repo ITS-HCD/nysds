@@ -66,21 +66,21 @@ export const SingleFileUpload: Story = {
     return html`
       <nys-fileinput
         .id=${args.id}
-        ?multiple=${args.multiple}
-        ?disabled=${args.disabled}
-        ?required=${args.required}
-        ?optional=${args.optional}
-        ?showError=${args.showError}
-        ?dropzone=${args.dropzone}
-        ?inverted=${args.inverted}
-        .name=${args.name}
-        .label=${args.label}
-        .description=${args.description}
-        .form=${args.form}
-        .tooltip=${args.tooltip}
-        .accept=${args.accept}
-        .errorMessage=${args.errorMessage}
-        .width=${args.width}
+        ?multiple=${args["multiple"]}
+        ?disabled=${args["disabled"]}
+        ?required=${args["required"]}
+        ?optional=${args["optional"]}
+        ?showError=${args["showError"]}
+        ?dropzone=${args["dropzone"]}
+        ?inverted=${args["inverted"]}
+        .name=${args["name"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .form=${args["form"]}
+        .tooltip=${args["tooltip"]}
+        .accept=${args["accept"]}
+        .errorMessage=${args["errorMessage"]}
+        .width=${args["width"]}
       ></nys-fileinput>
     `;
   },

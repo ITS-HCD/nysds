@@ -71,23 +71,23 @@ export const Basic: Story = {
     return html`
       <nys-button
         .id=${args.id}
-        ?fullWidth=${args.fullWidth}
-        ?inverted=${args.inverted}
-        ?circle=${args.circle}
-        ?disabled=${args.disabled}
-        .name=${args.name}
-        .size=${args.size}
-        .variant=${args.variant}
-        .label=${args.label}
-        .ariaLabel=${args.ariaLabel}
-        .ariaControls=${args.ariaControls}
-        .prefixIcon=${args.prefixIcon}
-        .suffixIcon=${args.suffixIcon}
-        .icon=${args.icon}
-        .form=${args.form}
-        .value=${args.value}
-        .ariaDescription=${args.ariaDescription}
-        .type=${args.type}
+        ?fullWidth=${args["fullWidth"]}
+        ?inverted=${args["inverted"]}
+        ?circle=${args["circle"]}
+        ?disabled=${args["disabled"]}
+        .name=${args["name"]}
+        .size=${args["size"]}
+        .variant=${args["variant"]}
+        .label=${args["label"]}
+        .ariaLabel=${args["ariaLabel"]}
+        .ariaControls=${args["ariaControls"]}
+        .prefixIcon=${args["prefixIcon"]}
+        .suffixIcon=${args["suffixIcon"]}
+        .icon=${args["icon"]}
+        .form=${args["form"]}
+        .value=${args["value"]}
+        .ariaDescription=${args["ariaDescription"]}
+        .type=${args["type"]}
       ></nys-button>
     `;
   },

@@ -49,14 +49,14 @@ export const BasicUsage: Story = {
     return html`
       <nys-video
         .id=${args.id}
-        ?autoplay=${args.autoplay}
-        ?disabled=${args.disabled}
-        .titleText=${args.titleText}
-        .videourl=${args.videourl}
-        .size=${args.size}
-        .loading=${args.loading}
-        .starttime=${args.starttime}
-        .thumbnail=${args.thumbnail}
+        ?autoplay=${args["autoplay"]}
+        ?disabled=${args["disabled"]}
+        .titleText=${args["titleText"]}
+        .videourl=${args["videourl"]}
+        .size=${args["size"]}
+        .loading=${args["loading"]}
+        .starttime=${args["starttime"]}
+        .thumbnail=${args["thumbnail"]}
       ></nys-video>
     `;
   },

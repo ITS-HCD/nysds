@@ -54,16 +54,16 @@ export const BasicToggle: Story = {
     return html`
       <nys-toggle
         .id=${args.id}
-        ?checked=${args.checked}
-        ?disabled=${args.disabled}
-        ?noIcon=${args.noIcon}
-        ?inverted=${args.inverted}
-        .name=${args.name}
-        .value=${args.value}
-        .label=${args.label}
-        .description=${args.description}
-        .form=${args.form}
-        .size=${args.size}
+        ?checked=${args["checked"]}
+        ?disabled=${args["disabled"]}
+        ?noIcon=${args["noIcon"]}
+        ?inverted=${args["inverted"]}
+        .name=${args["name"]}
+        .value=${args["value"]}
+        .label=${args["label"]}
+        .description=${args["description"]}
+        .form=${args["form"]}
+        .size=${args["size"]}
       ></nys-toggle>
     `;
   },

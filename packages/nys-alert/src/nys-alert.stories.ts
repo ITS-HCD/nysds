@@ -56,16 +56,16 @@ export const Basic: Story = {
     return html`
       <nys-alert
         .id=${args.id}
-        ?dismissible=${args.dismissible}
-        .heading=${args.heading}
-        .icon=${args.icon}
-        .duration=${args.duration}
-        .text=${args.text}
-        .primaryAction=${args.primaryAction}
-        .secondaryAction=${args.secondaryAction}
-        .primaryLabel=${args.primaryLabel}
-        .secondaryLabel=${args.secondaryLabel}
-        .type=${args.type}
+        ?dismissible=${args["dismissible"]}
+        .heading=${args["heading"]}
+        .icon=${args["icon"]}
+        .duration=${args["duration"]}
+        .text=${args["text"]}
+        .primaryAction=${args["primaryAction"]}
+        .secondaryAction=${args["secondaryAction"]}
+        .primaryLabel=${args["primaryLabel"]}
+        .secondaryLabel=${args["secondaryLabel"]}
+        .type=${args["type"]}
       ></nys-alert>
     `;
   },
