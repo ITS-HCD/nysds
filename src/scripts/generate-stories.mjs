@@ -169,7 +169,7 @@ function buildBasicArgs(html, allAttributesMap) {
 
 function buildArgTypes(booleans, stringsMap) {
   const entries = [];
-  entries.push(`    id: { control: "text" },`);
+  entries.push(`id: { control: "text" },`);
   stringsMap.forEach((type, name) => {
     if (name === "id") return;
 
@@ -179,30 +179,30 @@ function buildArgTypes(booleans, stringsMap) {
         .split("|")
         .map((s) => s.trim().replace(/^"|"$/g, ""))
         .filter(Boolean);
-      entries.push(`    ${name}: { control: "select", options: [${options.map(o => JSON.stringify(o)).join(", ")}] },`);
+      entries.push(`${name}: { control: "select", options: [${options.map(o => JSON.stringify(o)).join(", ")}] },`);
     } else if (cleanType === "number") {
-      entries.push(`    ${name}: { control: "number" },`);
+      entries.push(`${name}: { control: "number" },`);
     } else {
-      entries.push(`    ${name}: { control: "text" },`);
+      entries.push(`${name}: { control: "text" },`);
     }
   });
   booleans.forEach((b) => {
-    entries.push(`    ${b}: { control: "boolean", default: false },`);
+    entries.push(`${b}: { control: "boolean", default: false },`);
   });
   return entries.join("\n");
 }
 
 function buildInterfaceFields(booleans, stringsMap) {
   const lines = [];
-  lines.push("  id: string;");
+  lines.push("id: string;");
   stringsMap.forEach((type, name) => {
     if (name !== "id") {
       const cleanType = type.replace(/\s+/g, " ").replace(/^\|\s*/, "").trim();
-      lines.push(`  ${name}: ${cleanType};`);
+      lines.push(`${name}: ${cleanType};`);
     }
   });
   booleans.forEach((b) => {
-    lines.push(`  ${b}: boolean;`);
+    lines.push(`${b}: boolean;`);
   });
   return lines.join("\n");
 }
@@ -248,13 +248,13 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
     rootReplacement = rootTagMatch[0];
   } else {
     const rootDynamicAttrs = [
-      `        .id=\${args.id}`,
-      ...Array.from(allBooleans).map((b) => `        ?${b}=\${args.${b}}`),
-      ...Array.from(allStrings.keys()).map((k) => `        .${k}=\${args.${k}}`),
+      `.id=\${args.id}`,
+      ...Array.from(allBooleans).map((b) => `?${b}=\${args.${b}}`),
+      ...Array.from(allStrings.keys()).map((k) => `.${k}=\${args.${k}}`),
     ];
     rootReplacement =
       rootDynamicAttrs.length > 0
-        ? `<${rootTagName}\n${rootDynamicAttrs.join("\n")}\n      >`
+        ? `<${rootTagName}\n${rootDynamicAttrs.join("\n")}\n>`
         : `<${rootTagName}>`;
   }
 
@@ -277,10 +277,10 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
 
     const childDynamicAttrs = [
       "        .id=${args.id}",
-      ...cb.filter((b) => !SKIP_ATTRS.has(b)).map((b) => `        .${b}=\${args.${b}}`),
+      ...cb.filter((b) => !SKIP_ATTRS.has(b)).map((b) => `.${b}=\${args.${b}}`),
       ...Object.keys(cs)
         .filter((k) => !SKIP_ATTRS.has(k))
-        .map((k) => `        .${k}=\${args.${k}}`),
+        .map((k) => `.${k}=\${args.${k}}`),
     ];
 
     childReplacement = `<${childTagName}\n${childDynamicAttrs.join("\n")}\n>`;
@@ -289,10 +289,10 @@ function buildBasicStory(example, args, allBooleans, allStrings, allAttributesMa
   const renderHtml = `${rootReplacement}${beforeChild}${childReplacement}${afterChild}`;
 
   const argsLines = Object.entries(args)
-    .map(([k, v]) => `    ${k}: ${typeof v === "boolean" ? v : `"${v}"`},`)
+    .map(([k, v]) => `${k}: ${typeof v === "boolean" ? v : `"${v}"`},`)
     .join("\n");
 
-  const argsBlock = argsLines ? `  args: {\n${argsLines}\n  },` : `  args: {},`;
+  const argsBlock = argsLines ? `args: {\n${argsLines}\n  },` : `args: {},`;
 
   return `export const Basic: Story = {
 ${argsBlock}
@@ -531,7 +531,14 @@ type Story = StoryObj<${interfaceName}>;`;
 
     const outputPath = path.join(dir, `${componentName}.stories.ts`);
 
-    fs.writeFileSync(outputPath, output, "utf8");
+    const projectConfig = await prettier.resolveConfig(outputPath);
+    const formattedOutput = await prettier.format(output, {
+      ...projectConfig,
+      parser: "typescript",
+      filepath: outputPath,
+    });
+
+    fs.writeFileSync(outputPath, formattedOutput, "utf8");
     console.log(`✓ Generated ${outputPath}`);
   }
 }
