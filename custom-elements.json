@@ -2762,8 +2762,18 @@
               "lang": "html"
             },
             {
-              "title": "Button with icons",
-              "code": "<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>\n<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>",
+              "title": "Prefix Icon",
+              "code": "<nys-button label=\"Previous\" prefixIcon=\"chevron_left\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Suffix Icon",
+              "code": "<nys-button label=\"Next\" suffixIcon=\"chevron_right\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Slotted Icons",
+              "code": "<nys-button label=\"Slotted icons\">\n<nys-icon color=\"#db117d\" slot=\"prefix-icon\" name=\"chevron_left\"></nys-icon>\n<nys-icon color=\"#db117d\" slot=\"suffix-icon\" name=\"chevron_right\"></nys-icon>\n</nys-button>",
               "lang": "html"
             },
             {
@@ -2799,11 +2809,6 @@
             {
               "title": "Disabled",
               "code": "<nys-button label=\"Disabled\" disabled></nys-button>",
-              "lang": "html"
-            },
-            {
-              "title": "Slotted icons",
-              "code": "<nys-button label=\"Settings\">\n<nys-icon slot=\"prefix-icon\" name=\"settings\"></nys-icon>\n</nys-button>",
               "lang": "html"
             }
           ]
@@ -9319,6 +9324,11 @@
               "title": "Radio group",
               "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
+            },
+            {
+              "title": "Disabled radio",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" disabled></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
             }
           ]
         }
@@ -10636,6 +10646,11 @@
             {
               "title": "With option groups",
               "code": "<nys-select label=\"Select service\">\n<optgroup label=\"Transportation\">\n<option value=\"mta\">MTA</option>\n<option value=\"dmv\">DMV</option>\n</optgroup>\n</nys-select>",
+              "lang": "html"
+            },
+            {
+              "title": "Required select",
+              "code": "<nys-select label=\"Select borough\" required>\n<option value=\"bronx\">The Bronx</option>\n<option value=\"brooklyn\">Brooklyn</option>\n</nys-select>",
               "lang": "html"
             }
           ]

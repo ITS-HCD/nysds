@@ -53,10 +53,22 @@ let buttonIdCounter = 0;
  * <nys-button label="Button" variant="text"></nys-button>
  * ```
  *
- * @example Button with icons
+ * @example Prefix Icon
  * ```html
  * <nys-button label="Previous" prefixIcon="chevron_left"></nys-button>
+ * ```
+ *
+ * @example Suffix Icon
+ * ```html
  * <nys-button label="Next" suffixIcon="chevron_right"></nys-button>
+ * ```
+ *
+ * @example Slotted Icons
+ * ```html
+ * <nys-button label="Slotted icons">
+ *   <nys-icon color="#db117d" slot="prefix-icon" name="chevron_left"></nys-icon>
+ *   <nys-icon color="#db117d" slot="suffix-icon" name="chevron_right"></nys-icon>
+ * </nys-button>
  * ```
  *
  * @example Circle icon button
@@ -96,13 +108,6 @@ let buttonIdCounter = 0;
  * @example Disabled
  * ```html
  * <nys-button label="Disabled" disabled></nys-button>
- * ```
- *
- * @example Slotted icons
- * ```html
- * <nys-button label="Settings">
- *   <nys-icon slot="prefix-icon" name="settings"></nys-icon>
- * </nys-button>
  * ```
  */
 

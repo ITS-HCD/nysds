@@ -147,10 +147,26 @@ export const VariantText: Story = {
   },
 };
 
-export const ButtonWithIcons: Story = {
+export const PrefixIcon: Story = {
   render: () => {
     return html`
       <nys-button label="Previous" prefixIcon="chevron_left"></nys-button>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button label="Previous" prefixIcon="chevron_left"></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SuffixIcon: Story = {
+  render: () => {
+    return html`
       <nys-button label="Next" suffixIcon="chevron_right"></nys-button>
     `;
   },
@@ -158,8 +174,38 @@ export const ButtonWithIcons: Story = {
     docs: {
       source: {
         code: `
-<nys-button label="Previous" prefixIcon="chevron_left"></nys-button>
 <nys-button label="Next" suffixIcon="chevron_right"></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SlottedIcons: Story = {
+  render: () => {
+    return html`
+      <nys-button label="Slotted icons">
+        <nys-icon
+          color="#db117d"
+          slot="prefix-icon"
+          name="chevron_left"
+        ></nys-icon>
+        <nys-icon
+          color="#db117d"
+          slot="suffix-icon"
+          name="chevron_right"
+        ></nys-icon>
+      </nys-button>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button label="Slotted icons">
+  <nys-icon color="#db117d" slot="prefix-icon" name="chevron_left"></nys-icon>
+  <nys-icon color="#db117d" slot="suffix-icon" name="chevron_right"></nys-icon>
+</nys-button>`,
         type: "auto",
       },
     },
@@ -297,27 +343,6 @@ export const Disabled: Story = {
       source: {
         code: `
 <nys-button label="Disabled" disabled></nys-button>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SlottedIcons: Story = {
-  render: () => {
-    return html`
-      <nys-button label="Settings">
-        <nys-icon slot="prefix-icon" name="settings"></nys-icon>
-      </nys-button>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-button label="Settings">
-  <nys-icon slot="prefix-icon" name="settings"></nys-icon>
-</nys-button>`,
         type: "auto",
       },
     },

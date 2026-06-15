@@ -143,3 +143,26 @@ export const WithOptionGroups: Story = {
     },
   },
 };
+
+export const RequiredSelect: Story = {
+  render: () => {
+    return html`
+      <nys-select label="Select borough" required>
+        <option value="bronx">The Bronx</option>
+        <option value="brooklyn">Brooklyn</option>
+      </nys-select>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-select label="Select borough" required>
+  <option value="bronx">The Bronx</option>
+  <option value="brooklyn">Brooklyn</option>
+</nys-select>`,
+        type: "auto",
+      },
+    },
+  },
+};

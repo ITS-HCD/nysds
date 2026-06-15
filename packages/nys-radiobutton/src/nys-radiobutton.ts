@@ -28,6 +28,13 @@ let radiobuttonIdCounter = 0;
  *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
+ *
+ * @example Disabled radio
+ * ```html
+ * <nys-radiogroup label="Select borough">
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx" disabled></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
  */
 
 export class NysRadiobutton extends LitElement {

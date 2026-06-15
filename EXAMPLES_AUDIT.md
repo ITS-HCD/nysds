@@ -181,16 +181,17 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 - None (All properties covered).
 
-### `nys-backtotop`
+### `nys-stepper`
 
-| JSDoc Example | Storybook Story | Status   | Notes |
-| :------------ | :-------------- | :------- | :---- |
-| `Basic`       | `Basic`         | ✅ Match |       |
-| `Left`        | `Left`          | ✅ Match |       |
+| JSDoc Example   | Storybook Story     | Status     | Notes                                         |
+| :-------------- | :------------------ | :--------- | :-------------------------------------------- |
+| `Basic stepper` | `BasicStepper`      | ✅ Match   |                                               |
+| `Grid layout`   | `GridLayout`        | ✅ Match   |                                               |
+| None            | `NavigationButtons` | ⚠️ Missing | Violation: Story is a code block, not a demo. |
 
 #### To Add
 
-- None (All properties covered).
+- **Actions Slot**: Example showing valid use of the `actions` slot with buttons.
 
 ### `nys-badge`
 

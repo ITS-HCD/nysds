@@ -100,6 +100,32 @@ export const Basic: Story = {
   },
 };
 
+export const DisabledRadio: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough">
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+          disabled
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough">
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx" disabled></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const BasicRadioGroup: Story = {
   render: () => {
     return html`

@@ -42,6 +42,14 @@ let selectIdCounter = 0;
  *   </optgroup>
  * </nys-select>
  * ```
+ *
+ * @example Required select
+ * ```html
+ * <nys-select label="Select borough" required>
+ *   <option value="bronx">The Bronx</option>
+ *   <option value="brooklyn">Brooklyn</option>
+ * </nys-select>
+ * ```
  */
 
 export class NysSelect extends LitElement {
