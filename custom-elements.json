@@ -1718,7 +1718,7 @@
               "kind": "field",
               "name": "size",
               "type": {
-                "text": "\"sm\" | \"md\" | \"\""
+                "text": "\"sm\" | \"md\""
               },
               "default": "\"md\"",
               "description": "Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.",
@@ -1941,7 +1941,7 @@
             {
               "name": "size",
               "type": {
-                "text": "\"sm\" | \"md\" | \"\""
+                "text": "\"sm\" | \"md\""
               },
               "default": "\"md\"",
               "description": "Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.",
@@ -2769,6 +2769,31 @@
             {
               "title": "Form submit button",
               "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Size",
+              "code": "<nys-button label=\"Small\" size=\"sm\"></nys-button>\n<nys-button label=\"Medium\" size=\"md\"></nys-button>\n<nys-button label=\"Large\" size=\"lg\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Full width",
+              "code": "<nys-button label=\"Full Width\" fullWidth></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted (for dark backgrounds)",
+              "code": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" variant=\"filled\" inverted></nys-button>\n</div>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-button label=\"Disabled\" disabled></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Slotted icons",
+              "code": "<nys-button label=\"Settings\">\n<nys-icon slot=\"prefix-icon\" name=\"settings\"></nys-icon>\n</nys-button>",
               "lang": "html"
             }
           ]

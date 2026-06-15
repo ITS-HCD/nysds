@@ -63,6 +63,37 @@ let buttonIdCounter = 0;
  * ```html
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
+ *
+ * @example Size
+ * ```html
+ * <nys-button label="Small" size="sm"></nys-button>
+ * <nys-button label="Medium" size="md"></nys-button>
+ * <nys-button label="Large" size="lg"></nys-button>
+ * ```
+ *
+ * @example Full width
+ * ```html
+ * <nys-button label="Full Width" fullWidth></nys-button>
+ * ```
+ *
+ * @example Inverted (for dark backgrounds)
+ * ```html
+ * <div style="background: #1b1b1b; padding: 1rem;">
+ *   <nys-button label="Inverted" variant="filled" inverted></nys-button>
+ * </div>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-button label="Disabled" disabled></nys-button>
+ * ```
+ *
+ * @example Slotted icons
+ * ```html
+ * <nys-button label="Settings">
+ *   <nys-icon slot="prefix-icon" name="settings"></nys-icon>
+ * </nys-button>
+ * ```
  */
 
 export class NysButton extends LitElement {

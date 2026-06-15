@@ -13,7 +13,7 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 | `nys-backtotop`     | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.        |
 | `nys-badge`         | ✅ Match   | 2026-06-12   | All JSDoc examples have matching stories.        |
 | `nys-breadcrumbs`   | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.        |
-| `nys-button`        | ✅ Match   | 2026-06-12   | Good coverage; missing size/inverted examples.   |
+| `nys-button`        | ✅ Match   | 2026-06-15   | All JSDoc examples have matching stories.        |
 | `nys-checkbox`      | ⚠️ Missing | 2026-06-12   | Missing JSDoc examples for size, tile, other.    |
 | `nys-checkboxgroup` | ⚠️ Missing | 2026-06-12   | Missing JSDoc examples for size, tile, optional. |
 | `nys-combobox`      | ❌ Missing | 2026-06-12   | No JSDoc examples present.                       |
@@ -147,10 +147,7 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 #### To Add
 
-- **Size**: Examples for `sm`, `md`, and `lg`.
-- **Full Width**: Example for `fullWidth`.
-- **Inverted**: Example for `inverted` on dark backgrounds.
-- **Disabled**: Example for `disabled` state.
+- None (All properties covered).
 
 ### `nys-breadcrumbs`
 

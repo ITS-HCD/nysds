@@ -135,7 +135,7 @@ export class NysBreadcrumbs extends LitElement {
    * Controls the visual size of the breadcrumb text and spacing: `sm` for dense layouts, `md` (default) for standard use.
    * @default "md"
    */
-  @property({ type: String, reflect: true }) size: "sm" | "md" | "" = "md";
+  @property({ type: String, reflect: true }) size: "sm" | "md" = "md";
 
   /**
    * On mobile, renders the trail as a single back-to-parent link pointing to the item before the current page.

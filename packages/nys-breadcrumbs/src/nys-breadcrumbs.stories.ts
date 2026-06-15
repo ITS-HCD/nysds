@@ -6,7 +6,7 @@ import "./nys-breadcrumbs";
 interface NysBreadcrumbsArgs {
   id: string;
   ariaLabel: string;
-  size: "sm" | "md" | "";
+  size: "sm" | "md";
   backToParent: boolean;
   collapsed: boolean;
   backgroundBar: boolean;
