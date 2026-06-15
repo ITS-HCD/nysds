@@ -44,14 +44,14 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-errormessage`
 
-| JSDoc Example | Storybook Story | Status     | Notes                                |
-| :------------ | :-------------- | :--------- | :----------------------------------- |
-| None          | `Basic`         | ❌ Missing | No JSDoc examples present in source. |
+| JSDoc Example | Storybook Story | Status   | Notes |
+| :------------ | :-------------- | :------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match |       |
+| `Divider`     | `Divider`       | ✅ Match |       |
 
 #### To Add
 
-- **Basic**: Usage showing `showError` and `errorMessage`.
-- **Divider**: Example showing the `showDivider` property.
+- None (All properties covered).
 
 ### `nys-dropdownmenu`
 
@@ -94,44 +94,60 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 
 ### `nys-combobox`
 
-| JSDoc Example | Storybook Story | Status     | Notes                                |
-| :------------ | :-------------- | :--------- | :----------------------------------- |
-| None          | `Basic`         | ❌ Missing | No JSDoc examples present in source. |
+| JSDoc Example   | Storybook Story   | Status     | Notes |
+| :-------------- | :---------------- | :--------- | :---- |
+| `Basic`         | `Basic`           | ✅ Match   |       |
+| None            | `DefaultValue`    | ⚠️ Missing |       |
+| `Option Groups` | `OptionGroup`     | ✅ Match   |       |
+| `Disabled`      | `Disabled`        | ✅ Match   |       |
+| None            | `Required`        | ⚠️ Missing |       |
+| None            | `Optional`        | ⚠️ Missing |       |
+| None            | `Width`           | ⚠️ Missing |       |
+| None            | `DescriptionSlot` | ⚠️ Missing |       |
+| `Error State`   | `ErrorMessage`    | ✅ Match   |       |
+| None            | `Inverted`        | ⚠️ Missing |       |
+| None            | `DisabledOptions` | ⚠️ Missing |       |
 
 #### To Add
 
-- **Basic**: Basic usage with `<option>` elements.
-- **Option Groups**: Example using `<optgroup>`.
-- **Default Value**: Example with a pre-selected value.
-- **Size/Width**: Examples for different width options.
-- **Error State**: Example showing `showError` and `errorMessage`.
+- Add JSDoc `@example` tags for remaining identified stories: `DefaultValue`, `Required`, `Optional`, `Width`, `DescriptionSlot`, `Inverted`, `DisabledOptions`.
 
 ### `nys-checkbox`
 
-| JSDoc Example     | Storybook Story | Status   | Notes                                  |
-| :---------------- | :-------------- | :------- | :------------------------------------- |
-| `Single checkbox` | `Required`      | ✅ Match | Matches the required state story.      |
-| `Checkbox group`  | `Basic`         | ✅ Match | Matches the basic group configuration. |
+| JSDoc Example     | Storybook Story | Status     | Notes                                     |
+| :---------------- | :-------------- | :--------- | :---------------------------------------- |
+| `Single checkbox` | `Required`      | ✅ Match   | Matches the required state story.         |
+| `Checkbox group`  | `Basic`         | ✅ Match   | Matches the basic group configuration.    |
+| None              | `Disabled`      | ⚠️ Missing | Violation: Story contains multiple demos. |
+| None              | `Size`          | ⚠️ Missing | Violation: Story contains multiple demos. |
+| None              | `Tile`          | ⚠️ Missing | Violation: Story contains multiple demos. |
+| None              | `ErrorMessage`  | ✅ Missing | Should be added as JSDoc example.         |
+| None              | `Slot`          | ✅ Missing | Should be added as JSDoc example.         |
+| None              | `Other`         | ⚠️ Missing | Violation: Story contains multiple demos. |
 
 #### To Add
 
-- **Size**: Example showing `size="sm"`.
-- **Tile**: Example showing the `tile` variant.
-- **Other**: Example showing the `other` property and its text input.
-- **Error State**: Example showing `showError` and `errorMessage`.
+- **ErrorMessage**: Example showing `showError` and `errorMessage`.
 - **Description Slot**: Example showing rich content in the `description` slot.
 
 ### `nys-checkboxgroup`
 
-| JSDoc Example          | Storybook Story | Status   | Notes |
-| :--------------------- | :-------------- | :------- | :---- |
-| `Basic checkbox group` | `Basic`         | ✅ Match |       |
+| JSDoc Example          | Storybook Story | Status     | Notes                                     |
+| :--------------------- | :-------------- | :--------- | :---------------------------------------- |
+| `Basic checkbox group` | `Basic`         | ✅ Match   |                                           |
+| None                   | `Grouping`      | ⚠️ Missing | Violation: Story contains multiple demos. |
+| None                   | `Optional`      | ⚠️ Missing | Violation: Story contains multiple demos. |
+| None                   | `Size`          | ⚠️ Missing |                                           |
+| None                   | `Tile`          | ⚠️ Missing |                                           |
+| None                   | `Other`         | ⚠️ Missing |                                           |
 
 #### To Add
 
-- **Size**: Example showing `size="sm"` applied to the group.
-- **Tile**: Example showing `tile` applied to the group.
-- **Optional**: Example showing the `optional` flag.
+- **Grouping**: Example showing grouping multiple `nys-checkboxgroup` elements.
+- **Optional**: Example showing `optional` property.
+- **Size**: Example showing `size="sm"`.
+- **Tile**: Example showing `tile` property.
+- **Other**: Example showing `other` checkbox usage.
 - **Tooltip**: Example showing the `tooltip` property.
 
 ### `nys-button`
@@ -188,7 +204,15 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 | `Size`               | `Size`             | ✅ Match | Covered.                                |
 | `Screen reader text` | `ScreenReaderText` | ✅ Match | Covered.                                |
 
-### `nys-accordion`
+### `nys-globalheader`
+
+| JSDoc Example  | Storybook Story | Status   | Notes |
+| :------------- | :-------------- | :------- | :---- |
+| `Basic header` | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- Add examples showing `appName`, `agencyName` combinations and `nysLogo` property.
 
 | JSDoc Example   | Storybook Story | Status   | Notes                                        |
 | :-------------- | :-------------- | :------- | :------------------------------------------- |

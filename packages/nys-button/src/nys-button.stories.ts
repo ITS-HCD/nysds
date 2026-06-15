@@ -64,7 +64,7 @@ type Story = StoryObj<NysButtonArgs>;
 
 export const Basic: Story = {
   args: {
-    label: "Submit",
+    label: "Button",
     variant: "filled",
   },
   render: (args) => {
@@ -95,22 +95,52 @@ export const Basic: Story = {
     docs: {
       source: {
         code: `
-<nys-button label="Submit" variant="filled"></nys-button>`,
+<nys-button label="Button" variant="filled"></nys-button>`,
         type: "auto",
       },
     },
   },
 };
 
-export const SecondaryOutlineButton: Story = {
+export const VariantOutline: Story = {
   render: () => {
-    return html` <nys-button label="Cancel" variant="outline"></nys-button> `;
+    return html` <nys-button label="Button" variant="outline"></nys-button> `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-button label="Cancel" variant="outline"></nys-button>`,
+<nys-button label="Button" variant="outline"></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const VariantGhost: Story = {
+  render: () => {
+    return html` <nys-button label="Button" variant="ghost"></nys-button> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button label="Button" variant="ghost"></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const VariantText: Story = {
+  render: () => {
+    return html` <nys-button label="Button" variant="text"></nys-button> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button label="Button" variant="text"></nys-button>`,
         type: "auto",
       },
     },

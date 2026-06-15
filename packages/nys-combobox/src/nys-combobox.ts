@@ -26,6 +26,38 @@ interface ComboboxOption {
  * - Supports native <option> and <optgroup> elements
  * - Accessible per W3C ARIA Authoring Practices
  *
+ * @example Basic
+ * ```html
+ * <nys-combobox label="Select your favorite fruit">
+ *   <option value="apple">Apple</option>
+ *   <option value="banana">Banana</option>
+ * </nys-combobox>
+ * ```
+ *
+ * @example Option Groups
+ * ```html
+ * <nys-combobox label="Select a fruit">
+ *   <optgroup label="Citrus">
+ *     <option value="lemon">Lemon</option>
+ *     <option value="orange">Orange</option>
+ *   </optgroup>
+ * </nys-combobox>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-combobox label="Select your favorite fruit" disabled>
+ *   <option value="apple">Apple</option>
+ * </nys-combobox>
+ * ```
+ *
+ * @example Error State
+ * ```html
+ * <nys-combobox label="Select your favorite fruit" showError errorMessage="Error message">
+ *   <option value="apple">Apple</option>
+ * </nys-combobox>
+ * ```
+ *
  * @slot description - Optional custom description content below the label.
  * @slot default - Options (<option>, <optgroup>) to populate the dropdown
  *
@@ -34,7 +66,6 @@ interface ComboboxOption {
  * @fires nys-focus - Fired when combobox receives focus.
  * @fires nys-blur - Fired when combobox loses focus.
  */
-
 export class NysCombobox extends LitElement {
   static styles = unsafeCSS(styles);
   static shadowRootOptions = {

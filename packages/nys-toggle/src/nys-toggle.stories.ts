@@ -1,20 +1,19 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-toggle";
-import "@nysds/nys-label";
-import "@nysds/nys-icon";
 
 // Define the structure of the args used in the stories
 interface NysToggleArgs {
   id: string;
   name: string;
-  checked: boolean;
   value: string;
-  disabled: boolean;
-  noIcon: boolean;
   label: string;
   description: string;
+  form: string | null;
   size: "sm" | "md";
+  checked: boolean;
+  disabled: boolean;
+  noIcon: boolean;
   inverted: boolean;
 }
 
@@ -22,19 +21,22 @@ const meta: Meta<NysToggleArgs> = {
   title: "Components/Toggle",
   component: "nys-toggle",
   argTypes: {
+    id: { control: "text" },
+    name: { control: "text" },
+    value: { control: "text" },
     label: { control: "text" },
     description: { control: "text" },
-    name: { control: "text" },
-    checked: { control: "boolean" },
-    disabled: { control: "boolean" },
-    noIcon: { control: "boolean" },
+    form: { control: "text" },
     size: { control: "select", options: ["sm", "md"] },
-    inverted: { control: "boolean" },
+    checked: { control: "boolean", default: false },
+    disabled: { control: "boolean", default: false },
+    noIcon: { control: "boolean", default: false },
+    inverted: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
@@ -42,396 +44,55 @@ const meta: Meta<NysToggleArgs> = {
 export default meta;
 type Story = StoryObj<NysToggleArgs>;
 
-// Stories
-// Define stories without using args
-
-// Story: Basic
 export const Basic: Story = {
   args: {
-    label: "Dark Mode",
-    name: "theme",
-    value: "dark",
-    checked: false,
-    disabled: false,
-    noIcon: false,
-    inverted: false,
+    label: "Enable notifications",
+    name: "notifications",
   },
-  render: (args) =>
-    html` <nys-toggle
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    ></nys-toggle>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label="Dark Mode"
-  name="theme"
-  value="dark"
-></nys-toggle>
-    `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Checked
-export const Checked: Story = {
-  args: {
-    label: "Dark Mode",
-    name: "theme",
-    value: "dark",
-    checked: true,
-  },
-  render: (args) =>
-    html` <nys-toggle
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    >
-    </nys-toggle>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label="Dark Mode"
-  name="theme"
-  value="dark"
-  checked
-></nys-toggle>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: UncheckedDisabled
-export const UncheckedDisabled: Story = {
-  args: {
-    label: "Disabled Unchecked",
-    name: "toggle-switch",
-    disabled: true,
-    value: "access",
-  },
-  render: (args) =>
-    html` <nys-toggle
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    >
-    </nys-toggle>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label="Disabled Unchecked"
-  name="toggle-switch"
-  value="access"
-  disabled
-></nys-toggle>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: CheckedDisabled
-export const CheckedDisabled: Story = {
-  args: {
-    label: "Disabled Checked",
-    name: "toggle-switch",
-    value: "access",
-    disabled: true,
-    checked: true,
-  },
-  render: (args) =>
-    html` <nys-toggle
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    >
-    </nys-toggle>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label="Disabled Checked"
-  name="toggle-switch"
-  value="access"
-  checked
-  disabled
-></nys-toggle>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Help texts
-export const HelpTexts: Story = {
-  args: {
-    label: "Toggle Switch",
-    name: "toggle-switch",
-    value: "access",
-  },
-  render: (args) => html`
-    <nys-toggle
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    >
-      <p slot="description">
-        This slot is called 'description' (<a
-          href="https://www.ny.gov/"
-          target="_blank"
-          >learn more</a
-        >)
-      </p>
-    </nys-toggle>
-    <br />
-    <br />
-    <nys-toggle
-      .label=${args.label}
-      description="This description was passed in as a property"
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    >
-    </nys-toggle>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label="Toggle Switch"
-  name="toggle-switch"
-  value="access"
->
-  <p slot="description">This slot is called 'description' (<a href="https://www.ny.gov/" target="_blank">learn more</a>)</p>
-</nys-toggle>
-<br/>
-<br/>
-<nys-toggle
-  label="Toggle Switch"
-  description="This description was passed in as a property"
-  name="toggle-switch"
-  value="access">
-</nys-toggle>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Sizes
-export const Sizes: Story = {
-  args: {
-    name: "toggle-switch",
-    value: "access",
-  },
-  render: (args) => html`
-    <nys-toggle
-      label='Small (size="sm")'
-      description="The label and description font sizes automatically adjust to match the toggle switch's size."
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      size="sm"
-    >
-    </nys-toggle>
-    <br />
-    <nys-toggle
-      label='Medium (size="md")'
-      .name=${args.name}
-      description="The label and description font sizes automatically adjust to match the toggle switch's size."
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      size="md"
-    >
-    </nys-toggle>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label='Small (size="sm")'
-  description="The label and description font sizes automatically adjust to match the toggle switch's size."
-  name="toggle-switch"
-  value="access"
-  size="sm"
->
-</nys-toggle>
-</br>
-<nys-toggle
-  label='Medium (size="md")'
-  description="The label and description font sizes automatically adjust to match the toggle switch's size."
-  name="toggle-switch"
-  value="access"
-  size="md"
->
-</nys-toggle>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: No Icons
-export const NoIcons: Story = {
-  args: {
-    name: "toggle-switch",
-    value: "access",
-    label: "Icons are disabled.",
-    noIcon: true,
-  },
-  render: (args) =>
-    html` <nys-toggle
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    >
-    </nys-toggle>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label="Toggle Switch"
-  name="toggle-switch"
-  value="access"
-  noIcon
->
-</nys-toggle>
-        `.trim(),
-      },
-    },
-  },
-};
-
-// Story: Labels
-export const Labels: Story = {
-  args: {
-    name: "toggle-switch",
-    value: "access",
-    label: "Labels are essential for voiceover too!",
-  },
-  render: (args) =>
-    html` <nys-toggle
-      .label=${args.label}
-      .description=${args.description}
-      .name=${args.name}
-      .value=${args.value}
-      .checked=${args.checked}
-      .disabled=${args.disabled}
-      ?noIcon=${args.noIcon}
-      .size=${args.size}
-      ?inverted=${args.inverted}
-    >
-    </nys-toggle>`,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-toggle
-  label="Labels are essential for voiceover too!"
-  name="toggle-switch"
-  value="access"
->
-</nys-toggle>
-        `.trim(),
-      },
-    },
-  },
-};
-
-export const Inverted: Story = {
-  args: {
-    label: "Toggle Switch",
-    name: "toggle-switch",
-    value: "access",
-    inverted: true,
-  },
-  render: (args) => html`
-    <div
-      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
-    >
+  render: (args) => {
+    return html`
       <nys-toggle
-        .label=${args.label}
-        description="This description was passed in as a property"
+        .id=${args.id}
+        ?checked=${args.checked}
+        ?disabled=${args.disabled}
+        ?noIcon=${args.noIcon}
+        ?inverted=${args.inverted}
         .name=${args.name}
         .value=${args.value}
-        .checked=${args.checked}
-        .disabled=${args.disabled}
-        ?noIcon=${args.noIcon}
+        .label=${args.label}
+        .description=${args.description}
+        .form=${args.form}
         .size=${args.size}
-        ?inverted=${args.inverted}
-      >
-      </nys-toggle>
-    </div>
-  `,
+      ></nys-toggle>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-toggle
-  label="Toggle Switch"
-  description="This description was passed in as a property"
-  name="toggle-switch"
-  value="access"
-  inverted>
-</nys-toggle>
-        `.trim(),
+<nys-toggle label="Enable notifications" name="notifications"></nys-toggle>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DarkModeToggle: Story = {
+  render: () => {
+    return html`
+      <nys-toggle
+        label="Dark mode"
+        description="Adjust display for low light"
+        checked
+      ></nys-toggle>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-toggle label="Dark mode" description="Adjust display for low light" checked></nys-toggle>`,
+        type: "auto",
       },
     },
   },

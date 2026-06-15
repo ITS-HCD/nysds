@@ -1,10 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-combobox";
-import "@nysds/nys-icon";
-import "@nysds/nys-label";
-import "@nysds/nys-errormessage";
-import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysComboboxArgs {
@@ -13,15 +9,15 @@ interface NysComboboxArgs {
   label: string;
   description: string;
   value: string;
+  tooltip: string;
+  form: string | null;
+  width: "md" | "lg" | "full";
+  errorMessage: string;
   disabled: boolean;
   required: boolean;
   optional: boolean;
   inverted: boolean;
-  width: "md" | "lg" | "full";
   showError: boolean;
-  errorMessage: string;
-  form: string | null;
-  tooltip: string;
 }
 
 const meta: Meta<NysComboboxArgs> = {
@@ -33,15 +29,15 @@ const meta: Meta<NysComboboxArgs> = {
     label: { control: "text" },
     description: { control: "text" },
     value: { control: "text" },
-    disabled: { control: "boolean" },
-    required: { control: "boolean" },
-    optional: { control: "boolean" },
-    form: { control: "text" },
-    inverted: { control: "boolean" },
-    width: { control: "select", options: ["md", "lg", "full"] },
-    showError: { control: "boolean" },
-    errorMessage: { control: "text" },
     tooltip: { control: "text" },
+    form: { control: "text" },
+    width: { control: "select", options: ["md", "lg", "full"] },
+    errorMessage: { control: "text" },
+    disabled: { control: "boolean", default: false },
+    required: { control: "boolean", default: false },
+    optional: { control: "boolean", default: false },
+    inverted: { control: "boolean", default: false },
+    showError: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
@@ -57,51 +53,31 @@ type Story = StoryObj<NysComboboxArgs>;
 export const Basic: Story = {
   args: {
     label: "Select your favorite fruit",
-    value: "",
-    disabled: false,
-    required: false,
-    optional: false,
-    showError: false,
-    inverted: false,
+    value: "apple",
   },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="cherry">Cherry</option>
-      <option value="date">Date</option>
-      <option value="elderberry">Elderberry</option>
-      <option value="fig">Fig</option>
-      <option value="grape">Grape</option>
-      <option value="honeydew">Honeydew</option>
-      <option value="kiwi">Kiwi</option>
-      <option value="lemon">Lemon</option>
-      <option value="mango">Mango</option>
-      <option value="nectarine">Nectarine</option>
-      <option value="orange">Orange</option>
-      <option value="papaya">Papaya</option>
-      <option value="quince">Quince</option>
-      <option value="raspberry">Raspberry</option>
-      <option value="strawberry">Strawberry</option>
-      <option value="tangerine">Tangerine</option>
-      <option value="watermelon">Watermelon</option>
-    </nys-combobox>
-  `,
+  render: (args) => {
+    return html`
+      <nys-combobox
+        .id=${args.id}
+        ?disabled=${args.disabled}
+        ?required=${args.required}
+        ?optional=${args.optional}
+        ?inverted=${args.inverted}
+        ?showError=${args.showError}
+        .name=${args.name}
+        .label=${args.label}
+        .description=${args.description}
+        .value=${args.value}
+        .tooltip=${args.tooltip}
+        .form=${args.form}
+        .width=${args.width}
+        .errorMessage=${args.errorMessage}
+      >
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+      </nys-combobox>
+    `;
+  },
   parameters: {
     docs: {
       source: {
@@ -109,23 +85,6 @@ export const Basic: Story = {
 <nys-combobox label="Select your favorite fruit">
   <option value="apple">Apple</option>
   <option value="banana">Banana</option>
-  <option value="cherry">Cherry</option>
-  <option value="date">Date</option>
-  <option value="elderberry">Elderberry</option>
-  <option value="fig">Fig</option>
-  <option value="grape">Grape</option>
-  <option value="honeydew">Honeydew</option>
-  <option value="kiwi">Kiwi</option>
-  <option value="lemon">Lemon</option>
-  <option value="mango">Mango</option>
-  <option value="nectarine">Nectarine</option>
-  <option value="orange">Orange</option>
-  <option value="papaya">Papaya</option>
-  <option value="quince">Quince</option>
-  <option value="raspberry">Raspberry</option>
-  <option value="strawberry">Strawberry</option>
-  <option value="tangerine">Tangerine</option>
-  <option value="watermelon">Watermelon</option>
 </nys-combobox>`,
         type: "auto",
       },
@@ -133,147 +92,25 @@ export const Basic: Story = {
   },
 };
 
-export const DefaultValue: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    value: "mango",
-    disabled: false,
-    required: false,
-    optional: false,
-    showError: false,
-    inverted: false,
+export const OptionGroups: Story = {
+  render: () => {
+    return html`
+      <nys-combobox label="Select a fruit">
+        <optgroup label="Citrus">
+          <option value="lemon">Lemon</option>
+          <option value="orange">Orange</option>
+        </optgroup>
+      </nys-combobox>
+    `;
   },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="mango" selected>Mango</option>
-      <option value="orange">Orange</option>
-      <option value="strawberry">Strawberry</option>
-    </nys-combobox>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" value="mango">
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="mango" selected>Mango</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const OptionGroup: Story = {
-  args: {
-    label: "Select a fruit",
-    description: "Fruits organized by category",
-  },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <optgroup label="Citrus">
-        <option value="lemon">Lemon</option>
-        <option value="lime">Lime</option>
-        <option value="orange">Orange</option>
-        <option value="grapefruit">Grapefruit</option>
-        <option value="tangerine">Tangerine</option>
-      </optgroup>
-      <optgroup label="Berries">
-        <option value="strawberry">Strawberry</option>
-        <option value="blueberry">Blueberry</option>
-        <option value="raspberry">Raspberry</option>
-        <option value="blackberry">Blackberry</option>
-        <option value="cranberry">Cranberry</option>
-      </optgroup>
-      <optgroup label="Tropical">
-        <option value="mango">Mango</option>
-        <option value="pineapple">Pineapple</option>
-        <option value="papaya">Papaya</option>
-        <option value="coconut">Coconut</option>
-        <option value="passionfruit">Passionfruit</option>
-      </optgroup>
-      <optgroup label="Stone Fruits">
-        <option value="peach">Peach</option>
-        <option value="plum">Plum</option>
-        <option value="cherry">Cherry</option>
-        <option value="apricot">Apricot</option>
-        <option value="nectarine">Nectarine</option>
-      </optgroup>
-    </nys-combobox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox
-  label="Select a fruit"
-  description="Fruits organized by category"
-
->
+<nys-combobox label="Select a fruit">
   <optgroup label="Citrus">
     <option value="lemon">Lemon</option>
-    <option value="lime">Lime</option>
     <option value="orange">Orange</option>
-    <option value="grapefruit">Grapefruit</option>
-    <option value="tangerine">Tangerine</option>
-  </optgroup>
-  <optgroup label="Berries">
-    <option value="strawberry">Strawberry</option>
-    <option value="blueberry">Blueberry</option>
-    <option value="raspberry">Raspberry</option>
-    <option value="blackberry">Blackberry</option>
-    <option value="cranberry">Cranberry</option>
-  </optgroup>
-  <optgroup label="Tropical">
-    <option value="mango">Mango</option>
-    <option value="pineapple">Pineapple</option>
-    <option value="papaya">Papaya</option>
-    <option value="coconut">Coconut</option>
-    <option value="passionfruit">Passionfruit</option>
-  </optgroup>
-  <optgroup label="Stone Fruits">
-    <option value="peach">Peach</option>
-    <option value="plum">Plum</option>
-    <option value="cherry">Cherry</option>
-    <option value="apricot">Apricot</option>
-    <option value="nectarine">Nectarine</option>
   </optgroup>
 </nys-combobox>`,
         type: "auto",
@@ -283,43 +120,19 @@ export const OptionGroup: Story = {
 };
 
 export const Disabled: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    value: "",
-    disabled: true,
+  render: () => {
+    return html`
+      <nys-combobox label="Select your favorite fruit" disabled>
+        <option value="apple">Apple</option>
+      </nys-combobox>
+    `;
   },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="orange">Orange</option>
-      <option value="strawberry">Strawberry</option>
-    </nys-combobox>
-  `,
   parameters: {
     docs: {
       source: {
         code: `
 <nys-combobox label="Select your favorite fruit" disabled>
   <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
 </nys-combobox>`,
         type: "auto",
       },
@@ -327,338 +140,24 @@ export const Disabled: Story = {
   },
 };
 
-export const Required: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    value: "",
-    required: true,
-  },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="orange">Orange</option>
-      <option value="strawberry">Strawberry</option>
-    </nys-combobox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox label="Select your favorite fruit" required>
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Optional: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    value: "",
-    optional: true,
-  },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="orange">Orange</option>
-      <option value="strawberry">Strawberry</option>
-    </nys-combobox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox label="Select your favorite fruit" optional>
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Width: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    description: "Valid widths are md, lg, and full",
-    value: "",
-    width: "md",
-  },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="orange">Orange</option>
-      <option value="strawberry">Strawberry</option>
-    </nys-combobox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox
-  label="Select your favorite fruit"
-  description="Valid widths are md, lg, and full"
-
-  width="md"
->
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const DescriptionSlot: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    description: "This is a description slot",
-    value: "",
-  },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <label slot="description">${args.description}</label>
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="orange">Orange</option>
-      <option value="strawberry">Strawberry</option>
-    </nys-combobox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox label="Select your favorite fruit">
-  <label slot="description">This is a description slot</label>
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const ErrorMessage: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    value: "",
-    showError: true,
-    errorMessage: "Please select a fruit",
-  },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="orange">Orange</option>
-      <option value="strawberry">Strawberry</option>
-    </nys-combobox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox
-  label="Select your favorite fruit"
-
-  errorMessage="Please select a fruit"
-  showError
->
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const Inverted: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    value: "",
-    inverted: true,
-  },
-  render: (args) => html`
-    <div
-      style="display: flex; background-color: var(--nys-color-ink, #1b1b1b); padding: var(--nys-space-800, 64px);"
-    >
+export const ErrorState: Story = {
+  render: () => {
+    return html`
       <nys-combobox
-        .id=${args.id}
-        .name=${args.name}
-        .label=${args.label}
-        .description=${args.description}
-        .value=${args.value}
-        .disabled=${args.disabled}
-        .required=${args.required}
-        .optional=${args.optional}
-        ?inverted=${args.inverted}
-        .form=${args.form}
-        .width=${args.width}
-        .showError=${args.showError}
-        .errorMessage=${args.errorMessage}
-        .tooltip=${args.tooltip}
+        label="Select your favorite fruit"
+        showError
+        errorMessage="Error message"
       >
         <option value="apple">Apple</option>
-        <option value="banana">Banana</option>
-        <option value="orange">Orange</option>
-        <option value="strawberry">Strawberry</option>
       </nys-combobox>
-    </div>
-  `,
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-combobox label="Select your favorite fruit" inverted>
+<nys-combobox label="Select your favorite fruit" showError errorMessage="Error message">
   <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-  <option value="strawberry">Strawberry</option>
-</nys-combobox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const DisabledOptions: Story = {
-  args: {
-    label: "Select your favorite fruit",
-    description: "Some fruits are out of season",
-  },
-  render: (args) => html`
-    <nys-combobox
-      .id=${args.id}
-      .name=${args.name}
-      .label=${args.label}
-      .description=${args.description}
-      .value=${args.value}
-      .disabled=${args.disabled}
-      .required=${args.required}
-      .optional=${args.optional}
-      ?inverted=${args.inverted}
-      .form=${args.form}
-      .width=${args.width}
-      .showError=${args.showError}
-      .errorMessage=${args.errorMessage}
-      .tooltip=${args.tooltip}
-    >
-      <option value="apple">Apple</option>
-      <option value="banana">Banana</option>
-      <option value="cherry" disabled>Cherry (Out of season)</option>
-      <option value="mango">Mango</option>
-      <option value="strawberry" disabled>Strawberry (Out of season)</option>
-      <option value="orange">Orange</option>
-    </nys-combobox>
-  `,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-combobox
-  label="Select your favorite fruit"
-  description="Some fruits are out of season"
-
->
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="cherry" disabled>Cherry (Out of season)</option>
-  <option value="mango">Mango</option>
-  <option value="strawberry" disabled>Strawberry (Out of season)</option>
-  <option value="orange">Orange</option>
 </nys-combobox>`,
         type: "auto",
       },

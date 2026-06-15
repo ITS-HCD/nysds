@@ -13,6 +13,16 @@ let errorMessageIdCounter = 0;
  *
  * @summary Internal error message display with icon and ARIA alert support.
  * @element nys-errormessage
+ *
+ * @example Basic
+ * ```html
+ * <nys-errormessage showError errorMessage="This is an error message"></nys-errormessage>
+ * ```
+ *
+ * @example Divider
+ * ```html
+ * <nys-errormessage showError errorMessage="This is an error message" showDivider></nys-errormessage>
+ * ```
  */
 export class NysErrorMessage extends LitElement {
   static styles = unsafeCSS(styles);

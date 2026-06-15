@@ -1,16 +1,19 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-stepper";
-import "@nysds/nys-button";
+import "./nys-step";
 import "@nysds/nys-textinput";
-import "@nysds/nys-textarea";
+import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysStepperArgs {
   id: string;
   name: string;
   label: string;
-  onClick: () => void;
+  counterText: string;
+  class: string;
+  isCompactExpanded: boolean;
+  current: boolean;
 }
 
 const meta: Meta<NysStepperArgs> = {
@@ -20,11 +23,15 @@ const meta: Meta<NysStepperArgs> = {
     id: { control: "text" },
     name: { control: "text" },
     label: { control: "text" },
+    counterText: { control: "text" },
+    class: { control: "text" },
+    isCompactExpanded: { control: "boolean", default: false },
+    current: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
@@ -32,140 +39,132 @@ const meta: Meta<NysStepperArgs> = {
 export default meta;
 type Story = StoryObj<NysStepperArgs>;
 
-// Define stories without using args
 export const Basic: Story = {
   args: {
-    id: "stepper",
-    name: "stepper",
-    label: "Register for Design System Office Hours",
+    label: "Personal Info",
   },
-  render: (args) => html`
-    <div class="nys-grid-row">
-      <nys-stepper
+  render: (args) => {
+    return html`
+      <nys-step
         .id=${args.id}
+        ?isCompactExpanded=${args.isCompactExpanded}
+        ?current=${args.current}
         .name=${args.name}
-        label=${args.label}
-        class="nys-desktop:nys-grid-col-3"
-      >
-        <nys-step
-          label="Personal Details"
-          href="/nys-stepper/personal.html"
-        ></nys-step>
-        <nys-step
-          label="Team Info"
-          selected
-          href="/nys-stepper/team.html"
-        ></nys-step>
-        <nys-step
-          label="Usage Survey"
-          current
-          href="/nys-stepper/survey.html"
-          .onClick=${() => alert("This step also has a function called on it")}
-        ></nys-step>
-        <nys-step
-          label="Newsletter Opt-In"
-          href="/nys-stepper/newsletter.html"
-        ></nys-step>
-        <div slot="actions">
-          <nys-button
-            variant="outline"
-            label="Save & Exit"
-            fullWidth
-          ></nys-button>
-        </div>
-      </nys-stepper>
-      <div class="nys-desktop:nys-grid-col-9" id="nys-stepper-content">
-        Loading...
-      </div>
-    </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        const stepper = document.querySelector("nys-stepper");
-
-        if (stepper?.updateComplete) {
-          await stepper.updateComplete; // Wait for Lit to finish rendering
-        }
-
-        const selectedStep = document.querySelector("nys-step[selected]");
-        if (selectedStep) {
-          const href = selectedStep.getAttribute("href");
-          if (href) {
-            try {
-              const res = await fetch(href);
-              if (!res.ok) throw new Error("Failed to load " + href);
-              const html = await res.text();
-              const container = document.querySelector("#nys-stepper-content");
-              if (container) container.innerHTML = html;
-            } catch (err) {
-              console.error("Error loading initial step content:", err);
-            }
-          }
-        }
-      });
-
-      document.addEventListener("nys-step-click", async (e) => {
-        const href = e.detail?.href;
-        if (!href) return;
-
-        e.preventDefault();
-        try {
-          const res = await fetch(href);
-          if (!res.ok) throw new Error("Failed to fetch ", href);
-          const html = await res.text();
-
-          const container = document.querySelector("#nys-stepper-content");
-          if (container) {
-            container.innerHTML = html;
-          }
-        } catch (err) {
-          console.error("Error loading innerHTML:", err);
-        }
-      });
-    </script>
-  `,
+        .label=${args.label}
+        .counterText=${args.counterText}
+        .class=${args.class}
+      ></nys-step>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
- <div class="nys-grid-row">
-  <nys-stepper
-    id="stepper"
-    name="stepper"
-    label="Register for Design System Office Hours"
-    class="nys-desktop:nys-grid-col-3"
-  >
-    <nys-step
-      label="Personal Details"
-      href="/nys-stepper/personal.html"
-    ></nys-step>
-    <nys-step
-      label="Team Info"
-      selected
-      href="/nys-stepper/team.html"
-    ></nys-step>
-    <nys-step
-      label="Usage Survey"
-      current
-      href="/nys-stepper/survey.html"
-      onClick=${() => alert("This step also has a function called on it")}
-    ></nys-step>
-    <nys-step
-      label="Newsletter Opt-In"
-      href="/nys-stepper/newsletter.html"
-    ></nys-step>
+<nys-step label="Personal Info" href="/step-1"></nys-step>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const BasicStepper: Story = {
+  render: () => {
+    return html`
+      <nys-stepper label="Application Progress">
+        <nys-step label="Personal Info" current></nys-step>
+        <nys-step label="Contact Details"></nys-step>
+        <nys-step label="Review"></nys-step>
+      </nys-stepper>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-stepper label="Application Progress">
+  <nys-step label="Personal Info" current></nys-step>
+  <nys-step label="Contact Details"></nys-step>
+  <nys-step label="Review"></nys-step>
+</nys-stepper>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const GridLayoutWithSidebarPlacement: Story = {
+  render: () => {
+    return html`
+      <div class="nys-grid-container">
+        <div class="nys-grid-row">
+          <nys-stepper
+            label="Application"
+            class="nys-grid-col-12 nys-desktop:nys-grid-col-3"
+          >
+            <nys-step label="Personal Info"></nys-step>
+            <nys-step label="Contact" current></nys-step>
+            <nys-step label="Review"></nys-step>
+          </nys-stepper>
+          <main
+            class="nys-grid-col-12 nys-desktop:nys-grid-col-9"
+            id="main-content"
+          >
+            <!-- Form content for current step -->
+            <nys-textinput label="Email" required></nys-textinput>
+            <nys-textinput label="Phone"></nys-textinput>
+          </main>
+        </div>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<div class="nys-grid-container">
+  <div class="nys-grid-row">
+    <nys-stepper label="Application" class="nys-grid-col-12 nys-desktop:nys-grid-col-3">
+      <nys-step label="Personal Info"></nys-step>
+      <nys-step label="Contact" current></nys-step>
+      <nys-step label="Review"></nys-step>
+    </nys-stepper>
+    <main class="nys-grid-col-12 nys-desktop:nys-grid-col-9" id="main-content">
+      <!-- Form content for current step -->
+      <nys-textinput label="Email" required></nys-textinput>
+      <nys-textinput label="Phone"></nys-textinput>
+    </main>
+  </div>
+</div>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const NavigationButtonsInActionsSlot: Story = {
+  render: () => {
+    return html`<pre
+      style="white-space: pre-wrap; font-family: monospace; font-size: 0.85em; background: #f4f4f4; padding: 1em; border-radius: 4px;"
+    ><code>${'Add Previous/Next buttons using the actions slot. Wrap buttons in a `\n<div>\n  `. ```html\n  <nys-stepper label="Application">\n    <nys-step label="Step 1"></nys-step>\n    <nys-step label="Step 2" current></nys-step>\n    <nys-step label="Step 3"></nys-step>\n    <div slot="actions">\n      <nys-button label="Save and Exit" variant="outline" size="sm" fullWidth></nys-button>\n    </div>\n  </nys-stepper>\n  ```x\n</div>'}</code></pre>`;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+Add Previous/Next buttons using the actions slot. Wrap buttons in a \`
+<div>
+  \`. \`\`\`html
+  <nys-stepper label="Application">
+    <nys-step label="Step 1"></nys-step>
+    <nys-step label="Step 2" current></nys-step>
+    <nys-step label="Step 3"></nys-step>
     <div slot="actions">
-      <nys-button
-        variant="outline"
-        label="Save & Exit"
-        fullWidth
-      ></nys-button>
+      <nys-button label="Save and Exit" variant="outline" size="sm" fullWidth></nys-button>
     </div>
   </nys-stepper>
-  <div class="nys-desktop:nys-grid-col-9" id="stepper-content">
-    Loading...
-  </div>
-</div>
-`,
+  \`\`\`x
+</div>`,
+        type: "auto",
       },
     },
   },

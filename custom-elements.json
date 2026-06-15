@@ -2742,13 +2742,23 @@
           "summary": "Button for actions and CTAs with variants, sizes, and icon support.",
           "examples": [
             {
-              "title": "Basic filled button",
-              "code": "<nys-button label=\"Submit\" variant=\"filled\"></nys-button>",
+              "title": "Basic",
+              "code": "<nys-button label=\"Button\" variant=\"filled\"></nys-button>",
               "lang": "html"
             },
             {
-              "title": "Secondary outline button",
-              "code": "<nys-button label=\"Cancel\" variant=\"outline\"></nys-button>",
+              "title": "Variant Outline",
+              "code": "<nys-button label=\"Button\" variant=\"outline\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Variant Ghost",
+              "code": "<nys-button label=\"Button\" variant=\"ghost\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Variant Text",
+              "code": "<nys-button label=\"Button\" variant=\"text\"></nys-button>",
               "lang": "html"
             },
             {
@@ -3468,6 +3478,16 @@
               "title": "Checkbox group",
               "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
+            },
+            {
+              "title": "Error message",
+              "code": "<nys-checkbox label=\"Subscribe\" showError errorMessage=\"You must select this box to continue\"></nys-checkbox>",
+              "lang": "html"
+            },
+            {
+              "title": "Slot description",
+              "code": "<nys-checkbox label=\"Subscribe\">\n<p slot=\"description\">Read about previous updates <a href=\"https://www.ny.gov/\" target=\"__blank\">here</a></p>\n</nys-checkbox>",
+              "lang": "html"
             }
           ]
         }
@@ -3953,6 +3973,31 @@
             {
               "title": "Basic checkbox group",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" required>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional checkbox group",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" optional>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Small checkbox group",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" size=\"sm\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Tile checkbox group",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" tile>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Other checkbox option",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" other label=\"Other\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Checkbox group with tooltip",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\" tooltip=\"Choose your favorite landmarks.\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
           ]
@@ -4680,6 +4725,28 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-combobox label=\"Select your favorite fruit\">\n<option value=\"apple\">Apple</option>\n<option value=\"banana\">Banana</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Option Groups",
+              "code": "<nys-combobox label=\"Select a fruit\">\n<optgroup label=\"Citrus\">\n<option value=\"lemon\">Lemon</option>\n<option value=\"orange\">Orange</option>\n</optgroup>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" disabled>\n<option value=\"apple\">Apple</option>\n</nys-combobox>",
+              "lang": "html"
+            },
+            {
+              "title": "Error State",
+              "code": "<nys-combobox label=\"Select your favorite fruit\" showError errorMessage=\"Error message\">\n<option value=\"apple\">Apple</option>\n</nys-combobox>",
+              "lang": "html"
+            }
+          ],
           "tagName": "nys-combobox",
           "customElement": true
         }
@@ -6359,7 +6426,19 @@
           },
           "tagName": "nys-errormessage",
           "customElement": true,
-          "summary": "Internal error message display with icon and ARIA alert support."
+          "summary": "Internal error message display with icon and ARIA alert support.",
+          "examples": [
+            {
+              "title": "Basic",
+              "code": "<nys-errormessage showError errorMessage=\"This is an error message\"></nys-errormessage>",
+              "lang": "html"
+            },
+            {
+              "title": "Divider",
+              "code": "<nys-errormessage showError errorMessage=\"This is an error message\" showDivider></nys-errormessage>",
+              "lang": "html"
+            }
+          ]
         }
       ],
       "exports": [
@@ -10858,11 +10937,6 @@
               "title": "Step with page navigation",
               "code": "<nys-step label=\"Personal Info\" href=\"/step-1\"></nys-step>",
               "lang": "html"
-            },
-            {
-              "title": "Step with SPA navigation (no href)",
-              "code": "step.addEventListener('nys-step-click', (e) => {\ne.preventDefault(); // no href set, but good practice\nshowStepContent(e.detail.label);\n});",
-              "lang": "js"
             }
           ]
         }
@@ -11086,13 +11160,7 @@
             },
             {
               "title": "Navigation buttons in actions slot",
-              "code": "<nys-stepper label=\"Application\">\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n<nys-step label=\"Step 3\"></nys-step>\n<div slot=\"actions\">\n<nys-button label=\"Save and Exit\" variant=\"outline\" size=\"sm\" fullWidth></nys-button>\n</div>\n</nys-stepper>",
-              "lang": "html"
-            },
-            {
-              "title": "SPA / programmatic navigation",
-              "code": "let currentStep = 0; // furthest reached\nlet viewingStep = 0; // currently displayed\n\nfunction updateStepper(steps) {\nsteps.forEach((step, i) => {\nstep.toggleAttribute('current', i === currentStep);\nstep.toggleAttribute('selected', i === viewingStep);\n});\n}\n\ndocument.querySelector('nys-stepper').addEventListener('nys-step-click', (e) => {\ne.preventDefault();\nconst steps = Array.from(document.querySelectorAll('nys-step'));\nconst clicked = e.composedPath().find(el => el.tagName?.toLowerCase() === 'nys-step');\nconst index = steps.indexOf(clicked);\nif (index !== -1) { viewingStep = index; updateStepper(steps); }\n});\n\n// Advance to next step (call on form submit / \"Continue\" click)\nfunction advance(steps) {\nif (currentStep < steps.length - 1) {\ncurrentStep++;\nviewingStep = currentStep;\nupdateStepper(steps);\n}\n}",
-              "lang": "js"
+              "code": "Add Previous/Next buttons using the actions slot. Wrap buttons in a `<div>`.\n```html\n<nys-stepper label=\"Application\">\n<nys-step label=\"Step 1\"></nys-step>\n<nys-step label=\"Step 2\" current></nys-step>\n<nys-step label=\"Step 3\"></nys-step>\n<div slot=\"actions\">\n<nys-button label=\"Save and Exit\" variant=\"outline\" size=\"sm\" fullWidth></nys-button>\n</div>\n</nys-stepper>\n```x"
             }
           ]
         }

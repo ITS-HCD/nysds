@@ -1,7 +1,6 @@
 import { html } from "lit";
 import { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./nys-pagination";
-import "@nysds/nys-button";
 
 // Define the structure of the args used in the stories
 interface NysPaginationArgs {
@@ -9,6 +8,7 @@ interface NysPaginationArgs {
   name: string;
   currentPage: number;
   totalPages: number;
+  _twoBeforeLast: boolean;
 }
 
 const meta: Meta<NysPaginationArgs> = {
@@ -19,11 +19,12 @@ const meta: Meta<NysPaginationArgs> = {
     name: { control: "text" },
     currentPage: { control: "number" },
     totalPages: { control: "number" },
+    _twoBeforeLast: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
-      source: { type: "dynamic" }, // Enables live Source code tab
-      inlineStories: true, // Ensures stories are rendered within the docs tab
+      source: { type: "dynamic" },
+      inlineStories: true,
     },
   },
 };
@@ -31,33 +32,27 @@ const meta: Meta<NysPaginationArgs> = {
 export default meta;
 type Story = StoryObj<NysPaginationArgs>;
 
-// Define stories without using args
-
 export const Basic: Story = {
   args: {
-    id: "pagination1",
-    name: "pagination1",
-    currentPage: 4,
-    totalPages: 10,
+    currentPage: "1",
+    totalPages: "10",
   },
-  render: (args) => html`
-    <nys-pagination
-      .id=${args.id}
-      .name=${args.name}
-      .currentPage=${args.currentPage}
-      .totalPages=${args.totalPages}
-    ></nys-pagination>
-  `,
+  render: (args) => {
+    return html`
+      <nys-pagination
+        .id=${args.id}
+        ?_twoBeforeLast=${args._twoBeforeLast}
+        .name=${args.name}
+        .currentPage=${args.currentPage}
+        .totalPages=${args.totalPages}
+      ></nys-pagination>
+    `;
+  },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-pagination
-  id="pagination1"
-  name="pagination1"
-  currentPage=4
-  totalPages=10
-></nys-pagination>`,
+<nys-pagination currentPage="1" totalPages="10"></nys-pagination>`,
         type: "auto",
       },
     },
