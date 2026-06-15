@@ -65,7 +65,7 @@ let badgeIdCounter = 0;
  * <nys-badge label="Custom suffixIcon" suffixIcon="check"></nys-badge>
  * ```
  *
- * @example Size
+ * @example Size Small
  * ```html
  * <nys-badge label="Small" size="sm"></nys-badge>
  * ```

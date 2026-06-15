@@ -1632,7 +1632,7 @@
               "lang": "html"
             },
             {
-              "title": "Size",
+              "title": "Size Small",
               "code": "<nys-badge label=\"Small\" size=\"sm\"></nys-badge>",
               "lang": "html"
             },
@@ -1998,18 +1998,43 @@
           "summary": "Breadcrumb navigation trail with responsive collapse support.",
           "examples": [
             {
-              "title": "Full trail with current page",
-              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>Current Page</li>\n</ol>\n</nys-breadcrumbs>",
-              "lang": "html"
-            },
-            {
-              "title": "Trail without current page",
+              "title": "Basic",
               "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             },
             {
-              "title": "Single item renders as back-to-parent",
+              "title": "Current page",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li>Current Page</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Single item list",
               "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/services\">Services</a></li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Long list",
+              "code": "<nys-breadcrumbs>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/government\">Government</a></li>\n<li><a href=\"/government/agencies\">Agencies</a></li>\n<li><a href=\"/government/agencies/parks\">Parks & Recreation</a></li>\n<li><a href=\"/parks/state-parks\">State Parks</a></li>\n<li><a href=\"/parks/state-parks/delaware\">Delaware Region</a></li>\n<li><a href=\"/parks/state-parks/delaware/water-gap\">Delaware Water Gap</a></li>\n<li>Trail Conditions</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Size small",
+              "code": "<nys-breadcrumbs size=\"sm\">\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/government\">Government</a></li>\n<li><a href=\"/government/agencies\">Agencies</a></li>\n<li>Parks & Recreation</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Back to parent (mobile)",
+              "code": "<nys-breadcrumbs backToParent>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/government\">Government</a></li>\n<li><a href=\"/government/agencies\">Agencies</a></li>\n<li><a href=\"/government/agencies/parks\">Parks & Recreation</a></li>\n<li><a href=\"/parks/state-parks\">State Parks</a></li>\n<li><a href=\"/parks/state-parks/delaware\">Delaware Region</a></li>\n<li><a href=\"/parks/state-parks/delaware/water-gap\">Delaware Water Gap</a></li>\n<li>Trail Conditions</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "With background bar",
+              "code": "<nys-breadcrumbs backgroundBar>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li><a href=\"/tickets\">Ticket System</a></li>\n<li>Del Water Gap</li>\n</ol>\n</nys-breadcrumbs>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-breadcrumbs disabled>\n<ol>\n<li><a href=\"/\">Home</a></li>\n<li><a href=\"/services\">Services</a></li>\n<li><a href=\"/tickets\">Ticket System</a></li>\n<li>Del Water Gap</li>\n</ol>\n</nys-breadcrumbs>",
               "lang": "html"
             }
           ]

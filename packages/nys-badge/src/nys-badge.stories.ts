@@ -250,7 +250,7 @@ export const CustomSuffixIcon: Story = {
   },
 };
 
-export const Size: Story = {
+export const SizeSmall: Story = {
   render: () => {
     return html` <nys-badge label="Small" size="sm"></nys-badge> `;
   },
