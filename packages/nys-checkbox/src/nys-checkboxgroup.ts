@@ -84,6 +84,14 @@ let checkboxgroupIdCounter = 0;
  * </nys-checkboxgroup>
  * ```
  *
+ * @example Description Slot
+ * ```html
+ * <nys-checkboxgroup label="Select landmarks">
+ *   <div slot="description">Your <strong>ABSOLUTE</strong> favorite one.</div>
+ *   <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+ *   <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+ * </nys-checkboxgroup>
+ * ```
  */
 
 export class NysCheckboxgroup extends LitElement {

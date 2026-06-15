@@ -352,6 +352,47 @@ export const ErrorMessage: Story = {
   },
 };
 
+export const DescriptionSlot: Story = {
+  render: () => {
+    return html`
+      <nys-checkboxgroup label="Select landmarks">
+        <div slot="description">
+          Your
+          <strong>ABSOLUTE</strong>
+          favorite one.
+        </div>
+        <nys-checkbox
+          name="landmarks"
+          value="adirondacks"
+          label="Adirondacks"
+        ></nys-checkbox>
+        <nys-checkbox
+          name="landmarks"
+          value="niagara"
+          label="Niagara Falls"
+        ></nys-checkbox>
+      </nys-checkboxgroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-checkboxgroup label="Select landmarks">
+  <div slot="description">
+    Your
+    <strong>ABSOLUTE</strong>
+    favorite one.
+  </div>
+  <nys-checkbox name="landmarks" value="adirondacks" label="Adirondacks"></nys-checkbox>
+  <nys-checkbox name="landmarks" value="niagara" label="Niagara Falls"></nys-checkbox>
+</nys-checkboxgroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
 export const Single: Story = {
   render: () => {
     return html`
@@ -369,13 +410,13 @@ export const Single: Story = {
   },
 };
 
-export const SingleTile: Story = {
+export const Preselected: Story = {
   render: () => {
     return html`
       <nys-checkbox
         label="I agree to the terms"
         name="terms"
-        tile
+        checked
       ></nys-checkbox>
     `;
   },
@@ -383,147 +424,7 @@ export const SingleTile: Story = {
     docs: {
       source: {
         code: `
-<nys-checkbox label="I agree to the terms" name="terms" tile></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SingleRequired: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox
-        label="I agree to the terms"
-        name="terms"
-        required
-      ></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="I agree to the terms" name="terms" required></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SingleOptional: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox
-        label="I agree to the terms"
-        name="terms"
-        optional
-      ></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="I agree to the terms" name="terms" optional></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SingleDisabled: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox
-        label="I agree to the terms"
-        name="terms"
-        disabled
-      ></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="I agree to the terms" name="terms" disabled></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SingleSizeSmall: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox
-        label="I agree to the terms"
-        name="terms"
-        size="sm"
-      ></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="I agree to the terms" name="terms" size="sm"></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SingleErrorMessage: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox
-        label="I agree to the terms"
-        name="terms"
-        showError
-        errorMessage="You must agree to continue"
-      ></nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox
-  label="I agree to the terms"
-  name="terms"
-  showError
-  errorMessage="You must agree to continue"
-></nys-checkbox>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const SingleDescriptionSlot: Story = {
-  render: () => {
-    return html`
-      <nys-checkbox label="I agree to the terms" name="terms">
-        <div slot="description">
-          By checking this, you agree to our
-          <strong>Privacy Policy</strong>
-          .
-        </div>
-      </nys-checkbox>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-checkbox label="I agree to the terms" name="terms">
-  <div slot="description">
-    By checking this, you agree to our
-    <strong>Privacy Policy</strong>
-    .
-  </div>
-</nys-checkbox>`,
+<nys-checkbox label="I agree to the terms" name="terms" checked></nys-checkbox>`,
         type: "auto",
       },
     },

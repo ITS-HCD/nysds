@@ -29,41 +29,9 @@ let checkboxIdCounter = 0;
  * <nys-checkbox label="I agree to the terms" name="terms"></nys-checkbox>
  * ```
  *
- * @example Single Tile
+ * @example Preselected
  * ```html
- * <nys-checkbox label="I agree to the terms" name="terms" tile></nys-checkbox>
- * ```
- *
- * @example Single Required
- * ```html
- * <nys-checkbox label="I agree to the terms" name="terms" required></nys-checkbox>
- * ```
- *
- * @example Single Optional
- * ```html
- * <nys-checkbox label="I agree to the terms" name="terms" optional></nys-checkbox>
- * ```
- *
- * @example Single Disabled
- * ```html
- * <nys-checkbox label="I agree to the terms" name="terms" disabled></nys-checkbox>
- * ```
- *
- * @example Single Size Small
- * ```html
- * <nys-checkbox label="I agree to the terms" name="terms" size="sm"></nys-checkbox>
- * ```
- *
- * @example Single Error Message
- * ```html
- * <nys-checkbox label="I agree to the terms" name="terms" showError errorMessage="You must agree to continue"></nys-checkbox>
- * ```
- *
- * @example Single Description Slot
- * ```html
- * <nys-checkbox label="I agree to the terms" name="terms">
- *   <div slot="description">By checking this, you agree to our <strong>Privacy Policy</strong>.</div>
- * </nys-checkbox>
+ * <nys-checkbox label="I agree to the terms" name="terms" checked></nys-checkbox>
  * ```
  */
 

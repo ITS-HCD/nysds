@@ -15,12 +15,15 @@ interface NysRadiobuttonArgs {
   value: string;
   form: string | null;
   size: "sm" | "md";
+  errorMessage: string;
   checked: boolean;
   disabled: boolean;
   required: boolean;
   tile: boolean;
   other: boolean;
   showOtherError: boolean;
+  optional: boolean;
+  showError: boolean;
 }
 
 const meta: Meta<NysRadiobuttonArgs> = {
@@ -34,12 +37,15 @@ const meta: Meta<NysRadiobuttonArgs> = {
     value: { control: "text" },
     form: { control: "text" },
     size: { control: "select", options: ["sm", "md"] },
+    errorMessage: { control: "text" },
     checked: { control: "boolean", default: false },
     disabled: { control: "boolean", default: false },
     required: { control: "boolean", default: false },
     tile: { control: "boolean", default: false },
     other: { control: "boolean", default: false },
     showOtherError: { control: "boolean", default: false },
+    optional: { control: "boolean", default: false },
+    showError: { control: "boolean", default: false },
   },
   parameters: {
     docs: {
@@ -52,7 +58,7 @@ const meta: Meta<NysRadiobuttonArgs> = {
 export default meta;
 type Story = StoryObj<NysRadiobuttonArgs>;
 
-export const BasicRadioGroup: Story = {
+export const Basic: Story = {
   args: {
     required: true,
     label: "The Bronx",
@@ -69,12 +75,15 @@ export const BasicRadioGroup: Story = {
         ?tile=${args.tile}
         ?other=${args.other}
         ?showOtherError=${args.showOtherError}
+        ?optional=${args.optional}
+        ?showError=${args.showError}
         .label=${args.label}
         .description=${args.description}
         .name=${args.name}
         .value=${args.value}
         .form=${args.form}
         .size=${args.size}
+        .errorMessage=${args.errorMessage}
       >
         <nys-radiobutton
           name="borough"
@@ -109,7 +118,38 @@ export const BasicRadioGroup: Story = {
   },
 };
 
-export const RadioGroup: Story = {
+export const Tile: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough" tile>
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough" tile>
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Required: Story = {
   render: () => {
     return html`
       <nys-radiogroup label="Select borough" required>
@@ -140,7 +180,38 @@ export const RadioGroup: Story = {
   },
 };
 
-export const DisabledRadio: Story = {
+export const Optional: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough" optional>
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough" optional>
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
   render: () => {
     return html`
       <nys-radiogroup label="Select borough">
@@ -148,6 +219,12 @@ export const DisabledRadio: Story = {
           name="borough"
           value="bronx"
           label="The Bronx"
+          disabled
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
           disabled
         ></nys-radiobutton>
       </nys-radiogroup>
@@ -159,6 +236,178 @@ export const DisabledRadio: Story = {
         code: `
 <nys-radiogroup label="Select borough">
   <nys-radiobutton name="borough" value="bronx" label="The Bronx" disabled></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn" disabled></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SizeSmall: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough" size="sm">
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough" size="sm">
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const OtherOption: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough">
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="other"
+          label="Other"
+          other
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough">
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="other" label="Other" other></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const ErrorMessage: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup
+        label="Select borough"
+        showError
+        errorMessage="Please select a borough"
+      >
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough" showError errorMessage="Please select a borough">
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DescriptionSlot: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough">
+        <div slot="description">
+          Your primary
+          <strong>residence</strong>
+          in NYC.
+        </div>
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough">
+  <div slot="description">
+    Your primary
+    <strong>residence</strong>
+    in NYC.
+  </div>
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+</nys-radiogroup>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Preselected: Story = {
+  render: () => {
+    return html`
+      <nys-radiogroup label="Select borough">
+        <nys-radiobutton
+          name="borough"
+          value="bronx"
+          label="The Bronx"
+          checked
+        ></nys-radiobutton>
+        <nys-radiobutton
+          name="borough"
+          value="brooklyn"
+          label="Brooklyn"
+        ></nys-radiobutton>
+      </nys-radiogroup>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-radiogroup label="Select borough">
+  <nys-radiobutton name="borough" value="bronx" label="The Bronx" checked></nys-radiobutton>
+  <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
 </nys-radiogroup>`,
         type: "auto",
       },

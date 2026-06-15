@@ -3486,38 +3486,8 @@
               "lang": "html"
             },
             {
-              "title": "Single Tile",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" tile></nys-checkbox>",
-              "lang": "html"
-            },
-            {
-              "title": "Single Required",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" required></nys-checkbox>",
-              "lang": "html"
-            },
-            {
-              "title": "Single Optional",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" optional></nys-checkbox>",
-              "lang": "html"
-            },
-            {
-              "title": "Single Disabled",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" disabled></nys-checkbox>",
-              "lang": "html"
-            },
-            {
-              "title": "Single Size Small",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" size=\"sm\"></nys-checkbox>",
-              "lang": "html"
-            },
-            {
-              "title": "Single Error Message",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" showError errorMessage=\"You must agree to continue\"></nys-checkbox>",
-              "lang": "html"
-            },
-            {
-              "title": "Single Description Slot",
-              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\">\n<div slot=\"description\">By checking this, you agree to our <strong>Privacy Policy</strong>.</div>\n</nys-checkbox>",
+              "title": "Preselected",
+              "code": "<nys-checkbox label=\"I agree to the terms\" name=\"terms\" checked></nys-checkbox>",
               "lang": "html"
             }
           ]
@@ -4039,6 +4009,11 @@
             {
               "title": "Error Message",
               "code": "<nys-checkboxgroup label=\"Select landmarks\" showError errorMessage=\"Please select at least one landmark\">\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-checkboxgroup label=\"Select landmarks\">\n<div slot=\"description\">Your <strong>ABSOLUTE</strong> favorite one.</div>\n<nys-checkbox name=\"landmarks\" value=\"adirondacks\" label=\"Adirondacks\"></nys-checkbox>\n<nys-checkbox name=\"landmarks\" value=\"niagara\" label=\"Niagara Falls\"></nys-checkbox>\n</nys-checkboxgroup>",
               "lang": "html"
             }
           ]
@@ -9357,13 +9332,8 @@
           "summary": "Radio button for single selection from mutually exclusive options. This is a READONLY data component.",
           "examples": [
             {
-              "title": "Radio group",
-              "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
-              "lang": "html"
-            },
-            {
-              "title": "Disabled radio",
-              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" disabled></nys-radiobutton>\n</nys-radiogroup>",
+              "title": "Pre-selected",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" checked></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]
@@ -9995,8 +9965,48 @@
           "summary": "Container for grouping radio buttons as a single form control.",
           "examples": [
             {
-              "title": "Basic radio group",
+              "title": "Basic",
               "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"manhattan\" label=\"Manhattan\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Tile",
+              "code": "<nys-radiogroup label=\"Select borough\" tile>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-radiogroup label=\"Select borough\" required>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-radiogroup label=\"Select borough\" optional>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\" disabled></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\" disabled></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Small",
+              "code": "<nys-radiogroup label=\"Select borough\" size=\"sm\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Other Option",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"other\" label=\"Other\" other></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-radiogroup label=\"Select borough\" showError errorMessage=\"Please select a borough\">\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Description Slot",
+              "code": "<nys-radiogroup label=\"Select borough\">\n<div slot=\"description\">Your primary <strong>residence</strong> in NYC.</div>\n<nys-radiobutton name=\"borough\" value=\"bronx\" label=\"The Bronx\"></nys-radiobutton>\n<nys-radiobutton name=\"borough\" value=\"brooklyn\" label=\"Brooklyn\"></nys-radiobutton>\n</nys-radiogroup>",
               "lang": "html"
             }
           ]

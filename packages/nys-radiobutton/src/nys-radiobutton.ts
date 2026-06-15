@@ -21,18 +21,12 @@ let radiobuttonIdCounter = 0;
  * @fires nys-blur - Fired when radio loses focus.
  * @fires nys-other-input - Fired when "other" text input value changes. Detail: `{id, name, value}`.
  *
- * @example Radio group
- * ```html
- * <nys-radiogroup label="Select borough" required>
- *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
- *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
- * </nys-radiogroup>
- * ```
  *
- * @example Disabled radio
+ * @example Pre-selected
  * ```html
  * <nys-radiogroup label="Select borough">
- *   <nys-radiobutton name="borough" value="bronx" label="The Bronx" disabled></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx" checked></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
  */

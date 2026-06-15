@@ -20,12 +20,77 @@ let radiogroupIdCounter = 0;
  * @slot - Default slot for `nys-radiobutton` elements.
  * @slot description - Custom HTML description content.
  *
- * @example Basic radio group
+ * @example Basic
  * ```html
  * <nys-radiogroup label="Select borough" required>
  *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
  *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
  *   <nys-radiobutton name="borough" value="manhattan" label="Manhattan"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Tile
+ * ```html
+ * <nys-radiogroup label="Select borough" tile>
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Required
+ * ```html
+ * <nys-radiogroup label="Select borough" required>
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Optional
+ * ```html
+ * <nys-radiogroup label="Select borough" optional>
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Disabled
+ * ```html
+ * <nys-radiogroup label="Select borough">
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx" disabled></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn" disabled></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Size Small
+ * ```html
+ * <nys-radiogroup label="Select borough" size="sm">
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Other Option
+ * ```html
+ * <nys-radiogroup label="Select borough">
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="" label="Other" other></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Error Message
+ * ```html
+ * <nys-radiogroup label="Select borough" showError errorMessage="Please select a borough">
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
+ * </nys-radiogroup>
+ * ```
+ *
+ * @example Description Slot
+ * ```html
+ * <nys-radiogroup label="Select borough">
+ *   <div slot="description">Your primary <strong>residence</strong> in NYC.</div>
+ *   <nys-radiobutton name="borough" value="bronx" label="The Bronx"></nys-radiobutton>
+ *   <nys-radiobutton name="borough" value="brooklyn" label="Brooklyn"></nys-radiobutton>
  * </nys-radiogroup>
  * ```
  */
