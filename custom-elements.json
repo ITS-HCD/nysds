@@ -5609,23 +5609,59 @@
           "summary": "Date picker with calendar popup and native fallback.",
           "examples": [
             {
-              "title": "Basic date picker",
-              "code": "<nys-datepicker label=\"Birth Date\" required></nys-datepicker>",
+              "title": "Basic",
+              "code": "<nys-datepicker\nid=\"my-datepicker\"\nname=\"my-datepicker\"\nlabel=\"Schedule an appointment\"\ndescription=\"Enter in MM/DD/YYYY format\"\n></nys-datepicker>",
               "lang": "html"
             },
             {
-              "title": "With width and description",
+              "title": "Width Large",
               "code": "<nys-datepicker\nlabel=\"Event Date\"\ndescription=\"Select the date of your event\"\nwidth=\"lg\">\n</nys-datepicker>",
               "lang": "html"
             },
             {
-              "title": "Hide buttons, set start date",
-              "code": "<nys-datepicker\nlabel=\"Appointment\"\nhideTodayButton\nhideClearButton\nstartDate=\"2024-01-01\">\n</nys-datepicker>",
+              "title": "Width Full",
+              "code": "<nys-datepicker\nlabel=\"Event Date\"\ndescription=\"Select the date of your event\"\nwidth=\"full\">\n</nys-datepicker>",
               "lang": "html"
             },
             {
-              "title": "With validation error message",
-              "code": "<nys-datepicker\nlabel=\"Start Date\"\nrequired\nerrorMessage=\"Please select a valid start date\">\n</nys-datepicker>",
+              "title": "Custom Start Date",
+              "code": "<nys-datepicker\nlabel=\"Appointment\"\nstartDate=\"2024-01-01\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Without Buttons",
+              "code": "<nys-datepicker\nlabel=\"Appointment\"\nhideTodayButton\nhideClearButton>\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Error Message",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\nshowError\nerrorMessage=\"Please select a valid start date\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Date Range",
+              "code": "<nys-datepicker\nlabel=\"Select a date\"\ndescription=\"Only dates within April 4/5/2026 - 7/15/2026 are selectable\"\nminDate=\"2026-04-05\"\nmaxDate=\"2026-07-15\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled",
+              "code": "<nys-datepicker\nlabel=\"Disabled datepicker\"\ndisabled\nvalue=\"2025-01-15\">\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Inverted",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\ninverted>\n</nys-datepicker>",
+              "lang": "html",
+              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-datepicker\nlabel=\"Start Date\"\ninverted>\n</nys-datepicker>\n</div>"
+            },
+            {
+              "title": "Required",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\nrequired>\n</nys-datepicker>",
+              "lang": "html"
+            },
+            {
+              "title": "Optional",
+              "code": "<nys-datepicker\nlabel=\"Start Date\"\noptional>\n</nys-datepicker>",
               "lang": "html"
             }
           ]

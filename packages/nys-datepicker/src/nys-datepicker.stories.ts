@@ -64,10 +64,11 @@ const meta: Meta<NysDatepickerArgs> = {
 export default meta;
 type Story = StoryObj<NysDatepickerArgs>;
 
-export const BasicDatePicker: Story = {
+export const Basic: Story = {
   args: {
-    required: true,
-    label: "Birth Date",
+    name: "my-datepicker",
+    label: "Schedule an appointment",
+    description: "Enter in MM/DD/YYYY format",
   },
   render: (args) => {
     return html`
@@ -99,14 +100,19 @@ export const BasicDatePicker: Story = {
     docs: {
       source: {
         code: `
-<nys-datepicker label="Birth Date" required></nys-datepicker>`,
+<nys-datepicker
+  id="my-datepicker"
+  name="my-datepicker"
+  label="Schedule an appointment"
+  description="Enter in MM/DD/YYYY format"
+></nys-datepicker>`,
         type: "auto",
       },
     },
   },
 };
 
-export const WithWidthAndDescription: Story = {
+export const WidthLarge: Story = {
   render: () => {
     return html`
       <nys-datepicker
@@ -131,14 +137,13 @@ export const WithWidthAndDescription: Story = {
   },
 };
 
-export const HideButtonsSetStartDate: Story = {
+export const WidthFull: Story = {
   render: () => {
     return html`
       <nys-datepicker
-        label="Appointment"
-        hideTodayButton
-        hideClearButton
-        startDate="2024-01-01"
+        label="Event Date"
+        description="Select the date of your event"
+        width="full"
       ></nys-datepicker>
     `;
   },
@@ -147,10 +152,9 @@ export const HideButtonsSetStartDate: Story = {
       source: {
         code: `
 <nys-datepicker
-  label="Appointment"
-  hideTodayButton
-  hideClearButton
-  startDate="2024-01-01"
+  label="Event Date"
+  description="Select the date of your event"
+  width="full"
 ></nys-datepicker>`,
         type: "auto",
       },
@@ -158,12 +162,53 @@ export const HideButtonsSetStartDate: Story = {
   },
 };
 
-export const WithValidationErrorMessage: Story = {
+export const CustomStartDate: Story = {
+  render: () => {
+    return html`
+      <nys-datepicker
+        label="Appointment"
+        startDate="2024-01-01"
+      ></nys-datepicker>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker label="Appointment" startDate="2024-01-01"></nys-datepicker>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const WithoutButtons: Story = {
+  render: () => {
+    return html`
+      <nys-datepicker
+        label="Appointment"
+        hideTodayButton
+        hideClearButton
+      ></nys-datepicker>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker label="Appointment" hideTodayButton hideClearButton></nys-datepicker>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const ErrorMessage: Story = {
   render: () => {
     return html`
       <nys-datepicker
         label="Start Date"
-        required
+        showError
         errorMessage="Please select a valid start date"
       ></nys-datepicker>
     `;
@@ -174,9 +219,110 @@ export const WithValidationErrorMessage: Story = {
         code: `
 <nys-datepicker
   label="Start Date"
-  required
+  showError
   errorMessage="Please select a valid start date"
 ></nys-datepicker>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const DateRange: Story = {
+  render: () => {
+    return html`
+      <nys-datepicker
+        label="Select a date"
+        description="Only dates within April 4/5/2026 - 7/15/2026 are selectable"
+        minDate="2026-04-05"
+        maxDate="2026-07-15"
+      ></nys-datepicker>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker
+  label="Select a date"
+  description="Only dates within April 4/5/2026 - 7/15/2026 are selectable"
+  minDate="2026-04-05"
+  maxDate="2026-07-15"
+></nys-datepicker>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Disabled: Story = {
+  render: () => {
+    return html`
+      <nys-datepicker
+        label="Disabled datepicker"
+        disabled
+        value="2025-01-15"
+      ></nys-datepicker>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker label="Disabled datepicker" disabled value="2025-01-15"></nys-datepicker>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Inverted: Story = {
+  render: () => {
+    return html`
+      <div style="background: #1b1b1b; padding: 1rem">
+        <nys-datepicker label="Start Date" inverted></nys-datepicker>
+      </div>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker label="Start Date" inverted></nys-datepicker>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Required: Story = {
+  render: () => {
+    return html`
+      <nys-datepicker label="Start Date" required></nys-datepicker>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker label="Start Date" required></nys-datepicker>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Optional: Story = {
+  render: () => {
+    return html`
+      <nys-datepicker label="Start Date" optional></nys-datepicker>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-datepicker label="Start Date" optional></nys-datepicker>`,
         type: "auto",
       },
     },
