@@ -229,54 +229,6 @@ export const CircleIconButton: Story = {
   },
 };
 
-export const LinkstyleButtonForNavigation: Story = {
-  render: () => {
-    return html`
-      <nys-button
-        label="Visit NY.gov"
-        href="https://www.ny.gov/"
-        target="_blank"
-        suffixIcon="open_in_new"
-      ></nys-button>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-button
-  label="Visit NY.gov"
-  href="https://www.ny.gov/"
-  target="_blank"
-  suffixIcon="open_in_new"
-></nys-button>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
-export const FormSubmitButton: Story = {
-  render: () => {
-    return html`
-      <nys-button
-        type="submit"
-        label="Save Changes"
-        variant="filled"
-      ></nys-button>
-    `;
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<nys-button type="submit" label="Save Changes" variant="filled"></nys-button>`,
-        type: "auto",
-      },
-    },
-  },
-};
-
 export const SizeSmall: Story = {
   render: () => {
     return html` <nys-button label="Small" size="sm"></nys-button> `;
@@ -350,6 +302,54 @@ export const Disabled: Story = {
       source: {
         code: `
 <nys-button label="Disabled" disabled></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Href: Story = {
+  render: () => {
+    return html`
+      <nys-button
+        label="Visit NY.gov"
+        href="https://www.ny.gov/"
+        target="_blank"
+        suffixIcon="open_in_new"
+      ></nys-button>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button
+  label="Visit NY.gov"
+  href="https://www.ny.gov/"
+  target="_blank"
+  suffixIcon="open_in_new"
+></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const Type: Story = {
+  render: () => {
+    return html`
+      <nys-button
+        type="submit"
+        label="Save Changes"
+        variant="filled"
+      ></nys-button>
+    `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<nys-button type="submit" label="Save Changes" variant="filled"></nys-button>`,
         type: "auto",
       },
     },

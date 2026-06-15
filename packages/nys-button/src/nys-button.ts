@@ -76,16 +76,6 @@ let buttonIdCounter = 0;
  * <nys-button circle icon="close" label="Close dialog"></nys-button>
  * ```
  *
- * @example Link-style button for navigation
- * ```html
- * <nys-button label="Visit NY.gov" href="https://www.ny.gov/" target="_blank" suffixIcon="open_in_new"></nys-button>
- * ```
- *
- * @example Form submit button
- * ```html
- * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
- * ```
- *
  * @example Size Small
  * ```html
  * <nys-button label="Small" size="sm"></nys-button>
@@ -114,6 +104,16 @@ let buttonIdCounter = 0;
  * @example Disabled
  * ```html
  * <nys-button label="Disabled" disabled></nys-button>
+ * ```
+ *
+ * @example Href
+ * ```html
+ * <nys-button label="Visit NY.gov" href="https://www.ny.gov/" target="_blank" suffixIcon="open_in_new"></nys-button>
+ * ```
+ *
+ * @example Type
+ * ```html
+ * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
  */
 

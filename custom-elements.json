@@ -2782,16 +2782,6 @@
               "lang": "html"
             },
             {
-              "title": "Link-style button for navigation",
-              "code": "<nys-button label=\"Visit NY.gov\" href=\"https://www.ny.gov/\" target=\"_blank\" suffixIcon=\"open_in_new\"></nys-button>",
-              "lang": "html"
-            },
-            {
-              "title": "Form submit button",
-              "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
-              "lang": "html"
-            },
-            {
               "title": "Size Small",
               "code": "<nys-button label=\"Small\" size=\"sm\"></nys-button>",
               "lang": "html"
@@ -2815,6 +2805,16 @@
             {
               "title": "Disabled",
               "code": "<nys-button label=\"Disabled\" disabled></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Href",
+              "code": "<nys-button label=\"Visit NY.gov\" href=\"https://www.ny.gov/\" target=\"_blank\" suffixIcon=\"open_in_new\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Type",
+              "code": "<nys-button type=\"submit\" label=\"Save Changes\" variant=\"filled\"></nys-button>",
               "lang": "html"
             }
           ]
