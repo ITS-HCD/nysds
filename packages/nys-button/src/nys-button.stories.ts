@@ -277,20 +277,29 @@ export const FormSubmitButton: Story = {
   },
 };
 
-export const Size: Story = {
+export const SizeSmall: Story = {
   render: () => {
-    return html`
-      <nys-button label="Small" size="sm"></nys-button>
-      <nys-button label="Medium" size="md"></nys-button>
-      <nys-button label="Large" size="lg"></nys-button>
-    `;
+    return html` <nys-button label="Small" size="sm"></nys-button> `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-button label="Small" size="sm"></nys-button>
-<nys-button label="Medium" size="md"></nys-button>
+<nys-button label="Small" size="sm"></nys-button>`,
+        type: "auto",
+      },
+    },
+  },
+};
+
+export const SizeLarge: Story = {
+  render: () => {
+    return html` <nys-button label="Large" size="lg"></nys-button> `;
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `
 <nys-button label="Large" size="lg"></nys-button>`,
         type: "auto",
       },
@@ -300,24 +309,24 @@ export const Size: Story = {
 
 export const FullWidth: Story = {
   render: () => {
-    return html` <nys-button label="Full Width" fullWidth></nys-button> `;
+    return html` <nys-button label="Full width" fullWidth></nys-button> `;
   },
   parameters: {
     docs: {
       source: {
         code: `
-<nys-button label="Full Width" fullWidth></nys-button>`,
+<nys-button label="Full width" fullWidth></nys-button>`,
         type: "auto",
       },
     },
   },
 };
 
-export const InvertedForDarkBackgrounds: Story = {
+export const Inverted: Story = {
   render: () => {
     return html`
       <div style="background: #1b1b1b; padding: 1rem">
-        <nys-button label="Inverted" variant="filled" inverted></nys-button>
+        <nys-button label="Inverted" inverted></nys-button>
       </div>
     `;
   },
@@ -325,9 +334,7 @@ export const InvertedForDarkBackgrounds: Story = {
     docs: {
       source: {
         code: `
-<div style="background: #1b1b1b; padding: 1rem">
-  <nys-button label="Inverted" variant="filled" inverted></nys-button>
-</div>`,
+<nys-button label="Inverted" inverted></nys-button>`,
         type: "auto",
       },
     },

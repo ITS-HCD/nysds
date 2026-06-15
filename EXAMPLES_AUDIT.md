@@ -309,11 +309,109 @@ This document tracks the consistency between JSDoc `@example` blocks in componen
 - **Mandatory**: Example for `mandatory` property.
 - **Width**: Examples for `sm`, `md`, `lg` widths.
 
-### `nys-pagination`
+### `nys-tab`
 
-| JSDoc Example      | Storybook Story | Status   | Notes |
-| :----------------- | :-------------- | :------- | :---- |
-| `Basic pagination` | `Basic`         | ✅ Match |       |
+| JSDoc Example | Storybook Story | Status     | Notes |
+| :------------ | :-------------- | :--------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match   |       |
+| None          | `Disabled`      | ⚠️ Missing |       |
+| None          | `Preselect`     | ⚠️ Missing |       |
+| None          | `PanelContent`  | ⚠️ Missing |       |
+
+#### To Add
+
+- Add examples for `Disabled`, `Preselect`, `PanelContent`.
+
+### `nys-table`
+
+| JSDoc Example | Storybook Story | Status     | Notes                      |
+| :------------ | :-------------- | :--------- | :------------------------- |
+| None          | `Basic`         | ❌ Missing | No JSDoc examples present. |
+| None          | `Striped`       | ❌ Missing |                            |
+| None          | `Bordered`      | ❌ Missing |                            |
+| None          | `Sortable`      | ❌ Missing |                            |
+| None          | `Downloadable`  | ❌ Missing |                            |
+
+#### To Add
+
+- Add JSDoc `@example` tags for all identified stories: `Basic`, `Striped`, `Bordered`, `Sortable`, `Downloadable`.
+
+### `nys-textarea`
+
+| JSDoc Example | Storybook Story           | Status   | Notes |
+| :------------ | :------------------------ | :------- | :---- |
+| `Basic`       | `Basic`                   | ✅ Match |       |
+| `Required`    | `RequiredWithDescription` | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-textinput`
+
+| JSDoc Example | Storybook Story    | Status     | Notes |
+| :------------ | :----------------- | :--------- | :---- |
+| `Basic`       | `Basic`            | ✅ Match   |       |
+| None          | `RequiredEmail`    | ⚠️ Missing |       |
+| None          | `PhoneWithMasking` | ⚠️ Missing |       |
+| None          | `SearchWithButton` | ⚠️ Missing |       |
+
+#### To Add
+
+- Add examples for `RequiredEmail`, `PhoneWithMasking`, `SearchWithButton`.
+
+### `nys-toggle`
+
+| JSDoc Example | Storybook Story | Status     | Notes |
+| :------------ | :-------------- | :--------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match   |       |
+| None          | `DarkMode`      | ⚠️ Missing |       |
+
+#### To Add
+
+- Add example for `DarkMode`.
+
+### `nys-tooltip`
+
+| JSDoc Example | Storybook Story | Status     | Notes |
+| :------------ | :-------------- | :--------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match   |       |
+| None          | `Positioned`    | ⚠️ Missing |       |
+
+#### To Add
+
+- Add example for `Positioned`.
+
+### `nys-unavfooter`
+
+| JSDoc Example | Storybook Story | Status   | Notes |
+| :------------ | :-------------- | :------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match |       |
+
+#### To Add
+
+- None (All properties covered).
+
+### `nys-unavheader`
+
+| JSDoc Example | Storybook Story            | Status     | Notes |
+| :------------ | :------------------------- | :--------- | :---- |
+| `Basic`       | `Basic`                    | ✅ Match   |       |
+| None          | `HideTranslateSearch`      | ⚠️ Missing |       |
+| None          | `CustomSearchUrl`          | ⚠️ Missing |       |
+| None          | `CustomLanguages`          | ⚠️ Missing |       |
+| None          | `CustomLanguageUrl`        | ⚠️ Missing |       |
+| None          | `CustomLanguageJSOverride` | ⚠️ Missing |       |
+
+#### To Add
+
+- Add examples for `HideTranslateSearch`, `CustomSearchUrl`, `CustomLanguages`, `CustomLanguageUrl`, `CustomLanguageJSOverride`.
+
+### `nys-video`
+
+| JSDoc Example | Storybook Story | Status   | Notes |
+| :------------ | :-------------- | :------- | :---- |
+| `Basic`       | `Basic`         | ✅ Match |       |
 
 #### To Add
 

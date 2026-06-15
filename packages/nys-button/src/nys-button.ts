@@ -86,22 +86,28 @@ let buttonIdCounter = 0;
  * <nys-button type="submit" label="Save Changes" variant="filled"></nys-button>
  * ```
  *
- * @example Size
+ * @example Size Small
  * ```html
  * <nys-button label="Small" size="sm"></nys-button>
- * <nys-button label="Medium" size="md"></nys-button>
+ * ```
+ * @example Size Large
+ * ```html
  * <nys-button label="Large" size="lg"></nys-button>
  * ```
  *
  * @example Full width
  * ```html
- * <nys-button label="Full Width" fullWidth></nys-button>
+ * <nys-button label="Full width" fullWidth></nys-button>
  * ```
  *
- * @example Inverted (for dark backgrounds)
+ * @example Inverted
+ * ```html
+ * <nys-button label="Inverted" inverted></nys-button>
+ * ```
+ * @render Inverted
  * ```html
  * <div style="background: #1b1b1b; padding: 1rem;">
- *   <nys-button label="Inverted" variant="filled" inverted></nys-button>
+ *   <nys-button label="Inverted" inverted></nys-button>
  * </div>
  * ```
  *

@@ -2792,19 +2792,25 @@
               "lang": "html"
             },
             {
-              "title": "Size",
-              "code": "<nys-button label=\"Small\" size=\"sm\"></nys-button>\n<nys-button label=\"Medium\" size=\"md\"></nys-button>\n<nys-button label=\"Large\" size=\"lg\"></nys-button>",
+              "title": "Size Small",
+              "code": "<nys-button label=\"Small\" size=\"sm\"></nys-button>",
+              "lang": "html"
+            },
+            {
+              "title": "Size Large",
+              "code": "<nys-button label=\"Large\" size=\"lg\"></nys-button>",
               "lang": "html"
             },
             {
               "title": "Full width",
-              "code": "<nys-button label=\"Full Width\" fullWidth></nys-button>",
+              "code": "<nys-button label=\"Full width\" fullWidth></nys-button>",
               "lang": "html"
             },
             {
-              "title": "Inverted (for dark backgrounds)",
-              "code": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" variant=\"filled\" inverted></nys-button>\n</div>",
-              "lang": "html"
+              "title": "Inverted",
+              "code": "<nys-button label=\"Inverted\" inverted></nys-button>",
+              "lang": "html",
+              "render": "<div style=\"background: #1b1b1b; padding: 1rem;\">\n<nys-button label=\"Inverted\" inverted></nys-button>\n</div>"
             },
             {
               "title": "Disabled",
@@ -11431,8 +11437,23 @@
           "customElement": true,
           "examples": [
             {
-              "title": "`<nys-tab>` and `<nys-tabpanel>` should always be wrapped by `<nys-tabgroup>`",
+              "title": "Basic",
               "code": "<!-- Always place <nys-tab> elements inside a <nys-tabgroup>. -->\n<nys-tabgroup name=\"My Tabs\">\n<nys-tab label=\"Overview\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tab label=\"Archived\" disabled></nys-tab>\n<nys-tabpanel><p>Overview content</p></nys-tabpanel>\n<nys-tabpanel><p>Details content (shown by default)</p></nys-tabpanel>\n<nys-tabpanel><p>Archived content</p></nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Disabled tab",
+              "code": "<nys-tabgroup name=\"Account Settings\">\n<nys-tab label=\"Profile\"></nys-tab>\n<nys-tab label=\"Security\"></nys-tab>\n<nys-tab label=\"Notifications\" disabled></nys-tab>\n<nys-tabpanel><p>Manage your profile information.</p></nys-tabpanel>\n<nys-tabpanel><p>Update your password and 2FA settings.</p></nys-tabpanel>\n<nys-tabpanel><p>Notification preferences (coming soon).</p></nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "Preselected tab",
+              "code": "<nys-tabgroup name=\"Reports\">\n<nys-tab label=\"Summary\"></nys-tab>\n<nys-tab label=\"Details\" selected></nys-tab>\n<nys-tabpanel><p>Summary view</p></nys-tabpanel>\n<nys-tabpanel><p>Detailed view (shown by default)</p></nys-tabpanel>\n</nys-tabgroup>",
+              "lang": "html"
+            },
+            {
+              "title": "With tab panels",
+              "code": "<!-- Panels are paired by position with <nys-tab> elements in the same <nys-tabgroup>. -->\n<nys-tabgroup name=\"Steps\">\n<nys-tab label=\"Step 1\"></nys-tab>\n<nys-tab label=\"Step 2\"></nys-tab>\n<nys-tabpanel>\n<h2>Step 1: Enter your information</h2>\n<p>Fill out the form below.</p>\n</nys-tabpanel>\n<nys-tabpanel>\n<h2>Step 2: Review and submit</h2>\n<p>Confirm your details before submitting.</p>\n</nys-tabpanel>\n</nys-tabgroup>",
               "lang": "html"
             }
           ]
@@ -12142,6 +12163,33 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "examples": [
+            {
+              "title": "Basic table",
+              "code": "<nys-table id=\"table1\" name=\"table1\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Striped table",
+              "code": "<nys-table id=\"table2\" name=\"table2\" striped>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Bordered table",
+              "code": "<nys-table id=\"table3\" name=\"table3\" bordered>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Sortable table",
+              "code": "<nys-table id=\"table4\" name=\"table4\" sortable>\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            },
+            {
+              "title": "Downloadable table",
+              "code": "<nys-table id=\"table5\" name=\"table5\" download=\"path/to/downloadable/version/of/table.filetype\">\n<table>\n<caption>New York State High Peaks and Popular Hikes</caption>\n<tr><th>Mountain</th><th>Peak Height (ft)</th><th>Hike Name</th></tr>\n<tr><td>Marcy</td><td>5,344</td><td>Van Hoevenberg Trail</td></tr>\n</table>\n</nys-table>",
+              "lang": "html"
+            }
+          ],
           "tagName": "nys-table",
           "customElement": true
         }
