@@ -221,11 +221,18 @@ npm run cem
         ├─► customElementReactWrapperPlugin  → packages/react/
         ├─► customElementJsxPlugin           → packages/react/nysds-jsx.d.ts
         ├─► customElementVsCodePlugin        → dist/.vscode/
-        └─► packages/angular/scripts/generate-directives.mjs
-              └─► packages/angular/src/lib/ui/<tag>.directive.ts (19 files)
+        └─► nysdsAngularComponentsPlugin (scripts/cem-angular-plugin.mjs)
+              ├─► src/lib/ui/<tag>.component.ts    (19 UI wrappers + button)
+              └─► src/lib/form/<tag>.component.ts  (10 form components)
 ```
 
-The generator owns the 19 simple "wrapper" components — their `@Input()`s and `@Output()`s are derived directly from the CEM each time `npm run cem` runs. The 10 `ControlValueAccessor` components and 9 special-case UI components (button, modal, accordionitem, pagination, globalheader, breadcrumbs, unavheader, tooltip, dropdownmenu) stay hand-written because their behaviour encodes Angular-specific logic the CEM doesn't model. Generated files carry a header banner — edits to them will be overwritten on the next run.
+The generator runs as a CEM plugin during `cem analyze`, reading the in-memory manifest (no extra post-step). It owns three categories, all regenerated from the CEM each time `npm run cem` runs:
+
+- **19 UI wrappers** — thin `@Component`s with one typed `@Input()` per CEM field and one `@Output()` per CEM event (`GENERATED_TAGS`).
+- **10 form components** — `ControlValueAccessor`s extending `NysControlValueAccessorBase`. 8 are simple single-value controls; `nys-checkboxgroup` / `nys-radiogroup` read & write their child elements (`FORM_COMPONENTS`). Their value + disabled state are owned by Angular forms, so those properties are excluded from the generated passthrough `@Input()`s.
+- **`nys-button`** — typed `@Input()`s derived from the CEM plus the `requestSubmit()` bridge (`type` handled specially).
+
+8 special-case UI components (modal, accordionitem, pagination, globalheader, breadcrumbs, unavheader, tooltip, dropdownmenu) stay hand-written because their behaviour encodes Angular-specific logic the CEM doesn't model. Generated files carry a header banner — edits to them will be overwritten on the next run. To regenerate without a full analysis, run `npm run generate --workspace=@nysds/angular`, which feeds the built `custom-elements.json` through the same generator core.
 
 ## Repo layout
 
@@ -237,13 +244,14 @@ packages/angular/
 ├── tsconfig.json
 ├── tsconfig.lib.json
 ├── scripts/
-│   └── generate-directives.mjs # CEM-driven generator
+│   ├── cem-angular-plugin.mjs  # CEM-driven generator (runs as a cem plugin)
+│   └── generate-components.mjs # standalone CLI wrapper around the same core
 ├── src/
 │   ├── public-api.ts           # barrel + side-effect import of @nysds/components
 │   ├── lib/
 │   │   ├── shared/             # NysControlValueAccessorBase + typed event helpers
-│   │   ├── form/               # 10 ControlValueAccessor components
-│   │   ├── ui/                 # 9 hand-written + 19 generated components
+│   │   ├── form/               # 10 generated ControlValueAccessor components
+│   │   ├── ui/                 # 8 hand-written + 20 generated components
 │   │   └── nys-angular.module.ts
 ├── demo/                       # runnable signup-form demo (ReactiveForms)
 └── integration-test/           # standalone Angular + Playwright smoke harness

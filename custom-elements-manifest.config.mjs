@@ -2,6 +2,7 @@ import { customElementReactWrapperPlugin } from "custom-element-react-wrappers";
 import { customElementVsCodePlugin } from "custom-element-vs-code-integration";
 import { customElementJsxPlugin } from "custom-element-jsx-integration";
 import { cemExamplesPlugin } from "cem-plugin-examples";
+import { customElementAngularPlugin } from "./packages/angular/scripts/cem-angular-plugin.mjs";
 
 const reactOpts = {
   /** Output directory for the generated React wrappers — published separately as @nysds/react */
@@ -77,6 +78,7 @@ export default {
     customElementVsCodePlugin(vscodeOpts),
     customElementReactWrapperPlugin(reactOpts),
     customElementJsxPlugin(jsxOpts),
+    customElementAngularPlugin(),
 ],
   /**
    * Resolution options when using `dependencies: true`

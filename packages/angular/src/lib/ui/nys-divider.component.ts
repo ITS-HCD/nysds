@@ -2,10 +2,11 @@
 // GENERATED — Do not edit by hand.
 //
 // Regenerated from `custom-elements.json` by
-// `packages/angular/scripts/generate-components.mjs` (run via
-// `npm run generate --workspace=@nysds/angular`, or automatically as part of
-// `npm run cem`). Modify the generator (or promote this tag out of
-// GENERATED_TAGS to hand-edit) instead of editing this file.
+// `packages/angular/scripts/cem-angular-plugin.mjs`, which runs automatically
+// during `npm run cem` (wired into custom-elements-manifest.config.mjs). It is
+// also available standalone via `npm run generate --workspace=@nysds/angular`.
+// Modify the plugin (or promote this tag out of GENERATED_TAGS to hand-edit)
+// instead of editing this file.
 //
 // Emitted as Angular Components so consumer templates don't need
 // CUSTOM_ELEMENTS_SCHEMA — the Component selector satisfies Angular's

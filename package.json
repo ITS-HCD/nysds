@@ -62,7 +62,7 @@
     "clean:turbo": "find packages -type d -name '.turbo' -exec rm -rf {} + && rm -rf .turbo",
     "clean:all": "npm run clean:dist && npm run clean:node && find packages -name '*.tsbuildinfo' -delete 2>/dev/null || true && npm run clean:turbo",
     "code-connect": "dotenv -- npx figma connect publish",
-    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js && npm run generate --workspace=@nysds/angular"
+    "cem": "npx cem analyze --config ./custom-elements-manifest.config.mjs && cp ./custom-elements.json dist/ && node src/scripts/patch-react-utils.js"
   },
   "repository": {
     "type": "git",
