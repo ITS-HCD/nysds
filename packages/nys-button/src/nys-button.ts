@@ -33,14 +33,24 @@ let buttonIdCounter = 0;
  * @fires nys-focus - Fired when the button receives focus.
  * @fires nys-blur - Fired when the button loses focus.
  *
- * @example Basic filled button
+ * @example Basic
  * ```html
- * <nys-button label="Submit" variant="filled"></nys-button>
+ * <nys-button label="Button" variant="filled"></nys-button>
  * ```
  *
- * @example Secondary outline button
+ * @example Variant Outline
  * ```html
- * <nys-button label="Cancel" variant="outline"></nys-button>
+ * <nys-button label="Button" variant="outline"></nys-button>
+ * ```
+ *
+ * @example Variant Ghost
+ * ```html
+ * <nys-button label="Button" variant="ghost"></nys-button>
+ * ```
+ *
+ * @example Variant Text
+ * ```html
+ * <nys-button label="Button" variant="text"></nys-button>
  * ```
  *
  * @example Button with icons
