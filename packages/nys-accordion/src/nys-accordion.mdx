@@ -30,13 +30,16 @@ If an id is not passed, a unique id will be generated.
 
 ## Options
 
-### Expanded Item
-The `expanded` boolean property is available on `nys-accordionitem`. When set, the content of the `nys-accordionitem` will be visible by default.
-<Canvas of={NysAccordionStories.ExpandedItem} />
+### Individual Accordion
+The `nys-accordionitem` toggles open or closed with the `expanded` prop. Add this prop to a `nys-accordionitem` to have it open by default when the component first renders.
 
-### Single Select
-The `singleSelect` boolean property is available on `nys-accordion`. When set, only one `nys-accordionitem` in the wrapper can be open at a time.
-<Canvas of={NysAccordionStories.SingleSelect} />
+**Note:** Always wrap `nys-accordionitem` components in a `nys-accordion`.
+<Canvas of={NysAccordionStories.IndividualAccordion} />
+
+### Accordion Wrapper
+The `nys-accordion` is a wrapper that holds a group of `nys-accordionitem` components. \
+When the `singleSelect` boolean property is set, only one `nys-accordionitem` in the wrapper can be open at a time.
+<Canvas of={NysAccordionStories.AccordionWrapper} />
 
 
 ### Bordered
